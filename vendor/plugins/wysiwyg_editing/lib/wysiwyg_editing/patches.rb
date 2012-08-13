@@ -1,2 +1,0 @@
-module WYSIWYGEditing::Patches
-end
