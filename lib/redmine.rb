@@ -261,6 +261,7 @@ end
 
 Redmine::WikiFormatting.map do |format|
   format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
+  format.register :xml, Redmine::WikiFormatting::Xml::Formatter, Redmine::WikiFormatting::Xml::Helper
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler
