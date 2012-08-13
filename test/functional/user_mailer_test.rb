@@ -189,4 +189,13 @@ class UserMailerTest < ActionMailer::TestCase
     comment = Comment.find(2)
     assert UserMailer.news_comment_added(user, comment).deliver
   end
+
+  def test_wiki_content_added
+    user    = FactoryGirl.create(:user)
+    content = WikiContent.find(1)
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert UserMailer.wiki_content_added(user, content).deliver
+    end
+  end
+
 end

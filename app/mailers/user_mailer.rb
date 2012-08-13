@@ -146,6 +146,23 @@ class UserMailer < ActionMailer::Base
     end
   end
 
+  def wiki_content_added(user, wiki_content)
+    @wiki_content = wiki_content
+
+    headers["X-OpenProject-Project"] = @wiki_content.project.identifier
+    headers["X-OpenProject-Wiki-Page-Id"] = @wiki_content.page.id
+    headers["X-OpenProject-Type"] = "Wiki"
+
+    # message_id wiki_content
+    to = user.mail
+
+    I18n.with_locale(locale) do
+      subject = "[#{wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, :id => wiki_content.page.pretty_title)}"
+
+      mail :to => to, :subject => subject
+    end
+  end
+
 private
 
   def assigned_to_header(user)
