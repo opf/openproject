@@ -250,6 +250,23 @@ class UserMailer < ActionMailer::Base
     end
   end
 
+  def account_information(user, password)
+    @user     = user
+    @password = password
+
+    headers["X-OpenProject-Type"] = "Account"
+
+    to = user.mail
+
+    locale = user.language.presence || I18n.default_locale
+
+    I18n.with_locale(locale) do
+      subject = t(:mail_subject_register, :value => Setting.app_title)
+
+      mail :to => to, :subject => subject
+    end
+  end
+
 private
 
   def assigned_to_header(user)

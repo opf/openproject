@@ -259,4 +259,9 @@ class UserMailerTest < ActionMailer::TestCase
     assert mail.body.include?('Votre compte')
     assert_equal :it, current_language
   end
+
+  def test_account_information
+    user = FactoryGirl.create(:user)
+    assert UserMailer.account_information(user, 'pAsswORd').deliver
+  end
 end
