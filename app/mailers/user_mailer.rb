@@ -288,6 +288,37 @@ class UserMailer < ActionMailer::Base
     end
   end
 
+  def attachments_added(user, attachments)
+    @attachments = attachments
+
+    container = attachments.first.container
+
+    headers["X-OpenProject-Project"] = container.project.identifier
+    headers["X-OpenProject-Type"] = "Attachment"
+
+    case container.class.name
+    when 'Project'
+      @added_to     = "#{t(:label_project)}: #{container}"
+      @added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container)
+    when 'Version'
+      @added_to     = "#{t(:label_version)}: #{container.name}"
+      @added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container.project)
+    when 'Document'
+      @added_to     = "#{t(:label_document)}: #{container.title}"
+      @added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
+    end
+
+    to = user.mail
+
+    locale = user.language.presence || I18n.default_locale
+
+    I18n.with_locale(locale) do
+      subject = "[#{container.project.name}] #{t(:label_attachment_new)}"
+
+      mail :to => to, :subject => subject
+    end
+  end
+
 private
 
   def assigned_to_header(user)

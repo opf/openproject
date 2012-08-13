@@ -270,4 +270,24 @@ class UserMailerTest < ActionMailer::TestCase
     user  = FactoryGirl.create(:user)
     assert UserMailer.account_activation_requested(admin, user).deliver
   end
+
+  def test_attachments_added
+    user  = FactoryGirl.create(:user)
+    attachments = [ Attachment.find_by_container_type('Document') ]
+    assert UserMailer.attachments_added(user, attachments).deliver
+  end
+
+  def test_version_file_added
+    user  = FactoryGirl.create(:user, :mail => 'foo@bar.de')
+    attachments = [ Attachment.find_by_container_type('Version') ]
+    assert UserMailer.attachments_added(user, attachments).deliver
+    assert_equal ['foo@bar.de'], last_email.to
+  end
+
+  def test_project_file_added
+    user  = FactoryGirl.create(:user, :mail => 'foo@bar.de')
+    attachments = [ Attachment.find_by_container_type('Project') ]
+    assert UserMailer.attachments_added(user, attachments).deliver
+    assert_equal ['foo@bar.de'], last_email.to
+  end
 end
