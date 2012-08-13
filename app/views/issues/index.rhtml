@@ -80,7 +80,7 @@
 	<%= f.link_to 'Atom', :url => { :project_id => @project, :query_id => (@query.new_record? ? nil : @query), :key => User.current.rss_key } %>
 	<%= f.link_to 'CSV', :url => { :project_id => @project } %>
 	<%= f.link_to 'PDF', :url => { :project_id => @project } %>
-<% end if User.current.allowed_to? :export_issues, @project %>
+  <% end if User.current.allowed_to? :export_issues, @project, :global => @project.nil? %>
 
 <% end %>
 <%= call_hook(:view_issues_index_bottom, { :issues => @issues, :project => @project, :query => @query }) %>
