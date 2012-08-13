@@ -264,4 +264,10 @@ class UserMailerTest < ActionMailer::TestCase
     user = FactoryGirl.create(:user)
     assert UserMailer.account_information(user, 'pAsswORd').deliver
   end
+
+  def test_account_activation_requested
+    admin = FactoryGirl.create(:user)
+    user  = FactoryGirl.create(:user)
+    assert UserMailer.account_activation_requested(admin, user).deliver
+  end
 end

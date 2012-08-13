@@ -267,6 +267,27 @@ class UserMailer < ActionMailer::Base
     end
   end
 
+  def account_activation_requested(admin, user)
+    @user           = user
+    @activation_url = url_for(:controller => :users,
+                              :action     => :index,
+                              :status     => User::STATUS_REGISTERED,
+                              :sort_key   => :created_on,
+                              :sort_order => :desc)
+
+    headers["X-OpenProject-Type"] = "Account"
+
+    to = admin.mail
+
+    locale = admin.language.presence || I18n.default_locale
+
+    I18n.with_locale(locale) do
+      subject = t(:mail_subject_account_activation_request, :value => Setting.app_title)
+
+      mail :to => to, :subject => subject
+    end
+  end
+
 private
 
   def assigned_to_header(user)

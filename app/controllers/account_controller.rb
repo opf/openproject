@@ -283,7 +283,10 @@ class AccountController < ApplicationController
   def register_manually_by_administrator(user, &block)
     if user.save
       # Sends an email to the administrators
-      Mailer.deliver_account_activation_request(user)
+      admins = User.admin.active
+      admins.each do |admin|
+        UserMailer.account_activation_requested(admin, user).deliver
+      end
       account_pending
     else
       yield if block_given?
