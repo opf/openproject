@@ -15,7 +15,12 @@
 class CommentObserver < ActiveRecord::Observer
   def after_create(comment)
     if comment.commented.is_a?(News) && Setting.notified_events.include?('news_comment_added')
-      Mailer.deliver_news_comment_added(comment)
+      news = comment.commented
+      recipients = news.recipients + news.watcher_recipients
+      users = User.find_all_by_mails(recipients)
+      users.each do |user|
+        UserMailer.news_comment_added(user, comment).deliver
+      end
     end
   end
 end

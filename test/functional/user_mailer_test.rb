@@ -184,4 +184,9 @@ class UserMailerTest < ActionMailer::TestCase
     assert mail.body.include?("https://redmine.foo/account/activate?token=#{token.value}")
   end
 
+  def test_news_comment_added
+    user    = FactoryGirl.create(:user)
+    comment = Comment.find(2)
+    assert UserMailer.news_comment_added(user, comment).deliver
+  end
 end

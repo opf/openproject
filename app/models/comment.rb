@@ -19,4 +19,8 @@ class Comment < ActiveRecord::Base
   attr_protected :author_id
 
   validates_presence_of :commented, :author, :comments
+
+  def text
+    comments
+  end
 end

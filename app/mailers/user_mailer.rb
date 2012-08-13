@@ -130,6 +130,22 @@ class UserMailer < ActionMailer::Base
     end
   end
 
+  def news_comment_added(user, comment)
+    @comment = comment
+    @news = @comment.commented
+
+    headers["X-OpenProject-Project"] = @news.project.identifier
+
+    #message_id comment
+    to = user.mail
+
+    I18n.with_locale(locale) do
+      subject = "Re: [#{@news.project.name}] #{t(:label_news)}: #{@news.title}"
+
+      mail :to => to, :subject => subject
+    end
+  end
+
 private
 
   def assigned_to_header(user)
