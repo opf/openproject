@@ -9,13 +9,16 @@ class UserMailer < ActionMailer::Base
   #   en.user_mailer.test_mail.subject
   #
   def test_mail(user)
-    @greeting = "Hi"
-
-    to = "#{user.name} <#{user.mail}>"
+    @welcome_url = url_for(:controller => 'welcome')
     
-    mail :to => to, :subject => 'Test'
+    headers["X-OpenProject-Type"] = 'Test'
+
+    locale = user.language.presence || I18n.default_locale # || Setting.default_language
+    I18n.with_locale(locale) do
+      mail :to => "#{user.name} <#{user.mail}>", :subject => 'OpenProject test'
+    end
   end
-  
+
   def issue_added(user, issue)  
     @issue = issue
     @user  = user
