@@ -98,6 +98,8 @@ OpenProject::Application.routes.draw do
         post 'unarchive'
       end
 
+      resources :documents, :shallow => true
+
       resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
       resources :files, :only => [:index, :new, :create]
       resources :versions, :collection => {:close_completed => :put}, :member => {:status_by => :post}
