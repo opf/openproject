@@ -81,9 +81,9 @@ class UserMailerTest < ActionMailer::TestCase
     assert UserMailer.issue_updated(user, journal).deliver
   end
   
-  def test_lost_password
+  def test_password_lost
     token = FactoryGirl.create(:token)
-    assert UserMailer.lost_password(token).deliver
+    assert UserMailer.password_lost(token).deliver
   end
   
   

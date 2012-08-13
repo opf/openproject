@@ -61,7 +61,7 @@ class AccountController < ApplicationController
         # create a new token for password recovery
         token = Token.new(:user => user, :action => "recovery")
         if token.save
-          UserMailer.lost_password(token).deliver
+          UserMailer.password_lost(token).deliver
           flash[:notice] = l(:notice_account_lost_email_sent)
           redirect_to :action => 'login', :back_url => home_url
           return
@@ -253,7 +253,7 @@ class AccountController < ApplicationController
   def register_by_email_activation(user, &block)
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
-      Mailer.deliver_register(token)
+      UserMailer.user_signed_up(token).deliver
       flash[:notice] = l(:notice_account_register_done)
       redirect_to :action => 'login'
     else

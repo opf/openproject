@@ -69,11 +69,11 @@ class UserMailer < ActionMailer::Base
     end
   end
   
-  def lost_password(token)
+  def password_lost(token)
     @token = token
-    @url   = url_for(:controller => :account,
-                     :action     => :lost_password,
-                     :token      => @token.value)
+    @reset_password_url = url_for(:controller => :account,
+                                  :action     => :lost_password,
+                                  :token      => @token.value)
     
     headers["X-OpenProject-Type"] = 'Account'
     
@@ -82,7 +82,7 @@ class UserMailer < ActionMailer::Base
     to = user.mail
 
     locale = user.language.presence || I18n.default_locale  
-    
+
     I18n.with_locale(locale) do
       subject = t(:mail_subject_lost_password, :value => Setting.app_title)      
 
