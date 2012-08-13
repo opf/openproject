@@ -12,6 +12,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+class DueIssuesReminder
+  def initialize(days = nil, project_id = nil, tracker_id = nil, user_ids = [])
+    @days     = days ? days.to_i : 7
+    @project  = Project.find_by_id(project_id)
+    @tracker  = Tracker.find_by_id(tracker_id)
+    @user_ids = user_ids
+  end
+
+  def remind_users
+    s = ARCondition.new ["#{IssueStatus.table_name}.is_closed = ? AND #{Issue.table_name}.due_date <= ?", false, @days.days.from_now.to_date]
+    s << "#{Issue.table_name}.assigned_to_id IS NOT NULL"
+    s << ["#{Issue.table_name}.assigned_to_id IN (?)", @user_ids] if @user_ids.any?
+    s << "#{Project.table_name}.status = #{Project::STATUS_ACTIVE}"
+    s << "#{Issue.table_name}.project_id = #{@project.id}" if @project
+    s << "#{Issue.table_name}.tracker_id = #{@tracker.id}" if @tracker
+
+    issues_by_assignee = Issue.find(:all, :include => [:status, :assigned_to, :project, :tracker],
+                                          :conditions => s.conditions
+                                   ).group_by(&:assigned_to)
+    issues_by_assignee.each do |assignee, issues|
+      UserMailer.reminder_mail(assignee, issues, @days).deliver if assignee && assignee.active?
+    end
+  end
+end
 
 desc <<-END_DESC
 Send reminders about issues due in the next days.
@@ -28,12 +52,7 @@ END_DESC
 
 namespace :redmine do
   task :send_reminders => :environment do
-    options = {}
-    options[:days] = ENV['days'].to_i if ENV['days']
-    options[:project] = ENV['project'] if ENV['project']
-    options[:tracker] = ENV['tracker'].to_i if ENV['tracker']
-    options[:users] = (ENV['users'] || '').split(',').each(&:strip!)
-
-    Mailer.reminders(options)
+    reminder = DueIssuesReminder.new(ENV['days'], ENV['project'], ENV['tracker'], ENV['users'].to_s.split(',').map(&:to_i))
+    reminder.remind_users
   end
 end

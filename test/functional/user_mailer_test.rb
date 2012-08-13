@@ -15,7 +15,7 @@ class UserMailerTest < ActionMailer::TestCase
     user = FactoryGirl.create(:user, :mail => 'foo@bar.de', :language => :de)
     
     mail = UserMailer.test_mail(user)
-    mail.deliver
+    assert mail.deliver
 
     assert_equal 1, ActionMailer::Base.deliveries.size
     
@@ -289,5 +289,36 @@ class UserMailerTest < ActionMailer::TestCase
     attachments = [ Attachment.find_by_container_type('Project') ]
     assert UserMailer.attachments_added(user, attachments).deliver
     assert_equal ['foo@bar.de'], last_email.to
+  end
+
+  def test_reminders
+    DueIssuesReminder.new(42).remind_users
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.to.include?('dlopper@somenet.foo')
+    assert mail.body.include?('Bug #3: Error 281 when updating a recipe')
+    assert_equal '1 issue(s) due in the next 42 days', mail.subject
+  end
+
+  def test_reminders_for_users
+    DueIssuesReminder.new(42, nil, nil, [5]).remind_users
+    assert_equal 0, ActionMailer::Base.deliveries.size
+
+    DueIssuesReminder.new(42, nil, nil, [3]).remind_users
+    assert_equal 1, ActionMailer::Base.deliveries.size
+
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.to.include?('dlopper@somenet.foo')
+    assert mail.body.include?('Bug #3: Error 281 when updating a recipe')
+  end
+
+  def test_with_deliveries_off
+    user = FactoryGirl.create(:user)
+    UserMailer.with_deliveries(false) do
+      UserMailer.test_mail(user).deliver
+    end
+    assert ActionMailer::Base.deliveries.empty?
+    # should restore perform_deliveries
+    assert ActionMailer::Base.perform_deliveries
   end
 end

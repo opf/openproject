@@ -319,6 +319,29 @@ class UserMailer < ActionMailer::Base
     end
   end
 
+  def reminder_mail(user, issues, days)
+    @issues = issues
+    @days   = days
+
+    @assigned_issues_url = url_for(:controller     => :issues,
+                                   :action         => :index,
+                                   :set_filter     => 1,
+                                   :assigned_to_id => user.id,
+                                   :sort           => 'due_date:asc')
+
+    headers["X-OpenProject-Type"] = "Issue"
+
+    to = user.mail
+
+    locale = user.language.presence || I18n.default_locale
+
+    I18n.with_locale(locale) do
+      subject = t(:mail_subject_reminder, :count => @issues.size, :days => @days)
+
+      mail :to => to, :subject => subject
+    end
+  end
+
 private
 
   def assigned_to_header(user)
