@@ -173,4 +173,15 @@ class UserMailerTest < ActionMailer::TestCase
     assert ActionMailer::Base.deliveries.empty?
   end
 
+  def test_user_signed_up
+    token = Token.find(1)
+    Setting.host_name = 'redmine.foo'
+    Setting.protocol = 'https'
+
+    ActionMailer::Base.deliveries.clear
+    assert UserMailer.user_signed_up(token).deliver
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.body.include?("https://redmine.foo/account/activate?token=#{token.value}")
+  end
+
 end

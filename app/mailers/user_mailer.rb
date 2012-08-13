@@ -108,7 +108,28 @@ class UserMailer < ActionMailer::Base
       mail :to => to, :subject => subject
     end
   end
-  
+
+  def user_signed_up(token)
+    @token = token
+    @activation_url = url_for(:controller => :account,
+                              :action     => :activate,
+                              :token      => @token.value)
+
+    headers["X-OpenProject-Type"] = "Account"
+
+    user = token.user
+
+    to = user.mail
+
+    locale = user.language.presence || I18n.default_locale
+
+    I18n.with_locale(locale) do
+      subject = t(:mail_subject_register, :value => Setting.app_title)
+
+      mail :to => to, :subject => subject
+    end
+  end
+
 private
 
   def assigned_to_header(user)
