@@ -569,10 +569,11 @@ jQuery(document).ready(function($) {
 
     // Do not close the login window when using it
     that.find("li li").click(function(event){
-       event.stopPropagation();
+      $(document).trigger(event); // pass click-event to rails ujs-handler
+      event.stopPropagation();
     });
 
-    this.find(" > li.drop-down").click(function() {
+    this.find(" > li.drop-down").click(function(event) {
       // if an h2 tag follows the submenu should unfold out at the border
       var menu_start_position;
       if (that.next().get(0) != undefined && (that.next().get(0).tagName == 'H2')){
@@ -586,6 +587,7 @@ jQuery(document).ready(function($) {
       }
 
       $(this).toggleSubmenu(that);
+      $(document).trigger(event); // pass click-event to rails ujs-handler
       return false;
     });
   };
