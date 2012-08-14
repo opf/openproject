@@ -273,7 +273,6 @@ class RoutingTest < ActionController::IntegrationTest
                                                         :id => '1' )
     end
   end
-end
 
 #  context "issue categories" do
 #    should route(:get, "/projects/test/issue_categories/new").to( :controller => 'issue_categories', :action => 'new', :project_id => 'test')
@@ -330,7 +329,7 @@ end
 #    should route(:delete, "/news/567/comments/15").to( :controller => 'comments', :action => 'destroy', :id => '567', :comment_id => '15')
 #  end
 #
-#  context "projects" do
+  context "projects" do
 #    should route(:get, "/projects").to( :controller => 'projects', :action => 'index')
 #    should route(:get, "/projects.atom").to( :controller => 'projects', :action => 'index', :format => 'atom')
 #    should route(:get, "/projects.xml").to( :controller => 'projects', :action => 'index', :format => 'xml')
@@ -351,13 +350,17 @@ end
 #    should route(:post, "/projects/64/archive").to( :controller => 'projects', :action => 'archive', :id => '64')
 #    should route(:post, "/projects/64/unarchive").to( :controller => 'projects', :action => 'unarchive', :id => '64')
 #
-#    should route(:put, "/projects/64/enumerations").to( :controller => 'project_enumerations', :action => 'update', :project_id => '64')
+    should route(:put, "/projects/64/enumerations").to( :controller => 'project_enumerations',
+                                                        :action => 'update',
+                                                        :project_id => '64' )
 #    should route(:put, "/projects/4223").to( :controller => 'projects', :action => 'update', :id => '4223')
 #    should route(:put, "/projects/1.xml").to( :controller => 'projects', :action => 'update', :id => '1', :format => 'xml')
 #
 #    should route(:delete, "/projects/64").to( :controller => 'projects', :action => 'destroy', :id => '64')
 #    should route(:delete, "/projects/1.xml").to( :controller => 'projects', :action => 'destroy', :id => '1', :format => 'xml')
-#    should route(:delete, "/projects/64/enumerations").to( :controller => 'project_enumerations', :action => 'destroy', :project_id => '64')
+    should route(:delete, "/projects/64/enumerations").to( :controller => 'project_enumerations',
+                                                           :action => 'destroy',
+                                                           :project_id => '64' )
 #  end
 #
 #  context "repositories" do
@@ -381,7 +384,7 @@ end
 #
 #
 #    should route(:post, "/projects/redmine/repository/edit").to( :controller => 'repositories', :action => 'edit', :id => 'redmine')
-#  end
+  end
 #
 #  context "timelogs (global)" do
 #    should route(:get, "/time_entries").to( :controller => 'timelog', :action => 'index')
@@ -512,4 +515,4 @@ end
 #  context "administration panel" do
 #    should route(:get, "/admin/projects").to( :controller => 'admin', :action => 'projects')
 #  end
-#end
+end
