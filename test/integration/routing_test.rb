@@ -469,17 +469,45 @@ class RoutingTest < ActionController::IntegrationTest
 #    should route(:put, "/users/444.xml").to( :controller => 'users', :action => 'update', :id => '444', :format => 'xml')
 #  end
 #
-#  # TODO: should they all be scoped under /projects/:project_id ?
-#  context "versions" do
-#    should route(:get, "/projects/foo/versions/new").to( :controller => 'versions', :action => 'new', :project_id => 'foo')
-#    should route(:get, "/versions/show/1").to( :controller => 'versions', :action => 'show', :id => '1')
-#    should route(:get, "/versions/edit/1").to( :controller => 'versions', :action => 'edit', :id => '1')
-#
-#    should route(:post, "/projects/foo/versions").to( :controller => 'versions', :action => 'create', :project_id => 'foo')
-#    should route(:post, "/versions/update/1").to( :controller => 'versions', :action => 'update', :id => '1')
-#
-#    should route(:delete, "/versions/destroy/1").to( :controller => 'versions', :action => 'destroy', :id => '1')
-#  end
+  context "versions" do
+    should route(:get, "/versions/1").to( :controller => 'versions',
+                                          :action => 'show',
+                                          :id => '1' )
+
+    should route(:get, "/versions/1/edit").to( :controller => 'versions',
+                                               :action => 'edit',
+                                               :id => '1' )
+
+    should route(:put, "/versions/1").to( :controller => 'versions',
+                                          :action => 'update',
+                                          :id => '1' )
+
+    should route(:delete, "/versions/1").to( :controller => 'versions',
+                                             :action => 'destroy',
+                                             :id => '1' )
+
+    should route(:get, "/versions/1/status_by").to( :controller => 'versions',
+                                                    :action => 'status_by',
+                                                    :id => '1' )
+
+    context "project" do
+      should route(:get, "/projects/foo/versions/new").to( :controller => 'versions',
+                                                           :action => 'new',
+                                                           :project_id => 'foo' )
+
+      should route(:post, "/projects/foo/versions").to( :controller => 'versions',
+                                                        :action => 'create',
+                                                        :project_id => 'foo' )
+
+      should route(:put, "/projects/foo/versions/close_completed").to( :controller => 'versions',
+                                                                       :action => 'close_completed',
+                                                                       :project_id => 'foo' )
+
+      should route(:get, "/projects/foo/roadmap").to( :controller => 'versions',
+                                                      :action => 'index',
+                                                      :project_id => 'foo' )
+    end
+  end
 #
 #  context "wiki (singular, project's pages)" do
 #    should route(:get, "/projects/567/wiki").to( :controller => 'wiki', :action => 'show', :project_id => '567')

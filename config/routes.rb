@@ -110,7 +110,17 @@ OpenProject::Application.routes.draw do
 
       resource 'enumerations', :controller => 'project_enumerations', :only => [:update, :destroy]
       resources :files, :only => [:index, :new, :create]
-      resources :versions, :collection => {:close_completed => :put}, :member => {:status_by => :post}
+
+      resources :versions, :only => [:new, :create] do
+        collection do
+          put :close_completed
+        end
+      end
+
+      # this is only another name for versions#index
+      # For nice "road in the url for the index action
+      match '/roadmap' => 'versions#index', :via => :get
+
       resources :news, :shallow => true
       resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id'
 
@@ -199,6 +209,12 @@ OpenProject::Application.routes.draw do
       end
     end
 
+    resources :versions, :only => [:show, :edit, :update, :destroy] do
+      member do
+        get :status_by
+      end
+    end
+
     # Misc issue routes. TODO: move into resources
     match '/issues/preview/:id' => 'previews#issue', :as => 'preview_issue'  # TODO: would look nicer as /issues/:id/preview
     match '/issues/:id/quoted' => 'journals#new', :id => /\d+/, :via => :post, :as => 'quoted_issue'
@@ -234,8 +250,6 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    # For nice "road in the url for the index action
-    match '/projects/:project_id/roadmap' => 'Versions#index'
 
     match '/news' => 'news#index', :as => 'all_news'
     match '/news.:format' => 'news#index', :as => 'formatted_all_news'
