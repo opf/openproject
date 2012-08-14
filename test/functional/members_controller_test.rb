@@ -102,6 +102,6 @@ class MembersControllerTest < ActionController::TestCase
     assert_template 'autocomplete_for_member'
 
     assert_tag :label, :content => /User Misc/,
-                       :child => { :tag => 'input', :attributes => { :name => 'member[user_ids][]', :value => '8' } }
+                       :after => { :tag => 'input', :attributes => { :name => 'member[user_ids][]', :value => '8' } }
   end
 end
