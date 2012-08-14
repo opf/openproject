@@ -227,20 +227,22 @@ class RoutingTest < ActionController::IntegrationTest
   end
 
   context "watches" do
-    should route(:post, "/issues/1/watch").to( :controller => 'watchers',
-                                               :action => 'watch',
-                                               :object_type => 'issues',
-                                               :object_id => '1' )
+    ['issues', 'messages, boards'].each do |type|
+      should route(:post, "/#{type}/1/watch").to( :controller => 'watchers',
+                                                 :action => 'watch',
+                                                 :object_type => type,
+                                                 :object_id => '1' )
 
-    should route(:delete, "/issues/1/unwatch").to( :controller => 'watchers',
-                                                   :action => 'unwatch',
-                                                   :object_type => 'issues',
-                                                   :object_id => '1' )
-
-    should route(:get, "/issues/1/watchers/new").to( :controller => 'watchers',
-                                                     :action => 'new',
-                                                     :object_type => 'issues',
+      should route(:delete, "/#{type}/1/unwatch").to( :controller => 'watchers',
+                                                     :action => 'unwatch',
+                                                     :object_type => type,
                                                      :object_id => '1' )
+
+      should route(:get, "/#{type}/1/watchers/new").to( :controller => 'watchers',
+                                                       :action => 'new',
+                                                       :object_type => type,
+                                                       :object_id => '1' )
+    end
 
     should route(:delete, "/watchers/1").to( :controller => 'watchers',
                                              :action => 'destroy',

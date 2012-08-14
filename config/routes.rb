@@ -74,7 +74,7 @@ OpenProject::Application.routes.draw do
 
     # generic route for adding/removing watchers
     # looks to be ressourceful
-    scope ':object_type/:object_id', :constraints => { :object_type => /issues/,
+    scope ':object_type/:object_id', :constraints => { :object_type => /issues|messages|boards/,
                                                        :object_id => /\d+/ } do
       resources :watchers, :only => [:new]
 
