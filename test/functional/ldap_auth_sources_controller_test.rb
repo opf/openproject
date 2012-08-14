@@ -31,7 +31,7 @@ class LdapAuthSourcesControllerTest < ActionController::TestCase
     should render_template :new
 
     should "initilize a new AuthSource" do
-      assert_equal AuthSourceLdap, assigns(:auth_source).class
+      assert_equal LdapAuthSource, assigns(:auth_source).class
       assert assigns(:auth_source).new_record?
     end
   end
