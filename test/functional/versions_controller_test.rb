@@ -73,7 +73,6 @@ class VersionsControllerTest < ActionController::TestCase
   end
 
   def test_show
-    binding.pry
     get :show, :id => '2'
     assert_response :success
     assert_template 'show'
