@@ -20,7 +20,7 @@ class MenuManagerTest < ActionController::IntegrationTest
 
   def test_project_menu_with_specific_locale
     Setting.available_languages = [:fr, :en]
-    get 'projects/ecookbook/issues', { }, 'Accept-Language' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    get 'projects/ecookbook/issues', { }, 'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
 
     assert_tag :div, :attributes => { :id => 'main-menu' },
                      :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('fr', :label_activity),

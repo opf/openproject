@@ -46,14 +46,6 @@ class IssuesController < ApplicationController
   include IssuesHelper
   include Redmine::Export::PDF
 
-  verify :method => [:post, :delete],
-         :only => :destroy,
-         :render => { :nothing => true, :status => :method_not_allowed }
-
-  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
-  verify :method => :post, :only => :bulk_update, :render => {:nothing => true, :status => :method_not_allowed }
-  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
-
   def index
     sort_init(@query.sort_criteria.empty? ? [['parent', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
@@ -101,7 +93,7 @@ class IssuesController < ApplicationController
   end
 
   def show
-    @journals = @issue.journals.changing.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
+    @journals = @issue.journals.changing.find(:all, :include => [:user, :journaled], :order => "#{Journal.table_name}.created_at ASC")
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @changesets = @issue.changesets.visible.all
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?

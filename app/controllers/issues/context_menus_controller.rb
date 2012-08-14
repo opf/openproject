@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ContextMenusController < ApplicationController
+class Issues::ContextMenusController < ApplicationController
 
   def issues
     @issues = Issue.visible.all(:conditions => {:id => params[:ids]}, :include => :project)
@@ -53,5 +53,4 @@ class ContextMenusController < ApplicationController
 
     render :layout => false
   end
-
 end

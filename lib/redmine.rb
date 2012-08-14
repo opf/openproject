@@ -89,9 +89,9 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
     map.permission :manage_subtasks, {}
     map.permission :add_issue_notes, {:issues => [:edit, :update], :journals => [:new]}
-    map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
-    map.permission :edit_own_issue_notes, {:journals => :edit}, :require => :loggedin
-    map.permission :move_issues, {:issue_moves => [:new, :create]}, :require => :loggedin
+    map.permission :edit_issue_notes, {:journals => [:edit, :update]}, :require => :loggedin
+    map.permission :edit_own_issue_notes, {:journals => [:edit, :update]}, :require => :loggedin
+    map.permission :move_issues, {:'issues/moves' => [:new, :create]}, :require => :loggedin
     map.permission :delete_issues, {:issues => :destroy}, :require => :member
     # Queries
     map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
@@ -146,7 +146,7 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :boards do |map|
-    map.permission :manage_boards, {:boards => [:new, :edit, :destroy]}, :require => :member
+    map.permission :manage_boards, {:boards => [:new, :create, :edit, :update, :destroy]}, :require => :member
     map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true
     map.permission :add_messages, {:messages => [:new, :reply, :quote]}
     map.permission :edit_messages, {:messages => :edit}, :require => :member
@@ -156,11 +156,11 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :calendar do |map|
-    map.permission :view_calendar, :calendars => [:show, :update]
+    map.permission :view_calendar, :'issues/calendars' => [:index]
   end
 
   map.project_module :gantt do |map|
-    map.permission :view_gantt, :gantts => [:show, :update]
+    map.permission :view_gantt, :'issues/gantts' => [:index]
   end
 end
 
@@ -220,7 +220,7 @@ Redmine::MenuManager.map :project_menu do |menu|
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
   menu.push :view_all_issues, { :controller => 'issues', :action => 'all' }, :param => :project_id, :caption => :label_issue_view_all, :parent => :issues
   menu.push :summary_field, {:controller => 'reports', :action => 'issue_report'}, :param => :id, :caption => :field_summary, :parent => :issues
-  menu.push :gantt, { :controller => 'gantts', :action => 'show' }, :param => :project_id, :caption => :label_gantt
+  menu.push :gantt, { :controller => 'issues/gantts', :action => 'index' }, :param => :project_id, :caption => :label_gantt
   menu.push :calendar, { :controller => 'calendars', :action => 'show' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
   menu.push :new_news, { :controller => 'news', :action => 'new' }, :param => :project_id, :caption => :label_news_new, :parent => :news,

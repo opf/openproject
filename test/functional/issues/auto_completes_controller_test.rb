@@ -12,9 +12,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../test_helper', __FILE__)
+require File.expand_path('../../../test_helper', __FILE__)
 
-class AutoCompletesControllerTest < ActionController::TestCase
+class Issues::AutoCompletesControllerTest < ActionController::TestCase
   fixtures :all
 
   def test_issues_should_not_be_case_sensitive

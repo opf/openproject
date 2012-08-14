@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../../test_helper', __FILE__)
-require 'pp'
+
 class ApiTest::UsersTest < ActionController::IntegrationTest
   fixtures :users
 
@@ -28,7 +28,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
   context "GET /users/2" do
     context ".xml" do
       should "return requested user" do
-        get '/users/2.xml'
+        get '/users/2.xml', {}, credentials('admin')
 
         assert_tag :tag => 'user',
           :child => {:tag => 'id', :content => '2'}
@@ -37,9 +37,9 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
     context ".json" do
       should "return requested user" do
-        get '/users/2.json'
+        get '/users/2.json', {}, credentials('admin')
 
-        json = ActiveSupport::JSON.decode(response.body)
+        json = ActiveSupport::JSON.decode(@response.body)
         assert_kind_of Hash, json
         assert_kind_of Hash, json['user']
         assert_equal 2, json['user']['id']
@@ -56,7 +56,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       end
 
       should "return current user" do
-        get '/users/current.xml', {}, :authorization => credentials('jsmith')
+        get '/users/current.xml', {}, credentials('jsmith')
 
         assert_tag :tag => 'user',
           :child => {:tag => 'id', :content => '2'}
@@ -78,7 +78,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
         should "create a user with the attributes" do
           assert_difference('User.count') do
-            post '/users.xml', @parameters, :authorization => credentials('admin')
+            post '/users.xml', @parameters, credentials('admin')
           end
 
           user = User.first(:order => 'id DESC')
@@ -104,7 +104,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
         should "create a user with the attributes" do
           assert_difference('User.count') do
-            post '/users.json', @parameters, :authorization => credentials('admin')
+            post '/users.json', @parameters, credentials('admin')
           end
 
           user = User.first(:order => 'id DESC')
@@ -132,7 +132,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       context ".xml" do
         should "return errors" do
           assert_no_difference('User.count') do
-            post '/users.xml', @parameters, :authorization => credentials('admin')
+            post '/users.xml', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -144,7 +144,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       context ".json" do
         should "return errors" do
           assert_no_difference('User.count') do
-            post '/users.json', @parameters, :authorization => credentials('admin')
+            post '/users.json', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -152,7 +152,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
           json = ActiveSupport::JSON.decode(response.body)
           assert_kind_of Hash, json
           assert json.has_key?('errors')
-          assert_kind_of Array, json['errors']
+          assert_equal({ "firstname" => ["can't be blank"], "mail" => ["is invalid"] }, json['errors'])
         end
       end
     end
@@ -172,7 +172,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
         should "update user with the attributes" do
           assert_no_difference('User.count') do
-            put '/users/2.xml', @parameters, :authorization => credentials('admin')
+            put '/users/2.xml', @parameters, credentials('admin')
           end
 
           user = User.find(2)
@@ -194,7 +194,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
         should "update user with the attributes" do
           assert_no_difference('User.count') do
-            put '/users/2.json', @parameters, :authorization => credentials('admin')
+            put '/users/2.json', @parameters, credentials('admin')
           end
 
           user = User.find(2)
@@ -217,7 +217,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       context ".xml" do
         should "return errors" do
           assert_no_difference('User.count') do
-            put '/users/2.xml', @parameters, :authorization => credentials('admin')
+            put '/users/2.xml', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -229,7 +229,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       context ".json" do
         should "return errors" do
           assert_no_difference('User.count') do
-            put '/users/2.json', @parameters, :authorization => credentials('admin')
+            put '/users/2.json', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -237,7 +237,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
           json = ActiveSupport::JSON.decode(response.body)
           assert_kind_of Hash, json
           assert json.has_key?('errors')
-          assert_kind_of Array, json['errors']
+          assert_equal({ "firstname" => ["can't be blank"], "mail" => ["is invalid"] }, json['errors'])
         end
       end
     end
@@ -261,7 +261,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
       should "delete user" do
         assert_difference('User.count', -1) do
-          delete '/users/2.xml', {}, :authorization => credentials('admin')
+          delete '/users/2.xml', {}, credentials('admin')
         end
 
         assert_response :ok
@@ -278,7 +278,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
       should "delete user" do
         assert_difference('User.count', -1) do
-          delete '/users/2.json', {}, :authorization => credentials('admin')
+          delete '/users/2.json', {}, credentials('admin')
         end
 
         assert_response :ok

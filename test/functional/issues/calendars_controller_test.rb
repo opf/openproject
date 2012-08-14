@@ -12,20 +12,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../test_helper', __FILE__)
+require File.expand_path('../../../test_helper', __FILE__)
 
-class CalendarsControllerTest < ActionController::TestCase
+class Issues::CalendarsControllerTest < ActionController::TestCase
   fixtures :all
 
   def test_calendar
-    get :show, :project_id => 1
+    get :index, :project_id => 1
     assert_response :success
     assert_template 'calendar'
     assert_not_nil assigns(:calendar)
   end
 
   def test_cross_project_calendar
-    get :show
+    get :index
     assert_response :success
     assert_template 'calendar'
     assert_not_nil assigns(:calendar)
@@ -35,7 +35,7 @@ class CalendarsControllerTest < ActionController::TestCase
     should "run custom queries" do
       @query = Query.generate_default!
 
-      get :show, :query_id => @query.id
+      get :index, :query_id => @query.id
       assert_response :success
     end
 
@@ -44,7 +44,7 @@ class CalendarsControllerTest < ActionController::TestCase
   def test_week_number_calculation
     Setting.start_of_week = 7
 
-    get :show, :month => '1', :year => '2010'
+    get :index, :month => '1', :year => '2010'
     assert_response :success
 
     assert_tag :tag => 'tr',
@@ -65,7 +65,7 @@ class CalendarsControllerTest < ActionController::TestCase
 
 
     Setting.start_of_week = 1
-    get :show, :month => '1', :year => '2010'
+    get :index, :month => '1', :year => '2010'
     assert_response :success
 
     assert_tag :tag => 'tr',

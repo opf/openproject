@@ -177,7 +177,7 @@ class UsersControllerTest < ActionController::TestCase
     end
 
     user = User.first(:order => 'id DESC')
-    assert_redirected_to :controller => 'users', :action => 'edit', :id => user.id
+    assert_redirected_to edit_user_path(user)
 
     assert_equal 'John', user.firstname
     assert_equal 'Doe', user.lastname

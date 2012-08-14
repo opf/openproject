@@ -32,10 +32,10 @@
 <% heads_for_wiki_formatter %>
 <%= call_hook :view_layouts_base_html_head %>
 <!-- page specific tags -->
-<%= yield :header_tags -%>
+<%= content_for :header_tags -%>
 </head>
 <noscript><%=l(:description_noscript)%></noscript>
-<body class="<%=h body_css_classes %>">
+<body class="<%= body_css_classes %>">
 <div id="wrapper">
   <div id="top-menu">
     <div id="header">
@@ -79,10 +79,10 @@
         </div>
         <div id="menu-sidebar">
           <%= main_menu %>
-          <%= yield :main_menu %>
+          <%= content_for :main_menu %>
           <!-- Sidebar -->
           <div id="sidebar">
-            <%= yield :sidebar %>
+            <%= content_for :sidebar %>
             <%= call_hook :view_layouts_base_sidebar %>
           </div>
         </div>
@@ -97,12 +97,12 @@
       <!-- Action menu -->
       <% if content_for?(:action_menu_main) %>
         <ul class="action_menu_main">
-          <%= yield :action_menu_main %>
+          <%= content_for :action_menu_main %>
           <% if content_for?(:action_menu_more) %>
             <li class="drop-down">
               <a href="javascript:" class="icon icon-more"><%= l(:more_actions) %></a>
               <ul class="action_menu_more" style="display:none;">
-                <%= yield :action_menu_more %>
+                <%= content_for :action_menu_more %>
               </ul>
             </li>
           <% end %>
@@ -116,9 +116,11 @@
   </div>
 
   <div id="footer">
-    <div class="bgl"><div class="bgr">
+    <div class="bgl">
+      <div class="bgr">
         <%= l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)).html_safe %>
-      </div></div>
+      </div>
+    </div>
   </div>
 
   <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>

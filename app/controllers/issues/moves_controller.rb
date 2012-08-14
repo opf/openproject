@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class IssueMovesController < ApplicationController
+class Issues::MovesController < ApplicationController
   default_search_scope :issues
   before_filter :find_issues, :check_project_uniqueness
   before_filter :authorize
@@ -43,12 +43,12 @@ class IssueMovesController < ApplicationController
 
       if params[:follow]
         if @issues.size == 1 && moved_issues.size == 1
-          redirect_to :controller => 'issues', :action => 'show', :id => moved_issues.first
+          redirect_to issue_path(moved_issues.first)
         else
-          redirect_to :controller => 'issues', :action => 'index', :project_id => (@target_project || @project)
+          redirect_to project_issues_path(@target_project || @project)
         end
       else
-        redirect_to :controller => 'issues', :action => 'index', :project_id => @project
+        redirect_to project_issues_path(@project)
       end
       return
     end

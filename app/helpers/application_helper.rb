@@ -123,9 +123,10 @@ module ApplicationHelper
       end
     end
     closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
-    s = link_to closed + options[:before_text].to_s + "#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
-                                                 :class => issue.css_classes,
-                                                 :title => title
+    s = link_to "#{closed}#{h(options[:before_text].to_s)}#{h(issue.tracker)} ##{issue.id}".html_safe,
+                issue,
+                :class => issue.css_classes,
+                :title => h(title)
     s << ": #{h subject}" if subject
     s = "#{h issue.project} - " + s if options[:project]
     s
@@ -883,10 +884,11 @@ module ApplicationHelper
     content_tag("label", label_text)
   end
 
-  def labelled_tabular_form_for(name, object, options, &proc)
+  def labelled_tabular_form_for(record_or_name_or_array, *args, &proc)
+    options = args.extract_options!
     options[:html] ||= {}
     options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
-    form_for(name, object, options.merge({ :builder => TabularFormBuilder, :lang => current_language}), &proc)
+    form_for(record_or_name_or_array, *(args << options.merge({:builder => TabularFormBuilder, :lang => current_language})), &proc)
   end
 
   def back_url_hidden_field_tag
@@ -970,6 +972,32 @@ module ApplicationHelper
       url = '#'
     end
     link_to h(name), url, options
+  end
+
+  # TODO: need a decorator to clean this up
+  def context_menu_entry(args)
+    db_attribute = args[:db_attribute] || "#{args[:attribute]}_id"
+
+    content_tag :li, :class => "folder #{args[:attribute]}" do
+      ret = link_to((args[:title] || l(:"field_#{args[:attribute]}")), "#", :class => "context_item")
+
+      ret += content_tag :ul do
+		    args[:collection].collect do |(s, name)|
+          content_tag :li do
+            context_menu_link (name || s), bulk_update_issues_path(:ids => args[:updated_object_ids],
+                                                                   :issue => { db_attribute => s },
+                                                                   :back_url => args[:back_url]),
+                                      :method => :put,
+		                                  :selected => args[:selected].call(s),
+                                      :disabled => args[:disabled].call(s)
+          end
+        end.join.html_safe
+      end
+
+      ret += content_tag :div, '', :class => "submenu"
+
+      ret
+    end
   end
 
   def calendar_for(field_id)

@@ -30,41 +30,39 @@ module WatchersHelper
   # Create a link to watch/unwatch object
   #
   # * :replace - a string or array of strings with css selectors that will be updated, whenever the watcher status is changed
-  def watcher_link(object, user, options = {:replace => '.watcher_link', :class => 'watcher_link'})
+  def watcher_link(object, user, options = { :replace => '.watcher_link', :class => 'watcher_link' })
     options = options.with_indifferent_access
     raise ArgumentError, 'Missing :replace option in options hash' if options['replace'].blank?
 
     return '' unless user && user.logged? && object.respond_to?('watched_by?')
 
     watched = object.watched_by?(user)
-    url = {:controller => 'watchers',
-           :action => (watched ? 'unwatch' : 'watch'),
-           :object_type => object.class.to_s.underscore,
-           :object_id => object.id,
-           :replace => options.delete('replace')}
 
-    url_options = {:url => url}
-
-    html_options = options.merge(:href => url_for(url))
+    html_options = options
+    path = send(:"#{(watched ? 'unwatch' : 'watch')}_path", :object_type => object.class.to_s.underscore.pluralize,
+                                                            :object_id => object.id,
+                                                            :replace => options.delete('replace') )
     html_options[:class] = html_options[:class].to_s + (watched ? ' icon icon-fav' : ' icon icon-fav-off')
 
-    link_to_remote((watched ? l(:button_unwatch) : l(:button_watch)), url_options, html_options)
+    method = watched ?
+      :delete :
+      :post
+
+    label = watched ?
+      l(:button_unwatch) :
+      l(:button_watch)
+
+    link_to(label, path, html_options.merge(:remote => true, :method => method))
   end
 
   # Returns a comma separated list of users watching the given object
   def watchers_list(object)
     remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
-    lis = object.watcher_users.collect do |user|
-      s = avatar(user, :size => "16").to_s + link_to_user(user, :class => 'user').to_s
+    lis = object.watchers.collect do |watch|
+      s = avatar(watch.user, :size => "16").to_s + link_to_user(watch.user, :class => 'user').to_s
       if remove_allowed
-        url = {:controller => 'watchers',
-               :action => 'destroy',
-               :object_type => object.class.to_s.underscore,
-               :object_id => object.id,
-               :user_id => user}
-        s += ' ' + link_to_remote(image_tag('delete.png', :alt => l(:button_delete), :title => l(:button_delete)),
-                                  {:url => url},
-                                  :href => url_for(url),
+        s += ' ' + link_to(image_tag('delete.png', :alt => l(:button_delete), :title => l(:button_delete)),
+                           watcher_path(watch), :method => :delete, :remote => true,
                                   :style => "vertical-align: middle",
                                   :class => "delete")
       end

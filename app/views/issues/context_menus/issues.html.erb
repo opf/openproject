@@ -1,0 +1,127 @@
+<ul class="menu">
+  <%= call_hook(:view_issues_context_menu_start, {:issues => @issues, :can => @can, :back => @back }) %>
+
+<% if !@issue.nil? -%>
+  <li class="edit">
+    <%= context_menu_link l(:button_edit), edit_issue_path(@issue),
+	                                         :class => 'icon-edit',
+                                           :disabled => !@can[:edit] %>
+  </li>
+<% else %>
+  <li class="edit">
+    <%= context_menu_link l(:button_edit), bulk_edit_issues_path(:ids => @issues.collect(&:id)),
+	                                         :class => 'icon-edit',
+                                           :disabled => !@can[:edit] %>
+  </li>
+<% end %>
+
+<% updated_issues = @issues.collect(&:id) %>
+<% default_params = { :back_url => @back,
+                      :updated_object_ids => updated_issues } %>
+
+<% if @allowed_statuses.present? %>
+  <% params = default_params.merge(:collection => @statuses,
+                                   :attribute => 'status',
+                                   :selected => lambda { |status| (@issue && status == @issue.status) },
+                                   :disabled => lambda { |status| !(@can[:update] && @allowed_statuses.include?(status)) }) %>
+  <%= context_menu_entry(params) %>
+<% end %>
+
+<% unless @trackers.nil? %>
+  <% params = default_params.merge(:collection => @trackers,
+                                   :attribute => 'tracker',
+                                   :selected => lambda { |tracker| (@issue && tracker == @issue.tracker) },
+                                   :disabled => lambda { |tracker| !@can[:edit] }) %>
+  <%= context_menu_entry(params) %>
+<% end %>
+
+  <% params = default_params.merge(:collection => @priorities,
+                                   :attribute => 'priority',
+                                   :selected => lambda { |priority| (@issue && priority == @issue.priority) },
+                                   :disabled => lambda { |priority| !@can[:edit] || @issues.detect { |i| !i.leaf? } }) %>
+  <%= context_menu_entry(params) %>
+
+<% #TODO: allow editing versions when multiple projects %>
+<% unless @project.nil? || (versions = @project.shared_versions.open.sort).empty? -%>
+  <% versions = versions.map{ |v| [v, format_version_name(v)] } << [nil, l(:label_none)]%>
+  <% params = default_params.merge(:collection => versions,
+                                   :attribute => 'fixed_version',
+                                   :selected => lambda { |version| (@issue && version == @issue.fixed_version) },
+                                   :disabled => lambda { |version| !@can[:update] }) %>
+  <%= context_menu_entry(params) %>
+<% end %>
+
+<% if @assignables.present? -%>
+  <% assignables = @assignables.dup << [nil, l(:label_none)] %>
+  <% params = default_params.merge(:collection => assignables,
+                                   :attribute => 'assigned_to',
+                                   :selected => lambda { |user| @issue && user == @issue.assigned_to },
+                                   :disabled => lambda { |user| !@can[:update] }) %>
+  <%= context_menu_entry(params) %>
+<% end %>
+
+<% unless @project.nil? || (categories = @project.issue_categories.to_a).empty? -%>
+  <% categories << [nil, l(:label_none)] %>
+  <% params = default_params.merge(:collection => categories,
+                                   :attribute => 'category',
+                                   :selected => lambda { |category| @issue && category == @issue.category },
+                                   :disabled => lambda { |category| !@can[:update] }) %>
+  <%= context_menu_entry(params) %>
+<% end -%>
+
+<% if Issue.use_field_for_done_ratio? %>
+  <% params = default_params.merge(:collection => (0..10).map{ |x| x * 10 },
+                                   :attribute => 'done_ratio',
+                                   :db_attribute => 'done_ratio',
+                                   :selected => lambda { |ratio| @issue && ratio == @issue.done_ratio },
+                                   :disabled => lambda { |ratio| !@can[:edit] || @issues.detect { |i| !i.leaf? } }) %>
+  <%= context_menu_entry(params) %>
+<% end -%>
+
+<% if !@issue.nil? %>
+	<% if @can[:log_time] -%>
+    <li class="log_time">
+      <%= context_menu_link l(:button_log_time),
+                            new_issue_time_entry_path(@issue),
+	                          :class => 'context_item' %>
+    </li>
+  <% end %>
+
+  <% if User.current.logged? %>
+    <li class="watch">
+      <%= watcher_link(@issue, User.current) %>
+    </li>
+	<% end %>
+<% end %>
+
+<% if @issue.present? %>
+  <li>
+    <%= context_menu_link l(:button_duplicate), new_project_issue_path({ :project_id => @project,
+                                                                         :copy_from => @issue }),
+                                                :class => 'icon-duplicate',
+                                                :disabled => !@can[:copy] %>
+  </li>
+<% end %>
+
+  <li class="move">
+    <%= context_menu_link l(:button_move), new_issues_move_path(:ids => @issues.collect(&:id)),
+	                                         :class => 'context_item',
+                                           :disabled => !@can[:move] %>
+  </li>
+
+  <li class="copy">
+    <%= context_menu_link l(:button_copy), new_issues_move_path(:ids => @issues.collect(&:id),
+                                                                :copy_options => { :copy => 't' }),
+                                                                :class => 'context_item' %>
+  </li>
+
+  <li class="delete">
+    <%= context_menu_link l(:button_delete), issues_path(:ids => @issues.collect(&:id)),
+                                             :method => :delete,
+                                             :confirm => l(:text_issues_destroy_confirmation),
+                                             :class => 'context_item',
+                                             :disabled => !@can[:delete] %>
+  </li>
+
+  <%= call_hook(:view_issues_context_menu_end, {:issues => @issues, :can => @can, :back => @back }) %>
+</ul>

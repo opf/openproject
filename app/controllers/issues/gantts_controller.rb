@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class GanttsController < ApplicationController
+class Issues::GanttsController < ApplicationController
   menu_item :gantt
   before_filter :find_optional_project
 
@@ -22,7 +22,7 @@ class GanttsController < ApplicationController
   include SortHelper
   include Redmine::Export::PDF
 
-  def show
+  def index
     @gantt = Redmine::Helpers::Gantt.new(params)
     @gantt.project = @project
     retrieve_query
@@ -37,9 +37,4 @@ class GanttsController < ApplicationController
       format.pdf  { send_data(@gantt.to_pdf, :type => 'application/pdf', :filename => "#{basename}.pdf") }
     end
   end
-
-  def update
-    show
-  end
-
 end

@@ -48,6 +48,17 @@ class Journal < ActiveRecord::Base
   # logs like the history on issue#show
   scope "changing", :conditions => ["version > 1"]
 
+  # let all child classes have Journal as it's model name
+  # used to not having to create another route for every subclass of Journal
+  def self.inherited(child)
+    child.instance_eval do
+      def model_name
+        Journal.model_name
+      end
+    end
+    super
+  end
+
   def touch_journaled_after_creation
     journaled.touch
   end

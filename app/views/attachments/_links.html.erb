@@ -5,9 +5,9 @@
   <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
   <% if options[:deletable] %>
     <%= link_to image_tag('delete.png', :alt => l(:button_delete), :title => l(:button_delete)),
-                                        { :controller => 'attachments', :action => 'destroy', :id => attachment },
+                                        attachment_path(attachment),
                                         { :confirm => l(:text_are_you_sure),
-                                          :method => :post,
+                                          :method => :delete,
                                           :class => 'delete',
                                           :title => l(:button_delete) } %>
   <% end %>

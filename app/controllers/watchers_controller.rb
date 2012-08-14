@@ -13,13 +13,11 @@
 #++
 
 class WatchersController < ApplicationController
+  before_filter :find_watched_by_object, :except => [:destroy]
+  before_filter :find_watched_by_id, :only => [:destroy]
   before_filter :find_project
   before_filter :require_login, :check_project_privacy, :only => [:watch, :unwatch]
   before_filter :authorize, :only => [:new, :destroy]
-
-  verify :method => :post,
-         :only => [ :watch, :unwatch ],
-         :render => { :nothing => true, :status => :method_not_allowed }
 
   def watch
     if @watched.respond_to?(:visible?) && !@watched.visible?(User.current)
@@ -50,7 +48,7 @@ class WatchersController < ApplicationController
   end
 
   def destroy
-    @watched.set_watcher(User.find(params[:user_id]), false) if request.post?
+    @watched.set_watcher(@watch.user, false)
     respond_to do |format|
       format.html { redirect_to :back }
       format.js do
@@ -62,13 +60,21 @@ class WatchersController < ApplicationController
   end
 
 private
-  def find_project
-    klass = params[:object_type].camelcase.constantize
+  def find_watched_by_object
+    klass = params[:object_type].singularize.camelcase.constantize
     return false unless klass.respond_to?('watched_by')
     @watched = klass.find(params[:object_id])
-    @project = @watched.project
   rescue
     render_404
+  end
+
+  def find_watched_by_id
+    @watch = Watcher.find(params[:id], :include => { :watchable => [:project] } )
+    @watched = @watch.watchable
+  end
+
+  def find_project
+    @project = @watched.project
   end
 
   def set_watcher(user, watching)
