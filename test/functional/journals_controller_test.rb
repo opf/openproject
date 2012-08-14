@@ -57,7 +57,7 @@ class JournalsControllerTest < ActionController::TestCase
   end
 
   def test_index
-    get :index, :project_id => 1
+    get :index, :project_id => 1, :format => :atom
     assert_response :success
     assert_not_nil assigns(:journals)
     assert_equal 'application/atom+xml', @response.content_type
