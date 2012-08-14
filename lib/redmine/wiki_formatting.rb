@@ -83,7 +83,7 @@ module Redmine
       def execute_macros(text, macros_runner)
         text.gsub!(MACROS_RE) do
           esc, all, macro = $1, $2, $3.downcase
-          args = ($5 || '').split(',').each(&:strip)
+          args = ($5 || '').split(',').each(&:strip!)
           if esc.nil?
             begin
               macros_runner.call(macro, args)
