@@ -24,7 +24,7 @@ class VersionsController < ApplicationController
   def index
     @trackers = @project.trackers.find(:all, :order => 'position')
     retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
+    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects].to_i == 1)
     project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
 
     @versions = @project.shared_versions || []

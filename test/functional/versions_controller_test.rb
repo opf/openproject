@@ -38,7 +38,7 @@ class VersionsControllerTest < ActionController::TestCase
   end
 
   def test_index
-    get :index, :project_id => 1
+    get :index, :project_id => '1'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:versions)
@@ -51,7 +51,7 @@ class VersionsControllerTest < ActionController::TestCase
   end
 
   def test_index_with_completed_versions
-    get :index, :project_id => 1, :completed => 1
+    get :index, :project_id => '1', :completed => '1'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:versions)
@@ -63,7 +63,7 @@ class VersionsControllerTest < ActionController::TestCase
 
   def test_index_showing_subprojects_versions
     @subproject_version = Version.generate!(:project => Project.find(3))
-    get :index, :project_id => 1, :with_subprojects => 1
+    get :index, :project_id => '1', :with_subprojects => '1'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:versions)
@@ -73,7 +73,8 @@ class VersionsControllerTest < ActionController::TestCase
   end
 
   def test_show
-    get :show, :id => 2
+    binding.pry
+    get :show, :id => '2'
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:version)
