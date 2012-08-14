@@ -169,6 +169,13 @@ OpenProject::Application.routes.draw do
 
       resources :enumerations, :only => [:index, :edit, :update, :destroy, :new, :create]
 
+      resources :roles, :only => [:index, :new, :create, :edit, :update, :destroy] do
+        collection do
+          put '/' => 'roles#bulk_update'
+          get :report
+        end
+      end
+
       resources :auth_sources, :ldap_auth_sources do
         member do
           get :test_connection

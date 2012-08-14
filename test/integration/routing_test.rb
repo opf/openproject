@@ -274,6 +274,38 @@ class RoutingTest < ActionController::IntegrationTest
     end
   end
 
+  context "roles" do
+    context "witin admin" do
+      should route(:get, "admin/roles").to( :controller => 'roles',
+                                            :action => 'index' )
+
+      should route(:get, "admin/roles/new").to( :controller => 'roles',
+                                                :action => 'new' )
+
+      should route(:post, "admin/roles").to( :controller => 'roles',
+                                             :action => 'create' )
+
+      should route(:get, "admin/roles/1/edit").to( :controller => 'roles',
+                                                   :action => 'edit',
+                                                   :id => '1' )
+
+      should route(:put, "admin/roles/1").to( :controller => 'roles',
+                                              :action => 'update',
+                                              :id => '1' )
+
+      should route(:delete, "admin/roles/1").to( :controller => 'roles',
+                                                 :action => 'destroy',
+                                                 :id => '1' )
+
+      should route(:get, "admin/roles/report").to( :controller => 'roles',
+                                                   :action => 'report' )
+
+      should route(:put, "admin/roles").to( :controller => 'roles',
+                                            :action => 'bulk_update' )
+    end
+  end
+
+
 #  context "issue categories" do
 #    should route(:get, "/projects/test/issue_categories/new").to( :controller => 'issue_categories', :action => 'new', :project_id => 'test')
 #
