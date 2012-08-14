@@ -257,7 +257,6 @@ OpenProject::Application.routes.draw do
     match '/projects/:project_id/documents/:action', :controller => 'documents'
     match '/projects/:project_id/boards/:action/:id', :controller => 'boards'
     match '/boards/:board_id/topics/:action/:id', :controller => 'messages'
-    match '/wiki/:id/:page/:action', :page => nil, :controller => 'wiki'
     match '/issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
     match '/projects/:project_id/news/:action', :controller => 'news'
     match '/projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
