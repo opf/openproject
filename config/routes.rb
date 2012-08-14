@@ -109,22 +109,26 @@ OpenProject::Application.routes.draw do
       match '/wiki/:id/diff/:version' => 'wiki#diff', :as => 'wiki_diff'
       match '/wiki/:id/diff/:version/vs/:version_from' => 'wiki#diff', :as => 'wiki_diff'
       match '/wiki/:id/annotate/:version' => 'wiki#annotate', :as => 'wiki_annotate'
-      resources :wiki, :except => [:new, :create], :member => {
-        :rename => [:get, :post],
-        :history => :get,
-        :preview => :any,
-        :protect => :post,
-        :add_attachment => :post
-      }, :collection => {
-        :export => :get,
-        :date_index => :get
-      }
+      resources :wiki, :except => [:new, :create] do
+        member do
+          match :rename, :via => [:get, :post]
+          get :history
+          match :preview
+          post :protect
+          post :add_attachment
+        end
+
+        collection do
+          get :export
+          get :date_index
+        end
+      end
 
       resources :issues do
         # should probably belong to :member, but requires :copy_from instead
         # of the default :id
         get ':copy_from/copy', :action => "new", :on => :collection, :as => "copy"
-        
+
         collection do
           get :all
           get :bulk_edit
