@@ -19,7 +19,7 @@ class JournalsController; def rescue_action(e) raise e end; end
 
 class JournalsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles,
-           :roles, :issues, :journals, :journal_details, :enabled_modules,
+           :roles, :issues, :journals, :enabled_modules,
            :trackers, :issue_statuses, :enumerations,
            :custom_fields, :custom_field_translations, :custom_values, :custom_fields_projects
 
