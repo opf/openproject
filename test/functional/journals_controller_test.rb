@@ -42,7 +42,7 @@ class JournalsControllerTest < ActionController::TestCase
 
   def test_post_edit
     @request.session[:user_id] = 1
-    xhr :post, :edit, :id => 2, :notes => 'Updated notes'
+    xhr :post, :update, :id => 2, :notes => 'Updated notes'
     assert_response :success
     assert_select_rjs :replace, 'journal-2-notes'
     assert_equal 'Updated notes', Journal.find(2).notes
@@ -50,7 +50,7 @@ class JournalsControllerTest < ActionController::TestCase
 
   def test_post_edit_with_empty_notes
     @request.session[:user_id] = 1
-    xhr :post, :edit, :id => 2, :notes => ''
+    xhr :post, :update, :id => 2, :notes => ''
     assert_response :success
     assert_select_rjs :remove, 'change-2'
     assert_nil Journal.find_by_id(2)
