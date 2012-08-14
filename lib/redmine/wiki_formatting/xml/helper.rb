@@ -24,3 +24,20 @@ module Redmine
     end
   end
 end
+
+# register test macro
+Redmine::WikiFormatting::Macros.register do
+  desc <<-EOF
+    Display a kitten.
+  EOF
+
+  macro :kitten do |obj, args, options|
+    if options[:edit]
+      image_tag "http://www.adoptny.org/wp-content/themes/adoptny/img/placeholder.png", :alt => 'A kitten'
+    else
+      width = args.first || 400
+      height = args.second || 401
+      image_tag "http://placekitten.com/#{width}/#{height}", :alt => 'A kitten'
+    end
+  end
+end
