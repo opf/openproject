@@ -32,6 +32,17 @@ class Enumeration < ActiveRecord::Base
   scope :shared, :conditions => { :project_id => nil }
   scope :active, :conditions => { :active => true }
 
+  # let all child classes have Enumeration as it's model name
+  # used to not having to create another route for every subclass of Enumeration
+  def self.inherited(child)
+    child.instance_eval do
+      def model_name
+        Enumeration.model_name
+      end
+    end
+    super
+  end
+
   def self.default
     # Creates a fake default scope so Enumeration.default will check
     # it's type.  STI subclasses will automatically add their own

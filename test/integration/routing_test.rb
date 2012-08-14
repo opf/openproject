@@ -248,6 +248,31 @@ class RoutingTest < ActionController::IntegrationTest
                                              :action => 'destroy',
                                              :id => '1' )
   end
+
+  context "enumerations" do
+    context "within admin" do
+      should route(:get, "admin/enumerations").to( :controller => 'enumerations',
+                                                   :action => 'index' )
+
+      should route(:get, "admin/enumerations/new").to( :controller => 'enumerations',
+                                                      :action => 'new' )
+
+      should route(:post, "admin/enumerations").to( :controller => 'enumerations',
+                                                    :action => 'create' )
+
+      should route(:get, "admin/enumerations/1/edit").to( :controller => 'enumerations',
+                                                          :action => 'edit',
+                                                          :id => '1' )
+
+      should route(:put, "admin/enumerations/1").to( :controller => 'enumerations',
+                                                     :action => 'update',
+                                                     :id => '1' )
+
+      should route(:delete, "admin/enumerations/1").to( :controller => 'enumerations',
+                                                        :action => 'destroy',
+                                                        :id => '1' )
+    end
+  end
 end
 
 #  context "issue categories" do

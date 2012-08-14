@@ -153,6 +153,19 @@ OpenProject::Application.routes.draw do
       resources :boards
     end
 
+    #TODO: evaluate whether this can be turned into a namespace
+    scope "admin" do
+      match "/projects" => 'admin#projects', :via => :get
+
+      resources :enumerations, :only => [:index, :edit, :update, :destroy, :new, :create]
+
+      resources :auth_sources, :ldap_auth_sources do
+        member do
+          get :test_connection
+        end
+      end
+    end
+
     # this is to support global actions on issues and
     # for backwards compatibility
     namespace :issues do
@@ -299,14 +312,6 @@ OpenProject::Application.routes.draw do
     # alternate routes for the current user
     scope "my" do
       match '/deletion_info' => 'users#deletion_info', :via => :get, :as => 'delete_my_account_info'
-    end
-
-    scope "admin" do
-      resources :auth_sources, :ldap_auth_sources do
-        member do
-          get :test_connection
-        end
-      end
     end
 
     # Install the default route as the lowest priority.
