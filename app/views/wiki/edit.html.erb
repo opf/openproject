@@ -14,6 +14,7 @@
                        { :url => { :controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title },
                          :method => :post,
                          :update => 'preview',
+                         :before => 'if (tinyMCE) { tinyMCE.get("content_text").save(); }',
                          :with => "Form.serialize('wiki_form')",
                          :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %></p>
