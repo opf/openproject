@@ -293,6 +293,7 @@ private
     @issue.start_date ||= User.current.today if Setting.issue_startdate_is_adddate?
     if params[:issue].is_a?(Hash)
       @issue.safe_attributes = params[:issue]
+      @issue.priority_id = params[:issue][:priority_id] unless params[:issue][:priority_id].nil?
       if User.current.allowed_to?(:add_issue_watchers, @project) && @issue.new_record?
         @issue.watcher_user_ids = params[:issue]['watcher_user_ids']
       end
