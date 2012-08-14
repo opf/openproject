@@ -223,6 +223,28 @@ class RoutingTest < ActionController::IntegrationTest
                                                 :action => 'bulk_edit')
     should route(:put, "/issues/bulk_update").to( :controller => 'issues',
                                                   :action => 'bulk_update')
+
+  end
+
+  context "watches" do
+    should route(:post, "/issues/1/watch").to( :controller => 'watchers',
+                                               :action => 'watch',
+                                               :object_type => 'issues',
+                                               :object_id => '1' )
+
+    should route(:delete, "/issues/1/unwatch").to( :controller => 'watchers',
+                                                   :action => 'unwatch',
+                                                   :object_type => 'issues',
+                                                   :object_id => '1' )
+
+    should route(:get, "/issues/1/watchers/new").to( :controller => 'watchers',
+                                                     :action => 'new',
+                                                     :object_type => 'issues',
+                                                     :object_id => '1' )
+
+    should route(:delete, "/watchers/1").to( :controller => 'watchers',
+                                             :action => 'destroy',
+                                             :id => '1' )
   end
 end
 
