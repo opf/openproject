@@ -1,74 +1,56 @@
 class UserMailer < ActionMailer::Base
-  helper :application # textilizable
-  
-  default :from => "from@example.com"
+  # for textilizable
+  helper :application
 
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.user_mailer.test_mail.subject
-  #
+  # wrap in a lambda to allow changing at run-time
+  default :from => lambda { Setting.mail_from }
+
   def test_mail(user)
-    @welcome_url = url_for(:controller => 'welcome')
+    @welcome_url = url_for(:controller => :welcome)
     
-    headers["X-OpenProject-Type"] = 'Test'
+    headers['X-OpenProject-Type'] = 'Test'
 
-    locale = user.language.presence || I18n.default_locale # || Setting.default_language
-    I18n.with_locale(locale) do
-      mail :to => "#{user.name} <#{user.mail}>", :subject => 'OpenProject test'
+    with_locale_for(user) do
+      mail :to => "#{user.name} <#{user.mail}>", :subject => 'OpenProject Test'
     end
   end
 
   def issue_added(user, issue)  
     @issue = issue
-    @user  = user
     
-    headers["X-OpenProject-Project"] = issue.project.identifier
-    headers["X-OpenProject-Issue-Id"] = issue.id
-    headers["X-OpenProject-Issue-Author"] = issue.author.login
-    headers["X-OpenProject-Type"] = 'Issue'
-
-    assigned_to_header issue.assigned_to
+    headers['X-OpenProject-Project'] = @issue.project.identifier
+    headers['X-OpenProject-Issue-Id'] = @issue.id
+    headers['X-OpenProject-Issue-Author'] = @issue.author.login
+    headers['X-OpenProject-Type'] = 'Issue'
+    headers['X-OpenProject-Issue-Assignee'] = @issue.assigned_to.login if @issue.assigned_to
     
-    #message_id issue
+    #message_id @issue
 
-    to      = user.mail
-
-    locale = user.language.presence || I18n.default_locale # || Setting.default_language
-
-    I18n.with_locale(locale) do
-      subject = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
-
-      mail :to => to, :subject => subject
+    with_locale_for(user) do
+      subject = "[#{@issue.project.name} - #{@issue.tracker.name} ##{@issue.id}] (#{@issue.status.name}) #{@issue.subject}"
+      mail :to => user.mail, :subject => subject
     end
   end
   
   def issue_updated(user, journal)
-    @user    = user
     @journal = journal
     @issue   = journal.journaled.reload
     
-    headers["X-OpenProject-Project"] = @issue.project.identifier
-    headers["X-OpenProject-Issue-Id"] = @issue.id
-    headers["X-OpenProject-Issue-Author"] = @issue.author.login
-    headers["X-OpenProject-Type"] = 'Issue'
-
-    assigned_to_header @issue.assigned_to
+    headers['X-OpenProject-Project'] = @issue.project.identifier
+    headers['X-OpenProject-Issue-Id'] = @issue.id
+    headers['X-OpenProject-Issue-Author'] = @issue.author.login
+    headers['X-OpenProject-Type'] = 'Issue'
+    headers['X-OpenProject-Issue-Assignee'] = @issue.assigned_to.login if @issue.assigned_to
     
-    to = user.mail
+    #message_id @journal
+    #references @issue
 
-    #message_id journal
-    #references issue
-    #@author = journal.user
-
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
+    with_locale_for(user) do
       subject =  "[#{@issue.project.name} - #{@issue.tracker.name} ##{@issue.id}] "
-      subject << "(#{@issue.status.name}) " if journal.details['status_id']
+      subject << "(#{@issue.status.name}) " if @journal.details['status_id']
       subject << @issue.subject
 
-      mail :to => to, :subject => subject
+      mail :to => user.mail, :subject => subject
     end
   end
   
@@ -77,38 +59,27 @@ class UserMailer < ActionMailer::Base
     @reset_password_url = url_for(:controller => :account,
                                   :action     => :lost_password,
                                   :token      => @token.value)
-    
-    headers["X-OpenProject-Type"] = 'Account'
-    
+
+    headers['X-OpenProject-Type'] = 'Account'
+
     user = token.user
-
-    to = user.mail
-
-    locale = user.language.presence || I18n.default_locale  
-
-    I18n.with_locale(locale) do
-      subject = t(:mail_subject_lost_password, :value => Setting.app_title)      
-
-      mail :to => to, :subject => subject
+    with_locale_for(user) do
+      subject = t(:mail_subject_lost_password, :value => Setting.app_title)
+      mail :to => user.mail, :subject => subject
     end
   end
 
   def news_added(user, news)
     @news = news
 
-    headers["X-OpenProject-Project"] = news.project.identifier
-    headers["X-OpenProject-Type"] = "News"
+    headers['X-OpenProject-Project'] = @news.project.identifier
+    headers['X-OpenProject-Type'] = "News"
 
-    #message_id news
+    #message_id @news
 
-    to = user.mail
-
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
-      subject = "[#{news.project.name}] #{t(:label_news)}: #{news.title}"
-
-      mail :to => to, :subject => subject
+    with_locale_for(user) do
+      subject = "[#{@news.project.name}] #{t(:label_news)}: #{@news.title}"
+      mail :to => user.mail, :subject => subject
     end
   end
 
@@ -118,55 +89,41 @@ class UserMailer < ActionMailer::Base
                               :action     => :activate,
                               :token      => @token.value)
 
-    headers["X-OpenProject-Type"] = "Account"
+    headers['X-OpenProject-Type'] = 'Account'
 
     user = token.user
-
-    to = user.mail
-
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
+    with_locale_for(user) do
       subject = t(:mail_subject_register, :value => Setting.app_title)
-
-      mail :to => to, :subject => subject
+      mail :to => user.mail, :subject => subject
     end
   end
 
   def news_comment_added(user, comment)
     @comment = comment
-    @news = @comment.commented
+    @news    = @comment.commented
 
-    headers["X-OpenProject-Project"] = @news.project.identifier
+    headers['X-OpenProject-Project'] = @news.project.identifier
 
-    #message_id comment
-    to = user.mail
+    #message_id @comment
 
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
+    with_locale_for(user) do
       subject = "Re: [#{@news.project.name}] #{t(:label_news)}: #{@news.title}"
-
-      mail :to => to, :subject => subject
+      mail :to => user.mail, :subject => subject
     end
   end
 
   def wiki_content_added(user, wiki_content)
     @wiki_content = wiki_content
 
-    headers["X-OpenProject-Project"] = @wiki_content.project.identifier
-    headers["X-OpenProject-Wiki-Page-Id"] = @wiki_content.page.id
-    headers["X-OpenProject-Type"] = "Wiki"
+    headers['X-OpenProject-Project'] = @wiki_content.project.identifier
+    headers['X-OpenProject-Wiki-Page-Id'] = @wiki_content.page.id
+    headers['X-OpenProject-Type'] = 'Wiki'
 
-    # message_id wiki_content
-    to = user.mail
+    #message_id @wiki_content
 
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
-      subject = "[#{wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, :id => wiki_content.page.pretty_title)}"
-
-      mail :to => to, :subject => subject
+    with_locale_for(user) do
+      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, :id => @wiki_content.page.pretty_title)}"
+      mail :to => user.mail, :subject => subject
     end
   end
 
@@ -178,19 +135,15 @@ class UserMailer < ActionMailer::Base
                              :id         => wiki_content.page.title,
                              :version    => wiki_content.version)
 
-    headers["X-OpenProject-Project"] = @wiki_content.project.identifier
-    headers["X-OpenProject-Wiki-Page-Id"] = @wiki_content.page.id
-    headers["X-OpenProject-Type"] = "Wiki"
+    headers['X-OpenProject-Project'] = @wiki_content.project.identifier
+    headers['X-OpenProject-Wiki-Page-Id'] = @wiki_content.page.id
+    headers['X-OpenProject-Type'] = 'Wiki'
 
-    #message_id wiki_content
-    to = user.mail
+    #message_id @wiki_content
 
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
-      subject = "[#{wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, :id => wiki_content.page.pretty_title)}"
-
-      mail :to => to, :subject => subject
+    with_locale_for(user) do
+      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, :id => @wiki_content.page.pretty_title)}"
+      mail :to => user.mail, :subject => subject
     end
   end
 
@@ -203,53 +156,39 @@ class UserMailer < ActionMailer::Base
                            :r          => @message,
                            :anchor     => "message-#{@message.id}")
 
-    headers["X-OpenProject-Project"] = @message.project.identifier
-    headers["X-OpenProject-Topic-Id"] = message.parent_id || message.id
-    headers["X-OpenProject-Type"] = "Forum"
+    headers['X-OpenProject-Project'] = @message.project.identifier
+    headers['X-OpenProject-Topic-Id'] = @message.parent_id || @message.id
+    headers['X-OpenProject-Type'] = 'Forum'
 
-    #message_id message
-    #references message.parent unless message.parent.nil?
-    to = user.mail
+    #message_id @message
+    #references @message.parent if @message.parent
 
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
+    with_locale_for(user) do
       subject = "[#{@message.board.project.name} - #{@message.board.name} - msg#{@message.root.id}] #{@message.subject}"
-
-      mail :to => to, :subject => subject
+      mail :to => user.mail, :subject => subject
     end
   end
 
   def document_added(user, document)
     @document = document
 
-    headers["X-OpenProject-Project"] = @document.project.identifier
-    headers["X-OpenProject-Type"] = "Document"
+    headers['X-OpenProject-Project'] = @document.project.identifier
+    headers['X-OpenProject-Type'] = 'Document'
 
-    to = user.mail
-
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
+    with_locale_for(user) do
       subject = "[#{@document.project.name}] #{t(:label_document_new)}: #{@document.title}"
-
-      mail :to => to, :subject => subject
+      mail :to => user.mail, :subject => subject
     end
   end
 
   def account_activated(user)
     @user = user
 
-    headers["X-OpenProject-Type"] = "Account"
+    headers['X-OpenProject-Type'] = 'Account'
 
-    to = user.mail
-
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
+    with_locale_for(user) do
       subject = t(:mail_subject_register, :value => Setting.app_title)
-
-      mail :to => to, :subject => subject
+      mail :to => user.mail, :subject => subject
     end
   end
 
@@ -257,16 +196,11 @@ class UserMailer < ActionMailer::Base
     @user     = user
     @password = password
 
-    headers["X-OpenProject-Type"] = "Account"
+    headers['X-OpenProject-Type'] = 'Account'
 
-    to = user.mail
-
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
+    with_locale_for(user) do
       subject = t(:mail_subject_register, :value => Setting.app_title)
-
-      mail :to => to, :subject => subject
+      mail :to => user.mail, :subject => subject
     end
   end
 
@@ -278,16 +212,11 @@ class UserMailer < ActionMailer::Base
                               :sort_key   => :created_on,
                               :sort_order => :desc)
 
-    headers["X-OpenProject-Type"] = "Account"
+    headers['X-OpenProject-Type'] = 'Account'
 
-    to = admin.mail
-
-    locale = admin.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
+    with_locale_for(admin) do
       subject = t(:mail_subject_account_activation_request, :value => Setting.app_title)
-
-      mail :to => to, :subject => subject
+      mail :to => admin.mail, :subject => subject
     end
   end
 
@@ -296,8 +225,8 @@ class UserMailer < ActionMailer::Base
 
     container = attachments.first.container
 
-    headers["X-OpenProject-Project"] = container.project.identifier
-    headers["X-OpenProject-Type"] = "Attachment"
+    headers['X-OpenProject-Project'] = container.project.identifier
+    headers['X-OpenProject-Type'] = 'Attachment'
 
     case container.class.name
     when 'Project'
@@ -311,14 +240,9 @@ class UserMailer < ActionMailer::Base
       @added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
     end
 
-    to = user.mail
-
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
+    with_locale_for(user) do
       subject = "[#{container.project.name}] #{t(:label_attachment_new)}"
-
-      mail :to => to, :subject => subject
+      mail :to => user.mail, :subject => subject
     end
   end
 
@@ -332,22 +256,45 @@ class UserMailer < ActionMailer::Base
                                    :assigned_to_id => user.id,
                                    :sort           => 'due_date:asc')
 
-    headers["X-OpenProject-Type"] = "Issue"
+    headers['X-OpenProject-Type'] = 'Issue'
 
-    to = user.mail
-
-    locale = user.language.presence || I18n.default_locale
-
-    I18n.with_locale(locale) do
+    with_locale_for(user) do
       subject = t(:mail_subject_reminder, :count => @issues.size, :days => @days)
-
-      mail :to => to, :subject => subject
+      mail :to => user.mail, :subject => subject
     end
+  end
+  
+  # Activates/desactivates email deliveries during +block+
+  def self.with_deliveries(temporary_state = true, &block)
+    old_state = ActionMailer::Base.perform_deliveries
+    ActionMailer::Base.perform_deliveries = temporary_state
+    yield
+  ensure
+    ActionMailer::Base.perform_deliveries = old_state
   end
 
 private
 
-  def assigned_to_header(user)
-    headers["X-OpenProject-Issue-Assignee"] = user.login if user
+  def with_locale_for(user, &block)
+    locale = user.language.presence || Setting.default_language.presence || I18n.default_locale
+    I18n.with_locale(locale, &block)
   end
 end
+
+class DefaultHeadersInterceptor
+  def delivering_email(mail)
+    mail.headers(default_headers)
+  end
+
+  def default_headers
+    {
+      'X-Mailer'           => 'OpenProject',
+      'X-OpenProject-Host' => Setting.host_name,
+      'X-OpenProject-Site' => Setting.app_title,
+      'Precedence'         => 'bulk',
+      'Auto-Submitted'     => 'auto-generated'
+    }
+  end
+end
+
+UserMailer.register_interceptor(DefaultHeadersInterceptor.new)
