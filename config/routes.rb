@@ -119,30 +119,35 @@ OpenProject::Application.routes.draw do
 
       # this is only another name for versions#index
       # For nice "road in the url for the index action
+      # this could probably be rewritten with a resource :as => 'roadmap'
       match '/roadmap' => 'versions#index', :via => :get
 
       resources :news, :shallow => true
       resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id'
 
-      match '/wiki' => 'wiki#show', :via => :get, :as => 'wiki_start_page'
-      match '/wiki/index' => 'wiki#index', :via => :get, :as => 'wiki_index'
-      match '/wiki/:id/diff/:version' => 'wiki#diff', :as => 'wiki_diff'
-      match '/wiki/:id/diff/:version/vs/:version_from' => 'wiki#diff', :as => 'wiki_diff'
-      match '/wiki/:id/annotate/:version' => 'wiki#annotate', :as => 'wiki_annotate'
-      resources :wiki, :except => [:new, :create] do
-        member do
-          match :rename, :via => [:get, :post]
-          get :history
-          match :preview
-          post :protect
-          post :add_attachment
-        end
-
+      resources :wiki, :except => [:index, :new, :create] do
         collection do
           get :export
           get :date_index
+          get '/index' => 'wiki#index'
+        end
+
+        member do
+          get '/diff/:version/vs/:version_from' => 'wiki#diff', :as => 'wiki_diff'
+          get '/diff(/:version)' => 'wiki#diff', :as => 'wiki_diff'
+          get '/annotate/:version' => 'wiki#annotate', :as => 'wiki_annotate'
+          match :rename, :via => [:get, :post]
+          get :history
+          post :preview
+          post :protect
+          post :add_attachment
         end
       end
+      # as routes for index and show are swapped
+      # it is necessary to define the show action later
+      # than any other route as it otherwise would
+      # work as a catchall for everything under /wiki
+      get 'wiki' => "wiki#show"
 
       namespace :issues do
         resources :gantt, :controller => 'gantts', :only => [:index]
