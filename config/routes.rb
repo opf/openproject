@@ -28,12 +28,8 @@ OpenProject::Application.routes.draw do
     match '/roles/workflow/:id/:role_id/:tracker_id' => 'roles#worklfow'
     match '/help/:ctrl/:page' => 'help#index'
 
-    scope :controller => 'time_entry_reports', :action => 'report', :via => :get do
-      match '/projects/:project_id/issues/:issue_id/time_entries/report(.:format)'
-      match '/projects/:project_id/time_entries/report(.:format)'
-      match '/time_entries/report(.:format)'
-    end
 
+    # TODO: Check if those can be deleted
     match '/projects/:id/wiki' => 'wikis#edit', :via => :post
     match '/projects/:id/wiki/destroy' => 'wikis#destroy', :via => [:get, :post]
 
@@ -121,7 +117,13 @@ OpenProject::Application.routes.draw do
       match '/roadmap' => 'versions#index', :via => :get
 
       resources :news, :shallow => true
-      resources :time_entries, :controller => 'timelog'
+
+      namespace :time_entries do
+        resource :report, :controller => 'reports', :only => [:show]
+      end
+      resources :time_entries, :controller => 'timelog' do
+        #get 'report' => 'time_entry_reports#report', :on => :collection
+      end
 
       resources :wiki, :except => [:index, :new, :create] do
         collection do
@@ -208,7 +210,14 @@ OpenProject::Application.routes.draw do
 
     # TODO: remove create as issues should be created scoped under project
     resources :issues, :only => [:create, :show, :edit, :update, :destroy] do
-      resources :time_entries, :controller => 'timelog'
+      namespace :time_entries do
+        resource :report, :controller => 'reports', :only => [:show]
+      end
+
+      resources :time_entries, :controller => 'timelog' do
+        #get 'report' => 'time_entry_reports#report', :on => :collection
+      end
+
 
       member do
         # this route is defined so that it has precedence of the one defined on the collection
@@ -239,7 +248,14 @@ OpenProject::Application.routes.draw do
       match '/projects/:id/issues/report/:detail', :action => :issue_report_details
     end
 
-    resources :time_entries, :controller => 'timelog'
+    namespace :time_entries do
+      resource :report, :controller => 'reports',
+        :only => [:show]
+    end
+
+    resources :time_entries, :controller => 'timelog' do
+      #get 'report' => 'time_entry_reports#report', :on => :collection
+    end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
 

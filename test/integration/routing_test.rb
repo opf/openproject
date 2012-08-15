@@ -536,6 +536,25 @@ class RoutingTest < ActionController::IntegrationTest
                                                                :issue_id => '234' )
     end
   end
+
+
+  context "time_entries/reports" do
+    should route(:get, "/time_entries/report").to( :controller => 'time_entries/reports',
+                                                   :action => 'show' )
+
+    should route(:get, "/issues/5/time_entries/report").to( :controller => 'time_entries/reports',
+                                                            :action => 'show',
+                                                            :issue_id => '5' )
+
+    should route(:get, "/projects/567/time_entries/report").to( :controller => 'time_entries/reports',
+                                                                :action => 'show',
+                                                                :project_id => '567' )
+
+    should route(:get, "/projects/567/time_entries/report.csv").to( :controller => 'time_entries/reports',
+                                                                    :action => 'show',
+                                                                    :project_id => '567',
+                                                                    :format => 'csv' )
+  end
 #
 #  context "users" do
 #    should route(:get, "/users").to( :controller => 'users', :action => 'index')
