@@ -155,7 +155,7 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
     mail2 = UserMailer.issue_added(user, issue)
     mail2.deliver
 
-    assert_equal mail.body, mail2.body
+    assert_equal mail.body.encoded, mail2.body.encoded
   end
 
   def hook_helper

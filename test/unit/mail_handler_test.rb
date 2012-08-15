@@ -232,8 +232,8 @@ class MailHandlerTest < ActiveSupport::TestCase
       email = ActionMailer::Base.deliveries.first
       assert_not_nil email
       assert email.subject.include?('account activation')
-      login = email.body.match(/\* Login: (.*)$/)[1]
-      password = email.body.match(/\* Password: (.*)$/)[1]
+      login = email.body.encoded.match(/\* Login: (.*)$/)[1]
+      password = email.body.encoded.match(/\* Password: (.*)$/)[1]
       assert_equal issue.author, User.try_to_login(login, password)
     end
   end
