@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class TimeEntryReportsController < ApplicationController
+class TimeEntries::ReportsController < ApplicationController
   menu_item :issues
   before_filter :find_optional_project
   before_filter :load_available_criterias
@@ -21,7 +21,7 @@ class TimeEntryReportsController < ApplicationController
   include TimelogHelper
   include CustomFieldsHelper
 
-  def report
+  def show
     @criterias = params[:criterias] || []
     @criterias = @criterias.select{|criteria| @available_criterias.has_key? criteria}
     @criterias.uniq!
