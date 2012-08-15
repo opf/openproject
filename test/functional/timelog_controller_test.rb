@@ -227,10 +227,8 @@ class TimelogControllerTest < ActionController::TestCase
     # display all time based on what's been logged
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
-    # TODO: remove /projects/:project_id/issues/:issue_id/time_entries routes
-    # to use /issues/:issue_id/time_entries
     assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/issues/1/time_entries", :id => 'query_form'}
+      :attributes => {:action => issue_time_entries_path(1), :id => 'query_form'}
   end
 
   def test_index_atom_feed

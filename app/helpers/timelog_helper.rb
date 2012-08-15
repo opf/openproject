@@ -184,4 +184,16 @@ module TimelogHelper
     @ic ||= Iconv.new(l(:general_csv_encoding), 'UTF-8')
     begin; @ic.iconv(s.to_s); rescue; s.to_s; end
   end
+
+  def polymorphic_time_entries_path(object)
+    polymorphic_path([object, :time_entries])
+  end
+
+  def polymorphic_new_time_entry_path(object)
+    polymorphic_path([:new, object, :time_entry,])
+  end
+
+  def polymorphic_time_entries_report_path(object)
+    polymorphic_path([object, :time_entries, :report])
+  end
 end

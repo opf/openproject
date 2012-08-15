@@ -1,12 +1,15 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'new', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time-add' %>
+  <%= link_to_if User.current.allowed_to?({ :controller => 'timelog', :action => 'new' }, @project),
+                 l(:button_log_time),
+                 polymorphic_new_time_entry_path(@issue || @project),
+                 :class => 'icon icon-time-add' %>
 </div>
 
 <%= render_timelog_breadcrumb %>
 
 <h2><%= l(:label_spent_time) %></h2>
 
-<% form_tag({:controller => 'time_entry_reports', :action => 'report', :project_id => @project, :issue_id => @issue}, :method => :get, :id => 'query_form') do %>
+<%= form_tag(polymorphic_time_entries_report_path(@issue || @project), :method => :get, :id => 'query_form') do %>
   <% @criterias.each do |criteria| %>
     <%= hidden_field_tag 'criterias[]', criteria, :id => nil %>
   <% end %>
