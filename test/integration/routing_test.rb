@@ -655,8 +655,8 @@ class RoutingTest < ActionController::IntegrationTest
                                                              :action => 'destroy',
                                                              :id => 'ladida')
   end
-#
-#  context "administration panel" do
-#    should route(:get, "/admin/projects").to( :controller => 'admin', :action => 'projects')
-#  end
+
+  context "administration panel" do
+    should route(:get, "/admin/projects").to( :controller => 'admin', :action => 'projects')
+  end
 end
