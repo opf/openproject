@@ -129,7 +129,7 @@ class WikiPage < ActiveRecord::Base
       if time = read_attribute(:updated_on)
         # content updated_on was eager loaded with the page
         unless time.is_a? Time
-          time = Time.parse(time) rescue nil
+          time = Time.zone.parse(time) rescue nil
         end
         @updated_on = time
       else
