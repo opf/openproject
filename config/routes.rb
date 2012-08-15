@@ -34,8 +34,6 @@ OpenProject::Application.routes.draw do
       match '/time_entries/report(.:format)'
     end
 
-    resources :time_entries, :controller => 'timelog'
-
     match '/projects/:id/wiki' => 'wikis#edit', :via => :post
     match '/projects/:id/wiki/destroy' => 'wikis#destroy', :via => [:get, :post]
 
@@ -123,7 +121,7 @@ OpenProject::Application.routes.draw do
       match '/roadmap' => 'versions#index', :via => :get
 
       resources :news, :shallow => true
-      resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id'
+      resources :time_entries, :controller => 'timelog'
 
       resources :wiki, :except => [:index, :new, :create] do
         collection do
@@ -241,6 +239,8 @@ OpenProject::Application.routes.draw do
       match '/projects/:id/issues/report/:detail', :action => :issue_report_details
     end
 
+    resources :time_entries, :controller => 'timelog'
+
     resources :activity, :activities, :only => :index, :controller => 'activities'
 
     scope  :controller => 'issue_relations', :via => :post do
@@ -323,7 +323,6 @@ OpenProject::Application.routes.draw do
     match '/boards/:board_id/topics/:action/:id', :controller => 'messages'
     match '/issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
     match '/projects/:project_id/news/:action', :controller => 'news'
-    match '/projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
     scope :controller => 'repositories' do
       match '/repositories/browse/:id/*path', :action => 'browse', :as => 'repositories_show'
       match '/repositories/changes/:id/*path', :action => 'changes', :as => 'repositories_changes'
