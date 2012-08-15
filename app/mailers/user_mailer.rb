@@ -1,6 +1,6 @@
 class UserMailer < ActionMailer::Base
-  # for textilizable
-  helper :application
+  helper :application,  # for textilizable
+         :custom_fields # for show_value
 
   # wrap in a lambda to allow changing at run-time
   default :from => Proc.new { Setting.mail_from }
