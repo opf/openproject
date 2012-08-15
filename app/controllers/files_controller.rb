@@ -46,7 +46,7 @@ class FilesController < ApplicationController
       recipients = attachments[:files].first.container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}.collect  {|u| u.mail}
       users = User.find_all_by_mails(recipients)
       users.each do |user|
-        Mailer.deliver_attachments_added(attachments[:files], user)
+        UserMailer.attachments_added(user, attachments[:files]).deliver
       end
     end
     redirect_to project_files_path(@project)

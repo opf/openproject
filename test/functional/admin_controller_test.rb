@@ -73,7 +73,7 @@ class AdminControllerTest < ActionController::TestCase
     get :test_email
     assert_redirected_to '/settings/edit?tab=notifications'
     mail = ActionMailer::Base.deliveries.last
-    assert_kind_of TMail::Mail, mail
+    assert_kind_of Mail::Message, mail
     user = User.find(1)
     assert_equal [user.mail], mail.to
   end

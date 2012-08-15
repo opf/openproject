@@ -1,0 +1,8 @@
+<% if @user.auth_source %>
+<%= t(:mail_body_account_information_external, @user.auth_source.name) %>
+<% else %>
+<%= t(:mail_body_account_information) %>:
+* <%= t(:field_login) %>: <%= @user.login %>
+* <%= t(:field_password) %>: <%= @password %>
+<% end %>
+<%= l(:label_login) %>: <%= signin_url %>

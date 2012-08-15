@@ -166,18 +166,23 @@ END_DESC
 
     desc "Send a test email to the user with the provided login name"
     task :test, [:login] => :environment do |task, args|
-      include Redmine::I18n
-      abort l(:notice_email_error, "Please include the user login to test with. Example: login=example-login") if args[:login].blank?
+      login = args[:login]
+      if login.blank?
+        abort I18n.t(:notice_email_error, :default => 'Please include the user login to test with. Example: redmine:email:test[example-login]')
+      end
 
-      user = User.find_by_login(args[:login])
-      abort l(:notice_email_error, "User #{args[:login]} not found") unless user && user.logged?
+      user = User.find_by_login(login)
+      unless user && user.logged?
+        abort I18n.t(:notice_email_error, :default => "User with login '#{login}' not found")
+      end
 
       ActionMailer::Base.raise_delivery_errors = true
+
       begin
-        Mailer.deliver_test(User.current)
-        puts l(:notice_email_sent, user.mail)
+        UserMailer.test_mail(user).deliver
+        puts I18n.t(:notice_email_sent, :value => user.mail)
       rescue Exception => e
-        abort l(:notice_email_error, e.message)
+        abort I18n.t(:notice_email_error, e.message)
       end
     end
   end

@@ -1,0 +1,11 @@
+<% if @user.auth_source %>
+<p><%= t(:mail_body_account_information_external, @user.auth_source.name) %></p>
+<% else %>
+<p><%= t(:mail_body_account_information) %>:</p>
+<ul>
+  <li><%= t(:field_login)    %>: <%= @user.login %></li>
+  <li><%= t(:field_password) %>: <%= @password   %></li>
+</ul>
+<% end %>
+
+<p><%= t(:label_login) %>: <%= link_to signin_url, signin_url %></p>

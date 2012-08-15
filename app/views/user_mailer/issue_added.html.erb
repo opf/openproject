@@ -1,0 +1,5 @@
+<%= t(:text_issue_added, :id => "##{@issue.id}", :author => @issue.author) %>
+<hr />
+<%= render :partial => 'issue_details', :locals => { :issue => @issue } %>
+
+

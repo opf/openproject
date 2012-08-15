@@ -1,0 +1,5 @@
+<h1><%= link_to(@news.title, news_url(@news)) %></h1>
+
+<p><%= t(:text_user_wrote, :value => @comment.author) %></p>
+
+<%= textilizable @comment.text %>

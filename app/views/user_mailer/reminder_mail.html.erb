@@ -1,0 +1,9 @@
+<p><%= t(:mail_body_reminder, :count => @issues.size, :days => @days) %></p>
+
+<ul>
+<% @issues.each do |issue| -%>
+  <li><%= issue.project %> - <%= link_to "#{issue.tracker} ##{issue.id}", issue_url(issue) %>: <%= issue.subject %></li>
+<% end -%>
+</ul>
+
+<p><%= link_to t(:label_issue_view_all), @assigned_issues_url %></p>
