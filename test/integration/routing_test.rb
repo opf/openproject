@@ -237,7 +237,7 @@ class RoutingTest < ActionController::IntegrationTest
   end
 
   context "watches" do
-    ['issues', 'messages', 'boards'].each do |type|
+    ['issues', 'messages', 'boards', 'wikis', 'wiki_pages'].each do |type|
       should route(:post, "/#{type}/1/watch").to( :controller => 'watchers',
                                                  :action => 'watch',
                                                  :object_type => type,
