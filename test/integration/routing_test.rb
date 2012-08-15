@@ -540,37 +540,111 @@ class RoutingTest < ActionController::IntegrationTest
                                                       :project_id => 'foo' )
     end
   end
-#
-#  context "wiki (singular, project's pages)" do
-#    should route(:get, "/projects/567/wiki").to( :controller => 'wiki', :action => 'show', :project_id => '567')
-#    should route(:get, "/projects/567/wiki/lalala").to( :controller => 'wiki', :action => 'show', :project_id => '567', :id => 'lalala')
-#    should route(:get, "/projects/567/wiki/my_page/edit").to( :controller => 'wiki', :action => 'edit', :project_id => '567', :id => 'my_page')
-#    should route(:get, "/projects/1/wiki/CookBook_documentation/history").to( :controller => 'wiki', :action => 'history', :project_id => '1', :id => 'CookBook_documentation')
-#    should route(:get, "/projects/1/wiki/CookBook_documentation/diff").to( :controller => 'wiki', :action => 'diff', :project_id => '1', :id => 'CookBook_documentation')
-#    should route(:get, "/projects/1/wiki/CookBook_documentation/diff/2").to( :controller => 'wiki', :action => 'diff', :project_id => '1', :id => 'CookBook_documentation', :version => '2')
-#    should route(:get, "/projects/1/wiki/CookBook_documentation/diff/2/vs/1").to( :controller => 'wiki', :action => 'diff', :project_id => '1', :id => 'CookBook_documentation', :version => '2', :version_from => '1')
-#    should route(:get, "/projects/1/wiki/CookBook_documentation/annotate/2").to( :controller => 'wiki', :action => 'annotate', :project_id => '1', :id => 'CookBook_documentation', :version => '2')
-#    should route(:get, "/projects/22/wiki/ladida/rename").to( :controller => 'wiki', :action => 'rename', :project_id => '22', :id => 'ladida')
-#    should route(:get, "/projects/567/wiki/index").to( :controller => 'wiki', :action => 'index', :project_id => '567')
-#    should route(:get, "/projects/567/wiki/date_index").to( :controller => 'wiki', :action => 'date_index', :project_id => '567')
-#    should route(:get, "/projects/567/wiki/export").to( :controller => 'wiki', :action => 'export', :project_id => '567')
-#
-#    should route(:post, "/projects/567/wiki/CookBook_documentation/preview").to( :controller => 'wiki', :action => 'preview', :project_id => '567', :id => 'CookBook_documentation')
-#    should route(:post, "/projects/22/wiki/ladida/rename").to( :controller => 'wiki', :action => 'rename', :project_id => '22', :id => 'ladida')
-#    should route(:post, "/projects/22/wiki/ladida/protect").to( :controller => 'wiki', :action => 'protect', :project_id => '22', :id => 'ladida')
-#    should route(:post, "/projects/22/wiki/ladida/add_attachment").to( :controller => 'wiki', :action => 'add_attachment', :project_id => '22', :id => 'ladida')
-#
-#    should route(:put, "/projects/567/wiki/my_page").to( :controller => 'wiki', :action => 'update', :project_id => '567', :id => 'my_page')
-#
-#    should route(:delete, "/projects/22/wiki/ladida").to( :controller => 'wiki', :action => 'destroy', :project_id => '22', :id => 'ladida')
-#  end
-#
-#  context "wikis (plural, admin setup)" do
-#    should route(:get, "/projects/ladida/wiki/destroy").to( :controller => 'wikis', :action => 'destroy', :id => 'ladida')
-#
-#    should route(:post, "/projects/ladida/wiki").to( :controller => 'wikis', :action => 'edit', :id => 'ladida')
-#    should route(:post, "/projects/ladida/wiki/destroy").to( :controller => 'wikis', :action => 'destroy', :id => 'ladida')
-#  end
+
+  context "wiki (singular, project's pages)" do
+    context "within project" do
+      should route(:get, "/projects/567/wiki").to( :controller => 'wiki',
+                                                   :action => 'show',
+                                                   :project_id => '567' )
+
+      should route(:get, "/projects/567/wiki/lalala").to( :controller => 'wiki',
+                                                          :action => 'show',
+                                                          :project_id => '567',
+                                                          :id => 'lalala' )
+
+      should route(:get, "/projects/567/wiki/my_page/edit").to( :controller => 'wiki',
+                                                                :action => 'edit',
+                                                                :project_id => '567',
+                                                                :id => 'my_page' )
+
+      should route(:get, "/projects/1/wiki/CookBook_documentation/history").to( :controller => 'wiki',
+                                                                                :action => 'history',
+                                                                                :project_id => '1',
+                                                                                :id => 'CookBook_documentation' )
+      should route(:get, "/projects/1/wiki/CookBook_documentation/diff").to( :controller => 'wiki',
+                                                                             :action => 'diff',
+                                                                             :project_id => '1',
+                                                                             :id => 'CookBook_documentation' )
+
+      should route(:get, "/projects/1/wiki/CookBook_documentation/diff/2").to( :controller => 'wiki',
+                                                                               :action => 'diff',
+                                                                               :project_id => '1',
+                                                                               :id => 'CookBook_documentation',
+                                                                               :version => '2' )
+
+      should route(:get, "/projects/1/wiki/CookBook_documentation/diff/2/vs/1").to( :controller => 'wiki',
+                                                                                    :action => 'diff',
+                                                                                    :project_id => '1',
+                                                                                    :id => 'CookBook_documentation',
+                                                                                    :version => '2',
+                                                                                    :version_from => '1')
+
+      should route(:get, "/projects/1/wiki/CookBook_documentation/annotate/2").to( :controller => 'wiki',
+                                                                                   :action => 'annotate',
+                                                                                   :project_id => '1',
+                                                                                   :id => 'CookBook_documentation',
+                                                                                   :version => '2' )
+
+      should route(:get, "/projects/22/wiki/ladida/rename").to( :controller => 'wiki',
+                                                                :action => 'rename',
+                                                                :project_id => '22',
+                                                                :id => 'ladida' )
+
+      should route(:get, "/projects/567/wiki/index").to( :controller => 'wiki',
+                                                         :action => 'index',
+                                                         :project_id => '567' )
+
+      should route(:get, "/projects/567/wiki/date_index").to( :controller => 'wiki',
+                                                              :action => 'date_index',
+                                                              :project_id => '567' )
+
+      should route(:get, "/projects/567/wiki/export").to( :controller => 'wiki',
+                                                          :action => 'export',
+                                                          :project_id => '567' )
+
+      should route(:post, "/projects/567/wiki/CookBook_documentation/preview").to( :controller => 'wiki',
+                                                                                   :action => 'preview',
+                                                                                   :project_id => '567',
+                                                                                   :id => 'CookBook_documentation' )
+      should route(:post, "/projects/22/wiki/ladida/rename").to( :controller => 'wiki',
+                                                                 :action => 'rename',
+                                                                 :project_id => '22',
+                                                                :id => 'ladida' )
+
+      should route(:post, "/projects/22/wiki/ladida/protect").to( :controller => 'wiki',
+                                                                  :action => 'protect',
+                                                                  :project_id => '22',
+                                                                  :id => 'ladida' )
+
+      should route(:post, "/projects/22/wiki/ladida/add_attachment").to( :controller => 'wiki',
+                                                                         :action => 'add_attachment',
+                                                                         :project_id => '22',
+                                                                         :id => 'ladida' )
+
+      should route(:put, "/projects/567/wiki/my_page").to( :controller => 'wiki',
+                                                           :action => 'update',
+                                                           :project_id => '567',
+                                                           :id => 'my_page' )
+
+      should route(:delete, "/projects/22/wiki/ladida").to( :controller => 'wiki',
+                                                            :action => 'destroy',
+                                                            :project_id => '22',
+                                                            :id => 'ladida' )
+    end
+  end
+
+  context "wikis (plural, admin setup)" do
+    should route(:get, "/projects/ladida/wiki/destroy").to( :controller => 'wikis',
+                                                            :action => 'destroy',
+                                                            :id => 'ladida')
+
+    should route(:post, "/projects/ladida/wiki").to( :controller => 'wikis',
+                                                     :action => 'edit',
+                                                     :id => 'ladida')
+    should route(:post, "/projects/ladida/wiki/destroy").to( :controller => 'wikis',
+                                                             :action => 'destroy',
+                                                             :id => 'ladida')
+  end
 #
 #  context "administration panel" do
 #    should route(:get, "/admin/projects").to( :controller => 'admin', :action => 'projects')
