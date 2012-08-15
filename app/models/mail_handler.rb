@@ -12,6 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# TODO
 class MailHandler < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
   include Redmine::I18n

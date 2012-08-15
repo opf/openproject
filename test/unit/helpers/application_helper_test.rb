@@ -164,7 +164,7 @@ RAW
     # mimic the mailer default_url_options
     @controller.class.class_eval {
       def self.default_url_options
-        ::Mailer.default_url_options
+        ::UserMailer.default_url_options
       end
     }
 

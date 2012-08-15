@@ -104,7 +104,7 @@ class ProjectsController < ApplicationController
         redirect_to :controller => 'admin', :action => 'projects'
       end
     else
-      Mailer.with_deliveries(params[:notifications] == '1') do
+      UserMailer.with_deliveries(params[:notifications] == '1') do
         @project = Project.new
         @project.safe_attributes = params[:project]
         @project.enabled_module_names = params[:enabled_modules]
