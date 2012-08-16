@@ -179,8 +179,8 @@ class UserMailer < ActionMailer::Base
   def document_added(user, document)
     @document = document
 
-    open_project_headers 'Project'      => @document.project.identifier,
-                         'Type'         => 'Document'
+    open_project_headers 'Project' => @document.project.identifier,
+                         'Type'    => 'Document'
 
     with_locale_for(user) do
       subject = "[#{@document.project.name}] #{t(:label_document_new)}: #{@document.title}"
@@ -285,9 +285,9 @@ class UserMailer < ActionMailer::Base
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
     timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
-    hash = "redmine.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
+    hash = "openproject.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
     host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
-    host = "#{::Socket.gethostname}.redmine" if host.empty?
+    host = "#{::Socket.gethostname}.openproject" if host.empty?
     "#{hash}@#{host}"
   end
 
@@ -356,15 +356,15 @@ end
 class RemoveSelfNotificationsInterceptor
   def delivering_email(mail)
     current_user = User.current
-    if current_user.pref[:no_self_notified].presence
-      mail.to = mail.to.reject {|address| address == current_user.mail} if mail.to
+    if current_user.pref[:no_self_notified].present?
+      mail.to = mail.to.reject {|address| address == current_user.mail} if mail.to.present?
     end
   end
 end
 
 class DoNotSendMailsWithoutReceiverInterceptor
   def delivering_email(mail)
-    mail.perform_deliveries = false unless mail.to.present?
+    mail.perform_deliveries = false if mail.to.blank?
   end
 end
 
@@ -375,7 +375,7 @@ UserMailer.register_interceptor(RemoveSelfNotificationsInterceptor.new)
 # following needs to be the last interceptor
 UserMailer.register_interceptor(DoNotSendMailsWithoutReceiverInterceptor.new)
 
-# helper object
+# helper object for `rake redmine:send_reminders`
 
 class DueIssuesReminder
   def initialize(days = nil, project_id = nil, tracker_id = nil, user_ids = [])
