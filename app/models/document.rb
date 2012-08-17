@@ -33,6 +33,7 @@ class Document < ActiveRecord::Base
 
   scope :visible, lambda {|*args| { :include => :project,
                                     :conditions => Project.allowed_to_condition(args.first || User.current, :view_documents) } }
+  scope :with_attachments, includes(:attachments).where("attachments.container_id is not NULL" )
 
   safe_attributes 'category_id', 'title', 'description'
 

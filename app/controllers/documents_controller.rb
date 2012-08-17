@@ -23,16 +23,16 @@ class DocumentsController < ApplicationController
 
   def index
     @sort_by = %w(category date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
-    documents = @project.documents.find :all, :include => [:attachments, :category]
+    documents = @project.documents
     case @sort_by
     when 'date'
       @grouped = documents.group_by {|d| d.updated_on.to_date }
     when 'title'
       @grouped = documents.group_by {|d| d.title.first.upcase}
     when 'author'
-      @grouped = documents.select{|d| d.attachments.any?}.group_by {|d| d.attachments.last.author}
+      @grouped = documents.with_attachments.group_by {|d| d.attachments.last.author}
     else
-      @grouped = documents.group_by(&:category)
+      @grouped = documents.includes(:category).group_by(&:category)
     end
     render :layout => false if request.xhr?
   end
