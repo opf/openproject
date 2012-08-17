@@ -16,12 +16,13 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
+  before_filter :find_group, :except => [:index, :new, :create]
 
 
   # GET /groups
   # GET /groups.xml
   def index
-    @groups = Group.find(:all, :order => 'lastname')
+    @groups = Group.order('lastname ASC').includes(:users).all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -32,8 +33,6 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.xml
   def show
-    @group = Group.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @group }
@@ -76,8 +75,6 @@ class GroupsController < ApplicationController
   # PUT /groups/1
   # PUT /groups/1.xml
   def update
-    @group = Group.find(params[:id])
-
     respond_to do |format|
       if @group.update_attributes(params[:group])
         flash[:notice] = l(:notice_successful_update)
@@ -93,7 +90,6 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.xml
   def destroy
-    @group = Group.find(params[:id])
     @group.destroy
 
     respond_to do |format|
@@ -103,64 +99,50 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @group = Group.find(params[:id])
-    users = User.find_all_by_id(params[:user_ids])
-    @group.users << users if request.post?
+    @users = User.find_all_by_id(params[:user_ids])
+    @group.users << @users
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
-      format.js {
-        render(:update) {|page|
-          page.replace_html "tab-content-users", :partial => 'groups/users'
-          users.each {|user| page.visual_effect(:highlight, "user-#{user.id}") }
-        }
-      }
+      format.js { render :action => 'change_members' }
     end
   end
 
   def remove_user
-    @group = Group.find(params[:id])
-    @group.users.delete(User.find(params[:user_id])) if request.post?
+    @group.users.delete(User.find(params[:user_id]))
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
-      format.js { render(:update) {|page| page.replace_html "tab-content-users", :partial => 'groups/users'} }
+      format.js { render :action => 'change_members' }
     end
   end
 
   def autocomplete_for_user
-    @group = Group.find(params[:id])
     @users = User.active.not_in_group(@group).like(params[:q]).all(:limit => 100)
     render :layout => false
   end
 
-  def edit_membership
-    @group = Group.find(params[:id])
+  def create_memberships
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
-    @membership.save if request.post?
+    @membership.save
+
     respond_to do |format|
-      if @membership.valid?
-        format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
-        format.js {
-          render(:update) {|page|
-            page.replace_html "tab-content-memberships", :partial => 'groups/memberships'
-            page.visual_effect(:highlight, "member-#{@membership.id}")
-          }
-        }
-      else
-        format.js {
-          render(:update) {|page|
-            page.alert(l(:notice_failed_to_save_members, :errors => @membership.errors.full_messages.join(', ')))
-          }
-        }
-      end
+      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
+      format.js { render :action => 'change_memberships' }
     end
   end
 
+  alias :edit_membership :create_memberships
+
   def destroy_membership
-    @group = Group.find(params[:id])
-    Member.find(params[:membership_id]).destroy if request.post?
+    Member.find(params[:membership_id]).destroy
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
-      format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'groups/memberships'} }
+      format.js { render :action => 'destroy_memberships' }
     end
+  end
+
+  protected
+
+  def find_group
+    @group = Group.find(params[:id])
   end
 end

@@ -725,4 +725,58 @@ class RoutingTest < ActionController::IntegrationTest
   context "administration panel" do
     should route(:get, "/admin/projects").to( :controller => 'admin', :action => 'projects')
   end
+
+  context "groups" do
+    should route(:get, "/admin/groups").to( :controller => 'groups',
+                                            :action => 'index' )
+
+    should route(:get, "/admin/groups/new").to( :controller => 'groups',
+                                                :action => 'new' )
+
+    should route(:post, "/admin/groups").to( :controller => 'groups',
+                                             :action => 'create' )
+
+    should route(:get, "/admin/groups/4").to( :controller => 'groups',
+                                              :action => 'show',
+                                              :id => '4' )
+
+    should route(:get, "/admin/groups/4/edit").to( :controller => 'groups',
+                                                   :action => 'edit',
+                                                   :id => '4' )
+
+    should route(:put, "/admin/groups/4").to( :controller => 'groups',
+                                              :action => 'update',
+                                              :id => '4' )
+
+    should route(:delete, "/admin/groups/4").to( :controller => 'groups',
+                                                 :action => 'destroy',
+                                                 :id => '4' )
+
+    should route(:get, "/admin/groups/4/autocomplete_for_user").to( :controller => 'groups',
+                                                                    :action => 'autocomplete_for_user',
+                                                                    :id => '4' )
+
+    should route(:post, "/admin/groups/4/members").to( :controller => 'groups',
+                                                     :action => 'add_users',
+                                                     :id => '4' )
+
+    should route(:delete, "/admin/groups/4/members/5").to( :controller => 'groups',
+                                                           :action => 'remove_user',
+                                                           :id => '4',
+                                                           :user_id => '5' )
+
+    should route(:post, "/admin/groups/4/memberships").to( :controller => 'groups',
+                                                           :action => 'create_memberships',
+                                                           :id => '4' )
+
+    should route(:put, "/admin/groups/4/memberships/5").to( :controller => 'groups',
+                                                            :action => 'edit_membership',
+                                                            :id => '4',
+                                                            :membership_id => '5' )
+
+    should route(:delete, "/admin/groups/4/memberships/5").to( :controller => 'groups',
+                                                               :action => 'destroy_membership',
+                                                               :id => '4',
+                                                               :membership_id => '5' )
+  end
 end

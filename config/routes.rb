@@ -178,6 +178,19 @@ OpenProject::Application.routes.draw do
 
       resources :enumerations
 
+      resources :groups do
+        member do
+          get :autocomplete_for_user
+          #this should be put into it's own resource
+          match "/members" => 'groups#add_users', :via => :post, :as => 'members_of'
+          match "/members/:user_id" => 'groups#remove_user', :via => :delete, :as => 'member_of'
+          #this should be put into it's own resource
+          match "/memberships/:membership_id" => 'groups#edit_membership', :via => :put, :as => 'membership_of'
+          match "/memberships/:membership_id" => 'groups#destroy_membership', :via => :delete, :as => 'membership_of'
+          match "/memberships" => 'groups#create_memberships', :via => :post, :as => 'memberships_of'
+        end
+      end
+
       resources :roles, :only => [:index, :new, :create, :edit, :update, :destroy] do
         collection do
           put '/' => 'roles#bulk_update'
@@ -326,8 +339,6 @@ OpenProject::Application.routes.draw do
       match "/attachments/download/:id/:filename" => redirect("/attachments/%{id}/download/%{filename}"), :format => false
       match "/attachments/download/:id" => redirect("/attachments/%{id}/download"), :format => false
     end
-
-    resources :groups
 
     #left old routes at the bottom for backwards compat
     match '/projects/:project_id/documents/:action', :controller => 'documents'
