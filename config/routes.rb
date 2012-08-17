@@ -123,9 +123,7 @@ OpenProject::Application.routes.draw do
       namespace :time_entries do
         resource :report, :controller => 'reports', :only => [:show]
       end
-      resources :time_entries, :controller => 'timelog' do
-        #get 'report' => 'time_entry_reports#report', :on => :collection
-      end
+      resources :time_entries, :controller => 'timelog'
 
       resources :wiki, :except => [:index, :new, :create] do
         collection do
@@ -178,7 +176,7 @@ OpenProject::Application.routes.draw do
     scope "admin" do
       match "/projects" => 'admin#projects', :via => :get
 
-      resources :enumerations, :only => [:index, :edit, :update, :destroy, :new, :create]
+      resources :enumerations
 
       resources :roles, :only => [:index, :new, :create, :edit, :update, :destroy] do
         collection do
@@ -216,10 +214,7 @@ OpenProject::Application.routes.draw do
         resource :report, :controller => 'reports', :only => [:show]
       end
 
-      resources :time_entries, :controller => 'timelog' do
-        #get 'report' => 'time_entry_reports#report', :on => :collection
-      end
-
+      resources :time_entries, :controller => 'timelog'
 
       member do
         # this route is defined so that it has precedence of the one defined on the collection
@@ -255,9 +250,7 @@ OpenProject::Application.routes.draw do
         :only => [:show]
     end
 
-    resources :time_entries, :controller => 'timelog' do
-      #get 'report' => 'time_entry_reports#report', :on => :collection
-    end
+    resources :time_entries, :controller => 'timelog'
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
 
@@ -318,6 +311,7 @@ OpenProject::Application.routes.draw do
 
       match '/projects/:id/repository/:action', :via => :post
     end
+
 
     resources :attachments, :only => [:show], :format => false do
       member do
