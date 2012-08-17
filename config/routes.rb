@@ -314,7 +314,7 @@ OpenProject::Application.routes.draw do
     end
 
 
-    resources :attachments, :only => [:show], :format => false do
+    resources :attachments, :only => [:show, :destroy], :format => false do
       member do
         scope :via => :get,  :constraints => { :id => /\d+/, :filename => /[^\/]*/ } do
           match 'download(/:filename)' => 'attachments#download', :as => 'download'

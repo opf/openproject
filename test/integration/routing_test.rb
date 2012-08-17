@@ -69,6 +69,10 @@ class RoutingTest < ActionController::IntegrationTest
       get '/attachments/download/1/filename.ext'
       assert_redirected_to '/attachments/1/download/filename.ext'
     end
+
+    should route(:delete, "/attachments/1").to( :controller => 'attachments',
+                                                :action => 'destroy',
+                                                :id => '1')
   end
 
   context "boards" do
