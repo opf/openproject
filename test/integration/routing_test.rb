@@ -106,14 +106,33 @@ class RoutingTest < ActionController::IntegrationTest
   end
 
   context "documents" do
-    should route(:get, "/projects/567/documents").to( :controller => 'documents', :action => 'index', :project_id => '567')
-    should route(:get, "/projects/567/documents/new").to( :controller => 'documents', :action => 'new', :project_id => '567')
-    should route(:get, "/documents/22").to( :controller => 'documents', :action => 'show', :id => '22')
-    should route(:get, "/documents/22/edit").to( :controller => 'documents', :action => 'edit', :id => '22')
+    should route(:get, "/projects/567/documents").to( :controller => 'documents',
+                                                      :action => 'index',
+                                                      :project_id => '567' )
 
-    should route(:post, "/projects/567/documents/new").to( :controller => 'documents', :action => 'new', :project_id => '567')
-    should route(:post, "/documents/567/edit").to( :controller => 'documents', :action => 'edit', :id => '567')
-    should route(:post, "/documents/567/destroy").to( :controller => 'documents', :action => 'destroy', :id => '567')
+    should route(:get, "/projects/567/documents/new").to( :controller => 'documents',
+                                                          :action => 'new',
+                                                          :project_id => '567' )
+
+    should route(:get, "/documents/22").to( :controller => 'documents',
+                                            :action => 'show',
+                                            :id => '22' )
+
+    should route(:get, "/documents/22/edit").to( :controller => 'documents',
+                                                 :action => 'edit',
+                                                 :id => '22' )
+
+    should route(:post, "/projects/567/documents").to( :controller => 'documents',
+                                                       :action => 'create',
+                                                       :project_id => '567' )
+
+    should route(:put, "/documents/567").to( :controller => 'documents',
+                                             :action => 'update',
+                                             :id => '567' )
+
+    should route(:delete, "/documents/567").to( :controller => 'documents',
+                                                :action => 'destroy',
+                                                :id => '567' )
   end
 
   context "issues" do

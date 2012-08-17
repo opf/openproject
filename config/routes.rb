@@ -46,19 +46,6 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    scope :controller => 'documents' do
-      scope :via => :get do
-        match '/projects/:project_id/documents', :action => :index
-        match '/projects/:project_id/documents/new', :action => :new
-        match '/documents/:id', :action => :show
-        match '/documents/:id/edit', :action => :edit
-      end
-      scope :via => :post do
-        match '/projects/:project_id/documents', :action => :new
-        match '/documents/:id/:action', :action => /destroy|edit/
-      end
-    end
-
     # only providing routes for journals when there are multiple subclasses of journals
     # all subclasses will look for the journals routes
     resources :journals, :only => [:edit, :update]
@@ -342,7 +329,6 @@ OpenProject::Application.routes.draw do
     end
 
     #left old routes at the bottom for backwards compat
-    match '/projects/:project_id/documents/:action', :controller => 'documents'
     match '/projects/:project_id/boards/:action/:id', :controller => 'boards'
     match '/boards/:board_id/topics/:action/:id', :controller => 'messages'
     match '/issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'

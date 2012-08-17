@@ -15,9 +15,9 @@
 class DocumentsController < ApplicationController
   default_search_scope :documents
   model_object Document
-  before_filter :find_project, :only => [:index, :new]
-  before_filter :find_model_object, :except => [:index, :new]
-  before_filter :find_project_from_association, :except => [:index, :new]
+  before_filter :find_project_by_project_id, :only => [:index, :new, :create]
+  before_filter :find_model_object, :except => [:index, :new, :create]
+  before_filter :find_project_from_association, :except => [:index, :new, :create]
   before_filter :authorize
 
 
@@ -45,17 +45,28 @@ class DocumentsController < ApplicationController
   def new
     @document = @project.documents.build
     @document.safe_attributes = params[:document]
-    if request.post? && @document.save
+  end
+
+  def create
+    @document = @project.documents.build
+    @document.safe_attributes = params[:document]
+    if @document.save
       attachments = Attachment.attach_files(@document, params[:attachments])
       render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index', :project_id => @project
+      redirect_to project_documents_path(@project)
+    else
+      render :action => 'new'
     end
   end
 
   def edit
     @categories = DocumentCategory.all
-    if request.post? and @document.update_attributes(params[:document])
+  end
+
+  def update
+    @document.safe_attributes = params[:document]
+    if @document.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document
     end
@@ -78,12 +89,5 @@ class DocumentsController < ApplicationController
       end
     end
     redirect_to :action => 'show', :id => @document
-  end
-
-private
-  def find_project
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 end
