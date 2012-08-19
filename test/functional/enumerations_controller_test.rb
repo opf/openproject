@@ -30,7 +30,7 @@ class EnumerationsControllerTest < ActionController::TestCase
   def test_index
     get :index
     assert_response :success
-    assert_template 'list'
+    assert_template 'index'
   end
 
   def test_destroy_enumeration_not_in_use
