@@ -57,7 +57,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_tag :tag => 'a', :content => /Subproject issue/
     # private projects hidden
     assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
@@ -73,7 +73,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => /Can't print recipes/
+    assert_no_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_tag :tag => 'a', :content => /Subproject issue/
   end
 
@@ -84,7 +84,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => /Can't print recipes/
+    assert_no_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_tag :tag => 'a', :content => /Subproject issue/
   end
 
@@ -94,7 +94,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_no_tag :tag => 'a', :content => /Subproject issue/
   end
 
@@ -104,7 +104,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_tag :tag => 'a', :content => /Subproject issue/
     assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
   end
@@ -116,7 +116,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_tag :tag => 'a', :content => /Subproject issue/
     assert_tag :tag => 'a', :content => /Issue of a private subproject/
   end
@@ -1037,7 +1037,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_error_tag :descendant => {:content => /Activity can't be blank/}
+    assert_error_tag :descendant => {:content => ERB::Util.html_escape("Activity can't be blank")}
     assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
     assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
   end
@@ -1055,8 +1055,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_error_tag :descendant => {:content => /Activity can't be blank/}
-    assert_error_tag :descendant => {:content => /Hours can't be blank/}
+    assert_error_tag :descendant => {:content => ERB::Util.html_escape("Activity can't be blank")}
+    assert_error_tag :descendant => {:content => ERB::Util.html_escape("Hours can't be blank")}
     assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
     assert_tag :input, :attributes => { :name => 'time_entry[comments]', :value => "this is my comment" }
   end
