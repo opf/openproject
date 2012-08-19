@@ -277,7 +277,7 @@ class Issue < ActiveRecord::Base
       end
     end
 
-    unless leaf?
+    if @parent_issue.present?
       attrs.reject! {|k,v| %w(priority_id done_ratio start_date due_date estimated_hours).include?(k)}
     end
 
