@@ -435,7 +435,7 @@ class IssuesControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
     post :create, :project_id => 1,
-               :send_notification => 0,
+               :send_notification => '0',
                :issue => {:tracker_id => 3,
                           :subject => 'This is the test_new issue',
                           :description => 'This is the description',
@@ -1007,7 +1007,7 @@ class IssuesControllerTest < ActionController::TestCase
     new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
 
     put :update, :id => 1,
-                 :send_notification => 0,
+                 :send_notification => '0',
                  :issue => {:subject => new_subject,
                             :priority_id => '6',
                             :category_id => '1' # no change
