@@ -448,23 +448,25 @@ class IssuesControllerTest < ActionController::TestCase
     end
 
   def test_post_create_without_start_date
-    @request.session[:user_id] = 2
-    assert_difference 'Issue.count' do
-      post :create, :project_id => 1,
-                 :issue => {:tracker_id => 3,
-                            :status_id => 2,
-                            :subject => 'This is the test_new issue',
-                            :description => 'This is the description',
-                            :priority_id => 5,
-                            :start_date => '',
-                            :estimated_hours => '',
-                            :custom_field_values => {'2' => 'Value for field 2'}}
-    end
-    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
+    with_settings :issue_startdate_is_adddate => "0" do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        post :create, :project_id => 1,
+                   :issue => {:tracker_id => 3,
+                              :status_id => 2,
+                              :subject => 'This is the test_new issue',
+                              :description => 'This is the description',
+                              :priority_id => 5,
+                              :start_date => '',
+                              :estimated_hours => '',
+                              :custom_field_values => {'2' => 'Value for field 2'}}
+      end
+      assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
 
-    issue = Issue.find_by_subject('This is the test_new issue')
-    assert_not_nil issue
-    assert_nil issue.start_date
+      issue = Issue.find_by_subject('This is the test_new issue')
+      assert_not_nil issue
+      assert_nil issue.start_date
+    end
   end
 
   def test_post_create_and_continue
