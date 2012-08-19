@@ -158,6 +158,8 @@ OpenProject::Application.routes.draw do
       resources :activity, :activities, :only => :index, :controller => 'activities'
 
       resources :boards
+
+      resources :issue_categories, :except => [:index, :show], :shallow => true
     end
 
     #TODO: evaluate whether this can be turned into a namespace
@@ -282,10 +284,6 @@ OpenProject::Application.routes.draw do
 
     # Destroy uses a get request to prompt the user before the actual DELETE request
     match '/projects/:id/destroy' => 'project#destroy', :via => :get, :as => 'project_destroy_confirm'
-
-    scope :controller => 'issue_categories' do
-      match '/projects/:project_id/issue_categories/new', :action => :new
-    end
 
     scope :controller => 'repositories' do
       scope :via => :get do
