@@ -262,22 +262,17 @@ OpenProject::Application.routes.draw do
 
     match '/projects/:id/members/new' => 'members#new'
 
-    resources :users, :member => {
-      :edit_membership => :post,
-      :destroy_membership => :post,
-      :deletion_info => :get
-    }
-
-    scope :controller => 'users' do
-      match '/users/:id/edit/:tab', :action => 'edit', :tab => nil, :via => :get
-
-      scope :via => :post do
-        match '/users/:id/memberships', :action => 'edit_membership'
-        match '/users/:id/memberships/:membership_id', :action => 'edit_membership'
-        match '/users/:id/memberships/:membership_id/destroy', :action => 'destroy_membership'
+    resources :users do
+      member do
+        match '/edit/:tab' => 'users#edit', :via => :get
+        match '/memberships/:membership_id/destroy' => 'users#destroy_membership', :via => :post
+        match '/memberships/:membership_id' => 'users#edit_membership', :via => :post
+        match '/memberships' => 'users#edit_membership', :via => :post
+        post :edit_membership
+        post :destroy_membership
+        get :deletion_info
       end
     end
-
 
     match '/news' => 'news#index', :as => 'all_news'
     match '/news.:format' => 'news#index', :as => 'formatted_all_news'

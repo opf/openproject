@@ -578,28 +578,76 @@ class RoutingTest < ActionController::IntegrationTest
                                                                     :project_id => '567',
                                                                     :format => 'csv' )
   end
-#
-#  context "users" do
-#    should route(:get, "/users").to( :controller => 'users', :action => 'index')
-#    should route(:get, "/users.xml").to( :controller => 'users', :action => 'index', :format => 'xml')
-#    should route(:get, "/users/44").to( :controller => 'users', :action => 'show', :id => '44')
-#    should route(:get, "/users/44.xml").to( :controller => 'users', :action => 'show', :id => '44', :format => 'xml')
-#    should route(:get, "/users/current").to( :controller => 'users', :action => 'show', :id => 'current')
-#    should route(:get, "/users/current.xml").to( :controller => 'users', :action => 'show', :id => 'current', :format => 'xml')
-#    should route(:get, "/users/new").to( :controller => 'users', :action => 'new')
-#    should route(:get, "/users/444/edit").to( :controller => 'users', :action => 'edit', :id => '444')
-#    should route(:get, "/users/222/edit/membership").to( :controller => 'users', :action => 'edit', :id => '222', :tab => 'membership')
-#
-#    should route(:post, "/users").to( :controller => 'users', :action => 'create')
-#    should route(:post, "/users.xml").to( :controller => 'users', :action => 'create', :format => 'xml')
-#    should route(:post, "/users/123/memberships").to( :controller => 'users', :action => 'edit_membership', :id => '123')
-#    should route(:post, "/users/123/memberships/55").to( :controller => 'users', :action => 'edit_membership', :id => '123', :membership_id => '55')
-#    should route(:post, "/users/567/memberships/12/destroy").to( :controller => 'users', :action => 'destroy_membership', :id => '567', :membership_id => '12')
-#
-#    should route(:put, "/users/444").to( :controller => 'users', :action => 'update', :id => '444')
-#    should route(:put, "/users/444.xml").to( :controller => 'users', :action => 'update', :id => '444', :format => 'xml')
-#  end
-#
+
+  context "users" do
+    should route(:get, "/users").to( :controller => 'users',
+                                     :action => 'index' )
+
+    should route(:get, "/users.xml").to( :controller => 'users',
+                                         :action => 'index',
+                                         :format => 'xml' )
+
+    should route(:get, "/users/44").to( :controller => 'users',
+                                        :action => 'show',
+                                        :id => '44' )
+
+    should route(:get, "/users/44.xml").to( :controller => 'users',
+                                            :action => 'show',
+                                            :id => '44',
+                                            :format => 'xml' )
+
+    should route(:get, "/users/current").to( :controller => 'users',
+                                             :action => 'show',
+                                             :id => 'current' )
+
+    should route(:get, "/users/current.xml").to( :controller => 'users',
+                                                 :action => 'show',
+                                                 :id => 'current',
+                                                 :format => 'xml' )
+
+    should route(:get, "/users/new").to( :controller => 'users',
+                                         :action => 'new' )
+
+    should route(:get, "/users/444/edit").to( :controller => 'users',
+                                              :action => 'edit',
+                                              :id => '444' )
+
+    should route(:get, "/users/222/edit/membership").to( :controller => 'users',
+                                                         :action => 'edit',
+                                                         :id => '222',
+                                                         :tab => 'membership' )
+
+    should route(:post, "/users").to( :controller => 'users',
+                                      :action => 'create' )
+
+    should route(:post, "/users.xml").to( :controller => 'users',
+                                          :action => 'create',
+                                          :format => 'xml' )
+
+    should route(:post, "/users/123/memberships").to( :controller => 'users',
+                                                      :action => 'edit_membership',
+                                                      :id => '123' )
+
+    should route(:post, "/users/123/memberships/55").to( :controller => 'users',
+                                                         :action => 'edit_membership',
+                                                         :id => '123',
+                                                         :membership_id => '55' )
+
+    should route(:post, "/users/567/memberships/12/destroy").to( :controller => 'users',
+                                                                 :action => 'destroy_membership',
+                                                                 :id => '567',
+                                                                 :membership_id => '12' )
+
+    should route(:put, "/users/444").to( :controller => 'users',
+                                         :action => 'update',
+                                         :id => '444' )
+
+    should route(:put, "/users/444.xml").to( :controller => 'users',
+                                             :action => 'update',
+                                             :id => '444',
+                                             :format => 'xml' )
+  end
+
   context "versions" do
     should route(:get, "/versions/1").to( :controller => 'versions',
                                           :action => 'show',
