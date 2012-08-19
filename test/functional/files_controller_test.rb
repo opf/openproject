@@ -33,11 +33,11 @@ class FilesControllerTest < ActionController::TestCase
 
     # file attached to the project
     assert_tag :a, :content => 'project_file.zip',
-                   :attributes => { :href => '/attachments/download/8/project_file.zip' }
+                   :attributes => { :href => download_attachment_path(8, :filename => 'project_file.zip') }
 
     # file attached to a project's version
     assert_tag :a, :content => 'version_file.zip',
-                   :attributes => { :href => '/attachments/download/9/version_file.zip' }
+                   :attributes => { :href => download_attachment_path(9, :filename => 'version_file.zip') }
   end
 
   def test_create_file
