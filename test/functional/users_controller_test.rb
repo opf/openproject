@@ -251,7 +251,9 @@ class UsersControllerTest < ActionController::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal ['foo.bar@somenet.foo'], mail.to
-    assert mail.body.encoded.include?(ll('fr', :notice_account_activated))
+    mail.parts.each do |part|
+      assert part.body.encoded.include?(ll('fr', :notice_account_activated))
+    end
   end
 
   def test_update_with_password_change_should_send_a_notification
