@@ -40,7 +40,8 @@ class IssuesControllerTest < ActionController::TestCase
            :custom_fields_trackers,
            :time_entries,
            :journals,
-           :queries
+           :queries,
+           :watchers
 
   def setup
     @controller = IssuesController.new
