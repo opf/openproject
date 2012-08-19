@@ -410,7 +410,7 @@ class IssuesControllerTest < ActionController::TestCase
       post :create, :project_id => 1,
                  :issue => {:tracker_id => 3,
                             :status_id => 2,
-                            :subject => 'This is the test_new issue',
+                            :subject => 'This is the test_create issue',
                             :description => 'This is the description',
                             :priority_id => 5,
                             :start_date => '2010-11-07',
@@ -419,7 +419,7 @@ class IssuesControllerTest < ActionController::TestCase
     end
     assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
 
-    issue = Issue.find_by_subject('This is the test_new issue')
+    issue = Issue.find_by_subject('This is the test_create issue')
     assert_not_nil issue
     assert_equal 2, issue.author_id
     assert_equal 3, issue.tracker_id
@@ -431,7 +431,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'Value for field 2', v.value
   end
 
-  def test_post_new_should_not_send_a_notification_if_send_notification_is_off
+  def test_post_create_should_not_send_a_notification_if_send_notification_is_off
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
     post :create, :project_id => 1,
@@ -791,11 +791,11 @@ class IssuesControllerTest < ActionController::TestCase
   def test_update_edit_form
     @request.session[:user_id] = 2
     xhr :post, :new, :project_id => 1,
-                             :id => 1,
-                             :issue => {:tracker_id => 2,
-                                        :subject => 'This is the test_new issue',
-                                        :description => 'This is the description',
-                                        :priority_id => 5}
+                     :id => 1,
+                     :issue => {:tracker_id => 2,
+                                :subject => 'This is the test_new issue',
+                                :description => 'This is the description',
+                                :priority_id => 5}
     assert_response :success
     assert_template 'attributes'
 
@@ -1204,7 +1204,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_equal "Bulk should fail", IssueJournal.last.notes
   end
 
-  def test_bullk_update_should_send_a_notification
+  def test_bulk_update_should_send_a_notification
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     put(:bulk_update,
