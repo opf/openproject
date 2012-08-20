@@ -75,7 +75,7 @@
 
 <%= render :partial => 'subissues_paragraph' %>
 
-<% if authorize_for('issue_relations', 'new') || @issue.relations.present? %>
+<% if authorize_for('issue_relations', 'create') || @issue.relations.present? %>
 <div id="relations">
 <%= render :partial => 'relations' %>
 </div>

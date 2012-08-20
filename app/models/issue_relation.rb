@@ -16,6 +16,8 @@ class IssueRelation < ActiveRecord::Base
   belongs_to :issue_from, :class_name => 'Issue', :foreign_key => 'issue_from_id'
   belongs_to :issue_to, :class_name => 'Issue', :foreign_key => 'issue_to_id'
 
+  scope :of_issue, ->(issue) { where('issue_from_id = ? OR issue_to_id = ?', issue, issue) }
+
   TYPE_RELATES      = "relates"
   TYPE_DUPLICATES   = "duplicates"
   TYPE_DUPLICATED   = "duplicated"

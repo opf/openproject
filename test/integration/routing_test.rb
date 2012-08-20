@@ -362,11 +362,19 @@ class RoutingTest < ActionController::IntegrationTest
                                                        :id => '5' )
     end
   end
-#
-#  context "issue relations" do
-#    should route(:post, "/issues/1/relations").to( :controller => 'issue_relations', :action => 'new', :issue_id => '1')
-#    should route(:post, "/issues/1/relations/23/destroy").to( :controller => 'issue_relations', :action => 'destroy', :issue_id => '1', :id => '23')
-#  end
+
+  context "issue relations" do
+    context "issue scoped" do
+      should route(:post, "/issues/1/relations").to( :controller => 'issue_relations',
+                                                     :action => 'create',
+                                                     :issue_id => '1' )
+
+      should route(:delete, "/issues/1/relations/23").to( :controller => 'issue_relations',
+                                                          :action => 'destroy',
+                                                          :issue_id => '1',
+                                                          :id => '23' )
+    end
+  end
 #
 #  context "issue reports" do
 #    should route(:get, "/projects/567/issues/report").to( :controller => 'reports', :action => 'issue_report', :id => '567')

@@ -478,6 +478,14 @@ class Issue < ActiveRecord::Base
     (relations_from + relations_to).sort
   end
 
+  def relation(id)
+    IssueRelation.of_issue(self).find(id)
+  end
+
+  def new_relation
+    self.relations_from.build
+  end
+
   def all_dependent_issues(except=[])
     except << self
     dependencies = []

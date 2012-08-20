@@ -219,6 +219,8 @@ OpenProject::Application.routes.draw do
 
       resources :time_entries, :controller => 'timelog'
 
+      resources :relations, :controller => 'issue_relations', :only => [:create, :destroy]
+
       member do
         # this route is defined so that it has precedence of the one defined on the collection
         delete :destroy
@@ -256,11 +258,6 @@ OpenProject::Application.routes.draw do
     resources :time_entries, :controller => 'timelog'
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
-
-    scope  :controller => 'issue_relations', :via => :post do
-      match '/issues/:issue_id/relations(/:id)', :action => :new
-      match '/issues/:issue_id/relations/:id/destroy', :action => :destroy
-    end
 
     match '/projects/:id/members/new' => 'members#new'
 
@@ -324,7 +321,6 @@ OpenProject::Application.routes.draw do
     #left old routes at the bottom for backwards compat
     match '/projects/:project_id/boards/:action/:id', :controller => 'boards'
     match '/boards/:board_id/topics/:action/:id', :controller => 'messages'
-    match '/issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
     match '/projects/:project_id/news/:action', :controller => 'news'
     scope :controller => 'repositories' do
       match '/repositories/browse/:id/*path', :action => 'browse', :as => 'repositories_show'
