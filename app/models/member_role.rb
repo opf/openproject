@@ -18,6 +18,7 @@ class MemberRole < ActiveRecord::Base
 
   after_create :add_role_to_group_users
   after_destroy :remove_role_from_group_users
+  after_destroy :remove_member_if_empty
 
   attr_protected :member_id, :role_id
 
@@ -32,6 +33,12 @@ class MemberRole < ActiveRecord::Base
   end
 
   private
+
+  def remove_member_if_empty
+    if member.roles.empty?
+      member.destroy
+    end
+  end
 
   def add_role_to_group_users
     if member && member.principal.is_a?(Group)
