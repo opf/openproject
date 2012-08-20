@@ -35,20 +35,26 @@ module CostsGroupPatch
           end
       end
     end
-    
+
     def group_user_added(group_user)
       user = group_user.user
       membership_type = group_user.membership_type
-      
+
       members.each do |member|
-        user_member = Member.find_by_project_id_and_user_id(member.project_id, user.id) || Member.new(:project_id => member.project_id, :user_id => user.id)
+        user_member = Member.find_or_initialize_by_project_id_and_user_id(member.project_id, user.id)
+
         member.member_roles.each do |member_role|
-          user_member.member_roles << MemberRole.new(:role => member_role.role, :inherited_from => member_role.id, :membership_type => membership_type)
+          user_member.member_roles.build.tap do |mr|
+            mr.role = member_role.role
+            mr.inherited_from = member_role.id
+            mr.membership_type = membership_type
+          end
         end
-        user_member.save!
+
+        user_member.save
       end
     end
-    
+
     def group_user_removed(group_user)
       user_removed(group_user.user)
     end
