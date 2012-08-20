@@ -41,7 +41,9 @@ class Document < ActiveRecord::Base
 
   def after_initialize
     if new_record?
-      self.category ||= DocumentCategory.default
+      # FIXME: on Rails 3 use this instead
+      # self.category ||= DocumentCategory.default
+      self.category_id = DocumentCategory.default.id if self.category_id == 0
     end
   end
 

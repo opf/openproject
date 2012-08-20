@@ -40,6 +40,17 @@ class DocumentTest < ActiveSupport::TestCase
     assert doc.save
   end
 
+  def test_build_with_category
+    category = Enumeration.find_by_name('User documentation')
+
+    doc = Project.find(1).documents.build
+    doc.safe_attributes = {:category_id => category.id}
+
+    # https://www.chiliproject.org/issues/1087
+    assert_equal category.id, doc.category_id
+    assert_equal category, doc.category
+  end
+
   def test_updated_on_with_attachments
     d = Document.find(1)
     assert d.attachments.any?
