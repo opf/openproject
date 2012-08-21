@@ -29,7 +29,12 @@ module ObjectDaddyHelpers
 
   def User.add_to_project(user, project, roles)
     roles = [roles] unless roles.is_a?(Array)
-    Member.generate!(:principal => user, :project => project, :roles => roles)
+    member = Member.generate do |m|
+      m.principal = user
+      m.project = project
+      m.role_ids = roles.map(&:id)
+    end
+    member.save!
   end
 
   # Generate the default Query
