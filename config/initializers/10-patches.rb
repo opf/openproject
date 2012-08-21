@@ -15,6 +15,73 @@
 
 require 'active_record'
 
+# Backported fix for CVE-2012-3465
+# https://groups.google.com/d/msg/rubyonrails-security/FgVEtBajcTY/tYLS1JJTu38J
+# TODO: Remove this once we are on Rails >= 3.2.8
+require 'action_view/helpers/sanitize_helper'
+module ActionView::Helpers::SanitizeHelper
+  def strip_tags(html)
+    self.class.full_sanitizer.sanitize(html)
+  end
+end
+
+# Backported fix for CVE-2012-3464
+# https://groups.google.com/d/msg/rubyonrails-security/kKGNeMrnmiY/r2yM7xy-G48J
+# TODO: Remove this once we are on Rails >= 3.2.8
+require 'active_support/core_ext/string/output_safety'
+class ERB
+  module Util
+    HTML_ESCAPE["'"] = '&#39;'
+
+    if RUBY_VERSION >= '1.9'
+      # A utility method for escaping HTML tag characters.
+      # This method is also aliased as <tt>h</tt>.
+      #
+      # In your ERB templates, use this method to escape any unsafe content. For example:
+      # <%=h @person.name %>
+      #
+      # ==== Example:
+      # puts html_escape("is a > 0 & a < 10?")
+      # # => is a &gt; 0 &amp; a &lt; 10?
+      def html_escape(s)
+        s = s.to_s
+        if s.html_safe?
+          s
+        else
+          s.gsub(/[&"'><]/, HTML_ESCAPE).html_safe
+        end
+      end
+    else
+      def html_escape(s) #:nodoc:
+        s = s.to_s
+        if s.html_safe?
+          s
+        else
+          s.gsub(/[&"'><]/n) { |special| HTML_ESCAPE[special] }.html_safe
+        end
+      end
+    end
+
+    # Aliasing twice issues a warning "discarding old...". Remove first to avoid it.
+    remove_method(:h)
+    alias h html_escape
+
+    module_function :h
+
+    singleton_class.send(:remove_method, :html_escape)
+    module_function :html_escape
+  end
+end
+
+
+require 'action_view/helpers/tag_helper'
+module ActionView::Helpers::TagHelper
+  def escape_once(html)
+    ActiveSupport::Multibyte.clean(html.to_s).gsub(/[\"\'><]|&(?!([a-zA-Z]+|(#\d+));)/) { |special| ERB::Util::HTML_ESCAPE[special] }
+  end
+end
+
+
 module ActiveRecord
   class Base
     include Redmine::I18n
