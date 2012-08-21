@@ -236,6 +236,20 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
+  def find_model_object_and_project
+    if params[:id]
+      model_object = self.class.read_inheritable_attribute('model_object')
+      instance = model_object.find(params[:id])
+      @project = instance.project
+      self.instance_variable_set('@' + model_object.to_s.downcase, instance)
+    else
+      @project = Project.find(params[:project_id])
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
   def self.model_object(model)
     write_inheritable_attribute('model_object', model)
   end

@@ -1168,3 +1168,23 @@ var SubmitConfirm = (function($) {
     init: init
   }
 })(jQuery);
+
+var Preview = (function ($) {
+  $('document').ready(function() {
+      $('a.preview').click(function() {
+        $.ajax({
+          url: $(this).attr('href'),
+          type: 'POST',
+          data: $("#" + $(this).attr('id').replace(/-preview/, "")).serialize().replace('_method=put&', ''),
+          success: function(data) { $('#preview').html(data);
+                                    $('html, body').animate({
+                                        scrollTop: $('#preview').offset().top
+                                      },
+                                      'slow');
+                                  }
+        });
+
+        return false;
+      });
+    });
+})(jQuery);

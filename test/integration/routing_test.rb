@@ -238,12 +238,11 @@ class RoutingTest < ActionController::IntegrationTest
     should route(:post, "/issues/auto_complete").to( :controller => 'issues/auto_completes',
                                                      :action => 'issues')
 
-    should route(:get, "/issues/preview/123").to( :controller => 'previews',
-                                                  :action => 'issue',
-                                                  :id => '123')
-    should route(:post, "/issues/preview/123").to( :controller => 'previews',
-                                                   :action => 'issue',
+    should route(:post, "/issues/123/preview").to( :controller => 'issues/previews',
+                                                   :action => 'create',
                                                    :id => '123')
+
+
     should route(:get, "/issues/context_menu").to( :controller => 'issues/context_menus',
                                                    :action => 'issues')
     should route(:post, "/issues/context_menu").to( :controller => 'issues/context_menus',
@@ -257,6 +256,11 @@ class RoutingTest < ActionController::IntegrationTest
     should route(:put, "/issues/bulk_update").to( :controller => 'issues',
                                                   :action => 'bulk_update')
 
+    context "project scoped" do
+      should route(:post, "/projects/eCookbook/issues/new/preview").to( :controller => 'issues/previews',
+                                                                        :action => 'create',
+                                                                        :project_id => 'eCookbook' )
+    end
   end
 
   context "watches" do

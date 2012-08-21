@@ -75,6 +75,19 @@ module ApplicationHelper
     end
   end
 
+  def link_to_issue_preview(context = nil, options = {})
+    url = context.is_a?(Project) ?
+            preview_new_project_issues_path(:project_id => context) :
+            preview_issue_path(context)
+
+    id = options[:form_id] || 'issue-form-preview'
+
+    link_to l(:label_preview),
+            url,
+            :id => id,
+            :class => 'preview'
+  end
+
   # Show a sorted linkified (if active) comma-joined list of users
   def list_users(users, options={})
     users.sort.collect{|u| link_to_user(u, options)}.join(", ")

@@ -151,7 +151,7 @@ OpenProject::Application.routes.draw do
           get :all
 
           # get a preview of a new issue (i.e. one without an ID)
-          match '/new/preview' => 'previews#issue', :as => 'preview_new', :via => :post
+          match '/new/preview' => 'issues/previews#create', :as => 'preview_new', :via => :post
         end
       end
 
@@ -222,6 +222,7 @@ OpenProject::Application.routes.draw do
       resources :relations, :controller => 'issue_relations', :only => [:create, :destroy]
 
       member do
+        match '/preview' => 'issues/previews#create', :via => :post
         # this route is defined so that it has precedence of the one defined on the collection
         delete :destroy
       end
@@ -241,7 +242,6 @@ OpenProject::Application.routes.draw do
     end
 
     # Misc issue routes. TODO: move into resources
-    match '/issues/preview/:id' => 'previews#issue', :as => 'preview_issue'  # TODO: would look nicer as /issues/:id/preview
     match '/issues/:id/quoted' => 'journals#new', :id => /\d+/, :via => :post, :as => 'quoted_issue'
     match '/issues/:id/destroy' => 'issues#destroy', :via => :post # legacy
 
