@@ -27,14 +27,14 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       if members.present? && members.all? {|m| m.valid? }
+        flash[:notice] = l(:notice_successful_create)
 
         format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
 
         format.js {
           render(:update) {|page|
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
-            page.insert_html :top, "tab-content-members", content_tag(:div, l(:notice_successful_create),
-                                                                      :class => "flash notice")
+            page.insert_html :top, "tab-content-members", render_flash_messages
             page << 'hideOnLoad()'
           }
         }
@@ -44,11 +44,7 @@ class MembersController < ApplicationController
             if params[:member]
               page.insert_html :top, "tab-content-members", :partial => "members/member_errors", :locals => {:member => members.first}
             else
-              page.insert_html :top, "tab-content-members", content_tag(:div,
-                                                                          content_tag(:ul,
-                                                                          content_tag(:li,
-                                                                          content_tag(:a, l(:error_check_user_and_role)))),
-                                                                        :class => "errorExplanation", :id => "errorExplanation")
+              page.insert_html :top, "tab-content-members", :partial => "members/common_error", :locals => {:message => l(:error_check_user_and_role)}
             end
             }
         }
