@@ -385,9 +385,25 @@ class RoutingTest < ActionController::IntegrationTest
 #    should route(:get, "/projects/567/issues/report/assigned_to").to( :controller => 'reports', :action => 'issue_report_details', :id => '567', :detail => 'assigned_to')
 #  end
 #
-#  context "members" do
-#    should route(:post, "/projects/5234/members/new").to( :controller => 'members', :action => 'new', :id => '5234')
-#  end
+  context "members" do
+    context "project scoped" do
+      should route(:post, "/projects/5234/members").to( :controller => 'members',
+                                                        :action => 'create',
+                                                        :project_id => '5234' )
+
+      should route(:get, "/projects/5234/members/autocomplete").to( :controller => 'members',
+                                                                    :action => 'autocomplete',
+                                                                    :project_id => '5234' )
+    end
+
+    should route(:put, "/members/5234").to( :controller => 'members',
+                                            :action => 'update',
+                                            :id => '5234' )
+
+    should route(:delete, "/members/5234").to( :controller => 'members',
+                                               :action => 'destroy',
+                                               :id => '5234' )
+  end
 #
 #  context "messages" do
 #    should route(:get, "/boards/22/topics/2").to( :controller => 'messages', :action => 'show', :id => '2', :board_id => '22')

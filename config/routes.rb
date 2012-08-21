@@ -157,6 +157,10 @@ OpenProject::Application.routes.draw do
       resources :boards
 
       resources :issue_categories, :except => [:index, :show], :shallow => true
+
+      resources :members, :only => [:create, :update, :destroy], :shallow => true do
+        get :autocomplete, :on => :collection
+      end
     end
 
     #TODO: evaluate whether this can be turned into a namespace
@@ -255,8 +259,6 @@ OpenProject::Application.routes.draw do
     resources :time_entries, :controller => 'timelog'
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
-
-    match '/projects/:id/members/new' => 'members#new'
 
     resources :users do
       member do

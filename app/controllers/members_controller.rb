@@ -14,12 +14,10 @@
 
 class MembersController < ApplicationController
   model_object Member
-  before_filter :find_model_object, :except => [:new, :autocomplete_for_member]
-  before_filter :find_project_from_association, :except => [:new, :autocomplete_for_member]
-  before_filter :find_project, :only => [:new, :autocomplete_for_member]
+  before_filter :find_model_object_and_project
   before_filter :authorize
 
-  def new
+  def create
     if params[:member]
       members = new_members_from_params
       @project.members << members
@@ -55,9 +53,8 @@ class MembersController < ApplicationController
     end
   end
 
-  def edit
-    if request.post? and
-      member = update_member_from_params and
+  def update
+    if member = update_member_from_params and
       member.save
 
   	 respond_to do |format|
@@ -74,7 +71,7 @@ class MembersController < ApplicationController
   end
 
   def destroy
-    if request.post? && @member.deletable?
+    if @member.deletable?
       @member.destroy
     end
     respond_to do |format|
@@ -87,7 +84,7 @@ class MembersController < ApplicationController
     end
   end
 
-  def autocomplete_for_member
+  def autocomplete
     @principals = Principal.possible_members(params[:q], 100) - @project.principals
     render :layout => false
   end
