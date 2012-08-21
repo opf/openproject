@@ -50,9 +50,6 @@ OpenProject::Application.routes.draw do
     # all subclasses will look for the journals routes
     resources :journals, :only => [:edit, :update]
 
-    namespace :issues do
-    end
-
     # generic route for adding/removing watchers
     # looks to be ressourceful
     scope ':object_type/:object_id', :constraints => { :object_type => /issues|messages|boards|wikis|wiki_pages/,
