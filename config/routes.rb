@@ -212,7 +212,7 @@ OpenProject::Application.routes.draw do
     end
 
     # TODO: remove create as issues should be created scoped under project
-    resources :issues, :only => [:create, :show, :edit, :update, :destroy] do
+    resources :issues, :except => [:new] do
       namespace :time_entries do
         resource :report, :controller => 'reports', :only => [:show]
       end
