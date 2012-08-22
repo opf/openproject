@@ -61,8 +61,10 @@ class Message < ActiveRecord::Base
     !user.nil? && user.allowed_to?(:view_messages, project)
   end
 
-  def validate_on_create
-    # Can not reply to a locked topic
+  validate :validate_unlocked_root, :on => :create
+
+  # Can not reply to a locked topic
+  def validate_unlocked_root
     errors.add_to_base 'Topic is locked' if root.locked? && self != root
   end
 

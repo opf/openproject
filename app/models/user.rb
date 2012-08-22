@@ -679,8 +679,10 @@ end
 
 class AnonymousUser < User
 
-  def validate_on_create
-    # There should be only one AnonymousUser in the database
+  validate :validate_unique_anonymous_user, :on => :create
+
+  # There should be only one AnonymousUser in the database
+  def validate_unique_anonymous_user
     errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
   end
 
@@ -699,8 +701,11 @@ class AnonymousUser < User
 end
 
 class DeletedUser < User
-  def validate_on_create
-    # There should be only one DeletedUser in the database
+
+  validate :validate_unique_deleted_user, :on => :create
+
+  # There should be only one DeletedUser in the database
+  def validate_unique_deleted_user
     errors.add_to_base 'A DeletedUser already exists.' if DeletedUser.find(:first)
   end
 
