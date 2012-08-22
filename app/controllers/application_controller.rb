@@ -250,8 +250,45 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def self.model_object(model)
+  def find_object_and_scope
+    if params[:id]
+      model_object = self.class.read_inheritable_attribute('model_object')
+      instance = model_object.find(params[:id])
+      self.instance_variable_set('@' + model_object.to_s.downcase, instance)
+
+      self.class.read_inheritable_attribute('model_scope').each do |scope|
+        scope_name = scope.to_s.downcase
+        scope_instance = instance.send(scope_name.to_sym)
+        self.instance_variable_set('@' + scope_name, scope_instance)
+        instance = scope_instance
+      end
+
+      @project = instance.project
+
+    elsif self.class.read_inheritable_attribute('model_scope').present?
+      self.class.read_inheritable_attribute('model_scope').each do |scope|
+        scope_name = scope.to_s.downcase
+
+        scope_instance = scope.find(params[:"#{scope_name}_id"])
+        self.instance_variable_set('@' + scope_name, scope_instance)
+        instance = scope_instance
+      end
+
+      @project = instance.project
+
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+
+  def self.model_object(model, options = {})
     write_inheritable_attribute('model_object', model)
+    if options[:scope]
+      scope = options[:scope].is_a?(Array) ? options[:scope] : [options[:scope]]
+      write_inheritable_attribute('model_scope', scope)
+    end
   end
 
   # Filter for bulk issue operations
