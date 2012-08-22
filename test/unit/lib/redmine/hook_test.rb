@@ -13,7 +13,7 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
+class Redmine::Hook::ManagerTest < ActionView::TestCase
 
   fixtures :issues
 
@@ -85,7 +85,7 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
 
   def test_call_hook_with_context
     @hook_module.add_listener(TestHook3)
-    assert_equal ['Context keys: bar, controller, foo, project, request.'],
+    assert_equal ['Context keys: bar, controller, foo, hook_caller, project, request.'],
                  hook_helper.call_hook(:view_layouts_base_html_head, :foo => 1, :bar => 'a')
   end
 
@@ -145,17 +145,17 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
     issue = Issue.find(1)
 
     ActionMailer::Base.deliveries.clear
-    mail = UserMailer.issue_added(user, issue)
-    mail.deliver
+    UserMailer.issue_added(user, issue).deliver
+    mail = ActionMailer::Base.deliveries.last
 
     @hook_module.add_listener(TestLinkToHook)
     hook_helper.call_hook(:view_layouts_base_html_head)
 
     ActionMailer::Base.deliveries.clear
-    mail2 = UserMailer.issue_added(user, issue)
-    mail2.deliver
+    UserMailer.issue_added(user, issue).deliver
+    mail2 = ActionMailer::Base.deliveries.last
 
-    assert_equal mail.body.encoded, mail2.body.encoded
+    assert_equal mail.text_part.body.encoded, mail2.text_part.body.encoded
   end
 
   def hook_helper
@@ -163,7 +163,7 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
   end
 
   def view_hook_helper
-    @view_hook_helper ||= TestHookHelperView.new(RAILS_ROOT + '/app/views')
+    @view_hook_helper ||= TestHookHelperView.new(Rails.root.to_s + '/app/views')
   end
 end
 
