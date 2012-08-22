@@ -1074,22 +1074,34 @@ class ProjectTest < ActiveSupport::TestCase
       @role = Role.generate!
 
       @user_with_membership_notification = User.generate!(:mail_notification => 'selected')
-      Member.generate!(:project => @project, :roles => [@role], :principal => @user_with_membership_notification, :mail_notification => true)
+      Member.create!(:project => @project, :principal => @user_with_membership_notification, :mail_notification => true) do |member|
+        member.role_ids = [@role.id]
+      end
 
       @all_events_user = User.generate!(:mail_notification => 'all')
-      Member.generate!(:project => @project, :roles => [@role], :principal => @all_events_user)
+      Member.create!(:project => @project, :principal => @all_events_user) do |member|
+        member.role_ids = [@role.id]
+      end
 
       @no_events_user = User.generate!(:mail_notification => 'none')
-      Member.generate!(:project => @project, :roles => [@role], :principal => @no_events_user)
+      Member.create!(:project => @project, :principal => @no_events_user) do |member|
+        member.role_ids = [@role.id]
+      end
 
       @only_my_events_user = User.generate!(:mail_notification => 'only_my_events')
-      Member.generate!(:project => @project, :roles => [@role], :principal => @only_my_events_user)
+      Member.create!(:project => @project, :principal => @only_my_events_user) do |member|
+        member.role_ids = [@role.id]
+      end
 
       @only_assigned_user = User.generate!(:mail_notification => 'only_assigned')
-      Member.generate!(:project => @project, :roles => [@role], :principal => @only_assigned_user)
+      Member.create!(:project => @project, :principal => @only_assigned_user) do |member|
+        member.role_ids = [@role.id]
+      end
 
       @only_owned_user = User.generate!(:mail_notification => 'only_owner')
-      Member.generate!(:project => @project, :roles => [@role], :principal => @only_owned_user)
+      Member.create!(:project => @project, :principal => @only_owned_user) do |member|
+        member.role_ids = [@role.id]
+      end
     end
 
     should "include members with a mail notification" do
