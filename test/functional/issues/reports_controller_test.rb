@@ -11,18 +11,18 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../test_helper', __FILE__)
-require 'reports_controller'
+require File.expand_path('../../../test_helper', __FILE__)
+require 'issues/reports_controller'
 
 # Re-raise errors caught by the controller.
-class ReportsController; def rescue_action(e) raise e end; end
+class Issues::ReportsController; def rescue_action(e) raise e end; end
 
 
-class ReportsControllerTest < ActionController::TestCase
+class Issues::ReportsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
-    @controller = ReportsController.new
+    @controller = Issues::ReportsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
@@ -30,11 +30,11 @@ class ReportsControllerTest < ActionController::TestCase
 
   context "GET :issue_report without details" do
     setup do
-      get :issue_report, :project_id => 1
+      get :report, :project_id => 1
     end
 
     should respond_with :success
-    should render_template :issue_report
+    should render_template :report
 
     [:issues_by_tracker, :issues_by_version, :issues_by_category, :issues_by_assigned_to,
      :issues_by_author, :issues_by_subproject].each do |ivar|
@@ -49,11 +49,11 @@ class ReportsControllerTest < ActionController::TestCase
     %w(tracker version priority category assigned_to author subproject).each do |detail|
       context "for #{detail}" do
         setup do
-          get :issue_report_details, :project_id => 1, :detail => detail
+          get :report_details, :project_id => 1, :detail => detail
         end
 
         should respond_with :success
-        should render_template :issue_report_details
+        should render_template :report_details
         should assign_to :field
         should assign_to :rows
         should assign_to :data
@@ -63,11 +63,11 @@ class ReportsControllerTest < ActionController::TestCase
 
     context "with an invalid detail" do
       setup do
-        get :issue_report_details, :project_id => 1, :detail => 'invalid'
+        get :report_details, :project_id => 1, :detail => 'invalid'
       end
 
       should respond_with :redirect
-      should redirect_to('the issue report') {{:controller => 'reports', :action => 'issue_report', :id => 'ecookbook'}}
+      should redirect_to('the issue report') { report_project_issues_path('ecookbook') }
     end
 
   end

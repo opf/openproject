@@ -82,7 +82,7 @@ Redmine::AccessControl.map do |map|
                                   :versions => [:index, :show, :status_by],
                                   :journals => [:index, :diff],
                                   :queries => :index,
-                                  :reports => [:issue_report, :issue_report_details]}
+                                  :'issues/reports' => [:report, :report_details]}
     map.permission :export_issues, {:issues => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
@@ -222,7 +222,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
   menu.push :view_all_issues, { :controller => 'issues', :action => 'all' }, :param => :project_id, :caption => :label_issue_view_all, :parent => :issues
-  menu.push :summary_field, {:controller => 'reports', :action => 'issue_report'}, :param => :id, :caption => :field_summary, :parent => :issues
+  menu.push :summary_field, {:controller => 'issues/reports', :action => 'report'}, :param => :project_id, :caption => :field_summary, :parent => :issues
   menu.push :gantt, { :controller => 'issues/gantts', :action => 'index' }, :param => :project_id, :caption => :label_gantt
   menu.push :calendar, { :controller => 'calendars', :action => 'show' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural

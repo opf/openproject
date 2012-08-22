@@ -12,11 +12,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ReportsController < ApplicationController
+class Issues::ReportsController < ApplicationController
   menu_item :summary_field, :only => [:issue_report]
   before_filter :find_project_by_project_id, :authorize, :find_issue_statuses
 
-  def issue_report
+  def report
     @trackers = @project.trackers
     @versions = @project.shared_versions.sort
     @priorities = IssuePriority.all
@@ -32,11 +32,9 @@ class ReportsController < ApplicationController
     @issues_by_assigned_to = Issue.by_assigned_to(@project)
     @issues_by_author = Issue.by_author(@project)
     @issues_by_subproject = Issue.by_subproject(@project) || []
-
-    render :template => "reports/issue_report"
   end
 
-  def issue_report_details
+  def report_details
     case params[:detail]
     when "tracker"
       @field = "tracker_id"
@@ -79,7 +77,7 @@ class ReportsController < ApplicationController
       if @field
         format.html {}
       else
-        format.html { redirect_to :action => 'issue_report', :id => @project }
+        format.html { redirect_to report_project_issues_path(@project) }
       end
     end
   end
