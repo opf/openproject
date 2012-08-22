@@ -85,6 +85,8 @@ class User < Principal
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
 
+  before_save :encrypt_password
+  before_create :sanitize_mail_notification_setting
   before_destroy :delete_associated_public_queries
   before_destroy :reassign_associated
 
@@ -98,13 +100,12 @@ class User < Principal
   }
   scope :admin, :conditions => { :admin => true }
 
-  def before_create
+  def sanitize_mail_notification_setting
     self.mail_notification = Setting.default_notification_option if self.mail_notification.blank?
-    true
   end
 
-  def before_save
-    # update hashed_password if password was set
+  # update hashed_password if password was set
+  def encrypt_password
     if self.password && self.auth_source_id.blank?
       salt_password(password)
     end

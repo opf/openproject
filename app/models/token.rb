@@ -19,12 +19,9 @@ class Token < ActiveRecord::Base
   #attr_protected :user_id
 
   before_create :delete_previous_tokens
+  before_create :assign_generated_token
 
   @@validity_time = 1.day
-
-  def before_create
-    self.value = Token.generate_token_value
-  end
 
   # Return true if token has expired
   def expired?
@@ -37,6 +34,7 @@ class Token < ActiveRecord::Base
   end
 
 private
+
   def self.generate_token_value
     ActiveSupport::SecureRandom.hex(20)
   end
@@ -46,5 +44,9 @@ private
     if user
       Token.delete_all(['user_id = ? AND action = ?', user.id, action])
     end
+  end
+
+  def assign_generated_token
+    self.value = self.class.generate_token_value
   end
 end
