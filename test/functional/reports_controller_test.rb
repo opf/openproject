@@ -30,7 +30,7 @@ class ReportsControllerTest < ActionController::TestCase
 
   context "GET :issue_report without details" do
     setup do
-      get :issue_report, :id => 1
+      get :issue_report, :project_id => 1
     end
 
     should respond_with :success
@@ -49,7 +49,7 @@ class ReportsControllerTest < ActionController::TestCase
     %w(tracker version priority category assigned_to author subproject).each do |detail|
       context "for #{detail}" do
         setup do
-          get :issue_report_details, :id => 1, :detail => detail
+          get :issue_report_details, :project_id => 1, :detail => detail
         end
 
         should respond_with :success
@@ -63,7 +63,7 @@ class ReportsControllerTest < ActionController::TestCase
 
     context "with an invalid detail" do
       setup do
-        get :issue_report_details, :id => 1, :detail => 'invalid'
+        get :issue_report_details, :project_id => 1, :detail => 'invalid'
       end
 
       should respond_with :redirect

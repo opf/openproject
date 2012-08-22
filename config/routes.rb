@@ -147,6 +147,9 @@ OpenProject::Application.routes.draw do
         collection do
           get :all
 
+          match '/report/:detail' => 'reports#issue_report_details', :via => :get
+          match '/report' => 'reports#issue_report', :via => :get
+
           # get a preview of a new issue (i.e. one without an ID)
           match '/new/preview' => 'issues/previews#create', :as => 'preview_new', :via => :post
         end
@@ -246,10 +249,6 @@ OpenProject::Application.routes.draw do
     match '/issues/:id/quoted' => 'journals#new', :id => /\d+/, :via => :post, :as => 'quoted_issue'
     match '/issues/:id/destroy' => 'issues#destroy', :via => :post # legacy
 
-    scope :controller => 'reports', :via => :get do
-      match '/projects/:id/issues/report', :action => :issue_report
-      match '/projects/:id/issues/report/:detail', :action => :issue_report_details
-    end
 
     namespace :time_entries do
       resource :report, :controller => 'reports',

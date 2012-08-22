@@ -14,7 +14,7 @@
 
 class ReportsController < ApplicationController
   menu_item :summary_field, :only => [:issue_report]
-  before_filter :find_project, :authorize, :find_issue_statuses
+  before_filter :find_project_by_project_id, :authorize, :find_issue_statuses
 
   def issue_report
     @trackers = @project.trackers
