@@ -197,7 +197,12 @@ module ApplicationHelper
     end
 
     if project.active?
-      link << link_to(project.name, project_path(project, options), html_options)
+      # backwards compatibility
+      if options.delete(:action) == 'settings'
+        link << link_to(project.name, settings_project_path(project, options), html_options)
+      else
+        link << link_to(project.name, project_path(project, options), html_options)
+      end
     else
       link << project.name
     end

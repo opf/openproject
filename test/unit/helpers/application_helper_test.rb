@@ -78,7 +78,7 @@ class ApplicationHelperTest < ActionView::TestCase
       # two exclamation marks
       'http://example.net/path!602815048C7B5C20!302.html' => '<a class="external" href="http://example.net/path!602815048C7B5C20!302.html">http://example.net/path!602815048C7B5C20!302.html</a>',
       # escaping
-      'http://foo"bar' => '<a class="external" href="http://foo&quot;bar">http://foo"bar</a>',
+      'http://foo"bar' => '<a class="external" href="http://foo&quot;bar">http://foo&quot;bar</a>',
       # wrap in angle brackets
       '<http://foo.bar>' => '&lt;<a class="external" href="http://foo.bar">http://foo.bar</a>&gt;'
     }
@@ -118,12 +118,12 @@ RAW
 
   def test_attached_images
     to_test = {
-      'Inline image: !logo.gif!' => 'Inline image: <img src="/attachments/download/3" title="This is a logo" alt="This is a logo" />',
-      'Inline image: !logo.GIF!' => 'Inline image: <img src="/attachments/download/3" title="This is a logo" alt="This is a logo" />',
+      'Inline image: !logo.gif!' => 'Inline image: <img src="/attachments/3/download" title="This is a logo" alt="This is a logo" />',
+      'Inline image: !logo.GIF!' => 'Inline image: <img src="/attachments/3/download" title="This is a logo" alt="This is a logo" />',
       'No match: !ogo.gif!' => 'No match: <img src="ogo.gif" alt="" />',
       'No match: !ogo.GIF!' => 'No match: <img src="ogo.GIF" alt="" />',
       # link image
-      '!logo.gif!:http://foo.bar/' => '<a href="http://foo.bar/"><img src="/attachments/download/3" title="This is a logo" alt="This is a logo" /></a>',
+      '!logo.gif!:http://foo.bar/' => '<a href="http://foo.bar/"><img src="/attachments/3/download" title="This is a logo" alt="This is a logo" /></a>',
     }
     attachments = Attachment.find(:all)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments) }
@@ -267,7 +267,7 @@ RAW
       'invalid:document:"Test document"'      => 'invalid:document:"Test document"',
       # versions
       'version:"1.0"'                         => 'version:"1.0"',
-      'ecookbook:version:"1.0"'               => '<a href="/versions/show/2" class="version">1.0</a>',
+      'ecookbook:version:"1.0"'               => '<a href="/versions/2" class="version">1.0</a>',
       'invalid:version:"1.0"'                 => 'invalid:version:"1.0"',
       # changeset
       'r2'                                    => 'r2',
@@ -698,6 +698,8 @@ RAW
                  link_to_project(project)
     assert_equal %(<a href="/projects/ecookbook/settings">eCookbook</a>),
                  link_to_project(project, :action => 'settings')
+    assert_equal %(<a href="/projects/ecookbook/settings/members">eCookbook</a>),
+                 link_to_project(project, :action => 'settings', :tab => 'members')
     assert_equal %(<a href="http://test.host/projects/ecookbook?jump=blah">eCookbook</a>),
                  link_to_project(project, {:only_path => false, :jump => 'blah'})
     assert_equal %(<a href="/projects/ecookbook/settings" class="project">eCookbook</a>),
