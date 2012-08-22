@@ -382,12 +382,12 @@ class RoutingTest < ActionController::IntegrationTest
 
   context "issue reports" do
     context "issue_scoped" do
-      should route(:get, "/projects/567/issues/report").to( :controller => 'reports',
-                                                            :action => 'issue_report',
+      should route(:get, "/projects/567/issues/report").to( :controller => 'issues/reports',
+                                                            :action => 'report',
                                                             :project_id => '567' )
 
-      should route(:get, "/projects/567/issues/report/assigned_to").to( :controller => 'reports',
-                                                                        :action => 'issue_report_details',
+      should route(:get, "/projects/567/issues/report/assigned_to").to( :controller => 'issues/reports',
+                                                                        :action => 'report_details',
                                                                         :project_id => '567',
                                                                         :detail => 'assigned_to' )
     end

@@ -147,8 +147,8 @@ OpenProject::Application.routes.draw do
         collection do
           get :all
 
-          match '/report/:detail' => 'reports#issue_report_details', :via => :get
-          match '/report' => 'reports#issue_report', :via => :get
+          match '/report/:detail' => 'issues/reports#report_details', :via => :get
+          match '/report' => 'issues/reports#report', :via => :get
 
           # get a preview of a new issue (i.e. one without an ID)
           match '/new/preview' => 'issues/previews#create', :as => 'preview_new', :via => :post
