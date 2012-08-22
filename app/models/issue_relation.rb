@@ -40,6 +40,8 @@ class IssueRelation < ActiveRecord::Base
   validates_numericality_of :delay, :allow_nil => true
   validates_uniqueness_of :issue_to_id, :scope => :issue_from_id
 
+  before_save :update_schedule
+
   attr_protected :issue_from_id, :issue_to_id
 
   def validate
@@ -70,7 +72,7 @@ class IssueRelation < ActiveRecord::Base
     TYPES[relation_type] ? TYPES[relation_type][(self.issue_from_id == issue.id) ? :name : :sym_name] : :unknow
   end
 
-  def before_save
+  def update_schedule
     reverse_if_needed
 
     if TYPE_PRECEDES == relation_type

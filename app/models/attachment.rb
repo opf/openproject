@@ -29,6 +29,8 @@ class Attachment < ActiveRecord::Base
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
 
+  before_save :copy_file_to_destination
+
   acts_as_journalized :event_title => :filename,
         :event_url => (Proc.new do |o|
           { :controller => 'attachments', :action => 'download',
@@ -86,7 +88,7 @@ class Attachment < ActiveRecord::Base
 
   # Copies the temporary file to its final location
   # and computes its MD5 hash
-  def before_save
+  def copy_file_to_destination
     if @temp_file && (@temp_file.size > 0)
       logger.debug("saving '#{self.diskfile}'")
       md5 = Digest::MD5.new

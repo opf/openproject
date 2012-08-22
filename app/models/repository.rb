@@ -19,6 +19,8 @@ class Repository < ActiveRecord::Base
   has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
   has_many :changes, :through => :changesets
 
+  before_save :sanitize_urls
+
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
@@ -278,11 +280,10 @@ class Repository < ActiveRecord::Base
 
   private
 
-  def before_save
-    # Strips url and root_url
+  # Strips url and root_url
+  def sanitize_urls
     url.strip! if url.present?
     root_url.strip! if root_url.present?
-    true
   end
 
   def clear_changesets

@@ -20,12 +20,10 @@ class UserPreference < ActiveRecord::Base
 
   attr_protected :others, :user_id
 
+  before_save :apply_defaults
+
   def initialize(attributes = nil)
     super
-    self.others ||= {}
-  end
-
-  def before_save
     self.others ||= {}
   end
 
@@ -53,4 +51,10 @@ class UserPreference < ActiveRecord::Base
 
   def warn_on_leaving_unsaved; self[:warn_on_leaving_unsaved] || '1'; end
   def warn_on_leaving_unsaved=(value); self[:warn_on_leaving_unsaved]=value; end
+
+private
+
+  def apply_defaults
+    self.others ||= {}
+  end
 end
