@@ -72,7 +72,7 @@ class Setting < ActiveRecord::Base
                   TIS-620)
 
   cattr_accessor :available_settings
-  @@available_settings = YAML::load(File.open("#{RAILS_ROOT}/config/settings.yml"))
+  @@available_settings = YAML::load(File.open(Rails.root.join('config/settings.yml')))
   Redmine::Plugin.all.each do |plugin|
     next unless plugin.settings
     @@available_settings["plugin_#{plugin.id}"] = {'default' => plugin.settings[:default], 'serialized' => true}

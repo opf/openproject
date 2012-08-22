@@ -225,7 +225,7 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_comments_should_be_converted_to_utf8
       proj = Project.find(3)
-      str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+      str = File.read(Rails.root.join('test/fixtures/encoding/iso-8859-1.txt'))
       r = Repository::Bazaar.create!(
             :project => proj, :url => '/tmp/test/bazaar',
             :log_encoding => 'ISO-8859-1' )
@@ -241,7 +241,7 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_latin1
       proj = Project.find(3)
-      str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+      str = File.read(Rails.root.join('test/fixtures/encoding/iso-8859-1.txt'))
       r = Repository::Bazaar.create!(
             :project => proj,
             :url => '/tmp/test/bazaar',

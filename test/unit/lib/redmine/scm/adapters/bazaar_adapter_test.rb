@@ -18,7 +18,7 @@ begin
 
   class BazaarAdapterTest < ActiveSupport::TestCase
 
-    REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
+    REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
     REPOSITORY_PATH.gsub!(/\/+/, '/')
 
     if File.directory?(REPOSITORY_PATH)

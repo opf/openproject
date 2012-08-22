@@ -28,7 +28,7 @@ class ApplicationControllerTest < ActionController::TestCase
 
   # check that all language files are valid
   def test_localization
-    lang_files_count = Dir["#{RAILS_ROOT}/config/locales/*.yml"].size
+    lang_files_count = Dir[Rails.root.join('config/locales/*.yml')].size
     Setting.available_languages = Setting.all_languages
     assert_equal lang_files_count, valid_languages.size
     valid_languages.each do |lang|

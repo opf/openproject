@@ -1,9 +1,9 @@
 ---
 repositories_001:
   project_id: 1
-  url: file:///<%= RAILS_ROOT.gsub(%r{config\/\.\.}, '') %>/tmp/test/subversion_repository
+  url: file:///<%= Rails.root.to_s.gsub(%r{config\/\.\.}, '') %>/tmp/test/subversion_repository
   id: 10
-  root_url: file:///<%= RAILS_ROOT.gsub(%r{config\/\.\.}, '') %>/tmp/test/subversion_repository
+  root_url: file:///<%= Rails.root.to_s.gsub(%r{config\/\.\.}, '') %>/tmp/test/subversion_repository
   password: ""
   login: ""
   type: Repository::Subversion

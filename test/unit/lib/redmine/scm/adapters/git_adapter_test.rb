@@ -20,7 +20,7 @@ begin
   require 'mocha'
 
   class GitAdapterTest < ActiveSupport::TestCase
-    REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
+    REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
 
     FELIX_UTF8 = "Felix Schäfer"
     FELIX_HEX  = "Felix Sch\xC3\xA4fer"

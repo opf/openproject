@@ -88,7 +88,7 @@ module Redmine #:nodoc:
       p.name(id.to_s.humanize) if p.name.nil?
       # Adds plugin locales if any
       # YAML translation files should be found under <plugin>/config/locales/
-      ::I18n.load_path += Dir.glob(File.join(RAILS_ROOT, 'vendor', 'plugins', id.to_s, 'config', 'locales', '*.yml'))
+      ::I18n.load_path += Dir.glob(Rails.root.join('vendor/plugins', id.to_s, 'config/locales/*.yml'))
       registered_plugins[id] = p
 
       # If there are plugins waiting for us to be loaded, we try loading those, again
