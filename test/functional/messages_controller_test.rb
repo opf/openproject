@@ -73,17 +73,17 @@ class MessagesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
-  def test_post_new
+  def test_post_create
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     Setting.notified_events = ['message_posted']
 
-    post :new, :board_id => 1,
-               :message => { :subject => 'Test created message',
-                             :content => 'Message body'}
+    post :create, :board_id => 1,
+                  :message => { :subject => 'Test created message',
+                                :content => 'Message body'}
     message = Message.find_by_subject('Test created message')
     assert_not_nil message
-    assert_redirected_to "/boards/1/topics/#{message.to_param}"
+    assert_redirected_to topic_path(message)
     assert_equal 'Message body', message.content
     assert_equal 2, message.author_id
     assert_equal 1, message.board_id
@@ -105,18 +105,18 @@ class MessagesControllerTest < ActionController::TestCase
 
   def test_get_edit
     @request.session[:user_id] = 2
-    get :edit, :board_id => 1, :id => 1
+    get :edit, :id => 1
     assert_response :success
     assert_template 'edit'
   end
 
-  def test_post_edit
+  def test_put_update
     @request.session[:user_id] = 2
-    post :edit, :board_id => 1, :id => 1,
-                :message => { :subject => 'New subject',
-                              :content => 'New body'}
-    assert_redirected_to '/boards/1/topics/1'
+    put :update, :id => 1,
+                 :message => { :subject => 'New subject',
+                               :content => 'New body' }
     message = Message.find(1)
+    assert_redirected_to topic_path(message)
     assert_equal 'New subject', message.subject
     assert_equal 'New body', message.content
   end
@@ -125,14 +125,14 @@ class MessagesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     post :reply, :board_id => 1, :id => 1, :reply => { :content => 'This is a test reply', :subject => 'Test reply' }
     reply = Message.find(:first, :order => 'id DESC')
-    assert_redirected_to "/boards/1/topics/1?r=#{reply.id}"
+    assert_redirected_to topic_path(1, :r => reply)
     assert Message.find_by_subject('Test reply')
   end
 
   def test_destroy_topic
     @request.session[:user_id] = 2
-    post :destroy, :board_id => 1, :id => 1
-    assert_redirected_to '/projects/ecookbook/boards/1'
+    delete :destroy, :id => 1
+    assert_redirected_to project_board_path("ecookbook", 1)
     assert_nil Message.find_by_id(1)
   end
 

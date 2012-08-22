@@ -412,17 +412,55 @@ class RoutingTest < ActionController::IntegrationTest
                                                :action => 'destroy',
                                                :id => '5234' )
   end
-#
-#  context "messages" do
-#    should route(:get, "/boards/22/topics/2").to( :controller => 'messages', :action => 'show', :id => '2', :board_id => '22')
-#    should route(:get, "/boards/lala/topics/new").to( :controller => 'messages', :action => 'new', :board_id => 'lala')
-#    should route(:get, "/boards/lala/topics/22/edit").to( :controller => 'messages', :action => 'edit', :id => '22', :board_id => 'lala')
-#
-#    should route(:post, "/boards/lala/topics/new").to( :controller => 'messages', :action => 'new', :board_id => 'lala')
-#    should route(:post, "/boards/lala/topics/22/edit").to( :controller => 'messages', :action => 'edit', :id => '22', :board_id => 'lala')
-#    should route(:post, "/boards/22/topics/555/replies").to( :controller => 'messages', :action => 'reply', :id => '555', :board_id => '22')
-#    should route(:post, "/boards/22/topics/555/destroy").to( :controller => 'messages', :action => 'destroy', :id => '555', :board_id => '22')
-#  end
+
+  context "messages" do
+    context "project scoped" do
+      should route(:get, "/boards/lala/topics/new").to( :controller => 'messages',
+                                                       :action => 'new',
+                                                       :board_id => 'lala' )
+
+      should route(:post, "/boards/lala/topics").to( :controller => 'messages',
+                                                     :action => 'create',
+                                                     :board_id => 'lala' )
+
+      should route(:post, "/boards/22/topics/preview").to( :controller => 'messages',
+                                                           :action => 'preview',
+                                                           :board_id => '22' )
+
+    end
+
+    should route(:get, "/topics/2").to( :controller => 'messages',
+                                        :action => 'show',
+                                        :id => '2' )
+
+    should route(:get, "/topics/22/edit").to( :controller => 'messages',
+                                              :action => 'edit',
+                                              :id => '22' )
+
+    should route(:put, "/topics/22").to( :controller => 'messages',
+                                         :action => 'update',
+                                         :id => '22' )
+
+    should route(:delete, "/topics/555").to( :controller => 'messages',
+                                             :action => 'destroy',
+                                             :id => '555' )
+
+    should route(:get, "/topics/22/quote").to( :controller => 'messages',
+                                               :action => 'quote',
+                                               :id => '22' )
+
+    should route(:post, "/topics/555/reply").to( :controller => 'messages',
+                                                 :action => 'reply',
+                                                 :id => '555' )
+
+    should route(:post, "/topics/2/preview").to( :controller => 'messages',
+                                                 :action => 'preview',
+                                                 :id => '2' )
+
+
+
+
+  end
 #
 #  context "news" do
 #    should route(:get, "/news").to( :controller => 'news', :action => 'index')

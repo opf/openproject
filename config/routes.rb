@@ -33,18 +33,6 @@ OpenProject::Application.routes.draw do
     match '/projects/:id/wiki' => 'wikis#edit', :via => :post
     match '/projects/:id/wiki/destroy' => 'wikis#destroy', :via => [:get, :post]
 
-    scope :controller => 'messages' do
-      scope :via => :get do
-        match '/boards/:board_id/topics/new', :action => :new
-        match '/boards/:board_id/topics/:id', :action => :show
-        match '/boards/:board_id/topics/:id/edit', :action => :edit
-      end
-      scope :via => :post do
-        match '/boards/:board_id/topics/new', :action => :new
-        match '/boards/:board_id/topics/:id/replies', :action => :reply
-        match '/boards/:board_id/topics/:id/:action', :action => /edit|destroy/
-      end
-    end
 
     # only providing routes for journals when there are multiple subclasses of journals
     # all subclasses will look for the journals routes
@@ -271,6 +259,20 @@ OpenProject::Application.routes.draw do
       end
     end
 
+    resources :boards, :only => [] do
+      resources :topics, :controller => 'messages', :except => [:index], :shallow => true do
+        collection do
+          post :preview
+        end
+
+        member do
+          get :quote
+          post :reply, :as => 'reply_to'
+          post :preview
+        end
+      end
+    end
+
     match '/news' => 'news#index', :as => 'all_news'
     match '/news.:format' => 'news#index', :as => 'formatted_all_news'
     match '/news/preview' => 'previews#news', :as => 'preview_news'
@@ -317,8 +319,6 @@ OpenProject::Application.routes.draw do
     end
 
     #left old routes at the bottom for backwards compat
-    match '/projects/:project_id/boards/:action/:id', :controller => 'boards'
-    match '/boards/:board_id/topics/:action/:id', :controller => 'messages'
     match '/projects/:project_id/news/:action', :controller => 'news'
     scope :controller => 'repositories' do
       match '/repositories/browse/:id/*path', :action => 'browse', :as => 'repositories_show'

@@ -151,9 +151,9 @@ Redmine::AccessControl.map do |map|
   map.project_module :boards do |map|
     map.permission :manage_boards, {:boards => [:new, :create, :edit, :update, :destroy]}, :require => :member
     map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true
-    map.permission :add_messages, {:messages => [:new, :reply, :quote]}
-    map.permission :edit_messages, {:messages => :edit}, :require => :member
-    map.permission :edit_own_messages, {:messages => :edit}, :require => :loggedin
+    map.permission :add_messages, {:messages => [:new, :create, :reply, :quote]}
+    map.permission :edit_messages, {:messages => [:edit, :update]}, :require => :member
+    map.permission :edit_own_messages, {:messages => [:edit, :update]}, :require => :loggedin
     map.permission :delete_messages, {:messages => :destroy}, :require => :member
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
   end

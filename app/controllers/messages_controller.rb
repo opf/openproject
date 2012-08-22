@@ -15,12 +15,9 @@
 class MessagesController < ApplicationController
   menu_item :boards
   default_search_scope :messages
-  before_filter :find_board, :only => [:new, :preview]
-  before_filter :find_message, :except => [:new, :preview]
-  before_filter :authorize, :except => [:preview, :edit, :destroy]
-
-  verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }
-  verify :xhr => true, :only => :quote
+  model_object Message, :scope => Board
+  before_filter :find_object_and_scope
+  before_filter :authorize, :except => [:preview, :edit, :update, :destroy]
 
   include AttachmentsHelper
 
@@ -28,6 +25,8 @@ class MessagesController < ApplicationController
 
   # Show a topic and its replies
   def show
+    @topic = @message.root
+
     page = params[:page]
     # Find the page of the requested reply
     if params[:r] && page.nil?
@@ -46,47 +45,67 @@ class MessagesController < ApplicationController
     render :action => "show", :layout => false if request.xhr?
   end
 
-  # Create a new topic
+  # new topic
   def new
-    @message = Message.new
-    @message.author = User.current
-    @message.board = @board
+    @message = Message.new.tap do |m|
+      m.author = User.current
+      m.board = @board
+    end
+  end
+
+  # Create a new topic
+  def create
+    @message = Message.new.tap do |m|
+      m.author = User.current
+      m.board = @board
+    end
     @message.safe_attributes = params[:message]
-    if request.post?
-      if @message.save
-        call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
-        attachments = Attachment.attach_files(@message, params[:attachments])
-        render_attachment_warning_if_needed(@message)
-        redirect_to :action => 'show', :id => @message
-      end
+    if @message.save
+      call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
+      attachments = Attachment.attach_files(@message, params[:attachments])
+      render_attachment_warning_if_needed(@message)
+      redirect_to topic_path(@message)
+    else
+      render :action => 'new'
     end
   end
 
   # Reply to a topic
   def reply
+    @topic = @message.root
+
     @reply = Message.new
     @reply.author = User.current
     @reply.board = @board
     @reply.safe_attributes = params[:reply]
+
     @topic.children << @reply
     if !@reply.new_record?
       call_hook(:controller_messages_reply_after_save, { :params => params, :message => @reply})
       attachments = Attachment.attach_files(@reply, params[:attachments])
       render_attachment_warning_if_needed(@reply)
     end
-    redirect_to :action => 'show', :id => @topic, :r => @reply
+    redirect_to topic_path(@topic, :r => @reply)
   end
 
   # Edit a message
   def edit
     (render_403; return false) unless @message.editable_by?(User.current)
     @message.safe_attributes = params[:message]
-    if request.post? && @message.save
+  end
+
+  # Edit a message
+  def update
+    (render_403; return false) unless @message.editable_by?(User.current)
+    @message.safe_attributes = params[:message]
+    if @message.save
       attachments = Attachment.attach_files(@message, params[:attachments])
       render_attachment_warning_if_needed(@message)
       flash[:notice] = l(:notice_successful_update)
       @message.reload
-      redirect_to :action => 'show', :board_id => @message.board, :id => @message.root, :r => (@message.parent_id && @message.id)
+      redirect_to topic_path(@message.root, :r => (@message.parent_id && @message.id))
+    else
+      render :action => 'edit'
     end
   end
 
@@ -121,21 +140,5 @@ class MessagesController < ApplicationController
     @attachements = message.attachments if message
     @text = (params[:message] || params[:reply])[:content]
     render :partial => 'common/preview'
-  end
-
-private
-  def find_message
-    find_board
-    @message = @board.messages.find(params[:id], :include => :parent)
-    @topic = @message.root
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def find_board
-    @board = Board.find(params[:board_id], :include => :project)
-    @project = @board.project
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 end
