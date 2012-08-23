@@ -38,7 +38,9 @@ class WikiPage < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
 
+  after_initialize :check_and_mark_as_protected
   before_save :update_redirects
+  before_destroy :remove_redirects
 
   # eager load information about last updates, without loading text
   scope :with_updated_on, {
@@ -48,8 +50,6 @@ class WikiPage < ActiveRecord::Base
 
   # Wiki pages that are protected by default
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
-
-  after_initialize :check_and_mark_as_protected
 
   def check_and_mark_as_protected
     if new_record? && DEFAULT_PROTECTED_PAGES.include?(title.to_s.downcase)
@@ -84,8 +84,8 @@ class WikiPage < ActiveRecord::Base
     end
   end
 
-  def before_destroy
-    # Remove redirects to this page
+  # Remove redirects to this page
+  def remove_redirects
     wiki.redirects.find_all_by_redirects_to(title).each(&:destroy)
   end
 
