@@ -722,24 +722,12 @@ $(window).bind('resizeEnd', function() {
           });
         });
 
-        jQuery('#main-menu #toggle-project-menu a.navigation-toggler').click(function(){
-          if ($('#main-menu #toggle-project-menu').hasClass('show')) {
-            // Show project navigation
-            $('#main-menu').removeClass('hidden')
-            $('#menu-sidebar').removeClass('hidden');
-            $('#main-menu #toggle-project-menu').removeClass('show');
-            $('#main-menu #toggle-project-menu').removeAttr("style");
-            $('#content').removeClass('hidden-navigation');
-          }
-          else {
-            // Hide project navigation
-            var height = $(document).height();
-            $('#main-menu').addClass('hidden');
-            $('#menu-sidebar').addClass('hidden');
-            $('#main-menu #toggle-project-menu').addClass('show');
-            $('#main-menu #toggle-project-menu.show').css({height:height});
-            $('#content').addClass('hidden-navigation');
-          };
+        jQuery('#toggle-project-menu .navigation-toggler').click(function(){
+          var height = $(document).height();
+          $('#main-menu, #menu-sidebar').toggleClass('hidden');
+          $('#content').toggleClass('hidden-navigation');
+          $('#toggle-project-menu').removeAttr("style").toggleClass('show');
+          $('#toggle-project-menu.show').css({height:height});
         });
 });
 
