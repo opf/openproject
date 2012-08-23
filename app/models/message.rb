@@ -47,6 +47,7 @@ class Message < ActiveRecord::Base
 
   after_create :add_author_as_watcher
   after_create :update_last_reply_in_parent
+  after_destroy :reset_counters
 
   scope :visible, lambda {|*args| { :include => {:board => :project},
                                     :conditions => Project.allowed_to_condition(args.first || User.current, :view_messages) } }
@@ -83,7 +84,7 @@ class Message < ActiveRecord::Base
     end
   end
 
-  def after_destroy
+  def reset_counters
     board.reset_counters!
   end
 
