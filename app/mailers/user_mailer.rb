@@ -331,7 +331,7 @@ private
 
   # Prepends given fields with 'X-OpenProject-' to save some duplication
   def open_project_headers(hash)
-    hash.each { |key, value| headers["X-OpenProject-#{key}"] = value }
+    hash.each { |key, value| headers["X-OpenProject-#{key}"] = value.to_s }
   end
 end
 
