@@ -55,7 +55,7 @@ OpenProject::Application.routes.draw do
       match 'changes' => 'journals#index', :as => 'changes'
     end
 
-    resources :projects do
+    resources :projects, :except => [:edit] do
       member do
         # this route let's you access the project specific settings (by tab)
         #
@@ -67,11 +67,15 @@ OpenProject::Application.routes.draw do
         #
         get 'settings(/:tab)', :action => 'settings', :as => :settings
 
-        get 'copy'
-        post 'copy'
-        post 'modules'
-        post 'archive'
-        post 'unarchive'
+        get :copy
+        post :copy
+        put :modules
+        put :archive
+        put :unarchive
+
+        # Destroy uses a get request to prompt the user before the actual DELETE request
+        get :destroy_info, :as => 'confirm_destroy'
+
       end
 
       resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]
@@ -282,10 +286,6 @@ OpenProject::Application.routes.draw do
 
       resource :preview, :controller => 'news/previews', :only => [:create]
     end
-
-
-    # Destroy uses a get request to prompt the user before the actual DELETE request
-    match '/projects/:id/destroy' => 'project#destroy', :via => :get, :as => 'project_destroy_confirm'
 
     scope :controller => 'repositories' do
       scope :via => :get do
