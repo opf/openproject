@@ -723,7 +723,7 @@ $(window).bind('resizeEnd', function() {
         });
 
         jQuery('#toggle-project-menu .navigation-toggler').click(function(){
-          var height = $(document).height();
+          var height = $(document).height() - $('#main-menu').offset().top - 32;
           $('#main-menu, #menu-sidebar').toggleClass('hidden');
           $('#content').toggleClass('hidden-navigation');
           $('#toggle-project-menu').removeAttr("style").toggleClass('show');
