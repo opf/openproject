@@ -264,7 +264,7 @@ class RoutingTest < ActionController::IntegrationTest
   end
 
   context "watches" do
-    ['issues', 'messages', 'boards', 'wikis', 'wiki_pages'].each do |type|
+    ['issues', 'messages', 'boards', 'wikis', 'wiki_pages', 'news'].each do |type|
       should route(:post, "/#{type}/1/watch").to( :controller => 'watchers',
                                                  :action => 'watch',
                                                  :object_type => type,
@@ -461,31 +461,101 @@ class RoutingTest < ActionController::IntegrationTest
 
 
   end
-#
-#  context "news" do
-#    should route(:get, "/news").to( :controller => 'news', :action => 'index')
-#    should route(:get, "/news.atom").to( :controller => 'news', :action => 'index', :format => 'atom')
-#    should route(:get, "/news.xml").to( :controller => 'news', :action => 'index', :format => 'xml')
-#    should route(:get, "/news.json").to( :controller => 'news', :action => 'index', :format => 'json')
-#    should route(:get, "/projects/567/news").to( :controller => 'news', :action => 'index', :project_id => '567')
-#    should route(:get, "/projects/567/news.atom").to( :controller => 'news', :action => 'index', :format => 'atom', :project_id => '567')
-#    should route(:get, "/projects/567/news.xml").to( :controller => 'news', :action => 'index', :format => 'xml', :project_id => '567')
-#    should route(:get, "/projects/567/news.json").to( :controller => 'news', :action => 'index', :format => 'json', :project_id => '567')
-#    should route(:get, "/news/2").to( :controller => 'news', :action => 'show', :id => '2')
-#    should route(:get, "/projects/567/news/new").to( :controller => 'news', :action => 'new', :project_id => '567')
-#    should route(:get, "/news/234").to( :controller => 'news', :action => 'show', :id => '234')
-#    should route(:get, "/news/567/edit").to( :controller => 'news', :action => 'edit', :id => '567')
-#    should route(:get, "/news/preview").to( :controller => 'previews', :action => 'news')
-#
-#    should route(:post, "/projects/567/news").to( :controller => 'news', :action => 'create', :project_id => '567')
-#    should route(:post, "/news/567/comments").to( :controller => 'comments', :action => 'create', :id => '567')
-#
-#    should route(:put, "/news/567").to( :controller => 'news', :action => 'update', :id => '567')
-#
-#    should route(:delete, "/news/567").to( :controller => 'news', :action => 'destroy', :id => '567')
-#    should route(:delete, "/news/567/comments/15").to( :controller => 'comments', :action => 'destroy', :id => '567', :comment_id => '15')
-#  end
-#
+
+  context "news" do
+    context "project scoped" do
+      should route(:get, "/projects/567/news").to( :controller => 'news',
+                                                   :action => 'index',
+                                                   :project_id => '567' )
+
+      should route(:get, "/projects/567/news.atom").to( :controller => 'news',
+                                                        :action => 'index',
+                                                        :format => 'atom',
+                                                        :project_id => '567' )
+
+      should route(:get, "/projects/567/news.xml").to( :controller => 'news',
+                                                       :action => 'index',
+                                                       :format => 'xml',
+                                                       :project_id => '567' )
+
+      should route(:get, "/projects/567/news.json").to( :controller => 'news',
+                                                        :action => 'index',
+                                                        :format => 'json',
+                                                        :project_id => '567' )
+
+      should route(:get, "/projects/567/news/new").to( :controller => 'news',
+                                                       :action => 'new',
+                                                       :project_id => '567' )
+
+      should route(:post, "/projects/567/news").to( :controller => 'news',
+                                                    :action => 'create',
+                                                    :project_id => '567' )
+
+      should route(:post, "/projects/567/news/preview").to( :controller => 'news/previews',
+                                                            :action => 'create',
+                                                            :project_id => '567')
+
+    end
+
+    should route(:get, "/news").to( :controller => 'news',
+                                    :action => 'index' )
+
+    should route(:get, "/news.atom").to( :controller => 'news',
+                                         :action => 'index',
+                                         :format => 'atom' )
+
+    should route(:get, "/news.xml").to( :controller => 'news',
+                                        :action => 'index',
+                                        :format => 'xml' )
+
+    should route(:get, "/news.json").to( :controller => 'news',
+                                         :action => 'index',
+                                         :format => 'json' )
+
+    should route(:get, "/news/2").to( :controller => 'news',
+                                      :action => 'show',
+                                      :id => '2' )
+
+    should route(:get, "/news/234").to( :controller => 'news',
+                                        :action => 'show',
+                                        :id => '234' )
+
+    should route(:get, "/news/567/edit").to( :controller => 'news',
+                                             :action => 'edit',
+                                             :id => '567' )
+
+    should route(:put, "/news/567").to( :controller => 'news',
+                                        :action => 'update',
+                                        :id => '567' )
+
+
+    should route(:delete, "/news/567").to( :controller => 'news',
+                                           :action => 'destroy',
+                                           :id => '567' )
+
+  end
+
+  context "news/comments" do
+    context "news scoped" do
+      should route(:post, "/news/567/comments").to( :controller => 'news/comments',
+                                                    :action => 'create',
+                                                    :news_id => '567' )
+
+    end
+
+    should route(:delete, "/comments/15").to( :controller => 'news/comments',
+                                              :action => 'destroy',
+                                              :id => '15' )
+  end
+
+  context "news/previews" do
+    context "news scoped" do
+      should route(:post, "/news/567/preview").to( :controller => 'news/previews',
+                                                   :action => 'create',
+                                                   :news_id => '567' )
+    end
+  end
+
   context "projects" do
 #    should route(:get, "/projects").to( :controller => 'projects', :action => 'index')
 #    should route(:get, "/projects.atom").to( :controller => 'projects', :action => 'index', :format => 'atom')

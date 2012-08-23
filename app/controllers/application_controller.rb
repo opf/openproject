@@ -250,45 +250,56 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
+  # TODO: this method is right now only suited for controllers of objects that somehow have an association to Project
   def find_object_and_scope
-    if params[:id]
-      model_object = self.class.read_inheritable_attribute('model_object')
-      instance = model_object.find(params[:id])
-      self.instance_variable_set('@' + model_object.to_s.downcase, instance)
+    model_object = params[:id].present? ?
+                     model_object = self.class.read_inheritable_attribute('model_object').find(params[:id]) :
+                     nil
 
-      self.class.read_inheritable_attribute('model_scope').each do |scope|
-        scope_name = scope.to_s.downcase
-        scope_instance = instance.send(scope_name.to_sym)
-        self.instance_variable_set('@' + scope_name, scope_instance)
-        instance = scope_instance
-      end
+    associations = self.class.model_scope + [Project]
 
-      @project = instance.project
+    associated = find_belongs_to_chained_objects(associations, model_object)
 
-    elsif self.class.read_inheritable_attribute('model_scope').present?
-      self.class.read_inheritable_attribute('model_scope').each do |scope|
-        scope_name = scope.to_s.downcase
-
-        scope_instance = scope.find(params[:"#{scope_name}_id"])
-        self.instance_variable_set('@' + scope_name, scope_instance)
-        instance = scope_instance
-      end
-
-      @project = instance.project
-
+    associated.each do |a|
+      self.instance_variable_set('@' + a.class.to_s.downcase, a)
     end
 
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
+  # this method finds all records that are specified in the associations param
+  # after the first object is found it traverses the belongs_to chain of that first object
+  # if a start_object is provided it is taken as the starting point of the traversal
+  # e.g associations [Message, Board, Project] finds Message by find(:message_id) then message.board
+  # and board.project
+  def find_belongs_to_chained_objects(associations, start_object = nil)
+    associations.inject([start_object].compact) do |instances, association|
+      scope_name, scope_association = association.is_a?(Hash) ?
+                                        [association.keys.first.to_s.downcase, association.values.first] :
+                                        [association.to_s.downcase, association.to_s.downcase]
+
+      #TODO: Remove this hidden dependency on params
+      instances << (instances.last.nil? ?
+                      scope_name.camelize.constantize.find(params[:"#{scope_name}_id"]) :
+                      instances.last.send(scope_association.to_sym))
+      instances
+    end
+  end
 
   def self.model_object(model, options = {})
     write_inheritable_attribute('model_object', model)
     if options[:scope]
-      scope = options[:scope].is_a?(Array) ? options[:scope] : [options[:scope]]
-      write_inheritable_attribute('model_scope', scope)
+      self.model_scope = options[:scope].is_a?(Array) ? options[:scope] : [options[:scope]]
     end
+  end
+
+  def self.model_scope
+    read_inheritable_attribute('model_scope')
+  end
+
+  def self.model_scope=(scope)
+    write_inheritable_attribute('model_scope', scope)
   end
 
   # Filter for bulk issue operations

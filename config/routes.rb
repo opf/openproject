@@ -40,7 +40,7 @@ OpenProject::Application.routes.draw do
 
     # generic route for adding/removing watchers
     # looks to be ressourceful
-    scope ':object_type/:object_id', :constraints => { :object_type => /issues|messages|boards|wikis|wiki_pages/,
+    scope ':object_type/:object_id', :constraints => { :object_type => /issues|messages|boards|wikis|wiki_pages|news/,
                                                        :object_id => /\d+/ } do
       resources :watchers, :only => [:new]
 
@@ -91,7 +91,11 @@ OpenProject::Application.routes.draw do
       # this could probably be rewritten with a resource :as => 'roadmap'
       match '/roadmap' => 'versions#index', :via => :get
 
-      resources :news, :shallow => true
+      resources :news, :only => [:index, :new, :create] do
+        collection do
+          resource :preview, :controller => "news/previews", :only => [:create], :as => "news_preview"
+        end
+      end
 
       namespace :time_entries do
         resource :report, :controller => 'reports', :only => [:show]
@@ -273,11 +277,12 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    match '/news' => 'news#index', :as => 'all_news'
-    match '/news.:format' => 'news#index', :as => 'formatted_all_news'
-    match '/news/preview' => 'previews#news', :as => 'preview_news'
-    match '/news/:id/comments' => 'comments#create', :via => :post
-    match '/news/:id/comments/:comment_id' => 'comments#destroy', :via => :delete
+    resources :news, :only => [:index, :destroy, :update, :edit, :show] do
+      resources :comments, :controller => 'news/comments', :only => [:create, :destroy], :shallow => true
+
+      resource :preview, :controller => 'news/previews', :only => [:create]
+    end
+
 
     # Destroy uses a get request to prompt the user before the actual DELETE request
     match '/projects/:id/destroy' => 'project#destroy', :via => :get, :as => 'project_destroy_confirm'
@@ -319,7 +324,6 @@ OpenProject::Application.routes.draw do
     end
 
     #left old routes at the bottom for backwards compat
-    match '/projects/:project_id/news/:action', :controller => 'news'
     scope :controller => 'repositories' do
       match '/repositories/browse/:id/*path', :action => 'browse', :as => 'repositories_show'
       match '/repositories/changes/:id/*path', :action => 'changes', :as => 'repositories_changes'

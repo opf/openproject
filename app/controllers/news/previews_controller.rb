@@ -12,10 +12,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class PreviewsController < ApplicationController
-  before_filter :find_project_by_project_id
+class News::PreviewsController < ApplicationController
+  model_object News
+  before_filter :find_object_and_scope
 
-  def news
+  def create
     @text = (params[:news] ? params[:news][:description] : nil)
     render :partial => 'common/preview'
   end
