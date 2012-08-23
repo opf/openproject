@@ -38,9 +38,11 @@ class TimeEntry < ActiveRecord::Base
     :conditions => Project.allowed_to_condition(args.first || User.current, :view_time_entries)
   }}
 
+  after_initialize :set_default_activity
+
   safe_attributes 'hours', 'comments', 'issue_id', 'activity_id', 'spent_on', 'custom_field_values'
 
-  def after_initialize
+  def set_default_activity
     if new_record? && self.activity.nil?
       if default_activity = TimeEntryActivity.default
         self.activity_id = default_activity.id

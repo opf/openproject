@@ -35,16 +35,16 @@ class Document < ActiveRecord::Base
                                     :conditions => Project.allowed_to_condition(args.first || User.current, :view_documents) } }
   scope :with_attachments, includes(:attachments).where("attachments.container_id is not NULL" )
 
+  after_initialize :set_default_category
+
   safe_attributes 'category_id', 'title', 'description'
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_documents, project)
   end
 
-  def after_initialize
-    if new_record?
-      self.category ||= DocumentCategory.default
-    end
+  def set_default_category
+    self.category ||= DocumentCategory.default if new_record?
   end
 
   def updated_on

@@ -25,6 +25,8 @@ class Query < ActiveRecord::Base
   validates_presence_of :name, :on => :save
   validates_length_of :name, :maximum => 255
 
+  after_initialize :remember_project_scope
+
   @@operators = { "="   => :label_equals,
                   "!"   => :label_not_equals,
                   "o"   => :label_open_issues,
@@ -84,8 +86,8 @@ class Query < ActiveRecord::Base
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
   end
 
-  def after_initialize
-    # Store the fact that project is nil (used in #editable_by?)
+  # Store the fact that project is nil (used in #editable_by?)
+  def remember_project_scope
     @is_for_all = project.nil?
   end
 
