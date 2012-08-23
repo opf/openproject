@@ -102,6 +102,7 @@ class User < Principal
 
   def sanitize_mail_notification_setting
     self.mail_notification = Setting.default_notification_option if self.mail_notification.blank?
+    true
   end
 
   # update hashed_password if password was set

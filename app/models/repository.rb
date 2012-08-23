@@ -284,6 +284,7 @@ class Repository < ActiveRecord::Base
   def sanitize_urls
     url.strip! if url.present?
     root_url.strip! if root_url.present?
+    true
   end
 
   def clear_changesets

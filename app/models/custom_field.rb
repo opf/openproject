@@ -55,6 +55,7 @@ class CustomField < ActiveRecord::Base
   # make sure int, float, date, and bool are not searchable
   def check_searchability
     self.searchable = false if %w(int float date bool).include?(field_format)
+    true
   end
 
   def validate
