@@ -39,6 +39,7 @@ class TimeEntry < ActiveRecord::Base
   }}
 
   after_initialize :set_default_activity
+  before_validation :set_default_project
 
   safe_attributes 'hours', 'comments', 'issue_id', 'activity_id', 'spent_on', 'custom_field_values'
 
@@ -51,8 +52,8 @@ class TimeEntry < ActiveRecord::Base
     end
   end
 
-  def before_validation
-    self.project = issue.project if issue && project.nil?
+  def set_default_project
+    self.project ||= issue.project if issue
   end
 
   def validate
