@@ -263,7 +263,7 @@ class RepositoriesController < ApplicationController
     @date_to = Date.today
     @date_from = @date_to << 11
     @date_from = Date.civil(@date_from.year, @date_from.month, 1)
-    commits_by_day = repository.changesets.count(:all, :group => :commit_date, :conditions => ["commit_date BETWEEN ? AND ?", @date_from, @date_to])
+    commits_by_day = repository.changesets.reorder(nil).count(:all, :group => :commit_date, :conditions => ["commit_date BETWEEN ? AND ?", @date_from, @date_to])
     commits_by_month = [0] * 12
     commits_by_day.each {|c| commits_by_month[c.first.to_date.months_ago] += c.last }
 
@@ -300,7 +300,7 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_author(repository)
-    commits_by_author = repository.changesets.count(:all, :group => :committer)
+    commits_by_author = repository.changesets.reorder(nil).count(:all, :group => :committer)
     commits_by_author.to_a.sort! {|x, y| x.last <=> y.last}
 
     changes_by_author = repository.changes.count(:all, :group => :committer)

@@ -28,7 +28,7 @@ class ChiliprojectPluginControllerGenerator < ControllerGenerator
   end
 
   def destination_root
-    File.join(RAILS_ROOT, plugin_path)
+    Rails.root.join(plugin_path).to_s
   end
 
   def manifest

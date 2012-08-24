@@ -36,11 +36,6 @@ class DocumentsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:grouped)
-
-    # Default category selected in the new document form
-    assert_tag :select, :attributes => {:name => 'document[category_id]'},
-                        :child => {:tag => 'option', :attributes => {:selected => 'selected'},
-                                                     :content => 'Technical documentation'}
   end
 
   def test_index_with_long_description
@@ -61,19 +56,19 @@ LOREM
     assert_select '.wiki p', :text => Regexp.new(Regexp.escape("EndOfLineHere..."))
   end
 
-  def test_new_with_one_attachment
+  def test_create_with_one_attachment
     ActionMailer::Base.deliveries.clear
     Setting.notified_events = Setting.notified_events.dup << 'document_added'
     @request.session[:user_id] = 2
     set_tmp_attachments_directory
 
-    post :new, :project_id => 'ecookbook',
-               :document => { :title => 'DocumentsControllerTest#test_post_new',
-                              :description => 'This is a new document',
-                              :category_id => 2},
-               :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+    post :create, :project_id => 'ecookbook',
+                  :document => { :title => 'DocumentsControllerTest#test_post_new',
+                                 :description => 'This is a new document',
+                                 :category_id => 2},
+                  :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
 
-    assert_redirected_to '/projects/ecookbook/documents'
+    assert_redirected_to project_documents_path('ecookbook')
 
     document = Document.find_by_title('DocumentsControllerTest#test_post_new')
     assert_not_nil document
@@ -85,7 +80,7 @@ LOREM
 
   def test_destroy
     @request.session[:user_id] = 2
-    post :destroy, :id => 1
+    delete :destroy, :id => 1
     assert_redirected_to '/projects/ecookbook/documents'
     assert_nil Document.find_by_id(1)
   end

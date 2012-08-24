@@ -82,6 +82,7 @@ default:
   # Outgoing emails configuration (see examples above)
   email_delivery:
     delivery_method: :smtp
+    perform_deliveries: true
     smtp_settings:
       address: smtp.example.net
       port: 25
@@ -152,13 +153,16 @@ default:
   
 # specific configuration options for production environment
 # that overrides the default ones
-production:
+# production:
 
 # specific configuration options for development environment
 # that overrides the default ones
 development:
+  email_delivery:
+    delivery_method: :letter_opener
+    perform_deliveries: false
 
 # Configuration for the test environment
 test:
   email_delivery:
-    delivery_method: test
+    delivery_method: :test

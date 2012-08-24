@@ -32,6 +32,19 @@ class Enumeration < ActiveRecord::Base
   scope :shared, :conditions => { :project_id => nil }
   scope :active, :conditions => { :active => true }
 
+  before_save :unmark_old_default_value, :if => :became_default_value?
+
+  # let all child classes have Enumeration as it's model name
+  # used to not having to create another route for every subclass of Enumeration
+  def self.inherited(child)
+    child.instance_eval do
+      def model_name
+        Enumeration.model_name
+      end
+    end
+    super
+  end
+
   def self.default
     # Creates a fake default scope so Enumeration.default will check
     # it's type.  STI subclasses will automatically add their own
@@ -49,10 +62,12 @@ class Enumeration < ActiveRecord::Base
     nil
   end
 
-  def before_save
-    if is_default? && is_default_changed?
-      Enumeration.update_all("is_default = #{connection.quoted_false}", {:type => type})
-    end
+  def became_default_value?
+    is_default? && is_default_changed?
+  end
+
+  def unmark_old_default_value
+    Enumeration.update_all("is_default = #{connection.quoted_false}", {:type => type})
   end
 
   # Overloaded on concrete classes

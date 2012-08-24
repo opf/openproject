@@ -30,12 +30,12 @@ class EnumerationsControllerTest < ActionController::TestCase
   def test_index
     get :index
     assert_response :success
-    assert_template 'list'
+    assert_template 'index'
   end
 
   def test_destroy_enumeration_not_in_use
     post :destroy, :id => 7
-    assert_redirected_to :controller => 'enumerations', :action => 'index'
+    assert_redirected_to enumerations_path
     assert_nil Enumeration.find_by_id(7)
   end
 
@@ -49,7 +49,7 @@ class EnumerationsControllerTest < ActionController::TestCase
   def test_destroy_enumeration_in_use_with_reassignment
     issue = Issue.find(:first, :conditions => {:priority_id => 4})
     post :destroy, :id => 4, :reassign_to_id => 6
-    assert_redirected_to :controller => 'enumerations', :action => 'index'
+    assert_redirected_to enumerations_path
     assert_nil Enumeration.find_by_id(4)
     # check that the issue was reassign
     assert_equal 6, issue.reload.priority_id

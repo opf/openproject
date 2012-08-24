@@ -39,40 +39,36 @@ class IssueRelationsControllerTest < ActionController::TestCase
     User.current = nil
   end
 
-  def test_new
+  def test_create
     assert_difference 'IssueRelation.count' do
       @request.session[:user_id] = 3
-      post :new, :issue_id => 1,
-                 :relation => {:issue_to_id => '2', :relation_type => 'relates', :delay => ''}
+      post :create, :issue_id => 1,
+                    :relation => {:issue_to_id => '2', :relation_type => 'relates', :delay => ''}
     end
   end
 
-  def test_new_xhr
+  def test_create_xhr
     assert_difference 'IssueRelation.count' do
       @request.session[:user_id] = 3
-      xhr :post, :new,
+      xhr :post, :create,
         :issue_id => 3,
         :relation => {:issue_to_id => '1', :relation_type => 'relates', :delay => ''}
-      assert_select_rjs 'relations' do
-        assert_select 'table', 1
-        assert_select 'tr', 2 # relations
-      end
     end
   end
 
-  def test_new_should_accept_id_with_hash
+  def test_create_should_accept_id_with_hash
     assert_difference 'IssueRelation.count' do
       @request.session[:user_id] = 3
-      post :new, :issue_id => 1,
+      post :create, :issue_id => 1,
                  :relation => {:issue_to_id => '#2', :relation_type => 'relates', :delay => ''}
     end
   end
 
-  def test_new_should_not_break_with_non_numerical_id
+  def test_create_should_not_break_with_non_numerical_id
     assert_no_difference 'IssueRelation.count' do
       assert_nothing_raised do
         @request.session[:user_id] = 3
-        post :new, :issue_id => 1,
+        post :create, :issue_id => 1,
                    :relation => {:issue_to_id => 'foo', :relation_type => 'relates', :delay => ''}
       end
     end
@@ -84,7 +80,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
 
     assert_no_difference 'IssueRelation.count' do
       @request.session[:user_id] = 3
-      post :new, :issue_id => 1,
+      post :create, :issue_id => 1,
                  :relation => {:issue_to_id => '4', :relation_type => 'relates', :delay => ''}
     end
   end
@@ -92,7 +88,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
   def test_destroy
     assert_difference 'IssueRelation.count', -1 do
       @request.session[:user_id] = 3
-      post :destroy, :id => '2', :issue_id => '3'
+      delete :destroy, :id => '2', :issue_id => '3'
     end
   end
 
@@ -104,11 +100,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
 
     assert_difference 'IssueRelation.count', -1 do
       @request.session[:user_id] = 3
-      xhr :post, :destroy, :id => '2', :issue_id => '3'
-      assert_select_rjs 'relations' do
-        assert_select 'table', 1
-        assert_select 'tr', 1 # relation left
-      end
+      xhr :delete, :destroy, :id => '2', :issue_id => '3'
     end
   end
 end

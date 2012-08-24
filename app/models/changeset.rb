@@ -93,15 +93,9 @@ class Changeset < ActiveRecord::Base
     self.class.to_utf8(read_attribute(:committer), repository.repo_log_encoding)
   end
 
-  def before_create
-    self.committer = self.class.to_utf8(self.committer, repository.repo_log_encoding)
-    self.comments  = self.class.normalize_comments(self.comments, repository.repo_log_encoding)
-    self.user = repository.find_committer_user(self.committer)
-  end
-
-  def after_create
-    scan_comment_for_issue_ids
-  end
+  before_create :sanitize_attributes
+  before_create :assign_redmine_user_from_comitter
+  after_create :scan_comment_for_issue_ids
 
   TIMELOG_RE = /
     (
@@ -257,6 +251,15 @@ class Changeset < ActiveRecord::Base
   end
 
   private
+
+  def sanitize_attributes
+    self.committer = self.class.to_utf8(self.committer, repository.repo_log_encoding)
+    self.comments  = self.class.normalize_comments(self.comments, repository.repo_log_encoding)
+  end
+
+  def assign_redmine_user_from_comitter
+    self.user = repository.find_committer_user(self.committer)
+  end
 
   # TODO: refactor to a standard helper method
   def self.to_utf8(str, encoding)

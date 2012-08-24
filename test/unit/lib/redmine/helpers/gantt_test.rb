@@ -35,7 +35,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
     @response = ActionController::TestResponse.new
     # Fixtures
     ProjectCustomField.delete_all
-    Project.destroy_all
+    Project.delete_all
 
     User.current = User.find(1)
   end
@@ -472,7 +472,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
 
       should "include a link to the version" do
         @response.body = @gantt.subject_for_version(@version, {:format => :html})
-        assert_select 'a[href=?]', Regexp.escape("/versions/show/#{@version.to_param}"), :text => /#{@version.name}/
+        assert_select 'a[href=?]', Regexp.escape("/versions/#{@version.to_param}"), :text => /#{@version.name}/
       end
 
       should "style late versions" do

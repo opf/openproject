@@ -85,6 +85,8 @@ class User < Principal
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
 
+  before_save :encrypt_password
+  before_create :sanitize_mail_notification_setting
   before_destroy :delete_associated_public_queries
   before_destroy :reassign_associated
 
@@ -96,14 +98,15 @@ class User < Principal
     group_id = group.is_a?(Group) ? group.id : group.to_i
     { :conditions => ["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
   }
+  scope :admin, :conditions => { :admin => true }
 
-  def before_create
+  def sanitize_mail_notification_setting
     self.mail_notification = Setting.default_notification_option if self.mail_notification.blank?
     true
   end
 
-  def before_save
-    # update hashed_password if password was set
+  # update hashed_password if password was set
+  def encrypt_password
     if self.password && self.auth_source_id.blank?
       salt_password(password)
     end
@@ -677,8 +680,10 @@ end
 
 class AnonymousUser < User
 
-  def validate_on_create
-    # There should be only one AnonymousUser in the database
+  validate :validate_unique_anonymous_user, :on => :create
+
+  # There should be only one AnonymousUser in the database
+  def validate_unique_anonymous_user
     errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
   end
 
@@ -697,8 +702,11 @@ class AnonymousUser < User
 end
 
 class DeletedUser < User
-  def validate_on_create
-    # There should be only one DeletedUser in the database
+
+  validate :validate_unique_deleted_user, :on => :create
+
+  # There should be only one DeletedUser in the database
+  def validate_unique_deleted_user
     errors.add_to_base 'A DeletedUser already exists.' if DeletedUser.find(:first)
   end
 

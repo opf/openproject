@@ -21,7 +21,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :repositories, :enabled_modules
 
   # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'
+  REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'
   PRJ_ID = 3
 
   def setup

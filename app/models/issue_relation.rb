@@ -16,6 +16,8 @@ class IssueRelation < ActiveRecord::Base
   belongs_to :issue_from, :class_name => 'Issue', :foreign_key => 'issue_from_id'
   belongs_to :issue_to, :class_name => 'Issue', :foreign_key => 'issue_to_id'
 
+  scope :of_issue, ->(issue) { where('issue_from_id = ? OR issue_to_id = ?', issue, issue) }
+
   TYPE_RELATES      = "relates"
   TYPE_DUPLICATES   = "duplicates"
   TYPE_DUPLICATED   = "duplicated"
@@ -37,6 +39,8 @@ class IssueRelation < ActiveRecord::Base
   validates_inclusion_of :relation_type, :in => TYPES.keys
   validates_numericality_of :delay, :allow_nil => true
   validates_uniqueness_of :issue_to_id, :scope => :issue_from_id
+
+  before_save :update_schedule
 
   attr_protected :issue_from_id, :issue_to_id
 
@@ -68,7 +72,7 @@ class IssueRelation < ActiveRecord::Base
     TYPES[relation_type] ? TYPES[relation_type][(self.issue_from_id == issue.id) ? :name : :sym_name] : :unknow
   end
 
-  def before_save
+  def update_schedule
     reverse_if_needed
 
     if TYPE_PRECEDES == relation_type

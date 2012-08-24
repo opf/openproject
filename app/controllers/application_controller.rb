@@ -153,11 +153,8 @@ class ApplicationController < ActionController::Base
         url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
       end
       respond_to do |format|
-        format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
-        format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
-        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
-        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
-        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.any(:html, :atom) { redirect_to signin_path(:back_url => url) }
+        format.any(:xml, :js, :json) { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
       end
       return false
     end
@@ -239,8 +236,70 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def self.model_object(model)
+  def find_model_object_and_project
+    if params[:id]
+      model_object = self.class.read_inheritable_attribute('model_object')
+      instance = model_object.find(params[:id])
+      @project = instance.project
+      self.instance_variable_set('@' + model_object.to_s.downcase, instance)
+    else
+      @project = Project.find(params[:project_id])
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  # TODO: this method is right now only suited for controllers of objects that somehow have an association to Project
+  def find_object_and_scope
+    model_object = params[:id].present? ?
+                     model_object = self.class.read_inheritable_attribute('model_object').find(params[:id]) :
+                     nil
+
+    associations = self.class.model_scope + [Project]
+
+    associated = find_belongs_to_chained_objects(associations, model_object)
+
+    associated.each do |a|
+      self.instance_variable_set('@' + a.class.to_s.downcase, a)
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  # this method finds all records that are specified in the associations param
+  # after the first object is found it traverses the belongs_to chain of that first object
+  # if a start_object is provided it is taken as the starting point of the traversal
+  # e.g associations [Message, Board, Project] finds Message by find(:message_id) then message.board
+  # and board.project
+  def find_belongs_to_chained_objects(associations, start_object = nil)
+    associations.inject([start_object].compact) do |instances, association|
+      scope_name, scope_association = association.is_a?(Hash) ?
+                                        [association.keys.first.to_s.downcase, association.values.first] :
+                                        [association.to_s.downcase, association.to_s.downcase]
+
+      #TODO: Remove this hidden dependency on params
+      instances << (instances.last.nil? ?
+                      scope_name.camelize.constantize.find(params[:"#{scope_name}_id"]) :
+                      instances.last.send(scope_association.to_sym))
+      instances
+    end
+  end
+
+  def self.model_object(model, options = {})
     write_inheritable_attribute('model_object', model)
+    if options[:scope]
+      self.model_scope = options[:scope].is_a?(Array) ? options[:scope] : [options[:scope]]
+    end
+  end
+
+  def self.model_scope
+    read_inheritable_attribute('model_scope')
+  end
+
+  def self.model_scope=(scope)
+    write_inheritable_attribute('model_scope', scope)
   end
 
   # Filter for bulk issue operations

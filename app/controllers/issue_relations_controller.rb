@@ -15,40 +15,29 @@
 class IssueRelationsController < ApplicationController
   before_filter :find_issue, :find_project_from_association, :authorize
 
-  def new
-    @relation = IssueRelation.new(params[:relation])
-    @relation.issue_from = @issue
-    if params[:relation] && m = params[:relation][:issue_to_id].to_s.match(/^#?(\d+)$/)
-      @relation.issue_to = Issue.visible.find_by_id(m[1].to_i)
+  def create
+    @relation = @issue.new_relation.tap do |r|
+      r.issue_to = Issue.visible.find_by_id(params[:relation][:issue_to_id].match(/\d+/).to_s)
+      r.relation_type = params[:relation][:relation_type]
+      r.delay = params[:relation][:delay]
     end
-    @relation.save if request.post?
+
+    @relation.save
+
     respond_to do |format|
-      format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
-      format.js do
-        @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
-        render :update do |page|
-          page.replace_html "relations", :partial => 'issues/relations'
-          if @relation.errors.empty?
-            page << "$('relation_delay').value = ''"
-            page << "$('relation_issue_to_id').value = ''"
-          end
-        end
-      end
+      format.html { redirect_to issue_path(@issue) }
+      format.js {}
     end
   end
 
   def destroy
-    relation = IssueRelation.find(params[:id])
-    if request.post? && @issue.relations.include?(relation)
-      relation.destroy
-      @issue.reload
-    end
+    @relation = @issue.relation(params[:id])
+
+    @relation.destroy
+
     respond_to do |format|
-      format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
-      format.js {
-        @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
-        render(:update) {|page| page.replace_html "relations", :partial => 'issues/relations'}
-      }
+      format.html { redirect_to issue_path(@issue) }
+      format.js {}
     end
   end
 

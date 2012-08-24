@@ -1,6 +1,6 @@
-<h2><%= link_to l(:label_role_plural), :controller => 'roles', :action => 'index' %> &#187; <%=l(:label_permissions_report)%></h2>
+<h2><%= link_to l(:label_role_plural), roles_path %> &#187; <%=l(:label_permissions_report)%></h2>
 
-<% form_tag({:action => 'report'}, :id => 'permissions_form') do %>
+<%= form_tag(roles_path, :method => :put, :id => 'permissions_form') do %>
 <%= hidden_field_tag 'permissions[0]', '', :id => nil %>
 <div class="autoscroll">
 <table class="list">

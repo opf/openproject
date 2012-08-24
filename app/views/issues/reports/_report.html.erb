@@ -1,0 +1,68 @@
+<% if statuses.try(:empty?) and rows.try(:empty?) %>
+  <p><i><%=l(:label_no_data)%></i></p>
+<% else %>
+  <% column_names = statuses.map(&:name) + [l(:label_open_issues_plural), l(:label_closed_issues_plural), l(:label_total)] %>
+<% col_width = 70 / (column_names.length+3) %>
+<table class="list">
+  <thead>
+    <tr>
+      <th style="width:25%"></th>
+<% column_names.each do |name| %>
+      <th style="width:<%= col_width %>%; text-align: center"><%= name %></th>
+<% end %>
+    </tr>
+  </thead>
+<tbody>
+<% for row in rows %>
+<tr class="<%= cycle("odd", "even") %>">
+  <td>
+    <%= link_to h(row.name),
+                project_issues_path((row.is_a?(Project) ? row : @project),
+                                    :set_filter => 1,
+                                    :subproject_id => '!*',
+                                    "#{field_name}" => row.id) %>
+  </td>
+<% for status in statuses %>
+  <td align="center">
+    <%= aggregate_link data,
+                       { field_name => row.id, "status_id" => status.id },
+                       project_issues_path((row.is_a?(Project) ? row : @project),
+                                           :set_filter => 1,
+                                           :subproject_id => '!*',
+                                           "status_id" => status.id,
+                                           field_name => row.id ) %>
+  </td>
+<% end %>
+  <td align="center">
+    <%= aggregate_link data,
+                       { field_name => row.id, "closed" => 0 },
+                       project_issues_path((row.is_a?(Project) ? row : @project),
+                                           :set_filter => 1,
+                                           :subproject_id => '!*',
+                                           "#{field_name}" => row.id,
+                                           "status_id" => "o") %>
+  </td>
+  <td align="center">
+    <%= aggregate_link data,
+                       { field_name => row.id, "closed" => 1 },
+                       project_issues_path((row.is_a?(Project) ? row : @project),
+                                           :set_filter => 1,
+                                           :subproject_id => '!*',
+                                           "#{field_name}" => row.id,
+                                           "status_id" => "c") %>
+  </td>
+  <td align="center">
+    <%= aggregate_link data,
+                       { field_name => row.id },
+                       project_issues_path((row.is_a?(Project) ? row : @project),
+                                           :set_filter => 1,
+                                           :subproject_id => '!*',
+                                           "#{field_name}" => row.id,
+                                           "status_id" => "*") %>
+  </td>
+</tr>
+<% end %>
+</tbody>
+</table>
+<% end
+  reset_cycle %>

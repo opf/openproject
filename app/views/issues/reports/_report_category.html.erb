@@ -1,0 +1,11 @@
+<h3><%=l(:"field_#{detail}")%>&nbsp;&nbsp;
+  <%= link_to image_tag('zoom_in.png',
+                        :alt    => l(:text_analyze, :subject => l(:"field_#{detail}")),
+                        :title  => l(:text_analyze, :subject => l(:"field_#{detail}"))),
+              :action => 'report_details', :detail => detail %>
+</h3>
+<%= render :partial => 'report', :locals => { :data => data,
+                                              :field_name => field_name,
+                                              :statuses => [],
+                                              :rows => rows } %>
+<br />

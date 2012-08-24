@@ -18,7 +18,7 @@ require 'groups_controller'
 class GroupsController; def rescue_action(e) raise e end; end
 
 class GroupsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles, :groups_users
+  fixtures :projects, :users, :members, :roles, :member_roles, :groups_users
 
   def setup
     @controller = GroupsController.new
@@ -50,7 +50,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_difference 'Group.count' do
       post :create, :group => {:lastname => 'New group'}
     end
-    assert_redirected_to '/groups'
+    assert_redirected_to groups_path
   end
 
   def test_edit
@@ -60,15 +60,15 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   def test_update
-    post :update, :id => 10
-    assert_redirected_to '/groups'
+    put :update, :id => 10
+    assert_redirected_to groups_path
   end
 
   def test_destroy
     assert_difference 'Group.count', -1 do
-      post :destroy, :id => 10
+      delete :destroy, :id => 10
     end
-    assert_redirected_to '/groups'
+    assert_redirected_to groups_path
   end
 
   def test_add_users
@@ -79,25 +79,25 @@ class GroupsControllerTest < ActionController::TestCase
 
   def test_remove_user
     assert_difference 'Group.find(10).users.count', -1 do
-      post :remove_user, :id => 10, :user_id => '8'
+      delete :remove_user, :id => 10, :user_id => '8'
     end
   end
 
-  def test_new_membership
+  def test_create_membership
     assert_difference 'Group.find(10).members.count' do
-      post :edit_membership, :id => 10, :membership => { :project_id => 2, :role_ids => ['1', '2']}
+      post :create_memberships, :id => 10, :membership => { :project_id => 2, :role_ids => ['1', '2']}
     end
   end
 
   def test_edit_membership
     assert_no_difference 'Group.find(10).members.count' do
-      post :edit_membership, :id => 10, :membership_id => 6, :membership => { :role_ids => ['1', '3']}
+      put :edit_membership, :id => 10, :membership_id => 6, :membership => { :role_ids => ['1', '3']}
     end
   end
 
   def test_destroy_membership
     assert_difference 'Group.find(10).members.count', -1 do
-      post :destroy_membership, :id => 10, :membership_id => 6
+      delete :destroy_membership, :id => 10, :membership_id => 6
     end
   end
 

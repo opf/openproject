@@ -197,6 +197,22 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal custom_value.id, issue.custom_value_for(field).id
   end
 
+  def test_should_not_update_custom_fields_on_changing_tracker_with_different_custom_fields
+    issue = Issue.new(:project => Project.find(1))
+    issue.force_attributes = {:tracker_id => 1, :author_id => 1, :status_id => 1, :subject => 'Test', :custom_field_values => {'2' => 'Test'}}
+    issue.save!
+
+    assert !Tracker.find(2).custom_field_ids.include?(2)
+
+    issue = Issue.find(issue.id)
+    issue.attributes = {:tracker_id => 2, :custom_field_values => {'1' => ''}}
+
+    issue = Issue.find(issue.id)
+    custom_value = issue.custom_value_for(2)
+    assert_not_nil custom_value
+    assert_equal 'Test', custom_value.value
+  end
+
   def test_assigning_tracker_id_should_reload_custom_fields_values
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project => Project.find(1) }

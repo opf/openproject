@@ -19,6 +19,8 @@ class Repository < ActiveRecord::Base
   has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
   has_many :changes, :through => :changesets
 
+  before_save :sanitize_urls
+
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
@@ -26,8 +28,12 @@ class Repository < ActiveRecord::Base
   attr_protected :project_id
 
   validates_length_of :password, :maximum => 255, :allow_nil => true
+  validate :validate_enabled_scm, :on => :create
+
   # Checks if the SCM is enabled when creating a repository
-  validate_on_create { |r| r.errors.add(:type, :invalid) unless Setting.enabled_scm.include?(r.class.name.demodulize) }
+  def validate_enabled_scm
+    errors.add(:type, :invalid) unless Setting.enabled_scm.include?(self.class.name.demodulize)
+  end
 
   # Removes leading and trailing whitespace
   def url=(arg)
@@ -274,8 +280,8 @@ class Repository < ActiveRecord::Base
 
   private
 
-  def before_save
-    # Strips url and root_url
+  # Strips url and root_url
+  def sanitize_urls
     url.strip! if url.present?
     root_url.strip! if root_url.present?
     true

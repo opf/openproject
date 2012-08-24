@@ -1,0 +1,4 @@
+jQuery('#tab-content-users').html("<%= escape_javascript render(:partial => 'groups/users') %>")
+<% @users.each do |user| %>
+  jQuery('#user-<%= user.id %>').effect("highlight", {}, 2000);
+<% end if @users.present? %>

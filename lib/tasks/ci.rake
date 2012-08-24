@@ -24,6 +24,52 @@ end
 
 # Tasks can be hooked into by redefining them in a plugin
 namespace :ci do
+  namespace :travis do
+    desc "Prepare a TRAVIS run"
+    task :prepare do
+      Rails.env = 'test'
+      ENV['RAILS_ENV'] = 'test'
+      RAILS_ENV = 'test'
+      db_adapter = ENV['DB']
+
+      raise 'please provide a db adapter with DB={mysql2, postgres, sqlite}' unless db_adapter
+
+      db_info = {
+        'mysql2' => {
+          'adapter'  => 'mysql2',
+          'username' => 'root'
+        },
+        'postgres'=> {
+          'adapter'  => 'postgresql',
+          'username' => 'postgres'
+        },
+        'sqlite' => {
+          'adapter'  => 'sqlite3',
+          'database' => 'db/test.sqlite3'
+        }
+      }[db_adapter]
+
+      database_yml = {
+        'database' => 'chiliproject_test'
+      }.merge(db_info)
+
+      File.open("config/database.yml", 'w') do |f|
+        YAML.dump({"test" => database_yml}, f)
+      end
+
+      Rake::Task["generate_session_store"].invoke
+
+      # Create and migrate the database
+      Rake::Task["db:create"].invoke
+      Rake::Task["db:migrate"].invoke
+      # Rake::Task["db:migrate:plugins"].invoke
+      Rake::Task["db:schema:dump"].invoke
+
+      # Create test repositories
+      Rake::Task["test:scm:setup:all"].invoke
+    end
+  end
+
   desc "Setup Redmine for a new build."
   task :setup do
     Rake::Task["ci:dump_environment"].invoke

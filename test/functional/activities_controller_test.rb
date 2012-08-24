@@ -29,7 +29,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /(#{IssueStatus.find(2).name})/,
+                     :content => /#{ERB::Util.html_escape(IssueStatus.find(2).name)}/
                    }
                  }
                }
@@ -47,7 +47,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /#{Issue.find(1).subject}/,
+                     :content => /#{ERB::Util.html_escape(Issue.find(1).subject)}/
                    }
                  }
                }
@@ -65,7 +65,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /#{Issue.find(1).subject}/,
+                     :content => /#{ERB::Util.html_escape(Issue.find(1).subject)}/
                    }
                  }
                }
@@ -83,7 +83,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /#{Issue.find(1).subject}/,
+                     :content => /#{ERB::Util.html_escape(Issue.find(1).subject)}/
                    }
                  }
                }

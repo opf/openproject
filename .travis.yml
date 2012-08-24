@@ -1,0 +1,17 @@
+language: ruby
+rvm:
+  - 1.9.3
+  - 1.9.2
+env:
+  - "RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
+  - "RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
+  - "RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql:mysql2:postgres"
+script: "bundle exec rake"
+before_script:
+  - "sudo apt-get --no-install-recommends install bzr cvs darcs git mercurial subversion"
+  - "RAILS_ENV=production rake ci:travis:prepare"
+branches:
+  only:
+    - feature/rails3
+notifications:
+  email: false

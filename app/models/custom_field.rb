@@ -50,8 +50,10 @@ class CustomField < ActiveRecord::Base
     self.possible_values ||= []
   end
 
-  def before_validation
-    # make sure these fields are not searchable
+  before_validation :check_searchability
+
+  # make sure int, float, date, and bool are not searchable
+  def check_searchability
     self.searchable = false if %w(int float date bool).include?(field_format)
     true
   end

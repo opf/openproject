@@ -1,0 +1,11 @@
+<%= t(:text_issue_updated, :id => "##{@issue.id}", :author => @journal.user) %>
+
+<ul>
+<% @journal.details.each do |detail| %>
+  <li><%= @journal.render_detail(detail, true) %></li>
+<% end %>
+</ul>
+
+<%= textilizable(@journal.notes, :only_path => false) %>
+<hr />
+<%= render :partial => 'issue_details', :locals => { :issue => @issue } %>

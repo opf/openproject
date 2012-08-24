@@ -28,8 +28,11 @@ class GroupTest < ActiveSupport::TestCase
     role_1 = Role.find(1)
     role_2 = Role.find(2)
 
-    group.members = [Member.new(:project => project, :roles => [role_1, role_2])]
-
+    member = Member.create! do |m|
+      m.project = project
+      m.role_ids = [role_1, role_2].map(&:id)
+      m.user_id = group.id
+    end
     group.users << user
 
     assert user.member_of?(project)

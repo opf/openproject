@@ -75,6 +75,19 @@ module ApplicationHelper
     end
   end
 
+  def link_to_issue_preview(context = nil, options = {})
+    url = context.is_a?(Project) ?
+            preview_new_project_issues_path(:project_id => context) :
+            preview_issue_path(context)
+
+    id = options[:form_id] || 'issue-form-preview'
+
+    link_to l(:label_preview),
+            url,
+            :id => id,
+            :class => 'preview'
+  end
+
   # Show a sorted linkified (if active) comma-joined list of users
   def list_users(users, options={})
     users.sort.collect{|u| link_to_user(u, options)}.join(", ")
@@ -184,7 +197,12 @@ module ApplicationHelper
     end
 
     if project.active?
-      link << link_to(project.name, project_path(project, options), html_options)
+      # backwards compatibility
+      if options.delete(:action) == 'settings'
+        link << link_to(project.name, settings_project_path(project, options), html_options)
+      else
+        link << link_to(project.name, project_path(project, options), html_options)
+      end
     else
       link << project.name
     end
@@ -421,12 +439,14 @@ module ApplicationHelper
     links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
   end
 
-  def reorder_links(name, url)
+  def reorder_links(name, url, options = {})
+    method = options[:method] || :post
+
     content_tag(:span,
-      link_to(image_tag('2uparrow.png',   :alt => l(:label_sort_highest)), url.merge({"#{name}[move_to]" => 'highest'}), :method => :post, :title => l(:label_sort_highest)) +
-      link_to(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),  url.merge({"#{name}[move_to]" => 'higher'}),  :method => :post, :title => l(:label_sort_higher)) +
-      link_to(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),   url.merge({"#{name}[move_to]" => 'lower'}),   :method => :post, :title => l(:label_sort_lower)) +
-      link_to(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),  url.merge({"#{name}[move_to]" => 'lowest'}),  :method => :post, :title => l(:label_sort_lowest)),
+      link_to(image_tag('2uparrow.png',   :alt => l(:label_sort_highest)), url.merge({"#{name}[move_to]" => 'highest'}), :method => method, :title => l(:label_sort_highest)) +
+      link_to(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),  url.merge({"#{name}[move_to]" => 'higher'}),  :method => method, :title => l(:label_sort_higher)) +
+      link_to(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),   url.merge({"#{name}[move_to]" => 'lower'}),   :method => method, :title => l(:label_sort_lower)) +
+      link_to(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),  url.merge({"#{name}[move_to]" => 'lowest'}),  :method => method, :title => l(:label_sort_lowest)),
       :class => "reorder-icons"
     )
   end

@@ -16,7 +16,9 @@ class CustomValue < ActiveRecord::Base
   belongs_to :custom_field
   belongs_to :customized, :polymorphic => true
 
-  def after_initialize
+  after_initialize :set_default_value
+
+  def set_default_value
     if new_record? && custom_field && (customized_type.blank? || (customized && customized.new_record?))
       self.value ||= custom_field.default_value
     end

@@ -38,6 +38,10 @@ class WikiPage < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
 
+  after_initialize :check_and_mark_as_protected
+  before_save :update_redirects
+  before_destroy :remove_redirects
+
   # eager load information about last updates, without loading text
   scope :with_updated_on, {
     :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
@@ -47,7 +51,7 @@ class WikiPage < ActiveRecord::Base
   # Wiki pages that are protected by default
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
 
-  def after_initialize
+  def check_and_mark_as_protected
     if new_record? && DEFAULT_PROTECTED_PAGES.include?(title.to_s.downcase)
       self.protected = true
     end
@@ -63,7 +67,7 @@ class WikiPage < ActiveRecord::Base
     write_attribute(:title, value)
   end
 
-  def before_save
+  def update_redirects
     self.title = Wiki.titleize(title)
     # Manage redirects if the title has changed
     if !@previous_title.blank? && (@previous_title != title) && !new_record?
@@ -80,8 +84,8 @@ class WikiPage < ActiveRecord::Base
     end
   end
 
-  def before_destroy
-    # Remove redirects to this page
+  # Remove redirects to this page
+  def remove_redirects
     wiki.redirects.find_all_by_redirects_to(title).each(&:destroy)
   end
 
@@ -129,7 +133,7 @@ class WikiPage < ActiveRecord::Base
       if time = read_attribute(:updated_on)
         # content updated_on was eager loaded with the page
         unless time.is_a? Time
-          time = Time.parse(time) rescue nil
+          time = Time.zone.parse(time) rescue nil
         end
         @updated_on = time
       else

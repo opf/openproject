@@ -19,7 +19,7 @@ class JournalsController; def rescue_action(e) raise e end; end
 
 class JournalsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles,
-           :roles, :issues, :journals, :journal_details, :enabled_modules,
+           :roles, :issues, :journals, :enabled_modules,
            :trackers, :issue_statuses, :enumerations,
            :custom_fields, :custom_field_translations, :custom_values, :custom_fields_projects
 
@@ -42,7 +42,7 @@ class JournalsControllerTest < ActionController::TestCase
 
   def test_post_edit
     @request.session[:user_id] = 1
-    xhr :post, :edit, :id => 2, :notes => 'Updated notes'
+    xhr :post, :update, :id => 2, :notes => 'Updated notes'
     assert_response :success
     assert_select_rjs :replace, 'journal-2-notes'
     assert_equal 'Updated notes', Journal.find(2).notes
@@ -50,14 +50,14 @@ class JournalsControllerTest < ActionController::TestCase
 
   def test_post_edit_with_empty_notes
     @request.session[:user_id] = 1
-    xhr :post, :edit, :id => 2, :notes => ''
+    xhr :post, :update, :id => 2, :notes => ''
     assert_response :success
     assert_select_rjs :remove, 'change-2'
     assert_nil Journal.find_by_id(2)
   end
 
   def test_index
-    get :index, :project_id => 1
+    get :index, :project_id => 1, :format => :atom
     assert_response :success
     assert_not_nil assigns(:journals)
     assert_equal 'application/atom+xml', @response.content_type

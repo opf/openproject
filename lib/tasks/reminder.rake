@@ -12,7 +12,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
 desc <<-END_DESC
 Send reminders about issues due in the next days.
 
@@ -28,12 +27,7 @@ END_DESC
 
 namespace :redmine do
   task :send_reminders => :environment do
-    options = {}
-    options[:days] = ENV['days'].to_i if ENV['days']
-    options[:project] = ENV['project'] if ENV['project']
-    options[:tracker] = ENV['tracker'].to_i if ENV['tracker']
-    options[:users] = (ENV['users'] || '').split(',').each(&:strip!)
-
-    Mailer.reminders(options)
+    reminder = DueIssuesReminder.new(ENV['days'], ENV['project'], ENV['tracker'], ENV['users'].to_s.split(',').map(&:to_i))
+    reminder.remind_users
   end
 end

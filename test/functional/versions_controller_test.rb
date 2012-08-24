@@ -19,7 +19,16 @@ require 'versions_controller'
 class VersionsController; def rescue_action(e) raise e end; end
 
 class VersionsControllerTest < ActionController::TestCase
-  fixtures :projects, :versions, :issues, :users, :roles, :members, :member_roles, :enabled_modules, :issue_statuses
+  fixtures :projects,
+           :versions,
+           :issues,
+           :users,
+           :roles,
+           :members,
+           :member_roles,
+           :enabled_modules,
+           :issue_statuses,
+           :enumerations
 
   def setup
     @controller = VersionsController.new
@@ -29,7 +38,7 @@ class VersionsControllerTest < ActionController::TestCase
   end
 
   def test_index
-    get :index, :project_id => 1
+    get :index, :project_id => '1'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:versions)
@@ -42,7 +51,7 @@ class VersionsControllerTest < ActionController::TestCase
   end
 
   def test_index_with_completed_versions
-    get :index, :project_id => 1, :completed => 1
+    get :index, :project_id => '1', :completed => '1'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:versions)
@@ -54,7 +63,7 @@ class VersionsControllerTest < ActionController::TestCase
 
   def test_index_showing_subprojects_versions
     @subproject_version = Version.generate!(:project => Project.find(3))
-    get :index, :project_id => 1, :with_subprojects => 1
+    get :index, :project_id => '1', :with_subprojects => '1'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:versions)
@@ -64,7 +73,7 @@ class VersionsControllerTest < ActionController::TestCase
   end
 
   def test_show
-    get :show, :id => 2
+    get :show, :id => '2'
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:version)

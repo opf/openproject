@@ -68,13 +68,13 @@ Redmine::AccessControl.map do |map|
   map.permission :add_project, {:projects => [:new, :create]}, :require => :loggedin
   map.permission :edit_project, {:projects => [:settings, :edit, :update]}, :require => :member
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
-  map.permission :manage_members, {:projects => :settings, :members => [:new, :edit, :destroy, :autocomplete_for_member]}, :require => :member
+  map.permission :manage_members, {:projects => :settings, :members => [:create, :update, :destroy, :autocomplete]}, :require => :member
   map.permission :manage_versions, {:projects => :settings, :versions => [:new, :create, :edit, :update, :close_completed, :destroy]}, :require => :member
   map.permission :add_subprojects, {:projects => [:new, :create]}, :require => :member
 
   map.project_module :issue_tracking do |map|
     # Issue categories
-    map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :edit, :destroy]}, :require => :member
+    map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :create, :edit, :update, :destroy]}, :require => :member
     # Issues
     map.permission :view_issues, {:issues => [:index, :all, :show],
                                   :auto_complete => [:issues],
@@ -82,11 +82,14 @@ Redmine::AccessControl.map do |map|
                                   :versions => [:index, :show, :status_by],
                                   :journals => [:index, :diff],
                                   :queries => :index,
-                                  :reports => [:issue_report, :issue_report_details]}
+                                  :'issues/reports' => [:report, :report_details]}
     map.permission :export_issues, {:issues => [:index, :all]}
-    map.permission :add_issues, {:issues => [:new, :create, :update_form]}
-    map.permission :edit_issues, {:issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form], :journals => [:new]}
-    map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
+    map.permission :add_issues, {:issues => [:new, :create, :update_form],
+                                 :'issues/previews' => :create}
+    map.permission :edit_issues, {:issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form],
+                                  :journals => [:new],
+                                  :'issues/previews' => :create}
+    map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     map.permission :add_issue_notes, {:issues => [:edit, :update], :journals => [:new]}
     map.permission :edit_issue_notes, {:journals => [:edit, :update]}, :require => :loggedin
@@ -111,13 +114,13 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :news do |map|
-    map.permission :manage_news, {:news => [:new, :create, :edit, :update, :destroy], :comments => [:destroy]}, :require => :member
+    map.permission :manage_news, {:news => [:new, :create, :edit, :update, :destroy], :'news/comments' => [:destroy]}, :require => :member
     map.permission :view_news, {:news => [:index, :show]}, :public => true
-    map.permission :comment_news, {:comments => :create}
+    map.permission :comment_news, {:'news/comments' => :create}
   end
 
   map.project_module :documents do |map|
-    map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment]}, :require => :loggedin
+    map.permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
     map.permission :view_documents, :documents => [:index, :show, :download]
   end
 
@@ -148,9 +151,9 @@ Redmine::AccessControl.map do |map|
   map.project_module :boards do |map|
     map.permission :manage_boards, {:boards => [:new, :create, :edit, :update, :destroy]}, :require => :member
     map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true
-    map.permission :add_messages, {:messages => [:new, :reply, :quote]}
-    map.permission :edit_messages, {:messages => :edit}, :require => :member
-    map.permission :edit_own_messages, {:messages => :edit}, :require => :loggedin
+    map.permission :add_messages, {:messages => [:new, :create, :reply, :quote]}
+    map.permission :edit_messages, {:messages => [:edit, :update]}, :require => :member
+    map.permission :edit_own_messages, {:messages => [:edit, :update]}, :require => :loggedin
     map.permission :delete_messages, {:messages => :destroy}, :require => :member
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
   end
@@ -211,7 +214,7 @@ end
 
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
-  menu.push :activity, { :controller => 'activities', :action => 'index' }
+  menu.push :activity, { :controller => 'activities', :action => 'index' }, :param => :project_id
   menu.push :roadmap, { :controller => 'versions', :action => 'index' }, :param => :project_id,
               :if => Proc.new { |p| p.shared_versions.any? }
 
@@ -219,7 +222,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
   menu.push :view_all_issues, { :controller => 'issues', :action => 'all' }, :param => :project_id, :caption => :label_issue_view_all, :parent => :issues
-  menu.push :summary_field, {:controller => 'reports', :action => 'issue_report'}, :param => :id, :caption => :field_summary, :parent => :issues
+  menu.push :summary_field, {:controller => 'issues/reports', :action => 'report'}, :param => :project_id, :caption => :field_summary, :parent => :issues
   menu.push :gantt, { :controller => 'issues/gantts', :action => 'index' }, :param => :project_id, :caption => :label_gantt
   menu.push :calendar, { :controller => 'calendars', :action => 'show' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural

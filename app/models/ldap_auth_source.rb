@@ -69,9 +69,9 @@ class LdapAuthSource < AuthSource
   def get_user_attributes_from_ldap_entry(entry)
     {
      :dn => entry.dn,
-     :firstname => AuthSourceLdap.get_attr(entry, self.attr_firstname),
-     :lastname => AuthSourceLdap.get_attr(entry, self.attr_lastname),
-     :mail => AuthSourceLdap.get_attr(entry, self.attr_mail),
+     :firstname => LdapAuthSource.get_attr(entry, self.attr_firstname),
+     :lastname => LdapAuthSource.get_attr(entry, self.attr_lastname),
+     :mail => LdapAuthSource.get_attr(entry, self.attr_mail),
      :auth_source_id => self.id
     }
   end

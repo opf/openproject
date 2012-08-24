@@ -40,7 +40,8 @@ class IssuesControllerTest < ActionController::TestCase
            :custom_fields_trackers,
            :time_entries,
            :journals,
-           :queries
+           :queries,
+           :watchers
 
   def setup
     @controller = IssuesController.new
@@ -57,7 +58,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_tag :tag => 'a', :content => /Subproject issue/
     # private projects hidden
     assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
@@ -73,7 +74,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => /Can't print recipes/
+    assert_no_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_tag :tag => 'a', :content => /Subproject issue/
   end
 
@@ -84,7 +85,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => /Can't print recipes/
+    assert_no_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_tag :tag => 'a', :content => /Subproject issue/
   end
 
@@ -94,7 +95,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_no_tag :tag => 'a', :content => /Subproject issue/
   end
 
@@ -104,7 +105,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_tag :tag => 'a', :content => /Subproject issue/
     assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
   end
@@ -116,7 +117,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
     assert_tag :tag => 'a', :content => /Subproject issue/
     assert_tag :tag => 'a', :content => /Issue of a private subproject/
   end
@@ -409,7 +410,7 @@ class IssuesControllerTest < ActionController::TestCase
       post :create, :project_id => 1,
                  :issue => {:tracker_id => 3,
                             :status_id => 2,
-                            :subject => 'This is the test_new issue',
+                            :subject => 'This is the test_create issue',
                             :description => 'This is the description',
                             :priority_id => 5,
                             :start_date => '2010-11-07',
@@ -418,7 +419,7 @@ class IssuesControllerTest < ActionController::TestCase
     end
     assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
 
-    issue = Issue.find_by_subject('This is the test_new issue')
+    issue = Issue.find_by_subject('This is the test_create issue')
     assert_not_nil issue
     assert_equal 2, issue.author_id
     assert_equal 3, issue.tracker_id
@@ -430,11 +431,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'Value for field 2', v.value
   end
 
-  def test_post_new_should_not_send_a_notification_if_send_notification_is_off
+  def test_post_create_should_not_send_a_notification_if_send_notification_is_off
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
     post :create, :project_id => 1,
-               :send_notification => 0,
+               :send_notification => '0',
                :issue => {:tracker_id => 3,
                           :subject => 'This is the test_new issue',
                           :description => 'This is the description',
@@ -447,23 +448,25 @@ class IssuesControllerTest < ActionController::TestCase
     end
 
   def test_post_create_without_start_date
-    @request.session[:user_id] = 2
-    assert_difference 'Issue.count' do
-      post :create, :project_id => 1,
-                 :issue => {:tracker_id => 3,
-                            :status_id => 2,
-                            :subject => 'This is the test_new issue',
-                            :description => 'This is the description',
-                            :priority_id => 5,
-                            :start_date => '',
-                            :estimated_hours => '',
-                            :custom_field_values => {'2' => 'Value for field 2'}}
-    end
-    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
+    with_settings :issue_startdate_is_adddate => "0" do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        post :create, :project_id => 1,
+                   :issue => {:tracker_id => 3,
+                              :status_id => 2,
+                              :subject => 'This is the test_new issue',
+                              :description => 'This is the description',
+                              :priority_id => 5,
+                              :start_date => '',
+                              :estimated_hours => '',
+                              :custom_field_values => {'2' => 'Value for field 2'}}
+      end
+      assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
 
-    issue = Issue.find_by_subject('This is the test_new issue')
-    assert_not_nil issue
-    assert_nil issue.start_date
+      issue = Issue.find_by_subject('This is the test_new issue')
+      assert_not_nil issue
+      assert_nil issue.start_date
+    end
   end
 
   def test_post_create_and_continue
@@ -788,11 +791,11 @@ class IssuesControllerTest < ActionController::TestCase
   def test_update_edit_form
     @request.session[:user_id] = 2
     xhr :post, :new, :project_id => 1,
-                             :id => 1,
-                             :issue => {:tracker_id => 2,
-                                        :subject => 'This is the test_new issue',
-                                        :description => 'This is the description',
-                                        :priority_id => 5}
+                     :id => 1,
+                     :issue => {:tracker_id => 2,
+                                :subject => 'This is the test_new issue',
+                                :description => 'This is the description',
+                                :priority_id => 5}
     assert_response :success
     assert_template 'attributes'
 
@@ -802,20 +805,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 1, issue.project_id
     assert_equal 2, issue.tracker_id
     assert_equal 'This is the test_new issue', issue.subject
-  end
-
-  def test_update_using_invalid_http_verbs
-    @request.session[:user_id] = 2
-    subject = 'Updated by an invalid http verb'
-
-    get :update, :id => 1, :issue => {:subject => subject}
-    assert_not_equal subject, Issue.find(1).subject
-
-    post :update, :id => 1, :issue => {:subject => subject}
-    assert_not_equal subject, Issue.find(1).subject
-
-    delete :update, :id => 1, :issue => {:subject => subject}
-    assert_not_equal subject, Issue.find(1).subject
   end
 
   def test_put_update_without_custom_fields_param
@@ -844,9 +833,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal '125', issue.custom_value_for(2).value
 
     mail = ActionMailer::Base.deliveries.last
-    assert_kind_of TMail::Mail, mail
+    assert_kind_of Mail::Message, mail
     assert mail.subject.starts_with?("[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}]")
-    assert mail.body.include?("Subject changed from #{old_subject} to #{new_subject}")
+    mail.parts.each do |part|
+      assert part.body.encoded.include?("Subject changed from #{ERB::Util.html_escape(old_subject)} to #{new_subject}")
+    end
   end
 
   def test_put_update_with_custom_field_change
@@ -872,8 +863,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'New custom value', issue.custom_value_for(2).value
 
     mail = ActionMailer::Base.deliveries.last
-    assert_kind_of TMail::Mail, mail
-    assert mail.body.include?("Searchable field changed from 125 to New custom value")
+    assert_kind_of Mail::Message, mail
+    assert mail.body.encoded.include?("Searchable field changed from 125 to New custom value")
   end
 
   def test_put_update_with_status_and_assignee_change
@@ -895,7 +886,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, j.details.size
 
     mail = ActionMailer::Base.deliveries.last
-    assert mail.body.include?("Status changed from New to Assigned")
+    assert mail.body.encoded.include?("Status changed from New to Assigned")
     # subject should contain the new status
     assert mail.subject.include?("(#{ IssueStatus.find(2).name })")
   end
@@ -913,7 +904,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal User.anonymous, j.user
 
     mail = ActionMailer::Base.deliveries.last
-    assert mail.body.include?(notes)
+    assert mail.body.encoded.include?(notes)
   end
 
   def test_put_update_with_note_and_spent_time
@@ -955,7 +946,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal User.anonymous, j.user
 
     mail = ActionMailer::Base.deliveries.last
-    assert mail.body.include?('testfile.txt')
+    assert mail.body.encoded.include?('testfile.txt')
   end
 
   def test_put_update_with_attachment_that_fails_to_save
@@ -1016,7 +1007,7 @@ class IssuesControllerTest < ActionController::TestCase
     new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
 
     put :update, :id => 1,
-                 :send_notification => 0,
+                 :send_notification => '0',
                  :issue => {:subject => new_subject,
                             :priority_id => '6',
                             :category_id => '1' # no change
@@ -1037,7 +1028,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_error_tag :descendant => {:content => /Activity can't be blank/}
+    assert_error_tag :descendant => {:content => ERB::Util.html_escape("Activity can't be blank")}
     assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
     assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
   end
@@ -1055,8 +1046,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_error_tag :descendant => {:content => /Activity can't be blank/}
-    assert_error_tag :descendant => {:content => /Hours can't be blank/}
+    assert_error_tag :descendant => {:content => ERB::Util.html_escape("Activity can't be blank")}
+    assert_error_tag :descendant => {:content => ERB::Util.html_escape("Hours can't be blank")}
     assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
     assert_tag :input, :attributes => { :name => 'time_entry[comments]', :value => "this is my comment" }
   end
@@ -1213,7 +1204,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_equal "Bulk should fail", IssueJournal.last.notes
   end
 
-  def test_bullk_update_should_send_a_notification
+  def test_bulk_update_should_send_a_notification
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     put(:bulk_update,
