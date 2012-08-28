@@ -136,7 +136,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     # second one is a duplicate
     parent = TimeEntryActivity.find(9)
     parent = TimeEntryActivity.new({:name => parent.name, :project_id => 1, :position => parent.position, :active => true})
-    parent.save(false)
+    parent.save(:validate => false)
 
     TimeEntry.create!({ :project_id => 1,
                         :hours => 1.0,

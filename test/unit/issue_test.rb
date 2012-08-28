@@ -839,7 +839,7 @@ class IssueTest < ActiveSupport::TestCase
                              :issue_to => Issue.find(1),
                              :relation_type => IssueRelation::TYPE_PRECEDES }
     end
-    assert relation.save(false)
+    assert relation.save(:validate => false)
 
     assert_equal [2, 3], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end
@@ -873,14 +873,14 @@ class IssueTest < ActiveSupport::TestCase
                               :issue_to => Issue.find(2),
                               :relation_type => IssueRelation::TYPE_RELATES }
     end
-    assert relation.save(false)
+    assert relation.save(:validate => false)
 
     relation = IssueRelation.new.tap do |i|
       i. force_attributes = { :issue_from => Issue.find(3),
                               :issue_to => Issue.find(1),
                               :relation_type => IssueRelation::TYPE_RELATES }
     end
-    assert relation.save(false)
+    assert relation.save(:validate => false)
 
     assert_equal [2, 3, 8], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end

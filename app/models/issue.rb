@@ -830,7 +830,7 @@ class Issue < ActiveRecord::Base
       p.estimated_hours = nil if p.estimated_hours == 0.0
 
       # ancestors will be recursively updated
-      p.save(false)
+      p.save(:validate => false)
     end
   end
 
