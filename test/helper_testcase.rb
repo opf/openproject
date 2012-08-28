@@ -40,7 +40,7 @@ class HelperTestCase < ActionView::TestCase
     # Fake url rewriter so we can test url_for
     @controller.url = ActionController::UrlRewriter.new @request, {}
 
-    ActionView::Helpers::AssetTagHelper::reset_javascript_include_default
+    ActionView::Helpers::AssetTagHelper.javascript_expansions[:defaults] = ['prototype', 'effects', 'dragdrop', 'controls', 'rails']
   end
 
   def test_dummy
