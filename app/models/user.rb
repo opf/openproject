@@ -85,6 +85,8 @@ class User < Principal
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
 
+  validate :password_not_too_short
+
   before_save :encrypt_password
   before_create :sanitize_mail_notification_setting
   before_destroy :delete_associated_public_queries
@@ -604,10 +606,11 @@ class User < Principal
 
   protected
 
-  def validate
-    # Password length validation based on setting
-    if !password.nil? && password.size < Setting.password_min_length.to_i
-      errors.add(:password, :too_short, :count => Setting.password_min_length.to_i)
+  # Password length validation based on setting
+  def password_not_too_short
+    minimum_length = Setting.password_min_length.to_i
+    if password.present? && password.size < minimum_length
+      errors.add(:password, :too_short, :count => minimum_length)
     end
   end
 

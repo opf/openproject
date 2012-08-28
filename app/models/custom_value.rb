@@ -16,6 +16,11 @@ class CustomValue < ActiveRecord::Base
   belongs_to :custom_field
   belongs_to :customized, :polymorphic => true
 
+  validate :validate_presence_of_required_value
+  validate :validate_format_of_value
+  validate :validate_type_of_value
+  validate :validate_length_of_value
+
   after_initialize :set_default_value
 
   def set_default_value
@@ -46,14 +51,19 @@ class CustomValue < ActiveRecord::Base
   end
 
 protected
-  def validate
-    if value.blank?
-      errors.add(:value, :blank) if custom_field.is_required? and value.blank?
-    else
-      errors.add(:value, :invalid) unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
-      errors.add(:value, :too_short, :count => custom_field.min_length) if custom_field.min_length > 0 and value.length < custom_field.min_length
-      errors.add(:value, :too_long, :count => custom_field.max_length) if custom_field.max_length > 0 and value.length > custom_field.max_length
 
+  def validate_presence_of_required_value
+    errors.add(:value, :blank) if custom_field.is_required? && value.blank?
+  end
+
+  def validate_format_of_value
+    if value.present?
+      errors.add(:value, :invalid) unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
+    end
+  end
+
+  def validate_type_of_value
+    if value.present?
       # Format specific validations
       case custom_field.field_format
       when 'int'
@@ -65,6 +75,13 @@ protected
       when 'list'
         errors.add(:value, :inclusion) unless custom_field.possible_values.include?(value)
       end
+    end
+  end
+
+  def validate_length_of_value
+    if value.present?
+      errors.add(:value, :too_short, :count => custom_field.min_length) if custom_field.min_length > 0 and value.length < custom_field.min_length
+      errors.add(:value, :too_long, :count => custom_field.max_length) if custom_field.max_length > 0 and value.length > custom_field.max_length
     end
   end
 end

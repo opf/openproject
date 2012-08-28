@@ -38,6 +38,10 @@ class WikiPage < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
 
+  validate :validate_consistency_of_parent_title
+  validate :validate_non_circular_dependency
+  validate :validate_same_project
+
   after_initialize :check_and_mark_as_protected
   before_save :update_redirects
   before_destroy :remove_redirects
@@ -168,9 +172,15 @@ class WikiPage < ActiveRecord::Base
 
   protected
 
-  def validate
-    errors.add(:parent_title, :invalid) if !@parent_title.blank? && parent.nil?
+  def validate_consistency_of_parent_title
+    errors.add(:parent_title, :invalid) if @parent_title.present? && parent.nil?
+  end
+
+  def validate_non_circular_dependency
     errors.add(:parent_title, :circular_dependency) if parent && (parent == self || parent.ancestors.include?(self))
+  end
+
+  def validate_same_project
     errors.add(:parent_title, :not_same_project) if parent && (parent.wiki_id != wiki_id)
   end
 end

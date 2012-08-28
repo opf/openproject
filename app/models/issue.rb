@@ -69,6 +69,14 @@ class Issue < ActiveRecord::Base
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_numericality_of :estimated_hours, :allow_nil => true
 
+  validate :validate_format_of_due_date
+  validate :validate_start_date_before_due_date
+  validate :validate_start_date_before_soonest_start_date
+  validate :validate_fixed_version_is_assignable
+  validate :validate_fixed_version_is_still_open
+  validate :validate_enabled_tracker
+  validate :validate_correct_parent
+
   scope :visible, lambda {|*args| { :include => :project,
                                     :conditions => Issue.visible_condition(args.first || User.current) } }
 
@@ -315,34 +323,44 @@ class Issue < ActiveRecord::Base
     Setting.issue_done_ratio == 'issue_field'
   end
 
-  def validate
+  def validate_format_of_due_date
     if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
       errors.add :due_date, :not_a_date
     end
+  end
 
+  def validate_start_date_before_due_date
     if self.due_date and self.start_date and self.due_date < self.start_date
       errors.add :due_date, :greater_than_start_date
     end
+  end
 
+  def validate_start_date_before_soonest_start_date
     if start_date && soonest_start && start_date < soonest_start
       errors.add :start_date, :invalid
     end
+  end
 
+  def validate_fixed_version_is_assignable
     if fixed_version
-      if !assignable_versions.include?(fixed_version)
-        errors.add :fixed_version_id, :inclusion
-      elsif reopened? && fixed_version.closed?
-        errors.add_to_base I18n.t(:error_can_not_reopen_issue_on_closed_version)
-      end
+      errors.add :fixed_version_id, :inclusion unless assignable_versions.include?(fixed_version)
     end
+  end
 
+  def validate_fixed_version_is_still_open
+    if fixed_version && assignable_versions.include?(fixed_version)
+      errors.add_to_base I18n.t(:error_can_not_reopen_issue_on_closed_version) if reopened? && fixed_version.closed?
+    end
+  end
+
+  def validate_enabled_tracker
     # Checks that the issue can not be added/moved to a disabled tracker
     if project && (tracker_id_changed? || project_id_changed?)
-      unless project.trackers.include?(tracker)
-        errors.add :tracker_id, :inclusion
-      end
+      errors.add :tracker_id, :inclusion unless project.trackers.include?(tracker)
     end
+  end
 
+  def validate_correct_parent
     # Checks parent issue assignment
     if @parent_issue
       if !Setting.cross_project_issue_relations? && @parent_issue.project_id != self.project_id

@@ -21,6 +21,8 @@ class Watcher < ActiveRecord::Base
   validates_presence_of :user
   validates_uniqueness_of :user_id, :scope => [:watchable_type, :watchable_id]
 
+  validate :validate_active_user
+
   # Unwatch things that users are no longer allowed to view
   def self.prune(options={})
     if options.has_key?(:user)
@@ -36,8 +38,8 @@ class Watcher < ActiveRecord::Base
 
   protected
 
-  def validate
-    errors.add :user_id, :invalid unless user.nil? || user.active?
+  def validate_active_user
+    errors.add :user_id, :invalid if user.present? && !user.active?
   end
 
   private

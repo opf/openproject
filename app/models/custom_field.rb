@@ -45,6 +45,9 @@ class CustomField < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
 
+  validate :validate_presence_of_possible_values
+  validate :validate_default_value_in_translations
+
   def initialize(attributes = nil)
     super
     self.possible_values ||= []
@@ -58,13 +61,15 @@ class CustomField < ActiveRecord::Base
     true
   end
 
-  def validate
+  def validate_presence_of_possible_values
     if self.field_format == "list"
-      errors.add(:possible_values, :blank) if self.possible_values.nil? || self.possible_values.empty?
+      errors.add(:possible_values, :blank) if self.possible_values.blank?
       errors.add(:possible_values, :invalid) unless self.possible_values.is_a? Array
     end
+  end
 
-    # validate default value in every translation available
+  # validate default value in every translation available
+  def validate_default_value_in_translations
     required_field = self.is_required
     self.is_required = false
     self.translated_locales.each do |locale|
