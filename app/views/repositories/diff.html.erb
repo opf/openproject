@@ -12,7 +12,7 @@
 <%= render :partial => 'common/diff', :locals => {:diff => @diff, :diff_type => @diff_type} %>
 <% end -%>
 
-<% other_formats_links do |f| %>
+<%= other_formats_links do |f| %>
 	<%= f.link_to 'Diff', :url => params, :caption => 'Unified diff' %>
 <% end %>
 

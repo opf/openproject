@@ -21,7 +21,7 @@
 <%= render :partial => 'list', :locals => { :entries => @entries }%>
 <p class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></p>
 
-<% other_formats_links do |f| %>
+<%= other_formats_links do |f| %>
 	<%= f.link_to 'Atom', :url => params.merge({:issue_id => @issue, :key => User.current.rss_key}) %>
 	<%= f.link_to 'CSV', :url => params %>
 <% end %>

@@ -50,7 +50,7 @@
 </div>
 <% end %>
 
-<% other_formats_links do |f| %>
+<%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => { :controller => 'activities',
                                   :action => 'index',
                                   :show_wiki_edits => 1,

@@ -76,7 +76,7 @@
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
 <% end %>
 
-<% other_formats_links do |f| %>
+<%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => { :project_id => @project, :query_id => (@query.new_record? ? nil : @query), :key => User.current.rss_key } %>
   <%= f.link_to 'CSV', :url => { :project_id => @project } %>
   <%= f.link_to 'PDF', :url => { :project_id => @project } %>

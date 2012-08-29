@@ -33,7 +33,7 @@
                              :class => 'navigate-right'}) unless @date_to >= Date.today %>
 </div>
 &nbsp;
-<% other_formats_links do |f| %>
+<%= other_formats_links do |f| %>
 	<%= f.link_to 'Atom', :url => params.merge(:from => nil, :key => User.current.rss_key) %>
 <% end %>
 

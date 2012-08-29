@@ -29,7 +29,7 @@
   </tbody>
 </table>
 
-<% other_formats_links do |f| %>
+<%= other_formats_links do |f| %>
 	<%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => @project, :show_messages => 1, :key => User.current.rss_key} %>
 <% end %>
 

@@ -188,7 +188,7 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 </tr>
 </table>
 
-<% other_formats_links do |f| %>
+<%= other_formats_links do |f| %>
 	<%= f.link_to 'PDF', :url => @gantt.params %>
 	<%= f.link_to('PNG', :url => @gantt.params) if @gantt.respond_to?('to_image') %>
 <% end %>
