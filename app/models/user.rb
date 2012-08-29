@@ -689,7 +689,7 @@ class AnonymousUser < User
 
   # There should be only one AnonymousUser in the database
   def validate_unique_anonymous_user
-    errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
+    errors.add :base, 'An anonymous user already exists.' if AnonymousUser.find(:first)
   end
 
   def available_custom_fields
@@ -712,7 +712,7 @@ class DeletedUser < User
 
   # There should be only one DeletedUser in the database
   def validate_unique_deleted_user
-    errors.add_to_base 'A DeletedUser already exists.' if DeletedUser.find(:first)
+    errors.add :base, 'A DeletedUser already exists.' if DeletedUser.find(:first)
   end
 
   def self.first

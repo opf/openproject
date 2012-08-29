@@ -349,7 +349,7 @@ class Issue < ActiveRecord::Base
 
   def validate_fixed_version_is_still_open
     if fixed_version && assignable_versions.include?(fixed_version)
-      errors.add_to_base I18n.t(:error_can_not_reopen_issue_on_closed_version) if reopened? && fixed_version.closed?
+      errors.add :base, I18n.t(:error_can_not_reopen_issue_on_closed_version) if reopened? && fixed_version.closed?
     end
   end
 
@@ -636,7 +636,7 @@ class Issue < ActiveRecord::Base
 
           error_message << " " << l(:notice_locking_conflict_reload_page)
 
-          errors.add_to_base error_message
+          errors.add :base, error_message
           raise ActiveRecord::Rollback
         end
       end
