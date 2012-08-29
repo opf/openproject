@@ -15,7 +15,7 @@
 # Redmine sample plugin
 require 'redmine'
 
-RAILS_DEFAULT_LOGGER.info 'Starting Example plugin for RedMine'
+Rails.logger.info 'Starting Example plugin for RedMine'
 
 Redmine::Plugin.register :sample_plugin do
   name 'Example plugin'
