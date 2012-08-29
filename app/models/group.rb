@@ -13,8 +13,10 @@
 #++
 
 class Group < Principal
-  has_and_belongs_to_many :users, :after_add => :user_added,
-                                  :after_remove => :user_removed
+  has_many :group_users
+  has_many :users, :through => :group_users,
+                   :after_add => :user_added,
+                   :after_remove => :user_removed
 
   acts_as_customizable
 
