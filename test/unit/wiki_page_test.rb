@@ -81,15 +81,15 @@ class WikiPageTest < ActiveSupport::TestCase
     # A page that doesn't exist
     page.parent_title = 'Unknown title'
     assert !page.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'), page.errors.on(:parent_title)
+    assert_include page.errors[:parent_title], I18n.translate('activerecord.errors.messages.invalid')
     # A child page
     page.parent_title = 'Page_with_an_inline_image'
     assert !page.save
-    assert_equal I18n.translate('activerecord.errors.messages.circular_dependency'), page.errors.on(:parent_title)
+    assert_include page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
     # The page itself
     page.parent_title = 'CookBook_documentation'
     assert !page.save
-    assert_equal I18n.translate('activerecord.errors.messages.circular_dependency'), page.errors.on(:parent_title)
+    assert_include page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
 
     page.parent_title = 'Another_page'
     assert page.save

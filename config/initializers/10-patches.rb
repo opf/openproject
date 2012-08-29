@@ -97,7 +97,7 @@ module ActionView
             # excluding custom_values from the errors.each loop before
             # as more than one error can be assigned to custom_values
             # which would add to many error messages
-            if object.errors.on(:custom_values)
+            if object.errors[:custom_values].any?
               object.custom_values.each do |value|
                 value.errors.collect do |attr, msg|
                   # Generating unique identifier in order to jump directly to the field with the error

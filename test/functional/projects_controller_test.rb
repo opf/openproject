@@ -230,7 +230,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        assert_not_nil project.errors.on(:parent_id)
+        refute_empty project.errors[:parent_id]
       end
     end
 
@@ -265,7 +265,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        assert_not_nil project.errors.on(:parent_id)
+        refute_empty project.errors[:parent_id]
       end
 
       should "fail with unauthorized parent_id" do
@@ -282,7 +282,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        assert_not_nil project.errors.on(:parent_id)
+        refute_empty project.errors[:parent_id]
       end
     end
   end

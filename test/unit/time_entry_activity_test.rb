@@ -45,7 +45,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
 
     e = TimeEntryActivity.new(:name => 'Custom Data')
     assert !e.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'), e.errors.on(:custom_values)
+    assert_include e.errors[:custom_values], I18n.translate('activerecord.errors.messages.invalid')
   end
 
   def test_create_with_required_custom_field_should_succeed
@@ -68,7 +68,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     # Blanking custom field, save should fail
     e.custom_field_values = {field.id => ""}
     assert !e.save
-    assert e.errors.on(:custom_values)
+    refute_empty e.errors[:custom_values]
 
     # Update custom field to valid value, save should succeed
     e.custom_field_values = {field.id => "0"}
