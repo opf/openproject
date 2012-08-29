@@ -14,7 +14,6 @@
 
 
 require 'active_record'
-ActiveSupport::Deprecation.silenced = true
 module ActiveRecord
   class Base
     include Redmine::I18n
