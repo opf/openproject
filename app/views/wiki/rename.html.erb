@@ -2,7 +2,7 @@
 
 <%= error_messages_for 'page' %>
 
-<% labelled_tabular_form_for :wiki_page, @page, :url => { :action => 'rename' } do |f| %>
+<%= labelled_tabular_form_for :wiki_page, @page, :url => { :action => 'rename' } do |f| %>
 <div class="box">
 <p><%= f.text_field :title, :required => true, :size => 100  %></p>
 <p><%= f.check_box :redirect_existing_links %></p>
