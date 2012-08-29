@@ -19,7 +19,7 @@
   </td>
   <td class="roles">
     <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
-    <% remote_form_for(:membership, :url => { :action => 'edit_membership', :id => @user, :membership_id => membership },
+    <%= remote_form_for(:membership, :url => { :action => 'edit_membership', :id => @user, :membership_id => membership },
       														  :html => { :id => "member-#{membership.id}-roles-form", :style => 'display:none;'}) do %>
       	<p><% roles.each do |role| %>
         <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role),
@@ -49,7 +49,7 @@
 <div class="splitcontentright">
 <% if projects.any? %>
 <fieldset><legend><%=l(:label_project_new)%></legend>
-<% remote_form_for(:membership, :url => { :action => 'edit_membership', :id => @user }) do %>
+<%= remote_form_for(:membership, :url => { :action => 'edit_membership', :id => @user }) do %>
 <%= select_tag 'membership[project_id]', options_for_membership_project_select(@user, projects) %>
 <div>
   <%= l(:label_role_plural) %>:

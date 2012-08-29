@@ -6,7 +6,7 @@
             ) if User.current.allowed_to?(:add_issue_watchers, @project)
 %>)
 <% unless @watcher.nil? %>
-	<% remote_form_for(:watcher, @watcher,
+	<%= remote_form_for(:watcher, @watcher,
                 	   :url => {:controller => 'watchers',
               	              :action => 'new',
             	                :object_type => watched.class.name.underscore,
