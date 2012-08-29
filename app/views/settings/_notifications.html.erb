@@ -1,5 +1,5 @@
 <% if @deliveries %>
-<% form_tag({:action => 'edit', :tab => 'notifications'}) do %>
+<%= form_tag({:action => 'edit', :tab => 'notifications'}) do %>
 
 <div class="box tabular settings">
 <p><%= setting_text_field :mail_from, :size => 60 %></p>

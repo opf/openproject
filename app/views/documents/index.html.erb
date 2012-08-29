@@ -15,7 +15,7 @@
 
 <% content_for :sidebar do %>
     <h3><%= l(:label_sort_by, '') %></h3>
-    <% form_tag({}, :method => :get) do %>
+    <%= form_tag({}, :method => :get) do %>
     <label><%= radio_button_tag 'sort_by', 'category', (@sort_by == 'category'), :onclick => 'this.form.submit();' %> <%= l(:field_category) %></label><br />
     <label><%= radio_button_tag 'sort_by', 'date', (@sort_by == 'date'), :onclick => 'this.form.submit();' %> <%= l(:label_date) %></label><br />
     <label><%= radio_button_tag 'sort_by', 'title', (@sort_by == 'title'), :onclick => 'this.form.submit();' %> <%= l(:field_title) %></label><br />

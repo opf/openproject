@@ -1,6 +1,6 @@
 <h2><%=l(:label_issue_category)%>: <%=h @category.name %></h2>
 
-<% form_tag({}) do %>
+<%= form_tag({}) do %>
 <div class="box">
 <p><strong><%= l(:text_issue_category_destroy_question, @issue_count) %></strong></p>
 <p><label><%= radio_button_tag 'todo', 'nullify', true %> <%= l(:text_issue_category_destroy_assignments) %></label><br />

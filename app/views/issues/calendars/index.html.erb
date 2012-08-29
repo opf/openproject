@@ -1,6 +1,6 @@
 <h2><%= @query.new_record? ? l(:label_calendar) : h(@query.name) %></h2>
 
-<% form_tag(issues_calendar_index_path, :method => :get, :id => 'query_form') do %>
+<%= form_tag(issues_calendar_index_path, :method => :get, :id => 'query_form') do %>
   <%= hidden_field_tag('project_id', @project.to_param) if @project%>
 <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>

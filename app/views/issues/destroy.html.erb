@@ -1,6 +1,6 @@
 <h2><%= l(:label_confirmation) %></h2>
 
-<% form_tag do %>
+<%= form_tag do %>
 <%= @issues.collect {|i| hidden_field_tag 'ids[]', i.id } %>
 <div class="box">
 <p><strong><%= l(:text_destroy_time_entries_question, :hours => number_with_precision(@hours, :precision => 2)) %></strong></p>
