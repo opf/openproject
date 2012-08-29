@@ -27,7 +27,7 @@
   <%= link_to l(:label_force_user_language_to_default), { :controller => 'admin', :action => 'force_user_language' } %>
 </div>
 
-<% javascript_tag do -%>
+<%= javascript_tag do -%>
   jQuery(document).ready(function () {
     Administration.init_language_selection_handling();
   });

@@ -21,7 +21,7 @@
   </p>
 <% end %>
 
-<% javascript_tag do -%>
+<%= javascript_tag do -%>
   jQuery(document).ready(function() {
     SubmitConfirm.init(jQuery('.confirm_required'), '<%= l('account.delete_confirmation') %>');
   });
