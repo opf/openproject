@@ -218,7 +218,7 @@ class UsersController < ApplicationController
 
     # TODO: use Delayed::Worker.delay_jobs = false in test environment as soon as
     # delayed job allows for it
-    RAILS_ENV == 'test' ?
+    Rails.env.test? ?
       @user.destroy :
       @user.delay.destroy
 
