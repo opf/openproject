@@ -11,7 +11,7 @@
 </table>
 <% end %>
 
-<% form_for(@issue.new_relation,
+<%= form_for(@issue.new_relation,
              :as => :relation,
              :url => issue_relations_path(@issue),
              :method => :post,
