@@ -13,6 +13,7 @@
 #++
 
 require 'diff'
+require 'nokogiri/diff'
 require 'enumerator'
 
 class WikiPage < ActiveRecord::Base

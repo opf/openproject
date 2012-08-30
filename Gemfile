@@ -18,6 +18,9 @@ gem 'awesome_nested_set'
 
 gem 'loofah'
 
+# to generate html-diffs (e.g. for wiki comparison)
+gem 'nokogiri-diff'
+
 group :test do
   gem 'shoulda', '~> 3.1.1'
   gem 'object-daddy', :git => 'git://github.com/awebneck/object_daddy.git'

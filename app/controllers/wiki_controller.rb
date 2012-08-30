@@ -13,6 +13,7 @@
 #++
 
 require 'diff'
+require 'nokogiri/diff'
 
 # The WikiController follows the Rails REST controller pattern but with
 # a few differences
