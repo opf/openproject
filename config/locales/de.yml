@@ -114,6 +114,10 @@ de:
   activerecord:
     errors:
       template:
+        models:
+          wiki_menu_item:
+            wiki_cannot_delete_last_item: "Es muss mindestens ein Menüpunkt für das Wiki vorhanden sein.
+            Wenn Sie wirklich alle Wiki Menüpunkte entfernen wollen, deaktivieren Sie 'Wiki' in der Projektkonfiguration."
         header:
           one:    "Dieses %{model}-Objekt konnte nicht gespeichert werden: %{count} Fehler."
           other:  "Dieses %{model}-Objekt konnte nicht gespeichert werden: %{count} Fehler."
@@ -700,8 +704,21 @@ de:
   label_wiki_edit_plural: Wiki-Bearbeitungen
   label_wiki_page: Wiki-Seite
   label_wiki_page_plural: Wiki-Seiten
+
+  wiki_menu_item: "Menüpunkt"
+  wiki_menu_item_for: "Menüpunkt für die Wikiseite \"%{title}\""
+  label_wiki_dont_show_menu_item: Wikiseite nicht in der Projektnavigation anzeigen
+  label_wiki_show_menu_item: als Menüpunkt in der Projektnavigation anzeigen
+  label_wiki_show_submenu_item: "als Untermenüpunkt anzeigen von "
+  label_menu_item_name: Name des Menüpunktes
+  wiki_menu_item_setting: Sichtbarkeit
+  label_wiki_show_new_page_link: "'Neue Seite anlegen' Link als Untermenüpunkt anzeigen"
+  label_wiki_show_index_page_link: "'Inhaltsverzeichnis' Link als Untermenüpunkt anzeigen"
+
   create_child_page: Neue Unterseite anlegen
   create_child_page_for: "Neue Unterseite anlegen: \"%{title}\""
+  create_new_page: Neue Seite anlegen
+
   label_index_by_title: Seiten nach Titel
   label_index_by_date: Seiten nach Datum
   label_current_version: Gegenwärtige Version
@@ -893,6 +910,7 @@ de:
   button_duplicate: Duplizieren
   button_show: Anzeigen
   button_remove_widget: Infobox löschen
+  button_wiki_menu_entry: Menüpunkt verwalten
 
   status_active: aktiv
   status_registered: angemeldet

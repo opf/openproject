@@ -3,6 +3,8 @@ class WikiMenuItem < ActiveRecord::Base
   belongs_to :parent, :class_name => 'WikiMenuItem'
   has_many :children, :class_name => 'WikiMenuItem', :dependent => :destroy, :foreign_key => :parent_id
 
+  serialize :options, Hash
+
   named_scope :main_items, lambda { |wiki_id|
     {:conditions => {:wiki_id => wiki_id, :parent_id => nil}}
   }
@@ -15,6 +17,10 @@ class WikiMenuItem < ActiveRecord::Base
   validates_format_of :title, :with => /^[^,\.\/\?\;\|\:]*$/
 
   validates_presence_of :name
+
+  def after_initialize
+    self.options ||= Hash.new
+  end
 
   def validate_if_at_least_one_item_exists
     if self.is_main_item? and not new_record? and WikiMenuItem.main_items(wiki_id).size <= 1
@@ -34,9 +40,19 @@ class WikiMenuItem < ActiveRecord::Base
   end
 
   def new_wiki_page
+    !!options[:new_wiki_page]
+  end
+
+  def new_wiki_page=(value)
+    options[:new_wiki_page] = value
   end
 
   def index_page
+    !!options[:index_page]
+  end
+
+  def index_page=(value)
+    options[:index_page] = value
   end
 
   def is_main_item?

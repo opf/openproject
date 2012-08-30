@@ -19,6 +19,8 @@
     <%= li_unless_nil(link_to_if_authorized(l(:button_rollback), {:action => 'edit', :id => @page.title, :version => @content.version }, :class => 'icon icon-cancel')) if @content.version < @page.content.version %>
   <% end %>
   <%= li_unless_nil(link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page.title}, :class => 'icon icon-history')) %>
+  <%= li_unless_nil(link_to_if_authorized(l(:button_wiki_menu_entry), {:controller => 'wiki_menu_items', :action => 'edit', :project_id => @project.identifier, :id => @page.title}, :class => 'icon icon-edit')) %>
+
 <% end %>
 
 <% breadcrumb_paths(*@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}) %>

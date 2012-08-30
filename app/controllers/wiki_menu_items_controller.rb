@@ -18,8 +18,20 @@ class WikiMenuItemsController < ApplicationController
 
       if wiki_menu_setting == 'sub_item'
         @wiki_menu_item.parent_id = parent_wiki_menu_item
-      else
+      elsif wiki_menu_setting == 'main_item'
         @wiki_menu_item.parent_id = nil
+
+        if params[:wiki_menu_item][:new_wiki_page] == "1"
+          @wiki_menu_item.new_wiki_page = true
+        elsif params[:wiki_menu_item][:new_wiki_page] == "0"
+          @wiki_menu_item.new_wiki_page = false
+        end
+
+        if params[:wiki_menu_item][:index_page] == "1"
+          @wiki_menu_item.index_page = true
+        elsif params[:wiki_menu_item][:index_page] == "0"
+          @wiki_menu_item.index_page = false
+        end
       end
     end
 

@@ -98,6 +98,10 @@ en:
 
   activerecord:
     errors:
+      models:
+        wiki_menu_item:
+          wiki_cannot_delete_last_item: "There needs to be at least one wiki item.
+          If you really want to remove all wiki menu items you have to deactivate the modul 'wiki' in project settings."
       template:
         header:
           one:    "1 error prohibited this %{model} from being saved"
@@ -699,8 +703,20 @@ en:
   label_wiki_edit_plural: Wiki edits
   label_wiki_page: Wiki page
   label_wiki_page_plural: Wiki pages
+  wiki_menu_item: "Menu item"
+  wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
+  label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
+  label_wiki_show_menu_item: Show in project navigation
+  label_wiki_show_submenu_item: "Show as a submenu item of "
+  label_menu_item_name: Name of menu item
+  wiki_menu_item_setting: Visibility
+  label_wiki_show_new_page_link: "Show submenu item 'Create new page'"
+  label_wiki_show_index_page_link: "Show submenu item 'Index page'"
+
   wiki_create_child_page: Create new child page
   wiki_create_child_page_for: "Create new child page: \"%{title}\""
+  wiki_create_new_page: Create new page
+
   label_index_by_title: Index by title
   label_index_by_date: Index by date
   label_current_version: Current version
@@ -910,6 +926,7 @@ en:
   button_duplicate: Duplicate
   button_show: Show
   button_remove_widget: Remove widget
+  button_wiki_menu_entry: Configure menu item
 
   status_active: active
   status_registered: registered

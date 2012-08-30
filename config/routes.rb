@@ -38,6 +38,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :time_entries, :controller => 'timelog'
+  map.resource :wiki_menu_item, :path_prefix => "projects/:project_id/wiki/:id", :only => [:edit, :update]
 
   map.wiki_new       'projects/:project_id/wiki/new',     :controller => 'wiki', :action => 'new',    :conditions => { :method => :get }
   map.wiki_create    'projects/:project_id/wiki/new',     :controller => 'wiki', :action => 'create', :conditions => { :method => :post }
