@@ -1,7 +1,7 @@
 <% @gantt.view = self %>
 <h2><%= @query.new_record? ? l(:label_gantt) : h(@query.name) %></h2>
 
-<% form_tag(issues_gantt_index_path(:month => params[:month], :year => params[:year], :months => params[:months]), :method => :get, :id => 'query_form') do %>
+<%= form_tag(issues_gantt_index_path(:month => params[:month], :year => params[:year], :months => params[:months]), :method => :get, :id => 'query_form') do %>
   <%= hidden_field_tag('project_id', @project.to_param) if @project%>
 <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
@@ -188,7 +188,7 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 </tr>
 </table>
 
-<% other_formats_links do |f| %>
+<%= other_formats_links do |f| %>
 	<%= f.link_to 'PDF', :url => @gantt.params %>
 	<%= f.link_to('PNG', :url => @gantt.params) if @gantt.respond_to?('to_image') %>
 <% end %>

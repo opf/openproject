@@ -117,7 +117,7 @@
   </div>
 <% end %>
 
-<% other_formats_links do |f| %>
+<%= other_formats_links do |f| %>
 	<%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
 	<%= f.link_to 'PDF' %>
 <% end %>

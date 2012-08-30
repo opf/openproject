@@ -25,6 +25,8 @@ class Query < ActiveRecord::Base
   validates_presence_of :name, :on => :save
   validates_length_of :name, :maximum => 255
 
+  validate :validate_filters
+
   after_initialize :remember_project_scope
 
   @@operators = { "="   => :label_equals,
@@ -91,14 +93,16 @@ class Query < ActiveRecord::Base
     @is_for_all = project.nil?
   end
 
-  def validate
+  def validate_filters
+    return unless filters
+
     filters.each_key do |field|
       errors.add label_for(field), :blank unless
           # filter requires one or more values
-          (values_for(field) and !values_for(field).first.blank?) or
+          (values_for(field) and values_for(field).first.present?) or
           # filter doesn't require any value
           ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
-    end if filters
+    end
   end
 
   def editable_by?(user)

@@ -22,8 +22,9 @@ class MemberRole < ActiveRecord::Base
   attr_protected :member_id, :role_id
 
   validates_presence_of :role
+  validate :validate_project_member_role
 
-  def validate
+  def validate_project_member_role
     errors.add :role_id, :invalid if role && !role.member?
   end
 

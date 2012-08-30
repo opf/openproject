@@ -29,6 +29,8 @@ class Attachment < ActiveRecord::Base
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
 
+  validate :filesize_below_allowed_maximum
+
   before_save :copy_file_to_destination
   after_destroy :delete_file_on_disk
 
@@ -62,7 +64,7 @@ class Attachment < ActiveRecord::Base
   cattr_accessor :storage_path
   @@storage_path = Redmine::Configuration['attachments_storage_path'] || Rails.root.join('files').to_s
 
-  def validate
+  def filesize_below_allowed_maximum
     if self.filesize > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:base, :too_long, :count => Setting.attachment_max_size.to_i.kilobytes)
     end

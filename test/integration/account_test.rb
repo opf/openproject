@@ -37,7 +37,7 @@ class AccountTest < ActionDispatch::IntegrationTest
     target_url =  "/my/account?q=%C3%A4"
 
     get target_url
-    post @response.redirected_to, :username => 'jsmith', :password => 'jsmith'
+    post @response.redirect_url, :username => 'jsmith', :password => 'jsmith'
 
     assert_redirected_to target_url
   end

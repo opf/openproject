@@ -4,7 +4,7 @@
 
 <h2><%=l(:label_user_plural)%></h2>
 
-<% form_tag({}, :method => :get) do %>
+<%= form_tag({}, :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
 <label for='status'><%= l(:field_status) %>:</label>
 <%= select_tag 'status', users_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>

@@ -42,8 +42,10 @@ class User < Principal
 
   USER_DELETION_JOURNAL_BUCKET_SIZE = 1000;
 
-  has_and_belongs_to_many :groups, :after_add => Proc.new {|user, group| group.user_added(user)},
-                                   :after_remove => Proc.new {|user, group| group.user_removed(user)}
+  has_many :group_users
+  has_many :groups, :through => :group_users,
+                    :after_add => Proc.new {|user, group| group.user_added(user)},
+                    :after_remove => Proc.new {|user, group| group.user_removed(user)}
   has_many :issue_categories, :foreign_key => 'assigned_to_id',
                               :dependent => :nullify
   has_many :assigned_issues, :foreign_key => 'assigned_to_id',
@@ -85,6 +87,8 @@ class User < Principal
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
 
+  validate :password_not_too_short
+
   before_save :encrypt_password
   before_create :sanitize_mail_notification_setting
   before_destroy :delete_associated_public_queries
@@ -92,11 +96,11 @@ class User < Principal
 
   scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    { :conditions => ["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
+    { :conditions => ["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
   }
   scope :not_in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    { :conditions => ["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
+    { :conditions => ["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
   }
   scope :admin, :conditions => { :admin => true }
 
@@ -604,10 +608,11 @@ class User < Principal
 
   protected
 
-  def validate
-    # Password length validation based on setting
-    if !password.nil? && password.size < Setting.password_min_length.to_i
-      errors.add(:password, :too_short, :count => Setting.password_min_length.to_i)
+  # Password length validation based on setting
+  def password_not_too_short
+    minimum_length = Setting.password_min_length.to_i
+    if password.present? && password.size < minimum_length
+      errors.add(:password, :too_short, :count => minimum_length)
     end
   end
 
@@ -684,7 +689,7 @@ class AnonymousUser < User
 
   # There should be only one AnonymousUser in the database
   def validate_unique_anonymous_user
-    errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
+    errors.add :base, 'An anonymous user already exists.' if AnonymousUser.find(:first)
   end
 
   def available_custom_fields
@@ -707,7 +712,7 @@ class DeletedUser < User
 
   # There should be only one DeletedUser in the database
   def validate_unique_deleted_user
-    errors.add_to_base 'A DeletedUser already exists.' if DeletedUser.find(:first)
+    errors.add :base, 'A DeletedUser already exists.' if DeletedUser.find(:first)
   end
 
   def self.first

@@ -1,4 +1,4 @@
-<% form_for(@journal, { :html => { :id => "journal-#{@journal.id}-form" } , :remote => true } ) do %>
+<%= form_for(@journal, { :html => { :id => "journal-#{@journal.id}-form" } , :remote => true } ) do %>
 
     <%= label_tag "notes", l(:description_notes), :class => "hidden-for-sighted" %>
     <%= text_area_tag :notes, @journal.notes, :class => 'wiki-edit',

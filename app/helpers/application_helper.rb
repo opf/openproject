@@ -908,7 +908,7 @@ module ApplicationHelper
     options = args.extract_options!
     options[:html] ||= {}
     options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
-    form_for(record_or_name_or_array, *(args << options.merge({:builder => TabularFormBuilder, :lang => current_language})), &proc)
+    form_for(*(args << options.merge(:builder => TabularFormBuilder, :lang => current_language, :as => record_or_name_or_array)), &proc)
   end
 
   def back_url_hidden_field_tag

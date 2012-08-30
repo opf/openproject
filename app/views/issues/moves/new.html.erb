@@ -6,7 +6,7 @@
 <% end -%>
 </ul>
 
-<% form_tag({:action => 'create'}, :id => 'move_form') do %>
+<%= form_tag({:action => 'create'}, :id => 'move_form') do %>
 <%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
 
 <div class="box tabular">

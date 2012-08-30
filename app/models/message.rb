@@ -47,6 +47,7 @@ class Message < ActiveRecord::Base
 
   after_create :add_author_as_watcher
   after_create :update_last_reply_in_parent
+  after_update :update_ancestors
   after_destroy :reset_counters
 
   scope :visible, lambda {|*args| { :include => {:board => :project},
@@ -66,7 +67,7 @@ class Message < ActiveRecord::Base
 
   # Can not reply to a locked topic
   def validate_unlocked_root
-    errors.add_to_base 'Topic is locked' if root.locked? && self != root
+    errors.add :base, 'Topic is locked' if root.locked? && self != root
   end
 
   def update_last_reply_in_parent
@@ -76,7 +77,7 @@ class Message < ActiveRecord::Base
     board.reset_counters!
   end
 
-  def after_update
+  def update_ancestors
     if board_id_changed?
       Message.update_all("board_id = #{board_id}", ["id = ? OR parent_id = ?", root.id, root.id])
       Board.reset_counters!(board_id_was)

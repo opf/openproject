@@ -1,4 +1,4 @@
-<% remote_form_for :wiki, @wiki,
+<%= remote_form_for :wiki, @wiki,
                    :url => { :controller => 'wikis', :action => 'edit', :id => @project },
                    :builder => TabularFormBuilder,
                    :lang => current_language do |f| %>

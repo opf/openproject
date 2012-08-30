@@ -1,5 +1,5 @@
 <div class="contextual">
-<% form_tag({:action => 'revision', :id => @project}) do %>
+<%= form_tag({:action => 'revision', :id => @project}) do %>
 <%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 8 %>
 <%= submit_tag 'OK' %>
 <% end %>
@@ -16,7 +16,7 @@
 <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
 <% end %>
 
-<% other_formats_links do |f| %>
+<%= other_formats_links do |f| %>
 	<%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
 <% end %>
 

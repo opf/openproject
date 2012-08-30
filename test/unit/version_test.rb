@@ -39,7 +39,7 @@ class VersionTest < ActiveSupport::TestCase
       v.force_attributes = { :project => Project.find(1), :name => '1.1', :effective_date => '99999-01-01' }
     end)
     assert !v.save
-    assert_equal I18n.translate('activerecord.errors.messages.not_a_date'), v.errors.on(:effective_date)
+    assert_include v.errors[:effective_date], I18n.translate('activerecord.errors.messages.not_a_date')
   end
 
   context "#start_date" do

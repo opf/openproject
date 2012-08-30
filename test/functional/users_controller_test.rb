@@ -30,7 +30,7 @@ class UsersControllerTest < ActionController::TestCase
            :custom_fields,
            :custom_field_translations,
            :custom_values,
-           :groups_users
+           :group_users
 
   def setup
     @controller = UsersController.new

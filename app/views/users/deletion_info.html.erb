@@ -1,5 +1,5 @@
 <h2><%=l('account.deletion_info.heading', :name => @user.name) %></h2>
-<% form_for :user, :url => user_path(@user), :html => { :method => :delete, :class => 'confirm_required' } do |form| %>
+<%= form_for :user, :url => user_path(@user), :html => { :method => :delete, :class => 'confirm_required' } do |form| %>
 
   <div class='wiki'>
     <p>
@@ -21,7 +21,7 @@
   </p>
 <% end %>
 
-<% javascript_tag do -%>
+<%= javascript_tag do -%>
   jQuery(document).ready(function() {
     SubmitConfirm.init(jQuery('.confirm_required'), '<%= l('account.delete_confirmation') %>');
   });

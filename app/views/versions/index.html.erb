@@ -14,7 +14,7 @@
 
     <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
     <strong class="related-issues-heading"><%= l(:label_related_issues) %></strong>
-    <% form_tag({}) do -%>
+    <%= form_tag({}) do -%>
     <table class="list related-issues">
     <%- issues.each do |issue| -%>
       <tr class="hascontextmenu">
@@ -31,7 +31,7 @@
 <% end %>
 
 <% content_for :sidebar do %>
-<% form_tag({}, :method => :get) do %>
+<%= form_tag({}, :method => :get) do %>
 <h3><%= l(:description_filter) %></h3>
 <% @trackers.each do |tracker| %>
   <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s), :id => nil %>

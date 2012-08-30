@@ -72,15 +72,15 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.available_custom_fields.include?(field)
     # No value for the custom field
     assert !issue.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'), issue.errors.on(:custom_values)
+    assert_include issue.errors[:custom_values], I18n.translate('activerecord.errors.messages.invalid')
     # Blank value
     issue.custom_field_values = { field.id => '' }
     assert !issue.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'), issue.errors.on(:custom_values)
+    assert_include issue.errors[:custom_values], I18n.translate('activerecord.errors.messages.invalid')
     # Invalid value
     issue.custom_field_values = { field.id => 'SQLServer' }
     assert !issue.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'), issue.errors.on(:custom_values)
+    assert_include issue.errors[:custom_values], I18n.translate('activerecord.errors.messages.invalid')
     # Valid value
     issue.custom_field_values = { field.id => 'PostgreSQL' }
     assert issue.save
@@ -254,7 +254,7 @@ class IssueTest < ActiveSupport::TestCase
     issue.tracker_id = 2
     issue.subject = 'New subject'
     assert !issue.save
-    assert_not_nil issue.errors.on(:tracker_id)
+    refute_empty issue.errors[:tracker_id]
   end
 
   def test_category_based_assignment
@@ -417,7 +417,7 @@ class IssueTest < ActiveSupport::TestCase
     end
 
     assert !issue.save
-    assert_not_nil issue.errors.on(:fixed_version_id)
+    refute_empty issue.errors[:fixed_version_id]
   end
 
   def test_should_not_be_able_to_assign_a_new_issue_to_a_locked_version
@@ -430,7 +430,7 @@ class IssueTest < ActiveSupport::TestCase
                              :subject => 'New issue' }
     end
     assert !issue.save
-    assert_not_nil issue.errors.on(:fixed_version_id)
+    refute_empty issue.errors[:fixed_version_id]
   end
 
   def test_should_be_able_to_assign_a_new_issue_to_an_open_version
@@ -456,7 +456,7 @@ class IssueTest < ActiveSupport::TestCase
     issue = Issue.find(11)
     issue.status_id = 1
     assert !issue.save
-    assert_not_nil issue.errors.on_base
+    refute_empty issue.errors[:base]
   end
 
   def test_should_be_able_to_reopen_and_reassign_an_issue_assigned_to_a_closed_version
@@ -839,7 +839,7 @@ class IssueTest < ActiveSupport::TestCase
                              :issue_to => Issue.find(1),
                              :relation_type => IssueRelation::TYPE_PRECEDES }
     end
-    assert relation.save(false)
+    assert relation.save(:validate => false)
 
     assert_equal [2, 3], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end
@@ -873,14 +873,14 @@ class IssueTest < ActiveSupport::TestCase
                               :issue_to => Issue.find(2),
                               :relation_type => IssueRelation::TYPE_RELATES }
     end
-    assert relation.save(false)
+    assert relation.save(:validate => false)
 
     relation = IssueRelation.new.tap do |i|
       i. force_attributes = { :issue_from => Issue.find(3),
                               :issue_to => Issue.find(1),
                               :relation_type => IssueRelation::TYPE_RELATES }
     end
-    assert relation.save(false)
+    assert relation.save(:validate => false)
 
     assert_equal [2, 3, 8], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end

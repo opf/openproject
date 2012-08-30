@@ -1,7 +1,7 @@
 <h2><%= l(:label_revision) %> <%= @diff_format_revisions %> <%=h @path %></h2>
 
 <!-- Choose view type -->
-<% form_tag({:path => to_path_param(@path)}, :method => 'get') do %>
+<%= form_tag({:path => to_path_param(@path)}, :method => 'get') do %>
   <%= hidden_field_tag('rev', params[:rev]) if params[:rev] %>
   <%= hidden_field_tag('rev_to', params[:rev_to]) if params[:rev_to] %>
   <p><label><%= l(:label_view_diff) %></label>
@@ -12,7 +12,7 @@
 <%= render :partial => 'common/diff', :locals => {:diff => @diff, :diff_type => @diff_type} %>
 <% end -%>
 
-<% other_formats_links do |f| %>
+<%= other_formats_links do |f| %>
 	<%= f.link_to 'Diff', :url => params, :caption => 'Unified diff' %>
 <% end %>
 

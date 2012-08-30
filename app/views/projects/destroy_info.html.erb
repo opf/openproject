@@ -8,7 +8,7 @@
 <% end %>
 </p>
 <p>
-    <% form_tag(project_path(@project_to_destroy), :method => :delete) do %>
+    <%= form_tag(project_path(@project_to_destroy), :method => :delete) do %>
     <label><%= check_box_tag 'confirm', 1 %> <%= l(:general_text_Yes) %></label>
     <%= submit_tag l(:button_delete) %>
     <% end %>

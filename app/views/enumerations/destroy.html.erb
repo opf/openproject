@@ -1,6 +1,6 @@
 <h2><%= l(@enumeration.option_name) %>: <%=h @enumeration %></h2>
 
-<% form_tag({}) do %>
+<%= form_tag({}) do %>
 <div class="box">
 <p><strong><%= l(:text_enumeration_destroy_question, @enumeration.objects_count) %></strong></p>
 <p><label for='reassign_to_id'><%= l(:text_enumeration_category_reassign_to) %></label>

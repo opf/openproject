@@ -1,6 +1,6 @@
 <h2><%= l(:label_spent_time) %></h2>
 
-<% labelled_tabular_form_for(:time_entry, @time_entry, :url => {
+<%= labelled_tabular_form_for(:time_entry, @time_entry, :url => {
                                :action => (@time_entry.new_record? ? 'create' : 'update'),
                                :id => @time_entry,
                                :project_id => @time_entry.project

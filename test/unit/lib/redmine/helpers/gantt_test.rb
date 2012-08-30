@@ -18,7 +18,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
   class GanttViewTest < ActionView::Base
     include ActionView::Helpers::UrlHelper
     include ActionView::Helpers::TextHelper
-    include ActionController::UrlWriter
+    include Rails.application.routes.url_helpers
     include ApplicationHelper
     include ProjectsHelper
     include IssuesHelper

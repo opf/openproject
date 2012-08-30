@@ -76,6 +76,6 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert IssueRelation.create!(:issue_from => Issue.find(2), :issue_to => Issue.find(3), :relation_type => IssueRelation::TYPE_PRECEDES)
     r = IssueRelation.new(:issue_from => Issue.find(3), :issue_to => Issue.find(1), :relation_type => IssueRelation::TYPE_PRECEDES)
     assert !r.save
-    assert_not_nil r.errors.on(:base)
+    refute_empty r.errors[:base]
   end
 end

@@ -1,6 +1,6 @@
 <h2><%=h @page.pretty_title %></h2>
 
-<% form_for :content, @content, :url => {:action => 'update', :id => @page.title}, :html => {:method => :put, :multipart => true, :id => 'wiki_form'} do |f| %>
+<%= form_for @content, :as => :content, :url => {:action => 'update', :id => @page.title}, :html => {:method => :put, :multipart => true, :id => 'wiki_form'} do |f| %>
 <%= f.hidden_field :lock_version %>
 <%= error_messages_for 'content' %>
 
