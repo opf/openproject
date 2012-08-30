@@ -31,13 +31,15 @@ Redmine::WikiFormatting::Macros.register do
     Display a kitten.
   EOF
 
-  macro :kitten do |obj, args, options|
+  macro :rndimg do |obj, args, options|
     if options[:edit]
       image_tag "http://www.adoptny.org/wp-content/themes/adoptny/img/placeholder.png", :alt => 'A kitten'
     else
       width = args.first || 400
       height = args.second || 401
-      image_tag "http://placekitten.com/#{width}/#{height}", :alt => 'A kitten'
+      url = "http://tessenow.org/rndimg/#{width}/#{height}"
+      url << "/#{args[2]}" if args[2]
+      image_tag url, :alt => 'A random image'
     end
   end
 end
