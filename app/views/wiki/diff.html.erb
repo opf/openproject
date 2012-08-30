@@ -11,7 +11,7 @@
       <em>(<%= @diff.content_from.user ? link_to_user(@diff.content_from.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_from.updated_on) %>)</em>
     </div>
     <div class="text-diff">
-    <%= @diff.content_from.text.html_safe %>
+      <%= @html_from.to_s.html_safe %>
     </div>
   </div>
 
@@ -21,7 +21,7 @@
       <em>(<%= @diff.content_to.user ? link_to_user(@diff.content_to.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_to.updated_on) %>)</em>
     </div>
     <div class="text-diff">
-    <%= @diff.content_to.text.html_safe %>
+      <%= @html_to.to_s.html_safe %>
     </div>
   </div>
 </div>
