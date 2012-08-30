@@ -180,7 +180,14 @@ module Redmine::MenuManager::MenuHelper
       item.url
     end
     caption = item.caption(project)
-    return [caption, url, (current_menu_item == item.name)]
+
+    if @page and current_menu_item == :wiki
+      selected = node.name.to_sym == @page.title.to_sym if @page.title
+    else
+      selected = current_menu_item == item.name
+    end
+
+    return [caption, url, selected]
   end
 
   # Checks if a user is allowed to access the menu item by:
