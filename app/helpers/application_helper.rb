@@ -1107,6 +1107,14 @@ module ApplicationHelper
         'contracts'
       when params[:controller] == 'my' && params[:action] == 'account'
         'account'
+      when params[:controller] == 'wiki' && !@page.nil? &&
+        menu_item = WikiMenuItem.find_by_title_and_wiki_id(@page.title, @page.wiki_id)
+
+        if menu_item.is_sub_item?
+          menu_item.parent.title.dasherize
+        else
+          menu_item.title.dasherize
+        end
       else
         params[:controller].dasherize
       end
