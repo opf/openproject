@@ -167,8 +167,38 @@ class WikiController < ApplicationController
   end
 
   def diff
-    @diff = @page.diff(params[:version], params[:version_from])
-    render_404 unless @diff
+    if @diff = @page.diff(params[:version], params[:version_from])
+      @html_from = Nokogiri::HTML.fragment(@diff.content_from.text)
+      @html_to = Nokogiri::HTML.fragment(@diff.content_to.text)
+      @html_from.diff @html_to do |change,node|
+        case change
+        when '+'
+          if node.element?
+            node['class'] = (node['class'].to_s << ' diff diff_in').strip
+          elsif node.text?
+            node.replace Nokogiri::HTML.fragment("<span class=\"diff diff_in\">#{node.to_s}</span>")
+          elsif node.node_type == Nokogiri::XML::Node::ATTRIBUTE_NODE
+            node.parent['class'] = (node.parent['class'].to_s << ' diff diff_change').strip
+          else
+            puts "unknown node-type #{node.node_type}"
+          end
+        when '-'
+          if node.element?
+            node['class'] = (node['class'].to_s << ' diff diff_out').strip
+          elsif node.text?
+            node.replace Nokogiri::HTML.fragment("<span class=\"diff diff_out\">#{node.to_s}</span>")
+          elsif node.node_type == Nokogiri::XML::Node::ATTRIBUTE_NODE
+            node.parent['class'] = (node.parent['class'].to_s << ' diff diff_change').strip
+          else
+            puts "unknown node-type #{node.node_type}"
+          end
+        else
+          puts "unknown change #{change}" if change != ' '
+        end
+      end
+    else
+      render_404
+    end
   end
 
   def annotate

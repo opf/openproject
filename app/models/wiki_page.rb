@@ -186,6 +186,24 @@ class WikiPage < ActiveRecord::Base
   end
 end
 
+
+# Patch DocumentFragment to have the same diff features as Document.
+class Nokogiri::HTML::DocumentFragment < Nokogiri::XML::DocumentFragment
+  def tdiff(tree,&block)
+    return enum_for(:tdiff,tree) unless block
+
+    tdiff_recursive(tree,&block)
+    return self
+  end
+
+  def tdiff_unordered(tree,&block)
+    return enum_for(:tdiff_unordered,tree) unless block
+
+    tdiff_recursive_unordered(tree,&block)
+    return self
+  end
+end
+
 class WikiDiff < Redmine::Helpers::Diff
   attr_reader :content_to, :content_from
 
