@@ -50,7 +50,15 @@ module OpenProject
     config.filter_parameters += [:password]
 
     # Enable the asset pipeline
-    config.assets.enabled = true
+    config.assets.enabled = false
+
+    # Enable escaping HTML in JSON.
+    config.active_support.escape_html_entities_in_json = true
+
+    # Use SQL instead of Active Record's schema dumper when creating the database.
+    # This is necessary if your schema can't be completely dumped by the schema dumper,
+    # like if you have constraints or database-specific column types
+    # config.active_record.schema_format = :sql
 
     # needed?
     # Load any local configuration that is kept out of source control
@@ -59,7 +67,13 @@ module OpenProject
     #  instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     #end
 
+    # Enforce whitelist mode for mass assignment.
+    # This will create an empty whitelist of attributes available for mass-assignment for all models
+    # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
+    # parameters by using an attr_accessible or attr_protected declaration.
+    config.active_record.whitelist_attributes = true
+
     # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
+    # config.assets.version = '1.0'
   end
 end

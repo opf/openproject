@@ -1,6 +1,6 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'rails', '3.1.8'
+gem 'rails', '3.2.8'
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -27,12 +27,8 @@ gem 'loofah'
 gem 'htmldiff'
 
 group :assets do
-  gem 'sass-rails',   '~> 3.1.5'
-  gem 'coffee-rails', '~> 3.1.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer'
-
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -53,9 +49,6 @@ group :test do
   gem 'ruby-debug', :platforms => [:mri_18, :mingw_18]
   # TODO: remove dependency to v 1.1.3 when pry-debugger is updated to > 0.2
   gem 'debugger', '~> 1.1.3', :platforms => [:mri_19, :mingw_19]
-
-  # remove in rails 3.2
-  gem 'turn', '~> 0.8.3', :require => false
 end
 
 group :openid do

@@ -15,10 +15,10 @@
 class Watcher < ActiveRecord::Base
   belongs_to :watchable, :polymorphic => true
   belongs_to :user
-  
-  #attr_protected :user_id
 
-  validates_presence_of :user
+  attr_accessible :watchable, :user
+
+  validates_presence_of :watchable, :user
   validates_uniqueness_of :user_id, :scope => [:watchable_type, :watchable_id]
 
   validate :validate_active_user
@@ -39,7 +39,8 @@ class Watcher < ActiveRecord::Base
   protected
 
   def validate_active_user
-    errors.add :user_id, :invalid if user.present? && !user.active?
+    return if user.blank?
+    errors.add :user_id, :invalid unless user.active?
   end
 
   private
