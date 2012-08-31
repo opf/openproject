@@ -82,7 +82,7 @@ task :migrate_from_mantis => :environment do
                                }
 
     class MantisUser < ActiveRecord::Base
-      set_table_name :mantis_user_table
+      self.table_name = :mantis_user_table
 
       def firstname
         @firstname = realname.blank? ? username : realname.split.first[0..29]
@@ -110,7 +110,7 @@ task :migrate_from_mantis => :environment do
     end
 
     class MantisProject < ActiveRecord::Base
-      set_table_name :mantis_project_table
+      self.table_name = :mantis_project_table
       has_many :versions, :class_name => "MantisVersion", :foreign_key => :project_id
       has_many :categories, :class_name => "MantisCategory", :foreign_key => :project_id
       has_many :news, :class_name => "MantisNews", :foreign_key => :project_id
@@ -122,7 +122,7 @@ task :migrate_from_mantis => :environment do
     end
 
     class MantisVersion < ActiveRecord::Base
-      set_table_name :mantis_project_version_table
+      self.table_name = :mantis_project_version_table
 
       def version
         read_attribute(:version)[0..29]
@@ -134,15 +134,15 @@ task :migrate_from_mantis => :environment do
     end
 
     class MantisCategory < ActiveRecord::Base
-      set_table_name :mantis_project_category_table
+      self.table_name = :mantis_project_category_table
     end
 
     class MantisProjectUser < ActiveRecord::Base
-      set_table_name :mantis_project_user_list_table
+      self.table_name = :mantis_project_user_list_table
     end
 
     class MantisBug < ActiveRecord::Base
-      set_table_name :mantis_bug_table
+      self.table_name = :mantis_bug_table
       belongs_to :bug_text, :class_name => "MantisBugText", :foreign_key => :bug_text_id
       has_many :bug_notes, :class_name => "MantisBugNote", :foreign_key => :bug_id
       has_many :bug_files, :class_name => "MantisBugFile", :foreign_key => :bug_id
@@ -150,7 +150,7 @@ task :migrate_from_mantis => :environment do
     end
 
     class MantisBugText < ActiveRecord::Base
-      set_table_name :mantis_bug_text_table
+      self.table_name = :mantis_bug_text_table
 
       # Adds Mantis steps_to_reproduce and additional_information fields
       # to description if any
@@ -163,17 +163,17 @@ task :migrate_from_mantis => :environment do
     end
 
     class MantisBugNote < ActiveRecord::Base
-      set_table_name :mantis_bugnote_table
+      self.table_name = :mantis_bugnote_table
       belongs_to :bug, :class_name => "MantisBug", :foreign_key => :bug_id
       belongs_to :bug_note_text, :class_name => "MantisBugNoteText", :foreign_key => :bugnote_text_id
     end
 
     class MantisBugNoteText < ActiveRecord::Base
-      set_table_name :mantis_bugnote_text_table
+      self.table_name = :mantis_bugnote_text_table
     end
 
     class MantisBugFile < ActiveRecord::Base
-      set_table_name :mantis_bug_file_table
+      self.table_name = :mantis_bug_file_table
 
       def size
         filesize
@@ -198,19 +198,19 @@ task :migrate_from_mantis => :environment do
     end
 
     class MantisBugRelationship < ActiveRecord::Base
-      set_table_name :mantis_bug_relationship_table
+      self.table_name = :mantis_bug_relationship_table
     end
 
     class MantisBugMonitor < ActiveRecord::Base
-      set_table_name :mantis_bug_monitor_table
+      self.table_name = :mantis_bug_monitor_table
     end
 
     class MantisNews < ActiveRecord::Base
-      set_table_name :mantis_news_table
+      self.table_name = :mantis_news_table
     end
 
     class MantisCustomField < ActiveRecord::Base
-      set_table_name :mantis_custom_field_table
+      self.table_name = :mantis_custom_field_table
       set_inheritance_column :none
       has_many :values, :class_name => "MantisCustomFieldString", :foreign_key => :field_id
       has_many :projects, :class_name => "MantisCustomFieldProject", :foreign_key => :field_id
@@ -225,11 +225,11 @@ task :migrate_from_mantis => :environment do
     end
 
     class MantisCustomFieldProject < ActiveRecord::Base
-      set_table_name :mantis_custom_field_project_table
+      self.table_name = :mantis_custom_field_project_table
     end
 
     class MantisCustomFieldString < ActiveRecord::Base
-      set_table_name :mantis_custom_field_string_table
+      self.table_name = :mantis_custom_field_string_table
     end
 
 
