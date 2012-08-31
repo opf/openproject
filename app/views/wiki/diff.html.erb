@@ -4,24 +4,14 @@
 
 <h2><%= h(@page.pretty_title) %></h2>
 
-<div>
-  <div class="side-by-side-diff from" style="width: 48%; display: inline-block;">
-    <div class="version-information">
-      <%= l(:label_version) %> <%= link_to @diff.content_from.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => @diff.content_from.version %>/<%= @page.content.version %>
-      <em>(<%= @diff.content_from.user ? link_to_user(@diff.content_from.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_from.updated_on) %>)</em>
-    </div>
-    <div class="text-diff">
-      <%= @html_from.to_s.html_safe %>
-    </div>
-  </div>
+<p>
+<%= l(:label_version) %> <%= link_to @diff.content_from.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => @diff.content_from.version %>/<%= @page.content.version %>
+<em>(<%= @diff.content_from.user ? link_to_user(@diff.content_from.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_from.updated_on) %>)</em>
+&#8594;
+<%= l(:label_version) %> <%= link_to @diff.content_to.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => @diff.content_to.version %>/<%= @page.content.version %>
+<em>(<%= @diff.content_to.user ? link_to_user(@diff.content_to.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_to.updated_on) %>)</em>
+</p>
 
-  <div class="side-by-side-diff to" style="width: 48%; display: inline-block; float: right;">
-    <div class="version-information">
-      <%= l(:label_version) %> <%= link_to @diff.content_to.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => @diff.content_to.version %>/<%= @page.content.version %>
-      <em>(<%= @diff.content_to.user ? link_to_user(@diff.content_to.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_to.updated_on) %>)</em>
-    </div>
-    <div class="text-diff">
-      <%= @html_to.to_s.html_safe %>
-    </div>
-  </div>
+<div class="text-diff">
+  <%= @diff.to_html.html_safe %>
 </div>
