@@ -1,6 +1,6 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'rails', '3.1.8'
+gem 'rails', '3.2.8'
 
 gem "coderay", "~> 0.9.7"
 gem "rubytree", "~> 0.8.3"
@@ -27,12 +27,8 @@ gem 'loofah'
 gem 'htmldiff'
 
 group :assets do
-  gem 'sass-rails',   '~> 3.1.5'
-  gem 'coffee-rails', '~> 3.1.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer'
-
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -49,9 +45,6 @@ group :test do
 
   gem 'ruby-debug', :platforms => [:mri_18, :mingw_18]
   gem 'debugger',   :platforms => [:mri_19, :mingw_19]
-
-  # remove in rails 3.2
-  gem 'turn', '~> 0.8.3', :require => false
 end
 
 group :openid do
