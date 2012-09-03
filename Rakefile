@@ -21,3 +21,5 @@ begin
 rescue LoadError
   STDERR.puts "Run `rake gems:install` to install delayed_job"
 end
+require "i18n-js/rake"
+

@@ -21,6 +21,11 @@ class ApplicationController < ActionController::Base
   protected
 
   include Redmine::I18n
+  before_filter :export_i18n_messages
+
+  def export_i18n_messages
+    SimplesIdeias::I18n.export!
+  end
 
   layout 'base'
   exempt_from_layout 'builder', 'rsb'
