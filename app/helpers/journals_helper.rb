@@ -13,7 +13,7 @@
 #++
 
 module JournalsHelper
-  unloadable
+  # unloadable
   include ApplicationHelper
   include ActionView::Helpers::TagHelper
 

@@ -22,7 +22,7 @@
 # It provides the hooks to apply different formatting to the details
 # of a specific journal.
 module JournalFormatter
-  unloadable
+  # unloadable
   mattr_accessor :formatters, :registered_fields
   include ApplicationHelper
   include CustomFieldsHelper

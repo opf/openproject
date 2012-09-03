@@ -16,7 +16,7 @@ require 'journal_formatter'
 
 # The ActiveRecord model representing journals.
 class Journal < ActiveRecord::Base
-  unloadable
+  # unloadable
 
   include Comparable
   include JournalFormatter
