@@ -4,6 +4,15 @@ GIT
   specs:
     object-daddy (1.0.2)
 
+GIT
+  remote: git://github.com/svenfuchs/globalize3.git
+  revision: f4e0398883b207c5826abff2ad94e8183d85da16
+  specs:
+    globalize3 (0.2.0)
+      activemodel (>= 3.0.0)
+      activerecord (>= 3.0.0)
+      paper_trail (~> 2)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -74,10 +83,6 @@ GEM
       factory_girl (~> 4.0.0)
       railties (>= 3.0.0)
     fastercsv (1.5.5)
-    globalize3 (0.2.0)
-      activemodel (>= 3.0.0)
-      activerecord (>= 3.0.0)
-      paper_trail (~> 2)
     hike (1.2.1)
     i18n (0.6.0)
     jquery-rails (2.1.1)
@@ -205,7 +210,7 @@ DEPENDENCIES
   delayed_job_active_record
   factory_girl_rails (~> 4.0)
   fastercsv (~> 1.5.0)
-  globalize3
+  globalize3!
   jquery-rails
   jruby-openssl
   launchy (~> 2.1.0)

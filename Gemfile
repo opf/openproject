@@ -7,7 +7,8 @@ gem "rubytree", "~> 0.5.2", :require => 'tree'
 gem "rdoc", ">= 2.4.2"
 # Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
 gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
-gem 'globalize3'
+# master includes the uniqueness validator, formerly patched in config/initializers/globalize3_patch.rb
+gem 'globalize3', :git => 'git://github.com/svenfuchs/globalize3.git'
 gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 # TODO: check that it doesn't break the functionality of acts_as_journalized
