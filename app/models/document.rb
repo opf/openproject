@@ -37,6 +37,9 @@ class Document < ActiveRecord::Base
 
   after_initialize :set_default_category
 
+  # TODO: category_id needed for forms?
+  attr_accessible :title, :description, :project, :category
+
   safe_attributes 'category_id', 'title', 'description'
 
   def visible?(user=User.current)
@@ -52,7 +55,7 @@ class Document < ActiveRecord::Base
       # attachments has a default order that conflicts with `created_on DESC`
       # #reorder removes that default order but rather than #unscoped keeps the
       # scoping by this document
-      a = attachments.reorder(nil).order('created_on DESC').first
+      a = attachments.reorder('created_on DESC').first
       @updated_on = (a && a.created_on) || created_on
     end
     @updated_on
