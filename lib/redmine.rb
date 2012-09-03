@@ -33,7 +33,7 @@ rescue LoadError
 end
 
 if RUBY_VERSION < '1.9'
-  require 'faster_csv'
+  require 'fastercsv'
 else
   require 'csv'
   FCSV = CSV
