@@ -16,6 +16,7 @@ module Redmine
   module WikiFormatting
     module NullFormatter
       class Formatter
+        include ERB::Util
         include ActionView::Helpers::TagHelper
         include ActionView::Helpers::TextHelper
         include ActionView::Helpers::UrlHelper

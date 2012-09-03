@@ -22,6 +22,7 @@ class HelperTestCase < ActionView::TestCase
 
   # Add other helpers here if you need them
   include ActionView::Helpers::ActiveRecordHelper
+  include ERB::Util
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::FormTagHelper
   include ActionView::Helpers::FormOptionsHelper

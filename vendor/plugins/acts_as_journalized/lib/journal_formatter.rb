@@ -26,8 +26,10 @@ module JournalFormatter
   mattr_accessor :formatters, :registered_fields
   include ApplicationHelper
   include CustomFieldsHelper
+  include ERB::Util
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::UrlHelper
+  include ERB::Util
   include Rails.application.routes.url_helpers
   extend Redmine::I18n
 
