@@ -83,8 +83,8 @@ class Query < ActiveRecord::Base
   ]
   cattr_reader :available_columns
 
-  def initialize(attributes = nil)
-    super attributes
+  def initialize(attributes = nil, options = {})
+    super
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
   end
 

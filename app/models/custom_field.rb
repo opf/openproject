@@ -48,7 +48,7 @@ class CustomField < ActiveRecord::Base
   validate :validate_presence_of_possible_values
   validate :validate_default_value_in_translations
 
-  def initialize(attributes = nil)
+  def initialize(attributes = nil, options = {})
     super
     self.possible_values ||= []
   end

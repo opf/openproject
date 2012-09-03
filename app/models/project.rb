@@ -83,7 +83,7 @@ class Project < ActiveRecord::Base
   scope :all_public, { :conditions => { :is_public => true } }
   scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
 
-  def initialize(attributes = nil)
+  def initialize(attributes = nil, options = {})
     super
 
     initialized = (attributes || {}).stringify_keys

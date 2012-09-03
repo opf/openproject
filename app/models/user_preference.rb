@@ -22,7 +22,7 @@ class UserPreference < ActiveRecord::Base
 
   before_save :apply_defaults
 
-  def initialize(attributes = nil)
+  def initialize(attributes = nil, options = {})
     super
     self.others ||= {}
   end
