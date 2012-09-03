@@ -13,6 +13,8 @@ gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 # TODO: check that it doesn't break the functionality of acts_as_journalized
 gem 'safe_attributes' # allows active record to have a #changes column
+# TODO: adds #auto_link which was deprecated in rails 3.1
+gem 'rails_autolink'
 
 gem 'awesome_nested_set'
 

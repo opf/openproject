@@ -137,6 +137,8 @@ GEM
       railties (= 3.1.8)
     rails-footnotes (3.7.8)
       rails (>= 3.0.0)
+    rails_autolink (1.0.9)
+      rails (~> 3.1)
     railties (3.1.8)
       actionpack (= 3.1.8)
       activesupport (= 3.1.8)
@@ -223,6 +225,7 @@ DEPENDENCIES
   pry
   rails (= 3.1.8)
   rails-footnotes (>= 3.7.5.rc4)
+  rails_autolink
   rdoc (>= 2.4.2)
   rmagick (>= 1.15.17)
   ruby-debug
