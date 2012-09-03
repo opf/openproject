@@ -7,7 +7,7 @@ Version: @@ver@@ Timestamp: @@timestamp@@
     /* inline-block for ie7 */
     zoom: 1;
     *display: inline;
-
+    vertical-align: top;
 }
 
 .select2-container,
@@ -87,7 +87,7 @@ Version: @@ver@@ Timestamp: @@timestamp@@
   width: 12px;
   height: 12px;
   font-size: 1px;
-  background: url('../images/chosen/chosen-sprite.png') right top no-repeat;
+  background: url('../images/select2/select2.png') right top no-repeat;
   cursor: pointer;
   text-decoration: none;
   border:0;
@@ -157,7 +157,7 @@ Version: @@ver@@ Timestamp: @@timestamp@@
 }
 
 .select2-container .select2-choice div b {
-    background: url('../images/chosen/chosen-sprite.png') no-repeat 0 1px;
+    background: url('../images/select2/select2.png') no-repeat 0 1px;
     display: block;
     width: 100%;
     height: 100%;
@@ -181,13 +181,13 @@ Version: @@ver@@ Timestamp: @@timestamp@@
 }
 
 .select2-search input {
-    background: #fff url('../images/chosen/chosen-sprite.png') no-repeat 100% -22px;
-    background: url('../images/chosen/chosen-sprite.png') no-repeat 100% -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
-    background: url('../images/chosen/chosen-sprite.png') no-repeat 100% -22px, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-    background: url('../images/chosen/chosen-sprite.png') no-repeat 100% -22px, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-    background: url('../images/chosen/chosen-sprite.png') no-repeat 100% -22px, -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
-    background: url('../images/chosen/chosen-sprite.png') no-repeat 100% -22px, -ms-linear-gradient(top, #ffffff 85%, #eeeeee 99%);
-    background: url('../images/chosen/chosen-sprite.png') no-repeat 100% -22px, linear-gradient(top, #ffffff 85%, #eeeeee 99%);
+    background: #fff url('../images/select2/select2.png') no-repeat 100% -22px;
+    background: url('../images/select2/select2.png') no-repeat 100% -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
+    background: url('../images/select2/select2.png') no-repeat 100% -22px, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+    background: url('../images/select2/select2.png') no-repeat 100% -22px, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+    background: url('../images/select2/select2.png') no-repeat 100% -22px, -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
+    background: url('../images/select2/select2.png') no-repeat 100% -22px, -ms-linear-gradient(top, #ffffff 85%, #eeeeee 99%);
+    background: url('../images/select2/select2.png') no-repeat 100% -22px, linear-gradient(top, #ffffff 85%, #eeeeee 99%);
     padding: 4px 20px 4px 5px;
     outline: 0;
     border: 1px solid #aaa;
@@ -310,11 +310,8 @@ Version: @@ver@@ Timestamp: @@timestamp@@
 .select2-results .select2-highlighted em {
   background: transparent;
 }
-.select2-results .select2-no-results {
-  background: #f4f4f4;
-  display: list-item;
-}
-
+.select2-results .select2-no-results,
+.select2-results .select2-searching,
 .select2-results .select2-selection-limit {
   background: #f4f4f4;
   display: list-item;
@@ -470,7 +467,7 @@ disabled look for already selected choices in the results dropdown
   width: 12px;
   height: 13px;
   font-size: 1px;
-  background: url('../images/chosen/chosen-sprite.png') right top no-repeat;
+  background: url('../images/select2/select2.png') right top no-repeat;
   outline: none;
 }
 
@@ -512,3 +509,16 @@ disabled look for already selected choices in the results dropdown
 .select2-result-unselectable .select2-match { text-decoration: none; }
 
 .select2-offscreen { position: absolute; left: -10000px; }
+
+/* Retina-ize icons */
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.select2-search input, .select2-search-choice-close, .select2-container .select2-choice abbr, .select2-container .select2-choice div b {
+		background-image: url(select2x2.png) !important;
+		background-repeat: no-repeat !important;
+		background-size: 60px 40px !important;
+	}
+	.select2-search input {
+		background-position: 100% -21px !important;
+	}
+}
