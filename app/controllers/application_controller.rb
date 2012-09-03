@@ -68,8 +68,9 @@ class ApplicationController < ActionController::Base
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
 
+  # TODO: needed? redmine doesn't
   Redmine::Scm::Base.all.each do |scm|
-    require_dependency "repository/#{scm.underscore}"
+    require "repository/#{scm.underscore}"
   end
 
   def user_setup

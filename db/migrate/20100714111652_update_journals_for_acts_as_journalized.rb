@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Redmine::Activity.providers.values.flatten.uniq.collect(&:underscore).each {|klass| require_dependency klass }
+Redmine::Activity.providers.values.flatten.uniq.collect(&:underscore).each {|klass| require klass }
 
 class UpdateJournalsForActsAsJournalized < ActiveRecord::Migration
   def self.up
