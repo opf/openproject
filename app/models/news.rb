@@ -46,6 +46,14 @@ class News < ActiveRecord::Base
     find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
   end
 
+  def new_comment(attributes = {})
+    comments.build(attributes)
+  end
+
+  def post_comment!(attributes = {})
+    new_comment(attributes).post!
+  end
+
   private
 
   def add_author_as_watcher
