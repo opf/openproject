@@ -33,6 +33,7 @@ group :test do
   gem 'mocha'
   gem "launchy", "~> 2.1.0"
   gem "factory_girl_rails", "~> 4.0"
+  gem 'database_cleaner'
 
   gem 'ruby-debug', :platforms => [:mri_18, :mingw_18]
   gem 'debugger',   :platforms => [:mri_19, :mingw_19]
