@@ -28,7 +28,7 @@ class HelperTestCase < ActionView::TestCase
   include ActionView::Helpers::FormHelper
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::AssetTagHelper
-  include ActionView::Helpers::PrototypeHelper
+  # include ActionView::Helpers::PrototypeHelper
 
   def setup
     super
@@ -38,9 +38,9 @@ class HelperTestCase < ActionView::TestCase
     @controller.request = @request
 
     # Fake url rewriter so we can test url_for
-    @controller.url = ActionController::UrlRewriter.new @request, {}
+    # @controller.url = ActionController::UrlRewriter.new @request, {}
 
-    ActionView::Helpers::AssetTagHelper.javascript_expansions[:defaults] = ['prototype', 'effects', 'dragdrop', 'controls', 'rails']
+    # ActionView::Helpers::AssetTagHelper.javascript_expansions[:defaults] = ['prototype', 'effects', 'dragdrop', 'controls', 'rails']
   end
 
   def test_dummy
