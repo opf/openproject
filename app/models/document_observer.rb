@@ -14,11 +14,11 @@
 
 class DocumentObserver < ActiveRecord::Observer
   def after_create(document)
-    if Setting.notified_events.include?('document_added')
-      users = User.find_all_by_mails(document.recipients)
-      users.each do |user|
-        UserMailer.document_added(user, document).deliver
-      end
+    return unless Notifier.notify?(:document_added)
+
+    users = User.find_all_by_mails(document.recipients)
+    users.each do |user|
+      UserMailer.document_added(user, document).deliver
     end
   end
 end
