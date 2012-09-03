@@ -79,7 +79,8 @@ module Redmine
 
         # Returns the mail adresses of users that should be notified
         def recipients
-          notified = project.notified_users
+          notified = []
+          notified = project.notified_users if project
           notified.reject! {|user| !visible?(user)}
           notified.collect(&:mail)
         end
