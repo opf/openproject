@@ -162,6 +162,8 @@ class ProjectTest < ActiveSupport::TestCase
     assert @ecookbook_sub1.unarchive
   end
 
+  # fails because @ecookbook.issues[5 und 6].destroy fails
+  # because ActiveRecord::StaleObjectError
   def test_destroy
     # 2 active members
     assert_equal 2, @ecookbook.members.size
