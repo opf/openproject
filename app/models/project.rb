@@ -726,7 +726,7 @@ class Project < ActiveRecord::Base
 
     # Get issues sorted by root_id, lft so that parent issues
     # get copied before their children
-    project.issues.find(:all, :order => 'root_id, lft').each do |issue|
+    project.issues.reorder('root_id, lft').each do |issue|
       new_issue = Issue.new
       new_issue.copy_from(issue)
       new_issue.project = self
