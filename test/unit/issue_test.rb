@@ -330,9 +330,9 @@ class IssueTest < ActiveSupport::TestCase
                              :description => 'Duplicates test' }
     end
     assert issue1.save
-    issue2 = issue1.clone
+    issue2 = Issue.new.copy_from(issue1)
     assert issue2.save
-    issue3 = issue1.clone
+    issue3 = Issue.new.copy_from(issue1)
     assert issue3.save
 
     # 2 is a dupe of 1
@@ -378,7 +378,7 @@ class IssueTest < ActiveSupport::TestCase
     end
 
     assert issue1.save
-    issue2 = issue1.clone
+    issue2 = Issue.new.copy_from(issue1)
     assert issue2.save
 
     # 2 is a dupe of 1
