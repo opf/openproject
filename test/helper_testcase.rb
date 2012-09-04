@@ -43,8 +43,4 @@ class HelperTestCase < ActionView::TestCase
 
     # ActionView::Helpers::AssetTagHelper.javascript_expansions[:defaults] = ['prototype', 'effects', 'dragdrop', 'controls', 'rails']
   end
-
-  def test_dummy
-    # do nothing - required by test/unit
-  end
 end
