@@ -20,7 +20,7 @@ Redmine::Plugin.register :redmine_meeting do
   author_url 'http://finn.de/team'
   description 'This plugin adds a meeting module with functionality to plan an agenda and save the minutes of a meeting.'
   url 'http://finn.de'
-  version '2.3.2'
+  version '2.3.3'
 
   # This plugin actually requires chiliproject 2.0 or higher…
   requires_redmine :version_or_higher => '1.0'
