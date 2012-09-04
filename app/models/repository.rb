@@ -17,7 +17,6 @@ class Repository < ActiveRecord::Base
 
   belongs_to :project
   has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
-  has_many :changes, :through => :changesets
 
   before_save :sanitize_urls
 
@@ -29,6 +28,10 @@ class Repository < ActiveRecord::Base
 
   validates_length_of :password, :maximum => 255, :allow_nil => true
   validate :validate_enabled_scm, :on => :create
+
+  def changes
+    Change.where(:changeset_id => changesets)
+  end
 
   # Checks if the SCM is enabled when creating a repository
   def validate_enabled_scm
