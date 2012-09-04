@@ -26,7 +26,11 @@ class JournalObserverTest < ActiveSupport::TestCase
   context "#after_create for 'issue_updated'" do
     should "should send a notification when configured as a notification" do
       Setting.notified_events = ['issue_updated']
-      assert_difference('ActionMailer::Base.deliveries.size') do
+      # NOTE: +2 emails because the author and the issue's project's #notified_users,
+      # which contains 1 user other than the author, are notified.
+      # and because stubbing out the #notified_users does not work
+      # @issue.project.stubs(:notified_users).returns([]) has no effect
+      assert_difference('ActionMailer::Base.deliveries.size', +2) do
         @issue.init_journal(@user)
         @issue.subject = "A change to the issue"
         assert @issue.save
@@ -47,7 +51,7 @@ class JournalObserverTest < ActiveSupport::TestCase
   context "#after_create for 'issue_note_added'" do
     should "should send a notification when configured as a notification" do
       Setting.notified_events = ['issue_note_added']
-      assert_difference('ActionMailer::Base.deliveries.size') do
+      assert_difference('ActionMailer::Base.deliveries.size', +2) do
         @issue.init_journal(@user, 'This update has a note')
         assert @issue.save
       end
@@ -66,7 +70,7 @@ class JournalObserverTest < ActiveSupport::TestCase
   context "#after_create for 'issue_status_updated'" do
     should "should send a notification when configured as a notification" do
       Setting.notified_events = ['issue_status_updated']
-      assert_difference('ActionMailer::Base.deliveries.size') do
+      assert_difference('ActionMailer::Base.deliveries.size', +2) do
         @issue.init_journal(@user)
         @issue.status = IssueStatus.generate!
         assert @issue.save
@@ -89,7 +93,7 @@ class JournalObserverTest < ActiveSupport::TestCase
   context "#after_create for 'issue_priority_updated'" do
     should "should send a notification when configured as a notification" do
       Setting.notified_events = ['issue_priority_updated']
-      assert_difference('ActionMailer::Base.deliveries.size') do
+      assert_difference('ActionMailer::Base.deliveries.size', +2) do
         @issue.init_journal(@user)
         @issue.priority = IssuePriority.generate!
         assert @issue.save
