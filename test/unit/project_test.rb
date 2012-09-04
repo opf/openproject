@@ -263,6 +263,9 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal parent.children.sort_by(&:name), parent.children
   end
 
+  # TODO: we customized awesome_nested_set to accept and :order parameter
+  # this is not in the official gem. look whether sb did it already
+  # otherwise take the previous code (vendor/plugins/awesome...) and make a PR
   def test_rebuild_should_sort_children_alphabetically
     ProjectCustomField.delete_all
     parent = Project.create!(:name => 'Parent', :identifier => 'parent')
