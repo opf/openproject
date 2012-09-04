@@ -78,3 +78,17 @@ Feature: Create new meetings
         And I go to the Meetings page for the project called "dingens"
         And I click on "New Meeting"
        Then the "meeting[participants_attributes][][invited]" checkbox should be checked
+
+  Scenario: Create a meeting in a project without members shouldn't error out
+    Given there is 1 project with the following:
+      | identifier | foreverempty |
+      | name       | foreverempty |
+    And the project "foreverempty" uses the following modules:
+      | meetings |
+    When I login as "admin"
+    And I go to the Meetings page for the project called "foreverempty"
+    And I click on "New Meeting"
+    And I fill in the following:
+      | meeting_title | Emtpy Meetings |
+    And I press "Create"
+    Then I should see "Successful creation."

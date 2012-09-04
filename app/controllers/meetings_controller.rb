@@ -113,6 +113,7 @@ class MeetingsController < ApplicationController
     end
     params[:meeting][:duration] = params[:meeting][:duration].to_hours
     # Force defaults on participants
-    params[:meeting][:participants_attributes].each {|p| p.reverse_merge! :attended => false, :invited => false} if params[:meeting][:participants_attributes].present?
+    params[:meeting][:participants_attributes] ||= {}
+    params[:meeting][:participants_attributes].each {|p| p.reverse_merge! :attended => false, :invited => false}
   end
 end
