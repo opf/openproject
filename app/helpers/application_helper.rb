@@ -1111,10 +1111,12 @@ module ApplicationHelper
         menu_item = WikiMenuItem.find_by_title_and_wiki_id(@page.title, @page.wiki_id)
 
         if menu_item.is_sub_item?
-          menu_item.parent.title.dasherize
+          menu_item.parent.item_class
         else
-          menu_item.title.dasherize
+          menu_item.item_class
         end
+      when params[:controller] == 'wiki' && related_page = params[:id]
+        related_page.dasherize
       else
         params[:controller].dasherize
       end

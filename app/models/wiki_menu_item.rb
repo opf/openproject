@@ -29,6 +29,10 @@ class WikiMenuItem < ActiveRecord::Base
     end
   end
 
+  def item_class
+    title.dasherize
+  end
+
   def setting
     if new_record?
       :no_item

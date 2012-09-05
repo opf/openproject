@@ -31,21 +31,21 @@ module Redmine::MenuManager::MenuHelper
 
     WikiMenuItem.main_items(project_wiki).each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
-        menu.push "#{main_item.title}".to_sym,
+        menu.push "#{main_item.item_class}".to_sym,
           { :controller => 'wiki', :action => 'show', :id => h(main_item.title) },
             :param => :project_id, :caption => main_item.name
 
         menu.push :wiki_create_new_page, {:action=>"new_child", :controller=>"wiki", :id => h(main_item.title) },
           :param => :project_id, :caption => :create_new_page,
-          :parent => "#{main_item.title}".to_sym if main_item.new_wiki_page and
+          :parent => "#{main_item.item_class}".to_sym if main_item.new_wiki_page and
             WikiPage.find_by_wiki_id_and_title(project_wiki.id, main_item.title)
 
-        menu.push :table_of_contents, {:action => 'index', :controller => 'wiki', :id => h(main_item.title)}, :param => :project_id, :caption => :label_table_of_contents, :parent => "#{main_item.title}".to_sym if main_item.index_page
+        menu.push :table_of_contents, {:action => 'index', :controller => 'wiki', :id => h(main_item.title)}, :param => :project_id, :caption => :label_table_of_contents, :parent => "#{main_item.item_class}".to_sym if main_item.index_page
 
         main_item.children.each do |child|
-          menu.push "#{child.title}".to_sym,
+          menu.push "#{child.item_class}".to_sym,
             { :controller => 'wiki', :action => 'show', :id => h(child.title) },
-              :param => :project_id, :caption => child.name, :parent => "#{main_item.title}".to_sym
+              :param => :project_id, :caption => child.name, :parent => "#{main_item.item_class}".to_sym
         end
       end
     end
@@ -186,7 +186,9 @@ module Redmine::MenuManager::MenuHelper
     caption = item.caption(project)
 
     if @page and current_menu_item == :wiki
-      selected = node.name.to_sym == @page.title.to_sym if @page.title
+      selected = node.name.to_sym == @page.title.dasherize.to_sym if @page.title
+    elsif current_menu_item == :wiki and related_page = params[:id]
+      selected = related_page.dasherize == item.name.to_s.dasherize
     else
       selected = current_menu_item == item.name
     end
