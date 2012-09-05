@@ -489,7 +489,7 @@ class Issue < ActiveRecord::Base
   #   spent_hours => 0.0
   #   spent_hours => 50.2
   def spent_hours
-    @spent_hours ||= self_and_descendants.sum("#{TimeEntry.table_name}.hours", :include => :time_entries).to_f || 0.0
+    @spent_hours ||= self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f || 0.0
   end
 
   def relations
