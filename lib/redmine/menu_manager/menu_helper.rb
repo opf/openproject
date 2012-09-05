@@ -40,7 +40,7 @@ module Redmine::MenuManager::MenuHelper
           :parent => "#{main_item.title}".to_sym if main_item.new_wiki_page and
             WikiPage.find_by_wiki_id_and_title(project_wiki.id, main_item.title)
 
-        menu.push :table_of_contents, {:action => 'index', :controller => 'wiki'}, :param => :project_id, :caption => :label_table_of_contents, :parent => "#{main_item.title}".to_sym if main_item.index_page
+        menu.push :table_of_contents, {:action => 'index', :controller => 'wiki', :id => h(main_item.title)}, :param => :project_id, :caption => :label_table_of_contents, :parent => "#{main_item.title}".to_sym if main_item.index_page
 
         main_item.children.each do |child|
           menu.push "#{child.title}".to_sym,
