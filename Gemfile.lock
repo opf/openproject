@@ -159,7 +159,9 @@ GEM
     ruby-openid (2.1.8)
     ruby_parser (2.3.1)
       sexp_processor (~> 3.0)
-    rubytree (0.5.3)
+    rubytree (0.8.3)
+      json (>= 1.7.5)
+      structured_warnings (>= 0.1.3)
     safe_attributes (1.0.8)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -183,6 +185,7 @@ GEM
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.6)
     sqlite3-ruby (1.2.5)
+    structured_warnings (0.1.3)
     thor (0.14.6)
     tilt (1.3.3)
     treetop (1.4.10)
@@ -230,7 +233,7 @@ DEPENDENCIES
   rmagick (>= 1.15.17)
   ruby-debug
   ruby-openid (~> 2.1.4)
-  rubytree (~> 0.5.2)
+  rubytree (~> 0.8.3)
   safe_attributes
   sass-rails (~> 3.1.5)
   shoulda (~> 3.1.1)
