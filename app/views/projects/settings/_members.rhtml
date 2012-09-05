@@ -1,6 +1,7 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   available_principals = @project.possible_members("", 100)
+   members = @project.member_principals.find(:all, :include => [:roles, :principal]).sort
+   available_principals = Principal.possible_members("", 100) - @project.principals
 
    member_per_page = 20
 
@@ -12,8 +13,18 @@
                           :include => [:roles, :principal, :member_roles],
                           :order => User::USER_FORMATS_STRUCTURE[Setting.user_format].map{|attr| attr.to_s}.join(", ")
 %>
+<div>
+  <% if roles.any? && available_principals.any? %>
+    <% partial = (User.current.impaired? ? "members/member_form_impaired" : "members/member_form") %>
+    <%= render :partial => partial,
+              :locals => { :project => @project,
+                           :members => members,
+                           :roles => roles,
+                           :principals => available_principals } %>
 
-<div class="splitcontentleft">
+  <% end %>
+</div>
+<div>
 <% if @members.any? %>
   <% authorized = authorize_for('members', 'edit') %>
 <table class="list members">
@@ -66,27 +77,3 @@
 <% end %>
 </div>
 
-<div class="splitcontentright">
-<% if roles.any? && available_principals.any? %>
-  <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project, :page => params[:page]}, :method => :post,
-									   :loading => '$(\'member-add-submit\').disable();',
-									   :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable();') do |f| %>
-    <fieldset><legend><%=l(:label_member_new)%></legend>
-
-		<p><%= label_tag "principal_search", l(:label_principal_search) %><%= text_field_tag 'principal_search', nil %></p>
-		<%= observe_field(:principal_search,
-                 :frequency => 0.5,
-                 :update => :principals,
-                 :url => { :controller => 'members', :action => 'autocomplete_for_member', :id => @project },
-                 :with => 'q')
-                  %>
-
-		<div id="principals">
-      <%= render :partial => 'members/autocomplete_for_member', :locals => { :available_principals => available_principals, :roles => roles } %>
-		</div>
-
-
-		</fieldset>
-  <% end %>
-<% end %>
-</div>
