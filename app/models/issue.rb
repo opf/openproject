@@ -103,6 +103,8 @@ class Issue < ActiveRecord::Base
   before_save :close_duplicates, :update_done_ratio_from_issue_status
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes
   after_destroy :update_parent_attributes
+  before_destroy :remove_attachments
+
   after_initialize :set_default_values
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
@@ -791,6 +793,14 @@ class Issue < ActiveRecord::Base
       recalculate_attributes_for(former_parent_id) if former_parent_id
     end
     remove_instance_variable(:@parent_issue) if instance_variable_defined?(:@parent_issue)
+  end
+
+  # this removes all attachments separately before destroying the issue
+  # avoids getting a ActiveRecord::StaleObjectError when deleting an issue
+  def remove_attachments
+    # immediately saves to the db
+    attachments.clear
+    reload # important
   end
 
   def update_parent_attributes
