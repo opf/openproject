@@ -677,8 +677,7 @@ class Project < ActiveRecord::Base
   def copy_wiki(project)
     # Check that the source project has a wiki first
     unless project.wiki.nil?
-      self.wiki ||= Wiki.new
-      wiki.attributes = project.wiki.attributes.dup.except("id", "project_id")
+      self.wiki = self.build_wiki(project.wiki.attributes.dup.except("id", "project_id"))
       wiki_pages_map = {}
       project.wiki.pages.each do |page|
         # Skip pages without content
