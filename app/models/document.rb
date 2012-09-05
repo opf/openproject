@@ -26,8 +26,6 @@ class Document < ActiveRecord::Base
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
 
-  attr_protected :project_id
-
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 60
 
@@ -37,8 +35,8 @@ class Document < ActiveRecord::Base
 
   after_initialize :set_default_category
 
-  # TODO: category_id needed for forms?
-  attr_accessible :title, :description, :project, :category
+  # TODO: category_id needed for forms, can we make that differently?
+  attr_accessible :title, :description, :project, :category, :category_id
 
   safe_attributes 'category_id', 'title', 'description'
 
