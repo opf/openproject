@@ -30,7 +30,7 @@ class Repository < ActiveRecord::Base
   validate :validate_enabled_scm, :on => :create
 
   def changes
-    Change.where(:changeset_id => changesets)
+    Change.where(:changeset_id => changesets).joins(:changeset)
   end
 
   # Checks if the SCM is enabled when creating a repository
