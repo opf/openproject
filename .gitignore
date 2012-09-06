@@ -2,7 +2,5 @@
 _site
 _posts
 assets/styles
-config/labels.yml
-config/labels-malformed.yml
 graph.dot
 *.swp
