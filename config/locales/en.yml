@@ -713,9 +713,9 @@ en:
   label_wiki_show_new_page_link: "Show submenu item 'Create new page'"
   label_wiki_show_index_page_link: "Show submenu item 'Index page'"
 
-  wiki_create_child_page: Create new child page
-  wiki_create_child_page_for: "Create new child page: \"%{title}\""
-  wiki_create_new_page: Create new page
+  create_child_page: Create new child page
+  create_child_page_for: "Create new child page: \"%{title}\""
+  create_new_page: Create new page
 
   label_index_by_title: Index by title
   label_index_by_date: Index by date
