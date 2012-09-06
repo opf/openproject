@@ -185,7 +185,7 @@ module Redmine::MenuManager::MenuHelper
     end
     caption = item.caption(project)
 
-    if @page and current_menu_item == :wiki
+    if @page and !@page.new_record? and current_menu_item == :wiki
       selected = node.name.to_sym == @page.title.dasherize.to_sym if @page.title
     elsif current_menu_item == :wiki and related_page = params[:id]
       selected = related_page.dasherize == item.name.to_s.dasherize
