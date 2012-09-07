@@ -18,6 +18,7 @@ module Redmine
   module WikiFormatting
     module Textile
       class Formatter < RedCloth3
+        include ERB::Util
         include ActionView::Helpers::TagHelper
 
         # auto_link rule after textile rules so that it doesn't break !image_url! tags

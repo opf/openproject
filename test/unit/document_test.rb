@@ -11,7 +11,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class DocumentTest < ActiveSupport::TestCase
   fixtures :projects, :enumerations, :documents, :attachments
@@ -22,12 +22,27 @@ class DocumentTest < ActiveSupport::TestCase
   end
 
   def test_create_should_send_email_notification
-    ActionMailer::Base.deliveries.clear
-    Setting.notified_events = Setting.notified_events.dup << 'document_added'
-    doc = Document.new(:project => Project.find(1), :title => 'New document', :category => Enumeration.find_by_name('User documentation'))
+    user = FactoryGirl.create(:user)
+    project = FactoryGirl.create(:project)
+    doc = Document.new(:project => project, :title => 'New document', :category => Enumeration.find_by_name('User documentation'))
+    # need to stub directly, otherwise it doesn't work. chili swallows all stubs... see next test
+    doc.stubs(:recipients).returns([user.mail])
 
-    assert doc.save
-    assert_equal 2, ActionMailer::Base.deliveries.size
+    Notifier.stubs(:notify?).with(:document_added).returns(true)
+    assert_difference 'ActionMailer::Base.deliveries.size', 1 do
+      assert doc.save
+    end
+  end
+
+  # this should pass unless the stubbing doesn't work
+  # since it fails, it doesn't :(
+  def test_recipients_equal_project_recipients
+    user = FactoryGirl.create(:user)
+    project = FactoryGirl.create(:project)
+    project.stubs(:notified_users).returns([user])
+    document = FactoryGirl.create(:document, :project => project)
+    refute_empty document.recipients
+    assert_equal document.recipients, project.recipients
   end
 
   def test_create_with_default_category

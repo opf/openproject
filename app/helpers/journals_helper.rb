@@ -13,8 +13,9 @@
 #++
 
 module JournalsHelper
-  unloadable
+  # unloadable
   include ApplicationHelper
+  include ERB::Util
   include ActionView::Helpers::TagHelper
 
   def self.included(base)

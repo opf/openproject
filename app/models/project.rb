@@ -83,7 +83,7 @@ class Project < ActiveRecord::Base
   scope :all_public, { :conditions => { :is_public => true } }
   scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
 
-  def initialize(attributes = nil)
+  def initialize(attributes = nil, options = {})
     super
 
     initialized = (attributes || {}).stringify_keys
@@ -677,8 +677,7 @@ class Project < ActiveRecord::Base
   def copy_wiki(project)
     # Check that the source project has a wiki first
     unless project.wiki.nil?
-      self.wiki ||= Wiki.new
-      wiki.attributes = project.wiki.attributes.dup.except("id", "project_id")
+      self.wiki = self.build_wiki(project.wiki.attributes.dup.except("id", "project_id"))
       wiki_pages_map = {}
       project.wiki.pages.each do |page|
         # Skip pages without content
@@ -726,7 +725,7 @@ class Project < ActiveRecord::Base
 
     # Get issues sorted by root_id, lft so that parent issues
     # get copied before their children
-    project.issues.find(:all, :order => 'root_id, lft').each do |issue|
+    project.issues.reorder('root_id, lft').each do |issue|
       new_issue = Issue.new
       new_issue.copy_from(issue)
       new_issue.project = self

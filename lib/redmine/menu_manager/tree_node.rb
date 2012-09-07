@@ -26,9 +26,9 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   # parent is set to be the receiver.  The child is added as the first child in
   # the current list of children for the receiver node.
   def prepend(child)
-    raise "Child already added" if @childrenHash.has_key?(child.name)
+    raise "Child already added" if @children_hash.has_key?(child.name)
 
-    @childrenHash[child.name]  = child
+    @children_hash[child.name]  = child
     @children = [child] + @children
     child.parent = self
     return child
@@ -39,9 +39,9 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   # parent is set to be the receiver.  The child is added at the position
   # into the current list of children for the receiver node.
   def add_at(child, position)
-    raise "Child already added" if @childrenHash.has_key?(child.name)
+    raise "Child already added" if @children_hash.has_key?(child.name)
 
-    @childrenHash[child.name]  = child
+    @children_hash[child.name]  = child
     @children = @children.insert(position, child)
     child.parent = self
     return child
@@ -49,9 +49,9 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   end
 
   def add_last(child)
-    raise "Child already added" if @childrenHash.has_key?(child.name)
+    raise "Child already added" if @children_hash.has_key?(child.name)
 
-    @childrenHash[child.name]  = child
+    @children_hash[child.name]  = child
     @children <<  child
     @last_items_count += 1
     child.parent = self
@@ -63,9 +63,9 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   # parent is set to be the receiver.  The child is added as the last child in
   # the current list of children for the receiver node.
   def add(child)
-    raise "Child already added" if @childrenHash.has_key?(child.name)
+    raise "Child already added" if @children_hash.has_key?(child.name)
 
-    @childrenHash[child.name]  = child
+    @children_hash[child.name]  = child
     position = @children.size - @last_items_count
     @children.insert(position, child)
     child.parent = self

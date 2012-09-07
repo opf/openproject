@@ -55,7 +55,7 @@ class LayoutTest < ActionController::IntegrationTest
 
     get '/projects/ecookbook/issues/new'
     assert_tag :script,
-      :attributes => {:src => %r{^/javascripts/jstoolbar/textile.js}},
+      :attributes => {:src => %r{^/assets/jstoolbar/textile.js}},
       :parent => {:tag => 'head'}
   end
 

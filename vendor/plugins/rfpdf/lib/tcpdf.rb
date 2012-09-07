@@ -83,10 +83,10 @@ class TCPDF
   @@k_small_ratio = 2/3.0
   
   cattr_accessor :k_path_cache
-  @@k_path_cache = File.join(RAILS_ROOT, 'tmp')
+  @@k_path_cache = Rails.root.join('tmp').to_s
   
   cattr_accessor :k_path_url_cache
-  @@k_path_url_cache = File.join(RAILS_ROOT, 'tmp')
+  @@k_path_url_cache = Rails.root.join('tmp').to_s
   
   cattr_accessor :decoder
 		

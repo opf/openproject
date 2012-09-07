@@ -1,0 +1,124 @@
+Version 2.0 (May 13, 2009)
+- Add <drive*>.
+- Add <edit-disable>.
+- Add <navigation*>.
+- Add <report-excel>.
+- Add <smiley-paint-brush>.
+- Add <ui-toolbar-bookmark>.
+- Add <umbrella-disable>.
+- Add <user-disable> and <user-female-disable>.
+--------------------------------------------------------------------------------
+Version 1.9.3 (May 12, 2009)
+- Add <balloon-ellipsis> and <balloon-sound>.
+- Add <brightness-control*>.
+- Add <clock-disable>.
+- Add <contrast-control*>.
+- Add <hammer-disable> and <hammer-screwdriver-disable>.
+- Add <keyboard-disable> and <keyboard-space>.
+- Add <pill-disable>.
+- Add <pin-disable>.
+- Add <plug-disable>.
+- Add <printer-disable>.
+- Add <ruler-disable> and <ruler-triangle-disable>.
+- Add <safe-disable>.
+- Add <scissors-disable>.
+- Add <screwdriver-disable>.
+- Add <switch-disable>.
+- Add <target-disable>.
+- Add <thumb-disable> and <thumb-up-disable>.
+- Add <wand-disable>.
+- Add <webcam*>.
+- Add <wrench-disable> and <wrench-screwdriver-disable>.
+--------------------------------------------------------------------------------
+Version 1.9.2 (May 10, 2009)
+* Increase contrast.
+- Add <alarm-clock-disable>.
+- Add <block-disable>.
+- Add <broom-disable>.
+- Add <compass-disable>.
+- Add <direction-disable>.
+- Add <drill-disable>.
+- Add <eye-disable>.
+- Add <information-balloon>.
+- Add <lifebuoy-disable>.
+- Add <megaphone-disable>.
+- Add <microphone-disable>.
+- Add <question-balloon>.
+--------------------------------------------------------------------------------
+Version 1.9.1 (May 9, 2009)
+- Add <cake*>.
+- Add <clipboard-list>.
+- Add <document-copy> and <document-list>.
+- Add <image-empty>.
+- Add <keyboard*>.
+- Add <paint-brush*>.
+- Add <pencil-ruler>.
+- Add <switch-small>.
+- Add <table-delete-row>, <table-insert-row> and <table-sheet>.
+- Add <ui-combo-box-calendar>.
+- Add <ui-progress-bar-indeterminate>.
+- Add <universal>.
+- Add <user-nude*> and <user-white*>.
+- Add <yin-yang>.
+--------------------------------------------------------------------------------
+Version 1.9 (May 4, 2009)
+- Add <document-hf*> and <document-insert>.
+- Add <film-cast>.
+- Add <grid-snap*>.
+- Add <guide*>.
+- Add <image-cast>.
+- Add <layer-shade>.
+- Add <megaphone*>.
+- Add <subversion>.
+- Add <volume*>.
+--------------------------------------------------------------------------------
+Version 1.8.1 (May 1, 2009)
+- Add <block-small>.
+- Add <border*>.
+- Add <document-block> and <document-code>.
+- Add <media-player-cast>.
+- Add <script-attribute*>, <script-block>, <script-code>, <script-flash> and <script-globe>.
+--------------------------------------------------------------------------------
+Version 1.8 (April 29, 2009)
+- Add <credit-card*>.
+- Add <credit-cards>.
+- Add <document-attribute*>, <document-globe> and <document-photoshop-image>.
+- Add <edit-diff>.
+- Add <globe-place>.
+- Add <layer-resize-replicate*>.
+--------------------------------------------------------------------------------
+Version 1.7 (April 15, 2009)
+--------------------------------------------------------------------------------
+Version 1.6 (April 6, 2009)
+--------------------------------------------------------------------------------
+Version 1.5 (March 17, 2009)
+--------------------------------------------------------------------------------
+Version 1.4 (January 28, 2009)
+--------------------------------------------------------------------------------
+Version 1.3 (January 22, 2009)
+--------------------------------------------------------------------------------
+Version 1.2 (January 11, 2009)
+--------------------------------------------------------------------------------
+Version 1.1 (January 2, 2009)
+--------------------------------------------------------------------------------
+Version 1.0 (October 12, 2008)
+* Initial non-beta release.
+--------------------------------------------------------------------------------
+Version 0.9 (August 4, 2008)
+--------------------------------------------------------------------------------
+Version 0.8 (July 28, 2008)
+--------------------------------------------------------------------------------
+Version 0.7 (July 22, 2008)
+--------------------------------------------------------------------------------
+Version 0.6 (July 14, 2008)
+--------------------------------------------------------------------------------
+Version 0.5 (July 13, 2008)
+--------------------------------------------------------------------------------
+Version 0.4 (July 9, 2008)
+--------------------------------------------------------------------------------
+Version 0.3 (June 29, 2008)
+--------------------------------------------------------------------------------
+Version 0.2 (June 27, 2008)
+--------------------------------------------------------------------------------
+Version 0.1 (June 17, 2008)
+* Initial beta release.

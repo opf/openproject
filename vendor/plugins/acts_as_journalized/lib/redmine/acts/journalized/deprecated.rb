@@ -25,7 +25,8 @@ module Redmine::Acts::Journalized
   module Deprecated
     # Old mailer API
     def recipients
-      notified = project.notified_users
+      notified = []
+      notified = project.notified_users if project
       notified.reject! {|user| !visible?(user)}
       notified.collect(&:mail)
     end

@@ -96,7 +96,7 @@ class RepositoriesController < ApplicationController
   end
 
   def revisions
-    @changeset_count = @repository.changesets.count
+    @changeset_count = @repository.changesets.size
     @changeset_pages = Paginator.new self, @changeset_count,
                                      per_page_option,
                                      params['page']
@@ -263,11 +263,11 @@ class RepositoriesController < ApplicationController
     @date_to = Date.today
     @date_from = @date_to << 11
     @date_from = Date.civil(@date_from.year, @date_from.month, 1)
-    commits_by_day = repository.changesets.reorder(nil).count(:all, :group => :commit_date, :conditions => ["commit_date BETWEEN ? AND ?", @date_from, @date_to])
+    commits_by_day = repository.changesets.where(["commit_date BETWEEN ? AND ?", @date_from, @date_to]).group(:commit_date).size
     commits_by_month = [0] * 12
     commits_by_day.each {|c| commits_by_month[c.first.to_date.months_ago] += c.last }
 
-    changes_by_day = repository.changes.count(:all, :group => :commit_date, :conditions => ["commit_date BETWEEN ? AND ?", @date_from, @date_to])
+    changes_by_day = repository.changes.where(["commit_date BETWEEN ? AND ?", @date_from, @date_to]).group(:commit_date).size
     changes_by_month = [0] * 12
     changes_by_day.each {|c| changes_by_month[c.first.to_date.months_ago] += c.last }
 
@@ -300,10 +300,10 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_author(repository)
-    commits_by_author = repository.changesets.reorder(nil).count(:all, :group => :committer)
+    commits_by_author = repository.changesets.group(:committer).size
     commits_by_author.to_a.sort! {|x, y| x.last <=> y.last}
 
-    changes_by_author = repository.changes.count(:all, :group => :committer)
+    changes_by_author = repository.changes.group(:committer).size
     h = changes_by_author.inject({}) {|o, i| o[i.first] = i.last; o}
 
     fields = commits_by_author.collect {|r| r.first}

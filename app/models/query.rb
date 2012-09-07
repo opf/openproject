@@ -83,8 +83,8 @@ class Query < ActiveRecord::Base
   ]
   cattr_reader :available_columns
 
-  def initialize(attributes = nil)
-    super attributes
+  def initialize(attributes = nil, options = {})
+    super
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
   end
 
@@ -166,21 +166,21 @@ class Query < ActiveRecord::Base
 
     if project
       # project specific filters
-      categories = @project.issue_categories.all
+      categories = project.issue_categories.all
       unless categories.empty?
         @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => categories.collect{|s| [s.name, s.id.to_s] } }
       end
-      versions = @project.shared_versions.all
+      versions = project.shared_versions.all
       unless versions.empty?
         @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] } }
       end
-      unless @project.leaf?
-        subprojects = @project.descendants.visible.all
+      unless project.leaf?
+        subprojects = project.descendants.visible.all
         unless subprojects.empty?
           @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => subprojects.collect{|s| [s.name, s.id.to_s] } }
         end
       end
-      add_custom_fields_filters(@project.all_issue_custom_fields)
+      add_custom_fields_filters(project.all_issue_custom_fields)
     else
       # global filters for cross project issue list
       system_shared_versions = Version.visible.find_all_by_sharing('system')
@@ -346,7 +346,7 @@ class Query < ActiveRecord::Base
 
   def project_statement
     project_clauses = []
-    if project && !@project.descendants.active.empty?
+    if project && !project.descendants.active.empty?
       ids = [project.id]
       if has_filter?("subproject_id")
         case operator_for("subproject_id")

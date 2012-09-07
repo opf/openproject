@@ -26,8 +26,6 @@ class Document < ActiveRecord::Base
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
 
-  attr_protected :project_id
-
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 60
 
@@ -36,6 +34,9 @@ class Document < ActiveRecord::Base
   scope :with_attachments, includes(:attachments).where("attachments.container_id is not NULL" )
 
   after_initialize :set_default_category
+
+  # TODO: category_id needed for forms, can we make that differently?
+  attr_accessible :title, :description, :project, :category, :category_id
 
   safe_attributes 'category_id', 'title', 'description'
 
@@ -52,7 +53,7 @@ class Document < ActiveRecord::Base
       # attachments has a default order that conflicts with `created_on DESC`
       # #reorder removes that default order but rather than #unscoped keeps the
       # scoping by this document
-      a = attachments.reorder(nil).order('created_on DESC').first
+      a = attachments.reorder('created_on DESC').first
       @updated_on = (a && a.created_on) || created_on
     end
     @updated_on

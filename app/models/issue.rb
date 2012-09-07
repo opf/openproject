@@ -103,6 +103,8 @@ class Issue < ActiveRecord::Base
   before_save :close_duplicates, :update_done_ratio_from_issue_status
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes
   after_destroy :update_parent_attributes
+  before_destroy :remove_attachments
+
   after_initialize :set_default_values
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
@@ -489,7 +491,7 @@ class Issue < ActiveRecord::Base
   #   spent_hours => 0.0
   #   spent_hours => 50.2
   def spent_hours
-    @spent_hours ||= self_and_descendants.sum("#{TimeEntry.table_name}.hours", :include => :time_entries).to_f || 0.0
+    @spent_hours ||= self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f || 0.0
   end
 
   def relations
@@ -793,6 +795,14 @@ class Issue < ActiveRecord::Base
     remove_instance_variable(:@parent_issue) if instance_variable_defined?(:@parent_issue)
   end
 
+  # this removes all attachments separately before destroying the issue
+  # avoids getting a ActiveRecord::StaleObjectError when deleting an issue
+  def remove_attachments
+    # immediately saves to the db
+    attachments.clear
+    reload # important
+  end
+
   def update_parent_attributes
     recalculate_attributes_for(parent_id) if parent_id
   end
@@ -800,7 +810,7 @@ class Issue < ActiveRecord::Base
   def recalculate_attributes_for(issue_id)
     if issue_id && p = Issue.find_by_id(issue_id)
       # priority = highest priority of children
-      if priority_position = p.children.maximum("#{IssuePriority.table_name}.position", :include => :priority)
+      if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
         p.priority = IssuePriority.find_by_position(priority_position)
       end
 
@@ -819,7 +829,7 @@ class Issue < ActiveRecord::Base
           if average == 0
             average = 1
           end
-          done = p.leaves.sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)", :include => :status).to_f
+          done = p.leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
           progress = done / (average * leaves_count)
           p.done_ratio = progress.round
         end

@@ -13,11 +13,18 @@
 #++
 
 class News::PreviewsController < ApplicationController
+  before_filter :find_model_object_and_project
+
   model_object News
-  before_filter :find_object_and_scope
 
   def create
-    @text = (params[:news] ? params[:news][:description] : nil)
+    @text = news_params[:description]
     render :partial => 'common/preview'
+  end
+
+private
+
+  def news_params
+    params.fetch(:news, {})
   end
 end

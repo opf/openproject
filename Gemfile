@@ -1,20 +1,35 @@
-source :rubygems
+source 'http://rubygems.org'
 
-gem "rails", "~> 3.0.15"
+gem 'rails', '3.1.8'
 
 gem "coderay", "~> 0.9.7"
-gem "i18n", "~> 0.5.0"
-gem "rubytree", "~> 0.5.2", :require => 'tree'
+gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
 # Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
 gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
-gem 'globalize3', :require => 'globalize'
+# master includes the uniqueness validator, formerly patched in config/initializers/globalize3_patch.rb
+gem 'globalize3', :git => 'git://github.com/svenfuchs/globalize3.git'
 gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 # TODO: check that it doesn't break the functionality of acts_as_journalized
 gem 'safe_attributes' # allows active record to have a #changes column
+# TODO: adds #auto_link which was deprecated in rails 3.1
+gem 'rails_autolink'
 
 gem 'awesome_nested_set'
+
+group :assets do
+  gem 'sass-rails',   '~> 3.1.5'
+  gem 'coffee-rails', '~> 3.1.1'
+
+  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  # gem 'therubyracer'
+
+  gem 'uglifier', '>= 1.0.3'
+end
+
+gem "prototype-rails"
+gem 'jquery-rails'
 
 group :test do
   gem 'shoulda', '~> 3.1.1'
@@ -22,9 +37,13 @@ group :test do
   gem 'mocha'
   gem "launchy", "~> 2.1.0"
   gem "factory_girl_rails", "~> 4.0"
+  gem 'database_cleaner'
 
   gem 'ruby-debug', :platforms => [:mri_18, :mingw_18]
   gem 'debugger',   :platforms => [:mri_19, :mingw_19]
+
+  # remove in rails 3.2
+  gem 'turn', '~> 0.8.3', :require => false
 end
 
 group :openid do
@@ -35,6 +54,7 @@ group :development do
   gem 'rails-footnotes', '>= 3.7.5.rc4'
   gem 'bullet'
   gem "letter_opener"
+  gem 'rails-dev-tweaks', '~> 0.6.1'
 end
 
 group :rmagick do
@@ -63,12 +83,11 @@ end
 
 platforms :mri, :mingw do
   group :mysql2 do
-    gem "mysql2", "~> 0.2.7"
+    gem "mysql2", "~> 0.3.11"
   end
 
   group :postgres do
-    gem "pg", "~> 0.9.0"
-    #   gem "postgres-pr"
+    gem 'pg'
   end
 end
 
@@ -89,7 +108,7 @@ platforms :mri_19, :mingw_19 do
   end
 
   group :mysql2 do
-    gem 'mysql2', '~> 0.2.7'
+    gem "mysql2", "~> 0.3.11"
   end
 end
 

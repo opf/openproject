@@ -18,8 +18,12 @@ module Redmine
   module Views
     module Builders
       class Structure < BlankSlate
-        def initialize
+        attr_accessor :request, :response
+
+        def initialize(request, response)
           @struct = [{}]
+          self.request = request
+          self.response = response
         end
 
         def array(tag, options={}, &block)

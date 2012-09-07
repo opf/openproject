@@ -4,6 +4,7 @@ require File.dirname(__FILE__) + '/../init'
 
 class PaginationHelperTest < Test::Unit::TestCase
   include ActionController::Pagination
+  include ERB::Util
   include ActionView::Helpers::PaginationHelper
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::TagHelper

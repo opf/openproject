@@ -156,12 +156,7 @@ class UserMailer < ActionMailer::Base
 
   def message_posted(user, message)
     @message     = message
-    @message_url = url_for(:controller => :messages,
-                           :action     => :show,
-                           :board_id   => @message.board,
-                           :id         => @message.root,
-                           :r          => @message,
-                           :anchor     => "message-#{@message.id}")
+    @message_url = topic_url(@message.root, :r => @message.id, :anchor => "message-#{@message.id}")
 
     open_project_headers 'Project'      => @message.project.identifier,
                          'Wiki-Page-Id' => @message.parent_id || @message.id,

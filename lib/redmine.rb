@@ -27,13 +27,13 @@ require 'redmine/wiki_formatting'
 require 'redmine/scm/base'
 
 begin
-  require_library_or_gem 'RMagick' unless Object.const_defined?(:Magick)
+  require 'RMagick' unless Object.const_defined?(:Magick)
 rescue LoadError
   # RMagick is not available
 end
 
 if RUBY_VERSION < '1.9'
-  require 'faster_csv'
+  require 'fastercsv'
 else
   require 'csv'
   FCSV = CSV
