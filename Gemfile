@@ -54,6 +54,7 @@ group :development do
   gem 'rails-footnotes', '>= 3.7.5.rc4'
   gem 'bullet'
   gem "letter_opener"
+  gem 'rails-dev-tweaks', '~> 0.6.1'
 end
 
 group :rmagick do

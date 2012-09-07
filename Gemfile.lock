@@ -137,6 +137,9 @@ GEM
       activesupport (= 3.1.8)
       bundler (~> 1.0)
       railties (= 3.1.8)
+    rails-dev-tweaks (0.6.1)
+      actionpack (~> 3.1)
+      railties (~> 3.1)
     rails-footnotes (3.7.8)
       rails (>= 3.0.0)
     rails_autolink (1.0.9)
@@ -230,6 +233,7 @@ DEPENDENCIES
   prototype-rails
   pry
   rails (= 3.1.8)
+  rails-dev-tweaks (~> 0.6.1)
   rails-footnotes (>= 3.7.5.rc4)
   rails_autolink
   rdoc (>= 2.4.2)
