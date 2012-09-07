@@ -295,7 +295,7 @@ class User < Principal
   end
 
   def pref
-    self.preference ||= UserPreference.new(:user => self)
+    preference || build_preference
   end
 
   def time_zone
