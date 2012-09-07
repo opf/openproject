@@ -18,8 +18,8 @@ module Redmine
   module Views
     module Builders
       class Xml < ::Builder::XmlMarkup
-        def initialize
-          super
+        def initialize(request, response)
+          super()
           instruct!
         end
 
