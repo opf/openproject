@@ -74,11 +74,11 @@ class VerificationTestController < ActionController::Base
   end
 
   def guarded_by_xhr
-    render :text => "#{request.xhr?}"
+    render :text => "#{!!request.xhr?}"
   end
 
   def guarded_by_not_xhr
-    render :text => "#{request.xhr?}"
+    render :text => "#{!!request.xhr?}"
   end
 
   def unguarded
@@ -124,7 +124,7 @@ class VerificationTest < ActionController::TestCase
   def test_no_deprecation_warning_for_named_route
     assert_not_deprecated do
       with_routing do |set|
-        set.draw do |map|
+        set.draw do
           match 'foo', :to => 'test#foo', :as => :foo
           match 'verification_test/:action', :to => ::VerificationTestController
         end
