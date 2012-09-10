@@ -263,13 +263,13 @@ class RepositoriesController < ApplicationController
     @date_to = Date.today
     @date_from = @date_to << 11
     @date_from = Date.civil(@date_from.year, @date_from.month, 1)
-    commits_by_day = repository.changesets.where(["commit_date BETWEEN ? AND ?", @date_from, @date_to]).group(:commit_date).size
+    commits_by_day = Changeset.where(["repository_id = ? AND commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to]).group(:commit_date).size
     commits_by_month = [0] * 12
-    commits_by_day.each {|c| commits_by_month[c.first.to_date.months_ago] += c.last }
+    commits_by_day.each {|c| commits_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
-    changes_by_day = repository.changes.where(["commit_date BETWEEN ? AND ?", @date_from, @date_to]).group(:commit_date).size
+    changes_by_day = Change.includes(:changeset).where(["#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to]).group(:commit_date).size
     changes_by_month = [0] * 12
-    changes_by_day.each {|c| changes_by_month[c.first.to_date.months_ago] += c.last }
+    changes_by_day.each {|c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
     fields = []
     12.times {|m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1)}
@@ -300,10 +300,10 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_author(repository)
-    commits_by_author = repository.changesets.group(:committer).size
+    commits_by_author = Changeset.where(["repository_id = ?", repository.id]).group(:committer).size
     commits_by_author.to_a.sort! {|x, y| x.last <=> y.last}
 
-    changes_by_author = repository.changes.group(:committer).size
+    changes_by_author = Change.includes(:changeset).where(["#{Changeset.table_name}.repository_id = ?", repository.id]).group(:committer).size
     h = changes_by_author.inject({}) {|o, i| o[i.first] = i.last; o}
 
     fields = commits_by_author.collect {|r| r.first}
@@ -328,17 +328,14 @@ class RepositoriesController < ApplicationController
       :graph_title => l(:label_commits_per_author),
       :show_graph_title => true
     )
-
     graph.add_data(
       :data => commits_data,
       :title => l(:label_revision_plural)
     )
-
     graph.add_data(
       :data => changes_data,
       :title => l(:label_change_plural)
     )
-
     graph.burn
   end
 
