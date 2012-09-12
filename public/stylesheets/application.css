@@ -345,7 +345,16 @@ fieldset#filters tr.filter { height: 2em; }
 fieldset#filters td.add-filter { text-align: right; vertical-align: top; }
 .buttons { margin-bottom: 1.4em; margin-top: 1em; }
 
-div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em; font-size: 90%;}
+div#issue-changesets {
+  float:right;
+  width:45%;
+  margin: 1em 0 1em 1em;
+  background: #fff;
+  padding-left: 1em;
+}
+div#issue-changesets h3 {
+  margin-top: 0;
+}
 div#issue-changesets div.changeset { padding: 4px;}
 div#issue-changesets div.changeset { border-bottom: 1px solid #ddd; }
 div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
@@ -1849,11 +1858,10 @@ table.files {
 	position:relative;
 }
 #history {
-	margin:20px 0;
+  margin-top: 1em;
   margin-bottom:0px;
 }
 #history h3 {
-	border-bottom:1px solid #ddd;
 	margin-bottom:20px;
 }
 #history .journal {
