@@ -19,8 +19,10 @@ matrix:
       env: "RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
   allow_failures:
     - rvm: rbx-18mode
-before_script:
+before_install:
+  - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs darcs git mercurial subversion"
+before_script:
   - "rake ci:travis:prepare"
 branches:
   only:
