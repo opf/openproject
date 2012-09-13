@@ -11,8 +11,6 @@ class WikiMenuItem < ActiveRecord::Base
 
   attr_accessible :name, :title
 
-  before_destroy :validate_if_at_least_one_item_exists
-
   validates_presence_of :title
   validates_format_of :title, :with => /^[^,\.\/\?\;\|\:]*$/
   validates_uniqueness_of :title, :scope => :wiki_id
@@ -21,13 +19,6 @@ class WikiMenuItem < ActiveRecord::Base
 
   def after_initialize
     self.options ||= Hash.new
-  end
-
-  def validate_if_at_least_one_item_exists
-    if self.is_main_item? and not new_record? and WikiMenuItem.main_items(wiki_id).size <= 1
-      errors.add_to_base(:wiki_cannot_delete_last_item)
-      return false
-    end
   end
 
   def item_class

@@ -98,10 +98,6 @@ en:
 
   activerecord:
     errors:
-      models:
-        wiki_menu_item:
-          wiki_cannot_delete_last_item: "There needs to be at least one wiki item.
-          If you really want to remove all wiki menu items you have to deactivate the modul 'wiki' in project settings."
       template:
         header:
           one:    "1 error prohibited this %{model} from being saved"

@@ -114,10 +114,6 @@ de:
   activerecord:
     errors:
       template:
-        models:
-          wiki_menu_item:
-            wiki_cannot_delete_last_item: "Es muss mindestens ein Menüpunkt für das Wiki vorhanden sein.
-            Wenn Sie wirklich alle Wiki Menüpunkte entfernen wollen, deaktivieren Sie 'Wiki' in der Projektkonfiguration."
         header:
           one:    "Dieses %{model}-Objekt konnte nicht gespeichert werden: %{count} Fehler."
           other:  "Dieses %{model}-Objekt konnte nicht gespeichert werden: %{count} Fehler."
