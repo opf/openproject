@@ -36,7 +36,7 @@ module Redmine::MenuManager::MenuHelper
             :param => :project_id, :caption => main_item.name
 
         menu.push :wiki_create_new_page, {:action=>"new_child", :controller=>"wiki", :id => h(main_item.title) },
-          :param => :project_id, :caption => :create_new_page,
+          :param => :project_id, :caption => :create_child_page,
           :parent => "#{main_item.item_class}".to_sym if main_item.new_wiki_page and
             WikiPage.find_by_wiki_id_and_title(project_wiki.id, main_item.title)
 

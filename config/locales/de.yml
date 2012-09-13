@@ -712,7 +712,7 @@ de:
   label_wiki_show_submenu_item: "als Untermenüpunkt anzeigen von "
   label_menu_item_name: Name des Menüpunktes
   wiki_menu_item_setting: Sichtbarkeit
-  label_wiki_show_new_page_link: "'Neue Seite anlegen' Link als Untermenüpunkt anzeigen"
+  label_wiki_show_new_page_link: "'Neue Unterseite anlegen' Link als Untermenüpunkt anzeigen"
   label_wiki_show_index_page_link: "'Inhaltsverzeichnis' Link als Untermenüpunkt anzeigen"
 
   create_child_page: Neue Unterseite anlegen
