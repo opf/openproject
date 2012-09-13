@@ -15,6 +15,7 @@ class WikiMenuItem < ActiveRecord::Base
 
   validates_presence_of :title
   validates_format_of :title, :with => /^[^,\.\/\?\;\|\:]*$/
+  validates_uniqueness_of :title, :scope => :wiki_id
 
   validates_presence_of :name
 
