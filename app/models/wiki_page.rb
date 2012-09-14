@@ -158,6 +158,18 @@ class WikiPage < ActiveRecord::Base
     self.parent = parent_page
   end
 
+  def menu_item
+    WikiMenuItem.find_by_title_and_wiki_id(title, wiki_id)
+  end
+
+  def breadcrumb_title
+    if item = menu_item
+      item.name
+    else
+      pretty_title
+    end
+  end
+
   protected
 
   def validate

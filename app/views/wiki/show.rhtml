@@ -23,7 +23,7 @@
 
 <% end %>
 
-<% breadcrumb_paths(*@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}) %>
+<% breadcrumb_paths(*(@page.ancestors.reverse.collect {|parent| link_to h(parent.breadcrumb_title), {:id => parent.title, :project_id => parent.project}} + [h(@page.breadcrumb_title)])) %>
 
 <% if @content.version != @page.content.version %>
     <p>
