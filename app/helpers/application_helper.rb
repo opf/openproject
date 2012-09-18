@@ -1128,6 +1128,15 @@ module ApplicationHelper
   def accessibility_js_enabled?
     !@accessibility_js_disabled
   end
+  
+  #
+  # Returns the footer text displayed in the layout file.
+  #
+  def layout_footer_text
+    %Q{<div class="bgl"><div class="bgr">} +
+      l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) +
+    %Q{</div></div>}
+  end
 
   private
 
