@@ -49,6 +49,30 @@ module SettingsHelper
       end.join
   end
 
+  def settings_multiselect(settings, choices, options={})
+    '<table>' +
+      '<thead>' +
+        '<tr>' +
+          '<th>' + l(options[:label_choices] || :label_choices) + '</th>' +
+          settings.collect do |setting|
+            '<th>' + hidden_field_tag("settings[#{setting}][]", '') + l('setting_' + setting.to_s) + '</th>'
+          end.join +
+        '</tr>' +
+      '</thead>' +
+      '<tbody>' +
+        choices.collect do |choice|
+          text, value = (choice.is_a?(Array)) ? choice : [choice, choice]
+          '<tr>' +
+            '<td>' + h(text) + '</td>' +
+            settings.collect do |setting|
+              '<td align="center">' + check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value), :id => "#{setting}_#{value}" ) + '</td>'
+            end.join +
+          '</tr>'
+        end.join +
+      '</tbody>' +
+    '</table>'
+  end
+
   def setting_text_field(setting, options={})
     setting_label(setting, options) +
       text_field_tag("settings[#{setting}]", Setting.send(setting), options)

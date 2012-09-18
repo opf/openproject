@@ -352,7 +352,9 @@ de:
   setting_date_format: Datumsformat
   setting_time_format: Zeitformat
   setting_cross_project_issue_relations: Ticket-Beziehungen zwischen Projekten erlauben
-  setting_issue_list_default_columns: Default-Spalten in der Ticket-Auflistung
+  setting_column_options: Anpassen der Darstellung der Ticketlisten
+  setting_issue_list_default_columns: Standardmäßig anzeigen
+  setting_issue_list_summable_columns: Summierbar
   setting_repositories_encodings: Kodierungen der Projektarchive
   setting_commit_logs_encoding: Kodierung der Commit-Log-Meldungen
   setting_emails_footer: E-Mail-Fußzeile
