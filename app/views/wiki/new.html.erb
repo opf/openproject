@@ -1,7 +1,9 @@
 <h2>
   <% if @page.parent %>
+    <% breadcrumb_for_page(@page.parent, l("create_new_page")) %>
     <%= l("create_child_page_for", :title => @page.parent.pretty_title) %>
   <% else %>
+    <% breadcrumb_paths(l("create_new_page")) %>
     <%= l("create_new_page") %>
   <% end %>
 </h2>

@@ -1,5 +1,8 @@
-<% wiki_menu_item = WikiMenuItem.find_by_title_and_wiki_id(params[:id], @wiki.id) %>
-<% breadcrumb_paths(link_to(h(wiki_menu_item.name), {:id => wiki_menu_item.title, :project_id => @wiki.project, :action => 'show'}), l(:label_table_of_contents)) %>
+<% if @related_page %>
+  <% breadcrumb_for_page(@related_page, l(:label_table_of_contents)) %>
+<% else %>
+  <% breadcrumb_paths(l(:label_table_of_contents)) %>
+<% end %>
 
 <div class="contextual">
   <%= watcher_link(@wiki, User.current) %>
