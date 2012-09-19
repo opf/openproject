@@ -525,10 +525,11 @@ jQuery(document).ready(function($) {
               if ($("input#username-pulldown").is(":visible")) {
                 var input = $("input#username-pulldown");
               } else {
+                $(this).setupProjectSearch();
                 // reset input value and project search list
-                var input = $(".chzn-search input");
+                var input = $(".select2-search input");
                 input.val("");
-                $("select#project-search").trigger($.Event("liszt:updated"));
+                $("#project-search select").trigger($.Event("liszt:updated"));
               }
               if (input.is(":visible")) {
                 input.blur();
@@ -597,6 +598,28 @@ jQuery(document).ready(function($) {
 
     $(this).slideAndFocus();
     menu.toggleClass("hover");
+  }
+
+  $.fn.setupProjectSearch = function () {
+    $(this).find('#project-search-container select.select2-select').each(function (ix, select) {
+      var parent = $(select).parents('li.drop-down');
+      // deselect all options
+      $(select).find(":selected").each(function (ix, option) {
+        $(option).attr("selected", false);
+      });
+      $(select).select2();
+      // trigger an artificial click event
+      parent.find('a.select2-choice').trigger(jQuery.Event("click"));
+      parent.find('a.select2-choice').hide();
+      // prevent menu from getting closed prematurely
+      jQuery('div.select2-search').click(function(event){
+        event.stopPropagation();
+      });
+      // remove highlights
+      parent.find(".select2-results .active-result.highlighted").each(function (ix, option){
+        $(option).removeClass("highlighted");
+      });
+    });
   }
 
 	// open and close the main-menu sub-menus
@@ -686,26 +709,6 @@ $(window).bind('resizeEnd', function() {
                         return false;
                       }
 		});
-
-        $('#header li.drop-down select.chzn-select').each(function (ix, select) {
-          // trigger an artificial mousedown event
-          var parent = $(select).parents('li.drop-down');
-          // deselect all options
-          $(select).find(":selected").each(function (ix, option) {
-            $(option).attr("selected", false);
-          });
-          $(select).chosen({allow_single_deselect:false});
-          parent.find('div.chzn-container').trigger(jQuery.Event("mousedown"))
-          parent.find('a.chzn-single').hide();
-          // prevent menu from getting closed prematurely
-          jQuery('div.chzn-search').click(function(event){
-             event.stopPropagation();
-          });
-          // remove highlights
-          parent.find(".chzn-results .active-result.highlighted").each(function (ix, option){
-            $(option).removeClass("highlighted");
-          });
-        });
 
         // Do not close the login window when using it
         $('#nav-login-content').click(function(event){

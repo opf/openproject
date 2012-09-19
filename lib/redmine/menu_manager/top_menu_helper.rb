@@ -33,9 +33,9 @@ module Redmine::MenuManager::TopMenuHelper
                                                 :action => 'index'
           end
 
-          ret += content_tag :li do
+          ret += content_tag :li, :id => "project-search-container" do
             render_project_jump_box projects, :id => "project-search",
-                                              :class => "chzn-select",
+                                              :class => "select2-select",
                                               :'data-placeholder' => "Enter Project Name..."
           end
 
@@ -127,8 +127,7 @@ module Redmine::MenuManager::TopMenuHelper
       option_tags << project_tree_options_for_select(projects, :selected => @project) do |p|
         { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
       end
-      html_options[:class] ||= ""
-      html_options[:class] << " chzn-select "
+      html_options[:class] ||= " select2-select "
       select_tag "", option_tags, html_options.merge({
         :onchange => "if (this.value != \'\') { window.location = this.value; }",
         :title => l(:label_jump_to_a_project)

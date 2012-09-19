@@ -1,0 +1,77 @@
+/* @group Base */
+#project-search-container  .select2-container {
+  position: static;
+  max-width: 350px;
+}
+#project-search-container  .select2-container .select2-drop {
+  position: static;
+  border: none;
+}
+/* @end */
+
+/* @group Single Chosen */
+#project-search-container  .select2-container .select2-select {
+  -webkit-box-shadow: none;
+  -moz-box-shadow   : none;
+  box-shadow        : none;
+  height: 26px;
+  line-height: 26px;
+}
+#project-search-container  .select2-container .select2-single div b {
+  background: url('../images/search_magnifier.png') no-repeat 0 1px;
+}
+#project-search-container  .select2-container .select2-search input {
+  background: #fff url('../images/search_magnifier.png') no-repeat 100%;
+  background: url('../images/search_magnifier.png') no-repeat 100%, -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(1%, #eeeeee), color-stop(15%, #ffffff));
+  background: url('../images/search_magnifier.png') no-repeat 100%, -webkit-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
+  background: url('../images/search_magnifier.png') no-repeat 100%, -moz-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
+  background: url('../images/search_magnifier.png') no-repeat 100%, -o-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
+  background: url('../images/search_magnifier.png') no-repeat 100%, -ms-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
+  background: url('../images/search_magnifier.png') no-repeat 100%, linear-gradient(top, #eeeeee 1%, #ffffff 15%);
+}
+#project-search-container  .select2-container .select2-drop {
+  -webkit-border-radius: 0;
+  -moz-border-radius   : 0;
+  border-radius        : 0;
+}
+/* @end */
+
+/* @group Results */
+#project-search-container  .select2-container .select2-results {
+  max-height: 500px;
+  color: #222;
+  background-color: white;
+  border:none;
+  height:auto;
+  width:100%;
+}
+
+#project-search-container  .select2-container .select2-results li {
+  line-height: 80%;
+  padding: 7px 7px 8px;
+}
+#project-search-container  .select2-container .select2-results .select2-result {
+  border: none;
+  margin: 3px 6px 3px 6px;
+}
+#project-search-container  .select2-container .select2-results .select2-highlighted {
+  -moz-border-radius-topleft:5px;
+  -moz-border-radius-topright:5px;
+  -webkit-border-top-left-radius:5px;
+  -webkit-border-top-right-radius:5px;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+  -moz-border-radius-bottomleft:5px;
+  -moz-border-radius-bottomright:5px;
+  -webkit-border-bottom-left-radius:5px;
+  -webkit-border-bottom-right-radius:5px;
+  border-bottom-left-radius:5px;
+  border-bottom-right-radius:5px;
+  background-color:#7F7F7F;
+  font-weight:bold;
+  background-image: none;
+}
+#project-search-container  .select2-container .select2-results .select2-no-results {
+  background: #fff;
+  border: none;
+}
