@@ -498,6 +498,42 @@ jQuery.viewportHeight = function() {
 
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
+
+  $('#project-search-container select.select2-select').each(function (ix, select) {
+    var parent, select2Container, results;
+    parent = $(select).parents('li.drop-down');
+    // deselect all options
+    $(select).find(":selected").each(function (ix, option) {
+      $(option).attr("selected", false);
+    });
+    $(select).select2();
+    // trigger an artificial click event
+    select2Container = parent.find('a.select2-choice');
+    select2Container.hide();
+
+    // setup results
+    results = parent.find("div.select2-container").data("select2").dropdown;
+    results.attr("id", "project-search-results");
+
+    // prevent menu from getting closed prematurely
+    jQuery('div.select2-search').click(function(event){
+      event.stopPropagation();
+    });
+
+    parent.bind("closed", function () {
+      if ($(results).is(":visible")) {
+        select2Container.trigger(jQuery.Event('click'));
+      }
+    });
+    parent.bind("opened", function () {
+      var input;
+      select2Container.trigger(jQuery.Event('click'));
+      input = parent.find(".select2-search input");
+      input.val("");
+      input.trigger("keyup-change");
+    });
+  });
+
 	// file table thumbnails
 	$("table a.has-thumb").hover(function() {
 		$(this).removeAttr("title").toggleClass("active");
@@ -518,18 +554,14 @@ jQuery(document).ready(function($) {
 	});
 
 	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
-	$.fn.slideAndFocus = function() {
+	$.fn.slideAndFocus = function(callback) {
           this.toggleClass("open").find("> ul").mySlide(function() {
               // actually a simple focus should be enough.
               // The rest is only there to work around a rendering bug in webkit (as of Oct 2011) TODO: fix
               if ($("input#username-pulldown").is(":visible")) {
                 var input = $("input#username-pulldown");
               } else {
-                $(this).setupProjectSearch();
-                // reset input value and project search list
-                var input = $(".select2-search input");
-                input.val("");
-                $("#project-search select").trigger($.Event("liszt:updated"));
+                var input = $(this).find(".select2-search input");
               }
               if (input.is(":visible")) {
                 input.blur();
@@ -540,8 +572,10 @@ jQuery(document).ready(function($) {
               else {
                 $(this).find("li > a:first").focus();
               }
+              if (callback != undefined) {
+                callback($(this));
+              }
             });
-
             return false;
           };
 	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
@@ -596,31 +630,17 @@ jQuery(document).ready(function($) {
       menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
     }
 
-    $(this).slideAndFocus();
+    $(this).slideAndFocus(function (element) {
+      if ($(element).is(":visible")) {
+        $(element).parents('li.drop-down').trigger("opened");
+      } else {
+        $(element).parents('li.drop-down').trigger("closed");
+      }
+    });
     menu.toggleClass("hover");
   }
 
-  $.fn.setupProjectSearch = function () {
-    $(this).find('#project-search-container select.select2-select').each(function (ix, select) {
-      var parent = $(select).parents('li.drop-down');
-      // deselect all options
-      $(select).find(":selected").each(function (ix, option) {
-        $(option).attr("selected", false);
-      });
-      $(select).select2();
-      // trigger an artificial click event
-      parent.find('a.select2-choice').trigger(jQuery.Event("click"));
-      parent.find('a.select2-choice').hide();
-      // prevent menu from getting closed prematurely
-      jQuery('div.select2-search').click(function(event){
-        event.stopPropagation();
-      });
-      // remove highlights
-      parent.find(".select2-results .active-result.highlighted").each(function (ix, option){
-        $(option).removeClass("highlighted");
-      });
-    });
-  }
+
 
 	// open and close the main-menu sub-menus
 	$("#main-menu li:has(ul) > a").not("ul ul a")
@@ -649,7 +669,13 @@ jQuery(document).ready(function($) {
 			$(".title-bar-extras:hidden").slideDown(animationRate);
 		}
 
-		$(this).parent().find("ul").slideToggle(animationRate);
+		$(this).parent().find("ul").slideToggle(animationRate, function () {
+      if ($(this).is(":visible")) {
+        $(this).parents("li.drop-down").trigger("opened");
+      } else {
+        $(this).parents("li.drop-down").trigger("closed");
+      }
+    });
 
 		return false;
 	});
@@ -659,8 +685,12 @@ jQuery(document).ready(function($) {
                 //Close all other open menus
                 //Used to work around the rendering bug  TODO: fix
                 jQuery("input#username-pulldown").blur();
-                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide();
-                $(this).slideAndFocus();
+                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide(function () {
+                  $(this).parents("li.drop-down").trigger("closed");
+                });
+                $(this).slideAndFocus(function (elem) {
+                  $(elem).parents("li.drop-down").trigger("opened");
+                });
                 return false;
             }
         },
