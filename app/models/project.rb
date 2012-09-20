@@ -113,6 +113,18 @@ class Project < ActiveRecord::Base
     Principal.active_or_registered.like(criteria).not_in_project(self).find(:all, :limit => limit)
   end
 
+  def add_member(user, roles)
+    members.build.tap do |m|
+      m.principal = user
+      m.roles = roles.is_a?(Array) ? roles : [roles]
+    end
+  end
+
+  def add_member!(user, roles)
+    add_member(user, roles)
+    save
+  end
+
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)

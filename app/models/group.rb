@@ -57,4 +57,10 @@ class Group < Principal
                             :conditions => ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids]).each(&:destroy)
     end
   end
+
+  # adds group members
+  # meaning users that are members of the group
+  def add_member!(users)
+    self.users << users
+  end
 end
