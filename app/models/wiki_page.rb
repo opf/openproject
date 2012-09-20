@@ -76,6 +76,14 @@ class WikiPage < ActiveRecord::Base
       wiki.redirects.find_all_by_title(title).each(&:destroy)
       # Create a redirect to the new title
       wiki.redirects << WikiRedirect.new(:title => @previous_title, :redirects_to => title) unless redirect_existing_links == "0"
+
+      # Change title of dependent wiki menu item
+      dependent_item = WikiMenuItem.find_by_wiki_id_and_title(self.wiki.id, @previous_title)
+      if dependent_item
+        dependent_item.title = title
+        dependent_item.save!
+      end
+
       @previous_title = nil
     end
   end
