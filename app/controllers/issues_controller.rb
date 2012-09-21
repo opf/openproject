@@ -305,6 +305,12 @@ private
         @issue.watcher_user_ids = params[:issue]['watcher_user_ids']
       end
     end
+
+    # Copy watchers if we're copying an issue
+    if params[:copy_from] && User.current.allowed_to?(:add_issue_watchers, @project)
+      @issue.watcher_user_ids = Issue.visible.find(params[:copy_from]).watcher_user_ids
+    end
+
     @issue.author = User.current
     @priorities = IssuePriority.all
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
