@@ -13,6 +13,7 @@
 //= require 'breadcrumb'
 //= require 'chosen'
 //= require 'context_menu'
+//= require tiny_mce
 
 function checkAll (id, checked) {
 	var els = Element.descendants(id);
