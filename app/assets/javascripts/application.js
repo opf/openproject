@@ -15,6 +15,13 @@
 //= require 'context_menu'
 //= require tiny_mce
 
+//source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
+if (typeof []._reverse == 'undefined') {
+    jQuery.fn.reverse = Array.prototype.reverse;
+} else {
+    jQuery.fn.reverse = Array.prototype._reverse;
+}
+
 function checkAll (id, checked) {
 	var els = Element.descendants(id);
 	for (var i = 0; i < els.length; i++) {
