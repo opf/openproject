@@ -134,7 +134,8 @@ private
 
 end
 
+# TODO: needed? redmine doesn't
 # Force load the subclasses in development mode
-require_dependency 'time_entry_activity'
-require_dependency 'document_category'
-require_dependency 'issue_priority'
+# require 'time_entry_activity'
+# require 'document_category'
+# require 'issue_priority'

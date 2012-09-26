@@ -98,7 +98,7 @@ module IssuesHelper
       n += 1
     end
     s << "</tr>\n"
-    s
+    s.html_safe
   end
 
   def sidebar_queries

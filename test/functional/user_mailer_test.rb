@@ -277,7 +277,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_nil mail.references
     assert_select_email do
       # link to the message
-      assert_select "a[href*=?]", "#{Setting.protocol}://#{Setting.host_name}/boards/#{message.board.id}/topics/#{message.id}", :text => message.subject
+      assert_select "a[href*=?]", "#{Setting.protocol}://#{Setting.host_name}/topics/#{message.id}", :text => message.subject
     end
   end
 
@@ -292,7 +292,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match mail.references, UserMailer.generate_message_id(parent)
     assert_select_email do
       # link to the reply
-      assert_select "a[href=?]", "#{Setting.protocol}://#{Setting.host_name}/boards/#{message.board.id}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", :text => message.subject
+      assert_select "a[href=?]", "#{Setting.protocol}://#{Setting.host_name}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", :text => message.subject
     end
   end
 

@@ -7,32 +7,8 @@
 <meta name="keywords" content="issue,bug,tracker" />
 <%= csrf_meta_tag %>
 <%= favicon %>
-<%= stylesheet_link_tag 'reset', :media => 'all' %>
-<%= stylesheet_link_tag 'smoothness/jquery-ui', :media => 'all' %>
-<%= stylesheet_link_tag 'application', :media => 'all' %>
-<%= stylesheet_link_tag 'print', :media => 'print' %>
-<%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
-<!--[if lte IE 6]><%= stylesheet_link_tag 'ie6', :media => 'all' %><![endif]-->
-<!--[if lte IE 7]><%= stylesheet_link_tag 'ie7', :media => 'all' %><![endif]-->
-<!--[if gte IE 8]><![endif]-->
-
-<%= javascript_include_tag 'jquery.min.js' %>
-<%= javascript_include_tag 'jquery-ui.min.js' %>
-<%= javascript_include_tag 'jquery.menu_expand.js' %>
-<%= javascript_include_tag 'breadcrumb.js' %>
-<%= javascript_include_tag 'chosen.js'%>
-<%= stylesheet_link_tag 'chosen'%>
-<% if User.current.impaired? && accessibility_css_enabled? %>
-  <%= stylesheet_link_tag 'accessibility' %>
-<% end %>
-<%= javascript_tag('jQuery.noConflict();') %>
-<%= javascript_heads %>
-<%= stylesheet_link_tag 'jstoolbar' %>
-<%= heads_for_theme %>
-<% heads_for_wiki_formatter %>
-<%= call_hook :view_layouts_base_html_head %>
-<!-- page specific tags -->
-<%= content_for :header_tags -%>
+<%= stylesheet_link_tag 'application' %>
+<%= javascript_include_tag 'application' %>
 </head>
 <noscript><%=l(:description_noscript)%></noscript>
 <body class="<%= body_css_classes %>">

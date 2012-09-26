@@ -12,11 +12,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'journal_formatter'
+require 'journal_formatter'
 
 # The ActiveRecord model representing journals.
 class Journal < ActiveRecord::Base
-  unloadable
+  # unloadable
 
   include Comparable
   include JournalFormatter

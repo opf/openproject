@@ -26,31 +26,31 @@ class Issues::ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => '/issues/1/edit',
                                              :class => 'icon-edit' }
     assert_tag :tag => 'a', :content => 'Closed',
-                            :attributes => { :href => '/issues/bulk_update?ids[]=1&amp;issue[status_id]=5',
+                            :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bstatus_id%5D=5',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Immediate',
-                            :attributes => { :href => '/issues/bulk_update?ids[]=1&amp;issue[priority_id]=8',
+                            :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bpriority_id%5D=8',
                                              :class => '' }
     # Versions
     assert_tag :tag => 'a', :content => '2.0',
-                            :attributes => { :href => '/issues/bulk_update?ids[]=1&amp;issue[fixed_version_id]=3',
+                            :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bfixed_version_id%5D=3',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'eCookbook Subproject 1 - 2.0',
-                            :attributes => { :href => '/issues/bulk_update?ids[]=1&amp;issue[fixed_version_id]=4',
+                            :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bfixed_version_id%5D=4',
                                              :class => '' }
 
     assert_tag :tag => 'a', :content => 'Dave Lopper',
-                            :attributes => { :href => '/issues/bulk_update?ids[]=1&amp;issue[assigned_to_id]=3',
+                            :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bassigned_to_id%5D=3',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Duplicate',
                             :attributes => { :href => '/projects/ecookbook/issues/new?copy_from=1',
                                              :class => 'icon-duplicate' }
     assert_tag :tag => 'a', :content => 'Copy',
-               :attributes => { :href => '/issues/move/new?copy_options[copy]=t&amp;ids[]=1' }
+               :attributes => { :href => '/issues/move/new?copy_options%5Bcopy%5D=t&amp;ids%5B%5D=1' }
     assert_tag :tag => 'a', :content => 'Move',
-               :attributes => { :href => '/issues/move/new?ids[]=1'}
+               :attributes => { :href => '/issues/move/new?ids%5B%5D=1'}
     assert_tag :tag => 'a', :content => 'Delete',
-               :attributes => { :href => '/issues?ids[]=1' }
+               :attributes => { :href => '/issues?ids%5B%5D=1' }
   end
 
   def test_context_menu_one_issue_by_anonymous
@@ -68,21 +68,21 @@ class Issues::ContextMenusControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issues)
     assert_equal [1, 2], assigns(:issues).map(&:id).sort
 
-    ids = assigns(:issues).map(&:id).map {|i| "ids[]=#{i}"}.join('&amp;')
+    ids = assigns(:issues).map(&:id).map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
     assert_tag :tag => 'a', :content => 'Edit',
                             :attributes => { :href => "/issues/bulk_edit?#{ids}",
                                              :class => 'icon-edit' }
     assert_tag :tag => 'a', :content => 'Closed',
-                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue[status_id]=5",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bstatus_id%5D=5",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Immediate',
-                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue[priority_id]=8",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bpriority_id%5D=8",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Dave Lopper',
-                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue[assigned_to_id]=3",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bassigned_to_id%5D=3",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Copy',
-               :attributes => { :href => "/issues/move/new?copy_options[copy]=t&amp;#{ids}"}
+               :attributes => { :href => "/issues/move/new?copy_options%5Bcopy%5D=t&amp;#{ids}"}
     assert_tag :tag => 'a', :content => 'Move',
                :attributes => { :href => "/issues/move/new?#{ids}"}
     assert_tag :tag => 'a', :content => 'Delete',
@@ -97,18 +97,18 @@ class Issues::ContextMenusControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issues)
     assert_equal [1, 2, 6], assigns(:issues).map(&:id).sort
 
-    ids = assigns(:issues).map(&:id).map {|i| "ids[]=#{i}"}.join('&amp;')
+    ids = assigns(:issues).map(&:id).map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
     assert_tag :tag => 'a', :content => 'Edit',
                             :attributes => { :href => "/issues/bulk_edit?#{ids}",
                                              :class => 'icon-edit' }
     assert_tag :tag => 'a', :content => 'Closed',
-                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue[status_id]=5",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bstatus_id%5D=5",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Immediate',
-                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue[priority_id]=8",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bpriority_id%5D=8",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'John Smith',
-                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue[assigned_to_id]=2",
+                            :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bassigned_to_id%5D=2",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Delete',
                :attributes => { :href => "/issues?#{ids}"}

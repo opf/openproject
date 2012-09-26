@@ -71,7 +71,7 @@ class Redmine::Views::Builders::JsonTest < HelperTestCase
   end
 
   def assert_json_output(expected, &block)
-    builder = Redmine::Views::Builders::Json.new
+    builder = Redmine::Views::Builders::Json.new(ActionDispatch::TestRequest.new, ActionDispatch::TestResponse.new)
     block.call(builder)
     assert_equal(expected, ActiveSupport::JSON.decode(builder.output))
   end

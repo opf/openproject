@@ -1,0 +1,122 @@
+<attach event="ondocumentready" handler="parseStylesheets" />
+<script>
+/**
+ *	Whatever:hover - V1.42.060206 - hover & active
+ *	------------------------------------------------------------
+ *	(c) 2005 - Peter Nederlof
+ *	Peterned - http://www.xs4all.nl/~peterned/
+ *	License  - http://creativecommons.org/licenses/LGPL/2.1/
+ *
+ *	Whatever:hover is free software; you can redistribute it and/or
+ *	modify it under the terms of the GNU Lesser General Public
+ *	License as published by the Free Software Foundation; either
+ *	version 2.1 of the License, or (at your option) any later version.
+ *
+ *	Whatever:hover is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *	Lesser General Public License for more details.
+ *
+ *	Credits and thanks to:
+ *	Arnoud Berendsen, Martin Reurings, Robert Hanson
+ *
+ *	howto: body { behavior:url("csshover.htc"); }
+ *	------------------------------------------------------------
+ */
+
+var csshoverReg = /(^|\s)(([^a]([^ ]+)?)|(a([^#.][^ ]+)+)):(hover|active)/i,
+currentSheet, doc = window.document, hoverEvents = [], activators = {
+	onhover:{on:'onmouseover', off:'onmouseout'},
+	onactive:{on:'onmousedown', off:'onmouseup'}
+}
+
+function parseStylesheets() {
+	if(!/MSIE (5|6)/.test(navigator.userAgent)) return;
+	window.attachEvent('onunload', unhookHoverEvents);
+	var sheets = doc.styleSheets, l = sheets.length;
+	for(var i=0; i<l; i++) 
+		parseStylesheet(sheets[i]);
+}
+	function parseStylesheet(sheet) {
+		if(sheet.imports) {
+			try {
+				var imports = sheet.imports, l = imports.length;
+				for(var i=0; i<l; i++) parseStylesheet(sheet.imports[i]);
+			} catch(securityException){}
+		}
+
+		try {
+			var rules = (currentSheet = sheet).rules, l = rules.length;
+			for(var j=0; j<l; j++) parseCSSRule(rules[j]);
+		} catch(securityException){}
+	}
+
+	function parseCSSRule(rule) {
+		var select = rule.selectorText, style = rule.style.cssText;
+		if(!csshoverReg.test(select) || !style) return;
+
+		var pseudo = select.replace(/[^:]+:([a-z-]+).*/i, 'on$1');
+		var newSelect = select.replace(/(\.([a-z0-9_-]+):[a-z]+)|(:[a-z]+)/gi, '.$2' + pseudo);
+		var className = (/\.([a-z0-9_-]*on(hover|active))/i).exec(newSelect)[1];
+		var affected = select.replace(/:(hover|active).*$/, '');
+		var elements = getElementsBySelect(affected);
+		if(elements.length == 0) return;
+
+		currentSheet.addRule(newSelect, style);
+		for(var i=0; i<elements.length; i++)
+			new HoverElement(elements[i], className, activators[pseudo]);
+	}
+
+function HoverElement(node, className, events) {
+	if(!node.hovers) node.hovers = {};
+	if(node.hovers[className]) return;
+	node.hovers[className] = true;
+	hookHoverEvent(node, events.on, function() { node.className += ' ' + className; });
+	hookHoverEvent(node, events.off, function() { node.className = node.className.replace(new RegExp('\\s+'+className, 'g'),''); });
+}
+	function hookHoverEvent(node, type, handler) {
+		node.attachEvent(type, handler);
+		hoverEvents[hoverEvents.length] = { 
+			node:node, type:type, handler:handler 
+		};
+	}
+
+	function unhookHoverEvents() {
+		for(var e,i=0; i<hoverEvents.length; i++) {
+			e = hoverEvents[i]; 
+			e.node.detachEvent(e.type, e.handler);
+		}
+	}
+
+function getElementsBySelect(rule) {
+	var parts, nodes = [doc];
+	parts = rule.split(' ');
+	for(var i=0; i<parts.length; i++) {
+		nodes = getSelectedNodes(parts[i], nodes);
+	}	return nodes;
+}
+	function getSelectedNodes(select, elements) {
+		var result, node, nodes = [];
+		var identify = (/\#([a-z0-9_-]+)/i).exec(select);
+		if(identify) {
+			var element = doc.getElementById(identify[1]);
+			return element? [element]:nodes;
+		}
+		
+		var classname = (/\.([a-z0-9_-]+)/i).exec(select);
+		var tagName = select.replace(/(\.|\#|\:)[a-z0-9_-]+/i, '');
+		var classReg = classname? new RegExp('\\b' + classname[1] + '\\b'):false;
+		for(var i=0; i<elements.length; i++) {
+			result = tagName? elements[i].all.tags(tagName):elements[i].all; 
+			for(var j=0; j<result.length; j++) {
+				node = result[j];
+				if(classReg && !classReg.test(node.className)) continue;
+				nodes[nodes.length] = node;
+			}
+		}	
+		
+		return nodes;
+	}
+
+window.parseStylesheets = parseStylesheets;
+</script>

@@ -11,45 +11,93 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class CommentTest < ActiveSupport::TestCase
-  fixtures :users, :news, :comments
-
   def setup
-    @jsmith = User.find(2)
-    @news = News.find(1)
+    DatabaseCleaner.clean_with :truncation
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.start
+  end
+
+  def teardown
+    DatabaseCleaner.clean
+  end
+
+  def test_validations
+    # factory valid
+    assert FactoryGirl.build(:comment).valid?
+
+    # comment text required
+    refute FactoryGirl.build(:comment, :comments => '').valid?
+    # object that is commented required
+    refute FactoryGirl.build(:comment, :commented => nil).valid?
+    # author required
+    refute FactoryGirl.build(:comment, :author => nil).valid?
   end
 
   def test_create
-    comment = Comment.new(:commented => @news, :author => @jsmith, :comments => "my comment")
+    user = FactoryGirl.create(:user)
+    news = FactoryGirl.create(:news)
+    comment = Comment.new(:commented => news, :author => user, :comments => 'some important words')
     assert comment.save
-    @news.reload
-    assert_equal 2, @news.comments_count
+    assert_equal 1, news.reload.comments_count
   end
 
-  def test_create_should_send_notification
-    Setting.notified_events = Setting.notified_events.dup << 'news_comment_added'
+  def test_create_through_news
+    user = FactoryGirl.create(:user)
+    news = FactoryGirl.create(:news)
+    comment = news.new_comment(:author => user, :comments => 'some important words')
+    assert comment.save
+    assert_equal 1, news.reload.comments_count
+  end
 
-    # need to clear members, since we only want to test the watching stuff
-    @news.project.members.clear
+  def test_create_comment_through_news
+    user = FactoryGirl.create(:user)
+    news = FactoryGirl.create(:news)
+    news.post_comment!(:author => user, :comments => 'some important words')
+    assert_equal 1, news.reload.comments_count
+  end
 
-    Watcher.create!(:watchable => @news, :user => @jsmith)
-    assert_difference 'ActionMailer::Base.deliveries.size' do
-      Comment.create!(:commented => @news, :author => @jsmith, :comments => "my comment")
+  def test_text
+    comment = FactoryGirl.build(:comment, :comments => 'something useful')
+    assert_equal 'something useful', comment.text
+  end
+
+  def test_create_should_send_notification_with_settings
+    # news needs a project in order to be notified
+    # see Redmine::Acts::Journalized::Deprecated#recipients
+    project = FactoryGirl.create(:project)
+    news = FactoryGirl.create(:news, :project => project)
+    user = FactoryGirl.create(:user)
+
+    # this makes #user to receive a notification
+    Watcher.create!(:watchable => news, :user => user)
+
+    # with notifications for that event turned on
+    Notifier.stubs(:notify?).with(:news_comment_added).returns(true)
+    assert_difference 'ActionMailer::Base.deliveries.size', 1 do
+      Comment.create!(:commented => news, :author => user, :comments => 'more useful stuff')
+    end
+
+    # with notifications for that event turned off
+    Notifier.stubs(:notify?).with(:news_comment_added).returns(false)
+    assert_no_difference 'ActionMailer::Base.deliveries.size' do
+      Comment.create!(:commented => news, :author => user, :comments => 'more useful stuff')
     end
   end
 
-  def test_validate
-    comment = Comment.new(:commented => @news)
-    assert !comment.save
-    assert_equal 2, comment.errors.length
-  end
-
+  # TODO: testing #destroy really needed?
   def test_destroy
-    comment = Comment.find(1)
-    assert comment.destroy
-    @news.reload
-    assert_equal 0, @news.comments_count
+    # just setup
+    news = FactoryGirl.create(:news)
+    comment = FactoryGirl.build(:comment)
+    news.comments << comment
+    assert comment.persisted?
+
+    # #reload is needed to refresh the count
+    assert_equal 1, news.reload.comments_count
+    comment.destroy
+    assert_equal 0, news.reload.comments_count
   end
 end

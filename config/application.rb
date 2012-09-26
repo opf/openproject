@@ -2,13 +2,17 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# If you have a Gemfile, require the gems listed there, including any gems
-# you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+# needed?
+# if RUBY_VERSION >= '1.9'
+#   Encoding.default_external = 'UTF-8'
+#   Encoding.default_internal = 'UTF-8'
+# end
 
-if RUBY_VERSION >= '1.9'
-  Encoding.default_external = 'UTF-8'
-  Encoding.default_internal = 'UTF-8'
+if defined?(Bundler)
+  # If you precompile assets before deploying to production, use this line
+  Bundler.require(*Rails.groups(:assets => %w(development test)))
+  # If you want your assets lazily compiled in production, use this line
+  # Bundler.require(:default, :assets, Rails.env)
 end
 
 module OpenProject
@@ -18,8 +22,8 @@ module OpenProject
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W( #{::Rails.root.to_s}/app/sweepers )
-    config.autoload_paths << Rails.root.join('lib').to_s
+    # config.autoload_paths += %W(#{config.root}/extras)
+    config.autoload_paths << Rails.root.join('lib')
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -27,12 +31,8 @@ module OpenProject
 
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-    config.active_record.observers = :journal_observer,
-                                     :message_observer,
-                                     :issue_observer,
-                                     :news_observer,
-                                     :document_observer,
-                                     :wiki_content_observer,
+    config.active_record.observers = :journal_observer, :message_observer, :issue_observer,
+                                     :news_observer, :document_observer, :wiki_content_observer,
                                      :comment_observer
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
@@ -43,23 +43,23 @@ module OpenProject
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # JavaScript files you want as :defaults (application.js is always included).
-    # config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
-
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    # Use redmine's custom plugin locater
-    #require File.join(::Rails.root.to_s, "lib/redmine_plugin_locator")
-    #config.plugin_locators << RedminePluginLocator
+    # Enable the asset pipeline
+    config.assets.enabled = true
 
+    # needed?
     # Load any local configuration that is kept out of source control
     # (e.g. patches).
-    if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
-      instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
-    end
+    #if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
+    #  instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
+    #end
+
+    # Version of your assets, change this if you want to expire all your assets
+    config.assets.version = '1.0'
   end
 end

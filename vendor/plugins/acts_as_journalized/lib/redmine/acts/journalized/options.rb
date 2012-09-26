@@ -71,7 +71,7 @@ module Redmine::Acts::Journalized
           :order => "#{journal_class.table_name}.version ASC"
         )
 
-        class_inheritable_accessor :vestal_journals_options
+        class_attribute :vestal_journals_options
         self.vestal_journals_options = options.dup
 
         options.merge!(

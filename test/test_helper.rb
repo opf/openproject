@@ -96,8 +96,7 @@ class ActiveSupport::TestCase
   def save_and_open_page
     body = @response.body
 
-    body.gsub!('/javascripts', Rails.root.join('public/javascript').to_s)
-    body.gsub!('/stylesheets', Rails.root.join('public/stylesheets').to_s)
+    body.gsub!('/assets', '../../public/assets')
 
     FileUtils.mkdir_p(Rails.root.join('tmp/pages'))
 
@@ -105,7 +104,12 @@ class ActiveSupport::TestCase
     File.open(page_path, 'w') { |f| f.write(body) }
 
     Launchy.open(page_path)
-    debugger
+
+    begin
+      binding.pry
+    rescue NoMethodError
+      debugger
+    end
 
     FileUtils.rm(page_path)
   end

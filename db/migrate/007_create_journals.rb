@@ -59,7 +59,7 @@ class CreateJournals < ActiveRecord::Migration
       t.column "issue_id", :integer, :default => 0, :null => false
       t.column "status_id", :integer, :default => 0, :null => false
       t.column "author_id", :integer, :default => 0, :null => false
-      t.column "notes", :text, :default => ""
+      t.column "notes", :text, :default => nil
       t.column "created_on", :timestamp
     end
 
