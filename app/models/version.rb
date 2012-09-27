@@ -237,9 +237,9 @@ class Version < ActiveRecord::Base
       if issues_count > 0
         ratio = open ? 'done_ratio' : 100
 
-        done = fixed_issues.where(["#{IssueStatus.table_name}.is_closed = ?", !open])
-                           .includes(:status)
-                           .sum("COALESCE(#{Issue.table_name}.estimated_hours, #{estimated_average}) * #{ratio}")
+        done = fixed_issues.where(["#{IssueStatus.table_name}.is_closed = ?", !open]).
+                           includes(:status).
+                           sum("COALESCE(#{Issue.table_name}.estimated_hours, #{estimated_average}) * #{ratio}")
         progress = done.to_f / (estimated_average * issues_count)
       end
       progress
