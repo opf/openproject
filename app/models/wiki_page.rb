@@ -13,7 +13,6 @@
 #++
 
 require 'diff'
-require 'nokogiri/diff'
 require 'enumerator'
 
 class WikiPage < ActiveRecord::Base
@@ -183,24 +182,6 @@ class WikiPage < ActiveRecord::Base
 
   def validate_same_project
     errors.add(:parent_title, :not_same_project) if parent && (parent.wiki_id != wiki_id)
-  end
-end
-
-
-# Patch DocumentFragment to have the same diff features as Document.
-class Nokogiri::HTML::DocumentFragment < Nokogiri::XML::DocumentFragment
-  def tdiff(tree,&block)
-    return enum_for(:tdiff,tree) unless block
-
-    tdiff_recursive(tree,&block)
-    return self
-  end
-
-  def tdiff_unordered(tree,&block)
-    return enum_for(:tdiff_unordered,tree) unless block
-
-    tdiff_recursive_unordered(tree,&block)
-    return self
   end
 end
 

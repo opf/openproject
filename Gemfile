@@ -21,7 +21,7 @@ gem 'awesome_nested_set'
 gem 'loofah'
 
 # to generate html-diffs (e.g. for wiki comparison)
-gem 'nokogiri-diff'
+gem 'htmldiff'
 
 group :assets do
   gem 'sass-rails',   '~> 3.1.5'
