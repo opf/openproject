@@ -19,4 +19,22 @@ tinyMCE.init({
 
   // Example content CSS (should be your site CSS)
   //content_css : "css/example.css",
+
+  //templates
+  template_cdate_classes : "cdate creationdate",
+  template_mdate_classes : "mdate modifieddate",
+  template_selected_content_classes : "selcontent",
+  template_cdate_format : "%m/%d/%Y : %H:%M:%S",
+  template_mdate_format : "%m/%d/%Y : %H:%M:%S",
+  template_replace_values : {
+      username : "Jack Black", //examples, delete them later
+      staffid : "991234"
+  },
+  template_templates : [
+    {
+      title : "Contact Infoprmation Page",
+      src : tinyMCE.baseURL + "/templates/contact_page.html",
+      description : "Adds default contact information page."
+    }
+  ]
 });
