@@ -132,18 +132,18 @@
 
 			t._menu = m;
 
-			m.add({title : 'advanced.cut_desc', icon : 'cut', cmd : 'Cut'}).setDisabled(col);
-			m.add({title : 'advanced.copy_desc', icon : 'copy', cmd : 'Copy'}).setDisabled(col);
-			m.add({title : 'advanced.paste_desc', icon : 'paste', cmd : 'Paste'});
+			m.add({title : 'openproject.cut_desc', icon : 'cut', cmd : 'Cut'}).setDisabled(col);
+			m.add({title : 'openproject.copy_desc', icon : 'copy', cmd : 'Copy'}).setDisabled(col);
+			m.add({title : 'openproject.paste_desc', icon : 'paste', cmd : 'Paste'});
 
 			if ((el.nodeName == 'A' && !ed.dom.getAttrib(el, 'name')) || !col) {
 				m.addSeparator();
-				m.add({title : 'advanced.link_desc', icon : 'link', cmd : ed.plugins.advlink ? 'mceAdvLink' : 'mceLink', ui : true});
-				m.add({title : 'advanced.unlink_desc', icon : 'unlink', cmd : 'UnLink'});
+				m.add({title : 'openproject.link_desc', icon : 'link', cmd : ed.plugins.advlink ? 'mceAdvLink' : 'mceLink', ui : true});
+				m.add({title : 'openproject.unlink_desc', icon : 'unlink', cmd : 'UnLink'});
 			}
 
 			m.addSeparator();
-			m.add({title : 'advanced.image_desc', icon : 'image', cmd : ed.plugins.advimage ? 'mceAdvImage' : 'mceImage', ui : true});
+			m.add({title : 'openproject.image_desc', icon : 'image', cmd : ed.plugins.advimage ? 'mceAdvImage' : 'mceImage', ui : true});
 
 			m.addSeparator();
 			am = m.addMenu({title : 'contextmenu.align'});
