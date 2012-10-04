@@ -221,6 +221,8 @@ class MailHandler < ActionMailer::Base
   end
 
   def get_keyword(attr, options={})
+    attr = attr.to_s
+
     @keywords ||= {}
     if @keywords.has_key?(attr)
       @keywords[attr]
