@@ -8,6 +8,7 @@
 //= require jquery-ui
 //= require jquery.menu_expand
 //= require jquery_ujs
+//= require jquery_noconflict
 //= require prototype
 //= require prototype_ujs
 //= require 'breadcrumb'
