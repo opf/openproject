@@ -38,6 +38,15 @@ Issue attributes control options:
                            specified by previous options
                            ATTRS is a comma separated list of attributes
 
+If you want to set default values for custom fields, set the value similar to
+the attributes above, using the name of the custom field as a key.
+Custom ields set this way can only contain characters valid for environment
+variables, i.e. no punctuation and no whitespace.
+Additionally, you need to set the list of the attributes set this way in the
+default_attributes list like this:
+
+  default_attributes="CustomField1 CustomField2"
+
 Examples:
   # No project specified. Emails MUST contain the 'Project' keyword:
   rake redmine:email:read RAILS_ENV="production" < raw_email
@@ -52,7 +61,10 @@ END_DESC
 
     task :read => :environment do
       options = { :issue => {} }
-      %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
+      default_fields = (ENV['default_fields'] || "").split
+      default_fields |= %w[project status tracker category priority]
+      default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
+
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
       options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
@@ -90,6 +102,15 @@ Issue attributes control options:
                            specified by previous options
                            ATTRS is a comma separated list of attributes
 
+If you want to set default values for custom fields, set the value similar to
+the attributes above, using the name of the custom field as a key.
+Custom ields set this way can only contain characters valid for environment
+variables, i.e. no punctuation and no whitespace.
+Additionally, you need to set the list of the attributes set this way in the
+default_attributes list like this:
+
+  default_attributes="CustomField1 CustomField2"
+
 Processed emails control options:
   move_on_success=MAILBOX  move emails that were successfully received
                            to MAILBOX instead of deleting them
@@ -123,7 +144,10 @@ END_DESC
                       :move_on_failure => ENV['move_on_failure']}
 
       options = { :issue => {} }
-      %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
+      default_fields = (ENV['default_fields'] || "").split
+      default_fields |= %w[project status tracker category priority]
+      default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
+
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
       options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
@@ -156,7 +180,10 @@ END_DESC
                       :delete_unprocessed => ENV['delete_unprocessed']}
 
       options = { :issue => {} }
-      %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
+      default_fields = (ENV['default_fields'] || "").split
+      default_fields |= %w[project status tracker category priority]
+      default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
+
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
       options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
