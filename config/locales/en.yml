@@ -383,6 +383,7 @@ en:
   setting_issue_startdate_is_adddate: Use current date as start date for new issues
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
+  setting_issue_group_assignment: Allow issue assignment to groups
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

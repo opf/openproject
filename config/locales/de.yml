@@ -1091,6 +1091,7 @@ de:
   label_issue_hierarchy: "Tickethierarchie"
   more_actions: Weitere Funktionen
   show_hide_project_menu: Projektnavigation aus/einblenden
+  setting_issue_group_assignment: Ticketzuweisung zu Gruppen erlauben
 
   user:
     deleted: "Gelöschter Nutzer"
@@ -1116,7 +1117,6 @@ de:
           Von den von Ihnen im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem "Gelöschten Nutzer" zugewiesen. Da die Daten aller gelöschter Accounts dem "Gelöschten Nutzer" zugewiesen werden ist es unmöglich die von ihnen erstellten Daten auf Ihre Person zurückzuführen.
         other: |
           Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem "Gelöschten Nutzer" zugewiesen. Da die Daten aller gelöschter Accounts dem "Gelöschten Nutzer" zugewiesen werden ist es unmöglich die von Nutzer erstellten Daten auf seine Person zurückzuführen.
-
 
   js:
     select2:
