@@ -1140,6 +1140,7 @@ de:
   setting_issue_done_ratio: "Berechne den Ticket-Fortschritt mittels"
   setting_issue_done_ratio_issue_field: "Ticket-Feld %-erledigt"
   setting_issue_done_ratio_issue_status: "Ticket-Status"
+  setting_issue_group_assignment: "Ticketzuweisung zu Gruppen erlauben"
   setting_issue_list_default_columns: "Standardmäßig anzeigen"
   setting_issue_list_summable_columns: "Summierbar"
   setting_issue_properties: "Ticket Eigenschaften"

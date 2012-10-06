@@ -1123,6 +1123,7 @@ en:
   setting_issue_done_ratio: "Calculate the issue done ratio with"
   setting_issue_done_ratio_issue_field: "Use the issue field"
   setting_issue_done_ratio_issue_status: "Use the issue status"
+  setting_issue_group_assignment: "Allow issue assignment to groups"
   setting_issue_list_default_columns: "Display by default"
   setting_issue_list_summable_columns: "Summable"
   setting_issue_properties: "Issue properties"
