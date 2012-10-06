@@ -28,13 +28,11 @@ class Project < ActiveRecord::Base
   # Specific overidden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+
   has_many :assignable_members,
            :class_name => 'Member',
-           :include => [:user, :roles],
-           :conditions => ["#{User.table_name}.type=? AND #{User.table_name}.status=? AND roles.assignable = ?",
-                           'User',
-                           User::STATUS_ACTIVE,
-                           true]
+           :include => [:principal, :roles],
+           :conditions => '#{ self.class.assignable_members_condition }'
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
@@ -433,9 +431,9 @@ class Project < ActiveRecord::Base
     Member.delete_all(['project_id = ?', id])
   end
 
-  # Users issues can be assigned to
+  # Users/groups issues can be assigned to
   def assignable_users
-    assignable_members.map(&:user).sort
+    assignable_members.map(&:principal).compact.sort
   end
 
   # Returns the mail adresses of users that should be always notified on project events
@@ -926,5 +924,20 @@ class Project < ActiveRecord::Base
       subproject.send :archive!
     end
     update_attribute :status, STATUS_ARCHIVED
+  end
+
+  protected
+
+  def self.assignable_members_condition
+
+    condition = Setting.issue_group_assignment? ?
+                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
+                  ["(#{Principal.table_name}.type=?)", 'User']
+
+    condition[0] += " AND #{User.table_name}.status=? AND roles.assignable = ?"
+    condition << User::STATUS_ACTIVE
+    condition << true
+
+    sanitize_sql_array condition
   end
 end

@@ -1036,3 +1036,5 @@ sr:
           Of the data you created (e.g. e-mail, preferences, issues, wiki entries) as much as possible will be deleted. Note however, that data like issues and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account.
         other: |
           Of the data the user created (e.g. e-mail, preferences, issues, wiki entries) as much as possible will be deleted. Note however, that data like issues and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+
+  setting_issue_group_assignment: Allow issue assignment to groups

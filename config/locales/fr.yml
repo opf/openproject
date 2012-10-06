@@ -371,6 +371,8 @@ fr:
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
 
+  setting_issue_group_assignment: Permettre l'assignement des demandes aux groupes
+
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
   permission_edit_project: Modifier le projet

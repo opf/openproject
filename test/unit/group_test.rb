@@ -84,4 +84,14 @@ class GroupTest < ActiveSupport::TestCase
     User.find(8).groups.clear
     assert !User.find(8).member_of?(Project.find(5))
   end
+
+  def test_destroy_should_unassign_issues
+    group = Group.first
+    Issue.update_all(["assigned_to_id = ?", group.id], 'id = 1')
+
+    assert group.destroy
+    assert group.destroyed?
+
+    assert_equal nil, Issue.find(1).assigned_to_id
+  end
 end

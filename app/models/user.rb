@@ -459,6 +459,17 @@ class User < Principal
     @projects_by_role
   end
 
+  # Returns true if user is arg or belongs to arg
+  def is_or_belongs_to?(arg)
+    if arg.is_a?(User)
+      self == arg
+    elsif arg.is_a?(Group)
+      arg.users.include?(self)
+    else
+      false
+    end
+  end
+
   # Return true if the user is allowed to do the specified action on a specific context
   # Action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
@@ -552,7 +563,7 @@ class User < Principal
       true
     when 'selected'
       # user receives notifications for created/assigned issues on unselected projects
-      if object.is_a?(Issue) && (object.author == self || object.assigned_to == self)
+      if object.is_a?(Issue) && (object.author == self || is_or_belongs_to?(object.assigned_to))
         true
       else
         false
@@ -560,13 +571,13 @@ class User < Principal
     when 'none'
       false
     when 'only_my_events'
-      if object.is_a?(Issue) && (object.author == self || object.assigned_to == self)
+      if object.is_a?(Issue) && (object.author == self || is_or_belongs_to?(object.assigned_to))
         true
       else
         false
       end
     when 'only_assigned'
-      if object.is_a?(Issue) && object.assigned_to == self
+      if object.is_a?(Issue) && is_or_belongs_to?(object.assigned_to)
         true
       else
         false

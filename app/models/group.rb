@@ -22,9 +22,13 @@ class Group < Principal
   validates_uniqueness_of :lastname, :case_sensitive => false
   validates_length_of :lastname, :maximum => 30
 
+  before_destroy :remove_references_before_destroy
+
   def to_s
     lastname.to_s
   end
+
+  alias :name :to_s
 
   def user_added(user)
     members.each do |member|
@@ -66,5 +70,14 @@ class Group < Principal
   # meaning users that are members of the group
   def add_member!(users)
     self.users << users
+  end
+
+  private
+
+  # Removes references that are not handled by associations
+  def remove_references_before_destroy
+    return if self.id.nil?
+
+    Issue.update_all 'assigned_to_id = NULL', ['assigned_to_id = ?', id]
   end
 end

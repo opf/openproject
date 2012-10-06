@@ -107,6 +107,8 @@ user_format:
   format: symbol
 cross_project_issue_relations:
   default: 0
+issue_group_assignment:
+  default: 0
 notified_events:
   serialized: true
   default:
