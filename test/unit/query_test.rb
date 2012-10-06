@@ -192,6 +192,24 @@ class QueryTest < ActiveSupport::TestCase
     find_issues_with_query(query)
   end
 
+  def test_filter_assigned_to_me
+    user = User.find(2)
+    group = Group.find(10)
+    User.current = user
+    i1 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => user)
+    i2 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => group)
+    i3 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => Group.find(11))
+    group.users << user
+
+    query = Query.new(:name => '_', :filters => { 'assigned_to_id' => {:operator => '=', :values => ['me']}})
+    result = query.issues
+    assert_equal Issue.visible.all(:conditions => {:assigned_to_id => ([2] + user.reload.group_ids)}).sort_by(&:id), result.sort_by(&:id)
+
+    assert result.include?(i1)
+    assert result.include?(i2)
+    assert !result.include?(i3)
+  end
+
   def test_filter_watched_issues
     User.current = User.find(1)
     query = Query.new(:name => '_', :filters => { 'watcher_id' => {:operator => '=', :values => ['me']}})
