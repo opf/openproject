@@ -108,6 +108,18 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
+  def test_add_issue_with_group_assignment
+    with_settings :issue_group_assignment => '1' do
+      issue = submit_email('ticket_on_given_project.eml') do |email|
+        email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
+      end
+      assert issue.is_a?(Issue)
+      assert !issue.new_record?
+      issue.reload
+      assert_equal Group.find(11), issue.assigned_to
+    end
+  end
+
   def test_add_issue_with_partial_attributes_override
     issue = submit_email('ticket_with_attributes.eml', :issue => {:priority => 'High'}, :allow_override => ['tracker'])
     assert issue.is_a?(Issue)
@@ -463,6 +475,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def submit_email(filename, options={})
     raw = IO.read(File.join(FIXTURES_PATH, filename))
+    yield raw if block_given?
     MailHandler.receive(raw, options)
   end
 
