@@ -13,7 +13,6 @@ module Redmine
 
         def heads_for_wiki_formatter
           unless @heads_for_wiki_formatter_included
-            require 'ruby-debug'; debugger
             content_for :header_tags do
               tinymce_assets + tinymce
             end
