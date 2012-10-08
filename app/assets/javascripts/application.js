@@ -14,7 +14,6 @@
 //= require 'breadcrumb'
 //= require 'chosen'
 //= require 'context_menu'
-//= require tinymce-jquery
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {

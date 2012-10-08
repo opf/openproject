@@ -9,6 +9,8 @@
 <%= favicon %>
 <%= stylesheet_link_tag 'application' %>
 <%= javascript_include_tag 'application' %>
+<!-- aditional headers -->
+<%= content_for(:header_tags) if content_for?(:header_tags) %>
 </head>
 <noscript><%=l(:description_noscript)%></noscript>
 <body class="<%= body_css_classes %>">
