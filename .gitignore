@@ -32,6 +32,7 @@
 /log/mongrel_debug
 /public/dispatch.*
 /public/plugin_assets
+/public/assets
 /tmp/*
 /tmp/cache/*
 /tmp/sessions/*
