@@ -122,6 +122,7 @@ OpenProject::Application.routes.draw do
           post :preview
           post :protect
           post :add_attachment
+          get  :list_attachments
         end
       end
       # as routes for index and show are swapped

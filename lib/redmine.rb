@@ -139,6 +139,7 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_wiki_pages, :wiki => [:edit, :update, :preview, :add_attachment]
     map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
+    map.permission :list_attachments, {:wiki => :list_attachments}, :require => :member
   end
 
   map.project_module :repository do |map|

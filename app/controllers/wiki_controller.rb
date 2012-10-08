@@ -32,7 +32,7 @@ require 'htmldiff'
 class WikiController < ApplicationController
   default_search_scope :wiki_pages
   before_filter :find_wiki, :authorize
-  before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy]
+  before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :list_attachments, :destroy]
 
   verify :method => :post, :only => [:protect], :redirect_to => { :action => :show }
 
@@ -237,6 +237,13 @@ class WikiController < ApplicationController
     attachments = Attachment.attach_files(@page, params[:attachments])
     render_attachment_warning_if_needed(@page)
     redirect_to :action => 'show', :id => @page.title, :project_id => @project
+  end
+
+  def list_attachments
+    respond_to do |format|
+      format.json { render 'common/list_attachments', :locals => {:attachments => @page.attachments} }
+      format.html {}
+    end
   end
 
 private
