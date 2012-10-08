@@ -18,6 +18,9 @@ gem 'rails_autolink'
 
 gem 'awesome_nested_set'
 
+gem 'tinymce-rails'
+gem 'tinymce-rails-langs'
+
 gem 'loofah'
 
 # to generate html-diffs (e.g. for wiki comparison)
