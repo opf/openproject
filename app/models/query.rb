@@ -145,16 +145,23 @@ class Query < ActiveRecord::Base
         @available_filters["project_id"] = { :type => :list, :order => 1, :values => project_values} unless project_values.empty?
       end
     end
-    users = principals.select {|p| p.is_a?(User)}
+    principals_by_class = principals.group_by(&:class)
 
-    assigned_to_values = []
-    assigned_to_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
-    assigned_to_values += (Setting.issue_group_assignment? ? principals : users).collect{|s| [s.name, s.id.to_s] }
+    user_values = principals_by_class[User].present? ?
+                    principals_by_class[User].collect{ |s| [s.name, s.id.to_s] }.sort :
+                    []
+
+    group_values = Setting.issue_group_assignment? && principals_by_class[Group].present? ?
+                      principals_by_class[Group].collect{ |s| [s.name, s.id.to_s] }.sort :
+                      []
+
+    assigned_to_values = (user_values + group_values).sort
+    assigned_to_values = [["<< #{l(:label_me)} >>", "me"]] + assigned_to_values if User.current.logged?
     @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => assigned_to_values } unless assigned_to_values.empty?
 
     author_values = []
     author_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
-    author_values += users.collect{|s| [s.name, s.id.to_s] }
+    author_values += user_values
     @available_filters["author_id"] = { :type => :list, :order => 5, :values => author_values } unless author_values.empty?
 
     group_values = Group.all.collect {|g| [g.name, g.id.to_s] }
@@ -166,7 +173,8 @@ class Query < ActiveRecord::Base
     if User.current.logged?
       # populate the watcher list with the same user list as other user filters if the user has the :view_issue_watchers permission in at least one project
       # TODO: this could be differentiated more, e.g. all users could watch issues in public projects, but won't necessarily be shown here
-      watcher_values = User.current.allowed_to_globally?(:view_issue_watchers, {}) ? principals : [["<< #{l(:label_me)} >>", "me"]]
+      watcher_values = [["<< #{l(:label_me)} >>", "me"]]
+      watcher_values << user_values if User.current.allowed_to_globally?(:view_issue_watchers, {})
       @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => watcher_values }
     end
 
