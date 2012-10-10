@@ -8,7 +8,7 @@ class AddCustomFieldTranslationTable < ActiveRecord::Migration
     CustomField.all.each do |f|
       f.name = f.read_attribute(:name)
       f.default_value = f.read_attribute(:default_value)
-      f.possible_values = f.read_attribute(:possible_values)
+      f.possible_values = YAML::load(f.read_attribute(:possible_values))
       f.save
     end
 
