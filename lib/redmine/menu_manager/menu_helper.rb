@@ -13,7 +13,7 @@
 #++
 
 module Redmine::MenuManager::MenuHelper
-  include TopMenuHelper
+  include ::Redmine::MenuManager::TopMenuHelper
 
   # Returns the current menu item name
   def current_menu_item
