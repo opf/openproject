@@ -53,6 +53,7 @@ roles_001:
     - :view_changesets
     - :manage_project_activities
     - :export_issues
+    - :list_attachments
 
   position: 1
 roles_002:
@@ -97,6 +98,7 @@ roles_002:
     - :manage_files
     - :browse_repository
     - :view_changesets
+    - :list_attachments
 
   position: 2
 roles_003:
@@ -135,6 +137,7 @@ roles_003:
     - :manage_files
     - :browse_repository
     - :view_changesets
+    - :list_attachments
 
   position: 3
 roles_004:
@@ -165,6 +168,7 @@ roles_004:
     - :manage_files
     - :browse_repository
     - :view_changesets
+    - :list_attachments
 
   position: 4
 roles_005:
@@ -184,6 +188,7 @@ roles_005:
     - :view_files
     - :browse_repository
     - :view_changesets
+    - :list_attachments
 
   position: 5
 

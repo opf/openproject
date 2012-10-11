@@ -139,6 +139,7 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_wiki_pages, :wiki => [:edit, :update, :preview, :add_attachment]
     map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
+    map.permission :list_attachments, {:wiki => :list_attachments}, :require => :member
   end
 
   map.project_module :repository do |map|
@@ -264,6 +265,7 @@ end
 
 Redmine::WikiFormatting.map do |format|
   format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
+  format.register :xml, Redmine::WikiFormatting::Xml::Formatter, Redmine::WikiFormatting::Xml::Helper
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler

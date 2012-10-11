@@ -18,6 +18,14 @@ gem 'rails_autolink'
 
 gem 'awesome_nested_set'
 
+gem 'tinymce-rails'
+gem 'tinymce-rails-langs'
+
+gem 'loofah'
+
+# to generate html-diffs (e.g. for wiki comparison)
+gem 'htmldiff'
+
 group :assets do
   gem 'sass-rails',   '~> 3.1.5'
   gem 'coffee-rails', '~> 3.1.1'

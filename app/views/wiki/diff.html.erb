@@ -5,7 +5,7 @@
 <h2><%= h(@page.pretty_title) %></h2>
 
 <p>
-<%= l(:label_version) %> <%= link_to @diff.content_from.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => @diff.content_from.version %>
+<%= l(:label_version) %> <%= link_to @diff.content_from.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => @diff.content_from.version %>/<%= @page.content.version %>
 <em>(<%= @diff.content_from.user ? link_to_user(@diff.content_from.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_from.updated_on) %>)</em>
 &#8594;
 <%= l(:label_version) %> <%= link_to @diff.content_to.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => @diff.content_to.version %>/<%= @page.content.version %>
@@ -13,5 +13,5 @@
 </p>
 
 <div class="text-diff">
-<%= simple_format_without_paragraph @diff.to_html %>
+  <%= @html_diff.html_safe %>
 </div>

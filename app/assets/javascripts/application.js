@@ -8,11 +8,23 @@
 //= require jquery-ui
 //= require jquery.menu_expand
 //= require jquery_ujs
+//= require jquery_noconflict
 //= require prototype
 //= require prototype_ujs
+//= require effects
+//= require dragdrop
+//= require controls
 //= require 'breadcrumb'
 //= require 'chosen'
 //= require 'context_menu'
+
+//source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
+if (typeof []._reverse == 'undefined') {
+    jQuery.fn.reverse = Array.prototype.reverse;
+} else {
+    jQuery.fn.reverse = Array.prototype._reverse;
+}
+
 
 function checkAll (id, checked) {
 	var els = Element.descendants(id);
