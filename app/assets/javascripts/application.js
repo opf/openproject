@@ -11,6 +11,9 @@
 //= require jquery_noconflict
 //= require prototype
 //= require prototype_ujs
+//= require effects
+//= require dragdrop
+//= require controls
 //= require 'breadcrumb'
 //= require 'chosen'
 //= require 'context_menu'
