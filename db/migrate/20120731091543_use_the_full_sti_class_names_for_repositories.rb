@@ -1,8 +1,9 @@
 class UseTheFullStiClassNamesForRepositories < ActiveRecord::Migration
   def self.up
-    if ActiveRecord::Base.connection.adapter_name =~ /sqlite/i
-      concatenation = "('Repository::' || type)"
-    else
+    concatenation = "('Repository::' || type)"
+
+    # special concat for mysql
+    if ChiliProject::Database.mysql?
       concatenation = "CONCAT('Repository::', type)"
     end
 
