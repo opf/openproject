@@ -368,14 +368,16 @@ module ApplicationHelper
   def pagination_links_full(paginator, count=nil, options={})
     page_param = options.delete(:page_param) || :page
     per_page_links = options.delete(:per_page_links)
-    url_param = {}
 
-    action, controller, id, tab = options.delete(:action), options.delete(:controller), options.delete(:id), options.delete(:tab)
+    # options for the underlying classic pagination
+    ignored_options = [:window_size,
+                       :always_show_anchors,
+                       :link_to_current_page,
+                       :name,
+                       :prefix,
+                       :suffix]
 
-    url_param.merge!(:action => action) if action
-    url_param.merge!(:controller => controller) if controller
-    url_param.merge!(:id => id) if id
-    url_param.merge!(:tab => tab) if tab
+    url_param = options.reject{ |key, value| ignored_options.include?(key) }
 
     # don't reuse query params if filters are present
     url_param.merge!(:fields => nil, :values => nil, :operators => nil) if params.delete(:set_filter)
