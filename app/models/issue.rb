@@ -225,13 +225,13 @@ class Issue < ActiveRecord::Base
   end
 
   # Overrides attributes= so that tracker_id gets assigned first
-  def attributes_with_tracker_first=(new_attributes, *args)
+  def attributes_with_tracker_first=(new_attributes)
     return if new_attributes.nil?
     new_tracker_id = new_attributes['tracker_id'] || new_attributes[:tracker_id]
     if new_tracker_id
       self.tracker_id = new_tracker_id
     end
-    send :attributes_without_tracker_first=, new_attributes, *args
+    send :attributes_without_tracker_first=, new_attributes
   end
   # Do not redefine alias chain on reload (see #4838)
   alias_method_chain(:attributes=, :tracker_first) unless method_defined?(:attributes_without_tracker_first=)
