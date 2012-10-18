@@ -91,8 +91,8 @@ GEM
     json (1.7.5)
     launchy (2.1.2)
       addressable (~> 2.3)
-    letter_opener (0.0.2)
-      launchy
+    letter_opener (1.0.0)
+      launchy (>= 2.0.4)
     linecache (0.46)
       rbx-require-relative (> 0.0.4)
     loofah (1.2.1)
@@ -224,7 +224,7 @@ DEPENDENCIES
   jquery-rails
   jruby-openssl
   launchy (~> 2.1.0)
-  letter_opener
+  letter_opener (~> 1.0.0)
   loofah
   mocha
   mysql
