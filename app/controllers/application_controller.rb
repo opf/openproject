@@ -18,8 +18,8 @@ require 'cgi'
 class ApplicationController < ActionController::Base
   helper :all
 
-  class_attribute :model_object
-  class_attribute :model_scope
+  class_attribute :_model_object
+  class_attribute :_model_scope
   class_attribute :accept_key_auth_actions
 
   protected
@@ -232,7 +232,7 @@ class ApplicationController < ActionController::Base
   end
 
   def find_model_object
-    model = self.class.model_object
+    model = self.class._model_object
     if model
       @object = model.find(params[:id])
       self.instance_variable_set('@' + controller_name.singularize, @object) if @object
@@ -243,7 +243,7 @@ class ApplicationController < ActionController::Base
 
   def find_model_object_and_project
     if params[:id]
-      model_object = self.class.model_object
+      model_object = self.class._model_object
       instance = model_object.find(params[:id])
       @project = instance.project
       self.instance_variable_set('@' + model_object.to_s.downcase, instance)
@@ -257,11 +257,9 @@ class ApplicationController < ActionController::Base
 
   # TODO: this method is right now only suited for controllers of objects that somehow have an association to Project
   def find_object_and_scope
-    model_object = params[:id].present? ?
-                     model_object = self.class.model_object.find(params[:id]) :
-                     nil
+    model_object = self.class._model_object.find(params[:id]) if params[:id].present?
 
-    associations = self.class.model_scope + [Project]
+    associations = self.class._model_scope + [Project]
 
     associated = find_belongs_to_chained_objects(associations, model_object)
 
@@ -293,14 +291,8 @@ class ApplicationController < ActionController::Base
   end
 
   def self.model_object(model, options = {})
-    self.model_object = model
-    if options[:scope]
-      self.model_scope = options[:scope].is_a?(Array) ? options[:scope] : [options[:scope]]
-    end
-  end
-
-  def self.model_scope=(scope)
-    self.model_scope = scope
+    self._model_object = model
+    self._model_scope  = Array(options[:scope]) if options[:scope]
   end
 
   # Filter for bulk issue operations
