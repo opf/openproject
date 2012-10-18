@@ -2909,7 +2909,7 @@ ul.action_menu_more {
   display:none;
 }
 div#history div.journal div.wiki {
-  overflow:visible;
+  overflow:auto;
 }
 
 ul.breadcrumb {
