@@ -72,10 +72,38 @@ class Setting < ActiveRecord::Base
                   TIS-620)
 
   cattr_accessor :available_settings
+
+  def self.create_setting(name, value = nil)
+    @@available_settings[name] = value
+  end
+
+  def self.create_setting_accessors(name)
+    # Defines getter and setter for each setting
+    # Then setting values can be read using: Setting.some_setting_name
+    # or set using Setting.some_setting_name = "some value"
+    src = <<-END_SRC
+      def self.#{name}
+        self[:#{name}]
+      end
+
+      def self.#{name}?
+        self[:#{name}].to_i > 0
+      end
+
+      def self.#{name}=(value)
+        self[:#{name}] = value
+      end
+    END_SRC
+    class_eval src, __FILE__, __LINE__
+  end
+
   @@available_settings = YAML::load(File.open(Rails.root.join('config/settings.yml')))
-  Redmine::Plugin.all.each do |plugin|
-    next unless plugin.settings
-    @@available_settings["plugin_#{plugin.id}"] = {'default' => plugin.settings[:default], 'serialized' => true}
+
+  # Defines getter and setter for each setting
+  # Then setting values can be read using: Setting.some_setting_name
+  # or set using Setting.some_setting_name = "some value"
+  @@available_settings.each do |name, params|
+    self.create_setting_accessors(name)
   end
 
   validates_uniqueness_of :name
@@ -108,26 +136,6 @@ class Setting < ActiveRecord::Base
     setting.value
   end
 
-  # Defines getter and setter for each setting
-  # Then setting values can be read using: Setting.some_setting_name
-  # or set using Setting.some_setting_name = "some value"
-  @@available_settings.each do |name, params|
-    src = <<-END_SRC
-    def self.#{name}
-      self[:#{name}]
-    end
-
-    def self.#{name}?
-      self[:#{name}].to_i > 0
-    end
-
-    def self.#{name}=(value)
-      self[:#{name}] = value
-    end
-    END_SRC
-    class_eval src, __FILE__, __LINE__
-  end
-  
   # this should be fixed with globalize plugin
   [:emails_header, :emails_footer].each do |mail|
     src = <<-END_SRC

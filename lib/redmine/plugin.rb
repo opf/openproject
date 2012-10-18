@@ -91,6 +91,11 @@ module Redmine #:nodoc:
       ::I18n.load_path += Dir.glob(Rails.root.join('vendor/plugins', id.to_s, 'config/locales/*.yml'))
       registered_plugins[id] = p
 
+      if p.settings
+        Setting.create_setting("plugin_#{id}", {'default' => p.settings[:default], 'serialized' => true})
+        Setting.create_setting_accessors("plugin_#{id}")
+      end
+
       # If there are plugins waiting for us to be loaded, we try loading those, again
       if deferred_plugins[id]
         deferred_plugins[id].each do |ary|
