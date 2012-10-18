@@ -50,6 +50,15 @@ GEM
     builder (3.0.4)
     bullet (4.1.6)
       uniform_notifier (~> 1.0.0)
+    capybara (1.1.2)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      selenium-webdriver (~> 2.0)
+      xpath (~> 0.1.4)
+    childprocess (0.3.5)
+      ffi (~> 1.0, >= 1.0.6)
     coderay (0.9.8)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -59,6 +68,15 @@ GEM
       execjs
     coffee-script-source (1.3.3)
     columnize (0.3.6)
+    cucumber (1.2.1)
+      builder (>= 2.1.2)
+      diff-lcs (>= 1.1.3)
+      gherkin (~> 2.11.0)
+      json (>= 1.4.6)
+    cucumber-rails (1.3.0)
+      capybara (>= 1.1.2)
+      cucumber (>= 1.1.8)
+      nokogiri (>= 1.5.0)
     database_cleaner (0.8.0)
     debugger (1.2.0)
       columnize (>= 0.3.1)
@@ -72,6 +90,7 @@ GEM
     delayed_job_active_record (0.3.2)
       activerecord (> 2.1.0)
       delayed_job (~> 3.0.0)
+    diff-lcs (1.1.3)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -81,6 +100,9 @@ GEM
       factory_girl (~> 4.0.0)
       railties (>= 3.0.0)
     fastercsv (1.5.5)
+    ffi (1.1.5)
+    gherkin (2.11.1)
+      json (>= 1.4.6)
     hike (1.2.1)
     htmldiff (0.0.1)
     i18n (0.6.1)
@@ -93,6 +115,8 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.0.0)
       launchy (>= 2.0.4)
+    libwebsocket (0.1.5)
+      addressable
     linecache (0.46)
       rbx-require-relative (> 0.0.4)
     loofah (1.2.1)
@@ -102,8 +126,6 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     metaclass (0.0.1)
-    method_source (0.6.7)
-      ruby_parser (>= 2.3.1)
     mime-types (1.19)
     mocha (0.12.3)
       metaclass (~> 0.0.1)
@@ -118,11 +140,6 @@ GEM
     polyglot (0.3.3)
     prototype-rails (3.1.0)
       rails (~> 3.1)
-    pry (0.9.7.4)
-      coderay (~> 0.9.8)
-      method_source (~> 0.6.7)
-      ruby_parser (>= 2.3.1)
-      slop (~> 2.1.0)
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -160,11 +177,10 @@ GEM
     ruby-debug-base (0.10.4)
       linecache (>= 0.3)
     ruby-openid (2.1.8)
-    ruby_parser (2.3.1)
-      sexp_processor (~> 3.0)
     rubytree (0.8.3)
       json (>= 1.7.5)
       structured_warnings (>= 0.1.3)
+    rubyzip (0.9.9)
     safe_attributes (1.0.8)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -173,14 +189,17 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    sexp_processor (3.2.0)
+    selenium-webdriver (2.25.0)
+      childprocess (>= 0.2.5)
+      libwebsocket (~> 0.1.3)
+      multi_json (~> 1.0)
+      rubyzip
     shoulda (3.1.1)
       shoulda-context (~> 1.0)
       shoulda-matchers (~> 1.2)
     shoulda-context (1.0.0)
     shoulda-matchers (1.2.0)
       activesupport (>= 3.0.0)
-    slop (2.1.0)
     sprockets (2.1.3)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -202,6 +221,8 @@ GEM
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
     uniform_notifier (1.0.2)
+    xpath (0.1.4)
+      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
@@ -214,6 +235,7 @@ DEPENDENCIES
   bullet
   coderay (~> 0.9.7)
   coffee-rails (~> 3.2.1)
+  cucumber-rails
   database_cleaner
   debugger
   delayed_job_active_record
@@ -232,7 +254,6 @@ DEPENDENCIES
   object-daddy!
   pg
   prototype-rails
-  pry
   rails (= 3.2.8)
   rails-footnotes (>= 3.7.5.rc4)
   rails_autolink
