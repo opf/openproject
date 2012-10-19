@@ -7,9 +7,11 @@ env:
   - "RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
   - "RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql:mysql2:postgres"
 script: "bundle exec rake"
-before_script:
+before_install:
+  - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs darcs git mercurial subversion"
-  - "RAILS_ENV=production rake ci:travis:prepare"
+before_script:
+  - "RAILS_ENV=production bundle exec rake ci:travis:prepare"
 branches:
   only:
     - feature/rails3
