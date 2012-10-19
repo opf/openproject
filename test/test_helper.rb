@@ -100,7 +100,7 @@ class ActiveSupport::TestCase
 
     FileUtils.mkdir_p(Rails.root.join('tmp/pages'))
 
-    page_path = Rails.root.join("tmp/pages/#{ActiveSupport::SecureRandom.hex(16)}.html").to_s
+    page_path = Rails.root.join("tmp/pages/#{SecureRandom.hex(16)}.html").to_s
     File.open(page_path, 'w') { |f| f.write(body) }
 
     Launchy.open(page_path)

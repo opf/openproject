@@ -337,7 +337,7 @@ class MailHandler < ActionMailer::Base
       user.lastname = '-' if user.lastname.blank?
 
       user.login = user.mail
-      user.password = ActiveSupport::SecureRandom.hex(5)
+      user.password = SecureRandom.hex(5)
       user.language = Setting.default_language
       user.save ? user : nil
     end
