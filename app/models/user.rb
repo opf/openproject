@@ -632,7 +632,7 @@ class User < Principal
 
   # Returns a 128bits random salt as a hex string (32 chars long)
   def self.generate_salt
-    ActiveSupport::SecureRandom.hex(16)
+    SecureRandom.hex(16)
   end
 
   def initialize_allowance_evaluators
