@@ -106,20 +106,6 @@ describe User, "#destroy" do
     it_should_behave_like "created journalized associated object"
   end
 
-  describe "WHEN the user is part of a group" do
-    let(:group) { Factory.create(:group) }
-    let(:group_user) { Factory.create(:group_user, :group => group,
-                                                   :user => user) }
-    before do
-      group_user
-
-      user.destroy
-    end
-
-    it { Group.find_by_id(group.id).should == group }
-    it { GroupUser.find_by_id(group_user.id).should be_nil }
-  end
-
   describe "WHEN the user has a labor_budget_item associated" do
     let(:item) { Factory.build(:labor_budget_item, :user => user) }
 

@@ -10,15 +10,6 @@ module CostsUserPatch
     base.class_eval do
       unloadable
 
-      has_many :groups_users, :class_name => 'GroupUser', :dependent => :destroy,
-        :after_add => Proc.new {|user, group_user| group_user.group.user_added(user)},
-        :after_remove => Proc.new {|user, group_user| group_user.group.user_removed(user)}
-
-      has_many :groups, :through => :groups_users,
-        :after_add => Proc.new {|user, group| group.user_added(user)},
-        :after_remove => Proc.new {|user, group| group.user_removed(user)}
-
-
       has_many :rates, :class_name => 'HourlyRate'
       has_many :default_rates, :class_name => 'DefaultHourlyRate'
 

@@ -2,7 +2,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 
 describe User, "#allowed_to?" do
-  let(:controller_member_role) { Factory.build(:member_role, :membership_type => :controller) }
   let(:member) { Factory.build(:member) }
   let(:member2) { Factory.build(:member) }
   let(:group_member) { Factory.build(:member) }
