@@ -62,6 +62,7 @@ end
 group :development, :test do
   gem 'pry-rails', '~> 0.2.2'
   gem 'pry-stack_explorer'
+  gem 'pry-rescue'
   gem 'pry-debugger'
 end
 

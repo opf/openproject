@@ -107,6 +107,7 @@ GEM
     hike (1.2.1)
     htmldiff (0.0.1)
     i18n (0.6.1)
+    interception (0.3)
     journey (1.0.4)
     jquery-rails (2.1.1)
       railties (>= 3.1.0, < 5.0)
@@ -151,6 +152,9 @@ GEM
       pry (~> 0.9.9)
     pry-rails (0.2.2)
       pry (>= 0.9.10)
+    pry-rescue (0.12)
+      interception (>= 0.3)
+      pry
     pry-stack_explorer (0.4.7)
       binding_of_caller (~> 0.6.8)
     rack (1.4.1)
@@ -270,6 +274,7 @@ DEPENDENCIES
   prototype-rails
   pry-debugger
   pry-rails (~> 0.2.2)
+  pry-rescue
   pry-stack_explorer
   rails (= 3.2.8)
   rails-footnotes (>= 3.7.5.rc4)
