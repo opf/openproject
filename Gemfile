@@ -72,6 +72,7 @@ group :development, :test do
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
   gem 'pry-debugger'
+  gem 'pry-doc'
 end
 
 group :rmagick do
