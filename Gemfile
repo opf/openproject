@@ -49,7 +49,8 @@ group :test do
   gem 'database_cleaner'
 
   gem 'ruby-debug', :platforms => [:mri_18, :mingw_18]
-  gem 'debugger',   :platforms => [:mri_19, :mingw_19]
+  # TODO: remove dependency to v 1.1.3 when pry-debugger is updated to > 0.2
+  gem 'debugger', '~> 1.1.3', :platforms => [:mri_19, :mingw_19]
 
   # remove in rails 3.2
   gem 'turn', '~> 0.8.3', :require => false
