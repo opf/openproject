@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.8'
 
-gem "coderay", "~> 0.9.7"
+gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
 # Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
@@ -57,6 +57,7 @@ group :development do
   gem 'bullet'
   gem 'letter_opener', '~> 1.0.0'
 end
+gem 'pry-rails', '~> 0.2.2', :group => [:development, :test]
 
 group :rmagick do
   gem "rmagick", ">= 1.15.17"
