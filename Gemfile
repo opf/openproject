@@ -45,7 +45,8 @@ group :test do
   gem 'database_cleaner'
 
   gem 'ruby-debug', :platforms => [:mri_18, :mingw_18]
-  gem 'debugger',   :platforms => [:mri_19, :mingw_19]
+  # TODO: remove dependency to v 1.1.3 when pry-debugger is updated to > 0.2
+  gem 'debugger', '~> 1.1.3', :platforms => [:mri_19, :mingw_19]
 end
 
 group :openid do
@@ -57,7 +58,12 @@ group :development do
   gem 'bullet'
   gem 'letter_opener', '~> 1.0.0'
 end
-gem 'pry-rails', '~> 0.2.2', :group => [:development, :test]
+
+group :development, :test do
+  gem 'pry-rails', '~> 0.2.2'
+  gem 'pry-stack_explorer'
+  gem 'pry-debugger'
+end
 
 group :rmagick do
   gem "rmagick", ">= 1.15.17"
