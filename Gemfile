@@ -61,10 +61,16 @@ end
 group :development do
   gem 'rails-footnotes', '>= 3.7.5.rc4'
   gem 'bullet'
-  gem "letter_opener"
+  gem 'letter_opener', '~> 1.0.0'
   gem 'rails-dev-tweaks', '~> 0.6.1'
 end
-gem 'pry-rails', '~> 0.2.2', :group => [:development, :test]
+
+group :development, :test do
+  gem 'pry-rails', '~> 0.2.2'
+  gem 'pry-stack_explorer'
+  gem 'pry-rescue'
+  gem 'pry-debugger'
+end
 
 group :rmagick do
   gem "rmagick", ">= 1.15.17"
