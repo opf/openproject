@@ -67,6 +67,7 @@ group :development do
   gem 'bullet'
   gem 'letter_opener', '~> 1.0.0'
   gem 'rails-dev-tweaks', '~> 0.6.1'
+  gem 'guard-rspec'
 end
 
 group :development, :test do
