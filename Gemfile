@@ -71,6 +71,7 @@ group :development do
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'guard-rspec'
   gem 'guard-cucumber'
+  gem 'guard-spork'
 end
 
 group :development, :test do
