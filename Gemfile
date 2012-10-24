@@ -54,8 +54,8 @@ group :test do
   # TODO: remove dependency to v 1.1.3 when pry-debugger is updated to > 0.2
   gem 'debugger', '~> 1.1.3', :platforms => [:mri_19, :mingw_19]
 
-  # remove in rails 3.2
-  gem 'turn', '~> 0.8.3', :require => false
+  # why in Gemfile? see: https://github.com/guard/guard-test
+  gem 'ruby-prof'
 end
 
 group :openid do
@@ -76,6 +76,11 @@ group :development, :test do
   gem 'pry-rescue'
   gem 'pry-debugger'
   gem 'pry-doc'
+end
+
+group :tools do
+  # why tools? see: https://github.com/guard/guard-test
+  gem 'guard-test'
 end
 
 group :rmagick do
