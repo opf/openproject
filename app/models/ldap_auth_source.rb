@@ -13,7 +13,6 @@
 #++
 
 require 'net/ldap'
-require 'iconv'
 
 class LdapAuthSource < AuthSource
   validates_presence_of :host, :port, :attr_login

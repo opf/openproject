@@ -225,12 +225,12 @@ module Redmine
           self.class.strip_credential(cmd)
         end
 
-        def scm_iconv(to, from, str)
+        def scm_encode(to, from, str)
           return nil if str.nil?
           return str if to == from
           begin
-            Iconv.conv(to, from, str)
-          rescue Iconv::Failure => err
+            str.to_s.encode(to, from)
+          rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError => err
             logger.error("failed to convert from #{from} to #{to}. #{err}")
             nil
           end

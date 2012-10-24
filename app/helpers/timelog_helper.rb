@@ -81,7 +81,6 @@ module TimelogHelper
   end
 
   def entries_to_csv(entries)
-    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
     decimal_separator = l(:general_csv_decimal_separator)
     custom_fields = TimeEntryCustomField.find(:all)
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
@@ -99,7 +98,7 @@ module TimelogHelper
       # Export custom fields
       headers += custom_fields.collect(&:name)
 
-      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
+      csv << headers.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
       # csv lines
       entries.each do |entry|
         fields = [format_date(entry.spent_on),
@@ -114,7 +113,7 @@ module TimelogHelper
                   ]
         fields += custom_fields.collect {|f| show_value(entry.custom_value_for(f)) }
 
-        csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
+        csv << fields.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
       end
     end
     export
@@ -181,8 +180,7 @@ module TimelogHelper
   end
 
   def to_utf8_for_timelogs(s)
-    @ic ||= Iconv.new(l(:general_csv_encoding), 'UTF-8')
-    begin; @ic.iconv(s.to_s); rescue; s.to_s; end
+    begin; s.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; s.to_s; end
   end
 
   def polymorphic_time_entries_path(object)

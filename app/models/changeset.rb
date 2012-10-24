@@ -12,8 +12,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'iconv'
-
 class Changeset < ActiveRecord::Base
   belongs_to :repository
   belongs_to :user
@@ -286,8 +284,8 @@ class Changeset < ActiveRecord::Base
 
       txtar = ""
       begin
-        txtar += Iconv.new('UTF-8', normalized_encoding).iconv(str)
-      rescue Iconv::IllegalSequence
+        txtar += str.encode('UTF-8', normalized_encoding)
+      rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
         txtar += $!.success
         str = '?' + $!.failed[1,$!.failed.length]
         retry

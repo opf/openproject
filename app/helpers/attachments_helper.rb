@@ -34,9 +34,8 @@ module AttachmentsHelper
     end
 
     begin
-      Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
-    rescue Iconv::InvalidEncoding
-      # "UTF-8//IGNORE" is not supported on some OS
+      (str + '  ').encode("UTF-8", :invalid => :replace, :undef => :replace, :replace => "?")[0..-3]
+    rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
       str
     end
   end

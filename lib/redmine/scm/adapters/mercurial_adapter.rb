@@ -130,7 +130,7 @@ module Redmine
         private :summary
 
         def entries(path=nil, identifier=nil)
-          p1 = scm_iconv(@path_encoding, 'UTF-8', path)
+          p1 = scm_encode(@path_encoding, 'UTF-8', path)
           manifest = hg('rhmanifest', '-r', CGI.escape(hgrev(identifier)),
                         CGI.escape(without_leading_slash(p1.to_s))) do |io|
             output = io.read
@@ -146,13 +146,13 @@ module Redmine
 
           entries = Entries.new
           as_ary(manifest['dir']).each do |e|
-            n = scm_iconv('UTF-8', @path_encoding, CGI.unescape(e['name']))
+            n = scm_encode('UTF-8', @path_encoding, CGI.unescape(e['name']))
             p = "#{path_prefix}#{n}"
             entries << Entry.new(:name => n, :path => p, :kind => 'dir')
           end
 
           as_ary(manifest['file']).each do |e|
-            n = scm_iconv('UTF-8', @path_encoding, CGI.unescape(e['name']))
+            n = scm_encode('UTF-8', @path_encoding, CGI.unescape(e['name']))
             p = "#{path_prefix}#{n}"
             lr = Revision.new(:revision => e['revision'], :scmid => e['node'],
                               :identifier => e['node'],
@@ -194,13 +194,13 @@ module Redmine
           as_ary(log['logentry']).each do |le|
             cpalist = as_ary(le['paths']['path-copied']).map do |e|
               [e['__content__'], e['copyfrom-path']].map do |s|
-                scm_iconv('UTF-8', @path_encoding, CGI.unescape(s))
+                scm_encode('UTF-8', @path_encoding, CGI.unescape(s))
               end
             end
             cpmap = Hash[*cpalist.flatten]
 
             paths = as_ary(le['paths']['path']).map do |e|
-              p = scm_iconv('UTF-8', @path_encoding, CGI.unescape(e['__content__']) )
+              p = scm_encode('UTF-8', @path_encoding, CGI.unescape(e['__content__']) )
               {:action => e['action'], :path => with_leading_slash(p),
                :from_path => (cpmap.member?(p) ? with_leading_slash(cpmap[p]) : nil),
                :from_revision => (cpmap.member?(p) ? le['revision'] : nil)}
@@ -233,7 +233,7 @@ module Redmine
             hg_args << '-c' << hgrev(identifier_from)
           end
           unless path.blank?
-            p = scm_iconv(@path_encoding, 'UTF-8', path)
+            p = scm_encode(@path_encoding, 'UTF-8', path)
             hg_args << CGI.escape(hgtarget(p))
           end
           diff = []
@@ -248,7 +248,7 @@ module Redmine
         end
 
         def cat(path, identifier=nil)
-          p = CGI.escape(scm_iconv(@path_encoding, 'UTF-8', path))
+          p = CGI.escape(scm_encode(@path_encoding, 'UTF-8', path))
           hg 'rhcat', '-r', CGI.escape(hgrev(identifier)), hgtarget(p) do |io|
             io.binmode
             io.read
@@ -258,7 +258,7 @@ module Redmine
         end
 
         def annotate(path, identifier=nil)
-          p = CGI.escape(scm_iconv(@path_encoding, 'UTF-8', path))
+          p = CGI.escape(scm_encode(@path_encoding, 'UTF-8', path))
           blame = Annotate.new
           hg 'rhannotate', '-ncu', '-r', CGI.escape(hgrev(identifier)), hgtarget(p) do |io|
             io.each_line do |line|

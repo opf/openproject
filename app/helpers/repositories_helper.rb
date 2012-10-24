@@ -12,8 +12,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'iconv'
-
 module RepositoriesHelper
   def format_revision(revision)
     if revision.respond_to? :format_identifier
@@ -135,8 +133,8 @@ module RepositoriesHelper
     @encodings ||= Setting.repositories_encodings.split(',').collect(&:strip)
     @encodings.each do |encoding|
       begin
-        return Iconv.conv('UTF-8', encoding, str)
-      rescue Iconv::Failure
+        return str.to_s.encode('UTF-8', encoding)
+      rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
         # do nothing here and try the next encoding
       end
     end
@@ -155,9 +153,8 @@ module RepositoriesHelper
     else
       # removes invalid UTF8 sequences
       begin
-        str = Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
-      rescue Iconv::InvalidEncoding
-        # "UTF-8//IGNORE" is not supported on some OS
+        (str + '  ').encode("UTF-8", :invalid => :replace, :undef => :replace, :replace => "?")[0..-3]
+      rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
       end
     end
     str
