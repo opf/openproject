@@ -110,6 +110,9 @@ GEM
       lumberjack (>= 1.0.2)
       pry (>= 0.9.10)
       thor (>= 0.14.6)
+    guard-cucumber (1.2.0)
+      cucumber (>= 1.2.0)
+      guard (>= 1.1.0)
     guard-rspec (2.1.0)
       guard (>= 1.1)
       rspec (~> 2.11)
@@ -298,6 +301,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   fastercsv (~> 1.5.0)
   globalize3!
+  guard-cucumber
   guard-rspec
   guard-test
   htmldiff
