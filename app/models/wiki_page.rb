@@ -47,10 +47,16 @@ class WikiPage < ActiveRecord::Base
   # Wiki pages that are protected by default
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
 
+  after_destroy :delete_wiki_menu_item
+
   def after_initialize
     if new_record? && DEFAULT_PROTECTED_PAGES.include?(title.to_s.downcase)
       self.protected = true
     end
+  end
+
+  def delete_wiki_menu_item
+    self.menu_item.destroy if self.menu_item
   end
 
   def visible?(user=User.current)
