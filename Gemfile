@@ -72,6 +72,7 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'guard-spork'
+  gem 'rb-fsevent', :group => :test, :require => false if RUBY_PLATFORM =~ /darwin/i
 end
 
 group :development, :test do
