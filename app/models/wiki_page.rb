@@ -170,6 +170,16 @@ class WikiPage < ActiveRecord::Base
     WikiMenuItem.find_by_title_and_wiki_id(title, wiki_id)
   end
 
+  def nearest_menu_item
+    if self.menu_item
+      self.menu_item
+    elsif self.parent
+      self.parent.nearest_menu_item
+    else
+      nil
+    end
+  end
+
   def breadcrumb_title
     if item = menu_item
       item.name

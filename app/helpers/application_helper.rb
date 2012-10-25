@@ -1108,7 +1108,7 @@ module ApplicationHelper
       when params[:controller] == 'my' && params[:action] == 'account'
         'account'
       when params[:controller] == 'wiki' && !@page.nil? &&
-        menu_item = WikiMenuItem.find_by_title_and_wiki_id(@page.title, @page.wiki_id)
+        menu_item = @page.nearest_menu_item
 
         if menu_item.is_sub_item?
           menu_item.parent.item_class
@@ -1140,7 +1140,7 @@ module ApplicationHelper
   def accessibility_js_enabled?
     !@accessibility_js_disabled
   end
-  
+
   #
   # Returns the footer text displayed in the layout file.
   #

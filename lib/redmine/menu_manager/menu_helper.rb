@@ -186,7 +186,9 @@ module Redmine::MenuManager::MenuHelper
     caption = item.caption(project)
 
     if @page and @page.instance_of?(WikiPage) and !@page.new_record? and current_menu_item == :wiki
-      selected = node.name.to_sym == @page.title.dasherize.to_sym if @page.title
+      menu_item = @page.nearest_menu_item
+
+      selected = node.name.to_sym == menu_item.title.dasherize.to_sym if menu_item
     elsif current_menu_item == :wiki and related_page = params[:id]
       selected = related_page.dasherize == item.name.to_s.dasherize
     else
