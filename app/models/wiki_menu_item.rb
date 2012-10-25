@@ -1,12 +1,12 @@
 class WikiMenuItem < ActiveRecord::Base
   belongs_to :wiki
   belongs_to :parent, :class_name => 'WikiMenuItem'
-  has_many :children, :class_name => 'WikiMenuItem', :dependent => :destroy, :foreign_key => :parent_id
+  has_many :children, :class_name => 'WikiMenuItem', :dependent => :destroy, :foreign_key => :parent_id, :order => 'id ASC'
 
   serialize :options, Hash
 
   named_scope :main_items, lambda { |wiki_id|
-    {:conditions => {:wiki_id => wiki_id, :parent_id => nil}}
+    {:conditions => {:wiki_id => wiki_id, :parent_id => nil}, :order => 'id ASC'}
   }
 
   attr_accessible :name, :title
