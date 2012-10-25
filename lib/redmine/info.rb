@@ -15,10 +15,10 @@
 module Redmine
   module Info
     class << self
-      def app_name; 'ChiliProject' end
-      def url; 'https://www.chiliproject.org/' end
+      def app_name; 'OpenProject' end
+      def url; 'https://www.openproject.org/' end
       def help_url
-        "https://www.chiliproject.org/help/v#{Redmine::VERSION.to_semver}"
+        "https://www.openproject.org/projects/support"
       end
       def versioned_name; "#{app_name} #{Redmine::VERSION}" end
 
