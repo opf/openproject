@@ -2956,25 +2956,30 @@ form.wiki_menu_item_form p {
   padding-left: 0px;
 }
 form.wiki_menu_item_form label {
-  display: block;
+  display: inline-block;
   margin-bottom: 10px;
   margin-left: 0px;
   width: auto;
   font-weight: bold;
 }
+
+form.wiki_menu_item_form select#parent_wiki_menu_item {
+  margin-left: 7px;
+  margin-top: -1px;
+}
 form.wiki_menu_item_form label#name_of_item {
   float: left;
   padding-left: 3px;
+  margin-right: 4px;
+  line-height: 21px;
 }
 form.wiki_menu_item_form label#with-select {
-  float: left;
   margin-left: 0px;
 }
 form.wiki_menu_item_form select#parent_wiki_menu_item_wiki_page {
   margin-bottom: 10px;
 }
 form.wiki_menu_item_form p input {
-  float: left;
 }
 form.wiki_menu_item_form fieldset#wiki_menu_item_setting {
   margin-top: 10px;
