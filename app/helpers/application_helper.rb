@@ -1107,6 +1107,16 @@ module ApplicationHelper
         'contracts'
       when params[:controller] == 'my' && params[:action] == 'account'
         'account'
+      when params[:controller] == 'wiki' && !@page.nil? &&
+        menu_item = @page.nearest_menu_item
+
+        if menu_item.is_sub_item?
+          menu_item.parent.item_class
+        else
+          menu_item.item_class
+        end
+      when params[:controller] == 'wiki' && related_page = params[:id]
+        related_page.dasherize
       else
         params[:controller].dasherize
       end
@@ -1130,7 +1140,7 @@ module ApplicationHelper
   def accessibility_js_enabled?
     !@accessibility_js_disabled
   end
-  
+
   #
   # Returns the footer text displayed in the layout file.
   #

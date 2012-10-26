@@ -13,7 +13,6 @@
 #++
 
 module WikiHelper
-
   def wiki_page_options_for_select(pages, selected = nil, parent = nil, level = 0)
     pages = pages.group_by(&:parent) unless pages.is_a?(Hash)
     s = ''
@@ -28,5 +27,15 @@ module WikiHelper
       end
     end
     s
+  end
+
+  def breadcrumb_for_page(page, action = nil)
+    if action
+      related_pages = page.ancestors.reverse + [page]
+      breadcrumb_paths(*(related_pages.collect{|parent| link_to h(parent.breadcrumb_title), {:id => parent.title, :project_id => parent.project, :action => "show"}} + [action]))
+    else
+      related_pages = page.ancestors.reverse
+      breadcrumb_paths(*(related_pages.collect{|parent| link_to h(parent.breadcrumb_title), {:id => parent.title, :project_id => parent.project, :action => "show"}} + [h(page.breadcrumb_title)]))
+    end
   end
 end

@@ -47,10 +47,16 @@ class WikiPage < ActiveRecord::Base
   # Wiki pages that are protected by default
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
 
+  after_destroy :delete_wiki_menu_item
+
   def after_initialize
     if new_record? && DEFAULT_PROTECTED_PAGES.include?(title.to_s.downcase)
       self.protected = true
     end
+  end
+
+  def delete_wiki_menu_item
+    self.menu_item.destroy if self.menu_item
   end
 
   def visible?(user=User.current)
@@ -76,6 +82,14 @@ class WikiPage < ActiveRecord::Base
       wiki.redirects.find_all_by_title(title).each(&:destroy)
       # Create a redirect to the new title
       wiki.redirects << WikiRedirect.new(:title => @previous_title, :redirects_to => title) unless redirect_existing_links == "0"
+
+      # Change title of dependent wiki menu item
+      dependent_item = WikiMenuItem.find_by_wiki_id_and_title(self.wiki.id, @previous_title)
+      if dependent_item
+        dependent_item.title = title
+        dependent_item.save!
+      end
+
       @previous_title = nil
     end
   end
@@ -156,6 +170,28 @@ class WikiPage < ActiveRecord::Base
     @parent_title = t
     parent_page = t.blank? ? nil : self.wiki.find_page(t)
     self.parent = parent_page
+  end
+
+  def menu_item
+    WikiMenuItem.find_by_title_and_wiki_id(title, wiki_id)
+  end
+
+  def nearest_menu_item
+    if self.menu_item
+      self.menu_item
+    elsif self.parent
+      self.parent.nearest_menu_item
+    else
+      nil
+    end
+  end
+
+  def breadcrumb_title
+    if item = menu_item
+      item.name
+    else
+      pretty_title
+    end
   end
 
   protected

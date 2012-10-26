@@ -1,0 +1,44 @@
+<h2>
+  <% if @page.parent %>
+    <% breadcrumb_for_page(@page.parent, l("create_new_page")) %>
+    <%= l("create_child_page_for", :title => @page.parent.pretty_title) %>
+  <% else %>
+    <% breadcrumb_paths(l("create_new_page")) %>
+    <%= l("create_new_page") %>
+  <% end %>
+</h2>
+
+<% form_for :content, @content, :url => wiki_create_path(:project_id => @project), :html => {:method => :post, :multipart => true, :id => 'wiki_form'} do |f| %>
+
+  <%= error_messages_for 'page' %>
+
+  <% fields_for :page, @page do |page_fields| %>
+    <%= page_fields.hidden_field :parent_id %>
+    <p><label><%= l(:field_title) %></label><br /><%= page_fields.text_field :title, :size => 120 %></p>
+  <% end %>
+
+
+  <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
+  <p><label><%= l(:field_comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
+  <p><label><%=l(:label_attachment_plural)%></label><br /><%= render :partial => 'attachments/form' %></p>
+
+  <p><%= submit_tag l(:button_save) %>
+     <%= link_to_remote l(:label_preview),
+                         { :url => wiki_preview_path(:project_id => @project),
+                           :method => :post,
+                           :update => 'preview',
+                           :with => "Form.serialize('wiki_form')",
+                           :complete => "Element.scrollTo('preview')"
+                         }, :accesskey => accesskey(:preview) %></p>
+  <%= wikitoolbar_for 'content_text' %>
+<% end %>
+
+<div id="preview" class="wiki"></div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'scm' %>
+  <%= robot_exclusion_tag %>
+<% end %>
+
+<% html_title @page.pretty_title %>
+

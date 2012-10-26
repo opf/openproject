@@ -513,7 +513,7 @@ a.atom { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px
 div#tab-content-members .splitcontentleft, div#tab-content-memberships .splitcontentleft, div#tab-content-users .splitcontentleft { width: 64% }
 div#tab-content-members .splitcontentright, div#tab-content-memberships .splitcontentright, div#tab-content-users .splitcontentright { width: 34% }
 div#tab-content-members fieldset, div#tab-content-memberships fieldset, div#tab-content-users fieldset { padding:1em; margin-bottom: 1em; }
-div#tab-content-info fieldset legend, div#tab-content-members fieldset legend, div#tab-content-memberships fieldset legend, div#tab-content-users fieldset legend { font-weight: bold; }
+div#tab-content-info fieldset legend, div#tab-content-members fieldset legend, div#tab-content-memberships fieldset legend, div#tab-content-users fieldset legend, fieldset#wiki_menu_item_setting { font-weight: bold; }
 div#tab-content-members fieldset label, div#tab-content-memberships fieldset label, div#tab-content-users fieldset label { display: block; }
 div#tab-content-members fieldset div, div#tab-content-users fieldset div { max-height: 400px; overflow:auto; }
 div#tab-content-members .user.status_registered, div#tab-content-members label.status_registered { filter: alpha(opacity=80); -khtml-opacity: 0.8; opacity: 0.8; -moz-opacity: 0.8; }
@@ -2970,4 +2970,46 @@ strong.related-issues-heading {
 }
 div.indent {
   padding-left: 10px;
+}
+form.wiki_menu_item_form p {
+  padding-left: 0px;
+}
+form.wiki_menu_item_form label {
+  display: inline-block;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  width: auto;
+  font-weight: bold;
+}
+
+form.wiki_menu_item_form select#parent_wiki_menu_item {
+  margin-left: 7px;
+  margin-top: -1px;
+}
+form.wiki_menu_item_form label#name_of_item {
+  float: left;
+  padding-left: 3px;
+  margin-right: 4px;
+  line-height: 21px;
+}
+form.wiki_menu_item_form label#with-select {
+  margin-left: 0px;
+}
+form.wiki_menu_item_form select#parent_wiki_menu_item_wiki_page {
+  margin-bottom: 10px;
+}
+form.wiki_menu_item_form p input {
+}
+form.wiki_menu_item_form fieldset#wiki_menu_item_setting {
+  margin-top: 10px;
+}
+form.wiki_menu_item_form p.name_of_item {
+  padding-top: 10px;
+}
+form.wiki_menu_item_form p.main_item {
+  padding-bottom: 0px;
+}
+form.wiki_menu_item_form p.wiki_menu_item_optional_links {
+  margin-left: 10px;
+  padding-top: 0px;
 }

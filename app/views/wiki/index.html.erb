@@ -1,3 +1,9 @@
+<% if @related_page %>
+  <% breadcrumb_for_page(@related_page, l(:label_table_of_contents)) %>
+<% else %>
+  <% breadcrumb_paths(l(:label_table_of_contents)) %>
+<% end %>
+
 <div class="contextual">
   <%= watcher_link(@wiki, User.current) %>
 </div>

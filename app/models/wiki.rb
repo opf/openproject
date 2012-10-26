@@ -16,9 +16,17 @@ class Wiki < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
   has_many :pages, :class_name => 'WikiPage', :dependent => :destroy, :order => 'title'
+  has_many :wiki_menu_items, :class_name => 'WikiMenuItem', :dependent => :delete_all, :order => 'name'
   has_many :redirects, :class_name => 'WikiRedirect', :dependent => :delete_all
 
+
   acts_as_watchable
+
+  accepts_nested_attributes_for :wiki_menu_items,
+    :allow_destroy => true,
+    :reject_if => proc { |attr| attr['name'].blank? && attr['title'].blank? }
+
+  safe_attributes 'wiki_menu_items_attributes'
 
   attr_protected :project_id
 

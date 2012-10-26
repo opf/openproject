@@ -128,12 +128,13 @@ Redmine::AccessControl.map do |map|
 
   map.project_module :wiki do |map|
     map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
+    map.permission :manage_wiki_menu, {:wiki_menu_items => [:edit, :update]}, :require => :member
     map.permission :rename_wiki_pages, {:wiki => :rename}, :require => :member
     map.permission :delete_wiki_pages, {:wiki => :destroy}, :require => :member
     map.permission :view_wiki_pages, :wiki => [:index, :show, :special, :date_index]
     map.permission :export_wiki_pages, :wiki => [:export]
     map.permission :view_wiki_edits, :wiki => [:history, :diff, :annotate]
-    map.permission :edit_wiki_pages, :wiki => [:edit, :update, :preview, :add_attachment]
+    map.permission :edit_wiki_pages, :wiki => [:edit, :update, :preview, :add_attachment, :new, :new_child, :create]
     map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
   end
@@ -226,10 +227,6 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :new_news, { :controller => 'news', :action => 'new' }, :param => :project_id, :caption => :label_news_new, :parent => :news,
               :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) }
   menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
-  menu.push :wiki, { :controller => 'wiki', :action => 'show', :id => nil }, :param => :project_id,
-              :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
-  menu.push :wiki_index_by_title, {:action => 'index', :controller => 'wiki'}, :param => :project_id, :caption => :label_index_by_title, :parent => :wiki, :last => true
-  menu.push :wiki_index_by_date, {:action => 'date_index', :controller => 'wiki'}, :param => :project_id, :caption => :label_index_by_date, :parent => :wiki, :last => true
   menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
   menu.push :files, { :controller => 'files', :action => 'index' }, :caption => :label_file_plural, :param => :project_id
