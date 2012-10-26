@@ -41,6 +41,8 @@ group :test do
   gem "factory_girl_rails", "~> 4.0"
   gem 'cucumber-rails'
   gem 'database_cleaner'
+  gem "rspec-rails", "~> 2.0", :group => :development
+  gem 'capybara'
 
   gem 'ruby-debug', :platforms => [:mri_18, :mingw_18]
   # TODO: remove dependency to v 1.1.3 when pry-debugger is updated to > 0.2
@@ -62,6 +64,7 @@ group :development, :test do
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
   gem 'pry-debugger'
+  gem 'pry-doc'
 end
 
 group :rmagick do

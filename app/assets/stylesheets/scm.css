@@ -91,7 +91,7 @@ div.action_A { background: #bfb }
 
 /************* CodeRay styles *************/
 .syntaxhl div {display: inline;}
-.syntaxhl .no { padding: 2px 4px 2px 4px; background-color: #eee; margin:0 }
+.syntaxhl .line-numbers { padding: 2px 4px 2px 4px; background-color: #eee; margin:0 }
 .syntaxhl .code pre { overflow: auto }
 .syntaxhl .debug { color:white ! important; background:blue ! important; }
 
@@ -101,7 +101,7 @@ div.action_A { background: #bfb }
 .syntaxhl .av { color:#700 }
 .syntaxhl .aw { color:#C00 }
 .syntaxhl .bi { color:#509; font-weight:bold }
-.syntaxhl .c  { color:#888; }
+.syntaxhl .comment  { color:#888; }
 
 .syntaxhl .ch { color:#04D }
 .syntaxhl .ch .k { color:#04D }
