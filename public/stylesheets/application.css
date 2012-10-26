@@ -1,12 +1,26 @@
 html {overflow-y:scroll;}
-body { margin: 0; padding: 0; min-width: 900px; }
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 900px;
+  height:100%
+}
+html, body {
+  margin:0;
+  padding:0;
+  height:100%;
+}
 
 h1 {margin:0; padding:0; font-size: 24px;}
 h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; }
 h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb;}
 
 /***** Layout *****/
-#wrapper {background: none;}
+#wrapper {
+  background: none;
+  min-height: 100%;
+  position: relative;
+}
 
 #top-menu {background: #2C4056; color: #fff; height:1.8em; font-size: 0.8em; padding: 0px; }
 #top-menu ul {margin: 0;  padding: 0;}
@@ -23,7 +37,6 @@ h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; bord
 
 #quick-search {float:right;}
 
-#main-menu {position: absolute;  bottom: auto;  left:6px; margin-right: -500px;}
 #main-menu ul {
   margin: 0;
   padding: 0;
@@ -55,8 +68,6 @@ h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; bord
   z-index: 10;
 }
 * html #content{ width: 75%; padding-left: 0; margin-top: 0px; padding: 6px 10px 10px 10px;}
-html>body #content { min-height: 600px; }
-* html body #content { height: 600px; } /* IE */
 
 #main.nosidebar #sidebar{ display: none; }
 #main.nosidebar #content{ width: auto }
@@ -379,7 +390,10 @@ table#time-report tbody tr.last-level { font-style: normal; color: #555; }
 table#time-report tbody tr.total { font-style: normal; font-weight: bold; color: #555; background-color:#EEEEEE; }
 table#time-report .hours-dec { font-size: 0.9em; }
 
-form .attributes { margin-bottom: 8px; }
+form .attributes {
+  margin-bottom: 8px;
+  overflow: auto;
+}
 form .attributes p { padding-top: 1px; padding-bottom: 2px; }
 form .attributes select { min-width: 50%; }
 
@@ -1436,10 +1450,11 @@ div#optional_login_fields {
  * This section includes the layout and styles for the left navigation column.
  ------------------------------------------------------------------------------*/
 
+#main-menu {bottom: auto;  left:6px; margin-right: -500px;}
 #main-menu {
 	width:185px;
-        height:100%;
-	position:absolute;
+  height:100%;
+  float: left;
 	left:0;
 }
 #main-menu ul ul {
@@ -1575,13 +1590,16 @@ div#optional_login_fields {
  * This section includes the layout and styles for the main content area.
  ------------------------------------------------------------------------------*/
 #main {
-        background:white;
-        position:relative;
-        z-index:20;
+  background:white;
+  position:relative;
+  z-index:20;
+  padding-bottom:128px;
+  overflow:auto;
  }
 #footer {
   color: #aaa;
   border-top:0px;
+  z-index:100;
 }
 
 h1.title {
@@ -1590,7 +1608,8 @@ h1.title {
 #content {
 	margin:0 15px 10px 187px;
 	padding:10px;
-        width: auto;
+  width: auto;
+  overflow: hidden;
 }
 #content .title-bar {
 	position:relative;
@@ -2888,7 +2907,7 @@ ul.action_menu_more {
   display:none;
 }
 div#history div.journal div.wiki {
-  overflow:visible;
+  overflow:auto;
 }
 
 ul.breadcrumb {
