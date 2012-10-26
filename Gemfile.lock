@@ -198,9 +198,6 @@ GEM
       json (>= 1.7.5)
       structured_warnings (>= 0.1.3)
     rubyzip (0.9.9)
-    safe_attributes (1.0.8)
-      activerecord (>= 3.0.0)
-      activesupport (>= 3.0.0)
     sass (3.2.1)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -284,7 +281,6 @@ DEPENDENCIES
   ruby-debug
   ruby-openid (~> 2.1.4)
   rubytree (~> 0.8.3)
-  safe_attributes
   sass-rails (~> 3.2.3)
   shoulda (~> 3.1.1)
   sqlite3

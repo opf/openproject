@@ -11,8 +11,6 @@ gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 gem 'globalize3', :git => 'git://github.com/svenfuchs/globalize3.git'
 gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
-# TODO: check that it doesn't break the functionality of acts_as_journalized
-gem 'safe_attributes' # allows active record to have a #changes column
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink'
 
