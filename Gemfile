@@ -39,14 +39,18 @@ group :test do
   gem 'mocha'
   gem "launchy", "~> 2.1.0"
   gem "factory_girl_rails", "~> 4.0"
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem "rspec-rails", "~> 2.0", :group => :development
   gem 'capybara'
+  gem 'spork-rails'
+  gem 'spork-testunit' # needed for test-unit only
 
   gem 'ruby-debug', :platforms => [:mri_18, :mingw_18]
   # TODO: remove dependency to v 1.1.3 when pry-debugger is updated to > 0.2
   gem 'debugger', '~> 1.1.3', :platforms => [:mri_19, :mingw_19]
+  # why in Gemfile? see: https://github.com/guard/guard-test
+  gem 'ruby-prof'
 end
 
 group :openid do
@@ -57,6 +61,11 @@ group :development do
   gem 'rails-footnotes', '>= 3.7.5.rc4'
   gem 'bullet'
   gem 'letter_opener', '~> 1.0.0'
+  gem 'rails-dev-tweaks', '~> 0.6.1'
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
+  gem 'guard-spork'
+  gem 'rb-fsevent', :group => :test, :require => false if RUBY_PLATFORM =~ /darwin/i
 end
 
 group :development, :test do
@@ -65,6 +74,11 @@ group :development, :test do
   gem 'pry-rescue'
   gem 'pry-debugger'
   gem 'pry-doc'
+end
+
+group :tools do
+  # why tools? see: https://github.com/guard/guard-test
+  gem 'guard-test'
 end
 
 group :rmagick do

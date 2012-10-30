@@ -16,7 +16,6 @@
 desc 'Mantis migration script'
 
 require 'active_record'
-require 'iconv'
 require 'pp'
 
 namespace :redmine do
@@ -439,9 +438,9 @@ task :migrate_from_mantis => :environment do
     end
 
     def self.encoding(charset)
-      @ic = Iconv.new('UTF-8', charset)
-    rescue Iconv::InvalidEncoding
-      return false
+      ''.encode('UTF-8', @encoding = charset)
+    rescue Encoding::ConverterNotFoundError
+      false
     end
 
     def self.establish_connection(params)
@@ -453,7 +452,8 @@ task :migrate_from_mantis => :environment do
     end
 
     def self.encode(text)
-      @ic.iconv text
+      @encoding ||= 'UTF-8'
+      text.encode('UTF-8', @encoding)
     rescue
       text
     end

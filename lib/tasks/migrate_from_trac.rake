@@ -14,7 +14,6 @@
 
 
 require 'active_record'
-require 'iconv'
 require 'pp'
 
 namespace :redmine do
@@ -597,10 +596,10 @@ namespace :redmine do
       end
 
       def self.encoding(charset)
-        @ic = Iconv.new('UTF-8', charset)
-      rescue Iconv::InvalidEncoding
+        ''.encode('UTF-8', @encoding = charset)
+      rescue Encoding::ConverterNotFoundError
         puts "Invalid encoding!"
-        return false
+        false
       end
 
       def self.set_trac_directory(path)
@@ -709,7 +708,8 @@ namespace :redmine do
 
     private
       def self.encode(text)
-        @ic.iconv text
+        @encoding ||= 'UTF-8'
+        text.encode('UTF-8', @encoding)
       rescue
         text
       end

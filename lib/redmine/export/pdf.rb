@@ -12,7 +12,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'iconv'
 require 'rfpdf/fpdf'
 require 'fpdf/chinese'
 require 'fpdf/japanese'
@@ -43,7 +42,7 @@ module Redmine
 
         def SetTitle(txt)
           txt = begin
-            utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
+            utf16txt = txt.to_s.encode('UTF-16BE', 'UTF-8')
             hextxt = "<FEFF"  # FEFF is BOM
             hextxt << utf16txt.unpack("C*").map {|x| sprintf("%02X",x) }.join
             hextxt << ">"
@@ -118,7 +117,7 @@ module Redmine
 
         def SetTitle(txt)
           txt = begin
-            utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
+            utf16txt = txt.to_s.encode('UTF-16BE', 'UTF-8')
             hextxt = "<FEFF"  # FEFF is BOM
             hextxt << utf16txt.unpack("C*").map {|x| sprintf("%02X",x) }.join
             hextxt << ">"
@@ -138,14 +137,13 @@ module Redmine
         end
 
         def fix_text_encoding(txt)
-          @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           # these quotation marks are not correctly rendered in the pdf
           txt = txt.gsub(/[â€œâ€�]/, '"') if txt
           txt = begin
             # 0x5c char handling
             txtar = txt.split('\\')
             txtar << '' if txt[-1] == ?\\
-            txtar.collect {|x| @ic.iconv(x)}.join('\\').gsub(/\\/, "\\\\\\\\")
+            txtar.collect {|x| x.encode(l(:general_pdf_encoding), 'UTF-8')}.join('\\').gsub(/\\/, "\\\\\\\\")
           rescue
             txt
           end || ''
