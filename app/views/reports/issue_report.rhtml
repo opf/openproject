@@ -46,7 +46,7 @@
 <%= render :partial => 'simple', :locals => { :data => @issues_by_version, :field_name => "fixed_version_id", :rows => @versions } %>
 <br />
 <% if @project.children.any? %>
-<h3><%=l(:label_suproject_plural)%>&nbsp;&nbsp;
+<h3><%=l(:label_subproject_plural)%>&nbsp;&nbsp;
   <%= link_to image_tag('zoom_in.png',
                         :alt    => l(:text_analyze, :subject => l(:field_subproject)),
                         :title  => l(:text_analyze, :subject => l(:field_subproject))),
