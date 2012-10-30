@@ -213,7 +213,6 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.6)
     rake (0.9.2.2)
-    rb-fsevent (0.9.2)
     rbx-require-relative (0.0.9)
     rdoc (3.12)
       json (~> 1.4)
@@ -339,7 +338,6 @@ DEPENDENCIES
   rails-dev-tweaks (~> 0.6.1)
   rails-footnotes (>= 3.7.5.rc4)
   rails_autolink
-  rb-fsevent
   rdoc (>= 2.4.2)
   rmagick (>= 1.15.17)
   rspec-rails (~> 2.0)
