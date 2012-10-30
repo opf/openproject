@@ -22,7 +22,7 @@ class AddChangesFromJournalDetailsForActsAsJournalized < ActiveRecord::Migration
     say_with_time("Adding changes from JournalDetails") do
       JournalDetails.all.each do |detail|
         journal = Journal.find(detail.journal_id)
-        changes = journal.changes || {}
+        changes = journal.changed_data || {}
         if detail.property == 'attr' # Standard attributes
           changes[detail.prop_key.to_s] = [detail.old_value, detail.value]
         elsif detail.property == 'cf' # Custom fields

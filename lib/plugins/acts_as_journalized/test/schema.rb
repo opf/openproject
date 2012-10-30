@@ -16,7 +16,7 @@ class CreateSchema < ActiveRecord::Migration
       t.belongs_to :journaled, :polymorphic => true
       t.belongs_to :user, :polymorphic => true
       t.string :user_name
-      t.text :changes
+      t.text :changed_data
       t.integer :number
       t.string :tag
       t.timestamps

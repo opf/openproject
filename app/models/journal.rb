@@ -37,12 +37,7 @@ class Journal < ActiveRecord::Base
   # "touch" the journaled object on creation
   after_create :touch_journaled_after_creation
 
-  # ActiveRecord::Base#changes is an existing method, so before serializing the +changes+ column,
-  # the existing +changes+ method is undefined. The overridden +changes+ method pertained to
-  # dirty attributes, but will not affect the partial updates functionality as that's based on
-  # an underlying +changed_attributes+ method, not +changes+ itself.
-  # undef_method :changes
-  serialize :changes, Hash
+  serialize :changed_data, Hash
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
@@ -97,10 +92,10 @@ class Journal < ActiveRecord::Base
   end
 
   def details
-    attributes["changes"] || {}
+    attributes["changed_data"] || {}
   end
 
-  alias_method :changes, :details
+  alias_method :changed_data, :details
 
   def new_value_for(prop)
     details[prop.to_s].last if details.keys.include? prop.to_s

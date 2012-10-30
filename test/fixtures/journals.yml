@@ -8,7 +8,7 @@ journals_001:
   user_id: 1
   notes: "Journal notes"
   journaled_id: 1
-  changes: |
+  changed_data: |
     ---
     status_id:
     - 1
@@ -25,7 +25,7 @@ journals_002:
   user_id: 2
   notes: "Some notes with Redmine links: #2, r2."
   journaled_id: 1
-  changes: "--- {}"
+  changed_data: "--- {}"
 journals_003:
   id: 3
   type: "IssueJournal"
@@ -35,7 +35,7 @@ journals_003:
   user_id: 2
   notes: "A comment with inline image: !picture.jpg!"
   journaled_id: 2
-  changes: |
+  changed_data: |
     ---
     custom_values2:
     - 'Old value'
@@ -49,7 +49,7 @@ journals_004:
   user_id: 2
   notes: "A comment with a private version."
   journaled_id: 6
-  changes: |
+  changed_data: |
     ---
     fixed_version_id:
     -
@@ -63,7 +63,7 @@ journals_005:
   user_id: 1
   notes:
   journaled_id: 5
-  changes: "--- {}"
+  changed_data: "--- {}"
 journals_006:
   id: 6
   type: "WikiContentJournal"
@@ -73,7 +73,7 @@ journals_006:
   user_id: 2
   notes: Page creation
   journaled_id: 1
-  changes: |
+  changed_data: |
     ---
     compression: ""
     data: |-
@@ -91,7 +91,7 @@ journals_007:
   user_id: 1
   notes: Small update
   journaled_id: 1
-  changes: |
+  changed_data: |
     ---
     compression: ""
     data: |-
@@ -109,7 +109,7 @@ journals_008:
   user_id: 1
   notes: ""
   journaled_id: 1
-  changes: |
+  changed_data: |
     ---
     compression: ""
     data: |-
@@ -124,7 +124,7 @@ journals_009:
   user_id: 1
   notes:
   journaled_id: 2
-  changes: |
+  changed_data: |
     ---
     data: |-
       h1. Another page
@@ -141,7 +141,7 @@ journals_010:
   user_id: 1
   notes:
   journaled_id: 5
-  changes: --- {}
+  changed_data: --- {}
 journals_011:
   id: 11
   type: "AttachmentJournal"
@@ -151,7 +151,7 @@ journals_011:
   user_id: 2
   notes: "An attachment on a version"
   journaled_id: 9
-  changes: --- {}
+  changed_data: --- {}
 journals_012:
   id: 12
   type: "AttachmentJournal"
@@ -161,7 +161,7 @@ journals_012:
   user_id: 2
   notes: "An attachment on a project"
   journaled_id: 8
-  changes: --- {}
+  changed_data: --- {}
 journals_013:
   id: 13
   type: "AttachmentJournal"
@@ -171,7 +171,7 @@ journals_013:
   user_id: 2
   notes: "An attachment on an issue"
   journaled_id: 7
-  changes: --- {}
+  changed_data: --- {}
 journals_014:
   id: 14
   type: "AttachmentJournal"
@@ -181,7 +181,7 @@ journals_014:
   user_id: 2
   notes: "An attachment on a document"
   journaled_id: 2
-  changes: --- {}
+  changed_data: --- {}
 journals_015:
   id: 15
   type: "MessageJournal"
@@ -218,4 +218,4 @@ journals_018:
   user_id: 2
   notes:
   journaled_id: 11
-  changes: "--- {}"
+  changed_data: "--- {}"
