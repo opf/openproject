@@ -87,10 +87,10 @@ module Redmine::Acts::Journalized
           # Try to find the real initial values
           unless self.journals.empty?
             self.journals[1..-1].each do |journal|
-              unless journal.changes[name].nil?
+              unless journal.changed_data[name].nil?
                 # Found the first change in journals
                 # Copy the first value as initial change value
-                initial_changes[name] = journal.changes[name].first
+                initial_changes[name] = journal.changed_data[name].first
                 break
               end
             end
@@ -110,7 +110,7 @@ module Redmine::Acts::Journalized
         attributes_setter.call(initial_changes, false)
 
         # Call the journal creating method
-        new_journal.changes = fill_object.send(:merge_journal_changes)
+        new_journal.changed_data = fill_object.send(:merge_journal_changes)
 
         new_journal.version = 1
         new_journal.activity_type = activity_type

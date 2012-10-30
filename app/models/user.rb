@@ -669,15 +669,15 @@ class User < Principal
                                         :limit => USER_DELETION_JOURNAL_BUCKET_SIZE)).size > 0 do
 
       journal_subset.each do |journal|
-        change = journal.changes.dup
+        change = journal.changed_data.dup
 
         foreign_keys.each do |foreign_key|
-          if journal.changes[foreign_key].present?
+          if journal.changed_data[foreign_key].present?
             change[foreign_key] = change[foreign_key].map { |a_id| a_id == id ? substitute.id : a_id }
           end
         end
 
-        journal.changes = change
+        journal.changed_data = change
         journal.save if journal.changed?
       end
 

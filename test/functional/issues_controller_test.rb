@@ -822,9 +822,9 @@ class IssuesControllerTest < ActionController::TestCase
         :category_id => '1' # no change
       }
     end
-    assert issue.current_journal.changes.has_key? "subject"
-    assert issue.current_journal.changes.has_key? "priority_id"
-    assert !issue.current_journal.changes.has_key?("category_id")
+    assert issue.current_journal.changed_data.has_key? "subject"
+    assert issue.current_journal.changed_data.has_key? "priority_id"
+    assert !issue.current_journal.changed_data.has_key?("category_id")
 
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
@@ -853,10 +853,10 @@ class IssuesControllerTest < ActionController::TestCase
         :custom_field_values => { '2' => 'New custom value' }
       }
     end
-    assert issue.current_journal.changes.has_key? "subject"
-    assert issue.current_journal.changes.has_key? "priority_id"
-    assert !issue.current_journal.changes.has_key?("category_id")
-    assert issue.current_journal.changes.has_key? "custom_values2"
+    assert issue.current_journal.changed_data.has_key? "subject"
+    assert issue.current_journal.changed_data.has_key? "priority_id"
+    assert !issue.current_journal.changed_data.has_key?("category_id")
+    assert issue.current_journal.changed_data.has_key? "custom_values2"
 
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload

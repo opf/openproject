@@ -67,7 +67,7 @@ module Redmine::Acts::Journalized
         backward ? chain.pop : chain.shift unless from_number == 1 || to_number == 1
 
         chain.inject({}) do |changes, journal|
-          changes.append_changes!(backward ? journal.changes.reverse_changes : journal.changes)
+          changes.append_changes!(backward ? journal.changed_data.reverse_changes : journal.changed_data)
         end
       end
 
