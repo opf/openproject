@@ -19,5 +19,5 @@
 
 Mime::SET << Mime::CSV unless Mime::SET.include?(Mime::CSV)
 
-Mime::Type.register 'application/pdf', :pdf
-Mime::Type.register 'image/png', :png
+Mime::Type.register 'application/pdf', :pdf unless Mime::Type.lookup_by_extension(:pdf)
+Mime::Type.register 'image/png', :png unless Mime::Type.lookup_by_extension(:png)
