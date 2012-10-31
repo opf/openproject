@@ -22,7 +22,6 @@ require 'dispatcher'
 
 Dispatcher.to_prepare do
   # Model Patches
-  require_dependency 'costs_group_patch'
   require_dependency 'costs_issue_patch'
   require_dependency 'costs_project_patch'
   require_dependency 'costs_role_patch'
@@ -33,7 +32,6 @@ Dispatcher.to_prepare do
 
   # Controller Patches
   require_dependency 'costs_application_controller_patch'
-  require_dependency 'costs_groups_controller_patch'
   require_dependency 'costs_issues_controller_patch'
   require_dependency 'costs_timelog_controller_patch'
 
