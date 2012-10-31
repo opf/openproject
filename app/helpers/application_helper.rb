@@ -1087,41 +1087,12 @@ module ApplicationHelper
 
   # Expands the current menu item using JavaScript based on the params
   def expand_current_menu
-    current_menu_class =
-      case
-      when params[:controller] == "timelog"
-        "reports"
-      when params[:controller] == 'reports'
-        'issues'
-      when params[:controller] == 'projects' && params[:action] == 'changelog'
-        "reports"
-      when params[:controller] == 'issues' && ['calendar','gantt'].include?(params[:action])
-        "reports"
-      when params[:controller] == 'projects' && params[:action] == 'roadmap'
-        'roadmap'
-      when params[:controller] == 'versions' && params[:action] == 'show'
-        'roadmap'
-      when params[:controller] == 'projects' && params[:action] == 'settings'
-        'settings'
-      when params[:controller] == 'contracts' || params[:controller] == 'deliverables'
-        'contracts'
-      when params[:controller] == 'my' && params[:action] == 'account'
-        'account'
-      when params[:controller] == 'wiki' && !@page.nil? &&
-        menu_item = @page.nearest_menu_item
-
-        if menu_item.is_sub_item?
-          menu_item.parent.item_class
-        else
-          menu_item.item_class
-        end
-      when params[:controller] == 'wiki' && related_page = params[:id]
-        related_page.dasherize
-      else
-        params[:controller].dasherize
-      end
-
-    javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
+    javascript_tag do
+      "jQuery.menu_expand({ item: jQuery('#main-menu .selected').parents('#main-menu li')
+                                                                .last()
+                                                                .find('a')
+                                                                .first() });"
+    end
   end
 
 

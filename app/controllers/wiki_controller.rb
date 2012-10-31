@@ -39,6 +39,28 @@ class WikiController < ApplicationController
 
   include AttachmentsHelper
 
+  attr_reader :page, :related_page
+
+  current_menu_item :index do |controller|
+    menu_item = controller.related_page.nearest_menu_item
+
+    :"#{menu_item.item_class}_toc"
+  end
+
+  current_menu_item :new_child do |controller|
+    menu_item = controller.page.nearest_menu_item
+
+    :"#{menu_item.item_class}_new_page"
+  end
+
+  current_menu_item do |controller|
+    menu_item = controller.page.nearest_menu_item
+
+    menu_item.present? ?
+      menu_item.item_class.to_sym :
+      nil
+  end
+
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
     @related_page = WikiPage.find_by_wiki_id_and_title(@wiki.id, params[:id])

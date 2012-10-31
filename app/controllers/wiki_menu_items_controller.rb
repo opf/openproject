@@ -1,4 +1,11 @@
 class WikiMenuItemsController < ApplicationController
+
+  attr_reader :wiki_menu_item
+
+  current_menu_item do |controller|
+    controller.wiki_menu_item.item_class.to_sym
+  end
+
   def edit
     get_data_from_params(params)
   end
