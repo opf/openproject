@@ -14,6 +14,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssueRelationTest < ActiveSupport::TestCase
+  include MiniTest::Assertions # refute
+
   fixtures :issue_relations, :issues
 
   def test_create

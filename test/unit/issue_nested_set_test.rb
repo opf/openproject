@@ -14,6 +14,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssueNestedSetTest < ActiveSupport::TestCase
+  include MiniTest::Assertions # refute
+
   fixtures :projects, :users, :members, :member_roles, :roles,
            :trackers, :projects_trackers,
            :versions,

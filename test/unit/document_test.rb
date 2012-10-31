@@ -14,6 +14,8 @@
 require_relative '../test_helper'
 
 class DocumentTest < ActiveSupport::TestCase
+  include MiniTest::Assertions # refute
+
   fixtures :projects, :enumerations, :documents, :attachments
 
   def test_create

@@ -14,6 +14,8 @@
 require_relative '../test_helper'
 
 class CommentTest < ActiveSupport::TestCase
+  include MiniTest::Assertions # refute
+
   def setup
     DatabaseCleaner.clean_with :truncation
     DatabaseCleaner.strategy = :transaction
