@@ -101,7 +101,7 @@ class WikiContent < ActiveRecord::Base
       changed_data.delete("text")
       changed_data["data"] = hash[:text]
       changed_data["compression"] = hash[:compression]
-      update_attribute(:changed_data, changed_data.to_yaml)
+      update_attribute(:changed_data, changed_data)
     end
 
     def text
