@@ -35,7 +35,7 @@ class MemberRole < ActiveRecord::Base
   private
 
   def remove_member_if_empty
-    if member.roles.empty?
+    if member and member.roles.empty?
       member.destroy
     end
   end
