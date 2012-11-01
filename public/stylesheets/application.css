@@ -72,7 +72,19 @@ h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; bord
 #main.nosidebar #sidebar{ display: none; }
 #main.nosidebar #content{ width: auto }
 
-#footer {clear: both; font-size: 0.9em; color: #aaa; padding: 5px; text-align:right;}
+#footer {
+  clear: both;
+  font-size: 0.9em;
+  color: #aaa;
+  padding: 5px;
+  text-align:right;
+  width: 100%;
+  position: absolute;
+  bottom:0;
+  height: 1.5em;
+  padding: 0;
+  right: 2px;
+}
 
 #login-form table {margin-top:5em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
 #login-form table td {padding: 6px;}
@@ -1593,7 +1605,7 @@ div#optional_login_fields {
   background:white;
   position:relative;
   z-index:20;
-  padding-bottom:128px;
+  padding-bottom:50px;
   overflow:auto;
  }
 #footer {
