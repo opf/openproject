@@ -19,7 +19,7 @@
 
 <%= render_widget Widget::Settings, @query, :cost_types => @cost_types, :selected_type_id => @unit_id %>
 
-<div id="result-table">
+<div id="result-table" class="autoscroll">
   <!-- FIXME. Progress doesn't work with Prototype < 1.7 -->
   <% if @no_progress || true %>
     <%= render_widget Widget::Table, @query %>
