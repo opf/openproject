@@ -13,7 +13,7 @@
 #++
 
 module Redmine::MenuManager::MenuHelper
-  include TopMenuHelper
+  include ::Redmine::MenuManager::TopMenuHelper
   include AccessibilityHelper
 
   # Returns the current menu item name
@@ -23,7 +23,33 @@ module Redmine::MenuManager::MenuHelper
 
   # Renders the application main menu
   def render_main_menu(project)
+    build_wiki_menus(project) if project
     render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
+  end
+
+  def build_wiki_menus(project)
+    project_wiki = project.wiki
+
+    WikiMenuItem.main_items(project_wiki).each do |main_item|
+      Redmine::MenuManager.loose :project_menu do |menu|
+        menu.push "#{main_item.item_class}".to_sym,
+          { :controller => 'wiki', :action => 'show', :id => h(main_item.title) },
+            :param => :project_id, :caption => main_item.name
+
+        menu.push :"#{main_item.item_class}_new_page", {:action=>"new_child", :controller=>"wiki", :id => h(main_item.title) },
+          :param => :project_id, :caption => :create_child_page,
+          :parent => "#{main_item.item_class}".to_sym if main_item.new_wiki_page and
+            WikiPage.find_by_wiki_id_and_title(project_wiki.id, main_item.title)
+
+        menu.push :"#{main_item.item_class}_toc", {:action => 'index', :controller => 'wiki', :id => h(main_item.title)}, :param => :project_id, :caption => :label_table_of_contents, :parent => "#{main_item.item_class}".to_sym if main_item.index_page
+
+        main_item.children.each do |child|
+          menu.push "#{child.item_class}".to_sym,
+            { :controller => 'wiki', :action => 'show', :id => h(child.title) },
+              :param => :project_id, :caption => child.name, :parent => "#{main_item.item_class}".to_sym
+        end
+      end
+    end
   end
 
   def display_main_menu?(project)
@@ -156,7 +182,10 @@ module Redmine::MenuManager::MenuHelper
       item.url
     end
     caption = item.caption(project)
-    return [caption, url, (current_menu_item == item.name)]
+
+    selected = current_menu_item == item.name
+
+    return [caption, url, selected]
   end
 
   # Checks if a user is allowed to access the menu item by:

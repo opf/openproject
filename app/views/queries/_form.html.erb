@@ -7,10 +7,12 @@
   <%= label_tag :query_name, l(:field_name) %>
   <%= text_field 'query', 'name', :size => 80 %>
 </p>
+<% if any_summable_columns? %>
 <p>
   <%= label_tag :display_sums, l(:label_display_sums) %>
   <%= check_box 'query', 'display_sums' %>
 </p>
+<% end %>
 
 <%= call_hook(:view_query_form_top, :query => query) %>
 

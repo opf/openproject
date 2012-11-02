@@ -31,8 +31,9 @@ class MembersController < ApplicationController
         format.js {
           render(:update) {|page|
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+            page.insert_html :top, "tab-content-members", content_tag(:div, l(:notice_successful_create),
+                                                                      :class => "flash notice")
             page << 'hideOnLoad()'
-            members.each {|member| page.visual_effect(:highlight, "member-#{member.id}") }
           }
         }
       else
@@ -58,10 +59,15 @@ class MembersController < ApplicationController
       member.save
 
   	 respond_to do |format|
-        format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+        format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project, :page => params[:page] }
         format.js {
           render(:update) { |page|
-            page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+            if params[:membership]
+              @user = member.user
+              page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+            else
+              page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+            end
             page << 'hideOnLoad()'
             page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by_id(@member.id).nil?
           }
@@ -84,9 +90,11 @@ class MembersController < ApplicationController
     end
   end
 
-  def autocomplete
-    @principals = Principal.possible_members(params[:q], 100) - @project.principals
-    render :layout => false
+  def autocomplete_for_member
+    roles = Role.find_all_givable
+    available_principals = @project.possible_members(params[:q], 100)
+
+    render :partial => 'members/autocomplete_for_member', :locals => { :available_principals => available_principals, :roles => roles }
   end
 
   private
@@ -118,6 +126,7 @@ class MembersController < ApplicationController
   def update_member_from_params
     # this way, mass assignment is considered and all updates happen in one transaction (autosave)
     attrs = params[:member].dup
+    attrs.merge! params[:membership].dup if params[:membership].present?
     attrs.delete(:id)
 
     role_ids = attrs.delete(:role_ids).map(&:to_i).select{ |i| i > 0 }

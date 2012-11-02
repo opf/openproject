@@ -12,8 +12,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
 require 'active_record'
+
 module ActiveRecord
   class Base
     include Redmine::I18n
@@ -252,4 +252,3 @@ module CollectiveIdea
     end
   end
 end
-

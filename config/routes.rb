@@ -28,15 +28,19 @@ OpenProject::Application.routes.draw do
     match '/roles/workflow/:id/:role_id/:tracker_id' => 'roles#worklfow'
     match '/help/:ctrl/:page' => 'help#index'
 
-
-    # TODO: Check if those can be deleted
-    match '/projects/:id/wiki' => 'wikis#edit', :via => :post
-    match '/projects/:id/wiki/destroy' => 'wikis#destroy', :via => [:get, :post]
-
-
     # only providing routes for journals when there are multiple subclasses of journals
     # all subclasses will look for the journals routes
     resources :journals, :only => [:edit, :update]
+
+    # REVIEW: review those wiki routes
+    resource :wiki_menu_item, :path_prefix => "projects/:project_id/wiki/:id", :only => [:edit, :update]
+    get   'projects/:project_id/wiki/new' => 'wiki#new', :as => 'wiki_new'
+    post  'projects/:project_id/wiki/new' => 'wiki#create', :as => 'wiki_create'
+    post  'projects/:project_id/wiki/preview' => 'wiki#preview', :as => 'wiki_preview'
+    get   'projects/:project_id/wiki/:id/new' => 'wiki#new_child', :as => 'wiki_new_child'
+    get   'projects/:project_id/wiki/:id/toc' => 'wiki#index', :as => 'wiki_page_toc'
+    post  'projects/:id/wiki' => 'wikis#edit'
+    match 'projects/:id/wiki/destroy' => 'wikis#destroy'
 
     # generic route for adding/removing watchers
     # looks to be ressourceful

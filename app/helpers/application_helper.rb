@@ -406,9 +406,19 @@ module ApplicationHelper
   def pagination_links_full(paginator, count=nil, options={})
     page_param = options.delete(:page_param) || :page
     per_page_links = options.delete(:per_page_links)
-    url_param = params.dup
+
+    # options for the underlying classic pagination
+    ignored_options = [:window_size,
+                       :always_show_anchors,
+                       :link_to_current_page,
+                       :name,
+                       :prefix,
+                       :suffix]
+
+    url_param = options.reject{ |key, value| ignored_options.include?(key) }
+
     # don't reuse query params if filters are present
-    url_param.merge!(:fields => nil, :values => nil, :operators => nil) if url_param.delete(:set_filter)
+    url_param.merge!(:fields => nil, :values => nil, :operators => nil) if params.delete(:set_filter)
 
     html = ''
     if paginator.current.previous
@@ -1124,31 +1134,12 @@ module ApplicationHelper
 
   # Expands the current menu item using JavaScript based on the params
   def expand_current_menu
-    current_menu_class =
-      case
-      when params[:controller] == "timelog"
-        "reports"
-      when params[:controller] == 'reports'
-        'issues'
-      when params[:controller] == 'projects' && params[:action] == 'changelog'
-        "reports"
-      when params[:controller] == 'issues' && ['calendar','gantt'].include?(params[:action])
-        "reports"
-      when params[:controller] == 'projects' && params[:action] == 'roadmap'
-        'roadmap'
-      when params[:controller] == 'versions' && params[:action] == 'show'
-        'roadmap'
-      when params[:controller] == 'projects' && params[:action] == 'settings'
-        'settings'
-      when params[:controller] == 'contracts' || params[:controller] == 'deliverables'
-        'contracts'
-      when params[:controller] == 'my' && params[:action] == 'account'
-        'account'
-      else
-        params[:controller].dasherize
-      end
-
-    javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
+    javascript_tag do
+      "jQuery.menu_expand({ item: jQuery('#main-menu .selected').parents('#main-menu li')
+                                                                .last()
+                                                                .find('a')
+                                                                .first() });"
+    end
   end
 
 
@@ -1166,6 +1157,15 @@ module ApplicationHelper
 
   def accessibility_js_enabled?
     !@accessibility_js_disabled
+  end
+
+  #
+  # Returns the footer text displayed in the layout file.
+  #
+  def layout_footer_text
+    %Q{<div class="bgl"><div class="bgr">} +
+      l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) +
+    %Q{</div></div>}
   end
 
   private

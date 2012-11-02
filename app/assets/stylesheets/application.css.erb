@@ -11,14 +11,28 @@
 */
 
 html {overflow-y:scroll;}
-body { margin: 0; padding: 0; min-width: 900px; }
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 900px;
+  height:100%
+}
+html, body {
+  margin:0;
+  padding:0;
+  height:100%;
+}
 
 h1 {margin:0; padding:0; font-size: 24px;}
 h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; }
 h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb;}
 
 /***** Layout *****/
-#wrapper {background: none;}
+#wrapper {
+  background: none;
+  min-height: 100%;
+  position: relative;
+}
 
 #top-menu {background: #2C4056; color: #fff; height:1.8em; font-size: 0.8em; padding: 0px; }
 #top-menu ul {margin: 0;  padding: 0;}
@@ -35,7 +49,6 @@ h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; bord
 
 #quick-search {float:right;}
 
-#main-menu {position: absolute;  bottom: auto;  left:6px; margin-right: -500px;}
 #main-menu ul {
   margin: 0;
   padding: 0;
@@ -67,8 +80,6 @@ h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; bord
   z-index: 10;
 }
 * html #content{ width: 75%; padding-left: 0; margin-top: 0px; padding: 6px 10px 10px 10px;}
-html>body #content { min-height: 600px; }
-* html body #content { height: 600px; } /* IE */
 
 #main.nosidebar #sidebar{ display: none; }
 #main.nosidebar #content{ width: auto }
@@ -391,7 +402,10 @@ table#time-report tbody tr.last-level { font-style: normal; color: #555; }
 table#time-report tbody tr.total { font-style: normal; font-weight: bold; color: #555; background-color:#EEEEEE; }
 table#time-report .hours-dec { font-size: 0.9em; }
 
-form .attributes { margin-bottom: 8px; }
+form .attributes {
+  margin-bottom: 8px;
+  overflow: auto;
+}
 form .attributes p { padding-top: 1px; padding-bottom: 2px; }
 form .attributes select { min-width: 50%; }
 
@@ -511,7 +525,8 @@ a.atom { background: url(<%= asset_path 'feed.png' %>) no-repeat 1px 50%; paddin
 div#tab-content-members .splitcontentleft, div#tab-content-memberships .splitcontentleft, div#tab-content-users .splitcontentleft { width: 64% }
 div#tab-content-members .splitcontentright, div#tab-content-memberships .splitcontentright, div#tab-content-users .splitcontentright { width: 34% }
 div#tab-content-members fieldset, div#tab-content-memberships fieldset, div#tab-content-users fieldset { padding:1em; margin-bottom: 1em; }
-div#tab-content-info fieldset legend, div#tab-content-members fieldset legend, div#tab-content-memberships fieldset legend, div#tab-content-users fieldset legend { font-weight: bold; }
+div#tab-content-info fieldset legend, div#tab-content-members fieldset legend, div#tab-content-memberships fieldset legend, div#tab-content-users fieldset legend, fieldset#wiki_menu_item_setting { font-weight: bold; }
+div#tab-content-members fieldset label, div#tab-content-memberships fieldset label, div#tab-content-users fieldset label { display: block; }
 div#tab-content-members fieldset div, div#tab-content-users fieldset div { max-height: 400px; overflow:auto; }
 div#tab-content-members .user.status_registered, div#tab-content-members label.status_registered { filter: alpha(opacity=80); -khtml-opacity: 0.8; opacity: 0.8; -moz-opacity: 0.8; }
 
@@ -1450,10 +1465,11 @@ div#optional_login_fields {
  * This section includes the layout and styles for the left navigation column.
  ------------------------------------------------------------------------------*/
 
+#main-menu {bottom: auto;  left:6px; margin-right: -500px;}
 #main-menu {
 	width:185px;
-        height:100%;
-	position:absolute;
+  height:100%;
+  float: left;
 	left:0;
 }
 #main-menu ul ul {
@@ -1589,13 +1605,16 @@ div#optional_login_fields {
  * This section includes the layout and styles for the main content area.
  ------------------------------------------------------------------------------*/
 #main {
-        background:white;
-        position:relative;
-        z-index:20;
+  background:white;
+  position:relative;
+  z-index:20;
+  padding-bottom:128px;
+  overflow:auto;
  }
 #footer {
   color: #aaa;
   border-top:0px;
+  z-index:100;
 }
 
 h1.title {
@@ -1604,7 +1623,8 @@ h1.title {
 #content {
 	margin:0 15px 10px 187px;
 	padding:10px;
-        width: auto;
+  width: auto;
+  overflow: hidden;
 }
 #content .title-bar {
 	position:relative;
@@ -2902,7 +2922,7 @@ ul.action_menu_more {
   display:none;
 }
 div#history div.journal div.wiki {
-  overflow:visible;
+  overflow:auto;
 }
 
 ul.breadcrumb {
@@ -2965,4 +2985,46 @@ strong.related-issues-heading {
 }
 div.indent {
   padding-left: 10px;
+}
+form.wiki_menu_item_form p {
+  padding-left: 0px;
+}
+form.wiki_menu_item_form label {
+  display: inline-block;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  width: auto;
+  font-weight: bold;
+}
+
+form.wiki_menu_item_form select#parent_wiki_menu_item {
+  margin-left: 7px;
+  margin-top: -1px;
+}
+form.wiki_menu_item_form label#name_of_item {
+  float: left;
+  padding-left: 3px;
+  margin-right: 4px;
+  line-height: 21px;
+}
+form.wiki_menu_item_form label#with-select {
+  margin-left: 0px;
+}
+form.wiki_menu_item_form select#parent_wiki_menu_item_wiki_page {
+  margin-bottom: 10px;
+}
+form.wiki_menu_item_form p input {
+}
+form.wiki_menu_item_form fieldset#wiki_menu_item_setting {
+  margin-top: 10px;
+}
+form.wiki_menu_item_form p.name_of_item {
+  padding-top: 10px;
+}
+form.wiki_menu_item_form p.main_item {
+  padding-bottom: 0px;
+}
+form.wiki_menu_item_form p.wiki_menu_item_optional_links {
+  margin-left: 10px;
+  padding-top: 0px;
 }

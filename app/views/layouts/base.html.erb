@@ -94,11 +94,7 @@
   </div>
 
   <div id="footer">
-    <div class="bgl">
-      <div class="bgr">
-        <%= l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)).html_safe %>
-      </div>
-    </div>
+    <%= layout_footer_text %>
   </div>
 
   <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>

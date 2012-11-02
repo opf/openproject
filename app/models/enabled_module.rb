@@ -30,7 +30,14 @@ class EnabledModule < ActiveRecord::Base
     when 'wiki'
       # Create a wiki with a default start page
       if project && project.wiki.nil?
-        Wiki.create(:project => project, :start_page => 'Wiki')
+        wiki = Wiki.create(:project => project, :start_page => 'Wiki')
+
+        wiki_menu_item = WikiMenuItem.find_or_initialize_by_wiki_id_and_title(wiki.id, wiki.start_page)
+        wiki_menu_item.name = 'Wiki'
+        wiki_menu_item.new_wiki_page = true
+        wiki_menu_item.index_page = true
+
+        wiki_menu_item.save!
       end
     end
   end
