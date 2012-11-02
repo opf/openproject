@@ -3,8 +3,11 @@ class WikiMenuItemsController < ApplicationController
   attr_reader :wiki_menu_item
 
   current_menu_item do |controller|
-    controller.wiki_menu_item.item_class.to_sym
+    controller.wiki_menu_item.item_class.to_sym if controller.wiki_menu_item
   end
+
+  before_filter :find_project_by_project_id
+  before_filter :authorize
 
   def edit
     get_data_from_params(params)
