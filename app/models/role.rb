@@ -26,7 +26,7 @@ class Role < ActiveRecord::Base
   before_destroy :check_deletable
   has_many :workflows, :dependent => :delete_all do
     def copy(source_role)
-      Workflow.copy(nil, source_role, nil, proxy_owner)
+      Workflow.copy(nil, source_role, nil, proxy_association.owner)
     end
   end
 
