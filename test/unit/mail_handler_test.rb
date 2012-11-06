@@ -14,28 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class MailHandlerTest < ActiveSupport::TestCase
-  fixtures :users,
-           :projects,
-           :enabled_modules,
-           :roles,
-           :members,
-           :member_roles,
-           :users,
-           :issues,
-           :issue_statuses,
-           :workflows,
-           :trackers,
-           :projects_trackers,
-           :versions,
-           :enumerations,
-           :issue_categories,
-           :custom_fields,
-           :custom_field_translations,
-           :custom_fields_trackers,
-           :custom_fields_projects,
-           :boards,
-           :messages,
-           :journals
+  fixtures :all
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
