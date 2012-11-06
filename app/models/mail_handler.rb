@@ -221,6 +221,9 @@ class MailHandler < ActionMailer::Base
       unless addresses.empty?
         watchers = User.active.find(:all, :conditions => ['LOWER(mail) IN (?)', addresses])
         watchers.each {|w| obj.add_watcher(w)}
+        # FIXME: somehow the watchable attribute of the new watcher is not set, when the issue is not safed.
+        # So we fix that here manually
+        obj.watchers.each {|w| w.watchable = obj}
       end
     end
   end
