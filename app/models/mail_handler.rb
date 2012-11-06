@@ -306,20 +306,13 @@ class MailHandler < ActionMailer::Base
   # If not found (eg. HTML-only email), returns the body with tags removed
   def plain_text_body
     return @plain_text_body unless @plain_text_body.nil?
-    parts = @email.parts.collect {|c| (c.respond_to?(:parts) && !c.parts.empty?) ? c.parts : c}.flatten
-    if parts.empty?
-      parts << @email
-    end
-    plain_text_part = parts.detect {|p| p.content_type == 'text/plain'}
-    if plain_text_part.nil?
-      # no text/plain part found, assuming html-only email
-      # strip html tags and remove doctype directive
-      @plain_text_body = strip_tags(@email.body.to_s)
-      @plain_text_body.gsub! %r{^<!DOCTYPE .*$}, ''
-    else
-      @plain_text_body = plain_text_part.body.to_s
-    end
-    @plain_text_body.strip!
+
+    part = email.text_part || email.html_part || email
+    @plain_text_body = Redmine::CodesetUtil.to_utf8(part.body.decoded, part.charset)
+
+    # strip html tags and remove doctype directive
+    @plain_text_body = strip_tags(@plain_text_body.strip)
+    @plain_text_body.sub! %r{^<!DOCTYPE .*$}, ''
     @plain_text_body
   end
 
