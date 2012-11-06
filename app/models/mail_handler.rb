@@ -201,12 +201,14 @@ class MailHandler < ActionMailer::Base
   end
 
   def add_attachments(obj)
-    if email.has_attachments?
+    if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
-        Attachment.create(:container => obj,
-                          :file => attachment,
-                          :author => user,
-                          :content_type => attachment.content_type)
+        obj.attachments << Attachment.create(
+          :container => obj,
+          :file => attachment.decoded,
+          :filename => attachment.filename,
+          :author => user,
+          :content_type => attachment.mime_type)
       end
     end
   end
