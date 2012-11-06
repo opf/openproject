@@ -35,6 +35,8 @@ class MailHandler < ActionMailer::Base
     @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)
 
     @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
+
+    email.force_encoding('ASCII-8BIT') if email.respond_to?(:force_encoding)
     super email
   end
 
@@ -79,7 +81,7 @@ class MailHandler < ActionMailer::Base
 
   private
 
-  MESSAGE_ID_RE = %r{^<openproject\.([a-z0-9_]+)\-(\d+)\.\d+@}
+  MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)\-(\d+)\.\d+@}
   ISSUE_REPLY_SUBJECT_RE = %r{\[[^\]]*#(\d+)\]}
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
 
@@ -199,12 +201,14 @@ class MailHandler < ActionMailer::Base
   end
 
   def add_attachments(obj)
-    if email.has_attachments?
+    if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
-        Attachment.create(:container => obj,
-                          :file => attachment,
-                          :author => user,
-                          :content_type => attachment.content_type)
+        obj.attachments << Attachment.create(
+          :container => obj,
+          :file => attachment.decoded,
+          :filename => attachment.filename,
+          :author => user,
+          :content_type => attachment.mime_type)
       end
     end
   end
@@ -217,6 +221,9 @@ class MailHandler < ActionMailer::Base
       unless addresses.empty?
         watchers = User.active.find(:all, :conditions => ['LOWER(mail) IN (?)', addresses])
         watchers.each {|w| obj.add_watcher(w)}
+        # FIXME: somehow the watchable attribute of the new watcher is not set, when the issue is not safed.
+        # So we fix that here manually
+        obj.watchers.each {|w| w.watchable = obj}
       end
     end
   end
@@ -301,20 +308,13 @@ class MailHandler < ActionMailer::Base
   # If not found (eg. HTML-only email), returns the body with tags removed
   def plain_text_body
     return @plain_text_body unless @plain_text_body.nil?
-    parts = @email.parts.collect {|c| (c.respond_to?(:parts) && !c.parts.empty?) ? c.parts : c}.flatten
-    if parts.empty?
-      parts << @email
-    end
-    plain_text_part = parts.detect {|p| p.content_type == 'text/plain'}
-    if plain_text_part.nil?
-      # no text/plain part found, assuming html-only email
-      # strip html tags and remove doctype directive
-      @plain_text_body = strip_tags(@email.body.to_s)
-      @plain_text_body.gsub! %r{^<!DOCTYPE .*$}, ''
-    else
-      @plain_text_body = plain_text_part.body.to_s
-    end
-    @plain_text_body.strip!
+
+    part = email.text_part || email.html_part || email
+    @plain_text_body = Redmine::CodesetUtil.to_utf8(part.body.decoded, part.charset)
+
+    # strip html tags and remove doctype directive
+    @plain_text_body = strip_tags(@plain_text_body.strip)
+    @plain_text_body.sub! %r{^<!DOCTYPE .*$}, ''
     @plain_text_body
   end
 
@@ -328,21 +328,29 @@ class MailHandler < ActionMailer::Base
 
   # Creates a user account for the +email+ sender
   def self.create_user_from_email(email)
-    addr = email.from_addrs.to_a.first
-    if addr && !addr.spec.blank?
-      user = User.new
-      user.mail = addr.spec
-
-      names = addr.name.blank? ? addr.spec.gsub(/@.*$/, '').split('.') : addr.name.split
-      user.firstname = names.shift
-      user.lastname = names.join(' ')
-      user.lastname = '-' if user.lastname.blank?
-
-      user.login = user.mail
-      user.password = SecureRandom.hex(5)
-      user.language = Setting.default_language
-      user.save ? user : nil
+    begin
+      addr = Mail::Address.new email.header['from'].to_s
+    rescue Mail::Field::ParseError
+      return
     end
+
+    if addr.display_name
+      names = addr.display_name.split ' '
+    else
+      names = addr.address.split('@').first.split '.'
+      names.each &:capitalize!
+    end
+
+    user = User.new
+    user.mail = addr.address
+    user.firstname = names.first
+    user.lastname = names[1..-1].join ' '
+    user.lastname = '-' if user.lastname.blank?
+
+    user.login = user.mail
+    user.password = SecureRandom.hex(5)
+    user.language = Setting.default_language
+    user.save ? user : nil
   end
 
   private

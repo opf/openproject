@@ -14,28 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class MailHandlerTest < ActiveSupport::TestCase
-  fixtures :users,
-           :projects,
-           :enabled_modules,
-           :roles,
-           :members,
-           :member_roles,
-           :users,
-           :issues,
-           :issue_statuses,
-           :workflows,
-           :trackers,
-           :projects_trackers,
-           :versions,
-           :enumerations,
-           :issue_categories,
-           :custom_fields,
-           :custom_field_translations,
-           :custom_fields_trackers,
-           :custom_fields_projects,
-           :boards,
-           :messages,
-           :journals
+  fixtures :all
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
@@ -232,8 +211,8 @@ class MailHandlerTest < ActiveSupport::TestCase
       email = ActionMailer::Base.deliveries.first
       assert_not_nil email
       assert email.subject.include?('account activation')
-      login = email.body.encoded.match(/\* Login: (.*)$/)[1]
-      password = email.body.encoded.match(/\* Password: (.*)$/)[1]
+      login = email.body.encoded.match(/\* Login: (\S+)\s?$/)[1]
+      password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
       assert_equal issue.author, User.try_to_login(login, password)
     end
   end
