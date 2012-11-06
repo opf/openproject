@@ -97,7 +97,7 @@ class MembersControllerTest < ActionController::TestCase
   end
 
   def test_autocomplete
-    get :autocomplete, :id => 1, :q => 'mis'
+    get :autocomplete_for_member, :id => 1, :q => 'mis'
     assert_response :success
     assert_template 'autocomplete'
 
