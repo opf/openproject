@@ -74,15 +74,29 @@ class Attachment < ActiveRecord::Base
     unless incoming_file.nil?
       @temp_file = incoming_file
       if @temp_file.size > 0
-        self.filename = sanitize_filename(@temp_file.original_filename)
-        self.disk_filename = Attachment.disk_filename(filename)
-        self.content_type = @temp_file.content_type.to_s.chomp
-        if content_type.blank?
+        # Incomming_file might be a String if you parse an incomming mail having an attachment
+        # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
+        if @temp_file.respond_to?(:original_filename)
+          self.filename = @temp_file.original_filename
+          self.filename.force_encoding("UTF-8") if filename.respond_to?(:force_encoding)
+        end
+        if @temp_file.respond_to?(:content_type)
+          self.content_type = @temp_file.content_type.to_s.chomp
+        end
+        if content_type.blank? && filename.present?
           self.content_type = Redmine::MimeType.of(filename)
         end
         self.filesize = @temp_file.size
       end
     end
+  end
+
+  def filename=(arg)
+    write_attribute :filename, sanitize_filename(arg.to_s)
+    if new_record? && disk_filename.blank?
+      self.disk_filename = Attachment.disk_filename(filename)
+    end
+    filename
   end
 
   def file
@@ -93,13 +107,20 @@ class Attachment < ActiveRecord::Base
   # and computes its MD5 hash
   def copy_file_to_destination
     if @temp_file && (@temp_file.size > 0)
-      logger.debug("saving '#{self.diskfile}'")
+      logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
       md5 = Digest::MD5.new
       File.open(diskfile, "wb") do |f|
-        buffer = ""
-        while (buffer = @temp_file.read(8192))
-          f.write(buffer)
-          md5.update(buffer)
+        # @temp_file might be a String if you parse an incomming mail having an attachment
+        # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
+        if @temp_file.is_a? String
+          f.write(@temp_file)
+          md5.update(@temp_file)
+        else
+          buffer = ""
+          while (buffer = @temp_file.read(8192))
+            f.write(buffer)
+            md5.update(buffer)
+          end
         end
       end
       self.digest = md5.hexdigest
