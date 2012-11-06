@@ -32,7 +32,8 @@ class WatchersController < ApplicationController
   end
 
   def new
-    @watcher = Watcher.new(params[:watcher])
+    @watcher = Watcher.new
+    @watcher.safe_attributes = params[:watcher]
     @watcher.watchable = @watched
     @watcher.save if request.post?
     respond_to do |format|

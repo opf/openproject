@@ -40,7 +40,9 @@ class MessagesControllerTest < ActionController::TestCase
     message = Message.find(1)
     assert_difference 'Message.count', 30 do
       30.times do
-        message.children << Message.new(:subject => 'Reply', :content => 'Reply body', :author_id => 2, :board_id => 1)
+        m = Message.new
+        m.force_attributes = {:subject => 'Reply', :content => 'Reply body', :author_id => 2, :board_id => 1}
+        message.children << m
       end
     end
     get :show, :board_id => 1, :id => 1, :r => message.children.last(:order => 'id').id

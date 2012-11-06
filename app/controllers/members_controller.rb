@@ -125,7 +125,7 @@ class MembersController < ApplicationController
 
   def update_member_from_params
     # this way, mass assignment is considered and all updates happen in one transaction (autosave)
-    attrs = params[:member].dup
+    attrs = params[:member].except(:user_id)
     attrs.merge! params[:membership].dup if params[:membership].present?
     attrs.delete(:id)
 

@@ -135,7 +135,8 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     # aren't setup for mocking.  Just create a record now so the
     # second one is a duplicate
     parent = TimeEntryActivity.find(9)
-    parent = TimeEntryActivity.new({:name => parent.name, :project_id => 1, :position => parent.position, :active => true})
+    parent = TimeEntryActivity.new
+    parent.force_attribute = { :name => parent.name, :project_id => 1, :position => parent.position, :active => true }
     parent.save(:validate => false)
 
     TimeEntry.create!({ :project_id => 1,
