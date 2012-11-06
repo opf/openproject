@@ -65,7 +65,7 @@ class MyControllerTest < ActionController::TestCase
     post :account,
       :user => {
         :firstname => "Joe",
-        :login => "root",
+        :login => "root", # should not be allowed
         :admin => 1,
         :group_ids => ['10'],
         :custom_field_values => {"4" => "0100562500"}

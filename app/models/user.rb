@@ -529,18 +529,10 @@ class User < Principal
     end
   end
 
-  safe_attributes 'login',
-    'firstname',
-    'lastname',
-    'mail',
-    'mail_notification',
-    'language',
-    'custom_field_values',
-    'custom_fields',
-    'identity_url'
+  safe_attributes 'firstname', 'lastname', 'mail', 'mail_notification', 'language',
+                  'custom_field_values', 'custom_fields', 'identity_url'
 
-  safe_attributes 'status',
-    'auth_source_id',
+  safe_attributes 'status', 'auth_source_id',
     :if => lambda {|user, current_user| current_user.admin?}
 
   safe_attributes 'group_ids',
