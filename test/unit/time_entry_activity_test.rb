@@ -14,6 +14,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryActivityTest < ActiveSupport::TestCase
+  include MiniTest::Assertions # refute
+
   fixtures :enumerations, :time_entries
 
   def test_should_be_an_enumeration

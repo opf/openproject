@@ -18,6 +18,8 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < ActionController::TestCase
+  include MiniTest::Assertions # refute
+
   fixtures :projects, :versions, :users, :roles, :members,
            :member_roles, :issues, :journals,
            :trackers, :projects_trackers, :issue_statuses,
