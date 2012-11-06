@@ -55,6 +55,14 @@ module Redmine
           watching ? add_watcher(user) : remove_watcher(user)
         end
 
+        # Overrides watcher_user_ids= to make user_ids uniq
+        def watcher_user_ids_with_uniq_ids=(user_ids)
+          if user_ids.is_a?(Array)
+            user_ids = user_ids.uniq
+          end
+          send :watcher_user_ids_without_uniq_ids=, user_ids
+        end
+
         # Returns true if object is watched by +user+
         def watched_by?(user)
           !!(user && self.watcher_user_ids.detect {|uid| uid == user.id })
