@@ -326,21 +326,29 @@ class MailHandler < ActionMailer::Base
 
   # Creates a user account for the +email+ sender
   def self.create_user_from_email(email)
-    addr = email.from_addrs.to_a.first
-    if addr && !addr.spec.blank?
-      user = User.new
-      user.mail = addr.spec
-
-      names = addr.name.blank? ? addr.spec.gsub(/@.*$/, '').split('.') : addr.name.split
-      user.firstname = names.shift
-      user.lastname = names.join(' ')
-      user.lastname = '-' if user.lastname.blank?
-
-      user.login = user.mail
-      user.password = SecureRandom.hex(5)
-      user.language = Setting.default_language
-      user.save ? user : nil
+    begin
+      addr = Mail::Address.new email.header['from'].to_s
+    rescue Mail::Field::ParseError
+      return
     end
+
+    if addr.display_name
+      names = addr.display_name.split ' '
+    else
+      names = addr.address.split('@').first.split '.'
+      names.each &:capitalize!
+    end
+
+    user = User.new
+    user.mail = addr.address
+    user.firstname = names.first
+    user.lastname = names[1..-1].join ' '
+    user.lastname = '-' if user.lastname.blank?
+
+    user.login = user.mail
+    user.password = SecureRandom.hex(5)
+    user.language = Setting.default_language
+    user.save ? user : nil
   end
 
   private
