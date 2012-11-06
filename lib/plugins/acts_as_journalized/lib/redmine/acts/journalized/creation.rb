@@ -104,10 +104,11 @@ module Redmine::Acts::Journalized
         initial_changes["parent_issue_id"] = initial_changes.delete("parent_id") if self.class == Issue and initial_changes.has_key?("parent_id")
 
         # Force the gathered attributes onto the fill object
-        attributes_setter = ActiveRecord::Base.instance_method(:attributes=)
+        # FIX ME: why not just call the method directly on fill_object?
+        attributes_setter = ActiveRecord::Base.instance_method(:assign_attributes)
         attributes_setter = attributes_setter.bind(fill_object)
 
-        attributes_setter.call(initial_changes, false)
+        attributes_setter.call(initial_changes, :without_protection => true)
 
         # Call the journal creating method
         new_journal.changed_data = fill_object.send(:merge_journal_changes)
@@ -116,9 +117,9 @@ module Redmine::Acts::Journalized
         new_journal.activity_type = activity_type
 
         if respond_to?(:author)
-          new_journal.user = author
+          new_journal.user_id = author.id
         elsif respond_to?(:user)
-          new_journal.user = user
+          new_journal.user_id = user.id
         end
 
         new_journal.save!
