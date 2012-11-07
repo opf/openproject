@@ -41,7 +41,7 @@ class MergeWikiVersionsWithJournals < ActiveRecord::Migration
         journal.update_attribute(:changes, changed_data.to_yaml)
       else
         journal.update_attribute(:changed_data, changed_data.to_yaml)
-
+      end
       journal.update_attribute(:version, wv.version)
     end
     # drop_table :wiki_content_versions
