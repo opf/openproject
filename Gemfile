@@ -66,6 +66,7 @@ group :development do
   gem 'guard-cucumber'
   gem 'guard-spork'
   gem 'rb-fsevent', :group => :test, :require => false if RUBY_PLATFORM =~ /darwin/i
+  gem 'rack-mini-profiler'
 end
 
 group :development, :test do
