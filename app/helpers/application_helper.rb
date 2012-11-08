@@ -1163,9 +1163,11 @@ module ApplicationHelper
   # Returns the footer text displayed in the layout file.
   #
   def layout_footer_text
-    %Q{<div class="bgl"><div class="bgr">} +
-      l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) +
-    %Q{</div></div>}
+    content_tag :div, :class => 'bgl' do
+      content_tag :div, :class => 'bgr' do
+        raw t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url))
+      end
+    end
   end
 
   private
