@@ -46,6 +46,20 @@ class News < ActiveRecord::Base
     find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
   end
 
+  def self.latest_for(user, options = {})
+    limit = options.fetch(:count) { 5 }
+
+    conditions = Project.allowed_to_condition(user, :view_news)
+
+    # TODO: remove the includes from here, it's required by Project.allowed_to_condition
+    # News has nothing to do with it
+    where(conditions).limit(limit).newest_first.includes(:author, :project)
+  end
+
+  def self.newest_first
+    order 'created_on DESC'
+  end
+
   def new_comment(attributes = {})
     comments.build(attributes)
   end

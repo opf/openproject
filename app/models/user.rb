@@ -617,6 +617,14 @@ class User < Principal
     end
   end
 
+  def latest_news(options = {})
+    News.latest_for self, options
+  end
+
+  def latest_projects(options = {})
+    Project.latest_for self, options
+  end
+
   protected
 
   # Password length validation based on setting

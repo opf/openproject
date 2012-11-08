@@ -79,8 +79,8 @@ class Project < ActiveRecord::Base
   before_destroy :delete_all_members
 
   scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
-  scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
-  scope :all_public, { :conditions => { :is_public => true } }
+  scope :active, where(:status => STATUS_ACTIVE)
+  scope :public, where(:is_public => true)
   scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
 
   def initialize(attributes = nil, options = {})
@@ -129,6 +129,18 @@ class Project < ActiveRecord::Base
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
     find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")
+  end
+
+  def self.latest_for(user, options = {})
+    limit = options.fetch(:count) { 5 }
+
+    conditions = visible_by(user)
+
+    where(conditions).limit(limit).newest_first
+  end
+
+  def self.newest_first
+    order 'created_on DESC'
   end
 
   # Returns a SQL :conditions string used to find all active projects for the specified user.
