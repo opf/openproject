@@ -234,14 +234,14 @@ table.attributes { width: 100% }
 table.attributes th { vertical-align: top; text-align: left; }
 table.attributes td { vertical-align: top; }
 
-table.boards a.board, h3.comments { background: url(../images/comment.png) no-repeat 0% 50%; padding-left: 20px; }
+table.boards a.board, h3.comments { background: url(../images/quote.png) no-repeat 0% 50%; padding-left: 20px; }
 
 td.center {text-align:center;}
 
-div.issues h3 { background: url(../images/ticket.png) no-repeat 0% 50%; padding-left: 20px; }
+div.issues h3 { background: url(../images/ticket.png) no-repeat 0% 10%; padding-left: 20px; }
 div.members h3 { background: url(../images/group.png) no-repeat 0% 50%; padding-left: 20px; }
-div.news h3 { background: url(../images/news.png) no-repeat 0% 50%; padding-left: 20px; }
-div.projects h3 { background: url(../images/projects.png) no-repeat 0% 50%; padding-left: 20px; }
+div.news h3 { background: url(../images/latest_news.png) no-repeat 0% 50%; padding-left: 20px; }
+div.projects h3 { background: url(../images/latest_projects.png) no-repeat 0% 50%; padding-left: 20px; }
 
 #watchers ul {margin: 0;  padding: 0;}
 #watchers li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;float:left;}
@@ -369,13 +369,13 @@ dt.issue-edit { background-image: url(../images/ticket_edit.png); }
 dt.issue-closed { background-image: url(../images/ticket_checked.png); }
 dt.issue-note { background-image: url(../images/ticket_note.png); }
 dt.changeset { background-image: url(../images/changeset.png); }
-dt.news { background-image: url(../images/news.png); }
-dt.message { background-image: url(../images/message.png); }
+dt.news { background-image: url(../images/latest_news.png); }
+dt.message { background-image: url(../images/quote.png); }
 dt.reply { background-image: url(../images/comments.png); }
 dt.wiki-page { background-image: url(../images/wiki_edit.png); }
 dt.attachment { background-image: url(../images/attachment.png); }
 dt.document { background-image: url(../images/document.png); }
-dt.project { background-image: url(../images/projects.png); }
+dt.project { background-image: url(../images/latest_projects.png); }
 dt.time-entry { background-image: url(../images/time.png); }
 
 #search-results dt.issue.closed { background-image: url(../images/ticket_checked.png); }
@@ -519,7 +519,6 @@ div.attachments span.author { font-size: 0.9em; color: #888; }
 p.other-formats { font-size:0.9em; color: #666; }
 .other-formats span + span:before { content: "| "; }
 
-a.atom { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
 
 /* Project members tab */
 div#tab-content-members .splitcontentleft, div#tab-content-memberships .splitcontentleft, div#tab-content-users .splitcontentleft { width: 64% }
@@ -572,27 +571,6 @@ div.flash.error a:visited, div.flash.warning a:visited, div.flash.notice a:visit
   color: #333;
   text-decoration: none;
   cursor:default;
-}
-div.flash.error, #errorExplanation {
-	background: url(../images/exclamation.png) 8px 50% no-repeat;
-	background-color: #ffe3e3;
-	border-color: #dd0000;
-	color: #880000;
-}
-
-div.flash.notice {
-    background: url(../images/true.png) 8px 5px no-repeat;
-	background-color: #dfffdf;
-	border-color: #9fcf9f;
-	color: #005f00;
-}
-
-div.flash.warning {
-  background: url(../images/warning.png) 8px 5px no-repeat;
-	background-color: #FFEBC1;
-	border-color: #FDBF3B;
-	color: #A6750C;
-  text-align: left;
 }
 
 .nodata, .warning {
@@ -940,7 +918,7 @@ background-image:url('../images/close.png');
 }
 
 a.close-icon:hover {
-background-image:url('../images/close_hl.png');
+background-image:url('../images/close_hover.png');
 }
 
 /***** Gantt chart *****/
@@ -1003,12 +981,13 @@ padding-top: 2px;
 padding-bottom: 3px;
 }
 
-.icon-add { background-image: url(../images/add.png); }
+.icon-add { background-image: url(../images/plus.png); }
 .icon-edit { background-image: url(../images/edit.png); }
 .icon-copy { background-image: url(../images/copy.png); }
 .icon-duplicate { background-image: url(../images/duplicate.png); }
 .icon-del { background-image: url(../images/delete.png); }
 .icon-move { background-image: url(../images/move.png); }
+.icon-rename { background-image: url(../images/rename.png); }
 .icon-save { background-image: url(../images/save.png); }
 .icon-cancel { background-image: url(../images/cancel.png); }
 .icon-multiple { background-image: url(../images/table_multiple.png); }
@@ -1016,29 +995,26 @@ padding-bottom: 3px;
 .open .icon-folder { background-image: url(../images/folder_open.png); }
 .icon-package { background-image: url(../images/package.png); }
 .icon-user { background-image: url(../images/user.png); }
-.icon-projects { background-image: url(../images/projects.png); }
+.icon-projects { background-image: url(../images/latest_projects.png); }
 .icon-help { background-image: url(../images/help.png); }
 .icon-attachment  { background-image: url(../images/attachment.png); }
 .icon-history  { background-image: url(../images/history.png); }
 .icon-time  { background-image: url(../images/time.png); }
-.icon-time-add  { background-image: url(../images/time_add.png); }
+.icon-time-add  { background-image: url(../images/time.png); }
 .icon-stats  { background-image: url(../images/stats.png); }
 .icon-warning  { background-image: url(../images/warning.png); }
-.icon-fav  { background-image: url(../images/fav.png); }
-.icon-fav-off  { background-image: url(../images/fav_off.png); }
-.icon-reload  { background-image: url(../images/reload.png); }
+.icon-reload  { background-image: url(../images/arrow_circle.png); }
 .icon-lock  { background-image: url(../images/locked.png); }
-.icon-unlock  { background-image: url(../images/unlock.png); }
-.icon-checked  { background-image: url(../images/true.png); }
+.icon-unlock  { background-image: url(../images/locked_un.png); }
+.icon-checked  { background-image: url(../images/check.png); }
 .icon-details  { background-image: url(../images/zoom_in.png); }
 .icon-report  { background-image: url(../images/report.png); }
-.icon-comment  { background-image: url(../images/comment.png); }
-.icon-summary  { background-image: url(../images/lightning.png); }
+.icon-comment  { background-image: url(../images/quote.png); }
+.icon-summary  { background-image: url(../images/summary.png); }
 .icon-server-authentication { background-image: url(../images/server_key.png); }
 .icon-issue { background-image: url(../images/ticket.png); }
 .icon-zoom-in { background-image: url(../images/zoom_in.png); }
 .icon-zoom-out { background-image: url(../images/zoom_out.png); }
-.icon-more { background-image: url(../images/text_list_bullets.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
@@ -1336,7 +1312,6 @@ li a.help:hover {
         outline: 0px;
 }
 #header #search_wrap {
-  background:transparent url(../images/background_suche.png);
   background-repeat:repeat-x;
   width:162px;
   height: 30px;
@@ -1657,7 +1632,7 @@ fieldset#filters div.add-filter {
 	right:10px;
 }
 .title-bar .new-issue a {
-	background:url(../images/add.png) no-repeat 6px center;
+	background:url(../images/plus.png) no-repeat 6px center;
 	padding-left:26px;
 }
 .title-bar-extras {
@@ -1689,19 +1664,8 @@ fieldset#filters div.add-filter {
 input.apply {
 	background-image:url(../images/check.png);
 }
-input.clear {
-	background-image:url(../images/refresh.png);
-}
 input.save {
-	background-image:url(../images/disk.png);
-}
-a#extras-close {
-	position:absolute;
-	color:#fff;
-	background:url(../images/arrow-up-white.png) no-repeat right center;
-	right:10px;
-	padding-right:15px;
-	display:none; /* Remove to show the Hide Filters thing */
+	background-image:url(../images/save.png);
 }
 
 /*-------------------------------------------------------------------------------
@@ -1915,9 +1879,6 @@ table.files {
         border: 0;
         margin-bottom: 0px;
 }
-.journal.question h4 {
-	background-image:url(../images/speech-blue.png);
-}
 .journal h4 .history-id {
 	float:right;
 	color:#999;
@@ -1943,7 +1904,7 @@ table.files {
 	background-image:url(../images/edit.png);
 }
 .contextual .comment {
-	background-image:url(../images/comment.png);
+	background-image:url(../images/quote.png);
 }
 .question-line {
 	display:block;
@@ -2036,7 +1997,7 @@ ul.projects .description {
 }
 .nosidebar ul.projects li .my-project {
 	padding:0 0 0 24px;
-	background:url(../images/star.png) no-repeat left top;
+	background:url(../images/fav.png) no-repeat left top;
 }
 ul.projects a {
 	font-weight:bold;
@@ -2047,9 +2008,6 @@ ul.projects li div.root {
 .nosidebar ol li {
 	list-style: decimal outside none;
 	margin-left:24px;
-}
-.nosidebar ul li {
-	background:url(../images/dot-blue.png) no-repeat left top;
 }
 .nosidebar ol, .nosidebar ul {
 	margin:0 0 12px 18px;
@@ -2108,11 +2066,6 @@ ul.projects li div.root {
 	border:0;
 	float:left;
 	margin-right:6px;
-}
-.profile-box .vcard {
-	padding-left:20px !important;
-	background:url(../images/vcard.png) no-repeat left center;
-	display:block;
 }
 
 /* file table hovers */
@@ -2531,7 +2484,7 @@ tr.time-entry {
 /*===== Replacement Images =====*/
 
 .icon-edit, .title-bar .update a {
-	background-image:url(../images/pencil.png);
+	background-image:url(../images/edit.png);
 }
 .icon-del {
 	background-image:url(../images/delete.png);
@@ -2540,7 +2493,7 @@ tr.time-entry {
 	display:none;
 }
 .journal .contextual a[title=Edit] {
-	background:url(../images/pencil.png) no-repeat;
+	background:url(../images/edit.png) no-repeat;
 }
 
 
@@ -2904,13 +2857,13 @@ ul.action_menu_more {
   background-repeat:no-repeat;
 }
 .navigate-left {
-  background: url(../images/arrow_left_darkred.png) 0 0px no-repeat;
+  background: url(../images/double_arrow_left.png) 0 1px no-repeat;
   width:100%;
   height:15px;
   padding-left: 18px;
 }
 .navigate-right {
-  background: url(../images/arrow_right_darkred.png) right 0px no-repeat;
+  background: url(../images/double_arrow_right.png) right 1px no-repeat;
   width:100%;
   height:15px;
   padding-right: 18px;
@@ -3063,12 +3016,6 @@ li a.help:hover {
   padding-top: 0px;
 }
 
-.navigate-left {
-  background-image: url(../images/arrow_left_blue.png);
-}
-.navigate-right {
-  background-image: url(../images/arrow_right_blue.png);
-}
 #breadcrumb {
   border-top: 3px solid #24b3e7 ;
   border-bottom: 0px ;
@@ -3215,11 +3162,11 @@ input.input-as-link {
 }
 
 a.sort.asc {
-  background-image: url(../images/red_web_icons/arrow_D_up.gif?1349103766);
+  background-image: url(../images/arrow-up-3.png);
 }
 
 a.sort.desc {
-  background-image: url(../images/red_web_icons/arrow_D_down.gif?1349103766);
+  background-image: url(../images/arrow-down-3.png);
 }
 
 #content #history {
@@ -3236,13 +3183,9 @@ a.sort.desc {
 }
 
 .my-project {
-  background: url(../images/red_web_icons/star_B.gif?1349103766) no-repeat 0 50%;
+  background: url(../images/../images/fav.png) no-repeat 0 50%;
 }
 
-dt.issue { background-image: url(../images/ticket.gif?1349103766); }
-dt.issue-edit { background-image: url(../images/ticket_edit.gif?1349103766); }
-dt.issue-closed { background-image: url(../images/ticket_checked.gif?1349103766); }
-dt.issue-note { background-image: url(../images/ticket_note.gif?1349103766); }
 
 .required {color: #008BD0;} /* changed to Siemens red! */
 
@@ -3253,8 +3196,8 @@ div.flash {
   margin-top: 0;
 }
 
-div.flash.error, #errorExplanation { /* red */
-  background: #FAAA96 url(../images/red_web_icons/traffic_light_B.gif?1349103766) 17px 4px no-repeat;
+div.flash.error, #errorExplanation {
+  background: #FAAA96 url(../images/error.png) 8px 50% no-repeat;
   border: none;
   color: #000000;
 }
@@ -3263,14 +3206,14 @@ div.flash.error, #errorExplanation { /* red */
   background-position: 12px 50%;
 }
 
-div.flash.notice { /* green */
-  background: #C8F0BE url(../images/red_web_icons/check_B.gif?1349103766) 8px 7px no-repeat;
+div.flash.notice {
+  background: #C8F0BE url(../images/check.png) 11px 6px no-repeat;
   border: none;
   color: #000000;
 }
 
 div.flash.warning { /* orange */
-  background: #FFC38C url(../images/red_web_icons/lamp.gif?1349103766) 14px 5px no-repeat;
+  background: #FFC38C url(../images/warning.png) 14px 5px no-repeat;
   border: none;
   color: #000000;
   text-align: left;
@@ -3299,54 +3242,43 @@ a.icon:hover, input.input-as-link:hover {
 }
 
 
-.icon-add { background: transparent url(../images/red_web_icons/plus_B.gif?1349103766) no-repeat 3px 3px; }
 .icon-edit {
-  background-image: url(../images/red_web_icons/edit.gif?1349103766);
+  background-image: url(../images/edit.png);
   padding-left: 16px;
   padding-top: 1px;
 }
-.icon-copy { background-image: url(../images/red_web_icons/window_new.gif?1349103766); }
+.icon-copy { background-image: url(../images/copy.png); }
 .icon-del {
-  background-image: url(../images/red_web_icons/trash.gif?1349103766);
+  background-image: url(../images/delete.png);
   padding-left: 16px;
   background-position: 0px 2px;
 }
-.icon-history  { background-image: url(../images/red_web_icons/book.gif?1349103766); }
-.icon-time  { background-image: url(../images/red_web_icons/clock.gif?1349103766); }
-.icon-time-add  { background-image: url(../images/red_web_icons/clock.gif?1349103766); } .icon-fav  { background-image: url(../images/red_web_icons/star_B.gif?1349103766); }
-.icon-fav-off  { background-image: url(../images/red_web_icons/star_A.gif?1349103766); }
+.icon-fav  { background-image: url(../images/watch.png); }
+.icon-fav-off  { background-image: url(../images/watch_b.png); }
 .icon-reload  {
-  background-image: url(../images/red_web_icons/arrow_circle.gif?1349103766);
   padding-left: 17px;
   background-position: 0px 3px;
 }
-.icon-lock  { background-image: url(../images/red_web_icons/key.gif?1349103766); }
 .icon-checked  {
-  background-image: url(../images/red_web_icons/check_B.gif?1349103766);
   padding-left: 15px;
   background-position: 0px 4px;
 }
-.icon-comment  { background-image: url(../images/red_web_icons/chat_A.gif?1349103766); }
-.icon-notification  { background-image: url(../images/red_web_icons/envelope_A.gif?1349103766); }
+.icon-notification  { background-image: url(../images/envelope.png); }
 .icon-package { background-position: 1px 0px; }
-.icon-duplicate { background-image: url(../images/red_web_icons/plus_A.gif?1349103766);}
-.icon-folder { background-image: url(../images/red_web_icons/folder_B.gif?1349103766);}
-.open .icon-folder { background-image: url(../images/red_web_icons/folder_A.gif?1349103766);}
-.icon-file { background-image: url(../images/red_web_icons/paper_A.gif?1349103766);}
-.icon-file.text-plain { background-image: url(../images/red_web_icons/paper_B.gif?1349103766);}
-.icon-move {background-image: url(../images/move.png?1349103766);}
 .icon-more {
-  background-image: url(../images/red_web_icons/arrow_D_down.gif?1349103766);
+  background-image: url(../images/arrow-down_2.png);
   padding-left: 16px;
   background-position: 0px 5px;
 }
 .icon-save {
-  padding-left: 19px;
+  padding-left: 18px;
+  padding-top: 0px;
 }
 
 a.atom {
-  background-image: url(../images/red_web_icons/rss_A.gif?1349103766);
-  padding: 2px 0 1px 14px;
+  background-image: url(../images/feed.png);
+  background-repeat: no-repeat;
+  padding: 1px 0 1px 14px;
 }
 
 /* Disable the css-override for the edit links in issue journals */
@@ -3377,11 +3309,11 @@ a.atom {
 
 /*Cost-Plugin specific styles*/
 .icon-pieces {
-  background-image: url(../images/pieces.gif?1349103766) !important;
+  background-image: url(../images/units.png) !important;
 }
 
 .icon-pieces-time {
-  background-image: url(../images/pieces-time.gif?1349103766) !important;
+  background-image: url(../images/time.png) !important;
 }
 
 #main-menu ul.menu-root li li a {
