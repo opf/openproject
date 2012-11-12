@@ -94,11 +94,10 @@ module Redmine::MenuManager::MenuHelper
   def render_menu_node(node, project=nil)
     return "" if project and not allowed_node?(node, User.current, project)
     if node.has_children? || !node.child_menus.nil?
-      return render_menu_node_with_children(node, project)
+      render_menu_node_with_children(node, project)
     else
       caption, url, selected = extract_node_details(node, project)
-      return content_tag('li',
-                           render_single_menu_node(node, caption, url, selected))
+      content_tag('li', render_single_menu_node(node, caption, url, selected))
     end
   end
 
@@ -143,8 +142,11 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_single_menu_node(item, caption, url, selected)
-    position_span = you_are_here_info(selected)
-    link_to(position_span.html_safe.safe_concat(h(caption)), url, item.html_options(:selected => selected).merge({:title => h(caption)}))
+    link_text    = you_are_here_info(selected) + caption
+    html_options = item.html_options(:selected => selected)
+    html_options[:title] = caption
+
+    link_to link_text, url, html_options
   end
 
   def render_unattached_menu_item(menu_item, project)
