@@ -16,43 +16,45 @@ class UserPreference < ActiveRecord::Base
   belongs_to :user
   serialize :others
 
-  attr_protected :others, :user_id
+  validates_presence_of :user
 
-  before_save :apply_defaults
+  attr_accessible :user
 
-  def initialize(attributes = nil, options = {})
-    super
-    self.others ||= {}
-  end
+  # attributes that have their own column
+  attr_accessible :hide_mail, :time_zone, :impaired
+
+  # shortcut methods to others hash
+  attr_accessible :comments_sorting, :warn_on_leaving_unsaved
+
+  after_initialize :init_other_preferences
 
   def [](attr_name)
-    if attribute_present? attr_name
-      super
-    else
-      others ? others[attr_name] : nil
-    end
+    attribute_present?(attr_name) ? super : others[attr_name]
   end
 
   def []=(attr_name, value)
-    if attribute_present? attr_name
-      super
-    else
-      h = read_attribute(:others).dup || {}
-      h.update(attr_name => value)
-      write_attribute(:others, h)
-      value
-    end
+    attribute_present?(attr_name) ? super : others[attr_name] = value
   end
 
-  def comments_sorting; self[:comments_sorting] end
-  def comments_sorting=(order); self[:comments_sorting]=order end
+  def comments_sorting
+    others[:comments_sorting]
+  end
 
-  def warn_on_leaving_unsaved; self[:warn_on_leaving_unsaved] || '1'; end
-  def warn_on_leaving_unsaved=(value); self[:warn_on_leaving_unsaved]=value; end
+  def comments_sorting=(order)
+    others[:comments_sorting] = order
+  end
+
+  def warn_on_leaving_unsaved
+    others.fetch(:warn_on_leaving_unsaved) { '1' }
+  end
+
+  def warn_on_leaving_unsaved=(value)
+    others[:warn_on_leaving_unsaved] = value
+  end
 
 private
 
-  def apply_defaults
+  def init_other_preferences
     self.others ||= {}
   end
 end

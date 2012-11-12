@@ -46,7 +46,7 @@ class MyController < ApplicationController
   def account
     @user = User.current
     @pref = @user.pref
-    if request.post?
+    if request.put?
       @user.safe_attributes = params[:user]
       @user.pref.attributes = params[:pref]
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
