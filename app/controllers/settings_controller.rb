@@ -39,8 +39,6 @@ class SettingsController < ApplicationController
       @deliveries = ActionMailer::Base.perform_deliveries
 
       @guessed_host_and_path = request.host_with_port.dup + Redmine::Utils.relative_url_root.to_s
-
-      Redmine::Themes.rescan
     end
   end
 

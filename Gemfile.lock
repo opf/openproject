@@ -13,6 +13,13 @@ GIT
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
 
+GIT
+  remote: git@github.com:finnlabs/openproject-themes.git
+  revision: 79e8396b6b1c67bfa99471b767e609e78208be88
+  specs:
+    openproject-themes (0.0.1)
+      rails (~> 3.2.8)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -331,6 +338,7 @@ DEPENDENCIES
   mysql
   mysql2 (~> 0.3.11)
   object-daddy!
+  openproject-themes!
   pg
   prototype-rails
   pry-debugger

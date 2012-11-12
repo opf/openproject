@@ -514,7 +514,7 @@ module ApplicationHelper
   def body_css_classes
     css = []
     if theme = Redmine::Themes.theme(Setting.ui_theme)
-      css << 'theme-' + theme.name
+      css << 'theme-' + theme.name.to_s
     end
 
     if params[:controller] && params[:action]
@@ -1096,10 +1096,6 @@ module ApplicationHelper
     end
     tags.safe_concat("\n" + javascript_include_tag("accessibility.js")) if User.current.impaired? and accessibility_js_enabled?
     tags
-  end
-
-  def favicon
-    "<link rel='shortcut icon' href='#{image_path('/favicon.ico')}' />".html_safe
   end
 
   # Add a HTML meta tag to control robots (web spiders)
