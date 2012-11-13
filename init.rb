@@ -3,6 +3,7 @@ require 'dispatcher'
 
 Dispatcher.to_prepare do
   require_dependency 'project'
+  require_dependency 'redmine_meeting/hooks'
   require 'redmine_meeting/patch_redmine_classes'
   Project.send(:include, ::Plugin::Meeting::Project)
   Mailer.send(:include, ::Plugin::Meeting::Mailer)
