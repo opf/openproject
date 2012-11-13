@@ -36,7 +36,7 @@ module MeetingContentsHelper
   def open_meeting_agenda_link(content_type, meeting)
     case content_type
     when "meeting_agenda"
-      link_to_if_authorized l(:label_meeting_open), {:controller => 'meeting_agendas', :action => 'open', :meeting_id => meeting}, :method => :put, :class => 'icon icon-lock show-meeting_agenda', :confirm => l(:text_meeting_agenda_open_are_you_sure)
+      link_to_if_authorized l(:label_meeting_open), {:controller => 'meeting_agendas', :action => 'open', :meeting_id => meeting}, :method => :put, :class => 'icon icon-unlock show-meeting_agenda', :confirm => l(:text_meeting_agenda_open_are_you_sure)
     when "meeting_minutes"
     end
   end
