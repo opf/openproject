@@ -34,8 +34,7 @@ module Redmine
             content_for :header_tags do
               javascript_include_tag('jstoolbar/jstoolbar') +
               javascript_include_tag('jstoolbar/textile') +
-              javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
-              stylesheet_link_tag('jstoolbar')
+              javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}")
             end
             @heads_for_wiki_formatter_included = true
           end
