@@ -14,122 +14,74 @@
 
 module Redmine
   module Themes
+    class DefaultThemeNotFoundError < StandardError
+    end
 
-    # Return an array of installed themes
+    mattr_accessor :installed_themes
+    self.installed_themes = Set.new
+
+    def self.all
+      themes
+    end
+
     def self.themes
-      @@installed_themes ||= scan_themes
+      installed_themes
     end
 
-    # Rescan themes directory
-    def self.rescan
-      @@installed_themes = scan_themes
+    def self.register(*names)
+      self.installed_themes += names.map { |name| Theme.new(name.to_s) }
     end
 
-    # Return theme for given id, or nil if it's not found
-    def self.theme(id, options={})
-      return nil if id.blank?
-
-      found = themes.find {|t| t.id == id}
-      if found.nil? && options[:rescan] != false
-        rescan
-        found = theme(id, :rescan => false)
-      end
-      found
+    def self.theme(name)
+      find_theme(name) || default
     end
 
-    # Class used to represent a theme
+    # TODO: always require a default theme
+    def self.default
+      return default_theme
+
+      # find_theme(default_theme_name) or
+      #   raise DefaultThemeNotFoundError, 'default theme was not found'
+    end
+
+    def self.find_theme(name)
+      installed_themes.detect { |theme| theme.name == name.to_s }
+    end
+
+    def self.default_theme
+      @default_theme ||= Theme.new
+    end
+
     class Theme
-      attr_reader :path, :name, :dir
+      attr_accessor :name
 
-      def initialize(path)
-        @path = path
-        @dir = File.basename(path)
-        @name = @dir.humanize
-        @stylesheets = nil
-        @javascripts = nil
+      def initialize(name = :default)
+        @name = name
       end
 
-      # Directory name used as the theme id
-      def id; dir end
-
-      def ==(theme)
-        theme.is_a?(Theme) && theme.dir == dir
+      def favicon_path
+        "#{prefix}/favicon.ico"
       end
 
-      def <=>(theme)
-        name <=> theme.name
+      def main_stylesheet_path
+        name
       end
 
-      def stylesheets
-        @stylesheets ||= assets("stylesheets", "css")
+      def prefix
+        default? ? '' : name
       end
 
-      def javascripts
-        @javascripts ||= assets("javascripts", "js")
+      def default?
+        name == :default
       end
-
-      def stylesheet_path(source)
-        "/themes/#{dir}/stylesheets/#{source}"
-      end
-
-      def javascript_path(source)
-        "/themes/#{dir}/javascripts/#{source}"
-      end
-
-      private
-
-      def assets(dir, ext)
-        Dir.glob("#{path}/#{dir}/*.#{ext}").collect {|f| File.basename(f).gsub(/\.#{ext}$/, '')}
-      end
-    end
-
-    private
-
-    def self.scan_themes
-      theme_paths.inject([]) do |themes, path|
-        dirs = Dir.glob(File.join(path, '*')).select do |f|
-          # A theme should at least override application.css
-          File.directory?(f) && File.exist?("#{f}/stylesheets/application.css")
-        end
-        themes += dirs.collect { |dir| Theme.new(dir) }
-      end.sort
-    end
-
-    def self.theme_paths
-      paths = Redmine::Configuration['themes_storage_path']
-      paths = [paths] unless paths.is_a?(Array)
-      paths.flatten!; paths.compact!
-
-      paths = ["#{Rails.public_path}/themes"] if paths.empty?
-      paths.collect { |p| File.expand_path(p, Rails.root) }
     end
   end
 end
 
 module ApplicationHelper
   def current_theme
-    unless instance_variable_defined?(:@current_theme)
-      @current_theme = Redmine::Themes.theme(Setting.ui_theme)
-    end
+    @current_theme ||= Redmine::Themes.theme(Setting.ui_theme)
+    raise DefaultThemeNotFoundError, 'default theme was not found' unless @current_theme
     @current_theme
-  end
-
-  def stylesheet_path(source)
-    if current_theme && current_theme.stylesheets.include?(source)
-      super current_theme.stylesheet_path(source)
-    else
-      super
-    end
-  end
-
-  def path_to_stylesheet(source)
-    stylesheet_path source
-  end
-
-  # Returns the header tags for the current theme
-  def heads_for_theme
-    if current_theme && current_theme.javascripts.include?('theme')
-      javascript_include_tag current_theme.javascript_path('theme')
-    end
   end
 end

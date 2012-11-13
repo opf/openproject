@@ -514,7 +514,7 @@ module ApplicationHelper
   def body_css_classes
     css = []
     if theme = Redmine::Themes.theme(Setting.ui_theme)
-      css << 'theme-' + theme.name
+      css << 'theme-' + theme.name.to_s
     end
 
     if params[:controller] && params[:action]
@@ -1098,10 +1098,6 @@ module ApplicationHelper
     tags
   end
 
-  def favicon
-    "<link rel='shortcut icon' href='#{image_path('/favicon.ico')}' />".html_safe
-  end
-
   # Add a HTML meta tag to control robots (web spiders)
   #
   # @param [optional, String] content the content of the ROBOTS tag.
@@ -1163,9 +1159,11 @@ module ApplicationHelper
   # Returns the footer text displayed in the layout file.
   #
   def layout_footer_text
-    %Q{<div class="bgl"><div class="bgr">} +
-      l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) +
-    %Q{</div></div>}
+    content_tag :div, :class => 'bgl' do
+      content_tag :div, :class => 'bgr' do
+        raw t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url))
+      end
+    end
   end
 
   private

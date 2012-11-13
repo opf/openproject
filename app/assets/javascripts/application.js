@@ -11,7 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery-ui
+//= require jquery.ui.all
 //= require jquery.menu_expand
 //= require jquery_ujs
 //= require jquery_noconflict

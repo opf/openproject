@@ -13,15 +13,23 @@
 #++
 
 class WelcomeController < ApplicationController
-  caches_action :robots
-
   def index
-    @news = News.latest User.current
-    @projects = Project.latest User.current
+    @news     = current_user.latest_news
+    @projects = current_user.latest_projects
   end
 
   def robots
-    @projects = Project.all_public.active
-    render :layout => false, :content_type => 'text/plain'
+    @projects = Project.active.public
+
+    respond_to do |format|
+      format.text # { render :layout => false }
+    end
+  end
+  caches_action :robots
+
+private
+
+  def current_user
+    User.current
   end
 end

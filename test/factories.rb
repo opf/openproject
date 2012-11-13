@@ -8,6 +8,10 @@ FactoryGirl.define do
     mail { generate(:email) }
   end
 
+  factory :user_preference do
+    user
+  end
+
   factory :issue do
     subject 'Issue 1'
     tracker

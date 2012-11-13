@@ -13,6 +13,13 @@ GIT
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
 
+GIT
+  remote: git@github.com:finnlabs/openproject-themes.git
+  revision: 79e8396b6b1c67bfa99471b767e609e78208be88
+  specs:
+    openproject-themes (0.0.1)
+      rails (~> 3.2.8)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -131,6 +138,9 @@ GEM
     jquery-rails (2.1.3)
       railties (>= 3.1.0, < 5.0)
       thor (~> 0.14)
+    jquery-ui-rails (2.0.2)
+      jquery-rails
+      railties (>= 3.1.0)
     json (1.7.5)
     launchy (2.1.2)
       addressable (~> 2.3)
@@ -319,6 +329,7 @@ DEPENDENCIES
   guard-test
   htmldiff
   jquery-rails
+  jquery-ui-rails
   jruby-openssl
   launchy (~> 2.1.0)
   letter_opener (~> 1.0.0)
@@ -327,6 +338,7 @@ DEPENDENCIES
   mysql
   mysql2 (~> 0.3.11)
   object-daddy!
+  openproject-themes!
   pg
   prototype-rails
   pry-debugger
