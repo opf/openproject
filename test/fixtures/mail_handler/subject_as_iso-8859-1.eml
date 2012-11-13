@@ -1,0 +1,11 @@
+Content-Type: application/ms-tnef; name="winmail.dat"
+Content-Transfer-Encoding: binary
+From: John Smith <JSmith@somenet.foo>
+To: "redmine@somenet.foo" <redmine@somenet.foo>
+Subject: =?iso-8859-1?Q?Testmail_from_Webmail:_=E4_=F6_=FC...?=
+Date: Fri, 1 Jun 2012 14:39:38 +0200
+Message-ID: <87C31D42249DD0489D1A1444E3232DD7019D6183@foo.bar>
+Accept-Language: de-CH, en-US
+Content-Language: de-CH
+
+Fixture

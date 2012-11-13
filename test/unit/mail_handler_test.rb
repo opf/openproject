@@ -142,6 +142,16 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.description.match(/^searchable field:/i)
   end
 
+  def test_add_issue_should_match_assignee_on_display_name # added from redmine  - not sure if it is ok here
+    user = User.generate!(:firstname => 'Foo Bar', :lastname => 'Foo Baz')
+    User.add_to_project(user, Project.find(2), Role.generate!(:name => 'Superhero'))
+    issue = submit_email('ticket_on_given_project.eml') do |email|
+      email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar Foo baz')
+    end
+    assert issue.is_a?(Issue)
+    assert_equal user, issue.assigned_to
+  end
+
   def test_add_issue_with_cc
     issue = submit_email('ticket_with_cc.eml', :issue => {:project => 'ecookbook'})
     assert issue.is_a?(Issue)
@@ -256,6 +266,40 @@ class MailHandlerTest < ActiveSupport::TestCase
     issue = submit_email('japanese_keywords_iso_2022_jp.eml', :issue => {:project => 'ecookbook'}, :allow_override => 'tracker')
     assert_kind_of Issue, issue
     assert_equal tracker, issue.tracker
+  end
+
+  def test_add_issue_from_apple_mail
+    issue = submit_email(
+              'apple_mail_with_attachment.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.attachments.size
+
+    attachment = issue.attachments.first
+    assert_equal 'paella.jpg', attachment.filename
+    assert_equal 10790, attachment.filesize
+    assert File.exist?(attachment.diskfile)
+    assert_equal 10790, File.size(attachment.diskfile)
+    assert_equal 'caaf384198bcbc9563ab5c058acd73cd', attachment.digest
+  end
+
+  def test_add_issue_with_iso_8859_1_subject
+    issue = submit_email(
+              'subject_as_iso-8859-1.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
+  end
+
+  def test_should_ignore_emails_from_locked_users
+    User.find(2).lock!
+
+    MailHandler.any_instance.expects(:dispatch).never
+    assert_no_difference 'Issue.count' do
+      assert_equal false, submit_email('ticket_on_given_project.eml')
+    end
   end
 
   def test_should_ignore_emails_from_emission_address
@@ -453,6 +497,63 @@ class MailHandlerTest < ActiveSupport::TestCase
     issue = submit_email('ticket_with_long_subject.eml')
     assert issue.is_a?(Issue)
     assert_equal issue.subject, 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[0,255]
+  end
+
+  def test_new_user_from_attributes_should_return_valid_user
+    to_test = {
+      # [address, name] => [login, firstname, lastname]
+      ['jsmith@example.net', nil] => ['jsmith@example.net', 'jsmith', '-'],
+      ['jsmith@example.net', 'John'] => ['jsmith@example.net', 'John', '-'],
+      ['jsmith@example.net', 'John Smith'] => ['jsmith@example.net', 'John', 'Smith'],
+      ['jsmith@example.net', 'John Paul Smith'] => ['jsmith@example.net', 'John', 'Paul Smith'],
+      ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsTheMaximumLength Smith'] => ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsT', 'Smith'],
+      ['jsmith@example.net', 'John AVeryLongLastnameThatExceedsTheMaximumLength'] => ['jsmith@example.net', 'John', 'AVeryLongLastnameThatExceedsTh']
+    }
+
+    to_test.each do |attrs, expected|
+      user = MailHandler.new_user_from_attributes(attrs.first, attrs.last)
+
+      assert user.valid?, user.errors.full_messages.to_s
+      assert_equal attrs.first, user.mail
+      assert_equal expected[0], user.login
+      assert_equal expected[1], user.firstname
+      assert_equal expected[2], user.lastname
+    end
+  end
+
+  def test_new_user_from_attributes_should_respect_minimum_password_length
+    with_settings :password_min_length => 15 do
+      user = MailHandler.new_user_from_attributes('jsmith@example.net')
+      assert user.valid?
+      assert user.password.length >= 15
+    end
+  end
+
+  def test_new_user_from_attributes_should_use_default_login_if_invalid
+    user = MailHandler.new_user_from_attributes('foo+bar@example.net')
+    assert user.valid?
+    assert user.login =~ /^user[a-f0-9]+$/
+    assert_equal 'foo+bar@example.net', user.mail
+  end
+
+  def test_new_user_with_utf8_encoded_fullname_should_be_decoded
+    assert_difference 'User.count' do
+      require 'pry'; binding.pry
+      issue = submit_email(
+                'fullname_of_sender_as_utf8_encoded.eml',
+                :issue => {:project => 'ecookbook'},
+                :unknown_user => 'create'
+              )
+    end
+
+    user = User.first(:order => 'id DESC')
+    assert_equal "foo@example.org", user.mail
+    str1 = "\xc3\x84\xc3\xa4"
+    str2 = "\xc3\x96\xc3\xb6"
+    str1.force_encoding('UTF-8') if str1.respond_to?(:force_encoding)
+    str2.force_encoding('UTF-8') if str2.respond_to?(:force_encoding)
+    assert_equal str1, user.firstname
+    assert_equal str2, user.lastname
   end
 
   private
