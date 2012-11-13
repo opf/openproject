@@ -15,9 +15,9 @@ GIT
 
 GIT
   remote: git@github.com:finnlabs/openproject-themes.git
-  revision: 79e8396b6b1c67bfa99471b767e609e78208be88
+  revision: 690ca546a1fdb5216c0163c83b046b864b38d992
   specs:
-    openproject-themes (0.0.1)
+    openproject-themes (0.1.0)
       rails (~> 3.2.8)
 
 GEM
@@ -163,7 +163,7 @@ GEM
     mime-types (1.19)
     mocha (0.12.7)
       metaclass (~> 0.0.1)
-    multi_json (1.3.6)
+    multi_json (1.3.7)
     mysql (2.8.1)
     mysql2 (0.3.11)
     nokogiri (1.5.5)
@@ -222,7 +222,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (0.9.2.2)
+    rake (10.0.0)
     rbx-require-relative (0.0.9)
     rdoc (3.12)
       json (~> 1.4)
@@ -295,7 +295,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.34)
+    tzinfo (0.3.35)
     uglifier (1.3.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
