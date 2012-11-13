@@ -69,7 +69,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
-      assert_equal ['add.png', 'delete.png', 'edit.png'], assigns(:entries).collect(&:name)
+      assert_equal ['plus.png', 'delete.png', 'edit.png'], assigns(:entries).collect(&:name)
       entry = assigns(:entries).detect {|e| e.name == 'edit.png'}
       assert_not_nil entry
       assert_equal 'file', entry.kind
