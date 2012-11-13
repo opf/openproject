@@ -369,7 +369,7 @@ dt.issue-edit { background-image: url(../images/ticket_edit.png); }
 dt.issue-closed { background-image: url(../images/ticket_checked.png); }
 dt.issue-note { background-image: url(../images/ticket_note.png); }
 dt.changeset { background-image: url(../images/changeset.png); }
-dt.news { background-image: url(../images/latest_news.png); }
+dt.news { background-image: url(../images/news.png); }
 dt.message { background-image: url(../images/quote.png); }
 dt.reply { background-image: url(../images/comments.png); }
 dt.wiki-page { background-image: url(../images/wiki_edit.png); }
@@ -974,22 +974,22 @@ background-image:url('../images/close_hover.png');
 
 /***** Icons *****/
 .icon {
-background-position: 0% 50%;
-background-repeat: no-repeat;
-padding-left: 20px;
-padding-top: 2px;
-padding-bottom: 3px;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  padding-left: 19px;
+  padding-top: 2px;
+  padding-bottom: 3px;
 }
 
 .icon-add { background-image: url(../images/plus.png); }
 .icon-edit { background-image: url(../images/edit.png); }
 .icon-copy { background-image: url(../images/copy.png); }
+.icon-configure { background-image: url(../images/configure.png); }
 .icon-duplicate { background-image: url(../images/duplicate.png); }
 .icon-del { background-image: url(../images/delete.png); }
 .icon-move { background-image: url(../images/move.png); }
 .icon-rename { background-image: url(../images/rename.png); }
 .icon-save { background-image: url(../images/save.png); }
-.icon-cancel { background-image: url(../images/cancel.png); }
 .icon-multiple { background-image: url(../images/table_multiple.png); }
 .icon-folder { background-image: url(../images/folder.png); }
 .open .icon-folder { background-image: url(../images/folder_open.png); }
@@ -999,12 +999,10 @@ padding-bottom: 3px;
 .icon-help { background-image: url(../images/help.png); }
 .icon-attachment  { background-image: url(../images/attachment.png); }
 .icon-history  { background-image: url(../images/history.png); }
-.icon-time  { background-image: url(../images/time.png); }
 .icon-time-add  { background-image: url(../images/time.png); }
 .icon-stats  { background-image: url(../images/stats.png); }
 .icon-warning  { background-image: url(../images/warning.png); }
 .icon-reload  { background-image: url(../images/arrow_circle.png); }
-.icon-lock  { background-image: url(../images/locked.png); }
 .icon-unlock  { background-image: url(../images/locked_un.png); }
 .icon-checked  { background-image: url(../images/check.png); }
 .icon-details  { background-image: url(../images/zoom_in.png); }
@@ -1701,8 +1699,9 @@ form#issue-list {
 #content table th.current-sort {
 	background:#fff url(../images/gradient-up.png) repeat-x;
 }
+
 #content table th.current-sort a {
-	background:url(../images/arrow-down-3.png) no-repeat right center;
+	background:url(../images/sort_desc.png) no-repeat right center;
 	padding-right:16px;
 	display:block;
 }
@@ -3162,11 +3161,11 @@ input.input-as-link {
 }
 
 a.sort.asc {
-  background-image: url(../images/arrow-up-3.png);
+  background-image: url(../images/sort_asc.png);
 }
 
 a.sort.desc {
-  background-image: url(../images/arrow-down-3.png);
+  background-image: url(../images/sort_desc.png);
 }
 
 #content #history {
@@ -3241,26 +3240,32 @@ a.icon:hover, input.input-as-link:hover {
   text-decoration: underline;
 }
 
+.icon-time  {
+  background-image: url(../images/time.png);
+  background-position: 3px 2px;
+}
+
+.icon-lock  {
+  background-image: url(../images/locked.png);
+  background-position: 0px 2px;
+}
 
 .icon-edit {
   background-image: url(../images/edit.png);
-  padding-left: 16px;
   padding-top: 1px;
 }
 .icon-copy { background-image: url(../images/copy.png); }
 .icon-del {
   background-image: url(../images/delete.png);
-  padding-left: 16px;
+  /*padding-left: 16px; */
   background-position: 0px 2px;
 }
 .icon-fav  { background-image: url(../images/watch.png); }
 .icon-fav-off  { background-image: url(../images/watch_b.png); }
 .icon-reload  {
-  padding-left: 17px;
   background-position: 0px 3px;
 }
 .icon-checked  {
-  padding-left: 15px;
   background-position: 0px 4px;
 }
 .icon-notification  { background-image: url(../images/envelope.png); }
@@ -3271,8 +3276,12 @@ a.icon:hover, input.input-as-link:hover {
   background-position: 0px 5px;
 }
 .icon-save {
-  padding-left: 18px;
   padding-top: 0px;
+}
+
+.icon-cancel {
+  background-image: url(../images/cancel.png);
+  background-position: 0px 2px;
 }
 
 a.atom {
