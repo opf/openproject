@@ -28,53 +28,63 @@ module Redmine
       installed_themes
     end
 
-    def self.register(*names)
-      self.installed_themes += names.map { |name| Theme.new(name.to_s) }
+    def self.register(*themes)
+      self.installed_themes += themes.map { |theme| Theme.from(theme) }
     end
 
     def self.theme(name)
-      find_theme(name) || default
-    end
-
-    # TODO: always require a default theme
-    def self.default
-      return default_theme
-
-      # find_theme(default_theme_name) or
-      #   raise DefaultThemeNotFoundError, 'default theme was not found'
+      find_theme(name) || Theme.default
     end
 
     def self.find_theme(name)
-      installed_themes.detect { |theme| theme.name == name.to_s }
+      installed_themes.detect { |theme| theme.name.to_s == name.to_s }
     end
 
-    def self.default_theme
-      @default_theme ||= Theme.new
+    extend Enumerable
+
+    def self.each(&block)
+      installed_themes.each(&block)
     end
 
-    class Theme
-      attr_accessor :name
+    Theme = Struct.new(:name) do
+      cattr_accessor :default_theme
 
-      def initialize(name = :default)
-        @name = name
+      def self.from(theme)
+        theme.kind_of?(Theme) ? theme : new(theme)
+      end
+
+      def self.default
+        self.default_theme ||= from default_theme_name
       end
 
       def favicon_path
-        "#{prefix}/favicon.ico"
+        @favicon_path ||= begin
+          path = '/favicon.ico'
+          path = "#{name}#{path}" unless default?
+          path
+        end
       end
 
       def main_stylesheet_path
         name
       end
 
-      def prefix
-        default? ? '' : name
+      def default?
+        self == self.class.default
       end
 
-      def default?
-        name == :default
+      def self.default_theme_name
+        :default
+      end
+
+      include Comparable
+
+      def <=>(other)
+        name.to_s <=> other.name.to_s
       end
     end
+
+    self.register Theme.default
   end
 end
 

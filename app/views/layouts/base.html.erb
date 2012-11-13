@@ -7,8 +7,7 @@
 <meta name="keywords" content="issue,bug,tracker" />
 <%= csrf_meta_tag %>
 <%= favicon_link_tag current_theme.favicon_path %>
-<%= stylesheet_link_tag 'application' %>
-<%= stylesheet_link_tag current_theme.main_stylesheet_path unless current_theme.default? %>
+<%= stylesheet_link_tag current_theme.main_stylesheet_path %>
 <%= javascript_include_tag 'application' %>
 <!-- aditional headers -->
 <%= content_for(:header_tags) if content_for?(:header_tags) %>
