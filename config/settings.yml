@@ -167,7 +167,7 @@ repository_log_display_limit:
   format: int
   default: 100
 ui_theme:
-  default: ''
+  default: 'default'
 emails_footer:
   serialized: true
   default:
