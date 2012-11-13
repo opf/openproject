@@ -4,6 +4,7 @@ img.calendar-trigger {
     cursor: pointer;
     vertical-align: middle;
     margin-left: 4px;
+    margin-right: 7px;
 }
 
 div.calendar { position: relative; z-index: 30;}
