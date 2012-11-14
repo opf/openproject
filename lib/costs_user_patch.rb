@@ -16,11 +16,29 @@ module CostsUserPatch
       before_save :save_rates
 
       register_allowance_evaluator Costs::PrincipalAllowanceEvaluator::Costs
-    end
 
+      alias_method_chain :allowed_to?, :inheritance
+    end
   end
 
   module InstanceMethods
+    def allowed_to_with_inheritance?(action, context, options= {})
+      allowed = allowed_to_without_inheritance?(action, context, options)
+
+      if !allowed &&
+         action.is_a?(Symbol)
+
+        perm = Redmine::AccessControl.permission(action)
+        granulars = Redmine::AccessControl.permissions.select{ |p| p.granular_for == perm }
+
+        if granulars
+          allowed = granulars.any?{ |p| self.allowed_to? p.name, context, options.reverse_merge(:for => self) }
+        end
+      end
+
+      allowed
+    end
+
     def allowed_for_role(action, project, role, users, options={})
       allowed = role.allowed_to?(action)
 
@@ -29,6 +47,7 @@ module CostsUserPatch
         if perm.granular_for
           allowed && users.include?(options[:for] || self)
         elsif !allowed &&
+              options[:granular] &&
               options[:for] &&
               granulars = Redmine::AccessControl.permissions.select{|p| p.granular_for == perm}
 
@@ -85,10 +104,10 @@ module CostsUserPatch
         users_for_project = []
         roles.each_pair do |role, users|
           if (project.is_public? || role.member?)
-            if !Redmine::AccessControl.permission(permission).granular_for && self.allowed_for_role(permission, project, role, users)
+            if !Redmine::AccessControl.permission(permission).granular_for && self.allowed_for_role(permission, project, role, users, :granular => true)
               users_for_project = nil
               break
-            elsif self.allowed_for_role(permission, project, role, users, :for => self)
+            elsif self.allowed_for_role(permission, project, role, users, :for => self, :granular => true)
               users_for_project += users.collect(&:id)
             end
           end

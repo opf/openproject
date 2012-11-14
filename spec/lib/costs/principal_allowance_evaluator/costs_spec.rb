@@ -53,26 +53,6 @@ describe Costs::PrincipalAllowanceEvaluator::Costs do
     describe "WHEN the membership has two roles
               WHEN the first role is not allowing the action
               WHEN the second role is not allowing the action
-              WHEN the action is a granular_for an action the second role allows" do
-
-      before do
-        permission2.instance_variable_set("@granular_for", permission.name)
-
-        member.user = user
-        member.project = project
-        member.roles = [role, role2]
-        member.save!
-
-        role2.permissions << permission2.name
-        role2.save!
-      end
-
-      it { filter.granted_for_global?(member, permission.name, :for => user).should be_true }
-    end
-
-    describe "WHEN the membership has two roles
-              WHEN the first role is not allowing the action
-              WHEN the second role is not allowing the action
               WHEN the action is a granular_for an action the second role does not allow" do
 
       before do
