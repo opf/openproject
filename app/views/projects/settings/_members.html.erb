@@ -91,11 +91,6 @@
       <%= render :partial => 'members/autocomplete_for_member', :locals => { :available_principals => available_principals, :roles => roles } %>
 		</div>
 
-    <p>
-      <%= l(:label_role_plural) %>:
-      <%= labeled_check_box_tags 'member[role_ids][]', roles %>
-   	</p>
-
 		</fieldset>
   <% end %>
 <% end %>
