@@ -17,6 +17,10 @@ require 'cgi'
 
 class ApplicationController < ActionController::Base
   helper :all
+  def current_user
+    User.current # refactor
+  end
+  helper_method :current_user
 
   class_attribute :_model_object
   class_attribute :_model_scope

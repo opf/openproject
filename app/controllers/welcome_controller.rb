@@ -26,10 +26,4 @@ class WelcomeController < ApplicationController
     end
   end
   caches_action :robots
-
-private
-
-  def current_user
-    User.current
-  end
 end
