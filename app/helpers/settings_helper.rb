@@ -54,7 +54,7 @@ module SettingsHelper
   end
 
   def settings_multiselect(settings, choices, options={})
-    '<table>' +
+    ('<table>' +
       '<thead>' +
         '<tr>' +
           '<th>' + l(options[:label_choices] || :label_choices) + '</th>' +
@@ -74,7 +74,7 @@ module SettingsHelper
           '</tr>'
         end.join +
       '</tbody>' +
-    '</table>'
+    '</table>').html_safe
   end
 
   def setting_text_field(setting, options={})
