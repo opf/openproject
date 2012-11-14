@@ -16,7 +16,6 @@ require 'uri'
 require 'cgi'
 
 class ApplicationController < ActionController::Base
-  helper :all
   def current_user
     User.current # refactor
   end
