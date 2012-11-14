@@ -569,6 +569,7 @@ module ApplicationHelper
 
     text.html_safe
   end
+  alias_method :textilize, :textilizable
 
   def parse_non_pre_blocks(text)
     s = StringScanner.new(text)
