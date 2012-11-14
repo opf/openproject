@@ -71,7 +71,7 @@
 
 <div class="splitcontentright">
 <% if roles.any? && available_principals.any? %>
-  <%= form_for(@member, :url => {:controller => 'members', :action => 'new', :id => @project, :page => params[:page]},
+  <%= form_for(@member, :url => {:controller => 'members', :action => 'create', :project_id => @project, :page => params[:page]},
                         :method => :post,
                         :remote => true,
                         :loading => '$(\'member-add-submit\').disable();',

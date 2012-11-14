@@ -127,7 +127,7 @@ class MembersController < ApplicationController
     # this way, mass assignment is considered and all updates happen in one transaction (autosave)
     attrs = params[:member].except(:user_id)
     attrs.merge! params[:membership].dup if params[:membership].present?
-    attrs.delete(:id)
+    attrs.delete(:project_id)
 
     role_ids = attrs.delete(:role_ids).map(&:to_i).select{ |i| i > 0 }
     roles = Role.find_all_by_id(role_ids)
