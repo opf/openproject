@@ -360,7 +360,7 @@ module ApplicationHelper
         check_box_tag(name, object.id, false, :id => id) +
         label_tag(id, object, object_options)
       end
-    end.join().html_safe
+    end.join.html_safe
   end
 
   # Truncates and returns the string as a single line
@@ -1132,10 +1132,7 @@ module ApplicationHelper
   # Expands the current menu item using JavaScript based on the params
   def expand_current_menu
     javascript_tag do
-      "jQuery.menu_expand({ item: jQuery('#main-menu .selected').parents('#main-menu li')
-                                                                .last()
-                                                                .find('a')
-                                                                .first() });"
+      raw "jQuery.menu_expand({ item: jQuery('#main-menu .selected').parents('#main-menu li').last().find('a').first() });"
     end
   end
 
