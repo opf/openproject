@@ -53,7 +53,8 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
-    @group = Group.find(params[:id], :include => :projects)
+    @group = Group.find(params[:id],
+                        :include => [ :projects, :users ])
   end
 
   # POST /groups
@@ -76,7 +77,7 @@ class GroupsController < ApplicationController
   # PUT /groups/1
   # PUT /groups/1.xml
   def update
-    @group = Group.find(params[:id])
+    @group = Group.find(params[:id], :include => :users)
 
     respond_to do |format|
       if @group.update_attributes(params[:group])
@@ -103,7 +104,7 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @group = Group.find(params[:id])
+    @group = Group.find(params[:id], :include => :users)
     users = User.find_all_by_id(params[:user_ids])
     @group.users << users if request.post?
     respond_to do |format|
@@ -118,7 +119,7 @@ class GroupsController < ApplicationController
   end
 
   def remove_user
-    @group = Group.find(params[:id])
+    @group = Group.find(params[:id], :include => :users)
     @group.users.delete(User.find(params[:user_id])) if request.post?
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
@@ -133,7 +134,7 @@ class GroupsController < ApplicationController
   end
 
   def edit_membership
-    @group = Group.find(params[:id])
+    @group = Group.find(params[:id], :include => :projects)
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
     @membership.save if request.post?
     respond_to do |format|
@@ -156,7 +157,7 @@ class GroupsController < ApplicationController
   end
 
   def destroy_membership
-    @group = Group.find(params[:id])
+    @group = Group.find(params[:id], :include => :projects)
     Member.find(params[:membership_id]).destroy if request.post?
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
