@@ -14,7 +14,7 @@
   </div>
   <div class="subject editable" fieldname="subject" fieldorder="2"><%=h story.subject %></div>
   <div class="fixed_version_id"><%= story.fixed_version_id %></div>
-  <div class="higher_item_id"><%= story.higher_item.blank? ? '' : story.higher_item.id %></div>
+  <div class="higher_item_id"><%= !defined?(higher_item) || higher_item.nil? ? '' : higher_item.id %></div>
   <div class="meta">
     <%= render :partial => "shared/model_errors", :object => story.errors %>
   </div>

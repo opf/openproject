@@ -6,6 +6,14 @@
   </div>
   <ul class="stories">
     <% reset_cycle 'stories' %>
-    <%= render :partial => "rb_stories/story", :collection => backlog.stories %>
+    <% backlog.stories.each_with_index do |story, index| %>
+      <% higher_item = index == 0 ?
+                        nil :
+                        backlog.stories[index - 1] %>
+
+      <%= render :partial => "rb_stories/story",
+                 :locals => { :story => story,
+                              :higher_item => higher_item } %>
+    <% end %>
   </ul>
 </div>
