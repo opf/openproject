@@ -55,7 +55,7 @@ module RbCommonHelper
   end
 
   def mark_if_closed(story)
-    !story.new_record? && story.status.is_closed? ? "closed" : ""
+    !story.new_record? && issue_status_for_id(story.status_id).is_closed? ? "closed" : ""
   end
 
   def story_points_or_empty(story)
@@ -75,11 +75,11 @@ module RbCommonHelper
   end
 
   def status_id_or_default(story)
-    story.new_record? ? IssueStatus.find(:first, :order => "position ASC").id : story.status.id
+    story.new_record? ? new_record_status.id : story.status_id
   end
 
   def status_label_or_default(story)
-    story.new_record? ? IssueStatus.find(:first, :order => "position ASC").name : story.status.name
+    story.new_record? ? new_record_status.name : h(issue_status_for_id(story.status_id).name)
   end
 
   def sprint_html_id_or_empty(sprint)
@@ -99,7 +99,7 @@ module RbCommonHelper
   end
 
   def tracker_name_or_empty(story)
-    story.new_record? ? "" : story.tracker.name
+    story.new_record? ? "" : h(all_trackers[story.tracker_id].name)
   end
 
   def updated_on_with_milliseconds(story)
@@ -110,6 +110,7 @@ module RbCommonHelper
     return '' if d.blank?
     d.strftime("%B %d, %Y %H:%M:%S") + '.' + (d.to_f % 1 + add).to_s.split('.')[1]
   end
+
 
   def remaining_hours(item)
     item.remaining_hours.blank? || item.remaining_hours==0 ? "" : item.remaining_hours
@@ -131,12 +132,11 @@ module RbCommonHelper
   end
 
   def available_story_trackers
-    trackers = Tracker.find(:all, :conditions => {:id => Setting.plugin_backlogs["story_trackers"]},
-                                  :order => 'position')
+    @available_story_trackers ||= begin
+      trackers = all_trackers.values.select{|t| Setting.plugin_backlogs["story_trackers"].include?(t.id.to_s) }
 
-    trackers &= @project.trackers if @project
-
-    trackers
+      trackers & @project.trackers if @project
+    end
   end
 
   def show_burndown_link(sprint)
@@ -153,5 +153,46 @@ module RbCommonHelper
               burndown.setSprintId(#{sprint.id});
             });"
     ret
+  end
+
+  private
+
+  def new_record_status
+    @new_record_status ||= all_issue_status.first
+  end
+
+  def default_issue_status
+    @default_issue_status ||= all_issue_status.detect(&:is_default)
+  end
+
+  def issue_status_for_id(id)
+    @all_issue_status_by_id ||= begin
+      all_issue_status.inject({}) do |mem, status|
+        mem[status.id] = status
+        mem
+      end
+    end
+
+    @all_issue_status_by_id[id]
+  end
+
+  def all_issue_status
+    @all_issue_status ||= IssueStatus.all(:order => 'position ASC')
+  end
+
+  def all_trackers
+    @all_trackers_by_id ||= begin
+      backlogs_ids = Setting.plugin_backlogs["story_trackers"]
+      backlogs_ids << Setting.plugin_backlogs["task_tracker"]
+
+      backlogs_trackers = Tracker.find(:all,
+                                       :conditions => { :id => backlogs_ids },
+                                       :order => 'position ASC')
+
+      backlogs_trackers.inject({}) do |mem, tracker|
+        mem[tracker.id] = tracker
+        mem
+      end
+    end
   end
 end

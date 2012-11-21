@@ -16,12 +16,13 @@ describe 'rb_taskboards/show' do
     assigns[:project]  = project
     assigns[:sprint]   = sprint
     assigns[:statuses] = statuses
+    assigns[:all_issue_status] = statuses
   end
 
   describe 'story blocks' do
-    let(:story_a) { stub_model(Story, :id => 1001, :subject => 'Story A', :status => statuses[0], :assigned_to => assignee) }
-    let(:story_b) { stub_model(Story, :id => 1002, :subject => 'Story B', :status => statuses[1], :assigned_to => assignee) }
-    let(:story_c) { stub_model(Story, :id => 1003, :subject => 'Story C', :status => statuses[2], :assigned_to => assignee) }
+    let(:story_a) { stub_model(Story, :id => 1001, :subject => 'Story A', :status => statuses[0], :status_id => statuses[0].id, :assigned_to => assignee) }
+    let(:story_b) { stub_model(Story, :id => 1002, :subject => 'Story B', :status => statuses[1], :status_id => statuses[1].id, :assigned_to => assignee) }
+    let(:story_c) { stub_model(Story, :id => 1003, :subject => 'Story C', :status => statuses[2], :status_id => statuses[2].id, :assigned_to => assignee) }
     let(:stories) { [story_a, story_b, story_c] }
 
     before do
