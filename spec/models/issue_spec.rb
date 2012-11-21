@@ -66,8 +66,8 @@ describe Issue do
 
   describe 'definition of done' do
     before(:each) do
-      @status_resolved ||= Factory.create(:issue_status, :name => "Resolved", :is_default => false)
-      @status_open ||= Factory.create(:issue_status, :name => "Open", :is_default => true)
+      @status_resolved = Factory.build(:issue_status, :name => "Resolved", :is_default => false)
+      @status_open = Factory.build(:issue_status, :name => "Open", :is_default => true)
       @project = Factory.build(:project)
       @project.issue_statuses = [@status_resolved]
 
