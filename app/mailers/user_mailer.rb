@@ -211,8 +211,7 @@ class UserMailer < ActionMailer::Base
     @activation_url = url_for(:controller => :users,
                               :action     => :index,
                               :status     => User::STATUS_REGISTERED,
-                              :sort_key   => :created_on,
-                              :sort_order => :desc)
+                              :sort       => 'created_on:desc')
 
     open_project_headers 'Type' => 'Account'
 
