@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git@github.com:finnlabs/openproject-themes.git
-  revision: 690ca546a1fdb5216c0163c83b046b864b38d992
+  revision: eb839c33c4a3f035dfbe98b5d2076fb976c2d021
   specs:
     openproject-themes (0.1.0)
       rails (~> 3.2.8)
