@@ -2,9 +2,10 @@
 
 require 'yaml'
 
-def abort_installation
+def abort_installation!
   p "Something went wrong :("
   p "Installation aborted."
+  return false
 end
 
 def check_ruby_version
@@ -49,7 +50,7 @@ def check_git
 end
 
 def check_for_db_yaml
-  unless File.exists?(Dir.pwd + '/config/database.yml')
+  unless File.exists?(ROOT + '/config/database.yml')
     p "Please configure your database before installing openProject."
     p "Create and configure config/database.yml to do that."
     return false
@@ -108,8 +109,8 @@ def setup_openproject
     p "Creating database"
     `rake db:create`
 
-    p "Migrating database"
-    `rake db:migrate`
+    migrate_core
+    migrate_plugins
   else
     return false
   end
@@ -118,29 +119,40 @@ def setup_openproject
   system("rake generate_session_store")
 end
 
+def bundle_default_plugins
+  unless system("bundle install --without rmagick")
+    return false
+  end
+end
+
 def migrate_plugins
   p "Migrate Plugins"
   system("rake db:migrate:plugins")
 end
 
+def migrate_core
+  p "Migrate Core"
+  `rake db:migrate`
+end
+
 def install
   p 'Installing openProject...'
 
+
   check_ruby_version
-  if not check_bundler or
-  not check_git or not
-  setup_openproject
-    abort_installation
-    return false
+  if not check_bundler or not check_git
+    abort_installation!
   end
 
   unless checkout_default_plugins
-    return false
+    abort_installation!
   end
 
-  migrate_plugins
+  Dir.chdir ROOT
 
+  return abort_installation! unless setup_openproject
   p "Installation Succeeded"
 end
 
+ROOT = Dir.pwd
 install
