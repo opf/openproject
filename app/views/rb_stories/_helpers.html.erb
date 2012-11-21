@@ -1,5 +1,5 @@
 <!-- story helper tags -->
-<% @available_statuses_by_tracker.each do |tracker, issue_statuses| %>
+<% available_statuses_by_tracker.each do |tracker, issue_statuses| %>
   <% issue_statuses.each do |old_status, allowed_issue_statuses| %>
     <select class="status_id helper" id="status_id_options_<%= tracker.id %>_<%= old_status.id %>">
       <% allowed_issue_statuses.sort_by(&:position).each do |status| %>

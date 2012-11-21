@@ -99,7 +99,7 @@ module RbCommonHelper
   end
 
   def tracker_name_or_empty(story)
-    story.new_record? ? "" : h(all_trackers[story.tracker_id].name)
+    story.new_record? ? "" : h(backlogs_trackers_by_id[story.tracker_id].name)
   end
 
   def updated_on_with_milliseconds(story)
@@ -133,9 +133,29 @@ module RbCommonHelper
 
   def available_story_trackers
     @available_story_trackers ||= begin
-      trackers = all_trackers.values.select{|t| Setting.plugin_backlogs["story_trackers"].include?(t.id.to_s) }
+      trackers = story_trackers & @project.trackers if @project
 
-      trackers & @project.trackers if @project
+      trackers
+    end
+  end
+
+  def available_statuses_by_tracker
+    @available_statuses_by_tracker ||= begin
+      available_statuses_by_tracker = Hash.new do |tracker_hash, tracker|
+        tracker_hash[tracker] = Hash.new do |status_hash, status|
+          status_hash[status] = [status]
+        end
+      end
+
+      workflows = all_workflows
+
+      workflows.each do |w|
+        tracker_status = available_statuses_by_tracker[story_trackers_by_id[w.tracker_id]][w.old_status]
+
+        tracker_status << w.new_status unless tracker_status.include?(w.new_status)
+      end
+
+      available_statuses_by_tracker
     end
   end
 
@@ -176,20 +196,47 @@ module RbCommonHelper
     @all_issue_status_by_id[id]
   end
 
+  def all_workflows
+    @all_workflows ||= Workflow.all(:include => [:new_status, :old_status],
+                                    :conditions => { :role_id => User.current.roles_for_project(@project).collect(&:id),
+                                                     :tracker_id => story_trackers.collect(&:id) })
+  end
+
   def all_issue_status
     @all_issue_status ||= IssueStatus.all(:order => 'position ASC')
   end
 
-  def all_trackers
-    @all_trackers_by_id ||= begin
+  def backlogs_trackers
+    @backlogs_trackers ||= begin
       backlogs_ids = Setting.plugin_backlogs["story_trackers"]
       backlogs_ids << Setting.plugin_backlogs["task_tracker"]
 
-      backlogs_trackers = Tracker.find(:all,
-                                       :conditions => { :id => backlogs_ids },
-                                       :order => 'position ASC')
+      Tracker.find(:all,
+                   :conditions => { :id => backlogs_ids },
+                   :order => 'position ASC')
+    end
+  end
 
+  def backlogs_trackers_by_id
+    @backlogs_trackers_by_id ||= begin
       backlogs_trackers.inject({}) do |mem, tracker|
+        mem[tracker.id] = tracker
+        mem
+      end
+    end
+  end
+
+  def story_trackers
+    @story_trackers ||= begin
+      backlogs_tracker_ids = Setting.plugin_backlogs["story_trackers"].map(&:to_i)
+
+      backlogs_trackers.select{ |t| backlogs_tracker_ids.include?(t.id) }
+    end
+  end
+
+  def story_trackers_by_id
+    @story_trackers_by_id ||= begin
+      story_trackers.inject({}) do |mem, tracker|
         mem[tracker.id] = tracker
         mem
       end
