@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.9'
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
