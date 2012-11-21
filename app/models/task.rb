@@ -31,14 +31,9 @@ class Task < Issue
   end
 
   def self.tasks_for(story_id)
-    tasks = []
-    Story.find_by_id(story_id).children.
-      find_all_by_tracker_id(Task.tracker, :order => :lft).each_with_index {|task, i|
-        task = Task.find(task.id)
-        task.rank = i + 1
-        tasks << task
-      }
-    return tasks
+    Task.find_all_by_parent_id(story_id, :order => :lft).each_with_index do |task, i|
+      task.rank = i + 1
+    end
   end
 
   def status_id=(id)
