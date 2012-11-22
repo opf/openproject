@@ -325,7 +325,7 @@ h3.reporting_formatting {
 /* have #content here to overwrite line-heigth of other themes through being more specific*/
 #content .group_by_caption {
   color: #FFFFFF;
-  background-color: #000000;
+  background-color: #4B4B4B;
   font-weight: bold;
   padding: 0 7px;
   margin: 0;
@@ -358,7 +358,7 @@ h3.reporting_formatting {
 }
 
 .arrow_group_by_caption {
-  border-color: transparent transparent transparent #000000;
+  border-color: transparent transparent transparent #4B4B4B;
 }
 
 .drag_container {
