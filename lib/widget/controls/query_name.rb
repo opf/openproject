@@ -9,7 +9,7 @@ class Widget::Controls::QueryName < Widget::Controls
     else
       name = @subject.name
       if @options[:can_rename]
-        icon = content_tag :a, :href => "#", :class => 'breadcrumb_icon icon-edit',
+        icon = content_tag :a, :href => "#", :class => 'icon-rename icon',
         :id => "query-name-edit-button", :title => "#{l(:button_rename)}" do
           l(:button_rename)
         end
