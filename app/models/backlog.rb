@@ -4,9 +4,12 @@ class Backlog
   attr_accessor :sprint
   attr_accessor :stories
 
-  def self.owner_backlogs(project, limit = nil)
+  def self.owner_backlogs(project, options = {} )
+    options.reverse_merge!({ :limit => nil })
+
     backlogs = Sprint.apply_to(project).open.displayed_right(project).order_by_name
-    backlogs.map{ |sprint| new(:stories => sprint.stories(project, :limit => limit), :owner_backlog => true, :sprint => sprint)}
+
+    backlogs.map{ |sprint| new(:stories => sprint.stories(project, options.dup), :owner_backlog => true, :sprint => sprint)}
   end
 
   def self.sprint_backlogs(project)

@@ -17,17 +17,26 @@ class Story < Issue
   ORDER = 'CASE WHEN issues.position IS NULL THEN 1 ELSE 0 END ASC, CASE WHEN issues.position IS NULL THEN issues.id ELSE issues.position END ASC'
 
   def self.backlog(project_id, sprint_id, options={})
+    options.reverse_merge!({ :order => Story::ORDER,
+                             :conditions => Story.condition(project_id, sprint_id),
+                             :joins => :tracker } )
+
     stories = []
 
-    Story.find(:all,
-               :order => Story::ORDER,
-               :conditions => Story.condition(project_id, sprint_id),
-               :joins => :status,
-               :limit => options[:limit]).each_with_index {|story, i|
-                      next if story.ancestors.any? {|ancestor| ancestor.is_task? }
-                      story.rank = i + 1
-                      stories << story
-                    }
+    candidates = Story.all(options)
+
+    candidate_roots = candidates.map(&:root_id)
+
+    candidates_tasks_in_tree = candidate_roots.empty? ?
+                                {} :
+                                Task.all(:conditions => { :root_id => candidate_roots },
+                                         :include => { :project => :enabled_modules }).group_by(&:root_id)
+
+    candidates.each_with_index do |story, i|
+      next if candidates_tasks_in_tree[story.root_id].any? { |task| task.is_task? && task.lft < story.lft && task.rgt > story.rgt }
+      story.rank = i + 1
+      stories << story
+    end
 
     stories
   end
