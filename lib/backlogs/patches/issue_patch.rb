@@ -148,7 +148,8 @@ module Backlogs::Patches::IssuePatch
           remaining_hours_sum = p.leaves.sum(:remaining_hours).to_f
           remaining_hours_sum  = nil if remaining_hours_sum  == 0.0
 
-          p.update_attribute(:remaining_hours, remaining_hours_sum)
+          p.remaining_hours = remaining_hours_sum
+          p.save(false) if p.changed?
         end
       end
     end
@@ -200,7 +201,7 @@ module Backlogs::Patches::IssuePatch
     end
 
     def inherit_version_to_leaf_tasks
-      unless Issue.child_update_semaphore_taken?
+      if !Issue.child_update_semaphore_taken? && self.fixed_version_id_changed?
         begin
           Issue.take_child_update_semaphore
 
