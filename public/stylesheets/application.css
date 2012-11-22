@@ -1028,6 +1028,7 @@ background-image:url('../images/close_hover.png');
 .icon-file.application-pdf { background-image: url(../images/files/pdf.png); }
 .icon-file.application-zip { background-image: url(../images/files/zip.png); }
 .icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
+.icon-file-excel { background-image: url(../images/files/excel.png); }
 
 img.gravatar {
   border: solid 1px #d5d5d5;
