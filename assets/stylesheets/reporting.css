@@ -397,7 +397,7 @@ td:hover .drill_down, th:hover .drill_down {
 /*Buttons*/
 
 .buttons .reporting_button {
-  background-color: #9a9a9a;
+  background-color: #008BD0;
   border: none;
   cursor: pointer;
   margin: 0px;
@@ -418,7 +418,7 @@ td:hover .drill_down, th:hover .drill_down {
 }
 
 .buttons .reporting_button:hover {
-  background-color: #666666;
+  background-color: #24B3E7;
 }
 
 .buttons .reporting_button * em {
@@ -453,11 +453,11 @@ td:hover .drill_down, th:hover .drill_down {
 }
 
 .buttons .apply {
-  background-color: #990000;
+  background-color: #008BD0;
 }
 
 .buttons .apply:hover {
-  background-color: #CC0000;
+  background-color: #24B3E7;
 }
 
 .buttons .secondary {
