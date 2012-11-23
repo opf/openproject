@@ -772,7 +772,13 @@ class Issue < ActiveRecord::Base
   end
 
   def recalculate_attributes_for(issue_id)
-    if issue_id && p = Issue.find_by_id(issue_id)
+    if issue_id.is_a? Issue
+      p = issue_id
+    else
+      p = Issue.find_by_id(issue_id)
+    end
+
+    if p
       # priority = highest priority of children
       if priority_position = p.children.maximum("#{IssuePriority.table_name}.position", :include => :priority)
         p.priority = IssuePriority.find_by_position(priority_position)
