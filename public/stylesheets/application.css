@@ -3214,7 +3214,7 @@ div.flash.notice {
 }
 
 div.flash.warning { /* orange */
-  background: #FFC38C url(../images/warning.png) 14px 5px no-repeat;
+  background: #FFC38C url(../images/warning.png) 9px 5px no-repeat;
   border: none;
   color: #000000;
   text-align: left;
