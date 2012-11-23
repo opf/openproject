@@ -2,7 +2,7 @@
 <div class="splitcontentleft">
   <div class="wiki"><%= textilizable Setting.welcome_text %></div>
   <% if @news.any? %>
-  <div class="mypage-box">
+  <div class="news mypage-box">
 	<h3><%=l(:label_news_latest)%></h3>
         <div class="overview">
 		<%= render :partial => 'news/news', :collection => @news %>
