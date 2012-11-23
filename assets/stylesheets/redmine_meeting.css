@@ -25,3 +25,6 @@ dt.meeting-agenda {
 dt.meeting-minutes {
   background-image: url(../images/minutes.png);
 }
+div#activity dl.meetings dt span {
+  padding-left: 15px;
+}
