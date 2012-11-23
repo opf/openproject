@@ -2653,7 +2653,7 @@ Additional wiki styles
 }
 
 .wiki p.tip, .wiki span.tip {
-  background: url(../images/wiki_styles/tip.png) 4px 4px no-repeat #F5FFFA;
+  background: url(../images/tip.png) 4px 4px no-repeat;
   border: 1px solid #C7CFCA;
 }
 .wiki p.smalltip, .wiki span.smalltip {
