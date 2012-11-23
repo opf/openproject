@@ -142,16 +142,21 @@ module Backlogs::Patches::IssuePatch
     end
 
     def recalculate_attributes_for_with_remaining_hours(issue_id)
-      recalculate_attributes_for_without_remaining_hours(issue_id)
+      if issue_id.is_a? Issue
+        p = issue_id
+      else
+        p = Issue.find_by_id(issue_id)
+      end
 
-      if issue_id && backlogs_enabled? && p = Issue.find_by_id(issue_id)
-        if p.left != (p.right + 1) # this node has children
-          remaining_hours_sum = p.leaves.sum(:remaining_hours).to_f
-          remaining_hours_sum  = nil if remaining_hours_sum  == 0.0
+      if p.present?
+        if backlogs_enabled? &&
+           p.left != (p.right + 1) # this node has children
 
-          p.remaining_hours = remaining_hours_sum
-          p.save(false) if p.changed?
+          p.remaining_hours = p.leaves.sum(:remaining_hours).to_f
+          p.remaining_hours = nil if p.remaining_hours  == 0.0
         end
+
+        recalculate_attributes_for_without_remaining_hours(p)
       end
     end
 
