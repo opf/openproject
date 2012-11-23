@@ -107,10 +107,8 @@ def setup_openproject
 
   if check_for_db_yaml
     p "Creating database"
-    `rake db:create`
 
-    migrate_core
-    migrate_plugins
+    return false unless system("rake db:create") and migrate_core and migrate_plugins
   else
     return false
   end
@@ -127,12 +125,12 @@ end
 
 def migrate_plugins
   p "Migrate Plugins"
-  system("rake db:migrate:plugins")
+  return system("rake db:migrate:plugins")
 end
 
 def migrate_core
   p "Migrate Core"
-  `rake db:migrate`
+  return system("rake db:migrate")
 end
 
 def install
