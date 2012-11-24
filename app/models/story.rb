@@ -18,22 +18,24 @@ class Story < Issue
 
   def self.backlog(project_id, sprint_id, options={})
     options.reverse_merge!({ :order => Story::ORDER,
-                             :conditions => Story.condition(project_id, sprint_id),
-                             :joins => :tracker } )
+                             :conditions => Story.condition(project_id, sprint_id) })
 
     stories = []
 
     candidates = Story.all(options)
 
-    candidate_roots = candidates.map(&:root_id)
+    candidate_roots = candidates.map(&:root_id).uniq
+    candidate_ids = candidates.map(&:id)
 
     candidates_tasks_in_tree = candidate_roots.empty? ?
                                 {} :
-                                Task.all(:conditions => { :root_id => candidate_roots },
+                                Task.all(:joins => "LEFT JOIN `issues` stories ON stories.root_id = issues.root_id",
+                                         :conditions => ["issues.tracker_id = ? AND issues.lft < stories.lft AND issues.rgt > stories.rgt AND stories.id in (?)", Task.tracker, candidate_ids],
                                          :include => { :project => :enabled_modules }).group_by(&:root_id)
 
     candidates.each_with_index do |story, i|
-      next if candidates_tasks_in_tree[story.root_id].any? { |task| task.is_task? && task.lft < story.lft && task.rgt > story.rgt }
+      next if candidates_tasks_in_tree[story.root_id] &&
+              candidates_tasks_in_tree[story.root_id].any? { |task| task.is_task? && task.lft < story.lft && task.rgt > story.rgt }
       story.rank = i + 1
       stories << story
     end

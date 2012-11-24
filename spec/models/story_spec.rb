@@ -6,8 +6,26 @@ describe Story do
   let(:issue_status1) { @status1 ||= Factory.create(:issue_status, :name => "status 1", :is_default => true) }
   let(:tracker_feature) { @tracker_feature ||= Factory.create(:tracker_feature) }
   let(:version) { @version ||= Factory.create(:version, :project => project) }
+  let(:version2) { Factory.create(:version, :project => project) }
   let(:sprint) { @sprint ||= Factory.create(:sprint, :project => project) }
   let(:issue_priority) { @issue_priority ||= Factory.create(:priority) }
+  let(:task_tracker) { Factory.create(:tracker_task) }
+  let(:task) { Factory.create(:story, :fixed_version => version,
+                                      :project => project,
+                                      :status => issue_status1,
+                                      :tracker => task_tracker,
+                                      :priority => issue_priority) }
+  let(:story1) { Factory.create(:story, :fixed_version => version,
+                                        :project => project,
+                                        :status => issue_status1,
+                                        :tracker => tracker_feature,
+                                        :priority => issue_priority) }
+
+  let(:story2) { Factory.create(:story, :fixed_version => version,
+                                        :project => project,
+                                        :status => issue_status1,
+                                        :tracker => tracker_feature,
+                                        :priority => issue_priority) }
 
   let(:project) do
     unless @project
@@ -26,7 +44,7 @@ describe Story do
                                "wiki_template"         => "",
                                "card_spec"             => "Sattleford VM-5040",
                                "story_trackers"        => [tracker_feature.id.to_s],
-                               "task_tracker"          => "0"}
+                               "task_tracker"          => task_tracker.id.to_s }
   end
 
   describe "Class methods" do
@@ -36,6 +54,7 @@ describe Story do
     end
 
     describe :backlog do
+
       describe "WITH the user having the right to view issues" do
         before(:each) do
           role.permissions << :view_issues
@@ -44,13 +63,10 @@ describe Story do
 
         describe "WITH the sprint having 1 story" do
           before(:each) do
-            @story1 = Factory.create(:story, :fixed_version => version,
-                                             :project => project,
-                                             :status => issue_status1,
-                                             :tracker => tracker_feature)
+            story1
           end
 
-          it { Story.backlog(project, version).should eql [@story1] }
+          it { Story.backlog(project, version).should =~ [story1] }
         end
 
         describe "WITH the sprint having one story in this project and one story in another project" do
@@ -58,24 +74,64 @@ describe Story do
             version.sharing = "system"
             version.save!
 
-            @another_project = Factory.create(:project)
+            another_project = Factory.create(:project)
 
-            @story1 = Factory.create(:story, :fixed_version => version,
-                                             :project => project,
-                                             :status => issue_status1,
-                                             :tracker => tracker_feature,
-                                             :priority => issue_priority)
-
-            @story2 = Factory.create(:story, :fixed_version => version,
-                                             :project => @another_project,
-                                             :status => issue_status1,
-                                             :tracker => tracker_feature,
-                                             :priority => issue_priority)
-            true
+            story1
+            story2.project = another_project
+            story2.save!
           end
 
-          it { Story.backlog(project, version).should have(1).items }
-          it { Story.backlog(project, version)[0].should eql @story1 }
+          it { Story.backlog(project, version).should =~ [story1] }
+        end
+
+        describe "WITH the sprint having two storys
+                  WITH one beeing the child of a task" do
+
+          before(:each) do
+            task.parent_issue_id = story2.id
+            task.save
+
+            story1.parent_issue_id = task.id
+
+            story1.save
+          end
+
+          it { Story.backlog(project, version).should =~ [story2] }
+        end
+
+        describe "WITH the sprint having two storys
+                  WITH one beeing the child of the other" do
+
+          before(:each) do
+            story1.parent_issue_id = story2.id
+
+            story1.save
+          end
+
+          it { Story.backlog(project, version).should =~ [story1, story2] }
+        end
+
+        describe "WITH the sprint having one story
+                  WITH the story having a child task" do
+
+          before(:each) do
+            task.parent_issue_id = story1.id
+
+            task.save
+          end
+
+          it { Story.backlog(project, version).should =~ [story1] }
+        end
+
+        describe "WITH the sprint having one story and one task
+                  WITH the two having no connection" do
+
+          before(:each) do
+            task
+            story1
+          end
+
+          it { Story.backlog(project, version).should =~ [story1] }
         end
       end
     end
