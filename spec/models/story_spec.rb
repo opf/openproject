@@ -48,91 +48,138 @@ describe Story do
   end
 
   describe "Class methods" do
-    describe :condition do
+    describe :backlogs do
 
-      it {Story.condition(1, 2).should eql(["project_id = ? AND tracker_id in (?) AND fixed_version_id = ?", 1, [tracker_feature.id], 2])}
-    end
-
-    describe :backlog do
-
-      describe "WITH the user having the right to view issues" do
+      describe "WITH one sprint
+                WITH the sprint having 1 story" do
         before(:each) do
-          role.permissions << :view_issues
-          role.save!
+          story1
         end
 
-        describe "WITH the sprint having 1 story" do
-          before(:each) do
-            story1
-          end
+        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1] }
+      end
 
-          it { Story.backlog(project, version).should =~ [story1] }
+      describe "WITH two sprints
+                WITH two stories
+                WITH one story per sprint
+                WITH querying for the two sprints" do
+
+        before do
+          version2
+          story1
+          story2.fixed_version_id = version2.id
+          story2.save!
         end
 
-        describe "WITH the sprint having one story in this project and one story in another project" do
-          before(:each) do
-            version.sharing = "system"
-            version.save!
+        it { Story.backlogs(project, [version.id, version2.id])[version.id].should =~ [story1] }
+        it { Story.backlogs(project, [version.id, version2.id])[version2.id].should =~ [story2] }
+      end
 
-            another_project = Factory.create(:project)
+      describe "WITH two sprints
+                WITH two stories
+                WITH one story per sprint
+                WITH querying one sprints" do
 
-            story1
-            story2.project = another_project
-            story2.save!
-          end
+        before do
+          version2
+          story1
 
-          it { Story.backlog(project, version).should =~ [story1] }
+          story2.fixed_version_id = version2.id
+          story2.save!
         end
 
-        describe "WITH the sprint having two storys
-                  WITH one beeing the child of a task" do
+        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1] }
+        it { Story.backlogs(project, [version.id])[version2.id].should be_empty }
+      end
 
-          before(:each) do
-            task.parent_issue_id = story2.id
-            task.save
+      describe "WITH two sprints
+                WITH two stories
+                WITH one story per sprint
+                WITH querying for the two sprints
+                WITH one sprint beeing in another project" do
 
-            story1.parent_issue_id = task.id
+        before do
+          story1
 
-            story1.save
-          end
-
-          it { Story.backlog(project, version).should =~ [story2] }
+          other_project = Factory.create(:project)
+          version2.project_id = other_project.id
+          story2.fixed_version_id = version2.id
+          story2.project = other_project
+          story2.save!
         end
 
-        describe "WITH the sprint having two storys
-                  WITH one beeing the child of the other" do
+        it { Story.backlogs(project, [version.id, version2.id])[version.id].should =~ [story1] }
+        it { Story.backlogs(project, [version.id, version2.id])[version2.id].should be_empty }
+      end
 
-          before(:each) do
-            story1.parent_issue_id = story2.id
+      describe "WITH one sprint
+                WITH the sprint having one story in this project and one story in another project" do
+        before(:each) do
+          version.sharing = "system"
+          version.save!
 
-            story1.save
-          end
+          another_project = Factory.create(:project)
 
-          it { Story.backlog(project, version).should =~ [story1, story2] }
+          story1
+          story2.project = another_project
+          story2.save!
         end
 
-        describe "WITH the sprint having one story
-                  WITH the story having a child task" do
+        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1] }
+      end
 
-          before(:each) do
-            task.parent_issue_id = story1.id
+      describe "WITH one sprint
+                WITH the sprint having two storys
+                WITH one beeing the child of a task" do
 
-            task.save
-          end
+        before(:each) do
+          task.parent_issue_id = story2.id
+          task.save
 
-          it { Story.backlog(project, version).should =~ [story1] }
+          story1.parent_issue_id = task.id
+
+          story1.save
         end
 
-        describe "WITH the sprint having one story and one task
-                  WITH the two having no connection" do
+        it { Story.backlogs(project, [version.id])[version.id].should =~ [story2] }
+      end
 
-          before(:each) do
-            task
-            story1
-          end
+      describe "WITH one sprint
+                WITH the sprint having two storys
+                WITH one beeing the child of the other" do
 
-          it { Story.backlog(project, version).should =~ [story1] }
+        before(:each) do
+          story1.parent_issue_id = story2.id
+
+          story1.save
         end
+
+        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1, story2] }
+      end
+
+      describe "WITH one sprint
+                WITH the sprint having one story
+                WITH the story having a child task" do
+
+        before(:each) do
+          task.parent_issue_id = story1.id
+
+          task.save
+        end
+
+        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1] }
+      end
+
+      describe "WITH one sprint
+                WITH the sprint having one story and one task
+                WITH the two having no connection" do
+
+        before(:each) do
+          task
+          story1
+        end
+
+        it { Story.backlogs(project, [version.id])[version.id].should =~ [story1] }
       end
     end
   end

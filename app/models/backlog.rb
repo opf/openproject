@@ -9,12 +9,17 @@ class Backlog
 
     backlogs = Sprint.apply_to(project).open.displayed_right(project).order_by_name
 
-    backlogs.map{ |sprint| new(:stories => sprint.stories(project, options.dup), :owner_backlog => true, :sprint => sprint)}
+    stories_by_sprints = Story.backlogs(project.id, backlogs.map(&:id))
+
+    backlogs.map{ |sprint| new(:stories => stories_by_sprints[sprint.id], :owner_backlog => true, :sprint => sprint)}
   end
 
   def self.sprint_backlogs(project)
     sprints = Sprint.apply_to(project).open.displayed_left(project).order_by_date
-    sprints.map{ |sprint| new(:stories => sprint.stories(project), :sprint => sprint) }
+
+    stories_by_sprints = Story.backlogs(project.id, sprints.map(&:id))
+
+    sprints.map{ |sprint| new(:stories => stories_by_sprints[sprint.id], :sprint => sprint)}
   end
 
   def initialize(options = {})

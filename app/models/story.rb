@@ -1,54 +1,45 @@
 class Story < Issue
   unloadable
 
-  def self.condition(project_id, sprint_id, extras=[])
-    c = ["project_id = ? AND tracker_id in (?) AND fixed_version_id = ?",
-          project_id, Story.trackers, sprint_id]
+  def self.backlogs(project_id, sprint_ids, options = {})
 
-    if extras.size > 0
-      c[0] += ' ' + extras.shift
-      c += extras
-    end
-
-    c
-  end
-
-  # This forces NULLS-LAST ordering
-  ORDER = 'CASE WHEN issues.position IS NULL THEN 1 ELSE 0 END ASC, CASE WHEN issues.position IS NULL THEN issues.id ELSE issues.position END ASC'
-
-  def self.backlog(project_id, sprint_id, options={})
     options.reverse_merge!({ :order => Story::ORDER,
-                             :conditions => Story.condition(project_id, sprint_id) })
-
-    stories = []
+                             :conditions => Story.condition(project_id, sprint_ids) })
 
     candidates = Story.all(options)
 
-    candidate_roots = candidates.map(&:root_id).uniq
     candidate_ids = candidates.map(&:id)
 
-    candidates_tasks_in_tree = candidate_roots.empty? ?
-                                {} :
-                                Task.all(:joins => "LEFT JOIN `issues` stories ON stories.root_id = issues.root_id",
-                                         :conditions => ["issues.tracker_id = ? AND issues.lft < stories.lft AND issues.rgt > stories.rgt AND stories.id in (?)", Task.tracker, candidate_ids],
-                                         :include => { :project => :enabled_modules }).group_by(&:root_id)
+    candidates_tasks_in_tree = stories_taskish_ancestors(candidate_ids)
 
-    candidates.each_with_index do |story, i|
-      next if candidates_tasks_in_tree[story.root_id] &&
-              candidates_tasks_in_tree[story.root_id].any? { |task| task.is_task? && task.lft < story.lft && task.rgt > story.rgt }
-      story.rank = i + 1
-      stories << story
+    stories_by_version = Hash.new do |hash, sprint_id|
+      hash[sprint_id] = []
     end
 
-    stories
-  end
+    candidates.each do |story|
+      # I am not aware of why this restriction is placed here
+      # as I consider it to be neither useful nor
+      # to be placed at the right spot.
+      # If such a restriction should be necessary it should be prevented for
+      # a story to have tasks in their ancestors chain.
+      # This whould be much more understandable for the user and it would
+      # improve the performance significantely
+      next if candidates_tasks_in_tree[story.root_id] &&
+              candidates_tasks_in_tree[story.root_id].any? { |task| task.lft < story.lft && task.rgt > story.rgt  && task.is_task? }
 
-  def self.product_backlog(project, limit=nil)
-    Story.backlog(project.id, nil, :limit => limit)
+      last_rank = stories_by_version[story.fixed_version_id].size > 0 ?
+                     stories_by_version[story.fixed_version_id].last.rank :
+                     0
+
+      story.rank = last_rank + 1
+      stories_by_version[story.fixed_version_id] << story
+    end
+
+    stories_by_version
   end
 
   def self.sprint_backlog(project, sprint, options={})
-    Story.backlog(project.id, sprint.id, options)
+    Story.backlogs(project.id, [sprint.id], options)[sprint.id]
   end
 
   def self.create_and_position(params, safer_attributes)
@@ -159,5 +150,34 @@ class Story < Issue
     @rank ||= Issue.count(:conditions => Story.condition(self.project.id, self.fixed_version_id, extras), :joins => :status)
 
     return @rank
+  end
+
+  private
+
+  def self.condition(project_id, sprint_ids, extras = [])
+    c = ["project_id = ? AND tracker_id in (?) AND fixed_version_id in (?)",
+         project_id, Story.trackers, sprint_ids]
+
+    if extras.size > 0
+      c[0] += ' ' + extras.shift
+      c += extras
+    end
+
+    c
+  end
+
+  # This forces NULLS-LAST ordering
+  ORDER = 'CASE WHEN issues.position IS NULL THEN 1 ELSE 0 END ASC, CASE WHEN issues.position IS NULL THEN issues.id ELSE issues.position END ASC'
+
+  def self.stories_taskish_ancestors(story_ids)
+    story_ids.empty? ?
+      {} :
+      Task.all(:joins => "LEFT JOIN `issues` stories ON stories.root_id = issues.root_id",
+               :conditions => ["issues.tracker_id = ? " +
+                               "AND issues.lft < stories.lft AND issues.rgt > stories.rgt " +
+                               "AND stories.id in (?)",
+                               Task.tracker,
+                               story_ids],
+               :include => { :project => :enabled_modules }).group_by(&:root_id)
   end
 end

@@ -64,7 +64,7 @@ def task_position(task)
 end
 
 def story_position(story)
-  p1 = Story.backlog(story.project, story.fixed_version_id).select{|s| s.id == story.id}[0].rank
+  p1 = Story.sprint_backlog(story.project, story.fixed_version).detect{ |s| s.id == story.id }.rank
   p2 = story.rank
   p1.should == p2
 
