@@ -1054,16 +1054,6 @@ module ApplicationHelper
     end
   end
 
-  def content_for(name, content = nil, &block)
-    if block_given?
-      content = capture(&block)
-      # only care for non whitespace contents;
-      super(name, content) if content.to_s.match /\S+/
-    else
-      super
-    end
-  end
-
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
