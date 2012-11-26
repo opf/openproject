@@ -9,6 +9,7 @@
 <%= favicon_link_tag current_theme.favicon_path %>
 <%= stylesheet_link_tag current_theme.main_stylesheet_path %>
 <%= javascript_include_tag 'application' %>
+<%= user_specific_javascript_includes %>
 <!-- aditional headers -->
 <%= content_for(:header_tags) if content_for?(:header_tags) %>
 </head>

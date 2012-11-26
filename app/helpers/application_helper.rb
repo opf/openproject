@@ -1072,13 +1072,18 @@ module ApplicationHelper
   end
 
   # Returns the javascript tags that are included in the html layout head
-  def javascript_heads
-    tags = javascript_include_tag(:defaults)
+  def user_specific_javascript_includes
+    tags = ''
+
     unless User.current.pref.warn_on_leaving_unsaved == '0'
-      tags.safe_concat "\n" + javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
+      tags += javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
     end
-    tags.safe_concat("\n" + javascript_include_tag("accessibility.js")) if User.current.impaired? and accessibility_js_enabled?
-    tags
+
+    if User.current.impaired? and accessibility_js_enabled?
+      tags += javascript_include_tag("accessibility.js")
+    end
+
+    tags.html_safe
   end
 
   # Add a HTML meta tag to control robots (web spiders)
