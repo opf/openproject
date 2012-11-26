@@ -12,7 +12,8 @@ module Backlogs::Patches::IssuePatch
       before_validation :backlogs_before_validation, :if => lambda {|i| i.project && i.project.module_enabled?("backlogs")}
 
       before_save :inherit_version_from_closest_story_or_impediment, :if => lambda {|i| i.is_task? }
-      after_save  :inherit_version_to_leaf_tasks, :if => lambda {|i| (i.backlogs_enabled? && i.closest_story_or_impediment == i) }
+      after_save  :inherit_version_to_descendants, :if => lambda {|i| (i.fixed_version_id_changed? && i.backlogs_enabled? && i.closest_story_or_impediment == i) }
+      after_move  :inherit_version_to_descendants, :if => lambda {|i| (i.is_task?) }
 
       register_on_journal_formatter(:fraction, 'remaining_hours')
       register_on_journal_formatter(:decimal, 'story_points')
@@ -141,15 +142,21 @@ module Backlogs::Patches::IssuePatch
     end
 
     def recalculate_attributes_for_with_remaining_hours(issue_id)
-      recalculate_attributes_for_without_remaining_hours(issue_id)
+      if issue_id.is_a? Issue
+        p = issue_id
+      else
+        p = Issue.find_by_id(issue_id)
+      end
 
-      if issue_id && backlogs_enabled? && p = Issue.find_by_id(issue_id)
-        if p.left != (p.right + 1) # this node has children
-          remaining_hours_sum = p.leaves.sum(:remaining_hours).to_f
-          remaining_hours_sum  = nil if remaining_hours_sum  == 0.0
+      if p.present?
+        if backlogs_enabled? &&
+           p.left != (p.right + 1) # this node has children
 
-          p.update_attribute(:remaining_hours, remaining_hours_sum)
+          p.remaining_hours = p.leaves.sum(:remaining_hours).to_f
+          p.remaining_hours = nil if p.remaining_hours  == 0.0
         end
+
+        recalculate_attributes_for_without_remaining_hours(p)
       end
     end
 
@@ -199,8 +206,8 @@ module Backlogs::Patches::IssuePatch
       inherit_version_from(root) if root != self
     end
 
-    def inherit_version_to_leaf_tasks
-      unless Issue.child_update_semaphore_taken?
+    def inherit_version_to_descendants
+      if !Issue.child_update_semaphore_taken?
         begin
           Issue.take_child_update_semaphore
 
@@ -210,9 +217,8 @@ module Backlogs::Patches::IssuePatch
           # the update_parent_attributes after_filter
           stop_descendants, descendant_tasks = self.descendants.partition{|d| d.tracker_id != Task.tracker }
           descendant_tasks.reject!{ |t| stop_descendants.any? { |s| s.left < t.left && s.right > t.right } }
-          leaf_tasks = descendant_tasks.reject{ |t| descendant_tasks.any? { |s| s.left > t.left && s.right < t.right } }
 
-          leaf_tasks.each do |task|
+          descendant_tasks.each do |task|
             task.inherit_version_from(self)
             task.save! if task.changed?
           end
