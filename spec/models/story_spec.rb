@@ -130,22 +130,6 @@ describe Story do
 
       describe "WITH one sprint
                 WITH the sprint having two storys
-                WITH one beeing the child of a task" do
-
-        before(:each) do
-          task.parent_issue_id = story2.id
-          task.save
-
-          story1.parent_issue_id = task.id
-
-          story1.save
-        end
-
-        it { Story.backlogs(project, [version.id])[version.id].should =~ [story2] }
-      end
-
-      describe "WITH one sprint
-                WITH the sprint having two storys
                 WITH one beeing the child of the other" do
 
         before(:each) do

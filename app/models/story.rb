@@ -8,25 +8,11 @@ class Story < Issue
 
     candidates = Story.all(options)
 
-    candidate_ids = candidates.map(&:id)
-
-    candidates_tasks_in_tree = stories_taskish_ancestors(candidate_ids)
-
     stories_by_version = Hash.new do |hash, sprint_id|
       hash[sprint_id] = []
     end
 
     candidates.each do |story|
-      # I am not aware of why this restriction is placed here
-      # as I consider it to be neither useful nor
-      # to be placed at the right spot.
-      # If such a restriction should be necessary it should be prevented for
-      # a story to have tasks in their ancestors chain.
-      # This whould be much more understandable for the user and it would
-      # improve the performance significantely
-      next if candidates_tasks_in_tree[story.root_id] &&
-              candidates_tasks_in_tree[story.root_id].any? { |task| task.lft < story.lft && task.rgt > story.rgt  && task.is_task? }
-
       last_rank = stories_by_version[story.fixed_version_id].size > 0 ?
                      stories_by_version[story.fixed_version_id].last.rank :
                      0
@@ -168,16 +154,4 @@ class Story < Issue
 
   # This forces NULLS-LAST ordering
   ORDER = 'CASE WHEN issues.position IS NULL THEN 1 ELSE 0 END ASC, CASE WHEN issues.position IS NULL THEN issues.id ELSE issues.position END ASC'
-
-  def self.stories_taskish_ancestors(story_ids)
-    story_ids.empty? ?
-      {} :
-      Task.all(:joins => "LEFT JOIN `issues` stories ON stories.root_id = issues.root_id",
-               :conditions => ["issues.tracker_id = ? " +
-                               "AND issues.lft < stories.lft AND issues.rgt > stories.rgt " +
-                               "AND stories.id in (?)",
-                               Task.tracker,
-                               story_ids],
-               :include => { :project => :enabled_modules }).group_by(&:root_id)
-  end
 end
