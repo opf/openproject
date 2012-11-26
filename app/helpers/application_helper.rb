@@ -1048,12 +1048,8 @@ module ApplicationHelper
         else
           '' # use language
         end
-
-        javascript_include_tag('calendar/calendar') +
         javascript_include_tag("calendar/lang/calendar-#{current_language.to_s.downcase}.js") +
-        javascript_tag(start_of_week) +
-        javascript_include_tag('calendar/calendar-setup') +
-        stylesheet_link_tag('calendar')
+        javascript_tag(start_of_week)
       end
     end
   end
