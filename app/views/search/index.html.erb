@@ -36,7 +36,7 @@
           <% end %>
           <%= link_to highlight_tokens(truncate(e.event_title, :length => 255), @tokens), e.event_url %>
         </dt>
-        <dd><span class="description"><%= highlight_tokens(h(e.event_description), @tokens) %></span>
+        <dd><span class="description"><%= highlight_tokens(e.event_description, @tokens) %></span>
         <span class="author"><%= format_time(e.event_datetime) %></span></dd>
       <% end %>
     </dl>
