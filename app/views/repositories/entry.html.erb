@@ -9,7 +9,3 @@
 <p><%= render :partial => 'link_to_functions' %></p>
 
 <%= render :partial => 'common/file', :locals => {:filename => @path, :content => @content} %>
-
-<% content_for :header_tags do %>
-<%= stylesheet_link_tag "scm" %>
-<% end %>
