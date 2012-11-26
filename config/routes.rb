@@ -14,8 +14,8 @@
 OpenProject::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
-  get '/login'  => 'account#login',  :as => 'signin'
-  get '/logout' => 'account#logout', :as => 'signout'
+  match '/login'  => 'account#login',  :as => 'signin'
+  match '/logout' => 'account#logout', :as => 'signout'
 
   match '/roles/workflow/:id/:role_id/:tracker_id' => 'roles#workflow'
   match '/help/:ctrl/:page' => 'help#index'
