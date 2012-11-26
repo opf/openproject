@@ -50,7 +50,7 @@ OpenProject::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( default.css select_list_move.js context_menu.js context_menu.css copy_issue_actions.js
+  config.assets.precompile += %w( default.css select_list_move.js copy_issue_actions.js
                                   jstoolbar/jstoolbar.js jstoolbar/textile.js jstoolbar/lang/*.js )
 
   # Disable delivery errors, bad email addresses will be ignored
