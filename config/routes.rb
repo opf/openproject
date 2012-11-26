@@ -326,7 +326,7 @@ OpenProject::Application.routes.draw do
     match '/repositories/changes/:id/*path', :action => 'changes', :as => 'repositories_changes'
     match '/repositories/diff/:id/*path', :action => 'diff', :as => 'repositories_diff'
     match '/repositories/entry/:id/*path', :action => 'entry', :as => 'repositories_entry'
-    match '/repositories/annotate/:id/*path', :action => 'annotate', :as => 'stylesheet_link_tag'
+    match '/repositories/annotate/:id/*path', :action => 'annotate', :as => 'repositories_entry'
     match '/repositories/revision/:id/:rev', :action => 'revision'
   end
 
