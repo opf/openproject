@@ -6,7 +6,10 @@ class WikiMenuItem < ActiveRecord::Base
   serialize :options, Hash
 
   named_scope :main_items, lambda { |wiki_id|
-    {:conditions => {:wiki_id => wiki_id, :parent_id => nil}, :order => 'id ASC'}
+    { :conditions => { :wiki_id => wiki_id,
+                       :parent_id => nil },
+      :include => :children,
+      :order => 'id ASC' }
   }
 
   attr_accessible :name, :title
