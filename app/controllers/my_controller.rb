@@ -13,6 +13,8 @@
 #++
 
 class MyController < ApplicationController
+  layout 'my'
+
   before_filter :require_login
 
   menu_item :account, :only => [:account]
