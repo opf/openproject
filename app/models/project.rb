@@ -139,8 +139,9 @@ class Project < ActiveRecord::Base
     where(conditions).limit(limit).newest_first
   end
 
+  # table_name shouldn't be needed :(
   def self.newest_first
-    order 'created_on DESC'
+    order "#{table_name}.created_on DESC"
   end
 
   # Returns a SQL :conditions string used to find all active projects for the specified user.

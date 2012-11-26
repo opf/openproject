@@ -56,8 +56,9 @@ class News < ActiveRecord::Base
     where(conditions).limit(limit).newest_first.includes(:author, :project)
   end
 
+  # table_name shouldn't be needed :(
   def self.newest_first
-    order 'created_on DESC'
+    order "#{table_name}.created_on DESC"
   end
 
   def new_comment(attributes = {})
