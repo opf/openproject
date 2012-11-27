@@ -116,3 +116,11 @@ namespace :redmine do
     end
   end
 end
+
+namespace :db do
+  namespace :migrate do
+    task :plugins do
+      #noop
+    end
+  end
+end
