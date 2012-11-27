@@ -59,6 +59,7 @@ group :openid do
 end
 
 gem 'openproject-themes', :git => 'git@github.com:finnlabs/openproject-themes.git'
+gem 'landing_page', :git => 'git@github.com:finnlabs/chiliproject_landing_page.git', :branch => 'rails3'
 
 group :development do
   gem 'rails-footnotes', '>= 3.7.5.rc4'
