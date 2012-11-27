@@ -288,8 +288,7 @@ class MailHandler < ActionMailer::Base
 
   # Returns a Hash of issue attributes extracted from keywords in the email body
   def issue_attributes_from_keywords(issue)
-    assigned_to = (k = get_keyword(:assigned_to, :override => true)) && find_user_from_keyword(k)
-    assigned_to = nil if assigned_to && !issue.assignable_users.include?(assigned_to)
+    assigned_to = (k = get_keyword(:assigned_to, :override => true)) && find_assignee_from_keyword(k, issue)
 
     attrs = {
       'tracker_id' => (k = get_keyword(:tracker)) && issue.project.trackers.find_by_name(k).try(:id),
@@ -343,31 +342,47 @@ class MailHandler < ActionMailer::Base
     @full_sanitizer ||= HTML::FullSanitizer.new
   end
 
-  # Creates a user account for the +email+ sender
-  def self.create_user_from_email(email)
-    begin
-      addr = Mail::Address.new email.header['from'].to_s
-    rescue Mail::Field::ParseError
-      return
-    end
-
-    if addr.display_name
-      names = addr.display_name.split ' '
-    else
-      names = addr.address.split('@').first.split '.'
-      names.each &:capitalize!
-    end
-
+  # Returns a User from an email address and a full name
+  def self.new_user_from_attributes(email_address, fullname=nil)
     user = User.new
-    user.mail = addr.address
-    user.firstname = names.first
-    user.lastname = names[1..-1].join ' '
+    user.mail = email_address
+    user.login = user.mail
+    user.password = SecureRandom.hex [Setting.password_min_length.to_i, 10].max
+    user.language = Setting.default_language
+
+    names = fullname.blank? ? email_address.gsub(/@.*$/, '').split('.') : fullname.split
+    user.firstname = names.shift
+    user.lastname = names.join(' ')
     user.lastname = '-' if user.lastname.blank?
 
-    user.login = user.mail
-    user.password = SecureRandom.hex(5)
-    user.language = Setting.default_language
-    user.save ? user : nil
+    unless user.valid?
+      user.login = "user#{SecureRandom.hex(6)}" unless user.errors[:login].blank?
+      user.firstname = "-" unless user.errors[:firstname].blank?
+      user.lastname  = "-" unless user.errors[:lastname].blank?
+    end
+
+    user
+  end
+
+  # Creates a user account for the +email+ sender
+  def self.create_user_from_email(email)
+    from = email.header['from'].to_s
+    addr, name = from, nil
+    if m = from.match(/^"?(.+?)"?\s+<(.+@.+)>$/)
+      addr, name = m[2], m[1]
+    end
+    if addr.present?
+      user = new_user_from_attributes(addr, name)
+      if user.save
+        user
+      else
+        logger.error "MailHandler: failed to create User: #{user.errors.full_messages}" if logger
+        nil
+      end
+    else
+      logger.error "MailHandler: failed to create User: no FROM address found" if logger
+      nil
+    end
   end
 
   private
@@ -382,13 +397,24 @@ class MailHandler < ActionMailer::Base
     body.strip
   end
 
-  def find_user_from_keyword(keyword)
-    user ||= User.find_by_mail(keyword)
-    user ||= User.find_by_login(keyword)
-    if user.nil? && keyword.match(/ /)
+  def find_assignee_from_keyword(keyword, issue)
+    keyword = keyword.to_s.downcase
+    assignable = issue.assignable_users
+    assignee = nil
+    assignee ||= assignable.detect {|a|
+                    a.mail.to_s.downcase == keyword ||
+                      a.login.to_s.downcase == keyword
+                 }
+    if assignee.nil? && keyword.match(/ /)
       firstname, lastname = *(keyword.split) # "First Last Throwaway"
-      user ||= User.find_by_firstname_and_lastname(firstname, lastname)
+      assignee ||= assignable.detect {|a| 
+                     a.is_a?(User) && a.firstname.to_s.downcase == firstname &&
+                       a.lastname.to_s.downcase == lastname
+                   }
     end
-    user
+    if assignee.nil?
+      assignee ||= assignable.detect {|a| a.name.downcase == keyword}
+    end
+    assignee
   end
 end
