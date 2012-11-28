@@ -2,7 +2,7 @@
 plugins/chiliproject_activity_module:
   repository: "git@github.com:finnlabs/chiliproject_activity_module.git"
   branch: master
-plugins/chiliproject_help_link:
+plugins/help_link:
   repository: "git@github.com:finnlabs/help_link.git"
   branch: master
 plugins/numbered_headings:
@@ -11,7 +11,7 @@ plugins/numbered_headings:
 plugins/redmine_checkout:
   repository: "git@github.com:finnlabs/redmine_checkout.git"
   branch: master
-plugins/redmine_customize_modules:
+plugins/customize_modules:
   repository: "git@github.com:finnlabs/customize_modules.git"
   branch: master
 plugins/redmine_favicon:
@@ -20,3 +20,4 @@ plugins/redmine_favicon:
 plugins/memcached_passenger:
   repository: "git@github.com:finnlabs/memcached_passenger.git"
   branch: master
+
