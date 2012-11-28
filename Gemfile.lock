@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git@github.com:finnlabs/chiliproject_landing_page.git
-  revision: 095c3ad4956376d29a39a7e148f7853d7237f9ec
+  revision: cf4651771ff313e1f747cb683b4d65a5cba52fa2
   branch: rails3
   specs:
     landing_page (1.0.3)
