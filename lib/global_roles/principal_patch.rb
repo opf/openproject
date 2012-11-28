@@ -1,3 +1,4 @@
+require_dependency "project"
 require_dependency "principal"
 
 module GlobalRoles

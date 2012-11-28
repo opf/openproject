@@ -1,3 +1,5 @@
+require_dependency 'redmine/access_control'
+
 module GlobalRoles
   module PermissionPatch
     def self.included(base)
