@@ -242,6 +242,7 @@ div.issues h3 { background: url(../images/ticket.png) no-repeat 0% 10%; padding-
 div.members h3 { background: url(../images/group.png) no-repeat 0% 50%; padding-left: 20px; }
 div.news h3 { background: url(../images/latest_news.png) no-repeat 0% 50%; padding-left: 20px; }
 div.projects h3 { background: url(../images/latest_projects.png) no-repeat 0% 50%; padding-left: 20px; }
+div.news h3 { background: url(../images/latest_news.png) no-repeat 0% 50%; padding-left: 20px; }
 
 #watchers ul {margin: 0;  padding: 0;}
 #watchers li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;float:left;}
@@ -1028,6 +1029,7 @@ background-image:url('../images/close_hover.png');
 .icon-file.application-pdf { background-image: url(../images/files/pdf.png); }
 .icon-file.application-zip { background-image: url(../images/files/zip.png); }
 .icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
+.icon-file-excel { background-image: url(../images/files/excel.png); }
 
 img.gravatar {
   border: solid 1px #d5d5d5;
@@ -2652,7 +2654,7 @@ Additional wiki styles
 }
 
 .wiki p.tip, .wiki span.tip {
-  background: url(../images/wiki_styles/tip.png) 4px 4px no-repeat #F5FFFA;
+  background: url(../images/tip.png) 4px 4px no-repeat;
   border: 1px solid #C7CFCA;
 }
 .wiki p.smalltip, .wiki span.smalltip {
@@ -3212,7 +3214,7 @@ div.flash.notice {
 }
 
 div.flash.warning { /* orange */
-  background: #FFC38C url(../images/warning.png) 14px 5px no-repeat;
+  background: #FFC38C url(../images/warning.png) 9px 5px no-repeat;
   border: none;
   color: #000000;
   text-align: left;
