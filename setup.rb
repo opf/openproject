@@ -108,7 +108,7 @@ def setup_openproject
   if check_for_db_yaml
     p "Creating database"
 
-    return false unless system("rake db:create") and migrate_core and migrate_plugins
+    return false unless system("rake db:create:all") and migrate_core and migrate_plugins
   else
     return false
   end
