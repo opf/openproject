@@ -77,7 +77,7 @@ def parse_argv(option)
     end
   end
 
-  $parsed_options = params_hash[option] ? params_hash[option].inject(""){|result,a| result + a + " "} : ""
+  $parsed_options = params_hash[option] ? params_hash[option].inject(""){|result,a| result + a + " "} : nil
 end
 
 def checkout_default_plugins
