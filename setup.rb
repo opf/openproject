@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'yaml'
+$parsed_options = nil
 
 def abort_installation!
   p "Something went wrong :("
@@ -57,6 +58,24 @@ def check_for_db_yaml
   else
     return true
   end
+end
+
+def parse_argv(option)
+  return $parsed_options if $parsed_options
+
+  params_hash = {}
+
+  name = nil
+  ARGV.each do |param|
+    if param[0,2] == "--"
+      name = param
+      params_hash[name] = []
+    else
+      params_hash[name] << param
+    end
+  end
+
+  $parsed_options = params_hash[option] ? params_hash[option].inject(""){|result,a| result + a + " "} : ""
 end
 
 def checkout_default_plugins
