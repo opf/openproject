@@ -150,12 +150,6 @@ def setup_openproject
   system("rake generate_session_store")
 end
 
-def bundle_default_plugins
-  unless system("bundle install --without rmagick")
-    return false
-  end
-end
-
 def migrate_plugins
   p "Migrate Plugins"
   return system("rake db:migrate:plugins")
