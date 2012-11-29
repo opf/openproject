@@ -120,7 +120,7 @@ end
 def setup_openproject
   p "Installing Gems via Bundler"
 
-  unless system("bundle install --without rmagick")
+  unless system("bundle install --without rmagick " + parse_argv("--without"))
     return false
   end
 
