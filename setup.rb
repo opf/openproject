@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'yaml'
+require 'fileutils'
+
 $parsed_options = nil
 
 def abort_installation!
@@ -90,6 +92,14 @@ def checkout_default_plugins
     Dir.chdir exec_dir
     plugin_path = File.join(exec_dir, key)
 
+
+    if parse_argv("--force") and File.exists?(plugin_path)
+
+      puts "Deleting #{plugin_path}.."
+      FileUtils.rm_rf(plugin_path)
+      return false
+    end
+
     if mod_config.keys.include?("repository") and not File.exists?(plugin_path)
       system "git clone #{mod_config["repository"]} #{key}"
     end
@@ -125,7 +135,11 @@ def setup_openproject
   end
 
   if check_for_db_yaml
-    p "Creating database"
+    puts "Creating database"
+
+    if parse_argv("--force")
+      return false unless system("rake db:drop:all")
+    end
 
     return false unless system("rake db:create:all") and migrate_core and migrate_plugins
   else
