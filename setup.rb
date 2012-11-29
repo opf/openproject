@@ -171,18 +171,17 @@ def install
 
 
   check_ruby_version
-  if not check_bundler or not check_git
-    abort_installation!
+  if not check_bundler or not check_git # check for dependencies
+    return abort_installation!
   end
 
-  unless checkout_default_plugins
-    abort_installation!
+  unless checkout_default_plugins # clone plugins
+    return abort_installation!
   end
 
   Dir.chdir ROOT
 
-  return abort_installation! unless setup_openproject
-  p "Installation Succeeded"
+  return abort_installation! unless setup_openproject # Start installation
 end
 
 ROOT = Dir.pwd
