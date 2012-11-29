@@ -6,56 +6,56 @@ require 'fileutils'
 $parsed_options = nil
 
 def abort_installation!
-  p "Something went wrong :("
-  p "Installation aborted."
+  puts "Something went wrong :("
+  puts "Installation aborted."
   return false
 end
 
 def check_ruby_version
-  p "Checking Ruby Version"
+  puts "Checking Ruby Version"
   ruby_version = `ruby --version`
 
   version_check = ruby_version.scan("ruby 1.8.7")
   patchlevel_check = ruby_version.scan("patchlevel 370")
 
   if version_check.empty?
-    p "It seems you are not using the recommended ruby version."
-    p "Please make sure you have installed 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
+    puts "It seems you are not using the recommended ruby version."
+    puts "Please make sure you have installed 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
   elsif patchlevel_check.empty?
-    p "It seems you are not running the recommended patch level."
-    p "To avoid unexpected problems we would recommend to install 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
+    puts "It seems you are not running the recommended patch level."
+    puts "To avoid unexpected problems we would recommend to install 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
   else
-    p "Found"
+    puts "Found"
   end
 end
 
 def check_bundler
-  p "Checking Bundler"
+  puts "Checking Bundler"
   unless system "bundle --version > /dev/null"
-    p "It seems bundler is not installed. Please install bundler before running setup.rb."
-    p "For bundler and more information visit: http://gembundler.com/"
+    puts "It seems bundler is not installed. Please install bundler before running setup.rb."
+    puts "For bundler and more information visit: http://gembundler.com/"
     return false
   else
-    p "Found"
+    puts "Found"
     return true
   end
 end
 
 def check_git
-  p "Checking git"
+  puts "Checking git"
   unless system "git --version > /dev/null"
-    p "It seems git is not installed. Please install git before running setup.rb."
+    puts "It seems git is not installed. Please install git before running setup.rb."
     return false
   else
-    p "Found"
+    puts "Found"
     return true
   end
 end
 
 def check_for_db_yaml
   unless File.exists?(ROOT + '/config/database.yml')
-    p "Please configure your database before installing openProject."
-    p "Create and configure config/database.yml to do that."
+    puts "Please configure your database before installing openProject."
+    puts "Create and configure config/database.yml to do that."
     return false
   else
     return true
@@ -128,8 +128,7 @@ def checkout_default_plugins
 end
 
 def setup_openproject
-  p "Installing Gems via Bundler"
-
+  puts "Installing Gems via Bundler"
   unless system("bundle install --without rmagick " + parse_argv("--without"))
     return false
   end
@@ -146,22 +145,22 @@ def setup_openproject
     return false
   end
 
-  p "Generate Session Store"
+  puts "Generate Session Store"
   system("rake generate_session_store")
 end
 
 def migrate_plugins
-  p "Migrate Plugins"
+  puts "Migrate Plugins"
   return system("rake db:migrate:plugins")
 end
 
 def migrate_core
-  p "Migrate Core"
+  puts "Migrate Core"
   return system("rake db:migrate")
 end
 
 def install
-  p 'Installing openProject...'
+  puts 'Installing openProject...'
 
 
   check_ruby_version
@@ -176,6 +175,7 @@ def install
   Dir.chdir ROOT
 
   return abort_installation! unless setup_openproject # Start installation
+  puts "Installation Succeeded"
 end
 
 ROOT = Dir.pwd
