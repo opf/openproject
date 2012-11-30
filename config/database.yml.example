@@ -27,13 +27,13 @@ test:
   password:
   encoding: utf8
 
-test_pgsql:
-  adapter: postgresql
-  database: openproject_test
-  host: localhost
-  username: postgres
-  password: "postgres"
+#test_pgsql:
+  #adapter: postgresql
+  #database: openproject_test
+  #host: localhost
+  #username: postgres
+  #password: "postgres"
 
-test_sqlite3:
-  adapter: sqlite3
-  database: db/test.sqlite3
+#test_sqlite3:
+  #adapter: sqlite3
+  #database: db/test.sqlite3

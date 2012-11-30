@@ -1,62 +1,89 @@
 #!/usr/bin/env ruby
 
 require 'yaml'
+require 'fileutils'
+
+$output_prefix = "==> "
+$parsed_options = nil
 
 def abort_installation!
-  p "Something went wrong :("
-  p "Installation aborted."
+  puts $output_prefix + "Something went wrong :("
+  puts $output_prefix + "Installation aborted."
   return false
 end
 
 def check_ruby_version
-  p "Checking Ruby Version"
+  puts $output_prefix + "Checking Ruby Version"
   ruby_version = `ruby --version`
 
   version_check = ruby_version.scan("ruby 1.8.7")
   patchlevel_check = ruby_version.scan("patchlevel 370")
 
   if version_check.empty?
-    p "It seems you are not using the recommended ruby version."
-    p "Please make sure you have installed 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
+    puts $output_prefix + "It seems you are not using the recommended ruby version."
+    puts $output_prefix + "Please make sure you have installed 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
   elsif patchlevel_check.empty?
-    p "It seems you are not running the recommended patch level."
-    p "To avoid unexpected problems we would recommend to install 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
+    puts $output_prefix + "It seems you are not running the recommended patch level."
+    puts $output_prefix + "To avoid unexpected problems we would recommend to install 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
   else
-    p "Found"
+    puts $output_prefix + "Found"
   end
 end
 
 def check_bundler
-  p "Checking Bundler"
+  puts $output_prefix + "Checking Bundler"
   unless system "bundle --version > /dev/null"
-    p "It seems bundler is not installed. Please install bundler before running setup.rb."
-    p "For bundler and more information visit: http://gembundler.com/"
+    puts $output_prefix + "It seems bundler is not installed. Please install bundler before running setup.rb."
+    puts $output_prefix + "For bundler and more information visit: http://gembundler.com/"
     return false
   else
-    p "Found"
+    puts $output_prefix + "Found"
     return true
   end
 end
 
 def check_git
-  p "Checking git"
+  puts $output_prefix + "Checking git"
   unless system "git --version > /dev/null"
-    p "It seems git is not installed. Please install git before running setup.rb."
+    puts $output_prefix + "It seems git is not installed. Please install git before running setup.rb."
     return false
   else
-    p "Found"
+    puts $output_prefix + "Found"
     return true
   end
 end
 
 def check_for_db_yaml
   unless File.exists?(ROOT + '/config/database.yml')
-    p "Please configure your database before installing openProject."
-    p "Create and configure config/database.yml to do that."
+    puts $output_prefix + "Please configure your database before installing OpenProject."
+    puts $output_prefix + "Create and configure config/database.yml to do that."
     return false
   else
     return true
   end
+end
+
+def concatenate_options(parsed_options, option)
+  return parsed_options[option] ? parsed_options[option].inject(""){|result,a| result + a + " "} : nil
+end
+
+def parse_argv(option)
+  return concatenate_options($parsed_options, option) if $parsed_options
+
+  params_hash = {}
+
+  name = nil
+  ARGV.each do |param|
+    if param[0,2] == "--"
+      name = param
+      params_hash[name] = []
+    else
+      params_hash[name] << param
+    end
+  end
+
+  $parsed_options = params_hash
+  return concatenate_options($parsed_options, option)
 end
 
 def checkout_default_plugins
@@ -66,10 +93,17 @@ def checkout_default_plugins
 
   config = YAML.load_file(default_plugin_file)
 
+  forced = parse_argv("--force")
   config.each_pair do |key, mod_config|
 
     Dir.chdir exec_dir
     plugin_path = File.join(exec_dir, key)
+
+
+    if forced and File.exists?(plugin_path)
+      puts $output_prefix + "Deleting #{plugin_path}.."
+      FileUtils.rm_rf(plugin_path)
+    end
 
     if mod_config.keys.include?("repository") and not File.exists?(plugin_path)
       system "git clone #{mod_config["repository"]} #{key}"
@@ -99,57 +133,55 @@ def checkout_default_plugins
 end
 
 def setup_openproject
-  p "Installing Gems via Bundler"
-
-  unless system("bundle install --without rmagick")
+  puts $output_prefix + "Installing Gems via Bundler"
+  unless system("bundle install --without rmagick " + parse_argv("--without").to_s)
     return false
   end
 
-  if check_for_db_yaml
-    p "Creating database"
 
-    return false unless system("rake db:create") and migrate_core and migrate_plugins
+  if check_for_db_yaml
+    puts $output_prefix + "Creating database"
+
+    if parse_argv("--force")
+      return false unless system("rake db:drop:all")
+    end
+
+    return false unless system("rake db:create:all") and migrate_core and migrate_plugins
   else
     return false
   end
 
-  p "Generate Session Store"
+  puts $output_prefix + "Generate Session Store"
   system("rake generate_session_store")
 end
 
-def bundle_default_plugins
-  unless system("bundle install --without rmagick")
-    return false
-  end
-end
-
 def migrate_plugins
-  p "Migrate Plugins"
+  puts $output_prefix + "Migrate Plugins"
   return system("rake db:migrate:plugins")
 end
 
 def migrate_core
-  p "Migrate Core"
+  puts $output_prefix + "Migrate Core"
   return system("rake db:migrate")
 end
 
 def install
-  p 'Installing openProject...'
+  puts $output_prefix + 'Installing OpenProject...'
 
 
   check_ruby_version
-  if not check_bundler or not check_git
-    abort_installation!
+  if not check_bundler or not check_git # check for dependencies
+    return abort_installation!
   end
 
-  unless checkout_default_plugins
-    abort_installation!
+  unless checkout_default_plugins # clone plugins
+    return abort_installation!
   end
 
   Dir.chdir ROOT
 
-  return abort_installation! unless setup_openproject
-  p "Installation Succeeded"
+  return abort_installation! unless setup_openproject # Start installation
+  puts $output_prefix + "Installation Succeeded"
 end
 
 ROOT = Dir.pwd
