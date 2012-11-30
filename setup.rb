@@ -62,8 +62,12 @@ def check_for_db_yaml
   end
 end
 
+def concatenate_options(parsed_options, option)
+  return parsed_options[option] ? parsed_options[option].inject(""){|result,a| result + a + " "} : nil
+end
+
 def parse_argv(option)
-  return $parsed_options if $parsed_options
+  return concatenate_options($parsed_options, option) if $parsed_options
 
   params_hash = {}
 
@@ -77,7 +81,8 @@ def parse_argv(option)
     end
   end
 
-  $parsed_options = params_hash[option] ? params_hash[option].inject(""){|result,a| result + a + " "} : nil
+  $parsed_options = params_hash
+  return concatenate_options($parsed_options, option)
 end
 
 def checkout_default_plugins
@@ -128,9 +133,10 @@ end
 
 def setup_openproject
   puts "Installing Gems via Bundler"
-  unless system("bundle install --without rmagick " + parse_argv("--without"))
+  unless system("bundle install --without rmagick " + parse_argv("--without").to_s)
     return false
   end
+
 
   if check_for_db_yaml
     puts "Creating database"
