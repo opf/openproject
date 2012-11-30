@@ -143,6 +143,7 @@ def setup_openproject
     puts $output_prefix + "Creating database"
 
     if parse_argv("--force")
+      puts $output_prefix + "Drop all databases"
       return false unless system("rake db:drop:all")
     end
 
