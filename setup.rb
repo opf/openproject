@@ -87,14 +87,14 @@ def checkout_default_plugins
 
   config = YAML.load_file(default_plugin_file)
 
+  forced = parse_argv("--force")
   config.each_pair do |key, mod_config|
 
     Dir.chdir exec_dir
     plugin_path = File.join(exec_dir, key)
 
 
-    if parse_argv("--force") and File.exists?(plugin_path)
-
+    if forced and File.exists?(plugin_path)
       puts "Deleting #{plugin_path}.."
       FileUtils.rm_rf(plugin_path)
     end
