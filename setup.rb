@@ -3,59 +3,60 @@
 require 'yaml'
 require 'fileutils'
 
+$output_prefix = "==> "
 $parsed_options = nil
 
 def abort_installation!
-  puts "Something went wrong :("
-  puts "Installation aborted."
+  puts $output_prefix + "Something went wrong :("
+  puts $output_prefix + "Installation aborted."
   return false
 end
 
 def check_ruby_version
-  puts "Checking Ruby Version"
+  puts $output_prefix + "Checking Ruby Version"
   ruby_version = `ruby --version`
 
   version_check = ruby_version.scan("ruby 1.8.7")
   patchlevel_check = ruby_version.scan("patchlevel 370")
 
   if version_check.empty?
-    puts "It seems you are not using the recommended ruby version."
-    puts "Please make sure you have installed 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
+    puts $output_prefix + "It seems you are not using the recommended ruby version."
+    puts $output_prefix + "Please make sure you have installed 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
   elsif patchlevel_check.empty?
-    puts "It seems you are not running the recommended patch level."
-    puts "To avoid unexpected problems we would recommend to install 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
+    puts $output_prefix + "It seems you are not running the recommended patch level."
+    puts $output_prefix + "To avoid unexpected problems we would recommend to install 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
   else
-    puts "Found"
+    puts $output_prefix + "Found"
   end
 end
 
 def check_bundler
-  puts "Checking Bundler"
+  puts $output_prefix + "Checking Bundler"
   unless system "bundle --version > /dev/null"
-    puts "It seems bundler is not installed. Please install bundler before running setup.rb."
-    puts "For bundler and more information visit: http://gembundler.com/"
+    puts $output_prefix + "It seems bundler is not installed. Please install bundler before running setup.rb."
+    puts $output_prefix + "For bundler and more information visit: http://gembundler.com/"
     return false
   else
-    puts "Found"
+    puts $output_prefix + "Found"
     return true
   end
 end
 
 def check_git
-  puts "Checking git"
+  puts $output_prefix + "Checking git"
   unless system "git --version > /dev/null"
-    puts "It seems git is not installed. Please install git before running setup.rb."
+    puts $output_prefix + "It seems git is not installed. Please install git before running setup.rb."
     return false
   else
-    puts "Found"
+    puts $output_prefix + "Found"
     return true
   end
 end
 
 def check_for_db_yaml
   unless File.exists?(ROOT + '/config/database.yml')
-    puts "Please configure your database before installing openProject."
-    puts "Create and configure config/database.yml to do that."
+    puts $output_prefix + "Please configure your database before installing OpenProject."
+    puts $output_prefix + "Create and configure config/database.yml to do that."
     return false
   else
     return true
@@ -100,7 +101,7 @@ def checkout_default_plugins
 
 
     if forced and File.exists?(plugin_path)
-      puts "Deleting #{plugin_path}.."
+      puts $output_prefix + "Deleting #{plugin_path}.."
       FileUtils.rm_rf(plugin_path)
     end
 
@@ -132,14 +133,14 @@ def checkout_default_plugins
 end
 
 def setup_openproject
-  puts "Installing Gems via Bundler"
+  puts $output_prefix + "Installing Gems via Bundler"
   unless system("bundle install --without rmagick " + parse_argv("--without").to_s)
     return false
   end
 
 
   if check_for_db_yaml
-    puts "Creating database"
+    puts $output_prefix + "Creating database"
 
     if parse_argv("--force")
       return false unless system("rake db:drop:all")
@@ -150,22 +151,22 @@ def setup_openproject
     return false
   end
 
-  puts "Generate Session Store"
+  puts $output_prefix + "Generate Session Store"
   system("rake generate_session_store")
 end
 
 def migrate_plugins
-  puts "Migrate Plugins"
+  puts $output_prefix + "Migrate Plugins"
   return system("rake db:migrate:plugins")
 end
 
 def migrate_core
-  puts "Migrate Core"
+  puts $output_prefix + "Migrate Core"
   return system("rake db:migrate")
 end
 
 def install
-  puts 'Installing openProject...'
+  puts $output_prefix + 'Installing OpenProject...'
 
 
   check_ruby_version
@@ -180,7 +181,7 @@ def install
   Dir.chdir ROOT
 
   return abort_installation! unless setup_openproject # Start installation
-  puts "Installation Succeeded"
+  puts $output_prefix + "Installation Succeeded"
 end
 
 ROOT = Dir.pwd
