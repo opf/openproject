@@ -97,7 +97,6 @@ def checkout_default_plugins
 
       puts "Deleting #{plugin_path}.."
       FileUtils.rm_rf(plugin_path)
-      return false
     end
 
     if mod_config.keys.include?("repository") and not File.exists?(plugin_path)
