@@ -81,7 +81,7 @@ class TimeEntryTest < ActiveSupport::TestCase
     assert_equal Date.today, c.spent_on
   end
 
-  context "#earilest_date_for_project" do
+  context "#earliest_date_for_project" do
     setup do
       User.current = nil
       @public_project = Project.generate!(:is_public => true)
@@ -93,13 +93,13 @@ class TimeEntryTest < ActiveSupport::TestCase
 
     context "without a project" do
       should "return the lowest spent_on value that is visible to the current user" do
-        assert_equal "2007-03-12", TimeEntry.earilest_date_for_project.to_s
+        assert_equal "2007-03-12", TimeEntry.earliest_date_for_project.to_s
       end
     end
 
     context "with a project" do
       should "return the lowest spent_on value that is visible to the current user for that project and it's subprojects only" do
-        assert_equal "2010-01-01", TimeEntry.earilest_date_for_project(@public_project).to_s
+        assert_equal "2010-01-01", TimeEntry.earliest_date_for_project(@public_project).to_s
       end
     end
 

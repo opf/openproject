@@ -89,7 +89,7 @@ class TimeEntry < ActiveRecord::Base
     end
   end
 
-  def self.earilest_date_for_project(project=nil)
+  def self.earliest_date_for_project(project=nil)
     finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
     if project
       finder_conditions << ["project_id IN (?)", project.hierarchy.collect(&:id)]
