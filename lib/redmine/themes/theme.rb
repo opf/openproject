@@ -2,7 +2,7 @@ require 'active_support/core_ext/class/attribute_accessors'
 
 module Redmine
   module Themes
-    Theme = Struct.new(:name) do
+    class Theme < Struct.new(:name)
       cattr_accessor :default_theme, instance_reader: false
 
       def self.from(theme)
