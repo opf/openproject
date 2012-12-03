@@ -8,7 +8,7 @@ gem "rdoc", ">= 2.4.2"
 # Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
 gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 # master includes the uniqueness validator, formerly patched in config/initializers/globalize3_patch.rb
-gem 'globalize3', :git => 'git://github.com/svenfuchs/globalize3.git'
+gem 'globalize3', :github => 'svenfuchs/globalize3'
 gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
@@ -36,7 +36,7 @@ gem 'jquery-rails'
 
 group :test do
   gem 'shoulda', '~> 3.1.1'
-  gem 'object-daddy', :git => 'git://github.com/awebneck/object_daddy.git'
+  gem 'object-daddy', :github => 'awebneck/object_daddy'
   gem 'mocha'
   gem "launchy", "~> 2.1.0"
   gem "factory_girl_rails", "~> 4.0"
