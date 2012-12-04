@@ -107,7 +107,7 @@ class Setting < ActiveRecord::Base
   end
 
   validates_uniqueness_of :name
-  validates_inclusion_of :name, :in => @@available_settings.keys
+  validates_inclusion_of :name, :in => lambda { |setting| @@available_settings.keys } # lambda, because @available_settings changes at runtime
   validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }
 
   def value
