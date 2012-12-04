@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryTest < ActiveSupport::TestCase
-  fixtures :issues, :projects, :users, :time_entries
+  fixtures :issues, :projects, :users, :time_entries, :roles, :enabled_modules
 
   def test_hours_format
     assertions = { "2"      => 2.0,
