@@ -1,6 +1,5 @@
 # encoding: utf-8
 require 'active_record/fixtures'
-# require 'redmine_factory_girl'
 
 Before do |scenario|
   unless ScenarioDisabler.empty_if_disabled(scenario)
