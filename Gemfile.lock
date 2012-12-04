@@ -347,6 +347,7 @@ DEPENDENCIES
   landing_page!
   launchy (~> 2.1.0)
   letter_opener (~> 1.0.0)
+  libv8
   loofah
   mocha
   mysql

@@ -24,6 +24,7 @@ gem 'loofah'
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
 
+gem 'libv8'
 gem 'execjs'
 gem 'therubyracer'
 
