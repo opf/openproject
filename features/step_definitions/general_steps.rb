@@ -44,16 +44,18 @@ Given /^I am already logged in as "(.+?)"$/ do |login|
 
       ApplicationController.skip_before_filter :set_user_session
       ApplicationController.subclasses.each do |subclass_name|
-        next if subclass_name.include?("Spec::Rails")
-        Kernel.const_get(subclass_name).skip_before_filter :set_user_session
+        unless subclass_name.to_s.include?("Spec::Rails")
+          subclass_name.prepend_before_filter :set_user_session
+        end
       end
     end
   end
 
   ApplicationController.prepend_before_filter :set_user_session
   ApplicationController.subclasses.each do |subclass_name|
-    next if subclass_name.include?("Spec::Rails")
-    Kernel.const_get(subclass_name).prepend_before_filter :set_user_session
+    unless subclass_name.to_s.include?("Spec::Rails")
+      subclass_name.prepend_before_filter :set_user_session
+    end
   end
 end
 
