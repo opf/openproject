@@ -392,8 +392,7 @@ end
 
 Given /^I start debugging$/ do
   save_and_open_page
-  require 'ruby-debug'
-  debugger
+  binding.pry
   true
 end
 
