@@ -1,5 +1,7 @@
 module Backlogs::Burndown
   class SeriesRawData < Hash
+    unloadable
+
     def initialize(*args)
       @collect = args.pop
       @sprint = args.pop
@@ -75,7 +77,7 @@ module Backlogs::Burndown
     end
 
     def details_by_property(story)
-      details = story.journals.all(:order => "version")[1..-1].map do |journal|
+      details = story.journals.sort_by(&:version)[1..-1].map do |journal|
         journal.changes.map do |prop_key, change|
           if collect_names.include?(prop_key) || out_names.include?(prop_key)
             JournalDetail.new(prop_key, change.first, change.last, journal)
@@ -120,11 +122,6 @@ module Backlogs::Burndown
       stories
     end
 
-
-    def collected_trackers
-      @collected_trackers ||= Story.trackers << Task.tracker
-    end
-
     def determine_prop_index(key, date, current_prop_index, details_by_prop)
       prop_index = current_prop_index[key]
 
@@ -139,19 +136,40 @@ module Backlogs::Burndown
     end
 
     def not_to_be_collected?(key, date, details_by_prop, current_prop_index, story)
-      ((collect_names.include?(key) &&
-        (project.id != value_for_prop(date, details_by_prop["project_id"], current_prop_index["project_id"], story.send("project_id")).to_i ||
-        sprint.id != value_for_prop(date, details_by_prop["fixed_version_id"], current_prop_index["fixed_version_id"], story.send("fixed_version_id")).to_i ||
-        !collected_trackers.include?(value_for_prop(date, details_by_prop["tracker_id"], current_prop_index["tracker_id"], story.send("tracker_id")).to_i))) ||
-      ((key == "story_points") && IssueStatus.find(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id"))).is_closed) ||
-      ((key == "story_points") && IssueStatus.find(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id"))).is_done?(project)) ||
+      (collect_names.include?(key) &&
+        not_in_project?(story, date, details_by_prop, current_prop_index) ||
+        not_in_sprint?(story, date, details_by_prop, current_prop_index) ||
+        not_in_tracker?(story, date, details_by_prop, current_prop_index)
+      ) ||
+      ((key == "story_points") && story_is_closed?(story, date, details_by_prop, current_prop_index)) ||
+      ((key == "story_points") && story_is_done?(story, date, details_by_prop, current_prop_index)) ||
       out_names.include?(key) ||
       collected_from_children?(key, story) ||
-      story.created_on.to_date > date)
+      story.created_on.to_date > date
+    end
+
+    def not_in_project?(story, date, details_by_prop, current_prop_index)
+      project.id != value_for_prop(date, details_by_prop["project_id"], current_prop_index["project_id"], story.send("project_id")).to_i
+    end
+
+    def not_in_sprint?(story, date, details_by_prop, current_prop_index)
+        sprint.id != value_for_prop(date, details_by_prop["fixed_version_id"], current_prop_index["fixed_version_id"], story.send("fixed_version_id")).to_i
+    end
+
+    def not_in_tracker?(story, date, details_by_prop, current_prop_index)
+      !collected_trackers.include?(value_for_prop(date, details_by_prop["tracker_id"], current_prop_index["tracker_id"], story.send("tracker_id")).to_i)
+    end
+
+    def story_is_closed?(story, date, details_by_prop, current_prop_index)
+      issue_status_by_id(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id"))).is_closed
+    end
+
+    def story_is_done?(story, date, details_by_prop, current_prop_index)
+      issue_status_done_for_project(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id")), project)
     end
 
     def collected_from_children?(key, story)
-      key == "remaining_hours" && story.descendants.size > 0
+      key == "remaining_hours" && story_has_children?(story)
     end
 
     def value_for_prop(date, details, index, default)
@@ -164,6 +182,35 @@ module Backlogs::Burndown
       end
 
       value
+    end
+
+    def collected_trackers
+      @collected_trackers ||= Story.trackers << Task.tracker
+    end
+
+    def issue_status_by_id(status_id)
+      @issue_status_by_id ||= Hash.new do |hash, key|
+        hash[key] = IssueStatus.find(key)
+      end
+
+      @issue_status_by_id[status_id]
+    end
+
+    def issue_status_done_for_project(status_id, project)
+      @issue_status_done_for_project ||= Hash.new do |hash, key|
+        hash[key] = issue_status_by_id(key).is_done?(project)
+      end
+
+      @issue_status_done_for_project[status_id]
+    end
+
+    def story_has_children?(story)
+
+      @story_has_children ||= Hash.new do |hash, key|
+        hash[key] = key.children.size > 0
+      end
+
+      @story_has_children[story]
     end
   end
 end
