@@ -1,30 +1,32 @@
-= ChiliProject
+= OpenProject
 
-ChiliProject is a web based project management system. It supports your team throughout the complete project life cycle, from setting up and discussing a project plan, over tracking issues and reporting work progress to collaboratively sharing knowledge.
+== What we do?
 
-More documentation and user guides can be found on the official website[https://www.chiliproject.org] and in the doc/ directory.
+OpenProject is a web-based project management software, driven by an active group of open source enthusiasts: software engineers, project managers, creatives, and consultants. OpenProject is supported by companies as well as individuals. What we share? It’s the vision to build great project collaboration software based on open source.
+The OpenProject Foundation (OPF) will give official guidance to the project and the community and oversees contributions and decisions.
+More information can be found on our website[https://www.openproject.org] and soon in the doc directory.
 
-== Getting Started
+== Installation
 
-We have a complete {install guide}[https://www.chiliproject.org/projects/chiliproject/wiki/Installation] online.
+You will find an {installation guide}[https://www.openproject.org/projects/support/wiki/Installation] online.
 
-== Getting Help
+== Get in Contact
 
-ChiliProject is an run by a community of volunteers. We have set up different ways to get help depending on your preferences.
+OpenProject is supported by its community members, both companies as well as individuals. There are different possibilities of getting help:
+* OpenProject Support Project - https://www.openproject.org/projects/support
+* E-Mail Support - info@openproject.org
 
-* Self guided help and user documentation - https://www.chiliproject.org/projects/chiliproject/wiki/Help
-* Forums for specific questions - https://www.chiliproject.org/projects/chiliproject/boards
-* Real time chat using IRC - https://www.chiliproject.org/projects/chiliproject/wiki/IRC
-* Commercial support - https://www.chiliproject.org/projects/chiliproject/wiki/Commercial_Offerings
+== Start Collaborating
 
-== Contributing
+Join the OpenProject community and start collaborating. We envision building a platform to share ideas, contributions, and discussions around OpenProject and project collaboration. Each commitment is noteworthy as it helps to improve the software and the project.
+More details will be added on the OpenProject Community {contribution page}[https://www.openproject.org/projects/openproject/wiki/Contribution].
 
-We welcome all help for the project, no task is too small.  Our documentation is editable by anyone on our wiki[https://www.chiliproject.org/projects/chiliproject/wiki], we accept patches on our {issue tracker}[https://www.chiliproject.org/projects/chiliproject/issues], and everyone is welcome to discuss the project in our forums[https://www.chiliproject.org/projects/chiliproject/boards].
-
-More details can be found on our Contribute page[https://www.chiliproject.org/projects/chiliproject/wiki/Contribute].
+In case you find a bug or need a feature, please report at https://www.openproject.org/projects/openproject/
 
 == License
 
-ChiliProject is licensed under the GNU GPL v2.  See the doc directory for more details.
+OpenProject is licensed under the terms of the GNU General Public License as published by the Free Software Foundation;  either version 3 of the License, or any later version.
 
-ChiliProject is a fork based on Redmine. Redmine is Copyright Jean-Philippe Lang and others.
+== Icons credits:
+
+Thanks to Le Moign Vincent and his fabulous Minicons icons on webalys.com[http://www.webalys.com/minicons/icons-free-pack.php].

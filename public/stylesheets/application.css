@@ -72,7 +72,19 @@ h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; bord
 #main.nosidebar #sidebar{ display: none; }
 #main.nosidebar #content{ width: auto }
 
-#footer {clear: both; font-size: 0.9em; color: #aaa; padding: 5px; text-align:right;}
+#footer {
+  clear: both;
+  font-size: 0.9em;
+  color: #aaa;
+  padding: 5px;
+  text-align:right;
+  width: 100%;
+  position: absolute;
+  bottom:0;
+  height: 1.5em;
+  padding: 0;
+  right: 2px;
+}
 
 #login-form table {margin-top:5em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
 #login-form table td {padding: 6px;}
@@ -222,14 +234,15 @@ table.attributes { width: 100% }
 table.attributes th { vertical-align: top; text-align: left; }
 table.attributes td { vertical-align: top; }
 
-table.boards a.board, h3.comments { background: url(../images/comment.png) no-repeat 0% 50%; padding-left: 20px; }
+table.boards a.board, h3.comments { background: url(../images/quote.png) no-repeat 0% 50%; padding-left: 20px; }
 
 td.center {text-align:center;}
 
-div.issues h3 { background: url(../images/ticket.png) no-repeat 0% 50%; padding-left: 20px; }
+div.issues h3 { background: url(../images/ticket.png) no-repeat 0% 10%; padding-left: 20px; }
 div.members h3 { background: url(../images/group.png) no-repeat 0% 50%; padding-left: 20px; }
-div.news h3 { background: url(../images/news.png) no-repeat 0% 50%; padding-left: 20px; }
-div.projects h3 { background: url(../images/projects.png) no-repeat 0% 50%; padding-left: 20px; }
+div.news h3 { background: url(../images/latest_news.png) no-repeat 0% 50%; padding-left: 20px; }
+div.projects h3 { background: url(../images/latest_projects.png) no-repeat 0% 50%; padding-left: 20px; }
+div.news h3 { background: url(../images/latest_news.png) no-repeat 0% 50%; padding-left: 20px; }
 
 #watchers ul {margin: 0;  padding: 0;}
 #watchers li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;float:left;}
@@ -358,12 +371,12 @@ dt.issue-closed { background-image: url(../images/ticket_checked.png); }
 dt.issue-note { background-image: url(../images/ticket_note.png); }
 dt.changeset { background-image: url(../images/changeset.png); }
 dt.news { background-image: url(../images/news.png); }
-dt.message { background-image: url(../images/message.png); }
+dt.message { background-image: url(../images/quote.png); }
 dt.reply { background-image: url(../images/comments.png); }
 dt.wiki-page { background-image: url(../images/wiki_edit.png); }
 dt.attachment { background-image: url(../images/attachment.png); }
 dt.document { background-image: url(../images/document.png); }
-dt.project { background-image: url(../images/projects.png); }
+dt.project { background-image: url(../images/latest_projects.png); }
 dt.time-entry { background-image: url(../images/time.png); }
 
 #search-results dt.issue.closed { background-image: url(../images/ticket_checked.png); }
@@ -507,7 +520,6 @@ div.attachments span.author { font-size: 0.9em; color: #888; }
 p.other-formats { font-size:0.9em; color: #666; }
 .other-formats span + span:before { content: "| "; }
 
-a.atom { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
 
 /* Project members tab */
 div#tab-content-members .splitcontentleft, div#tab-content-memberships .splitcontentleft, div#tab-content-users .splitcontentleft { width: 64% }
@@ -560,27 +572,6 @@ div.flash.error a:visited, div.flash.warning a:visited, div.flash.notice a:visit
   color: #333;
   text-decoration: none;
   cursor:default;
-}
-div.flash.error, #errorExplanation {
-	background: url(../images/exclamation.png) 8px 50% no-repeat;
-	background-color: #ffe3e3;
-	border-color: #dd0000;
-	color: #880000;
-}
-
-div.flash.notice {
-    background: url(../images/true.png) 8px 5px no-repeat;
-	background-color: #dfffdf;
-	border-color: #9fcf9f;
-	color: #005f00;
-}
-
-div.flash.warning {
-  background: url(../images/warning.png) 8px 5px no-repeat;
-	background-color: #FFEBC1;
-	border-color: #FDBF3B;
-	color: #A6750C;
-  text-align: left;
 }
 
 .nodata, .warning {
@@ -928,7 +919,7 @@ background-image:url('../images/close.png');
 }
 
 a.close-icon:hover {
-background-image:url('../images/close_hl.png');
+background-image:url('../images/close_hover.png');
 }
 
 /***** Gantt chart *****/
@@ -984,49 +975,45 @@ background-image:url('../images/close_hl.png');
 
 /***** Icons *****/
 .icon {
-background-position: 0% 50%;
-background-repeat: no-repeat;
-padding-left: 20px;
-padding-top: 2px;
-padding-bottom: 3px;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  padding-left: 19px;
+  padding-top: 2px;
+  padding-bottom: 3px;
 }
 
-.icon-add { background-image: url(../images/add.png); }
+.icon-add { background-image: url(../images/plus.png); }
 .icon-edit { background-image: url(../images/edit.png); }
 .icon-copy { background-image: url(../images/copy.png); }
+.icon-configure { background-image: url(../images/configure.png); }
 .icon-duplicate { background-image: url(../images/duplicate.png); }
 .icon-del { background-image: url(../images/delete.png); }
 .icon-move { background-image: url(../images/move.png); }
+.icon-rename { background-image: url(../images/rename.png); }
 .icon-save { background-image: url(../images/save.png); }
-.icon-cancel { background-image: url(../images/cancel.png); }
 .icon-multiple { background-image: url(../images/table_multiple.png); }
 .icon-folder { background-image: url(../images/folder.png); }
 .open .icon-folder { background-image: url(../images/folder_open.png); }
 .icon-package { background-image: url(../images/package.png); }
 .icon-user { background-image: url(../images/user.png); }
-.icon-projects { background-image: url(../images/projects.png); }
+.icon-projects { background-image: url(../images/latest_projects.png); }
 .icon-help { background-image: url(../images/help.png); }
 .icon-attachment  { background-image: url(../images/attachment.png); }
 .icon-history  { background-image: url(../images/history.png); }
-.icon-time  { background-image: url(../images/time.png); }
-.icon-time-add  { background-image: url(../images/time_add.png); }
+.icon-time-add  { background-image: url(../images/time.png); }
 .icon-stats  { background-image: url(../images/stats.png); }
 .icon-warning  { background-image: url(../images/warning.png); }
-.icon-fav  { background-image: url(../images/fav.png); }
-.icon-fav-off  { background-image: url(../images/fav_off.png); }
-.icon-reload  { background-image: url(../images/reload.png); }
-.icon-lock  { background-image: url(../images/locked.png); }
-.icon-unlock  { background-image: url(../images/unlock.png); }
-.icon-checked  { background-image: url(../images/true.png); }
+.icon-reload  { background-image: url(../images/arrow_circle.png); }
+.icon-unlock  { background-image: url(../images/locked_un.png); }
+.icon-checked  { background-image: url(../images/check.png); }
 .icon-details  { background-image: url(../images/zoom_in.png); }
 .icon-report  { background-image: url(../images/report.png); }
-.icon-comment  { background-image: url(../images/comment.png); }
-.icon-summary  { background-image: url(../images/lightning.png); }
+.icon-comment  { background-image: url(../images/quote.png); }
+.icon-summary  { background-image: url(../images/summary.png); }
 .icon-server-authentication { background-image: url(../images/server_key.png); }
 .icon-issue { background-image: url(../images/ticket.png); }
 .icon-zoom-in { background-image: url(../images/zoom_in.png); }
 .icon-zoom-out { background-image: url(../images/zoom_out.png); }
-.icon-more { background-image: url(../images/text_list_bullets.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
@@ -1042,6 +1029,7 @@ padding-bottom: 3px;
 .icon-file.application-pdf { background-image: url(../images/files/pdf.png); }
 .icon-file.application-zip { background-image: url(../images/files/zip.png); }
 .icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
+.icon-file-excel { background-image: url(../images/files/excel.png); }
 
 img.gravatar {
   border: solid 1px #d5d5d5;
@@ -1324,7 +1312,6 @@ li a.help:hover {
         outline: 0px;
 }
 #header #search_wrap {
-  background:transparent url(../images/background_suche.png);
   background-repeat:repeat-x;
   width:162px;
   height: 30px;
@@ -1593,7 +1580,7 @@ div#optional_login_fields {
   background:white;
   position:relative;
   z-index:20;
-  padding-bottom:128px;
+  padding-bottom:50px;
   overflow:auto;
  }
 #footer {
@@ -1645,7 +1632,7 @@ fieldset#filters div.add-filter {
 	right:10px;
 }
 .title-bar .new-issue a {
-	background:url(../images/add.png) no-repeat 6px center;
+	background:url(../images/plus.png) no-repeat 6px center;
 	padding-left:26px;
 }
 .title-bar-extras {
@@ -1677,19 +1664,8 @@ fieldset#filters div.add-filter {
 input.apply {
 	background-image:url(../images/check.png);
 }
-input.clear {
-	background-image:url(../images/refresh.png);
-}
 input.save {
-	background-image:url(../images/disk.png);
-}
-a#extras-close {
-	position:absolute;
-	color:#fff;
-	background:url(../images/arrow-up-white.png) no-repeat right center;
-	right:10px;
-	padding-right:15px;
-	display:none; /* Remove to show the Hide Filters thing */
+	background-image:url(../images/save.png);
 }
 
 /*-------------------------------------------------------------------------------
@@ -1725,8 +1701,9 @@ form#issue-list {
 #content table th.current-sort {
 	background:#fff url(../images/gradient-up.png) repeat-x;
 }
+
 #content table th.current-sort a {
-	background:url(../images/arrow-down-3.png) no-repeat right center;
+	background:url(../images/sort_desc.png) no-repeat right center;
 	padding-right:16px;
 	display:block;
 }
@@ -1903,9 +1880,6 @@ table.files {
         border: 0;
         margin-bottom: 0px;
 }
-.journal.question h4 {
-	background-image:url(../images/speech-blue.png);
-}
 .journal h4 .history-id {
 	float:right;
 	color:#999;
@@ -1931,7 +1905,7 @@ table.files {
 	background-image:url(../images/edit.png);
 }
 .contextual .comment {
-	background-image:url(../images/comment.png);
+	background-image:url(../images/quote.png);
 }
 .question-line {
 	display:block;
@@ -2024,7 +1998,7 @@ ul.projects .description {
 }
 .nosidebar ul.projects li .my-project {
 	padding:0 0 0 24px;
-	background:url(../images/star.png) no-repeat left top;
+	background:url(../images/fav.png) no-repeat left top;
 }
 ul.projects a {
 	font-weight:bold;
@@ -2035,9 +2009,6 @@ ul.projects li div.root {
 .nosidebar ol li {
 	list-style: decimal outside none;
 	margin-left:24px;
-}
-.nosidebar ul li {
-	background:url(../images/dot-blue.png) no-repeat left top;
 }
 .nosidebar ol, .nosidebar ul {
 	margin:0 0 12px 18px;
@@ -2096,11 +2067,6 @@ ul.projects li div.root {
 	border:0;
 	float:left;
 	margin-right:6px;
-}
-.profile-box .vcard {
-	padding-left:20px !important;
-	background:url(../images/vcard.png) no-repeat left center;
-	display:block;
 }
 
 /* file table hovers */
@@ -2519,7 +2485,7 @@ tr.time-entry {
 /*===== Replacement Images =====*/
 
 .icon-edit, .title-bar .update a {
-	background-image:url(../images/pencil.png);
+	background-image:url(../images/edit.png);
 }
 .icon-del {
 	background-image:url(../images/delete.png);
@@ -2528,7 +2494,7 @@ tr.time-entry {
 	display:none;
 }
 .journal .contextual a[title=Edit] {
-	background:url(../images/pencil.png) no-repeat;
+	background:url(../images/edit.png) no-repeat;
 }
 
 
@@ -2688,7 +2654,7 @@ Additional wiki styles
 }
 
 .wiki p.tip, .wiki span.tip {
-  background: url(../images/wiki_styles/tip.png) 4px 4px no-repeat #F5FFFA;
+  background: url(../images/tip.png) 4px 4px no-repeat;
   border: 1px solid #C7CFCA;
 }
 .wiki p.smalltip, .wiki span.smalltip {
@@ -2892,13 +2858,13 @@ ul.action_menu_more {
   background-repeat:no-repeat;
 }
 .navigate-left {
-  background: url(../images/arrow_left_darkred.png) 0 0px no-repeat;
+  background: url(../images/double_arrow_left.png) 0 1px no-repeat;
   width:100%;
   height:15px;
   padding-left: 18px;
 }
 .navigate-right {
-  background: url(../images/arrow_right_darkred.png) right 0px no-repeat;
+  background: url(../images/double_arrow_right.png) right 1px no-repeat;
   width:100%;
   height:15px;
   padding-right: 18px;
@@ -3013,3 +2979,412 @@ form.wiki_menu_item_form p.wiki_menu_item_optional_links {
   margin-left: 10px;
   padding-top: 0px;
 }
+
+
+/* Open Project Design generated by theme-generator */
+
+body {
+  color: #4b4b4b;
+  font-size: 12px;
+}
+
+content {
+  font-size: 12px;
+}
+/***** Layout *****/
+
+#header {
+  background-color: white;
+  min-width: 1000px;
+}
+
+li a.help {
+  background-image: url(../images/question_mark_black_white_sprite.png);
+  background-position: center -48px;
+}
+
+li a.help:hover {
+  background-image: url(../images/question_mark_black_white_sprite.png);
+  background-position: center -13px;
+}
+
+#top-menu {
+  height: 83px;
+  background: #ECECEC;
+}
+
+#top-menu-items {
+  padding-top: 0px;
+}
+
+#breadcrumb {
+  border-top: 3px solid #24b3e7 ;
+  border-bottom: 0px ;
+  background: -khtml-gradient(linear, left top, left bottom, from(#FFFFFF), to(#E4E4E4)); /* Konqueror */
+  background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#E4E4E4));   /* Webkit (Chrome, Safari, ...) */
+  background: -moz-linear-gradient(top,  #FFFFFF,  #E4E4E4); /* Gecko (Firefox, ...) */
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#E4E4E4'); /* IE 5.5 - 7 */
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#E4E4E4'); /* IE 8 */
+}
+
+#header li > ul {
+  top: 29px;
+}
+
+#header {
+  height: ;
+}
+#logo {
+  background: url(../images/logo_openproject.png) no-repeat 19px 8px;
+  width: 245px;
+  height: ;
+}
+
+li a.home  {
+  background-image: url(../images/instanz_logo_grey.png);
+  background-position: center center;
+  width: 35px;
+}
+
+li a.home:hover  {
+  background-image: url(../images/instanz_logo_white.png);
+  background-position: center center;
+}
+
+#header #search_wrap {
+  background: transparent url(../images/search.png) no-repeat;
+  }
+#header .search_field {
+  color: #4b4b4b;
+}
+
+#account-nav {
+  background: white;
+  display:block;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
+  filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
+}
+
+#account-nav li > a {
+  height: 30px;
+  line-height: 29px;
+  zoom: 1;
+}
+
+#account-nav > li.last-child {
+  border-right: 0px solid  #e13c92;
+}
+
+#account-nav > li {
+  margin-left: 3px;
+  margin-right: 3px;
+  border-right: 0px solid #e13c92;
+  height: 26px;
+  margin-top: 17px;
+  -moz-border-radius-topleft:6px;
+  -moz-border-radius-topright:6px;
+  -webkit-border-top-left-radius:6px;
+  -webkit-border-top-right-radius:6px;
+  border-top-left-radius:6px;
+  border-top-right-radius:6px;
+  -moz-border-radius-bottomleft:0px;
+  -moz-border-radius-bottomright:0px;
+  -webkit-border-bottom-left-radius:0px;
+  -webkit-border-bottom-right-radius:0px;
+  border-bottom-left-radius:0px;
+  border-bottom-right-radius:0px;
+
+/* Shadow definitions except IE - does not work while other filters are active */
+  -moz-box-shadow: 0px 0px 2px #888;
+  -webkit-box-shadow: 0px 0px 2px #888;
+  zoom: 1;
+  background: url(../images/topmenu_sprite.png) repeat-x;
+}
+
+
+#header li > a {
+  height: 30px;
+  color: #222222;
+}
+
+#header li.drop-down > a {
+  padding-right: 35px;
+}
+
+#header li > a:hover {
+  background-color:transparent;
+  color: white;
+}
+
+
+#header li.drop-down.open {
+  color: white;
+}
+
+#account-nav > li:hover, #account-nav > li.drop-down.open {
+  background: url(../images/topmenu_sprite.png) repeat-x;
+  background-position: 0px -28px;
+}
+
+
+#header li.drop-down > a:hover, #header li.drop-down > a {
+  background-image: url(../images/top_menu_arrow_black_white_sprite.png);
+  background-position: right -10px;
+  background-color:transparent;
+}
+
+#header li.drop-down.open > a {
+  color: white;
+  background-image: url(../images/top_menu_arrow_black_white_sprite.png);
+  background-color:transparent;
+  background-position: right -48px;
+}
+
+#header li.drop-down li > a:hover, #main-menu ul.menu-root li a.selected, #main-menu ul.menu-root li a:hover, #header .chzn-container .chzn-results .highlighted {
+  background-color:  #24b3e7;
+}
+
+#header li.drop-down > ul {
+  -moz-box-shadow: 1px 1px 2px #aaa;
+  -webkit-box-shadow: 1px 1px 2px #aaa;
+}
+
+/***** Links *****/  /* TODO */
+a, a:link, a:visited, input.input-as-link {
+  color: #008BD0;
+}
+a:hover, a:active {
+  color: #008BD0;
+}
+
+input.input-as-link {
+  font-size: 12px;
+  cursor: pointer;
+}
+
+a.sort.asc {
+  background-image: url(../images/sort_asc.png);
+}
+
+a.sort.desc {
+  background-image: url(../images/sort_desc.png);
+}
+
+#content #history {
+  background:url("../images/dotted-separator.gif"?1349103766) repeat-x scroll 0 bottom   transparent;
+  padding-bottom: 11px;
+}
+
+#history .journal, #content .wiki-content p, #content .wiki-content li {
+  width: 700px;
+}
+
+#history .journal {
+  background:url("../images/dotted-separator.gif"?1349103766) repeat-x scroll 0 0   transparent;
+}
+
+.my-project {
+  background: url(../images/../images/fav.png) no-repeat 0 50%;
+}
+
+
+.required {color: #008BD0;} /* changed to Siemens red! */
+
+/***** Flash & error messages ****/
+
+
+div.flash {
+  margin-top: 0;
+}
+
+div.flash.error, #errorExplanation {
+  background: #FAAA96 url(../images/error.png) 8px 50% no-repeat;
+  border: none;
+  color: #000000;
+}
+
+#errorExplanation {
+  background-position: 12px 50%;
+}
+
+div.flash.notice {
+  background: #C8F0BE url(../images/check.png) 11px 6px no-repeat;
+  border: none;
+  color: #000000;
+}
+
+div.flash.warning { /* orange */
+  background: #FFC38C url(../images/warning.png) 9px 5px no-repeat;
+  border: none;
+  color: #000000;
+  text-align: left;
+}
+
+.nodata, .warning { /* softer orange?? */
+  background-color: #FFD7B4;
+  border: none;
+  color: #000000;
+}
+
+/***** Icons *****/
+
+
+.icon {
+ background-position: 0px 1px;
+}
+
+a.icon, input.input-as-link {
+  color: #4b4b4b;
+  font-weight: normal;
+}
+a.icon:hover, input.input-as-link:hover {
+  color: #008BD0;
+  text-decoration: underline;
+}
+
+.icon-time  {
+  background-image: url(../images/time.png);
+  background-position: 3px 2px;
+}
+
+.icon-lock  {
+  background-image: url(../images/locked.png);
+  background-position: 0px 2px;
+}
+
+.icon-edit {
+  background-image: url(../images/edit.png);
+  padding-top: 1px;
+}
+.icon-copy { background-image: url(../images/copy.png); }
+.icon-del {
+  background-image: url(../images/delete.png);
+  /*padding-left: 16px; */
+  background-position: 0px 2px;
+}
+.icon-fav  { background-image: url(../images/watch.png); }
+.icon-fav-off  { background-image: url(../images/watch_b.png); }
+.icon-reload  {
+  background-position: 0px 3px;
+}
+.icon-checked  {
+  background-position: 0px 4px;
+}
+.icon-notification  { background-image: url(../images/envelope.png); }
+.icon-package { background-position: 1px 0px; }
+.icon-more {
+  background-image: url(../images/arrow-down_2.png);
+  padding-left: 16px;
+  background-position: 0px 5px;
+}
+.icon-save {
+  padding-top: 0px;
+}
+
+.icon-cancel {
+  background-image: url(../images/cancel.png);
+  background-position: 0px 2px;
+}
+
+a.atom {
+  background-image: url(../images/feed.png);
+  background-repeat: no-repeat;
+  padding: 1px 0 1px 14px;
+}
+
+/* Disable the css-override for the edit links in issue journals */
+.journal .contextual a[title=Edit] {background: none;}
+.journal .contextual a[title=Edit] img {display: inline;}
+
+/***** Ajax indicator ******/
+#ajax-indicator {
+  position: absolute; /* fixed not supported by IE */
+  background-color:#d9d9d9;
+  border: 1px solid #8f8f8f;
+  top:35%;
+  left:40%;
+  width:20%;
+  font-weight:bold;
+  text-align:center;
+  padding:0.6em;
+  z-index:100;
+  filter:alpha(opacity=70);
+  opacity: 0.7;
+}
+
+
+/*Gannt chart fix IE 6*/
+.task {
+  line-height: 1em;
+}
+
+/*Cost-Plugin specific styles*/
+.icon-pieces {
+  background-image: url(../images/units.png) !important;
+}
+
+.icon-pieces-time {
+  background-image: url(../images/time.png) !important;
+}
+
+#main-menu ul.menu-root li li a {
+  overflow:hidden;
+}
+#sidebar {
+	padding:10px 10px 2px 20px;
+        width:auto;
+        color:#4b4b4b;
+	font-weight:normal;
+        font-size:12px;
+        font-style:normal;
+}
+#sidebar h3 {
+        color:#4b4b4b;
+	font-weight:bold;
+        font-style:normal;
+        padding:0px;
+        margin-bottom:8px;
+}
+#sidebar a, #sidebar a:link, #sidebar a:visited {
+        color: #008BD0;
+        font-weight:bold;
+        height:auto;
+        display:inline;
+        position:static;
+        font-size:12px;
+        font-style:normal;
+        line-height:1.5;
+}
+#sidebar a:hover {
+        text-decoration:underline;
+}
+#sidebar input.button-small {
+	margin-top:6px;
+}
+#sidebar ul {border: none; overflow-x: hidden;}
+#sidebar li {border: none; }
+#sidebar li a {padding: 0px; }
+body.theme-Bsp .buttons .apply,
+body.theme-Dtag .buttons .apply {
+  background-color:  #24b3e7;
+}
+#content table.issues td, #content table th{
+  border: 0px;
+}
+.title-bar .title-bar-actions .contextual a.icon:hover {
+  color: #008BD0;
+}
+#header li.drop-down li > a:hover, #main-menu ul.menu_root li a.selected, #main-menu ul.menu_root li a:hover {
+  background-color:  #24b3e7;
+}
+#content table th a:hover {
+  color: #008BD0;
+}
+input::-webkit-input-placeholder {
+  color: #000000;
+}
+:-moz-placeholder {
+    color:    #000000;
+}
+
+
