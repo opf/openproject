@@ -113,7 +113,7 @@ module Backlogs::Burndown
       end
 
       stories.delete_if do |s|
-        collected_trackers.include?(s.tracker) and
+        !collected_trackers.include?(s.tracker_id) and
           s.journals.none? { |j| j.changes['tracker_id'] && collected_trackers.map(&:to_s).include?(j.changes['tracker_id'].first.to_s) }
       end
 
