@@ -13,6 +13,10 @@
 #++
 
 require_dependency 'journal_formatter'
+require_dependency 'redmine/acts/journalized/format_hooks'
+require_dependency 'open_project/journal_formatter/diff'
+require_dependency 'open_project/journal_formatter/attachment'
+require_dependency 'open_project/journal_formatter/custom_field'
 
 # The ActiveRecord model representing journals.
 class Journal < ActiveRecord::Base
@@ -21,6 +25,7 @@ class Journal < ActiveRecord::Base
   include Comparable
   include JournalFormatter
   include JournalDeprecated
+  include FormatHooks
 
   # Make sure each journaled model instance only has unique version ids
   validates_uniqueness_of :version, :scope => [:journaled_id, :type]
@@ -33,6 +38,10 @@ class Journal < ActiveRecord::Base
   belongs_to :user
 
   #attr_protected :user_id
+
+  register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
+  register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
+  register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
 
   # "touch" the journaled object on creation
   after_create :touch_journaled_after_creation
