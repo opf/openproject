@@ -4,25 +4,16 @@
   padding-left: 40px;
   padding-top: 2px;
   padding-bottom: 3px;
-  
+
 }
 
 .single-wide-icon {
   background-position: 20px 40%;
 }
 
-.icon-pieces {
-  background-image: url(../images/pieces.gif);
-}
-
-.icon-pieces-time {
-  background-image: url(../images/pieces-time.gif);
-}
-
 .icon-ticket {
   background-image: url(../../../images/ticket.png);
 }
-
 
 .filter_values select {
   width: 200px;
