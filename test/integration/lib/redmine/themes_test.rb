@@ -17,7 +17,7 @@ class ThemesTest < ActionController::IntegrationTest
   fixtures :all
 
   def setup
-    @theme = Redmine::Themes.themes.last
+    @theme = Redmine::Themes.last
     Setting.ui_theme = @theme.id
   end
 

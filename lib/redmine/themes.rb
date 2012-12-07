@@ -11,12 +11,11 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'active_support/core_ext/module/attribute_accessors'
+require 'redmine/themes/theme'
 
 module Redmine
   module Themes
-    class DefaultThemeNotFoundError < StandardError
-    end
-
     mattr_accessor :installed_themes
     self.installed_themes = Set.new
 
@@ -25,73 +24,51 @@ module Redmine
     end
 
     def self.themes
-      installed_themes
+      installed_themes.to_a
     end
 
     def self.register(*themes)
-      self.installed_themes += themes.map { |theme| Theme.from(theme) }
+      self.installed_themes += themes.collect { |theme| Theme.from(theme) }
+      all
     end
 
     def self.theme(name)
-      find_theme(name) || Theme.default
+      find_theme(name) || default_theme
     end
 
     def self.find_theme(name)
-      installed_themes.detect { |theme| theme.name.to_s == name.to_s }
+      theme_to_find = Theme.from(name)
+      installed_themes.detect { |theme| theme == theme_to_find }
     end
 
-    extend Enumerable
+    def self.new_theme(name)
+      Theme.new name
+    end
+
+    def self.default_theme
+      Theme.default
+    end
+
+    def self.clear
+      installed_themes.clear
+    end
 
     def self.each(&block)
       installed_themes.each(&block)
     end
+    extend Enumerable
 
-    Theme = Struct.new(:name) do
-      cattr_accessor :default_theme
-
-      def self.from(theme)
-        theme.kind_of?(Theme) ? theme : new(theme)
-      end
-
-      def self.default
-        self.default_theme ||= from default_theme_name
-      end
-
-      def favicon_path
-        @favicon_path ||= begin
-          path = '/favicon.ico'
-          path = "#{name}#{path}" unless default?
-          path
-        end
-      end
-
-      def main_stylesheet_path
-        name
-      end
-
-      def default?
-        self == self.class.default
-      end
-
-      def self.default_theme_name
-        :default
-      end
-
-      include Comparable
-
-      def <=>(other)
-        name.to_s <=> other.name.to_s
-      end
+    def self.register_default_theme
+      register default_theme
     end
 
-    self.register Theme.default
+    self.register_default_theme # called on load
   end
 end
 
 module ApplicationHelper
   def current_theme
     @current_theme ||= Redmine::Themes.theme(Setting.ui_theme)
-    raise DefaultThemeNotFoundError, 'default theme was not found' unless @current_theme
-    @current_theme
   end
 end
+
