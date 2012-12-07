@@ -160,6 +160,12 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # Returns a SQL conditions string used to find all projects for which +user+ has the given +permission+
+  #
+  # Valid options:
+  # * :project => limit the condition to project
+  # * :with_subprojects => limit the condition to project and its subprojects
+  # * :member => limit the condition to the user projects
   def self.allowed_to_condition(user, permission, options={})
     base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     if perm = Redmine::AccessControl.permission(permission)

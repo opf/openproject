@@ -24,6 +24,10 @@ gem 'loofah'
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
 
+gem 'libv8'
+gem 'execjs'
+gem 'therubyracer'
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
@@ -165,7 +169,7 @@ if File.readable?(gemfile_local)
 end
 
 # Load plugins' Gemfiles
-Dir.glob File.expand_path("../vendor/plugins/*/Gemfile", __FILE__) do |file|
+Dir.glob File.expand_path("../lib/plugins/*/Gemfile", __FILE__) do |file|
   puts "Loading #{file} ..." if $DEBUG # `ruby -d` or `bundle -v`
   instance_eval File.read(file)
 end

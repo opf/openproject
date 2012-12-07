@@ -153,7 +153,7 @@ class TimeEntries::ReportsController < ApplicationController
     end
 
     @from, @to = @to, @from if @from && @to && @from > @to
-    @from ||= (TimeEntry.earilest_date_for_project(@project) || Date.today)
+    @from ||= (TimeEntry.earliest_date_for_project(@project) || Date.today)
     @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
   end
 
