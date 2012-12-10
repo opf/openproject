@@ -28,8 +28,8 @@ module Redmine::Acts::Journalized
       # Shortcut to register a formatter for a number of fields
       def register_on_journal_formatter(formatter, *field_names)
         formatter = formatter.to_sym
-        field_names.collect(&:to_s).each do |field|
-          JournalFormatter.register :class => self.journal_class.name.to_sym, field => formatter
+        field_names.each do |field|
+          JournalFormatter.register_formatted_field(self.journal_class.name.to_sym, field, formatter)
         end
       end
 

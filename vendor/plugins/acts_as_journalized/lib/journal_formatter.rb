@@ -29,11 +29,17 @@ module JournalFormatter
   def self.register(hash)
     if hash[:class]
       klazz = hash.delete(:class)
-      registered_fields[klazz] ||= {}
-      registered_fields[klazz].merge!(hash)
+
+      register_formatted_field(klazz, hash.keys.first, hash.values.first)
     else
       formatters.merge!(hash)
     end
+  end
+
+  def self.register_formatted_field(klass, field, formatter)
+    field_key = field.is_a?(Regexp) ? field : Regexp.new(field.to_s)
+
+    registered_fields[klass].merge!(field => formatter)
   end
 
   # TODO: Document Formatters (can take up to three params, value, journaled, field ...)
@@ -47,7 +53,9 @@ module JournalFormatter
   end
 
   self.formatters = default_formatters
-  self.registered_fields = {}
+  self.registered_fields = Hash.new do |hash, klass|
+    hash[klass] = {}
+  end
 
   def render_detail(detail, no_html=false)
     if detail.respond_to? :to_ary
@@ -58,9 +66,13 @@ module JournalFormatter
       values = details[key.to_s]
     end
 
-    # this is plain ugly but needed for attachments and custom_values as each instance has it's own association of the format
-    # attachments[n], custom_values[n]
-    formatter_key = JournalFormatter.registered_fields[self.class.name.to_sym].keys.detect{ |k| key.start_with?(k) }
+    # Some attributes on a model are named dynamically.
+    # This is especially true for associations created by plugins. Those are sometimes nameed according to
+    # the schema "association_name[n]" or "association_name_[n]" where n is an integer increased over time.
+    # Using regexp we are able to handle those fields with the rest.
+    formatter_key = JournalFormatter.registered_fields[self.class.name.to_sym].keys.detect{ |k| key.match(k.to_s) }
+
+    return nil if formatter_key.nil?
 
     formatter = JournalFormatter.formatters[JournalFormatter.registered_fields[self.class.name.to_sym][formatter_key]]
 
