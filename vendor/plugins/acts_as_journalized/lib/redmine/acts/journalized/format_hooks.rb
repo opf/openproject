@@ -35,8 +35,16 @@ module Redmine::Acts::Journalized
 
       # Shortcut to register a new proc as a named formatter. Overwrites
       # existing formatters with the same name
-      def register_journal_formatter(formatter)
-        JournalFormatter.register formatter.to_sym => Proc.new
+      def register_journal_formatter(formatter, klass = nil, &block)
+        if block_given?
+          klass = Class.new(JournalFormatter::Proc) do
+                    @proc = block
+                  end
+        end
+
+        raise ArgumentError "Provide either a class or a block defining the value formatting" if klass.nil?
+
+        JournalFormatter.register formatter.to_sym => klass
       end
     end
   end
