@@ -197,15 +197,22 @@ module JournalFormatter
     unless no_html
       label, old_value, value = *format_html_detail(label, old_value, value)
       value = format_html_attachment_detail(key.sub("attachments", ""), value) if attachment_detail
-      if property(detail) == :attribute && key == "description"
-        old_value, value = *format_html_diff_detail(key, label, old_value, value)
-      end
     end
 
     unless value.blank?
       if attr_detail || cv_detail
+
         unless old_value.blank?
-          l(:text_journal_changed, :label => label, :old => old_value, :new => value)
+          if property(detail) == :attribute && key == "description"
+            link = link_to(l(:label_more), { :controller => 'journals',
+                                             :action => 'diff',
+                                             :id => id,
+                                             :field => key.to_s },
+                                             :class => 'lightbox-ajax')
+            l(:text_journal_changed_with_diff, :label => label, :link => link)
+          else
+            l(:text_journal_changed, :label => label, :old => old_value, :new => value)
+          end
         else
           l(:text_journal_set_to, :label => label, :value => value)
         end
