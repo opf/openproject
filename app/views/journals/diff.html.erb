@@ -1,8 +1,7 @@
 <p><%= authoring @journal.created_at, @journal.user, :label => :label_updated_time_by %></p>
 
-<div class="text-diff">
-<%= simple_format_without_paragraph @diff.to_html %>
-</div>
+<%= render :partial => 'diff',
+           :locals => { :diff => @diff } %>
 
 <p><%= link_to(l(:button_back), issue_path(@issue)) %></p>
 

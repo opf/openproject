@@ -95,12 +95,13 @@ class JournalsController < ApplicationController
       @issue = @journal.journaled
       respond_to do |format|
         format.html { }
+        format.js { render :partial => 'diff', :locals => { :diff => @diff } }
       end
     else
       render_404
     end
   end
-  
+
   private
 
   def find_journal
