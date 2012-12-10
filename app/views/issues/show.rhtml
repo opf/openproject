@@ -137,3 +137,11 @@
 <% end %>
 <div id="context-menu" style="display: none;"></div>
 <%= javascript_tag "new ContextMenu('#{issues_context_menu_path}')" %>
+<%= javascript_tag "jQuery('document').ready(function () {
+      jQuery.ajaxAppend({
+        'dom_identifier': { 'trigger_class': 'description-details',
+                            'indicator_class': 'ajax-indicator' },
+        'i18n': { 'hide': '" + l(:label_hide) + "'}
+      } );
+  });"
+%>
