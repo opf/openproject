@@ -54,33 +54,8 @@ class Journal < ActiveRecord::Base
     super
   end
 
-
-  raise "This code relies on ActiveRecord 2.3.x internals. ActiveRecord 3.x's
-         touch should already not trigger the callbacks, as far as I can tell.
-         So then it should be save to change the following method back to
-         journaled.touch" if Rails.version >= '3'
-
   def touch_journaled_after_creation
-    current_time = created_at
-
-    # strip micro seconds since they will not be stored in db anyway
-    current_time = current_time - (current_time.usec / 1_000_000.00)
-
-    attributes = journaled.class.column_names.select { |c| ['updated_at', 'updated_on'].include? c }
-    changes = {}
-
-    # write new timestamp to journaled model without marking it as dirty
-    attributes.each do |attribute|
-      next if current_time == journaled[attribute]
-
-      changes[attribute] = journaled.write_attribute_without_dirty(attribute, current_time)
-    end
-
-    return if changes.empty?
-
-    # saving without triggering callbacks
-    primary_key = journaled.class.primary_key
-    journaled.class.update_all(changes, {primary_key => journaled[primary_key]})
+    journaled.touch
   end
 
   # In conjunction with the included Comparable module, allows comparison of journal records
