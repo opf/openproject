@@ -300,7 +300,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_difference 'Issue.count', -4 do
       Issue.find(issue.id).destroy
       parent.reload
-      assert_equal [1, 2], [parent.lft, parent.rgt]
+      assert_equal [1, 2], [parent.lft, parent.rgt], 'parent should not have children'
     end
   end
 

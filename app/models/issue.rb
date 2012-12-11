@@ -808,7 +808,13 @@ class Issue < ActiveRecord::Base
   end
 
   def recalculate_attributes_for(issue_id)
-    if issue_id && p = Issue.find_by_id(issue_id)
+    if issue_id.is_a? Issue
+      p = issue_id
+    else
+      p = Issue.find_by_id(issue_id)
+    end
+
+    if p
       # priority = highest priority of children
       if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
         p.priority = IssuePriority.find_by_position(priority_position)
@@ -840,7 +846,7 @@ class Issue < ActiveRecord::Base
       p.estimated_hours = nil if p.estimated_hours == 0.0
 
       # ancestors will be recursively updated
-      p.save(:validate => false)
+      p.save(:validate => false) if p.changed?
     end
   end
 

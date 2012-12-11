@@ -77,7 +77,7 @@ module JournalsHelper
     unless journal.notes.blank?
       links = [].tap do |l|
         if reply_links
-          l << link_to(image_tag('comment.png', :alt => l(:button_quote), :title => l(:button_quote)),
+          l << link_to(image_tag('quote.png', :alt => l(:button_quote), :title => l(:button_quote)),
                                                 { :controller => controller,
                                                   :action => action,
                                                   :id => model,

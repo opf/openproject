@@ -61,10 +61,12 @@ module WatchersHelper
     lis = object.watchers.collect do |watch|
       s = avatar(watch.user, :size => "16").to_s + link_to_user(watch.user, :class => 'user').to_s
       if remove_allowed
-        s += ' ' + link_to(image_tag('delete.png', :alt => l(:button_delete), :title => l(:button_delete)),
-                           watcher_path(watch), :method => :delete, :remote => true,
-                                  :style => "vertical-align: middle",
-                                  :class => "delete")
+        s += ' ' + link_to(image_tag('red_x.png', :alt => l(:button_delete), :title => l(:button_delete)),
+                           watcher_path(watch),
+                           :method => :delete,
+                           :remote => true,
+                           :style => "vertical-align: middle",
+                           :class => "delete")
       end
       "<li>#{ s }</li>"
     end

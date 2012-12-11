@@ -35,7 +35,7 @@
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <div class="contextual">
-      <%= link_to_remote_if_authorized(image_tag('comment.png'),
+      <%= link_to_remote_if_authorized(image_tag('quote.png'),
                                        { :url => {:action => 'quote', :id => message},
                                          :method => :get },
                                        :title => l(:button_quote),
