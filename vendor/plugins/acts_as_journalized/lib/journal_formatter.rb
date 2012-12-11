@@ -66,18 +66,27 @@ module JournalFormatter
       values = details[key.to_s]
     end
 
+    formatter = formatter_instance(key)
+
+    return nil if formatter.nil?
+
+    formatter.render(key, values, no_html)
+  end
+
+  def formatter_instance(formatter_key)
     # Some attributes on a model are named dynamically.
     # This is especially true for associations created by plugins. Those are sometimes nameed according to
-    # the schema "association_name[n]" or "association_name_[n]" where n is an integer increased over time.
+    # the schema "association_name[n]" or "association_name_[n]" where n is an integer representing an id.
     # Using regexp we are able to handle those fields with the rest.
-    formatter_key = JournalFormatter.registered_fields[self.class.name.to_sym].keys.detect{ |k| key.match(k.to_s) }
+    formatter = JournalFormatter.registered_fields[self.class.name.to_sym].keys.detect{ |k| formatter_key.match(k.to_s) }
 
-    return nil if formatter_key.nil?
+    return nil if formatter.nil?
 
-    formatter = JournalFormatter.formatters[JournalFormatter.registered_fields[self.class.name.to_sym][formatter_key]]
+    @formatter_instances ||= Hash.new do |hash, key|
+      f = JournalFormatter.formatters[JournalFormatter.registered_fields[self.class.name.to_sym][key]]
+      hash[key] = f.new(self)
+    end
 
-    formatter_instance = formatter.new(self)
-
-    formatter_instance.render(key, values, no_html)
+    @formatter_instances[formatter]
   end
 end
