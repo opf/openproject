@@ -43,23 +43,15 @@ class WikiController < ApplicationController
   attr_reader :page, :related_page
 
   current_menu_item :index do |controller|
-    menu_item = controller.related_page.nearest_menu_item
-
-    :"#{menu_item.item_class}_toc"
+    controller.current_menu_item_sym :related_page, "_toc"
   end
 
   current_menu_item :new_child do |controller|
-    menu_item = controller.page.nearest_menu_item
-
-    :"#{menu_item.item_class}_new_page"
+    controller.current_menu_item_sym :page, "_new_page"
   end
 
   current_menu_item do |controller|
-    menu_item = controller.page.nearest_menu_item
-
-    menu_item.present? ?
-      menu_item.item_class.to_sym :
-      nil
+    controller.current_menu_item_sym :page
   end
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
@@ -309,6 +301,14 @@ class WikiController < ApplicationController
       format.json { render 'common/list_attachments', :locals => {:attachments => @page.attachments} }
       format.html {}
     end
+  end
+
+  def current_menu_item_sym page, symbol_postfix = ""
+    menu_item = self.send(page).try(:nearest_menu_item)
+
+    menu_item.present? ?
+      :"#{menu_item.item_class}#{symbol_postfix}" :
+      nil
   end
 
 private
