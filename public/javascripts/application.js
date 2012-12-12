@@ -722,18 +722,24 @@ $(window).bind('resizeEnd', function() {
           });
         });
 
-        // users of some old IEs are out of luck ATM. An userData
-        // implementation could be provided though, that would be great!
-        var remember_menu_state = function(match) {
-          if (typeof window.sessionStorage != 'undefined') {
-            if (typeof match == 'undefined') {
+        // Users of some old IEs are out of luck ATM. A userData implementation
+        // could be provided though, that would be great!
+        var remember_menu_state;
+
+        if (typeof window.sessionStorage !== 'undefined') {
+          remember_menu_state = function (match) {
+            if (typeof match === 'undefined') {
               return sessionStorage.getItem('navigation-toggle');
             } else {
-              return sessionStorage.setItem('navigation-toggle', match.length > 0 ? 'collapsed' : 'expanded')
+              return sessionStorage.setItem('navigation-toggle', match.length > 0 ? 'collapsed' : 'expanded');
             }
-          }
-          return false;
-        };
+          };
+        }
+        else {
+          remember_menu_state = function (match) {
+            return false;
+          };
+        }
 
         var toggle_navigation = function() {
           var height = $(document).height() - $('#main-menu').offset().top - 32;
