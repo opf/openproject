@@ -729,9 +729,10 @@ $(window).bind('resizeEnd', function() {
         if (typeof window.sessionStorage !== 'undefined') {
           remember_menu_state = function (match) {
             if (typeof match === 'undefined') {
-              return sessionStorage.getItem('navigation-toggle');
+              return sessionStorage.getItem('openproject:navigation-toggle');
             } else {
-              return sessionStorage.setItem('navigation-toggle', match.length > 0 ? 'collapsed' : 'expanded');
+              return sessionStorage.setItem('openproject:navigation-toggle',
+                                            match.length > 0 ? 'collapsed' : 'expanded');
             }
           };
         }
