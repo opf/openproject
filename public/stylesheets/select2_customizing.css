@@ -1,91 +1,54 @@
-/* @group Base */
-
 #project-search-results {
   -webkit-box-sizing: content-box; /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: content-box;    /* Firefox, other Gecko */
-  box-sizing: content-box;         /* Opera/IE 8+ */
-  margin-left:-1px;
-}
-/* @end */
+  -moz-box-sizing:    content-box; /* Firefox, other Gecko */
+  box-sizing:         content-box; /* Opera/IE 8+ */
 
-/* @group Single Chosen */
-.select2-container.select2-select {
+  /* Fixing select2's positioning errors for results*/
+  margin-left: -1px;
+
+  /* Disabling rounded corners and drop shadow on result list */
+  -webkit-border-radius: 0;
+  -moz-border-radius   : 0;
+  border-radius        : 0;
   -webkit-box-shadow: none;
   -moz-box-shadow   : none;
+  -o-box-shadow     : none;
   box-shadow        : none;
+}
+
+/* Indirectly styling size of result list */
+.select2-container.select2-select {
   position: static;
   max-width: 350px;
   width:100%;
 }
 
-.select2-single div b {
-  background: url('../images/search_magnifier.png') no-repeat 0 1px;
-}
-.select2-search input {
-  background: #fff url('../images/search_magnifier.png') no-repeat 100%;
-  background: url('../images/search_magnifier.png') no-repeat 100%, -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(1%, #eeeeee), color-stop(15%, #ffffff));
-  background: url('../images/search_magnifier.png') no-repeat 100%, -webkit-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
-  background: url('../images/search_magnifier.png') no-repeat 100%, -moz-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
-  background: url('../images/search_magnifier.png') no-repeat 100%, -o-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
-  background: url('../images/search_magnifier.png') no-repeat 100%, -ms-linear-gradient(top, #eeeeee 1%, #ffffff 15%);
-  background: url('../images/search_magnifier.png') no-repeat 100%, linear-gradient(top, #eeeeee 1%, #ffffff 15%);
-}
-.select2-drop {
-  -webkit-border-radius: 0;
-  -moz-border-radius   : 0;
-  border-radius        : 0;
-}
-/* @end */
-
-/* @group Results */
+/* make result list longer */
 .select2-results {
   max-height: 500px;
-  color: #222;
-  background-color: white;
-  border:none;
-  height:auto;
 }
 
-.select2-container.select2-container-active .select2-choices {
-  border:1px solid #AAA;
-}
-
-.select2-container.select2-select .select2-choices .select2-search-choice {
-  background-color: #E9E9E9;
-  background-image: none;
-}
-
-.select2-container.select2-select .select2-choices .select2-search-choice div {
-  overflow:visible !important;
-}
-
-.select2-results li {
-  line-height: 80%;
-  padding: 7px 7px 8px;
-}
-.select2-results .select2-result {
-  border: none;
+/* Make no results a bit look like results */
+.select2-results .select2-no-results {
+  background-color: #fff;
   margin: 3px 6px 3px 6px;
 }
 
+/* Selected elements should be bold, have inverted colors and rounded corners */
 .select2-results .select2-highlighted {
-  -moz-border-radius-topleft:5px;
-  -moz-border-radius-topright:5px;
-  -webkit-border-top-left-radius:5px;
-  -webkit-border-top-right-radius:5px;
-  border-top-left-radius:5px;
-  border-top-right-radius:5px;
-  -moz-border-radius-bottomleft:5px;
-  -moz-border-radius-bottomright:5px;
-  -webkit-border-bottom-left-radius:5px;
-  -webkit-border-bottom-right-radius:5px;
-  border-bottom-left-radius:5px;
-  border-bottom-right-radius:5px;
-  background-color:#7F7F7F;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
+  border-radius: 5px;
+
+  background-color: #24B3E7;
   font-weight:bold;
-  background-image: none;
 }
-.select2-results .select2-no-results {
-  background: #fff;
-  border: none;
+
+/* Shorten overlong project names */
+.select2-results .select2-result-label {
+  overflow: hidden;
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }

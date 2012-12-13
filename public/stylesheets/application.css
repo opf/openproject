@@ -1346,7 +1346,7 @@ input:-moz-placeholder {
   display:none;
   position:absolute;
   height:auto;
-  min-width:200px;
+  min-width:270px;
   left:-1px;
   z-index:20;
   border: 1px solid #b7b7b7;
@@ -1364,7 +1364,7 @@ input:-moz-placeholder {
 	border-width:1px 0;
 }
 #header li.drop-down li > a {
-  padding:5px 9px;
+  padding: 6px;
   background:#FFFFFF;
   position:static;
   color:#222222;
