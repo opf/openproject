@@ -608,8 +608,8 @@ jQuery(document).ready(function($) {
               else {
                 $(this).find("li > a:first").focus();
               }
-              if (callback != undefined) {
-                callback($(this));
+              if (typeof callback === 'function') {
+                callback.apply(this);
               }
             });
             return false;
@@ -619,8 +619,8 @@ jQuery(document).ready(function($) {
 		if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
 			// no animations, just toggle
 			this.toggle();
-                        if (callback != undefined) {
-                          callback();
+                        if (typeof callback === 'function') {
+                          callback.apply(this);
                         }
 			// this forces IE to redraw the menu area, un-bollocksing things
 			$("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
@@ -677,11 +677,11 @@ jQuery(document).ready(function($) {
       });
     }
 
-    $(this).slideAndFocus(function (element) {
-      if ($(element).is(":visible")) {
-        $(element).parents('li.drop-down').trigger("opened");
+    $(this).slideAndFocus(function () {
+      if ($(this).is(":visible")) {
+        $(this).parents('li.drop-down').trigger("opened");
       } else {
-        $(element).parents('li.drop-down').trigger("closed");
+        $(this).parents('li.drop-down').trigger("closed");
       }
     });
     menu.toggleClass("hover");
@@ -735,8 +735,8 @@ jQuery(document).ready(function($) {
                 $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide(function () {
                   $(this).parents("li.drop-down").trigger("closed");
                 });
-                $(this).slideAndFocus(function (elem) {
-                  $(elem).parents("li.drop-down").trigger("opened");
+                $(this).slideAndFocus(function () {
+                  $(this).parents("li.drop-down").trigger("opened");
                 });
                 return false;
             }
