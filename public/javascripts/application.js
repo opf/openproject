@@ -502,12 +502,10 @@ jQuery(document).ready(function($) {
   $('#project-search-container select.select2-select').each(function (ix, select) {
     var parent, select2Container, results, input;
     parent = $(select).parents('li.drop-down');
-    // deselect all options
-    $(select).find(":selected").each(function (ix, option) {
-      $(option).attr("selected", false);
-    });
+
     $(select).select2();
-    // trigger an artificial click event
+
+    // Hide default select box - we won't use it as expected
     select2Container = parent.find('a.select2-choice');
     select2Container.hide();
 
@@ -517,61 +515,54 @@ jQuery(document).ready(function($) {
 
     input = results.find("input.select2-input");
 
-    $.each(input.data("events")["keydown"], function(i, handler) {
-      var old_handler = handler.handler;
-      handler.handler = function (e) {
-        var keyCode = e.keyCode || e.which;
-        switch (keyCode) {
-          case 9:
-            closestVisible = results.data("select2").container.children(".select2-choice").closest(":visible");
-            if (e.shiftKey) {
-              closestVisible.previousElementInDom(":input:visible, a:visible").focus();
-            } else {
-              closestVisible.nextElementInDom(":input:visible, a:visible").focus();
-            }
-            e.stopPropagation();
-            e.preventDefault();
-            break;
-          case 27:
-            e.stopPropagation();
-            e.preventDefault();
-            break;
-          default:
-            old_handler(e);
-            break;
-        }
+    // Adding an event handler to change select2's default behavior concerning
+    // TAB and ESC
+    input.keydown(function (e) {
+      switch (e.which) {
+        case 9: // TAB
+          closestVisible = results.data("select2").container.children(".select2-choice").closest(":visible");
+          if (e.shiftKey) {
+            closestVisible.previousElementInDom(":input:visible, a:visible").focus();
+          } else {
+            closestVisible.nextElementInDom(":input:visible, a:visible").focus();
+          }
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          return false;
+        case 27: // ESC
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          return false;
       }
     });
+    // Moving the newly attached handler to the beginning of the handler chain
+    input.data('events').keydown.unshift(input.data('events').keydown.pop());
 
-    // prevent menu from getting closed prematurely
-    $('div.select2-search').click(function(event){
-      event.stopPropagation();
-    });
 
+    // Close select2 result list, when menu is closed
     parent.bind("closed", function () {
-      if ($(results).is(":visible")) {
+      if (results.is(":visible")) {
         select2Container.trigger(jQuery.Event('mousedown'));
-
       }
     });
-    parent.bind("opened", function () {
-      var input;
-      select2Container.trigger(jQuery.Event('mousedown'));
-      input = parent.find(".select2-search input");
-      input.val("");
-      input.trigger("keyup-change");
 
+    parent.bind("opened", function () {
+      console.log('opened');
+
+      // Open select2 element, when menu is opened
+      select2Container.trigger(jQuery.Event('mousedown'));
+
+      // Include input in tab cycle by attaching keydown handlers to previous
+      // and next interactive DOM element.
       select2Container.previousElementInDom(":input:visible, a:visible").keydown(function (e) {
-        var keyCode = e.keyCode || e.which;
-        if (keyCode === 9 && !(e.shiftKey)) {
+        if (!e.shiftKey && e.which === 9) {
           input.focus();
           e.preventDefault();
         }
       });
 
       select2Container.nextElementInDom(":input:visible:not(.select2-input), a:visible:not(.select2-input)").keydown(function (e) {
-        var keyCode = e.keyCode || e.which;
-        if (keyCode === 9 && e.shiftKey && input.is(":visible")) {
+        if (e.shiftKey && e.which === 9 && input.is(":visible")) {
           input.focus();
           e.preventDefault();
         }
