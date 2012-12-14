@@ -1,6 +1,7 @@
 module I18nJsHelper
   def i18n_js_tags
-    fallbacks = I18n.fallbacks[I18n.locale].tap {|f| f.shift }.map(&:to_s)
+    fallbacks = I18n.fallbacks[I18n.locale].map(&:to_s)
+    fallbacks.shift
 
     s = ""
     s << javascript_include_tag("i18n")
