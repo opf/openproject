@@ -547,8 +547,6 @@ jQuery(document).ready(function($) {
     });
 
     parent.bind("opened", function () {
-      console.log('opened');
-
       // Open select2 element, when menu is opened
       select2Container.trigger(jQuery.Event('mousedown'));
 
