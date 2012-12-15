@@ -17,14 +17,14 @@ def check_ruby_version
   ruby_version = `ruby --version`
 
   version_check = ruby_version.scan("ruby 1.8.7")
-  patchlevel_check = ruby_version.scan("patchlevel 370")
+  patchlevel_check = ruby_version.scan("patchlevel 371")
 
   if version_check.empty?
     puts $output_prefix + "It seems you are not using the recommended ruby version."
-    puts $output_prefix + "Please make sure you have installed 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
+    puts $output_prefix + "Please make sure you have installed 'ruby 1.8.7 (2012-10-12 patchlevel 371)'"
   elsif patchlevel_check.empty?
     puts $output_prefix + "It seems you are not running the recommended patch level."
-    puts $output_prefix + "To avoid unexpected problems we would recommend to install 'ruby 1.8.7 (2012-02-08 patchlevel 370)'"
+    puts $output_prefix + "To avoid unexpected problems we would recommend to install 'ruby 1.8.7 (2012-10-12 patchlevel 371)'"
   else
     puts $output_prefix + "Found"
   end
