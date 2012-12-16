@@ -187,6 +187,25 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
+  def test_edit_query_with_subprojects
+    q = Query.find(3)
+    q.display_subprojects = false
+    q.save
+
+    @request.session[:user_id] = 1
+    post :edit,
+         :id => 3,
+         :confirm => '1',
+         :default_columns => '1',
+         :fields => ['tracker_id'],
+         :operators => {'tracker_id' => '='},
+         :values => {'tracker_id' => ['3']},
+         :display_subprojects => '1'
+
+    q.reload
+    assert q.display_subprojects?
+  end
+
   def test_get_edit_project_private_query
     @request.session[:user_id] = 3
     get :edit, :id => 2
