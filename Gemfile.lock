@@ -48,8 +48,6 @@ GEM
     awesome_nested_set (2.1.5)
       activerecord (>= 3.0.0)
     binding_of_caller (0.6.8)
-    bourne (1.1.2)
-      mocha (= 0.10.5)
     builder (3.0.4)
     bullet (4.2.0)
       uniform_notifier
@@ -157,7 +155,7 @@ GEM
     metaclass (0.0.1)
     method_source (0.8.1)
     mime-types (1.19)
-    mocha (0.10.5)
+    mocha (0.13.1)
       metaclass (~> 0.0.1)
     multi_json (1.5.0)
     mysql (2.9.0)
@@ -264,9 +262,8 @@ GEM
       shoulda-context (~> 1.0)
       shoulda-matchers (~> 1.2)
     shoulda-context (1.0.2)
-    shoulda-matchers (1.4.2)
+    shoulda-matchers (1.4.1)
       activesupport (>= 3.0.0)
-      bourne (~> 1.1.2)
     slop (3.3.3)
     spork (1.0.0rc3)
     spork-rails (3.2.1)
@@ -336,7 +333,7 @@ DEPENDENCIES
   letter_opener (~> 1.0.0)
   libv8
   loofah
-  mocha
+  mocha (~> 0.13.1)
   mysql
   mysql2 (~> 0.3.11)
   object-daddy!

@@ -41,7 +41,7 @@ gem 'jquery-rails'
 group :test do
   gem 'shoulda', '~> 3.1.1'
   gem 'object-daddy', :github => 'awebneck/object_daddy'
-  gem 'mocha'
+  gem 'mocha', '~> 0.13.1', :require => 'mocha/setup'
   gem "launchy", "~> 2.1.0"
   gem "factory_girl_rails", "~> 4.0"
   gem 'cucumber-rails', :require => false
