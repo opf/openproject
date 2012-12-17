@@ -598,4 +598,6 @@ class ApplicationController < ActionController::Base
     name
   end
   helper_method :default_breadcrumb
+
+  ActiveSupport.run_load_hooks(:application_controller, self)
 end
