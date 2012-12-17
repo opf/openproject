@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 begin
-  require 'mocha'
+  require 'mocha/setup'
 
   class GitAdapterTest < ActiveSupport::TestCase
     REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'

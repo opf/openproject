@@ -14,7 +14,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 require 'sys_controller'
-require 'mocha'
+require 'mocha/setup'
 
 # Re-raise errors caught by the controller.
 class SysController; def rescue_action(e) raise e end; end

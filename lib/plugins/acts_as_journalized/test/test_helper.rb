@@ -6,7 +6,7 @@ require 'rubygems'
 require 'test/unit'
 require 'active_record'
 require 'shoulda'
-require 'mocha'
+require 'mocha/setup'
 require 'vestal_versions'
 require 'schema'
 begin; require 'redgreen'; rescue LoadError; end

@@ -15,7 +15,7 @@
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
 begin
-  require 'mocha'
+  require 'mocha/setup'
 
   class SubversionAdapterTest < ActiveSupport::TestCase
 
