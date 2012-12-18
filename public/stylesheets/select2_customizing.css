@@ -16,6 +16,11 @@
   box-shadow        : none;
 }
 
+/* Hide upper half of select2-select widget */
+#project-search-container .select2-choice {
+  display: none;
+}
+
 /* Indirectly styling size of result list */
 .select2-container.select2-select {
   position: static;
@@ -29,10 +34,12 @@
 }
 
 /* Make no results a bit look like results */
-.select2-results .select2-no-results {
+.select2-results .select2-no-results,
+.select2-results .select2-searching {
   background-color: #fff;
   margin: 3px 6px 3px 6px;
 }
+
 
 /* Selected elements should be bold, have inverted colors and rounded corners */
 .select2-results .select2-highlighted {
@@ -43,6 +50,10 @@
   background-color: #24B3E7;
   font-weight:bold;
 }
+.select2-results .select2-result-unselectable {
+  color: #999;
+}
+
 
 /* Shorten overlong project names */
 .select2-results .select2-result-label {

@@ -687,6 +687,23 @@ class Project < ActiveRecord::Base
     project_tree_from_hierarchy(projects_hierarchy, 0, &block)
   end
 
+  def self.project_level_list(projects)
+    list = []
+    project_tree(projects) do |project, level|
+
+      element = {
+        :project => project,
+        :level   => level
+      }
+
+      element.merge!(yield(project)) if block_given?
+
+      list << element
+    end
+    list
+  end
+
+
   private
 
   # Copies wiki from +project+

@@ -499,28 +499,127 @@ jQuery.viewportHeight = function() {
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
 
-  $('#project-search-container select.select2-select').each(function (ix, select) {
-    var parent, select2Container, results, input;
-    parent = $(select).parents('li.drop-down');
+  $('#project-search-container .select2-select').each(function (ix, select) {
+    select = $(select);
 
-    $(select).select2();
+    var select2, options, projects,
+        menu = $(select).parents('li.drop-down');
 
-    // Hide default select box - we won't use it as expected
-    select2Container = parent.find('a.select2-choice');
-    select2Container.hide();
+    options = {};
 
-    // setup results
-    results = parent.find("div.select2-container").data("select2").dropdown;
-    results.attr("id", "project-search-results");
+    options.formatResult = function (result, label, query) {
+      var formattedResult = $.fn.select2.defaults.formatResult.call(this, result, label, query);
 
-    input = results.find("input.select2-input");
+      label.attr('data-url', result.url);
+
+      return formattedResult;
+    };
+    options.query = function (query) {
+      var load, process;
+
+      load = function (callback) {
+        if (projects !== undefined) {
+          callback.call({}, projects);
+          return;
+        }
+
+        openProject.fetchProjects(function (ps) {
+          var parents = [], currentLevel = -1;
+
+          // poor mans deep clone
+          projects = jQuery.map(ps, function (project, i) { return jQuery.extend({}, project); });
+
+          jQuery.each(projects, function (i, project) {
+            var levelPrefix = '', l;
+
+            while (currentLevel >= project.level) {
+              parents.pop();
+              currentLevel--;
+            }
+            parents.push(project);
+            currentLevel = project.level;
+
+            if (project.level > 0) {
+              for (l = 0; l < project.level; l++) {
+                levelPrefix += '\u00A0\u00A0\u00A0'; // &nbsp;&nbsp;&nbsp;
+              }
+              levelPrefix += '\u00BB\u00A0'; // &raquo;&nbsp;
+            }
+
+            project.hname   = levelPrefix + project.name;
+            project.parents = parents.slice(0, -1);
+            project.url     = openProject.getFullUrl('/projects/' + project.identifier);
+          });
+
+          callback.call({}, projects);
+        });
+      };
+
+      process = function(projects) {
+        var immediateMatches = [],
+            matches = [];
+
+        jQuery.each(projects, function(index, element) {
+          if (query.matcher(query.term, element.name)) {
+            immediateMatches.push({
+              id      : element.id,
+              text    : element.hname,
+              project : element
+            });
+          }
+        });
+
+        var i, j, insert, p, ps;
+
+        for (i = 0; i < immediateMatches.length; i++) {
+          insert = [];
+          ps = immediateMatches[i].project.parents.clone();
+
+          while (ps.length) {
+            p = ps.pop();
+            if (i < 1 || matches[matches.length - 1].id !== p.id) {
+              insert.unshift({text : p.hname});
+            }
+            else {
+              ps  = [];
+            }
+          }
+
+          matches = matches.concat(insert);
+          matches.push(immediateMatches[i]);
+        }
+
+        return {results : matches, more : false};
+      };
+
+      load(function (projects) {
+        query.callback.call(query, process(projects));
+      });
+    };
+
+    select.select2(options).
+      on('change', function (e) {
+          if (e.val) {
+            window.location = select2.data().project.url;
+          }
+        }).
+      on('close', function () {
+          if (menu.is('.open')) {
+            menu.slideAndFocus();
+          }
+        });
+
+    select2 = select.data('select2');
+
+    // add custom css styling to result list
+    select2.dropdown.attr("id", "project-search-results");
 
     // Adding an event handler to change select2's default behavior concerning
     // TAB and ESC
-    input.keydown(function (e) {
+    select2.search.keydown(function (e) {
       switch (e.which) {
         case 9: // TAB
-          closestVisible = results.data("select2").container.children(".select2-choice").closest(":visible");
+          closestVisible = select2.container.children(".select2-choice").closest(":visible");
           if (e.shiftKey) {
             closestVisible.previousElementInDom(":input:visible, a:visible").focus();
           } else {
@@ -536,32 +635,29 @@ jQuery(document).ready(function($) {
       }
     });
     // Moving the newly attached handler to the beginning of the handler chain
-    input.data('events').keydown.unshift(input.data('events').keydown.pop());
+    select2.search.data('events').keydown.unshift(select2.search.data('events').keydown.pop());
 
-
-    // Close select2 result list, when menu is closed
-    parent.bind("closed", function () {
-      if (results.is(":visible")) {
-        select2Container.trigger(jQuery.Event('mousedown'));
-      }
+    menu.bind("closed", function () {
+      // Close select2 result list, when menu is closed
+      select2.close();
     });
 
-    parent.bind("opened", function () {
+    menu.bind("opened", function () {
       // Open select2 element, when menu is opened
-      select2Container.trigger(jQuery.Event('mousedown'));
+      select2.open();
 
       // Include input in tab cycle by attaching keydown handlers to previous
       // and next interactive DOM element.
-      select2Container.previousElementInDom(":input:visible, a:visible").keydown(function (e) {
+      select2.container.previousElementInDom(":input:visible, a:visible").keydown(function (e) {
         if (!e.shiftKey && e.which === 9) {
-          input.focus();
+          select2.search.focus();
           e.preventDefault();
         }
       });
 
-      select2Container.nextElementInDom(":input:visible:not(.select2-input), a:visible:not(.select2-input)").keydown(function (e) {
-        if (e.shiftKey && e.which === 9 && input.is(":visible")) {
-          input.focus();
+      select2.container.nextElementInDom(":input:visible:not(.select2-input), a:visible:not(.select2-input)").keydown(function (e) {
+        if (e.shiftKey && e.which === 9 && select2.search.is(":visible")) {
+          select2.search.focus();
           e.preventDefault();
         }
       });
@@ -683,7 +779,7 @@ jQuery(document).ready(function($) {
       }
     });
     menu.toggleClass("hover");
-  }
+  };
 
 
 
@@ -1214,11 +1310,11 @@ var I18nForms = (function ($) {
           }
         }
       }
-    }
+    };
 
     return {
       prepare : prepare
-    }
+    };
   })();
 
   init = function () {
@@ -1226,7 +1322,7 @@ var I18nForms = (function ($) {
 
     if (translated_paragraph.size() > 0) {
       memorize_ids();
-      event_handler.init()
+      event_handler.init();
 
       translated_paragraph.closest('form').submit(function () {
         submit_preparer.prepare($(this));
@@ -1256,5 +1352,5 @@ var SubmitConfirm = (function($) {
 
   return {
     init: init
-  }
+  };
 })(jQuery);

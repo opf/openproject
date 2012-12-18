@@ -161,6 +161,8 @@ ActionController::Routing::Routes.draw do |map|
     :modules => :post,
     :archive => :post,
     :unarchive => :post
+  }, :collection => {
+    :level_list => :get
   } do |project|
     project.resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
     project.resources :files, :only => [:index, :new, :create]
