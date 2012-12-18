@@ -70,9 +70,9 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_watcher_user_ids_should_make_ids_uniq
-    issue = Issue.new(:project => Project.find(1), :tracker_id => 1, :subject => "test", :author => User.find(2))
+    issue = FactoryGirl.create(:valid_issue)
     issue.watcher_user_ids = ['1', '3', '1']
-    issue.save!
+    assert issue.valid?
     assert_equal 2, issue.watchers.count
   end
 
