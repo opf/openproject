@@ -9,6 +9,10 @@ FactoryGirl.define do
     is_in_chlog true
     position 1
 
+    # reuse existing tracker with the given name
+    # this prevents a validation error (name has to be unique)
+    initialize_with { Tracker.find_or_create_by_name(name)}
+
     factory :tracker_feature do
       name "Feature"
       position 2
@@ -23,13 +27,14 @@ FactoryGirl.define do
       name "Task"
       position 4
     end
+  end
 
-    factory :tracker_with_workflow do
-      sequence(:name) { |n| "Tracker #{n}" }
-      sequence(:position) { |n| n }
-      after :build do |t|
-        t.workflows = [FactoryGirl.build(:workflow_with_default_status)]
-      end
+  factory :tracker_with_workflow, :class => Tracker do
+    is_in_chlog true
+    sequence(:name) { |n| "Tracker #{n}" }
+    sequence(:position) { |n| n }
+    after :build do |t|
+      t.workflows = [FactoryGirl.build(:workflow_with_default_status)]
     end
   end
 end

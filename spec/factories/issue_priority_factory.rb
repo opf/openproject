@@ -2,11 +2,11 @@ FactoryGirl.define do
   factory :priority, :class => IssuePriority do
     sequence(:name) { |i| "Priority #{i}" }
     active true
-    
+
     factory :priority_low do
       name "Low"
     end
-    
+
     factory :priority_normal do
       name "Normal"
     end

@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "My Project No. #{n}" }
     sequence(:identifier) { |n| "myproject_no_#{n}" }
     enabled_module_names Redmine::AccessControl.available_project_modules
-    
+
     factory :public_project do
       is_public true
     end
