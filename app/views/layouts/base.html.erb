@@ -6,8 +6,8 @@
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
 <%= csrf_meta_tag %>
-<%= favicon_link_tag current_theme.favicon_path %>
-<%= stylesheet_link_tag current_theme.main_stylesheet_path %>
+<%= favicon_link_tag 'favicon.ico' %>
+<%= stylesheet_link_tag current_theme.stylesheet_manifest %>
 <%= javascript_include_tag 'application' %>
 <%= user_specific_javascript_includes %>
 <!-- aditional headers -->
