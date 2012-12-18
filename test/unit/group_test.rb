@@ -22,58 +22,51 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   def test_roles_given_to_new_user
-    group = Group.find(11)
-    user = User.find(9)
-    project = Project.first
-    role_1 = Role.find(1)
-    role_2 = Role.find(2)
-
-    member = Member.create! do |m|
-      m.project = project
-      m.role_ids = [role_1, role_2].map(&:id)
-      m.user_id = group.id
-    end
+    group = FactoryGirl.create :group
+    member = FactoryGirl.build :member
+    role = FactoryGirl.create :role
+    member.force_attributes = { :principal => group, :role_ids => [role.id] }
+    member.save!
+    user = FactoryGirl.build :user
     group.users << user
 
-    assert user.member_of?(project)
+    assert user.member_of? member.project
   end
 
   def test_roles_given_to_existing_user
-    group = Group.find(11)
-    user = User.find(9)
-    project = Project.first
-
+    group = FactoryGirl.create :group
+    member = FactoryGirl.build :member
+    role = FactoryGirl.create :role
+    member.force_attributes = { :principal => group, :role_ids => [role.id] }
+    member.save!
+    user = FactoryGirl.create :user
     group.users << user
 
-    (m = Member.new.tap do |m|
-      m.force_attributes = { :principal => group, :project => project, :role_ids => [1, 2] }
-    end).save!
-
-    assert user.member_of?(project)
+    assert user.member_of? member.project
   end
 
   def test_roles_updated
-    group = Group.find(11)
-    user = User.find(9)
-    project = Project.first
-
-    group.members = []
-
+    group = FactoryGirl.create :group
+    member = FactoryGirl.build :member
+    roles = FactoryGirl.create_list :role, 2
+    role_ids = roles.map { |r| r.id }
+    member.force_attributes = { :principal => group, :role_ids => role_ids }
+    member.save!
+    user = FactoryGirl.create :user
     group.users << user
-    (m = Member.new.tap do |m|
-      m.force_attributes = {:principal => group, :project => project, :role_ids => [1]}
-    end).save!
+    group.save!
 
-    assert_equal [1], user.reload.roles_for_project(project).collect(&:id).sort
+    member.role_ids = [role_ids.first]
+    assert_equal [role_ids.first], user.reload.roles_for_project(member.project).collect(&:id).sort
 
-    m.role_ids = [1, 2]
-    assert_equal [1, 2], user.reload.roles_for_project(project).collect(&:id).sort
+    member.role_ids = role_ids
+    assert_equal role_ids, user.reload.roles_for_project(member.project).collect(&:id).sort
 
-    m.role_ids = [2]
-    assert_equal [2], user.reload.roles_for_project(project).collect(&:id).sort
+    member.role_ids = [role_ids.last]
+    assert_equal [role_ids.last], user.reload.roles_for_project(member.project).collect(&:id).sort
 
-    m.role_ids = [1]
-    assert_equal [1], user.reload.roles_for_project(project).collect(&:id).sort
+    member.role_ids = [role_ids.first]
+    assert_equal [role_ids.first], user.reload.roles_for_project(member.project).collect(&:id).sort
   end
 
   def test_roles_removed_when_removing_group_membership
