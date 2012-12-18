@@ -50,11 +50,10 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_watcher_users_should_not_validate_user
-    User.update_all("firstname = ''", "id=1")
-    @user.reload
+    @user.firstname = nil
     assert !@user.valid?
 
-    (issue = Issue.new).force_attributes = {:project => Project.find(1), :tracker_id => 1, :subject => "test", :author => User.find(2)}
+    issue = FactoryGirl.create(:valid_issue)
     issue.watcher_users << @user
     issue.save!
     assert issue.watched_by?(@user)
