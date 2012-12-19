@@ -146,7 +146,7 @@ describe CustomField do
         field.save
       end
 
-      it { field.should have(1).translation }
+      it { field.should have(1).translations }
     end
   end
 
