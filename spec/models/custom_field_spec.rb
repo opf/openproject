@@ -1,4 +1,4 @@
-require 'spec_helper.rb'
+require 'spec_helper'
 
 describe CustomField do
   let(:field) { FactoryGirl.build :custom_field }
