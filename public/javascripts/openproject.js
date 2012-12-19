@@ -23,20 +23,43 @@ window.OpenProject = (function ($) {
     return this.urlRoot + url;
   };
 
-  OP.prototype.fetchProjects = function (callback) {
-    if (this.projects) {
-      callback.call(this, this.projects);
-      return;
-    }
+  OP.prototype.fetchProjects = (function () {
+    var augment = function (projects) {
+      var parents = [], currentLevel = -1;
 
-    jQuery.getJSON(
-        this.getFullUrl("/projects/level_list.json"),
-        function (data, textStatus, jqXHR) {
-          this.projects = data.projects;
-          callback.call(this, this.projects);
+      return jQuery.map(projects, function (project) {
+
+        while (currentLevel >= project.level) {
+          parents.pop();
+          currentLevel--;
         }
+        parents.push(project);
+        currentLevel = project.level;
+
+        project.hname   = OpenProject.Helpers.hname(project.name, project.level);
+        project.parents = parents.slice(0, -1); // make sure to pass a clone
+        project.tokens  = OpenProject.Helpers.Search.tokenize(project.name);
+        project.url     = openProject.getFullUrl('/projects/' + project.identifier);
+
+        return project;
+      });
+    };
+
+    return function (callback) {
+      if (this.projects) {
+        callback.call(this, this.projects);
+        return;
+      }
+
+      jQuery.getJSON(
+        this.getFullUrl("/projects/level_list.json"),
+        jQuery.proxy(function (data, textStatus, jqXHR) {
+          this.projects = augment(data.projects);
+          this.fetchProjects(callback);
+        }, this)
       );
-  };
+    };
+  })();
 
   /**
    * Static OpenProject Helper methods
@@ -50,6 +73,19 @@ window.OpenProject = (function ($) {
     Helpers.regexp_escape = function (str) {
       // taken from http://stackoverflow.com/questions/280793/
       return (str+'').replace(REGEXP_ESCAPE, "\\$1");
+    };
+
+    Helpers.hname = function (name, level) {
+      var l, prefix = '';
+
+      if (level > 0) {
+        for (l = 0; l < level; l++) {
+          prefix += '\u00A0\u00A0\u00A0'; // &nbsp;&nbsp;&nbsp;
+        }
+        prefix += '\u00BB\u00A0'; // &raquo;&nbsp;
+      }
+
+      return prefix + name;
     };
 
     Helpers.Search = {};

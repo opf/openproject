@@ -509,47 +509,7 @@ jQuery(document).ready(function($) {
 
     options.matcher = OpenProject.Helpers.Search.matcher;
     options.query = function (query) {
-      var load, process,
-          term = jQuery.trim(query.term);
-
-      load = function (callback) {
-        if (projects !== undefined) {
-          callback.call({}, projects);
-          return;
-        }
-
-        openProject.fetchProjects(function (ps) {
-          var parents = [], currentLevel = -1;
-
-          // poor mans deep clone
-          projects = jQuery.map(ps, function (project, i) { return jQuery.extend({}, project); });
-
-          jQuery.each(projects, function (i, project) {
-            var levelPrefix = '', l;
-
-            while (currentLevel >= project.level) {
-              parents.pop();
-              currentLevel--;
-            }
-            parents.push(project);
-            currentLevel = project.level;
-
-            if (project.level > 0) {
-              for (l = 0; l < project.level; l++) {
-                levelPrefix += '\u00A0\u00A0\u00A0'; // &nbsp;&nbsp;&nbsp;
-              }
-              levelPrefix += '\u00BB\u00A0'; // &raquo;&nbsp;
-            }
-
-            project.hname   = levelPrefix + project.name;
-            project.parents = parents.slice(0, -1);
-            project.tokens  = OpenProject.Helpers.Search.tokenize(project.name);
-            project.url     = openProject.getFullUrl('/projects/' + project.identifier);
-          });
-
-          callback.call({}, projects);
-        });
-      };
+      var process, term = jQuery.trim(query.term);
 
       process = function(projects) {
         var immediateMatches = [],
@@ -589,7 +549,7 @@ jQuery(document).ready(function($) {
         return {results : matches, more : false};
       };
 
-      load(function (projects) {
+      openProject.fetchProjects(function (projects) {
         query.callback.call(query, process(projects));
       });
     };
