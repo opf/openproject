@@ -17,9 +17,9 @@ QUnit.extend(QUnit.assert, {
 /**
  * OpenProject instance methods
  */
-module("OpenProject instance");
+QUnit.module("OpenProject instance `getFullUrl`");
 
-test("`getFullUrl` with undefined urlRoot", function (assert) {
+QUnit.test("with undefined urlRoot", function (assert) {
   var op = new OpenProject({});
 
   assert.strictEqual(op.getFullUrl('/foo'), '/foo', "works w/ leading slash");
@@ -28,7 +28,7 @@ test("`getFullUrl` with undefined urlRoot", function (assert) {
   assert.strictEqual(op.getFullUrl(),       '/', "works w/o parameter");
 });
 
-test("`getFullUrl` with empty string urlRoot", function (assert) {
+QUnit.test("with empty string urlRoot", function (assert) {
   var op = new OpenProject({urlRoot : ''});
 
   assert.strictEqual(op.getFullUrl('/foo'), '/foo', "works w/ leading slash");
@@ -37,7 +37,7 @@ test("`getFullUrl` with empty string urlRoot", function (assert) {
   assert.strictEqual(op.getFullUrl(),       '/', "works w/o parameter");
 });
 
-test("`getFullUrl` with '/' urlRoot", function (assert) {
+QUnit.test("with '/' urlRoot", function (assert) {
   var op = new OpenProject({urlRoot : '/'});
 
   assert.strictEqual(op.getFullUrl('/foo'), '/foo', "works w/ leading slash");
@@ -46,7 +46,7 @@ test("`getFullUrl` with '/' urlRoot", function (assert) {
   assert.strictEqual(op.getFullUrl(),       '/', "works w/o parameter");
 });
 
-test("`getFullUrl` with urlRoot w/ trailing slash", function (assert) {
+QUnit.test("with urlRoot w/ trailing slash", function (assert) {
   var op = new OpenProject({urlRoot : '/op/'});
 
   assert.strictEqual(op.getFullUrl('/foo'),  '/op/foo', "works w/ leading slash");
@@ -55,7 +55,7 @@ test("`getFullUrl` with urlRoot w/ trailing slash", function (assert) {
   assert.strictEqual(op.getFullUrl(),        '/op/', "works w/o parameter");
 });
 
-test("`getFullUrl` with urlRoot w/o trailing slash", function (assert) {
+QUnit.test("with urlRoot w/o trailing slash", function (assert) {
   var op = new OpenProject({urlRoot : '/op'});
 
   assert.strictEqual(op.getFullUrl('/foo'),  '/op/foo', "works w/ leading slash");
@@ -64,12 +64,111 @@ test("`getFullUrl` with urlRoot w/o trailing slash", function (assert) {
   assert.strictEqual(op.getFullUrl(),        '/op/', "works w/o parameter");
 });
 
-test("`fetchProjects` caches result", 1, function (assert) {
+QUnit.module("OpenProject instance `fetchProjects`", {
+  setup: function () {
+    var defaultOptions = {
+      url          : new RegExp('.*/projects/level_list\\.json'),
+      responseTime : 0
+    };
+
+    if (false) {
+      jQuery.mockjax(jQuery.extend(defaultOptions, {
+        proxy : 'mocks/projects.json'
+      }));
+    }
+    else {
+      jQuery.mockjax(jQuery.extend(defaultOptions, {
+        responseText : '{"projects":[{"identifier":"bums","created_on":"2012-12-18T07:00:17Z","level":0,"updated_on":"2012-12-18T09:09:10Z","name":"Bums zzz","id":3},{"identifier":"things","created_on":"2012-12-14T14:01:27Z","level":0,"updated_on":"2012-12-14T14:01:27Z","name":"Things","id":1},{"identifier":"things-bums","created_on":"2012-12-18T06:59:50Z","level":1,"updated_on":"2012-12-18T14:26:05Z","name":"Thingsb-Bums","id":2},{"identifier":"bums-bums","created_on":"2012-12-18T08:57:46Z","level":2,"updated_on":"2012-12-18T08:57:46Z","name":"Bums Bums","id":5},{"identifier":"zzz","created_on":"2012-12-18T08:57:14Z","level":0,"updated_on":"2012-12-18T08:57:14Z","name":"ZZZ","id":4}],"size":5}'
+      }));
+    }
+  },
+  teardown: function () {
+    jQuery.mockjaxClear();
+  }
+});
+
+QUnit.asyncTest("calls /projects/level_list.json to fetch results", 1, function (assert) {
+  var op = new OpenProject();
+
+  op.fetchProjects(function (projects) {
+    assert.strictEqual(projects.length, 5);
+    QUnit.start();
+  });
+});
+
+QUnit.asyncTest("adds hname to projects", 5, function (assert) {
+  var op = new OpenProject(),
+      hname = OpenProject.Helpers.hname;
+
+  op.fetchProjects(function (projects) {
+    assert.deepEqual(projects[0].hname, "Bums zzz");
+    assert.deepEqual(projects[1].hname, "Things");
+    assert.deepEqual(projects[2].hname, hname("Thingsb-Bums", 1));
+    assert.deepEqual(projects[3].hname, hname("Bums Bums", 2));
+    assert.deepEqual(projects[4].hname, "ZZZ");
+    QUnit.start();
+  });
+});
+
+QUnit.asyncTest("adds parents array to projects", 5, function (assert) {
+  var op = new OpenProject();
+
+  op.fetchProjects(function (projects) {
+    assert.deepEqual(projects[0].parents, []);
+    assert.deepEqual(projects[1].parents, []);
+    assert.deepEqual(projects[2].parents, [projects[1]]);
+    assert.deepEqual(projects[3].parents, [projects[1], projects[2]]);
+    assert.deepEqual(projects[4].parents, []);
+    QUnit.start();
+  });
+});
+
+QUnit.asyncTest("adds tokens to projects", 5, function (assert) {
+  var op = new OpenProject();
+
+  op.fetchProjects(function (projects) {
+    assert.deepEqual(projects[0].tokens, ["Bums", "zzz"]);
+    assert.deepEqual(projects[1].tokens, ["Things"]);
+    assert.deepEqual(projects[2].tokens, ["Thingsb", "Bums"]);
+    assert.deepEqual(projects[3].tokens, ["Bums", "Bums"]);
+    assert.deepEqual(projects[4].tokens, ["ZZZ"]);
+    QUnit.start();
+  });
+});
+
+QUnit.asyncTest("adds url to projects", 5, function (assert) {
+  var op = new OpenProject();
+
+  op.fetchProjects(function (projects) {
+    assert.deepEqual(projects[0].url, "/projects/bums");
+    assert.deepEqual(projects[1].url, "/projects/things");
+    assert.deepEqual(projects[2].url, "/projects/things-bums");
+    assert.deepEqual(projects[3].url, "/projects/bums-bums");
+    assert.deepEqual(projects[4].url, "/projects/zzz");
+    QUnit.start();
+  });
+});
+
+QUnit.asyncTest("adds url to projects with different urlRoot", 5, function (assert) {
+  var op = new OpenProject({urlRoot : "/foo"});
+
+  op.fetchProjects(function (projects) {
+    assert.deepEqual(projects[0].url, "/foo/projects/bums");
+    assert.deepEqual(projects[1].url, "/foo/projects/things");
+    assert.deepEqual(projects[2].url, "/foo/projects/things-bums");
+    assert.deepEqual(projects[3].url, "/foo/projects/bums-bums");
+    assert.deepEqual(projects[4].url, "/foo/projects/zzz");
+    QUnit.start();
+  });
+});
+
+QUnit.asyncTest("caches result", 1, function (assert) {
   var op = new OpenProject();
   op.projects = 'something';
 
   op.fetchProjects(function (projects) {
     assert.strictEqual(projects, 'something');
+    QUnit.start();
   });
 });
 
@@ -79,11 +178,26 @@ test("`fetchProjects` caches result", 1, function (assert) {
 
 
 /**
+ * OpenProject.Helpers
+ */
+QUnit.module("OpenProject.Helpers `hname`");
+
+QUnit.test("adds spaces and arrows to names when level > 0", function (assert) {
+  var hname = OpenProject.Helpers.hname;
+
+  assert.strictEqual(hname("a", -1), "a");
+  assert.strictEqual(hname("a",  0), "a");
+  assert.strictEqual(hname("a",  1), "\u00A0\u00A0\u00A0\u00BB\u00A0a");
+  assert.strictEqual(hname("a",  2), "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00BB\u00A0a");
+});
+
+
+/**
  * OpenProject.Helpers.Search
  */
-QUnit.module("OpenProject.Helpers.Search");
+QUnit.module("OpenProject.Helpers.Search `tokenize`");
 
-QUnit.test("`tokenize` with one parameter", function (assert) {
+QUnit.test("with one parameter", function (assert) {
   var t = OpenProject.Helpers.Search.tokenize;
 
   assert.deepEqual(t("abc"),       ["abc"]);
@@ -94,7 +208,7 @@ QUnit.test("`tokenize` with one parameter", function (assert) {
   assert.deepEqual(t("/abc-def/"), ["abc", "def"]);
 });
 
-QUnit.test("`tokenize` with array parameter", function (assert) {
+QUnit.test("with array parameter", function (assert) {
   var t = OpenProject.Helpers.Search.tokenize;
 
   assert.deepEqual(t("abc",  ["b"]), ["a", "c"]);
@@ -102,7 +216,7 @@ QUnit.test("`tokenize` with array parameter", function (assert) {
   assert.deepEqual(t("abc ", ["b"]), ["a", "c "]);
 });
 
-QUnit.test("`tokenize` with RegExp parameter", function (assert) {
+QUnit.test("with RegExp parameter", function (assert) {
   var t = OpenProject.Helpers.Search.tokenize;
 
   assert.deepEqual(t("abc",  /b/), ["a", "c"]);
@@ -110,7 +224,11 @@ QUnit.test("`tokenize` with RegExp parameter", function (assert) {
   assert.deepEqual(t("abc ", /b/), ["a", "c "]);
 });
 
-QUnit.test("`matcher` w/o token parameter", function (assert) {
+
+
+QUnit.module("OpenProject.Helpers.Search `matcher`");
+
+QUnit.test("w/o token parameter", function (assert) {
   var matcher = OpenProject.Helpers.Search.matcher;
 
   // Basic search
@@ -128,14 +246,13 @@ QUnit.test("`matcher` w/o token parameter", function (assert) {
   assert.no(matcher("b c", "ab-cd"), "no match based on token");
 });
 
-QUnit.test("`matcher` w/ token parameter", function (assert) {
+QUnit.test("w/ token parameter", function (assert) {
   var token_match = function(term, name) {
     return OpenProject.Helpers.Search.matcher(
       term,
       name,
       OpenProject.Helpers.Search.tokenize(name));
   };
-
 
   // Basic match
   assert.ok(token_match("",      "abc"),     "matches when looking for empty string");

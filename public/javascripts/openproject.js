@@ -24,7 +24,7 @@ window.OpenProject = (function ($) {
   };
 
   OP.prototype.fetchProjects = (function () {
-    var augment = function (projects) {
+    var augment = function (openProject, projects) {
       var parents = [], currentLevel = -1;
 
       return jQuery.map(projects, function (project) {
@@ -54,7 +54,7 @@ window.OpenProject = (function ($) {
       jQuery.getJSON(
         this.getFullUrl("/projects/level_list.json"),
         jQuery.proxy(function (data, textStatus, jqXHR) {
-          this.projects = augment(data.projects);
+          this.projects = augment(this, data.projects);
           this.fetchProjects(callback);
         }, this)
       );
