@@ -1,50 +1,6 @@
 require 'spec_helper'
 
 describe WikiController do
-  describe 'routes' do
-    it 'should connect GET /projects/:project_id/wiki/new to wiki/new' do
-      params_from(:get, '/projects/abc/wiki/new').should == {
-        :controller => 'wiki',
-        :action => 'new',
-        :project_id => 'abc'
-      }
-    end
-
-    it 'should connect GET /projects/:project_id/wiki/:id/new to wiki/new_child' do
-      params_from(:get, '/projects/abc/wiki/def/new').should == {
-        :controller => 'wiki',
-        :action => 'new_child',
-        :project_id => 'abc',
-        :id => 'def'
-      }
-    end
-
-    it 'should connect POST /projects/:project_id/wiki/new to wiki/create' do
-      params_from(:post, '/projects/abc/wiki/new').should == {
-        :controller => 'wiki',
-        :action => 'create',
-        :project_id => 'abc'
-      }
-    end
-
-    it 'should contect POST /projects/:project_id/wiki/:id/preview to wiki/preview' do
-      params_from(:post, '/projects/abc/wiki/def/preview').should == {
-        :controller => 'wiki',
-        :action => 'preview',
-        :project_id => 'abc',
-        :id => 'def'
-      }
-    end
-
-    it 'should contect POST /projects/:project_id/wiki/preview to wiki/preview' do
-      params_from(:post, '/projects/abc/wiki/preview').should == {
-        :controller => 'wiki',
-        :action => 'preview',
-        :project_id => 'abc'
-      }
-    end
-  end
-
   describe 'actions' do
     before do
       @controller.stub!(:set_localization)
