@@ -51,7 +51,7 @@ describe DeletedUser do
 
       it { u1.should_not be_new_record }
       it { u2.should be_new_record }
-      it { u2.errors[:base].should == 'A DeletedUser already exists.' }
+      it { u2.errors[:base].should include 'A DeletedUser already exists.' }
     end
   end
 
