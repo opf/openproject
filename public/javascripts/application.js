@@ -505,69 +505,12 @@ jQuery(document).ready(function($) {
     var select2, options, projects,
         menu = $(select).parents('li.drop-down');
 
-
-
     options = {};
 
-    options.matcher = function (term, name, token) {
-      var query = this;
-
-      var defaultMatcher = $.fn.select2.defaults.matcher;
-      var match = function (t) {
-        return function (s) {
-          return defaultMatcher.call(query, t, s);
-        };
-      };
-      var matchMatrix = function (parts, tokens) {
-        var candidates = jQuery.grep(tokens, match(parts[0]));
-        var otherTokens, otherParts, removed;
-
-        if (parts.length === 1) {
-          // do the remaining tokens match the one remaining part?
-          return candidates.length > 0;
-        }
-
-        for (var i = 0; i < candidates.length; i++) {
-          otherParts  = parts.slice(1);
-          removed = false;
-
-          otherTokens = jQuery.grep(tokens, function (t) {
-            if (removed) {
-              return true;
-            }
-            if (t === candidates[i]) {
-              removed = true;
-              return false;
-            }
-            return true;
-          });
-
-          if (matchMatrix(otherParts, otherTokens)) {
-            return true;
-          }
-        }
-
-        return false;
-      };
-
-      if (token === undefined) {
-        return defaultMatcher.call(this, term, name);
-      }
-
-      // no tokens left to match
-      if (token.length === 0) {
-        return false;
-      }
-
-      if (matchMatrix([term], token)) {
-        // whole term matched by a single token
-        return true;
-      }
-
-      return matchMatrix(term.split(/\s/), token.slice(0, -1));
-    };
+    options.matcher = OpenProject.Helpers.Search.matcher;
     options.query = function (query) {
-      var load, process;
+      var load, process,
+          term = jQuery.trim(query.term);
 
       load = function (callback) {
         if (projects !== undefined) {
@@ -600,7 +543,7 @@ jQuery(document).ready(function($) {
 
             project.hname   = levelPrefix + project.name;
             project.parents = parents.slice(0, -1);
-            project.tokens  = project.name.split(/[\s\.\-\/,]+/).concat([project.name]);
+            project.tokens  = OpenProject.Helpers.Search.tokenize(project.name);
             project.url     = openProject.getFullUrl('/projects/' + project.identifier);
           });
 
@@ -613,7 +556,6 @@ jQuery(document).ready(function($) {
             matches = [];
 
         jQuery.each(projects, function(index, element) {
-          var term = jQuery.trim(query.term);
           if (query.matcher(term, element.name, element.tokens)) {
             immediateMatches.push({
               id      : element.id,
