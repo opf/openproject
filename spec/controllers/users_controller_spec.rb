@@ -4,26 +4,6 @@ describe UsersController do
   let(:user) { FactoryGirl.create(:user) }
   let(:admin) { FactoryGirl.create(:admin) }
 
-  describe :routes do
-    describe "users" do
-      it { params_from(:get, "/users/1/deletion_info").should == { :controller => 'users',
-                                                                   :action => 'deletion_info',
-                                                                   :id => "1" } }
-      it { params_from(:delete, "/users/1").should == { :controller => 'users',
-                                                        :action => 'destroy',
-                                                        :id => "1" } }
-    end
-
-    describe "my" do
-      before do
-        User.stub!(:current).and_return(user)
-      end
-
-      it { params_from(:get, "/my/deletion_info").should == { :controller => 'users',
-                                                              :action => 'deletion_info' } }
-    end
-  end
-
   describe "GET deletion_info" do
 
     describe "WHEN the current user is the requested user
