@@ -37,7 +37,9 @@ module ContextMenusHelper
       end
       @context_menu_included = true
     end
-    javascript_tag "new ContextMenu('#{ url_for(url) }')"
+    javascript_tag "jQuery(document).ready(function() {
+      ContextMenu.init('#{ url_for(url) }');
+    });"
   end
 
   def context_menu_link(name, url, options={})
