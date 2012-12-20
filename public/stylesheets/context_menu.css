@@ -24,7 +24,7 @@
 	z-index:39;
 	border:1px solid white;
 }
-#context-menu li.folder ul { position:absolute; left:168px; /* IE6 */ top:-2px; max-height:300px; overflow:hidden; overflow-y: auto; }
+#context-menu li.folder ul { position:absolute; left:168px; /* IE6 */ top:-2px; max-height:500px; overflow:hidden; overflow-y: auto; }
 #context-menu li.folder>ul { left:148px; }
 
 #context-menu.reverse-y li.folder>ul { top:auto; bottom:0; }
