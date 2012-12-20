@@ -68,13 +68,6 @@ window.OpenProject = (function ($) {
   OP.Helpers = (function () {
     var Helpers = {};
 
-    var REGEXP_ESCAPE = /([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\|\:\!><])/g;
-
-    Helpers.regexp_escape = function (str) {
-      // taken from http://stackoverflow.com/questions/280793/
-      return (str+'').replace(REGEXP_ESCAPE, "\\$1");
-    };
-
     Helpers.hname = function (name, level) {
       var l, prefix = '';
 
@@ -88,6 +81,42 @@ window.OpenProject = (function ($) {
       return prefix + name;
     };
 
+
+    var REGEXP_ESCAPE = /([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\|\:\!><])/g;
+
+    /**
+     * Escapes regexp special chars, e.g. to make sure, that users cannot enter
+     * regexp syntax but just plain strings.
+     */
+    Helpers.regexp_escape = function (str) {
+      // taken from http://stackoverflow.com/questions/280793/
+      return (str+'').replace(REGEXP_ESCAPE, "\\$1");
+    };
+
+    /**
+     * Removes element from array - but only once.
+     *
+     *    a = [1, 2, 3, 2, 1];
+     *    b = withoutOnce(a, 1);
+     *
+     *    b;      // => [2, 3, 2, 1]
+     *    a === b // false
+     */
+    Helpers.withoutOnce = function (array, element) {
+      var removed = false;
+      return jQuery.grep(array, function (t) {
+        if (removed) {
+          return true;
+        }
+        if (t === element) {
+          removed = true;
+          return false;
+        }
+        return true;
+      });
+    };
+
+
     Helpers.Search = {};
 
     var REGEXP_TOKEN = /[\s\.\-\/,]+/;
@@ -96,7 +125,7 @@ window.OpenProject = (function ($) {
       var regexp;
 
       if (jQuery.isArray(separators)) {
-        regexp = new RegExp(OpenProject.Helpers.regexp_escape(separators.join("")) + "+");
+        regexp = new RegExp(Helpers.regexp_escape(separators.join("")) + "+");
       }
       else if (separators instanceof RegExp) {
         regexp = separators;
@@ -108,26 +137,12 @@ window.OpenProject = (function ($) {
       return jQuery.grep(name.split(regexp), function (t) { return t.length > 0; });
     },
 
-    Helpers.Search.matcher = (function () {
-      var removeOnce, match, matrixMatch;
-
-      removeOnce = function (array, element) {
-        var removed = false;
-        return jQuery.grep(array, function (t) {
-          if (removed) {
-            return true;
-          }
-          if (t === element) {
-            removed = true;
-            return false;
-          }
-          return true;
-        });
-      };
+    Helpers.Search.matcher = function (defaultMatcher) {
+      var match, matchMatrix;
 
       match = function (query, t) {
         return function (s) {
-          return $.fn.select2.defaults.matcher.call(query, t, s);
+          return defaultMatcher.call(query, t, s);
         };
       };
 
@@ -142,7 +157,7 @@ window.OpenProject = (function ($) {
         parts = parts.slice(1);
 
         for (var i = 0; i < candidates.length; i++) {
-          if (matchMatrix(query, parts, removeOnce(tokens, candidates[i]))) {
+          if (matchMatrix(query, parts, Helpers.withoutOnce(tokens, candidates[i]))) {
             return true;
           }
         }
@@ -162,10 +177,80 @@ window.OpenProject = (function ($) {
 
         return matchMatrix(
             this,
-            OpenProject.Helpers.Search.tokenize(term, /\s+/),
+            Helpers.Search.tokenize(term, /\s+/),
             token);
       };
-    })();
+    };
+
+    Helpers.Search.projectQueryWithHierarchy = function (fetchProjects, pageSize) {
+      var addUnmatchedParents = function (projects, matches, previousMatchId) {
+        var i, project, result = [];
+
+        jQuery.each(matches, function (i, match) {
+          var unmatchedParents = [];
+          var parents = match.project.parents.clone();
+
+          while (parents.length) {
+            project = parents.pop();
+
+            if (i > 0) {
+              previousMatchId = result[result.length - 1].id;
+            }
+
+            if (previousMatchId !== project.id) {
+              unmatchedParents.unshift({text : project.hname});
+            }
+            else {
+              parents  = []; // abort loop
+            }
+          }
+
+          result = result.concat(unmatchedParents);
+          result.push(match);
+        });
+
+        return result;
+      };
+
+      return function (query) {
+        fetchProjects(function (projects) {
+          var term    = jQuery.trim(query.term),
+              matches = [],
+              i, project, context = query.context || {};
+
+          context.i = context.i ? context.i + 1 : 0;
+
+          for (context.i; context.i < projects.length; context.i++) {
+            project = projects[context.i];
+
+            if (query.matcher(term, project.name, project.tokens)) {
+              matches.push({
+                id      : project.id,
+                text    : project.hname,
+                project : project
+              });
+            }
+
+            if (matches.length === pageSize) {
+              break;
+            }
+          }
+
+          if (term.length > 0) {
+            matches = addUnmatchedParents(projects, matches, context.lastMatchId);
+          }
+          if (matches.length > 0) {
+            context.lastMatchId = matches[matches.length - 1].id;
+          }
+
+          query.callback.call(query, {
+            results : matches,
+            more    : context.i < projects.length,
+            context : context
+          });
+        });
+      };
+    };
 
 
     return Helpers;

@@ -500,61 +500,17 @@ jQuery.viewportHeight = function() {
 jQuery(document).ready(function($) {
 
   $('#project-search-container .select2-select').each(function (ix, select) {
+    var select2, menu;
+
     select = $(select);
+    menu   = select.parents('li.drop-down');
 
-    var select2, options, projects,
-        menu = $(select).parents('li.drop-down');
-
-    options = {};
-
-    options.matcher = OpenProject.Helpers.Search.matcher;
-    options.query = function (query) {
-      var process, term = jQuery.trim(query.term);
-
-      process = function(projects) {
-        var immediateMatches = [],
-            matches = [];
-
-        jQuery.each(projects, function(index, element) {
-          if (query.matcher(term, element.name, element.tokens)) {
-            immediateMatches.push({
-              id      : element.id,
-              text    : element.hname,
-              project : element
-            });
-          }
-        });
-
-        var i, j, insert, p, ps;
-
-        for (i = 0; i < immediateMatches.length; i++) {
-          insert = [];
-          ps = immediateMatches[i].project.parents.clone();
-
-          while (ps.length) {
-            p = ps.pop();
-            if (i < 1 || matches[matches.length - 1].id !== p.id) {
-              insert.unshift({text : p.hname});
-            }
-            else {
-              ps  = [];
-            }
-          }
-
-
-          matches = matches.concat(insert);
-          matches.push(immediateMatches[i]);
-        }
-
-        return {results : matches, more : false};
-      };
-
-      openProject.fetchProjects(function (projects) {
-        query.callback.call(query, process(projects));
-      });
-    };
-
-    select.select2(options).
+    select.select2({
+        matcher : OpenProject.Helpers.Search.matcher($.fn.select2.defaults.matcher),
+        query   : OpenProject.Helpers.Search.projectQueryWithHierarchy(
+                        jQuery.proxy(openProject, 'fetchProjects'),
+                        50)
+      }).
       on('change', function (e) {
           if (e.val) {
             window.location = select2.data().project.url;

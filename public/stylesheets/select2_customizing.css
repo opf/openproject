@@ -35,9 +35,16 @@
 
 /* Make no results a bit look like results */
 .select2-results .select2-no-results,
-.select2-results .select2-searching {
+.select2-results .select2-searching,
+.select2-results .select2-more-results
+{
   background-color: #fff;
   margin: 3px 6px 3px 6px;
+}
+.select2-results .select2-searching,
+.select2-results .select2-more-results
+{
+  background: url("../images/select2/select2-spinner.gif") no-repeat scroll 100% center #fff;
 }
 
 

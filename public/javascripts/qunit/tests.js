@@ -10,6 +10,9 @@
 QUnit.extend(QUnit.assert, {
   no: function (expected, message) {
     QUnit.ok(!expected, message);
+  },
+  stringEqual: function (actual, expected, message) {
+		QUnit.push(actual.toString() == expected.toString(), actual, expected, message);
   }
 });
 
@@ -192,6 +195,19 @@ QUnit.test("adds spaces and arrows to names when level > 0", function (assert) {
 });
 
 
+QUnit.module("OpenProject.Helpers `hname`");
+
+QUnit.test("adds spaces and arrows to names when level > 0", function (assert) {
+  var hname = OpenProject.Helpers.hname;
+
+  assert.strictEqual(hname("a", -1), "a");
+  assert.strictEqual(hname("a",  0), "a");
+  assert.strictEqual(hname("a",  1), "\u00A0\u00A0\u00A0\u00BB\u00A0a");
+  assert.strictEqual(hname("a",  2), "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00BB\u00A0a");
+});
+
+
+
 /**
  * OpenProject.Helpers.Search
  */
@@ -229,7 +245,7 @@ QUnit.test("with RegExp parameter", function (assert) {
 QUnit.module("OpenProject.Helpers.Search `matcher`");
 
 QUnit.test("w/o token parameter", function (assert) {
-  var matcher = OpenProject.Helpers.Search.matcher;
+  var matcher = OpenProject.Helpers.Search.matcher($.fn.select2.defaults.matcher);
 
   // Basic search
   assert.ok(matcher("",      "abc"),     "matches when looking for empty string");
@@ -247,12 +263,10 @@ QUnit.test("w/o token parameter", function (assert) {
 });
 
 QUnit.test("w/ token parameter", function (assert) {
-  var token_match = function(term, name) {
-    return OpenProject.Helpers.Search.matcher(
-      term,
-      name,
-      OpenProject.Helpers.Search.tokenize(name));
-  };
+  var matcher = OpenProject.Helpers.Search.matcher($.fn.select2.defaults.matcher),
+      token_match = function(term, name) {
+        return matcher(term, name, OpenProject.Helpers.Search.tokenize(name));
+      };
 
   // Basic match
   assert.ok(token_match("",      "abc"),     "matches when looking for empty string");
