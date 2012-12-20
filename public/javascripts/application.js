@@ -506,10 +506,11 @@ jQuery(document).ready(function($) {
     menu   = select.parents('li.drop-down');
 
     select.select2({
-        matcher : OpenProject.Helpers.Search.matcher($.fn.select2.defaults.matcher),
-        query   : OpenProject.Helpers.Search.projectQueryWithHierarchy(
-                        jQuery.proxy(openProject, 'fetchProjects'),
-                        50)
+        formatResult : OpenProject.Helpers.Search.formatter,
+        matcher      : OpenProject.Helpers.Search.matcher($.fn.select2.defaults.matcher),
+        query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
+                                    jQuery.proxy(openProject, 'fetchProjects'),
+                                    50)
       }).
       on('change', function (e) {
           if (e.val) {

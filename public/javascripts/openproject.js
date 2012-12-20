@@ -137,6 +137,71 @@ window.OpenProject = (function ($) {
       return jQuery.grep(name.split(regexp), function (t) { return t.length > 0; });
     },
 
+    Helpers.Search.formatter = (function () {
+      var START_OF_TEXT   = "\u2402",
+          END_OF_TEXT     = "\u2403";
+          R_START_OF_TEXT = new RegExp(START_OF_TEXT, "g"),
+          R_END_OF_TEXT   = new RegExp(END_OF_TEXT,   "g");
+
+      var format = function (text, term) {
+        var matchStart, matchEnd;
+
+        if (term.length === 0) {
+          return text;
+        }
+
+        matchStart = text.toUpperCase().indexOf(term.toUpperCase());
+
+        if (matchStart < 0) {
+            return text;
+        }
+
+        matchEnd = matchStart + term.length;
+
+        return text.substring(0, matchStart) +
+               START_OF_TEXT +
+               text.substring(matchStart, matchEnd) +
+               END_OF_TEXT +
+               text.substring(matchEnd);
+      };
+
+      var replaceSpecialChars = function (text) {
+        return text.replace(R_START_OF_TEXT, "<span class='select2-match'>").
+                    replace(R_END_OF_TEXT,   "</span>");
+      };
+
+      return function (result, container, query) {
+        jQuery(container).attr("title", result.project && result.project.name || result.text);
+
+        if (query.sterm === undefined) {
+          query.sterm = jQuery.trim(query.term);
+        }
+
+
+        // fallback to base behavior
+        if (result.matches === undefined) {
+          return replaceSpecialChars(format(result.text, query.term));
+        }
+
+        // shortcut for empty searches
+        if (query.sterm.length === 0) {
+          return result.text;
+        }
+
+        var matches = result.matches.slice(),
+            text = result.text,
+            match;
+
+        while (matches.length) {
+          match = matches.pop();
+          text = text.replace(new RegExp(Helpers.regexp_escape(match[0]), "i"), format(match[0], match[1]));
+        }
+
+        return replaceSpecialChars(text);
+      };
+    })();
+
+
     Helpers.Search.matcher = function (defaultMatcher) {
       var match, matchMatrix;
 
@@ -146,18 +211,26 @@ window.OpenProject = (function ($) {
         };
       };
 
-      matchMatrix = function (query, parts, tokens) {
-        var candidates = jQuery.grep(tokens, match(query, parts[0]));
+      matchMatrix = function (query, parts, tokens, matches) {
+        var part = parts[0],
+            candidates = jQuery.grep(tokens, match(query, part));
 
         if (parts.length === 1) {
           // do the remaining tokens match the one remaining part?
-          return candidates.length > 0;
+          if (candidates.length > 0) {
+            matches.push([candidates[0], part]);
+            return true;
+          }
+          else {
+            return false;
+          }
         }
 
         parts = parts.slice(1);
 
         for (var i = 0; i < candidates.length; i++) {
-          if (matchMatrix(query, parts, Helpers.withoutOnce(tokens, candidates[i]))) {
+          if (matchMatrix(query, parts, Helpers.withoutOnce(tokens, candidates[i]), matches)) {
+            matches.push([candidates[i], part]);
             return true;
           }
         }
@@ -166,19 +239,20 @@ window.OpenProject = (function ($) {
       };
 
       return function (term, name, token) {
-        // support basic match syntax if necessary
+        var result, matches = [];
+
         if (match(this, term)(name)) {
-          return true;
+          matches.push([name, term]);
+          result = true;
+        }
+        else if (token === undefined) {
+          result = false;
+        }
+        else {
+          result = matchMatrix(this, Helpers.Search.tokenize(term, /\s+/), token, matches);
         }
 
-        if (token === undefined) {
-          return false;
-        }
-
-        return matchMatrix(
-            this,
-            Helpers.Search.tokenize(term, /\s+/),
-            token);
+        return result ? matches : false;
       };
     };
 
@@ -213,21 +287,24 @@ window.OpenProject = (function ($) {
       };
 
       return function (query) {
+        query.sterm = jQuery.trim(query.term);
         fetchProjects(function (projects) {
-          var term    = jQuery.trim(query.term),
+          var context = query.context || {},
               matches = [],
-              i, project, context = query.context || {};
+              i, project, matchPairs;
 
           context.i = context.i ? context.i + 1 : 0;
 
           for (context.i; context.i < projects.length; context.i++) {
             project = projects[context.i];
 
-            if (query.matcher(term, project.name, project.tokens)) {
+            matchPairs = query.matcher(query.sterm, project.name, project.tokens);
+            if (matchPairs) {
               matches.push({
                 id      : project.id,
                 text    : project.hname,
-                project : project
+                project : project,
+                matches : matchPairs
               });
             }
 
@@ -236,11 +313,14 @@ window.OpenProject = (function ($) {
             }
           }
 
-          if (term.length > 0) {
+          if (query.sterm.length > 0) {
             matches = addUnmatchedParents(projects, matches, context.lastMatchId);
           }
           if (matches.length > 0) {
             context.lastMatchId = matches[matches.length - 1].id;
+          }
+          else {
+            context.lastMatchId = undefined;
           }
 
           query.callback.call(query, {

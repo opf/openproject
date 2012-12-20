@@ -242,6 +242,69 @@ QUnit.test("with RegExp parameter", function (assert) {
 
 
 
+
+QUnit.module("OpenProject.Helpers.Search `formatter`");
+
+QUnit.test("w/o result.matches", function (assert) {
+  var formatter = OpenProject.Helpers.Search.formatter,
+      a = "<span class='select2-match'>",
+      o = "</span>";
+
+  assert.deepEqual(formatter({text: "abc"},  undefined, {term: ''}),
+                   "abc");
+  assert.deepEqual(formatter({text: "abc"},  undefined, {term: 'b'}),
+                   "a" + a + "b" + o + "c");
+  assert.deepEqual(formatter({text: "abc"},  undefined, {term: 'c'}),
+                   "ab" + a + "c" + o);
+  assert.deepEqual(formatter({text: "abbc"}, undefined, {term: 'b'}),
+                   "a" + a + "b" + o + "bc");
+});
+
+QUnit.test("w/ empty query.term", function (assert) {
+  var formatter = OpenProject.Helpers.Search.formatter;
+
+  assert.deepEqual(formatter({text: "abc", matches: [["abc", ""]]}, undefined, {term: ''}),
+                   "abc");
+
+  assert.deepEqual(formatter({text: "abc", matches: [["abc", ""]]}, undefined, {term: " "}),
+                   "abc");
+});
+
+QUnit.test("w/ single match", function (assert) {
+  var formatter = OpenProject.Helpers.Search.formatter,
+      a = "<span class='select2-match'>",
+      o = "</span>";
+
+  assert.deepEqual(formatter({text: "abc", matches: [["abc", "b"]]}, undefined, {term: "b"}),
+                   "a" + a + "b" + o + "c");
+
+  assert.deepEqual(formatter({text: "abc", matches: [["abc", ""]]}, undefined, {term: ' '}),
+                   "abc");
+});
+
+QUnit.test("w/ multi match", function (assert) {
+  var formatter = OpenProject.Helpers.Search.formatter,
+      a = "<span class='select2-match'>",
+      o = "</span>";
+
+  assert.deepEqual(formatter({text: "abc-def", matches: [["def", "e"], ["abc", "b"]]}, undefined, {term: "e b"}),
+                   "a" + a + "b" + o + "c-d" + a + "e" + o + "f");
+
+  assert.deepEqual(formatter({text: "abc-def", matches: [["abc", "b"], ["def", "e"]]}, undefined, {term: "b e"}),
+                   "a" + a + "b" + o + "c-d" + a + "e" + o + "f");
+
+  assert.deepEqual(formatter({text: "abc-abc", matches: [["abc", "b"], ["abc", "bc"]]}, undefined, {term: "b bc"}),
+                   "a" + a + "bc" + o + "-a" + a + "b" + o + "c");
+
+});
+
+
+
+
+
+
+
+
 QUnit.module("OpenProject.Helpers.Search `matcher`");
 
 QUnit.test("w/o token parameter", function (assert) {
