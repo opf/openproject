@@ -499,6 +499,24 @@ jQuery.viewportHeight = function() {
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
 
+  $.extend($.fn.select2.defaults, {
+    formatNoMatches: function () {
+      return I18n.t("js.select2.no_matches");
+    },
+    formatInputTooShort: function (input, min) {
+      return I18n.t("js.select2.input_too_short", {count: min - input.length});
+    },
+    formatSelectionTooBig: function (limit) {
+      return I18n.t("js.select2.selection_too_big", {limit: limit});
+    },
+    formatLoadMore: function (pageNumber) {
+      return I18n.t("js.select2.load_more");
+    },
+    formatSearching: function () {
+      return I18n.t("js.select2.searching");
+    }
+  });
+
   $('#project-search-container .select2-select').each(function (ix, select) {
     var select2, menu;
 
