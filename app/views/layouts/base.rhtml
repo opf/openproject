@@ -25,6 +25,8 @@
 <%= stylesheet_link_tag 'select2'%>
 <%= stylesheet_link_tag 'select2_customizing'%>
 
+<%= i18n_js_tags %>
+
 <% if User.current.impaired? && accessibility_css_enabled? %>
   <%= stylesheet_link_tag 'accessibility' %>
 <% end %>
