@@ -195,6 +195,60 @@ QUnit.test("adds spaces and arrows to names when level > 0", function (assert) {
 });
 
 
+
+QUnit.module("OpenProject.Helpers `regexpEscape`");
+
+QUnit.test("adds leading \\ to regexp special characters", function (assert) {
+  var esc = OpenProject.Helpers.regexpEscape;
+
+  assert.strictEqual(esc("."), "\\.");
+  assert.strictEqual(esc("?"), "\\?");
+  assert.strictEqual(esc("["), "\\[");
+  assert.strictEqual(esc("+"), "\\+");
+
+  assert.strictEqual(esc("a"), "a");
+});
+
+
+QUnit.module("OpenProject.Helpers `replace`");
+
+QUnit.test("replaces wrong with right in text once ignoring case", function (assert) {
+  var replace = OpenProject.Helpers.replace;
+
+  // Basic functionality
+  assert.strictEqual(replace("abc", "a", "b"), "bbc");
+  assert.strictEqual(replace("aaa", "a", "b"), "baa");
+  assert.strictEqual(replace("aaa", "d", "b"), "aaa");
+
+  // Empty parameters
+  assert.strictEqual(replace("aaa", "", "b"), "aaa");
+  assert.strictEqual(replace("aaa", "a", ""), "aa");
+  assert.strictEqual(replace("", "a", "b"), "");
+  assert.strictEqual(replace("", "", ""), "");
+
+  // Different lengths
+  assert.strictEqual(replace("aaa", "a", "bb"), "bbaa");
+  assert.strictEqual(replace("aaa", "aa", "b"), "ba");
+
+  // Ignore case
+  assert.strictEqual(replace("Aaa", "a", "b"), "baa");
+  assert.strictEqual(replace("aaa", "A", "b"), "baa");
+});
+
+
+
+QUnit.module("OpenProject.Helpers `withoutOnce`");
+
+QUnit.test("removes given element once from array", function (assert) {
+  var withoutOnce = OpenProject.Helpers.withoutOnce;
+
+  assert.deepEqual(withoutOnce([1, 2, 3, 2, 1], 1), [2, 3, 2, 1]);
+  assert.deepEqual(withoutOnce([1, 2, 3, 2, 1], 2), [1, 3, 2, 1]);
+  assert.deepEqual(withoutOnce([1, 2, 3, 2, 1], 4), [1, 2, 3, 2, 1]);
+});
+
+
+
 QUnit.module("OpenProject.Helpers `hname`");
 
 QUnit.test("adds spaces and arrows to names when level > 0", function (assert) {
@@ -205,6 +259,7 @@ QUnit.test("adds spaces and arrows to names when level > 0", function (assert) {
   assert.strictEqual(hname("a",  1), "\u00A0\u00A0\u00A0\u00BB\u00A0a");
   assert.strictEqual(hname("a",  2), "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00BB\u00A0a");
 });
+
 
 
 
@@ -308,7 +363,7 @@ QUnit.test("w/ multi match", function (assert) {
 QUnit.module("OpenProject.Helpers.Search `matcher`");
 
 QUnit.test("w/o token parameter", function (assert) {
-  var matcher = OpenProject.Helpers.Search.matcher($.fn.select2.defaults.matcher);
+  var matcher = OpenProject.Helpers.Search.matcher;
 
   // Basic search
   assert.ok(matcher("",      "abc"),     "matches when looking for empty string");
@@ -326,7 +381,7 @@ QUnit.test("w/o token parameter", function (assert) {
 });
 
 QUnit.test("w/ token parameter", function (assert) {
-  var matcher = OpenProject.Helpers.Search.matcher($.fn.select2.defaults.matcher),
+  var matcher = OpenProject.Helpers.Search.matcher,
       token_match = function(term, name) {
         return matcher(term, name, OpenProject.Helpers.Search.tokenize(name));
       };
@@ -352,4 +407,12 @@ QUnit.test("w/ token parameter", function (assert) {
   assert.ok(token_match("bc  de", "abc def"), "matches including spaces");
 
   assert.no(token_match("a-a", "a a"),  "tokenizes term at white space only");
+});
+
+
+
+
+QUnit.module("OpenProject.Helpers.Search `projectQueryWithHierarchy`");
+
+QUnit.test("needs testing", 0, function(assert) {
 });

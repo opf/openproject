@@ -88,10 +88,40 @@ window.OpenProject = (function ($) {
      * Escapes regexp special chars, e.g. to make sure, that users cannot enter
      * regexp syntax but just plain strings.
      */
-    Helpers.regexp_escape = function (str) {
+    Helpers.regexpEscape = function (str) {
       // taken from http://stackoverflow.com/questions/280793/
       return (str+'').replace(REGEXP_ESCAPE, "\\$1");
     };
+
+    /**
+     * replace wrong with right in text
+     *
+     * Matches case insensitive and performs atmost one replacement.
+     * This is a faster version of
+     *
+     *   text.replace(new RegExp(Helpers.regexpEscape(wrong), 'i'), right)
+     *
+     * ... at least for some browsers. Performs twice as fast on Chrome 23,
+     * 20 % faster on FF 18.
+     */
+    Helpers.replace = function (text, wrong, right) {
+      var matchStart;
+
+      if (wrong.length === 0) {
+        return text;
+      }
+
+      matchStart = text.toUpperCase().indexOf(wrong.toUpperCase());
+
+      if (matchStart < 0) {
+          return text;
+      }
+
+      return text.substring(0, matchStart) +
+             right +
+             text.substring(matchStart + wrong.length);
+    };
+
 
     /**
      * Removes element from array - but only once.
@@ -116,7 +146,6 @@ window.OpenProject = (function ($) {
       });
     };
 
-
     Helpers.Search = {};
 
     var REGEXP_TOKEN = /[\s\.\-\/,]+/;
@@ -125,7 +154,7 @@ window.OpenProject = (function ($) {
       var regexp;
 
       if (jQuery.isArray(separators)) {
-        regexp = new RegExp(Helpers.regexp_escape(separators.join("")) + "+");
+        regexp = new RegExp(Helpers.regexpEscape(separators.join("")) + "+");
       }
       else if (separators instanceof RegExp) {
         regexp = separators;
@@ -194,7 +223,7 @@ window.OpenProject = (function ($) {
 
         while (matches.length) {
           match = matches.pop();
-          text = text.replace(new RegExp(Helpers.regexp_escape(match[0]), "i"), format(match[0], match[1]));
+          text = Helpers.replace(text, match[0], format(match[0], match[1]));
         }
 
         return replaceSpecialChars(text);
@@ -202,8 +231,9 @@ window.OpenProject = (function ($) {
     })();
 
 
-    Helpers.Search.matcher = function (defaultMatcher) {
-      var match, matchMatrix;
+    Helpers.Search.matcher = (function () {
+      var match, matchMatrix,
+          defaultMatcher = $.fn.select2.defaults.matcher;
 
       match = function (query, t) {
         return function (s) {
@@ -254,7 +284,7 @@ window.OpenProject = (function ($) {
 
         return result ? matches : false;
       };
-    };
+    })();
 
     Helpers.Search.projectQueryWithHierarchy = function (fetchProjects, pageSize) {
       var addUnmatchedParents = function (projects, matches, previousMatchId) {
@@ -288,10 +318,11 @@ window.OpenProject = (function ($) {
 
       return function (query) {
         query.sterm = jQuery.trim(query.term);
+
         fetchProjects(function (projects) {
           var context = query.context || {},
               matches = [],
-              i, project, matchPairs;
+              project, matchPairs;
 
           context.i = context.i ? context.i + 1 : 0;
 
@@ -313,9 +344,13 @@ window.OpenProject = (function ($) {
             }
           }
 
+          // perf optimization - when term is '', then all project will have
+          // been matched and there will be no unmatched parents
           if (query.sterm.length > 0) {
             matches = addUnmatchedParents(projects, matches, context.lastMatchId);
           }
+
+          // store last match for next page
           if (matches.length > 0) {
             context.lastMatchId = matches[matches.length - 1].id;
           }

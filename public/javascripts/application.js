@@ -518,6 +518,8 @@ jQuery(document).ready(function($) {
   });
 
   $('#project-search-container .select2-select').each(function (ix, select) {
+    var PROJECT_JUMP_BOX_PAGE_SIZE = 50;
+
     var select2, menu;
 
     select = $(select);
@@ -525,10 +527,10 @@ jQuery(document).ready(function($) {
 
     select.select2({
         formatResult : OpenProject.Helpers.Search.formatter,
-        matcher      : OpenProject.Helpers.Search.matcher($.fn.select2.defaults.matcher),
+        matcher      : OpenProject.Helpers.Search.matcher,
         query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
                                     jQuery.proxy(openProject, 'fetchProjects'),
-                                    50)
+                                    PROJECT_JUMP_BOX_PAGE_SIZE)
       }).
       on('change', function (e) {
           if (e.val) {
