@@ -26,7 +26,8 @@ module CostsUserPatch
       allowed = allowed_to_without_inheritance?(action, context, options)
 
       if !allowed &&
-         action.is_a?(Symbol)
+         action.is_a?(Symbol) &&
+         Redmine::AccessControl.permission(action).present?
 
         perm = Redmine::AccessControl.permission(action)
         granulars = Redmine::AccessControl.permissions.select{ |p| p.granular_for == perm }
