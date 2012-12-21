@@ -70,3 +70,9 @@
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
+
+
+/* Fix search input in IE8 - input was to high */
+.select2-search input {
+  min-height: 0\9;
+}
