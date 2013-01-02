@@ -6,8 +6,9 @@ Feature: Cost Reporting Linkage
     And there is 1 cost type with the following:
       | name | Translation |
     And the user "manager" has 1 cost entry
-    And I am logged in as "controller"
+    And I am already logged in as "controller"
     And I am on the Cost Reports page for the project called "Some Project"
+
     Then I should see "User"
     # And I should see "<< me >>"
     # And I should see "me"
@@ -16,7 +17,6 @@ Feature: Cost Reporting Linkage
 
   Scenario: Coming to the cost report for the first time, I should see my entries
     Given there is a standard cost control project named "Standard Project"
-    And I am admin
     And the user "manager" has:
       | hourly rate  | 10 |
       | default rate | 10 |
@@ -32,15 +32,15 @@ Feature: Cost Reporting Linkage
       | units     | 7       |
       | user      | manager |
       | cost type | word    |
-    And I am logged in as "manager"
+    And I am already logged in as "manager"
     And I am on the Cost Reports page for the project called "Standard Project"
+
     Then I should see "107.07" # 100 EUR (labour cost) + 7.07 EUR (words)
     And I should not see "No data to display"
 
   @javascript
   Scenario: If
     Given there is a standard cost control project named "Standard Project"
-    And I am admin
     And the user "manager" has 1 issue with:
       | subject | manager issue |
     And there is 1 cost type with the following:
@@ -50,10 +50,13 @@ Feature: Cost Reporting Linkage
       | units     | 7       |
       | user      | manager |
       | cost type | word    |
+    And I am already logged in as "admin"
     And I am on the Cost Reports page for the project called "Standard Project"
-    And I click on "Clear"
+
+    When I click on "Clear"
     And I send the query
     And I wait for Ajax
+
     Then I should see "7.07" # 7.07 EUR (words)
     And I delete the cost entry "7.07"
     Then I should see "Successful deletion."
@@ -81,8 +84,9 @@ Feature: Cost Reporting Linkage
     And the issue "another issue" has 1 time entry with the following:
       | user  | manager |
       | hours | 5       |
-    And I am logged in as "manager"
+    And I am already logged in as "manager"
     And I am on the page for the issue "manager issue"
+
     Then I should see "10.00 hours"
     And I follow "10.00 hours"
     Then I should see "100.00" # 10 EUR x 10 (hours)
@@ -108,8 +112,9 @@ Feature: Cost Reporting Linkage
       | user      | manager |
       | units     | 5       |
       | cost type | word    |
-    And I am logged in as "manager"
+    And I am already logged in as "manager"
     And I am on the page for the issue "manager issue"
+
     Then I should see "10.0 words"
     And I follow "10.0 words"
     Then I should see "100.00" # 10 EUR x 10 (words)
@@ -124,8 +129,10 @@ Feature: Cost Reporting Linkage
     And the issue "test_issue" has 1 time entry with the following:
       | hours | 1.00    |
       | user  | manager |
-    And I am logged in as "manager"
+    And I am already logged in as "manager"
+
     When I am on the page for the project "Standard Project"
+
     Then I should see "Spent time" within "#sidebar"
     And I should see "1.00 hour" within "#sidebar"
     And I should not see "Details" within "#sidebar"
@@ -137,7 +144,9 @@ Feature: Cost Reporting Linkage
   Scenario: Jump to project from the cost report jumps to the cost report of the selected project
     Given there is a standard cost control project named "First Project"
     And there is a standard cost control project named "Second Project"
-    And I am logged in as "controller"
+    And I am already logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
-    And I jump to project "Second Project"
+
+    When I jump to project "Second Project"
+
     Then I should be on the cost reports page of the project called "Second Project"
