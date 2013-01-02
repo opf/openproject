@@ -20,7 +20,8 @@ group :test do
   gem 'test-unit', :platforms => [:mri_19]
   gem 'edavis10-object_daddy', :require => 'object_daddy'
   gem 'mocha', '0.12.1'
-  gem 'capybara'
+  # capybara 2 drops ruby 1.8.7 compatibility
+  gem 'capybara', '< 2.0.0'
 end
 
 group :ldap do
