@@ -33,16 +33,14 @@ Given /^there (?:is|are) (\d+) (default )?hourly rate[s]? with the following:$/ 
   end
   send_table_to_object(hr, table, {
     :user => Proc.new do |rate, value|
-      # I am sorry, but it didn't seem to work with any less saving!
       rate.save!
-      rate.reload.save!
+      rate.reload
       unless rate.project.nil? || User.find_by_login(value).projects.include?(rate.project)
-        rate.save!
-        rate.update_attribute :project_id, User.find_by_login(value).projects(:order => "id ASC").last.id
-        rate.reload.save!
+        Rate.update_all({ :project_id =>  User.find_by_login(value).projects(:order => "id ASC").last.id },
+                        { :id => rate.id })
       end
-      rate.update_attribute :user_id, User.find_by_login(value).id
-      rate.reload.save!
+      Rate.update_all({ :user_id => User.find_by_login(value).id },
+                      { :id => rate.id })
     end,
     :valid_from => Proc.new do |rate, value|
       # This works for definitions like "2 years ago"
