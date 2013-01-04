@@ -250,4 +250,8 @@ module IssuesHelper
     issue_quick_info(issue) +
       content_tag(:div, textilizable("\n" + description_lines.to_s), :class => "indent")
   end
+
+  def entries_for_filter_select_sorted(query)
+    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact.sort{|a,b| a.to_s.downcase <=> b.to_s.downcase}
+  end
 end
