@@ -14,6 +14,7 @@
 
 class IssuesController < ApplicationController
   EXPORT_FORMATS = %w[atom rss api xls csv pdf]
+  DEFAULT_SORT_ORDER = ['parent', 'desc']
 
   menu_item :new_issue, :only => [:new, :create]
   menu_item :view_all_issues, :only => [:all]
@@ -55,7 +56,7 @@ class IssuesController < ApplicationController
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
 
   def index
-    sort_init(@query.sort_criteria.empty? ? [['parent', 'desc']] : @query.sort_criteria)
+    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
 
     if @query.valid?
