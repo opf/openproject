@@ -70,11 +70,10 @@ class CommentTest < ActiveSupport::TestCase
     # news needs a project in order to be notified
     # see Redmine::Acts::Journalized::Deprecated#recipients
     project = FactoryGirl.create(:project)
-    news = FactoryGirl.create(:news, :project => project)
     user = FactoryGirl.create(:user)
-
+    # author is automatically added as watcher
     # this makes #user to receive a notification
-    Watcher.create!(:watchable => news, :user => user)
+    news = FactoryGirl.create(:news, :project => project, :author => user)
 
     # with notifications for that event turned on
     Notifier.stubs(:notify?).with(:news_comment_added).returns(true)
