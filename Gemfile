@@ -2,7 +2,8 @@ source 'https://rubygems.org'
 
 # until we have 3.2.10 use rails-3-2-stable to avoid mocha bugs
 # see: https://github.com/freerange/mocha/issues/117
-gem 'rails', '3.2.10'
+gem "rails", :git => "git://github.com/rails/rails.git", :branch => "3-2-stable"
+#gem 'rails', '3.2.10'
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -43,7 +44,7 @@ gem 'jquery-rails'
 group :test do
   gem 'shoulda', '~> 3.1.1'
   gem 'object-daddy', :github => 'awebneck/object_daddy'
-  gem 'mocha', '~> 0.13.1', :require => 'mocha/setup'
+  gem 'mocha', '~> 0.13.1', :require => false
   gem "launchy", "~> 2.1.0"
   gem "factory_girl_rails", "~> 4.0"
   gem 'cucumber-rails', :require => false
