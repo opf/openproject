@@ -41,30 +41,35 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     safe_attributes :isbn
   end
 
+  def setup
+    @admin = User.find_by_login("admin") || FactoryGirl.create(:admin)
+    @anonymous = User.anonymous || FactoryGirl.create(:anonymous)
+  end
+
   def test_safe_attribute_names
     p = Person.new
-    assert_equal ['firstname', 'lastname'], p.safe_attribute_names(User.anonymous)
-    assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names(User.find(1))
+    assert_equal ['firstname', 'lastname'], p.safe_attribute_names(@anonymous)
+    assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names(@admin)
   end
 
   def test_safe_attribute_names_without_user
     p = Person.new
     User.current = nil
     assert_equal ['firstname', 'lastname'], p.safe_attribute_names
-    User.current = User.find(1)
+    User.current = @admin
     assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names
   end
 
   def test_set_safe_attributes
     p = Person.new
-    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, User.anonymous)
+    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, @anonymous)
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_nil p.login
 
     p = Person.new
-    User.current = User.find(1)
-    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, User.find(1))
+    User.current = @admin
+    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, @admin)
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_equal 'jsmith', p.login
@@ -79,7 +84,7 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     assert_nil p.login
 
     p = Person.new
-    User.current = User.find(1)
+    User.current = @admin
     p.safe_attributes = {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname

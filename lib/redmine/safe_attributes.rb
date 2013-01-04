@@ -71,8 +71,7 @@ module Redmine
     # attrs is a Hash with string keys
     def safe_attributes=(attrs, user=User.current)
       return unless attrs.is_a?(Hash)
-      safe_attrs = delete_unsafe_attributes(attrs, user)
-      self.assign_attributes safe_attrs, :without_protection => true
+      self.attributes = delete_unsafe_attributes(attrs, user)
     end
   end
 end
