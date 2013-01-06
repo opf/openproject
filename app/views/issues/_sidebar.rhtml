@@ -3,4 +3,5 @@
 
 <%= call_hook(:view_issues_sidebar_planning_bottom) %>
 
+<%= render_sidebar_queries unless @project %>
 <%= call_hook(:view_issues_sidebar_queries_bottom) %>

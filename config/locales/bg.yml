@@ -1002,3 +1002,6 @@ bg:
   field_issue_view_all_open: Разглеждане на всички отворени задачи
   label_subtask_add: Добавяне на подзадача
   label_issue_hierarchy: Йерархия на задачите
+  label_time_entries: Time entries
+  label_new_time_entry: New time entry
+  label_time_entry_report: Time entry report

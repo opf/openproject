@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2012 the ChiliProject Team
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,6 +43,7 @@ class QueriesController < ApplicationController
       @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v]) if params[:fields] || params[:f]
       @query.attributes = params[:query]
       @query.project = nil if params[:query_is_for_all]
+      @query.display_subprojects = params[:display_subprojects] if params[:display_subprojects].present?
       @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
       @query.group_by ||= params[:group_by]
       @query.column_names = params[:c] if params[:c]

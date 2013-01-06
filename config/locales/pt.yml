@@ -633,6 +633,9 @@ pt:
   label_incoming_emails: E-mails a chegar
   label_generate_key: Gerar uma chave
   label_issue_watchers: Observadores
+  label_time_entries: Registo de Tempos
+  label_new_time_entry: Novo registo tempos
+  label_time_entry_report: Relatório de tempos
 
   button_login: Entrar
   button_submit: Submeter

@@ -1,140 +1,89 @@
-# = ChiliProject configuration file
-#
-# Each environment has it's own configuration options.  If you are only
-# running in production, only the production block needs to be configured.
-# Environment specific configuration options override the default ones.
-#
-# Note that this file needs to be a valid YAML file.
-#
-# == Outgoing email settings (email_delivery setting)
-#
-# === Common configurations
-#
-# ==== Sendmail command
-#
-# production:
-#   email_delivery:
-#     delivery_method: :sendmail
-#
-# ==== Simple SMTP server at localhost
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "localhost"
-#       port: 25
-#
-# ==== SMTP server at example.com using LOGIN authentication and checking HELO for foo.com
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "example.com"
-#       port: 25
-#       authentication: :login
-#       domain: 'foo.com'
-#       user_name: 'myaccount'
-#       password: 'password'
-#
-# ==== SMTP server at example.com using PLAIN authentication
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "example.com"
-#       port: 25
-#       authentication: :plain
-#       domain: 'example.com'
-#       user_name: 'myaccount'
-#       password: 'password'
-#
-# ==== SMTP server at using TLS (GMail)
-#
-# This might require some additional configuration.  See the guides at:
-# https://www.chiliproject.org/projects/chiliproject/wiki/Email_Delivery#SMTP-server-using-TLS-GMail
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       enable_starttls_auto: true
-#       address: "smtp.gmail.com"
-#       port: 587
-#       authentication: :plain
-#       user_name: "your_email@gmail.com"
-#       password: "your_password"
-#
-#
-# === More configuration options
-#
-# See the "Configuration options" at the following website for a list of the
-# full options allowed:
-#
-# http://wiki.rubyonrails.org/rails/pages/HowToSendEmailsWithActionMailer
+###############################################################################
+# ChiliProject Configuration File                                             #
+#                                                                             #
+# Put this file into config/configuration.yml of your Chiliproject instance.  #
+#                                                                             #
+# Each environment has its own configuration options. If you are only         #
+# running in production, only the production block needs to be configured.    #
+#                                                                             #
+# In the commented examples below, you should only set a key once per         #
+# environment although often there are multiple examples. Note that           #
+# settings are NOT deep-merged from the default section. If you override a    #
+# setting like email_delivery, you have to fully specify it in the            #
+# environment.                                                                #
+#                                                                             #
+# For details about this file and the allowed options see                     #
+# https://www.chiliproject.org/projects/chiliproject/wiki/Configuration_File  #
+#                                                                             #
+# This file needs to be valid YAML. Leading indentation is important.         #
+# Please refer to http://en.wikipedia.org/wiki/YAML for a description of      #
+# the format.                                                                 #
+#                                                                             #
+###############################################################################
 
+###############################################################################
+## Default configuration options for all environments
+#
+# This section defines the basic settings for all environments. All these
+# settings can be overridden for a specific environment.
+#
+# See the bottom of the file for the definition for the more specific
+# environments.
 
-# default configuration options for all environments
 default:
-  # Outgoing emails configuration (see examples above)
-  email_delivery:
-    delivery_method: :smtp
-    smtp_settings:
-      address: smtp.example.net
-      port: 25
-      domain: example.net
-      authentication: :login
-      user_name: "chiliproject@example.net"
-      password: "chiliproject"
-  
+  # Outgoing email configuration.
+  # You most probably want to configure this for your environment.
+  # See https://www.chiliproject.org/projects/chiliproject/wiki/Email_Delivery
+  #
+  # email_delivery:
+  #   delivery_method: :smtp
+  #   smtp_settings:
+  #     address: smtp.example.net
+  #     port: 25
+  #     enable_starttls_auto: true
+  #     domain: example.net
+  #     authentication: :login
+  #     user_name: "chiliproject@example.net"
+  #     password: "chiliproject"
+
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your ChiliProject instance.
   # Your ChiliProject instance needs to have write permission on this
   # directory.
-  # Examples:
+  #
   # attachments_storage_path: /var/chiliproject/files
   # attachments_storage_path: D:/chiliproject/files
-  attachments_storage_path:
 
-  # Path to the directories where themes are stored.
+  # Filesystem path to the directories where themes are stored.
   # Can be an absolute path or one relative to your ChiliProject instance.
   # You can configure multiple paths.
+  # Each of the themes here must be available under the /themes path from your
+  # webserver. Use Alias wisely.
   # The default is the 'public/themes' directory in your ChiliProject instance.
-  # Examples:
-  # themes_storage_paths: public/themes
-  # themes_storage_paths:
-  #   - public/themes
-  #   - /opt/themes
-  #   - D:/chiliproject/themes
-  themes_storage_path:
+  #
+  # themes_storage_path: public/themes
+  # themes_storage_path: D:/chiliproject/themes
+  # themes_storage_path:
+  # - public/themes
+  # - /opt/themes
 
   # Configuration of the autologin cookie.
+  #
   # autologin_cookie_name: the name of the cookie (default: autologin)
   # autologin_cookie_path: the cookie path (default: /)
   # autologin_cookie_secure: true sets the cookie secure flag (default: false)
-  autologin_cookie_name:
-  autologin_cookie_path:
-  autologin_cookie_secure:
-  
+
   # Configuration of SCM executable command.
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
   # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
-  # Examples:
-  # scm_subversion_command: svn                                       # (default: svn)
-  # scm_mercurial_command:  C:\Program Files\TortoiseHg\hg.exe        # (default: hg)
-  # scm_git_command:        /usr/local/bin/git                        # (default: git)
-  # scm_cvs_command:        cvs                                       # (default: cvs)
-  # scm_bazaar_command:     bzr.exe                                   # (default: bzr)
-  # scm_darcs_command:      darcs-1.0.9-i386-linux                    # (default: darcs)
-  scm_subversion_command:
-  scm_mercurial_command:
-  scm_git_command:
-  scm_cvs_command:
-  scm_bazaar_command:
-  scm_darcs_command:
-  
+  #
+  # scm_subversion_command: svn # (default: svn)
+  # scm_mercurial_command: "C:\Program Files\TortoiseHg\hg.exe" # (default: hg)
+  # scm_git_command: /usr/local/bin/git # (default: git)
+  # scm_cvs_command: cvs # (default: cvs)
+  # scm_bazaar_command: bzr.exe # (default: bzr)
+  # scm_darcs_command: darcs-1.0.9-i386-linux # (default: darcs)
+
   # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
   # If you don't want to enable data encryption, just leave it blank.
   # WARNING: losing/changing this key will make encrypted data unreadable.
@@ -147,17 +96,32 @@ default:
   # * decrypt data using 'rake db:decrypt RAILS_ENV=production' first
   # * change the cipher key here in your configuration file
   # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
-  database_cipher_key: 
-  
-# specific configuration options for production environment
-# that overrides the default ones
+  #
+  # database_cipher_key:
+
+
+###############################################################################
+# Specific configuration options for the PRODUCTION environment that
+# override the default ones.
+
 production:
+  # We normally don't need a special configuration here.
 
-# specific configuration options for development environment
-# that overrides the default ones
+
+###############################################################################
+# Specific configuration options for the DEVELOPMENT environment that
+# override the default ones.
+
 development:
+  # We normally don't need a special configuration here.
 
-# Configuration for the test environment
+
+###############################################################################
+# Specific configuration options for the TEST environment that
+# override the default ones.
+
 test:
+  # We override the email delivery setting here to not actually send emails
+  # Tests still need a proper configuration.yml though.
   email_delivery:
     delivery_method: test

@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2012 the ChiliProject Team
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -185,6 +185,25 @@ class QueriesControllerTest < ActionController::TestCase
     assert !q.is_public?
     assert q.has_default_columns?
     assert q.valid?
+  end
+
+  def test_edit_query_with_subprojects
+    q = Query.find(3)
+    q.display_subprojects = false
+    q.save
+
+    @request.session[:user_id] = 1
+    post :edit,
+         :id => 3,
+         :confirm => '1',
+         :default_columns => '1',
+         :fields => ['tracker_id'],
+         :operators => {'tracker_id' => '='},
+         :values => {'tracker_id' => ['3']},
+         :display_subprojects => '1'
+
+    q.reload
+    assert q.display_subprojects?
   end
 
   def test_get_edit_project_private_query

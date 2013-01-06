@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2012 the ChiliProject Team
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -12,6 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'wiki_content'
 class RemoveDoubleInitialWikiContentJournals < ActiveRecord::Migration
   def self.up
     # Remove the newest initial WikiContentJournal (the one erroneously created by a former migration) if there are more than one

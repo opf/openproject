@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2012 the ChiliProject Team
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -38,6 +38,17 @@ class DocumentTest < ActiveSupport::TestCase
     doc = Document.new(:project => Project.find(1), :title => 'New document')
     assert_equal e, doc.category
     assert doc.save
+  end
+
+  def test_build_with_category
+    category = Enumeration.find_by_name('User documentation')
+
+    doc = Project.find(1).documents.build
+    doc.safe_attributes = {:category_id => category.id}
+
+    # https://www.chiliproject.org/issues/1087
+    assert_equal category.id, doc.category_id
+    assert_equal category, doc.category
   end
 
   def test_updated_on_with_attachments

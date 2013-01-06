@@ -1021,3 +1021,6 @@ fr:
   field_issue_view_all_open: Demandes ouvertes
   label_subtask_add: Ajouter une sous-tâche
   label_issue_hierarchy: Hiérarchie de la demande
+  label_time_entries: Time entries
+  label_new_time_entry: New time entry
+  label_time_entry_report: Time entry report

@@ -823,6 +823,8 @@ acronym {
 }
 
 textarea.wiki-edit {
+  font-family: monospace, courier;
+  font-size: 11px;
   width: 99%;
 }
 
@@ -1896,6 +1898,11 @@ div.wiki th {
   padding: 4px;
 }
 
+/* links to non-existant/new (wiki) pages */
+div.wiki a.new {
+  font-style: italic;
+}
+
 div.wiki .external {
   background-position: 0% 60%;
   background-repeat: no-repeat;
@@ -2524,7 +2531,7 @@ h2 img {
  * This section includes the typography base for the body and heading elements.
  ------------------------------------------------------------------------------*/
 body {
-  font: normal normal normal 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif;
+  font: normal normal normal 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahoma,sans-serif;
   background: #f3f3f3;
   color: #333;
 }

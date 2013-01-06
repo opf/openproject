@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2012 the ChiliProject Team
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -56,7 +56,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => /Can&#39;t print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
     # private projects hidden
     assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
@@ -72,7 +72,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => /Can't print recipes/
+    assert_no_tag :tag => 'a', :content => /Can&#39;t print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
   end
 
@@ -83,7 +83,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => /Can't print recipes/
+    assert_no_tag :tag => 'a', :content => /Can&#39;t print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
   end
 
@@ -93,7 +93,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => /Can&#39;t print recipes/
     assert_no_tag :tag => 'a', :content => /Subproject issue/
   end
 
@@ -103,7 +103,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => /Can&#39;t print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
     assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
   end
@@ -115,7 +115,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => /Can't print recipes/
+    assert_tag :tag => 'a', :content => /Can&#39;t print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
     assert_tag :tag => 'a', :content => /Issue of a private subproject/
   end
@@ -1048,7 +1048,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_error_tag :descendant => {:content => /Activity can't be blank/}
+    assert_error_tag :descendant => {:content => /Activity can&#39;t be blank/}
     assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
     assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
   end
@@ -1066,8 +1066,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_error_tag :descendant => {:content => /Activity can't be blank/}
-    assert_error_tag :descendant => {:content => /Hours can't be blank/}
+    assert_error_tag :descendant => {:content => /Activity can&#39;t be blank/}
+    assert_error_tag :descendant => {:content => /Hours can&#39;t be blank/}
     assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
     assert_tag :input, :attributes => { :name => 'time_entry[comments]', :value => "this is my comment" }
   end

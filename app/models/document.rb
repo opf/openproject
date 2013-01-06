@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2012 the ChiliProject Team
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -41,7 +41,9 @@ class Document < ActiveRecord::Base
 
   def after_initialize
     if new_record?
-      self.category ||= DocumentCategory.default
+      # FIXME: on Rails 3 use this instead
+      # self.category ||= DocumentCategory.default
+      self.category_id = DocumentCategory.default.id if self.category_id == 0
     end
   end
 

@@ -1,4 +1,4 @@
-= ChiliProject
+= ChiliProject {<img src="https://travis-ci.org/chiliproject/chiliproject.png?branch=master" />}[http://travis-ci.org/chiliproject/chiliproject]
 
 ChiliProject is a web based project management system. It supports your team throughout the complete project life cycle, from setting up and discussing a project plan, over tracking issues and reporting work progress to collaboratively sharing knowledge.
 

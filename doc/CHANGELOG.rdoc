@@ -1,5 +1,23 @@
 = ChiliProject Changelog
 
+== 2013-01-06 v3.4.0
+
+* Bug #904: Copy workflow doesn’t work on per-author / per-assigned modifier
+* Bug #1087: Document category is not saved properly
+* Bug #1090: List of saved queries is not accessible outside of a project
+* Bug #1111: use a monospace font in wiki-text
+* Security – Bug #1113: Potential XSS Vulnerability in Ruby on Rails
+* Security – Bug #1114: XSS Vulnerability in strip_tags
+* Bug #1118: Missing caption in file redmine.rb
+* Bug #1134: HEAD is not considered a read-only method in Redmine.pm
+* Bug #1142: Darcs repository adapter doesn’t work with newer versions (~2.5) of Darcs
+* Bug #1144: configuration.yml.example is broken
+* Bug #1188: Selecting “Current project and its subprojects” isn’t saving.
+* Bug #1194: Problems migrating from chili 2.0.0 to 3.3.0
+* Security – Bug #1195: SQL Injection Vulnerability in Ruby on Rails (CVE-2012-5664)
+* Bug #1197: Links to new and existing Pages in chili wikis have the same color. Thats boring.
+* Task #1192: Add a CONTRIBUTION document
+
 == 2012-07-15 v3.3.0
 
 * Bug #935: Serialization problem in Setting model

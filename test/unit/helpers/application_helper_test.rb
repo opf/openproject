@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2012 the ChiliProject Team
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -473,7 +473,7 @@ RAW
 
     expected = <<-EXPECTED
 <p><a href="/projects/ecookbook/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
-<p><a href="/issues/1" class="issue status-1 priority-1" title="Can't print recipes (New)">#1</a></p>
+<p><a href="/issues/1" class="issue status-1 priority-1" title="Can&#39;t print recipes (New)">#1</a></p>
 <pre>
 [[CookBook documentation]]
 

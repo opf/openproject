@@ -4,6 +4,7 @@ enumerations_001:
   id: 1
   type: DocumentCategory
   active: true
+  is_default: true
 enumerations_002:
   name: User documentation
   id: 2

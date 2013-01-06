@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2012 the ChiliProject Team
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -497,7 +497,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert mail.to.include?('jsmith@somenet.foo')
       assert mail.subject.include?('Failed email submission: New ticket on a given project')
       assert mail.body.include?('There were errors with your email submission')
-      assert mail.body.include?('Required Custom Field0 can\'t be blank')
+      assert mail.body.include?('Required Custom Field0 can&#39;t be blank')
     end
   end
 

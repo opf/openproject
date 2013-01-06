@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2012 the ChiliProject Team
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /(#{IssueStatus.find(2).name})/,
+                     :content => /(#{ERB::Util.h IssueStatus.find(2).name})/,
                    }
                  }
                }
@@ -47,7 +47,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /#{Issue.find(1).subject}/,
+                     :content => /#{ERB::Util.h Issue.find(1).subject}/,
                    }
                  }
                }
@@ -65,7 +65,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /#{Issue.find(1).subject}/,
+                     :content => /#{ERB::Util.h Issue.find(1).subject}/,
                    }
                  }
                }
@@ -83,7 +83,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /#{Issue.find(1).subject}/,
+                     :content => /#{ERB::Util.h Issue.find(1).subject}/,
                    }
                  }
                }
