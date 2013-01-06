@@ -1034,3 +1034,6 @@ sv:
   description_date_range_interval: Välj omfång genom att ange start- och slutdatum
   description_date_from: Ange startdatum
   description_date_to: Ange slutdatum
+  label_time_entries: Time entries
+  label_new_time_entry: New time entry
+  label_time_entry_report: Time entry report

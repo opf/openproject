@@ -1019,3 +1019,6 @@ de:
   field_issue_summary: Ticketübersicht
   field_new_saved_query: Neue gespeicherte Abfrage
   field_issue_view_all_open: Alle offen Tickets
+  label_time_entries: Time entries
+  label_new_time_entry: New time entry
+  label_time_entry_report: Time entry report

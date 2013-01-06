@@ -1087,3 +1087,6 @@
   field_issue_view_all_open: View all open issues
   label_subtask_add: Add a subtask
   label_issue_hierarchy: Issue hierarchy
+  label_time_entries: Time entries
+  label_new_time_entry: New time entry
+  label_time_entry_report: Time entry report
