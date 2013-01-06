@@ -56,6 +56,6 @@ class ApplicationTest < ActionController::IntegrationTest
 
     assert_tag :tag => 'p',
       :attributes => {:id => 'errorExplanation'},
-      :content => "The page you were trying to access doesn't exist or has been removed."
+      :content => "The page you were trying to access doesn&#39;t exist or has been removed."
   end
 end

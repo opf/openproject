@@ -207,7 +207,7 @@ class ChiliProject::LiquidTest < ActionView::TestCase
         text = "{% include '<script>alert(\"foo\"):</script>' %}"
         formatted = textilizable(text)
 
-        assert formatted.include?("No such page '&lt;script&gt;alert(&quot;foo&quot;):&lt;/script&gt;'")
+        assert_match /No such page &#39;&lt;script&gt;alert\(&quot;foo&quot;\):&lt;\/script&gt;&#39;/, formatted
       end
     end
 
