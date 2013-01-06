@@ -286,7 +286,7 @@ sub set_val {
 Apache2::Module::add(__PACKAGE__, \@directives);
 
 
-my %read_only_methods = map { $_ => 1 } qw/GET PROPFIND REPORT OPTIONS/;
+my %read_only_methods = map { $_ => 1 } qw/GET HEAD PROPFIND REPORT OPTIONS/;
 
 sub request_is_read_only {
   my ($r) = @_;
