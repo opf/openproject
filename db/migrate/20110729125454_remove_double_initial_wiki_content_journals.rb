@@ -12,6 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'wiki_content'
 class RemoveDoubleInitialWikiContentJournals < ActiveRecord::Migration
   def self.up
     # Remove the newest initial WikiContentJournal (the one erroneously created by a former migration) if there are more than one
