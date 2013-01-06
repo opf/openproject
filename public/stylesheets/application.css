@@ -1898,6 +1898,11 @@ div.wiki th {
   padding: 4px;
 }
 
+/* links to non-existant/new (wiki) pages */
+div.wiki a.new {
+  font-style: italic;
+}
+
 div.wiki .external {
   background-position: 0% 60%;
   background-repeat: no-repeat;
