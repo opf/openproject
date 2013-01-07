@@ -252,6 +252,9 @@ module IssuesHelper
   end
 
   def entries_for_filter_select_sorted(query)
-    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact.sort{|a,b| a.to_s.downcase <=> b.to_s.downcase}
+    # with rails 3.2 ActiveSupport::Inflector.transliterate should be used instead of I18n.transliterate
+    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el| 
+      I18n.transliterate(el[0]).downcase
+    end
   end
 end
