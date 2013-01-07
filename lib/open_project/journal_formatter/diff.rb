@@ -4,21 +4,23 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   unloadable
 
   def render(key, values, no_html = false)
-    label = label(key)
-
-    render_ternary_detail_text(label, values.last, values.first, no_html)
+    render_ternary_detail_text(key, values.last, values.first, no_html)
   end
 
   private
 
-  def format_html_detail(label)
-    content_tag('strong', label)
+  def label(key, no_html)
+    label = super key
+
+    no_html ?
+      label :
+      content_tag('strong', label)
   end
 
-  def render_ternary_detail_text(label, value, old_value, no_html)
-    link = link(label, no_html)
+  def render_ternary_detail_text(key, value, old_value, no_html)
+    link = link(key, no_html)
 
-    label = format_html_detail(label) unless no_html
+    label = label(key, no_html)
 
     if value.blank?
       l(:text_journal_deleted_with_diff, :label => label, :link => link)
@@ -31,11 +33,11 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     end
   end
 
-  def link(label, no_html)
+  def link(key, no_html)
     url_attr = { :controller => 'journals',
                  :action => 'diff',
                  :id => @journal.id,
-                 :field => label.downcase,
+                 :field => key.downcase,
                  :only_path => false,
                  :protocol => Setting.protocol,
                  :host => Setting.host_name }
