@@ -610,6 +610,14 @@ padding-left: 26px;
 vertical-align: bottom;
 }
 
+.ajax-indicator {
+  background-position: 0% 40%;
+  background-repeat: no-repeat;
+  background-image: url(../images/loading.gif);
+  padding-left: 16px;
+  vertical-align: bottom;
+}
+
 /***** Calendar *****/
 table.cal {border-collapse: collapse; width: 100%; margin: 0px 0 6px 0;border: 1px solid #d7d7d7;}
 table.cal thead th {width: 14%; background-color:#EEEEEE; padding: 4px; }
