@@ -253,8 +253,26 @@ module IssuesHelper
 
   def entries_for_filter_select_sorted(query)
     # with rails 3.2 ActiveSupport::Inflector.transliterate should be used instead of I18n.transliterate
-    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el| 
-      I18n.transliterate(el[0]).downcase
+    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact.sort do |(a_value, a_key), (b_value, b_key)|
+      a = I18n.transliterate(a_value).downcase
+      b = I18n.transliterate(b_value).downcase
+
+      a_byte_value = binary_value_for_string_with_special_chars_highest(a)
+      b_byte_value = binary_value_for_string_with_special_chars_highest(b)
+
+      a_byte_value <=> b_byte_value
+    end
+  end
+
+  private
+
+  def binary_value_for_string_with_special_chars_highest(string)
+    string.chars.inject("") do |sum, x|
+      sum += if "a" <= x && x <= "z"
+               x.unpack("B*").first
+             else
+               "11111111"
+             end
     end
   end
 end
