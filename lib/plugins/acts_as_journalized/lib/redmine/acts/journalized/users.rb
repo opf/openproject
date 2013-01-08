@@ -41,7 +41,7 @@ module Redmine::Acts::Journalized
   # responsible for the associated update to the parent.
   module Users
     def self.included(base) # :nodoc:
-      Journal.send(:include, JournalMethods)
+      Journal.send(:include, JournalMethods) unless Journal.include? JournalMethods
 
       base.class_eval do
         include InstanceMethods
@@ -68,7 +68,7 @@ module Redmine::Acts::Journalized
       def self.included(base) # :nodoc:
         base.class_eval do
           belongs_to :user
-         # attr_protected :user_id
+          # attr_protected :user_id
           alias_method_chain :user=, :name
         end
       end
