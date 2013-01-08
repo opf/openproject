@@ -12,8 +12,6 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::CodesetUtilTest < HelperTestCase
-  include RepositoriesHelper
-  
   def test_to_utf8_by_setting_from_latin1
     with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
       s1 = "Texte encod\xc3\xa9"
@@ -83,7 +81,6 @@ class Redmine::CodesetUtilTest < HelperTestCase
 
   def test_to_utf8_by_setting_invalid_utf8_sequences_should_be_stripped
     with_settings :repositories_encodings => '' do
-      # s1 = File.read(Rails.root.join('test/fixtures/encoding/iso-8859-1.txt'))
       s1 = "Texte encod\xe9 en ISO-8859-1."
       s1.force_encoding("ASCII-8BIT") if s1.respond_to?(:force_encoding)
       str = Redmine::CodesetUtil.to_utf8_by_setting(s1)
@@ -101,12 +98,10 @@ class Redmine::CodesetUtilTest < HelperTestCase
       s1.force_encoding("ASCII-8BIT") if s1.respond_to?(:force_encoding)
       str = Redmine::CodesetUtil.to_utf8_by_setting(s1)
       if str.respond_to?(:force_encoding)
-        assert_equal "Texte encod? en ISO-8859-1.", str
         assert str.valid_encoding?
         assert_equal "UTF-8", str.encoding.to_s
-      else
-        assert_equal "Texte encod en ISO-8859-1.", str
       end
+      assert_equal "test??test??", str
     end
   end
 end
