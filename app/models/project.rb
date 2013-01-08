@@ -116,7 +116,7 @@ class Project < ActiveRecord::Base
   def add_member(user, roles)
     members.build.tap do |m|
       m.principal = user
-      m.roles = roles.is_a?(Array) ? roles : [roles]
+      m.roles = Array(roles)
     end
   end
 
