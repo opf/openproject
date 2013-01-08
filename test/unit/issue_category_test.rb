@@ -14,24 +14,25 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssueCategoryTest < ActiveSupport::TestCase
-  fixtures :issue_categories, :issues
-
   def setup
-    @category = IssueCategory.find(1)
+    @project = FactoryGirl.create :project
+    @category = FactoryGirl.create :issue_category, :project => @project
+    @issue = FactoryGirl.create :issue, :category => @category
+    assert_equal @issue.category, @category
+    assert_equal @category.issues, [@issue]
   end
 
+  # Make sure the category was nullified on the issue
   def test_destroy
-    issue = @category.issues.first
     @category.destroy
-    # Make sure the category was nullified on the issue
-    assert_nil issue.reload.category
+    assert_nil @issue.reload.category
   end
 
+  # both issue categories must be in the same project
   def test_destroy_with_reassign
-    issue = @category.issues.first
-    reassign_to = IssueCategory.find(2)
+    reassign_to = FactoryGirl.create :issue_category, :project => @project
     @category.destroy(reassign_to)
     # Make sure the issue was reassigned
-    assert_equal reassign_to, issue.reload.category
+    assert_equal reassign_to, @issue.reload.category
   end
 end
