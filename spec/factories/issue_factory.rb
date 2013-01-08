@@ -1,17 +1,15 @@
 FactoryGirl.define do
   factory :issue do
     priority
+    project
     status :factory => :issue_status
     sequence(:subject) { |n| "Issue No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
-    tracker :factory => :tracker_feature
     author :factory => :user
 
-    factory :valid_issue do
-      after :build do |issue|
-        issue.project = FactoryGirl.build(:valid_project)
-        issue.tracker = issue.project.trackers.first
-      end
+    after :build do |issue|
+      # a valid issue needs a tracker which is known to its project
+      issue.tracker = issue.project.trackers.first unless issue.tracker
     end
   end
 end

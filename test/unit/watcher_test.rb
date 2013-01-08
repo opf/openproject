@@ -53,7 +53,7 @@ class WatcherTest < ActiveSupport::TestCase
     @user.firstname = nil
     assert !@user.valid?
 
-    issue = FactoryGirl.create(:valid_issue)
+    issue = FactoryGirl.create(:issue)
     issue.watcher_users << @user
     issue.save!
     assert issue.watched_by?(@user)
@@ -70,7 +70,7 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_watcher_user_ids_should_make_ids_uniq
-    issue = FactoryGirl.create(:valid_issue)
+    issue = FactoryGirl.create(:issue)
     issue.watcher_user_ids = ['1', '3', '1']
     assert issue.valid?
     assert_equal 2, issue.watchers.count
