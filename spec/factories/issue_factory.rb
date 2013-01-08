@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :issue do
     priority
-    project
+    project :factory => :project_with_trackers
     status :factory => :issue_status
     sequence(:subject) { |n| "Issue No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
