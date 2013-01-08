@@ -758,10 +758,12 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_stale_issue_should_not_send_email_notification
     ActionMailer::Base.deliveries.clear
-    issue = Issue.find(1)
-    stale = Issue.find(1)
+    i = FactoryGirl.create :issue
+    i.init_journal(User.find(1))
 
-    issue.init_journal(User.find(1))
+    issue = Issue.find(i.id)
+    stale = Issue.find(i.id)
+
     issue.subject = 'Subjet update'
     assert issue.save
     assert_equal 2, ActionMailer::Base.deliveries.size
