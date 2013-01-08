@@ -19,8 +19,7 @@ dirs.each do |dir|
                    :path => to_path_param("#{link_path}/#{filename}"), :rev => @rev %>
 <% end %>
 <%
-  # @rev is revsion or Git and Mercurial branch or tag.
-  # For Mercurial *tip*, @rev and @changeset are nil.
+  # @rev is revsion or git branch or tag.
   rev_text = @changeset.nil? ? @rev : format_revision(@changeset)
 %>
 <%= "@ #{h rev_text}" unless rev_text.blank? %>

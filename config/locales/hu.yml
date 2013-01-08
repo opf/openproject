@@ -968,7 +968,6 @@
   label_bazaar_path: Gyökér könyvtár
   label_cvs_path: CVSROOT
   label_git_path: A .git könyvtár elérési útja
-  label_mercurial_path: Helyi könyvtár
   label_my_queries: Egyéni lekérdezéseim
   label_additional_workflow_transitions_for_assignee: További átmenetek engedélyezettek, ha a felhasználó a hozzárendelt
   text_journal_changed_no_detail: "%{label} módosítva"
@@ -983,7 +982,6 @@
   text_git_repo_example: Üres és helyi repository (e.g. /gitrepo, c:\gitrepo)
   label_notify_member_plural: Emailek frissítése
   label_path_encoding: Elérési útvonal kódlapja
-  text_mercurial_repo_example: helyi repository (e.g. /hgrepo, c:\hgrepo)
   label_diff: különbség
   setting_issue_startdate_is_adddate: Használja az aktuális időt az új feladat kezdőidejének
   description_search: Keresőmező

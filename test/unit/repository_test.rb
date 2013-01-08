@@ -108,7 +108,7 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_for_changeset_comments_strip
-    repository = Repository::Mercurial.create( :project => Project.find( 4 ), :url => '/foo/bar/baz' )
+    repository = Repository::Subversion.create( :project => Project.find( 4 ), :url => '/foo/bar/baz' )
     comment = "This is a looooooooooooooong comment" + (" " * 80 + "\n") * 5
     changeset = Changeset.new(
       :comments => comment, :commit_date => Time.now, :revision => 0, :scmid => 'f39b7922fb3c',

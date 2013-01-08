@@ -938,12 +938,10 @@ nl:
   label_cvs_path: CVSROOT
   label_git_path: Pad naar .git directory
   text_powered_by: Powered by %{link}
-  label_mercurial_path: Root directory
   text_default_encoding: "Standaard: UTF-8"
   text_git_repo_example: een kaal (bare) en lokaal repository (e.g. /gitrepo, c:\gitrepo)
   label_notify_member_plural: Email issue updates
   label_path_encoding: Path encoding
-  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
   label_diff: diff
   setting_issue_startdate_is_adddate: Gebruik huidige datum als startdatum voor nieuwe issues
   description_search: Searchfield

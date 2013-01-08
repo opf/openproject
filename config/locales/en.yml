@@ -858,7 +858,6 @@ en:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   label_git_path: Path to .git directory
-  label_mercurial_path: Root directory
   label_cvs_path: CVSROOT
   label_cvs_module: Module
   label_bazaar_path: Root directory
@@ -997,7 +996,6 @@ en:
   text_powered_by: "Powered by %{link}"
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
   text_default_encoding: "Default: UTF-8"
-  text_mercurial_repo_example: "local repository (e.g. /hgrepo, c:\\hgrepo)"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
   text_analyze: "Further analyze: %{subject}"
 

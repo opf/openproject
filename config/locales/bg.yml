@@ -953,7 +953,6 @@ bg:
   label_bazaar_path: Коренна директория
   label_cvs_path: CVSROOT
   label_git_path: Път до директория .git
-  label_mercurial_path: Коренна директория
   label_additional_workflow_transitions_for_assignee: Позволени са допълнителни преходи, когато потребителят е назначеният към задачата
   button_expand_all: Разгъване всички
   button_collapse_all: Скриване всички
@@ -963,7 +962,6 @@ bg:
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
   label_notify_member_plural: Email issue updates
   label_path_encoding: Кодиране на пътищата
-  text_mercurial_repo_example: локално хранилище (например /hgrepo, c:\hgrepo)
   label_diff: diff
   setting_issue_startdate_is_adddate: Use current date as start date for new issues
   description_search: Searchfield

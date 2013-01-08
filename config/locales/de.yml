@@ -1029,7 +1029,6 @@ de:
   label_bazaar_path: Root directory
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
-  label_mercurial_path: Root directory
   label_my_queries: "Meine Berichte"
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   text_journal_changed_no_detail: "%{label} aktualisiert"
@@ -1047,7 +1046,6 @@ de:
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
   label_notify_member_plural: "Ticket-Aktualisierungen per E-Mail verschicken"
   label_path_encoding: Path encoding
-  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
   label_diff: diff
   description_filter: Filter
   description_search: Suchfeld

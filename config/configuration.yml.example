@@ -125,12 +125,10 @@ default:
   # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
   # Examples:
   # scm_subversion_command: svn                                       # (default: svn)
-  # scm_mercurial_command:  C:\Program Files\TortoiseHg\hg.exe        # (default: hg)
   # scm_git_command:        /usr/local/bin/git                        # (default: git)
   # scm_cvs_command:        cvs                                       # (default: cvs)
   # scm_bazaar_command:     bzr.exe                                   # (default: bzr)
   # scm_subversion_command:
-  # scm_mercurial_command:
   # scm_git_command:
   # scm_cvs_command:
   # scm_bazaar_command:

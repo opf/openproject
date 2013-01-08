@@ -42,7 +42,6 @@ end
 require 'globalize'
 
 Redmine::Scm::Base.add "Subversion"
-Redmine::Scm::Base.add "Mercurial"
 Redmine::Scm::Base.add "Cvs"
 Redmine::Scm::Base.add "Bazaar"
 Redmine::Scm::Base.add "Git"

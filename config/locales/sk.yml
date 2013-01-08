@@ -943,7 +943,6 @@ sk:
   label_bazaar_path: Root directory
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
-  label_mercurial_path: Root directory
   label_my_queries: My custom queries
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   text_journal_changed_no_detail: "%{label} updated"
@@ -958,7 +957,6 @@ sk:
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
   label_notify_member_plural: Email issue updates
   label_path_encoding: Path encoding
-  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
   label_diff: diff
   setting_issue_startdate_is_adddate: Use current date as start date for new issues
   description_search: Searchfield

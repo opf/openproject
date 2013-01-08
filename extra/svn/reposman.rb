@@ -88,7 +88,7 @@ require 'etc'
 require 'thread'
 
 Version = "1.3"
-SUPPORTED_SCM = %w( Subversion Mercurial Bazaar Git Filesystem )
+SUPPORTED_SCM = %w( Subversion Bazaar Git Filesystem )
 
 opts = GetoptLong.new(
                       ['--svn-dir',      '-s', GetoptLong::REQUIRED_ARGUMENT],
