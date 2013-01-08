@@ -9,7 +9,7 @@ env:
 script: "bundle exec rake"
 before_install:
   - "sudo apt-get update -qq"
-  - "sudo apt-get --no-install-recommends install bzr cvs darcs git mercurial subversion"
+  - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"
 before_script:
   - "RAILS_ENV=production bundle exec rake ci:travis:prepare"
 branches:

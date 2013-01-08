@@ -57,8 +57,7 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_should_not_create_with_disabled_scm
-    # disable Subversion
-    Setting.enabled_scm = ['Darcs', 'Git']
+    Setting.enabled_scm = ['Git'] # disable Subversion
     repository = Repository::Subversion.new(:project => Project.find(3), :url => "svn://localhost")
     assert !repository.save
     assert_include repository.errors[:type], I18n.translate('activerecord.errors.messages.invalid')

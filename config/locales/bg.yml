@@ -950,7 +950,6 @@ bg:
   text_powered_by: Този сайт е задвижван от %{link}
   label_cvs_module: Модул
   label_filesystem_path: Коренна директория
-  label_darcs_path: Коренна директория
   label_bazaar_path: Коренна директория
   label_cvs_path: CVSROOT
   label_git_path: Път до директория .git

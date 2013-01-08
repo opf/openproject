@@ -1058,7 +1058,6 @@ ru:
   text_powered_by: Powered by %{link}
   label_cvs_module: Модуль
   label_filesystem_path: Каталог
-  label_darcs_path: Каталог
   label_bazaar_path: Каталог
   label_cvs_path: CVSROOT
   label_git_path: Путь к каталогу .git

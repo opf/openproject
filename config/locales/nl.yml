@@ -932,7 +932,6 @@ nl:
   label_additional_workflow_transitions_for_author: Aanvullende veranderingen toegestaan wanneer de gebruiker de auteur is
   label_cvs_module: Module
   label_filesystem_path: Root directory
-  label_darcs_path: Root directory
   text_journal_changed_no_detail: "%{label} updated"
   field_effective_date: Einddatum
   label_bazaar_path: Root directory

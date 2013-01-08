@@ -858,7 +858,6 @@ en:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   label_git_path: Path to .git directory
-  label_darcs_path: Root directory
   label_mercurial_path: Root directory
   label_cvs_path: CVSROOT
   label_cvs_module: Module

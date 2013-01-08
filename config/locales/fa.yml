@@ -950,7 +950,6 @@ fa:
   label_cvs_module: Module
   label_filesystem_path: Root directory
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_darcs_path: Root directory
   text_journal_changed_no_detail: "%{label} updated"
   button_expand_all: Expand all
   button_collapse_all: Collapse all

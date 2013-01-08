@@ -985,7 +985,6 @@ pt-BR:
   text_mercurial_repo_example: "repositório local (ex.: /hgrepo, c:\\hgrepo)"
   label_cvs_module: Módulo
   label_filesystem_path: Diretório raiz
-  label_darcs_path: Diretório raiz
   label_bazaar_path: Diretório raiz
   label_git_path: Caminho para o diretório .git
   label_mercurial_path: Diretório raiz

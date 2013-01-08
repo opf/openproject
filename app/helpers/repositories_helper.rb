@@ -208,12 +208,6 @@ module RepositoriesHelper
                                            :onchange => "this.name='repository[password]';"))
   end
 
-  def darcs_field_tags(form, repository)
-    content_tag('p', form.text_field(:url, :label => :label_darcs_path, :size => 60, :required => true, :disabled => (repository && !repository.new_record?))) +
-      content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
-                                   :label => l(:setting_commit_logs_encoding), :required => true))
-  end
-
   def mercurial_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :label => :label_mercurial_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)) +
                   '<br />' + l(:text_mercurial_repo_example)) +

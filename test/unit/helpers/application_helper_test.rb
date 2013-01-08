@@ -306,33 +306,6 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
-  # TODO: Bazaar commit id contains mail address, so it contains '@' and '_'.
-  def test_redmine_links_darcs_commit
-    changeset_link = link_to('20080308225258-98289-abcd456efg.gz',
-                               {
-                                 :controller => 'repositories',
-                                 :action     => 'revision',
-                                 :id         => 'subproject1',
-                                 :rev        => '123',
-                                },
-                              :class => 'changeset', :title => 'test commit')
-    to_test = {
-      'commit:20080308225258-98289-abcd456efg.gz' => changeset_link,
-     }
-    @project = Project.find(3)
-    r = Repository::Darcs.create!(
-            :project => @project, :url => '/tmp/test/darcs',
-            :log_encoding => 'UTF-8')
-    assert r
-    c = Changeset.new(:repository => r,
-                      :committed_on => Time.now,
-                      :revision => '123',
-                      :scmid => '20080308225258-98289-abcd456efg.gz',
-                      :comments => 'test commit')
-    assert( c.save )
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
-  end
-
   def test_redmine_links_mercurial_commit
     changeset_link_rev = link_to('r123',
                                   {
