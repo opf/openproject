@@ -15,9 +15,10 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class DefaultDataTest < ActiveSupport::TestCase
   include Redmine::I18n
-  fixtures :roles
 
   def test_no_data
+    assert Redmine::DefaultData::Loader::no_data?
+    Redmine::DefaultData::Loader::load()
     assert !Redmine::DefaultData::Loader::no_data?
     Role.delete_all("builtin = 0")
     Tracker.delete_all
