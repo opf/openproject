@@ -18,6 +18,7 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
            :projects, :members, :users, :member_roles, :trackers, :issues
 
   def setup
+    @user = FactoryGirl.create :user
     @field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user')
   end
 
@@ -56,12 +57,13 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   end
 
   def test_cast_valid_value
-    user = @field.cast_value("2")
+    user = @field.cast_value("#{@user.id}")
     assert_kind_of User, user
-    assert_equal User.find(2), user
+    assert_equal @user, user
   end
 
   def test_cast_invalid_value
-    assert_equal nil, @field.cast_value("187")
+    User.delete_all
+    assert_equal nil, @field.cast_value("1")
   end
 end
