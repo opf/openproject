@@ -14,7 +14,18 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class GroupTest < ActiveSupport::TestCase
-  fixtures :all
+
+  def setup
+    @group = FactoryGirl.create :group
+    @member = FactoryGirl.build :member
+    @roles = FactoryGirl.create_list :role, 2
+    @member.force_attributes = { :principal => @group, :role_ids => @roles.map(&:id) }
+    @member.save!
+    @project = @member.project
+    @user = FactoryGirl.create :user
+    @group.users << @user
+    @group.save!
+  end
 
   def test_create
     g = Group.new(:lastname => 'New group')
@@ -22,27 +33,14 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   def test_roles_given_to_new_user
-    group = FactoryGirl.create :group
-    member = FactoryGirl.build :member
-    role = FactoryGirl.create :role
-    member.force_attributes = { :principal => group, :role_ids => [role.id] }
-    member.save!
     user = FactoryGirl.build :user
-    group.users << user
+    @group.users << user
 
-    assert user.member_of? member.project
+    assert user.member_of? @project
   end
 
   def test_roles_given_to_existing_user
-    group = FactoryGirl.create :group
-    member = FactoryGirl.build :member
-    role = FactoryGirl.create :role
-    member.force_attributes = { :principal => group, :role_ids => [role.id] }
-    member.save!
-    user = FactoryGirl.create :user
-    group.users << user
-
-    assert user.member_of? member.project
+    assert @user.member_of? @project
   end
 
   def test_roles_updated
@@ -70,14 +68,18 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   def test_roles_removed_when_removing_group_membership
-    assert User.find(8).member_of?(Project.find(5))
-    Member.find_by_project_id_and_user_id(5, 10).destroy
-    assert !User.find(8).member_of?(Project.find(5))
+    assert @user.member_of?(@project)
+    @member.destroy
+    @user.reload
+    @project.reload
+    assert !@user.member_of?(@project)
   end
 
   def test_roles_removed_when_removing_user_from_group
-    assert User.find(8).member_of?(Project.find(5))
-    User.find(8).groups.clear
-    assert !User.find(8).member_of?(Project.find(5))
+    assert @user.member_of?(@project)
+    @user.groups.clear
+    @user.reload
+    @project.reload
+    assert !@user.member_of?(@project)
   end
 end
