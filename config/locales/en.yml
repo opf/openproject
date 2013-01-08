@@ -319,6 +319,7 @@ en:
   field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
   field_impaired: Accessibility mode
   field_ui: User Interface
+  field_custom_values: Custom fields
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
   setting_welcome_text: Welcome text
