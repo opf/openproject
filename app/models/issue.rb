@@ -15,6 +15,8 @@
 class Issue < ActiveRecord::Base
   include Redmine::SafeAttributes
 
+  DEFAULT_SORT_ORDER = ['parent', 'desc']
+
   belongs_to :project
   belongs_to :tracker
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
