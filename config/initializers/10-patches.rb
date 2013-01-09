@@ -25,28 +25,37 @@ module ActiveRecord
   end
 end
 
-module ActiveRecord
+module ActiveModel
   class Errors
-    def full_messages(options = {})
+    def full_messages
       full_messages = []
 
-      @errors.each_key do |attr|
-        @errors[attr].each do |message|
+      @messages.each_key do |attribute|
+        @messages[attribute].each do |message|
           next unless message
 
-          if attr == "base"
+          if attribute == :base
             full_messages << message
-          elsif attr == "custom_values"
+          elsif attribute == :custom_values
             # Replace the generic "custom values is invalid"
             # with the errors on custom values
             @base.custom_values.each do |value|
-              value.errors.each do |attr, msg|
-                full_messages << value.custom_field.name + ' ' + msg
+              full_messages += value.errors.map do |_, message|
+                I18n.t(:"errors.format", {
+                  :default   => "%{attribute} %{message}",
+                  :attribute => value.custom_field.name,
+                  :message   => message
+                })
               end
             end
           else
-            attr_name = @base.class.human_attribute_name(attr)
-            full_messages << attr_name + ' ' + message.to_s
+            attr_name = attribute.to_s.gsub('.', '_').humanize
+            attr_name = @base.class.human_attribute_name(attribute, :default => attr_name)
+            full_messages << I18n.t(:"errors.format", {
+              :default   => "%{attribute} %{message}",
+              :attribute => attr_name,
+              :message   => message
+            })
           end
         end
       end
