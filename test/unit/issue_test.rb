@@ -150,7 +150,7 @@ class IssueTest < ActiveSupport::TestCase
 
     assert !issue.valid?
     assert_equal 1, issue.errors.full_messages.size
-    assert_equal "Database #{I18n.translate('activerecord.errors.messages.inclusion')}", issue.errors.full_messages.first
+    assert_equal "Database is not included in the list", issue.errors.full_messages.first
   end
 
   def test_update_issue_with_required_custom_field
