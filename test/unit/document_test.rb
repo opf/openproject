@@ -36,10 +36,9 @@ class DocumentTest < ActiveSupport::TestCase
     end
   end
 
-  # this should pass unless the stubbing doesn't work
-  # since it fails, it doesn't :(
   def test_recipients_equal_project_recipients
-    user = FactoryGirl.create(:user)
+    # user must be allowed to :view_documents
+    user = FactoryGirl.create(:user, :admin => true)
     project = FactoryGirl.create(:project)
     project.stubs(:notified_users).returns([user])
     document = FactoryGirl.create(:document, :project => project)
