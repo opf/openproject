@@ -15,6 +15,7 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class EnumerationTest < ActiveSupport::TestCase
   def setup
+    Issue.delete_all
     @low_priority = FactoryGirl.create :priority_low
     @issues = FactoryGirl.create_list :issue, 6, :priority => @low_priority
     @default_enumeration = FactoryGirl.create :default_enumeration
