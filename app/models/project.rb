@@ -747,7 +747,7 @@ class Project < ActiveRecord::Base
   def copy_issue_categories(project)
     project.issue_categories.each do |issue_category|
       new_issue_category = IssueCategory.new
-      new_issue_category.send(:attributes=, issue_category.attributes.dup.except("id", "project_id"), false)
+      new_issue_category.send(:assign_attributes, issue_category.attributes.dup.except("id", "project_id"), :without_protection => true)
       self.issue_categories << new_issue_category
     end
   end
@@ -829,7 +829,7 @@ class Project < ActiveRecord::Base
 
     members_to_copy.each do |member|
       new_member = Member.new
-      new_member.send(:attributes=, member.attributes.dup.except("id", "project_id", "created_on"), false)
+      new_member.send(:assign_attributes, member.attributes.dup.except("id", "project_id", "created_on"), :without_protection => true)
       # only copy non inherited roles
       # inherited roles will be added when copying the group membership
       role_ids = member.member_roles.reject(&:inherited?).collect(&:role_id)
