@@ -15,6 +15,5 @@ before_script:
 branches:
   only:
     - feature/rails3
-    - feature/rails3.2
 notifications:
   email: false
