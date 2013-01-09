@@ -1,5 +1,9 @@
 = ChiliProject Changelog
 
+== 2013-01-09 v3.5.0
+
+* Security - Bug #1200: Multiple vulnerabilities in parameter parsing in Action Pack (CVE-2013-0156)
+
 == 2013-01-06 v3.4.0
 
 * Bug #904: Copy workflow doesn’t work on per-author / per-assigned modifier
