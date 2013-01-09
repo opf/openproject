@@ -68,7 +68,6 @@ enabled_scm:
   default:
   - Subversion
   - Cvs
-  - Bazaar
   - Git
 autofetch_changesets:
   default: 1

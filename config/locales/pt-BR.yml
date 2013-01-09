@@ -984,7 +984,6 @@ pt-BR:
   label_path_encoding: Codificação do caminho
   label_cvs_module: Módulo
   label_filesystem_path: Diretório raiz
-  label_bazaar_path: Diretório raiz
   label_git_path: Caminho para o diretório .git
 
   label_diff: diff

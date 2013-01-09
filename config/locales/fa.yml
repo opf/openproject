@@ -955,7 +955,6 @@ fa:
   button_collapse_all: Collapse all
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_news_comment_added: Comment added to a news
-  label_bazaar_path: Root directory
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   default_role_anonymous: Anonymous
