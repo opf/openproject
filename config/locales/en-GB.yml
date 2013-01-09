@@ -962,9 +962,7 @@ en-GB:
   enumeration_system_activity: System Activity
 
   text_powered_by: "Powered by %{link}"
-  label_cvs_module: Module
   label_filesystem_path: Root directory
-  label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author

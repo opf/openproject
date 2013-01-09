@@ -126,10 +126,8 @@ default:
   # Examples:
   # scm_subversion_command: svn                                       # (default: svn)
   # scm_git_command:        /usr/local/bin/git                        # (default: git)
-  # scm_cvs_command:        cvs                                       # (default: cvs)
   # scm_subversion_command:
   # scm_git_command:
-  # scm_cvs_command:
   
   # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
   # If you don't want to enable data encryption, just leave it blank.

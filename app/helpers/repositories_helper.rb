@@ -217,13 +217,6 @@ module RepositoriesHelper
                         '<br />' + l(:text_default_encoding))
   end
 
-  def cvs_field_tags(form, repository)
-      content_tag('p', form.text_field(:root_url, :label => :label_cvs_path, :size => 60, :required => true, :disabled => !repository.new_record?)) +
-      content_tag('p', form.text_field(:url, :label => :label_cvs_module, :size => 30, :required => true, :disabled => !repository.new_record?)) +
-      content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
-                                   :label => l(:setting_commit_logs_encoding), :required => true))
-  end
-
   def filesystem_field_tags(form, repository)
     content_tag('p', form.text_field(:url, :label => :label_filesystem_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?))) +
     content_tag('p', form.select(:path_encoding, [nil] + Setting::ENCODINGS,

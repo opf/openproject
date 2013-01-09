@@ -926,9 +926,7 @@ eu:
   field_time_entries: "Denbora erregistratu"
   project_module_gantt: Gantt
   text_powered_by: Powered by %{link}
-  label_cvs_module: Module
   label_filesystem_path: Root directory
-  label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   project_module_calendar: Egutegia
   button_edit_associated_wikipage: "Esleitutako wiki orria editatu: %{page_title}"

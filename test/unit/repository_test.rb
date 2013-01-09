@@ -119,14 +119,14 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_for_urls_strip
-    repository = Repository::Cvs.create(
+    repository = Repository::Subversion.create(
         :project => Project.find(4),
-        :url => ' :pserver:login:password@host:/path/to/the/repository',
-        :root_url => 'foo  ',
+        :url => ' svn://:login:password@host:/path/to/the/repository',
         :log_encoding => 'UTF-8')
+    repository.root_url = 'foo  ' # can't mass-assign this attr
     assert repository.save
     repository.reload
-    assert_equal ':pserver:login:password@host:/path/to/the/repository', repository.url
+    assert_equal 'svn://:login:password@host:/path/to/the/repository', repository.url
     assert_equal 'foo', repository.root_url
   end
 

@@ -1056,9 +1056,7 @@ ru:
   notice_gantt_chart_truncated: Диаграмма будет усечена, поскольку превышено максимальное кол-во элементов, которые могут отображаться (%{max})
   setting_gantt_items_limit: Максимальное кол-во элементов отображаемых на диаграмме Ганта
   text_powered_by: Powered by %{link}
-  label_cvs_module: Модуль
   label_filesystem_path: Каталог
-  label_cvs_path: CVSROOT
   label_git_path: Путь к каталогу .git
   label_my_queries: Мои сохраненные запросы
   label_additional_workflow_transitions_for_assignee: Дополнительные переходы, когда пользователь является исполнителем

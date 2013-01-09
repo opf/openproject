@@ -948,9 +948,7 @@ bg:
   enumeration_system_activity: Системна активност
 
   text_powered_by: Този сайт е задвижван от %{link}
-  label_cvs_module: Модул
   label_filesystem_path: Коренна директория
-  label_cvs_path: CVSROOT
   label_git_path: Път до директория .git
   label_additional_workflow_transitions_for_assignee: Позволени са допълнителни преходи, когато потребителят е назначеният към задачата
   button_expand_all: Разгъване всички

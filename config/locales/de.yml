@@ -1024,9 +1024,7 @@ de:
   notice_gantt_chart_truncated: Die Grafik ist unvollständig, da das Maximum der anzeigbaren Aufgaben überschritten wurde (%{max})
   setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden.
   text_powered_by: Powered by %{link}
-  label_cvs_module: Module
   label_filesystem_path: Root directory
-  label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_my_queries: "Meine Berichte"
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee

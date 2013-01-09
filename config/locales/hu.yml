@@ -963,9 +963,7 @@
   notice_gantt_chart_truncated: A diagram le lett vágva, mert elérte a maximálisan megjeleníthető elemek számát (%{max})
   setting_gantt_items_limit: A gantt diagrammon megjeleníthető maximális elemek száma
   text_powered_by: Powered by %{link}
-  label_cvs_module: Modul
   label_filesystem_path: Gyökér könyvtár
-  label_cvs_path: CVSROOT
   label_git_path: A .git könyvtár elérési útja
   label_my_queries: Egyéni lekérdezéseim
   label_additional_workflow_transitions_for_assignee: További átmenetek engedélyezettek, ha a felhasználó a hozzárendelt
