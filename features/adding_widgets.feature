@@ -3,7 +3,7 @@ Feature: Adding widgets to the page
   Background:
     Given there is 1 project with the following:
       | name        | project1      |
-    And I am admin
+    And I am already logged in as "admin"
     And I am on the project "project1" overview personalization page
 
   @javascript
