@@ -14,11 +14,15 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class CustomFieldUserFormatTest < ActiveSupport::TestCase
-  fixtures :custom_fields, :custom_field_translations,
-           :projects, :members, :users, :member_roles, :trackers, :issues
-
   def setup
-    @user = FactoryGirl.create :user
+    @project = FactoryGirl.create :valid_project
+    role = FactoryGirl.create :role, :permissions => [:view_issues, :edit_issues]
+    @users = []
+    5.times do
+      @users << (user = FactoryGirl.create(:user))
+      @project.add_member! user, role
+      @issue = FactoryGirl.create :issue, :project => @project, :author => user, :tracker => @project.trackers.first
+    end
     @field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user')
   end
 
@@ -28,14 +32,12 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   end
 
   def test_possible_values_with_project_resource
-    project = Project.find(1)
-    possible_values = @field.possible_values(project.issues.first)
+    possible_values = @field.possible_values(@project.issues.first)
     assert possible_values.any?
-    assert_equal project.users.sort.collect(&:id).map(&:to_s), possible_values
+    assert_equal @project.users.sort.collect(&:id).map(&:to_s), possible_values
   end
 
   def test_possible_values_with_nil_project_resource
-    project = Project.find(1)
     assert_equal [], @field.possible_values(Issue.new)
   end
 
@@ -45,10 +47,9 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   end
 
   def test_possible_values_options_with_project_resource
-    project = Project.find(1)
-    possible_values_options = @field.possible_values_options(project.issues.first)
+    possible_values_options = @field.possible_values_options(@project.issues.first)
     assert possible_values_options.any?
-    assert_equal project.users.sort.map {|u| [u.name, u.id.to_s]}, possible_values_options
+    assert_equal @project.users.sort.map {|u| [u.name, u.id.to_s]}, possible_values_options
   end
 
   def test_cast_blank_value
@@ -57,9 +58,9 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   end
 
   def test_cast_valid_value
-    user = @field.cast_value("#{@user.id}")
+    user = @field.cast_value("#{@users.first.id}")
     assert_kind_of User, user
-    assert_equal @user, user
+    assert_equal @users.first, user
   end
 
   def test_cast_invalid_value
