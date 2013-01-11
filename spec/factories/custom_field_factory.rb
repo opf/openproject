@@ -2,15 +2,15 @@ FactoryGirl.define do
   factory :custom_field do
     name "Custom Field"
     regexp ""
-    is_required "0"
-    min_length "0"
+    is_required false
+    min_length false
     default_value ""
-    max_length "0"
-    editable "1"
+    max_length false
+    editable true
     possible_values ""
-    visible "1"
+    visible true
     field_format "bool"
-    
+
     factory :user_custom_field do
       sequence(:name) { |n| "User Custom Field #{n}" }
 
