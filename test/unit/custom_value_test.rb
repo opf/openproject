@@ -14,9 +14,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class CustomValueTest < ActiveSupport::TestCase
-  fixtures :custom_fields, :custom_field_translations,
-           :custom_values, :users
-
   def test_string_field_validation_with_blank_value
     f = CustomField.new(:field_format => 'string')
     v = CustomValue.new(:custom_field => f)
@@ -90,7 +87,9 @@ class CustomValueTest < ActiveSupport::TestCase
   end
 
   def test_float_field_validation
-    v = CustomValue.new(:customized => User.find(:first), :custom_field => UserCustomField.find_by_name('Money'))
+    user = FactoryGirl.create :user
+    FactoryGirl.create :float_user_custom_field, :name => "Money"
+    v = CustomValue.new(:customized => user, :custom_field => UserCustomField.find_by_name('Money'))
     v.value = '11.2'
     assert v.save
     v.value = ''
@@ -102,11 +101,15 @@ class CustomValueTest < ActiveSupport::TestCase
   end
 
   def test_default_value
-    field = CustomField.find_by_default_value('Default string')
+    custom_field = FactoryGirl.create :issue_custom_field,
+      :field_format => 'string',
+      :default_value => "Default String"
+
+    field = CustomField.find_by_default_value('Default String')
     assert_not_nil field
 
     v = CustomValue.new(:custom_field => field)
-    assert_equal 'Default string', v.value
+    assert_equal 'Default String', v.value
 
     v = CustomValue.new(:custom_field => field, :value => 'Not empty')
     assert_equal 'Not empty', v.value
@@ -114,7 +117,15 @@ class CustomValueTest < ActiveSupport::TestCase
 
   def test_sti_polymorphic_association
     # Rails uses top level sti class for polymorphic association. See #3978.
-    assert !User.find(4).custom_values.empty?
-    assert !CustomValue.find(2).customized.nil?
+    user = FactoryGirl.create :user
+    custom_field = FactoryGirl.create :user_custom_field, :field_format => 'string'
+    custom_value = FactoryGirl.create :principal_custom_value,
+      :custom_field => custom_field,
+      :customized => user,
+      :value => '01 23 45 67 89'
+    user.reload
+
+    assert !user.custom_values.empty?
+    assert !custom_value.customized.nil?
   end
 end
