@@ -223,6 +223,8 @@ GEM
     rails_autolink (1.0.9)
       rails (~> 3.1)
     rake (10.0.3)
+    rb-fsevent (0.9.3)
+    rb-readline (0.4.2)
     rbx-require-relative (0.0.9)
     rdoc (3.12)
       json (~> 1.4)
@@ -355,6 +357,8 @@ DEPENDENCIES
   rails-dev-tweaks (~> 0.6.1)
   rails-footnotes (>= 3.7.5.rc4)
   rails_autolink
+  rb-fsevent
+  rb-readline
   rdoc (>= 2.4.2)
   rmagick (>= 1.15.17)
   rspec-rails (~> 2.0)
