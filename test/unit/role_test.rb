@@ -11,10 +11,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../test_helper', __FILE__)
+require 'test_helper'
 
 class RoleTest < ActiveSupport::TestCase
-  fixtures :roles, :workflows
+  fixtures :roles, :workflows, :trackers
 
   def test_copy_workflows
     source = Role.find(1)

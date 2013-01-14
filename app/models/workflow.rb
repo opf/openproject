@@ -57,10 +57,10 @@ class Workflow < ActiveRecord::Base
       raise ArgumentError.new("source_tracker or source_role must be specified")
     end
 
-    target_trackers = [target_trackers].flatten.compact
-    target_roles = [target_roles].flatten.compact
-
+    target_trackers = Array(target_trackers)
     target_trackers = Tracker.all if target_trackers.empty?
+
+    target_roles = Array(target_roles)
     target_roles = Role.all if target_roles.empty?
 
     target_trackers.each do |target_tracker|
