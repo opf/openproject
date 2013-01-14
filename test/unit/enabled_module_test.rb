@@ -14,20 +14,21 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class EnabledModuleTest < ActiveSupport::TestCase
-  fixtures :projects, :wikis
-
   def test_enabling_wiki_should_create_a_wiki
     CustomField.delete_all
     project = Project.create!(:name => 'Project with wiki', :identifier => 'wikiproject')
     assert_nil project.wiki
     project.enabled_module_names = ['wiki']
+    wiki = FactoryGirl.create :wiki, :project => project
     project.reload
     assert_not_nil project.wiki
     assert_equal 'Wiki', project.wiki.start_page
   end
 
   def test_reenabling_wiki_should_not_create_another_wiki
-    project = Project.find(1)
+    project = FactoryGirl.create :project
+    wiki = FactoryGirl.create :wiki, :project => project
+    project.reload
     assert_not_nil project.wiki
     project.enabled_module_names = []
     project.reload
