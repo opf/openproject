@@ -14,7 +14,7 @@
 require 'test_helper'
 
 class RoleTest < ActiveSupport::TestCase
-  fixtures :roles, :workflows, :trackers
+  fixtures :all
 
   def test_copy_workflows
     source = Role.find(1)

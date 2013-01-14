@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ProjectsTest < ActionController::IntegrationTest
-  fixtures :projects, :users, :members
+  fixtures :all
 
   def test_archive_project
     subproject = Project.find(1).children.first

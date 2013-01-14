@@ -18,7 +18,7 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 class Redmine::MenuManager::MenuHelperTest < HelperTestCase
   include Redmine::MenuManager::MenuHelper
   include ActionDispatch::Assertions::SelectorAssertions
-  fixtures :users, :members, :projects, :enabled_modules
+  fixtures :all
 
   # Used by assert_select
   def html_document

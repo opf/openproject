@@ -18,7 +18,7 @@ require 'mail_handler_controller'
 class MailHandlerController; def rescue_action(e) raise e end; end
 
 class MailHandlerControllerTest < ActionController::TestCase
-  fixtures :users, :projects, :enabled_modules, :roles, :members, :member_roles, :issues, :issue_statuses, :trackers, :enumerations
+  fixtures :all
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 

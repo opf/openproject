@@ -18,8 +18,7 @@ require 'watchers_controller'
 class WatchersController; def rescue_action(e) raise e end; end
 
 class WatchersControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
-           :issues, :trackers, :projects_trackers, :issue_statuses, :enumerations, :watchers
+  fixtures :all
 
   def setup
     @controller = WatchersController.new

@@ -16,7 +16,7 @@ require_relative '../test_helper'
 class DocumentTest < ActiveSupport::TestCase
   include MiniTest::Assertions # refute
 
-  #fixtures :projects, :enumerations, :documents, :attachments
+  fixtures :all
 
   def setup
     @documentation_category = FactoryGirl.create :document_category, :name => 'User documentation'

@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class AttachmentTest < ActiveSupport::TestCase
-  fixtures :issues, :users
+  fixtures :all
 
   def setup
   end

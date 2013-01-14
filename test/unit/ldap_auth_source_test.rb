@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class LdapAuthSourceTest < ActiveSupport::TestCase
-  fixtures :auth_sources
+  fixtures :all
 
   def setup
   end

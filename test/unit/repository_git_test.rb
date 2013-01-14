@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryGitTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories, :enabled_modules, :users, :roles
+  fixtures :all
 
   # No '..' in the repository path
   REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'

@@ -18,7 +18,7 @@ require 'enumerations_controller'
 class EnumerationsController; def rescue_action(e) raise e end; end
 
 class EnumerationsControllerTest < ActionController::TestCase
-  fixtures :enumerations, :issues, :users
+  fixtures :all
 
   def setup
     @controller = EnumerationsController.new

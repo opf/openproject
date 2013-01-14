@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class NewsTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :news
+  fixtures :all
 
   def valid_news
     { :title => 'Test news', :description => 'Lorem ipsum etc', :author => User.find(:first) }

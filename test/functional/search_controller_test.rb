@@ -19,11 +19,7 @@ require 'search_controller'
 class SearchController; def rescue_action(e) raise e end; end
 
 class SearchControllerTest < ActionController::TestCase
-  fixtures :projects, :enabled_modules, :roles, :users, :members, :member_roles,
-           :issues, :trackers, :issue_statuses,
-           :custom_fields, :custom_field_translations,
-           :custom_values,
-           :repositories, :changesets
+  fixtures :all
 
   def setup
     @controller = SearchController.new

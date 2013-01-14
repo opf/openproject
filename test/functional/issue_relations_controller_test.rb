@@ -20,17 +20,7 @@ class IssueRelationsController; def rescue_action(e) raise e end; end
 
 
 class IssueRelationsControllerTest < ActionController::TestCase
-  fixtures :projects,
-           :users,
-           :roles,
-           :members,
-           :member_roles,
-           :issues,
-           :issue_statuses,
-           :issue_relations,
-           :enabled_modules,
-           :enumerations,
-           :trackers
+  fixtures :all
 
   def setup
     @controller = IssueRelationsController.new

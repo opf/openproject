@@ -14,14 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class VersionTest < ActiveSupport::TestCase
-  fixtures :projects,
-           :users,
-           :issues,
-           :issue_statuses,
-           :trackers,
-           :projects_trackers,
-           :enumerations,
-           :versions
+  fixtures :all
 
   def setup
   end

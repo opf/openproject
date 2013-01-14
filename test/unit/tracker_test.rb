@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TrackerTest < ActiveSupport::TestCase
-  fixtures :trackers, :workflows, :issue_statuses, :roles
+  fixtures :all
 
   def test_copy_workflows
     source = Tracker.find(1)

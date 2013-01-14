@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class WikiPageTest < ActiveSupport::TestCase
-  fixtures :projects, :wikis, :wiki_pages, :wiki_contents, :journals
+  fixtures :all
 
   def setup
     @wiki = Wiki.find(1)

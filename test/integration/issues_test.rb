@@ -14,21 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssuesTest < ActionController::IntegrationTest
-  fixtures :projects,
-           :users,
-           :roles,
-           :members,
-           :member_roles,
-           :trackers,
-           :projects_trackers,
-           :enabled_modules,
-           :issue_statuses,
-           :issues,
-           :enumerations,
-           :custom_fields,
-           :custom_field_translations,
-           :custom_values,
-           :custom_fields_trackers
+  fixtures :all
 
   # create an issue
   def test_add_issue

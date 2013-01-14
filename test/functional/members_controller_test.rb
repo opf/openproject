@@ -19,7 +19,7 @@ class MembersController; def rescue_action(e) raise e end; end
 
 
 class MembersControllerTest < ActionController::TestCase
-  fixtures :projects, :members, :member_roles, :roles, :users
+  fixtures :all
 
   def setup
     @controller = MembersController.new

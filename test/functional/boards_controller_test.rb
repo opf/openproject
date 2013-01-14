@@ -18,7 +18,7 @@ require 'boards_controller'
 class BoardsController; def rescue_action(e) raise e end; end
 
 class BoardsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
+  fixtures :all
 
   def setup
     @controller = BoardsController.new

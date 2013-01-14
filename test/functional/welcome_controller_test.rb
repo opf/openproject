@@ -18,9 +18,7 @@ require 'welcome_controller'
 class WelcomeController; def rescue_action(e) raise e end; end
 
 class WelcomeControllerTest < ActionController::TestCase
-  fixtures :projects,
-           :news,
-           :users
+  fixtures :all
 
   def setup
     @controller = WelcomeController.new

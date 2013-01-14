@@ -18,7 +18,7 @@ require 'issue_categories_controller'
 class IssueCategoriesController; def rescue_action(e) raise e end; end
 
 class IssueCategoriesControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles, :enabled_modules, :issues, :issue_categories
+  fixtures :all
 
   def setup
     @controller = IssueCategoriesController.new

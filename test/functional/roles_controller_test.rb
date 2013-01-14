@@ -18,7 +18,7 @@ require 'roles_controller'
 class RolesController; def rescue_action(e) raise e end; end
 
 class RolesControllerTest < ActionController::TestCase
-  fixtures :roles, :users, :members, :member_roles, :workflows, :trackers
+  fixtures :all
 
   def setup
     @controller = RolesController.new

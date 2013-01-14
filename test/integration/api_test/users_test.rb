@@ -14,7 +14,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class ApiTest::UsersTest < ActionController::IntegrationTest
-  fixtures :users
+  fixtures :all
 
   def setup
     Setting.rest_api_enabled = '1'

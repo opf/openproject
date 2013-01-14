@@ -14,17 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class SearchTest < ActiveSupport::TestCase
-  fixtures :users,
-           :members,
-           :member_roles,
-           :projects,
-           :roles,
-           :enabled_modules,
-           :issues,
-           :trackers,
-           :journals,
-           :repositories,
-           :changesets
+  fixtures :all
 
   def setup
     @project = Project.find(1)

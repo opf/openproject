@@ -18,7 +18,7 @@ require 'account_controller'
 class AccountController; def rescue_action(e) raise e end; end
 
 class AccountControllerTest < ActionController::TestCase
-  fixtures :users, :roles
+  fixtures :all
 
   def setup
     super

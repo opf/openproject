@@ -20,7 +20,7 @@ rescue
 end
 
 class AccountTest < ActionDispatch::IntegrationTest
-  fixtures :users, :roles
+  fixtures :all
 
   # Replace this with your real tests.
   def test_login

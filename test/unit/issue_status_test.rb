@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssueStatusTest < ActiveSupport::TestCase
-  fixtures :issue_statuses, :issues, :roles, :trackers
+  fixtures :all
 
   def test_create
     status = IssueStatus.new :name => "Assigned"

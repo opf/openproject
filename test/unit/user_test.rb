@@ -16,14 +16,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class UserTest < ActiveSupport::TestCase
   include MiniTest::Assertions # refute
 
-  fixtures :users,
-           :members,
-           :projects,
-           :projects_trackers,
-           :trackers,
-           :roles,
-           :member_roles,
-           :auth_sources
+  fixtures :all
 
   def setup
     @admin = User.find(1)

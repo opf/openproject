@@ -16,19 +16,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class IssueTest < ActiveSupport::TestCase
   include MiniTest::Assertions # refute
 
-  fixtures :projects, :users, :members, :member_roles, :roles,
-           :trackers, :projects_trackers,
-           :enabled_modules,
-           :versions,
-           :issue_statuses, :issue_categories, :issue_relations, :workflows,
-           :enumerations,
-           :issues,
-           :custom_fields,
-           :custom_field_translations,
-           :custom_fields_projects,
-           :custom_fields_trackers,
-           :custom_values,
-           :time_entries
+  fixtures :all
 
   def test_create
     issue = Issue.new.tap do |i|

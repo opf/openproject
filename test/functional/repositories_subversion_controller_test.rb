@@ -18,10 +18,7 @@ require 'repositories_controller'
 class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesSubversionControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
-           :repositories, :issues, :issue_statuses, :changesets, :changes,
-           :issue_categories, :enumerations, :custom_fields, :custom_field_translations,
-           :custom_values, :trackers
+  fixtures :all
 
   PRJ_ID = 3
 

@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RepositorySubversionTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories, :enabled_modules, :users, :roles
+  fixtures :all
 
   def setup
     @project = Project.find(3)

@@ -18,7 +18,7 @@ require 'news_controller'
 class NewsController; def rescue_action(e) raise e end; end
 
 class NewsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :news, :comments
+  fixtures :all
 
   def setup
     @controller = NewsController.new

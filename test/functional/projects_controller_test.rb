@@ -20,12 +20,7 @@ class ProjectsController; def rescue_action(e) raise e end; end
 class ProjectsControllerTest < ActionController::TestCase
   include MiniTest::Assertions # refute
 
-  fixtures :projects, :versions, :users, :roles, :members,
-           :member_roles, :issues, :journals,
-           :trackers, :projects_trackers, :issue_statuses,
-           :enabled_modules, :enumerations, :boards, :messages,
-           :attachments, :custom_fields, :custom_field_translations,
-           :custom_values, :time_entries
+  fixtures :all
 
   def setup
     @controller = ProjectsController.new

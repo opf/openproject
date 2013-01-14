@@ -19,16 +19,7 @@ require 'versions_controller'
 class VersionsController; def rescue_action(e) raise e end; end
 
 class VersionsControllerTest < ActionController::TestCase
-  fixtures :projects,
-           :versions,
-           :issues,
-           :users,
-           :roles,
-           :members,
-           :member_roles,
-           :enabled_modules,
-           :issue_statuses,
-           :enumerations
+  fixtures :all
 
   def setup
     @controller = VersionsController.new

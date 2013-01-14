@@ -18,7 +18,7 @@ require 'workflows_controller'
 class WorkflowsController; def rescue_action(e) raise e end; end
 
 class WorkflowsControllerTest < ActionController::TestCase
-  fixtures :roles, :trackers, :workflows, :users, :issue_statuses
+  fixtures :all
 
   def setup
     @controller = WorkflowsController.new

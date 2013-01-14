@@ -18,13 +18,7 @@ class TimelogHelperTest < HelperTestCase
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper
 
-  fixtures :projects, :roles, :enabled_modules, :users,
-                      :repositories, :changesets,
-                      :trackers, :issue_statuses, :issues, :versions, :documents,
-                      :wikis, :wiki_pages, :wiki_contents,
-                      :boards, :messages,
-                      :attachments,
-                      :enumerations
+  fixtures :all
 
   def setup
     super

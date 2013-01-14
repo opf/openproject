@@ -18,13 +18,7 @@ require 'trackers_controller'
 class TrackersController; def rescue_action(e) raise e end; end
 
 class TrackersControllerTest < ActionController::TestCase
-  fixtures :trackers,
-           :projects,
-           :projects_trackers,
-           :users,
-           :issues,
-           :custom_fields,
-           :custom_field_translations
+  fixtures :all
 
   def setup
     @controller = TrackersController.new

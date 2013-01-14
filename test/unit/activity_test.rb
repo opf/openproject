@@ -14,8 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ActivityTest < ActiveSupport::TestCase
-  fixtures :projects, :versions, :attachments, :users, :roles, :members, :member_roles, :issues, :journals,
-           :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages
+  fixtures :all
 
   def setup
     @project = Project.find(1)

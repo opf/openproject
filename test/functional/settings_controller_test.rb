@@ -19,7 +19,7 @@ require 'settings_controller'
 class SettingsController; def rescue_action(e) raise e end; end
 
 class SettingsControllerTest < ActionController::TestCase
-  fixtures :users
+  fixtures :all
 
   def setup
     @controller = SettingsController.new

@@ -18,7 +18,7 @@ require 'repositories_controller'
 class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesFilesystemControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :repositories, :enabled_modules
+  fixtures :all
 
   # No '..' in the repository path
   REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'

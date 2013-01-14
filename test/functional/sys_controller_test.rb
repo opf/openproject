@@ -20,7 +20,7 @@ require 'mocha/setup'
 class SysController; def rescue_action(e) raise e end; end
 
 class SysControllerTest < ActionController::TestCase
-  fixtures :projects, :repositories, :enabled_modules
+  fixtures :all
 
   def setup
     @controller = SysController.new

@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryFilesystemTest < ActiveSupport::TestCase
-  fixtures :projects
+  fixtures :all
 
   # No '..' in the repository path
   REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'

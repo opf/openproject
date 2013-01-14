@@ -18,10 +18,7 @@ require 'queries_controller'
 class QueriesController; def rescue_action(e) raise e end; end
 
 class QueriesControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles,
-           :roles, :trackers, :issue_statuses, :issue_categories,
-           :enumerations, :issues,
-           :custom_fields, :custom_field_translations, :custom_values, :queries
+  fixtures :all
 
   def setup
     @controller = QueriesController.new

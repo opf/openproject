@@ -14,7 +14,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class News::CommentsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :news, :comments
+  fixtures :all
 
   def setup
     User.current = nil

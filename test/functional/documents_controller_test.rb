@@ -18,7 +18,7 @@ require 'documents_controller'
 class DocumentsController; def rescue_action(e) raise e end; end
 
 class DocumentsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :documents, :enumerations
+  fixtures :all
 
   def setup
     @controller = DocumentsController.new

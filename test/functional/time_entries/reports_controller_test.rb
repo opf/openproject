@@ -15,12 +15,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class TimeEntries::ReportsControllerTest < ActionController::TestCase
-  fixtures :projects, :enabled_modules, :roles,
-           :members, :member_roles, :issues,
-           :time_entries, :users, :trackers,
-           :enumerations, :issue_statuses,
-           :custom_fields, :custom_field_translations,
-           :custom_values
+  fixtures :all
 
   def test_report_at_project_level
     get :show, :project_id => 'ecookbook'

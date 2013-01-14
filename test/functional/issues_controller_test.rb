@@ -18,30 +18,7 @@ require 'issues_controller'
 class IssuesController; def rescue_action(e) raise e end; end
 
 class IssuesControllerTest < ActionController::TestCase
-  fixtures :projects,
-           :users,
-           :roles,
-           :members,
-           :member_roles,
-           :issues,
-           :issue_statuses,
-           :versions,
-           :trackers,
-           :projects_trackers,
-           :issue_categories,
-           :enabled_modules,
-           :enumerations,
-           :attachments,
-           :workflows,
-           :custom_fields,
-           :custom_field_translations,
-           :custom_values,
-           :custom_fields_projects,
-           :custom_fields_trackers,
-           :time_entries,
-           :journals,
-           :queries,
-           :watchers
+  fixtures :all
 
   def setup
     @controller = IssuesController.new

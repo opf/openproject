@@ -20,7 +20,7 @@ class IssueStatusesController; def rescue_action(e) raise e end; end
 
 
 class IssueStatusesControllerTest < ActionController::TestCase
-  fixtures :issue_statuses, :issues
+  fixtures :all
 
   def setup
     super

@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssuePriorityTest < ActiveSupport::TestCase
-  fixtures :enumerations, :issues
+  fixtures :all
 
   def test_should_be_an_enumeration
     assert IssuePriority.ancestors.include?(Enumeration)

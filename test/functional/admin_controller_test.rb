@@ -18,7 +18,7 @@ require 'admin_controller'
 class AdminController; def rescue_action(e) raise e end; end
 
 class AdminControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles
+  fixtures :all
 
   def setup
     @controller = AdminController.new
