@@ -14,6 +14,8 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
+  fixtures :all
+
   # Utility methods and classes so assert_select can be used.
   class GanttViewTest < ActionView::Base
     include ActionView::Helpers::UrlHelper
