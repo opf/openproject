@@ -229,7 +229,7 @@ class Repository < ActiveRecord::Base
 
   # scan changeset comments to find related and fixed issues for all repositories
   def self.scan_changesets_for_issue_ids
-    find(:all).each(&:scan_changesets_for_issue_ids)
+    all.each(&:scan_changesets_for_issue_ids)
   end
 
   def self.scm_name

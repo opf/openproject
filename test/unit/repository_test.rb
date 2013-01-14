@@ -14,21 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryTest < ActiveSupport::TestCase
-  fixtures :projects,
-           :trackers,
-           :projects_trackers,
-           :enabled_modules,
-           :repositories,
-           :issues,
-           :issue_statuses,
-           :issue_categories,
-           :changesets,
-           :changes,
-           :users,
-           :members,
-           :member_roles,
-           :roles,
-           :enumerations
+  fixtures :all
 
   def setup
     @repository = Project.find(1).repository
