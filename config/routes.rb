@@ -341,7 +341,7 @@ OpenProject::Application.routes.draw do
 
   # Install the default route as the lowest priority.
   match '/:controller(/:action(/:id))'
-  match '/robots.txt' => 'welcome#robots'
+  match '/robots' => 'welcome#robots', :defaults => { :format => :txt }
   # Used for OpenID
   root :to => 'account#login'
 end
