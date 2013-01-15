@@ -17,6 +17,8 @@ class WatcherTest < ActiveSupport::TestCase
   def setup
     @user  = FactoryGirl.create :user
     @issue = FactoryGirl.create :issue
+    @role  = FactoryGirl.create :role, :permissions => [:view_issues]
+    @issue.project.add_member! @user, @role
   end
 
   def test_add_watcher
@@ -65,17 +67,12 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_addable_watcher_users
-    view_issues_role = FactoryGirl.create :role, :permissions => [:view_issues]
-    @issue.project.add_member! @user, view_issues_role
-
     addable_watcher_users = @issue.addable_watcher_users
     assert_kind_of Array, addable_watcher_users
     assert_kind_of User, addable_watcher_users.first
   end
 
   def test_recipients
-    view_issues_role = FactoryGirl.create :role, :permissions => [:view_issues]
-    @issue.project.add_member! @user, view_issues_role
     @user.update_attribute :mail_notification, 'all'
 
     assert @issue.watcher_recipients.empty?
@@ -93,8 +90,6 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_prune_removes_watchers_that_dont_have_permission
-    view_issues_role = FactoryGirl.create :role, :permissions => [:view_issues]
-    @issue.project.add_member! @user, view_issues_role
     @issue.add_watcher(@user)
 
     assert_no_difference 'Watcher.count' do
