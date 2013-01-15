@@ -21,7 +21,9 @@ class WikisController < ApplicationController
     @wiki = @project.wiki || Wiki.new(:project => @project)
     @wiki.safe_attributes = params[:wiki]
     @wiki.save if request.post?
-    render(:update) {|page| page.replace_html "tab-content-wiki", :partial => 'projects/settings/wiki'}
+    # there's is no wiki anymore, see: opf/openproject/master#e375875
+    # render(:update) {|page| page.replace_html "tab-content-wiki", :partial => 'projects/settings/wiki'}
+    render :nothing => true
   end
 
   # Delete a project's wiki
