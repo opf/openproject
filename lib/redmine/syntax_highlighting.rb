@@ -35,9 +35,11 @@ module Redmine
       class << self
         # Highlights +text+ as the content of +filename+
         # Should not return line numbers nor outer pre tag
+        # use CodeRay to scan normal text, since it's smart enough to find
+        # the correct source encoding before passing it to ERB::Util.html_escape
         def highlight_by_filename(text, filename)
           language = ::CodeRay::FileType[filename]
-          language ? ::CodeRay.scan(text, language).html : ERB::Util.h(text)
+          language ? ::CodeRay.scan(text, language).html.html_safe : ERB::Util.h(::CodeRay.scan(text, :text).text)
         end
 
         # Highlights +text+ using +language+ syntax
