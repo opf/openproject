@@ -14,7 +14,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class LayoutTest < ActionController::IntegrationTest
+class LayoutTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   test "browsing to a missing page should render the base layout" do

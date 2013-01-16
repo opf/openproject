@@ -13,7 +13,7 @@
 #++
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::ProjectsTest < ActionController::IntegrationTest
+class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def setup

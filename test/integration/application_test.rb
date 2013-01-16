@@ -13,7 +13,7 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class ApplicationTest < ActionController::IntegrationTest
+class ApplicationTest < ActionDispatch::IntegrationTest
   include Redmine::I18n
 
   fixtures :all

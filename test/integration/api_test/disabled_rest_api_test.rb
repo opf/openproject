@@ -14,7 +14,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
+class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def setup

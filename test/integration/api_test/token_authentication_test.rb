@@ -14,7 +14,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::TokenAuthenticationTest < ActionController::IntegrationTest
+class ApiTest::TokenAuthenticationTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def setup
