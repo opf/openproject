@@ -47,7 +47,7 @@ class Watcher < ActiveRecord::Base
   end
 
   def validate_user_allowed_to_watch
-    return if user.blank?
+    return if user.blank? || watchable.blank?
     errors.add :user_id, :invalid unless user.in?(watchable.addable_watcher_users)
   end
 
