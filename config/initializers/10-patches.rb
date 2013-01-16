@@ -199,6 +199,47 @@ module ActionController
   end
 end
 
+# Fix for CVE-2013-0155
+# https://groups.google.com/d/msg/rubyonrails-security/kKGNeMrnmiY/r2yM7xy-G48J
+# TODO: Remove this once we are on Rails >= 3.2.11
+module ActiveRecord
+  class Base
+    class << self
+    protected
+      def self.sanitize_sql_hash_for_conditions(attrs, default_table_name = quoted_table_name, top_level = true)
+        attrs = expand_hash_conditions_for_aggregates(attrs)
+
+        return '1 = 2' if !top_level && attrs.is_a?(Hash) && attrs.empty?
+
+        conditions = attrs.map do |attr, value|
+          table_name = default_table_name
+
+          if not value.is_a?(Hash)
+            attr = attr.to_s
+
+            # Extract table name from qualified attribute names.
+            if attr.include?('.') and top_level
+              attr_table_name, attr = attr.split('.', 2)
+              attr_table_name = connection.quote_table_name(attr_table_name)
+            else
+              attr_table_name = table_name
+            end
+
+            attribute_condition("#{attr_table_name}.#{connection.quote_column_name(attr)}", value)
+          elsif top_level
+            sanitize_sql_hash_for_conditions(value, connection.quote_table_name(attr.to_s), false)
+          else
+            raise ActiveRecord::StatementInvalid
+          end
+        end.join(' AND ')
+
+        replace_bind_variables(conditions, expand_range_bind_variables(attrs.values))
+      end
+      alias_method :sanitize_sql_hash, :sanitize_sql_hash_for_conditions
+    end
+  end
+end
+
 # Backported fix for CVE-2012-3465
 # https://groups.google.com/d/msg/rubyonrails-security/FgVEtBajcTY/tYLS1JJTu38J
 # TODO: Remove this once we are on Rails >= 3.2.8
