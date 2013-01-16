@@ -14,15 +14,17 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class ThemesTest < ActionDispatch::IntegrationTest
+  include MiniTest::Assertions
+
   fixtures :all
 
   def setup
-    @theme = Redmine::Themes.last
-    Setting.ui_theme = @theme.id
+    @theme = Redmine::Themes.default_theme
+    Setting.ui_theme = @theme.identifier
   end
 
   def teardown
-    Setting.ui_theme = ''
+    Setting.ui_theme = nil
   end
 
   def test_application_css
@@ -30,40 +32,46 @@ class ThemesTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_tag :tag => 'link',
-      :attributes => {:href => %r{^/themes/#{@theme.dir}/stylesheets/application.css}}
+      :attributes => {:href => '/assets/default.css'}
   end
 
   def test_without_theme_js
+    pending "no custom javascript for themes currently"
+
     get '/'
 
     assert_response :success
     assert_no_tag :tag => 'script',
-      :attributes => {:src => %r{^/themes/#{@theme.dir}/javascripts/theme.js}}
+      :attributes => {:src => '/assets/default.js'}
   end
 
   def test_with_theme_js
+    pending "no custom javascript for themes currently"
+
     # Simulates a theme.js
     @theme.javascripts << 'theme'
     get '/'
 
     assert_response :success
     assert_tag :tag => 'script',
-      :attributes => {:src => %r{^/themes/#{@theme.dir}/javascripts/theme.js}}
+      :attributes => {:src => '/assets/default.js'}
 
   ensure
-    @theme.javascripts.delete 'theme'
+    # @theme.javascripts.delete 'theme'
   end
 
   def test_with_sub_uri
+    pending "no relative url root for themes currently"
+
     Redmine::Utils.relative_url_root = '/foo'
     @theme.javascripts << 'theme'
     get '/'
 
     assert_response :success
     assert_tag :tag => 'link',
-      :attributes => {:href => %r{^/foo/themes/#{@theme.dir}/stylesheets/application.css}}
+      :attributes => {:src => '/foo/assets/default.js'}
     assert_tag :tag => 'script',
-      :attributes => {:src => %r{^/foo/themes/#{@theme.dir}/javascripts/theme.js}}
+      :attributes => {:src => '/foo/assets/default.js'}
 
   ensure
     Redmine::Utils.relative_url_root = ''
