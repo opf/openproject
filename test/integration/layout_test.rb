@@ -50,15 +50,6 @@ class LayoutTest < ActionDispatch::IntegrationTest
     end
   end
 
-  def test_wiki_formatter_header_tags
-    Role.anonymous.add_permission! :add_issues
-
-    get '/projects/ecookbook/issues/new'
-    assert_tag :script,
-      :attributes => {:src => %r{^/assets/jstoolbar/textile.js}},
-      :parent => {:tag => 'head'}
-  end
-
   test "page titles should be properly escaped" do
     project = Project.generate(:name => "C&A")
 
