@@ -39,7 +39,7 @@ module Redmine
 
         def new_theme(identifier = nil)
           theme = Class.new(self).instance
-          theme.identifier = identifier if identifier
+          theme.identifier = identifier
           theme
         end
 
@@ -50,7 +50,7 @@ module Redmine
 
         def registered_themes
           @_registered_themes ||= \
-            each_with_object(Hash.new) do |theme, themes|
+            themes.each_with_object(Hash.new) do |theme, themes|
               themes[theme.identifier] = theme
             end
         end
@@ -68,7 +68,7 @@ module Redmine
           Theme.abstract_themes << self
 
           # undefine methods responsible for creating instances
-          singleton_class.send :remove_method, :new, :allocate, :instance
+          singleton_class.send :remove_method, *[:new, :allocate, :instance]
         end
 
         def abstract?
@@ -114,13 +114,13 @@ module Redmine
         @overridden_images ||= \
           begin
             Dir.chdir(overridden_images_path) { Dir.glob('**/*') }
-          rescue Errno::ENOENT # overridden_images_path not there
+          rescue Errno::ENOENT # overridden_images_path missing
             []
           end.to_set
       end
 
       def image_overridden?(source)
-        overridden_images.include?(source)
+        source.in?(overridden_images)
       end
 
       URI_REGEXP = %r{^[-a-z]+://|^(?:cid|data):|^//}
@@ -130,7 +130,7 @@ module Redmine
         return source if source[0] == ?/
 
         if image_overridden?(source)
-          "#{assets_prefix}/#{source}"
+          File.join(assets_prefix, source)
         else
           source
         end
