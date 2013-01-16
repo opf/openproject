@@ -38,6 +38,7 @@ jQuery(document).ready(function($) {
           }
 
           $(fakeInput).select2({
+            multiple: fakeInput.attr("multiple"),
             minimumInputLength: 1,
             ajax: {
                 url: $(fakeInput).attr("data-ajaxURL"),

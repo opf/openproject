@@ -36,7 +36,7 @@ JS
           render(:update) {|page|
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
             page.insert_html :top, "tab-content-members", render_flash_messages
-                                                         
+
             page << TAB_SCRIPTS
           }
         }
@@ -128,13 +128,13 @@ JS
 
     attrs = params[:member].dup
     user_ids = if attrs[:user_ids].present?
-                 attrs.delete(:user_ids)
+                 transform_array_of_comma_seperated_ids(attrs.delete(:user_ids))
                elsif attrs[:user_id].present?
                  [attrs.delete(:user_id)]
                else
                  []
                end
-    roles = Role.find_all_by_id(attrs.delete(:role_ids))
+    roles = Role.find_all_by_id(transform_array_of_comma_seperated_ids(attrs.delete(:role_ids)))
 
     user_ids.each do |user_id|
       member = Member.new attrs
@@ -145,6 +145,21 @@ JS
     end
 
     members
+  end
+
+  def each_comma_seperated(array, &block)
+    array.each do |elem|
+      if elem.to_s.match /\d(,\d)*/
+        array += block.call(array.delete(elem))
+      end
+    end
+    return array
+  end
+
+  def transform_array_of_comma_seperated_ids(array)
+    each_comma_seperated(array) do |elem|
+      elem.split(",").map(&:to_i)
+    end
   end
 
   def update_member_from_params
