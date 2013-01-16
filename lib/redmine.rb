@@ -64,7 +64,7 @@ Redmine::AccessControl.map do |map|
   map.permission :add_project, {:projects => [:new, :create]}, :require => :loggedin
   map.permission :edit_project, {:projects => [:settings, :edit, :update]}, :require => :member
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
-  map.permission :manage_members, {:projects => :settings, :members => [:create, :update, :destroy, :autocomplete]}, :require => :member
+  map.permission :manage_members, {:projects => :settings, :members => [:create, :update, :destroy, :autocomplete_for_member]}, :require => :member
   map.permission :manage_versions, {:projects => :settings, :versions => [:new, :create, :edit, :update, :close_completed, :destroy]}, :require => :member
   map.permission :add_subprojects, {:projects => [:new, :create]}, :require => :member
 
