@@ -58,7 +58,6 @@ class MyController < ApplicationController
         set_language_if_valid @user.language
         flash[:notice] = l(:notice_account_updated)
         redirect_to :action => 'account'
-        return
       end
     end
   end
