@@ -35,9 +35,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
       :attributes => {:href => '/assets/default.css'}
   end
 
-  def test_without_theme_js
-    pending "no custom javascript for themes currently"
-
+  should_eventually 'test_without_theme_js' do
     get '/'
 
     assert_response :success
@@ -45,35 +43,33 @@ class ThemesTest < ActionDispatch::IntegrationTest
       :attributes => {:src => '/assets/default.js'}
   end
 
-  def test_with_theme_js
-    pending "no custom javascript for themes currently"
+  should_eventually 'test_with_theme_js' do
+    begin
+      # Simulates a theme.js
+      @theme.javascripts << 'theme'
+      get '/'
 
-    # Simulates a theme.js
-    @theme.javascripts << 'theme'
-    get '/'
-
-    assert_response :success
-    assert_tag :tag => 'script',
-      :attributes => {:src => '/assets/default.js'}
-
-  ensure
-    # @theme.javascripts.delete 'theme'
+      assert_response :success
+      assert_tag :tag => 'script',
+        :attributes => {:src => '/assets/default.js'}
+    ensure
+      @theme.javascripts.delete 'theme'
+    end
   end
 
-  def test_with_sub_uri
-    pending "no relative url root for themes currently"
+  should_eventually 'test_with_sub_uri' do
+    begin
+      Redmine::Utils.relative_url_root = '/foo'
+      @theme.javascripts << 'theme'
+      get '/'
 
-    Redmine::Utils.relative_url_root = '/foo'
-    @theme.javascripts << 'theme'
-    get '/'
-
-    assert_response :success
-    assert_tag :tag => 'link',
-      :attributes => {:src => '/foo/assets/default.js'}
-    assert_tag :tag => 'script',
-      :attributes => {:src => '/foo/assets/default.js'}
-
-  ensure
-    Redmine::Utils.relative_url_root = ''
+      assert_response :success
+      assert_tag :tag => 'link',
+        :attributes => {:src => '/foo/assets/default.js'}
+      assert_tag :tag => 'script',
+        :attributes => {:src => '/foo/assets/default.js'}
+    ensure
+      Redmine::Utils.relative_url_root = ''
+    end
   end
 end
