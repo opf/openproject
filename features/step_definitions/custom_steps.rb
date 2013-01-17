@@ -83,12 +83,7 @@ Then /^filter "([^\"]*)" should (not )?be visible$/ do |filter, negative|
 end
 
 Then /^(?:|I )should( not)? see "([^\"]*)" in (columns|rows)$/ do |negation, text, axis|
-  elements = find_by_id("group_by_#{axis}").all("span")
-  assert(if negation
-           elements.all? { |e| e.has_no_content?(text) }
-         else
-           elements.any? { |e| e.has_content?(text) }
-         end)
+  steps %Q{ Then I should#{negation} see "#{text}" within "#group_by_#{axis} span" }
 end
 
 Given /^I group (rows|columns) by "([^\"]*)"/ do |target, group|
