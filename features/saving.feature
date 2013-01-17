@@ -13,7 +13,7 @@ Feature: Saving Queries
       | view_time_entries         |
       | save_cost_reports         |
       | save_private_cost_reports |
-    And I am logged in as "controller"
+    And I am already logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
     Then I should see "Save" within "#query-icon-save-as" # Save
     And I click on "Clear"
@@ -43,7 +43,7 @@ Feature: Saving Queries
       | view_time_entries         |
       | save_cost_reports         |
       | save_private_cost_reports |
-    And I am logged in as "controller"
+    And I am already logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
     Then I should see "Save" within "#query-icon-save-as" # Save
     And I click on "Clear"
@@ -68,7 +68,7 @@ Feature: Saving Queries
     And the role "Testuser" may have the following rights:
       | view_hourly_rates        |
       | view_time_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the Cost Reports page for the project called "Permission_Test"
     Then I should not see "Save" within ".buttons"
 
@@ -79,7 +79,7 @@ Feature: Saving Queries
       | view_hourly_rates         |
       | view_time_entries         |
       | save_private_cost_reports |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the Cost Reports page for the project called "Permission_Test"
     Then I should see "Save" within "#query-icon-save-as" # Save
     And I click on "Save"
@@ -97,7 +97,7 @@ Feature: Saving Queries
       | view_hourly_rates |
       | view_time_entries |
       | save_cost_reports |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the Cost Reports page for the project called "Permission_Test"
     Then I should see "Save" within "#query-icon-save-as" # Save
     And I click on "Save"
@@ -125,7 +125,7 @@ Feature: Saving Queries
       | view_hourly_rates |
       | view_time_entries |
       | save_cost_reports |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the Cost Reports page for the project called "Permission_Test"
     And I click on "Save"
     And I fill in "Testreport" for "query_name"
@@ -146,7 +146,7 @@ Feature: Saving Queries
       | view_hourly_rates |
       | view_time_entries |
       | save_cost_reports |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the Cost Reports page for the project called "Permission_Test"
     And I click on "Save"
     And I fill in "Testreport" for "query_name"

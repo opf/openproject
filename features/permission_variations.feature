@@ -22,7 +22,7 @@ Feature: Permissions
 
   Scenario: Admin sees everything
     Given there is a standard permission test project named "Permission_Test"
-    And I am admin
+    And I am already logged in as "admin"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -46,7 +46,7 @@ Feature: Permissions
       | view_own_cost_entries    |
       | view_cost_entries        |
       | view_time_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -64,7 +64,7 @@ Feature: Permissions
     Given there is a standard permission test project named "Permission_Test"
     And the role "Testuser" may have the following rights:
       | none                     |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "403" # permission denied
 
@@ -72,7 +72,7 @@ Feature: Permissions
     Given there is a standard permission test project named "Permission_Test"
     And the role "Testuser" may have the following rights:
       | view_own_cost_entries    |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -90,7 +90,7 @@ Feature: Permissions
     Given there is a standard permission test project named "Permission_Test"
     And the role "Testuser" may have the following rights:
       | view_cost_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -108,7 +108,7 @@ Feature: Permissions
     Given there is a standard permission test project named "Permission_Test"
     And the role "Testuser" may have the following rights:
       | view_own_time_entries    |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -126,7 +126,7 @@ Feature: Permissions
     Given there is a standard permission test project named "Permission_Test"
     And the role "Testuser" may have the following rights:
       | view_time_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -145,7 +145,7 @@ Feature: Permissions
     And the role "Testuser" may have the following rights:
       | view_own_time_entries    |
       | view_own_cost_entries    |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -164,7 +164,7 @@ Feature: Permissions
     And the role "Testuser" may have the following rights:
       | view_own_time_entries    |
       | view_cost_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -183,7 +183,7 @@ Feature: Permissions
     And the role "Testuser" may have the following rights:
       | view_own_cost_entries    |
       | view_time_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -202,7 +202,7 @@ Feature: Permissions
     And the role "Testuser" may have the following rights:
       | view_cost_entries        |
       | view_time_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -220,7 +220,7 @@ Feature: Permissions
     Given there is a standard permission test project named "Permission_Test"
     And the role "Testuser" may have the following rights:
       | view_own_hourly_rate     |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "403" # access denied
 
@@ -229,7 +229,7 @@ Feature: Permissions
     And the role "Testuser" may have the following rights:
       | view_own_hourly_rate     |
       | view_own_cost_entries    |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -248,7 +248,7 @@ Feature: Permissions
     And the role "Testuser" may have the following rights:
       | view_own_hourly_rate     |
       | view_cost_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -267,7 +267,7 @@ Feature: Permissions
     And the role "Testuser" may have the following rights:
       | view_own_hourly_rate     |
       | view_own_time_entries    |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -287,7 +287,7 @@ Feature: Permissions
       | view_own_hourly_rate     |
       | view_own_time_entries    |
       | view_own_cost_entries    |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -307,7 +307,7 @@ Feature: Permissions
       | view_own_hourly_rate     |
       | view_own_time_entries    |
       | view_cost_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -326,7 +326,7 @@ Feature: Permissions
     And the role "Testuser" may have the following rights:
       | view_own_hourly_rate     |
       | view_time_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -346,7 +346,7 @@ Feature: Permissions
       | view_own_hourly_rate     |
       | view_own_cost_entries    |
       | view_time_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -367,7 +367,7 @@ Feature: Permissions
       | view_own_hourly_rate     |
       | view_cost_entries        |
       | view_time_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -386,7 +386,7 @@ Feature: Permissions
     And the role "Testuser" may have the following rights:
       | view_hourly_rates        |
       | view_cost_rates          |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "403" #access denied
 
@@ -396,7 +396,7 @@ Feature: Permissions
       | view_hourly_rates        |
       | view_cost_rates          |
       | view_own_cost_entries    |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -416,7 +416,7 @@ Feature: Permissions
       | view_hourly_rates        |
       | view_cost_rates          |
       | view_cost_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -436,7 +436,7 @@ Feature: Permissions
       | view_hourly_rates        |
       | view_cost_rates          |
       | view_own_time_entries    |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -457,7 +457,7 @@ Feature: Permissions
       | view_cost_rates          |
       | view_own_time_entries    |
       | view_own_cost_entries    |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -478,7 +478,7 @@ Feature: Permissions
       | view_cost_rates          |
       | view_own_time_entries    |
       | view_cost_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -498,7 +498,7 @@ Feature: Permissions
       | view_hourly_rates        |
       | view_cost_rates          |
       | view_time_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
@@ -519,7 +519,7 @@ Feature: Permissions
       | view_cost_rates          |
       | view_own_cost_entries    |
       | view_time_entries        |
-    And I am logged in as "testuser"
+    And I am already logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
     And I should not see "No data to display"
