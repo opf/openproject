@@ -17,27 +17,28 @@ class ProjectsHelperTest < HelperTestCase
   include ApplicationHelper
   include ProjectsHelper
 
-  fixtures :all
-
   def setup
     super
     set_language_if_valid('en')
     User.current = nil
+    @test_project = FactoryGirl.create :valid_project
+    @user = FactoryGirl.create :user, :member_in_project => @test_project
+    @version = FactoryGirl.create :version, :project => @test_project
   end
 
   def test_link_to_version_within_project
-    @project = Project.find(2)
-    User.current = User.find(1)
-    assert_equal '<a href="/versions/5">Alpha</a>', link_to_version(Version.find(5))
+    User.current = @user
+    @project = @test_project
+    assert_equal "<a href=\"/versions/#{@version.id}\">#{@version.name}</a>", link_to_version(@version)
   end
 
   def test_link_to_version
-    User.current = User.find(1)
-    assert_equal '<a href="/versions/5">OnlineStore - Alpha</a>', link_to_version(Version.find(5))
+    User.current = @user
+    assert_equal "<a href=\"/versions/#{@version.id}\">#{@test_project.name} - #{@version.name}</a>", link_to_version(@version)
   end
 
   def test_link_to_private_version
-    assert_equal 'OnlineStore - Alpha', link_to_version(Version.find(5))
+    assert_equal "#{@test_project.name} - #{@version.name}", link_to_version(@version)
   end
 
   def test_link_to_version_invalid_version
@@ -45,20 +46,21 @@ class ProjectsHelperTest < HelperTestCase
   end
 
   def test_format_version_name_within_project
-    @project = Project.find(1)
-    assert_equal "0.1", format_version_name(Version.find(1))
+    @project = @test_project
+    assert_equal @version.name, format_version_name(@version)
   end
 
   def test_format_version_name
-    assert_equal "eCookbook - 0.1", format_version_name(Version.find(1))
+    assert_equal "#{@test_project.name} - #{@version.name}", format_version_name(@version)
   end
 
   def test_format_version_name_for_system_version
-    assert_equal "OnlineStore - Systemwide visible version", format_version_name(Version.find(7))
+    version = FactoryGirl.create :version, :project => @test_project, :sharing => 'system'
+    assert_equal "#{@test_project.name} - #{version.name}", format_version_name(version)
   end
 
   def test_version_options_for_select_with_no_versions
     assert_equal '', version_options_for_select([])
-    assert_equal '<option value="1" selected="selected">0.1</option>', version_options_for_select([], Version.find(1))
+    assert_equal "<option value=\"#{@version.id}\" selected=\"selected\">#{@version.name}</option>", version_options_for_select([], @version)
   end
 end
