@@ -6,8 +6,7 @@ messages_001:
   id: 1
   replies_count: 2
   last_reply_id: 3
-  content: "This is the very first post\n\
-    in the forum"
+  content: "This is the very first post\n\nin the forum"
   author_id: 1
   parent_id:
   board_id: 1
