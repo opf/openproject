@@ -16,13 +16,12 @@ require File.expand_path('../../test_helper', __FILE__)
 class CustomFieldUserFormatTest < ActiveSupport::TestCase
   def setup
     @project = FactoryGirl.create :valid_project
-    role = FactoryGirl.create :role, :permissions => [:view_issues, :edit_issues]
-    @users = []
-    5.times do
-      @users << (user = FactoryGirl.create(:user))
-      @project.add_member! user, role
-      @issue = FactoryGirl.create :issue, :project => @project, :author => user, :tracker => @project.trackers.first
-    end
+    role   = FactoryGirl.create :role, :permissions => [:view_issues, :edit_issues]
+    @users = FactoryGirl.create_list(:user, 5, :project => @project, :role => role)
+    @issue = FactoryGirl.create :issue,
+        :project => @project,
+        :author => @users.first,
+        :tracker => @project.trackers.first
     @field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user')
   end
 

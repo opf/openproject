@@ -16,10 +16,8 @@ require File.expand_path('../../test_helper', __FILE__)
 class JournalObserverTest < ActiveSupport::TestCase
   def setup
     super
-    @user = FactoryGirl.create :user, :mail_notification => 'all'
     @project = FactoryGirl.create :valid_project
-    role = FactoryGirl.create :role, :permissions => [:view_issues, :edit_issues]
-    @project.add_member! @user, role
+    @user = FactoryGirl.create :user, :mail_notification => 'all', :project => @project
     @issue = FactoryGirl.create :issue, :project => @project, :author => @user, :tracker => @project.trackers.first
     ActionMailer::Base.deliveries.clear
   end
