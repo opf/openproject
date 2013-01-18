@@ -219,17 +219,17 @@ class MailHandler < ActionMailer::Base
   end
 
   def get_keyword(attr, options={})
-    attr = attr.to_s
-
     @keywords ||= {}
+
     if @keywords.has_key?(attr)
       @keywords[attr]
     else
       @keywords[attr] = begin
-        if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) && (v = extract_keyword!(plain_text_body, attr, options[:format]))
+        if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) &&
+           (v = extract_keyword!(plain_text_body, attr, options[:format]))
           v
-        elsif !@@handler_options[:issue][attr].blank?
-          @@handler_options[:issue][attr]
+        elsif !@@handler_options[:issue][attr.to_s].blank?
+          @@handler_options[:issue][attr.to_s]
         end
       end
     end
