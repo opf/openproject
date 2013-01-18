@@ -90,6 +90,42 @@ module ActiveRecord
     def self.human_attribute_name(attr)
       l("field_#{attr.to_s.gsub(/_id$/, '')}")
     end
+
+    # Backported fix for
+    # CVE-2013-0155
+    # https://groups.google.com/forum/?hl=en&fromgroups=#!topic/rubyonrails-security/c7jT-EeN9eI
+    protected
+    class << self
+      def sanitize_sql_hash_for_conditions(attrs, default_table_name = quoted_table_name, top_level = true)
+        attrs = expand_hash_conditions_for_aggregates(attrs)
+
+        return '1 = 2' if !top_level && attrs.is_a?(Hash) && attrs.empty?
+
+        conditions = attrs.map do |attr, value|
+          table_name = default_table_name
+
+          if not value.is_a?(Hash)
+            attr = attr.to_s
+
+            # Extract table name from qualified attribute names.
+            if attr.include?('.') and top_level
+              attr_table_name, attr = attr.split('.', 2)
+              attr_table_name = connection.quote_table_name(attr_table_name)
+            else
+              attr_table_name = table_name
+            end
+
+            attribute_condition("#{attr_table_name}.#{connection.quote_column_name(attr)}", value)
+          elsif top_level
+            sanitize_sql_hash_for_conditions(value, connection.quote_table_name(attr.to_s), false)
+          else
+            raise ActiveRecord::StatementInvalid
+          end
+        end.join(' AND ')
+
+        replace_bind_variables(conditions, expand_range_bind_variables(attrs.values))
+      end
+    end
   end
 end
 
