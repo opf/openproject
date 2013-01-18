@@ -23,7 +23,7 @@ class ApplicationHelperTest < ActionView::TestCase
     @anonymous = FactoryGirl.create :anonymous
     @non_member = FactoryGirl.create :user
     @project_member = FactoryGirl.create :user,
-      :project => @project,
+      :member_in_project => @project,
       :role => FactoryGirl.create(:role, :permissions => [:view_issues, :edit_issues, :view_documents,
                                                           :browse_repository, :view_changesets, :view_wiki_pages])
 

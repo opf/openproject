@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :user do
     ignore do
-        project nil
-        projects []
-        role nil
+        member_in_project nil
+        member_in_projects nil
+        member_through_role nil
     end
     firstname 'Bob'
     lastname 'Bobbit'
@@ -20,12 +20,13 @@ FactoryGirl.define do
     first_login false if User.columns.map(&:name).include? 'first_login'
 
     after(:create) do |user, evaluator|
-      evaluator.projects << evaluator.project if evaluator.project
-      if !evaluator.projects.empty?
-        role = evaluator.role || FactoryGirl.create(:role, :permissions => [:view_issues, :edit_issues])
-        evaluator.projects.each do |project|
-          if project
-            project.add_member! user, role
+      (projects = evaluator.member_in_projects || [])
+      projects << evaluator.member_in_project if evaluator.member_in_project
+      if !projects.empty?
+        role = evaluator.member_through_role || FactoryGirl.build(:role, :permissions => [:view_issues, :edit_issues])
+        projects.each do |p|
+          if p
+            p.add_member! user, role
           end
         end
       end
