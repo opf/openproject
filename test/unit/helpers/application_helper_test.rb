@@ -46,12 +46,25 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   context "#link_to_if_authorized" do
-    context "authorized user" do
-      should "be tested"
+    should "create a link for an authorized user" do
+      User.current = @project_member
+      response = link_to_if_authorized('link_content', {
+          :controller => 'issues',
+          :action => 'show',
+          :id => @issue },
+        :class => 'fancy_css_class')
+      assert_match(/href/, response)
+      assert_match(/fancy_css_class/, response)
     end
 
-    context "unauthorized user" do
-      should "be tested"
+    should "shouldn't create a link for an unauthorized user" do
+      User.current = @non_member
+      response = link_to_if_authorized 'link_content', {
+          :controller => 'issues',
+          :action => 'show',
+          :id => @issue },
+        :class => 'fancy_css_class'
+      assert_nil response
     end
 
     should "allow using the :controller and :action for the target link" do
