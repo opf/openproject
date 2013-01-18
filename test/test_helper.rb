@@ -62,6 +62,8 @@ class ActiveSupport::TestCase
   def setup
     super
     Rails.cache.clear
+    FactoryGirl.create :issue if Issue.count == 0 # some tests use Issue.last
+    FactoryGirl.create :anonymous unless User.anonymous # some tests use User.anonymous
   end
 
   def log_user(login, password)

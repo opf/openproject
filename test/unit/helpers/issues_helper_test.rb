@@ -18,7 +18,6 @@ class IssuesHelperTest < HelperTestCase
   include IssuesHelper
 
   include ActionDispatch::Assertions::SelectorAssertions
-  fixtures :all
 
   # Used by assert_select
   def html_document
