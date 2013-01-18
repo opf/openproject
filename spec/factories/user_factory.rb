@@ -45,9 +45,7 @@ FactoryGirl.define do
   end
 
   factory :anonymous, :class => AnonymousUser do
-    lastname "Anonymous"
-    firstname ""
-    status User::STATUS_BUILTIN
+    initialize_with { User.anonymous }
   end
 
   factory :deleted_user do

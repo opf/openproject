@@ -62,8 +62,6 @@ class ActiveSupport::TestCase
   def setup
     super
     Rails.cache.clear
-    FactoryGirl.create :issue if Issue.count == 0 # some tests use Issue.last
-    FactoryGirl.create :anonymous unless User.anonymous # some tests use User.anonymous
   end
 
   def log_user(login, password)
@@ -197,6 +195,7 @@ class ActiveSupport::TestCase
   def self.should_show_the_old_and_new_values_for(prop_key, model, &block)
     context "" do
       setup do
+        FactoryGirl.create :issue if Issue.count == 0 # some tests use Issue.last
         if block_given?
           instance_eval &block
         else
