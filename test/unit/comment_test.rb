@@ -70,7 +70,7 @@ class CommentTest < ActiveSupport::TestCase
     # news needs a project in order to be notified
     # see Redmine::Acts::Journalized::Deprecated#recipients
     project = FactoryGirl.create(:project)
-    user = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user, :project => project)
     # author is automatically added as watcher
     # this makes #user to receive a notification
     news = FactoryGirl.create(:news, :project => project, :author => user)
