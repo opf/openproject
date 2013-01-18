@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :user do
     ignore do
         project nil
+        projects []
         role nil
     end
     firstname 'Bob'
@@ -19,9 +20,12 @@ FactoryGirl.define do
     first_login false if User.columns.map(&:name).include? 'first_login'
 
     after(:create) do |user, evaluator|
-      if evaluator.project and evaluator.project.is_a? Project
-        role = evaluator.role || FactoryGirl.create(:role, :permissions => [:view_issues, :edit_issues])
-        evaluator.project.add_member! user, role
+      role = evaluator.role || FactoryGirl.create(:role, :permissions => [:view_issues, :edit_issues])
+      evaluator.projects << evaluator.project if evaluator.project
+      evaluator.projects.each do |project|
+        if project
+          project.add_member! user, role
+        end
       end
     end
   end
