@@ -193,7 +193,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
                  :child => { :tag => 'li',
                              # link to the entry at rev 2
                              :child => { :tag => 'a',
-                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo'},
+                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/raw/test/some/path/in/the/repo'},
                                          :content => 'repo',
                                          # link to partial diff
                                          :sibling =>  { :tag => 'a',
@@ -240,7 +240,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
                  :child => { :tag => 'li',
                              # link to the entry at rev 2
                              :child => { :tag => 'a',
-                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/path/in/the/repo'},
+                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/raw/path/in/the/repo'},
                                          :content => 'repo',
                                          # link to partial diff
                                          :sibling =>  { :tag => 'a',

@@ -475,7 +475,7 @@ class ProjectsControllerTest < ActionController::TestCase
   def test_hook_response
     Redmine::Hook.add_listener(ProjectBasedTemplate)
     get :show, :id => 1
-    assert_tag :tag => 'link', :attributes => {:href => '/stylesheets/ecookbook.css'},
+    assert_tag :tag => 'link', :attributes => {:href => '/assets/ecookbook.css'},
                                :parent => {:tag => 'head'}
 
     Redmine::Hook.clear_listeners

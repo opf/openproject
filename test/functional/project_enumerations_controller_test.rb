@@ -134,17 +134,17 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     # TODO: Need to cause an exception on create but these tests
     # aren't setup for mocking.  Just create a record now so the
     # second one is a duplicate
-    parent = TimeEntryActivity.find(9)
+    # parent = TimeEntryActivity.find(9)
     parent = TimeEntryActivity.new
-    parent.force_attribute = { :name => parent.name, :project_id => 1, :position => parent.position, :active => true }
+    parent.force_attributes = { :name => parent.name, :project_id => 1, :position => parent.position, :active => true }
     parent.save(:validate => false)
 
-    TimeEntry.create!({ :project_id => 1,
-                        :hours => 1.0,
-                        :user => User.find(1),
-                        :issue_id => 3,
-                        :activity_id => 10,
-                        :spent_on => '2009-01-01' })
+    project = Project.find(1)
+    project.time_entries.create!(:hours => 1.0,
+                                 :user => User.find(1),
+                                 :issue_id => 3,
+                                 :activity_id => 10,
+                                 :spent_on => '2009-01-01')
 
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
     assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size

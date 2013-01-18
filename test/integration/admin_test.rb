@@ -13,7 +13,7 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class AdminTest < ActionController::IntegrationTest
+class AdminTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def test_add_user

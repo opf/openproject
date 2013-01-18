@@ -86,7 +86,7 @@ module Redmine
       include ActionView::Helpers::JavaScriptHelper
       include ActionView::Helpers::NumberHelper
       include ActionView::Helpers::UrlHelper
-      include ActionView::Helpers::AssetTagHelper
+      include Sprockets::Helpers::RailsHelper
       include ActionView::Helpers::TextHelper
       include Rails.application.routes.url_helpers
       include ApplicationHelper

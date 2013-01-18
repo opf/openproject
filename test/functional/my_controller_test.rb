@@ -60,7 +60,7 @@ class MyControllerTest < ActionController::TestCase
   end
 
   def test_update_account
-    post :account,
+    put :account,
       :user => {
         :firstname => "Joe",
         :login => "root", # should not be allowed

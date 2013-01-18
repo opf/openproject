@@ -230,8 +230,8 @@ class WikiControllerTest < ActionController::TestCase
     get :diff, :project_id => 1, :id => 'CookBook_documentation', :version => 2, :version_from => 1
     assert_response :success
     assert_template 'diff'
-    assert_tag :tag => 'span', :attributes => { :class => 'diff_in'},
-                               :content => /updated/
+    assert_tag :tag => 'ins', :attributes => { :class => 'diffins'},
+                              :content => /updated/
   end
 
   def test_annotate

@@ -14,7 +14,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class LayoutTest < ActionController::IntegrationTest
+class LayoutTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   test "browsing to a missing page should render the base layout" do
@@ -48,15 +48,6 @@ class LayoutTest < ActionController::IntegrationTest
       get '/'
       assert_select "#account-nav"
     end
-  end
-
-  def test_wiki_formatter_header_tags
-    Role.anonymous.add_permission! :add_issues
-
-    get '/projects/ecookbook/issues/new'
-    assert_tag :script,
-      :attributes => {:src => %r{^/assets/jstoolbar/textile.js}},
-      :parent => {:tag => 'head'}
   end
 
   test "page titles should be properly escaped" do

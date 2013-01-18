@@ -20,10 +20,6 @@ class WelcomeController < ApplicationController
 
   def robots
     @projects = Project.active.public
-
-    respond_to do |format|
-      format.text # { render :layout => false }
-    end
   end
   caches_action :robots
 end

@@ -9,8 +9,11 @@
 <%= favicon_link_tag 'favicon.ico' %>
 <%= stylesheet_link_tag current_theme.stylesheet_manifest %>
 <%= javascript_include_tag 'application' %>
+<!-- user specific tags -->
 <%= user_specific_javascript_includes %>
-<!-- aditional headers -->
+<!-- project specific tags -->
+<%= call_hook :view_layouts_base_html_head %>
+<!-- page specific tags -->
 <%= content_for(:header_tags) if content_for?(:header_tags) %>
 </head>
 <noscript><%=l(:description_noscript)%></noscript>

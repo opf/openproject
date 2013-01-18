@@ -1,9 +1,9 @@
 User-agent: *
-<% @projects.each do |project| -%>
-Disallow: <%= project_repository_path(project) %>
-Disallow: <%= project_issues_path(project)     %>
-Disallow: <%= project_activity_path(project)   %>
+<% @projects.each do |p| -%>
+Disallow: /projects/<%= p.to_param %>/repository
+Disallow: /projects/<%= p.to_param %>/issues
+Disallow: /projects/<%= p.to_param %>/activity
 <% end -%>
-Disallow: <%= issues_gantt_path    %>
-Disallow: <%= issues_calendar_path %>
-Disallow: <%= activity_path        %>
+Disallow: /issues/gantt
+Disallow: /issues/calendar
+Disallow: /activity

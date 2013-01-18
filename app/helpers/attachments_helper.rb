@@ -26,17 +26,10 @@ module AttachmentsHelper
   end
 
   def to_utf8_for_attachments(str)
-    if str.respond_to?(:force_encoding)
-      str.force_encoding('UTF-8')
-      return str if str.valid_encoding?
-    else
-      return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
-    end
+    forced_str = str.dup
+    forced_str.force_encoding('UTF-8')
+    return forced_str if forced_str.valid_encoding?
 
-    begin
-      (str + '  ').encode("UTF-8", :invalid => :replace, :undef => :replace, :replace => "?")[0..-3]
-    rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
-      str
-    end
+    str.encode('UTF-8', :invalid => :replace, :undef => :replace, :replace => '') # better :replace => '?'
   end
 end

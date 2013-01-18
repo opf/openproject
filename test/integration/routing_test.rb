@@ -13,7 +13,7 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class RoutingTest < ActionController::IntegrationTest
+class RoutingTest < ActionDispatch::IntegrationTest
   context "activities" do
     should route(:get, "/activity").to( :controller => 'activities',
                                         :action => 'index' )

@@ -18,12 +18,13 @@ class Watcher < ActiveRecord::Base
   belongs_to :watchable, :polymorphic => true
   belongs_to :user
 
-  attr_accessible :watchable, :user
+  attr_accessible :watchable, :user, :user_id
 
   validates_presence_of :watchable, :user
   validates_uniqueness_of :user_id, :scope => [:watchable_type, :watchable_id]
 
   validate :validate_active_user
+  validate :validate_user_allowed_to_watch
 
   # Unwatch things that users are no longer allowed to view
   def self.prune(options={})
@@ -43,6 +44,11 @@ class Watcher < ActiveRecord::Base
   def validate_active_user
     return if user.blank?
     errors.add :user_id, :invalid unless user.active?
+  end
+
+  def validate_user_allowed_to_watch
+    return if user.blank? || watchable.blank?
+    errors.add :user_id, :invalid unless user.in?(watchable.addable_watcher_users)
   end
 
   private
