@@ -7,13 +7,13 @@ class Sprint < Version
 
   named_scope :open_sprints, lambda { |project|
     {
-      :order => 'COALESCE(start_date, 4000-12-30) ASC, COALESCE(effective_date, 4000-12-30) ASC',
+      :order => "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC",
       :conditions => [ "versions.status = 'open' and versions.project_id = ?", project.id ]
     }
   }
 
   #null last ordering
-  named_scope :order_by_date, :order => 'COALESCE(start_date, 4000-12-30) ASC, COALESCE(effective_date, 4000-12-30) ASC'
+  named_scope :order_by_date, :order => "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC"
   named_scope :order_by_name, :order => "#{Version.table_name}.name ASC"
 
   named_scope :apply_to, lambda { |project| {:include => :project,
