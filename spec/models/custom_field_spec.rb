@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe CustomField do
-  let(:field) { FactoryGirl.build :custom_field }
+  before { CustomField.destroy_all }
+
+  let(:field)  { FactoryGirl.build :custom_field }
   let(:field2) { FactoryGirl.build :custom_field }
 
   describe :name do
