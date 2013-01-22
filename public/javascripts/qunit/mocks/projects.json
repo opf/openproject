@@ -1,0 +1,45 @@
+{
+  "projects": [
+    {
+      "identifier": "bums",
+      "created_on": "2012-12-18T07:00:17Z",
+      "level": 0,
+      "updated_on": "2012-12-18T09:09:10Z",
+      "name": "Bums zzz",
+      "id": 3
+    },
+    {
+      "identifier": "things",
+      "created_on": "2012-12-14T14:01:27Z",
+      "level": 0,
+      "updated_on": "2012-12-14T14:01:27Z",
+      "name": "Things",
+      "id": 1
+    },
+    {
+      "identifier": "things-bums",
+      "created_on": "2012-12-18T06:59:50Z",
+      "level": 1,
+      "updated_on": "2012-12-18T14:26:05Z",
+      "name": "Thingsb-Bums",
+      "id": 2
+    },
+    {
+      "identifier": "bums-bums",
+      "created_on": "2012-12-18T08:57:46Z",
+      "level": 2,
+      "updated_on": "2012-12-18T08:57:46Z",
+      "name": "Bums Bums",
+      "id": 5
+    },
+    {
+      "identifier": "zzz",
+      "created_on": "2012-12-18T08:57:14Z",
+      "level": 0,
+      "updated_on": "2012-12-18T08:57:14Z",
+      "name": "ZZZ",
+      "id": 4
+    }
+  ],
+  "size": 5
+}

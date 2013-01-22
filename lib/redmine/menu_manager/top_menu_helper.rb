@@ -12,14 +12,14 @@ module Redmine::MenuManager::TopMenuHelper
 
   private
 
-  def render_projects_top_menu_node(projects = Project.visible)
-    return "" if projects.empty? or
-      (!User.current.logged? and
-       Setting.login_required?)
+  def render_projects_top_menu_node
+    return "" if User.current.anonymous? and Setting.login_required?
+
+    return "" if User.current.number_of_known_projects.zero?
 
     heading = link_to l(:label_project_plural), { :controller => 'projects',
                                                   :action => 'index' },
-                                                  :title => l(:label_project_plural)
+                                                :title => l(:label_project_plural)
 
     if User.current.impaired?
       content_tag :li do
@@ -33,10 +33,8 @@ module Redmine::MenuManager::TopMenuHelper
                                                 :action => 'index'
           end
 
-          ret += content_tag :li do
-            render_project_jump_box projects, :id => "project-search",
-                                              :class => "chzn-select",
-                                              :'data-placeholder' => "Enter Project Name..."
+          ret += content_tag :li, :id => "project-search-container" do
+            hidden_field_tag("", "", :class => 'select2-select')
           end
 
           ret
@@ -118,21 +116,5 @@ module Redmine::MenuManager::TopMenuHelper
       }
     end
     @top_menu_split
-  end
-
-  # Renders the project quick-jump box
-  def render_project_jump_box(projects = Project.visible, html_options = {})
-    if projects.any?
-      option_tags = (content_tag :option, "", :value => "")
-      option_tags << project_tree_options_for_select(projects, :selected => @project) do |p|
-        { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
-      end
-      html_options[:class] ||= ""
-      html_options[:class] << " chzn-select "
-      select_tag "", option_tags, html_options.merge({
-        :onchange => "if (this.value != \'\') { window.location = this.value; }",
-        :title => l(:label_jump_to_a_project)
-      })
-    end
   end
 end
