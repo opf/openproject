@@ -139,13 +139,13 @@ describe CustomField do
         I18n.locale = :en
         field.name = "Field"
 
-        field.save
+        field.save!
         field.reload
 
         field.translations_attributes = [ { "id" => field.translations.first.id.to_s,
                                             "_destroy" => "1" } ]
 
-        field.save
+        field.save!
       end
 
       it { field.should have(1).translations }
