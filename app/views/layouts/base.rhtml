@@ -22,6 +22,9 @@
 <%= javascript_include_tag 'breadcrumb.js' %>
 <%= javascript_include_tag 'chosen.js'%>
 <%= stylesheet_link_tag 'chosen'%>
+
+<%= i18n_js_tags %>
+
 <% if User.current.impaired? && accessibility_css_enabled? %>
   <%= stylesheet_link_tag 'accessibility' %>
 <% end %>
