@@ -13,6 +13,8 @@
 #++
 
 class HelpController < ApplicationController
+  layout 'help'
+
   def wiki_syntax
   end
 
