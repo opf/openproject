@@ -62,7 +62,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert UserMailer.issue_updated(user, journal).deliver
 
     mail = last_email
-    assert_not_nil mail
 
     assert_select_email do
       # link to the main ticket
@@ -105,7 +104,6 @@ class UserMailerTest < ActionMailer::TestCase
     journal = issue.journals.first
 
     mail = last_email
-    assert_not_nil mail
 
     assert_select_email do
       # link to the main ticket
@@ -149,7 +147,6 @@ class UserMailerTest < ActionMailer::TestCase
     journal = issue.journals.first
 
     mail = last_email
-    assert_not_nil mail
 
     assert_select_email do
       # link to the main ticket
