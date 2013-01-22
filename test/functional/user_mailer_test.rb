@@ -103,6 +103,8 @@ class UserMailerTest < ActionMailer::TestCase
     issue   = FactoryGirl.create(:issue, :subject => 'My awesome Ticket', :tracker => tracker)
     journal = issue.journals.first
 
+    assert UserMailer.issue_updated(user, journal).deliver
+
     mail = last_email
 
     assert_select_email do
@@ -145,6 +147,8 @@ class UserMailerTest < ActionMailer::TestCase
     tracker = FactoryGirl.create(:tracker, :name => 'My Tracker')
     issue   = FactoryGirl.create(:issue, :subject => 'My awesome Ticket', :tracker => tracker)
     journal = issue.journals.first
+
+    assert UserMailer.issue_updated(user, journal).deliver
 
     mail = last_email
 
