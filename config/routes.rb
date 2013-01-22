@@ -1,6 +1,22 @@
 ActionController::Routing::Routes.draw do |map|
   map.connect 'projects/new', :controller => 'projects', :action => 'new'
-  map.connect 'projects/:id.:format:unused', :controller => 'projects', :action => 'show', :conditions => {:method => :get}, :id => /[^\/]+/, :format => /\w+/, :unused => nil
+
+  Project::RESERVED_IDENTIFIERS.each do |reserved_identifier|
+
+    map.connect 'projects/:reservation.:format',
+                :controller => 'projects',
+                :action => reserved_identifier,
+                :conditions => {:method => :get},
+                :reservation => Regexp.new(reserved_identifier),
+                :format => /\w+/
+  end
+
+  map.connect 'projects/:id.:format',
+              :controller => 'projects',
+              :action => 'show',
+              :conditions => {:method => :get},
+              :id => /\w+/,
+              :format => /\w+/
 
   map.with_options :controller => 'my_projects_overviews'do |my|
     my.connect 'projects/:id', :action => 'index', :id => /[^\/]+/, :conditions => {:method => :get}
