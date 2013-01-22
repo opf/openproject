@@ -80,7 +80,8 @@ class CustomField < ActiveRecord::Base
   def validate_default_value_in_translations
     required_field = self.is_required
     self.is_required = false
-    self.translated_locales.each do |locale|
+    translated_locales = (translations.map(&:locale) + self.translated_locales).uniq
+    translated_locales.each do |locale|
       I18n.with_locale(locale) do
         v = CustomValue.new(:custom_field => self, :value => default_value, :customized => nil)
         errors.add(:default_value, :invalid) unless v.valid?
