@@ -17,7 +17,7 @@ FactoryGirl.define do
     language 'en'
     status User::STATUS_ACTIVE
     admin false
-    first_login false if User.columns.map(&:name).include? 'first_login'
+    first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
 
     after(:create) do |user, evaluator|
       (projects = evaluator.member_in_projects || [])
@@ -41,7 +41,7 @@ FactoryGirl.define do
     password_confirmation 'admin'
     mail 'admin@example.com'
     admin true
-    first_login false if User.columns.map(&:name).include? 'first_login'
+    first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
   end
 
   factory :anonymous, :class => AnonymousUser do
