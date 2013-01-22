@@ -369,7 +369,6 @@ class UserMailerTest < ActionMailer::TestCase
     user        = FactoryGirl.create(:user, :mail => 'foo@bar.de')
     version     = FactoryGirl.create(:version)
     attachments = [ FactoryGirl.create(:attachment, :container => version) ]
-    attachments = [ Attachment.find_by_container_type('Version') ]
     assert UserMailer.attachments_added(user, attachments).deliver
     assert_equal ['foo@bar.de'], last_email.to
   end
@@ -378,7 +377,6 @@ class UserMailerTest < ActionMailer::TestCase
     user        = FactoryGirl.create(:user, :mail => 'foo@bar.de')
     project     = FactoryGirl.create(:project)
     attachments = [ FactoryGirl.create(:attachment, :container => project) ]
-    attachments = [ Attachment.find_by_container_type('Version') ]
     assert UserMailer.attachments_added(user, attachments).deliver
     assert_equal ['foo@bar.de'], last_email.to
   end
