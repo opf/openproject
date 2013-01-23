@@ -1,0 +1,22 @@
+# Only export keys within the js scope, supporting two levels of nesting,
+# e.g.:
+#
+#   en:
+#     js:
+#       error_message: An error occurred.
+#     my_plugin_name:
+#       js:
+#         welcome_text: Welcome back.
+#       user:
+#         js:
+#           project_name: Project name:
+#       admin:
+#         js:
+#           delete_project: Delete Project!
+#
+translations:
+- file: "public/javascripts/i18n/translations.js"
+  only:
+  -   '*.js'
+  -   '*.*.js'
+  -   '*.*.*.js'
