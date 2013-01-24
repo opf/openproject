@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.connect 'projects/new', :controller => 'projects', :action => 'new'
-
   Project::RESERVED_IDENTIFIERS.each do |reserved_identifier|
 
     map.connect 'projects/:reservation.:format',
@@ -11,15 +9,8 @@ ActionController::Routing::Routes.draw do |map|
                 :format => /\w+/
   end
 
-  map.connect 'projects/:id.:format',
-              :controller => 'projects',
-              :action => 'show',
-              :conditions => {:method => :get},
-              :id => /\w+/,
-              :format => /\w+/
-
   map.with_options :controller => 'my_projects_overviews'do |my|
-    my.connect 'projects/:id', :action => 'index', :id => /[^\/]+/, :conditions => {:method => :get}
+    my.connect 'projects/:id', :action => 'index', :id => /[^\/.]+/, :conditions => {:method => :get}
     my.connect 'my_projects_overview/:id/page_layout', :action => 'page_layout'
     my.connect 'my_projects_overview/:id/page_layout/add_block', :action => 'add_block'
     my.connect 'my_projects_overview/:id/page_layout/remove_block', :action => 'remove_block'
