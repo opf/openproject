@@ -403,6 +403,8 @@ class User < Principal
     when 'only_my_events'
       if object.is_a?(Issue) && (object.author == self || object.assigned_to == self)
         true
+      elsif object.respond_to?(:watched_by?) && object.watched_by?(self) # Make it clear that we always want to be notified about things we watch in this case
+        true
       else
         false
       end
