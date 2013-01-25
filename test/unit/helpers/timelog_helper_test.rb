@@ -18,29 +18,31 @@ class TimelogHelperTest < HelperTestCase
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper
 
-  fixtures :all
-
   def setup
     super
   end
 
   def test_activities_collection_for_select_options_should_return_array_of_activity_names_and_ids
+    design = FactoryGirl.create :activity, :name => "Design"
+    development = FactoryGirl.create :activity, :name => "Development"
     activities = activity_collection_for_select_options
-    assert activities.include?(["Design", 9])
-    assert activities.include?(["Development", 10])
+    assert activities.include?(["Design", design.id])
+    assert activities.include?(["Development", development.id])
   end
 
   def test_activities_collection_for_select_options_should_not_include_inactive_activities
+    inactive = FactoryGirl.create :inactive_activity, :name => "Inactive Activity"
     activities = activity_collection_for_select_options
-    assert !activities.include?(["Inactive Activity", 14])
+    assert !activities.include?(["Inactive Activity", inactive.id])
   end
 
   def test_activities_collection_for_select_options_should_use_the_projects_override
-    project = Project.find(1)
+    project = FactoryGirl.create :valid_project
+    design = FactoryGirl.create :activity, :name => "Design"
     override_activity = TimeEntryActivity.create!({:name => "Design override", :parent => TimeEntryActivity.find_by_name("Design"), :project => project})
 
     activities = activity_collection_for_select_options(nil, project)
-    assert !activities.include?(["Design", 9]), "System activity found in: " + activities.inspect
+    assert !activities.include?(["Design", design.id]), "System activity found in: " + activities.inspect
     assert activities.include?(["Design override", override_activity.id]), "Override activity not found in: " + activities.inspect
   end
 end
