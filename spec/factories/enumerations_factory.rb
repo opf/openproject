@@ -10,6 +10,19 @@ FactoryGirl.define do
     name "Default Enumeration"
   end
 
+  factory :activity, :class => TimeEntryActivity do
+    sequence(:name) { |i| "Activity #{i}" }
+    active true
+    is_default false
+
+    factory :inactive_activity do
+      active false
+    end
+    factory :default_activity do
+      is_default true
+    end
+  end
+
   factory :priority, :class => IssuePriority do
     sequence(:name) { |i| "Priority #{i}" }
     active true
