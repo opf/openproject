@@ -9,11 +9,11 @@ module MyProjectPage
     end
 
     def major
-      1
+      2
     end
 
     def minor
-      1
+      0
     end
 
     def patch
