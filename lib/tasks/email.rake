@@ -134,9 +134,11 @@ Examples:
 END_DESC
 
     task :receive_imap => :environment do
+      ssl = ENV['ssl']
+      ssl = ssl.nil? ? false : ((ssl == "1" || ssl == "true") ? true : false)
       imap_options = {:host => ENV['host'],
                       :port => ENV['port'],
-                      :ssl => ENV['ssl'],
+                      :ssl => ssl,
                       :username => ENV['username'],
                       :password => ENV['password'],
                       :folder => ENV['folder'],
