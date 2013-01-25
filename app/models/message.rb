@@ -113,5 +113,8 @@ class Message < ActiveRecord::Base
 
   def add_author_as_watcher
     Watcher.create(:watchable => self.root, :user => author)
+    # update watchers and watcher_users
+    watchers(true)
+    watcher_users(true)
   end
 end
