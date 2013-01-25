@@ -131,7 +131,7 @@ class Setting < ActiveRecord::Base
   def self.[]=(name, v)
     setting = find_or_default(name)
     setting.value = (v ? v : "")
-    Rails.cache.delete self.cache_key(name)
+    Rails.cache.delete_matched(Regexp.compile(base_cache_key(name, '.+')))
     setting.save
     setting.value
   end
@@ -187,6 +187,11 @@ private
   end
 
   def self.cache_key(name)
-    "chiliproject/setting/#{Setting.maximum(:updated_on).to_i}/#{name}"
+    most_recent_settings_change = (Setting.maximum(:updated_on) || Time.now.utc).to_i
+    base_cache_key(name, most_recent_settings_change)
+  end
+
+  def self.base_cache_key(name, timestamp)
+    "/openproject/settings/#{timestamp}/#{name}"
   end
 end

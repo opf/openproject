@@ -568,7 +568,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'new'
 
     assert_tag :textarea, :attributes => { :name => 'issue[description]' },
-                          :content => 'This is a description'
+                          :content => /This is a description/
     assert_tag :select, :attributes => { :name => 'issue[priority_id]' },
                         :child => { :tag => 'option', :attributes => { :selected => 'selected',
                                                                        :value => '6' },
@@ -812,9 +812,8 @@ class IssuesControllerTest < ActionController::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of Mail::Message, mail
     assert mail.subject.starts_with?("[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}]")
-    mail.parts.each do |part|
-      assert part.body.encoded.include?("Subject changed from #{ERB::Util.html_escape(old_subject)} to #{new_subject}")
-    end
+    mail.text_part.body.encoded.include?("Subject changed from #{old_subject} to #{new_subject}")
+    mail.html_part.body.encoded.include?("Subject changed from #{ERB::Util.html_escape(old_subject)} to #{new_subject}")
   end
 
   def test_put_update_with_custom_field_change
@@ -1006,7 +1005,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'edit'
 
     assert_error_tag :descendant => {:content => ERB::Util.html_escape("Activity can't be blank")}
-    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
+    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => /#{notes}/
     assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
   end
 
@@ -1025,7 +1024,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_error_tag :descendant => {:content => ERB::Util.html_escape("Activity can't be blank")}
     assert_error_tag :descendant => {:content => ERB::Util.html_escape("Hours can't be blank")}
-    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
+    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => /#{notes}/
     assert_tag :input, :attributes => { :name => 'time_entry[comments]', :value => "this is my comment" }
   end
 

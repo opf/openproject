@@ -40,7 +40,16 @@ class CustomField < ActiveRecord::Base
   alias_method_chain :translations_attributes=, :globalized
 
   validates_presence_of :name, :field_format
-  validates_uniqueness_of :name, :scope => [:type, :locale]
+
+  validate :uniquess_of_name_with_scope
+  def uniquess_of_name_with_scope
+    taken_names = CustomField.where(:type => type)
+    taken_names = taken_names.where('id != ?', id) if id
+    taken_names = taken_names.map { |cf| cf.read_attribute(:name, :locale => I18n.locale) }
+
+    errors.add(:name, :taken) if name.in?(taken_names)
+  end
+
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
 
@@ -71,7 +80,8 @@ class CustomField < ActiveRecord::Base
   def validate_default_value_in_translations
     required_field = self.is_required
     self.is_required = false
-    self.translated_locales.each do |locale|
+    translated_locales = (translations.map(&:locale) + self.translated_locales).uniq
+    translated_locales.each do |locale|
       I18n.with_locale(locale) do
         v = CustomValue.new(:custom_field => self, :value => default_value, :customized => nil)
         errors.add(:default_value, :invalid) unless v.valid?

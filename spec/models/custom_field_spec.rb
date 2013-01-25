@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe CustomField do
-  let(:field) { FactoryGirl.build :custom_field }
+  before { CustomField.destroy_all }
+
+  let(:field)  { FactoryGirl.build :custom_field }
   let(:field2) { FactoryGirl.build :custom_field }
 
   describe :name do
@@ -77,7 +79,6 @@ describe CustomField do
   describe :translations_attributes do
     describe "WHEN providing a hash with locale and values" do
       before do
-        field.translations.clear
         field.translations_attributes = [ { "name" => "Feld",
                                             "default_value" => "zwei",
                                             "possible_values" => ["eins", "zwei", "drei"],
@@ -92,7 +93,6 @@ describe CustomField do
 
     describe "WHEN providing a hash with only a locale" do
       before do
-        field.translations.clear
         field.translations_attributes = [ { "locale" => "de" } ]
       end
 
@@ -101,7 +101,6 @@ describe CustomField do
 
     describe "WHEN providing a hash with a locale and blank values" do
       before do
-        field.translations.clear
         field.translations_attributes = [ { "name" => "",
                                             "default_value" => "",
                                             "possible_values" => "",
@@ -113,7 +112,6 @@ describe CustomField do
 
     describe "WHEN providing a hash with a locale and only one values" do
       before do
-        field.translations.clear
         field.translations_attributes = [ { "name" => "Feld",
                                             "locale" => "de" } ]
       end
@@ -124,7 +122,6 @@ describe CustomField do
 
     describe "WHEN providing a hash without a locale but with values" do
       before do
-        field.translations.clear
         field.translations_attributes = [ { "name" => "Feld",
                                             "default_value" => "zwei",
                                             "possible_values" => ["eins", "zwei", "drei"],
@@ -142,13 +139,13 @@ describe CustomField do
         I18n.locale = :en
         field.name = "Field"
 
-        field.save
+        field.save!
         field.reload
 
         field.translations_attributes = [ { "id" => field.translations.first.id.to_s,
                                             "_destroy" => "1" } ]
 
-        field.save
+        field.save!
       end
 
       it { field.should have(1).translations }
@@ -258,7 +255,6 @@ describe CustomField do
               WITH possible_values beeing empty in a fallbacked translation" do
 
       before do
-        field.translations.clear
         field.field_format = 'list'
         field.translations_attributes = [ { "name" => "Feld",
                                             "locale" => "de" },

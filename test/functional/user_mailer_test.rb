@@ -62,7 +62,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert UserMailer.issue_updated(user, journal).deliver
 
     mail = last_email
-    assert_not_nil mail
 
     assert_select_email do
       # link to the main ticket
@@ -72,24 +71,24 @@ class UserMailerTest < ActionMailer::TestCase
 
       # TODO
       # link to a referenced ticket
-      # assert_select 'a[href=?][title=?]',
-      #               'https://mydomain.foo/issues/1',
-      #               'Can\'t print recipes (New)',
-      #               :text => '#1'
-      # # link to a changeset
-      # assert_select 'a[href=?][title=?]',
-      #               'https://mydomain.foo/projects/ecookbook/repository/revisions/2',
-      #               'This commit fixes #1, #2 and references #1 &amp; #3',
-      #               :text => 'r2'
-      # # link to a description diff
-      # assert_select 'a[href=?][title=?]',
-      #               'https://mydomain.foo/journals/diff/3?detail_id=4',
-      #               'View differences',
-      #               :text => 'diff'
-      # # link to an attachment
-      # assert_select 'a[href=?]',
-      #               'https://mydomain.foo/attachments/download/4/source.rb',
-      #               :text => 'source.rb'
+      assert_select 'a[href=?][title=?]',
+                    'https://mydomain.foo/issues/1',
+                    'Can\'t print recipes (New)',
+                    :text => '#1'
+      # link to a changeset
+      assert_select 'a[href=?][title=?]',
+                    'https://mydomain.foo/projects/ecookbook/repository/revisions/2',
+                    'This commit fixes #1, #2 and references #1 &amp; #3',
+                    :text => 'r2'
+      # link to a description diff
+      assert_select 'a[href=?][title=?]',
+                    'https://mydomain.foo/journals/diff/3?detail_id=4',
+                    'View differences',
+                    :text => 'diff'
+      # link to an attachment
+      assert_select 'a[href=?]',
+                    'https://mydomain.foo/attachments/download/4/source.rb',
+                    :text => 'source.rb'
     end
   end
 
@@ -104,8 +103,9 @@ class UserMailerTest < ActionMailer::TestCase
     issue   = FactoryGirl.create(:issue, :subject => 'My awesome Ticket', :tracker => tracker)
     journal = issue.journals.first
 
+    assert UserMailer.issue_updated(user, journal).deliver
+
     mail = last_email
-    assert_not_nil mail
 
     assert_select_email do
       # link to the main ticket
@@ -115,24 +115,24 @@ class UserMailerTest < ActionMailer::TestCase
 
       # TODO
       # link to a referenced ticket
-      # assert_select 'a[href=?][title=?]',
-      #               'http://mydomain.foo/rdm/issues/1',
-      #               'Can\'t print recipes (New)',
-      #               :text => '#1'
-      # # link to a changeset
-      # assert_select 'a[href=?][title=?]',
-      #               'http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2',
-      #               'This commit fixes #1, #2 and references #1 &amp; #3',
-      #               :text => 'r2'
-      # # link to a description diff
-      # assert_select 'a[href=?][title=?]',
-      #               'http://mydomain.foo/rdm/journals/diff/3?detail_id=4',
-      #               'View differences',
-      #               :text => 'diff'
-      # # link to an attachment
-      # assert_select 'a[href=?]',
-      #               'http://mydomain.foo/rdm/attachments/download/4/source.rb',
-      #               :text => 'source.rb'
+      assert_select 'a[href=?][title=?]',
+                    'http://mydomain.foo/rdm/issues/1',
+                    'Can\'t print recipes (New)',
+                    :text => '#1'
+      # link to a changeset
+      assert_select 'a[href=?][title=?]',
+                    'http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2',
+                    'This commit fixes #1, #2 and references #1 &amp; #3',
+                    :text => 'r2'
+      # link to a description diff
+      assert_select 'a[href=?][title=?]',
+                    'http://mydomain.foo/rdm/journals/diff/3?detail_id=4',
+                    'View differences',
+                    :text => 'diff'
+      # link to an attachment
+      assert_select 'a[href=?]',
+                    'http://mydomain.foo/rdm/attachments/download/4/source.rb',
+                    :text => 'source.rb'
     end
   end
 
@@ -148,8 +148,9 @@ class UserMailerTest < ActionMailer::TestCase
     issue   = FactoryGirl.create(:issue, :subject => 'My awesome Ticket', :tracker => tracker)
     journal = issue.journals.first
 
+    assert UserMailer.issue_updated(user, journal).deliver
+
     mail = last_email
-    assert_not_nil mail
 
     assert_select_email do
       # link to the main ticket
@@ -159,24 +160,24 @@ class UserMailerTest < ActionMailer::TestCase
 
       # TODO
       # link to a referenced ticket
-      # assert_select 'a[href=?][title=?]',
-      #               'http://mydomain.foo/rdm/issues/1',
-      #               'Can\'t print recipes (New)',
-      #               :text => '#1'
-      # # link to a changeset
-      # assert_select 'a[href=?][title=?]',
-      #               'http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2',
-      #               'This commit fixes #1, #2 and references #1 &amp; #3',
-      #               :text => 'r2'
-      # # link to a description diff
-      # assert_select 'a[href=?][title=?]',
-      #               'http://mydomain.foo/rdm/journals/diff/3?detail_id=4',
-      #               'View differences',
-      #               :text => 'diff'
-      # # link to an attachment
-      # assert_select 'a[href=?]',
-      #               'http://mydomain.foo/rdm/attachments/download/4/source.rb',
-      #               :text => 'source.rb'
+      assert_select 'a[href=?][title=?]',
+                    'http://mydomain.foo/rdm/issues/1',
+                    'Can\'t print recipes (New)',
+                    :text => '#1'
+      # link to a changeset
+      assert_select 'a[href=?][title=?]',
+                    'http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2',
+                    'This commit fixes #1, #2 and references #1 &amp; #3',
+                    :text => 'r2'
+      # link to a description diff
+      assert_select 'a[href=?][title=?]',
+                    'http://mydomain.foo/rdm/journals/diff/3?detail_id=4',
+                    'View differences',
+                    :text => 'diff'
+      # link to an attachment
+      assert_select 'a[href=?]',
+                    'http://mydomain.foo/rdm/attachments/download/4/source.rb',
+                    :text => 'source.rb'
     end
   ensure
     # restore it
@@ -372,7 +373,6 @@ class UserMailerTest < ActionMailer::TestCase
     user        = FactoryGirl.create(:user, :mail => 'foo@bar.de')
     version     = FactoryGirl.create(:version)
     attachments = [ FactoryGirl.create(:attachment, :container => version) ]
-    attachments = [ Attachment.find_by_container_type('Version') ]
     assert UserMailer.attachments_added(user, attachments).deliver
     assert_equal ['foo@bar.de'], last_email.to
   end
@@ -381,7 +381,6 @@ class UserMailerTest < ActionMailer::TestCase
     user        = FactoryGirl.create(:user, :mail => 'foo@bar.de')
     project     = FactoryGirl.create(:project)
     attachments = [ FactoryGirl.create(:attachment, :container => project) ]
-    attachments = [ Attachment.find_by_container_type('Version') ]
     assert UserMailer.attachments_added(user, attachments).deliver
     assert_equal ['foo@bar.de'], last_email.to
   end

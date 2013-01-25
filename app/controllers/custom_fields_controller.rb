@@ -43,7 +43,7 @@ class CustomFieldsController < ApplicationController
 
   def edit
     @custom_field = CustomField.find(params[:id])
-    if request.post? and @custom_field.update_attributes(params[:custom_field])
+    if request.put? and @custom_field.update_attributes(params[:custom_field])
       flash[:notice] = l(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, :params => params, :custom_field => @custom_field)
       redirect_to :action => 'index', :tab => @custom_field.class.name
