@@ -19,7 +19,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.15' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.16' unless defined? RAILS_GEM_VERSION
 
 if RUBY_VERSION >= '1.9'
   Encoding.default_external = 'UTF-8'
