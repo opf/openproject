@@ -397,23 +397,23 @@ RAW
     @project.reload
 
     to_test = {
-      '[[CookBook documentation]]' => "<a href=\"/projects/#{@project.identifier}/wiki/CookBook_documentation\" class=\"wiki-page new\">CookBook documentation</a>",
-      '[[Another page|Page]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page new\">Page</a>",
+      '[[CookBook documentation]]' => "<a href=\"/projects/#{@project.identifier}/wiki/CookBook_documentation\" class=\"wiki-page\">CookBook documentation</a>",
+      '[[Another page|Page]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a>",
       # link with anchor
-      '[[CookBook documentation#One-section]]' => "<a href=\"/projects/#{@project.identifier}/wiki/CookBook_documentation#One-section\" class=\"wiki-page new\">CookBook documentation</a>",
-      '[[Another page#anchor|Page]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Another_page#anchor\" class=\"wiki-page new\">Page</a>",
+      '[[CookBook documentation#One-section]]' => "<a href=\"/projects/#{@project.identifier}/wiki/CookBook_documentation#One-section\" class=\"wiki-page\">CookBook documentation</a>",
+      '[[Another page#anchor|Page]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Another_page#anchor\" class=\"wiki-page\">Page</a>",
       # page that doesn't exist
       '[[Unknown page]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a>",
       '[[Unknown page|404]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">404</a>",
       # link to another project wiki
-      '[[onlinestore:]]' => "<a href=\"/projects/onlinestore/wiki\" class=\"wiki-page new\">onlinestore</a>",
-      '[[onlinestore:|Wiki]]' => "<a href=\"/projects/onlinestore/wiki\" class=\"wiki-page new\">Wiki</a>",
-      '[[onlinestore:Start page]]' => "<a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page new\">Start page</a>",
-      '[[onlinestore:Start page|Text]]' => "<a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page new\">Text</a>",
+      '[[onlinestore:]]' => "<a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">onlinestore</a>",
+      '[[onlinestore:|Wiki]]' => "<a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">Wiki</a>",
+      '[[onlinestore:Start page]]' => "<a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Start page</a>",
+      '[[onlinestore:Start page|Text]]' => "<a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Text</a>",
       '[[onlinestore:Unknown page]]' => "<a href=\"/projects/onlinestore/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a>",
       # striked through link
-      '-[[Another page|Page]]-' => "<del><a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page new\">Page</a></del>",
-      '-[[Another page|Page]] link-' => "<del><a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page new\">Page</a> link</del>",
+      '-[[Another page|Page]]-' => "<del><a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></del>",
+      '-[[Another page|Page]] link-' => "<del><a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a> link</del>",
       # escaping
       '![[Another page|Page]]' => '[[Another page|Page]]',
       # project does not exist
@@ -497,7 +497,7 @@ EXPECTED
 RAW
 
     expected = <<-EXPECTED
-<p><a href="/projects/#{@project.identifier}/wiki/CookBook_documentation" class="wiki-page new">CookBook documentation</a></p>
+<p><a href="/projects/#{@project.identifier}/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
 <p><a href="/issues/#{@issue.id}" class="issue status-3 priority-1 created-by-me" title="#{@issue.subject} (#{@issue.status})">##{@issue.id}</a></p>
 <pre>
 [[CookBook documentation]]
@@ -545,8 +545,8 @@ EXPECTED
 
     to_test = {"|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
                  "<tr><td><a href=\"/projects/#{@project.identifier}/wiki/Page\" class=\"wiki-page new\">Link title</a></td>" +
-                 "<td><a href=\"/projects/#{@project.identifier}/wiki/Other_Page\" class=\"wiki-page new\">Other title</a></td>" +
-                 "</tr><tr><td>Cell 21</td><td><a href=\"/projects/#{@project.identifier}/wiki/Last_page\" class=\"wiki-page new\">Last page</a></td></tr>"
+                 "<td><a href=\"/projects/#{@project.identifier}/wiki/Other_Page\" class=\"wiki-page\">Other title</a></td>" +
+                 "</tr><tr><td>Cell 21</td><td><a href=\"/projects/#{@project.identifier}/wiki/Last_page\" class=\"wiki-page\">Last page</a></td></tr>"
     }
 
     to_test.each { |text, result| assert_equal "<table>#{result}</table>", textilizable(text).gsub(/[\t\n]/, '') }
