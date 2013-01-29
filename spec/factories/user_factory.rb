@@ -44,6 +44,7 @@ FactoryGirl.define do
     end
 
     factory :anonymous, :class => AnonymousUser do
+      status User::STATUS_BUILTIN
       initialize_with { User.anonymous }
     end
 
