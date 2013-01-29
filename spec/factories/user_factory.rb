@@ -31,24 +31,24 @@ FactoryGirl.define do
         end
       end
     end
-  end
 
-  factory :admin, :class => User do
-    firstname 'Redmine'
-    lastname 'Admin'
-    login 'admin'
-    password 'admin'
-    password_confirmation 'admin'
-    mail 'admin@example.com'
-    admin true
-    first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
-  end
+    factory :admin do
+      firstname 'Redmine'
+      lastname 'Admin'
+      login 'admin'
+      password 'admin'
+      password_confirmation 'admin'
+      mail 'admin@example.com'
+      admin true
+      first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
+    end
 
-  factory :anonymous, :class => AnonymousUser do
-    initialize_with { User.anonymous }
-  end
+    factory :anonymous, :class => AnonymousUser do
+      initialize_with { User.anonymous }
+    end
 
-  factory :deleted_user do
-    status User::STATUS_BUILTIN
+    factory :deleted_user do
+      status User::STATUS_BUILTIN
+    end
   end
 end
