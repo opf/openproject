@@ -12,11 +12,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Patches active_support/core_ext/load_error.rb to support 1.9.3 LoadError message
-if RUBY_VERSION >= '1.9.3'
-  MissingSourceFile::REGEXPS << [/^cannot load such file -- (.+)$/i, 1]
-end
-
 require 'active_record'
 
 module ActiveRecord
@@ -161,92 +156,6 @@ module ActionController
         any(:xml, :json, &block)
       end
     end
-  end
-
-  # Backported fix for
-  # CVE-2012-2660
-  # https://groups.google.com/group/rubyonrails-security/browse_thread/thread/f1203e3376acec0f
-  #
-  # CVE-2012-2694
-  # https://groups.google.com/group/rubyonrails-security/browse_thread/thread/8c82d9df8b401c5e
-  #
-  # TODO: Remove this once we are on Rails >= 3.2.6
-  require 'action_controller/request'
-  class Request
-    protected
-
-    # Remove nils from the params hash
-    def deep_munge(hash)
-      keys = hash.keys.find_all { |k| hash[k] == [nil] }
-      keys.each { |k| hash[k] = nil }
-
-      hash.each_value do |v|
-        case v
-        when Array
-          v.grep(Hash) { |x| deep_munge(x) }
-          v.compact!
-        when Hash
-          deep_munge(v)
-        end
-      end
-
-      hash
-    end
-
-    def parse_query(qs)
-      deep_munge(super)
-    end
-  end
-end
-
-# Fix for CVE-2013-0155
-# https://groups.google.com/d/msg/rubyonrails-security/kKGNeMrnmiY/r2yM7xy-G48J
-# TODO: Remove this once we are on Rails >= 3.2.11
-module ActiveRecord
-  class Base
-    class << self
-    protected
-      def self.sanitize_sql_hash_for_conditions(attrs, default_table_name = quoted_table_name, top_level = true)
-        attrs = expand_hash_conditions_for_aggregates(attrs)
-
-        return '1 = 2' if !top_level && attrs.is_a?(Hash) && attrs.empty?
-
-        conditions = attrs.map do |attr, value|
-          table_name = default_table_name
-
-          if not value.is_a?(Hash)
-            attr = attr.to_s
-
-            # Extract table name from qualified attribute names.
-            if attr.include?('.') and top_level
-              attr_table_name, attr = attr.split('.', 2)
-              attr_table_name = connection.quote_table_name(attr_table_name)
-            else
-              attr_table_name = table_name
-            end
-
-            attribute_condition("#{attr_table_name}.#{connection.quote_column_name(attr)}", value)
-          elsif top_level
-            sanitize_sql_hash_for_conditions(value, connection.quote_table_name(attr.to_s), false)
-          else
-            raise ActiveRecord::StatementInvalid
-          end
-        end.join(' AND ')
-
-        replace_bind_variables(conditions, expand_range_bind_variables(attrs.values))
-      end
-      alias_method :sanitize_sql_hash, :sanitize_sql_hash_for_conditions
-    end
-  end
-end
-
-# Backported fix for CVE-2012-3465
-# https://groups.google.com/d/msg/rubyonrails-security/FgVEtBajcTY/tYLS1JJTu38J
-# TODO: Remove this once we are on Rails >= 3.2.8
-require 'action_view/helpers/sanitize_helper'
-module ActionView::Helpers::SanitizeHelper
-  def strip_tags(html)
-    self.class.full_sanitizer.sanitize(html)
   end
 end
 
