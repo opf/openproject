@@ -53,15 +53,26 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'https'
+    User.current = FactoryGirl.create(:admin)
 
-    user    = FactoryGirl.create(:user)
+    project = FactoryGirl.create(:valid_project)
+    user    = FactoryGirl.create(:user, :member_in_project => project)
     tracker = FactoryGirl.create(:tracker, :name => 'My Tracker')
-    issue   = FactoryGirl.create(:issue, :subject => 'My awesome Ticket', :tracker => tracker)
+    project.trackers << tracker
+    project.save
+    related_issue = FactoryGirl.create(:issue,
+        :subject => 'My related Ticket',
+        :tracker => tracker,
+        :project => project)
+    issue   = FactoryGirl.create(:issue,
+        :subject => 'My awesome Ticket',
+        :tracker => tracker,
+        :project => project,
+        :description => "This is related to issue ##{related_issue.id}")
     journal = issue.journals.first
 
     assert UserMailer.issue_updated(user, journal).deliver
-
-    mail = last_email
+    assert last_email
 
     assert_select_email do
       # link to the main ticket
@@ -72,9 +83,9 @@ class UserMailerTest < ActionMailer::TestCase
       # TODO
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
-                    'https://mydomain.foo/issues/1',
-                    'Can\'t print recipes (New)',
-                    :text => '#1'
+                    "https://mydomain.foo/issues/#{related_issue.id}",
+                    'My related Ticket',
+                    :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
                     'https://mydomain.foo/projects/ecookbook/repository/revisions/2',
