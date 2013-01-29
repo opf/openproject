@@ -345,14 +345,9 @@ fieldset#filters td.add-filter { text-align: right; vertical-align: top; }
 .buttons { margin-bottom: 1.4em; margin-top: 1em; }
 
 div#issue-changesets {
-  float:right;
-  width:45%;
-  margin: 1em 0 1em 1em;
+  width: 290px;
   background: #fff;
   padding-left: 1em;
-}
-div#issue-changesets h3 {
-  margin-top: 0;
 }
 div#issue-changesets div.changeset { padding: 4px;}
 div#issue-changesets div.changeset { border-bottom: 1px solid #ddd; }
@@ -1873,9 +1868,10 @@ table.files {
 #content table.files td a {
 	position:relative;
 }
-#history {
+#history, #issue-changesets {
   margin-top: 1em;
   margin-bottom:0px;
+  float: left;
 }
 #history h3 {
 	margin-bottom:20px;
@@ -3197,9 +3193,11 @@ a.sort.desc {
 #content #history {
   background:url("../images/dotted-separator.gif"?1349103766) repeat-x scroll 0 bottom   transparent;
   padding-bottom: 11px;
+  padding-right: 40px;
+  width: 700px;
 }
 
-#history .journal, #content .wiki-content p, #content .wiki-content li {
+#content .wiki-content p, #content .wiki-content li {
   width: 700px;
 }
 

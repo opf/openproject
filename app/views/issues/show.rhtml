@@ -90,13 +90,6 @@
 </div>
 <div style="clear: both;"></div>
 
-<% if @changesets.present? %>
-<div id="issue-changesets">
-<h3><%=l(:label_associated_revisions)%></h3>
-<%= render :partial => 'changesets', :locals => { :changesets => @changesets} %>
-</div>
-<% end %>
-
 <% if @journals.present? %>
 <div id="history">
 <h3><%=l(:label_history)%></h3>
@@ -104,6 +97,12 @@
 </div>
 <% end %>
 
+<% if @changesets.present? %>
+<div id="issue-changesets">
+<h3><%=l(:label_associated_revisions)%></h3>
+<%= render :partial => 'changesets', :locals => { :changesets => @changesets} %>
+</div>
+<% end %>
 
 <div style="clear: both;"></div>
 
