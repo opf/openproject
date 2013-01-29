@@ -605,9 +605,11 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_watcher_recipients_should_not_include_users_that_cannot_view_the_issue
-    user = User.find(3)
-    issue = Issue.find(9)
+    issue = FactoryGirl.create :issue
+    user = FactoryGirl.create :user, :member_in_project => issue.project
     Watcher.create!(:user => user, :watchable => issue)
+    issue.project.members.first.roles.first.remove_permission! :view_issues
+    issue.reload
     assert issue.watched_by?(user)
     assert !issue.watcher_recipients.include?(user.mail)
   end
