@@ -743,6 +743,7 @@ de:
   label_add_related_issues: Zugehöriges Ticket hinzufügen
   label_applied_status: Zugewiesener Status
   label_loading: Lade...
+  label_searching: Suche...
   label_relation_new: Neue Beziehung
   label_relation_delete: Beziehung löschen
   label_relates_to: Beziehung mit
@@ -854,6 +855,7 @@ de:
   label_project_copy_notifications: Sende Mailbenachrichtigungen beim Kopieren des Projekts.
   label_principal_search: "Nach Benutzer oder Gruppe suchen:"
   label_user_search: "Nach Benutzer suchen:"
+  label_role_search: "Nach Rolle suchen:"
   label_enable_multi_select: Mehrfachauswahl umschalten
   label_deleted_custom_field: '(gelöschtes benutzerdefiniertes Feld)'
   label_table_of_contents: Inhaltsverzeichnis
@@ -981,6 +983,9 @@ de:
   text_zoom_in: Zoom in
   text_zoom_out: Zoom out
   text_analyze: "Weiter analysieren: %{subject}"
+  text_no_matches_found: "Keine Übereinstimmungen gefunden."
+  text_more_input_needed: "Bitte %{number} Zeichen mehr eingeben"
+  text_selection_too_big: "Es sind maximal %{limit} Einträge auswählbar"
 
   default_role_manager: Manager
   default_role_developer: Entwickler

@@ -1,6 +1,5 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   members = @project.member_principals.find(:all, :include => [:roles, :principal]).sort
    available_principals = Principal.possible_members("", 100) - @project.principals
 
    member_per_page = 20
@@ -15,13 +14,10 @@
 %>
 <div>
   <% if roles.any? && available_principals.any? %>
-    <% partial = (User.current.impaired? ? "members/member_form_impaired" : "members/member_form") %>
-    <%= render :partial => partial,
-              :locals => { :project => @project,
-                           :members => members,
-                           :roles => roles,
-                           :principals => available_principals } %>
-
+    <%= render :partial => "members/member_form",
+               :locals => { :project => @project,
+                            :roles => roles,
+                            :principals => available_principals } %>
   <% end %>
 </div>
 <div>
@@ -43,11 +39,11 @@
     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
     <% if authorized %>
       <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member, :page => params[:page]},
-      																		:method => :post,
-      																		:html => { :id => "member-#{member.id}-roles-form", :class => 'hol' }) do |f| %>
-      	<p><% roles.each do |role| %>
+                                          :method => :post,
+                                          :html => { :id => "member-#{member.id}-roles-form", :class => 'hol' }) do |f| %>
+        <p><% roles.each do |role| %>
         <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role),
-        																							 :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
+                                                       :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
         <% end %></p>
         <%= hidden_field_tag 'member[role_ids][]', '' %>
         <p><%= submit_tag l(:button_change), :class => "small" %>
@@ -64,9 +60,9 @@
                                                :class => 'icon icon-del') if member.deletable? %>
   </td>
   <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
-	</tr>
+  </tr>
 <% end; reset_cycle %>
-	</tbody>
+  </tbody>
 </table>
 
 <%= pagination_links_full @members_pages, @members_count, :per_page_links => false,
@@ -76,4 +72,3 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 </div>
-

@@ -43,10 +43,19 @@ class Principal < ActiveRecord::Base
     Principal.active_or_registered.like(criteria).find(:all, :limit => limit)
   end
 
-  def self.paginated_search(search, page, options = {})
+  def self.paginate_scope!(scope, options = {})
     limit = options.fetch(:page_limit) || 10
-    registered_scope = Principal.active_or_registered.like(search).scope(:find)
-    paginate({ :per_page => limit, :page => page }.merge(registered_scope))
+    page = options.fetch(:page) || 1
+    scope = (scope.respond_to?(:scope) ? scope.scope(:find) : scope)
+    paginate({ :per_page => limit, :page => page }.merge(scope))
+  end
+
+  def self.search_scope_without_project(project, query)
+    search_scope(query).not_in_project(project)
+  end
+
+  def self.search_scope(query)
+    active_or_registered.like(query)
   end
 
   def <=>(principal)

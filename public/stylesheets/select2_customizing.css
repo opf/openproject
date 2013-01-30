@@ -85,3 +85,10 @@
     border-color: #AAA;
 }
 
+.select2-results .select2-no-results, .select2-results .select2-searching, .select2-results .select2-selection-limit {
+  background-color: transparent;
+}
+
+.select2-more-results.select2-active {
+  background: transparent url('../images/loading.gif') no-repeat 100%;
+}

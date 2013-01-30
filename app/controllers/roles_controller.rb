@@ -15,7 +15,7 @@
 class RolesController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
+  before_filter :require_admin, :except => [:autocomplete_for_role]
 
   verify :method => :post, :only => [ :destroy, :move ],
          :redirect_to => { :action => :index }
@@ -71,5 +71,20 @@ class RolesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     end
+  end
+
+  def autocomplete_for_role
+    size = params[:page_limit].to_i
+    page = params[:page].to_i
+
+    @roles = Role.paginated_search(params[:q], page, { :page_limit => size })
+    # we always get all the items on a page, so just check if we just got the last
+    @more = @roles.total_pages > page
+    @total = @roles.total_entries
+
+    respond_to do |format|
+      format.json { render :layout => false }
+    end
+
   end
 end
