@@ -76,3 +76,12 @@
 .select2-search input {
   min-height: 0\9;
 }
+.select2-results .select2-no-results {
+  background: white;
+  border: none;
+}
+.select2-container-active .select2-choice, .select2-container-active .select2-choices {
+    outline: 5px auto #999;
+    border-color: #AAA;
+}
+
