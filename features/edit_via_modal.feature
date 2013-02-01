@@ -44,14 +44,15 @@ Feature: Edit issue via modal box
   @javascript
   Scenario: Edit issue via modal box
     When I go to the master backlog
-    And I follow "1"
-    And I wait for AJAX
-    And I follow "Update" within ".contextual"
+    And I follow "1" within ".story .id"
+
+    Then I should see "Story #1"
+
+    When I follow "Update" within ".contextual"
     And fill in "Story A changed" for "issue_subject"
     And I follow "Save"
-    And I wait for AJAX
 
-    Then I should see "Subject changed from Story A to Story A changed" within ".modal"
+    Then I should see "Subject changed from Story A to Story A changed"
 
     When I go to the master backlog
 
