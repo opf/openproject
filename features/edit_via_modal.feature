@@ -26,9 +26,7 @@ Feature: Edit issue via modal box
     And the tracker "Task" is configured to track tasks
     And the project uses the following trackers:
         | Story |
-        | Epic  |
         | Task  |
-        | Bug   |
     And the tracker "Task" has the default workflow for the role "scrum master"
     And there is 1 user with:
         | login | markus |
@@ -47,9 +45,11 @@ Feature: Edit issue via modal box
   Scenario: Edit issue via modal box
     When I go to the master backlog
     And I follow "1"
+    And I wait for AJAX
     And I follow "Update" within ".contextual"
     And fill in "Story A changed" for "issue_subject"
     And I follow "Save"
+    And I wait for AJAX
 
     Then I should see "Subject changed from Story A to Story A changed" within ".modal"
 
