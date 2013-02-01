@@ -1,5 +1,3 @@
-# the following line should be a syntax error, to test the ci. revert this later
-jifojdwf
 # Loads the core plugins located in lib/plugins
 Dir.glob(File.join(Rails.root, "lib/plugins/*")).sort.each do |directory|
   if File.directory?(directory)
