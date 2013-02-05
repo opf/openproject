@@ -18,6 +18,7 @@ class ApplicationHelperTest < ActionView::TestCase
     super
     # @project variable is used by helper
     @project = FactoryGirl.create :valid_project
+    @project.reload # reload references to indirectly created entities (e.g. wiki)
 
     @admin = FactoryGirl.create :admin
     @anonymous = FactoryGirl.create :anonymous
@@ -386,15 +387,16 @@ RAW
 
   def test_wiki_links
     User.current = @admin
-    wiki = FactoryGirl.create :wiki, :project => @project, :start_page => "CookBook documentation"
-    FactoryGirl.create :wiki_page_with_content, :wiki => wiki, :title => "CookBook_documentation"
-    FactoryGirl.create :wiki_page_with_content, :wiki => wiki, :title => "Another page"
-    @project.reload
+    @project.wiki.start_page = "CookBook documentation"
+    @project.wiki.save!
+    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "CookBook_documentation"
+    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Another page"
 
     project2 = FactoryGirl.create :valid_project, :identifier => 'onlinestore'
-    wiki2 = FactoryGirl.create :wiki, :project => project2, :start_page => "Start page"
-    FactoryGirl.create :wiki_page_with_content, :wiki => wiki2, :title => "Start_page"
-    @project.reload
+    project2.reload # reload indirectly created references (esp. the wiki)
+    project2.wiki.start_page = "Start page"
+    project2.wiki.save!
+    FactoryGirl.create :wiki_page_with_content, :wiki => project2.wiki, :title => "Start_page"
 
     to_test = {
       '[[CookBook documentation]]' => "<a href=\"/projects/#{@project.identifier}/wiki/CookBook_documentation\" class=\"wiki-page\">CookBook documentation</a>",
@@ -480,9 +482,9 @@ EXPECTED
   end
 
   def test_pre_content_should_not_parse_wiki_and_redmine_links
-    wiki = FactoryGirl.create :wiki, :project => @project, :start_page => "CookBook documentation"
-    FactoryGirl.create :wiki_page_with_content, :wiki => wiki, :title => "CookBook_documentation"
-    @project.reload
+    @project.wiki.start_page = "CookBook documentation"
+    @project.wiki.save!
+    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "CookBook_documentation"
 
     raw = <<-RAW
 [[CookBook documentation]]
@@ -538,10 +540,10 @@ EXPECTED
   end
 
   def test_wiki_links_in_tables
-    wiki = FactoryGirl.create :wiki, :project => @project, :start_page => "Page"
-    FactoryGirl.create :wiki_page_with_content, :wiki => wiki, :title => "Other page"
-    FactoryGirl.create :wiki_page_with_content, :wiki => wiki, :title => "Last page"
-    @project.reload
+    @project.wiki.start_page = "Page"
+    @project.wiki.save!
+    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Other page"
+    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Last page"
 
     to_test = {"|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
                  "<tr><td><a href=\"/projects/#{@project.identifier}/wiki/Page\" class=\"wiki-page new\">Link title</a></td>" +
@@ -590,10 +592,10 @@ EXPECTED
   end
 
   def test_table_of_content
-    wiki = FactoryGirl.create :wiki, :project => @project, :start_page => "Wiki"
-    FactoryGirl.create :wiki_page_with_content, :wiki => wiki, :title => "Wiki"
-    FactoryGirl.create :wiki_page_with_content, :wiki => wiki, :title => "another Wiki"
-    @project.reload
+    @project.wiki.start_page = "Wiki"
+    @project.wiki.save!
+    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Wiki"
+    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "another Wiki"
 
     raw = <<-RAW
 {{toc}}
@@ -652,13 +654,12 @@ RAW
   end
 
   def test_table_of_content_should_contain_included_page_headings
-    wiki  = FactoryGirl.create :wiki, :project => @project, :start_page => "Wiki"
-    page  = FactoryGirl.create :wiki_page_with_content, :wiki => wiki, :title => "Wiki"
-    child = FactoryGirl.create :wiki_page, :wiki => wiki, :title => "Child_1", :parent => page
+    @project.wiki.start_page = "Wiki"
+    @project.save!
+    page  = FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Wiki"
+    child = FactoryGirl.create :wiki_page, :wiki => @project.wiki, :title => "Child_1", :parent => page
     child.content = FactoryGirl.create :wiki_content, :page => child, :text => "h1. Child page 1\n\nThis is a child page"
-    assert child.save
-    @project.wiki = wiki;
-    assert @project.save
+    child.save!
 
     raw = <<-RAW
 {{toc}}
