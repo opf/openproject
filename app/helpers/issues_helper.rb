@@ -157,6 +157,42 @@ module IssuesHelper
     end
   end
 
+  def render_issue_tree_row(issue, level, relation)
+    css_classes = ["issue"]
+    css_classes << "issue-#{issue.id}"
+    css_classes << "idnt" << "idnt-#{level}" if level > 0
+
+    if relation == "root"
+      issue_text = link_to("#{h(issue.tracker.name)} ##{issue.id}",
+                             'javascript:void(0)',
+                             :style => "color:inherit; font-weight: bold; text-decoration:none; cursor:default;",
+                             :class => issue.css_classes)
+    else
+      title = ''
+
+      if relation == "parent"
+        title << content_tag(:span, l(:description_parent_issue), :class => "hidden-for-sighted")
+      elsif relation == "child"
+        title << content_tag(:span, l(:description_sub_issue), :class => "hidden-for-sighted")
+      end
+      title << " #{h(issue.tracker.name)} ##{issue.id}"
+
+      issue_text = link_to(title, issue, :class => issue.css_classes)
+    end
+    issue_text << ": "
+    issue_text << truncate(issue.subject, :length => 60)
+
+    content_tag('tr', [
+        content_tag('td', check_box_tag("ids[]", issue.id, false, :id => nil), :class => 'checkbox'),
+        content_tag('td', issue_text, :class => 'subject'),
+        content_tag('td', h(issue.status)),
+        content_tag('td', link_to_user(issue.assigned_to)),
+        content_tag('td', link_to_version(issue.fixed_version))
+      ].join,
+      :class => css_classes.join(' ')
+    )
+  end
+
   def issues_to_csv(issues, project = nil)
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
     decimal_separator = l(:general_csv_decimal_separator)
@@ -253,7 +289,7 @@ module IssuesHelper
 
   def entries_for_filter_select_sorted(query)
     # with rails 3.2 ActiveSupport::Inflector.transliterate should be used instead of I18n.transliterate
-    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el| 
+    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
       I18n.transliterate(el[0]).downcase
     end
   end

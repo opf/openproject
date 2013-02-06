@@ -9,17 +9,17 @@
 
       <!-- render parent elements -->
       <% @issue.ancestors.each do |issue| %>
-        <%= render :partial => 'subissue_row', :locals => { :issue => issue, :level => indent, :relation => "parent" } %>
+        <%= render_issue_tree_row issue, indent, "parent" %>
         <% indent += 1 %>
       <% end %>
 
       <!-- render current element -->
-      <%= render :partial => 'subissue_row', :locals => { :issue => @issue, :level => indent, :relation => "root" } %>
+      <%= render_issue_tree_row @issue, indent, "root" %>
       <% indent += 1 %>
 
       <!-- render child elements -->
       <% issue_list(@issue.descendants.sort_by(&:lft)) do |issue, level| %>
-        <%= render :partial => 'subissue_row', :locals => { :issue => issue, :level => indent + level, :relation => "child" } %>
+        <%= render_issue_tree_row issue, indent + level, "child" %>
       <% end %>
 
     </table>
