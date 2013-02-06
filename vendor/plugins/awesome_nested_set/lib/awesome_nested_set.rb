@@ -93,6 +93,7 @@ module CollectiveIdea #:nodoc:
 
           named_scope :roots, :conditions => {parent_column_name => nil}, :order => quoted_left_column_name
           named_scope :leaves, :conditions => "#{quoted_right_column_name} - #{quoted_left_column_name} = 1", :order => quoted_left_column_name
+
           if self.respond_to?(:define_callbacks)
             define_callbacks("before_move", "after_move")
           end
@@ -228,6 +229,18 @@ module CollectiveIdea #:nodoc:
 
         def quoted_scope_column_names
           scope_column_names.collect {|column_name| connection.quote_column_name(column_name) }
+        end
+
+        def quoted_left_column_full_name
+          "#{self.class.table_name}.#{quoted_left_column_name}"
+        end
+
+        def quoted_right_column_full_name
+          "#{self.class.table_name}.#{quoted_right_column_name}"
+        end
+
+        def quoted_parent_column_full_name
+          "#{self.class.table_name}.#{quoted_parent_column_name}"
         end
       end
 
@@ -426,7 +439,7 @@ module CollectiveIdea #:nodoc:
         # the base ActiveRecord class, using the :scope declared in the acts_as_nested_set
         # declaration.
         def nested_set_scope
-          options = {:order => quoted_left_column_name}
+          options = {:order => quoted_left_column_full_name}
           scopes = Array(acts_as_nested_set_options[:scope])
           options[:conditions] = scopes.inject({}) do |conditions,attr|
             conditions.merge attr => self[attr]
