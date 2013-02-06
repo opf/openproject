@@ -8,7 +8,7 @@
     <table id="issue_tree" class="list">
 
       <!-- render parent elements -->
-      <% @issue.ancestors.each do |issue| %>
+      <% @ancestors.each do |issue| %>
         <%= render_issue_tree_row issue, indent, "parent" %>
         <% indent += 1 %>
       <% end %>
@@ -18,7 +18,7 @@
       <% indent += 1 %>
 
       <!-- render child elements -->
-      <% issue_list(@issue.descendants.sort_by(&:lft)) do |issue, level| %>
+      <% issue_list(@descendants.sort_by(&:lft)) do |issue, level| %>
         <%= render_issue_tree_row issue, indent + level, "child" %>
       <% end %>
 

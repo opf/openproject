@@ -108,6 +108,8 @@ class IssuesController < ApplicationController
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
     @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
+    @ancestors = @issue.ancestors.visible.all(:include => [:tracker, :status, :priority, :fixed_version, :project])
+    @descendants = @issue.descendants.visible.all(:include => [:tracker, :status, :priority, :fixed_version, :project])
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @priorities = IssuePriority.all
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
