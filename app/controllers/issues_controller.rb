@@ -261,7 +261,14 @@ class IssuesController < ApplicationController
 
 private
   def find_issue
-    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
+    @issue = Issue.find(params[:id], :include => [{ :project => :enabled_modules },
+                                                  { :tracker => :custom_fields },
+                                                  :status,
+                                                  :author,
+                                                  :priority,
+                                                  :watcher_users,
+                                                  :custom_values,
+                                                  :category])
     @project = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404
