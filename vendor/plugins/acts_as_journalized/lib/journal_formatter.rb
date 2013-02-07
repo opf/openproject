@@ -56,7 +56,7 @@ module JournalFormatter
     hash[klass] = {}
   end
 
-  def render_detail(detail, no_html=false)
+  def render_detail(detail, options = { :no_html => false })
     if detail.respond_to? :to_ary
       key = detail.first
       values = detail.last
@@ -69,7 +69,7 @@ module JournalFormatter
 
     return nil if formatter.nil?
 
-    formatter.render(key, values, no_html)
+    formatter.render(key, values, options)
   end
 
   def formatter_instance(formatter_key)

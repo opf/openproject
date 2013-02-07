@@ -11,11 +11,11 @@ class JournalFormatter::Base
     @journal = journal
   end
 
-  def render(key, values, no_html = false)
+  def render(key, values, options = { :no_html => false })
 
     label, old_value, value = format_details(key, values)
 
-    unless no_html
+    unless options[:no_html]
       label, old_value, value = *format_html_details(label, old_value, value)
     end
 
@@ -24,7 +24,7 @@ class JournalFormatter::Base
 
   private
 
-  def format_details(key, values)
+  def format_details(key, values, options = {})
     label = label(key)
 
     old_value = values.first
