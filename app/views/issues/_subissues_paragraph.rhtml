@@ -18,7 +18,7 @@
       <% indent += 1 %>
 
       <!-- render child elements -->
-      <% issue_list(@descendants.sort_by(&:lft)) do |issue, level| %>
+      <% issue_list(@descendants) do |issue, level| %>
         <%= render_issue_tree_row issue, indent + level, "child" %>
       <% end %>
 
