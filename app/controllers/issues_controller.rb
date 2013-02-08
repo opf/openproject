@@ -115,8 +115,18 @@ class IssuesController < ApplicationController
                                               }
                                  ).select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
 
-    @ancestors = @issue.ancestors.visible.all(:include => [:tracker, :status, :priority, :fixed_version, :project])
-    @descendants = @issue.descendants.visible.all(:include => [:tracker, :status, :priority, :fixed_version, :project])
+    @ancestors = @issue.ancestors.visible.all(:include => [:tracker,
+                                                           :assigned_to,
+                                                           :status,
+                                                           :priority,
+                                                           :fixed_version,
+                                                           :project])
+    @descendants = @issue.descendants.visible.all(:include => [:tracker,
+                                                               :assigned_to,
+                                                               :status,
+                                                               :priority,
+                                                               :fixed_version,
+                                                               :project])
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @priorities = IssuePriority.all
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
