@@ -869,99 +869,160 @@ $(window).bind('resizeEnd', function() {
    is in place */
 
 (function ($) {
-  var append_href,
-      close,
-      dom_identifier = { 'indicator_class': 'ajax_indicator',
-                         'window_class': 'ajax_appended_information',
-                         'trigger_class': 'ajax_append' },
-      i18n = { 'hide': 'Hide' },
-      merge_with_defaults,
-      replace_with_loading,
-      replace_with_close,
-      replace_with_open,
-      slideIn,
-      init;
+  var AjaxAppender = function (options) {
+    var append_href,
+        close,
+        target_container,
+        is_inplace,
+        is_loaded,
+        state_loading,
+        state_loaded,
+        replace_with_close,
+        replace_with_open,
+        slideIn,
+        init;
 
-  close = function () {
-    var close_link = $(this),
-        information_window = close_link.siblings('.' + dom_identifier.window_class);
+    options = $.extend(true,
+                       {},
+                       { loading_class: 'loading',
+                         loading: null,
+                         loaded: null,
+                         load_target: null,
+                         trigger: '.ajax_append',
+                         container_class: 'ajax_appended_information',
+                         indicator_class: 'ajax_indicator',
+                         hide_text: 'Hide',
+                         loading_text: null
+                       },
+                       options);
 
-    replace_with_open(close_link);
+    close = function () {
+      var close_link = $(this),
+          information_window = close_link.siblings('.' + options.container_class);
 
-    information_window.slideUp();
-  };
+      replace_with_open(close_link);
 
-  append_href = function (link) {
-    var container,
-        url = link.attr('href');
+      information_window.slideUp();
+    };
 
-    container = link.siblings('.' + dom_identifier.window_class);
+    append_href = function (link) {
+      var target = target_container(link),
+          loading_div,
+          url = link.attr('href');
 
-    if (container.size() > 0) {
-      container.slideDown();
+      if (is_loaded(link)) {
+        state_loaded(target, link)
+      }
+      else {
+        state_loading(target);
 
-      replace_with_close(link, true);
-    }
-    else {
-      container = $('<div style="display:none" class="' + dom_identifier.window_class + '"></div>'),
+        $.ajax({ url: url,
+                 headers: { Accept: 'text/javascript' },
+                 complete: function (jqXHR) {
+                             target.html(jqXHR.responseText);
 
-      $.ajax({ url: url,
-               headers: { Accept: 'text/javascript' },
-               complete: function (jqXHR) {
-                           container.html(jqXHR.responseText);
-                           slideIn(container);
-                         }
-             });
+                             state_loaded(target, link);
+                           }
+               });
+      }
+    };
 
+    is_inplace = function() {
+      return options.load_target === null
+    };
 
-      link.parent().append(container);
+    is_loaded = function(link) {
+      var container = target_container(link);
 
-      replace_with_loading(link);
-    }
-  };
+      return container.children().not('.' + options.indicator_class).size() > 0
+    };
 
-  replace_with_loading = function (link) {
-    var loading = $('<span class="' + dom_identifier.indicator_class + '"></span>');
+    target_container = function(link) {
+      var target,
+          container_string = '<div class="' + options.container_class + '"></div>',
+          container;
 
-    link.hide();
+      if (is_inplace()) {
+        target = link.parent();
+      }
+      else {
+        target = $(options.load_target)
+      }
 
-    link.after(loading);
-  };
+      container = target.find('.' + options.container_class);
 
-  replace_with_close = function (to_replace, hide) {
-    var close_link = $('<a href="javascript:void(0)">' + i18n.hide + '</a>');
+      if (container.size() === 0) {
+        container = $(container_string);
 
-    to_replace.after(close_link);
+        target.append(container);
+      }
 
-    if (hide) {
-      to_replace.hide();
-    }
-    else {
+      return container
+    };
+
+    state_loading = function (target) {
+      var loading = $('<span class="' + options.indicator_class + '"></span>');
+
+      if (options.loading_text !== null) {
+        loading.html(options.loading_text);
+      }
+
+      target.addClass(options.loading_class);
+      target.append(loading);
+
+      if (options.loading !== null) {
+        options.loading.call(this, target);
+      }
+    };
+
+    state_loaded = function (target, link) {
+      target.removeClass(options.loading_class);
+
+      if (is_inplace()) {
+        replace_with_close(link, true);
+      }
+
+      if (options.loaded !== null) {
+        target.slideDown(function() {
+          options.loaded.call(this, target);
+        });
+      }
+      else{
+        target.slideDown();
+      }
+    };
+
+    replace_with_close = function (to_replace, hide) {
+      var close_link = $('<a href="javascript:void(0)">' + options.hide_text + '</a>');
+
+      to_replace.after(close_link);
+
+      if (hide) {
+        to_replace.hide();
+      }
+      else {
+        to_replace.remove();
+      }
+
+      close_link.click(close);
+    };
+
+    replace_with_open = function(to_replace) {
+      var load_link = to_replace.siblings(options.trigger);
+
       to_replace.remove();
-    }
 
+      /* this link is never removed, only hidden */
+      load_link.show();
+    };
 
-    close_link.click(close);
-  };
+    $(options.trigger).click(function(link) {
+      append_href($(this));
 
-  replace_with_open = function(to_replace) {
-    var load_link = to_replace.siblings('.' + dom_identifier.trigger_class);
+      return false;
+    });
 
-    to_replace.remove();
-
-    /* this link is never removed, only hidden */
-    load_link.show();
-  };
-
-  slideIn = function (container) {
-    container.slideDown();
-
-    replace_with_close(container.siblings('.' + dom_identifier.indicator_class));
-  };
-
-  merge_with_defaults = function (options) {
-    $.extend(dom_identifier, options.dom_identifier);
-    $.extend(i18n, options.i18n);
+    return this;
   };
 
   if ($.ajaxAppend) {
@@ -969,13 +1030,8 @@ $(window).bind('resizeEnd', function() {
   };
 
   $.ajaxAppend = function (options) {
-    merge_with_defaults(options);
-
-    $('.' + dom_identifier.trigger_class).click(function(link) {
-      append_href($(this));
-
-      return false;
-    });
+    AjaxAppender(options);
+    return this;
   };
 }(jQuery));
 

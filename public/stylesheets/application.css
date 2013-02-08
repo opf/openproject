@@ -626,6 +626,15 @@ vertical-align: bottom;
   vertical-align: bottom;
 }
 
+.ajax_appended_information.loading .ajax-indicator {
+  padding-left: 22px;
+  display: block;
+  width: 0em;
+  margin-left: auto;
+  margin-right: auto;
+  white-space: nowrap;
+}
+
 /***** Calendar *****/
 table.cal {border-collapse: collapse; width: 100%; margin: 0px 0 6px 0;border: 1px solid #d7d7d7;}
 table.cal thead th {width: 14%; background-color:#EEEEEE; padding: 4px; }
