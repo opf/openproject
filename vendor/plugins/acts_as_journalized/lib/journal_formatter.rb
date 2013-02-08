@@ -42,7 +42,6 @@ module JournalFormatter
     registered_fields[klass].merge!(field => formatter)
   end
 
-  # TODO: Document Formatters (can take up to three params, value, journaled, field ...)
   def self.default_formatters
     { :plaintext => JournalFormatter::Plaintext,
       :datetime => JournalFormatter::Datetime,
