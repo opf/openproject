@@ -115,6 +115,9 @@ module Redmine
               c.class_eval("belongs_to :journaled, :class_name => '#{name}' #{include_option}")
               c.class_eval("belongs_to :#{name.gsub("::", "_").underscore},
                   :foreign_key => 'journaled_id' #{include_option}")
+              c.class_eval("def self.journaled_class
+                              #{self}
+                            end")
             end
           end
         end
