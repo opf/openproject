@@ -1458,3 +1458,37 @@ var SubmitConfirm = (function($) {
     init: init
   };
 })(jQuery);
+
+var Issue = Issue || {};
+
+Issue.Show = (function($) {
+  var init;
+
+  init = function () {
+    $.ajaxAppend({
+      trigger: '.action_menu_main .edit',
+      indicator_class: 'ajax-indicator',
+      load_target: '#update',
+      loading_text: I18n.t("js.ajax.loading"),
+      loading_class: 'box loading',
+      loading: function(update) {
+                 $('html, body').animate({
+                   scrollTop: $(update).offset().top
+                 }, 200);
+               },
+      loaded: function(update) {
+                $('html, body').animate({
+                  scrollTop: $(update).offset().top
+                }, 200);
+
+                $("#notes").focus();
+      }
+    });
+  };
+
+  $('document').ready(function () {
+    if ($('body.controller-issues.action-show').size() > 0) {
+     init();
+    };
+  });
+})(jQuery);

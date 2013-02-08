@@ -178,6 +178,7 @@ class IssuesController < ApplicationController
     @journal = @issue.current_journal
 
     respond_to do |format|
+      format.js { render :partial => 'edit' }
       format.html { }
       format.xml  { }
     end
