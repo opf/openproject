@@ -20,6 +20,7 @@
 
 
 Dir[File.expand_path("../redmine/acts/journalized/*.rb", __FILE__)].each{|f| require f }
+Dir[File.expand_path("../acts/journalized/*.rb", __FILE__)].each{|f| require f }
 require "ar_condition"
 
 module Redmine
