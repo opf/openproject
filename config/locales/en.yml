@@ -1113,3 +1113,4 @@ en:
         zero: You cannot select any items
     ajax:
       loading: Loading ...
+      hide: Hide

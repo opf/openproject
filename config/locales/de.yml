@@ -1133,3 +1133,4 @@ de:
         zero: Sie dürfen keine Elemente auswählen
     ajax:
       loading: Lädt ...
+      hide: Verbergen

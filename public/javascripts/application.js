@@ -1484,6 +1484,13 @@ Issue.Show = (function($) {
                 $("#notes").focus();
       }
     });
+
+    $.ajaxAppend({
+      trigger: '.description-details',
+      indicator_class: 'ajax-indicator',
+      loading_class: 'text-diff',
+      hide_text: I18n.t("js.ajax.hide")
+    } );
   };
 
   $('document').ready(function () {
