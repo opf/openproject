@@ -186,4 +186,7 @@ def install
 end
 
 ROOT = Dir.pwd
+# TODO: make a Rails3 setup script
+puts "Setup-script currently disabled. This script should be adaptet to rails 3."
+abort_installation
 install
