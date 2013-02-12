@@ -59,7 +59,7 @@ module ChiliProject
       # Example:
       #    {{ product.images | last | to_img }}
       def last(array, count=nil)
-        array.last if count=nil? && array.respond_to?(:last)
+        return array.last if count.nil? && array.respond_to?(:last)
         if array.respond_to?(:[])
           count.to_i > 0 ? array[(count.to_i * -1)..-1] : []
         end
