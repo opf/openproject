@@ -24,8 +24,8 @@
 # not seem to accept even the simplest pull request. We should try again, when
 # the `rewrite` branch of i18n-js is released to master.
 #
-# Written against i18n-js v2.1.2
-SimplesIdeias::I18n.module_eval do
+# Written against i18n-js rewrite branch
+I18n::JS.module_eval do
   class << self
     def filter_with_uneven_nesting_fix(translations, scopes)
       filter_without_uneven_nesting_fix(translations, scopes) if translations.is_a? Hash
@@ -35,4 +35,4 @@ SimplesIdeias::I18n.module_eval do
 end
 
 # Exporting I18n files at server startup time
-SimplesIdeias::I18n.export!
+I18n::JS.export

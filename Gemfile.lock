@@ -5,6 +5,14 @@ GIT
     object-daddy (1.1.0)
 
 GIT
+  remote: git://github.com/fnando/i18n-js.git
+  revision: 689f4d709285cccfef9f5e10b295d9b2fe63d519
+  branch: rewrite
+  specs:
+    i18n-js (3.0.0.rc3)
+      i18n
+
+GIT
   remote: git://github.com/rails/rails.git
   revision: b4f189a162f4280b360dbc2a6635bbff6c6f09bc
   branch: 3-2-stable
@@ -148,8 +156,6 @@ GEM
     hike (1.2.1)
     htmldiff (0.0.1)
     i18n (0.6.1)
-    i18n-js (2.1.2)
-      i18n
     interception (0.3)
     journey (1.0.4)
     jquery-rails (2.2.0)
@@ -336,7 +342,7 @@ DEPENDENCIES
   guard-spork
   guard-test
   htmldiff
-  i18n-js
+  i18n-js!
   jquery-rails
   jquery-ui-rails
   jruby-openssl

@@ -26,7 +26,6 @@
 //= require context_menu
 //= require jstoolbar
 //= require calendar
-//= require i18n
 //= require i18n/translations
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
