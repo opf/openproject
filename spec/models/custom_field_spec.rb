@@ -42,8 +42,14 @@ describe CustomField do
         before do
           I18n.locale = :de
           field2.name = "taken_name"
-          field2.save!
+
+          # this fields needs an explicit english translations
+          # otherwise it falls back using the german one
           I18n.locale = :en
+          field2.name = "unique_name"
+
+          field2.save!
+
           field.name = "taken_name"
         end
 
