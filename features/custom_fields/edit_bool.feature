@@ -1,7 +1,7 @@
 Feature: Editing a bool custom field
 
   Background:
-    Given I am already logged in as "admin"
+    Given I am admin
     And the following languages are active:
       | en |
       | de |

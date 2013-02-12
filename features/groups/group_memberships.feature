@@ -32,22 +32,21 @@ Feature: Group Memberships
   Scenario: Adding a group to a project on the project's page adds the group members as well
     Given I am admin
 
-     When I go to the settings page of the project called "project1"
+     When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
       And I check "A-Team"
       And I check "Manager"
       And I press "Add"
-     Then I should be on the settings page of the project called "project1"
+     Then I should be on the settings page of the project called "Project1"
       And I should see "A-Team" within ".members"
       And I should see "Bob Bobbit" within ".members"
       And I should see "Peter Pan" within ".members"
-
 
   @javascript
   Scenario: Group-based memberships and individual memberships are handled separately
     Given I am admin
 
-     When I go to the settings page of the project called "project1"
+     When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
       And I check "Bob Bobbit"
       And I check "Manager"
@@ -72,21 +71,22 @@ Feature: Group Memberships
 
     Given I am admin
 
-     When I go to the settings page of the project called "project1"
+     When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
       And I check "A-Team"
       And I check "Manager"
       And I press "Add"
 
-     Then I should be on the settings page of the project called "project1"
+     Then I should be on the settings page of the project called "Project1"
       And I wait for the AJAX requests to finish
 
      When I delete the "A-Team" membership
       And I wait for the AJAX requests to finish
 
-     Then I should not see "A-Team" within ".members"
-      And I should not see "Bob Bobbit" within ".members"
-      And I should not see "Peter Pan" within ".members"
+     Then I should see "No data to display"
+      And I should not see "A-Team" within ".splitcontentleft"
+      And I should not see "Bob Bobbit" within ".splitcontentleft"
+      And I should not see "Peter Pan" within ".splitcontentleft"
 
   @javascript
   Scenario: Adding a user to a group adds the user to projects as well
@@ -104,7 +104,7 @@ Feature: Group Memberships
       And I press "Add"
       And I wait for the AJAX requests to finish
 
-     When I go to the settings page of the project called "project1"
+     When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
 
      Then I should see "A-Team" within ".members"
@@ -128,7 +128,7 @@ Feature: Group Memberships
       And I delete "bob" from the group
       And I wait for the AJAX requests to finish
 
-     When I go to the settings page of the project called "project1"
+     When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
 
      Then I should see "A-Team" within ".members"
@@ -148,7 +148,7 @@ Feature: Group Memberships
 
      Then the project member "A-Team" should have the role "Manager"
 
-     When I go to the settings page of the project called "project1"
+     When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
 
      Then I should see "A-Team" within ".members"

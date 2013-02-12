@@ -70,11 +70,11 @@
 
 <div class="splitcontentright">
 <% if roles.any? && available_principals.any? %>
-  <%= form_for(@member, :url => {:controller => 'members', :action => 'create', :project_id => @project, :page => params[:page]},
+  <%= form_for(:member, :url => {:controller => 'members', :action => 'create', :project_id => @project, :page => params[:page]},
                         :method => :post,
                         :remote => true,
-                        :loading => '$(\'member-add-submit\').disable();',
-                        :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable();') do |f| %>
+                        :loading => j('$("member-add-submit").disable();'),
+                        :complete => j('if($("member-add-submit")) $("member-add-submit").enable();')) do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
 
 		<p><%= label_tag "principal_search", l(:label_principal_search) %><%= text_field_tag 'principal_search', nil %></p>

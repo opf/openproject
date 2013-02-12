@@ -27,9 +27,9 @@ Given /^(?:|I )am not logged in$/ do
 end
 
 Given /^(?:|I )am [aA]dmin$/ do
-  steps %Q{
-    Given I am logged in as \"admin\"
-  }
+  FactoryGirl.create :admin unless User.where(:login => 'admin').any?
+  FactoryGirl.create :anonymous unless AnonymousUser.count > 0
+  login('admin', 'admin')
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
@@ -381,7 +381,7 @@ Given /^I select to see [cC]olumn "([^\"]*)"$/ do |column_name|
   }
 end
 
-Given /I select to see [cC]olumn(?:s)?$/ do |table|
+Given /^I select to see [cC]olumn(?:s)?$/ do |table|
   params = "?set_filter=1&" + table.raw.collect(&:first).collect do |name|
     page.source =~ /<option value="(.*?)">#{name}<\/option>/
     column_name = $1 || name.gsub(" ", "_").downcase
@@ -443,7 +443,7 @@ Given /^the [pP]roject uses the following modules:$/ do |table|
 end
 
 
-Given /the user "(.*?)" is a "(.*?)"/ do |user, role|
+Given /^the user "(.*?)" is a "(.*?)"$/ do |user, role|
   step %Q{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
 end
 

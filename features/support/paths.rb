@@ -1,3 +1,8 @@
+# TL;DR: YOU SHOULD DELETE THIS FILE
+#
+# This file is used by web_steps.rb, which you should also delete
+#
+# You have been warned
 module NavigationHelpers
   # Maps a name to a path. Used by the
   #
@@ -8,37 +13,40 @@ module NavigationHelpers
   def path_to(page_name)
     case page_name
 
-    when /the home\s?page/
+    when /^the home\s?page$/
       '/'
 
-    when /the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
+    when /^the login page$/
+      '/login'
+
+    when /^the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
       wiki_page = Wiki.titleize($1)
       project_identifier = $2.gsub("\"", "")
       project = Project.find_by_name(project_identifier)
       project_identifier = project.identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/wiki/#{wiki_page}"
 
-    when /the [cC]ost [rR]eports page (?:of|for) the project called "([^\"]+)" without filters or groups$/
+    when /^the [cC]ost [rR]eports page (?:of|for) the project called "([^\"]+)" without filters or groups$/
       project_identifier = Project.find_by_name($1).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/cost_reports?set_filter=1"
 
-    when /the [cC]ost [rR]eports page (?:of|for) the project called "([^\"]+)"$/
+    when /^the [cC]ost [rR]eports page (?:of|for) the project called "([^\"]+)"$/
       project_identifier = Project.find_by_name($1).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/cost_reports"
 
-    when /the overall [cC]ost [rR]eports page$/
+    when /^the overall [cC]ost [rR]eports page$/
       "/cost_reports"
 
-    when /the overall [cC]ost [rR]eports page without filters or groups$/
+    when /^the overall [cC]ost [rR]eports page without filters or groups$/
       "/cost_reports?set_filter=1"
 
-    when /the overall [cC]ost [rR]eports page with standard groups in debug mode$/
+    when /^the overall [cC]ost [rR]eports page with standard groups in debug mode$/
       "/cost_reports?set_filter=1&groups[columns][]=cost_type_id&groups[rows][]=user_id&debug=1"
 
-    when /the overall [cC]ost [rR]eports page with standard groups/
+    when /^the overall [cC]ost [rR]eports page with standard groups$/
       "/cost_reports?set_filter=1&groups[columns][]=cost_type_id&groups[rows][]=user_id"
 
-    when /the overall [pP]rojects page/
+    when /^the overall [pP]rojects page$/
       "/projects"
 
     when /^the (?:(?:overview |home ?))?page (?:for|of) the project(?: called)? "(.+)"$/
@@ -51,25 +59,25 @@ module NavigationHelpers
       project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/activity"
 
-    when /the page (?:for|of) the issue "([^\"]+)"/
+    when /^the page (?:for|of) the issue "([^\"]+)"$/
       issue = Issue.find_by_subject($1)
       "/issues/#{issue.id}"
 
-    when /the edit page (?:for|of) the issue "([^\"]+)"/
+    when /^the edit page (?:for|of) the issue "([^\"]+)"$/
       issue = Issue.find_by_subject($1)
       "/issues/#{issue.id}/edit"
 
-    when /the copy page (?:for|of) the issue "([^\"]+)"/
+    when /^the copy page (?:for|of) the issue "([^\"]+)"$/
       issue = Issue.find_by_subject($1)
       project = issue.project
       "/projects/#{project.identifier}/issues/#{issue.id}/copy"
 
-    when /the issues? index page (?:for|of) (the)? project(?: called)? (.+)/
+    when /^the issues? index page (?:for|of) (the)? project(?: called)? (.+)$/
        project_identifier = $2.gsub("\"", "")
        project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
        "/projects/#{project_identifier}/issues"
 
-    when /the wiki index page(?: below the (.+) page)? (?:for|of) (?:the)? project(?: called)? (.+)/
+    when /^the wiki index page(?: below the (.+) page)? (?:for|of) (?:the)? project(?: called)? (.+)$/
        parent_page_title, project_identifier = $1, $2
        project_identifier.gsub!("\"", "")
        project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
@@ -82,7 +90,7 @@ module NavigationHelpers
         "/projects/#{project_identifier}/wiki/index"
        end
 
-    when /the wiki new child page below the (.+) page (?:for|of) (?:the)? project(?: called)? (.+)/
+    when /^the wiki new child page below the (.+) page (?:for|of) (?:the)? project(?: called)? (.+)$/
        parent_page_title, project_identifier = $1, $2
        project_identifier.gsub!("\"", "")
        parent_page_title.gsub!("\"", "")
@@ -90,37 +98,37 @@ module NavigationHelpers
 
        "/projects/#{project_identifier}/wiki/#{parent_page_title}/new"
 
-    when /the edit page (?:for |of )(the )?role(?: called)? (.+)/
+    when /^the edit page (?:for |of )(the )?role(?: called)? (.+)$/
       role_identifier = $2.gsub("\"", "")
       role_identifier = Role.find_by_name(role_identifier).id
       "/roles/edit/#{role_identifier}"
 
-    when /the edit page (?:for |of )(the )?user(?: called)? (.+)/
+    when /^the edit page (?:for |of )(the )?user(?: called)? (.+)$/
       user_identifier = $2.gsub("\"", "")
       user_identifier = User.find_by_login(user_identifier).id
       "/users/#{user_identifier}/edit"
 
-    when /the show page (?:for |of )(the )?user(?: called)? (.+)/
+    when /^the show page (?:for |of )(the )?user(?: called)? (.+)$/
       user_identifier = $2.gsub("\"", "")
       user_identifier = User.find_by_login(user_identifier).id
       "/users/#{user_identifier}"
 
-    when /the index page (?:for|of) users/
+    when /^the index page (?:for|of) users$/
       "/users"
 
     when /^the global index page (?:for|of) (.+)$/
       "/#{$1}"
 
-    when /the edit page (?:for |of )the version(?: called) (.+)/
+    when /$the edit page (?:for |of )the version(?: called) (.+)$/
       version_name = $1.gsub("\"", "")
       version = Version.find_by_name(version_name)
       "/versions/edit/#{version.id}"
 
-    when /the new page (?:for|of) (.+)/
+    when /^the new page (?:for|of) (.+)$/
       model = $1.gsub!("\"", "").downcase
       "/#{model.pluralize}/new"
 
-    when /the edit page (?:for|of) (?:the )?([^\"]+?)(?: called)? "([^\"]+)"$/
+    when /^the edit page (?:for|of) (?:the )?([^\"]+?)(?: called)? "([^\"]+)"$/
       model, identifier = $1, $2
       identifier.gsub!("\"", "")
       model = model.gsub("\"", "").gsub(/\s/, "_")
@@ -135,16 +143,13 @@ module NavigationHelpers
 
       "#{root}/#{instance.id}/edit"
 
-    when /the log\s?in page/
-      '/login'
-
     when /^the log ?out page$/
       '/logout'
 
-    when /the (register|registration) page/
+    when /^the (register|registration) page$/
       '/account/register'
 
-    when /the activate registration page for the user called (.+) with (.+)/
+    when /^the activate registration page for the user called (.+) with (.+)$/
       name = $1.dup
       selection = $2.dup
       name.gsub!("\"","")
@@ -152,55 +157,55 @@ module NavigationHelpers
       u = User.find_by_login(name)
       "/account/#{u.id}/activate?#{selection}"
 
-    when /the My page/
+    when /^the My page$/
       '/my/page'
 
-    when /the [mM]y account page/
+    when /^the [mM]y account page$/
       '/my/account'
 
     when /^the (administration|admin) page$/
       '/admin'
 
-    when /the(?: (.+?) tab of the) settings page$/
+    when /^the(?: (.+?) tab of the) settings page$/
       if $1.nil?
         "/settings"
       else
         "/settings/edit?tab=#{$1}"
       end
 
-    when /the(?: (.+?) tab of the) settings page (?:of|for) the project "(.+?)"$/
+    when /^the(?: (.+?) tab of the) settings page (?:of|for) the project "(.+?)"$/
       if $1.nil?
         "/projects/#{$2}/settings"
       else
         "/projects/#{$2}/settings/#{$1}"
       end
 
-    when /the edit page of Announcement/
+    when /^the edit page of Announcement$/
       '/announcements/1/edit'
 
-    when /the index page of Roles/
+    when /^the index page of Roles$/
       '/roles'
 
-    when /the search page/
+    when /^the search page$/
       '/search'
 
-    when /the custom fields page/
+    when /^the custom fields page$/
       '/custom_fields'
 
-    when /the enumerations page/
+    when /^the enumerations page$/
       '/enumerations'
 
-    when /the authentication modes page/
+    when /^the authentication modes page$/
       '/auth_sources'
 
-    when /the page of the planning element "([^\"]+)" of the project called "([^\"]+)"$/
+    when /^the page of the planning element "([^\"]+)" of the project called "([^\"]+)"$/
       planning_element_name = $1
       project_name = $2
       project_identifier = Project.find_by_name(project_name).identifier.gsub(' ', '%20')
       planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
       "/timelines/projects/#{project_identifier}/planning_elements/#{planning_element.id}"
 
-    when /the (.+) page (?:for|of) the project called "([^\"]+)"$/
+    when /^the (.+) page (?:for|of) the project called "([^\"]+)"$/
       project_page = $1
       project_identifier = $2.gsub("\"", "")
       project_page = project_page.gsub(' ', '').underscore
@@ -218,18 +223,19 @@ module NavigationHelpers
 
     when /^the admin page of the group called "([^"]*)"$/
       id = Group.find_by_lastname!($1).id
-      "/groups/#{id}/edit"
+      "/admin/groups/#{id}/edit"
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
     #   when /^(.*)'s profile page$/i
     #     user_profile_path(User.find_by_login($1))
-
     else
       begin
-        super
-      rescue
+        page_name =~ /^the (.*) page$/
+        path_components = $1.split(/\s+/)
+        self.send(path_components.push('path').join('_').to_sym)
+      rescue NoMethodError, ArgumentError
         raise "Can't find mapping from \"#{page_name}\" to a path.\n" +
           "Now, go and add a mapping in #{__FILE__}"
       end
