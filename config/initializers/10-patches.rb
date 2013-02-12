@@ -261,3 +261,57 @@ module CollectiveIdea
     end
   end
 end
+
+
+# Backported fix for CVE-2012-5664
+# (options hashes should only be extracted if there are extra parameters)
+# Fixed Versions: 3.2.10, 3.1.9, 3.0.18
+# https://groups.google.com/forum/?fromgroups=#!topic/rubyonrails-security/DCNTNp_qjFM
+module ActiveRecord
+  class Base
+    class << self
+      def method_missing_with_fix_CVE_2012_5664(method_id, *arguments, &block)
+        if match = DynamicFinderMatch.match(method_id)
+          attribute_names = match.attribute_names
+          super unless all_attributes_exists?(attribute_names)
+          if match.finder?
+            finder = match.finder
+            bang = match.bang?
+            self.class_eval <<-EOS, __FILE__, __LINE__ + 1
+              def self.#{method_id}(*args)
+                options = if args.length > #{attribute_names.size}
+                            args.extract_options!
+                          else
+                            {}
+                          end
+                attributes = construct_attributes_from_arguments(
+                  [:#{attribute_names.join(',:')}],
+                  args
+                )
+                finder_options = { :conditions => attributes }
+                validate_find_options(options)
+                set_readonly_option!(options)
+
+                #{'result = ' if bang}if options[:conditions]
+                  with_scope(:find => finder_options) do
+                    find(:#{finder}, options)
+                  end
+                else
+                  find(:#{finder}, options.merge(finder_options))
+                end
+                #{'result || raise(RecordNotFound, "Couldn\'t find #{name} with #{attributes.to_a.collect {|pair| "#{pair.first} = #{pair.second}"}.join(\', \')}")' if bang}
+              end
+            EOS
+            send(method_id, *arguments)
+          else
+            method_missing_without_fix_CVE_2012_5664(method_id, *arguments, &block)
+          end
+        else
+          method_missing_without_fix_CVE_2012_5664(method_id, *arguments, &block)
+        end
+      end
+
+      alias_method_chain :method_missing, :fix_CVE_2012_5664
+    end
+  end
+end
