@@ -242,6 +242,9 @@ OpenProject::Application.routes.draw do
   match '/issues/:id/quoted' => 'journals#new', :id => /\d+/, :via => :post, :as => 'quoted_issue'
   match '/issues/:id/destroy' => 'issues#destroy', :via => :post # legacy
 
+  # Misc journal routes. TODO: move into resources
+  match '/journals/:id/diff/:field' => 'journals#diff', :via => :get, :as => 'journal_diff'
+
 
   namespace :time_entries do
     resource :report, :controller => 'reports',

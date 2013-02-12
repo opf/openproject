@@ -760,6 +760,120 @@ $(window).bind('resizeEnd', function() {
         }
 });
 
+/* this could and should be moved into separate file once the asset pipeline
+   is in place */
+
+(function ($) {
+  var append_href,
+      close,
+      dom_identifier = { 'indicator_class': 'ajax_indicator',
+                         'window_class': 'ajax_appended_information',
+                         'trigger_class': 'ajax_append' },
+      i18n = { 'hide': 'Hide' },
+      merge_with_defaults,
+      replace_with_loading,
+      replace_with_close,
+      replace_with_open,
+      slideIn,
+      init;
+
+  close = function () {
+    var close_link = $(this),
+        information_window = close_link.siblings('.' + dom_identifier.window_class);
+
+    replace_with_open(close_link);
+
+    information_window.slideUp();
+  };
+
+  append_href = function (link) {
+    var container,
+        url = link.attr('href');
+
+    container = link.siblings('.' + dom_identifier.window_class);
+
+    if (container.size() > 0) {
+      container.slideDown();
+
+      replace_with_close(link, true);
+    }
+    else {
+      container = $('<div style="display:none" class="' + dom_identifier.window_class + '"></div>'),
+
+      $.ajax({ url: url,
+               headers: { Accept: 'text/javascript' },
+               complete: function (jqXHR) {
+                           container.html(jqXHR.responseText);
+                           slideIn(container);
+                         }
+             });
+
+
+      link.parent().append(container);
+
+      replace_with_loading(link);
+    }
+  };
+
+  replace_with_loading = function (link) {
+    var loading = $('<span class="' + dom_identifier.indicator_class + '"></span>');
+
+    link.hide();
+
+    link.after(loading);
+  };
+
+  replace_with_close = function (to_replace, hide) {
+    var close_link = $('<a href="javascript:void(0)">' + i18n.hide + '</a>');
+
+    to_replace.after(close_link);
+
+    if (hide) {
+      to_replace.hide();
+    }
+    else {
+      to_replace.remove();
+    }
+
+
+    close_link.click(close);
+  };
+
+  replace_with_open = function(to_replace) {
+    var load_link = to_replace.siblings('.' + dom_identifier.trigger_class);
+
+    to_replace.remove();
+
+    /* this link is never removed, only hidden */
+    load_link.show();
+  };
+
+  slideIn = function (container) {
+    container.slideDown();
+
+    replace_with_close(container.siblings('.' + dom_identifier.indicator_class));
+  };
+
+  merge_with_defaults = function (options) {
+    $.extend(dom_identifier, options.dom_identifier);
+    $.extend(i18n, options.i18n);
+  };
+
+  if ($.ajaxAppend) {
+    return;
+  };
+
+  $.ajaxAppend = function (options) {
+    merge_with_defaults(options);
+
+    $('.' + dom_identifier.trigger_class).click(function(link) {
+      append_href($(this));
+
+      return false;
+    });
+  };
+}(jQuery));
+
 var Administration = (function ($) {
   var update_default_language_options,
       init_language_selection_handling,

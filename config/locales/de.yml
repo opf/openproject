@@ -526,6 +526,7 @@ de:
   label_login: Anmelden
   label_logout: Abmelden
   label_help: Hilfe
+  label_hide: Verbergen
   label_reported_issues: Gemeldete Tickets
   label_assigned_to_me_issues: Mir zugewiesen
   label_last_login: Letzte Anmeldung
@@ -927,8 +928,11 @@ de:
   text_are_you_sure: Sind Sie sicher?
   text_are_you_sure_with_children: "Lösche Aufgabe und alle Unteraufgaben?"
   text_journal_changed: "%{label} wurde von %{old} zu %{new} geändert"
+  text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_set_to: "%{label} wurde auf %{value} gesetzt"
+  text_journal_set_with_diff: "%{label} gesetzt (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
+  text_journal_deleted_with_diff: "%{label} wurde gelöscht (%{link})"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
   text_tip_issue_begin_day: Aufgabe, die an diesem Tag beginnt
   text_tip_issue_end_day: Aufgabe, die an diesem Tag endet
