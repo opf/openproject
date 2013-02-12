@@ -21,7 +21,7 @@ class WikiContent < ActiveRecord::Base
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 
   attr_accessor :comments
-  
+
   #attr_protected :author_id
 
   before_save :comments_to_journal_notes
@@ -100,7 +100,7 @@ class WikiContent < ActiveRecord::Base
       changes.delete("text")
       changes["data"] = hash[:text]
       changes["compression"] = hash[:compression]
-      update_attribute(:changes, changes.to_yaml)
+      update_attribute(:changes, changes)
     end
 
     def text
