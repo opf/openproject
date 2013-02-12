@@ -21,7 +21,8 @@
 //= require dragdrop
 //= require controls
 //= require breadcrumb
-//= require chosen
+//= require select2
+//= require findDomElement
 //= require context_menu
 //= require jstoolbar
 //= require calendar
@@ -531,6 +532,106 @@ jQuery.viewportHeight = function() {
 
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
+
+  $.extend($.fn.select2.defaults, {
+    formatNoMatches: function () {
+      return I18n.t("js.select2.no_matches");
+    },
+    formatInputTooShort: function (input, min) {
+      return I18n.t("js.select2.input_too_short", {count: min - input.length});
+    },
+    formatSelectionTooBig: function (limit) {
+      return I18n.t("js.select2.selection_too_big", {limit: limit});
+    },
+    formatLoadMore: function (pageNumber) {
+      return I18n.t("js.select2.load_more");
+    },
+    formatSearching: function () {
+      return I18n.t("js.select2.searching");
+    }
+  });
+
+  $('#project-search-container .select2-select').each(function (ix, select) {
+    var PROJECT_JUMP_BOX_PAGE_SIZE = 50;
+
+    var select2, menu;
+
+    select = $(select);
+    menu   = select.parents('li.drop-down');
+
+    select.select2({
+        formatResult : OpenProject.Helpers.Search.formatter,
+        matcher      : OpenProject.Helpers.Search.matcher,
+        query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
+                                    jQuery.proxy(openProject, 'fetchProjects'),
+                                    PROJECT_JUMP_BOX_PAGE_SIZE)
+      }).
+      on('change', function (e) {
+          if (e.val) {
+            window.location = select2.data().project.url;
+          }
+        }).
+      on('close', function () {
+          if (menu.is('.open')) {
+            menu.slideAndFocus();
+          }
+        });
+
+    select2 = select.data('select2');
+
+    // add custom css styling to result list
+    select2.dropdown.attr("id", "project-search-results");
+
+    // Adding an event handler to change select2's default behavior concerning
+    // TAB and ESC
+    select2.search.keydown(function (e) {
+      switch (e.which) {
+        case 9: // TAB
+          closestVisible = select2.container.children(".select2-choice").closest(":visible");
+          if (e.shiftKey) {
+            closestVisible.previousElementInDom(":input:visible, a:visible").focus();
+          } else {
+            closestVisible.nextElementInDom(":input:visible, a:visible").focus();
+          }
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          return false;
+        case 27: // ESC
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          return false;
+      }
+    });
+    // Moving the newly attached handler to the beginning of the handler chain
+    select2.search.data('events').keydown.unshift(select2.search.data('events').keydown.pop());
+
+    menu.bind("closed", function () {
+      // Close select2 result list, when menu is closed
+      select2.close();
+    });
+
+    menu.bind("opened", function () {
+      // Open select2 element, when menu is opened
+      select2.open();
+
+      // Include input in tab cycle by attaching keydown handlers to previous
+      // and next interactive DOM element.
+      select2.container.previousElementInDom(":input:visible, a:visible").keydown(function (e) {
+        if (!e.shiftKey && e.which === 9) {
+          select2.search.focus();
+          e.preventDefault();
+        }
+      });
+
+      select2.container.nextElementInDom(":input:visible:not(.select2-input), a:visible:not(.select2-input)").keydown(function (e) {
+        if (e.shiftKey && e.which === 9 && select2.search.is(":visible")) {
+          select2.search.focus();
+          e.preventDefault();
+        }
+      });
+    });
+  });
+
 	// file table thumbnails
 	$("table a.has-thumb").hover(function() {
 		$(this).removeAttr("title").toggleClass("active");
@@ -551,17 +652,14 @@ jQuery(document).ready(function($) {
 	});
 
 	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
-	$.fn.slideAndFocus = function() {
+	$.fn.slideAndFocus = function(callback) {
           this.toggleClass("open").find("> ul").mySlide(function() {
               // actually a simple focus should be enough.
               // The rest is only there to work around a rendering bug in webkit (as of Oct 2011) TODO: fix
               if ($("input#username-pulldown").is(":visible")) {
                 var input = $("input#username-pulldown");
               } else {
-                // reset input value and project search list
-                var input = $(".chzn-search input");
-                input.val("");
-                $("select#project-search").trigger($.Event("liszt:updated"));
+                var input = $(this).find(".select2-search input");
               }
               if (input.is(":visible")) {
                 input.blur();
@@ -572,8 +670,10 @@ jQuery(document).ready(function($) {
               else {
                 $(this).find("li > a:first").focus();
               }
+              if (typeof callback === 'function') {
+                callback.apply(this);
+              }
             });
-
             return false;
           };
 	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
@@ -581,8 +681,8 @@ jQuery(document).ready(function($) {
 		if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
 			// no animations, just toggle
 			this.toggle();
-                        if (callback != undefined) {
-                          callback();
+                        if (typeof callback === 'function') {
+                          callback.apply(this);
                         }
 			// this forces IE to redraw the menu area, un-bollocksing things
 			$("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
@@ -593,14 +693,63 @@ jQuery(document).ready(function($) {
 		return this;
 	};
 
+  $.fn.onClickDropDown = function(){
+    var that = this;
+    $('html').click(function() {
+      that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+      that.removeClass("hover");
+    });
+
+    // Do not close the login window when using it
+    that.find("li li").click(function(event){
+       event.stopPropagation();
+    });
+
+    // trap all mouseevents inside dropdown menu items to prevent side effects
+    this.find(" > li.drop-down").bind("mousedown mouseup click", function (event) {
+      event.stopPropagation();
+    });
+
+    this.find(" > li.drop-down").click(function(event) {
+      // if an h2 tag follows the submenu should unfold out at the border
+      var menu_start_position;
+      if (that.next().get(0) != undefined && (that.next().get(0).tagName == 'H2')){
+        menu_start_position = that.next().innerHeight() + that.next().position().top;
+        that.find("ul.action_menu_more").css({ top: menu_start_position });
+      }
+      else if(that.next().hasClass("wiki-content") && that.next().children().next().first().get(0) != undefined && that.next().children().next().first().get(0).tagName == 'H1'){
+        var wiki_heading = that.next().children().next().first();
+        menu_start_position = wiki_heading.innerHeight() + wiki_heading.position().top;
+        that.find("ul.action_menu_more").css({ top: menu_start_position });
+      }
+
+      $(this).toggleSubmenu(that);
+      return false;
+    });
+  };
+
   $.fn.toggleSubmenu = function(menu){
     if (menu.find(" > li.drop-down.open").get(0) !== $(this).get(0)){
-      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide(function () {
+        if ($(this).is(":visible")) {
+          $(this).parents('li.drop-down').trigger("opened");
+        } else {
+          $(this).parents('li.drop-down').trigger("closed");
+        }
+      });
     }
 
-    $(this).slideAndFocus();
+    $(this).slideAndFocus(function () {
+      if ($(this).is(":visible")) {
+        $(this).parents('li.drop-down').trigger("opened");
+      } else {
+        $(this).parents('li.drop-down').trigger("closed");
+      }
+    });
     menu.toggleClass("hover");
-  }
+  };
+
+
 
 	// open and close the main-menu sub-menus
 	$("#main-menu li:has(ul) > a").not("ul ul a")
@@ -629,7 +778,13 @@ jQuery(document).ready(function($) {
 			$(".title-bar-extras:hidden").slideDown(animationRate);
 		}
 
-		$(this).parent().find("ul").slideToggle(animationRate);
+		$(this).parent().find("ul").slideToggle(animationRate, function () {
+      if ($(this).is(":visible")) {
+        $(this).parents("li.drop-down").trigger("opened");
+      } else {
+        $(this).parents("li.drop-down").trigger("closed");
+      }
+    });
 
 		return false;
 	});
@@ -639,8 +794,12 @@ jQuery(document).ready(function($) {
                 //Close all other open menus
                 //Used to work around the rendering bug  TODO: fix
                 jQuery("input#username-pulldown").blur();
-                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide();
-                $(this).slideAndFocus();
+                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide(function () {
+                  $(this).parents("li.drop-down").trigger("closed");
+                });
+                $(this).slideAndFocus(function () {
+                  $(this).parents("li.drop-down").trigger("opened");
+                });
                 return false;
             }
         },
@@ -689,26 +848,6 @@ $(window).bind('resizeEnd', function() {
                         return false;
                       }
 		});
-
-        $('#header li.drop-down select.chzn-select').each(function (ix, select) {
-          // trigger an artificial mousedown event
-          var parent = $(select).parents('li.drop-down');
-          // deselect all options
-          $(select).find(":selected").each(function (ix, option) {
-            $(option).attr("selected", false);
-          });
-          $(select).chosen({allow_single_deselect:false});
-          parent.find('div.chzn-container').trigger(jQuery.Event("mousedown"))
-          parent.find('a.chzn-single').hide();
-          // prevent menu from getting closed prematurely
-          jQuery('div.chzn-search').click(function(event){
-             event.stopPropagation();
-          });
-          // remove highlights
-          parent.find(".chzn-results .active-result.highlighted").each(function (ix, option){
-            $(option).removeClass("highlighted");
-          });
-        });
 
         // Do not close the login window when using it
         $('#nav-login-content').click(function(event){
@@ -1253,11 +1392,11 @@ var I18nForms = (function ($) {
           }
         }
       }
-    }
+    };
 
     return {
       prepare : prepare
-    }
+    };
   })();
 
   init = function () {
@@ -1265,7 +1404,7 @@ var I18nForms = (function ($) {
 
     if (translated_paragraph.size() > 0) {
       memorize_ids();
-      event_handler.init()
+      event_handler.init();
 
       translated_paragraph.closest('form').submit(function () {
         submit_preparer.prepare($(this));
@@ -1295,7 +1434,7 @@ var SubmitConfirm = (function($) {
 
   return {
     init: init
-  }
+  };
 })(jQuery);
 
 var Preview = (function ($) {

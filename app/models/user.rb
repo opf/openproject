@@ -442,6 +442,15 @@ class User < Principal
     roles
   end
 
+  # Cheap version of Project.visible.count
+  def number_of_known_projects
+    if admin?
+      Project.count
+    else
+      Project.all_public.count + memberships.size
+    end
+  end
+
   # Return true if the user is a member of project
   def member_of?(project)
     roles_for_project(project).any?(&:member?)

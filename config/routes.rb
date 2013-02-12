@@ -74,6 +74,10 @@ OpenProject::Application.routes.draw do
 
     end
 
+    collection do
+      get :level_list
+    end
+
     resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]
 
     resources :documents, :shallow => true

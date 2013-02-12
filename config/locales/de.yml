@@ -1111,3 +1111,18 @@ de:
           Von den von Ihnen im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem "Gelöschten Nutzer" zugewiesen. Da die Daten aller gelöschter Accounts dem "Gelöschten Nutzer" zugewiesen werden ist es unmöglich die von ihnen erstellten Daten auf Ihre Person zurückzuführen.
         other: |
           Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem "Gelöschten Nutzer" zugewiesen. Da die Daten aller gelöschter Accounts dem "Gelöschten Nutzer" zugewiesen werden ist es unmöglich die von Nutzer erstellten Daten auf seine Person zurückzuführen.
+
+
+  js:
+    select2:
+      searching: Suche ...
+      load_more: Mehr Ergebnisse werden geladen ...
+      no_matches: Keine Treffer
+      input_too_short:
+        one: Bitte geben Sie ein weiteres Zeichen ein
+        other: Bitte geben Sie {{count}} weitere Zeichen ein
+        zero: Bitte geben Sie weitere Zeichen ein
+      selection_too_big:
+        one: Sie dürfen nur ein Element auswählen
+        other: Sie dürfen nur {{limit}} Elemente auswählen
+        zero: Sie dürfen keine Elemente auswählen

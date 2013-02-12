@@ -17,13 +17,13 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
 
-  before_filter :find_project, :except => [ :index, :new, :create, :copy ]
+  before_filter :find_project, :except => [ :index, :level_list, :new, :create, :copy ]
   before_filter :authorize, :only => [ :show, :settings, :edit, :update, :modules ]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   before_filter :jump_to_project_menu_item, :only => :show
   before_filter :load_project_settings, :only => :settings
-  accept_key_auth :index, :show, :create, :update, :destroy
+  accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
   after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
     if controller.request.post?
@@ -52,6 +52,15 @@ class ProjectsController < ApplicationController
         projects = Project.visible.find(:all, :order => 'created_on DESC',
                                               :limit => Setting.feeds_limit.to_i)
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
+      }
+    end
+  end
+
+  def level_list
+    respond_to do |format|
+      format.html { render_404 }
+      format.api {
+        @elements = Project.project_level_list(Project.visible)
       }
     end
   end

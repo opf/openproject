@@ -22,6 +22,9 @@ class Project < ActiveRecord::Base
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 
+  # reserved identifiers
+  RESERVED_IDENTIFIERS = %w( new level_list )
+
   # Specific overidden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
@@ -74,7 +77,7 @@ class Project < ActiveRecord::Base
   # donwcase letters, digits, dashes but not digits only
   validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-_]*$/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
-  validates_exclusion_of :identifier, :in => %w( new )
+  validates_exclusion_of :identifier, :in => RESERVED_IDENTIFIERS
 
   before_destroy :delete_all_members
 
@@ -705,6 +708,23 @@ class Project < ActiveRecord::Base
     projects_hierarchy = build_projects_hierarchy(projects)
     project_tree_from_hierarchy(projects_hierarchy, 0, &block)
   end
+
+  def self.project_level_list(projects)
+    list = []
+    project_tree(projects) do |project, level|
+
+      element = {
+        :project => project,
+        :level   => level
+      }
+
+      element.merge!(yield(project)) if block_given?
+
+      list << element
+    end
+    list
+  end
+
 
   private
 
