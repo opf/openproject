@@ -15,7 +15,7 @@ Feature: Create new meetings
   Scenario: Navigate to the meeting index page with no permission to create new meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
        Then I should not see "New Meeting"
 
@@ -24,7 +24,7 @@ Feature: Create new meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
        Then I should see "New Meeting"
 
@@ -32,7 +32,7 @@ Feature: Create new meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "New Meeting"
         And I click on "Create"
@@ -43,7 +43,7 @@ Feature: Create new meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "New Meeting"
         And I fill in the following:
@@ -58,7 +58,7 @@ Feature: Create new meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "New Meeting"
        Then I should see "New Meeting"
@@ -74,7 +74,7 @@ Feature: Create new meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "New Meeting"
        Then the "meeting[participants_attributes][][invited]" checkbox should be checked
@@ -85,7 +85,7 @@ Feature: Create new meetings
       | name       | foreverempty |
     And the project "foreverempty" uses the following modules:
       | meetings |
-    When I login as "admin"
+    When I am already logged in as "admin"
     And I go to the Meetings page for the project called "foreverempty"
     And I click on "New Meeting"
     And I fill in the following:

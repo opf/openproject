@@ -1,5 +1,5 @@
 Feature: Show existing meetings
-  
+
   Background:
         Given there is 1 project with the following:
               | identifier | dingens |
@@ -13,14 +13,14 @@ Feature: Show existing meetings
           And the role "user" may have the following rights:
               | view_meetings |
           And the user "alice" is a "user" in the project "dingens"
-  
+
   Scenario: Navigate to the meeting index page with no meetings
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the page for the project "dingens"
         And I click on "Meetings"
        Then I should see "Meetings" within "#content"
         And I should see "No data to display" within "#content"
-  
+
   Scenario: Navigate to the meeting index page with 2 meetings
       Given there is 1 meeting in project "dingens" created by "alice" with:
             | title      | Meeting 1           |
@@ -32,7 +32,7 @@ Feature: Show existing meetings
             | location   | Room 2              |
             | duration   | 2:30                |
             | start_time | 2011-02-10 11:00:00 |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the page for the project "dingens"
         And I click on "Meetings"
        Then I should see "Meetings" within "#content"
@@ -46,7 +46,7 @@ Feature: Show existing meetings
             | title | Meeting Today     |
       Given there is 5 meetings in project "dingens" that start -1 days from now with:
             | title | Meeting Last Week |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the page for the project "dingens"
         And I click on "Meetings"
          # see above: means 25 meetings
@@ -68,7 +68,7 @@ Feature: Show existing meetings
             | title | Meeting Today     |
       Given there is 27 meetings in project "dingens" that start -7 days from now with:
             | title | Meeting Last Week |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the page for the project "dingens"
         And I click on "Meetings"
        Then I should see "Meeting Today"

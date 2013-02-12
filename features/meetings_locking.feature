@@ -22,7 +22,7 @@ Feature: Locking meetings
             | create_meetings |
             | create_meeting_agendas |
             | edit_meetings |
-       When I login as "bob"
+       When I am already logged in as "bob"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
         And I follow "Edit" within ".meeting_agenda"

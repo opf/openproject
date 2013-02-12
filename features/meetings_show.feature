@@ -20,7 +20,7 @@ Feature: Show meetings
   Scenario: Navigate to a meeting page with an open agenda
       Given the role "user" may have the following rights:
             | view_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
        Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
@@ -32,7 +32,7 @@ Feature: Show meetings
             | view_meetings |
         And the meeting "Bobs Meeting" has 1 agenda with:
             | locked | true |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
        Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
@@ -43,7 +43,7 @@ Feature: Show meetings
       Given the role "user" may have the following rights:
             | view_meetings          |
             | create_meeting_agendas |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
        Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
@@ -57,7 +57,7 @@ Feature: Show meetings
             | create_meeting_minutes |
         And the meeting "Bobs Meeting" has 1 agenda with:
             | locked | true |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
        Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
@@ -69,7 +69,7 @@ Feature: Show meetings
       Given the role "user" may have the following rights:
             | view_meetings          |
             | create_meeting_minutes |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
             # Make sure we're on the right tab
@@ -83,7 +83,7 @@ Feature: Show meetings
             | create_meeting_agendas |
         And the meeting "Bobs Meeting" has 1 agenda with:
             | locked | true |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
             # Make sure we're on the right tab
@@ -97,7 +97,7 @@ Feature: Show meetings
             | create_meeting_minutes |
         And the meeting "Bobs Meeting" has 1 agenda with:
             | locked | true |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
         And I fill in "meeting_minutes[text]" with "Some minutes!"
@@ -114,7 +114,7 @@ Feature: Show meetings
             | text | blah |
         And the Meeting "Bobs Meeting" has 1 agenda with:
             | text | foo  |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
         And I click on "History"

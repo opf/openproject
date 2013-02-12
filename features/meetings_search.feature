@@ -1,5 +1,5 @@
 Feature: Search meetings through the global search
-  
+
   Background:
         Given there is 1 project with the following:
               | identifier | dingens |
@@ -25,10 +25,10 @@ Feature: Search meetings through the global search
               | text   | foobaz |
           And the meeting "Bobs Meeting" has minutes with:
               | text   | barbaz |
-  
+
   @javascript
   Scenario: Navigate to the search page and search for a meeting
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the search page
         And I fill in the following:
             | search-input | bob |

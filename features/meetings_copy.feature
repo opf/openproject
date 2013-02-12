@@ -1,5 +1,5 @@
 Feature: Copy meetings
-  
+
   Background:
         Given there is 1 project with the following:
               | identifier | dingens |
@@ -23,21 +23,21 @@ Feature: Copy meetings
               | title    | Alices Meeting |
               | location | CZI            |
               | duration | 1.5            |
-  
+
   Scenario: Navigate to a meeting page with permission to create meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Alices Meeting"
        Then I should see "Copy" within "#content > .contextual"
-  
+
   Scenario: Navigate to a meeting copy page
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Alices Meeting"
         And I click on "Copy"
@@ -46,38 +46,38 @@ Feature: Copy meetings
         And the "meeting[duration]" field should contain "1.5"
        #And no participant should be selected as attendee
        #And only invited participants should be selected as invitees
-  
+
   Scenario: Navigate to a meeting copy page to make sure the author is selected as invited but not as attendee
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
         And "alice" attended the Meeting "Alices Meeting"
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Alices Meeting"
         And I click on "Copy"
        Then the "meeting[participants_attributes][][invited]" checkbox should be checked
         And the "meeting[participants_attributes][][attended]" checkbox should not be checked
-  
+
   Scenario: Copy a meeting and make sure the author isn''t copied over
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Alices Meeting"
         And I click on "Copy"
         And I click on "Create"
        Then I should not see "Alice Alice; Alice Alice"
         And I should see "Alice Alice"
-  
+
   Scenario: Copy a meeting and make sure the agenda is copied over
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
         And the meeting "Alices Meeting" has 1 agenda with:
             | text | "blubber" |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Alices Meeting"
         And I click on "Copy"

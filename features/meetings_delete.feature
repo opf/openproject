@@ -1,5 +1,5 @@
 Feature: Delete meetings
-  
+
   Background:
         Given there is 1 project with the following:
               | identifier | dingens |
@@ -23,43 +23,43 @@ Feature: Delete meetings
               | location   | Room 2              |
               | duration   | 2:30                |
               | start_time | 2011-02-10 11:00:00 |
-  
+
   @javascript
   Scenario: Navigate to an other-created meeting with no permission to delete meetings
       Given the role "user" may have the following rights:
             | view_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
        Then I should not see "Delete"
-  
+
   @javascript
   Scenario: Navigate to a self-created meeting with permission to delete meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
             | delete_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Alices Meeting"
        Then I should see "Delete"
-  
+
   @javascript
   Scenario: Navigate to an other-created meeting with permission to delete meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
             | delete_meetings |
-       When I login as "alice"
+       When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
        Then I should see "Delete"
-  
+
   # TODO: kann nicht getestet werden bis die js confirm Geschichte geklärt ist
   #@javascript
   #Scenario: Delete an other-created meeting with permission to delete meetings
   #    Given the role "user" may have the following rights:
   #          | view_meetings   |
   #          | delete_meetings |
-  #     When I login as "alice"
+  #     When I am already logged in as "alice"
   #      And I go to the Meetings page for the project called "dingens"
   #      And I click on "Bobs Meeting"
   #          # TODO Wie kriegt man das hin?
