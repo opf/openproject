@@ -62,7 +62,7 @@ END_DESC
     task :read => :environment do
       options = { :issue => {} }
       default_fields = (ENV['default_fields'] || "").split
-      default_fields |= %w[project status tracker category priority]
+      default_fields |= %w[project status tracker category priority fixed_version]
       default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
@@ -145,7 +145,7 @@ END_DESC
 
       options = { :issue => {} }
       default_fields = (ENV['default_fields'] || "").split
-      default_fields |= %w[project status tracker category priority]
+      default_fields |= %w[project status tracker category priority fixed_version]
       default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
@@ -181,7 +181,7 @@ END_DESC
 
       options = { :issue => {} }
       default_fields = (ENV['default_fields'] || "").split
-      default_fields |= %w[project status tracker category priority]
+      default_fields |= %w[project status tracker category priority fixed_version]
       default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
