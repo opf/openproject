@@ -54,7 +54,7 @@ class MeetingMinutes < MeetingContent
       changes.delete("text")
       changes["data"] = hash[:text]
       changes["compression"] = hash[:compression]
-      update_attribute(:changes, changes.to_yaml)
+      update_attribute(:changes, changes)
     end
 
     def text
