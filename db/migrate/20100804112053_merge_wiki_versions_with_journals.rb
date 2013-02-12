@@ -39,7 +39,7 @@ class MergeWikiVersionsWithJournals < ActiveRecord::Migration
       changes = {}
       changes["compression"] = wv.compression
       changes["data"] = wv.data
-      journal.update_attribute(:changes, changes.to_yaml)
+      journal.update_attribute(:changes, changes)
       journal.update_attribute(:version, wv.version)
     end
     # drop_table :wiki_content_versions
