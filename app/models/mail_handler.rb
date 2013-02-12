@@ -251,7 +251,8 @@ class MailHandler < ActionMailer::Base
       @keywords[attr]
     else
       @keywords[attr] = begin
-        if (options[:override] || @@handler_options[:allow_override].include?(attr)) && (v = extract_keyword!(plain_text_body, attr.to_sym, options[:format]))
+        if (options[:override] || @@handler_options[:allow_override].include?(attr)) &&
+           (v = extract_keyword!(plain_text_body, attr.to_sym, options[:format]))
           v
         elsif !@@handler_options[:issue][attr.to_sym].blank?
           @@handler_options[:issue][attr.to_sym]
