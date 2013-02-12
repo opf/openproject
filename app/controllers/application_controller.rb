@@ -82,11 +82,11 @@ class ApplicationController < ActionController::Base
       user
     elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
       # RSS key authentication does not start a session
-      User.find_by_rss_key(params[:key])
+      User.find_by_rss_key(params[:key].to_s)
     elsif Setting.rest_api_enabled? && api_request?
       if (key = api_key_from_request) && accept_key_auth_actions.include?(params[:action])
         # Use API key
-        User.find_by_api_key(key)
+        User.find_by_api_key(key.to_s)
       else
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|

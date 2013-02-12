@@ -37,7 +37,7 @@ class AccountController < ApplicationController
   def lost_password
     redirect_to(home_url) && return unless Setting.lost_password?
     if params[:token]
-      @token = Token.find_by_action_and_value("recovery", params[:token])
+      @token = Token.find_by_action_and_value("recovery", params[:token].to_s)
       redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
@@ -53,7 +53,7 @@ class AccountController < ApplicationController
       return
     else
       if request.post?
-        user = User.find_by_mail(params[:mail])
+        user = User.find_by_mail(params[:mail].to_s)
         # user not found in db
         (flash.now[:error] = l(:notice_account_unknown_email); return) unless user
         # user uses an external authentification
@@ -109,7 +109,7 @@ class AccountController < ApplicationController
   # Token based account activation
   def activate
     redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
-    token = Token.find_by_action_and_value('register', params[:token])
+    token = Token.find_by_action_and_value('register', params[:token].to_s)
     redirect_to(home_url) && return unless token and !token.expired?
     user = token.user
     redirect_to(home_url) && return unless user.registered?
