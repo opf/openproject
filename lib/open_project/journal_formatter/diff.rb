@@ -40,7 +40,12 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
                  :field => key.downcase,
                  :only_path => false,
                  :protocol => Setting.protocol,
-                 :host => Setting.host_name }
+    # the link params should better be defined with the
+    # skip_relative_url_root => true
+    # option. But this method is flawed in 2.3
+    # revise when on 3.2
+                 :host => Setting.host_name.gsub(Redmine::Utils.relative_url_root, "") }
+
 
     if no_html
       url_for url_attr
