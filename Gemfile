@@ -39,6 +39,7 @@ end
 
 gem "prototype-rails"
 gem 'jquery-rails'
+gem "i18n-js"
 
 group :test do
   gem 'shoulda', '~> 3.1.1'

@@ -1091,8 +1091,6 @@ module ApplicationHelper
       tags += javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
     end
 
-    tags += i18n_js_tags
-
     if User.current.impaired? and accessibility_js_enabled?
       tags += javascript_include_tag("accessibility.js")
     end

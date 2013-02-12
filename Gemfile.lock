@@ -146,6 +146,8 @@ GEM
     hike (1.2.1)
     htmldiff (0.0.1)
     i18n (0.6.1)
+    i18n-js (2.1.2)
+      i18n
     interception (0.3)
     journey (1.0.4)
     jquery-rails (2.2.0)
@@ -331,6 +333,7 @@ DEPENDENCIES
   guard-spork
   guard-test
   htmldiff
+  i18n-js
   jquery-rails
   jquery-ui-rails
   jruby-openssl
