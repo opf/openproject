@@ -298,7 +298,7 @@ describe User, 'deletion' do
   end
 
   describe "WHEN the user is watching something" do
-    let(:watched) { FactoryGirl.create(:wiki_content) }
+    let(:watched) { FactoryGirl.create(:issue) }
     let(:watch) { Watcher.new(:user => user,
                               :watchable => watched) }
 
