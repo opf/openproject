@@ -237,10 +237,8 @@ describe WikiController do
           response.should be_success
           response.should have_exactly_one_selected_menu_item_in(:project_menu)
 
-          response.should have_tag('#main-menu') do
-            with_tag "a.#{@wiki_menu_item.item_class}"
-            without_tag "a.#{@wiki_menu_item.item_class}.selected"
-          end
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
         end
 
         it "is inactive, when another wiki menu item's page is shown" do
@@ -249,10 +247,8 @@ describe WikiController do
           response.should be_success
           response.should have_exactly_one_selected_menu_item_in(:project_menu)
 
-          response.should have_tag('#main-menu') do
-            with_tag "a.#{@wiki_menu_item.item_class}"
-            without_tag "a.#{@wiki_menu_item.item_class}.selected"
-          end
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
         end
 
         it 'is active, when the given wiki menu item is shown' do
@@ -261,9 +257,7 @@ describe WikiController do
           response.should be_success
           response.should have_exactly_one_selected_menu_item_in(:project_menu)
 
-          response.should have_tag('#main-menu') do
-            with_tag "a.#{@wiki_menu_item.item_class}.selected"
-          end
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected"
         end
       end
 
@@ -276,10 +270,8 @@ describe WikiController do
           response.should be_success
           response.should have_no_selected_menu_item_in(:project_menu)
 
-          response.should have_tag '#main-menu' do
-            with_tag "a.#{@wiki_menu_item.item_class}"
-            without_tag "a.#{@wiki_menu_item.item_class}.selected"
-          end
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
         end
 
         it 'is inactive, when a toc page is shown' do
@@ -288,10 +280,8 @@ describe WikiController do
           response.should be_success
           response.should have_no_selected_menu_item_in(:project_menu)
 
-          response.should have_tag('#main-menu') do
-            with_tag "a.#{@wiki_menu_item.item_class}"
-            without_tag "a.#{@wiki_menu_item.item_class}.selected"
-          end
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
         end
       end
 
@@ -302,9 +292,7 @@ describe WikiController do
           response.should be_success
           response.should have_exactly_one_selected_menu_item_in(:project_menu)
 
-          response.should have_tag('#main-menu') do
-            with_tag "a.#{@wiki_menu_item.item_class}.selected"
-          end
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected"
         end
       end
 
@@ -353,9 +341,7 @@ describe WikiController do
 
               response.should be_success
 
-              response.should have_tag '#content' do
-                with_tag "a", "Configure menu item"
-              end
+              assert_select '#content a', 'Configure menu item'
             end
           end
 
@@ -369,9 +355,7 @@ describe WikiController do
 
               response.should be_success
 
-              response.should have_tag '#content' do
-                without_tag "a", "Configure menu item"
-              end
+              assert_select '#content a', :text => 'Configure menu item', :count => 0
             end
           end
         end
@@ -385,9 +369,7 @@ describe WikiController do
 
               response.should be_success
 
-              response.should have_tag '#content' do
-                without_tag "a", "Create new child page"
-              end
+              assert_select '#content a', :text => 'Create new child page', :count => 0
             end
           end
 
@@ -401,9 +383,7 @@ describe WikiController do
 
               response.should be_success
 
-              response.should have_tag '#content' do
-                without_tag "a", "Create new child page"
-              end
+              assert_select '#content a', :text => 'Create new child page', :count => 0
             end
           end
         end
@@ -416,10 +396,7 @@ describe WikiController do
 
                 response.should be_success
 
-                response.should have_tag '#content' do
-                  with_tag "a[href=#{wiki_new_child_path(:project_id => @project, :id => @page_with_content.title)}]",
-                           "Create new child page"
-                end
+                assert_select "#content a[href=#{wiki_new_child_path(:project_id => @project, :id => @page_with_content.title)}]", 'Create new child page'
               end
             end
 
@@ -430,10 +407,8 @@ describe WikiController do
 
                 response.should be_success
 
-                response.should have_tag '#content' do
-                  without_tag "a[href=#{wiki_new_child_path(:project_id => @project, :id => 'i-am-a-ghostpage')}]",
-                           "Create new child page"
-                end
+                assert_select "#content a[href=#{wiki_new_child_path(:project_id => @project, :id => 'i-am-a-ghostpage')}]",
+                                :text => 'Create new child page', :count => 0
               end
             end
           end
@@ -448,9 +423,7 @@ describe WikiController do
 
               response.should be_success
 
-              response.should have_tag '#content' do
-                without_tag "a", "Create new child page"
-              end
+              assert_select '#content a', :text => 'Create new child page', :count => 0
             end
           end
         end
@@ -464,10 +437,7 @@ describe WikiController do
 
               response.should be_success
 
-              response.should have_tag '.menu_root' do
-                with_tag "a[href=#{wiki_new_child_path(:project_id => @project, :id => 'Wiki')}]",
-                         "Create new child page"
-              end
+              assert_select ".menu_root a[href=#{wiki_new_child_path(:project_id => @project, :id => 'Wiki')}]", 'Create new child page'
             end
           end
 
@@ -481,9 +451,7 @@ describe WikiController do
 
               response.should be_success
 
-              response.should have_tag '.menu_root' do
-                without_tag "a", "Create new child page"
-              end
+              assert_select '.menu_root a', :text => 'Create new child page', :count => 0
             end
           end
         end
@@ -495,10 +463,7 @@ describe WikiController do
 
               response.should be_success
 
-              response.should have_tag '.menu_root' do
-                with_tag "a[href=#{wiki_new_child_path(:project_id => @project, :id => 'Wiki')}]",
-                         "Create new child page"
-              end
+              assert_select ".menu_root a[href=#{wiki_new_child_path(:project_id => @project, :id => 'Wiki')}]", 'Create new child page'
             end
           end
 
@@ -512,9 +477,7 @@ describe WikiController do
 
               response.should be_success
 
-              response.should have_tag '.menu_root' do
-                without_tag "a", "Create new child page"
-              end
+              assert_select '.menu_root a', :text => 'Create new child page', :count => 0
             end
           end
         end
