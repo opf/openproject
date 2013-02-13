@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe WikiMenuItemsController do
   before do
-    User.destroy_all
-    Role.destroy_all
+    User.delete_all
+    Role.delete_all
 
     @project = FactoryGirl.create(:project)
     @project.reload # project contains wiki by default

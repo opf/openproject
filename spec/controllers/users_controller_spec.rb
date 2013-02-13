@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe UsersController do
+  before do
+    User.delete_all
+  end
+
   let(:user) { FactoryGirl.create(:user) }
   let(:admin) { FactoryGirl.create(:admin) }
 

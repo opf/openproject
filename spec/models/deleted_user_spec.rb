@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe DeletedUser do
+  before do
+    User.delete_all
+  end
+
   let(:user) { DeletedUser.new }
 
   describe :admin do

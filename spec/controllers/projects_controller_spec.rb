@@ -1,7 +1,12 @@
 require 'spec_helper'
 
 describe ProjectsController do
-  before :each do
+  before do
+    Role.delete_all
+    User.delete_all
+  end
+
+  before do
     @controller.stub!(:set_localization)
 
     @role = FactoryGirl.create(:non_member)

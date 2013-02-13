@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe WikiController do
+  before do
+    Role.delete_all # removing me makes us faster
+    User.delete_all # removing me makes us faster
+  end
+
   describe 'actions' do
     before do
       @controller.stub!(:set_localization)
