@@ -37,9 +37,7 @@ describe ProjectsController do
       it 'renders main menu without wiki menu item' do
         get 'show', @params
 
-        response.should have_tag('#main-menu') do
-          without_tag 'a.Wiki'
-        end
+        assert_select "#main-menu a.Wiki", false # assert_no_select
       end
     end
 
@@ -60,9 +58,7 @@ describe ProjectsController do
         it 'renders main menu with wiki menu item' do
           get 'show', @params
 
-          response.should have_tag('#main-menu') do
-            with_tag 'a.Wiki', :content => 'Wiki'
-          end
+          assert_select "#main-menu a.Wiki", 'Wiki'
         end
       end
 
@@ -81,17 +77,13 @@ describe ProjectsController do
         it 'renders main menu with wiki menu item' do
           get 'show', @params
 
-          response.should have_tag('#main-menu') do
-            with_tag 'a.Example', :content => 'Example'
-          end
+          assert_select "#main-menu a.Example", 'Example'
         end
 
         it 'renders main menu with sub wiki menu item' do
           get 'show', @params
 
-          response.should have_tag('#main-menu') do
-            with_tag 'a.Sub', :content => 'Sub'
-          end
+          assert_select "#main-menu a.Sub", 'Sub'
         end
       end
     end
