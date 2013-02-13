@@ -1,5 +1,11 @@
 = ChiliProject Changelog
 
+== 2013-02-13 v3.7.0
+
+* Security - Feature #1233: Bump rails to 2.3.17 to address [CVE-2013-0276]
+* Security - Bug #1234: Potential vulnerability in token authentication when running on MySQL
+* Bug #1235: Liquid's last filter errors out
+
 == 2013-01-29 v3.6.0
 
 * Bug #1216: "Only for things I watch or I'm involved in" sends notifications only for issues
