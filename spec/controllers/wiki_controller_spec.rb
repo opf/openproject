@@ -18,15 +18,13 @@ describe WikiController do
       @project = FactoryGirl.create(:project)
       @project.reload # to get the wiki into the proxy
 
-
-
       # creating pages
       @existing_page = FactoryGirl.create(:wiki_page, :wiki_id => @project.wiki.id,
-                                                  :title   => 'ExisitingPage')
+                                                      :title   => 'ExisitingPage')
 
       # creating page contents
       FactoryGirl.create(:wiki_content, :page_id   => @existing_page.id,
-                                    :author_id => @user.id)
+                                        :author_id => @user.id)
     end
 
     shared_examples_for "a 'new' action" do
@@ -79,7 +77,7 @@ describe WikiController do
       it 'renders 404 if used with an unknown page title' do
         get 'new_child', :project_id => @project, :id => "foobar"
 
-        response.status.should == "404 Not Found"
+        response.status.should == 404 # not found
       end
     end
 
@@ -331,8 +329,6 @@ describe WikiController do
     end
 
     describe '- wiki sidebar' do
-      include ActionView::Helpers
-
       describe 'configure menu items link' do
         describe 'on a show page' do
           describe "being authorized to configure menu items" do
