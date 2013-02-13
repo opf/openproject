@@ -52,6 +52,9 @@ describe User do
       before do
         issue.save!
 
+        # allow the user to watch the issue
+        issue.stubs(:visible?).with(user).returns(true)
+
         watcher.save!
       end
 
