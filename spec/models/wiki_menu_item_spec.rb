@@ -29,7 +29,7 @@ describe WikiMenuItem do
                                    :title   => 'Oldtitle')
 
       wikipage.title = 'Newtitle'
-      wikipage.save
+      wikipage.save!
 
       menu_item_1.reload
       menu_item_1.title.should == wikipage.title

@@ -303,7 +303,7 @@ describe User, 'deletion' do
                               :watchable => watched) }
 
     before do
-      watch.save
+      watch.save!
 
       user.destroy
     end

@@ -23,7 +23,7 @@ describe User do
         member.save!
 
         issue.assigned_to = user
-        issue.save
+        issue.save!
       end
 
       it { user.assigned_issues.should == [issue] }
@@ -31,9 +31,9 @@ describe User do
 
     describe "WHEN the user has no issue assigned" do
       before do
-        member.save
+        member.save!
 
-        issue.save
+        issue.save!
       end
 
       it { user.assigned_issues.should == [] }
@@ -50,9 +50,9 @@ describe User do
                                   :user => user) }
 
       before do
-        issue.save
+        issue.save!
 
-        watcher.save
+        watcher.save!
       end
 
       it { user.watches.should == [watcher] }
@@ -60,7 +60,7 @@ describe User do
 
     describe "WHEN the user isn't watching" do
       before do
-        issue.save
+        issue.save!
       end
 
       it { user.watches.should == [] }

@@ -49,7 +49,7 @@ describe DeletedUser do
       let(:u2) { FactoryGirl.build(:deleted_user) }
 
       before do
-        u1.save
+        u1.save!
         u2.save
       end
 
