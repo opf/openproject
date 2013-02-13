@@ -36,7 +36,7 @@ describe WikiMenuItemsController do
 
       get 'edit', @params
 
-      response.status.should == "403 Forbidden"
+      response.status.should == 403 # forbidden
     end
   end
 end
