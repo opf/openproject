@@ -94,7 +94,7 @@ function addBlock() {
 <div class="contextual">
 <% form_tag({:action => "add_block"}, :id => "block-form") do %>
   <%= select_tag 'block',
-                 "<option>--#{t(:button_add)}--</option>" + options_for_select(@block_options),
+                 "<option>--#{t(:button_add)}--</option>" + options_for_select(block_options),
                  :id => "block-select",
                  :onChange => "addBlock();"
 %>
@@ -107,9 +107,9 @@ function addBlock() {
 <h4><%=l(:label_visible_elements) %></h4>
 <% (field_list - ['hidden']).each do |f| %>
   <div id="list-<%= f %>" class="splitcontent<%= f %> block-receiver">
-    <% @blocks[f].each do |b| %>
+    <% blocks[f].each do |b| %>
       <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
-        <%= render(:partial => 'block', :locals => {:block_name => b}) %>
+        <%= render(:partial => 'block', :locals => { :block_name => b }) %>
       <% elsif b.respond_to? :to_ary %>
         <%= render(:partial => 'block_textilizable',
                    :locals => {:block_name => b.first,
@@ -123,7 +123,7 @@ function addBlock() {
 <div style="clear: both"></div>
 <h4><%=l(:label_hidden_elements) %></h4>
 <div id="list-hidden" class="block-receiver">
-  <% @blocks['hidden'].each do |b| %>
+  <% blocks['hidden'].each do |b| %>
     <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
       <%= render(:partial => 'block', :locals => {:block_name => b}) %>
     <% elsif b.respond_to? :to_ary %>

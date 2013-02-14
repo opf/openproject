@@ -1,8 +1,13 @@
 <h2 class="page-layout-only"><%=l(:label_news)%></h2>
 <h3><%=l(:label_news_latest)%></h3>
-<% if @news.any? && authorize_for('news', 'index') %>
+<% if recent_news.any? && authorize_for('news', 'index') %>
   <div class="news overview">
-    <%= render :partial => 'news/news', :collection => @news %>
-    <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
+    <%= render :partial => 'news/news', :collection => recent_news %>
+    <p>
+      <%= link_to l(:label_news_view_all),
+                  :controller => 'news',
+                  :action => 'index',
+                  :project_id => project %>
+    </p>
   </div>
 <% end %>

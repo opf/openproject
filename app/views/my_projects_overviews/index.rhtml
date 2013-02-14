@@ -1,14 +1,14 @@
 <div class="contextual">
     <%=
       context_links = []
-      if User.current.allowed_to?(:add_subprojects, @project)
+      if User.current.allowed_to?(:add_subprojects, project)
         context_links << link_to(l(:label_subproject_new),
                                  { :controller => 'projects',
                                    :action => 'new',
-                                   :parent_id => @project },
+                                   :parent_id => project },
                                  :class => 'icon icon-add')
       end
-      if User.current.allowed_to?(:edit_project, @project)
+      if User.current.allowed_to?(:edit_project, project)
         context_links << link_to(l(:label_personalize_page),
                                  { :action => 'page_layout' },
                                  :class => 'icon icon-edit')
@@ -21,42 +21,40 @@
 
 <% ['top', 'left', 'right'].each do |position| %>
   <div id="list-<%= position %>" class="splitcontent<%= position %>">
-    <% @blocks[position].each do |b| %>
+    <% blocks[position].each do |b| %>
       <div class="mypage-box">
         <div class="wiki">
           <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
-            <%= render :partial => "my_projects_overviews/blocks/#{b}",
-                       :locals => { :project => @project,
-                                    :user => @user,
-                                    :news => @news } %>
+            <%= render :partial => "my_projects_overviews/blocks/#{b}" %>
           <% elsif b.respond_to? :to_ary %>
             <%= render :partial => "my_projects_overviews/blocks/textilizable",
-                       :locals => { :project => @project,
-                                    :user => @user,
+                       :locals => { :project => project,
+                                    :user => user,
                                     :block_title => b[1],
                                     :textile => b.last } %>
           <% end %>
         </div>
       </div>
-    <% end if @blocks[position] %>
+    <% end if blocks[position] %>
   </div>
 <% end %>
 
 <%= context_menu :controller => 'issues', :action => 'context_menu' %>
 
 <% content_for :sidebar do %>
-    <% if @total_hours.present? %>
+  <% if total_hours.present? %>
     <h3><%= l(:label_spent_time) %></h3>
-    <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
+    <p><span class="icon icon-time"><%= l_hours(total_hours) %></span></p>
     <p>
-      <%= link_to(l(:label_details), {:controller => 'timelog', :action => 'index', :project_id => @project}) %> |
-      <%= link_to(l(:label_report), {:controller => 'time_entry_reports', :action => 'report', :project_id => @project}) %>
+      <%= link_to(l(:label_details), {:controller => 'timelog', :action => 'index', :project_id => project}) %> |
+
+      <%= link_to(l(:label_report), {:controller => 'time_entry_reports', :action => 'report', :project_id => project}) %>
       <% if authorize_for('timelog', 'new') %>
-        | <%= link_to l(:button_log_time), {:controller => 'timelog', :action => 'new', :project_id => @project} %>
+        | <%= link_to l(:button_log_time), {:controller => 'timelog', :action => 'new', :project_id => project} %>
       <% end %>
     </p>
-    <% end %>
-    <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
+  <% end %>
+  <%= call_hook(:view_projects_show_sidebar_bottom, :project => project) %>
 <% end %>
 
 <% content_for :header_tags do %>
