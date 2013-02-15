@@ -1,0 +1,7 @@
+<% users_by_role.keys.sort.each do |role| %>
+  <%=h role %>: <%= users_by_role[role].sort.collect{ |u| link_to_user u }.join("; ") %>
+  <% if users_by_role[role].count < count_users_by_role[role] %>
+    ... (<%= count_users_by_role[role] - users_by_role[role].count %> more)
+  <% end %>
+  <br />
+<% end %>

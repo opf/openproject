@@ -142,7 +142,16 @@ class MyProjectsOverviewsController < ApplicationController
     render :partial => 'page_layout_attachments'
   end
 
+  def show_all_members
+    respond_to do |format|
+      format.js { render :partial => "members",
+                         :locals => { :user_by_role => users_by_role(nil),
+                                      :count_users_by_role => count_users_by_role } }
+    end
+  end
+
   helper_method :users_by_role,
+                :count_users_by_role,
                 :childprojects,
                 :recent_news,
                 :trackers,
@@ -158,13 +167,6 @@ class MyProjectsOverviewsController < ApplicationController
                 :attachments,
                 :render_block,
                 :object_callback
-
-  def render_block name
-  end
-
-  def users_by_role
-    @users_by_role ||= project.users_by_role
-  end
 
   def childprojects
     @childprojects ||= project.children.visible.all
@@ -200,6 +202,51 @@ class MyProjectsOverviewsController < ApplicationController
                                                  :limit => 10,
                                                  :include => [ :status, :project, :tracker, :priority ],
                                                  :order => "#{IssuePriority.table_name}.position DESC, #{Issue.table_name}.updated_on DESC")
+  end
+
+  def users_by_role(limit = 100)
+
+    @users_by_role ||= if limit
+                         sql_string = all_roles.map do |r|
+                           %Q{ (Select users.*, member_roles.role_id from users
+                               JOIN members on users.id = members.user_id
+                               JOIN member_roles on member_roles.member_id = members.id
+                               WHERE members.project_id = #{ project.id } AND member_roles.role_id = #{ r.id }
+                               LIMIT #{ limit } ) }
+                         end.join(" UNION ALL ")
+
+                         User.find_by_sql(sql_string).group_by(&:role_id).inject({}) do |hash, (role_id, users)|
+                           hash[all_roles.detect{ |r| r.id == role_id.to_i }] = users
+                           hash
+                         end
+                       else
+
+                         project.users_by_role
+
+                       end
+  end
+
+  def count_users_by_role
+    @count_users_per_role ||= begin
+                                sql_string = all_roles.map do |r|
+                                  %Q{ (Select COUNT(users.id) count, member_roles.role_id role_id from users
+                                      JOIN members on users.id = members.user_id
+                                      JOIN member_roles on member_roles.member_id = members.id
+                                      WHERE members.project_id = #{ project.id } AND member_roles.role_id = #{ r.id } ) }
+                                end.join(" UNION ALL ")
+
+                                role_count = {}
+
+                                ActiveRecord::Base.connection.execute(sql_string).each do |count, role_id|
+                                  role_count[all_roles.detect{ |r| r.id == role_id.to_i }] = count.to_i if count.to_i > 0
+                                end
+
+                                role_count
+                              end
+  end
+
+  def all_roles
+    @all_roles = Role.all
   end
 
   def total_hours

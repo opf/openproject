@@ -1,11 +1,17 @@
 <h2 class="page-layout-only"><%=l(:label_member_plural)%></h2>
 <h3><%=l(:label_member_plural)%></h3>
 <% if users_by_role.any? %>
-  <div class="members overview">
+  <div class="members overview" id="users_per_role">
     <p>
-      <% users_by_role.keys.sort.each do |role| %>
-        <%=h role %>: <%= users_by_role[role].sort.collect{ |u| link_to_user u }.join(", ") %><br />
-      <% end %>
+      <%= render :partial => "members",
+                :locals => { :users_by_role => users_by_role(50),
+                             :count_users_by_role => count_users_by_role } %>
+    </p>
+    <p>
+      <%= link_to("Show all", { :controller => 'my_projects_overviews',
+                                :action => 'show_all_members',
+                                :id => project.id },
+                                :class => "all" ) %>
     </p>
   </div>
 <% end %>
