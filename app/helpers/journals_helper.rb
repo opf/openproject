@@ -44,10 +44,11 @@ module JournalsHelper
       </h4>
     HTML
 
+
     if journal.details.any?
       details = content_tag "ul", :class => "details journal-attributes" do
         journal.details.collect do |detail|
-          if d = journal.render_detail(detail)
+          if d = journal.render_detail(detail, :cache => options[:cache])
             content_tag("li", d)
           end
         end.compact.join(' ')
