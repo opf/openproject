@@ -2,7 +2,7 @@
 
 <ul>
 <% for detail in @journal.details %>
-    <li><%= @journal.render_detail(detail, true) %></li>
+  <li><%= @journal.render_detail(detail, :no_html => true) %></li>
 <% end %>
 </ul>
 

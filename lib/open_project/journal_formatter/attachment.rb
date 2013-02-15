@@ -7,10 +7,10 @@ class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
     { :only_path => true }
   end
 
-  def render(key, values, no_html = false)
+  def render(key, values, options = { :no_html => false })
     label, old_value, value = format_details(key.sub("attachments", ""), values)
 
-    unless no_html
+    unless options[:no_html]
       label, old_value, value = *format_html_details(label, old_value, value)
 
       value = format_html_attachment_detail(key.sub("attachments", ""), value)
