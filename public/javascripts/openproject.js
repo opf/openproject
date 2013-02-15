@@ -295,23 +295,33 @@ window.OpenProject = (function ($) {
           var unmatchedParents = [];
           var parents = match.project.parents.clone();
 
-          while (parents.length) {
-            project = parents.pop();
-
-            if (i > 0) {
-              previousMatchId = result[result.length - 1].id;
-            }
-
-            if (previousMatchId !== project.id) {
-              unmatchedParents.unshift({text : project.hname});
-            }
-            else {
-              parents  = []; // abort loop
-            }
+          if (i > 0) {
+            previousParents = result[result.length - 1].project.parents.clone();
+            previousParents.push(result[result.length - 1]);
           }
 
-          result = result.concat(unmatchedParents);
+          var k;
+          for (k = 0; k < parents.length; k += 1) {
+            if (typeof previousParents === "undefined" || typeof previousParents[k] === "undefined")
+              break;
+
+            if (previousParents[k].id !== parents[k].id)
+              break;
+          }
+
+          for (; k < parents.length; k += 1) {
+            result.push(parents[k]);
+          }
+
           result.push(match);
+        });
+
+        result = result.map(function (obj) {
+          if (typeof obj.text === "undefined") {
+            return {text: obj.hname};
+          }
+
+          return obj;
         });
 
         return result;
