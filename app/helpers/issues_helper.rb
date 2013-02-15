@@ -163,10 +163,10 @@ module IssuesHelper
     css_classes << "idnt" << "idnt-#{level}" if level > 0
 
     if relation == "root"
-      issue_text = [link_to("#{h(issue.tracker.name)} ##{issue.id}",
+      issue_text = link_to("#{h(issue.tracker.name)} ##{issue.id}",
                              'javascript:void(0)',
                              :style => "color:inherit; font-weight: bold; text-decoration:none; cursor:default;",
-                             :class => issue.css_classes)]
+                             :class => issue.css_classes)
     else
       title = []
 
@@ -178,14 +178,14 @@ module IssuesHelper
       title << h(issue.tracker.name)
       title << "##{issue.id}"
 
-      issue_text = [link_to(title.join(' '), issue_path(issue), :class => issue.css_classes)]
+      issue_text = link_to(title.join(' '), issue_path(issue), :class => issue.css_classes)
     end
     issue_text << ": "
     issue_text << truncate(issue.subject, :length => 60)
 
     content_tag('tr', [
         content_tag('td', check_box_tag("ids[]", issue.id, false, :id => nil), :class => 'checkbox'),
-        content_tag('td', issue_text.join(''), :class => 'subject'),
+        content_tag('td', issue_text, :class => 'subject'),
         content_tag('td', h(issue.status)),
         content_tag('td', link_to_user(issue.assigned_to)),
         content_tag('td', link_to_version(issue.fixed_version))
