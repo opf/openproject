@@ -318,7 +318,7 @@ fieldset.collapsible.header_collapsible > * {
   border-bottom:1px solid #E6E6E6;
   width:100%;
   padding-left:6px;
-  }
+}
 fieldset.collapsible.header_collapsible legend {
     background:#E6E6E6 url(../images/projectnavi_arrow_up.png) no-repeat 99% 50%; cursor:pointer;
     width:100%;
@@ -331,12 +331,11 @@ fieldset.collapsible.header_collapsible legend:hover {
 }
 fieldset.collapsible.collapsed.header_collapsible legend {
     background-image:url(../images/projectnavi_arrow_down.png);
-  }
+}
 fieldset.collapsible { border-width: 1px 0 0 0; }
 fieldset.collapsible.borders { border-width: 1px; }
 fieldset.collapsible.collapsed.borders { border-width: 1px 0 0 0; }
-fieldset.collapsible legend { padding-left: 16px; background: url(../images/arrow_expanded.png) no-repeat 0% 40%; cursor:pointer; }
-fieldset.collapsible.collapsed legend { background-image: url(../images/arrow_collapsed.png); }
+fieldset.collapsible legend { padding-left: 16px; cursor:pointer; }
 
 fieldset#date-range p { margin: 2px 0 2px 0; }
 fieldset#filters table { border-collapse: collapse; }
