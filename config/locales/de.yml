@@ -1131,3 +1131,6 @@ de:
         one: Sie dürfen nur ein Element auswählen
         other: Sie dürfen nur {{limit}} Elemente auswählen
         zero: Sie dürfen keine Elemente auswählen
+    ajax:
+      loading: Lädt ...
+      hide: Verbergen
