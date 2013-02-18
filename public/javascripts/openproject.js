@@ -46,17 +46,27 @@ window.OpenProject = (function ($) {
       });
     };
 
-    return function (callback) {
+    return function (url, callback) {
+      var fetchArgs = Array.prototype.slice.call(arguments);
+      if (typeof url === "function") {
+        callback = url;
+        url = undefined;
+      }
+
+      if (!url) {
+        url = "/projects/level_list.json";
+      }
+
       if (this.projects) {
         callback.call(this, this.projects);
         return;
       }
 
       jQuery.getJSON(
-        this.getFullUrl("/projects/level_list.json"),
+        this.getFullUrl(url),
         jQuery.proxy(function (data, textStatus, jqXHR) {
           this.projects = augment(this, data.projects);
-          this.fetchProjects(callback);
+          this.fetchProjects.apply(this, fetchArgs);
         }, this)
       );
     };
