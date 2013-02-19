@@ -33,6 +33,10 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     end
   end
 
+  # url_for wants to access the controller method, which we do not have in our Diff class.
+  # see: http://stackoverflow.com/questions/3659455/is-there-a-new-syntax-for-url-for-in-rails-3
+  def controller; @controller; end
+
   def link(key, no_html)
     url_attr = { :controller => 'journals',
                  :action => 'diff',
@@ -44,8 +48,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     # skip_relative_url_root => true
     # option. But this method is flawed in 2.3
     # revise when on 3.2
-                 :host => Setting.host_name.gsub(Redmine::Utils.relative_url_root, "") }
-
+                 :host => Setting.host_name.gsub(Redmine::Utils.relative_url_root.to_s, "") }
 
     if no_html
       url_for url_attr
