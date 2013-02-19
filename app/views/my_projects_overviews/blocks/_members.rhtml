@@ -8,10 +8,10 @@
                              :count_users_by_role => count_users_by_role } %>
     </p>
     <p>
-      <%= link_to("Show all", { :controller => 'my_projects_overviews',
-                                :action => 'show_all_members',
-                                :id => project.id },
-                                :class => "all" ) %>
+        <%= link_to(l(:'project_page.all'), { :controller => 'my_projects_overviews',
+                                              :action => 'show_all_members',
+                                              :id => project.id },
+                                              :class => "all" ) %>
     </p>
   </div>
 <% end %>
