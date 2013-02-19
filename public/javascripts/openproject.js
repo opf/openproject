@@ -292,6 +292,7 @@ window.OpenProject = (function ($) {
         var i, project, result = [];
 
         jQuery.each(matches, function (i, match) {
+          var previousParents;
           var unmatchedParents = [];
           var parents = match.project.parents.clone();
 
@@ -302,7 +303,7 @@ window.OpenProject = (function ($) {
 
           var k;
           for (k = 0; k < parents.length; k += 1) {
-            if (typeof previousParents === "undefined" || typeof previousParents[k] === "undefined")
+            if (typeof previousParents == "undefined" || typeof previousParents[k] == "undefined")
               break;
 
             if (previousParents[k].id !== parents[k].id)
@@ -377,7 +378,6 @@ window.OpenProject = (function ($) {
         });
       };
     };
-
 
     return Helpers;
   })();
