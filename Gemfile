@@ -39,7 +39,7 @@ end
 
 gem "prototype-rails"
 gem 'jquery-rails'
-gem "i18n-js", :git => "git://github.com/fnando/i18n-js.git", :branch => "rewrite"
+gem "i18n-js", :git => "git://github.com/tessi/i18n-js.git", :branch => "rewrite"
 
 group :test do
   gem 'shoulda', '~> 3.1.1'
