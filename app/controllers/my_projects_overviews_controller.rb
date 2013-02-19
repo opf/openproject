@@ -145,7 +145,7 @@ class MyProjectsOverviewsController < ApplicationController
   def show_all_members
     respond_to do |format|
       format.js { render :partial => "members",
-                         :locals => { :user_by_role => users_by_role(nil),
+                         :locals => { :users_by_role => users_by_role(0),
                                       :count_users_by_role => count_users_by_role } }
     end
   end
@@ -205,25 +205,29 @@ class MyProjectsOverviewsController < ApplicationController
   end
 
   def users_by_role(limit = 100)
+    @users_by_role = Hash.new do |h, size|
+      h[size] = if size > 0
+                  sql_string = all_roles.map do |r|
+                    %Q{ (Select users.*, member_roles.role_id from users
+                        JOIN members on users.id = members.user_id
+                        JOIN member_roles on member_roles.member_id = members.id
+                        WHERE members.project_id = #{ project.id } AND member_roles.role_id = #{ r.id }
+                        LIMIT #{ size } ) }
+                  end.join(" UNION ALL ")
 
-    @users_by_role ||= if limit
-                         sql_string = all_roles.map do |r|
-                           %Q{ (Select users.*, member_roles.role_id from users
-                               JOIN members on users.id = members.user_id
-                               JOIN member_roles on member_roles.member_id = members.id
-                               WHERE members.project_id = #{ project.id } AND member_roles.role_id = #{ r.id }
-                               LIMIT #{ limit } ) }
-                         end.join(" UNION ALL ")
+                  User.find_by_sql(sql_string).group_by(&:role_id).inject({}) do |hash, (role_id, users)|
+                    hash[all_roles.detect{ |r| r.id == role_id.to_i }] = users
+                    hash
+                  end
+                else
 
-                         User.find_by_sql(sql_string).group_by(&:role_id).inject({}) do |hash, (role_id, users)|
-                           hash[all_roles.detect{ |r| r.id == role_id.to_i }] = users
-                           hash
-                         end
-                       else
+                  project.users_by_role
 
-                         project.users_by_role
+                end
 
-                       end
+    end
+
+    @users_by_role[limit]
   end
 
   def count_users_by_role

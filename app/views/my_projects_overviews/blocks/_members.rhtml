@@ -1,6 +1,7 @@
 <h2 class="page-layout-only"><%=l(:label_member_plural)%></h2>
 <h3><%=l(:label_member_plural)%></h3>
-<% if users_by_role.any? %>
+
+<% if users_by_role(50).any? %>
   <div class="members overview" id="users_per_role">
     <p>
       <%= render :partial => "members",
@@ -8,10 +9,12 @@
                              :count_users_by_role => count_users_by_role } %>
     </p>
     <p>
+      <% if users_by_role(50).any?{ |role, users| users.count < count_users_by_role[role] } %>
         <%= link_to(l(:'project_page.all'), { :controller => 'my_projects_overviews',
                                               :action => 'show_all_members',
                                               :id => project.id },
                                               :class => "all" ) %>
+      <% end %>
     </p>
   </div>
 <% end %>
