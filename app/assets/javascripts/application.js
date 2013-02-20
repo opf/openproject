@@ -20,13 +20,14 @@
 //= require effects
 //= require dragdrop
 //= require controls
-//= require breadcrumb
+//= require i18n/translations
 //= require select2
+//= require openproject
+//= require breadcrumb
 //= require findDomElement
 //= require context_menu
 //= require jstoolbar
 //= require calendar
-//= require i18n/translations
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {

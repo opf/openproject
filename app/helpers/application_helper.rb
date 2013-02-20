@@ -1081,7 +1081,6 @@ module ApplicationHelper
   # Returns the javascript tags that are included in the html layout head
   def user_specific_javascript_includes
     tags = ''
-    tags += javascript_include_tag("openproject.js")
     tags += javascript_tag(%Q{
       window.openProject = new OpenProject({
         urlRoot : '#{Redmine::Utils.relative_url_root}'
