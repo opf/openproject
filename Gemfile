@@ -38,7 +38,7 @@ group :assets do
 end
 
 gem "prototype-rails"
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 2.0.3'
 gem "i18n-js", :git => "git://github.com/tessi/i18n-js.git", :branch => "rewrite"
 
 group :test do
@@ -166,6 +166,5 @@ end
 # Load Gemfile.local and plugins' Gemfiles
 Dir.glob File.expand_path("../{Gemfile.local,lib/plugins/*/Gemfile}", __FILE__) do |file|
   next unless File.readable?(file)
-
   instance_eval File.read(file)
 end
