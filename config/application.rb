@@ -2,12 +2,6 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# needed?
-# if RUBY_VERSION >= '1.9'
-#   Encoding.default_external = 'UTF-8'
-#   Encoding.default_internal = 'UTF-8'
-# end
-
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(development test)))
