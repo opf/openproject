@@ -137,3 +137,6 @@
 <% end %>
 <div id="context-menu" style="display: none;"></div>
 <%= javascript_tag "new ContextMenu('#{issues_context_menu_path}')" %>
+
+<% #include calendar js files in case they are needed for edit
+  include_calendar_headers_tags -%>
