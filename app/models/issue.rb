@@ -80,27 +80,15 @@ class Issue < ActiveRecord::Base
   validate :validate_enabled_tracker
   validate :validate_correct_parent
 
-  scope :visible, lambda {|*args|
-    { :include => :project,
-      :conditions => Issue.visible_condition(args.first || User.current)
-    }
-  }
+  scope :visible, lambda {|*args| { :include => :project,
+                                    :conditions => Issue.visible_condition(args.first || User.current) } }
 
-  scope :open, lambda {|*args|
-    { :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false],
-      :include => :status
-    }
-  }
+  scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
-  scope :recently_updated, lambda {|*args|
-    { :order => "#{Issue.table_name}.updated_on DESC" }
-  }
+  scope :recently_updated, :order => "#{Issue.table_name}.updated_on DESC"
   scope :with_limit, lambda { |limit| { :limit => limit} }
-  scope :on_active_project, lambda {|*args|
-    { :include => [:status, :project, :tracker],
-      :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
-    }
-  }
+  scope :on_active_project, :include => [:status, :project, :tracker],
+                            :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
 
   scope :without_version, lambda {
     {
