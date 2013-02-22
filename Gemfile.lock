@@ -5,6 +5,14 @@ GIT
     object-daddy (1.1.0)
 
 GIT
+  remote: git://github.com/fnando/i18n-js.git
+  revision: 689f4d709285cccfef9f5e10b295d9b2fe63d519
+  branch: rewrite
+  specs:
+    i18n-js (3.0.0.rc3)
+      i18n
+
+GIT
   remote: git://github.com/rails/rails.git
   revision: e55b0f6d42ee224513aa0a3e1552268b10e5d182
   branch: 3-2-stable
@@ -60,14 +68,6 @@ GIT
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
-
-GIT
-  remote: git://github.com/tessi/i18n-js.git
-  revision: 54f006382e1130ef57d817ff38536b43f7e6f92f
-  branch: rewrite
-  specs:
-    i18n-js (3.0.0.rc3)
-      i18n
 
 GIT
   remote: git@github.com:tessi/sprockets.git
