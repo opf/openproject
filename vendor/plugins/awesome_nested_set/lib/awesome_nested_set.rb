@@ -179,6 +179,7 @@ module CollectiveIdea #:nodoc:
           indices = {}
 
           set_left_and_rights = lambda do |node|
+
             # set left
             node[left_column_name] = indices[scope.call(node)] += 1
             # find
