@@ -82,8 +82,8 @@ class Project < ActiveRecord::Base
   before_destroy :delete_all_members
 
   scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
-  scope :active, where(:status => STATUS_ACTIVE)
-  scope :public, where(:is_public => true)
+  scope :active, lambda { where(:status => STATUS_ACTIVE) }
+  scope :public, lambda {where(:is_public => true) }
   scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
 
   def initialize(attributes = nil, options = {})
