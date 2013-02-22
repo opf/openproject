@@ -7,6 +7,8 @@ api.array :projects, api_meta(:size => @elements.size) do
       api.name(project.name)
       api.identifier(project.identifier)
 
+      api.has_children(project.children.present?)
+
       api.level(element[:level])
 
       api.created_on(project.created_on.utc) if project.created_on
