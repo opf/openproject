@@ -12,6 +12,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# While loading the Issue class below, we lazy load the Project class. Which itself need Issue.
+# So we create an 'emtpy' Issue class first, to make Project happy.
+class Issue < ActiveRecord::Base; end;
+require 'project' # We need to load Project here, because of load order dependencies.
+
 class Issue < ActiveRecord::Base
   include Redmine::SafeAttributes
 
@@ -87,8 +92,10 @@ class Issue < ActiveRecord::Base
 
   scope :recently_updated, :order => "#{Issue.table_name}.updated_on DESC"
   scope :with_limit, lambda { |limit| { :limit => limit} }
-  scope :on_active_project, :include => [:status, :project, :tracker],
-                            :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
+
+  scope :on_active_project, lambda { {
+    :include => [:status, :project, :tracker],
+    :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" }}
 
   scope :without_version, lambda {
     {
