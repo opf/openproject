@@ -62,6 +62,14 @@ GIT
       paper_trail (~> 2)
 
 GIT
+  remote: git://github.com/tessi/i18n-js.git
+  revision: 54f006382e1130ef57d817ff38536b43f7e6f92f
+  branch: rewrite
+  specs:
+    i18n-js (3.0.0.rc3)
+      i18n
+
+GIT
   remote: git@github.com:tessi/sprockets.git
   revision: f8cf7a6d158f000096a94fb4be74195e8459d0fd
   branch: 2_2_1-backport
@@ -161,8 +169,6 @@ GEM
     hike (1.2.1)
     htmldiff (0.0.1)
     i18n (0.6.1)
-    i18n-js (2.1.2)
-      i18n
     interception (0.3)
     journey (1.0.4)
     jquery-rails (2.0.3)
@@ -343,7 +349,7 @@ DEPENDENCIES
   guard-spork
   guard-test
   htmldiff
-  i18n-js
+  i18n-js!
   jquery-rails (~> 2.0.3)
   jquery-ui-rails
   jruby-openssl
