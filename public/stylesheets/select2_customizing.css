@@ -59,6 +59,7 @@
 }
 .select2-results .select2-result-unselectable {
   color: #999;
+  background:transparent;
 }
 
 
