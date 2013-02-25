@@ -31,7 +31,10 @@ class Project < ActiveRecord::Base
   has_many :assignable_members,
            :class_name => 'Member',
            :include => [:user, :roles],
-           :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE} AND roles.assignable = 1"
+           :conditions => ["#{User.table_name}.type=? AND #{User.table_name}.status=? AND roles.assignable = ?",
+                           'User',
+                           User::STATUS_ACTIVE,
+                           true]
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
