@@ -1,20 +1,17 @@
 Feature: Global Create Project
 
-  @javascript
   Scenario: Create Project is not a member permission
     Given there is a role "Member"
-    And I am admin
+    And I am already logged in as "admin"
     When I go to the edit page of the role "Member"
     Then I should not see "Create project"
 
-  @javascript
   Scenario: Create Project is a global permission
     Given there is a global role "Global"
-    And I am admin
+    And I am already logged in as "admin"
     When I go to the edit page of the role "Global"
     Then I should see "Create project"
 
-  @javascript
   Scenario: Create Project displayed to user
     Given there is a global role "Global"
     And the global role "Global" may have the following rights:
@@ -24,11 +21,10 @@ Feature: Global Create Project
       | Firstname | Bob |
       | Lastname | Bobbit |
     And the user "bob" has the global role "Global"
-    When I login as "bob"
+    When I am already logged in as "bob"
     And I go to the overall projects page
     Then I should see "New project"
 
-  @javascript
   Scenario: Create Project displayed to user
     Given there is a global role "Global"
     And the global role "Global" may have the following rights:
@@ -38,10 +34,10 @@ Feature: Global Create Project
       | Firstname | Bob |
       | Lastname | Bobbit |
     And the user "bob" has the global role "Global"
-    When I login as "bob"
+    When I am already logged in as "bob"
     And I go to the new page of "Project"
     And I fill in "project_name" with "ProjectName"
     And I fill in "project_identifier" with "projectid"
-    And I click on "Save"
+    And I press "Save"
     Then I should see "Successful creation."
     And I should be on the settings page of the project called "ProjectName"

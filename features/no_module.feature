@@ -1,11 +1,10 @@
 Feature: No Module
 
-  @javascript
   Scenario: Global Rights Modules do not exist as Project -> Settings -> Modules
     Given there is the global permission "glob_test" of the module "global"
     And there is 1 project with the following:
-      | Name | Test |
-    And I am admin
-    When I go to the Settings page for the project called "Test"
-    And I click on "tab-modules"
+      | name       | test |
+      | identifier | test |
+    And I am already logged in as "admin"
+    When I go to the members tab of the settings page for the project "test"
     Then I should not see "Global"

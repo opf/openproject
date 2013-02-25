@@ -11,7 +11,7 @@ Feature: Unchanged Member Roles
       | Lastname | Bobbit |
     And there is a global role "GlobalRole1"
     And there is a role "MemberRole1"
-    And I am admin
+    And I am already logged in as "admin"
     When I go to the project member settings of the project called "projectname"
     And I filter for the user "bob"
     Then I should see "MemberRole1"
