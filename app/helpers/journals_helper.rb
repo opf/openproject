@@ -48,7 +48,7 @@ module JournalsHelper
     if journal.details.any?
       details = content_tag "ul", :class => "details journal-attributes" do
         journal.details.collect do |detail|
-          if d = journal.render_detail(detail).html_safe
+          if d = journal.render_detail(detail, :cache => options[:cache]).html_safe
             content_tag("li", d)
           end
         end.compact.join(' ').html_safe
