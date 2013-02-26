@@ -70,7 +70,7 @@ GIT
       paper_trail (~> 2)
 
 GIT
-  remote: git@github.com:tessi/sprockets.git
+  remote: git://github.com/tessi/sprockets.git
   revision: f8cf7a6d158f000096a94fb4be74195e8459d0fd
   branch: 2_2_1-backport
   specs:

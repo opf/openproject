@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # until we have 3.2.10 use rails-3-2-stable to avoid mocha bugs
 # see: https://github.com/freerange/mocha/issues/117
 gem "rails", :git => "git://github.com/rails/rails.git", :branch => "3-2-stable"
-gem "sprockets", :git => "git@github.com:tessi/sprockets.git", :branch => "2_2_1-backport"
+gem "sprockets", :git => "git://github.com/tessi/sprockets.git", :branch => "2_2_1-backport"
 #gem 'rails', '3.2.10'
 
 gem "coderay", "~> 1.0.5"
