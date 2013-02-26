@@ -16,8 +16,8 @@ Feature: Exporting issues
 
   Scenario: No export links on project issues index if user has no "export_issues" permission
     When I go to the issues index page of the project called "project1"
-    Then I should not see "CSV" within ".other-formats"
-    And I should not see "PDF" within ".other-formats"
+    Then I should not see "CSV"
+    And I should not see "PDF"
 
   Scenario: Export links on project issues index if user has the "export_issues" permission
     Given the role "member" may have the following rights:
@@ -29,8 +29,8 @@ Feature: Exporting issues
 
   Scenario: No export links on global issues index if user has no "export_issues" permission
     When I go to the global index page of issues
-    Then I should not see "CSV" within ".other-formats"
-    And I should not see "PDF" within ".other-formats"
+    Then I should not see "CSV"
+    And I should not see "PDF"
 
   Scenario: Export links on global issues index if user has the "export_issues" permission
     Given the role "member" may have the following rights:
