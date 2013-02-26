@@ -34,7 +34,7 @@ Feature: Copying an issue should copy the watchers
     When I go to the copy page for the issue "Improve sex drive"
     Then I should not see "Watchers"
     When I fill in "issue_subject" with "Improve sex drive even more"
-    When I click on "Create"
+    When I click on the first button matching "Create"
     Then I should not see "Watchers"
     And the issue "Improve sex drive even more" should have 0 watchers
 
@@ -43,6 +43,6 @@ Feature: Copying an issue should copy the watchers
     When I go to the copy page for the issue "Improve sex drive"
     Then I should see "Watchers" within "p#watchers_form"
     When I fill in "issue_subject" with "Improve sex drive even more"
-    When I click on "Create"
+    When I click on the first button matching "Create"
     Then I should see "Watchers (2)"
     And the issue "Improve sex drive even more" should have 2 watchers
