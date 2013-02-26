@@ -121,7 +121,7 @@ class Issue < ActiveRecord::Base
   # | 2   | 1         | 2       |
   # | 3   | 2         | 2       |
   # This would only be possible using recursive statements
-  named_scope :invalid_root_ids, { :conditions => "(issues.parent_id IS NOT NULL AND " +
+  scope :invalid_root_ids, { :conditions => "(issues.parent_id IS NOT NULL AND " +
                                                     "(issues.root_id = issues.id OR " +
                                                     "(issues.root_id = parent_issues.id AND parent_issues.parent_id IS NOT NULL) OR " +
                                                     "(issues.root_id != parent_issues.root_id))" +
