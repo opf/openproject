@@ -59,21 +59,10 @@ Given /^I am already logged in as "(.+?)"$/ do |login|
   end
 end
 
-def login_user(username, password = "admin")
-  steps %Q{
-    Given I am on the logout page
-     When I go to the login page
-      And I fill in "#{username}" for "username"
-      And I fill in "#{password}" for "password"
-      And I press "Login"
-     Then I should be logged in as "#{username}"
-  }
-end
-
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
-  FactoryGirl.create(:admin) unless User.find_by_login("admin")
-  FactoryGirl.create(:anonymous) unless AnonymousUser.count > 0
-  login_user(username)
+  FactoryGirl.create :admin unless User.where(:login => 'admin').any?
+  FactoryGirl.create :anonymous unless AnonymousUser.count > 0
+  login(username, 'admin')
 end
 
 Given /^there is 1 [pP]roject with(?: the following)?:$/ do |table|
@@ -410,7 +399,7 @@ end
 When /^(?:|I )login as (.+)? with password (.+)?$/ do |username, password|
   username = username.gsub("\"", "")
   password = password.gsub("\"", "")
-  login_user(username, password)
+  login(username, password)
 end
 
 Then /^I should be logged in as "([^\"]*)"?$/ do |username|

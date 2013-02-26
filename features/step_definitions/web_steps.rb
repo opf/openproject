@@ -350,6 +350,11 @@ Given /^I (accept|dismiss) the alert dialog$/ do |method|
   end
 end
 
+# that's capybara's old behaviour: clicking the first button that matches
+When /^(?:|I )click on the first button matching "([^"]*)"$/ do |button|
+  first(:button, button).click
+end
+
 def find_lowest_containing_element text, selector
   elements = []
 
