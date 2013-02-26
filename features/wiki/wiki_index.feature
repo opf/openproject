@@ -1,7 +1,8 @@
 Feature: Viewing the wiki index page
 
   Background:
-    Given there is 1 user with the following:
+    Given there are no wiki menu items
+    And there is 1 user with the following:
       | login | bob |
     And there is a role "member"
     And the role "member" may have the following rights:
@@ -25,7 +26,7 @@ Feature: Viewing the wiki index page
       | index_page | true           |
     When I go to the wiki index page below the "ParentWikiPage" page of the project called "project1"
     Then I should see "Index by title" within "#content"
-    And the table of contents wiki menu item within the "ParentWikiPage" menu item should be selected
+    And the table of contents wiki menu item inside the "ParentWikiPage" menu item should be selected
 
   Scenario: Visiting the wiki index page with a related page that has the index page option disabled on it's menu item should show the page and select no menu item
     Given the project "project1" has 1 wiki page with the following:

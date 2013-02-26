@@ -1,3 +1,7 @@
+Given /^there are no wiki menu items$/ do
+  WikiMenuItem.destroy_all
+end
+
 Given /^the project "(.*?)" has (?:1|a) wiki menu item with the following:$/ do |project_name, table|
   item = FactoryGirl.build(:wiki_menu_item)
   send_table_to_object(item, table)
@@ -18,13 +22,13 @@ Given /^the project "(.*?)" has a child wiki page of "(.*?)" with the following:
   wikipage.save!
 end
 
-Then /^the table of contents wiki menu item within the "(.*?)" menu item should be selected$/ do |parent_item_name|
+Then /^the table of contents wiki menu item inside the "(.*?)" menu item should be selected$/ do |parent_item_name|
   parent_item = WikiMenuItem.find_by_title(parent_item_name)
 
   page.should have_css(".#{parent_item.item_class}-toc.selected")
 end
 
-Then /^the child page wiki menu item within the "(.*?)" menu item should be selected$/ do |parent_item_name|
+Then /^the child page wiki menu item inside the "(.*?)" menu item should be selected$/ do |parent_item_name|
   parent_item = WikiMenuItem.find_by_title(parent_item_name)
 
   page.should have_css(".#{parent_item.item_class}-new-page.selected")

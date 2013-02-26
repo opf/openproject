@@ -1,6 +1,7 @@
 Feature: Wiki menu items
   Background:
-    Given there is 1 project with the following:
+    Given there are no wiki menu items
+    And there is 1 project with the following:
       | name        | Awesome Project      |
       | identifier  | awesome-project      |
     And there is a role "member"
