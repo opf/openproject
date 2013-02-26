@@ -96,10 +96,29 @@ class IssuesController < ApplicationController
   def show
     @journals = @issue.journals.changing.find(:all, :include => [:user, :journaled], :order => "#{Journal.table_name}.created_at ASC")
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
-    @changesets = @issue.changesets.visible.all
+    @changesets = @issue.changesets.visible.all(:include => [{ :repository => {:project => :enabled_modules} }, :user])
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
-    @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
+
+    @relations = @issue.relations(:include => { :other_issue => [:status,
+                                                                 :priority,
+                                                                 :tracker,
+                                                                 { :project => :enabled_modules }]
+                                              }
+                                 ).select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
+
+    @ancestors = @issue.ancestors.visible.all(:include => [:tracker,
+                                                           :assigned_to,
+                                                           :status,
+                                                           :priority,
+                                                           :fixed_version,
+                                                           :project])
+    @descendants = @issue.descendants.visible.all(:include => [:tracker,
+                                                               :assigned_to,
+                                                               :status,
+                                                               :priority,
+                                                               :fixed_version,
+                                                               :project])
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @priorities = IssuePriority.all
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
@@ -244,7 +263,14 @@ class IssuesController < ApplicationController
 
 private
   def find_issue
-    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
+    @issue = Issue.find(params[:id], :include => [{ :project => :enabled_modules },
+                                                  { :tracker => :custom_fields },
+                                                  :status,
+                                                  :author,
+                                                  :priority,
+                                                  :watcher_users,
+                                                  :custom_values,
+                                                  :category])
     @project = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404
