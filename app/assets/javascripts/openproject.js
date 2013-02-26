@@ -54,7 +54,7 @@ window.OpenProject = (function ($) {
       }
 
       if (!url) {
-        url = "/projects/level_list.json";
+        url = this.getFullUrl("/projects/level_list.json");
       }
 
       if (this.projects) {
@@ -63,7 +63,7 @@ window.OpenProject = (function ($) {
       }
 
       jQuery.getJSON(
-        this.getFullUrl(url),
+        url,
         jQuery.proxy(function (data, textStatus, jqXHR) {
           this.projects = augment(this, data.projects);
           this.fetchProjects.apply(this, fetchArgs);
