@@ -57,9 +57,6 @@ group :test do
   gem 'spork-testunit' # needed for test-unit only
 
   gem 'rb-readline' # ruby on CI needs this
-  gem 'ruby-debug', :platforms => [:mri_18, :mingw_18]
-  # TODO: remove dependency to v 1.1.3 when pry-debugger is updated to > 0.2
-  gem 'debugger', '~> 1.1.3', :platforms => [:mri_19, :mingw_19]
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
 end

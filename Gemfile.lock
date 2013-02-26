@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 0761bb029886bb6920a404ecf409013f83a44f58
+  revision: c90e24d08782d583286ccb21cc15f60fa9ed8367
   branch: 3-2-stable
   specs:
     actionmailer (3.2.12)
@@ -123,10 +123,10 @@ GEM
       cucumber-rails (>= 1.1.1)
     database_cleaner (0.9.1)
     debug_inspector (0.0.2)
-    debugger (1.1.4)
+    debugger (1.2.4)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
-      debugger-ruby_core_source (~> 1.1.3)
+      debugger-ruby_core_source (~> 1.1.7)
     debugger-linecache (1.1.2)
       debugger-ruby_core_source (>= 1.1.1)
     debugger-ruby_core_source (1.1.9)
@@ -184,8 +184,6 @@ GEM
     letter_opener (1.0.0)
       launchy (>= 2.0.4)
     libv8 (3.11.8.13)
-    linecache (0.46)
-      rbx-require-relative (> 0.0.4)
     listen (0.7.3)
     loofah (1.2.1)
       nokogiri (>= 1.4.4)
@@ -214,9 +212,9 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
-    pry-debugger (0.2.0)
-      debugger (~> 1.1.3)
-      pry (~> 0.9.9)
+    pry-debugger (0.2.1)
+      debugger (~> 1.2.0)
+      pry (~> 0.9.10)
     pry-doc (0.4.4)
       pry (>= 0.9.9.6)
       yard (~> 0.8.1)
@@ -246,7 +244,6 @@ GEM
       rails (~> 3.1)
     rake (10.0.3)
     rb-readline (0.4.2)
-    rbx-require-relative (0.0.9)
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.2)
@@ -266,11 +263,6 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
-    ruby-debug (0.10.4)
-      columnize (>= 0.1)
-      ruby-debug-base (~> 0.10.4.0)
-    ruby-debug-base (0.10.4)
-      linecache (>= 0.3)
     ruby-openid (2.1.8)
     ruby-prof (0.12.2)
     rubytree (0.8.3)
@@ -342,7 +334,6 @@ DEPENDENCIES
   cucumber-rails
   cucumber-rails-training-wheels
   database_cleaner
-  debugger (~> 1.1.3)
   delayed_job_active_record
   execjs
   factory_girl_rails (~> 4.0)
@@ -380,7 +371,6 @@ DEPENDENCIES
   rdoc (>= 2.4.2)
   rmagick (>= 1.15.17)
   rspec-rails (~> 2.0)
-  ruby-debug
   ruby-openid (~> 2.1.4)
   ruby-prof
   rubytree (~> 0.8.3)
