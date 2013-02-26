@@ -1,5 +1,5 @@
 class JournalFormatter::Proc < JournalFormatter::Attribute
-  unloadable
+  # unloadable
 
   class << self
     attr_accessor :proc

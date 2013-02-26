@@ -1,5 +1,5 @@
 class JournalFormatter::Datetime < JournalFormatter::Attribute
-  unloadable
+  # unloadable
 
   def format_values(values)
     values.map do |v|

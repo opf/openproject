@@ -1,5 +1,5 @@
 class JournalFormatter::Base
-  unloadable
+  # unloadable
 
   include Redmine::I18n
   include ActionView::Helpers::TagHelper

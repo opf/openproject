@@ -1,5 +1,5 @@
 class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
-  unloadable
+  # unloadable
 
   include CustomFieldsHelper
 

@@ -1,5 +1,5 @@
 class JournalFormatter::Attribute < JournalFormatter::Base
-  unloadable
+  # unloadable
 
   private
 

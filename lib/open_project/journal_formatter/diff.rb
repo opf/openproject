@@ -1,7 +1,7 @@
 require_dependency 'journal_formatter/base'
 
 class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
-  unloadable
+  # unloadable
 
   def render(key, values, options = { :no_html => false })
     render_ternary_detail_text(key, values.last, values.first, options[:no_html])

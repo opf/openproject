@@ -1,5 +1,5 @@
 class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
-  unloadable
+  # unloadable
 
   include ApplicationHelper
 

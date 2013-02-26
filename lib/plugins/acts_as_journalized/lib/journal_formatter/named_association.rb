@@ -1,5 +1,5 @@
 class JournalFormatter::NamedAssociation < JournalFormatter::Attribute
-  unloadable
+  # unloadable
 
   def render(key, values, options = { :no_html => false })
 

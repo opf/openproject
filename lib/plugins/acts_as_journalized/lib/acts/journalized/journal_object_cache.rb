@@ -1,7 +1,7 @@
 module Acts
   module Journalized
     class JournalObjectCache
-      unloadable
+      # unloadable
 
       def fetch(klass, id, &block)
 
