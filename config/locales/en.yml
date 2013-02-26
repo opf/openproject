@@ -1106,3 +1106,6 @@ en:
         one: You can only select one item
         other: You can only select {{limit}} items
         zero: You cannot select any items
+    ajax:
+      loading: Loading ...
+      hide: Hide

@@ -98,7 +98,6 @@ class IssuesController < ApplicationController
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @changesets = @issue.changesets.visible.all(:include => [{ :repository => {:project => :enabled_modules} }, :user])
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
-    @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
 
     @relations = @issue.relations(:include => { :other_issue => [:status,
                                                                  :priority,
@@ -119,8 +118,8 @@ class IssuesController < ApplicationController
                                                                :priority,
                                                                :fixed_version,
                                                                :project])
+
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
-    @priorities = IssuePriority.all
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     respond_to do |format|
       format.html { render :template => 'issues/show' }
@@ -170,6 +169,7 @@ class IssuesController < ApplicationController
     @journal = @issue.current_journal
 
     respond_to do |format|
+      format.js { render :partial => 'edit' }
       format.html { }
       format.xml  { }
     end

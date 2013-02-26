@@ -108,13 +108,12 @@
 <div style="clear: both;"></div>
 
 <div class="title-bar" id="lower-title-bar">
-  <%= javascript_include_tag 'copy_issue_actions' %>
+  <%= render :partial => 'layouts/action_menu' %>
 </div>
 
 <div style="clear: both;"></div>
 <% if authorize_for('issues', 'edit') %>
-<div id="update" style="display:none;">
-  <%= render :partial => 'edit' %>
+  <div id="update">
   </div>
 <% end %>
 
@@ -135,11 +134,3 @@
 <% end %>
 <div id="context-menu" style="display: none;"></div>
 <%= javascript_tag "new ContextMenu('#{issues_context_menu_path}')" %>
-<%= javascript_tag "jQuery('document').ready(function () {
-      jQuery.ajaxAppend({
-        'dom_identifier': { 'trigger_class': 'description-details',
-                            'indicator_class': 'ajax-indicator' },
-        'i18n': { 'hide': '" + l(:label_hide) + "'}
-      } );
-  });"
-%>
