@@ -28,6 +28,10 @@ class Project < ActiveRecord::Base
   # Specific overidden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :assignable_members,
+           :class_name => 'Member',
+           :include => [:user, :roles],
+           :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE} AND roles.assignable = 1"
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
@@ -447,7 +451,7 @@ class Project < ActiveRecord::Base
 
   # Users issues can be assigned to
   def assignable_users
-    members.select {|m| m.roles.detect {|role| role.assignable?}}.collect {|m| m.user}.sort
+    assignable_members.map(&:user).sort
   end
 
   # Returns the mail adresses of users that should be always notified on project events
