@@ -1,4 +1,4 @@
-#project-search-results {
+.project-search-results {
   -webkit-box-sizing: content-box; /* Safari/Chrome, other WebKit */
   -moz-box-sizing:    content-box; /* Firefox, other Gecko */
   box-sizing:         content-box; /* Opera/IE 8+ */
@@ -59,6 +59,7 @@
 }
 .select2-results .select2-result-unselectable {
   color: #999;
+  background:transparent;
 }
 
 

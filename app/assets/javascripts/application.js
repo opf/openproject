@@ -566,7 +566,9 @@ jQuery(document).ready(function($) {
         matcher      : OpenProject.Helpers.Search.matcher,
         query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
                                     jQuery.proxy(openProject, 'fetchProjects'),
-                                    PROJECT_JUMP_BOX_PAGE_SIZE)
+                                    PROJECT_JUMP_BOX_PAGE_SIZE),
+        dropdownCssClass : "project-search-results",
+        containerCssClass : "select2-select",
       }).
       on('change', function (e) {
           if (e.val) {
@@ -580,9 +582,6 @@ jQuery(document).ready(function($) {
         });
 
     select2 = select.data('select2');
-
-    // add custom css styling to result list
-    select2.dropdown.attr("id", "project-search-results");
 
     // Adding an event handler to change select2's default behavior concerning
     // TAB and ESC
