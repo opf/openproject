@@ -34,14 +34,10 @@ class MergeWikiVersionsWithJournals < ActiveRecord::Migration
     WikiContent::Version.find_by_sql("SELECT * FROM wiki_content_versions").each do |wv|
       journal = WikiContentJournal.create!(:journaled_id => wv.wiki_content_id, :user_id => wv.author_id,
         :notes => wv.comments, :created_at => wv.updated_on, :activity_type => "wiki_edits")
-      changed_data = {}
-      changed_data["compression"] = wv.compression
-      changed_data["data"] = wv.data
-      if journal.has_attribute? :changes
-        journal.update_attribute(:changes, changed_data.to_yaml)
-      else
-        journal.update_attribute(:changed_data, changed_data.to_yaml)
-      end
+      changes = {}
+      changes["compression"] = wv.compression
+      changes["data"] = wv.data
+      journal.update_attribute(:changes, changes)
       journal.update_attribute(:version, wv.version)
     end
     # drop_table :wiki_content_versions
