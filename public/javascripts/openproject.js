@@ -35,13 +35,12 @@ window.OpenProject = (function ($) {
         }
         parents.push(project);
         currentLevel = project.level;
-
+        project.project = project
         project.hname   = OpenProject.Helpers.hname(project.name, project.level);
         project.parents = parents.slice(0, -1); // make sure to pass a clone
         project.tokens  = OpenProject.Helpers.Search.tokenize(project.name);
         project.url     = openProject.getFullUrl('/projects/' + project.identifier) + "?jump=" +
-                            encodeURIComponent(jQuery('meta[name="current_menu_item"]').attr('content'))
-
+                            encodeURIComponent(jQuery('meta[name="current_menu_item"]').attr('content'));
         return project;
       });
     };
@@ -211,7 +210,8 @@ window.OpenProject = (function ($) {
       };
 
       return function (result, container, query) {
-        jQuery(container).attr("title", result.project && result.project.name || result.text);
+        var real_name = result.text || (result.project && result.project.name)
+        jQuery(container).attr("title", real_name);
 
         if (query.sterm === undefined) {
           query.sterm = jQuery.trim(query.term);
@@ -220,7 +220,7 @@ window.OpenProject = (function ($) {
 
         // fallback to base behavior
         if (result.matches === undefined) {
-          return replaceSpecialChars(format(result.text, query.term));
+          return replaceSpecialChars(format(real_name, query.term));
         }
 
         // shortcut for empty searches
@@ -229,7 +229,7 @@ window.OpenProject = (function ($) {
         }
 
         var matches = result.matches.slice(),
-            text = result.text,
+            text = real_name,
             match;
 
         while (matches.length) {
@@ -328,7 +328,7 @@ window.OpenProject = (function ($) {
         });
 
         result = result.map(function (obj) {
-          if (typeof obj.text === "undefined") {
+          if (typeof obj.text === "undefined" && typeof project !== "undefined") {
             return {
               id      : project.id,
               text    : project.hname,
