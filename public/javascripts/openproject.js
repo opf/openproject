@@ -328,12 +328,9 @@ window.OpenProject = (function ($) {
         });
 
         result = result.map(function (obj) {
-          if (typeof obj.text === "undefined" && typeof project !== "undefined") {
-            return {
-              id      : project.id,
-              text    : project.hname,
-              project : project
-            };
+          if (typeof obj.text === "undefined" && typeof obj.project !== "undefined") {
+            obj.text = obj.project.hname;
+            return obj;
           }
 
           return obj;
