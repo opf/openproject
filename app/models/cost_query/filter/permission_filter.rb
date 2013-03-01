@@ -7,7 +7,7 @@ class CostQuery::Filter::PermissionFilter < CostQuery::Filter::Base
   initialize_query_with { |query| query.filter self.to_s.demodulize.to_sym }
 
   def permission_statement(permission)
-    User.current.allowed_for(permission).gsub(/(user|project)s?\.id/, '\1_id')
+    User.current.allowed_to_condition_with_project_id(permission).gsub(/(user|project)s?\.id/, '\1_id')
   end
 
   def permission_for(type)
