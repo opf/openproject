@@ -18,7 +18,6 @@ class MemberRole < ActiveRecord::Base
 
   after_create :add_role_to_group_users
   after_destroy :remove_role_from_group_users
-  after_destroy :remove_member_if_empty
 
   attr_protected :member_id, :role_id
 
@@ -33,12 +32,6 @@ class MemberRole < ActiveRecord::Base
   end
 
   private
-
-  def remove_member_if_empty
-    if member and member.roles.empty?
-      member.destroy
-    end
-  end
 
   def add_role_to_group_users
     if member && member.principal.is_a?(Group)
@@ -64,6 +57,11 @@ class MemberRole < ActiveRecord::Base
   def remove_role_from_group_users
     MemberRole.all(:conditions => { :inherited_from => id }).group_by(&:member).each do |member, member_roles|
       member_roles.each(&:destroy)
+
+      if member.member_roles.empty?
+        member.destroy
+      end
+
       if member && member.user
         Watcher.prune(:user => member.user, :project => member.project)
       end
