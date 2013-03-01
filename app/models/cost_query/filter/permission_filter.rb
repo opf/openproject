@@ -11,7 +11,7 @@ class CostQuery::Filter::PermissionFilter < CostQuery::Filter::Base
   end
 
   def permission_for(type)
-    "(#{permission_statement :"view_own_#{type}_entries"} " \
+    "((#{permission_statement :"view_own_#{type}_entries"} AND user_id = #{User.current.id}) " \
     "OR #{permission_statement :"view_#{type}_entries"})"
   end
 
