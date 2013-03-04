@@ -35,7 +35,7 @@ window.OpenProject = (function ($) {
         }
         parents.push(project);
         currentLevel = project.level;
-        project.project = project
+        project.project = project;
         project.hname   = OpenProject.Helpers.hname(project.name, project.level);
         project.parents = parents.slice(0, -1); // make sure to pass a clone
         project.tokens  = OpenProject.Helpers.Search.tokenize(project.name);
@@ -211,7 +211,7 @@ window.OpenProject = (function ($) {
       };
 
       return function (result, container, query) {
-        var real_name = result.text || (result.project && result.project.name)
+        var real_name = result.text || (result.project && result.project.name);
         jQuery(container).attr("title", real_name);
 
         if (query.sterm === undefined) {
@@ -302,7 +302,7 @@ window.OpenProject = (function ($) {
       var savedPreviousResult;
 
       var addUnmatchedAndSelectedParents = function (projects, matches, previousMatchId) {
-        var i, project, result = [], selected_choices = (this.element.val() === "" ? [] : this.element.val().split(",").map(function (e) {
+        var result = [], selected_choices = (this.element.val() === "" ? [] : this.element.val().split(",").map(function (e) {
             return parseInt(e, 10);
         }));
 
@@ -312,7 +312,6 @@ window.OpenProject = (function ($) {
           }
 
           var previousParents, previousResult;
-          var unmatchedParents = [];
           var parents = match.project.parents.clone();
           match.disabled = false;
 
