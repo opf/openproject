@@ -7,7 +7,6 @@ if defined?(Bullet) && Rails.env.development?
       Bullet.console = true
       # Bullet.growl = true
       Bullet.rails_logger = true
-      Bullet.disable_browser_cache = true
     end
   end
 end
