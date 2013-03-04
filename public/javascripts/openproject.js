@@ -299,7 +299,7 @@ window.OpenProject = (function ($) {
     })();
 
     Helpers.Search.projectQueryWithHierarchy = function (fetchProjects, pageSize) {
-      var savedParentsFromPreviousQuery = [];
+      var savedPreviousResult;
 
       var addUnmatchedAndSelectedParents = function (projects, matches, previousMatchId) {
         var i, project, result = [], selected_choices = (this.element.val() === "" ? [] : this.element.val().split(",").map(function (e) {
@@ -311,21 +311,22 @@ window.OpenProject = (function ($) {
             return;
           }
 
-          var previousParents;
+          var previousParents, previousResult;
           var unmatchedParents = [];
           var parents = match.project.parents.clone();
           match.disabled = false;
 
+          //if we have a previous result get this results parents
           if (result.length > 0) {
-            previousParents = result[result.length - 1].project.parents.clone();
-            previousParents.push(result[result.length - 1]);
+            previousResult = result[result.length - 1];
+          } else if (previousMatchId && savedPreviousResult) {
+            previousResult = savedPreviousResult;
           }
 
-          if (previousMatchId && result.length == 0) {
-            previousParents = savedParentsFromPreviousQuery;
+          if (previousResult) {
+            previousParents = previousResult.project.parents.clone();
+            previousParents.push(previousResult);
           }
-
-          savedParentsFromPreviousQuery = previousParents;
 
           var k;
           for (k = 0; k < parents.length; k += 1) {
@@ -345,9 +346,7 @@ window.OpenProject = (function ($) {
             });
           }
 
-          if ($.inArray(match.id, selected_choices) > -1) {
-            match.disabled = true;
-          }
+          savedPreviousResult = match;
 
           result.push(match);
         });
