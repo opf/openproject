@@ -28,7 +28,6 @@ window.OpenProject = (function ($) {
       var parents = [], currentLevel = -1;
 
       return jQuery.map(projects, function (project) {
-
         while (currentLevel >= project.level) {
           parents.pop();
           currentLevel--;
@@ -311,7 +310,7 @@ window.OpenProject = (function ($) {
         }));
 
         jQuery.each(matches, function (i, match) {
-          if ($.inArray(match.id, selected_choices) > -1) {
+          if ($.inArray(match.id, selected_choices) > -1 || match.project.disabled) {
             return;
           }
 
