@@ -47,6 +47,10 @@ window.OpenProject = (function ($) {
     };
 
     return function (url, callback) {
+      if (!this.projects) {
+        this.projects = {};
+      }
+
       var fetchArgs = Array.prototype.slice.call(arguments);
       if (typeof url === "function") {
         callback = url;
@@ -57,15 +61,15 @@ window.OpenProject = (function ($) {
         url = this.getFullUrl("/projects/level_list.json");
       }
 
-      if (this.projects) {
-        callback.call(this, this.projects);
+      if (this.projects[url]) {
+        callback.call(this, this.projects[url]);
         return;
       }
 
       jQuery.getJSON(
         url,
-        jQuery.proxy(function (data, textStatus, jqXHR) {
-          this.projects = augment(this, data.projects);
+        jQuery.proxy(function (data) {
+          this.projects[url] = augment(this, data.projects);
           this.fetchProjects.apply(this, fetchArgs);
         }, this)
       );
