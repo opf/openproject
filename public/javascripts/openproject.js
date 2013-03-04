@@ -41,6 +41,7 @@ window.OpenProject = (function ($) {
         project.tokens  = OpenProject.Helpers.Search.tokenize(project.name);
         project.url     = openProject.getFullUrl('/projects/' + project.identifier) + "?jump=" +
                             encodeURIComponent(jQuery('meta[name="current_menu_item"]').attr('content'));
+
         return project;
       });
     };
@@ -298,6 +299,8 @@ window.OpenProject = (function ($) {
     })();
 
     Helpers.Search.projectQueryWithHierarchy = function (fetchProjects, pageSize) {
+      var savedParentsFromPreviousQuery = [];
+
       var addUnmatchedAndSelectedParents = function (projects, matches, previousMatchId) {
         var i, project, result = [], selected_choices = (this.element.val() === "" ? [] : this.element.val().split(",").map(function (e) {
             return parseInt(e, 10);
@@ -318,6 +321,12 @@ window.OpenProject = (function ($) {
             previousParents.push(result[result.length - 1]);
           }
 
+          if (previousMatchId && result.length == 0) {
+            previousParents = savedParentsFromPreviousQuery;
+          }
+
+          savedParentsFromPreviousQuery = previousParents;
+
           var k;
           for (k = 0; k < parents.length; k += 1) {
             if (typeof previousParents == "undefined" || typeof previousParents[k] == "undefined")
@@ -328,9 +337,12 @@ window.OpenProject = (function ($) {
           }
 
           for (; k < parents.length; k += 1) {
-            parents[k].disabled = true;
-            parents[k].text = parents[k].hname;
-            result.push(parents[k]);
+            result.push({
+              id      : parents[k].id,
+              text    : parents[k].hname,
+              project : parents[k],
+              disabled: true
+            });
           }
 
           if ($.inArray(match.id, selected_choices) > -1) {
@@ -338,6 +350,15 @@ window.OpenProject = (function ($) {
           }
 
           result.push(match);
+        });
+
+        //remove ids of all elements that are disabled.
+        result.each(function (ele) {
+          if (ele.disabled) {
+            delete ele.id;
+          } 
+
+          ele.disabled = false;
         });
 
         return result;
