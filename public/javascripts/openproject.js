@@ -298,15 +298,22 @@ window.OpenProject = (function ($) {
     })();
 
     Helpers.Search.projectQueryWithHierarchy = function (fetchProjects, pageSize) {
-      var addUnmatchedParents = function (projects, matches, previousMatchId) {
-        var i, project, result = [];
+      var addUnmatchedAndSelectedParents = function (projects, matches, previousMatchId) {
+        var i, project, result = [], selected_choices = (this.element.val() === "" ? [] : this.element.val().split(",").map(function (e) {
+            return parseInt(e, 10);
+        }));
 
         jQuery.each(matches, function (i, match) {
+          if ($.inArray(match.id, selected_choices) > -1) {
+            return;
+          }
+
           var previousParents;
           var unmatchedParents = [];
           var parents = match.project.parents.clone();
+          match.disabled = false;
 
-          if (i > 0) {
+          if (result.length > 0) {
             previousParents = result[result.length - 1].project.parents.clone();
             previousParents.push(result[result.length - 1]);
           }
@@ -321,19 +328,16 @@ window.OpenProject = (function ($) {
           }
 
           for (; k < parents.length; k += 1) {
+            parents[k].disabled = true;
+            parents[k].text = parents[k].hname;
             result.push(parents[k]);
           }
 
-          result.push(match);
-        });
-
-        result = result.map(function (obj) {
-          if (typeof obj.text === "undefined" && typeof obj.project !== "undefined") {
-            obj.text = obj.project.hname;
-            return obj;
+          if ($.inArray(match.id, selected_choices) > -1) {
+            match.disabled = true;
           }
 
-          return obj;
+          result.push(match);
         });
 
         return result;
@@ -341,6 +345,7 @@ window.OpenProject = (function ($) {
 
       return function (query) {
         query.sterm = jQuery.trim(query.term);
+        var select2Object = this;
 
         fetchProjects(function (projects) {
           var context = query.context || {},
@@ -367,11 +372,7 @@ window.OpenProject = (function ($) {
             }
           }
 
-          // perf optimization - when term is '', then all project will have
-          // been matched and there will be no unmatched parents
-          if (query.sterm.length > 0) {
-            matches = addUnmatchedParents(projects, matches, context.lastMatchId);
-          }
+          matches = addUnmatchedAndSelectedParents.call(select2Object, projects, matches, context.lastMatchId);
 
           // store last match for next page
           if (matches.length > 0) {
