@@ -54,7 +54,11 @@ class Group < Principal
   def user_removed(user)
     members.each do |member|
       MemberRole.find(:all, :include => :member,
-                            :conditions => ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids]).each(&:destroy)
+                      :conditions => ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids]).each do |member_role|
+        inherited_member = member_role.member
+        member_role.destroy
+        inherited_member.destroy_if_roles_empty!
+      end
     end
   end
 
