@@ -11,7 +11,6 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-OpenProject.preload_circular_dependencies
 
 module Redmine #:nodoc:
 
