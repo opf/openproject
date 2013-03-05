@@ -26,8 +26,6 @@ require 'redmine/notifiable'
 require 'redmine/wiki_formatting'
 require 'redmine/scm/base'
 
-OpenProject.preload_circular_dependencies
-
 begin
   require 'RMagick' unless Object.const_defined?(:Magick)
 rescue LoadError
@@ -264,3 +262,5 @@ Redmine::WikiFormatting.map do |format|
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler
+
+OpenProject.preload_circular_dependencies
