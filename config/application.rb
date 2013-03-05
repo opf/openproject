@@ -73,4 +73,13 @@ module OpenProject
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
   end
+
+  def self.preload_circular_dependencies
+    # preload circular dependencies. this should be used to ensure the correct load
+    # order when loading core classes from plugins.
+    require_dependency 'issue'
+    require_dependency 'project'
+    require_dependency 'user'
+    require_dependency 'principal'
+  end
 end

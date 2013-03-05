@@ -14,8 +14,6 @@
 
 # While loading the Issue class below, we lazy load the Project class. Which itself need Issue.
 # So we create an 'emtpy' Issue class first, to make Project happy.
-class Issue < ActiveRecord::Base; end;
-require 'project' # We need to load Project here, because of load order dependencies.
 
 class Issue < ActiveRecord::Base
   include Redmine::SafeAttributes
