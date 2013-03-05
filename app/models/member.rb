@@ -71,6 +71,10 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def destroy_if_roles_empty!
+    destroy if member_roles.empty?
+  end
+
   # Find or initilize a Member with an id, attributes, and for a Principal
   def self.edit_membership(id, new_attributes, principal=nil)
     @membership = id.present? ? Member.find(id) : Member.new(:principal => principal)
