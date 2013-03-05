@@ -8,7 +8,7 @@ class Meeting < ActiveRecord::Base
   has_many :contents, :class_name => 'MeetingContent', :readonly => true
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
 
-  named_scope :from_tomorrow, :conditions => ['start_time >= ?', Date.tomorrow.beginning_of_day]
+  scope :from_tomorrow, :conditions => ['start_time >= ?', Date.tomorrow.beginning_of_day]
 
   attr_accessible :title, :location, :start_time, :duration
 

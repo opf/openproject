@@ -4,8 +4,8 @@ class MeetingParticipant < ActiveRecord::Base
   belongs_to :meeting
   belongs_to :user
 
-  named_scope :invited, :conditions => {:invited => true}
-  named_scope :attended, :conditions => {:attended => true}
+  scope :invited, :conditions => {:invited => true}
+  scope :attended, :conditions => {:attended => true}
 
   after_create :add_participant_as_watcher
 
