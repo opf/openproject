@@ -28,24 +28,28 @@ window.OpenProject = (function ($) {
       var parents = [], currentLevel = -1;
 
       return jQuery.map(projects, function (project) {
-
         while (currentLevel >= project.level) {
           parents.pop();
           currentLevel--;
         }
         parents.push(project);
         currentLevel = project.level;
-        project.project = project
+        project.project = project;
         project.hname   = OpenProject.Helpers.hname(project.name, project.level);
         project.parents = parents.slice(0, -1); // make sure to pass a clone
         project.tokens  = OpenProject.Helpers.Search.tokenize(project.name);
         project.url     = openProject.getFullUrl('/projects/' + project.identifier) + "?jump=" +
                             encodeURIComponent(jQuery('meta[name="current_menu_item"]').attr('content'));
+
         return project;
       });
     };
 
     return function (url, callback) {
+      if (!this.projects) {
+        this.projects = {};
+      }
+
       var fetchArgs = Array.prototype.slice.call(arguments);
       if (typeof url === "function") {
         callback = url;
@@ -56,15 +60,15 @@ window.OpenProject = (function ($) {
         url = this.getFullUrl("/projects/level_list.json");
       }
 
-      if (this.projects) {
-        callback.call(this, this.projects);
+      if (this.projects[url]) {
+        callback.call(this, this.projects[url]);
         return;
       }
 
       jQuery.getJSON(
         url,
-        jQuery.proxy(function (data, textStatus, jqXHR) {
-          this.projects = augment(this, data.projects);
+        jQuery.proxy(function (data) {
+          this.projects[url] = augment(this, data.projects);
           this.fetchProjects.apply(this, fetchArgs);
         }, this)
       );
@@ -210,7 +214,7 @@ window.OpenProject = (function ($) {
       };
 
       return function (result, container, query) {
-        var real_name = result.text || (result.project && result.project.name)
+        var real_name = result.text || (result.project && result.project.name);
         jQuery(container).attr("title", real_name);
 
         if (query.sterm === undefined) {
@@ -298,17 +302,32 @@ window.OpenProject = (function ($) {
     })();
 
     Helpers.Search.projectQueryWithHierarchy = function (fetchProjects, pageSize) {
-      var addUnmatchedParents = function (projects, matches, previousMatchId) {
-        var i, project, result = [];
+      var savedPreviousResult;
+
+      var addUnmatchedAndSelectedParents = function (projects, matches, previousMatchId) {
+        var result = [], selected_choices = (this.element.val() === "" ? [] : this.element.val().split(",").map(function (e) {
+            return parseInt(e, 10);
+        }));
 
         jQuery.each(matches, function (i, match) {
-          var previousParents;
-          var unmatchedParents = [];
-          var parents = match.project.parents.clone();
+          if ($.inArray(match.id, selected_choices) > -1 || match.project.disabled) {
+            return;
+          }
 
-          if (i > 0) {
-            previousParents = result[result.length - 1].project.parents.clone();
-            previousParents.push(result[result.length - 1]);
+          var previousParents, previousResult;
+          var parents = match.project.parents.clone();
+          match.disabled = false;
+
+          //if we have a previous result get this results parents
+          if (result.length > 0) {
+            previousResult = result[result.length - 1];
+          } else if (previousMatchId && savedPreviousResult) {
+            previousResult = savedPreviousResult;
+          }
+
+          if (previousResult) {
+            previousParents = previousResult.project.parents.clone();
+            previousParents.push(previousResult);
           }
 
           var k;
@@ -321,22 +340,26 @@ window.OpenProject = (function ($) {
           }
 
           for (; k < parents.length; k += 1) {
-            result.push(parents[k]);
+            result.push({
+              id      : parents[k].id,
+              text    : parents[k].hname,
+              project : parents[k],
+              disabled: true
+            });
           }
+
+          savedPreviousResult = match;
 
           result.push(match);
         });
 
-        result = result.map(function (obj) {
-          if (typeof obj.text === "undefined" && typeof project !== "undefined") {
-            return {
-              id      : project.id,
-              text    : project.hname,
-              project : project
-            };
-          }
+        //remove ids of all elements that are disabled.
+        result.each(function (ele) {
+          if (ele.disabled) {
+            delete ele.id;
+          } 
 
-          return obj;
+          ele.disabled = false;
         });
 
         return result;
@@ -344,6 +367,7 @@ window.OpenProject = (function ($) {
 
       return function (query) {
         query.sterm = jQuery.trim(query.term);
+        var select2Object = this;
 
         fetchProjects(function (projects) {
           var context = query.context || {},
@@ -370,11 +394,7 @@ window.OpenProject = (function ($) {
             }
           }
 
-          // perf optimization - when term is '', then all project will have
-          // been matched and there will be no unmatched parents
-          if (query.sterm.length > 0) {
-            matches = addUnmatchedParents(projects, matches, context.lastMatchId);
-          }
+          matches = addUnmatchedAndSelectedParents.call(select2Object, projects, matches, context.lastMatchId);
 
           // store last match for next page
           if (matches.length > 0) {
