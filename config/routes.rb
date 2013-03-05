@@ -1,12 +1,31 @@
 #custom routes for this plugin
-ActionController::Routing::Routes.draw do |map|
-  map.resources :projects, :only => [] do |project|
-    project.resources :meetings, :shallow => true, :member => {:copy => :get} do |meeting|
-      meeting.resource :agenda, :controller => 'meeting_agendas', :only => [:update], :member => {:history => :get, :diff => :get, :close => :put, :open => :put, :notify => :put, :preview => :post}
-      meeting.resource :minutes, :controller => 'meeting_minutes', :only => [:update], :member => {:history => :get, :diff => :get, :notify => :put, :preview => :post}
+OpenProject::Application.routes.draw do
+  resources :projects, :only => [] do
+    resources :meetings, :shallow => true do
+      member do
+        get :copy
+      end
+      resource :agenda, :controller => 'meeting_agendas', :only => [:update] do
+        member do
+          get :history
+          get :diff
+          put :close
+          put :open
+          put :notify
+          post :preview
+        end
+      end
+      resource :minutes, :controller => 'meeting_minutes', :only => [:update] do
+        member do
+          get :history
+          get :diff
+          put :notify
+          post :preview
+        end
+      end
     end
   end
-  map.connect '/meetings/:id/:tab', :controller => 'meetings', :action => 'show', :tab => /(agenda|minutes)/, :conditions => {:method => :get}
-  map.connect '/meetings/:meeting_id/agenda/:version', :controller => 'meeting_agendas', :action => 'show', :version => /\d/, :conditions => {:method => :get}
-  map.connect '/meetings/:meeting_id/minutes/:version', :controller => 'meeting_minutes', :action => 'show', :version => /\d/, :conditions => {:method => :get}
+  match '/meetings/:id/:tab' => 'meetings#show', :constraints => { :tab => /(agenda|minutes)/ }, :via => :get
+  match '/meetings/:meeting_id/agenda/:version' => 'meeting_agendas#show', :constraints => { :version => /\d/ }, :via => :get
+  match '/meetings/:meeting_id/minutes/:version' => 'meeting_minutes#show', :constraints => { :version => /\d/ }, :via => :get
 end
