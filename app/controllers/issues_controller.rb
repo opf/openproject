@@ -312,18 +312,10 @@ private
 
     @issue.project = @project
     # Tracker must be set before custom field values
+    @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
     if @issue.tracker.nil?
-      new_tracker = @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
-      if new_tracker
-        # XXX: ugly hack. Somehow _two_ different Tracker classes are loaded here (sometimes).
-        # If that happens ActiveRecord explodes, as it thinks we dont get a Tracker object (which is not true)
-        new_tracker.is_a?(Tracker) ?
-          @issue.tracker = new_tracker :
-          @issue.tracker = Tracker.find(new_tracker.id)
-      else
-        render_error l(:error_no_tracker_in_project)
-        return false
-      end
+      render_error l(:error_no_tracker_in_project)
+      return false
     end
     @issue.start_date ||= User.current.today if Setting.issue_startdate_is_adddate?
     if params[:issue].is_a?(Hash)
