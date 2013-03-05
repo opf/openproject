@@ -236,13 +236,24 @@ class MyProjectsOverviewsController < ApplicationController
                                   %Q{ (Select COUNT(users.id) count, member_roles.role_id role_id from users
                                       JOIN members on users.id = members.user_id
                                       JOIN member_roles on member_roles.member_id = members.id
-                                      WHERE members.project_id = #{ project.id } AND member_roles.role_id = #{ r.id } ) }
+                                      WHERE members.project_id = #{ project.id } AND member_roles.role_id = #{ r.id }
+                                      GROUP BY (member_roles.role_id)) }
                                 end.join(" UNION ALL ")
 
                                 role_count = {}
 
-                                ActiveRecord::Base.connection.execute(sql_string).each do |count, role_id|
-                                  role_count[all_roles.detect{ |r| r.id == role_id.to_i }] = count.to_i if count.to_i > 0
+                                ActiveRecord::Base.connection.execute(sql_string).each do |entry|
+                                  if entry.is_a?(Hash)
+                                    # MySql
+                                    count = entry['count'].to_i
+                                    role_id = entry['role_id'].to_i
+                                  else
+                                    # Postgresql
+                                    count = entry.first.to_i
+                                    role_id = entry.last.to_i
+                                  end
+
+                                  role_count[all_roles.detect{ |r| r.id == role_id }] = count if count > 0
                                 end
 
                                 role_count
