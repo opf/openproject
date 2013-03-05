@@ -233,7 +233,7 @@ class MyProjectsOverviewsController < ApplicationController
   def count_users_by_role
     @count_users_per_role ||= begin
                                 sql_string = all_roles.map do |r|
-                                  %Q{ (Select COUNT(users.id) count, member_roles.role_id role_id from users
+                                  %Q{ (Select COUNT(users.id) AS count, member_roles.role_id AS role_id from users
                                       JOIN members on users.id = members.user_id
                                       JOIN member_roles on member_roles.member_id = members.id
                                       WHERE members.project_id = #{ project.id } AND member_roles.role_id = #{ r.id }
