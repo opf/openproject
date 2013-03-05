@@ -16,6 +16,9 @@ require 'uri'
 require 'cgi'
 
 class ApplicationController < ActionController::Base
+  # ensure the OpenProject models are required in the right order (as they have circular dependencies)
+  OpenProject.preload_circular_dependencies
+
   def current_user
     User.current # refactor
   end
