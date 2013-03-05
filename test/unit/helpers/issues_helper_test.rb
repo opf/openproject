@@ -56,7 +56,7 @@ class IssuesHelperTest < HelperTestCase
           j.changed_data = {"done_ratio" => [nil, 100]}
           j.journaled = FactoryGirl.create :issue
         end
-        assert_equal "% Done set to 100", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        assert_equal "% Done changed from 0 to 100", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
       end
 
       should 'show a deleted attribute' do
@@ -64,7 +64,7 @@ class IssuesHelperTest < HelperTestCase
           j.changed_data = {"done_ratio" => [50, nil]}
           j.journaled = FactoryGirl.create :issue
         end
-        assert_equal "% Done deleted (50)", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        assert_equal "% Done changed from 50 to 0", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
       end
     end
 
@@ -103,8 +103,7 @@ class IssuesHelperTest < HelperTestCase
 
         html_node = HTML::Document.new(@response.body)
         assert_select html_node.root, 'strong', :text => '% Done'
-        assert_select html_node.root, 'strike' do
-          assert_select 'i', :text => '50'
+        assert_select html_node.root, 'i', :text => '50'
         end
       end
     end
