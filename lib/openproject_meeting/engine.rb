@@ -1,0 +1,66 @@
+require 'rails/engine'
+
+module Meeting
+  class Engine < ::Rails::Engine
+    isolate_namespace Meeting
+
+    config.to_prepare do
+      require 'redmine/plugin'
+      OpenProject.preload_circular_dependencies
+
+      ActionDispatch::Callbacks.to_prepare do
+        require_dependency 'openproject_meeting/hooks'
+        require_dependency 'project'
+        # require_dependency 'mailer'
+        require 'openproject_meeting/patches/project_patch'
+        # require 'openproject_meeting/patches/mailer_patch'
+        Project.send(:include,Patches::ProjectPatch)
+        # Mailer.send(:include, Patches::MailerPatch)
+
+        # load classes so that all User.before_destroy filters are loaded
+        require 'meeting/meeting'
+        require 'meeting/meeting_agenda'
+        require 'meeting/meeting_minutes'
+        require 'meeting/meeting_participant'
+      end
+
+      spec = Bundler.environment.specs['openproject_meeting'][0]
+
+      Redmine::Plugin.register :redmine_meeting do
+        name 'OpenProject Meeting Plugin'
+        author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
+        author_url spec.homepage
+        description spec.description
+        version spec.version
+
+        # This plugin actually requires chiliproject 2.0 or higher…
+        requires_redmine :version_or_higher => '1.0'
+
+        project_module :meetings do
+          permission :create_meetings, {:meetings => [:new, :create, :copy]}, :require => :member
+          permission :edit_meetings, {:meetings => [:edit, :update]}, :require => :member
+          permission :delete_meetings, {:meetings => [:destroy]}, :require => :member
+          permission :view_meetings, {:meetings => [:index, :show], :meeting_agendas => [:history, :show, :diff], :meeting_minutes => [:history, :show, :diff]}
+          permission :create_meeting_agendas, {:meeting_agendas => [:update, :preview]}, :require => :member
+          permission :close_meeting_agendas, {:meeting_agendas => [:close, :open]}, :require => :member
+          permission :send_meeting_agendas_notification, {:meeting_agendas => [:notify]}, :require => :member
+          permission :create_meeting_minutes, {:meeting_minutes => [:update, :preview]}, :require => :member
+          permission :send_meeting_minutes_notification, {:meeting_minutes => [:notify]}, :require => :member
+        end
+
+        Redmine::Search.map do |search|
+          search.register :meetings
+        end
+
+        activity_provider :meetings, :default => false, :class_name => ['Meeting::Meeting', 'Meeting::MeetingAgenda', 'Meeting::MeetingMinutes']
+
+        menu :project_menu, :meetings, {:controller => MeetingsController, :action => 'index'}, :caption => :project_module_meetings, :param => :project_id, :after => :wiki
+        menu :project_menu, :new_meeting, {:controller => MeetingsController, :action => 'new'}, :param => :project_id, :caption => :label_meeting_new, :parent => :meetings
+
+        ActiveSupport::Inflector.inflections do |inflect|
+          inflect.uncountable "meeting_minutes"
+        end
+      end
+    end
+  end
+end
