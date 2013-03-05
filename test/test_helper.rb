@@ -209,7 +209,7 @@ class ActiveSupport::TestCase
           j.changed_data = {prop_key => [@old_value.id, @new_value.id]}
           j.journaled = Issue.last
         end
-        assert_match @new_value.class.find(@new_value.id).name, @journal.render_detail(prop_key, true)
+        assert_match @new_value.class.find(@new_value.id).name, @journal.render_detail(prop_key, :no_html => true)
       end
 
       should "use the old value's name" do
@@ -217,7 +217,7 @@ class ActiveSupport::TestCase
           j.changed_data = {prop_key => [@old_value.id, @new_value.id]}
           j.journaled = Issue.last
         end
-        assert_match @old_value.class.find(@old_value.id).name, @journal.render_detail(prop_key, true)
+        assert_match @old_value.class.find(@old_value.id).name, @journal.render_detail(prop_key, :no_html => true)
       end
     end
   end
