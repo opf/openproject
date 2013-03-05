@@ -57,10 +57,7 @@ class MemberRole < ActiveRecord::Base
   def remove_role_from_group_users
     MemberRole.all(:conditions => { :inherited_from => id }).group_by(&:member).each do |member, member_roles|
       member_roles.each(&:destroy)
-
-      if member.member_roles.empty?
-        member.destroy
-      end
+      member.destroy_if_roles_empty!
 
       if member && member.user
         Watcher.prune(:user => member.user, :project => member.project)
