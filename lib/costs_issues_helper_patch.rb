@@ -4,7 +4,7 @@ module CostsIssuesHelperPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
 
-    # Same as typing in the class 
+    # Same as typing in the class
     base.class_eval do
       def summarized_cost_entries(cost_entries, create_link=true)
         last_cost_type = ""
@@ -28,7 +28,12 @@ module CostsIssuesHelperPatch
         result.each do |k, v|
           txt = pluralize(v[:units], v[:unit], v[:unit_plural])
           if create_link
-            str_array << link_to(txt, {:controller => 'costlog', :action => 'details', :project_id => @issue.project, :issue_id => @issue, :cost_type_id => k}, {:title => k.name})
+            str_array << link_to(txt, { :controller => 'costlog',
+                                        :action => 'details',
+                                        :project_id => @issue.project,
+                                        :issue_id => @issue,
+                                        :cost_type_id => k },
+                                       { :title => k.name })
           else
             str_array << "<span title=\"#{h(k.name)}\">#{txt}</span>"
           end
@@ -37,7 +42,7 @@ module CostsIssuesHelperPatch
       end
     end
   end
-  
+
   module InstanceMethods
 
   end

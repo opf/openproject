@@ -13,7 +13,7 @@ module CostsTimeEntryPatch
 
       belongs_to :rate, :conditions => {:type => ["HourlyRate", "DefaultHourlyRate"]}, :class_name => "Rate"
       attr_protected :costs, :rate_id
-      
+
       named_scope :visible, lambda{|*args|
         { :include => [:project, :user],
           :conditions => (args.first || User.current).allowed_for(:view_time_entries, args[1])
@@ -63,19 +63,19 @@ module CostsTimeEntryPatch
     def before_save
       update_costs
     end
-    
+
     def real_costs
       # This methods returns the actual assigned costs of the entry
       overridden_costs || costs || calculated_costs
     end
-    
+
     def calculated_costs(rate_attr = nil)
       rate_attr ||= current_rate
       hours * rate_attr.rate
     rescue
       0.0
     end
-    
+
     def update_costs(rate_attr = nil)
       rate_attr ||= current_rate
       if rate_attr.nil?
@@ -83,11 +83,11 @@ module CostsTimeEntryPatch
         self.rate = nil
         return
       end
-      
+
       self.costs = calculated_costs(rate_attr)
       self.rate = rate_attr
     end
-    
+
     def update_costs!(rate_attr = nil)
       self.update_costs(rate_attr)
       self.save!
