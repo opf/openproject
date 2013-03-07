@@ -6,7 +6,6 @@ module MeetingsPlugin
 
     config.to_prepare do
       require 'redmine/plugin'
-      OpenProject.preload_circular_dependencies
 
       ActionDispatch::Callbacks.to_prepare do
         require_dependency 'openproject_meeting/hooks'
