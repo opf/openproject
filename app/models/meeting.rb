@@ -82,7 +82,7 @@ class Meeting < ActiveRecord::Base
   end
 
   def author=(user)
-    self.write_attribute(:author_id, user.id)
+    super
     self.participants.build(:user => user, :invited => true) if (self.new_record? && self.participants.empty? && user) # Don't add the author as participant if we already have some through nested attributes
   end
 
