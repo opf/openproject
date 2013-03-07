@@ -1,5 +1,5 @@
 #custom routes for this plugin
-OpenProject::Application.routes.draw do
+OpenProject::Application.routes.prepend do
   resources :projects, :only => [] do
     resources :meetings, :shallow => true do
       member do
