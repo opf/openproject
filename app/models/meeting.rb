@@ -83,7 +83,8 @@ class Meeting < ActiveRecord::Base
 
   def author=(user)
     super
-    self.participants.build(:user => user, :invited => true) if (self.new_record? && self.participants.empty? && user) # Don't add the author as participant if we already have some through nested attributes
+    # Don't add the author as participant if we already have some through nested attributes
+    self.participants.build(:user => user, :invited => true) if (self.new_record? && self.participants.empty? && user)
   end
 
   def copy(attrs)
