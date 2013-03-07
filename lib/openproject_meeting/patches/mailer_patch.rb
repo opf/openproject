@@ -1,4 +1,4 @@
-module Meeting
+module MeetingsPlugin
   module Patches
     module MailerPatch
       module InstanceMethods

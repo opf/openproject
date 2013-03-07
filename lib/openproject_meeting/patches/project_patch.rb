@@ -1,4 +1,4 @@
-module Meeting
+module MeetingsPlugin
   module Patches
     module ProjectPatch
       def self.included(receiver)

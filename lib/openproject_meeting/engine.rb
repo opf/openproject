@@ -1,8 +1,8 @@
 require 'rails/engine'
 
-module Meeting
+module MeetingsPlugin
   class Engine < ::Rails::Engine
-    isolate_namespace Meeting
+    isolate_namespace MeetingsPlugin
 
     config.to_prepare do
       require 'redmine/plugin'
