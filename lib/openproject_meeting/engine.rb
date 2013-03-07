@@ -17,10 +17,10 @@ module MeetingsPlugin
         # Mailer.send(:include, Patches::MailerPatch)
 
         # load classes so that all User.before_destroy filters are loaded
-        require 'meeting/meeting'
-        require 'meeting/meeting_agenda'
-        require 'meeting/meeting_minutes'
-        require 'meeting/meeting_participant'
+        require_dependency 'meeting'
+        require_dependency 'meeting_agenda'
+        require_dependency 'meeting_minutes'
+        require_dependency 'meeting_participant'
       end
 
       spec = Bundler.environment.specs['openproject_meeting'][0]
