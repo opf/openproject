@@ -9,7 +9,6 @@ module MeetingsPlugin
 
       ActionDispatch::Callbacks.to_prepare do
         require_dependency 'openproject_meeting/hooks'
-        require_dependency 'project'
         # require_dependency 'mailer'
         require 'openproject_meeting/patches/project_patch'
         # require 'openproject_meeting/patches/mailer_patch'
