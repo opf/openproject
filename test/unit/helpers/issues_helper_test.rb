@@ -104,7 +104,6 @@ class IssuesHelperTest < HelperTestCase
         html_node = HTML::Document.new(@response.body)
         assert_select html_node.root, 'strong', :text => '% Done'
         assert_select html_node.root, 'i', :text => '50'
-        end
       end
     end
 
@@ -182,7 +181,5 @@ class IssuesHelperTest < HelperTestCase
 
     should "test custom fields"
     should "test attachments"
-
   end
-
 end
