@@ -1,7 +1,7 @@
 <%- content, content_type = tab[:content], tab[:content_type] if defined?(tab) && tab.present? -%>
 <div class="meeting_content <%= content_type %>">
   <div class="contextual">
-    <%= meeting_content_context_menu content, content_type %>
+    <%=raw meeting_content_context_menu content, content_type %>
   </div>
   <h2><%=l :"label_#{content_type}" %></h2>
   <% if can_edit_meeting_content?(content, content_type) -%>
