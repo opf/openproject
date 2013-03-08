@@ -17,7 +17,7 @@ describe ProjectsController do
   end
 
   describe 'show' do
-    integrate_views
+    render_views
 
     describe 'without wiki' do
       before do

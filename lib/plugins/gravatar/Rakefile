@@ -5,7 +5,7 @@ desc 'Default: run all specs'
 task :default => :spec
 
 desc 'Run all application-specific specs'
-Spec::Rake::SpecTask.new(:spec) do |t|
+RSpec::Rake::SpecTask.new(:spec) do |t|
   # t.rcov = true
 end
 

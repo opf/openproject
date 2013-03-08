@@ -161,7 +161,7 @@ describe WikiController do
   end
 
   describe 'view related stuff' do
-    integrate_views
+    render_views
 
     before :each do
       @controller.stub!(:set_localization)

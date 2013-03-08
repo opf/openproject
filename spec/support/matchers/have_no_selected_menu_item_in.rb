@@ -1,4 +1,4 @@
-Spec::Matchers.define :have_no_selected_menu_item_in do |menu|
+RSpec::Matchers.define :have_no_selected_menu_item_in do |menu|
   match do |actual|
     failure_message(menu, actual) == nil
   end
