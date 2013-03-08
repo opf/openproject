@@ -5,7 +5,7 @@
   <%= link_to_if_authorized(l(:button_delete), {:action => 'destroy'}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')%>
 </div>
 
-<h2><%= l(:label_meeting) %>: <%= link_to @meeting, @meeting %></h2>
+<h2><%= l(:label_meeting) %>: <%= link_to @meeting %></h2>
 
 <div class="meeting details box">
   <%= avatar(@meeting.author, :size => "64") %>
