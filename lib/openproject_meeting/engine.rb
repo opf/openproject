@@ -4,6 +4,10 @@ module MeetingsPlugin
   class Engine < ::Rails::Engine
     isolate_namespace MeetingsPlugin
 
+    initializer 'landing_page.precompile_assets' do
+      Rails.application.config.assets.precompile += ["openproject_meeting.css"]
+    end
+
     config.to_prepare do
       require 'redmine/plugin'
 
