@@ -1,4 +1,5 @@
-<%- content, content_type = tab[:content], tab[:content_type] if defined?(tab) && tab.present? -%>
+<% tab ||= locals[:tab_contents]
+   content, content_type = tab[:content], tab[:content_type] if tab && tab.present? -%>
 <div class="meeting_content <%= content_type %>">
   <div class="contextual">
     <%=raw meeting_content_context_menu content, content_type %>
