@@ -19,7 +19,7 @@ FactoryGirl.define do
     admin false
     first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
 
-    after(:create) do |user, evaluator|
+    after(:create, :build) do |user, evaluator|
       (projects = evaluator.member_in_projects || [])
       projects << evaluator.member_in_project if evaluator.member_in_project
       if !projects.empty?
