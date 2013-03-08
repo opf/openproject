@@ -105,11 +105,16 @@ class CustomField < ActiveRecord::Base
       end
     else
       locale = obj if obj.is_a?(String) || obj.is_a?(Symbol)
-      attribute = possible_values(locale)
+      attribute = possible_values(:locale => locale)
       attribute
     end
   end
 
+  ##
+  # Returns possible values for this custom field.
+  # Options may be a user, or options suitable for ActiveRecord#read_attribute.
+  # read_attribute is localized - to get values for a specific locale pass the following options hash
+  # :locale => <locale (-> :en, :de, ...)>
   def possible_values(obj=nil)
     case field_format
     when 'user'

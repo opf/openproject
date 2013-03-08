@@ -94,7 +94,7 @@ describe CustomField do
       it { field.should have(1).translations }
       it { field.name(:de).should == "Feld" }
       it { field.default_value(:de).should == "zwei" }
-      it { field.possible_values(:de).should == ["eins", "zwei", "drei"] }
+      it { field.possible_values(:locale => :de).should == ["eins", "zwei", "drei"] }
     end
 
     describe "WHEN providing a hash with only a locale" do
@@ -191,9 +191,9 @@ describe CustomField do
         field.reload
       end
 
-      it { field.possible_values(:en).should == ["one", "two", "three"] }
-      it { field.possible_values(:de).should == ["eins", "zwei", "drei"] }
-      it { field.possible_values(:fr).should == ["un", "deux", "trois"] }
+      it { field.possible_values(:locale => :en).should == ["one", "two", "three"] }
+      it { field.possible_values(:locale => :de).should == ["eins", "zwei", "drei"] }
+      it { field.possible_values(:locale => :fr).should == ["un", "deux", "trois"] }
     end
   end
 
