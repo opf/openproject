@@ -4,6 +4,7 @@ describe WikiController do
   before do
     Role.delete_all # removing me makes us faster
     User.delete_all # removing me makes us faster
+    I18n.locale = :en
   end
 
   describe 'actions' do
