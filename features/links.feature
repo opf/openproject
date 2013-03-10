@@ -66,12 +66,6 @@ Feature: Cost Reporting Linkage
   @javascript
   Scenario: Going from an Issue to the cost report should set the filter on this issue
     Given there is a standard cost control project named "Standard Project"
-    And the role "Manager" may have the following rights:
-      | view_own_hourly_rate |
-      | view_issues |
-      | view_own_time_entries |
-      | view_own_cost_entries |
-      | view_cost_rates |
     And the user "manager" has:
       | default rate | 10 |
     And the user "manager" has 1 issue with:
@@ -88,8 +82,11 @@ Feature: Cost Reporting Linkage
     And I am on the page for the issue "manager issue"
 
     Then I should see "10.00 hours"
-    And I follow "10.00 hours"
-    Then I should see "100.00" # 10 EUR x 10 (hours)
+
+    When I follow "10.00 hours"
+
+    Then I should be on the Cost Reports page for the project called "Standard Project"
+    And I should see "100.00" # 10 EUR x 10 (hours)
     And I should not see "50.00" # 10 EUR x 5 (hours)
     And I should not see "150.00"
 
@@ -116,8 +113,11 @@ Feature: Cost Reporting Linkage
     And I am on the page for the issue "manager issue"
 
     Then I should see "10.0 words"
-    And I follow "10.0 words"
-    Then I should see "100.00" # 10 EUR x 10 (words)
+
+    When I follow "10.0 words"
+
+    Then I should be on the Cost Reports page for the project called "Standard Project"
+    And I should see "100.00" # 10 EUR x 10 (words)
     And I should not see "50.00" # 10 EUR x 5 (words)
     And I should not see "150.00"
 
