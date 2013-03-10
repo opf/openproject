@@ -23,26 +23,31 @@ Redmine::Plugin.register :redmine_reporting do
 
   #register reporting_module including permissions
   project_module :reporting_module do
-    #require_or_load 'costs_access_control_permission_patch'
-
-    permission :view_cost_entries, {:costlog => [:details], :cost_reports => view_actions}
-    permission :view_own_cost_entries, {:costlog => [:details], :cost_reports => view_actions},
-               :granular_for => :view_cost_entries
     permission :save_cost_reports, {:cost_reports => edit_actions}
     permission :save_private_cost_reports, {:cost_reports => edit_actions}
   end
 
   #register additional permissions for the time log
   view_actions.each do |action|
+    Redmine::AccessControl.permission(:view_time_entries).actions << "cost_reports/#{action}"
     Redmine::AccessControl.permission(:view_own_time_entries).actions << "cost_reports/#{action}"
+    Redmine::AccessControl.permission(:view_cost_entries).actions << "cost_reports/#{action}"
+    Redmine::AccessControl.permission(:view_own_cost_entries).actions << "cost_reports/#{action}"
+  end
+
+  [:details].each do |action|
+    Redmine::AccessControl.permission(:view_cost_entries).actions << "costlog/#{action}"
+    Redmine::AccessControl.permission(:view_own_cost_entries).actions << "costlog/#{action}"
   end
 
   #menu extensions
   menu :top_menu, :cost_reports_global, {:controller => 'cost_reports', :action => 'index', :project_id => nil},
     :caption => :cost_reports_title,
     :if => Proc.new {
-      ( User.current.allowed_to?(:view_time_entries, nil, :global => true, :for => User.current ) ||
-        User.current.allowed_to?(:view_cost_entries, nil, :global => true, :for => User.current )
+      ( User.current.allowed_to?(:view_time_entries, nil, :global => true) ||
+        User.current.allowed_to?(:view_own_time_entries, nil, :global => true) ||
+        User.current.allowed_to?(:view_cost_entries, nil, :global => true) ||
+        User.current.allowed_to?(:view_own_cost_entries, nil, :global => true)
       )
     }
 
