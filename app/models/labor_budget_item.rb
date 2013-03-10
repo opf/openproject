@@ -1,4 +1,6 @@
 class LaborBudgetItem < ActiveRecord::Base
+  unloadable
+
   belongs_to :cost_object
   belongs_to :user
   include Costs::DeletedUserFallback
@@ -10,6 +12,21 @@ class LaborBudgetItem < ActiveRecord::Base
 
   # user_id correctness is ensured in VariableCostObject#*_labor_budget_item_attributes=
   attr_accessible :hours, :comments, :budget, :user_id
+
+  def self.visible_condition(user, project)
+    %Q{ (#{Project.allowed_to_condition(user,
+                                        :view_hourly_rates,
+                                        :project => project)} OR
+         (#{Project.allowed_to_condition(user,
+                                         :view_own_hourly_rate,
+                                         :project => project)} AND #{LaborBudgetItem.table_name}.user_id = #{user.id})) }
+  end
+
+  named_scope :visible_costs, lambda{|*args|
+    { :include => [{:cost_object => :project}, :user],
+      :conditions => LaborBudgetItem.visible_condition((args.first || User.current), args[1])
+    }
+  }
 
   def costs
     self.budget || self.calculated_costs
@@ -23,7 +40,8 @@ class LaborBudgetItem < ActiveRecord::Base
     end
   end
 
-  def can_view_costs?(usr, project)
-    usr.allowed_to?(:view_hourly_rates, project, :for => user)
+  def costs_visible_by?(usr)
+    usr.allowed_to?(:view_hourly_rates, cost_object.project) ||
+      (usr.id == user_id && usr.allowed_to?(:view_own_hourly_rate, cost_object.project))
   end
 end

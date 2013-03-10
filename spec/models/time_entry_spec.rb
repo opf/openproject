@@ -1,6 +1,39 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe TimeEntry do
+  include Cost::PluginSpecHelper
+  let(:project) { Factory.create(:project_with_trackers) }
+  let(:project2) { Factory.create(:project_with_trackers) }
+  let(:issue) { Factory.create(:issue, :project => project,
+                                       :tracker => project.trackers.first,
+                                       :author => user) }
+  let(:user) { Factory.create(:user) }
+  let(:user2) { Factory.create(:user) }
+  let(:time_entry) do
+    Factory.build(:time_entry, :project => project,
+                               :issue => issue,
+                               :spent_on => date,
+                               :hours => hours,
+                               :user => user,
+                               :activity => activity,
+                               :rate => rate,
+                               :comments => "lorem")
+  end
+
+  let(:time_entry2) do
+    Factory.build(:time_entry, :project => project,
+                               :issue => issue,
+                               :spent_on => date,
+                               :hours => hours,
+                               :user => user,
+                               :activity => activity,
+                               :rate => rate,
+                               :comments => "lorem")
+  end
+  let(:date) { Date.today }
+  let(:activity) { Factory.build(:time_entry_activity) }
+  let(:rate) { Factory.build(:cost_rate) }
+  let(:hours) { 5.0 }
 
   before(:each) do
     User.current = users("admin")
@@ -187,6 +220,114 @@ describe TimeEntry do
       @default_example.rate.should == rates("default_hourly_one")
     end
 
+    describe :costs_visible_by? do
+      before do
+        project.enabled_module_names = project.enabled_module_names << "costs_module"
+      end
+
+      describe "WHEN the time_entry is assigned to the user
+                WHEN the user has the view_own_hourly_rate permission" do
+
+        before do
+          is_member(project, user, [:view_own_hourly_rate])
+
+          time_entry.user = user
+        end
+
+        it { time_entry.costs_visible_by?(user).should be_true }
+      end
+
+      describe "WHEN the time_entry is assigned to the user
+                WHEN the user lacks permissions" do
+
+        before do
+          is_member(project, user, [])
+
+          time_entry.user = user
+        end
+
+        it { time_entry.costs_visible_by?(user).should be_false }
+      end
+
+      describe "WHEN the time_entry is assigned to another user
+                WHEN the user has the view_hourly_rates permission" do
+
+        before do
+          is_member(project, user2, [:view_hourly_rates])
+
+          time_entry.user = user
+        end
+
+        it { time_entry.costs_visible_by?(user2).should be_true }
+      end
+
+      describe "WHEN the time_entry is assigned to another user
+                WHEN the user has the view_hourly_rates permission in another project" do
+
+        before do
+          is_member(project2, user2, [:view_hourly_rates])
+
+          time_entry.user = user
+        end
+
+        it { time_entry.costs_visible_by?(user2).should be_false }
+      end
+    end
   end
 
+  describe "class" do
+    describe :visible do
+      describe "WHEN having the view_time_entries permission
+                WHEN querying for a project
+                WHEN a time entry from another user is defined" do
+        before do
+          is_member(project, user2, [:view_time_entries])
+
+          time_entry.save!
+        end
+
+        it { TimeEntry.visible(user2, project).all.should =~ [time_entry] }
+      end
+
+      describe "WHEN not having the view_time_entries permission
+                WHEN querying for a project
+                WHEN a time entry from another user is defined" do
+        before do
+          is_member(project, user2, [])
+
+          time_entry.save!
+        end
+
+        it { TimeEntry.visible(user2, project).all.should =~ [] }
+      end
+
+      describe "WHEN having the view_own_time_entries permission
+                WHEN querying for a project
+                WHEN a time entry from another user is defined" do
+        before do
+          is_member(project, user2, [:view_own_time_entries])
+          # don't understand why memberships get loaded on the user
+          time_entry2.user.memberships(true)
+
+          time_entry.save!
+        end
+
+        it { TimeEntry.visible(user2, project).all.should =~ [] }
+      end
+
+      describe "WHEN having the view_own_time_entries permission
+                WHEN querying for a project
+                WHEN a time entry from the user is defined" do
+        before do
+          is_member(project, time_entry2.user, [:view_own_time_entries])
+          # don't understand why memberships get loaded on the user
+          time_entry2.user.memberships(true)
+
+          time_entry2.save!
+        end
+
+        it { TimeEntry.visible(time_entry2.user, project).all.should =~ [time_entry2] }
+      end
+    end
+  end
 end

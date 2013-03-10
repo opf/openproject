@@ -7,13 +7,8 @@ module CostsTimelogControllerPatch
     base.class_eval do
       unloadable
 
-      if Redmine::VERSION::MAJOR < 1
-        alias_method_chain :details, :reports_view
-      else
-        # in chiliproject details was renamed to index
-        alias :details_without_reports_view :index
-        alias :index :details_with_reports_view
-      end
+      alias_method_chain :index, :reports_view
+      alias_method_chain :find_optional_project, :own
     end
   end
 
@@ -30,9 +25,9 @@ module CostsTimelogControllerPatch
       end
     end
 
-    def details_with_reports_view
+    def index_with_reports_view
       # we handle single project reporting currently
-      return details_without_reports_view if @project.nil?
+      return index_without_reports_view if @project.nil?
       filters = {:operators => {}, :values => {}}
 
       if @issue
@@ -54,9 +49,20 @@ module CostsTimelogControllerPatch
           redirect_to :controller => "cost_reports", :action => "index", :project_id => @project, :unit => -1
         }
         format.all {
-          details_without_report_view
+          index_without_report_view
         }
       end
+    end
+
+    def find_optional_project_with_own
+      if !params[:issue_id].blank?
+        @issue = Issue.find(params[:issue_id])
+        @project = @issue.project
+      elsif !params[:project_id].blank?
+        @project = Project.find(params[:project_id])
+      end
+      deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true) ||
+                         User.current.allowed_to?(:view_own_time_entries, @project, :global => true)
     end
   end
 end

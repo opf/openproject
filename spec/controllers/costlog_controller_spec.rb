@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
 describe CostlogController do
+  include Cost::PluginSpecHelper
   let (:project) { Factory.build(:project_with_trackers) }
   let (:issue) { Factory.build(:issue, :project => project,
                                        :author => user,
@@ -295,7 +296,7 @@ describe CostlogController do
       it_should_behave_like "successful create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries" do
+    describe "WHEN the user is allowed to create own cost_entries" do
       before do
         grant_current_user_permissions user, [:log_own_costs]
       end
@@ -447,8 +448,8 @@ describe CostlogController do
       it_should_behave_like "invalid create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries
-              WHEN the user is not allowed to log cost for someone else and is trying to do so" do
+    describe "WHEN the user is allowed to create own cost_entries
+              WHEN the user is trying to log costs for somebody else" do
 
       before do
         grant_current_user_permissions user2, [:log_own_costs]

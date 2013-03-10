@@ -9,8 +9,6 @@ class CostlogController < ApplicationController
                                                      :destroy]
   before_filter :find_associated_objects, :only => [:create,
                                                     :update]
-  before_filter :authorize_create, :only => :create
-  before_filter :authorize_update, :only => :update
   before_filter :find_optional_project, :only => [:report,
                                                   :details]
 
@@ -125,13 +123,17 @@ class CostlogController < ApplicationController
 
   def create
     new_default_cost_entry
-
     update_cost_entry_from_params
 
-    if @cost_entry.save
+    if !@cost_entry.creatable_by?(User.current)
+
+      render_403
+
+    elsif @cost_entry.save
+
       flash[:notice] = l(:notice_successful_create)
       redirect_back_or_default :action => 'details', :project_id => @cost_entry.project
-      return
+
     else
       render :action => 'edit'
     end
@@ -140,10 +142,15 @@ class CostlogController < ApplicationController
   def update
     update_cost_entry_from_params
 
-    if @cost_entry.save
+    if !@cost_entry.editable_by?(User.current)
+
+      render_403
+
+    elsif @cost_entry.save
+
       flash[:notice] = l(:notice_successful_update)
       redirect_back_or_default :action => 'details', :project_id => @cost_entry.project
-      return
+
     else
       render :action => 'edit'
     end
@@ -220,22 +227,6 @@ private
     @cost_type = @cost_entry.present? && @cost_entry.cost_type_id == cost_type_id ?
                    @cost_entry.cost_type :
                    CostType.find_by_id(cost_type_id)
-  end
-
-  def authorize_create
-    if !User.current.allowed_to?(:log_costs, @project, :for => @user)
-
-      render_403
-      return false
-    end
-  end
-
-  def authorize_update
-    if !User.current.allowed_to?(:edit_cost_entries, @project, :for => @user)
-
-      render_403
-      return false
-    end
   end
 
   def retrieve_date_range

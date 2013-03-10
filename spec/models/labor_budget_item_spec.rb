@@ -1,14 +1,17 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe LaborBudgetItem do
+  include Cost::PluginSpecHelper
   let(:item) { Factory.build(:labor_budget_item, :cost_object => cost_object) }
   let(:cost_object) { Factory.build(:variable_cost_object, :project => project) }
   let(:user) { Factory.create(:user) }
+  let(:user2) { Factory.create(:user) }
   let(:rate) { Factory.create(:hourly_rate, :user => user,
                                             :valid_from => Date.today - 4.days,
                                             :rate => 400.0,
                                             :project => project) }
   let(:project) { Factory.create(:valid_project) }
+  let(:project2) { Factory.create(:valid_project) }
 
   describe :calculated_costs do
     let(:default_costs) { "0.0".to_f }
@@ -132,6 +135,60 @@ describe LaborBudgetItem do
         item.should_not be_valid
         item.errors[:user].should == I18n.t('activerecord.errors.messages.blank')
       end
+    end
+  end
+
+  describe :costs_visible_by? do
+    before do
+      project.enabled_module_names = project.enabled_module_names << "costs_module"
+    end
+
+    describe "WHEN the item is assigned to the user
+              WHEN the user has the view_own_hourly_rate permission" do
+
+      before do
+        is_member(project, user, [:view_own_hourly_rate])
+
+        item.user = user
+      end
+
+      it { item.costs_visible_by?(user).should be_true }
+    end
+
+    describe "WHEN the item is assigned to the user
+              WHEN the user lacks permissions" do
+
+      before do
+        is_member(project, user, [])
+
+        item.user = user
+      end
+
+      it { item.costs_visible_by?(user).should be_false }
+    end
+
+    describe "WHEN the item is assigned to another user
+              WHEN the user has the view_hourly_rates permission" do
+
+      before do
+        is_member(project, user2, [:view_hourly_rates])
+
+        item.user = user
+      end
+
+      it { item.costs_visible_by?(user2).should be_true }
+    end
+
+    describe "WHEN the item is assigned to another user
+              WHEN the user has the view_hourly_rates permission in another project" do
+
+      before do
+        is_member(project2, user2, [:view_hourly_rates])
+
+        item.user = user
+      end
+
+      it { item.costs_visible_by?(user2).should be_false }
     end
   end
 end

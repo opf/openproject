@@ -53,15 +53,19 @@ class CostObjectsController < ApplicationController
     sort_init "id", "desc"
     sort_update sort_columns
 
-    conditions = User.current.allowed_for(:view_cost_objects, @project)
+    condition = Project.allowed_to_condition(User.current,
+                                             :view_cost_objects,
+                                             :project => @project),
 
-    @cost_object_count = CostObject.count(:include => [:project], :conditions => conditions)
+
+    @cost_object_count = CostObject.count(:include => [:project],
+                                          :conditions => condition)
     @cost_object_pages = Paginator.new self, @cost_object_count, limit, params[:page]
-    @cost_objects = CostObject.find :all, :order => sort_clause,
-                                     :include => [:project, :author],
-                                     :conditions => conditions,
-                                     :limit => limit,
-                                     :offset => @cost_object_pages.current.offset
+    @cost_objects = CostObject.all( :order => sort_clause,
+                                    :include => [:project, :author],
+                                    :conditions => condition,
+                                    :limit => limit,
+                                    :offset => @cost_object_pages.current.offset)
 
     respond_to do |format|
       format.html { render :action => 'index', :layout => !request.xhr? }
@@ -184,7 +188,7 @@ class CostObjectsController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render :update do |page|
-        page.replace_html "#{element_id}_costs", number_to_currency(0.0)
+      page.replace_html "#{element_id}_costs", number_to_currency(0.0)
     end
   end
 
@@ -202,7 +206,7 @@ private
 
   def find_cost_object
     # This function comes directly from issues_controller.rb (Redmine 0.8.4)
-    @cost_object = CostObject.find(params[:id], :include => [:project, :author])
+    @cost_object = CostObject.find_by_id(params[:id].to_i, :include => [:project, :author])
     @project = @cost_object.project
   rescue ActiveRecord::RecordNotFound
     render_404
