@@ -54,9 +54,6 @@ class CostEntry < ActiveRecord::Base
     errors.add :cost_type_id, :activerecord_error_invalid if cost_type.present? && cost_type.deleted_at.present?
     errors.add :user_id, :activerecord_error_invalid if project.present? && !project.users.include?(user) && user_id_changed?
 
-    unless RAILS_ENV == "test"
-      errors.add :user_id, :activerecord_error_invalid unless User.current.allowed_to? :log_costs, project, :for => user
-    end
     begin
       spent_on.to_date
     rescue Exception
