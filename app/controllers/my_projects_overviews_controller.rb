@@ -265,7 +265,10 @@ class MyProjectsOverviewsController < ApplicationController
   end
 
   def total_hours
-    if User.current.allowed_to?(:view_time_entries, project)
+    if User.current.allowed_to?(:view_time_entries, project) ||
+       # granted, this is a dirty hack
+       Redmine::Plugin.installed?(:redmine_costs) && User.current.allowed_to?(:view_own_time_entries, project)
+
       @total_hours ||= TimeEntry.visible.sum(:hours, :include => :project, :conditions => subproject_condition).to_f
     end
   end
