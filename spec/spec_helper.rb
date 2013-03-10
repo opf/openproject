@@ -37,3 +37,11 @@ def login_user(user)
   @controller.send(:logged_user=, user)
   @controller.stub!(:find_current_user).and_return(user)
 end
+
+def is_member(project, user, permissions = [])
+  role = Factory.create(:role, :permissions => permissions)
+
+  Factory.create(:member, :project => project,
+                          :principal => user,
+                          :roles => [role])
+end

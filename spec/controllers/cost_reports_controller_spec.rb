@@ -1,14 +1,24 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe CostReportsController do
-  before(:each) do
-    @user = Factory.build(:user)
-    @user.stub(:roles_for_project)
-    login_user @user
-  end
+  let(:user) { Factory.build(:user) }
+  let(:project) { Factory.build(:valid_project) }
 
-  it "should respond with a 404 error" do
-    get :show, :id => 1, :unit => -1 
-    response.code.should eql("404")
+  describe "GET show" do
+    before(:each) do
+      is_member project, user, [:view_cost_entries]
+      User.stub!(:current).and_return(user)
+    end
+
+    describe "WHEN providing invalid units
+              WHEN having the view_cost_entries permission" do
+      before do
+        get :show, :id => 1, :unit => -1
+      end
+
+      it "should respond with a 404 error" do
+        response.code.should eql("404")
+      end
+    end
   end
 end
