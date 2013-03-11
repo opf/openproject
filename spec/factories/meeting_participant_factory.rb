@@ -1,2 +1,4 @@
-Factory.define :meeting_participant do |mp|
+FactoryGirl.define do
+  factory :meeting_participant do |mp|
+  end
 end
