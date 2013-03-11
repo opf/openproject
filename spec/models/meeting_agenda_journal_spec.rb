@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'meeting_minutes'
 
 describe MeetingAgendaJournal do
-  include Meeting::PluginSpecHelper
+  include PluginSpecHelper
 
   let(:journal) { FactoryGirl.build(:meeting_agenda_journal) }
 
