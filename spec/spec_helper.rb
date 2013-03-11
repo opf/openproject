@@ -6,7 +6,13 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 #
 require File.expand_path("#{ENV['RAILS_ROOT']}/config/environment.rb",  __FILE__)
+
+# preload agenda and minutes in order to have journal classes during tests
+require 'meeting_agenda'
+require 'meeting_minutes'
+
 require 'support/plugin_spec_helper'
+require 'factory_girl_rails'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
