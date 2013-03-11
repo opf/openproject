@@ -13,6 +13,7 @@ require 'meeting_minutes'
 
 require 'support/plugin_spec_helper'
 require 'factory_girl_rails'
+Dir[Rails.root.join("spec/factories/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
