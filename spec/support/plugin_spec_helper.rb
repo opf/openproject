@@ -1,4 +1,4 @@
-module Meeting::PluginSpecHelper
+module PluginSpecHelper
   shared_examples_for "customized journal class" do
     describe :save do
       let(:text) { "Lorem ipsum" }
