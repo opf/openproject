@@ -8,7 +8,7 @@ describe Meeting do
   it {pending; should accept_nested_attributes_for :participants} # geht das?
 
   before(:all) do
-    @m = Factory.build :meeting, :title => "dingens"
+    @m = FactoryGirl.build :meeting, :title => "dingens"
   end
 
   describe "to_s" do
@@ -37,13 +37,13 @@ describe Meeting do
 
   describe "Journalized Objects" do
     before(:each) do
-      @project ||= Factory.create(:project_with_trackers)
-      @current = Factory.create(:user, :login => "user1", :mail => "user1@users.com")
+      @project ||= FactoryGirl.create(:project_with_trackers)
+      @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
       User.stub!(:current).and_return(@current)
     end
 
     it 'should work with meeting' do
-      @meeting ||= Factory.create(:meeting, :title => "Test", :project => @project, :author => @current)
+      @meeting ||= FactoryGirl.create(:meeting, :title => "Test", :project => @project, :author => @current)
 
       initial_journal = @meeting.journals.first
       recreated_journal = @meeting.recreate_initial_journal!

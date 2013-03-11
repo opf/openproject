@@ -1,23 +1,23 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe User, "#destroy" do
-  let(:user) { Factory.create(:user) }
-  let(:user2) { Factory.create(:user) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:user2) { FactoryGirl.create(:user) }
   let(:substitute_user) { DeletedUser.first }
   let(:project) do
-    project = Factory.create(:valid_project)
-#    Factory.create(:member, :project => project,
+    project = FactoryGirl.create(:valid_project)
+#    FactoryGirl.create(:member, :project => project,
 #                            :user => user,
-#                            :roles => [Factory.build(:role)])
-#    Factory.create(:member, :project => project,
+#                            :roles => [FactoryGirl.build(:role)])
+#    FactoryGirl.create(:member, :project => project,
 #                            :user => user2,
-#                            :roles => [Factory.build(:role)])
+#                            :roles => [FactoryGirl.build(:role)])
     project
   end
 
-  let(:meeting) { Factory.create(:meeting, :project => project,
+  let(:meeting) { FactoryGirl.create(:meeting, :project => project,
                                            :author => user2) }
-  let(:participant) { Factory.create(:meeting_participant, :user => user,
+  let(:participant) { FactoryGirl.create(:meeting_participant, :user => user,
                                                            :meeting => meeting,
                                                            :invited => true,
                                                            :attended => true) }
@@ -108,7 +108,7 @@ describe User, "#destroy" do
 
   describe "WHEN the user created a meeting" do
     let(:associations) { [:author] }
-    let(:associated_instance) { Factory.build(:meeting, :project => project) }
+    let(:associated_instance) { FactoryGirl.build(:meeting, :project => project) }
     let(:associated_class) { Meeting }
 
     it_should_behave_like "created journalized associated object"
@@ -116,7 +116,7 @@ describe User, "#destroy" do
 
   describe "WHEN the user updated a meeting" do
     let(:associations) { [:author] }
-    let(:associated_instance) { Factory.build(:meeting, :project => project) }
+    let(:associated_instance) { FactoryGirl.build(:meeting, :project => project) }
     let(:associated_class) { Meeting }
 
     it_should_behave_like "updated journalized associated object"
@@ -124,7 +124,7 @@ describe User, "#destroy" do
 
   describe "WHEN the user created a meeting agenda" do
     let(:associations) { [:author] }
-    let(:associated_instance) { Factory.build(:meeting_agenda, :meeting => meeting,
+    let(:associated_instance) { FactoryGirl.build(:meeting_agenda, :meeting => meeting,
                                                                :text => "lorem")}
     let(:associated_class) { MeetingAgenda }
 
@@ -133,7 +133,7 @@ describe User, "#destroy" do
 
   describe "WHEN the user updated a meeting agenda" do
     let(:associations) { [:author] }
-    let(:associated_instance) { Factory.build(:meeting_agenda, :meeting => meeting,
+    let(:associated_instance) { FactoryGirl.build(:meeting_agenda, :meeting => meeting,
                                                                :text => "lorem")}
     let(:associated_class) { MeetingAgenda }
 
@@ -142,7 +142,7 @@ describe User, "#destroy" do
 
   describe "WHEN the user created a meeting minutes" do
     let(:associations) { [:author] }
-    let(:associated_instance) { Factory.build(:meeting_minutes, :meeting => meeting,
+    let(:associated_instance) { FactoryGirl.build(:meeting_minutes, :meeting => meeting,
                                                                 :text => "lorem")}
     let(:associated_class) { MeetingMinutes }
 
@@ -151,7 +151,7 @@ describe User, "#destroy" do
 
   describe "WHEN the user updated a meeting minutes" do
     let(:associations) { [:author] }
-    let(:associated_instance) { Factory.build(:meeting_minutes, :meeting => meeting,
+    let(:associated_instance) { FactoryGirl.build(:meeting_minutes, :meeting => meeting,
                                                                :text => "lorem")}
     let(:associated_class) { MeetingMinutes }
 

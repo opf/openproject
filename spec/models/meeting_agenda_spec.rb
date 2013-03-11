@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe "MeetingAgenda" do
   before(:all) do
-    #@m = Factory.build :meeting, :title => "dingens"
-    @a = Factory.build :meeting_agenda, :text => "Some content...\n\nMore content!\n\nExtraordinary content!!"
+    #@m = FactoryGirl.build :meeting, :title => "dingens"
+    @a = FactoryGirl.build :meeting_agenda, :text => "Some content...\n\nMore content!\n\nExtraordinary content!!"
   end
   
   # TODO: Test the right user and messages are set in the history
