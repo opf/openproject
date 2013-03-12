@@ -195,7 +195,7 @@ GEM
     metaclass (0.0.1)
     method_source (0.8.1)
     mime-types (1.21)
-    mocha (0.13.2)
+    mocha (0.13.3)
       metaclass (~> 0.0.1)
     multi_json (1.6.1)
     mysql (2.9.1)
