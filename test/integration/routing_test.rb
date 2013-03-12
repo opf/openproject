@@ -344,12 +344,12 @@ class RoutingTest < ActionDispatch::IntegrationTest
 
 
   context "journals" do
-    should_route(:get, "/journals/100/diff/description").to( :controller => 'journals',
+    should route(:get, "/journals/100/diff/description").to( :controller => 'journals',
                                                              :action => 'diff',
                                                              :id => '100',
                                                              :field => 'description' )
   end
-  
+
   context "issue categories" do
     context "project scoped" do
       should route(:get, "/projects/test/issue_categories/new").to( :controller => 'issue_categories',
