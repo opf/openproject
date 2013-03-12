@@ -108,7 +108,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.5.0)
+    coffee-script-source (1.6.1)
     columnize (0.3.6)
     cucumber (1.2.1)
       builder (>= 2.1.2)
