@@ -132,7 +132,7 @@ GEM
     debugger-ruby_core_source (1.2.0)
     delayed_job (3.0.5)
       activesupport (~> 3.0)
-    delayed_job_active_record (0.4.1)
+    delayed_job_active_record (0.4.3)
       activerecord (>= 2.1.0, < 4)
       delayed_job (~> 3.0)
     diff-lcs (1.2.1)
