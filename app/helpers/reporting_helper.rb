@@ -103,7 +103,7 @@ module ReportingHelper
 
   def cost_object_link(cost_object_id)
     co = CostObject.find(cost_object_id)
-    if User.current.allowed_to_with_inheritance?(:view_cost_objects, co.project)
+    if User.current.allowed_to?(:view_cost_objects, co.project)
       link_to_cost_object(co)
     else
       co.subject
