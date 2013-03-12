@@ -28,7 +28,9 @@ module CostsIssuePatch
 
       def spent_hours
         # overwritten method
-        @spent_hours ||= self.time_entries.visible(User.current).sum(:hours) || 0
+        @spent_hours ||= self.time_entries(:include => :project).group_by(&:project).inject([]) do |arr, (project, time_entries)|
+                           arr += time_entries if User.current.allowed_to?(:view_time_entries, project)
+                         end.sum(&:hours) || 0
       end
 
       if Redmine::VERSION::MAJOR >= 1
