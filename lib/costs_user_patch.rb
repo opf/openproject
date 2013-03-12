@@ -22,10 +22,13 @@ module CostsUserPatch
   end
 
   module InstanceMethods
-    def allowed_to_with_inheritance?(action, context, options= {})
+    def allowed_to_with_inheritance?(action, context, options = {})
+      options.reverse_merge!(:granular => true)
+
       allowed = allowed_to_without_inheritance?(action, context, options)
 
       if !allowed &&
+         options[:granular] &&
          action.is_a?(Symbol) &&
          Redmine::AccessControl.permission(action).present?
 

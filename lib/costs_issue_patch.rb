@@ -29,7 +29,13 @@ module CostsIssuePatch
       def spent_hours
         # overwritten method
         @spent_hours ||= self.time_entries(:include => :project).group_by(&:project).inject([]) do |arr, (project, time_entries)|
-                           arr += time_entries if User.current.allowed_to?(:view_time_entries, project)
+                           if User.current.allowed_to?(:view_time_entries, project, :granular => false)
+                             arr += time_entries
+                           elsif User.current.allowed_to?(:view_own_time_entries, project)
+                             arr += time_entries.select{ |t| t.user_id == User.current.id }
+                           end
+
+                           arr
                          end.sum(&:hours) || 0
       end
 
