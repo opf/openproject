@@ -264,7 +264,7 @@ GEM
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
     ruby-openid (2.1.8)
-    ruby-prof (0.12.2)
+    ruby-prof (0.13.0)
     rubytree (0.8.3)
       json (>= 1.7.5)
       structured_warnings (>= 0.1.3)
