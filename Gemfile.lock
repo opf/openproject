@@ -6,10 +6,10 @@ GIT
 
 GIT
   remote: git://github.com/fnando/i18n-js.git
-  revision: 689f4d709285cccfef9f5e10b295d9b2fe63d519
+  revision: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
   branch: rewrite
   specs:
-    i18n-js (3.0.0.rc3)
+    i18n-js (3.0.0.rc5)
       i18n
 
 GIT
