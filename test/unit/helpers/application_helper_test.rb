@@ -320,13 +320,15 @@ RAW
                  :repository => repository,
                  :comments => 'This commit fixes #1, #2 and references #1 & #3'
     identifier = @project.identifier
-    @project = FactoryGirl.create :valid_project
 
     source_link = link_to("#{identifier}:source:/some/file", {:controller => 'repositories', :action => 'entry', :id => identifier, :path => ['some', 'file']},
       :class => 'source')
     changeset_link = link_to("#{identifier}:r#{changeset.revision}",
       {:controller => 'repositories', :action => 'revision', :id => identifier, :rev => changeset.revision},
       :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
+
+    # textilizable "sees" the text is parses from the_other_project (and not @project)
+    the_other_project = FactoryGirl.create :valid_project
 
     to_test = {
       # documents
@@ -347,13 +349,11 @@ RAW
       "#{identifier}:source:/some/file"       => source_link,
       'invalid:source:/some/file'             => 'invalid:source:/some/file',
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :project => the_other_project), "#{text} failed" }
   end
 
   def test_redmine_links_git_commit
-    @project = FactoryGirl.create :valid_project
     User.current = @admin
-
     changeset_link = link_to('abcd',
                                {
                                  :controller => 'repositories',
