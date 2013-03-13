@@ -32,7 +32,7 @@ class MeetingMinutes < MeetingContent
 
     # Wiki Content might be large and the data should possibly be compressed
     def compress_version_text
-      self.text = changes["text"].last if changes["text"]
+      self.text = changed_data["text"].last if changed_data["text"]
       self.text ||= self.journaled.text if self.journaled.text
     end
 
@@ -51,19 +51,19 @@ class MeetingMinutes < MeetingContent
     end
 
     def text_hash(hash)
-      changes.delete("text")
-      changes["data"] = hash[:text]
-      changes["compression"] = hash[:compression]
-      update_attribute(:changes, changes)
+      changed_data.delete("text")
+      changed_data["data"] = hash[:text]
+      changed_data["compression"] = hash[:compression]
+      update_attribute(:changed_data, changed_data)
     end
 
     def text
-      @text ||= case changes[:compression]
+      @text ||= case changed_data[:compression]
       when 'gzip'
          Zlib::Inflate.inflate(data)
       else
         # uncompressed data
-        changes["data"]
+        changed_data["data"]
       end
     end
 
