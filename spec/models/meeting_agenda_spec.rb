@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe "MeetingAgenda" do
-  before(:all) do
-    #@m = FactoryGirl.build :meeting, :title => "dingens"
+  before(:each) do
     @a = FactoryGirl.build :meeting_agenda, :text => "Some content...\n\nMore content!\n\nExtraordinary content!!"
   end
   
@@ -31,6 +30,7 @@ describe "MeetingAgenda" do
   # a meeting agenda is editable when it is not locked
   describe "#editable?" do
     it "is editable when not locked" do
+      @a.locked = false
       @a.editable?.should be_true
     end
     it "is not editable when locked" do
