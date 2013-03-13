@@ -33,6 +33,7 @@ class Meeting < ActiveRecord::Base
   validates_presence_of :title, :start_time, :duration
 
   after_create :add_author_as_watcher
+  after_initialize :set_initial_values
 
   User.before_destroy do |user|
     Meeting.update_all ['author_id = ?', DeletedUser.first.id], ['author_id = ?', user.id]
@@ -104,7 +105,7 @@ class Meeting < ActiveRecord::Base
 
   protected
 
-  def after_initialize
+  def set_initial_values
     # set defaults
     self.start_time ||= Date.tomorrow + 10.hours
     self.duration   ||= 1
