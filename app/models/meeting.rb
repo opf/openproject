@@ -87,6 +87,11 @@ class Meeting < ActiveRecord::Base
     self.participants.build(:user => user, :invited => true) if (self.new_record? && self.participants.empty? && user)
   end
 
+   # Returns true if usr or current user is allowed to view the issue
+  def visible?(user=nil)
+    (user || User.current).allowed_to?(:view_meetings, self.project)
+  end
+
   def copy(attrs)
     copy = self.clone
     copy.author = attrs.delete(:author)
