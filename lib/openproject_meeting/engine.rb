@@ -4,7 +4,7 @@ module MeetingsPlugin
   class Engine < ::Rails::Engine
     isolate_namespace MeetingsPlugin
 
-    initializer 'landing_page.precompile_assets' do
+    initializer 'openproject_meeting.precompile_assets' do
       Rails.application.config.assets.precompile += ["openproject_meeting.css"]
     end
 
@@ -16,7 +16,7 @@ module MeetingsPlugin
         # require_dependency 'mailer'
         require 'openproject_meeting/patches/project_patch'
         # require 'openproject_meeting/patches/mailer_patch'
-        Project.send(:include,Patches::ProjectPatch)
+        Project.send(:include, Patches::ProjectPatch)
         # Mailer.send(:include, Patches::MailerPatch)
 
         # load classes so that all User.before_destroy filters are loaded
