@@ -1,26 +1,28 @@
 #custom routes for this plugin
-OpenProject::Application.routes.prepend do
-  resources :projects, :only => [] do
-    resources :meetings, :shallow => true do
-      member do
-        get :copy
-      end
-      resource :agenda, :controller => 'meeting_agendas', :only => [:update] do
+OpenProject::Application.routes.draw do
+  resources :projects, only: [] do
+    resources :meetings do
+      shallow do
         member do
-          get :history
-          get :diff
-          put :close
-          put :open
-          put :notify
-          post :preview
+          get :copy
         end
-      end
-      resource :minutes, :controller => 'meeting_minutes', :only => [:update] do
-        member do
-          get :history
-          get :diff
-          put :notify
-          post :preview
+        resource :agenda, :controller => 'meeting_agendas', :only => [:update] do
+          member do
+            get :history
+            get :diff
+            put :close
+            put :open
+            put :notify
+            post :preview
+          end
+        end
+        resource :minutes, :controller => 'meeting_minutes', :only => [:update] do
+          member do
+            get :history
+            get :diff
+            put :notify
+            post :preview
+          end
         end
       end
     end
@@ -28,4 +30,5 @@ OpenProject::Application.routes.prepend do
   match '/meetings/:id/:tab' => 'meetings#show', :constraints => { :tab => /(agenda|minutes)/ }, :via => :get
   match '/meetings/:meeting_id/agenda/:version' => 'meeting_agendas#show', :constraints => { :version => /\d/ }, :via => :get
   match '/meetings/:meeting_id/minutes/:version' => 'meeting_minutes#show', :constraints => { :version => /\d/ }, :via => :get
+  match '/:controller(/:action(/:id))', :controller => 'meetings'
 end
