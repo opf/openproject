@@ -11,20 +11,18 @@ module MeetingsPlugin
     config.to_prepare do
       require 'redmine/plugin'
 
-      ActionDispatch::Callbacks.to_prepare do
-        require_dependency 'openproject_meeting/hooks'
-        # require_dependency 'mailer'
-        require 'openproject_meeting/patches/project_patch'
-        # require 'openproject_meeting/patches/mailer_patch'
-        Project.send(:include, Patches::ProjectPatch)
-        # Mailer.send(:include, Patches::MailerPatch)
+      require_dependency 'openproject_meeting/hooks'
+      # require_dependency 'mailer'
+      require 'openproject_meeting/patches/project_patch'
+      # require 'openproject_meeting/patches/mailer_patch'
+      Project.send(:include, Patches::ProjectPatch)
+      # Mailer.send(:include, Patches::MailerPatch)
 
-        # load classes so that all User.before_destroy filters are loaded
-        require_dependency 'meeting'
-        require_dependency 'meeting_agenda'
-        require_dependency 'meeting_minutes'
-        require_dependency 'meeting_participant'
-      end
+      # load classes so that all User.before_destroy filters are loaded
+      require_dependency 'meeting'
+      require_dependency 'meeting_agenda'
+      require_dependency 'meeting_minutes'
+      require_dependency 'meeting_participant'
 
       spec = Bundler.environment.specs['openproject_meeting'][0]
 
