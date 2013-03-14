@@ -5,18 +5,21 @@
     <%=raw meeting_content_context_menu content, content_type %>
   </div>
   <h2><%=l :"label_#{content_type}" %></h2>
+
   <% if can_edit_meeting_content?(content, content_type) -%>
-  <div id="edit-<%= content_type %>" class="edit-<%= content_type %>"<%= " style=\"display: none;\"" unless show_meeting_content_editor?(content, content_type)%>>
-  <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
-  </div>
+    <div id="edit-<%= content_type %>" class="edit-<%= content_type %>"<%= " style=\"display: none;\"" unless show_meeting_content_editor?(content, content_type)%>>
+    <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
+    </div>
   <% end -%>
+
   <% if saved_meeting_content_text_present?(content) -%>
-  <div id="<%= content_type %>-text" class="wiki show-<%= content_type %>">
-    <%= textilizable(content.text) %>
-  </div>
+    <div id="<%= content_type %>-text" class="wiki show-<%= content_type %>">
+      <%= textilizable(content.text) %>
+    </div>
   <% else -%>
-  <p id="<%= content_type %>-text" class="nodata show-<%= content_type %>"><%= l(:label_no_data) %></p>
+    <p id="<%= content_type %>-text" class="nodata show-<%= content_type %>"><%= l(:label_no_data) %></p>
   <% end -%>
+
   <%= javascript_tag(show_meeting_content_editor?(content, content_type) ? "$$('.show-#{content_type}').invoke('hide');" : "$$('.edit-#{content_type}').invoke('hide');") %>
 </div>
 
