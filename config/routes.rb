@@ -1,8 +1,8 @@
 #custom routes for this plugin
 OpenProject::Application.routes.draw do
   resources :projects, only: [] do
-    resources :meetings do
-      shallow do
+    shallow do
+      resources :meetings do
         member do
           get :copy
         end
@@ -30,5 +30,5 @@ OpenProject::Application.routes.draw do
   match '/meetings/:id/:tab' => 'meetings#show', :constraints => { :tab => /(agenda|minutes)/ }, :via => :get
   match '/meetings/:meeting_id/agenda/:version' => 'meeting_agendas#show', :constraints => { :version => /\d/ }, :via => :get
   match '/meetings/:meeting_id/minutes/:version' => 'meeting_minutes#show', :constraints => { :version => /\d/ }, :via => :get
-  match '/:controller(/:action(/:id))', :controller => 'meetings'
+  match '/projects/:id/meetings' => 'meetings#new', :via => :put
 end
