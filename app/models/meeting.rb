@@ -97,7 +97,7 @@ class Meeting < ActiveRecord::Base
     copy = self.clone
     copy.author = attrs.delete(:author)
     copy.attributes = attrs
-    copy.send(:after_initialize)
+    copy.send(:set_initial_values)
     copy_participant_user_ids = copy.participants.collect(&:user_id)
     copy.participants << self.participants.invited.reject{|p| copy_participant_user_ids.include? p.user_id}.collect(&:clone).each{|p| p.attended=false} # Make sure the participants have no id
     copy
