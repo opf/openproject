@@ -21,7 +21,12 @@
 <script type="text/javascript">
   //<![CDATA[
   materialBudgetItemsForm = new Subform('<%= escape_javascript(render(:partial => "material_budget_item", :object => @cost_object.material_budget_items.build(:cost_type => CostType.default) )) %>',<%= @cost_object.material_budget_items.length %>,'material_budget_items_body');
-  laborBudgetItemsForm = new Subform('<%= escape_javascript(render(:partial => "labor_budget_item", :object => @cost_object.labor_budget_items.build )) %>',<%= @cost_object.labor_budget_items.length %>,'labor_budget_items_body');
+
+  <%# we have to assign the cost_object here as following methods depend on the item having an object -%>
+  <% item = @cost_object.labor_budget_items.build.tap do |i|
+    i.cost_object = @cost_object
+  end -%>
+  laborBudgetItemsForm = new Subform('<%= escape_javascript(render(:partial => "labor_budget_item", :object => item )) %>',<%= @cost_object.labor_budget_items.length %>,'labor_budget_items_body');
   //]]>
 </script>
 
