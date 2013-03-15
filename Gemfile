@@ -1,14 +1,11 @@
 source 'https://rubygems.org'
 
-#gem 'rails', '3.2.10'
-# use rails-3-2-stable for now to avoid mocha bugs
-# see: https://github.com/freerange/mocha/issues/117
-
-# gem "rails", :git => "git://github.com/rails/rails.git", :branch => "3-2-stable"
-# another thing:
-# rails  commit 9bd5c86c3bdc70bf29be7f756d1dec2fdd4eaaf0 resultsin a bug, when creating WikiContent Objects via FactoryGirl.
+gem "rails", :git => "git://github.com/rails/rails.git", :branch => "3-2-13"
+# be careful when updating past 3-2-13
+# rails commit 9bd5c86c3bdc70bf29be7f756d1dec2fdd4eaaf0 resultsin a bug, when creating WikiContent Objects via FactoryGirl.
 # So we use the commit before that for now.
-gem "rails", :git => "git://github.com/rails/rails.git", :ref => "bb0007f70420445f140004587aa1228895ab6653"
+# gem "rails", :git => "git://github.com/rails/rails.git", :ref => "bb0007f70420445f140004587aa1228895ab6653"
+
 gem "sprockets", :git => "git://github.com/tessi/sprockets.git", :branch => "2_2_1-backport"
 
 gem "coderay", "~> 1.0.5"
