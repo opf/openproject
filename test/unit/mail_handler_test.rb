@@ -26,7 +26,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_issue
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
-    issue = submit_email('ticket_on_given_project.eml')
+    issue = submit_email('ticket_on_given_project.eml', :allow_override => 'fixed_version')
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
