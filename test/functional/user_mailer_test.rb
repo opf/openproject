@@ -55,38 +55,8 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.protocol = 'https'
     User.current = FactoryGirl.create(:admin)
 
-    project = FactoryGirl.create(:valid_project)
-    user    = FactoryGirl.create(:user, :member_in_project => project)
-    tracker = FactoryGirl.create(:tracker, :name => 'My Tracker')
-    project.trackers << tracker
-    project.save
+    project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
-    related_issue = FactoryGirl.create(:issue,
-        :subject => 'My related Ticket',
-        :tracker => tracker,
-        :project => project)
-
-    issue   = FactoryGirl.create(:issue,
-        :subject => 'My awesome Ticket',
-        :tracker => tracker,
-        :project => project,
-        :description => "nothing here yet")
-
-    # now change the issue, to get a nice journal
-    # we create a Filesystem repository for our changeset, so we have to enable it
-    Setting.enabled_scm = Setting.enabled_scm.dup << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
-    changeset = FactoryGirl.create :changeset,
-                                   :repository => FactoryGirl.create(:repository, :project => project),
-                                   :comments => 'This commit fixes #1, #2 and references #1 and #3'
-    attachment = FactoryGirl.create(:attachment,
-        :container => issue,
-        :author => issue.author)
-    issue.description = "This is related to issue ##{related_issue.id}\n A reference to a changeset r#{changeset.id}\n A reference to an attachment attachment:#{attachment.filename}"
-    assert issue.save
-    issue.reload
-    journal = issue.journals.last
-
-    ActionMailer::Base.deliveries = [] # remove issue-created mails
     assert UserMailer.issue_updated(user, journal).deliver
     assert last_email
 
@@ -538,5 +508,42 @@ private
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     mail
+  end
+
+  def setup_complex_issue_update
+    project = FactoryGirl.create(:valid_project)
+    user    = FactoryGirl.create(:user, :member_in_project => project)
+    tracker = FactoryGirl.create(:tracker, :name => 'My Tracker')
+    project.trackers << tracker
+    project.save
+
+    related_issue = FactoryGirl.create(:issue,
+        :subject => 'My related Ticket',
+        :tracker => tracker,
+        :project => project)
+
+    issue   = FactoryGirl.create(:issue,
+        :subject => 'My awesome Ticket',
+        :tracker => tracker,
+        :project => project,
+        :description => "nothing here yet")
+
+    # now change the issue, to get a nice journal
+    # we create a Filesystem repository for our changeset, so we have to enable it
+    Setting.enabled_scm = Setting.enabled_scm.dup << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
+    changeset = FactoryGirl.create :changeset,
+                                   :repository => FactoryGirl.create(:repository, :project => project),
+                                   :comments => 'This commit fixes #1, #2 and references #1 and #3'
+    attachment = FactoryGirl.create(:attachment,
+        :container => issue,
+        :author => issue.author)
+    issue.description = "This is related to issue ##{related_issue.id}\n A reference to a changeset r#{changeset.id}\n A reference to an attachment attachment:#{attachment.filename}"
+    assert issue.save
+    issue.reload
+    journal = issue.journals.last
+
+    ActionMailer::Base.deliveries = [] # remove issue-created mails
+
+    [project, user, related_issue, issue, changeset, attachment, journal]
   end
 end
