@@ -54,7 +54,14 @@ class ApplicationController < ActionController::Base
 
   # FIXME: This doesn't work with Rails >= 3.0 anymore
   # Possible workaround: https://github.com/rails/rails/issues/671#issuecomment-1780159
-  rescue_from ActionController::RoutingError, :with => proc{render_404}
+  rescue_from ActionController::RoutingError, :with => proc{
+    # manually apply basic before_filters which aren't applied by default here
+    user_setup
+    check_if_login_required
+    set_localization
+
+    render_404
+  }
 
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
