@@ -87,45 +87,37 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_generated_links_with_prefix
     Setting.default_language = 'en'
-    relative_url_root = Redmine::Utils.relative_url_root
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
+    User.current = FactoryGirl.create(:admin)
 
-    user    = FactoryGirl.create(:user)
-    tracker = FactoryGirl.create(:tracker, :name => 'My Tracker')
-    issue   = FactoryGirl.create(:issue, :subject => 'My awesome Ticket', :tracker => tracker)
-    journal = issue.journals.first
+    project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
     assert UserMailer.issue_updated(user, journal).deliver
-
-    mail = last_email
+    assert last_email
 
     assert_select_email do
       # link to the main ticket
       assert_select 'a[href=?]',
                     "http://mydomain.foo/rdm/issues/#{issue.id}",
                     :text => "My Tracker ##{issue.id}: My awesome Ticket"
-
-      # TODO
+      # link to a description diff
+      assert_select 'li',
+                    :text => "Description changed (http://mydomain.foo/rdm/journals/#{journal.id}/diff/description)"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
-                    'http://mydomain.foo/rdm/issues/1',
-                    'Can\'t print recipes (New)',
-                    :text => '#1'
+                    "http://mydomain.foo/rdm/issues/#{related_issue.id}",
+                    "My related Ticket (#{related_issue.status})",
+                    :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    'http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2',
-                    'This commit fixes #1, #2 and references #1 &amp; #3',
-                    :text => 'r2'
-      # link to a description diff
-      assert_select 'a[href=?][title=?]',
-                    'http://mydomain.foo/rdm/journals/diff/3?detail_id=4',
-                    'View differences',
-                    :text => 'diff'
+                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
+                    'This commit fixes #1, #2 and references #1 and #3',
+                    :text => "r#{changeset.id}"
       # link to an attachment
       assert_select 'a[href=?]',
-                    'http://mydomain.foo/rdm/attachments/download/4/source.rb',
-                    :text => 'source.rb'
+                    "http://mydomain.foo/rdm/attachments/#{attachment.id}/download",
+                    :text => "#{attachment.filename}"
     end
   end
 
@@ -136,41 +128,35 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.protocol = 'http'
     Redmine::Utils.relative_url_root = nil
 
-    user    = FactoryGirl.create(:user)
-    tracker = FactoryGirl.create(:tracker, :name => 'My Tracker')
-    issue   = FactoryGirl.create(:issue, :subject => 'My awesome Ticket', :tracker => tracker)
-    journal = issue.journals.first
+    User.current = FactoryGirl.create(:admin)
+
+    project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
     assert UserMailer.issue_updated(user, journal).deliver
-
-    mail = last_email
+    assert last_email
 
     assert_select_email do
       # link to the main ticket
       assert_select 'a[href=?]',
                     "http://mydomain.foo/rdm/issues/#{issue.id}",
                     :text => "My Tracker ##{issue.id}: My awesome Ticket"
-
-      # TODO
+      # link to a description diff
+      assert_select 'li',
+                    :text => "Description changed (http://mydomain.foo/rdm/journals/#{journal.id}/diff/description)"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
-                    'http://mydomain.foo/rdm/issues/1',
-                    'Can\'t print recipes (New)',
-                    :text => '#1'
+                    "http://mydomain.foo/rdm/issues/#{related_issue.id}",
+                    "My related Ticket (#{related_issue.status})",
+                    :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    'http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2',
-                    'This commit fixes #1, #2 and references #1 &amp; #3',
-                    :text => 'r2'
-      # link to a description diff
-      assert_select 'a[href=?][title=?]',
-                    'http://mydomain.foo/rdm/journals/diff/3?detail_id=4',
-                    'View differences',
-                    :text => 'diff'
+                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
+                    'This commit fixes #1, #2 and references #1 and #3',
+                    :text => "r#{changeset.id}"
       # link to an attachment
       assert_select 'a[href=?]',
-                    'http://mydomain.foo/rdm/attachments/download/4/source.rb',
-                    :text => 'source.rb'
+                    "http://mydomain.foo/rdm/attachments/#{attachment.id}/download",
+                    :text => "#{attachment.filename}"
     end
   ensure
     # restore it
