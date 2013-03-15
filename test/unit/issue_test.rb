@@ -783,8 +783,8 @@ class IssueTest < ActiveSupport::TestCase
     journal = IssueJournal.first(:order => 'id DESC')
     assert_equal i, journal.journaled
     assert journal.changed_data.has_key? "description"
-    assert_equal old_description, journal.old_value("description")
-    assert_equal new_description, journal.value("description")
+    assert_equal old_description, journal.old_value_for("description")
+    assert_equal new_description, journal.new_value_for("description")
   end
 
   def test_all_dependent_issues
