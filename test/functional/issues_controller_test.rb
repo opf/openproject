@@ -249,10 +249,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal Issue.find(1), assigns(:issue)
 
     # anonymous role is allowed to add a note
-    assert_tag :tag => 'form',
-               :descendant => { :tag => 'fieldset',
-                                :child => { :tag => 'legend',
-                                            :content => /Notes/ } }
+    assert_tag :tag => 'ul',
+               :attributes => { :class => "action_menu_main" },
+               :child => { :tag => 'li',
+                           :child => { :tag => 'a',
+                                       :content => /Update/ } }
   end
 
   def test_show_by_manager
@@ -263,16 +264,20 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag :tag => 'a',
       :content => /Quote/
 
-    assert_tag :tag => 'form',
-               :descendant => { :tag => 'fieldset',
-                                :child => { :tag => 'legend',
-                                            :content => /Change properties/ } },
-               :descendant => { :tag => 'fieldset',
-                                :child => { :tag => 'legend',
-                                            :content => /Log time/ } },
-               :descendant => { :tag => 'fieldset',
-                                :child => { :tag => 'legend',
-                                            :content => /Notes/ } }
+    assert_tag :tag => 'ul',
+               :attributes => { :class => "action_menu_main" },
+               :child => { :tag => 'li',
+                           :child => { :tag => 'a',
+                                       :content => /Update/ } },
+               :child => { :tag => 'li',
+                           :child => { :tag => 'ul',
+                                       :attributes => { :class => 'action_menu_more' },
+                                       :child => { :tag => 'li',
+                                                   :child => { :tag => 'a',
+                                                               :content => /Log time/ } },
+                                       :child => { :tag => 'li',
+                                                   :child => { :tag => 'a',
+                                                               :content => /Delete/ } } } }
   end
 
   def test_show_should_deny_anonymous_access_without_permission
