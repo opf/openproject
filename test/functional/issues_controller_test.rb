@@ -1239,7 +1239,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal '777', issue.custom_value_for(2).value
     assert_equal 1, journal.details.size
     assert_equal '125', journal.old_value_for('custom_values2')
-    assert_equal '777', journal.value_for('custom_values2')
+    assert_equal '777', journal.new_value_for('custom_values2')
   end
 
   def test_bulk_update_unassign
