@@ -2,7 +2,7 @@
 
 <table class="list cost_objects">
   <thead><tr>
-    <th><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
+    <th><%= link_to image_tag('check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
                                                        :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
     </th>
     <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
@@ -24,7 +24,7 @@
       <%= content_tag(:td, number_to_currency(cost_object.budget, :precision => 0), :class => 'currency') %>
       <%= content_tag(:td, number_to_currency(cost_object.spent, :precision => 0), :class => 'currency') %>
       <%= content_tag(:td, number_to_currency(cost_object.budget - cost_object.spent, :precision => 0), :class => 'currency') %>
-      <%= content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :width => '100%', :legend => "#{cost_object.budget_ratio}%")) %>
+      <%= content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :legend => "#{cost_object.budget_ratio}%")) %>
       <%-
         total_budget += cost_object.budget
         labor_budget += cost_object.labor_budget

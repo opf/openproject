@@ -14,125 +14,17 @@ module CostsUserPatch
       has_many :default_rates, :class_name => 'DefaultHourlyRate'
 
       before_save :save_rates
-
-      register_allowance_evaluator Costs::PrincipalAllowanceEvaluator::Costs
-
-      alias_method_chain :allowed_to?, :inheritance
     end
   end
 
   module InstanceMethods
-    def allowed_to_with_inheritance?(action, context, options = {})
-      options.reverse_merge!(:granular => true)
+    def allowed_to_condition_with_project_id(permission, projects = nil)
+      ids = Project.all(:select => :id,
+                        :conditions => Project.allowed_to_condition(self, permission, :project => projects)).map(&:id)
 
-      allowed = allowed_to_without_inheritance?(action, context, options)
-
-      if !allowed &&
-         options[:granular] &&
-         action.is_a?(Symbol) &&
-         Redmine::AccessControl.permission(action).present?
-
-        perm = Redmine::AccessControl.permission(action)
-        granulars = Redmine::AccessControl.permissions.select{ |p| p.granular_for == perm }
-
-        if granulars
-          allowed = granulars.any?{ |p| self.allowed_to? p.name, context, options.reverse_merge(:for => self) }
-        end
-      end
-
-      allowed
-    end
-
-    def allowed_for_role(action, project, role, users, options={})
-      allowed = role.allowed_to?(action)
-
-      if action.is_a? Symbol
-        perm = Redmine::AccessControl.permission(action)
-        if perm.granular_for
-          allowed && users.include?(options[:for] || self)
-        elsif !allowed &&
-              options[:granular] &&
-              options[:for] &&
-              granulars = Redmine::AccessControl.permissions.select{|p| p.granular_for == perm}
-
-          granulars.any?{|p| self.allowed_to? p.name, project, options} ?
-            role :
-            false
-        else
-          allowed
-        end
-      else
-        allowed
-      end
-    end
-
-    def granular_roles_for_project(project)
-      roles = {}
-      # No role on archived projects
-      return roles unless project && project.active?
-      if logged?
-        # Find project membership
-        # FIXME: Use AR proxy object properly and avoid the use enumberable methods
-        membership = memberships.detect {|m| m.project_id == project.id}
-        if membership
-          roles = granular_roles(membership.member_roles)
-        else
-          @role_non_member ||= Role.non_member
-          roles[@role_non_member] = [self]
-        end
-      else
-        @role_anonymous ||= Role.anonymous
-        roles[@role_anonymous] = [self]
-      end
-      roles
-    end
-
-    def allowed_for(permission, projects = nil)
-      unless projects.nil? or projects.blank?
-        projects = [projects] unless projects.is_a? Array
-        projects, ids = projects.partition{|p| p.is_a?(Project)}
-        projects += Project.find_all_by_id(ids)
-      else
-        vis_projects = Project.find(:all, :conditions => Project.visible_by(self), :include => [:enabled_modules])
-        projects = vis_projects + (projects.nil? ? [] : projects)
-        # In case there is no Project, we assume that an admin still has all the permissions
-        return (self.admin? ? "(1=1)" : "(1=0)") if projects.blank?
-      end
-
-      return "(#{Project.table_name}.id in (#{projects.collect(&:id).join(", ")}))" if self.admin?
-
-      user_list = projects.inject({}) do |user_list, project|
-        roles = granular_roles_for_project(project)
-        return user_list unless roles
-
-        users_for_project = []
-        roles.each_pair do |role, users|
-          if (project.is_public? || role.member?)
-            if !Redmine::AccessControl.permission(permission).granular_for && self.allowed_for_role(permission, project, role, users, :granular => true)
-              users_for_project = nil
-              break
-            elsif self.allowed_for_role(permission, project, role, users, :for => self, :granular => true)
-              users_for_project += users.collect(&:id)
-            end
-          end
-        end
-        if users_for_project.nil? || !users_for_project.empty?
-          users_for_project.sort!.uniq! unless users_for_project.nil?
-          user_list[users_for_project] ||= []
-          user_list[users_for_project] << project.id
-        end
-        user_list
-      end
-
-      cond = ["0=1"]
-      user_list.each_pair do |users, projects|
-        if users
-          cond << "(#{Project.table_name}.id in (#{projects.join(", ")}) AND #{User.table_name}.id IN (#{users.join(", ")}))"
-        else
-          cond << "(#{Project.table_name}.id in (#{projects.join(", ")}))"
-        end
-      end
-      "(#{cond.join " OR "})"
+      ids.empty? ?
+        "1=0" :
+        "(#{Project.table_name}.id in (#{ids.join(", ")}))"
     end
 
     def current_rate(project = nil, include_default = true)
@@ -190,14 +82,6 @@ module CostsUserPatch
 
 
   private
-    def granular_roles(member_roles)
-      roles = {}
-      member_roles.each do |r|
-        roles[r.role] = [self]
-      end
-      roles
-    end
-
     def update_rate(rate, rate_attributes, project_rate = true)
       attributes = rate_attributes[rate.id.to_s] if rate_attributes
 

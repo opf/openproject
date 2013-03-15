@@ -1,8 +1,12 @@
 class VariableCostObject < CostObject
   unloadable
 
-  has_many :material_budget_items, :include => :cost_type, :foreign_key => 'cost_object_id', :dependent => :destroy
-  has_many :labor_budget_items, :include => :user, :foreign_key => 'cost_object_id', :dependent => :destroy
+  has_many :material_budget_items, :include => :cost_type,
+                                   :foreign_key => 'cost_object_id',
+                                   :dependent => :destroy
+  has_many :labor_budget_items, :include => :user,
+                                :foreign_key => 'cost_object_id',
+                                :dependent => :destroy
 
   validates_associated :material_budget_items
   validates_associated :labor_budget_items
@@ -19,8 +23,8 @@ class VariableCostObject < CostObject
                         :activity_timestamp => "#{table_name}.updated_on",
                         :activity_author_key => :author_id,
                         :activity_permission => :view_cost_objects
-  end
 
+  end
   def attributes=(attrs)
     if attrs
       [:new_material_budget_item_attributes, :new_labor_budget_item_attributes,
@@ -51,11 +55,11 @@ class VariableCostObject < CostObject
   end
 
   def material_budget
-    @material_budget ||= material_budget_items.inject(BigDecimal.new("0.0000")){|sum, i| sum += i.costs}
+    @material_budget ||= material_budget_items.visible_costs.inject(BigDecimal.new("0.0000")){|sum, i| sum += i.costs}
   end
 
   def labor_budget
-    @labor_budget ||= labor_budget_items.inject(BigDecimal.new("0.0000")){|sum, i| sum += i.costs}
+    @labor_budget ||= labor_budget_items.visible_costs.inject(BigDecimal.new("0.0000")){|sum, i| sum += i.costs}
   end
 
   def spent

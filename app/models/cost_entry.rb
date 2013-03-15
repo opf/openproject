@@ -22,13 +22,18 @@ class CostEntry < ActiveRecord::Base
 
   named_scope :visible, lambda{|*args|
     { :include => [:project, :user],
-      :conditions => (args.first || User.current).allowed_for(:view_cost_entries, args[1])
+      :conditions => CostEntry.visible_condition(args[0] || User.current, args[1])
     }
   }
 
+  def self.visible_condition(user, project)
+    %Q{ (#{Project.allowed_to_condition(user, :view_cost_entries, :project => project)} OR
+         (#{Project.allowed_to_condition(user, :view_own_cost_entries, :project => project)} AND #{CostEntry.table_name}.user_id = #{user.id})) }
+  end
+
   named_scope :visible_costs, lambda{|*args|
-    view_cost_rates = (args.first || User.current).allowed_for(:view_cost_rates, args[1])
-    view_cost_entries = (args.first || User.current).allowed_for(:view_cost_entries, args[1])
+    view_cost_rates = Project.allowed_to_condition((args.first || User.current), :view_cost_rates, :project => args[1])
+    view_cost_entries = CostEntry.visible_condition((args.first || User.current), args[1])
 
     { :include => [:project, :user],
       :conditions => [view_cost_entries, view_cost_rates].join(" AND ")
@@ -54,9 +59,6 @@ class CostEntry < ActiveRecord::Base
     errors.add :cost_type_id, :activerecord_error_invalid if cost_type.present? && cost_type.deleted_at.present?
     errors.add :user_id, :activerecord_error_invalid if project.present? && !project.users.include?(user) && user_id_changed?
 
-    unless RAILS_ENV == "test"
-      errors.add :user_id, :activerecord_error_invalid unless User.current.allowed_to? :log_costs, project, :for => user
-    end
     begin
       spent_on.to_date
     rescue Exception
@@ -123,21 +125,20 @@ class CostEntry < ActiveRecord::Base
   # Returns true if the cost entry can be edited by usr, otherwise false
   def editable_by?(usr)
     # FIXME 111 THIS IS A BAAAAAAAAD HACK !!! Fix the loading of Project
-    usr.allowed_to?(:edit_cost_entries, Project.find(project_id), :for => user)
+    proj = Project.find(project_id)
+    usr.allowed_to?(:edit_cost_entries, proj) ||
+      (usr.allowed_to?(:edit_own_cost_entries, proj) && user_id == usr.id)
   end
 
-  # Returns true if the time entry can be edited by usr, otherwise false
-  def visible_by?(usr)
-    usr.allowed_to?(:view_cost_entries, project, :for => user)
+  def creatable_by?(usr)
+    # FIXME 111 THIS IS A BAAAAAAAAD HACK !!! Fix the loading of Project
+    proj = Project.find(project_id)
+    usr.allowed_to?(:log_costs, proj) ||
+      (usr.allowed_to?(:log_own_costs, proj) && user_id == usr.id)
   end
 
   def costs_visible_by?(usr)
-    usr.allowed_to?(:view_cost_rates, project, :for => user) || (usr == user && !overridden_costs.nil?)
-  end
-
-  def self.visible_by(usr)
-    with_scope(:find => { :conditions => usr.allowed_for(:view_cost_entries), :include => [:project, :user]}) do
-      yield
-    end
+    usr.allowed_to?(:view_cost_rates, project) ||
+      (usr.id == user_id && !overridden_costs.nil?)
   end
 end

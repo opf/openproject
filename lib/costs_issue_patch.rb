@@ -56,15 +56,6 @@ module CostsIssuePatch
         unless (cost_object_id.blank? || project.cost_object_ids.include?(cost_object_id))
           errors.add :cost_object_id, :activerecord_error_invalid
         end
-
-        ## disabled for now, implements part of ticket blocking
-        # if cost_object_id_was.nil?
-        #   # formerly unassigned ticket
-        #   errors.add :cost_object_id, :activerecord_error_invalid if cost_object.blocked?
-        # else
-        #   old_cost_object = CostObject.find(cost_object_id_was)
-        #   errors.add :cost_object_id, :activerecord_error_invalid if old_cost_object.blocked?
-        # end
       end
 
       validate_without_cost_object

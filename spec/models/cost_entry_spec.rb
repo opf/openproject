@@ -1,27 +1,39 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../plugin_spec_helper')
 
 describe CostEntry do
+  include Cost::PluginSpecHelper
 
   let(:project) { Factory.create(:project_with_trackers) }
   let(:project2) { Factory.create(:project_with_trackers) }
   let(:issue) { Factory.create(:issue, :project => project,
-                                      :tracker => project.trackers.first,
-                                      :author => user) }
-  let(:issue2) { Factory.create(:issue, :project => project2,
-                                       :tracker => project2.trackers.first,
+                                       :tracker => project.trackers.first,
                                        :author => user) }
+  let(:issue2) { Factory.create(:issue, :project => project2,
+                                        :tracker => project2.trackers.first,
+                                        :author => user) }
   let(:user) { Factory.create(:user) }
   let(:user2) { Factory.create(:user) }
   let(:klass) { CostEntry }
   let(:cost_entry) do
     member
     Factory.build(:cost_entry, :cost_type => cost_type,
-                                                :project => project,
-                                                :issue => issue,
-                                                :spent_on => date,
-                                                :units => units,
-                                                :user => user,
-                                                :comments => "lorem")
+                               :project => project,
+                               :issue => issue,
+                               :spent_on => date,
+                               :units => units,
+                               :user => user,
+                               :comments => "lorem")
+  end
+
+  let(:cost_entry2) do
+    Factory.build(:cost_entry, :cost_type => cost_type,
+                               :project => project,
+                               :issue => issue,
+                               :spent_on => date,
+                               :units => units,
+                               :user => user,
+                               :comments => "lorem")
   end
 
   let(:cost_type) do
@@ -45,6 +57,58 @@ describe CostEntry do
   let(:role) { Factory.create(:role, :permissions => []) }
   let(:units) { 5.0 }
   let(:date) { Date.today }
+
+  describe "class" do
+    describe :visible do
+      describe "WHEN having the view_cost_entries permission
+                WHEN querying for a project
+                WHEN a cost entry from another user is defined" do
+        before do
+          is_member(project, user2, [:view_cost_entries])
+
+          cost_entry.save!
+        end
+
+        it { CostEntry.visible(user2, project).all.should =~ [cost_entry] }
+      end
+
+      describe "WHEN not having the view_cost_entries permission
+                WHEN querying for a project
+                WHEN a cost entry from another user is defined" do
+        before do
+          is_member(project, user2, [])
+
+          cost_entry.save!
+        end
+
+        it { CostEntry.visible(user2, project).all.should =~ [] }
+      end
+
+      describe "WHEN having the view_own_cost_entries permission
+                WHEN querying for a project
+                WHEN a cost entry from another user is defined" do
+        before do
+          is_member(project, user2, [:view_own_cost_entries])
+
+          cost_entry.save!
+        end
+
+        it { CostEntry.visible(user2, project).all.should =~ [] }
+      end
+
+      describe "WHEN having the view_own_cost_entries permission
+                WHEN querying for a project
+                WHEN a cost entry from the user is defined" do
+        before do
+          is_member(project, cost_entry2.user, [:view_own_cost_entries])
+
+          cost_entry2.save!
+        end
+
+        it { CostEntry.visible(cost_entry2.user, project).all.should =~ [cost_entry2] }
+      end
+    end
+  end
 
   describe "instance" do
     describe :costs do
@@ -248,6 +312,149 @@ describe CostEntry do
 
       describe "WHEN an existing user is provided" do
         it { cost_entry.user.should == user }
+      end
+    end
+
+    describe :editable_by? do
+      describe "WHEN the user has the edit_cost_entries permission
+                WHEN the cost entry is not created by the user" do
+        before do
+          is_member(project, user2, [:edit_cost_entries])
+
+          cost_entry
+        end
+
+        it { cost_entry.editable_by?(user2).should be_true }
+      end
+
+      describe "WHEN the user has the edit_cost_entries permission
+                WHEN the cost entry is created by the user" do
+        before do
+          is_member(project, cost_entry2.user, [:edit_cost_entries])
+        end
+
+        it { cost_entry2.editable_by?(cost_entry2.user).should be_true }
+      end
+
+      describe "WHEN the user has the edit_own_cost_entries permission
+                WHEN the cost entry is created by the user" do
+        before do
+          is_member(project, cost_entry2.user, [:edit_own_cost_entries])
+
+          cost_entry2
+        end
+
+        it { cost_entry2.editable_by?(cost_entry2.user).should be_true }
+      end
+
+      describe "WHEN the user has the edit_own_cost_entries permission
+                WHEN the cost entry is created by another user" do
+        before do
+          is_member(project, user2, [:edit_own_cost_entries])
+
+          cost_entry
+        end
+
+        it { cost_entry.editable_by?(user2).should be_false }
+      end
+
+      describe "WHEN the user has no cost permission
+                WHEN the cost entry is created by the user" do
+        before do
+          is_member(project, cost_entry2.user, [])
+
+          cost_entry2
+        end
+
+        it { cost_entry2.editable_by?(cost_entry2.user).should be_false }
+      end
+    end
+
+    describe :creatable_by? do
+      describe "WHEN the user has the log costs permission
+                WHEN the cost entry is not associated to the user" do
+        before do
+          is_member(project, user2, [:log_costs])
+        end
+
+        it { cost_entry.creatable_by?(user2).should be_true }
+      end
+
+      describe "WHEN the user has the log_costs permission
+                WHEN the cost entry is associated to user" do
+        before do
+          is_member(project, cost_entry2.user, [:log_costs])
+        end
+
+        it { cost_entry2.creatable_by?(cost_entry2.user).should be_true }
+      end
+
+      describe "WHEN the user has the log own costs permission
+                WHEN the cost entry is associated to the user" do
+        before do
+          is_member(project, cost_entry2.user, [:log_own_costs])
+        end
+
+        it { cost_entry2.creatable_by?(cost_entry2.user).should be_true }
+      end
+
+      describe "WHEN the user has the log_own_costs permission
+                WHEN the cost entry is created by another user" do
+        before do
+          is_member(project, user2, [:log_own_costs])
+        end
+
+        it { cost_entry.creatable_by?(user2).should be_false }
+      end
+
+      describe "WHEN the user has no cost permission
+                WHEN the cost entry is associated to the user" do
+        before do
+          is_member(project, cost_entry2.user, [])
+        end
+
+        it { cost_entry2.creatable_by?(cost_entry2.user).should be_false }
+      end
+    end
+
+    describe :costs_visible_by? do
+      describe "WHEN the user has the view_cost_rates permission
+                WHEN the cost entry is not associated to the user" do
+        before do
+          is_member(project, user2, [:view_cost_rates])
+        end
+
+        it { cost_entry.costs_visible_by?(user2).should be_true }
+      end
+
+      describe "WHEN the user has the view_cost_rates permission in another project
+                WHEN the cost entry is not associated to the user" do
+        before do
+          is_member(project2, user2, [:view_cost_rates])
+        end
+
+        it { cost_entry.costs_visible_by?(user2).should be_false }
+      end
+
+      describe "WHEN the user lacks the view_cost_rates permission
+                WHEN the cost entry is associated to the user
+                WHEN the costs are overridden" do
+        before do
+          is_member(project, cost_entry2.user, [])
+          cost_entry2.update_attribute(:overridden_costs, 1.0)
+        end
+
+        it { cost_entry2.costs_visible_by?(cost_entry2.user).should be_true }
+      end
+
+      describe "WHEN the user lacks the view_cost_rates permission
+                WHEN the cost entry is associated to the user
+                WHEN the costs are not overridden" do
+        before do
+          is_member(project, cost_entry2.user, [])
+        end
+
+        it { cost_entry2.costs_visible_by?(cost_entry2.user).should be_false }
       end
     end
   end

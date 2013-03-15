@@ -15,10 +15,10 @@ Feature: Credit unit costs
 
   @javascript
   Scenario: Crediting units costs to an issue
-    When I login as "manager"
+    When I am already logged in as "manager"
     And I go to the page of the issue "issue1"
-    And I click "More functions" within ".action_menu_main"
-    And I click "Log unit costs" within ".action_menu_main"
+    And I follow "More functions" within ".action_menu_main"
+    And I follow "Log unit costs" within ".action_menu_main"
     And I fill in "cost_entry_units" with "100"
-    And I click "Save"
+    And I press "Save"
     Then I should be on the page of the issue "issue1"
