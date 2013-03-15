@@ -13,6 +13,41 @@ describe User do
                                       :project => project,
                                       :status => issue_status) }
 
+
+
+  describe 'a user with a long login (<= 256 chars)' do
+    it 'is valid' do
+      user.login = 'a' * 256
+      user.should be_valid
+    end
+
+    it 'may be stored in the database' do
+      user.login = 'a' * 256
+      user.save.should be_true
+    end
+
+    it 'may be loaded from the database' do
+      user.login = 'a' * 256
+      user.save
+
+      User.find_by_login('a' * 256).should == user
+    end
+  end
+
+  describe 'a user with and overly long login (> 256 chars)' do
+    it 'is invalid' do
+      user.login = 'a' * 257
+      user.should_not be_valid
+    end
+
+    it 'may not be stored in the database' do
+      user.login = 'a' * 257
+      user.save.should be_false
+    end
+
+  end
+
+
   describe :assigned_issues do
     before do
       user.save!
