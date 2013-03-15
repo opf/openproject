@@ -60,17 +60,33 @@ class UserMailerTest < ActionMailer::TestCase
     tracker = FactoryGirl.create(:tracker, :name => 'My Tracker')
     project.trackers << tracker
     project.save
+
     related_issue = FactoryGirl.create(:issue,
         :subject => 'My related Ticket',
         :tracker => tracker,
         :project => project)
+
     issue   = FactoryGirl.create(:issue,
         :subject => 'My awesome Ticket',
         :tracker => tracker,
         :project => project,
-        :description => "This is related to issue ##{related_issue.id}")
-    journal = issue.journals.first
+        :description => "nothing here yet")
 
+    # now change the issue, to get a nice journal
+    # we create a Filesystem repository for our changeset, so we have to enable it
+    Setting.enabled_scm = Setting.enabled_scm.dup << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
+    changeset = FactoryGirl.create :changeset,
+                                   :repository => FactoryGirl.create(:repository, :project => project),
+                                   :comments => 'This commit fixes #1, #2 and references #1 and #3'
+    attachment = FactoryGirl.create(:attachment,
+        :container => issue,
+        :author => issue.author)
+    issue.description = "This is related to issue ##{related_issue.id}\n A reference to a changeset r#{changeset.id}\n A reference to an attachment attachment:#{attachment.filename}"
+    assert issue.save
+    issue.reload
+    journal = issue.journals.last
+
+    ActionMailer::Base.deliveries = [] # remove issue-created mails
     assert UserMailer.issue_updated(user, journal).deliver
     assert last_email
 
@@ -79,27 +95,23 @@ class UserMailerTest < ActionMailer::TestCase
       assert_select 'a[href=?]',
                     "https://mydomain.foo/issues/#{issue.id}",
                     :text => "My Tracker ##{issue.id}: My awesome Ticket"
-
-      # TODO
+      # link to a description diff
+      assert_select 'li',
+                    :text => "Description changed (https://mydomain.foo/journals/#{journal.id}/diff/description)"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     "https://mydomain.foo/issues/#{related_issue.id}",
-                    'My related Ticket',
+                    "My related Ticket (#{related_issue.status})",
                     :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    'https://mydomain.foo/projects/ecookbook/repository/revisions/2',
-                    'This commit fixes #1, #2 and references #1 &amp; #3',
-                    :text => 'r2'
-      # link to a description diff
-      assert_select 'a[href=?][title=?]',
-                    'https://mydomain.foo/journals/diff/3?detail_id=4',
-                    'View differences',
-                    :text => 'diff'
+                    "https://mydomain.foo/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
+                    'This commit fixes #1, #2 and references #1 and #3',
+                    :text => "r#{changeset.id}"
       # link to an attachment
       assert_select 'a[href=?]',
-                    'https://mydomain.foo/attachments/download/4/source.rb',
-                    :text => 'source.rb'
+                    "https://mydomain.foo/attachments/#{attachment.id}/download",
+                    :text => "#{attachment.filename}"
     end
   end
 
