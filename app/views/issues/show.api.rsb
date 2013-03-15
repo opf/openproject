@@ -48,10 +48,10 @@ api.issue do
         api.notes journal.notes
         api.created_on journal.created_on
         api.array :details do
-          journal.details.each do |detail|
-            api.detail :property => journal.property(detail), :name => journal.prop_key(detail) do
-              api.old_value journal.old_value(detail)
-              api.new_value journal.value(detail)
+          journal.details.each do |name, values|
+            api.detail :name => name do
+              api.old_value values.first
+              api.new_value values.last
             end
           end
         end
