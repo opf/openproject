@@ -923,7 +923,7 @@ class IssuesControllerTest < ActionController::TestCase
     j = Issue.find(1).last_journal
     assert j.notes.blank?
     assert_equal 1, j.details.size
-    assert_equal 'testfile.txt', j.value(j.details.to_a.first)
+    assert_equal 'testfile.txt', j.new_value_for(j.details.keys.first)
     assert_equal User.anonymous, j.user
 
     mail = ActionMailer::Base.deliveries.last
