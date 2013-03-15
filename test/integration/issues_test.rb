@@ -161,6 +161,9 @@ class IssuesTest < ActionDispatch::IntegrationTest
         :tag => 'td',
         :content => tester.name
       }
+
+    get "/issues/#{issue.id}/edit"
+    assert_response 200
     assert_tag :select,
       :attributes => {:name => "issue[custom_field_values][#{@field.id}]"},
       :children => {:count => (users.size + 1)}, # +1 for blank value
