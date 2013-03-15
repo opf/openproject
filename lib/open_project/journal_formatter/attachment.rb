@@ -25,6 +25,12 @@ class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
     l(:label_attachment)
   end
 
+  # we need to tell the url_helper that there is not controller to get url_options
+  # so that we can later call link_to and url_for within format_html_attachment_detail > link_to_attachment
+  def controller
+    nil
+  end
+
   def format_html_attachment_detail(key, value)
     if !value.blank? && a = Attachment.find_by_id(key.to_i)
       link_to_attachment(a)
