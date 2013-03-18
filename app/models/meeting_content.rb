@@ -28,7 +28,7 @@ class MeetingContent < ActiveRecord::Base
     content_to = self.journals.find_by_version(version_to)
     content_from = self.journals.find_by_version(version_from)
 
-    (content_to && content_from) ? WikiDiff.new(content_to, content_from) : nil
+    (content_to && content_from) ? WikiPage::WikiDiff.new(content_to, content_from) : nil
   end
 
   # Compatibility for mailer.rb
