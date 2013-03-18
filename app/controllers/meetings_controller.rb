@@ -59,6 +59,10 @@ class MeetingsController < ApplicationController
   end
 
   def new
+    if params[:copy_from_id]
+      original_meeting = Meeting.find_by_id(params[:copy_from_id])
+      @meeting = original_meeting.copy(:author => User.current, :start_time => nil) if original_meeting
+    end
   end
 
   def copy

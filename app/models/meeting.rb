@@ -94,12 +94,15 @@ class Meeting < ActiveRecord::Base
   end
 
   def copy(attrs)
-    copy = self.clone
+    copy = self.dup
+
     copy.author = attrs.delete(:author)
     copy.attributes = attrs
     copy.send(:set_initial_values)
-    copy_participant_user_ids = copy.participants.collect(&:user_id)
-    copy.participants << self.participants.invited.reject{|p| copy_participant_user_ids.include? p.user_id}.collect(&:clone).each{|p| p.attended=false} # Make sure the participants have no id
+
+    copy.participants.clear
+    copy.participants << self.participants
+
     copy
   end
 

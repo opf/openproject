@@ -18,7 +18,7 @@ describe MeetingsController do
       end
       describe "html" do
         before(:each) do
-          get "index"
+          get "index", :project_id => @p.id
         end
         it {response.should be_success}
         it {assigns(:meetings_by_start_year_month_date).should eql @ms}
@@ -34,7 +34,7 @@ describe MeetingsController do
       end
       describe "html" do
         before(:each) do
-          get "show"
+          get "show", :id => @m.id
         end
         it {response.should be_success}
       end
@@ -50,7 +50,7 @@ describe MeetingsController do
       end
       describe "html" do
         before(:each) do
-          get "new"
+          get "new", :project_id => @p.id
         end
         it {response.should be_success}
         it {assigns(:meeting).should eql @m}
@@ -59,39 +59,35 @@ describe MeetingsController do
     
     describe "new with copy" do
       before(:each) do
-        Project.stub!(:find).and_return(@p)
-        @m = mock_model(Meeting)
-        @m.stub!(:project=)
-        @m.stub!(:author=)
-        Meeting.stub!(:new).and_return(@m)
+        Project.stub!(:find).with(@p.id.to_s).and_return(@p)
       end
-      #describe "with a valid meeting ID" do
-      #  before(:each) do
-      #    @mc = mock_model(Meeting)
-      #    Meeting.stub!(:find).and_return(@mc)
-      #    @mc.stub!(:attributes).and_return({"duration"=>1.5, "location"=>"Raum 4", "title"=>"dingens", "updated_at"=>Time.parse("Thu Feb 17 11:33:22 +0100 2011")})
-      #    @mc.stub!(:start_time).and_return(Time.parse("Fri Feb 18 14:36:25 +0100 2011"))
-      #    @mc.stub!(:participants).and_return([mock_model(MeetingParticipant), mock_model(MeetingParticipant), mock_model(MeetingParticipant)])
-      #  end
-      #  describe "html" do
-      #    before(:each) do
-      #      get "new", :copy_from_id => 1
-      #    end
-      #    it {pending; response.should be_success}
-      #    it {pending; assigns(:meeting).should eql @m}
-      #    it {pending} # TODO: testen ob das richtig kopiert wird
-      #  end
-      #end
-      describe "with an invalid meeting ID" do
+      describe "with a valid meeting ID" do
         before(:each) do
-          Meeting.stub!(:find).and_raise(ActiveRecord::RecordNotFound)
+          @mc = FactoryGirl.create(:meeting, "duration"=>1.5, "location"=>"Raum 4", "title"=>"dingens", "updated_at"=>Time.parse("Thu Feb 17 11:33:22 +0100 2011"), :start_time=>Time.parse("Fri Feb 18 14:36:25 +0100 2011"))
+          @participants = [FactoryGirl.create(:meeting_participant, :meeting=>@mc)]
         end
         describe "html" do
           before(:each) do
-            get "new", :copy_from_id => 1
+            get "new", :project_id => @p.id, :copy_from_id => @mc.id
           end
           it {response.should be_success}
-          it {assigns(:meeting).should eql @m}
+          it {assigns(:meeting).title.should eql "dingens"}
+          it {assigns(:meeting).duration.should eql 1.5}
+          it {assigns(:meeting).location.should eql "Raum 4"}
+          it {assigns(:meeting).start_time.should eql (Date.tomorrow + 10.hours)}
+          it {assigns(:meeting).participants.should eql @participants}
+        end
+      end
+      describe "with an invalid meeting ID" do
+        before(:each) do
+          Meeting.delete_all
+        end
+        describe "html" do
+          before(:each) do
+            get "new", :project_id => @p.id, :copy_from_id => 42
+          end
+          it {response.should be_success}
+          it {assigns(:meeting).should be_kind_of Meeting}
         end
       end
     end
@@ -104,7 +100,7 @@ describe MeetingsController do
       end
       describe "html" do
         before(:each) do
-          get "edit"
+          get "edit", :id => @m.id
         end
         it {response.should be_success}
         it {assigns(:meeting).should eql @m}
