@@ -99,7 +99,7 @@ class User < Principal
   validates_uniqueness_of :mail, :allow_blank => true, :case_sensitive => false
   # Login must contain lettres, numbers, underscores only
   validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
-  validates_length_of :login, :maximum => 30
+  validates_length_of :login, :maximum => 256
   validates_length_of :firstname, :lastname, :maximum => 30
   validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_length_of :mail, :maximum => 60, :allow_nil => true
