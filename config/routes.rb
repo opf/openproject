@@ -27,6 +27,7 @@ OpenProject::Application.routes.draw do
       end
     end
   end
+
   match '/meetings/:id/:tab' => 'meetings#show', :constraints => { :tab => /(agenda|minutes)/ }, :via => :get
   match '/meetings/:meeting_id/agenda/:version' => 'meeting_agendas#show', :constraints => { :version => /\d/ }, :via => :get
   match '/meetings/:meeting_id/minutes/:version' => 'meeting_minutes#show', :constraints => { :version => /\d/ }, :via => :get
