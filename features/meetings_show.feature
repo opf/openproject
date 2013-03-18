@@ -61,7 +61,7 @@ Feature: Show meetings
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
        Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
-        And I should not see "No data to display" within "#meeting_minutes-text"
+        And I should not see "No data to display" within "#meeting_minutes_text"
         And I should see "Text formatting" within ".meeting_minutes"
 
   @javascript
@@ -90,7 +90,6 @@ Feature: Show meetings
         And I click on "Agenda"
        Then I should not see "Edit" within ".meeting_agenda"
 
-  @javascript
   Scenario: Navigate to a meeting page with a closed agenda and the permission to edit the minutes and save minutes
       Given the role "user" may have the following rights:
             | view_meetings          |
@@ -103,7 +102,7 @@ Feature: Show meetings
         And I fill in "meeting_minutes[text]" with "Some minutes!"
         And I click on "Save"
        Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
-        And I should see "Some minutes!" within "#meeting_minutes-text"
+        And I should see "Some minutes!" within "#meeting_minutes_text"
         And I should not see "Text formatting" within "#edit-meeting_minutes"
 
   @javascript
