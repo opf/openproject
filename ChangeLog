@@ -1,0 +1,4 @@
+2013-03-18  Hagen Schink <h.schink@finn.de>
+
+	* Swtiched to version 0.2.5
+	* Rails 3.2-ified plug-in
