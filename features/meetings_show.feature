@@ -47,7 +47,7 @@ Feature: Show meetings
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
        Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
-        And I should not see "No data to display" within "#meeting_agenda-text"
+        And I should not see "No data to display" within "#meeting_agenda_text"
         And I should see "Text formatting" within ".meeting_agenda"
 
   @javascript
