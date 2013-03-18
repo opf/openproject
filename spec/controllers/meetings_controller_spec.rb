@@ -65,6 +65,7 @@ describe MeetingsController do
         before(:each) do
           @mc = FactoryGirl.create(:meeting, "duration"=>1.5, "location"=>"Raum 4", "title"=>"dingens", "updated_at"=>Time.parse("Thu Feb 17 11:33:22 +0100 2011"), :start_time=>Time.parse("Fri Feb 18 14:36:25 +0100 2011"))
           @participants = [FactoryGirl.create(:meeting_participant, :meeting=>@mc)]
+          @participants_without_ids = @participants.collect(&:clone).each{|p| p.id = nil}
         end
         describe "html" do
           before(:each) do
@@ -75,7 +76,7 @@ describe MeetingsController do
           it {assigns(:meeting).duration.should eql 1.5}
           it {assigns(:meeting).location.should eql "Raum 4"}
           it {assigns(:meeting).start_time.should eql (Date.tomorrow + 10.hours)}
-          it {assigns(:meeting).participants.should eql @participants}
+          it {assigns(:meeting).participants.should eql @participants_without_ids}
         end
       end
       describe "with an invalid meeting ID" do

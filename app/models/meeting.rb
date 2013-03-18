@@ -101,11 +101,7 @@ class Meeting < ActiveRecord::Base
     copy.send(:set_initial_values)
 
     copy.participants.clear
-    copy.participants << self.participants
-
-    copy.participants.each do |participant|
-      participant.attended = false
-    end
+    copy.participants << self.participants.collect(&:clone).each{|p| p.id = nil; p.attended = false} # Make sure the participants have no id
 
     copy
   end
