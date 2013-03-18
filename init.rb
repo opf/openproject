@@ -56,7 +56,7 @@ Redmine::Plugin.register :redmine_costs do
   author 'Holger Just @ finnlabs'
   author_url 'http://finn.de/team#h.just'
   description 'The costs plugin provides basic cost management functionality for Redmine.'
-  version '3.0.4'
+  version '4.0.0'
 
   requires_redmine :version_or_higher => '0.9'
 
