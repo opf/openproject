@@ -103,6 +103,10 @@ class Meeting < ActiveRecord::Base
     copy.participants.clear
     copy.participants << self.participants
 
+    copy.participants.each do |participant|
+      participant.attended = false
+    end
+
     copy
   end
 
