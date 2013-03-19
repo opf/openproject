@@ -579,6 +579,10 @@ jQuery(document).ready(function($) {
       // Open select2 element, when menu is opened
       select2.open();
 
+      setTimeout(function () {
+        $("#select2-drop-mask").hide();
+      }, 50);
+
       // Include input in tab cycle by attaching keydown handlers to previous
       // and next interactive DOM element.
       select2.container.previousElementInDom(":input:visible, a:visible").keydown(function (e) {
@@ -661,7 +665,13 @@ jQuery(document).ready(function($) {
   $.fn.onClickDropDown = function(){
     var that = this;
     $('html').click(function() {
-      that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+      that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide(function () {
+        if ($(this).is(":visible")) {
+          $(this).parents('li.drop-down').trigger("opened");
+        } else {
+          $(this).parents('li.drop-down').trigger("closed");
+        }
+      });
       that.removeClass("hover");
     });
 
@@ -721,7 +731,13 @@ jQuery(document).ready(function($) {
 		.append("<span class='toggler'></span>")
 		.click(function() {
 
-			$(this).toggleClass("open").parent().find("ul").not("ul ul ul").mySlide();
+			$(this).toggleClass("open").parent().find("ul").not("ul ul ul").mySlide(function () {
+        if ($(this).is(":visible")) {
+          $(this).parents('li.drop-down').trigger("opened");
+        } else {
+          $(this).parents('li.drop-down').trigger("closed");
+        }
+      });
 
 			return false;
 	});
@@ -806,7 +822,13 @@ $(window).bind('resizeEnd', function() {
 
 			if ($(event.target).hasClass("toggler") ) {
                           var menuParent = $(this).toggleClass("open").parent().find("ul").not("ul ul ul");
-                          menuParent.mySlide();
+                          menuParent.mySlide(function () {
+                            if ($(this).is(":visible")) {
+                              $(this).parents('li.drop-down').trigger("opened");
+                            } else {
+                              $(this).parents('li.drop-down').trigger("closed");
+                            }
+                          });
                           if ($(this).hasClass("open")) {
                             menuParent.find("li > a:first").focus();
                           }
