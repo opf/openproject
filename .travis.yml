@@ -28,6 +28,7 @@ before_install:
   - "wget http://de.archive.ubuntu.com/ubuntu/pool/main/libf/libffi/libffi5_3.0.9-1_i386.deb -O /tmp/libffi5_3.0.9-1_i386.deb; sudo dpkg -i /tmp/libffi5_3.0.9-1_i386.deb"
   - "wget http://de.archive.ubuntu.com/ubuntu/pool/universe/d/darcs/darcs_2.3.0-3_i386.deb -O /tmp/darcs_2.3.0-3_i386.deb; sudo dpkg -i /tmp/darcs_2.3.0-3_i386.deb"
 before_script:
+  - "rvm rubygems 1.8.25" # Rubygems 2.0.x fails with Rails 2.3
   - "rake ci:travis:prepare"
 branches:
   only:
