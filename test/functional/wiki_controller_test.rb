@@ -146,7 +146,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'edit'
 
     assert_error_tag :descendant => {:content => /Comment is too long/}
-    assert_tag :tag => 'textarea', :attributes => {:id => 'content_text'}, :content => 'edited'
+    assert_tag :tag => 'textarea', :attributes => {:id => 'content_text'}, :content => /edited/
     assert_tag :tag => 'input', :attributes => {:id => 'content_lock_version', :value => '1'}
   end
 
