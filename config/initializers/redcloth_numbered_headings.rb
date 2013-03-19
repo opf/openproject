@@ -1,5 +1,3 @@
-require_dependency 'redcloth3'
-
 module RedCloth3Patch
   def self.included(base)
     base.send(:include, InstanceMethods)
