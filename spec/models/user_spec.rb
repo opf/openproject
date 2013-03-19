@@ -3,7 +3,7 @@ require 'spec_helper'
 describe User do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.create(:project_with_trackers) }
-  let(:role) { FactoryGirl.create(:role) }
+  let(:role) { FactoryGirl.create(:role, :permissions => [:view_issues]) }
   let(:member) { FactoryGirl.build(:member, :project => project,
                                         :roles => [role],
                                         :principal => user) }
@@ -86,10 +86,7 @@ describe User do
 
       before do
         issue.save!
-
-        # allow the user to watch the issue
-        issue.stubs(:visible?).with(user).returns(true)
-
+        member.save!
         watcher.save!
       end
 
