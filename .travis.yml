@@ -22,14 +22,10 @@ matrix:
 before_install:
   - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"
-
-  # Our tests don't work on Darcs >= 2.5, so we use Darcs 2.3 from Ubuntu Lucy
-  - "sudo apt-get --no-install-recommends install libc6 libcurl3-gnutls libgmp3c2 libncurses5 zlib1g"
-  - "wget http://de.archive.ubuntu.com/ubuntu/pool/main/libf/libffi/libffi5_3.0.9-1_i386.deb -O /tmp/libffi5_3.0.9-1_i386.deb; sudo dpkg -i /tmp/libffi5_3.0.9-1_i386.deb"
-  - "wget http://de.archive.ubuntu.com/ubuntu/pool/universe/d/darcs/darcs_2.3.0-3_i386.deb -O /tmp/darcs_2.3.0-3_i386.deb; sudo dpkg -i /tmp/darcs_2.3.0-3_i386.deb"
 before_script:
   - "rvm rubygems 1.8.25" # Rubygems 2.0.x fails with Rails 2.3
   - "rake ci:travis:prepare"
+  - "rm -rf tmp/test/darcs_repository" # Don't test Darcs on Travis. It breaks there :(
 branches:
   only:
     - unstable
