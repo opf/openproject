@@ -33,6 +33,11 @@ gem 'htmldiff'
 gem 'execjs'
 gem 'therubyracer'
 
+group :production do
+  # memcache client (memcached 1.4+)
+  gem 'dalli'
+end
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
