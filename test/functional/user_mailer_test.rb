@@ -523,7 +523,7 @@ private
     attachment = FactoryGirl.create(:attachment,
         :container => issue,
         :author => issue.author)
-    issue.description = "This is related to issue ##{related_issue.id}\n A reference to a changeset r#{changeset.id}\n A reference to an attachment attachment:#{attachment.filename}"
+    issue.description = "This is related to issue ##{related_issue.id}\n A reference to a changeset r#{changeset.revision}\n A reference to an attachment attachment:#{attachment.filename}"
     assert issue.save
     issue.reload
     journal = issue.journals.last
