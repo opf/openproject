@@ -77,7 +77,7 @@ class UserMailerTest < ActionMailer::TestCase
       assert_select 'a[href=?][title=?]',
                     "https://mydomain.foo/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
                     'This commit fixes #1, #2 and references #1 and #3',
-                    :text => "r#{changeset.id}"
+                    :text => "r#{changeset.revision}"
       # link to an attachment
       assert_select 'a[href=?]',
                     "https://mydomain.foo/attachments/#{attachment.id}/download",
@@ -113,7 +113,7 @@ class UserMailerTest < ActionMailer::TestCase
       assert_select 'a[href=?][title=?]',
                     "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
                     'This commit fixes #1, #2 and references #1 and #3',
-                    :text => "r#{changeset.id}"
+                    :text => "r#{changeset.revision}"
       # link to an attachment
       assert_select 'a[href=?]',
                     "http://mydomain.foo/rdm/attachments/#{attachment.id}/download",
@@ -152,7 +152,7 @@ class UserMailerTest < ActionMailer::TestCase
       assert_select 'a[href=?][title=?]',
                     "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
                     'This commit fixes #1, #2 and references #1 and #3',
-                    :text => "r#{changeset.id}"
+                    :text => "r#{changeset.revision}"
       # link to an attachment
       assert_select 'a[href=?]',
                     "http://mydomain.foo/rdm/attachments/#{attachment.id}/download",
