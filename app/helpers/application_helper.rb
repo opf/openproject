@@ -554,9 +554,12 @@ module ApplicationHelper
       raise ArgumentError, 'invalid arguments to textilizable'
     end
     return '' if text.blank?
+
+    edit = !!options.delete(:edit)
+    # don't return html in edit mode when textile or text formatting is enabled
+    return text if edit && Setting.text_formatting.to_s != 'xml'
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
     only_path = options.delete(:only_path) == false ? false : true
-    edit = !!options.delete(:edit)
 
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr, :edit => edit) { |macro, args| exec_macro(macro, obj, args, :view => self, :edit => edit) }
 
