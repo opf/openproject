@@ -12,11 +12,8 @@ module MeetingsPlugin
       require 'redmine/plugin'
 
       require_dependency 'openproject_meeting/hooks'
-      # require_dependency 'mailer'
       require 'openproject_meeting/patches/project_patch'
-      # require 'openproject_meeting/patches/mailer_patch'
       Project.send(:include, Patches::ProjectPatch)
-      # Mailer.send(:include, Patches::MailerPatch)
 
       # load classes so that all User.before_destroy filters are loaded
       require_dependency 'meeting'
