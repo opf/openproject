@@ -75,7 +75,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    "https://mydomain.foo/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
+                    "https://mydomain.foo/projects/#{project.identifier}/repository/revisions/#{changeset.revision}",
                     'This commit fixes #1, #2 and references #1 and #3',
                     :text => "r#{changeset.revision}"
       # link to an attachment
@@ -111,7 +111,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
+                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.revision}",
                     'This commit fixes #1, #2 and references #1 and #3',
                     :text => "r#{changeset.revision}"
       # link to an attachment
@@ -150,7 +150,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
+                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.revision}",
                     'This commit fixes #1, #2 and references #1 and #3',
                     :text => "r#{changeset.revision}"
       # link to an attachment
