@@ -5,18 +5,38 @@ rvm:
   - 1.9.3
   - rbx-18mode
 env:
-  - "RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-  - "RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
-  - "RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
-  - "RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql:mysql2:postgres"
+  - "TEST_SUITE=units       RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+  - "TEST_SUITE=units       RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
+  - "TEST_SUITE=units       RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
+  - "TEST_SUITE=units       RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql:mysql2:postgres"
+  - "TEST_SUITE=functionals RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+  - "TEST_SUITE=functionals RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
+  - "TEST_SUITE=functionals RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
+  - "TEST_SUITE=functionals RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql:mysql2:postgres"
+  - "TEST_SUITE=integration RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+  - "TEST_SUITE=integration RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
+  - "TEST_SUITE=integration RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
+  - "TEST_SUITE=integration RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql:mysql2:postgres"
 matrix:
   exclude:
     - rvm: 1.9.2
-      env: "RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+      env: "TEST_SUITE=units       RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+    - rvm: 1.9.2
+      env: "TEST_SUITE=functionals RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+    - rvm: 1.9.2
+      env: "TEST_SUITE=integration RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
     - rvm: 1.9.3
-      env: "RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+      env: "TEST_SUITE=units       RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+    - rvm: 1.9.3
+      env: "TEST_SUITE=functionals RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+    - rvm: 1.9.3
+      env: "TEST_SUITE=integration RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
     - rvm: rbx-18mode
-      env: "RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+      env: "TEST_SUITE=units       RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+    - rvm: rbx-18mode
+      env: "TEST_SUITE=functionals RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+    - rvm: rbx-18mode
+      env: "TEST_SUITE=integration RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
   allow_failures:
     - rvm: rbx-18mode
 before_install:
@@ -26,6 +46,7 @@ before_script:
   - "rvm rubygems 1.8.25" # Rubygems 2.0.x fails with Rails 2.3
   - "rake ci:travis:prepare"
   - "rm -rf tmp/test/darcs_repository" # Don't test Darcs on Travis. It breaks there :(
+script: "bundle exec rake test:$TEST_SUITE"
 branches:
   only:
     - unstable
