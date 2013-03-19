@@ -1,5 +1,12 @@
 = ChiliProject Changelog
 
+== 2013-03-19 v3.8.0
+
+* Bug #1121: Date Picker Icons disappear when changing the Tracker
+* Bug #1164: Error in "rake db:migrate:down VERSION=20100714111652"
+* Bug #1248: Routing issue
+* Security - Bug #1252: Update Rails to 2.3.18
+
 == 2013-02-13 v3.7.0
 
 * Security - Feature #1233: Bump rails to 2.3.17 to address [CVE-2013-0276]
