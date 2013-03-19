@@ -75,7 +75,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    "https://mydomain.foo/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
+                    "https://mydomain.foo/projects/#{project.identifier}/repository/revisions/#{changeset.revision}",
                     'This commit fixes #1, #2 and references #1 and #3',
                     :text => "r#{changeset.revision}"
       # link to an attachment
@@ -111,7 +111,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
+                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.revision}",
                     'This commit fixes #1, #2 and references #1 and #3',
                     :text => "r#{changeset.revision}"
       # link to an attachment
@@ -150,7 +150,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.id}",
+                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.revision}",
                     'This commit fixes #1, #2 and references #1 and #3',
                     :text => "r#{changeset.revision}"
       # link to an attachment
@@ -523,7 +523,7 @@ private
     attachment = FactoryGirl.create(:attachment,
         :container => issue,
         :author => issue.author)
-    issue.description = "This is related to issue ##{related_issue.id}\n A reference to a changeset r#{changeset.id}\n A reference to an attachment attachment:#{attachment.filename}"
+    issue.description = "This is related to issue ##{related_issue.id}\n A reference to a changeset r#{changeset.revision}\n A reference to an attachment attachment:#{attachment.filename}"
     assert issue.save
     issue.reload
     journal = issue.journals.last
