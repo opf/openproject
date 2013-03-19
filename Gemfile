@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 source "https://rubygems.org"
 
-gem "rails", "2.3.17"
+gem "rails", "2.3.18"
 
 gem "json", "~> 1.7.7"
 gem "coderay", "~> 1.0.0"
