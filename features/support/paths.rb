@@ -128,6 +128,11 @@ module NavigationHelpers
       model = $1.gsub!("\"", "").downcase
       "/#{model.pluralize}/new"
 
+    when /^the edit page of the group called "([^\"]+)"$/
+      identifier = $1.gsub("\"", "")
+      instance = InstanceFinder.find(Group, identifier)
+      "/admin/groups/#{instance.id}/edit"
+
     when /^the edit page (?:for|of) (?:the )?([^\"]+?)(?: called)? "([^\"]+)"$/
       model, identifier = $1, $2
       identifier.gsub!("\"", "")
