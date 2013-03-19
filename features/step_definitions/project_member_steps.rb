@@ -72,6 +72,8 @@ end
 def member_for_login principal_name
   principal = InstanceFinder.find(Principal, principal_name)
 
+  sleep 1
+
   #the assumption here is, that there is only one project
   principal.members.first
 end
