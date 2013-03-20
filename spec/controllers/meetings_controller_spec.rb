@@ -76,7 +76,7 @@ describe MeetingsController do
           it {assigns(:meeting).duration.should eql 1.5}
           it {assigns(:meeting).location.should eql "Raum 4"}
           it {assigns(:meeting).start_time.should eql (Date.tomorrow + 10.hours)}
-          it {assigns(:meeting).participants.to_a.count.should == @participants.count}
+          it {assigns(:meeting).participants.to_a.count.should == (@participants + [@mc.author]).count}
           it {assigns(:meeting).participants.to_a.all?{|p| p.id.nil? && p.attended == false}.should == true}
         end
       end
