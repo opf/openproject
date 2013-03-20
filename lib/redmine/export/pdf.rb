@@ -414,7 +414,7 @@ module Redmine
           pdf.Ln
           pdf.SetFontStyle('I',8)
           for detail in journal.details
-            pdf.RDMMultiCell(190,5, "- " + journal.render_detail(detail, true))
+            pdf.RDMMultiCell(190,5, "- " + journal.render_detail(detail, :no_html => true))
             pdf.Ln
           end
           if journal.notes?
