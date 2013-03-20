@@ -3,20 +3,36 @@ include Redmine::I18n
 
 describe MeetingMailer do
   before(:each) do
-    @user = FactoryGirl.create(:user, :mail => 'foo@bar.de')
+    @role = FactoryGirl.create(:role, :permissions => [:view_meetings])
     @content = FactoryGirl.create(:meeting_agenda)
+    @author = @content.meeting.author
+    @project = @content.meeting.project
     @participants = [FactoryGirl.create(:meeting_participant, :meeting=>@content.meeting, :invited=>true, :attended=>false),
-                     FactoryGirl.create(:meeting_participant, :meeting=>@content.meeting, :invited=>true, :attended=>true)]
+                     FactoryGirl.create(:meeting_participant, :meeting=>@content.meeting, :invited=>true, :attended=>false)]
+    @watcher1 = @participants[0].user
+    @watcher2 = @participants[1].user
+
+    @project.add_member @author, [@role]
+    @project.add_member @watcher1, [@role]
+    @project.add_member @watcher2, [@role]
+
+    @project.save!
+    @content.meeting.save!
+
+    @content.meeting.watcher_users true
   end
 
   describe "content_for_review" do
-    let(:mail) { MeetingMailer.content_for_review @user, @content, 'agenda' }
+    let(:mail) { MeetingMailer.content_for_review @content, 'agenda' }
 
     it "renders the headers" do
       mail.subject.should include(@content.meeting.project.name)
       mail.subject.should include(@content.meeting.title)
-      mail.to.should eq([@user.mail])
+      mail.to.should include(@author.mail)
       mail.from.should eq([Setting.mail_from])
+      mail.cc.should_not include(@author.mail)
+      mail.cc.should include(@watcher1.mail)
+      mail.cc.should include(@watcher2.mail)
     end
 
     it "renders the text body" do
