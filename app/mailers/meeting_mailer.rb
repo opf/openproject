@@ -1,6 +1,6 @@
 class MeetingMailer < UserMailer
 
-  def content_for_review(user, content, content_type)
+  def content_for_review(content, content_type)
     @meeting = content.meeting
     @meeting_url = meeting_url @meeting
     @project_url = project_url @meeting.project
@@ -9,7 +9,9 @@ class MeetingMailer < UserMailer
     open_project_headers 'Project' => @meeting.project.identifier,
                          'Meeting-Id' => @meeting.id
 
-    subject = "[#{@meeting.project.name}] #{I18n.t(:"label_meeting_#{content_type}")}: #{@meeting.title}"
-    mail :to => user.mail, :cc => @meeting.watcher_recipients, :subject => subject
+    recipients = @meeting.watcher_recipients.reject{|r| r == @meeting.author.mail}
+
+    subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{@meeting.title}"
+    mail :to => @meeting.author.mail, :cc => recipients, :subject => subject
   end
 end

@@ -53,7 +53,7 @@ class MeetingContentsController < ApplicationController
   
   def notify
     unless @content.new_record?
-      MeetingMailer.content_for_review(@user, @content, @content_type).deliver
+      MeetingMailer.content_for_review(@content, @content_type).deliver
       flash[:notice] = l(:notice_successful_notification)
     end
     redirect_back_or_default :controller => 'meetings', :action => 'show', :id => @meeting
