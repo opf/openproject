@@ -4,12 +4,17 @@ module Capybara::Node::Finders
  def find(*args)
    tries = 0
    begin
-     old_find(*args)
+     elements = all(*args)
+
+     raise Capybara::ElementNotFound.new if (elements.nil? || elements.empty?)
+
+     elements[0]
    rescue Capybara::ElementNotFound => e
      tries += 1
      tries < 3 ? retry : raise(e)
    end
  end
+
 end
 
 Then /^I should (not )?see "([^"]*)"\s*\#.*$/ do |negative, name|

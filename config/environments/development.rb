@@ -34,4 +34,7 @@ OpenProject::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Send mails to browser window
+  config.action_mailer.delivery_method = :letter_opener
 end
