@@ -15,14 +15,21 @@ Feature: Show meetings
           And the user "alice" is a "user" in the project "dingens"
           And there is 1 meeting in project "dingens" created by "bob" with:
               | title | Bobs Meeting |
+        Given I am already logged in as "alice"
 
-  @javascript
+  Scenario: Navigate to a meeting page
+      Given the role "user" may have the following rights:
+            | view_meetings |
+       When I go to the Meetings page for the project called "dingens"
+        And I follow "Bobs Meeting"
+       Then I should be on the show page for the meeting called "Bobs Meeting"
+
   Scenario: Navigate to a meeting page with an open agenda
       Given the role "user" may have the following rights:
             | view_meetings |
-       When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
+
+       When I go to the show page for the meeting called "Bobs Meeting"
+
        Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
         And I should see "No data to display" within ".meeting_agenda"
 
@@ -32,9 +39,9 @@ Feature: Show meetings
             | view_meetings |
         And the meeting "Bobs Meeting" has 1 agenda with:
             | locked | true |
-       When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
+
+       When I go to the show page for the meeting called "Bobs Meeting"
+
        Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
         And I should see "No data to display" within ".meeting_minutes"
 
@@ -43,9 +50,9 @@ Feature: Show meetings
       Given the role "user" may have the following rights:
             | view_meetings          |
             | create_meeting_agendas |
-       When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
+
+       When I go to the show page for the meeting called "Bobs Meeting"
+
        Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
         And I should not see "No data to display" within "#meeting_agenda_text"
         And I should see "Text formatting" within ".meeting_agenda"
@@ -57,9 +64,9 @@ Feature: Show meetings
             | create_meeting_minutes |
         And the meeting "Bobs Meeting" has 1 agenda with:
             | locked | true |
-       When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
+
+       When I go to the show page of the meeting called "Bobs Meeting"
+
        Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
         And I should not see "No data to display" within "#meeting_minutes_text"
         And I should see "Text formatting" within ".meeting_minutes"
@@ -69,11 +76,11 @@ Feature: Show meetings
       Given the role "user" may have the following rights:
             | view_meetings          |
             | create_meeting_minutes |
-       When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
+
+       When I go to the show page for the meeting called "Bobs Meeting"
             # Make sure we're on the right tab
         And I click on "Minutes"
+
        Then I should not see "Edit" within ".meeting_minutes"
 
   @javascript
@@ -83,11 +90,11 @@ Feature: Show meetings
             | create_meeting_agendas |
         And the meeting "Bobs Meeting" has 1 agenda with:
             | locked | true |
-       When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
+
+       When I go to the show page for the meeting called "Bobs Meeting"
             # Make sure we're on the right tab
         And I click on "Agenda"
+
        Then I should not see "Edit" within ".meeting_agenda"
 
   Scenario: Navigate to a meeting page with a closed agenda and the permission to edit the minutes and save minutes
@@ -96,11 +103,11 @@ Feature: Show meetings
             | create_meeting_minutes |
         And the meeting "Bobs Meeting" has 1 agenda with:
             | locked | true |
-       When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
+
+       When I go to the show page for the meeting called "Bobs Meeting"
         And I fill in "meeting_minutes[text]" with "Some minutes!"
         And I click on "Save"
+
        Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
         And I should see "Some minutes!" within "#meeting_minutes_text"
         And I should not see "Text formatting" within "#edit-meeting_minutes"
@@ -113,10 +120,10 @@ Feature: Show meetings
             | text | blah |
         And the Meeting "Bobs Meeting" has 1 agenda with:
             | text | foo  |
-       When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
+
+       When I go to the show page for the meeting called "Bobs Meeting"
         And I click on "History"
         And I click on "1"
+
        Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
         And I should see "blah" within ".meeting_agenda"
