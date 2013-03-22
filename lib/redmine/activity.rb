@@ -35,7 +35,7 @@ module Redmine
         providers = ([] << providers) unless providers.is_a?(Array)
 
         @@available_event_types << event_type unless @@available_event_types.include?(event_type)
-        @@default_event_types << event_type unless options[:default] == false
+        @@default_event_types << event_type unless @@default_event_types.include?(event_type) || options[:default] == false
         @@providers[event_type] += providers
       end
     end
