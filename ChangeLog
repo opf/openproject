@@ -1,3 +1,12 @@
+2013-03-22 Jens Ulferts <j.ulferts@finn.de>
+
+  * fixes routes
+	* removes unnecessary code
+	* shows only the users as possible participants who have the required
+	  permissions
+	* adds missing html_safe
+	* fixes mailer i18n issue
+
 2013-03-18  Hagen Schink <h.schink@finn.de>
 
 	* Swtiched to version 0.2.5
