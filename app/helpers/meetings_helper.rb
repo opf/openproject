@@ -1,5 +1,5 @@
 module MeetingsHelper
   def format_participant_list(participants)
-    participants.sort.collect{|p| link_to_user p.user}.join("; ")
+    participants.sort.collect{|p| link_to_user p.user}.join("; ").html_safe
   end
 end
