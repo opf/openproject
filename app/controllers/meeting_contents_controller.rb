@@ -15,8 +15,9 @@ class MeetingContentsController < ApplicationController
 
   def show
     # Redirect links to the last version
-    (redirect_to :controller => 'meetings', :action => :show, :id => @meeting, :tab => @content_type.sub(/^meeting_/, '') and return) if params[:version].present? && @content.version == params[:version].to_i
-    @content = @content.journals.at params[:version].to_i unless params[:version].blank?
+    (redirect_to :controller => 'meetings', :action => :show, :id => @meeting, :tab => @content_type.sub(/^meeting_/, '') and return) if params[:id].present? && @content.version == params[:id].to_i
+
+    @content = @content.journals.at params[:id].to_i unless params[:id].blank?
     render 'meeting_contents/show'
   end
 

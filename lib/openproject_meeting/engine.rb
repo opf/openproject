@@ -9,6 +9,17 @@ module MeetingsPlugin
     end
 
     config.to_prepare do
+      # This is required for the routes to be loaded first
+      # as the routes should be prepended so they take precedence over the core.
+      # This mechanism is a preliminary.
+      # The core should provide an api to do just that.
+      # Unfortunately this implementation here leads to duplicate entries when
+      # calling "rake routes". The tasks seems to load the routes twice. Based on the
+      # observations made prior to adding this statement, this seems to be limited to
+      # "rake routes". The reason for this assumption is that without the statement "rails s" would
+      # not load the routes but "rake routes" would.
+      require File.join(File.dirname(__FILE__), "/../../config/routes.rb")
+
       require 'redmine/plugin'
 
       require_dependency 'openproject_meeting/hooks'
