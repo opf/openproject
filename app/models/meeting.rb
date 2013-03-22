@@ -94,6 +94,10 @@ class Meeting < ActiveRecord::Base
     (user || User.current).allowed_to?(:view_meetings, self.project)
   end
 
+  def all_possible_participants
+    self.project.users.all(:include => { :memberships => [:roles, :project] } ).select{ |u| self.visible?(u) }
+  end
+
   def copy(attrs)
     copy = self.dup
 

@@ -57,6 +57,36 @@ describe Meeting do
     end
   end
 
+  describe "all_possible_participants" do
+    describe "WITH a user having the view_meetings permission" do
+      before do
+        project.add_member user1, [role]
+        project.save!
+      end
+
+      it "should contain the user" do
+        meeting.all_possible_participants.should == [user1]
+      end
+    end
+
+    describe "WITH a user not having the view_meetings permission" do
+      let(:role2) { FactoryGirl.create(:role, :permissions => []) }
+
+      before do
+        # adding both users so that the author is valid
+        project.add_member user1, [role]
+        project.add_member user2, [role2]
+
+        project.save!
+      end
+
+      it "should not contain the user" do
+        meeting.all_possible_participants.include?(user2).should be_false
+      end
+    end
+
+  end
+
   describe "participants and author as watchers" do
     before do
       project.add_member user1, [role]
