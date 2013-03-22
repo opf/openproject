@@ -32,7 +32,8 @@ class Meeting < ActiveRecord::Base
 
   validates_presence_of :title, :start_time, :duration
 
-  after_create :add_author_as_watcher
+  before_save :add_new_participants_as_watcher
+
   after_initialize :set_initial_values
 
   User.before_destroy do |user|
@@ -116,7 +117,9 @@ class Meeting < ActiveRecord::Base
 
   private
 
-  def add_author_as_watcher
-    add_watcher(author)
+  def add_new_participants_as_watcher
+    self.participants.select(&:new_record?).each do |p|
+      add_watcher(p.user)
+    end
   end
 end

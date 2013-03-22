@@ -7,14 +7,14 @@ describe MeetingMailer do
     @content = FactoryGirl.create(:meeting_agenda)
     @author = @content.meeting.author
     @project = @content.meeting.project
-    @participants = [FactoryGirl.create(:meeting_participant, :meeting=>@content.meeting, :invited=>true, :attended=>false),
-                     FactoryGirl.create(:meeting_participant, :meeting=>@content.meeting, :invited=>true, :attended=>false)]
-    @watcher1 = @participants[0].user
-    @watcher2 = @participants[1].user
-
+    @watcher1 = FactoryGirl.create(:user)
+    @watcher2 = FactoryGirl.create(:user)
     @project.add_member @author, [@role]
     @project.add_member @watcher1, [@role]
     @project.add_member @watcher2, [@role]
+
+    @participants = [@content.meeting.participants.build(:user => @watcher1, :invited => true, :attended => false),
+                     @content.meeting.participants.build(:user => @watcher2, :invited => true, :attended => false)]
 
     @project.save!
     @content.meeting.save!
