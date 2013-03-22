@@ -11,7 +11,7 @@
   <%= avatar(@meeting.author, :size => "64") %>
   <p class="author"><%= authoring @meeting.created_at, @meeting.author %></p>
   <div class="splitcontentleft">
-  <p><strong><%= l(:field_start_time) %></strong>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %></p>
+  <p><strong><%= l(:field_start_time) %></strong>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %> - <%= format_time @meeting.end_time, false %></p>
   </div>
   <div class="splitcontentright">
   <p><strong><%= l(:field_location) %></strong>: <%=h @meeting.location %></p>
