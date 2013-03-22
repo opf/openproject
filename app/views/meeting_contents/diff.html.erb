@@ -5,11 +5,11 @@
 <h2><%= l(:"label_#{@content_type}") %>: <%= link_to @meeting, @meeting %></h2>
 
 <p>
-<%= l(:label_version) %> <%= link_to @diff.content_from.version, {:controller => @content_type.pluralize, :action => 'show', :meeting_id => @meeting, :version => @diff.content_from.version} %>
+<%= l(:label_version) %> <%= link_to @diff.content_from.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_from.version) %>
 <em>(<%= link_to_user(@diff.content_from.author) %>, <%= format_time(@diff.content_from.updated_at) %>)</em>
 &#8594;
-<%= l(:label_version) %> <%= link_to @diff.content_to.version, {:controller => @content_type.pluralize, :action => 'show', :meeting_id => @meeting, :version => @diff.content_to.version} %>/<%= @content.version %>
-<em>(<%= link_to_user(@diff.content_from.author) %>, <%= format_time(@diff.content_to.updated_at) %>)</em>
+<%= l(:label_version) %> <%= link_to @diff.content_to.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_to.version) %>/<%= @content.version %>
+<em>(<%= link_to_user(@diff.content_to.author) %>, <%= format_time(@diff.content_to.updated_at) %>)</em>
 </p>
 
 <hr />

@@ -7,8 +7,6 @@ class MeetingParticipant < ActiveRecord::Base
   scope :invited, :conditions => {:invited => true}
   scope :attended, :conditions => {:attended => true}
 
-  after_create :add_participant_as_watcher
-
   attr_accessible :email, :name, :invited, :attended, :user, :user_id, :meeting
 
   User.before_destroy do |user|
@@ -28,10 +26,5 @@ class MeetingParticipant < ActiveRecord::Base
   end
 
   alias :to_s :name
-
-  private
-
-  def add_participant_as_watcher
-    meeting.add_watcher(user)
-  end
 end
+

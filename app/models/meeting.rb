@@ -24,6 +24,7 @@ class Meeting < ActiveRecord::Base
                       :event_title => Proc.new {|o| "#{l :label_meeting}: #{o.title} (#{format_date o.start_time} #{format_time o.start_time, false}-#{format_time o.end_time, false})"},
                       :event_url => Proc.new {|o| {:controller => 'meetings', :action => 'show', :id => o.journaled}}
 
+  register_on_journal_formatter(:plaintext, 'title')
   register_on_journal_formatter(:fraction, 'duration')
   register_on_journal_formatter(:datetime, 'start_time')
   register_on_journal_formatter(:plaintext, 'location')
@@ -32,7 +33,8 @@ class Meeting < ActiveRecord::Base
 
   validates_presence_of :title, :start_time, :duration
 
-  after_create :add_author_as_watcher
+  before_save :add_new_participants_as_watcher
+
   after_initialize :set_initial_values
 
   User.before_destroy do |user|
@@ -93,6 +95,10 @@ class Meeting < ActiveRecord::Base
     (user || User.current).allowed_to?(:view_meetings, self.project)
   end
 
+  def all_possible_participants
+    self.project.users.all(:include => { :memberships => [:roles, :project] } ).select{ |u| self.visible?(u) }
+  end
+
   def copy(attrs)
     copy = self.dup
 
@@ -116,7 +122,9 @@ class Meeting < ActiveRecord::Base
 
   private
 
-  def add_author_as_watcher
-    add_watcher(author)
+  def add_new_participants_as_watcher
+    self.participants.select(&:new_record?).each do |p|
+      add_watcher(p.user)
+    end
   end
 end
