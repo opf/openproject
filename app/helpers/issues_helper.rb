@@ -178,20 +178,18 @@ module IssuesHelper
       title << h(issue.tracker.name)
       title << "##{issue.id}"
 
-      issue_text = link_to(title.join(' '), issue_path(issue), :class => issue.css_classes)
+      issue_text = link_to(title.join(' ').html_safe, issue_path(issue), :class => issue.css_classes)
     end
     issue_text << ": "
     issue_text << truncate(issue.subject, :length => 60)
 
-    content_tag('tr', [
-        content_tag('td', check_box_tag("ids[]", issue.id, false, :id => nil), :class => 'checkbox'),
-        content_tag('td', issue_text, :class => 'subject'),
-        content_tag('td', h(issue.status)),
-        content_tag('td', link_to_user(issue.assigned_to)),
-        content_tag('td', link_to_version(issue.fixed_version))
-      ].join,
-      :class => css_classes.join(' ')
-    )
+    content_tag :tr, :class => css_classes.join(' ') do
+      concat content_tag :td, check_box_tag("ids[]", issue.id, false, :id => nil), :class => 'checkbox'
+      concat content_tag :td, issue_text, :class => 'subject'
+      concat content_tag :td, h(issue.status)
+      concat content_tag :td, link_to_user(issue.assigned_to)
+      concat content_tag :td, link_to_version(issue.fixed_version)
+    end
   end
 
   def issues_to_csv(issues, project = nil)
