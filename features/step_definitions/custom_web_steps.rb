@@ -5,9 +5,7 @@ module Capybara::Node::Finders
    tries = 0
    begin
      elements = all(*args)
-
      raise Capybara::ElementNotFound.new if (elements.nil? || elements.empty?)
-
      elements[0]
    rescue Capybara::ElementNotFound => e
      tries += 1
