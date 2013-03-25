@@ -451,7 +451,6 @@ fi:
   label_per_page: Per sivu
   label_calendar: Kalenteri
   label_months_from: kuukauden päässä
-  label_gantt: Gantt
   label_internal: Sisäinen
   label_last_changes: "viimeiset %{count} muutokset"
   label_change_view_all: Näytä kaikki muutokset
@@ -784,7 +783,6 @@ fi:
   permission_manage_documents: Hallinnoi dokumentteja
   permission_edit_wiki_pages: Muokkaa wiki sivuja
   permission_add_issue_watchers: Lisää seuraajia
-  permission_view_gantt: Näytä gantt kaavio
   permission_move_issues: Siirrä tapahtuma
   permission_manage_issue_relations: Hallinoi tapahtuman suhteita
   permission_delete_wiki_pages: Poista wiki sivuja
@@ -796,7 +794,6 @@ fi:
   permission_manage_files: Hallinnoi tiedostoja
   permission_edit_issue_notes: Muokkaa muistiinpanoja
   permission_manage_news: Hallinnoi uutisia
-  permission_view_calendar: Näytä kalenteri
   permission_manage_members: Hallinnoi jäseniä
   permission_edit_messages: Muokkaa viestejä
   permission_delete_issues: Poista tapahtumia
@@ -941,7 +938,6 @@ fi:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
@@ -961,8 +957,6 @@ fi:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

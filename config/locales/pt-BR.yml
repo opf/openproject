@@ -483,7 +483,6 @@ pt-BR:
   label_per_page: Por página
   label_calendar: Calendário
   label_months_from: meses a partir de
-  label_gantt: Gantt
   label_internal: Interno
   label_last_changes: "últimas %{count} alterações"
   label_change_view_all: Mostrar todas as alterações
@@ -786,7 +785,6 @@ pt-BR:
   permission_manage_documents: Gerenciar documentos
   permission_edit_wiki_pages: Editar páginas wiki
   permission_add_issue_watchers: Adicionar observadores
-  permission_view_gantt: Ver gráfico gantt
   permission_move_issues: Mover tarefas
   permission_manage_issue_relations: Gerenciar relacionamentos de tarefas
   permission_delete_wiki_pages: Excluir páginas wiki
@@ -798,7 +796,6 @@ pt-BR:
   permission_manage_files: Gerenciar arquivos
   permission_edit_issue_notes: Editar notas
   permission_manage_news: Gerenciar notícias
-  permission_view_calendar: Ver calendário
   permission_manage_members: Gerenciar membros
   permission_edit_messages: Editar mensagens
   permission_delete_issues: Excluir tarefas
@@ -944,7 +941,6 @@ pt-BR:
   notice_unable_delete_time_entry: Não foi possível excluir a entrada no registro de horas trabalhadas.
   label_overall_spent_time: Tempo gasto geral
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendário
   button_edit_associated_wikipage: "Editar página wiki relacionada: %{page_title}"
   text_are_you_sure_with_children: Excluir a tarefa e suas subtarefas?
@@ -964,8 +960,6 @@ pt-BR:
   setting_commit_logtime_activity_id: Atividade para registrar horas
   text_time_logged_by_changeset: Aplicado no changeset %{value}.
   setting_commit_logtime_enabled: Habilitar registro de horas
-  notice_gantt_chart_truncated: O gráfico foi cortado por exceder o tamanho máximo de linhas que podem ser exibidas (%{max})
-  setting_gantt_items_limit: Número máximo de itens exibidos no gráfico gatt
   field_warn_on_leaving_unsaved: Alertar-me ao sarir de uma página sem salvar o texto
   text_warn_on_leaving_unsaved: A página atual contem texto que não foi salvo e será perdido se você sair desta página.
   label_my_queries: Minhas consultas personalizadas

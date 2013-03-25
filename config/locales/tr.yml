@@ -469,7 +469,6 @@ tr:
   label_per_page: Sayfa başına
   label_calendar: Takvim
   label_months_from: aylardan itibaren
-  label_gantt: Gantt
   label_internal: Dahili
   label_last_changes: "Son %{count} değişiklik"
   label_change_view_all: Tüm Değişiklikleri gör
@@ -782,7 +781,6 @@ tr:
   permission_manage_documents: Manage documents
   permission_edit_wiki_pages: Edit wiki pages
   permission_add_issue_watchers: Add watchers
-  permission_view_gantt: View gantt chart
   permission_move_issues: Move issues
   permission_manage_issue_relations: Manage issue relations
   permission_delete_wiki_pages: Delete wiki pages
@@ -794,7 +792,6 @@ tr:
   permission_manage_files: Manage files
   permission_edit_issue_notes: Edit notes
   permission_manage_news: Manage news
-  permission_view_calendar: View calendrier
   permission_manage_members: Manage members
   permission_edit_messages: Edit messages
   permission_delete_issues: Delete issues
@@ -939,7 +936,6 @@ tr:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
@@ -959,8 +955,6 @@ tr:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

@@ -406,7 +406,6 @@ nl:
   label_filter_plural: Filters
   label_float: Float
   label_follows: volgt op
-  label_gantt: Gantt
   label_general: Algemeen
   label_generate_key: Genereer een sleutel
   label_help: Help
@@ -677,11 +676,9 @@ nl:
   permission_rename_wiki_pages: Wikipagina's hernoemen
   permission_save_queries: Queries opslaan
   permission_select_project_modules: Project modules selecteren
-  permission_view_calendar: Kalender bekijken
   permission_view_changesets: Changesets bekijken
   permission_view_documents: Documenten bekijken
   permission_view_files: Bestanden bekijken
-  permission_view_gantt: Gantt grafiek bekijken
   permission_view_issue_watchers: Monitorlijst bekijken
   permission_view_messages: Berichten bekijken
   permission_view_time_entries: Gespendeerde tijd bekijken
@@ -900,7 +897,6 @@ nl:
   notice_unable_delete_time_entry: Verwijderen niet mogelijk van tijd log invoer.
   label_overall_spent_time: Totaal bestede tijd
   field_time_entries: Registreer tijd
-  project_module_gantt: Gantt
   project_module_calendar: Kalender
   button_edit_associated_wikipage: "Bewerk bijbehorende wiki pagina: %{page_title}"
   text_are_you_sure_with_children: Verwijder issue en alle onderliggende issues?
@@ -920,8 +916,6 @@ nl:
   setting_commit_logtime_activity_id: Standaard activiteit voor tijdregistratie
   text_time_logged_by_changeset: Toegepast in changeset %{value}.
   setting_commit_logtime_enabled: Activeer tijdregistratie
-  notice_gantt_chart_truncated: De gantt chart is ingekort omdat het meer objecten bevat dan kan worden weergegeven, (%{max})
-  setting_gantt_items_limit: Max. aantal objecten op gantt chart
   field_warn_on_leaving_unsaved: Waarschuw me wanneer ik een pagina verlaat waarvan de tekst niet opgeslagen is
   text_warn_on_leaving_unsaved: De huidige pagina bevat tekst die niet is opgeslagen en dit zal verloren gaan als u deze pagina nu verlaat.
   label_my_queries: Mijn aangepaste zoekopdrachten

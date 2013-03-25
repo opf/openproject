@@ -24,7 +24,6 @@ roles_001:
     - :delete_issue_watchers
     - :manage_public_queries
     - :save_queries
-    - :view_gantt
     - :view_calendar
     - :log_time
     - :view_time_entries
@@ -76,7 +75,6 @@ roles_002:
     - :delete_issues
     - :view_issue_watchers
     - :save_queries
-    - :view_gantt
     - :view_calendar
     - :log_time
     - :view_time_entries
@@ -119,7 +117,6 @@ roles_003:
     - :move_issues
     - :view_issue_watchers
     - :save_queries
-    - :view_gantt
     - :view_calendar
     - :log_time
     - :view_time_entries
@@ -153,7 +150,6 @@ roles_004:
     - :add_issue_notes
     - :move_issues
     - :save_queries
-    - :view_gantt
     - :view_calendar
     - :log_time
     - :view_time_entries
@@ -179,7 +175,6 @@ roles_005:
     ---
     - :view_issues
     - :add_issue_notes
-    - :view_gantt
     - :view_calendar
     - :view_time_entries
     - :view_documents

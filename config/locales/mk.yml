@@ -375,8 +375,6 @@ mk:
   permission_delete_issues: Бриши задачи
   permission_manage_public_queries: Manage public queries
   permission_save_queries: Save queries
-  permission_view_gantt: View gantt chart
-  permission_view_calendar: View calendar
   permission_view_issue_watchers: View watchers list
   permission_add_issue_watchers: Add watchers
   permission_delete_issue_watchers: Delete watchers
@@ -421,7 +419,6 @@ mk:
   project_module_repository: Repository
   project_module_boards: Форуми
   project_module_calendar: Календар
-  project_module_gantt: Gantt
 
   label_user: Корисник
   label_user_plural: Корисници
@@ -570,7 +567,6 @@ mk:
   label_per_page: По страна
   label_calendar: Календар
   label_months_from: месеци од
-  label_gantt: Gantt
   label_internal: Internal
   label_last_changes: "последни %{count} промени"
   label_change_view_all: Прегледај ги сите промени
@@ -940,8 +936,6 @@ mk:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

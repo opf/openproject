@@ -251,7 +251,6 @@
   notice_unable_delete_version: 無法刪除版本。
   notice_unable_delete_time_entry: 無法刪除工時記錄項目。
   notice_issue_done_ratios_updated: 項目完成百分比已更新。
-  notice_gantt_chart_truncated: "由於項目數量超過可顯示數量的最大值 (%{max})，故此甘特圖尾部已被截斷"
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在 SCM 儲存庫中找不到這個項目或版次。"
@@ -446,7 +445,6 @@
   setting_default_notification_option: 預設通知選項
   setting_commit_logtime_enabled: 啟用送交中的時間記錄
   setting_commit_logtime_activity_id: 時間記錄對應的活動
-  setting_gantt_items_limit: 甘特圖中項目顯示數量的最大值
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
 
@@ -469,8 +467,6 @@
   permission_delete_issues: 刪除項目
   permission_manage_public_queries: 管理公開查詢
   permission_save_queries: 儲存查詢
-  permission_view_gantt: 檢視甘特圖
-  permission_view_calendar: 檢視日曆
   permission_view_issue_watchers: 檢視觀察者清單
   permission_add_issue_watchers: 新增觀察者
   permission_delete_issue_watchers: 刪除觀察者
@@ -515,7 +511,6 @@
   project_module_repository: 版本控管
   project_module_boards: 討論區
   project_module_calendar: 日曆
-  project_module_gantt: 甘特圖
 
   label_user: 用戶
   label_user_plural: 用戶清單
@@ -664,7 +659,6 @@
   label_per_page: 每頁
   label_calendar: 日曆
   label_months_from: 個月, 開始月份
-  label_gantt: 甘特圖
   label_internal: 內部
   label_last_changes: "最近 %{count} 個變更"
   label_change_view_all: 檢視全部的變更

@@ -459,7 +459,6 @@ es:
   label_filter_plural: Filtros
   label_float: Flotante
   label_follows: posterior a
-  label_gantt: Gantt
   label_general: General
   label_generate_key: Generar clave
   label_help: Ayuda
@@ -730,11 +729,9 @@ es:
   permission_rename_wiki_pages: Renombrar páginas wiki
   permission_save_queries: Grabar consultas
   permission_select_project_modules: Seleccionar módulos del proyecto
-  permission_view_calendar: Ver calendario
   permission_view_changesets: Ver cambios
   permission_view_documents: Ver documentos
   permission_view_files: Ver ficheros
-  permission_view_gantt: Ver diagrama de Gantt
   permission_view_issue_watchers: Ver lista de seguidores
   permission_view_messages: Ver mensajes
   permission_view_time_entries: Ver tiempo dedicado
@@ -954,7 +951,6 @@ es:
   notice_unable_delete_time_entry: Fue imposible eliminar la entrada de tiempo dedicado.
   label_overall_spent_time: Tiempo total dedicado
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendario
   button_edit_associated_wikipage: "Editar paginas Wiki asociadas: %{page_title}"
   text_are_you_sure_with_children: ¿Borrar peticiones y todas sus peticiones hijas?
@@ -977,8 +973,6 @@ es:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

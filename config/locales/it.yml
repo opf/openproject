@@ -409,7 +409,6 @@ it:
   label_per_page: Per pagina
   label_calendar: Calendario
   label_months_from: mesi da
-  label_gantt: Gantt
   label_internal: Interno
   label_last_changes: "ultime %{count} modifiche"
   label_change_view_all: Tutte le modifiche
@@ -764,7 +763,6 @@ it:
   permission_manage_documents: Gestisci documenti
   permission_edit_wiki_pages: Modifica pagine wiki
   permission_add_issue_watchers: Aggiungi osservatori
-  permission_view_gantt: Vedi diagrammi gantt
   permission_move_issues: Muovi segnalazioni
   permission_manage_issue_relations: Gestisci relazioni tra segnalazioni
   permission_delete_wiki_pages: Elimina pagine wiki
@@ -776,7 +774,6 @@ it:
   permission_manage_files: Gestisci files
   permission_edit_issue_notes: Modifica note
   permission_manage_news: Gestisci notizie
-  permission_view_calendar: Vedi calendario
   permission_manage_members: Gestisci membri
   permission_edit_messages: Modifica messaggi
   permission_delete_issues: Elimina segnalazioni
@@ -921,7 +918,6 @@ it:
   notice_unable_delete_time_entry: Impossibile eliminare il valore time log.
   label_overall_spent_time: Totale tempo impiegato
   field_time_entries: Tempo di collegamento
-  project_module_gantt: Gantt
   project_module_calendar: Calendario
   button_edit_associated_wikipage: "Modifica la pagina wiki associata: %{page_title}"
   text_are_you_sure_with_children: Eliminare la segnalazione e tutte le discendenti?
@@ -941,8 +937,6 @@ it:
   setting_commit_logtime_activity_id: Attività per il tempo di collegamento
   text_time_logged_by_changeset: Usato nel changeset %{value}.
   setting_commit_logtime_enabled: Abilita registrazione del tempo di collegamento
-  notice_gantt_chart_truncated: Il grafico è stato troncato perchè eccede il numero di oggetti (%{max}) da visualizzare
-  setting_gantt_items_limit: Massimo numero di oggetti da visualizzare sul diagramma di gantt
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

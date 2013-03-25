@@ -567,12 +567,6 @@ class Issue < ActiveRecord::Base
     relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
   end
 
-  # Returns the due date or the target due date if any
-  # Used on gantt chart
-  def due_before
-    due_date || (fixed_version ? fixed_version.effective_date : nil)
-  end
-
   # Returns the time scheduled for this issue.
   #
   # Example:

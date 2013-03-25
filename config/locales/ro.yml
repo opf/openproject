@@ -327,8 +327,6 @@ ro:
   permission_delete_issues: Șterge tichete
   permission_manage_public_queries: Editează căutările implicite
   permission_save_queries: Salvează căutările
-  permission_view_gantt: Afișează Gantt
-  permission_view_calendar: Afișează calendarul
   permission_view_issue_watchers: Afișează lista de persoane interesate
   permission_add_issue_watchers: Adaugă persoane interesate
   permission_log_time: Înregistrează timpul de lucru
@@ -513,7 +511,6 @@ ro:
   label_per_page: pe pagină
   label_calendar: Calendar
   label_months_from: luni de la
-  label_gantt: Gantt
   label_internal: Intern
   label_last_changes: "ultimele %{count} schimbări"
   label_change_view_all: Afișează toate schimbările
@@ -913,7 +910,6 @@ ro:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
@@ -933,8 +929,6 @@ ro:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

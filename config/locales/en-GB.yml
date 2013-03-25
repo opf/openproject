@@ -176,7 +176,6 @@ en-GB:
   notice_unable_delete_version: Unable to delete version.
   notice_unable_delete_time_entry: Unable to delete time log entry.
   notice_issue_done_ratios_updated: Issue done ratios updated.
-  notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
 
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
@@ -373,7 +372,6 @@ en-GB:
   setting_default_notification_option: Default notification option
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_logtime_activity_id: Activity for logged time
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   setting_issue_startdate_is_adddate: Use current date as start date for new issues
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
@@ -398,8 +396,6 @@ en-GB:
   permission_delete_issues: Delete issues
   permission_manage_public_queries: Manage public queries
   permission_save_queries: Save queries
-  permission_view_gantt: View gantt chart
-  permission_view_calendar: View calendar
   permission_view_issue_watchers: View watchers list
   permission_add_issue_watchers: Add watchers
   permission_delete_issue_watchers: Delete watchers
@@ -444,7 +440,6 @@ en-GB:
   project_module_repository: Repository
   project_module_boards: Forums
   project_module_calendar: Calendar
-  project_module_gantt: Gantt
 
   label_user: User
   label_user_plural: Users
@@ -595,7 +590,6 @@ en-GB:
   label_per_page: Per page
   label_calendar: Calendar
   label_months_from: months from
-  label_gantt: Gantt
   label_internal: Internal
   label_last_changes: "last %{count} changes"
   label_change_view_all: View all changes

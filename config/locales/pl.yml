@@ -433,7 +433,6 @@ pl:
   label_filter_plural: Filtry
   label_float: Liczba rzeczywista
   label_follows: następuje po
-  label_gantt: Gantt
   label_general: Ogólne
   label_generate_key: Wygeneruj klucz
   label_help: Pomoc
@@ -708,11 +707,9 @@ pl:
   permission_rename_wiki_pages: Zmiana nazw stron wiki
   permission_save_queries: Zapisywanie kwerend
   permission_select_project_modules: Wybieranie modułów projektu
-  permission_view_calendar: Podgląd kalendarza
   permission_view_changesets: Podgląd zmian
   permission_view_documents: Podgląd dokumentów
   permission_view_files: Podgląd plików
-  permission_view_gantt: Podgląd diagramu Gantta
   permission_view_issue_watchers: Podgląd listy obserwatorów
   permission_view_messages: Podgląd wiadomości
   permission_view_time_entries: Podgląd przepracowanego czasu
@@ -935,7 +932,6 @@ pl:
   notice_unable_delete_time_entry: Nie można usunąć wpisu z dziennika.
   label_overall_spent_time: Przepracowany czas
   field_time_entries: Dziennik
-  project_module_gantt: Diagram Gantta
   project_module_calendar: Kalendarz
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
@@ -955,8 +951,6 @@ pl:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

@@ -191,7 +191,6 @@ ja:
   notice_unable_delete_version: バージョンを削除できません
   notice_unable_delete_time_entry: 作業時間を削除できません
   notice_issue_done_ratios_updated: チケットの進捗が更新されました。
-  notice_gantt_chart_truncated: ガントチャートは、最大表示項目数(%{max})を超えたたため切り捨てられました。
 
   error_can_t_load_default_data: "デフォルト設定がロードできませんでした: %{value}"
   error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
@@ -386,7 +385,6 @@ ja:
   setting_default_notification_option: デフォルトのメール通知オプション
   setting_commit_logtime_enabled: コミット時に作業時間を記録する
   setting_commit_logtime_activity_id: 作業時間の作業分類
-  setting_gantt_items_limit: ガントチャート最大表示項目数
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
 
@@ -408,8 +406,6 @@ ja:
   permission_delete_issues: チケットの削除
   permission_manage_public_queries: 公開クエリの管理
   permission_save_queries: クエリの保存
-  permission_view_gantt: ガントチャートの閲覧
-  permission_view_calendar: カレンダーの閲覧
   permission_view_issue_watchers: ウォッチ一覧の閲覧
   permission_add_issue_watchers: ウォッチの追加
   permission_delete_issue_watchers: ウォッチの削除
@@ -454,7 +450,6 @@ ja:
   project_module_wiki: Wiki
   project_module_repository: リポジトリ
   project_module_boards: フォーラム
-  project_module_gantt: ガントチャート
   project_module_calendar: カレンダー
 
   label_user: ユーザ
@@ -606,7 +601,6 @@ ja:
   label_per_page: ページ毎
   label_calendar: カレンダー
   label_months_from: ヶ月分
-  label_gantt: ガントチャート
   label_internal: 内部
   label_last_changes: "最新の変更 %{count}件"
   label_change_view_all: 全ての変更を見る

@@ -170,7 +170,6 @@ fa:
   notice_unable_delete_version: نگارش را نمی‌توان پاک کرد.
   notice_unable_delete_time_entry: زمان گزارش شده را نمی‌توان پاک کرد.
   notice_issue_done_ratios_updated: اندازه انجام شده پیامد بروز شد.
-  notice_gantt_chart_truncated: "نمودار بریده شد چون از بیشترین شماری که می‌توان نشان داد بزگتر است (%{max})."
 
   error_can_t_load_default_data: "پیکربندی پیش‌گزیده نمی‌تواند بار شود: %{value}"
   error_scm_not_found: "بخش یا نگارش در انباره پیدا نشد."
@@ -364,7 +363,6 @@ fa:
   setting_default_notification_option: آگاه سازی پیش‌گزیده
   setting_commit_logtime_enabled: فعالسازی زمان گذاشته شده
   setting_commit_logtime_activity_id: فعالیت زمان گذاشته شده
-  setting_gantt_items_limit: بیشترین شمار بخش‌های نمایش داده شده در نمودار گانت
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
 
@@ -387,8 +385,6 @@ fa:
   permission_delete_issues: پاک کردن پیامدها
   permission_manage_public_queries: سرپرستی پرس‌وجوهای همگانی
   permission_save_queries: ذخیره سازی پرس‌وجوها
-  permission_view_gantt: دیدن نمودار گانت
-  permission_view_calendar: دیدن گاهشمار
   permission_view_issue_watchers: دیدن فهرست دیده‌بان‌ها
   permission_add_issue_watchers: افزودن دیده‌بان‌ها
   permission_delete_issue_watchers: پاک کردن دیده‌بان‌ها
@@ -433,7 +429,6 @@ fa:
   project_module_repository: انباره
   project_module_boards: انجمن‌ها
   project_module_calendar: گاهشمار
-  project_module_gantt: گانت
 
   label_user: کاربر
   label_user_plural: کاربر
@@ -582,7 +577,6 @@ fa:
   label_per_page: ردیف‌ها در هر برگه
   label_calendar: گاهشمار
   label_months_from: از ماه
-  label_gantt: گانت
   label_internal: درونی
   label_last_changes: "%{count} تغییر آخر"
   label_change_view_all: دیدن همه تغییرات

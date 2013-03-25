@@ -170,7 +170,6 @@ bg:
   notice_unable_delete_version: Невъзможност за изтриване на версия
   notice_unable_delete_time_entry: Невъзможност за изтриване на запис на time log.
   notice_issue_done_ratios_updated: Обновен процент на завършените задачи.
-  notice_gantt_chart_truncated: Мрежовият график е съкратен, понеже броят на обектите, които могат да бъдат показани е твърде голям (%{max})
 
   error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
@@ -364,7 +363,6 @@ bg:
   setting_default_notification_option: Подразбиращ се начин за известяване
   setting_commit_logtime_enabled: Разрешаване на отчитането на работното време
   setting_commit_logtime_activity_id: Дейност при отчитане на работното време
-  setting_gantt_items_limit: Максимален брой обекти, които да се показват в мрежов график
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
 
@@ -387,8 +385,6 @@ bg:
   permission_delete_issues: Изтриване на задачи
   permission_manage_public_queries: Управление на публичните заявки
   permission_save_queries: Запис на запитвания (queries)
-  permission_view_gantt: Разглеждане на мрежов график
-  permission_view_calendar: Разглеждане на календари
   permission_view_issue_watchers: Разглеждане на списък с наблюдатели
   permission_add_issue_watchers: Добавяне на наблюдатели
   permission_delete_issue_watchers: Изтриване на наблюдатели
@@ -433,7 +429,6 @@ bg:
   project_module_repository: Хранилище
   project_module_boards: Форуми
   project_module_calendar: Календар
-  project_module_gantt: Мрежов график
 
   label_user: Потребител
   label_user_plural: Потребители
@@ -583,7 +578,6 @@ bg:
   label_per_page: На страница
   label_calendar: Календар
   label_months_from: месеца от
-  label_gantt: Мрежов график
   label_internal: Вътрешен
   label_last_changes: "последни %{count} промени"
   label_change_view_all: Виж всички промени
