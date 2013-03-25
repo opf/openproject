@@ -8,6 +8,21 @@ module Redmine
       end
 
       module ClassMethods
+        # Marks an ActiveRecord::Model as watchable
+        # A watchable model has association with users (watchers) who wish to be informed of changes on it.
+        #
+        # This also creates the routes necessary for watching/unwatching by adding the model's name to routes. This
+        # e.g leads to the following routes when marking issues as watchable:
+        #   POST:     issues/1/watch
+        #   DELETE:   issues/1/unwatch
+        #   GET/POST: issues/1/watchers/new
+        #   DELETE:   issues/1/watchers/1
+        # Use the :route_prefix option to change the model prefix, e.g. from issues to tickets
+        #
+        # params:
+        #   options:
+        #     route_prefix: overrides the route calculation which would normally use the models name.
+
         def acts_as_watchable(options = {})
           return if self.included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
           class_eval do
