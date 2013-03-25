@@ -1,4 +1,4 @@
-Openproject::Application.routes.draw do
+OpenProject::Application.routes.draw do
 
   scope 'projects/:project_id' do
     resources :meetings, :only => [:new, :create, :index]
