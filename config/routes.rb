@@ -11,6 +11,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+
 OpenProject::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
@@ -34,10 +35,12 @@ OpenProject::Application.routes.draw do
   post  'projects/:id/wiki' => 'wikis#edit'
   match 'projects/:id/wiki/destroy' => 'wikis#destroy'
 
-  # generic route for adding/removing watchers
-  # looks to be ressourceful
-  scope ':object_type/:object_id', :constraints => { :object_type => /issues|messages|boards|wikis|wiki_pages|news/,
-                                                     :object_id => /\d+/ } do
+  # generic route for adding/removing watchers.
+  # Models declared as acts_as_watchable will be automatically added to
+  # OpenProject::Acts::Watchable::Routes.watched
+  scope ':object_type/:object_id', :constraints => lambda { |req|
+                                                     OpenProject::Acts::Watchable::Routes.watched?(req.path_parameters[:object_type]) &&
+                                                     /\d+/.match(req.path_parameters[:object_id]) } do
     resources :watchers, :only => [:new]
 
     match '/watch' => 'watchers#watch', :via => :post
