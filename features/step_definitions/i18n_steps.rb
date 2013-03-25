@@ -74,7 +74,6 @@ Then /^there should be the following localizations:$/ do |table|
 
   attributes = []
 
-  # collect al list of all custom field attributes
   wait_until(5) do
     attributes = page.all(:css, "[name*=\"translations_attributes\"]:not([disabled=disabled])")
     attributes.size > 0
@@ -82,7 +81,6 @@ Then /^there should be the following localizations:$/ do |table|
 
   name_regexp = /\[(\d)+\]\[(\w+)\]$/
 
-  # group custom field attributes by their id ($1)
   attribute_group = attributes.inject({}) do |h, element|
     if element['name'] =~ name_regexp
       h[$1] ||= []
@@ -91,30 +89,25 @@ Then /^there should be the following localizations:$/ do |table|
     h
   end
 
-  # filter some attributes out, and set the correct value for checkboxes
   actual_localizations = attribute_group.inject([]) do |a, (k, group)|
     a << group.inject({}) do |h, element|
       if element['name'] =~ name_regexp
-        if $2 != "id" and $2 != "_destroy"
-          if element['type'] == 'checkbox'
-            h[$2] = (element.checked? ? '1' : '0')
-          else
-            h[$2] = element['value']
-          end
+
+        if $2 != "id" and
+          $2 != "_destroy" and
+          (element['type'] != 'checkbox' or (element['type'] == 'checkbox' and element.checked?))
+
+          h[$2] = element['value']
         end
       end
+
       h
     end
+
     a
   end
 
-  # group attributes by their locale
-  # attributes without locale (nil) are general attritbutes, which are then included into each separate attribute hash
-  actual_localizations = actual_localizations.group_by { |e| e["locale"] }
-  general_attributes = (actual_localizations.delete(nil) || {}).inject({}){|a, x| a.merge(x)}
-  actual_localizations = actual_localizations.collect do |(k, v)|
-    v.inject(general_attributes.dup){|a, x| a.merge(x)}
-  end
+  actual_localizations = actual_localizations.group_by{|e| e["locale"]}.collect{|(k, v)| v.inject({}){|a, x| a.merge(x)} }
 
   actual_localizations.should =~ cleaned_expectation
 end
