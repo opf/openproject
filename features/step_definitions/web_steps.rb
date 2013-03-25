@@ -18,7 +18,7 @@
 # * http://elabs.se/blog/15-you-re-cuking-it-wrong
 #
 
-require 'spec_helper' # for RSpec::Rails::Matchers
+
 require 'uri'
 require 'cgi'
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
@@ -289,22 +289,21 @@ end
 Then /^there should be a( disabled)? "(.+)" field( visible| invisible)?(?: within "([^\"]*)")?(?: if plugin "(.+)" is loaded)?$/ do |disabled, fieldname, visible, selector, plugin_name|
   if plugin_name.nil? || Redmine::Plugin.installed?(plugin_name)
     with_scope(selector) do
-      field = find :field, fieldname, :visible => !(visible && visible == " invisible")
-      if defined?(RSpec::Rails::Matchers)
-        field.should_not be_nil
+      if defined?(Spec::Rails::Matchers)
+        find_field(fieldname).should_not be_nil
         if visible && visible == " visible"
-          field.should be_visible
+          find_field(fieldname).should be_visible
         elsif visible && visible == " invisible"
-          field.should_not be_visible
+          find_field(fieldname).should_not be_visible
         end
 
         if disabled
-          field[:disabled].should == "disabled"
+          find_field(fieldname)[:disabled].should == "disabled"
         else
-          field[:disabled].should == nil
+          find_field(fieldname)[:disabled].should == nil
         end
       else
-        assert_not_nil field
+        assert_not_nil find_field(fieldname)
       end
     end
   end
@@ -312,7 +311,7 @@ end
 
 Then /^there should not be a "(.+)" field(?: within "([^\"]*)")?$/ do |fieldname, selector|
   with_scope(selector) do
-    if defined?(RSpec::Rails::Matchers)
+    if defined?(Spec::Rails::Matchers)
       lambda {find_field(fieldname)}.should raise_error(Capybara::ElementNotFound)
     else
       assert_nil find_field(fieldname)
@@ -321,7 +320,7 @@ Then /^there should not be a "(.+)" field(?: within "([^\"]*)")?$/ do |fieldname
 end
 
 Then /^there should be a "(.+)" button$/ do |button_label|
-  if defined?(RSpec::Rails::Matchers)
+  if defined?(Spec::Rails::Matchers)
     page.should have_xpath("//input[@value='#{button_label}']")
   else
     raise NotImplementedError, "Only Matcher implemented"
@@ -336,7 +335,7 @@ Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following op
     field = find_field(field)
     options_actual = field.all('option').collect(&:text)
 
-    if defined?(RSpec::Rails::Matchers)
+    if defined?(Spec::Rails::Matchers)
       options_actual.should =~ options_expected
     else
       raise NotImplementedError, "Only Matcher implemented"
