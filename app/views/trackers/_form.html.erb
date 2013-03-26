@@ -12,7 +12,7 @@
 	<% IssueCustomField.all.each do |field| %>
 		<label class="block">
 			<%= check_box_tag 'tracker[custom_field_ids][]',field.id, @tracker.custom_fields.include?(field) %>
-			<%=h field.name %>
+			<%= field.name %>
 		</label>
 	<% end %>
 </p>

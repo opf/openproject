@@ -21,6 +21,8 @@ OpenProject::Application.routes.draw do
   match '/roles/workflow/:id/:role_id/:tracker_id' => 'roles#workflow'
   match '/help/:ctrl/:page' => 'help#index'
 
+  resources :trackers
+
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes
   resources :journals, :only => [:edit, :update]
