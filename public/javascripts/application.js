@@ -499,6 +499,14 @@ jQuery.viewportHeight = function() {
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
 
+    var propagateOpenClose = function () {
+      if ($(this).is(":visible")) {
+        $(this).parents('li.drop-down').trigger("opened");
+      } else {
+        $(this).parents('li.drop-down').trigger("closed");
+      }
+    };
+
   $.extend($.fn.select2.defaults, {
     formatNoMatches: function () {
       return I18n.t("js.select2.no_matches");
@@ -578,6 +586,10 @@ jQuery(document).ready(function($) {
     menu.bind("opened", function () {
       // Open select2 element, when menu is opened
       select2.open();
+
+      setTimeout(function () {
+        $("#select2-drop-mask").hide();
+      }, 50);
 
       // Include input in tab cycle by attaching keydown handlers to previous
       // and next interactive DOM element.
@@ -661,7 +673,7 @@ jQuery(document).ready(function($) {
   $.fn.onClickDropDown = function(){
     var that = this;
     $('html').click(function() {
-      that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+      that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide(propagateOpenClose);
       that.removeClass("hover");
     });
 
@@ -695,22 +707,10 @@ jQuery(document).ready(function($) {
 
   $.fn.toggleSubmenu = function(menu){
     if (menu.find(" > li.drop-down.open").get(0) !== $(this).get(0)){
-      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide(function () {
-        if ($(this).is(":visible")) {
-          $(this).parents('li.drop-down').trigger("opened");
-        } else {
-          $(this).parents('li.drop-down').trigger("closed");
-        }
-      });
+      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide(propagateOpenClose);
     }
 
-    $(this).slideAndFocus(function () {
-      if ($(this).is(":visible")) {
-        $(this).parents('li.drop-down').trigger("opened");
-      } else {
-        $(this).parents('li.drop-down').trigger("closed");
-      }
-    });
+    $(this).slideAndFocus(propagateOpenClose);
     menu.toggleClass("hover");
   };
 
@@ -721,7 +721,7 @@ jQuery(document).ready(function($) {
 		.append("<span class='toggler'></span>")
 		.click(function() {
 
-			$(this).toggleClass("open").parent().find("ul").not("ul ul ul").mySlide();
+			$(this).toggleClass("open").parent().find("ul").not("ul ul ul").mySlide(propagateOpenClose);
 
 			return false;
 	});
@@ -743,13 +743,7 @@ jQuery(document).ready(function($) {
 			$(".title-bar-extras:hidden").slideDown(animationRate);
 		}
 
-		$(this).parent().find("ul").slideToggle(animationRate, function () {
-      if ($(this).is(":visible")) {
-        $(this).parents("li.drop-down").trigger("opened");
-      } else {
-        $(this).parents("li.drop-down").trigger("closed");
-      }
-    });
+		$(this).parent().find("ul").slideToggle(animationRate, propagateOpenClose);
 
 		return false;
 	});
@@ -806,7 +800,7 @@ $(window).bind('resizeEnd', function() {
 
 			if ($(event.target).hasClass("toggler") ) {
                           var menuParent = $(this).toggleClass("open").parent().find("ul").not("ul ul ul");
-                          menuParent.mySlide();
+                          menuParent.mySlide(propagateOpenClose);
                           if ($(this).hasClass("open")) {
                             menuParent.find("li > a:first").focus();
                           }
