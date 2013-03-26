@@ -1,6 +1,6 @@
 require_dependency 'my_controller'
 
-module Backlogs::Patches::MyControllerPatch
+module OpenProject::Backlogs::Patches::MyControllerPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -25,4 +25,4 @@ module Backlogs::Patches::MyControllerPatch
   end
 end
 
-MyController.send(:include, Backlogs::Patches::MyControllerPatch)
+MyController.send(:include, OpenProject::Backlogs::Patches::MyControllerPatch)

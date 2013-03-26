@@ -1,2 +1,0 @@
-module Backlogs::Patches
-end

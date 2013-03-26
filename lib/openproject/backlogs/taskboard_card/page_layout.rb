@@ -6,14 +6,16 @@ require 'uri/common'
 
 require 'prawn'
 
-module TaskboardCard
+require_dependency 'openproject/backlogs/taskboard_card/measurement'
+
+module OpenProject::Backlogs::TaskboardCard
   class PageLayout
     unloadable
 
-    include TaskboardCard::Measurement
+    include Measurement
 
-    LABELS_FILE_NAME = File.join(File.dirname(__FILE__), '..', '..', 'config', 'labels.yml')
-    MALFORMED_LABELS_FILE_NAME = File.join(File.dirname(__FILE__), '..', '..', 'config', 'labels-malformed.yml')
+    LABELS_FILE_NAME = File.join(File.dirname(__FILE__), '../../../..', 'config', 'labels.yml')
+    MALFORMED_LABELS_FILE_NAME = File.join(File.dirname(__FILE__), '../../../..', 'config', 'labels-malformed.yml')
 
     if File.exist? LABELS_FILE_NAME
       LABELS = YAML::load_file(LABELS_FILE_NAME)
@@ -30,7 +32,7 @@ module TaskboardCard
       end
 
       def selected_label
-        LABELS[Setting.plugin_backlogs["card_spec"]]
+        LABELS[Setting.plugin_openproject_backlogs["card_spec"]]
       end
 
       def measurement(x)
@@ -135,13 +137,13 @@ module TaskboardCard
           YAML.dump(malformed_labels, dump)
         end
 
-        if Setting.plugin_backlogs["card_spec"] && ! PageLayout.selected_label && LABELS.size != 0
+        if Setting.plugin_openproject_backlogs["card_spec"] && ! PageLayout.selected_label && LABELS.size != 0
           # current label non-existant
           label = LABELS.keys[0]
-          puts "Non-existant label stock '#{Setting.plugin_backlogs["card_spec"]}' selected, replacing with random '#{label}'"
-          s = Setting.plugin_backlogs
+          puts "Non-existant label stock '#{Setting.plugin_openproject_backlogs["card_spec"]}' selected, replacing with random '#{label}'"
+          s = Setting.plugin_openproject_backlogs
           s["card_spec"] = label
-          Setting.plugin_backlogs = s
+          Setting.plugin_openproject_backlogs = s
         end
       end
 

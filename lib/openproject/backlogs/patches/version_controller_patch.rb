@@ -1,6 +1,6 @@
 require_dependency 'versions_controller'
 
-module Backlogs::Patches::VersionsControllerPatch
+module OpenProject::Backlogs::Patches::VersionsControllerPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -9,8 +9,8 @@ module Backlogs::Patches::VersionsControllerPatch
       helper :version_settings
 
       # find project explicitly on update
-      filter_chain.detect { |m| m.method == :find_project_from_association }.options[:except] << "update"
-      filter_chain.detect { |m| m.method == :find_project }.options[:only] << "update"
+      _process_action_callbacks.detect { |m| m.filter == :find_project_from_association }.options[:except] << :update
+      _process_action_callbacks.detect { |m| m.filter == :find_project }.options[:only] << :update
 
       before_filter :add_project_to_version_settings_attributes, :only => [:update, :create]
 
@@ -27,4 +27,4 @@ module Backlogs::Patches::VersionsControllerPatch
   end
 end
 
-VersionsController.send(:include, Backlogs::Patches::VersionsControllerPatch)
+VersionsController.send(:include, OpenProject::Backlogs::Patches::VersionsControllerPatch)

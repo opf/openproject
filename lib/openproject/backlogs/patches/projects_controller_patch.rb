@@ -1,6 +1,6 @@
 require_dependency 'projects_controller'
 
-module Backlogs::Patches::ProjectsControllerPatch
+module OpenProject::Backlogs::Patches::ProjectsControllerPatch
   def self.included(base)
     base.class_eval do
       include InstanceMethods
@@ -45,4 +45,4 @@ module Backlogs::Patches::ProjectsControllerPatch
   end
 end
 
-ProjectsController.send(:include, Backlogs::Patches::ProjectsControllerPatch)
+ProjectsController.send(:include, OpenProject::Backlogs::Patches::ProjectsControllerPatch)

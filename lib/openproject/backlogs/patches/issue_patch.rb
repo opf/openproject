@@ -1,6 +1,7 @@
 require_dependency 'issue'
+require_dependency 'openproject/backlogs/list'
 
-module Backlogs::Patches::IssuePatch
+module OpenProject::Backlogs::Patches::IssuePatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -31,7 +32,7 @@ module Backlogs::Patches::IssuePatch
         validate_children(record, attr, value) #not using validates_associated because the errors are not displayed nicely then
       end
 
-      include Backlogs::List
+#      include OpenProject::Backlogs::List
     end
   end
 
@@ -230,4 +231,4 @@ module Backlogs::Patches::IssuePatch
   end
 end
 
-Issue.send(:include, Backlogs::Patches::IssuePatch)
+Issue.send(:include, OpenProject::Backlogs::Patches::IssuePatch)

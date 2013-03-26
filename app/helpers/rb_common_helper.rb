@@ -208,8 +208,8 @@ module RbCommonHelper
 
   def backlogs_trackers
     @backlogs_trackers ||= begin
-      backlogs_ids = Setting.plugin_backlogs["story_trackers"]
-      backlogs_ids << Setting.plugin_backlogs["task_tracker"]
+      backlogs_ids = Setting.plugin_openproject_backlogs["story_trackers"]
+      backlogs_ids << Setting.plugin_openproject_backlogs["task_tracker"]
 
       Tracker.find(:all,
                    :conditions => { :id => backlogs_ids },
@@ -228,7 +228,7 @@ module RbCommonHelper
 
   def story_trackers
     @story_trackers ||= begin
-      backlogs_tracker_ids = Setting.plugin_backlogs["story_trackers"].map(&:to_i)
+      backlogs_tracker_ids = Setting.plugin_openproject_backlogs["story_trackers"].map(&:to_i)
 
       backlogs_trackers.select{ |t| backlogs_tracker_ids.include?(t.id) }
     end

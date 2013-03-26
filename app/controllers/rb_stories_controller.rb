@@ -1,9 +1,9 @@
 class RbStoriesController < RbApplicationController
   unloadable
-  include TaskboardCard
+  include OpenProject::Backlogs::TaskboardCard
 
   def index
-    cards_document = TaskboardCard::Document.new(current_language)
+    cards_document = OpenProject::Backlogs::TaskboardCard::Document.new(current_language)
 
     @sprint.stories(@project).each { |story| cards_document.add_story(story) }
 

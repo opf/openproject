@@ -1,4 +1,4 @@
-module Backlogs::Hooks
+module OpenProject::Backlogs::Hooks
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
 

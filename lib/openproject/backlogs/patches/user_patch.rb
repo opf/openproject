@@ -1,6 +1,6 @@
 require_dependency 'user'
 
-module Backlogs::Patches::UserPatch
+module OpenProject::Backlogs::Patches::UserPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -50,4 +50,4 @@ module Backlogs::Patches::UserPatch
   end
 end
 
-User.send(:include, Backlogs::Patches::UserPatch)
+User.send(:include, OpenProject::Backlogs::Patches::UserPatch)

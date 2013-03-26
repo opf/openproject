@@ -1,4 +1,4 @@
-module Backlogs::List
+module OpenProject::Backlogs::List
   unloadable
 
   def self.included(base)

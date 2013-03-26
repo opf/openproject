@@ -1,6 +1,6 @@
 require 'prawn/measurement_extensions'
 
-module TaskboardCard
+module OpenProject::Backlogs::TaskboardCard
   module Measurement
     def self.included(base)
       base.extend(ClassMethods)

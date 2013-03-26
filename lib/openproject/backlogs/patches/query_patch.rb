@@ -1,6 +1,6 @@
 require_dependency 'query'
 
-module Backlogs::Patches::QueryPatch
+module OpenProject::Backlogs::Patches::QueryPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -93,4 +93,4 @@ module Backlogs::Patches::QueryPatch
   end
 end
 
-Query.send(:include, Backlogs::Patches::QueryPatch)
+Query.send(:include, OpenProject::Backlogs::Patches::QueryPatch)

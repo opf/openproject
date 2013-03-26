@@ -1,6 +1,6 @@
 require_dependency 'version'
 
-module Backlogs::Patches::VersionPatch
+module OpenProject::Backlogs::Patches::VersionPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -39,4 +39,4 @@ module Backlogs::Patches::VersionPatch
   end
 end
 
-Version.send(:include, Backlogs::Patches::VersionPatch)
+Version.send(:include, OpenProject::Backlogs::Patches::VersionPatch)
