@@ -555,8 +555,9 @@ jQuery(document).ready(function($) {
   $('#project-search-container .select2-select').each(function (ix, select) {
     var PROJECT_JUMP_BOX_PAGE_SIZE = 50;
 
-    var select2, menu;
+    var select2, menu, that;
 
+    that = this;
     select = $(select);
     menu   = select.parents('li.drop-down');
 
@@ -576,9 +577,13 @@ jQuery(document).ready(function($) {
         }).
       on('close', function () {
           if (menu.is('.open')) {
-            menu.slideAndFocus();
+            menu.slideAndFocus(that.menuToggleTrigger);
           }
-        });
+        }).
+      on('open', function () {
+        // prevent menu from being masked by select2s click filter
+        $("#select2-drop-mask").remove();
+      });
 
     select2 = select.data('select2');
 
@@ -632,71 +637,79 @@ jQuery(document).ready(function($) {
     });
   });
 
-	// file table thumbnails
-	$("table a.has-thumb").hover(function() {
-		$(this).removeAttr("title").toggleClass("active");
+  // file table thumbnails
+  $("table a.has-thumb").hover(function() {
+    $(this).removeAttr("title").toggleClass("active");
 
-		// grab the image dimensions to position it properly
-		var thumbImg = $(this).find("img");
-		var thumbImgLeft = -(thumbImg.outerWidth() );
-		var thumbImgTop = -(thumbImg.height() / 2 );
-		thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
+    // grab the image dimensions to position it properly
+    var thumbImg = $(this).find("img");
+    var thumbImgLeft = -(thumbImg.outerWidth() );
+    var thumbImgTop = -(thumbImg.height() / 2 );
+    thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
 
-	}, function() {
-		$(this).toggleClass("active").find("img").hide();
-	});
+  }, function() {
+    $(this).toggleClass("active").find("img").hide();
+  });
 
-	// show/hide the files table
-	$(".attachments h4").click(function() {
-	  $(this).toggleClass("closed").next().slideToggle(animationRate);
-	});
+  // show/hide the files table
+  $(".attachments h4").click(function() {
+    $(this).toggleClass("closed").next().slideToggle(animationRate);
+  });
 
-	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
-	$.fn.slideAndFocus = function(callback) {
-          this.toggleClass("open").find("> ul").mySlide(function() {
-              // actually a simple focus should be enough.
-              // The rest is only there to work around a rendering bug in webkit (as of Oct 2011) TODO: fix
-              if ($("input#username-pulldown").is(":visible")) {
-                var input = $("input#username-pulldown");
-              } else {
-                var input = $(this).find(".select2-search input");
-              }
-              if (input.is(":visible")) {
-                input.blur();
-                setTimeout(function() {
-                    input.focus();
-                  }, 100);
-              }
-              else {
-                $(this).find("li > a:first").focus();
-              }
-              if (typeof callback === 'function') {
-                callback.apply(this);
-              }
-            });
-            return false;
-          };
-	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
-	$.fn.mySlide = function(callback) {
-		if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
-			// no animations, just toggle
-			this.toggle();
-                        if (typeof callback === 'function') {
-                          callback.apply(this);
-                        }
-			// this forces IE to redraw the menu area, un-bollocksing things
-			$("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
-		} else {
-			this.slideToggle(animationRate,callback);
-		}
+  $.fn.menuToggleTrigger = function () {
+    if ($(this).is(":visible")) {
+      $(this).parents('li.drop-down').trigger("opened");
+    } else {
+      $(this).parents('li.drop-down').trigger("closed");
+    }
+  };
 
-		return this;
-	};
+  // custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
+  $.fn.slideAndFocus = function(callback) {
+    this.toggleClass("open").find("> ul").mySlide(function() {
+      // actually a simple focus should be enough.
+      // The rest is only there to work around a rendering bug in webkit (as of Oct 2011) TODO: fix
+      if ($("input#username-pulldown").is(":visible")) {
+        var input = $("input#username-pulldown");
+      } else {
+        var input = $(this).find(".select2-search input");
+      }
+      if (input.is(":visible")) {
+        input.blur();
+        setTimeout(function() {
+          input.focus();
+        }, 100);
+      }
+      else {
+        $(this).find("li > a:first").focus();
+      }
+      if (typeof callback === 'function') {
+        callback.apply(this);
+      }
+    });
+    return false;
+  };
+  // custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
+  $.fn.mySlide = function(callback) {
+    if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
+      // no animations, just toggle
+      this.toggle();
+      if (typeof callback === 'function') {
+        callback.apply(this);
+      }
+      // this forces IE to redraw the menu area, un-bollocksing things
+      $("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
+    } else {
+      this.slideToggle(animationRate,callback);
+    }
+
+    return this;
+  };
 
   $.fn.onClickDropDown = function(){
     var that = this;
     $('html').click(function() {
-      that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+      that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide(that.menuToggleTrigger);
       that.removeClass("hover");
     });
 
@@ -730,25 +743,12 @@ jQuery(document).ready(function($) {
 
   $.fn.toggleSubmenu = function(menu){
     if (menu.find(" > li.drop-down.open").get(0) !== $(this).get(0)){
-      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide(function () {
-        if ($(this).is(":visible")) {
-          $(this).parents('li.drop-down').trigger("opened");
-        } else {
-          $(this).parents('li.drop-down').trigger("closed");
-        }
-      });
+      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide(this.menuToggleTrigger);
     }
 
-    $(this).slideAndFocus(function () {
-      if ($(this).is(":visible")) {
-        $(this).parents('li.drop-down').trigger("opened");
-      } else {
-        $(this).parents('li.drop-down').trigger("closed");
-      }
-    });
+    $(this).slideAndFocus(this.menuToggleTrigger);
     menu.toggleClass("hover");
   };
-
 
 
 	// open and close the main-menu sub-menus
@@ -778,13 +778,7 @@ jQuery(document).ready(function($) {
 			$(".title-bar-extras:hidden").slideDown(animationRate);
 		}
 
-		$(this).parent().find("ul").slideToggle(animationRate, function () {
-      if ($(this).is(":visible")) {
-        $(this).parents("li.drop-down").trigger("opened");
-      } else {
-        $(this).parents("li.drop-down").trigger("closed");
-      }
-    });
+		$(this).parent().find("ul").slideToggle(animationRate, this.menuToggleTrigger);
 
 		return false;
 	});
