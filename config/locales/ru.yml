@@ -513,7 +513,6 @@ ru:
   label_filter_plural: Фильтры
   label_float: С плавающей точкой
   label_follows: следующая
-  label_gantt: Диаграмма Ганта
   label_general: Общее
   label_generate_key: Сгенерировать ключ
   label_greater_or_equal: ">="
@@ -837,10 +836,8 @@ ru:
   permission_rename_wiki_pages: Переименование wiki-страниц
   permission_save_queries: Сохранение запросов
   permission_select_project_modules: Выбор модулей проекта
-  permission_view_calendar: Просмотр календаря
   permission_view_documents: Просмотр документов
   permission_view_files: Просмотр файлов
-  permission_view_gantt: Просмотр диаграммы Ганта
   permission_view_issue_watchers: Просмотр списка наблюдателей
   permission_view_messages: Просмотр сообщение
   permission_view_wiki_edits: Просмотр истории Wiki
@@ -854,7 +851,6 @@ ru:
   project_module_repository: Хранилище
   project_module_time_tracking: Учет времени
   project_module_wiki: Wiki
-  project_module_gantt: Диаграмма Ганта
   project_module_calendar: Календарь
 
   setting_activity_days_default: Количество дней, отображаемых в Действиях
@@ -1053,8 +1049,6 @@ ru:
   setting_commit_logtime_activity_id: Действие для учета времени
   text_time_logged_by_changeset: Учтено в редакции %{value}.
   setting_commit_logtime_enabled: Включить учет времени
-  notice_gantt_chart_truncated: Диаграмма будет усечена, поскольку превышено максимальное кол-во элементов, которые могут отображаться (%{max})
-  setting_gantt_items_limit: Максимальное кол-во элементов отображаемых на диаграмме Ганта
   text_powered_by: Powered by %{link}
   label_filesystem_path: Каталог
   label_git_path: Путь к каталогу .git

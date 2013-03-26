@@ -184,7 +184,6 @@ fr:
   notice_unable_delete_version: Impossible de supprimer cette version.
   notice_issue_done_ratios_updated: L'avancement des demandes a été mis à jour.
   notice_api_access_key_reseted: Votre clé d'accès API a été réinitialisée.
-  notice_gantt_chart_truncated: "Le diagramme a été tronqué car il excède le nombre maximal d'éléments pouvant être affichés (%{max})"
 
   error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage : %{value}"
   error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
@@ -366,7 +365,6 @@ fr:
   setting_cache_formatted_text: Mettre en cache le texte formaté
   setting_commit_logtime_enabled: Permettre la saisie de temps
   setting_commit_logtime_activity_id: Activité pour le temps saisi
-  setting_gantt_items_limit: Nombre maximum d'éléments affichés sur le gantt
   setting_issue_startdate_is_adddate: Utiliser "aujourd'hui" comme début pour les nouvelles demandes
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
@@ -389,8 +387,6 @@ fr:
   permission_delete_issues: Supprimer les demandes
   permission_manage_public_queries: Gérer les requêtes publiques
   permission_save_queries: Sauvegarder les requêtes
-  permission_view_gantt: Voir le gantt
-  permission_view_calendar: Voir le calendrier
   permission_view_issue_watchers: Voir la liste des observateurs
   permission_add_issue_watchers: Ajouter des observateurs
   permission_delete_issue_watchers: Supprimer des observateurs
@@ -586,7 +582,6 @@ fr:
   label_per_page: Par page
   label_calendar: Calendrier
   label_months_from: mois depuis
-  label_gantt: Gantt
   label_internal: Interne
   label_last_changes: "%{count} derniers changements"
   label_change_view_all: Voir tous les changements
@@ -959,7 +954,6 @@ fr:
   notice_unable_delete_time_entry: Impossible de supprimer le temps passé.
   label_overall_spent_time: Temps passé global
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendrier
   button_edit_associated_wikipage: "Modifier la page wiki associée: %{page_title}"
   text_are_you_sure_with_children: Supprimer la demande et toutes ses sous-demandes ?

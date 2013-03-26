@@ -407,8 +407,6 @@ de:
   permission_delete_issues: Tickets löschen
   permission_manage_public_queries: Öffentliche Filter verwalten
   permission_save_queries: Filter speichern
-  permission_view_gantt: Gantt-Diagramm ansehen
-  permission_view_calendar: Kalender ansehen
   permission_view_issue_watchers: Liste der Beobachter ansehen
   permission_add_issue_watchers: Beobachter hinzufügen
   permission_delete_issue_watchers: Beobachter löschen
@@ -453,7 +451,6 @@ de:
   project_module_repository: Projektarchiv
   project_module_boards: Foren
   project_module_calendar: Kalender
-  project_module_gantt: Gantt
 
   label_user: Benutzer
   label_user_plural: Benutzer
@@ -617,7 +614,6 @@ de:
   label_calendar: Kalender
   label_calendar_show: Kalender anzeigen
   label_months_from: Monate ab
-  label_gantt: Gantt-Diagramm
   label_internal: Intern
   label_last_changes: "%{count} letzte Änderungen"
   label_change_view_all: Alle Änderungen anzeigen
@@ -1025,8 +1021,6 @@ de:
   setting_commit_logtime_activity_id: Aktivität für die Zeiterfassung
   text_time_logged_by_changeset: Angewendet in Changeset %{value}.
   setting_commit_logtime_enabled: Aktiviere Zeitlogging
-  notice_gantt_chart_truncated: Die Grafik ist unvollständig, da das Maximum der anzeigbaren Aufgaben überschritten wurde (%{max})
-  setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden.
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

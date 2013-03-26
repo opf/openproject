@@ -444,7 +444,6 @@ sk:
   label_per_page: Na stránku
   label_calendar: Kalendár
   label_months_from: mesiacov od
-  label_gantt: Ganttov graf
   label_internal: Interný
   label_last_changes: "posledných %{count} zmien"
   label_change_view_all: Zobraziť všetky zmeny
@@ -757,7 +756,6 @@ sk:
   permission_manage_documents: Správa dokumentov
   permission_edit_wiki_pages: Úprava Wiki strániek
   permission_add_issue_watchers: Pridanie pozorovateľov
-  permission_view_gantt: Zobrazenie Ganttovho diagramu
   permission_move_issues: Presun úloh
   permission_manage_issue_relations: Správa vzťahov medzi úlohami
   permission_delete_wiki_pages: Mazanie Wiki strániek
@@ -769,7 +767,6 @@ sk:
   permission_manage_files: Správa súborov
   permission_edit_issue_notes: Úprava poznámok úlohy
   permission_manage_news: Správa noviniek
-  permission_view_calendar: Zobrazenie kalendára
   permission_manage_members: Správa členov
   permission_edit_messages: Úprava správ
   permission_delete_issues: Mazanie správ
@@ -915,7 +912,6 @@ sk:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
@@ -935,8 +931,6 @@ sk:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

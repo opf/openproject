@@ -135,7 +135,6 @@ OpenProject::Application.routes.draw do
     get 'wiki' => "wiki#show"
 
     namespace :issues do
-      resources :gantt, :controller => 'gantts', :only => [:index]
       resources :calendar, :controller => 'calendars', :only => [:index]
     end
 
@@ -202,7 +201,6 @@ OpenProject::Application.routes.draw do
   # this is to support global actions on issues and
   # for backwards compatibility
   namespace :issues do
-    resources :gantt, :controller => 'gantts', :only => [:index]
     resources :calendar, :controller => 'calendars', :only => [:index]
 
     # have a global autocompleter for issues

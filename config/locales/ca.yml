@@ -378,8 +378,6 @@ ca:
   permission_delete_issues: Suprimeix els assumptes
   permission_manage_public_queries: Gestiona les consultes públiques
   permission_save_queries: Desa les consultes
-  permission_view_gantt: Visualitza la gràfica de Gantt
-  permission_view_calendar: Visualitza el calendari
   permission_view_issue_watchers: Visualitza la llista de vigilàncies
   permission_add_issue_watchers: Afegeix vigilàncies
   permission_delete_issue_watchers: Suprimeix els vigilants
@@ -424,7 +422,6 @@ ca:
   project_module_repository: Dipòsit
   project_module_boards: Taulers
   project_module_calendar: Calendari
-  project_module_gantt: Gantt
 
   label_user: Usuari
   label_user_plural: Usuaris
@@ -573,7 +570,6 @@ ca:
   label_per_page: Per pàgina
   label_calendar: Calendari
   label_months_from: mesos des de
-  label_gantt: Gantt
   label_internal: Intern
   label_last_changes: "últims %{count} canvis"
   label_change_view_all: Visualitza tots els canvis
@@ -943,8 +939,6 @@ ca:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

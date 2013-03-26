@@ -174,7 +174,6 @@ cs:
   notice_unable_delete_version: Nemohu odstanit verzi
   notice_unable_delete_time_entry: Nelze smazat čas ze záznamu.
   notice_issue_done_ratios_updated: Koeficienty dokončení úkolu byly aktualizovány.
-  notice_gantt_chart_truncated: Graf byl oříznut, počet položek přesáhl limit pro zobrazení (%{max})
 
   error_can_t_load_default_data: "Výchozí konfigurace nebyla nahrána: %{value}"
   error_scm_not_found: "Položka a/nebo revize neexistují v repozitáři."
@@ -367,7 +366,6 @@ cs:
   setting_default_notification_option: Výchozí nastavení oznámení
   setting_commit_logtime_enabled: Povolit zapisování času
   setting_commit_logtime_activity_id: Aktivita pro zapsaný čas
-  setting_gantt_items_limit: Maximální počet položek zobrazený na ganttově grafu
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
 
@@ -390,8 +388,6 @@ cs:
   permission_delete_issues: Mazání úkolů
   permission_manage_public_queries: Správa veřejných dotazů
   permission_save_queries: Ukládání dotazů
-  permission_view_gantt: Zobrazené Ganttova diagramu
-  permission_view_calendar: Prohlížení kalendáře
   permission_view_issue_watchers: Zobrazení seznamu sledujícíh uživatelů
   permission_add_issue_watchers: Přidání sledujících uživatelů
   permission_delete_issue_watchers: Smazat přihlížející
@@ -436,7 +432,6 @@ cs:
   project_module_repository: Repozitář
   project_module_boards: Diskuse
   project_module_calendar: Kalendář
-  project_module_gantt: Gantt
 
   label_user: Uživatel
   label_user_plural: Uživatelé
@@ -585,7 +580,6 @@ cs:
   label_per_page: Na stránku
   label_calendar: Kalendář
   label_months_from: měsíců od
-  label_gantt: Ganttův graf
   label_internal: Interní
   label_last_changes: "posledních %{count} změn"
   label_change_view_all: Zobrazit všechny změny
@@ -987,7 +981,6 @@ cs:
   permission_manage_documents: Správa dokumentů
   permission_edit_wiki_pages: Upravování stránek Wiki
   permission_add_issue_watchers: Přidání sledujících uživatelů
-  permission_view_gantt: Zobrazené Ganttova diagramu
   permission_move_issues: Přesouvání úkolů
   permission_manage_issue_relations: Spravování vztahů mezi úkoly
   permission_delete_wiki_pages: Mazání stránek na Wiki
@@ -1144,7 +1137,6 @@ cs:
   notice_unable_delete_time_entry: Nelze smazat čas ze záznamu.
   label_overall_spent_time: Celkově strávený čas
   field_time_entries: Zaznamenaný čas
-  project_module_gantt: Gantt
   project_module_calendar: Kalendář
   button_edit_associated_wikipage: "Upravit přiřazenou Wiki stránku: %{page_title}"
   text_are_you_sure_with_children: Smazat úkol včetně všech podúkolů?
@@ -1164,8 +1156,6 @@ cs:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

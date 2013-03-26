@@ -409,8 +409,6 @@ lt:
   permission_delete_issues: Pašalinti darbus
   permission_manage_public_queries: Valdyti viešas užklausas
   permission_save_queries: Išsaugoti užklausas
-  permission_view_gantt: Matyti Gantt grafiką
-  permission_view_calendar: Matyti kalendorių
   permission_view_issue_watchers: Matyti stebėtojų sąrašą
   permission_add_issue_watchers: Pridėti stebėtojus
   permission_delete_issue_watchers: Pašalinti stebėtojus
@@ -597,7 +595,6 @@ lt:
   label_per_page: Per puslapį
   label_calendar: Kalendorius
   label_months_from: mėnesiai nuo
-  label_gantt: Gantt
   label_internal: Vidinis
   label_last_changes: "paskutiniai %{count}, pokyčiai"
   label_change_view_all: Peržiūrėti visus pakeitimus
@@ -980,7 +977,6 @@ lt:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
@@ -1000,8 +996,6 @@ lt:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

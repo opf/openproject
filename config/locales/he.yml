@@ -382,8 +382,6 @@ he:
   permission_delete_issues: מחיקת נושאים
   permission_manage_public_queries: ניהול שאילתות פומביות
   permission_save_queries: שמירת שאילתות
-  permission_view_gantt: צפיה בגאנט
-  permission_view_calendar: צפיה בלוח השנה
   permission_view_issue_watchers: צפיה ברשימת צופים
   permission_add_issue_watchers: הוספת צופים
   permission_delete_issue_watchers: הסרת צופים
@@ -428,7 +426,6 @@ he:
   project_module_repository: מאגר
   project_module_boards: לוחות
   project_module_calendar: לוח שנה
-  project_module_gantt: גאנט
 
   label_user: משתמש
   label_user_plural: משתמשים
@@ -577,7 +574,6 @@ he:
   label_per_page: לכל דף
   label_calendar: לוח שנה
   label_months_from: חודשים מ
-  label_gantt: גאנט
   label_internal: פנימי
   label_last_changes: "%{count} שינוים אחרונים"
   label_change_view_all: צפה בכל השינוים
@@ -945,8 +941,6 @@ he:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

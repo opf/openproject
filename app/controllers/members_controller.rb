@@ -25,7 +25,7 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       if members.present? && members.all? {|m| m.valid? }
-        flash.now[:notice] = l(:notice_successful_create)
+        flash.now.notice = l(:notice_successful_create)
 
         format.html { redirect_to settings_project_path(@project, :tab => 'members') }
 

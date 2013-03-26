@@ -797,11 +797,13 @@ module ApplicationHelper
         elsif sep == '##'
           oid = identifier.to_i
           if issue = Issue.visible.find_by_id(oid, :include => :status)
+            extend IssuesHelper # TODO: remove me from here
             link = issue_quick_info(issue)
           end
         elsif sep == '###'
           oid = identifier.to_i
           if issue = Issue.visible.find_by_id(oid, :include => :status)
+            extend IssuesHelper # TODO: remove me from here
             link = issue_quick_info_with_description(issue)
           end
         elsif sep == ':'

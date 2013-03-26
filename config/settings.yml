@@ -52,9 +52,6 @@ protocol:
 feeds_limit:
   format: int
   default: 15
-gantt_items_limit:
-  format: int
-  default: ''
 # Maximum size of files that can be displayed
 # inline through the file viewer (in KB)
 file_max_size_displayed:
@@ -145,7 +142,6 @@ default_projects_modules:
   - repository
   - boards
   - calendar
-  - gantt
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
   format: int

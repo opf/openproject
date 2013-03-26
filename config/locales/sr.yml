@@ -374,8 +374,6 @@ sr:
   permission_delete_issues: Брисање проблема
   permission_manage_public_queries: Управљање јавним упитима
   permission_save_queries: Снимање упита
-  permission_view_gantt: Прегледање Гантовог дијаграма
-  permission_view_calendar: Прегледање календара
   permission_view_issue_watchers: Прегледање списка посматрача
   permission_add_issue_watchers: Додавање посматрача
   permission_delete_issue_watchers: Брисање посматрача
@@ -567,7 +565,6 @@ sr:
   label_per_page: По страни
   label_calendar: Календар
   label_months_from: месеци од
-  label_gantt: Гантов дијаграм
   label_internal: Унутрашњи
   label_last_changes: "последњих %{count} промена"
   label_change_view_all: Прикажи све промене
@@ -920,7 +917,6 @@ sr:
   enumeration_system_activity: Системска активност
 
   field_time_entries: Време евиденције
-  project_module_gantt: Гантов дијаграм
   project_module_calendar: Календар
 
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
@@ -941,8 +937,6 @@ sr:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

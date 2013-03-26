@@ -394,8 +394,6 @@ ko:
   permission_delete_issues: 일감 삭제
   permission_manage_public_queries: 공용 검색양식 관리
   permission_save_queries: 검색양식 저장
-  permission_view_gantt: Gantt차트 보기
-  permission_view_calendar: 달력 보기
   permission_view_issue_watchers: 일감지킴이 보기
   permission_add_issue_watchers: 일감지킴이 추가
   permission_log_time: 작업시간 기록
@@ -580,7 +578,6 @@ ko:
   label_per_page: 페이지별
   label_calendar: 달력
   label_months_from: 개월 동안 | 다음부터
-  label_gantt: Gantt 챠트
   label_internal: 내부
   label_last_changes: "최근 %{count}개의 변경사항"
   label_change_view_all: 모든 변경 내역 보기
@@ -972,7 +969,6 @@ ko:
   notice_unable_delete_time_entry: 시간 기록 항목을 삭제할 수 없습니다.
   label_overall_spent_time: 총 소요시간
   field_time_entries: 기록된 시간
-  project_module_gantt: Gantt 챠트
   project_module_calendar: 달력
   button_edit_associated_wikipage: "연관된 위키 페이지 %{page_title} 수정"
   text_are_you_sure_with_children: 일감과 모든 하위 일감들을 삭제하시겠습니까?
@@ -992,8 +988,6 @@ ko:
   setting_commit_logtime_activity_id: 기록된 시간에 적용할 작업분류
   text_time_logged_by_changeset: "변경묶음 %{value}에서 적용되었습니다."
   setting_commit_logtime_enabled: 커밋 시점에 작업 시간 기록 활성화
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

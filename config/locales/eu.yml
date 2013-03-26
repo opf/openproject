@@ -367,8 +367,6 @@ eu:
   permission_delete_issues: Zereginak ezabatu
   permission_manage_public_queries: Galdera publikoak kudeatu
   permission_save_queries: Galderak gorde
-  permission_view_gantt: Gantt grafikoa ikusi
-  permission_view_calendar: Egutegia ikusi
   permission_view_issue_watchers: Behatzaileen zerrenda ikusi
   permission_add_issue_watchers: Behatzaileak gehitu
   permission_delete_issue_watchers: Behatzaileak ezabatu
@@ -558,7 +556,6 @@ eu:
   label_per_page: Orriko
   label_calendar: Egutegia
   label_months_from: hilabete noiztik
-  label_gantt: Gantt
   label_internal: Barnekoa
   label_last_changes: "azken %{count} aldaketak"
   label_change_view_all: Aldaketa guztiak ikusi
@@ -924,7 +921,6 @@ eu:
   notice_unable_delete_time_entry: "Ezin da hautatutako denbora erregistroa ezabatu."
   label_overall_spent_time: Igarotako denbora guztira
   field_time_entries: "Denbora erregistratu"
-  project_module_gantt: Gantt
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory
@@ -947,8 +943,6 @@ eu:
   setting_commit_logtime_activity_id: "Erregistratutako denboraren jarduera"
   text_time_logged_by_changeset: "%{value} aldaketan egindakoa."
   setting_commit_logtime_enabled: "Erregistrutako denbora gaitu"
-  notice_gantt_chart_truncated: Grafikoa moztu da bistara daitekeen elementuen kopuru maximoa gainditu delako (%{max})
-  setting_gantt_items_limit: "Gantt grafikoan bistara daitekeen elementu kopuru maximoa"
   label_my_queries: My custom queries
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   text_journal_changed_no_detail: "%{label} updated"

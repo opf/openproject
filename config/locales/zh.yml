@@ -378,8 +378,6 @@ zh:
   permission_delete_issues: 删除问题
   permission_manage_public_queries: 管理公开的查询
   permission_save_queries: 保存查询
-  permission_view_gantt: 查看甘特图
-  permission_view_calendar: 查看日历
   permission_view_issue_watchers: 查看跟踪者列表
   permission_add_issue_watchers: 添加跟踪者
   permission_delete_issue_watchers: 删除跟踪者
@@ -568,7 +566,6 @@ zh:
   label_per_page: 每页
   label_calendar: 日历
   label_months_from: 个月以来
-  label_gantt: 甘特图
   label_internal: 内部
   label_last_changes: "最近的 %{count} 次变更"
   label_change_view_all: 查看所有变更
@@ -934,7 +931,6 @@ zh:
   notice_unable_delete_time_entry: 无法删除工时记录。
   label_overall_spent_time: 所有项目耗用工时
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
@@ -954,8 +950,6 @@ zh:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

@@ -472,7 +472,6 @@
   label_per_page: Oldalanként
   label_calendar: Naptár
   label_months_from: hónap, kezdve
-  label_gantt: Gantt
   label_internal: Belső
   label_last_changes: "utolsó %{count} változás"
   label_change_view_all: Minden változás megtekintése
@@ -783,7 +782,6 @@
   permission_manage_documents: Dokumentumok kezelése
   permission_edit_wiki_pages: Wiki oldalak szerkesztése
   permission_add_issue_watchers: Megfigyelők felvétele
-  permission_view_gantt: Gannt diagramm megtekintése
   permission_move_issues: Feladatok mozgatása
   permission_manage_issue_relations: Feladat kapcsolatok kezelése
   permission_delete_wiki_pages: Wiki oldalak törlése
@@ -795,7 +793,6 @@
   permission_manage_files: Fájlok kezelése
   permission_edit_issue_notes: Jegyzetek szerkesztése
   permission_manage_news: Hírek kezelése
-  permission_view_calendar: Naptár megtekintése
   permission_manage_members: Tagok kezelése
   permission_edit_messages: Üzenetek szerkesztése
   permission_delete_issues: Feladatok törlése
@@ -940,7 +937,6 @@
   notice_unable_delete_time_entry: Az időrögzítés nem törölhető
   label_overall_spent_time: Összes rászánt idő
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Naptár
   button_edit_associated_wikipage: "Hozzárendelt Wiki oldal szerkesztése: %{page_title}"
   text_are_you_sure_with_children: A feladat törlése az összes alfeladattal együtt?
@@ -960,8 +956,6 @@
   setting_commit_logtime_activity_id: A rögzített időhöz tartozó tevékenység
   text_time_logged_by_changeset: Alkalmazva a %{value} changeset-ben.
   setting_commit_logtime_enabled: Időrögzítés engedélyezése
-  notice_gantt_chart_truncated: A diagram le lett vágva, mert elérte a maximálisan megjeleníthető elemek számát (%{max})
-  setting_gantt_items_limit: A gantt diagrammon megjeleníthető maximális elemek száma
   text_powered_by: Powered by %{link}
   label_filesystem_path: Gyökér könyvtár
   label_git_path: A .git könyvtár elérési útja

@@ -1,7 +1,8 @@
 Feature: Paginated issue index list
 
   Background:
-    Given there is 1 project with the following:
+    Given there are no issues
+    And there is 1 project with the following:
       | identifier | project1 |
       | name       | project1 |
     And there is 1 user with the following:

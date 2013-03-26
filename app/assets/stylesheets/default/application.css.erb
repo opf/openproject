@@ -949,57 +949,6 @@ a.close-icon:hover {
   background-image:url(<%= asset_path 'close_hover.png' %>);
 }
 
-/***** Gantt chart *****/
-.gantt_hdr {
-  position:absolute;
-  top:0;
-  height:16px;
-  border-top: 1px solid #c0c0c0;
-  border-bottom: 1px solid #c0c0c0;
-  border-right: 1px solid #c0c0c0;
-  text-align: center;
-  overflow: hidden;
-}
-
-.gantt_subjects { font-size: 0.8em; }
-.gantt_subjects div { line-height:16px;height:16px;overflow:hidden;white-space:nowrap;text-overflow: ellipsis; }
-
-.task {
-  position: absolute;
-  height:8px;
-  font-size:0.8em;
-  color:#888;
-  padding:0;
-  margin:0;
-  line-height:16px;
-  white-space:nowrap;
-}
-
-.task.label {width:100%;}
-.task.label.project, .task.label.version { font-weight: bold; }
-
-.task_late { background:#f66 url(<%= asset_path 'task_late.png' %>); border: 1px solid #f66; }
-.task_done { background:#00c600 url(<%= asset_path 'task_done.png' %>); border: 1px solid #00c600; }
-.task_todo { background:#aaa url(<%= asset_path 'task_todo.png' %>); border: 1px solid #aaa; }
-
-.task_todo.parent { background: #888; border: 1px solid #888; height: 3px;}
-.task_late.parent, .task_done.parent { height: 3px;}
-.task.parent.marker.starting  { position: absolute; background: url(<%= asset_path 'task_parent_end.png' %>) no-repeat 0 0; width: 8px; height: 16px; margin-left: -4px; left: 0px; top: -1px;}
-.task.parent.marker.ending { position: absolute; background: url(<%= asset_path 'task_parent_end.png' %>) no-repeat 0 0; width: 8px; height: 16px; margin-left: -4px; right: 0px; top: -1px;}
-
-.version.task_late { background:#f66 url(<%= asset_path 'milestone_late.png' %>); border: 1px solid #f66; height: 2px; margin-top: 3px;}
-.version.task_done { background:#00c600 url(<%= asset_path 'milestone_done.png' %>); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
-.version.task_todo { background:#fff url(<%= asset_path 'milestone_todo.png' %>); border: 1px solid #fff; height: 2px; margin-top: 3px;}
-.version.marker { background-image:url(<%= asset_path 'version_marker.png' %>); background-repeat: no-repeat; border: 0; margin-left: -4px; margin-top: 1px; }
-
-.project.task_late { background:#f66 url(<%= asset_path 'milestone_late.png' %>); border: 1px solid #f66; height: 2px; margin-top: 3px;}
-.project.task_done { background:#00c600 url(<%= asset_path 'milestone_done.png' %>); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
-.project.task_todo { background:#fff url(<%= asset_path 'milestone_todo.png' %>); border: 1px solid #fff; height: 2px; margin-top: 3px;}
-.project.marker { background-image:url(<%= asset_path 'project_marker.png' %>); background-repeat: no-repeat; border: 0; margin-left: -4px; margin-top: 1px; }
-
-.version-behind-schedule a, .issue-behind-schedule a {color: #f66914;}
-.version-overdue a, .issue-overdue a, .project-overdue a {color: #f00;}
-
 /***** Icons *****/
 .icon {
   background-position: 0% 50%;

@@ -1,3 +1,7 @@
+Given /^there are no issues$/ do
+  Issue.destroy_all
+end
+
 Given /^the issue "(.*?)" is watched by:$/ do |issue_subject, watchers|
   issue = Issue.find(:last, :conditions => {:subject => issue_subject}, :order => :created_on)
   watchers.raw.flatten.each {|w| issue.add_watcher User.find_by_login(w)}

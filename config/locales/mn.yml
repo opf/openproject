@@ -364,8 +364,6 @@ mn:
   permission_delete_issues: Асуудлуудыг устгах
   permission_manage_public_queries: Олон нийтийн асуултууд
   permission_save_queries: Асуултуудыг хадгалах
-  permission_view_gantt: Гант диаграмыг үзэх
-  permission_view_calendar: Календарь үзэх
   permission_view_issue_watchers: Ажиглагчдын жагсаалтыг харах
   permission_add_issue_watchers: Ажиглагчид нэмэх
   permission_delete_issue_watchers: Ажиглагчдыг устгах
@@ -556,7 +554,6 @@ mn:
   label_per_page: Нэг хуудсанд
   label_calendar: Календарь
   label_months_from: Саруудыг хаанаас
-  label_gantt: Гант диаграм
   label_internal: Дотоод
   label_last_changes: "сүүлийн %{count} өөрчлөлтүүд"
   label_change_view_all: Бүх өөрчлөлтүүдийг харах
@@ -921,7 +918,6 @@ mn:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
@@ -941,8 +937,6 @@ mn:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

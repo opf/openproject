@@ -465,7 +465,6 @@ pt:
   label_per_page: Por página
   label_calendar: Calendário
   label_months_from: meses de
-  label_gantt: Gantt
   label_internal: Interno
   label_last_changes: "últimas %{count} alterações"
   label_change_view_all: Ver todas as alterações
@@ -767,7 +766,6 @@ pt:
   permission_manage_documents: Gerir documentos
   permission_edit_wiki_pages: Editar páginas de wiki
   permission_add_issue_watchers: Adicionar observadores
-  permission_view_gantt: ver diagrama de Gantt
   permission_move_issues: Mover tarefas
   permission_manage_issue_relations: Gerir relações de tarefas
   permission_delete_wiki_pages: Apagar páginas de wiki
@@ -779,7 +777,6 @@ pt:
   permission_manage_files: Gerir ficheiros
   permission_edit_issue_notes: Editar notas de tarefas
   permission_manage_news: Gerir notícias
-  permission_view_calendar: Ver calendário
   permission_manage_members: Gerir membros
   permission_edit_messages: Editar mensagens
   permission_delete_issues: Apagar tarefas
@@ -924,7 +921,6 @@ pt:
   notice_unable_delete_time_entry: Não foi possível apagar a entrada de tempo registado.
   label_overall_spent_time: Total de tempo registado
   field_time_entries: Tempo registado
-  project_module_gantt: Gantt
   project_module_calendar: Calendário
   button_edit_associated_wikipage: "Editar página Wiki associada: %{page_title}"
   text_are_you_sure_with_children: Apagar tarefa e todas as sub-tarefas?
@@ -944,8 +940,6 @@ pt:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

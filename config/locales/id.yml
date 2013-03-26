@@ -353,8 +353,6 @@ id:
   permission_delete_issues: Hapus masalah
   permission_manage_public_queries: Atur query publik
   permission_save_queries: Simpan query
-  permission_view_gantt: Tampilkan gantt chart
-  permission_view_calendar: Tampilkan kalender
   permission_view_issue_watchers: Tampilkan daftar pemantau
   permission_add_issue_watchers: Tambahkan pemantau
   permission_delete_issue_watchers: Hapus pemantau
@@ -542,7 +540,6 @@ id:
   label_per_page: Per halaman
   label_calendar: Kalender
   label_months_from: dari bulan
-  label_gantt: Gantt
   label_internal: Internal
   label_last_changes: "%{count} perubahan terakhir"
   label_change_view_all: Tampilkan semua perubahan
@@ -928,7 +925,6 @@ id:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
@@ -948,8 +944,6 @@ id:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

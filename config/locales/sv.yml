@@ -211,7 +211,6 @@ sv:
   notice_unable_delete_version: Denna version var inte möjlig att ta bort.
   notice_unable_delete_time_entry: Tidloggning kunde inte tas bort.
   notice_issue_done_ratios_updated: "% klart uppdaterade."
-  notice_gantt_chart_truncated: "Schemat förminskades eftersom det överskrider det maximala antalet aktiviteter som får visas (%{max})"
 
   error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: %{value}"
   error_scm_not_found: "Inlägg och/eller revision finns inte i detta versionsarkiv."
@@ -406,7 +405,6 @@ sv:
   setting_default_notification_option: Standard notifieringsalternativ
   setting_commit_logtime_enabled: Aktivera tidloggning
   setting_commit_logtime_activity_id: Aktivitet för loggad tid
-  setting_gantt_items_limit: Maximalt antal aktiviteter som visas i gantt-schemat
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
 
@@ -429,8 +427,6 @@ sv:
   permission_delete_issues: Ta bort ärenden
   permission_manage_public_queries: Hantera publika frågor
   permission_save_queries: Spara frågor
-  permission_view_gantt: Visa Gantt-schema
-  permission_view_calendar: Visa kalender
   permission_view_issue_watchers: Visa bevakarlista
   permission_add_issue_watchers: Lägga till bevakare
   permission_delete_issue_watchers: Ta bort bevakare
@@ -475,7 +471,6 @@ sv:
   project_module_repository: Versionsarkiv
   project_module_boards: Forum
   project_module_calendar: Kalender
-  project_module_gantt: Gantt
 
   label_user: Användare
   label_user_plural: Användare
@@ -624,7 +619,6 @@ sv:
   label_per_page: Per sida
   label_calendar: Kalender
   label_months_from: månader från
-  label_gantt: Gantt
   label_internal: Intern
   label_last_changes: "senaste %{count} ändringar"
   label_change_view_all: Visa alla ändringar

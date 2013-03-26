@@ -52,7 +52,7 @@ end
 Then /^I should see the principal "(.+)" as a member with the roles:$/ do |principal_name, roles_table|
   principal = InstanceFinder.find(Principal, principal_name)
 
-  steps %Q{ Then I should see "#{principal.name}" within "#tab-content-members .member" }
+  steps %Q{ Then I should see "#{principal.name}" within "#tab-content-members .members" }
 
   found_roles = page.find(:xpath, "//tr[contains(concat(' ',normalize-space(@class),' '),' member ')][contains(.,'#{principal.name}')]").find(:css, "td.roles span").text.split(",").map(&:strip)
 
@@ -62,7 +62,7 @@ end
 Then /^I should not see the principal "(.+)" as a member$/ do |principal_name|
   principal = InstanceFinder.find(Principal, principal_name)
 
-  steps %Q{ Then I should not see "#{principal.name}" within "#tab-content-members .member" }
+  steps %Q{ Then I should not see "#{principal.name}" within "#tab-content-members .members" }
 end
 
 When /^I filter for the user "(.+?)"$/ do |login|
@@ -71,6 +71,8 @@ end
 
 def member_for_login principal_name
   principal = InstanceFinder.find(Principal, principal_name)
+
+  sleep 1
 
   #the assumption here is, that there is only one project
   principal.members.first

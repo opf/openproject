@@ -457,7 +457,6 @@ da:
   label_per_page: Pr. side
   label_calendar: Kalender
   label_months_from: måneder frem
-  label_gantt: Gantt
   label_internal: Intern
   label_last_changes: "sidste %{count} ændringer"
   label_change_view_all: Vis alle ændringer
@@ -767,7 +766,6 @@ da:
   permission_comment_news: Kommentér nyheder
   text_enumeration_category_reassign_to: 'FLyt dem til denne værdi:'
   permission_select_project_modules: Vælg projektmoduler
-  permission_view_gantt: Se Gantt diagram
   permission_delete_messages: Slet beskeder
   permission_move_issues: Flyt sager
   permission_edit_wiki_pages: Redigér wiki sider
@@ -790,7 +788,6 @@ da:
   text_plugin_assets_writable: Der er skriverettigheder til plugin assets folderen
   label_display: Vis
   label_and_its_subprojects: "%{value} og dets underprojekter"
-  permission_view_calendar: Se kalender
   button_create_and_continue: Opret og fortsæt
   setting_gravatar_enabled: Anvend Gravatar bruger ikoner
   label_updated_time_by: "Opdateret af %{author} for %{age} siden"
@@ -936,7 +933,6 @@ da:
   notice_unable_delete_time_entry: Kan ikke slette tidsregistrering.
   label_overall_spent_time: Overordnet forbrug af tid
   field_time_entries: Log tid
-  project_module_gantt: Gantt
   project_module_calendar: Kalender
   button_edit_associated_wikipage: "Redigér tilknyttet Wiki side: %{page_title}"
   text_are_you_sure_with_children: Slet sag og alle undersager?
@@ -956,8 +952,6 @@ da:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory

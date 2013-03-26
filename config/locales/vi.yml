@@ -510,7 +510,6 @@ vi:
   label_per_page: Mỗi trang
   label_calendar: Lịch
   label_months_from: tháng từ
-  label_gantt: Biểu đồ sự kiện
   label_internal: Nội bộ
   label_last_changes: "%{count} thay đổi cuối"
   label_change_view_all: Xem mọi thay đổi
@@ -811,8 +810,6 @@ vi:
   permission_delete_issues: Xóa vấn đề
   permission_manage_public_queries: Quản lý truy cấn công cộng
   permission_save_queries: Lưu truy vấn
-  permission_view_gantt: Xem biểu đồ sự kiện
-  permission_view_calendar: Xem lịch
   permission_view_issue_watchers: Xem các người theo dõi
   permission_add_issue_watchers: Thêm người theo dõi
   permission_log_time: Lưu thời gian đã tốn
@@ -971,7 +968,6 @@ vi:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
-  project_module_gantt: Gantt
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
@@ -991,8 +987,6 @@ vi:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_filesystem_path: Root directory
   label_git_path: Path to .git directory
