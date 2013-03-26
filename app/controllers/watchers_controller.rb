@@ -17,7 +17,7 @@ class WatchersController < ApplicationController
   before_filter :find_watched_by_id, :only => [:destroy]
   before_filter :find_project
   before_filter :require_login, :check_project_privacy, :only => [:watch, :unwatch]
-  before_filter :authorize, :only => [:new, :destroy]
+  before_filter :authorize, :only => [:new, :create, :destroy]
 
   def watch
     if @watched.respond_to?(:visible?) && !@watched.visible?(User.current)
@@ -35,6 +35,7 @@ class WatchersController < ApplicationController
     @watcher = Watcher.new(params[:watcher])
     @watcher.watchable = @watched
     @watcher.save if request.post?
+
     respond_to do |format|
       format.html { redirect_to :back }
       format.js do
@@ -46,6 +47,9 @@ class WatchersController < ApplicationController
   rescue ::ActionController::RedirectBackError
     render :text => 'Watcher added.', :layout => true
   end
+
+  # TODO: remove this and replace with proper action
+  alias :create :new
 
   def destroy
     @watched.set_watcher(@watch.user, false)

@@ -41,7 +41,7 @@ OpenProject::Application.routes.draw do
   scope ':object_type/:object_id', :constraints => lambda { |req|
                                                      OpenProject::Acts::Watchable::Routes.watched?(req.path_parameters[:object_type]) &&
                                                      /\d+/.match(req.path_parameters[:object_id]) } do
-    resources :watchers, :only => [:new]
+    resources :watchers, :only => [:new, :create]
 
     match '/watch' => 'watchers#watch', :via => :post
     match '/unwatch' => 'watchers#unwatch', :via => :delete
