@@ -38,9 +38,7 @@ OpenProject::Application.routes.draw do
   # generic route for adding/removing watchers.
   # Models declared as acts_as_watchable will be automatically added to
   # OpenProject::Acts::Watchable::Routes.watched
-  scope ':object_type/:object_id', :constraints => lambda { |req|
-                                                     OpenProject::Acts::Watchable::Routes.watched?(req.path_parameters[:object_type]) &&
-                                                     /\d+/.match(req.path_parameters[:object_id]) } do
+  scope ':object_type/:object_id', :constraints => OpenProject::Acts::Watchable::Routes do
     resources :watchers, :only => [:new, :create]
 
     match '/watch' => 'watchers#watch', :via => :post

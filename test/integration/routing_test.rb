@@ -263,28 +263,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
     end
   end
 
-  context "watches" do
-    ['issues', 'messages', 'boards', 'wikis', 'wiki_pages', 'news'].each do |type|
-      should route(:post, "/#{type}/1/watch").to( :controller => 'watchers',
-                                                 :action => 'watch',
-                                                 :object_type => type,
-                                                 :object_id => '1' )
-
-      should route(:delete, "/#{type}/1/unwatch").to( :controller => 'watchers',
-                                                     :action => 'unwatch',
-                                                     :object_type => type,
-                                                     :object_id => '1' )
-
-      should route(:get, "/#{type}/1/watchers/new").to( :controller => 'watchers',
-                                                       :action => 'new',
-                                                       :object_type => type,
-                                                       :object_id => '1' )
-    end
-
-    should route(:delete, "/watchers/1").to( :controller => 'watchers',
-                                             :action => 'destroy',
-                                             :id => '1' )
-  end
 
   context "enumerations" do
     context "within admin" do
