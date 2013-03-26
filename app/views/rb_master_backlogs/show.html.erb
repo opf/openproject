@@ -2,24 +2,23 @@
 
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag 'app/master_backlog',
-                             'app/backlog',
-                             'app/burndown',
-                             'app/model',
-                             'app/editable_inplace',
-                             'app/sprint',
-                             'app/issue',
-                             'app/story',
-                             :plugin => 'chiliproject_backlogs' %>
+  <%= javascript_include_tag 'backlogs/app/master_backlog',
+                             'backlogs/app/backlog',
+                             'backlogs/app/burndown',
+                             'backlogs/app/model',
+                             'backlogs/app/editable_inplace',
+                             'backlogs/app/sprint',
+                             'backlogs/app/issue',
+                             'backlogs/app/story' %>
 
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                      :action => 'show',
                                      :project_id => @project,
                                      :format => :js) %>
 
-  <%= stylesheet_link_tag 'jqplot.css', :plugin => 'chiliproject_backlogs' %>
-  <%= stylesheet_link_tag 'master_backlog.css', :media => 'print,screen', :plugin => 'chiliproject_backlogs' %>
-  <%= stylesheet_link_tag 'master_backlog_print.css', :media => 'print', :plugin => 'chiliproject_backlogs' %>
+  <%= stylesheet_link_tag 'backlogs/jqplot.css' %>
+  <%= stylesheet_link_tag 'backlogs/master_backlog.css', :media => 'print,screen' %>
+  <%= stylesheet_link_tag 'backlogs/master_backlog_print.css', :media => 'print' %>
 <% end %>
 
 <div class='contextual'></div>
