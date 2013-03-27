@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe WatchersController do
-  shared_examples_for "watched model" do
+  shared_examples_for "watched model routes" do
     before do
       OpenProject::Acts::Watchable::Routes.should_receive(:matches?).and_return(true)
     end
@@ -37,11 +37,11 @@ describe WatchersController do
     end
   end
 
-  ['issues', 'news', 'news', 'boards', 'messages', 'wikis', 'wiki_pages'].each do |type|
+  ['issues', 'news', 'boards', 'messages', 'wikis', 'wiki_pages'].each do |type|
     describe "routing #{type} watches" do
       let(:type) { type }
 
-      it_should_behave_like "watched model"
+      it_should_behave_like "watched model routes"
     end
   end
 
