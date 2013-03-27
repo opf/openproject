@@ -10,7 +10,7 @@ module OpenProject::Backlogs
         :partial => 'shared/settings' }
     end
 
-    #config.paths["lib"] = "lib/openproject"
+    config.autoload_paths += Dir["#{config.root}/lib/"]
 
     initializer 'backlogs.precompile_assets' do
       Rails.application.config.assets.precompile += %w( backlogs.css backlogs.js )
@@ -33,23 +33,22 @@ module OpenProject::Backlogs
         Issue.safe_attributes "story_points", "remaining_hours", "position"
       end
 
-      require_dependency 'openproject/backlogs/issue_view'
-      require_dependency 'openproject/backlogs/issue_form'
+      require_dependency 'open_project/backlogs/issue_view'
+      require_dependency 'open_project/backlogs/issue_form'
 
-      require_dependency 'openproject/backlogs/hooks'
+      require_dependency 'open_project/backlogs/hooks'
 
-      require_dependency 'openproject/backlogs/taskboard_card'
-      require_dependency 'openproject/backlogs/patches'
-      require_dependency 'openproject/backlogs/patches/issue_patch'
-      require_dependency 'openproject/backlogs/patches/issue_status_patch'
-      require_dependency 'openproject/backlogs/patches/my_controller_patch'
-      require_dependency 'openproject/backlogs/patches/project_patch'
-      require_dependency 'openproject/backlogs/patches/projects_controller_patch'
-      require_dependency 'openproject/backlogs/patches/projects_helper_patch'
-      require_dependency 'openproject/backlogs/patches/query_patch'
-      require_dependency 'openproject/backlogs/patches/user_patch'
-      require_dependency 'openproject/backlogs/patches/version_controller_patch'
-      require_dependency 'openproject/backlogs/patches/version_patch'
+      require_dependency 'open_project/backlogs/patches'
+      require_dependency 'open_project/backlogs/patches/issue_patch'
+      require_dependency 'open_project/backlogs/patches/issue_status_patch'
+      require_dependency 'open_project/backlogs/patches/my_controller_patch'
+      require_dependency 'open_project/backlogs/patches/project_patch'
+      require_dependency 'open_project/backlogs/patches/projects_controller_patch'
+      require_dependency 'open_project/backlogs/patches/projects_helper_patch'
+      require_dependency 'open_project/backlogs/patches/query_patch'
+      require_dependency 'open_project/backlogs/patches/user_patch'
+      require_dependency 'open_project/backlogs/patches/version_controller_patch'
+      require_dependency 'open_project/backlogs/patches/version_patch'
 
     end
 

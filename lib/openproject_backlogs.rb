@@ -1,1 +1,1 @@
-require "openproject/backlogs"
+require "open_project/backlogs"

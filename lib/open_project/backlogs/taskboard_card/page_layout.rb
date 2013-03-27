@@ -6,8 +6,6 @@ require 'uri/common'
 
 require 'prawn'
 
-require_dependency 'openproject/backlogs/taskboard_card/measurement'
-
 module OpenProject::Backlogs::TaskboardCard
   class PageLayout
     unloadable

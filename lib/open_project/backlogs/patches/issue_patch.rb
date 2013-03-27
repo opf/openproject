@@ -1,5 +1,4 @@
 require_dependency 'issue'
-require_dependency 'openproject/backlogs/list'
 
 module OpenProject::Backlogs::Patches::IssuePatch
   def self.included(base)
