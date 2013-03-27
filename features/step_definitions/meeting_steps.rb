@@ -52,3 +52,7 @@ When /the agenda of the meeting "(.+)" changes meanwhile/ do |meeting|
   m.agenda.text = "oder oder?"
   m.agenda.save!
 end
+
+Then /^the minutes should contain the following text:$/ do |table|
+  step %Q{I should see "#{table.raw.first.first}" within "#meeting_minutes-text"}
+end

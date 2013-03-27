@@ -4,7 +4,8 @@ class MeetingAgendasController < MeetingContentsController
   menu_item :meetings
 
   def close
-    @content.lock!
+    @meeting.close_agenda_and_copy_to_minutes!
+
     redirect_back_or_default :controller => 'meetings', :action => 'show', :id => @meeting
   end
 

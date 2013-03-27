@@ -11,6 +11,11 @@ describe Meeting do
   let(:user1) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:meeting) { FactoryGirl.create(:meeting, :project => project, :author => user1) }
+  let(:agenda) do
+    meeting.create_agenda :text => "Meeting Agenda text"
+    meeting.agenda(true) # avoiding stale object errors
+  end
+
   let(:role) { FactoryGirl.create(:role, :permissions => [:view_meetings]) }
 
   before(:all) do
@@ -99,5 +104,21 @@ describe Meeting do
     end
 
     it { meeting.watchers.collect(&:user).should =~ [user1, user2] }
+  end
+
+  describe :close_agenda_and_copy_to_minutes do
+    before do
+      agenda #creating it
+
+      meeting.close_agenda_and_copy_to_minutes!
+    end
+
+    it "should create a meeting with the agenda's text" do
+      meeting.minutes.text.should == meeting.agenda.text
+    end
+
+    it "should close the agenda" do
+      meeting.agenda.locked?.should be_true
+    end
   end
 end
