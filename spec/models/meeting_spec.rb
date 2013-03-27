@@ -100,4 +100,37 @@ describe Meeting do
 
     it { meeting.watchers.collect(&:user).should =~ [user1, user2] }
   end
+
+  describe "Copied meetings" do
+    before do
+      project.add_member user1, [role]
+      project.add_member user2, [role]
+
+      project.save!
+
+      meeting.start_time = DateTime.new(2013,3,27,15,35)
+      meeting.participants.build(:user => user2)
+      meeting.save!
+    end
+
+    it "should have the same start_time as the original meeting" do
+      copy = meeting.copy({})
+      copy.start_time == meeting.start_time
+    end
+
+    it "should delete the copied meeting author if no author is given as parameter" do
+      copy = meeting.copy({})
+      copy.author.nil?
+    end
+
+    it "should set the author the provided author if one is given" do
+      copy = meeting.copy :author => user2
+      copy.author == user2
+    end
+
+    it "should clear participant ids and attended flags for all copied attendees" do
+      copy = meeting.copy({})
+      copy.participants.all { |p| p.id.nil? && !p.attended}
+    end
+  end
 end
