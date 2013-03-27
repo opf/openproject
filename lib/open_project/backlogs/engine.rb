@@ -54,6 +54,9 @@ module OpenProject::Backlogs
 
     config.after_initialize do
 
+      # We are overwriting versions/_form.html.erb so our view must be found first
+      VersionsController.view_paths.unshift("#{config.root}/app/views")
+
       Redmine::Plugin.register :openproject_backlogs do
         name 'OpenProject Backlogs'
         author 'relaxdiego, friflaj, Finn GmbH'
