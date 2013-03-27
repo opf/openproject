@@ -18,6 +18,10 @@ module OpenProject::Backlogs
 
     config.to_prepare do
 
+      # TODO: avoid this dirty hack necessary to prevent settings method getting lost after reloading
+      Setting.create_setting("plugin_openproject_backlogs", {'default' => Engine.settings[:default], 'serialized' => true})
+      Setting.create_setting_accessors("plugin_openproject_backlogs")
+
       require_dependency 'issue'
       require_dependency 'task'
 
@@ -47,9 +51,6 @@ module OpenProject::Backlogs
       require_dependency 'openproject/backlogs/patches/version_controller_patch'
       require_dependency 'openproject/backlogs/patches/version_patch'
 
-      # TODO: avoid this dirty hack necessary to prevent settings method getting lost after reloading
-      Setting.create_setting("plugin_openproject_backlogs", {'default' => Engine.settings[:default], 'serialized' => true})
-      Setting.create_setting_accessors("plugin_openproject_backlogs")
     end
 
     config.after_initialize do
