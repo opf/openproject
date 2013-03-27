@@ -103,7 +103,10 @@ class MeetingsController < ApplicationController
   def convert_params
     start_date, start_time_4i, start_time_5i = params[:meeting].delete(:start_date), params[:meeting].delete(:"start_time(4i)").to_i, params[:meeting].delete(:"start_time(5i)").to_i
     begin
-      params[:meeting][:start_time] = Date.parse(start_date) + start_time_4i.hours + start_time_5i.minutes
+      zone = (User.current.time_zone.nil?) ? Time.now.localtime : User.current.time_zone
+      time = Date.parse(start_date) + start_time_4i.hours + start_time_5i.minutes
+      time = time - zone.utc_offset
+      params[:meeting][:start_time] = time
     rescue ArgumentError
       params[:meeting][:start_time] = nil
     end
