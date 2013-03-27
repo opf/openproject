@@ -39,17 +39,21 @@ Feature: Close and open meeting agendas
         And I should see "Close the agenda to begin the Minutes" within ".meeting_minutes"
 
   @javascript
-  Scenario: Navigate to a meeting page with permission to close and close the meeting agenda
+  Scenario: Navigate to a meeting page with permission to close and close the meeting agenda copies the text and shows the meeting
       Given the role "user" may have the following rights:
             | view_meetings         |
             | close_meeting_agendas |
         And the meeting "Bobs Meeting" has 1 agenda with:
             | text | "blubber" |
        When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
-        And I click on "Close"
-        And I click on "Agenda"
+        And I go to the show page of the meeting called "Bobs Meeting"
+        And I follow "Close"
+
+       Then I should be on the show page of the meeting called "Bobs Meeting"
+        And the minutes should contain the following text:
+            | blubber |
+
+       When I follow "Agenda"
        Then I should not see "Close" within ".meeting_agenda"
         And I should see "Open" within ".meeting_agenda"
 

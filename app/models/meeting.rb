@@ -112,6 +112,11 @@ class Meeting < ActiveRecord::Base
     copy
   end
 
+  def close_agenda_and_copy_to_minutes!
+    self.agenda.lock!
+    self.create_minutes(:text => agenda.text)
+  end
+
   protected
 
   def set_initial_values
