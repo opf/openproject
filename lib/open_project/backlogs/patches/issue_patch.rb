@@ -31,7 +31,7 @@ module OpenProject::Backlogs::Patches::IssuePatch
         validate_children(record, attr, value) #not using validates_associated because the errors are not displayed nicely then
       end
 
-#      include OpenProject::Backlogs::List
+      include OpenProject::Backlogs::List
     end
   end
 
