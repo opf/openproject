@@ -1,14 +1,13 @@
 <%= render :partial => 'shared/backlogs_header' %>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag  'app/show_main',
-                              'app/taskboard',
-                              'app/model',
-                              'app/issue',
-                              'app/task',
-                              'app/impediment',
-                              'app/burndown',
-                              :plugin => 'chiliproject_backlogs' %>
+  <%= javascript_include_tag  'backlogs/app/show_main',
+                              'backlogs/app/taskboard',
+                              'backlogs/app/model',
+                              'backlogs/app/issue',
+                              'backlogs/app/task',
+                              'backlogs/app/impediment',
+                              'backlogs/app/burndown' %>
 
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                      :action => 'show',
@@ -16,9 +15,9 @@
                                      :sprint_id => @sprint,
                                      :format => :js) %>
 
-  <%= stylesheet_link_tag 'jqplot.css', :plugin => 'chiliproject_backlogs' %>
-  <%= stylesheet_link_tag 'taskboard.css', :media => 'print,screen', :plugin => 'chiliproject_backlogs' %>
-  <%= stylesheet_link_tag 'taskboard_print.css', :media => 'print', :plugin => 'chiliproject_backlogs' %>
+  <%= stylesheet_link_tag 'backlogs/jqplot.css' %>
+  <%= stylesheet_link_tag 'backlogs/taskboard.css', :media => 'print,screen' %>
+  <%= stylesheet_link_tag 'backlogs/taskboard_print.css', :media => 'print' %>
 <% end %>
 
 <div class="contextual">
