@@ -47,7 +47,13 @@ class MeetingsController < ApplicationController
       @meeting.agenda.author = User.current
     end
     if @meeting.save
-      flash[:notice] = l(:notice_successful_create)
+      text = l(:notice_successful_create)
+      link = l(:notice_timezone_missing)
+      if User.current.pref.time_zone == ""
+        text += " #{view_context.link_to(link, {:controller => :my, :action => :account},:class => "link_to_profile")}"
+      end
+      flash[:notice] = text.html_safe
+
       redirect_to :action => 'show', :id => @meeting
     else
       render :action => 'new', :project_id => @project
