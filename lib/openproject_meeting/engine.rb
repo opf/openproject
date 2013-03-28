@@ -4,8 +4,12 @@ module MeetingsPlugin
   class Engine < ::Rails::Engine
     isolate_namespace MeetingsPlugin
 
-    initializer 'openproject_meeting.precompile_assets' do
-      Rails.application.config.assets.precompile += ["openproject_meeting.css"]
+    initializer 'openproject_meeting.precompile_assets' do |app|
+      app.config.assets.precompile += ["openproject_meeting.css"]
+    end
+
+    initializer 'openproject_meeting.register_path_to_rspec' do |app|
+      app.config.plugins_to_test_paths << self.root
     end
 
     config.before_configuration do |app|
