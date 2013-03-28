@@ -10,7 +10,7 @@ module VersionSettingsHelper
     ret += hidden_field_tag name_for_setting_attributes("id"), setting.id if setting.id
     ret += "</p>"
 
-    ret
+    ret.html_safe
   end
 
   private
