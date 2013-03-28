@@ -115,22 +115,22 @@ describe Meeting do
 
     it "should have the same start_time as the original meeting" do
       copy = meeting.copy({})
-      copy.start_time == meeting.start_time
+      copy.start_time.should == meeting.start_time
     end
 
     it "should delete the copied meeting author if no author is given as parameter" do
       copy = meeting.copy({})
-      copy.author.nil?
+      copy.author.should be_nil
     end
 
-    it "should set the author the provided author if one is given" do
+    it "should set the author to the provided author if one is given" do
       copy = meeting.copy :author => user2
-      copy.author == user2
+      copy.author.should == user2
     end
 
     it "should clear participant ids and attended flags for all copied attendees" do
       copy = meeting.copy({})
-      copy.participants.all { |p| p.id.nil? && !p.attended}
+      copy.participants.all?{ |p| p.id.nil? && !p.attended }.should be_true
     end
   end
 end
