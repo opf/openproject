@@ -16,13 +16,13 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
-  before_filter :find_group, :except => [:index, :new, :create]
+  before_filter :find_group, :only => [:destroy, :autocomplete_for_user]
 
 
   # GET /groups
   # GET /groups.xml
   def index
-    @groups = Group.order('lastname ASC').includes(:users).all
+    @groups = Group.order('lastname ASC').all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -52,7 +52,7 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
-    @group = Group.find(params[:id], :include => :projects)
+    @group = Group.find(params[:id], :include => [ :users, :memberships ])
   end
 
   # POST /groups
@@ -75,6 +75,8 @@ class GroupsController < ApplicationController
   # PUT /groups/1
   # PUT /groups/1.xml
   def update
+    @group = Group.find(params[:id], :include => :users)
+
     respond_to do |format|
       if @group.update_attributes(params[:group])
         flash[:notice] = l(:notice_successful_update)
@@ -99,7 +101,8 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @users = User.find_all_by_id(params[:user_ids])
+    @group = Group.find(params[:id], :include => :users )
+    @users = User.find_all_by_id(params[:user_ids], :include => :memberships)
     @group.users << @users
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
@@ -108,7 +111,8 @@ class GroupsController < ApplicationController
   end
 
   def remove_user
-    @group.users.delete(User.find(params[:user_id]))
+    @group = Group.find(params[:id], :include => :users)
+    @group.users.delete(User.find(params[:user_id], :include => :memberships))
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
       format.js { render :action => 'change_members' }
@@ -121,6 +125,7 @@ class GroupsController < ApplicationController
   end
 
   def create_memberships
+    @group = Group.find(params[:id])
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
     @membership.save
 
@@ -134,6 +139,7 @@ class GroupsController < ApplicationController
 
   def destroy_membership
     Member.find(params[:membership_id]).destroy
+    @group = Group.find(params[:id])
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
       format.js { render :action => 'destroy_memberships' }
