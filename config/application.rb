@@ -72,6 +72,9 @@ module OpenProject
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # initialize variable for register plugin tests
+    config.plugins_to_test_paths = []
   end
 
   def self.preload_circular_dependencies
