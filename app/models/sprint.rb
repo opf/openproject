@@ -122,7 +122,7 @@ class Sprint < Version
   private
   def start_and_end_dates
     if self.effective_date && self.start_date && self.start_date >= self.effective_date
-      errors.add_to_base(:cannot_end_before_it_starts)
+      errors.add(:base, :cannot_end_before_it_starts)
     end
   end
 end
