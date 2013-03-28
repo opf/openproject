@@ -1,7 +1,7 @@
-require 'spec_helper'
+require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "MeetingMinutes" do
-  before(:all) do
+  before do
     @min = FactoryGirl.build :meeting_minutes
   end
 

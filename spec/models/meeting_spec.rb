@@ -1,4 +1,4 @@
-require 'spec_helper'
+require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Meeting do
   it {should belong_to :project}
@@ -18,7 +18,7 @@ describe Meeting do
 
   let(:role) { FactoryGirl.create(:role, :permissions => [:view_meetings]) }
 
-  before(:all) do
+  before do
     @m = FactoryGirl.build :meeting, :title => "dingens"
   end
 
