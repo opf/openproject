@@ -11,7 +11,12 @@ module Capybara::Node::Finders
      elements[0]
    rescue Capybara::ElementNotFound => e
      tries += 1
-     tries < 3 ? retry : raise(e)
+     if tries < 10
+      sleep 1
+      retry
+     else
+      raise(e)
+     end
    end
  end
 
