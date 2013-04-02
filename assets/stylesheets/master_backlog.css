@@ -310,3 +310,7 @@
 #rb #backlogs_container .stories .story.editing .story_points.editor {
   float: right;
 }
+
+.controller-rb_master_backlogs.action-show #main, 
+.controller-rb_master_backlogs.action-show #content, 
+.controller-rb_master_backlogs.action-show #rb #backlogs_container .backlog .stories {overflow: visible;}
