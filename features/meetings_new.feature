@@ -39,13 +39,13 @@ Feature: Create new meetings
             # TODO Gibt's eine bessere Möglichkeit validation errors abzufragen?
        Then I should see "Title can't be blank"
 
-  Scenario: Create a new meeting with a title and a date, time, and duration with no user time zone set
+  Scenario Outline: Create a new meeting with a title and a date, time, and duration with no and different time zones set
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
        When I am already logged in as "alice"
        And the user "alice" has the following preferences
-              | time_zone | nil |
+              | time_zone | <t_zone> |
         And I go to the Meetings page for the project called "dingens"
         And I click on "New Meeting"
         And I fill in the following:
@@ -59,65 +59,12 @@ Feature: Create new meetings
         And I should see "FSR Sitzung 123"
         And I should see "03/28/2013 01:30 pm - 03:00 pm"
 
-  Scenario: Create a new meeting with a title and a date, time, and duration with UTC time zone set
-      Given the role "user" may have the following rights:
-            | view_meetings   |
-            | create_meetings |
-       When I am already logged in as "alice"
-       And the user "alice" has the following preferences
-              | time_zone | UTC |
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "New Meeting"
-        And I fill in the following:
-            | meeting_title         | FSR Sitzung 123 |
-            | meeting_start_date    | 2013-03-28      |
-            | meeting_duration      | 1.5             |
-        And I select "13" from "meeting_start_time_4i"
-        And I select "30" from "meeting_start_time_5i"
-        And I click on "Create"
-       Then I should see "Successful creation."
-        And I should see "FSR Sitzung 123"
-        And I should see "03/28/2013 01:30 pm - 03:00 pm"
-
-  Scenario: Create a new meeting with a title and a date, time, and duration with CET time zone set
-      Given the role "user" may have the following rights:
-            | view_meetings   |
-            | create_meetings |
-       When I am already logged in as "alice"
-       And the user "alice" has the following preferences
-              | time_zone | CET |
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "New Meeting"
-        And I fill in the following:
-            | meeting_title         | FSR Sitzung 123 |
-            | meeting_start_date    | 2013-03-28      |
-            | meeting_duration      | 1.5             |
-        And I select "13" from "meeting_start_time_4i"
-        And I select "30" from "meeting_start_time_5i"
-        And I click on "Create"
-       Then I should see "Successful creation."
-        And I should see "FSR Sitzung 123"
-        And I should see "03/28/2013 01:30 pm - 03:00 pm"
-
-  Scenario: Create a new meeting with a title and a date, time, and duration with CEST time zone set
-      Given the role "user" may have the following rights:
-            | view_meetings   |
-            | create_meetings |
-       When I am already logged in as "alice"
-       And the user "alice" has the following preferences
-              | time_zone | CEST |
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "New Meeting"
-        And I fill in the following:
-            | meeting_title         | FSR Sitzung 123 |
-            | meeting_start_date    | 2013-03-28      |
-            | meeting_duration      | 1.5             |
-        And I select "13" from "meeting_start_time_4i"
-        And I select "30" from "meeting_start_time_5i"
-        And I click on "Create"
-       Then I should see "Successful creation."
-        And I should see "FSR Sitzung 123"
-        And I should see "03/28/2013 01:30 pm - 03:00 pm"
+  Examples:
+    | t_zone |
+    | nil    |
+    | UTC    |
+    | CET    |
+    | CEST   |
 
   @javascript
   Scenario: The start-time should be selectable in 5-minute increments
