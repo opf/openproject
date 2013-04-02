@@ -48,8 +48,8 @@ class MeetingsController < ApplicationController
     end
     if @meeting.save
       text = l(:notice_successful_create)
-      link = l(:notice_timezone_missing)
-      if User.current.pref.time_zone == ""
+      if User.current.time_zone.nil?
+        link = l(:notice_timezone_missing, :zone => Time.now.zone)
         text += " #{view_context.link_to(link, {:controller => :my, :action => :account},:class => "link_to_profile")}"
       end
       flash[:notice] = text.html_safe
