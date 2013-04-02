@@ -26,14 +26,19 @@ RB.Backlog = (function ($) {
       // Make the list sortable
       this.getList().sortable({
         connectWith: '.stories',
-        placeholder: 'placeholder',
-        forcePlaceholderSize: true,
         dropOnEmpty: true,
         start:   this.dragStart,
         stop:    this.dragStop,
         update:  this.dragComplete,
         receive: this.dragChanged,
-        remove:  this.dragChanged
+        remove:  this.dragChanged,
+        containment: $('#backlogs_container'),
+        scroll: true,
+        helper: function(event, ui){
+          var $clone =  $(ui).clone();
+          $clone .css('position','absolute');
+          return $clone.get(0);
+        }
       });
 
       // Observe menu items
