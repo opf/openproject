@@ -264,7 +264,7 @@ end
 
 Given /^the tracker "(.+?)" is configured to track tasks$/ do |tracker_name|
   tracker = Tracker.find_by_name(tracker_name)
-  tracker = Factory.create(:tracker, :name => tracker_name) if tracker.blank?
+  tracker = FactoryGirl.create(:tracker, :name => tracker_name) if tracker.blank?
 
   Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("task_tracker" => tracker.id)
 end
@@ -275,7 +275,7 @@ Given /^the following trackers are configured to track stories:$/ do |table|
     name = line.first
     tracker = Tracker.find_by_name(name)
 
-    tracker = Factory.create(:tracker, :name => name) if tracker.blank?
+    tracker = FactoryGirl.create(:tracker, :name => name) if tracker.blank?
     story_trackers << tracker
   end
 
