@@ -36,7 +36,10 @@ module OpenProject::Backlogs
       require_dependency 'open_project/backlogs/issue_view'
       require_dependency 'open_project/backlogs/issue_form'
 
-      require_dependency 'open_project/backlogs/hooks'
+      # 'require_dependency' reloads the class with every request
+      # in development mode which
+      # would duplicate the registered view listeners
+      require 'open_project/backlogs/hooks'
 
       require_dependency 'open_project/backlogs/patches'
       require_dependency 'open_project/backlogs/patches/issue_patch'
