@@ -5,7 +5,7 @@ describe Backlog do
 
   before(:each) do
     @feature = FactoryGirl.create(:tracker_feature)
-    Setting.plugin_backlogs  = {"points_burn_direction" => "down",
+    Setting.plugin_openproject_backlogs  = {"points_burn_direction" => "down",
                                 "wiki_template"         => "",
                                 "card_spec"             => "Sattleford VM-5040",
                                 "story_trackers"        => [@feature.id.to_s],

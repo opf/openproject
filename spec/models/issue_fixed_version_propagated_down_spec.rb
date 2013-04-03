@@ -134,7 +134,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
   before(:each) do
     project.save!
 
-    Setting.plugin_backlogs  = {"points_burn_direction" => "down",
+    Setting.plugin_openproject_backlogs  = {"points_burn_direction" => "down",
                                 "wiki_template"         => "",
                                 "card_spec"             => "Sattleford VM-5040",
                                 "story_trackers"        => [tracker_feature.id],

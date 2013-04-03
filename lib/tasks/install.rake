@@ -27,7 +27,7 @@ namespace :redmine do
       end
 
       # Necessary because adding key-value pairs one by one doesn't seem to work
-      settings = Setting.plugin_backlogs
+      settings = Setting.plugin_openproject_backlogs
       settings["points_burn_direction"] ||= 'down'
       settings["wiki_template"]         ||= ''
 
@@ -122,7 +122,7 @@ namespace :redmine do
       end
 
       # Necessary because adding key-value pairs one by one doesn't seem to work
-      Setting.plugin_backlogs = settings
+      Setting.plugin_openproject_backlogs = settings
 
       puts "Story and task trackers are now set."
 
