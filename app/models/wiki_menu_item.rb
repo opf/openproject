@@ -19,10 +19,6 @@ class WikiMenuItem < ActiveRecord::Base
 
   validates_presence_of :name
 
-  def after_initialize
-    self.options ||= Hash.new
-  end
-
   def item_class
     title.dasherize
   end
