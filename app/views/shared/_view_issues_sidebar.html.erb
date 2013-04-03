@@ -20,7 +20,7 @@
                 })
         %><br/>
 
-        <% if TaskboardCard::PageLayout.available? %>
+        <% if OpenProject::Backlogs::TaskboardCard::PageLayout.available? %>
           <%= link_to(l(:label_sprint_cards), {
                   :controller => 'rb_stories',
                   :action => 'index',
