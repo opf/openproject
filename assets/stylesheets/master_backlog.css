@@ -314,3 +314,7 @@
 .controller-rb_master_backlogs.action-show #main, 
 .controller-rb_master_backlogs.action-show #content, 
 .controller-rb_master_backlogs.action-show #rb #backlogs_container .backlog .stories {overflow: visible;}
+
+.controller-rb_master_backlogs.action-show div.calendar {
+  z-index: 10000;
+}
