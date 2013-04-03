@@ -4,7 +4,7 @@ describe User do
   describe 'backlogs_preference' do
     describe 'task_color' do
       it 'reads from and writes to a user preference' do
-        u = Factory.create(:user)
+        u = FactoryGirl.create(:user)
         u.backlogs_preference(:task_color, '#FFCC33')
 
         u.backlogs_preference(:task_color).should == '#FFCC33'
@@ -13,7 +13,7 @@ describe User do
       end
 
       it 'computes a random color and persists it, when none is set' do
-        u = Factory.build(:user)
+        u = FactoryGirl.build(:user)
 
         generated_task_color = u.backlogs_preference(:task_color)
         generated_task_color.should =~ /^#[0-9A-F]{6}$/

@@ -14,78 +14,78 @@ def project_boundaries_spanning_issue_hierarchy_allowed?
 end
 
 describe Issue, 'parent-child relationships between backlogs stories and backlogs tasks are prohibited if they span project boundaries' do
-  let(:tracker_feature) { Factory.build(:tracker_feature) }
-  let(:tracker_task) { Factory.build(:tracker_task) }
-  let(:tracker_bug) { Factory.build(:tracker_bug) }
+  let(:tracker_feature) { FactoryGirl.build(:tracker_feature) }
+  let(:tracker_task) { FactoryGirl.build(:tracker_task) }
+  let(:tracker_bug) { FactoryGirl.build(:tracker_bug) }
   let(:version1) { project.versions.first }
   let(:version2) { project.versions.last }
-  let(:role) { Factory.build(:role) }
-  let(:user) { Factory.build(:user) }
-  let(:issue_priority) { Factory.build(:priority) }
-  let(:issue_status) { Factory.build(:issue_status, :name => "status 1", :is_default => true) }
+  let(:role) { FactoryGirl.build(:role) }
+  let(:user) { FactoryGirl.build(:user) }
+  let(:issue_priority) { FactoryGirl.build(:priority) }
+  let(:issue_status) { FactoryGirl.build(:issue_status, :name => "status 1", :is_default => true) }
 
   let(:parent_project) do
-    p = Factory.build(:project, :name => "parent_project",
-                                :members => [Factory.build(:member,
+    p = FactoryGirl.build(:project, :name => "parent_project",
+                                :members => [FactoryGirl.build(:member,
                                                            :principal => user,
                                                            :roles => [role])],
                                 :trackers => [tracker_feature, tracker_task, tracker_bug])
 
-    p.versions << Factory.build(:version, :name => "Version1", :project => p)
-    p.versions << Factory.build(:version, :name => "Version2", :project => p)
+    p.versions << FactoryGirl.build(:version, :name => "Version1", :project => p)
+    p.versions << FactoryGirl.build(:version, :name => "Version2", :project => p)
 
     p
   end
 
   let(:child_project) do
-    p = Factory.build(:project, :name => "child_project",
-                                :members => [Factory.build(:member,
+    p = FactoryGirl.build(:project, :name => "child_project",
+                                :members => [FactoryGirl.build(:member,
                                                            :principal => user,
                                                            :roles => [role])],
                                 :trackers => [tracker_feature, tracker_task, tracker_bug])
 
-    p.versions << Factory.build(:version, :name => "Version1", :project => p)
-    p.versions << Factory.build(:version, :name => "Version2", :project => p)
+    p.versions << FactoryGirl.build(:version, :name => "Version1", :project => p)
+    p.versions << FactoryGirl.build(:version, :name => "Version2", :project => p)
 
     p
   end
 
-  let(:story) { Factory.build(:issue,
+  let(:story) { FactoryGirl.build(:issue,
                               :subject => "Story",
                               :tracker => tracker_feature,
                               :status => issue_status,
                               :author => user,
                               :priority => issue_priority) }
 
-  let(:story2) { Factory.build(:issue,
+  let(:story2) { FactoryGirl.build(:issue,
                                :subject => "Story2",
                                :tracker => tracker_feature,
                                :status => issue_status,
                                :author => user,
                                :priority => issue_priority) }
 
-  let(:task) { Factory.build(:issue,
+  let(:task) { FactoryGirl.build(:issue,
                              :subject => "Task",
                              :tracker => tracker_task,
                              :status => issue_status,
                              :author => user,
                              :priority => issue_priority) }
 
-   let(:task2) { Factory.build(:issue,
+   let(:task2) { FactoryGirl.build(:issue,
                                :subject => "Task2",
                                :tracker => tracker_task,
                                :status => issue_status,
                                :author => user,
                                :priority => issue_priority) }
 
-   let(:bug) { Factory.build(:issue,
+   let(:bug) { FactoryGirl.build(:issue,
                              :subject => "Bug",
                              :tracker => tracker_bug,
                              :status => issue_status,
                              :author => user,
                              :priority => issue_priority) }
 
-   let(:bug2) { Factory.build(:issue,
+   let(:bug2) { FactoryGirl.build(:issue,
                               :subject => "Bug2",
                               :tracker => tracker_bug,
                               :status => issue_status,

@@ -1,40 +1,40 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Impediment do
-  let(:user) { @user ||= Factory.create(:user) }
-  let(:role) { @role ||= Factory.create(:role) }
-  let(:tracker_feature) { @tracker_feature ||= Factory.create(:tracker_feature) }
-  let(:tracker_task) { @tracker_task ||= Factory.create(:tracker_task) }
-  let(:issue_priority) { @issue_priority ||= Factory.create(:priority, :is_default => true) }
-  let(:task) { Factory.build(:task, :tracker => tracker_task,
+  let(:user) { @user ||= FactoryGirl.create(:user) }
+  let(:role) { @role ||= FactoryGirl.create(:role) }
+  let(:tracker_feature) { @tracker_feature ||= FactoryGirl.create(:tracker_feature) }
+  let(:tracker_task) { @tracker_task ||= FactoryGirl.create(:tracker_task) }
+  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, :is_default => true) }
+  let(:task) { FactoryGirl.build(:task, :tracker => tracker_task,
                                     :project => project,
                                     :author => user,
                                     :priority => issue_priority,
                                     :status => issue_status1) }
-  let(:feature) { Factory.build(:issue, :tracker => tracker_feature,
+  let(:feature) { FactoryGirl.build(:issue, :tracker => tracker_feature,
                                         :project => project,
                                         :author => user,
                                         :priority => issue_priority,
                                         :status => issue_status1) }
-  let(:version) { Factory.create(:version, :project => project) }
+  let(:version) { FactoryGirl.create(:version, :project => project) }
 
   let(:project) do
     unless @project
-      @project = Factory.build(:project)
-      @project.members = [Factory.build(:member, :principal => user,
+      @project = FactoryGirl.build(:project)
+      @project.members = [FactoryGirl.build(:member, :principal => user,
                                                  :project => @project,
                                                  :roles => [role])]
     end
     @project
   end
 
-  let(:issue_status1) { @status1 ||= Factory.create(:issue_status, :name => "status 1", :is_default => true) }
-  let(:issue_status2) { @status2 ||= Factory.create(:issue_status, :name => "status 2") }
+  let(:issue_status1) { @status1 ||= FactoryGirl.create(:issue_status, :name => "status 1", :is_default => true) }
+  let(:issue_status2) { @status2 ||= FactoryGirl.create(:issue_status, :name => "status 2") }
   let(:tracker_workflow) { @workflow ||= Workflow.create(:tracker_id => tracker_task.id,
                                                  :old_status => issue_status1,
                                                  :new_status => issue_status2,
                                                  :role => role) }
-  let(:impediment) { Factory.build(:impediment, :author => user,
+  let(:impediment) { FactoryGirl.build(:impediment, :author => user,
                                                 :fixed_version => version,
                                                 :assigned_to => user,
                                                 :priority => issue_priority,
@@ -110,7 +110,7 @@ describe Impediment do
 
         describe "WITH the story having another version" do
           before(:each) do
-            feature.fixed_version = Factory.create(:version, :project => project, :name => "another version")
+            feature.fixed_version = FactoryGirl.create(:version, :project => project, :name => "another version")
             feature.save
             @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
                                                                 :assigned_to_id => user.id,
@@ -200,7 +200,7 @@ describe Impediment do
 
       describe "WHEN changing the blocking relationship to another story" do
         before(:each) do
-          @story = Factory.build(:issue, :subject => "another story",
+          @story = FactoryGirl.build(:issue, :subject => "another story",
                                          :tracker => tracker_feature,
                                          :project => project,
                                          :author => user,
@@ -223,7 +223,7 @@ describe Impediment do
 
         describe "WITH the story having another version" do
           before(:each) do
-            @story.fixed_version = Factory.create(:version, :project => project, :name => "another version")
+            @story.fixed_version = FactoryGirl.create(:version, :project => project, :name => "another version")
             @story.save
             @blocks = @story.id.to_s
             @saved = @impediment.update_with_relationships({:blocks_ids => @blocks,

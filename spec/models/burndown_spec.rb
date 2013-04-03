@@ -16,18 +16,18 @@ describe Burndown do
     end
   end
 
-  let(:user) { @user ||= Factory.create(:user) }
-  let(:role) { @role ||= Factory.create(:role) }
-  let(:tracker_feature) { @tracker_feature ||= Factory.create(:tracker_feature) }
-  let(:tracker_task) { @tracker_task ||= Factory.create(:tracker_task) }
-  let(:issue_priority) { @issue_priority ||= Factory.create(:priority, :is_default => true) }
-  let(:version) { @version ||= Factory.create(:version, :project => project) }
+  let(:user) { @user ||= FactoryGirl.create(:user) }
+  let(:role) { @role ||= FactoryGirl.create(:role) }
+  let(:tracker_feature) { @tracker_feature ||= FactoryGirl.create(:tracker_feature) }
+  let(:tracker_task) { @tracker_task ||= FactoryGirl.create(:tracker_task) }
+  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, :is_default => true) }
+  let(:version) { @version ||= FactoryGirl.create(:version, :project => project) }
   let(:sprint) { @sprint ||= Sprint.find(version.id) }
 
   let(:project) do
     unless @project
-      @project = Factory.build(:project)
-      @project.members = [Factory.build(:member, :principal => user,
+      @project = FactoryGirl.build(:project)
+      @project.members = [FactoryGirl.build(:member, :principal => user,
                                                  :project => @project,
                                                  :roles => [role])]
       @project.versions << version
@@ -35,9 +35,9 @@ describe Burndown do
     @project
   end
 
-  let(:issue_open) { @status1 ||= Factory.create(:issue_status, :name => "status 1", :is_default => true) }
-  let(:issue_closed) { @status2 ||= Factory.create(:issue_status, :name => "status 2", :is_closed => true) }
-  let(:issue_resolved) { @status3 ||= Factory.create(:issue_status, :name => "status 3", :is_closed => false) }
+  let(:issue_open) { @status1 ||= FactoryGirl.create(:issue_status, :name => "status 1", :is_default => true) }
+  let(:issue_closed) { @status2 ||= FactoryGirl.create(:issue_status, :name => "status 2", :is_closed => true) }
+  let(:issue_resolved) { @status3 ||= FactoryGirl.create(:issue_status, :name => "status 3", :is_closed => false) }
 
   before(:each) do
     Rails.cache.clear
@@ -68,7 +68,7 @@ describe Burndown do
 
         describe "WITH 1 story assigned to the sprint" do
           before(:each) do
-            @story = Factory.build(:story, :subject => "Story 1",
+            @story = FactoryGirl.build(:story, :subject => "Story 1",
                                            :project => project,
                                            :fixed_version => version,
                                            :tracker => tracker_feature,
@@ -101,7 +101,7 @@ describe Burndown do
 
             describe "WITH the story beeing moved out of the sprint within the sprint duration and also moved back in" do
               before(:each) do
-                other_version = Factory.create(:version, :name => "other_version", :project => project)
+                other_version = FactoryGirl.create(:version, :name => "other_version", :project => project)
                 project.instance_eval { reload; @shared_versions = nil } # Invalidate cached attributes
                 @story.instance_eval { reload; @assignable_versions = nil }
                 set_attribute_journalized @story, :fixed_version_id=, other_version.id, Time.now - 6.day
@@ -120,7 +120,7 @@ describe Burndown do
 
             describe "WITH the story beeing moved out of the project within the sprint duration and also moved back in" do
               before(:each) do
-                other_project = Factory.create(:project, :name => "other_project")
+                other_project = FactoryGirl.create(:project, :name => "other_project")
                 set_attribute_journalized @story, :project_id=, other_project.id, Time.now - 6.day
                 set_attribute_journalized @story, :project_id=, project.id, Time.now - 3.day
 
@@ -137,7 +137,7 @@ describe Burndown do
 
             describe "WITH the story beeing moved to another tracker within the sprint duration and also moved back in" do
               before(:each) do
-                other_tracker = Factory.create(:tracker_bug)
+                other_tracker = FactoryGirl.create(:tracker_bug)
                 project.trackers << other_tracker
 
                 set_attribute_journalized @story, :tracker_id=, other_tracker.id, Time.now - 6.day
@@ -158,7 +158,7 @@ describe Burndown do
           describe "WITH the story having a subticket that defines remaining hours" do
             before(:each) do
               @story.save!
-              @task = Factory.build(:task, :subject => "Task 1",
+              @task = FactoryGirl.build(:task, :subject => "Task 1",
                                            :project => project,
                                            :fixed_version => version,
                                            :tracker => tracker_task,
@@ -237,7 +237,7 @@ describe Burndown do
             @stories = []
 
             (0..9).each do |i|
-              @stories[i] = Factory.create(:story, :subject => "Story #{i}",
+              @stories[i] = FactoryGirl.create(:story, :subject => "Story #{i}",
                                                    :project => project,
                                                    :fixed_version => version,
                                                    :tracker => tracker_feature,
