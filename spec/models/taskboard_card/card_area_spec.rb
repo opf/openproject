@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe TaskboardCard::CardArea do
+describe OpenProject::Backlogs::TaskboardCard::CardArea do
   let(:pdf) { Prawn::Document.new(:margin => 0) }
 
   let(:options) do
@@ -16,7 +16,7 @@ describe TaskboardCard::CardArea do
 
   describe '.text_box' do
     it 'shortens long texts' do
-      box = TaskboardCard::CardArea.text_box(pdf,
+      box = OpenProject::Backlogs::TaskboardCard::CardArea.text_box(pdf,
                                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                                              options)
 
@@ -26,7 +26,7 @@ describe TaskboardCard::CardArea do
     end
 
     it 'does not shorten short texts' do
-      box = TaskboardCard::CardArea.text_box(pdf, 'Lorem ipsum', options)
+      box = OpenProject::Backlogs::TaskboardCard::CardArea.text_box(pdf, 'Lorem ipsum', options)
 
       text = PDF::Inspector::Text.analyze(pdf.render)
 
@@ -34,7 +34,7 @@ describe TaskboardCard::CardArea do
     end
 
     it 'handles multibyte characters gracefully' do
-      box = TaskboardCard::CardArea.text_box(pdf,
+      box = OpenProject::Backlogs::TaskboardCard::CardArea.text_box(pdf,
                                              'Lörëm ïpsüm dölör sït ämët, cönsëctëtür ädïpïscïng ëlït.',
                                              options)
 

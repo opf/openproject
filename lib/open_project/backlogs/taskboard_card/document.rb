@@ -1,11 +1,11 @@
 require 'prawn'
 
-module TaskboardCard
+module OpenProject::Backlogs::TaskboardCard
   class Document
     unloadable
 
     include Redmine::I18n
-    include TaskboardCard::Measurement
+    include Measurement
 
     attr_reader :pdf
     attr_reader :paper_width
