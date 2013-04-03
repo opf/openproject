@@ -27,7 +27,7 @@
 </h2>
 
 <div id="rb">
-  <div id="backlogs_container">
+  <div id="backlogs_container" class="clear">
     <div id="owner_backlogs_container">
       <%= render :partial => 'backlog', :collection => @owner_backlogs %>
     </div>
@@ -41,3 +41,5 @@
     <div id="last_updated"><%= date_string_with_milliseconds(@last_update, 0.001) %></div>
   </div>
 </div>
+<% #include calendar js files in case they are needed for edit
+  include_calendar_headers_tags -%>
