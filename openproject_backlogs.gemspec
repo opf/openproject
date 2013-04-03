@@ -21,4 +21,5 @@ Gem::Specification.new do |s|
   s.add_dependency "acts_as_silent_list"
 
   s.add_development_dependency "factory_girl_rails", "~> 4.0"
+  s.add_development_dependency "pdf-inspector", "~>1.0.0"
 end
