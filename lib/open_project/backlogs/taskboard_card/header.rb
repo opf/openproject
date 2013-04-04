@@ -1,4 +1,4 @@
-module TaskboardCard
+module OpenProject::Backlogs::TaskboardCard
   class Header < CardArea
     unloadable
 

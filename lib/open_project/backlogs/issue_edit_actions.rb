@@ -1,4 +1,4 @@
-class Backlogs::IssueEditActions < OpenProject::Nissue::View
+class OpenProject::Backlogs::IssueEditActions < OpenProject::Nissue::View
   attr_reader :html_id
 
   def initialize(issue, html_id, form_id)

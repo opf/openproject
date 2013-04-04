@@ -1,4 +1,4 @@
-module TaskboardCard
+module OpenProject::Backlogs::TaskboardCard
   class Box
     attr_accessor :x
     attr_accessor :y
