@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Issue do
   describe 'Story positions' do
     def build_issue(options)
-      Factory.build(:issue, options.reverse_merge(:fixed_version_id => sprint_1.id,
+      FactoryGirl.build(:issue, options.reverse_merge(:fixed_version_id => sprint_1.id,
                                                   :priority_id      => priority.id,
                                                   :project_id       => project.id,
                                                   :status_id        => status.id,
@@ -14,17 +14,17 @@ describe Issue do
       build_issue(options).tap { |i| i.save! }
     end
 
-    let(:status)   { Factory.create(:issue_status)    }
-    let(:priority) { Factory.create(:priority_normal) }
-    let(:project)  { Factory.create(:project)         }
+    let(:status)   { FactoryGirl.create(:issue_status)    }
+    let(:priority) { FactoryGirl.create(:priority_normal) }
+    let(:project)  { FactoryGirl.create(:project)         }
 
-    let(:story_tracker) { Factory.create(:tracker, :name => 'Story')    }
-    let(:epic_tracker)  { Factory.create(:tracker, :name => 'Epic')     }
-    let(:task_tracker)  { Factory.create(:tracker, :name => 'Task')     }
-    let(:other_tracker) { Factory.create(:tracker, :name => 'Feedback') }
+    let(:story_tracker) { FactoryGirl.create(:tracker, :name => 'Story')    }
+    let(:epic_tracker)  { FactoryGirl.create(:tracker, :name => 'Epic')     }
+    let(:task_tracker)  { FactoryGirl.create(:tracker, :name => 'Task')     }
+    let(:other_tracker) { FactoryGirl.create(:tracker, :name => 'Feedback') }
 
-    let(:sprint_1) { Factory.create(:version, :project_id => project.id, :name => 'Sprint 1') }
-    let(:sprint_2) { Factory.create(:version, :project_id => project.id, :name => 'Sprint 2') }
+    let(:sprint_1) { FactoryGirl.create(:version, :project_id => project.id, :name => 'Sprint 1') }
+    let(:sprint_2) { FactoryGirl.create(:version, :project_id => project.id, :name => 'Sprint 2') }
 
     let(:issue_1) { create_issue(:subject => 'Issue 1', :fixed_version_id => sprint_1.id) }
     let(:issue_2) { create_issue(:subject => 'Issue 2', :fixed_version_id => sprint_1.id) }
@@ -208,15 +208,15 @@ describe Issue do
       # the fixed_version if possible (e.g. within project hierarchies with
       # shared versions)
 
-      let(:project_wo_backlogs) { Factory.create(:project) }
-      let(:sub_project_wo_backlogs) { Factory.create(:project) }
+      let(:project_wo_backlogs) { FactoryGirl.create(:project) }
+      let(:sub_project_wo_backlogs) { FactoryGirl.create(:project) }
 
-      let(:shared_sprint)   { Factory.create(:version,
+      let(:shared_sprint)   { FactoryGirl.create(:version,
                                              :project_id => project.id,
                                              :name => 'Shared Sprint',
                                              :sharing => 'descendants') }
 
-      let(:version_go_live) { Factory.create(:version,
+      let(:version_go_live) { FactoryGirl.create(:version,
                                              :project_id => project_wo_backlogs.id,
                                              :name => 'Go-Live') }
 

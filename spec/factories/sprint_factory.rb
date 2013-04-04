@@ -1,6 +1,9 @@
-Factory.define(:sprint) do |s|
-  s.name "version"
-  s.effective_date Date.today + 14.days
-  s.sharing "none"
-  s.status "open"
+FactoryGirl.define do
+  factory :sprint do
+    name "version"
+    effective_date Date.today + 14.days
+    sharing "none"
+    status "open"
+  end
 end
+

@@ -1,7 +1,9 @@
-Factory.define(:impediment) do |t|
-  t.association :tracker, :factory => :tracker_task
-  t.subject "Impeding progress"
-  t.description "Unable to print recipes"
-  t.association :priority, :factory => :priority
-  t.association :author, :factory => :user
+FactoryGirl.define do
+  factory :impediment do
+    association :tracker, :factory => :tracker_task
+    subject "Impeding progress"
+    description "Unable to print recipes"
+    association :priority, :factory => :priority
+    association :author, :factory => :user
+  end
 end

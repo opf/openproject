@@ -1,4 +1,4 @@
-class Backlogs::IssueForm::FieldsParagraph < Backlogs::IssueView::FieldsParagraph
+class OpenProject::Backlogs::IssueForm::FieldsParagraph < Backlogs::IssueView::FieldsParagraph
   def default_fields
     base_fields = super
 
