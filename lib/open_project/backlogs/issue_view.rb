@@ -1,9 +1,9 @@
-#class Backlogs::IssueView < ChiliProject::Nissue::IssueView; end
+#class Backlogs::IssueView < OpenProject::Nissue::IssueView; end
 #require_dependency 'backlogs/issue_view/fields_paragraph'
 #require_dependency 'backlogs/issue_view/heading'
 #require_dependency 'backlogs/issue_view/issue_hierarchy_paragraph'
 #
-#class Backlogs::IssueView < ChiliProject::Nissue::IssueView
+#class Backlogs::IssueView < OpenProject::Nissue::IssueView
 #  def fields_paragraph
 #    @fields_paragraph ||= Backlogs::IssueView::FieldsParagraph.new(@issue)
 #  end

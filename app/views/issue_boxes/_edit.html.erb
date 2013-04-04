@@ -9,5 +9,5 @@
 <% form = Backlogs::IssueForm.new(@issue) %>
 <%= Backlogs::IssueEditActions.new(@issue, html_id, form.form_id).render(self) %>
 <%= form.render(self) %>
-<%= ChiliProject::Nissue::JournalView.new(@journals, @issue).render(self) %>
+<%= OpenProject::Nissue::JournalView.new(@journals, @issue).render(self) %>
 </div>

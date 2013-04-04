@@ -103,7 +103,7 @@ class OpenProject::Backlogs::IssueForm::FieldsParagraph < Backlogs::IssueView::F
     fields
   end
 
-  def empty; ChiliProject::Nissue::EmptyParagraph.new; end
+  def empty; OpenProject::Nissue::EmptyParagraph.new; end
 
-  def field_class; ChiliProject::Nissue::SimpleParagraph; end
+  def field_class; OpenProject::Nissue::SimpleParagraph; end
 end

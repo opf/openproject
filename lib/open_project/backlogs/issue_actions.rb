@@ -1,4 +1,4 @@
-class Backlogs::IssueActions < ChiliProject::Nissue::View
+class Backlogs::IssueActions < OpenProject::Nissue::View
   def initialize(issue)
     @issue = issue
   end

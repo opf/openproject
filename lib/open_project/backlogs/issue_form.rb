@@ -23,7 +23,7 @@
 #  end
 #
 #  def errors_paragraph
-#    @errors_paragraph ||= ChiliProject::Nissue::SimpleParagraph.new(@issue) do |t|
+#    @errors_paragraph ||= OpenProject::Nissue::SimpleParagraph.new(@issue) do |t|
 #      content_tag(:div, t.error_messages_for('issue'), :style => "clear:right")
 #    end
 #  end
@@ -45,10 +45,10 @@
 #  end
 #
 #  def related_issues_paragraph
-#    @related_issues_paragraph ||= ChiliProject::Nissue::EmptyParagraph.new
+#    @related_issues_paragraph ||= OpenProject::Nissue::EmptyParagraph.new
 #  end
 #
 #  def sub_issues_paragraph
-#    @sub_issues_paragraph ||= ChiliProject::Nissue::EmptyParagraph.new
+#    @sub_issues_paragraph ||= OpenProject::Nissue::EmptyParagraph.new
 #  end
 #end

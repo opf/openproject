@@ -1,4 +1,4 @@
-class OpenProject::Backlogs::IssueForm::NotesParagraph < ChiliProject::Nissue::IssueView::DescriptionParagraph
+class OpenProject::Backlogs::IssueForm::NotesParagraph < OpenProject::Nissue::IssueView::DescriptionParagraph
   def visible?
     true
   end
