@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-gem "rails", :git => "git://github.com/rails/rails.git", :branch => "3-2-13"
+gem "rails", :git => "https://github.com/rails/rails.git", :branch => "3-2-13"
 # be careful when updating past 3-2-13
 # rails commit 9bd5c86c3bdc70bf29be7f756d1dec2fdd4eaaf0 resultsin a bug, when creating WikiContent Objects via FactoryGirl.
 # So we use the commit before that for now.
-# gem "rails", :git => "git://github.com/rails/rails.git", :ref => "bb0007f70420445f140004587aa1228895ab6653"
+# gem "rails", :git => "https://github.com/rails/rails.git", :ref => "bb0007f70420445f140004587aa1228895ab6653"
 
-gem "sprockets", :git => "git://github.com/tessi/sprockets.git", :branch => "2_2_1-backport"
+gem "sprockets", :git => "https://github.com/tessi/sprockets.git", :branch => "2_2_1-backport"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -14,7 +14,7 @@ gem "rdoc", ">= 2.4.2"
 # Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
 gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 # master includes the uniqueness validator, formerly patched in config/initializers/globalize3_patch.rb
-gem 'globalize3', :git => 'git://github.com/svenfuchs/globalize3.git'
+gem 'globalize3', :git => 'https://github.com/svenfuchs/globalize3.git'
 gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
@@ -42,11 +42,11 @@ end
 
 gem "prototype-rails"
 gem 'jquery-rails', '~> 2.0.3'
-gem "i18n-js", :git => "git://github.com/fnando/i18n-js.git", :branch => "rewrite"
+gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :branch => "rewrite"
 
 group :test do
   gem 'shoulda', '~> 3.1.1'
-  gem 'object-daddy', :git => 'git://github.com/awebneck/object_daddy.git'
+  gem 'object-daddy', :git => 'https://github.com/awebneck/object_daddy.git'
   gem 'mocha', '~> 0.13.1', :require => false
   gem "launchy", "~> 2.1.0"
   gem "factory_girl_rails", "~> 4.0"
