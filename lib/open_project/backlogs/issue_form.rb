@@ -1,4 +1,4 @@
-class OpenProject::Backlogs::IssueForm < OpenProjects::Backlogs::IssueView; end
+class OpenProject::Backlogs::IssueForm < OpenProject::Backlogs::IssueView; end
 require_dependency 'backlogs/issue_form/custom_field_paragraph'
 require_dependency 'backlogs/issue_form/description_paragraph'
 require_dependency 'backlogs/issue_form/fields_paragraph'
@@ -29,19 +29,19 @@ class OpenProject::Backlogs::IssueForm < OpenProject::Backlogs::IssueView
  end
 
  def heading
-   @heading ||= OpenProjects::Backlogs::IssueForm::Heading.new(@issue)
+   @heading ||= OpenProject::Backlogs::IssueForm::Heading.new(@issue)
  end
 
  def notes_paragraph
-   @notes_paragraph ||= OpenProjects::Backlogs::IssueForm::NotesParagraph.new(@issue)
+   @notes_paragraph ||= OpenProject::Backlogs::IssueForm::NotesParagraph.new(@issue)
  end
 
  def fields_paragraph
-   @fields_paragraph ||= OpenProjects::Backlogs::IssueForm::FieldsParagraph.new(@issue)
+   @fields_paragraph ||= OpenProject::Backlogs::IssueForm::FieldsParagraph.new(@issue)
  end
 
  def description_paragraph
-   @description_paragraph ||= OpenProjects::Backlogs::IssueForm::DescriptionParagraph.new(@issue)
+   @description_paragraph ||= OpenProject::Backlogs::IssueForm::DescriptionParagraph.new(@issue)
  end
 
  def related_issues_paragraph
