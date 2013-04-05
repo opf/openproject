@@ -33,3 +33,13 @@ Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|
                                           Setting.issue_list_summable_columns - ["cf_#{custom_field.id}"] :
                                           Setting.issue_list_summable_columns << "cf_#{custom_field.id}"
 end
+
+Given /^the custom field "(.*?)" is activated for tracker "(.*?)"$/ do |field_name, tracker_name|
+  custom_field = IssueCustomField.find_by_name(field_name)
+  tracker = Tracker.find_by_name(tracker_name)
+  custom_field.trackers << tracker
+end
+
+Given /^there are no custom fields$/ do
+  CustomField.destroy_all
+end

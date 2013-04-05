@@ -55,8 +55,16 @@ Then /^[iI] should (not )?see "([^\"]*)" in the overall sum(?:s)?$/ do |negative
   step %Q{I should #{negative}see "#{sum}" within "tr.sum.all"}
 end
 
-Then /^[iI] should (not )?see "([^\"]*)" in the grouped sum(?:s)?$/ do |negative, sum|
-  step %Q{I should #{negative}see "#{sum}" within "tr.sum.grouped"}
+Then /^[iI] should see "([^\"]*)" in the grouped sum(?:s)?$/ do |sum|
+  find(:xpath, "//tr[contains(concat(' ',normalize-space(@class),' '),' grouped ')]/td[contains(text(), '#{sum}')]").should_not(be_nil, "Could not find the grouped sum '#{sum}'")
+end
+
+Then /^[iI] should not see "([^\"]*)" in the grouped sum(?:s)?$/ do |sum|
+  begin
+    find(:xpath, "//tr[contains(concat(' ',normalize-space(@class),' '),' grouped ')]/td[contains(text(), '#{sum}')]").should(be_nil, "Could find the grouped sum '#{sum}'")
+  rescue Capybara::ElementNotFound => e
+    # it's fine when the element is not there at all
+  end
 end
 
 Then /^[iI] toggle the [oO]ptions fieldset$/ do
