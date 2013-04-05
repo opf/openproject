@@ -20,7 +20,7 @@ Feature: Issue textile quickinfo links
       |  due_date     | 2012-05-04         |
       |  start_date   | 2011-05-04         |
       |  description  | Aioli Sali Grande  |
-    And I am already logged in as "bob"
+    And I am logged in as "bob"
 
   Scenario: Adding an issue link
     When I go to the issues/new page of the project called "parent"

@@ -13,7 +13,7 @@ Feature: Issue Sum Calculations for Currency
     And there is 1 user with:
       | Login        | manager   |
     And the user "manager" is a "Manager" in the project "project1"
-    And I am already logged in as "admin"
+    And I am logged in as "admin"
 
   @javascript
   Scenario: Should calculate an overall sum for a standard issue query
