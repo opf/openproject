@@ -13,16 +13,15 @@ module Redmine
     end
 
     describe '.themes' do
-      it "returns the instances of subclasses of Theme" do
+      it "returns the known themes" do
         theme = Themes.new_theme
         expect(Themes.themes).to include theme
       end
     end
 
     describe '.clear_themes' do
-      it "clears the themes" do
+      it "clears the known themes" do
         theme = Themes.new_theme
-        expect(Themes.themes).to_not be_empty
         Themes.clear_themes
         expect(Themes.themes).to be_empty
       end
