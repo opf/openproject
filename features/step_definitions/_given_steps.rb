@@ -215,9 +215,9 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |proj
 end
 
 Given /^I have selected card label stock (.+)$/ do |stock|
-  settings = Setting.plugin_backlogs
+  settings = Setting.plugin_openproject_backlogs
   settings["card_spec"] = stock
-  Setting.plugin_backlogs = settings
+  Setting.plugin_openproject_backlogs = settings
 
   # If this goes wrong, you are probably missing
   #   vendor/plugins/chiliproject_backlogs/config/labels.yml
@@ -255,7 +255,7 @@ Given /^I have set the content for wiki page (.+) to (.+)$/ do |title, content|
 end
 
 Given /^I have made (.+) the template page for sprint notes/ do |title|
-  Setting.plugin_backlogs = Setting.plugin_backlogs.merge("wiki_template" => Wiki.titleize(title))
+  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("wiki_template" => Wiki.titleize(title))
 end
 
 Given /^there are no stories in the [pP]roject$/ do
@@ -264,9 +264,9 @@ end
 
 Given /^the tracker "(.+?)" is configured to track tasks$/ do |tracker_name|
   tracker = Tracker.find_by_name(tracker_name)
-  tracker = Factory.create(:tracker, :name => tracker_name) if tracker.blank?
+  tracker = FactoryGirl.create(:tracker, :name => tracker_name) if tracker.blank?
 
-  Setting.plugin_backlogs = Setting.plugin_backlogs.merge("task_tracker" => tracker.id)
+  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("task_tracker" => tracker.id)
 end
 
 Given /^the following trackers are configured to track stories:$/ do |table|
@@ -275,14 +275,14 @@ Given /^the following trackers are configured to track stories:$/ do |table|
     name = line.first
     tracker = Tracker.find_by_name(name)
 
-    tracker = Factory.create(:tracker, :name => name) if tracker.blank?
+    tracker = FactoryGirl.create(:tracker, :name => name) if tracker.blank?
     story_trackers << tracker
   end
 
   # otherwise the tracker id's from the previous test are still active
   Issue.instance_variable_set(:@backlogs_trackers, nil)
 
-  Setting.plugin_backlogs = Setting.plugin_backlogs.merge("story_trackers" => story_trackers.map(&:id))
+  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("story_trackers" => story_trackers.map(&:id))
 end
 
 Given /^the [tT]racker(?: "([^\"]*)")? has for the Role "(.+?)" the following workflows:$/ do |tracker_name, role_name, table|

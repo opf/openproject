@@ -40,7 +40,7 @@ describe Version do
 
       # enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ["backlogs"]
-      Setting.plugin_backlogs = {"story_trackers" => [epic_tracker.id, story_tracker.id],
+      Setting.plugin_openproject_backlogs = {"story_trackers" => [epic_tracker.id, story_tracker.id],
                                  "task_tracker"   => task_tracker.id}
 
       # otherwise the tracker id's from the previous test are still active

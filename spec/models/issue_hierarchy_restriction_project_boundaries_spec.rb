@@ -106,7 +106,7 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
     parent_project.save!
     child_project.save!
 
-    Setting.plugin_backlogs = {"points_burn_direction" => "down",
+    Setting.plugin_openproject_backlogs = {"points_burn_direction" => "down",
                                "wiki_template"         => "",
                                "card_spec"             => "Sattleford VM-5040",
                                "story_trackers"        => [tracker_feature.id],
