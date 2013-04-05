@@ -1,12 +1,12 @@
-<%= stylesheet_link_tag 'jqplot.css', :plugin => 'chiliproject_backlogs' %>
+<%= stylesheet_link_tag 'backlogs/jqplot.css', :plugin => 'chiliproject_backlogs' %>
 
-<!--[if IE]><%= javascript_include_tag 'lib/jquery.flot/excanvas.js', :plugin => 'chiliproject_backlogs' %><![endif]-->
-<%= javascript_include_tag 'lib/jquery.flot/jquery.flot.js', :plugin => 'chiliproject_backlogs' %>
+<!--[if IE]><%= javascript_include_tag 'backlogs/lib/jquery.flot/excanvas.js', :plugin => 'chiliproject_backlogs' %><![endif]-->
+<%= javascript_include_tag 'backlogs/lib/jquery.flot/jquery.flot.js', :plugin => 'chiliproject_backlogs' %>
 
 <script type="text/javascript" language="javascript">
   jQuery(function ($) {
     var Burndown = {
-      datasets: { <%= dataseries(burndown).join(', ') %> },
+      datasets: { <%= dataseries(burndown) %> },
       previousPoint: null,
 
       setDatasetColor: function () {
