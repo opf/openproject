@@ -1,11 +1,11 @@
 GIT
-  remote: git://github.com/awebneck/object_daddy.git
+  remote: https://github.com/awebneck/object_daddy.git
   revision: cf5abf001cdbd14b47a3b51421446717a3183f0a
   specs:
     object-daddy (1.1.0)
 
 GIT
-  remote: git://github.com/fnando/i18n-js.git
+  remote: https://github.com/fnando/i18n-js.git
   revision: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
   branch: rewrite
   specs:
@@ -13,7 +13,7 @@ GIT
       i18n
 
 GIT
-  remote: git://github.com/rails/rails.git
+  remote: https://github.com/rails/rails.git
   revision: 488699166c3558963fa82d4689a35f8c3fd93f47
   branch: 3-2-13
   specs:
@@ -61,7 +61,7 @@ GIT
       thor (>= 0.14.6, < 2.0)
 
 GIT
-  remote: git://github.com/svenfuchs/globalize3.git
+  remote: https://github.com/svenfuchs/globalize3.git
   revision: ee44def9b244f02a41c3687a73cf7c0165667e3d
   specs:
     globalize3 (0.3.0)
@@ -70,7 +70,7 @@ GIT
       paper_trail (~> 2)
 
 GIT
-  remote: git://github.com/tessi/sprockets.git
+  remote: https://github.com/tessi/sprockets.git
   revision: f8cf7a6d158f000096a94fb4be74195e8459d0fd
   branch: 2_2_1-backport
   specs:
