@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.authors = "Finn GmbH"
   s.email = "info@finn.de"
   s.homepage = "http://www.finn.de"
-  s.summary     = "TODO: Summary of OpenprojectBacklogs."
+  s.summary     = "This plugin adds features enabling agile teams to work with OpenProject in Scrum projects."
   s.description = "TODO: Description of OpenprojectBacklogs."
 
   s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.rdoc"]
@@ -21,4 +21,5 @@ Gem::Specification.new do |s|
   s.add_dependency "acts_as_silent_list"
 
   s.add_development_dependency "factory_girl_rails", "~> 4.0"
+  s.add_development_dependency "pdf-inspector", "~>1.0.0"
 end

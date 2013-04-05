@@ -1,6 +1,9 @@
-gem "prawn"
-gem "acts_as_silent_list", "~> 1.1"
+source "http://rubygems.org"
 
-group :development, :test do
-  gem "pdf-inspector", "~>1.0.0"
+gemspec
+
+if ENV['RAILS_ROOT']
+  eval(IO.read("#{ENV['RAILS_ROOT']}/Gemfile"), binding)
+else
+  puts "Host application dependencies not loaded. If you plan to run cucumber tests, specify env variable RAILS_ROOT."
 end
