@@ -89,11 +89,11 @@ module OpenProject::Backlogs::Burndown
     end
 
     def find_interesting_stories
-      fixed_version_query = "(issues.fixed_version_id = ? OR journals.changes LIKE '%fixed_version_id: - ? - [0-9]+%' OR journals.changes LIKE '%fixed_version_id: - [0-9]+ - ?%')"
-      project_id_query = "(issues.project_id = ? OR journals.changes LIKE '%project_id: - ? - [0-9]+%' OR journals.changes LIKE '%project_id: - [0-9]+ - ?%')"
+      fixed_version_query = "(issues.fixed_version_id = ? OR journals.changed_data LIKE '%fixed_version_id: - ? - [0-9]+%' OR journals.changed_data LIKE '%fixed_version_id: - [0-9]+ - ?%')"
+      project_id_query = "(issues.project_id = ? OR journals.changed_data LIKE '%project_id: - ? - [0-9]+%' OR journals.changed_data LIKE '%project_id: - [0-9]+ - ?%')"
 
       trackers_string = "(#{collected_trackers.map{|i| "(#{i})"}.join("|")})"
-      tracker_id_query = "(issues.tracker_id in (?) OR journals.changes LIKE '%tracker_id: - #{trackers_string} - [0-9]+%' OR journals.changes LIKE '%tracker_id: - [0-9]+ - #{trackers_string}%')"
+      tracker_id_query = "(issues.tracker_id in (?) OR journals.changed_data LIKE '%tracker_id: - #{trackers_string} - [0-9]+%' OR journals.changed_data LIKE '%tracker_id: - [0-9]+ - #{trackers_string}%')"
 
       stories = Issue.all(:include    => :journals,
                           :conditions => ["#{ fixed_version_query }" +
