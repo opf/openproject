@@ -1,3 +1,4 @@
-Factory.define(:version_setting) do |vs|
-
+FactoryGirl.define do
+  factory :version_setting do
+  end
 end

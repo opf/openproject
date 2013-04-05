@@ -16,9 +16,9 @@ describe Issue do
   end
 
   describe 'validations' do
-    let(:issue) { Factory.build(:issue, :project => Factory.build(:project),
-                                        :status  => Factory.build(:issue_status),
-                                        :tracker => Factory.build(:tracker_feature)) }
+    let(:issue) { FactoryGirl.build(:issue, :project => FactoryGirl.build(:project),
+                                        :status  => FactoryGirl.build(:issue_status),
+                                        :tracker => FactoryGirl.build(:tracker_feature)) }
 
     describe 'story points' do
       it 'allows empty values' do
@@ -66,14 +66,14 @@ describe Issue do
 
   describe 'definition of done' do
     before(:each) do
-      @status_resolved = Factory.build(:issue_status, :name => "Resolved", :is_default => false)
-      @status_open = Factory.build(:issue_status, :name => "Open", :is_default => true)
-      @project = Factory.build(:project)
+      @status_resolved = FactoryGirl.build(:issue_status, :name => "Resolved", :is_default => false)
+      @status_open = FactoryGirl.build(:issue_status, :name => "Open", :is_default => true)
+      @project = FactoryGirl.build(:project)
       @project.issue_statuses = [@status_resolved]
 
-      @issue = Factory.build(:issue, :project => @project,
+      @issue = FactoryGirl.build(:issue, :project => @project,
                                         :status  => @status_open,
-                                        :tracker => Factory.build(:tracker_feature))
+                                        :tracker => FactoryGirl.build(:tracker_feature))
     end
 
     it 'should not be done when having the initial status "open"' do
@@ -93,8 +93,8 @@ describe Issue do
   end
 
   describe "backlogs_enabled?" do
-    let(:project) { Factory.build(:project) }
-    let(:issue) { Factory.build(:issue) }
+    let(:project) { FactoryGirl.build(:project) }
+    let(:issue) { FactoryGirl.build(:issue) }
 
     it "should be false without a project" do
       issue.should_not be_backlogs_enabled

@@ -1,27 +1,27 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Story do
-  let(:user) { @user ||= Factory.create(:user) }
-  let(:role) { @role ||= Factory.create(:role) }
-  let(:issue_status1) { @status1 ||= Factory.create(:issue_status, :name => "status 1", :is_default => true) }
-  let(:tracker_feature) { @tracker_feature ||= Factory.create(:tracker_feature) }
-  let(:version) { @version ||= Factory.create(:version, :project => project) }
-  let(:version2) { Factory.create(:version, :project => project) }
-  let(:sprint) { @sprint ||= Factory.create(:sprint, :project => project) }
-  let(:issue_priority) { @issue_priority ||= Factory.create(:priority) }
-  let(:task_tracker) { Factory.create(:tracker_task) }
-  let(:task) { Factory.create(:story, :fixed_version => version,
+  let(:user) { @user ||= FactoryGirl.create(:user) }
+  let(:role) { @role ||= FactoryGirl.create(:role) }
+  let(:issue_status1) { @status1 ||= FactoryGirl.create(:issue_status, :name => "status 1", :is_default => true) }
+  let(:tracker_feature) { @tracker_feature ||= FactoryGirl.create(:tracker_feature) }
+  let(:version) { @version ||= FactoryGirl.create(:version, :project => project) }
+  let(:version2) { FactoryGirl.create(:version, :project => project) }
+  let(:sprint) { @sprint ||= FactoryGirl.create(:sprint, :project => project) }
+  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority) }
+  let(:task_tracker) { FactoryGirl.create(:tracker_task) }
+  let(:task) { FactoryGirl.create(:story, :fixed_version => version,
                                       :project => project,
                                       :status => issue_status1,
                                       :tracker => task_tracker,
                                       :priority => issue_priority) }
-  let(:story1) { Factory.create(:story, :fixed_version => version,
+  let(:story1) { FactoryGirl.create(:story, :fixed_version => version,
                                         :project => project,
                                         :status => issue_status1,
                                         :tracker => tracker_feature,
                                         :priority => issue_priority) }
 
-  let(:story2) { Factory.create(:story, :fixed_version => version,
+  let(:story2) { FactoryGirl.create(:story, :fixed_version => version,
                                         :project => project,
                                         :status => issue_status1,
                                         :tracker => tracker_feature,
@@ -29,8 +29,8 @@ describe Story do
 
   let(:project) do
     unless @project
-      @project = Factory.build(:project)
-      @project.members = [Factory.build(:member, :principal => user,
+      @project = FactoryGirl.build(:project)
+      @project.members = [FactoryGirl.build(:member, :principal => user,
                                                  :project => @project,
                                                  :roles => [role])]
     end
@@ -101,7 +101,7 @@ describe Story do
         before do
           story1
 
-          other_project = Factory.create(:project)
+          other_project = FactoryGirl.create(:project)
           version2.project_id = other_project.id
           story2.fixed_version_id = version2.id
           story2.project = other_project
@@ -118,7 +118,7 @@ describe Story do
           version.sharing = "system"
           version.save!
 
-          another_project = Factory.create(:project)
+          another_project = FactoryGirl.create(:project)
 
           story1
           story2.project = another_project
@@ -170,16 +170,16 @@ describe Story do
 
   describe "journals created after adding a subtask to a story" do
     before(:each) do
-      @current = Factory.create(:user, :login => "user1", :mail => "user1@users.com")
+      @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
       User.stub!(:current).and_return(@current)
 
-      @story = Factory.create(:story, :fixed_version => version,
+      @story = FactoryGirl.create(:story, :fixed_version => version,
                                        :project => project,
                                        :status => issue_status1,
                                        :tracker => tracker_feature,
                                        :priority => issue_priority)
 
-      @issue ||= Factory.create(:issue, :project => project, :status => issue_status1, :tracker => tracker_feature, :author => @current)
+      @issue ||= FactoryGirl.create(:issue, :project => project, :status => issue_status1, :tracker => tracker_feature, :author => @current)
     end
 
     it "should create a journal when adding a subtask which has remaining hours set" do

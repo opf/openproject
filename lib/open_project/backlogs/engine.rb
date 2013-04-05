@@ -16,6 +16,10 @@ module OpenProject::Backlogs
       Rails.application.config.assets.precompile += %w( backlogs.css backlogs.js )
     end
 
+    initializer 'backlogs.register_test_paths' do |app|
+      app.config.plugins_to_test_paths << self.root
+    end
+
     config.to_prepare do
 
       # TODO: avoid this dirty hack necessary to prevent settings method getting lost after reloading

@@ -5,7 +5,7 @@ describe Version do
 
   describe 'rebuild positions' do
     def build_issue(options = {})
-      Factory.build(:issue, options.reverse_merge(:fixed_version_id => version.id,
+      FactoryGirl.build(:issue, options.reverse_merge(:fixed_version_id => version.id,
                                                   :priority_id      => priority.id,
                                                   :project_id       => project.id,
                                                   :status_id        => status.id))
@@ -15,16 +15,16 @@ describe Version do
       build_issue(options).tap { |i| i.save! }
     end
 
-    let(:status)   { Factory.create(:issue_status)    }
-    let(:priority) { Factory.create(:priority_normal) }
-    let(:project)  { Factory.create(:project)         }
+    let(:status)   { FactoryGirl.create(:issue_status)    }
+    let(:priority) { FactoryGirl.create(:priority_normal) }
+    let(:project)  { FactoryGirl.create(:project)         }
 
-    let(:epic_tracker)  { Factory.create(:tracker, :name => 'Epic') }
-    let(:story_tracker) { Factory.create(:tracker, :name => 'Story') }
-    let(:task_tracker)  { Factory.create(:tracker, :name => 'Task')  }
-    let(:other_tracker) { Factory.create(:tracker, :name => 'Other') }
+    let(:epic_tracker)  { FactoryGirl.create(:tracker, :name => 'Epic') }
+    let(:story_tracker) { FactoryGirl.create(:tracker, :name => 'Story') }
+    let(:task_tracker)  { FactoryGirl.create(:tracker, :name => 'Task')  }
+    let(:other_tracker) { FactoryGirl.create(:tracker, :name => 'Other') }
 
-    let(:version) { Factory.create(:version, :project_id => project.id, :name => 'Version') }
+    let(:version) { FactoryGirl.create(:version, :project_id => project.id, :name => 'Version') }
 
     before do
       # had problems while writing these specs, that some elements kept creaping
@@ -51,14 +51,14 @@ describe Version do
     end
 
     it 'moves an issue to a project where backlogs is disabled while using versions' do
-      project2 = Factory.create(:project, :name => "Project 2")
+      project2 = FactoryGirl.create(:project, :name => "Project 2")
       project2.enabled_module_names = project2.enabled_module_names - ["backlogs"]
       project2.save!
       project2.reload
 
-      issue1 = Factory.create(:issue, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
-      issue2 = Factory.create(:issue, :parent_issue_id => issue1.id, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
-      issue3 = Factory.create(:issue, :parent_issue_id => issue2.id, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
+      issue1 = FactoryGirl.create(:issue, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
+      issue2 = FactoryGirl.create(:issue, :parent_issue_id => issue1.id, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
+      issue3 = FactoryGirl.create(:issue, :parent_issue_id => issue2.id, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
 
       issue1.reload
       issue1.fixed_version_id = version.id
