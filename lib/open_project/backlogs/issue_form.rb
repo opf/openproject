@@ -1,9 +1,9 @@
 class OpenProject::Backlogs::IssueForm < OpenProject::Backlogs::IssueView; end
-require_dependency 'backlogs/issue_form/custom_field_paragraph'
-require_dependency 'backlogs/issue_form/description_paragraph'
-require_dependency 'backlogs/issue_form/fields_paragraph'
-require_dependency 'backlogs/issue_form/heading'
-require_dependency 'backlogs/issue_form/notes_paragraph'
+require_dependency 'open_project/backlogs/issue_form/custom_field_paragraph'
+require_dependency 'open_project/backlogs/issue_form/description_paragraph'
+require_dependency 'open_project/backlogs/issue_form/fields_paragraph'
+require_dependency 'open_project/backlogs/issue_form/heading'
+require_dependency 'open_project/backlogs/issue_form/notes_paragraph'
 
 class OpenProject::Backlogs::IssueForm < OpenProject::Backlogs::IssueView
  attr_reader :form_id
