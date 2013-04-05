@@ -1,7 +1,7 @@
 class OpenProject::Backlogs::IssueView < OpenProject::Nissue::IssueView; end
-require_dependency 'backlogs/issue_view/fields_paragraph'
-require_dependency 'backlogs/issue_view/heading'
-require_dependency 'backlogs/issue_view/issue_hierarchy_paragraph'
+require_dependency 'open_project/backlogs/issue_view/fields_paragraph'
+require_dependency 'open_project/backlogs/issue_view/heading'
+require_dependency 'open_project/backlogs/issue_view/issue_hierarchy_paragraph'
 
 class OpenProject::Backlogs::IssueView < OpenProject::Nissue::IssueView
  def fields_paragraph
