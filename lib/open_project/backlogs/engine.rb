@@ -24,6 +24,7 @@ module OpenProject::Backlogs
 
       require_dependency 'issue'
       require_dependency 'task'
+      require_dependency 'acts_as_silent_list'
 
       if Issue.const_defined? "SAFE_ATTRIBUTES"
         Issue::SAFE_ATTRIBUTES << "story_points"
@@ -36,7 +37,10 @@ module OpenProject::Backlogs
       require_dependency 'open_project/backlogs/issue_view'
       require_dependency 'open_project/backlogs/issue_form'
 
-      require_dependency 'open_project/backlogs/hooks'
+      # 'require_dependency' reloads the class with every request
+      # in development mode which
+      # would duplicate the registered view listeners
+      require 'open_project/backlogs/hooks'
 
       require_dependency 'open_project/backlogs/patches'
       require_dependency 'open_project/backlogs/patches/issue_patch'
