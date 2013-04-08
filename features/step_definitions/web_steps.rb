@@ -281,7 +281,6 @@ When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: t
               timeout.to_f :
               5.0
 
-  sleep 1 # I know its ugly. But things tend to break a lot otherwise. Please do better if you can.
   wait_until(timeout) do
     ajax_done.call
   end
