@@ -67,6 +67,7 @@ Feature: Group memberships
     And I am already logged in as "bob"
     When I go to the members tab of the settings page of the project "project1"
     And I follow the delete link of the project member "group1"
+    And I wait some time
     Then I should not see the principal "group1" as a member
     And I should see the principal "alice" as a member with the roles:
       | alpha |
