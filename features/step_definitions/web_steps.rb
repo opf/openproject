@@ -262,7 +262,7 @@ When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: t
         var done = true;
 
         if (window.jQuery) {
-          if (window.jQuery.active != 0) {
+          if (!window.jQuery.isReady || window.jQuery.active != 0) {
             done = false;
           }
         }
