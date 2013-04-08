@@ -52,13 +52,13 @@ class OpenProject::Backlogs::IssueForm::FieldsParagraph < OpenProject::Backlogs:
   end
 
   def assigned_to_field
-    field_class.new(:assigned_to) { |t| t.select_tag "issue[assigned_to_id]", "<option></option>" + options_for_select(issue.assignable_users.collect {|m| [m.name, m.id]}, issue.assigned_to_id)}
+    field_class.new(:assigned_to) { |t| t.select_tag "issue[assigned_to_id]", "<option></option>".html_safe + options_for_select(issue.assignable_users.collect {|m| [m.name, m.id]}, issue.assigned_to_id)}
   end
 
   def fixed_version_field
     unless issue.assignable_versions.empty?
       field_class.new(:fixed_version) do |t|
-        str = t.select_tag "issue[fixed_version_id]", "<option></option>" + t.version_options_for_select(issue.assignable_versions, issue.fixed_version), { :disabled => issue.is_task? }
+        str = t.select_tag "issue[fixed_version_id]", "<option></option>".html_safe + t.version_options_for_select(issue.assignable_versions, issue.fixed_version), { :disabled => issue.is_task? }
         if t.authorize_for('versions', 'new') and not issue.is_task?
           str += t.prompt_to_remote(t.image_tag('add.png', :style => 'vertical-align: middle;'),
                        l(:label_version_new),
@@ -77,7 +77,7 @@ class OpenProject::Backlogs::IssueForm::FieldsParagraph < OpenProject::Backlogs:
   def category_field
     unless issue.project.issue_categories.empty?
       field_class.new(:category) do |t|
-        str = t.select_tag "issue[category_id]", "<option></option>" + options_for_select(issue.project.issue_categories.collect {|c| [c.name, c.id]}, issue.category_id)
+        str = t.select_tag "issue[category_id]", "<option></option>".html_safe + options_for_select(issue.project.issue_categories.collect {|c| [c.name, c.id]}, issue.category_id)
         str += t.prompt_to_remote(t.image_tag('add.png', :style => 'vertical-align: middle;'),
                              l(:label_issue_category_new),
                              'category[name]',
