@@ -165,6 +165,16 @@ class ActiveSupport::TestCase
   end
 
   # Shoulda macros
+  def self.should_assign_to(variable, &block)
+    should "assign the instance variable '#{variable}'" do
+      assert @controller.instance_variables.map(&:to_s).include?("@#{variable}")
+      if block
+        expected_result = instance_eval(&block)
+        assert_equal @controller.instance_variable_get('@' + variable.to_s), expected_result
+      end
+    end
+  end
+
   def self.should_render_404
     should respond_with :not_found
     should render_template 'common/error'
