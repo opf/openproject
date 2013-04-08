@@ -4,7 +4,7 @@ class OpenProject::Backlogs::IssueForm::NotesParagraph < OpenProject::Nissue::Is
   end
 
   def render(t)
-    html_id = "issue_notes_#{ActiveSupport::SecureRandom.hex(10)}"
+    html_id = "issue_notes_#{SecureRandom.hex(10)}"
     s = content_tag(:fieldset, [
       content_tag(:legend, l(:field_notes)),
       t.text_area_tag('issue[notes]', '', :cols => 60, :rows => 10, :class => 'wiki-edit', :id => html_id),

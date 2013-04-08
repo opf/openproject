@@ -10,7 +10,7 @@ class OpenProject::Backlogs::IssueForm < OpenProject::Backlogs::IssueView
 
  def initialize(issue)
    super(issue)
-   @form_id = "form_#{ActiveSupport::SecureRandom.hex(10)}"
+   @form_id = "form_#{SecureRandom.hex(10)}"
  end
 
  def render(t)
