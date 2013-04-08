@@ -52,11 +52,13 @@ Feature: Group Memberships
       And I check "Manager"
       And I press "Add"
       And I wait for the AJAX requests to finish
+     Then I should see "Successful creation." within ".flash.notice"
 
       And I check "A-Team"
       And I check "Developer"
       And I press "Add"
       And I wait for the AJAX requests to finish
+     Then I should see "Successful creation." within ".flash.notice"
 
      When I delete the "A-Team" membership
       And I wait for the AJAX requests to finish
