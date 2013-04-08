@@ -24,6 +24,7 @@ Feature: Group memberships
       | alice     |
     And I am already logged in as "bob"
     When I go to the members tab of the settings page of the project "project1"
+    And I wait some time
     And I add the principal "group1" as a member with the roles:
       | beta |
     Then I should see the principal "group1" as a member with the roles:
