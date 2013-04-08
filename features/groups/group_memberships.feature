@@ -98,12 +98,12 @@ Feature: Group Memberships
       And I click on "tab-memberships"
       And I select "Project1" from "Projects"
       And I check "Manager"
-      And I press "Add"
+      And I press "Add" within "#tab-content-memberships"
       And I wait for the AJAX requests to finish
 
       And I click on "tab-users"
       And I check "Hannibal Smith"
-      And I press "Add"
+      And I press "Add" within "#tab-content-users"
       And I wait for the AJAX requests to finish
 
      When I go to the settings page of the project called "Project1"
