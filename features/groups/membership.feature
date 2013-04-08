@@ -36,6 +36,7 @@ Feature: Group memberships
     Given the group "group1" is a "beta" in the project "project1"
     And I am already logged in as "admin"
     When I go to the edit page of the group called "group1"
+    And I wait some time
     And I follow "Users" within ".tabs"
     And I add the user "alice" to the group
     And I go to the members tab of the settings page of the project "project1"
