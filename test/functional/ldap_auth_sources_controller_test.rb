@@ -26,7 +26,7 @@ class LdapAuthSourcesControllerTest < ActionController::TestCase
       get :new
     end
 
-    should assign_to :auth_source
+    should_assign_to :auth_source
     should respond_with :success
     should render_template :new
 

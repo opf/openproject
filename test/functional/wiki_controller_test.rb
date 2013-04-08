@@ -396,7 +396,7 @@ class WikiControllerTest < ActionController::TestCase
       end
 
       should respond_with :success
-      should assign_to :pages
+      should_assign_to :pages
       should_respond_with_content_type "text/html"
       should "export all of the wiki pages to a single html file" do
         assert_select "a[name=?]", "CookBook_documentation"
@@ -422,8 +422,8 @@ class WikiControllerTest < ActionController::TestCase
     end
 
     should respond_with :success
-    should assign_to :pages
-    should assign_to :pages_by_date
+    should_assign_to :pages
+    should_assign_to :pages_by_date
     should render_template 'wiki/date_index'
 
     should "include atom link" do

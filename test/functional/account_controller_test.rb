@@ -193,7 +193,7 @@ class AccountControllerTest < ActionController::TestCase
 
       should respond_with :success
       should render_template :register
-      should assign_to :user
+      should_assign_to :user
     end
 
     context "with self registration off" do
@@ -222,7 +222,7 @@ class AccountControllerTest < ActionController::TestCase
       end
 
       should respond_with :redirect
-      should assign_to :user
+      should_assign_to :user
       should redirect_to('my page') { {:controller => 'my', :action => 'account'} }
 
       should_create_a_new_user { User.last(:conditions => {:login => 'register'}) }
