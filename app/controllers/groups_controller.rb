@@ -16,7 +16,7 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
-  before_filter :find_group, :only => [:destroy, :autocomplete_for_user]
+  before_filter :find_group, :only => [:destroy, :autocomplete_for_user, :show]
 
 
   # GET /groups
