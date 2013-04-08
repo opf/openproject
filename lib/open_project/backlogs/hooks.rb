@@ -76,7 +76,7 @@ module OpenProject::Backlogs::Hooks
         snippet << '</p>'
 
         if issue.descendants.length != 0
-          unless Backlogs::Compatibility.using_jquery?
+          unless OpenProject::Backlogs::Compatibility.using_jquery?
             snippet << javascript_include_tag_backlogs('lib/jquery.js')
           end
 
@@ -132,7 +132,7 @@ module OpenProject::Backlogs::Hooks
 
         # this wouldn't be necesary if the schedules plugin
         # didn't disable the contextual hook
-        unless Backlogs::Compatibility.using_jquery?
+        unless OpenProject::Backlogs::Compatibility.using_jquery?
           snippet += javascript_include_tag_backlogs('lib/jquery.js')
         end
         snippet += javascript_tag(<<-JS)
