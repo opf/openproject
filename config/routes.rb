@@ -28,7 +28,10 @@ OpenProject::Application.routes.draw do
   resources :journals, :only => [:edit, :update]
 
   # REVIEW: review those wiki routes
-  resource :wiki_menu_item, :path_prefix => "projects/:project_id/wiki/:id", :only => [:edit, :update]
+  scope "projects/:project_id/wiki/:id" do
+    resource :wiki_menu_item, :only => [:edit, :update]
+  end
+
   get   'projects/:project_id/wiki/new' => 'wiki#new', :as => 'wiki_new'
   post  'projects/:project_id/wiki/new' => 'wiki#create', :as => 'wiki_create'
   post  'projects/:project_id/wiki/preview' => 'wiki#preview', :as => 'wiki_preview'

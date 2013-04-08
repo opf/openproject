@@ -3,7 +3,7 @@
 <% breadcrumb_paths(*@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}.push(@page.title)) %>
 
 <h2><%= l(:wiki_menu_item_for, :title => @page_title) %></h2>
-  <%= form_for :wiki_menu_item, @wiki_menu_item, :html => {:id => 'wiki_menu_item_form', :class => 'wiki_menu_item_form', :method => :put}, :url => wiki_menu_item_path(@project, @page_title) do |form| %>
+  <%= form_for @wiki_menu_item, :html => {:id => 'wiki_menu_item_form', :class => 'wiki_menu_item_form', :method => :put}, :url => wiki_menu_item_path(@project, @page_title) do |form| %>
   <p class="name_of_item">
   <%= form.label :name, l(:label_menu_item_name), {:id => 'name_of_item'} %>
     <% if @wiki_menu_item.name.nil? %>
