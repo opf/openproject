@@ -19,7 +19,7 @@ class OpenProject::Backlogs::IssueForm < OpenProject::Backlogs::IssueView
      errors_paragraph.render(t),
      s,
      notes_paragraph.render(t)
-   ].join, :id => form_id)
+   ].join.html_safe, :id => form_id)
  end
 
  def errors_paragraph

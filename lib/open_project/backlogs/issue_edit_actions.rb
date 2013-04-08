@@ -17,6 +17,6 @@ class OpenProject::Backlogs::IssueEditActions < OpenProject::Nissue::View
                              :update => @html_id,
                              :with => "Form.serialize('#{@form_id}')"
                            }, { :class => 'icon icon-save', :accesskey => t.accesskey(:update) }) if t.authorize_for('issue_boxes', 'update'))
-      ].join, :class => 'contextual')
+      ].join.html_safe, :class => 'contextual')
   end
 end
