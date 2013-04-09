@@ -49,6 +49,6 @@ Feature: User deletion
     And I go to the users tab of the settings page
     And I check "settings_users_deletable_by_admins"
     And I check "settings_users_deletable_by_self"
-    And I press "Save"
+    And I press "Save" within "#tab-content-users"
     Then the "users_deletable_by_admins" setting should be true
     Then the "users_deletable_by_self" setting should be true

@@ -171,7 +171,7 @@ module NavigationHelpers
     when /^the (administration|admin) page$/
       '/admin'
 
-    when /^the(?: (.+?) tab of the) settings page$/
+    when /^the(?: (.+?) tab of the)? settings page$/
       if $1.nil?
         "/settings"
       else
