@@ -6,7 +6,7 @@ Feature: Localized boolean custom fields can be created
       | en |
       | de |
     When I go to the custom fields page
-    When I follow "New custom field"
+    When I follow "New custom field" within "#tab-content-IssueCustomField"
 
   @javascript
   Scenario: Available fields

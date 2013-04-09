@@ -6,7 +6,7 @@ Feature: Localized decimal custom fields can be created
       | en |
       | de |
     When I go to the custom fields page
-    When I follow "New custom field"
+    When I follow "New custom field" within "#tab-content-IssueCustomField"
 
   @javascript
   Scenario: Creating a decimal custom field

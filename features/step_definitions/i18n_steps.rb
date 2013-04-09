@@ -48,7 +48,9 @@ end
 When /^I add the (.+) localization of the "(.+)" attribute as "(.+)"$/ do |language, attribute, value|
   new_elements = span_for_localization language, attribute
   unless new_elements.present?
-    attribute_p = page.find(:xpath, "//span[contains(@class, '#{attribute}_translation')]/..")
+    # Emulate old find behavior, just use first match. Better would be
+    # selecting an element by id.
+    attribute_p = page.find(:xpath, "(//span[contains(@class, '#{attribute}_translation')])[1]/..")
     add_link = attribute_p.find(:css, ".add_locale")
 
     add_link.click

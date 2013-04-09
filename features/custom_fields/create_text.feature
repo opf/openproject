@@ -7,7 +7,7 @@ Feature: Text custom fields can be created
       | de |
       | fr |
     When I go to the custom fields page
-    When I follow "New custom field"
+    When I follow "New custom field" within "#tab-content-IssueCustomField"
 
   @javascript
   Scenario: Creating a text custom field with multiple name and default_value localizations
@@ -16,6 +16,7 @@ Feature: Text custom fields can be created
     And I add the german localization of the "name" attribute as "Neues Feld"
     And I add the french localization of the "name" attribute as "Lorem ipsum"
     And I add the english localization of the "default_value" attribute as "default"
+    # And I start debugging
     And I add the german localization of the "default_value" attribute as "Standard"
     And I add the french localization of the "default_value" attribute as "Lorem"
     And I press "Save"
