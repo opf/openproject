@@ -78,8 +78,8 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_create_with_group_assignment
     with_settings :issue_group_assignment => '1' do
-      assert Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1, :subject => 'Group assignment', :assigned_to_id => 11).save
-      issue = Issue.first(:order => 'id DESC')
+      (issue = Issue.new).force_attributes = {:project_id => 2, :tracker_id => 1, :author_id => 1, :subject => 'Group assignment', :assigned_to_id => 11}
+      assert issue.save
       assert_kind_of Group, issue.assigned_to
       assert_equal Group.find(11), issue.assigned_to
     end
@@ -725,8 +725,8 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   context "#assignable_users" do
-    should "be Users" do
-      assert_kind_of User, Issue.find(1).assignable_users.first
+    should "be a principal" do
+      assert_kind_of Principal, Issue.find(1).assignable_users.first
     end
 
     should "include the issue author" do
