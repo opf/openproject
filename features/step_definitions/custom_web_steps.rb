@@ -38,12 +38,6 @@ Then /^"([^"]*)" should be selected for "([^"]*)"$/ do |value, select_id|
   (page.evaluate_script("$('#{select_id}').value") =~ /^#{value}$/).should be_present
 end
 
-Then /^(?:|I )wait(?: for (d+) seconds?| some time)?$/ do |seconds_to_wait|
-  # I know its ugly. But things tend to break a lot otherwise. Please do better if you can.
-  some_time = seconds_to_wait || 3.14
-  sleep some_time
-end
-
 Then /^"([^"]*)" should (not )?be selectable from "([^"]*)"$/ do |value, negative, select_id|
   #more page.evaluate ugliness
   find(:xpath, "//body")

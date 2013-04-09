@@ -24,7 +24,6 @@ Feature: Group memberships
       | alice     |
     And I am already logged in as "bob"
     When I go to the members tab of the settings page of the project "project1"
-    And I wait some time
     And I add the principal "group1" as a member with the roles:
       | beta |
     Then I should see the principal "group1" as a member with the roles:
@@ -36,7 +35,6 @@ Feature: Group memberships
     Given the group "group1" is a "beta" in the project "project1"
     And I am already logged in as "admin"
     When I go to the edit page of the group called "group1"
-    And I wait some time
     And I follow "Users" within ".tabs"
     And I add the user "alice" to the group
     And I go to the members tab of the settings page of the project "project1"
@@ -52,9 +50,7 @@ Feature: Group memberships
     And the group "group1" is a "beta" in the project "project1"
     And I am already logged in as "bob"
     When I go to the members tab of the settings page of the project "project1"
-    And I wait some time
     And I follow the delete link of the project member "group1"
-    And I wait some time
     Then I should not see the principal "group1" as a member
     And I should not see the principal "alice" as a member
 
@@ -67,7 +63,6 @@ Feature: Group memberships
     And I am already logged in as "bob"
     When I go to the members tab of the settings page of the project "project1"
     And I follow the delete link of the project member "group1"
-    And I wait some time
     Then I should not see the principal "group1" as a member
     And I should see the principal "alice" as a member with the roles:
       | alpha |
