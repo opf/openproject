@@ -22,7 +22,7 @@ Feature: Group memberships
   Scenario: Adding a group with members to a project
     Given the group "group1" has the following members:
       | alice     |
-    And I am already logged in as "bob"
+    And I am logged in as "bob"
     When I go to the members tab of the settings page of the project "project1"
     And I add the principal "group1" as a member with the roles:
       | beta |
@@ -33,7 +33,7 @@ Feature: Group memberships
 
   Scenario: Adding members to a group after the group has been added to the project adds the users to the project
     Given the group "group1" is a "beta" in the project "project1"
-    And I am already logged in as "admin"
+    And I am logged in as "admin"
     When I go to the edit page of the group called "group1"
     And I follow "Users" within ".tabs"
     And I add the user "alice" to the group
@@ -44,11 +44,11 @@ Feature: Group memberships
       | beta |
 
   @javascript
-  Scenario: Removing a group from a project removes it's members (users) as well if they have no roles of their own
+  Scenario: Removing a group from a project removes its members (users) as well if they have no roles of their own
     Given the group "group1" has the following members:
       | alice     |
     And the group "group1" is a "beta" in the project "project1"
-    And I am already logged in as "bob"
+    And I am logged in as "bob"
     When I go to the members tab of the settings page of the project "project1"
     And I follow the delete link of the project member "group1"
     Then I should not see the principal "group1" as a member
@@ -60,7 +60,7 @@ Feature: Group memberships
       | alice     |
     And the user "alice" is a "alpha" in the project "project1"
     And the group "group1" is a "beta" in the project "project1"
-    And I am already logged in as "bob"
+    And I am logged in as "bob"
     When I go to the members tab of the settings page of the project "project1"
     And I follow the delete link of the project member "group1"
     Then I should not see the principal "group1" as a member
