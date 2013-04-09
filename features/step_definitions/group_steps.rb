@@ -25,12 +25,12 @@ Given /^the group "(.+?)" has the following members:$/ do |name, table|
 end
 
 When /^I add the user "(.+)" to the group$/ do |user_login|
-  user = User.find_by_login(user_login)
+  user = User.find_by_login!(user_login)
 
-  raise "Could not find users with login: #{user_login}" if user.nil?
-
-  steps %Q{ When I check "#{user.name}" within "#tab-content-users #users"
-            And I press "Add" }
+  steps %Q{
+    When I check "#{user.name}" within "#tab-content-users #users"
+    And I press "Add" within "#tab-content-users"
+  }
 end
 
 Given /^there is a group named "(.*?)" with the following members:$/ do |name, table|
