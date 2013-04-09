@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'active_record/fixtures'
+require "rack_session_access/capybara"
 
 Before do |scenario|
   unless ScenarioDisabler.empty_if_disabled(scenario)
@@ -33,30 +34,9 @@ Given /^(?:|I )am [aA]dmin$/ do
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
-  # consider using: http://collectiveidea.com/blog/archives/2012/01/05/capybara-cucumber-and-how-the-cookie-crumbles/
-  # or: https://github.com/railsware/rack_session_access
-  # once the application is rails3
   user = User.find_by_login(login)
-
-  ApplicationController.class_eval do
-    define_method :set_user_session do
-      session[:user_id] = user.id
-
-      ApplicationController.skip_before_filter :set_user_session
-      ApplicationController.subclasses.each do |subclass_name|
-        unless subclass_name.to_s.include?("Spec::Rails")
-          subclass_name.prepend_before_filter :set_user_session
-        end
-      end
-    end
-  end
-
-  ApplicationController.prepend_before_filter :set_user_session
-  ApplicationController.subclasses.each do |subclass_name|
-    unless subclass_name.to_s.include?("Spec::Rails")
-      subclass_name.prepend_before_filter :set_user_session
-    end
-  end
+  # see https://github.com/railsware/rack_session_access
+  page.set_rack_session(:user_id => user.id)
 end
 
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|

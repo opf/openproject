@@ -237,6 +237,9 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
+    rack_session_access (0.1.1)
+      builder (>= 2.0.0)
+      rack (>= 1.0.0)
     rails-dev-tweaks (0.6.1)
       actionpack (~> 3.1)
       railties (~> 3.1)
@@ -366,6 +369,7 @@ DEPENDENCIES
   pry-rescue
   pry-stack_explorer
   rack-mini-profiler
+  rack_session_access
   rails!
   rails-dev-tweaks (~> 0.6.1)
   rails-footnotes (>= 3.7.5.rc4)

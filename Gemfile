@@ -51,6 +51,7 @@ group :test do
   gem "launchy", "~> 2.1.0"
   gem "factory_girl_rails", "~> 4.0"
   gem 'cucumber-rails', :require => false
+  gem 'rack_session_access'
   gem 'database_cleaner'
   gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
   gem "rspec-rails", "~> 2.0", :group => :development
