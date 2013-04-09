@@ -1,27 +1,3 @@
-module Capybara::Node::Finders
- alias old_find find
-
- def find(*args)
-   tries = 0
-   begin
-     elements = all(*args)
-
-     raise Capybara::ElementNotFound.new if (elements.nil? || elements.empty?)
-
-     elements[0]
-   rescue Capybara::ElementNotFound => e
-     tries += 1
-     if tries < 10
-      sleep 1
-      retry
-     else
-      raise(e)
-     end
-   end
- end
-
-end
-
 Then /^I should (not )?see "([^"]*)"\s*\#.*$/ do |negative, name|
   steps %Q{
     Then I should #{negative}see "#{name}"
