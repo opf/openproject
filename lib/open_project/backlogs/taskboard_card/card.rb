@@ -6,10 +6,10 @@ module OpenProject::Backlogs::TaskboardCard
 
     class << self
       def areas
-        [TaskboardCard::Header,
-         TaskboardCard::TopAttributes,
-         TaskboardCard::Description,
-         TaskboardCard::BottomAttributes
+        [OpenProject::Backlogs::TaskboardCard::Header,
+         OpenProject::Backlogs::TaskboardCard::TopAttributes,
+         OpenProject::Backlogs::TaskboardCard::Description,
+         OpenProject::Backlogs::TaskboardCard::BottomAttributes
         ]
       end
 

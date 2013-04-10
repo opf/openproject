@@ -31,6 +31,7 @@ module OpenProject::Backlogs
       require_dependency 'issue'
       require_dependency 'task'
       require_dependency 'acts_as_silent_list'
+      require_dependency 'redcloth3'
 
       if Issue.const_defined? "SAFE_ATTRIBUTES"
         Issue::SAFE_ATTRIBUTES << "story_points"
