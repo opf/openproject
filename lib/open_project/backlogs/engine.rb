@@ -104,7 +104,7 @@ module OpenProject::Backlogs
 
           # Master backlog permissions
           permission :view_master_backlog, {
-                                             :rb_master_backlogs  => :show,
+                                             :rb_master_backlogs  => :index,
                                              :rb_sprints          => [:index, :show],
                                              :rb_wikis            => :show,
                                              :rb_stories          => [:index, :show],
