@@ -13,8 +13,7 @@
 
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                      :action => 'show',
-                                     :project_id => @project,
-                                     :format => :js) %>
+                                     :project_id => @project) %>
 
   <%= stylesheet_link_tag 'backlogs/jqplot.css' %>
   <%= stylesheet_link_tag 'backlogs/master_backlog.css', :media => 'print,screen' %>

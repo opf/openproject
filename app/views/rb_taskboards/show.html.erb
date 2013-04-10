@@ -11,9 +11,7 @@
 
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                      :action => 'show',
-                                     :project_id => @project,
-                                     :sprint_id => @sprint,
-                                     :format => :js) %>
+                                     :project_id => @project) %>
 
   <%= stylesheet_link_tag 'backlogs/jqplot.css' %>
   <%= stylesheet_link_tag 'backlogs/taskboard.css', :media => 'print,screen' %>
@@ -31,10 +29,10 @@
   </span>
 </div>
 
-<% breadcrumb_paths(link_to(l(:label_backlogs), rb_master_backlog_path(@project)), link_to(@sprint.name, rb_taskboard_path(@sprint))) %>
+<% breadcrumb_paths(link_to(l(:label_backlogs), backlogs_project_backlogs_path(@project)), link_to(@sprint.name, backlogs_project_backlogs_path(@sprint))) %>
 
 <h2>
-  <%= link_to @sprint.name, rb_taskboard_path(@sprint) %>
+  <%= link_to @sprint.name, backlogs_project_backlogs_path(@sprint) %>
 </h2>
 
 <div id='rb'>
