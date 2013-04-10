@@ -65,7 +65,7 @@ module RbMasterBacklogsHelper
     items[:task_board] = link_to(l(:label_task_board),
                                  :controller => 'rb_taskboards',
                                  :action => 'show',
-                                 :project_id => @project.id,
+                                 :project_id => @project,
                                  :sprint_id => backlog.sprint)
 
     if backlog.sprint.has_burndown?
@@ -79,7 +79,7 @@ module RbMasterBacklogsHelper
       items[:wiki] = link_to(l(:label_wiki),
                              :controller => 'rb_wikis',
                              :action => 'edit',
-                             :project_id => @project.id,
+                             :project_id => @project,
                              :sprint_id => backlog.sprint)
     end
 
