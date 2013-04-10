@@ -1,6 +1,6 @@
 <h2><%=l('backlogs.definition_of_done')%></h2>
 
-<% form_tag(:controller => "projects", :action => "project_issue_statuses", :id => @project) do %>
+<%= form_tag(:controller => "projects", :action => "project_issue_statuses", :id => @project) do %>
 
 <table class="list">
   <thead>
@@ -24,6 +24,6 @@
 
 <h2><%=l('backlogs.rebuild_positions')%></h2>
 
-<% form_tag(:controller => "projects", :action => "rebuild_positions", :id => @project) do %>
+<%= form_tag(:controller => "projects", :action => "rebuild_positions", :id => @project) do %>
   <p><%= submit_tag l('backlogs.rebuild') %></p>
 <% end %>
