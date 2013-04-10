@@ -11,11 +11,10 @@ class RbApplicationController < ApplicationController
   # Loads the project to be used by the authorize filter to
   # determine if User.current has permission to invoke the method in question.
   def load_project
-    @project = Project.find(params[:project_id]) if params[:project_id]
-
     if params[:sprint_id]
-      load_sprint
-      @project = @sprint.project unless @project.present?
+      load_sprint_and_project
+    else
+      @project = Project.find(params[:project_id]) if params[:project_id]
     end
   end
 
@@ -28,7 +27,8 @@ class RbApplicationController < ApplicationController
     end
   end
 
-  def load_sprint
-    @sprint = Sprint.find(params[:sprint_id])
+  def load_sprint_and_project(id = params[:sprint_id].to_i)
+    @sprint = Sprint.find(id)
+    @project = @sprint.project
   end
 end
