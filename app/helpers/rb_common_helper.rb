@@ -39,7 +39,7 @@ module RbCommonHelper
   end
 
   def link_to_issue_box(title, issue, options = {})
-    modal_link_to(title, rb_issue_box_path(issue), options)
+    modal_link_to(title, backlogs_issue_box_path(issue), options)
   end
 
   def modal_link_to(title, path, options = {})

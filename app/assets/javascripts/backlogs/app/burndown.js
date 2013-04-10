@@ -27,7 +27,7 @@ RB.Burndown = (function ($) {
         $('<div id="charts"></div>').appendTo("body");
       }
       $('#charts').html("<div class='loading'>" + RB.i18n.generating_graph + "</div>");
-      $('#charts').load(RB.urlFor('show_burndown_chart', { id: $(this).data('this').sprintId,
+      $('#charts').load(RB.urlFor('show_burndown_chart', { sprint_id: $(this).data('this').sprintId,
                                                            project_id: RB.constants.project_id}));
       $('#charts').dialog({
         dialogClass: "rb_dialog",

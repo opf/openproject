@@ -38,10 +38,10 @@ RB.Impediment = (function ($) {
                  (this.isNew() ? "" : "&id=" + j.children('.id').text());
 
       if (this.isNew()) {
-        url = RB.urlFor('create_impediment');
+        url = RB.urlFor('create_impediment', {sprint_id: RB.constants.sprint_id});
       }
       else {
-        url = RB.urlFor('update_impediment', {id: this.getID()});
+        url = RB.urlFor('update_impediment', {id: this.getID(), sprint_id: RB.constants.sprint_id});
         data += "&_method=put";
       }
 

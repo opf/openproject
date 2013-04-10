@@ -15,4 +15,10 @@ class RbSprintsController < RbApplicationController
       format.html { render :partial => "sprint", :status => status, :object => @sprint }
     end
   end
+
+#overwrite load_project to load the sprint from the :id instead of :sprint_id
+#which whill automatically also load the project
+  def load_project
+    load_sprint_and_project params[:id]
+  end
 end

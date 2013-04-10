@@ -19,10 +19,10 @@ class IssueBoxesController < IssuesController
       format.js   { render :partial => 'show' }
     end
   end
-  
+
   def edit
     return redirect_to edit_issue_path(params[:id]) unless request.xhr?
-    
+
     update_issue_from_params
     load_journals
     @journal = @issue.current_journal
@@ -31,10 +31,10 @@ class IssueBoxesController < IssuesController
       format.js   { render :partial => 'edit' }
     end
   end
-  
+
   def update
     update_issue_from_params
-    
+
     if @issue.save_issue_with_child_records(params, @time_entry)
       @issue.reload
       load_journals
@@ -48,7 +48,7 @@ class IssueBoxesController < IssuesController
       end
     end
   end
-  
+
   private
 
   def load_journals

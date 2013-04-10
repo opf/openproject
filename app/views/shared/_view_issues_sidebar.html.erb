@@ -49,8 +49,7 @@
           <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                              :action => 'show',
                                              :project_id => project,
-                                             :sprint_id => sprint,
-                                             :format => :js) %>
+                                             :sprint_id => sprint) %>
 
           <%= link_to(l('backlogs.show_burndown_chart'),
                       {},

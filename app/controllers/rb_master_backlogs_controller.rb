@@ -3,7 +3,7 @@ class RbMasterBacklogsController < RbApplicationController
 
   menu_item :backlogs
 
-  def show
+  def index
     @owner_backlogs = Backlog.owner_backlogs(@project)
     @sprint_backlogs = Backlog.sprint_backlogs(@project)
 

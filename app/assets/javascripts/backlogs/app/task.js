@@ -54,10 +54,10 @@ RB.Task = (function ($) {
                  (this.isNew() ? "" : "&id=" + this.$.children('.id').text());
 
       if (this.isNew()) {
-        url = RB.urlFor('create_task');
+        url = RB.urlFor('create_task', {sprint_id: RB.constants.sprint_id});
       }
       else {
-        url = RB.urlFor('update_task', {id: this.getID()});
+        url = RB.urlFor('update_task', {id: this.getID(), sprint_id: RB.constants.sprint_id});
         data += "&_method=put";
       }
 
