@@ -4,7 +4,7 @@ class RbTasksController < RbApplicationController
   def create
     @task = Task.create_with_relationships(params, @project.id)
 
-    status = (@task.errors.none? ? 200 : 400)
+    status = (@task.errors.empty? ? 200 : 400)
     @include_meta = true
 
     respond_to do |format|
