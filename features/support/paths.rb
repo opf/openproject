@@ -9,7 +9,7 @@ module BacklogsNavigationHelpers
     case page_name
     when /^the master backlog(?: of the [pP]roject "(.+?)")?$/
       project = get_project($1)
-      "/rb/master_backlogs/#{project.identifier}"
+      "/projects/#{project.identifier}/backlogs"
 
     when /^the (:?overview ?)?page (?:for|of) the [pP]roject$/
       project = get_project
@@ -23,7 +23,7 @@ module BacklogsNavigationHelpers
       project = get_project($2)
       sprint = Sprint.find_by_name_and_project_id($1, project)
 
-      "/rb/projects/#{project.id}/burndown_charts/#{sprint.id}"
+      "/projects/#{project.identifier}/sprints/#{sprint.id}/burndown_chart"
 
     when /^the task ?board for "(.+?)"(?: (?:in|of) the [pP]roject "(.+?)")?$/
       project = get_project($2)
@@ -33,7 +33,7 @@ module BacklogsNavigationHelpers
       # do not depend on @sprint being set in new step definitions
       @sprint = sprint
 
-      "/rb/taskboards/#{sprint.id}"
+      "/projects/#{project.identifier}/sprints/#{sprint.id}/taskboard"
 
     else
       super
