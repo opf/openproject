@@ -10,8 +10,8 @@ describe 'rb_taskboards/show' do
   let(:assignee) { stub_model(User, :firstname => 'Karl', :lastname => 'Gustav') }
 
   before :each do
-    template.extend RbCommonHelper
-    template.extend TaskboardsHelper
+    view.extend RbCommonHelper
+    view.extend TaskboardsHelper
 
     assigns[:project]  = project
     assigns[:sprint]   = sprint
@@ -35,7 +35,7 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        template.should have_tag "#story_#{story.id}" do
+        view.should have_tag "#story_#{story.id}" do
           with_tag ".id", Regexp.new(story.id.to_s)
         end
       end
@@ -45,7 +45,7 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        template.should have_tag "#story_#{story.id}" do
+        view.should have_tag "#story_#{story.id}" do
           with_tag ".subject", story.subject
         end
       end
@@ -55,7 +55,7 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        template.should have_tag "#story_#{story.id}" do
+        view.should have_tag "#story_#{story.id}" do
           with_tag ".status", story.status.name
         end
       end
@@ -65,7 +65,7 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        template.should have_tag "#story_#{story.id}" do
+        view.should have_tag "#story_#{story.id}" do
           with_tag ".assigned_to_id", assignee.name
         end
       end
