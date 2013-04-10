@@ -84,10 +84,12 @@ RB.Story = (function ($) {
         data += "&" + this.$.find('.editor').serialize();
       }
 
+//TODO: this might be unsave in case the parent of this story is not the sprint backlog, then we dont have
+//a sprintId an cannot generate a valid url - one option might be to take RB.constants.sprint_id hoping it exists
       if (this.isNew()) {
-        url = RB.urlFor('create_story');
+        url = RB.urlFor('create_story', {sprint_id: sprintId});
       } else {
-        url = RB.urlFor('update_story', {id: this.getID()});
+        url = RB.urlFor('update_story', {id: this.getID(), sprint_id: sprintId});
         data += "&_method=put";
       }
 

@@ -37,6 +37,9 @@ RB.urlFor = (function () {
       if (options.project_id){
         route = route.replace(":project_id", options.project_id);
       }
+      if(options.sprint_id) {
+        route = route.replace(":sprint_id", options.sprint_id)
+      }
     }
 
     return route;
