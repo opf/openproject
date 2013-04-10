@@ -38,7 +38,7 @@ describe Story do
   end
 
   before(:each) do
-    Setting.use_caching = false
+    ActionController::Base.perform_caching = false
 
     Setting.plugin_openproject_backlogs = {"points_burn_direction" => "down",
                                "wiki_template"         => "",
