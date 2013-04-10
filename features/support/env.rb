@@ -11,6 +11,7 @@ require 'cucumber/rails'
 # prefer to use XPath just remove this line and adjust any selectors in your
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
+Capybara.default_wait_time = 10
 Capybara.ignore_hidden_elements = false
 
 # By default, any exception happening in your Rails application will bubble up
