@@ -609,20 +609,12 @@ opacity: 0.5;
 
 html>body #ajax-indicator { position: fixed; }
 
-#ajax-indicator span {
+#ajax-indicator span, .ajax-indicator {
 background-position: 0% 40%;
 background-repeat: no-repeat;
 background-image: url(<%= asset_path 'loading.gif' %>);
 padding-left: 26px;
 vertical-align: bottom;
-}
-
-.ajax-indicator {
-  background-position: 0% 40%;
-  background-repeat: no-repeat;
-  background-image: url(../images/loading.gif);
-  padding-left: 16px;
-  vertical-align: bottom;
 }
 
 .ajax_appended_information.loading .ajax-indicator {
