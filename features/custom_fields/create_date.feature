@@ -11,7 +11,7 @@ Feature: Date custom fields can be created
   @javascript
   Scenario: Creating a date custom field
     When I select "Date" from "custom_field_field_format"
-    And I add the english localization of the "name" attribute as "New Field"
-    And I add the english localization of the "default_value" attribute as "2012-01-01"
+    And I set the english localization of the "name" attribute to "New Field"
+    And I set the english localization of the "default_value" attribute to "2012-01-01"
     And I press "Save"
     Then I should be on the custom fields page

@@ -11,9 +11,9 @@ Feature: Localized list custom fields can be created
   @javascript
   Scenario: Creating a list custom field
     When I select "List" from "custom_field_field_format"
-    And I add the english localization of the "name" attribute as "New Field"
-    And I add the english localization of the "possible_values" attribute as "one\ntwo\nthree\n"
-    And I add the english localization of the "default_value" attribute as "two"
+    And I set the english localization of the "name" attribute to "New Field"
+    And I set the english localization of the "possible_values" attribute to "one\ntwo\nthree\n"
+    And I set the english localization of the "default_value" attribute to "two"
     And I press "Save"
     And I follow "New Field"
     Then there should be the following localizations:

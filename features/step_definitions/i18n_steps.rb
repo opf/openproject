@@ -43,20 +43,30 @@ When /^I change the (.+) localization of the "(.+)" attribute to be (.+)$/ do |l
 end
 
 When /^I add the (.+) localization of the "(.+)" attribute as "(.+)"$/ do |language, attribute, value|
-  new_elements = span_for_localization language, attribute
-  unless new_elements.present?
-    # Emulate old find behavior, just use first match. Better would be
-    # selecting an element by id.
-    attribute_p = page.find(:xpath, "(//span[contains(@class, '#{attribute}_translation')])[1]/..")
-    add_link = attribute_p.find(:css, ".add_locale")
+  # Emulate old find behavior, just use first match. Better would be
+  # selecting an element by id.
+  attribute_p = page.find(:xpath, "(//span[contains(@class, '#{attribute}_translation')])[1]/..")
+  add_link = attribute_p.find(:css, ".add_locale")
+  add_link.click
+  span = attribute_p.all(:css, ".#{attribute}_translation").last
 
-    add_link.click
+  update_localization(span, language, value)
+end
 
-    new_elements = attribute_p.all(:css, ".#{attribute}_translation").last
-  end
+# Maybe this step can replace 'I change the ... localization of the ... attribute'
+When /^I set the (.+) localization of the "(.+)" attribute to "(.+)"$/ do |language, attribute, value|
+  locale = locale_for_language language
 
-  new_value = new_elements.find(:css, "input[type=text], textarea")
-  new_locale = new_elements.find(:css, ".locale_selector")
+  # Look for a span with #{attribute}_translation class, which doesn't have an
+  # ancestor with style display: none
+  span = page.find(:xpath, "//span[contains(@class, '#{attribute}_translation') " +
+                    "and not(ancestor-or-self::*[starts-with(normalize-space(substring-after(@style, 'display:')), 'none')])]")
+  update_localization(span, language, value)
+end
+
+def update_localization(container, language, value)
+  new_value = container.find(:css, "input[type=text], textarea")
+  new_locale = container.find(:css, ".locale_selector")
 
   new_value.set(value.gsub("\\n", "\n"))
 

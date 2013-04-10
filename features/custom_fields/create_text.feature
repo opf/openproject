@@ -12,10 +12,10 @@ Feature: Text custom fields can be created
   @javascript
   Scenario: Creating a text custom field with multiple name and default_value localizations
     When I select "Text" from "custom_field_field_format"
-    And I add the english localization of the "name" attribute as "New Field"
+    And I set the english localization of the "name" attribute to "New Field"
     And I add the german localization of the "name" attribute as "Neues Feld"
     And I add the french localization of the "name" attribute as "Lorem ipsum"
-    And I add the english localization of the "default_value" attribute as "default"
+    And I set the english localization of the "default_value" attribute to "default"
     # And I start debugging
     And I add the german localization of the "default_value" attribute as "Standard"
     And I add the french localization of the "default_value" attribute as "Lorem"
@@ -28,6 +28,6 @@ Feature: Text custom fields can be created
       | fr      | Lorem ipsum   | Lorem          |
 
   Scenario: Creating a custom field with one name
-    And I add the english localization of the "name" attribute as "Issue Field"
+    And I set the english localization of the "name" attribute to "Issue Field"
     And I press "Save"
     Then I should be on the custom fields page

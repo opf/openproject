@@ -9,9 +9,9 @@ Feature: Int custom fields can be created
     When I follow "New custom field" within "#tab-content-IssueCustomField"
 
   @javascript
-  Scenario: Creating a date custom field
+  Scenario: Creating an int custom field
     When I select "Integer" from "custom_field_field_format"
-    And I add the english localization of the "name" attribute as "New Field"
-    And I add the english localization of the "default_value" attribute as "342"
+    And I set the english localization of the "name" attribute to "New Field"
+    And I set the english localization of the "default_value" attribute to "342"
     And I press "Save"
     Then I should be on the custom fields page

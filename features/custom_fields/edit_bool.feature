@@ -14,7 +14,7 @@ Feature: Editing a bool custom field
   @javascript
   Scenario: Adding a localized name
     When I follow "IssueCustomField"
-    And I add the english localization of the "name" attribute as "Issue Field"
+    And I set the english localization of the "name" attribute to "Issue Field"
     And I add the german localization of the "name" attribute as "Ticket Feld"
     And I add the french localization of the "name" attribute as "Lorem"
     And I press "Save"
@@ -39,7 +39,7 @@ Feature: Editing a bool custom field
       | name              | type    |
       | Taken name        | bool    |
     When I follow "IssueCustomField"
-    And I add the english localization of the "name" attribute as "Taken name"
+    And I set the english localization of the "name" attribute to "Taken name"
     And I press "Save"
     Then I should see "Name has already been taken" within "#errorExplanation"
     And the "custom_field_translations_attributes_0_name" field should contain "Taken name"
