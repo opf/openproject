@@ -21,11 +21,8 @@ When /^I delete the (.+) localization of the "(.+)" attribute$/ do |language, at
   locale = { "german" => "de", "english" => "en", "french" => "fr" }[language]
 
   attribute_spans = []
-
-  wait_until(5) do
-    attribute_spans = page.all(:css, "span.#{attribute}_translation")
-    attribute_spans.size > 0
-  end
+  page.should have_selector("span.#{attribute}_translation :first-child")
+  attribute_spans = page.all(:css, "span.#{attribute}_translation")
 
   attribute_span = attribute_spans.detect do |attribute_span|
     attribute_span.find(:css, ".locale_selector")["value"] == locale
