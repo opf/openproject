@@ -1,4 +1,4 @@
-module Backlogs::Burndown
+module OpenProject::Backlogs::Burndown
   unloadable
 
   class Series < Array

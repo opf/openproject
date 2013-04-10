@@ -11,14 +11,14 @@ Gem::Specification.new do |s|
   s.email = "info@finn.de"
   s.homepage = "http://www.finn.de"
   s.summary     = "This plugin adds features enabling agile teams to work with OpenProject in Scrum projects."
-  s.description = "TODO: Description of OpenprojectBacklogs."
-
+  s.description = "This plugin adds features enabling agile teams to work with OpenProject in Scrum projects."
   s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.rdoc"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"
   s.add_dependency "prawn"
   s.add_dependency "acts_as_silent_list"
+  s.add_dependency "openproject_nissue"
 
   s.add_development_dependency "factory_girl_rails", "~> 4.0"
   s.add_development_dependency "pdf-inspector", "~>1.0.0"

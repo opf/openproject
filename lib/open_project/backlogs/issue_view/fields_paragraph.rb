@@ -1,4 +1,4 @@
-class OpenProject::Backlogs::IssueView::FieldsParagraph < ChiliProject::Nissue::IssueView::FieldsParagraph
+class OpenProject::Backlogs::IssueView::FieldsParagraph < OpenProject::Nissue::IssueView::FieldsParagraph
   def hook_context(t)
     super.merge(:from => self.class.name)
   end
@@ -11,7 +11,7 @@ class OpenProject::Backlogs::IssueView::FieldsParagraph < ChiliProject::Nissue::
     fields[:status]          = base_fields[:status]
     fields[:assigned_to]     = base_fields[:assigned_to]
     fields[:fixed_version]   = base_fields[:fixed_version]
-    fields[:empty]           = ChiliProject::Nissue::EmptyParagraph.new
+    fields[:empty]           = OpenProject::Nissue::EmptyParagraph.new
 
     fields[:category]        = base_fields[:category]
     fields[:story_points]    = story_points
@@ -28,10 +28,10 @@ class OpenProject::Backlogs::IssueView::FieldsParagraph < ChiliProject::Nissue::
   end
 
   def story_points
-    ChiliProject::Nissue::SimpleParagraph.new(:story_points) { |t| @issue.story_points || '-' }
+    OpenProject::Nissue::SimpleParagraph.new(:story_points) { |t| @issue.story_points || '-' }
   end
 
   def remaining_hours
-    ChiliProject::Nissue::SimpleParagraph.new(:remaining_hours) { |t| t.l_hours(@issue.remaining_hours) }
+    OpenProject::Nissue::SimpleParagraph.new(:remaining_hours) { |t| t.l_hours(@issue.remaining_hours) }
   end
 end

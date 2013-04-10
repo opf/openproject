@@ -1,4 +1,4 @@
-class OpenProject::Backlogs::IssueView::IssueHierarchyParagraph < ChiliProject::Nissue::IssueView::SubIssuesParagraph
+class OpenProject::Backlogs::IssueView::IssueHierarchyParagraph < OpenProject::Nissue::IssueView::SubIssuesParagraph
   include IssuesHelper # mainly interested in issue_list helper method
 
   attr_reader :issue
@@ -40,7 +40,7 @@ class OpenProject::Backlogs::IssueView::IssueHierarchyParagraph < ChiliProject::
     end
 
     s << '</table></form>'
-    s
+    s.html_safe
   end
 
   def render_row(t, issue, level, relation = "root")
@@ -49,7 +49,7 @@ class OpenProject::Backlogs::IssueView::IssueHierarchyParagraph < ChiliProject::
     css_classes << "idnt" << "idnt-#{level}" if level > 0
 
     if @issue == issue
-      issue_text = t.link_to("#{h(issue.tracker.name)} ##{issue.id}",
+      issue_text = t.link_to("#{issue.tracker.name} ##{issue.id}",
                              'javascript:void(0)',
                              :style => "color:inherit; font-weight: bold",
                              :class => issue.css_classes)
@@ -61,9 +61,9 @@ class OpenProject::Backlogs::IssueView::IssueHierarchyParagraph < ChiliProject::
       elsif relation == "child"
         title << content_tag(:span, l(:description_sub_issue), :class => "hidden-for-sighted")
       end
-      title << " #{h(issue.tracker.name)} ##{issue.id}"
+      title << " #{issue.tracker.name} ##{issue.id}"
 
-      issue_text = t.link_to_issue_box(title, issue, :class => issue.css_classes)
+      issue_text = t.link_to_issue_box(title.html_safe, issue, :class => issue.css_classes)
     end
     issue_text << ": "
     issue_text << t.truncate(issue.subject, :length => 60)
@@ -71,10 +71,10 @@ class OpenProject::Backlogs::IssueView::IssueHierarchyParagraph < ChiliProject::
     content_tag('tr', [
         content_tag('td', t.check_box_tag("ids[]", issue.id, false, :id => nil), :class => 'checkbox'),
         content_tag('td', issue_text, :class => 'subject'),
-        content_tag('td', h(issue.status)),
+        content_tag('td', issue.status),
         content_tag('td', t.link_to_user(issue.assigned_to)),
         content_tag('td', t.link_to_version(issue.fixed_version))
-      ].join,
+      ].join.html_safe,
       :class => css_classes.join(' '))
   end
 end

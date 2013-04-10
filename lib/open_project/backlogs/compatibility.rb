@@ -1,7 +1,7 @@
-module Backlogs::Compatibility
+module OpenProject::Backlogs::Compatibility
   def using_jquery?
-    ChiliProject::Compatibility.respond_to?(:using_jquery?) and
-      ChiliProject::Compatibility.using_jquery?
+    OpenProject::Compatibility.respond_to?(:using_jquery?) and
+      OpenProject::Compatibility.using_jquery?
   rescue NameError
     false
   end

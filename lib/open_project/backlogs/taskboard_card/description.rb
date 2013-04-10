@@ -1,4 +1,4 @@
-module TaskboardCard
+module OpenProject::Backlogs::TaskboardCard
   class Description < CardArea
     unloadable
 

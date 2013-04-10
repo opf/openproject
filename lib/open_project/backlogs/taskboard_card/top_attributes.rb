@@ -1,4 +1,4 @@
-module TaskboardCard
+module OpenProject::Backlogs::TaskboardCard
   class TopAttributes < CardArea
     unloadable
     include Redmine::I18n

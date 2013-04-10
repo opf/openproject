@@ -1,4 +1,4 @@
-class Backlogs::IssueEditActions < ChiliProject::Nissue::View
+class OpenProject::Backlogs::IssueEditActions < OpenProject::Nissue::View
   attr_reader :html_id
 
   def initialize(issue, html_id, form_id)
@@ -17,6 +17,6 @@ class Backlogs::IssueEditActions < ChiliProject::Nissue::View
                              :update => @html_id,
                              :with => "Form.serialize('#{@form_id}')"
                            }, { :class => 'icon icon-save', :accesskey => t.accesskey(:update) }) if t.authorize_for('issue_boxes', 'update'))
-      ].join, :class => 'contextual')
+      ].join.html_safe, :class => 'contextual')
   end
 end

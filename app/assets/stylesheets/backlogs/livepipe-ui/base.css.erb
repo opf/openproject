@@ -31,7 +31,7 @@
 }
 
 .window {
-    background-image:url(../../images/livepipe-ui/window_background.png);
+    background-image:url(<%= asset_path 'backlogs/livepipe-ui/window_background.png' %>);
     background-position:top left;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -69,7 +69,7 @@
     left:5px;
     height:13px;
     width:13px;
-    background-image: url(../../images/livepipe-ui/window_close.gif);
+    background-image: url(<%= asset_path 'backlogs/livepipe-ui/window_close.gif' %>);
     cursor:pointer;
     cursor:hand;
 }
@@ -82,7 +82,7 @@
 #livepipe-modal-closer {
   width: 33px;
   height: 33px;
-  background-image: url(../../images/livepipe-ui/modal_close.png);
+  background-image: url(<%= asset_path 'backlogs/livepipe-ui/modal_close.png' %>);
   position: absolute;
   top: -15px;
   right: -15px;

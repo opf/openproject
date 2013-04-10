@@ -1,10 +1,10 @@
-class OpenProject::Backlogs::IssueForm::DescriptionParagraph < ChiliProject::Nissue::IssueView::DescriptionParagraph
+class OpenProject::Backlogs::IssueForm::DescriptionParagraph < OpenProject::Nissue::IssueView::DescriptionParagraph
   def visible?
     true
   end
 
   def render(t)
-    html_id = "issue_description_#{ActiveSupport::SecureRandom.hex(10)}"
+    html_id = "issue_description_#{SecureRandom.hex(10)}"
     content_tag(:p, content_tag(:strong, l(:field_description))) +
     content_tag(:div,
       content_tag(:p,
