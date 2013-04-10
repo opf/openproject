@@ -11,7 +11,8 @@
 
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                      :action => 'show',
-                                     :project_id => @project) %>
+                                     :project_id => @project,
+                                     :sprint_id => @sprint) %>
 
   <%= stylesheet_link_tag 'backlogs/jqplot.css' %>
   <%= stylesheet_link_tag 'backlogs/taskboard.css', :media => 'print,screen' %>
