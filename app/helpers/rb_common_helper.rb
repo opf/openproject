@@ -172,7 +172,7 @@ module RbCommonHelper
               var burndown = RB.Factory.initialize(RB.Burndown, jQuery('.show_burndown_chart'));
               burndown.setSprintId(#{sprint.id});
             });"
-    ret
+    ret.html_safe
   end
 
   private

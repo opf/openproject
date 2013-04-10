@@ -8,7 +8,7 @@ class Burndown
 
     days = make_date_series sprint
 
-    series_data = Backlogs::Burndown::SeriesRawData.new(project,
+    series_data = OpenProject::Backlogs::Burndown::SeriesRawData.new(project,
                                                         sprint,
                                                         :hours => ["remaining_hours"],
                                                         :points => ["story_points"])
@@ -69,7 +69,7 @@ class Burndown
 
   def make_series(name, units, data)
     @available_series ||= {}
-    s = Backlogs::Burndown::Series.new(data, name, units)
+    s = OpenProject::Backlogs::Burndown::Series.new(data, name, units)
     @available_series[name] = s
     instance_variable_set("@#{name}", s)
   end
