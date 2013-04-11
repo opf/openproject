@@ -42,7 +42,10 @@ end
 
 gem "prototype-rails"
 gem 'jquery-rails', '~> 2.0.3'
-gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :branch => "rewrite"
+# branch rewrite has commit 6bfdcd7e14df1efffc00b2bbdf4e14e614d00418 which adds
+# a "magic comment" in the translations.js.erb and somehow breaks i18n-js
+# using the commit before this comment
+gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
 
 group :test do
   gem 'shoulda', '~> 3.1.1'
