@@ -20,8 +20,15 @@ end
 When /^I delete the (.+) localization of the "(.+)" attribute$/ do |language, attribute|
   locale = locale_for_language language
 
-  option = page.find(%Q{span.#{attribute}_translation .locale_selector option[value="#{locale}"][selected]})
-  span = option.find(:xpath, 'ancestor::span[1]')
+  page.should have_selector("span.#{attribute}_translation :first-child")
+  spans = page.all(:css, "span.#{attribute}_translation")
+  # Use the [] method since Firefox doesn't change the 'selected' attribute
+  # when choosing the last available option of a select where all other
+  # options are disabled. Check scenario 'Deleting a newly added localization'
+  # when changing this.
+  span = spans.detect do |span|
+    span.find(:css, ".locale_selector")["value"] == locale
+  end
 
   destroy = span.find(:css, "a.destroy_locale")
 
