@@ -18,17 +18,12 @@ Given /^the (.+) called "(.+)" has the following localizations:$/ do |model_name
 end
 
 When /^I delete the (.+) localization of the "(.+)" attribute$/ do |language, attribute|
-  locale = { "german" => "de", "english" => "en", "french" => "fr" }[language]
+  locale = locale_for_language language
 
-  attribute_spans = []
-  page.should have_selector("span.#{attribute}_translation :first-child")
-  attribute_spans = page.all(:css, "span.#{attribute}_translation")
+  option = page.find(%Q{span.#{attribute}_translation .locale_selector option[value="#{locale}"][selected]})
+  span = option.find(:xpath, 'ancestor::span[1]')
 
-  attribute_span = attribute_spans.detect do |attribute_span|
-    attribute_span.find(:css, ".locale_selector")["value"] == locale
-  end
-
-  destroy = attribute_span.find(:css, "a.destroy_locale")
+  destroy = span.find(:css, "a.destroy_locale")
 
   destroy.click
 end
