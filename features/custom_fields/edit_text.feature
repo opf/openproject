@@ -13,7 +13,7 @@ Feature: Editing text custom fields
   Scenario: Adding localized default_values
     When I go to the custom fields page
     And I follow "My Custom Field"
-    And I add the english localization of the "default_value" attribute as "default"
+    And I set the english localization of the "default_value" attribute to "default"
     And I add the german localization of the "default_value" attribute as "Standard"
     And I press "Save"
     And I follow "My Custom Field"
