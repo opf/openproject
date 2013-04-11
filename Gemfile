@@ -58,6 +58,7 @@ group :test do
   gem 'capybara'
   gem 'spork-rails'
   gem 'spork-testunit' # needed for test-unit only
+  gem 'selenium-webdriver'
 
   gem 'rb-readline' # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
