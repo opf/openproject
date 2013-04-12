@@ -59,7 +59,7 @@ describe Burndown do
         Date.stub!(:today).and_return(Date.civil(2011,04,04))
       end
 
-      describe "WITH having a 10 (working days) sprint and beeing 5 (working) days into it" do
+      describe "WITH having a 10 (working days) sprint and being 5 (working) days into it" do
         before(:each) do
           version.start_date = Date.today - 7.days
           version.effective_date = Date.today + 6.days
@@ -99,7 +99,7 @@ describe Burndown do
               it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
             end
 
-            describe "WITH the story beeing moved out of the sprint within the sprint duration and also moved back in" do
+            describe "WITH the story being moved out of the sprint within the sprint duration and also moved back in" do
               before(:each) do
                 other_version = FactoryGirl.create(:version, :name => "other_version", :project => project)
                 project.instance_eval { reload; @shared_versions = nil } # Invalidate cached attributes
@@ -118,7 +118,7 @@ describe Burndown do
               it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
             end
 
-            describe "WITH the story beeing moved out of the project within the sprint duration and also moved back in" do
+            describe "WITH the story being moved out of the project within the sprint duration and also moved back in" do
               before(:each) do
                 other_project = FactoryGirl.create(:project, :name => "other_project")
                 set_attribute_journalized @story, :project_id=, other_project.id, Time.now - 6.day
@@ -135,7 +135,7 @@ describe Burndown do
               it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
             end
 
-            describe "WITH the story beeing moved to another tracker within the sprint duration and also moved back in" do
+            describe "WITH the story being moved to another tracker within the sprint duration and also moved back in" do
               before(:each) do
                 other_tracker = FactoryGirl.create(:tracker_bug)
                 project.trackers << other_tracker
@@ -170,7 +170,7 @@ describe Burndown do
                                            :updated_on => Date.today - 20.days)
             end
 
-            describe "WITH the subticket beeing created within the sprint" do
+            describe "WITH the subticket being created within the sprint" do
               before(:each) do
                 @task.created_on = Time.now - 4.days
                 @task.save!
@@ -202,7 +202,7 @@ describe Burndown do
               @story.save!
             end
 
-            describe "WITH the story beeing closed and opened again within the sprint duration" do
+            describe "WITH the story being closed and opened again within the sprint duration" do
               before(:each) do
                 set_attribute_journalized @story, :status_id=, issue_closed.id, Time.now - 6.days
                 set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.days
