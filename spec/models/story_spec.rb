@@ -187,14 +187,14 @@ describe Story do
       @issue.parent_issue_id = @story.id
       @issue.save!
 
-      @story.journals.last["changes"]["remaining_hours"].should == [nil, 15]
+      @story.journals.last["changed_data"]["remaining_hours"].should == [nil, 15]
     end
 
     it "should not create an empty journal when adding a subtask without remaining hours set" do
       @issue.parent_issue_id  = @story.id
       @issue.save!
 
-      @story.journals.last["changes"]["remaining_hours"].should be_nil
+      @story.journals.last["changed_data"]["remaining_hours"].should be_nil
     end
   end
 end
