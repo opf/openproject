@@ -14,7 +14,8 @@ describe Sprint do
           sprint.save!
         end
 
-        it { Sprint.displayed_left(project).should eql [sprint] }
+        it {
+          Sprint.displayed_left(project).should match_array [sprint] }
       end
 
       describe "WITH a version setting defined for another project" do
@@ -28,7 +29,7 @@ describe Sprint do
           sprint.save
         end
 
-        it { Sprint.displayed_left(project).should eql [sprint] }
+        it { Sprint.displayed_left(project).should match_array [sprint] }
       end
 
       describe "WITH no version setting defined" do
@@ -37,7 +38,7 @@ describe Sprint do
           sprint.save!
         end
 
-        it { Sprint.displayed_left(project).should eql [sprint] }
+        it { Sprint.displayed_left(project).should match_array [sprint] }
       end
     end
 
@@ -48,7 +49,7 @@ describe Sprint do
         sprint.save!
       end
 
-      it { Sprint.displayed_right(project).should eql [sprint] }
+      it { Sprint.displayed_right(project).should match_array [sprint] }
     end
 
     describe :order_by_date do
