@@ -74,8 +74,8 @@ describe Burndown do
                                            :tracker => tracker_feature,
                                            :status => issue_open,
                                            :priority => issue_priority,
-                                           :created_on => Date.today - (20).days,
-                                           :updated_on => Date.today - (20).days)
+                                           :created_on => Date.today - 20.days,
+                                           :updated_on => Date.today - 20.days)
           end
 
           describe "WITH the story having a time_remaining defined on creation" do
@@ -86,7 +86,7 @@ describe Burndown do
 
             describe "WITH updating time_remaining three days ago" do
               before(:each) do
-                set_attribute_journalized @story, :remaining_hours=, 5, Time.now - 3.day
+                set_attribute_journalized @story, :remaining_hours=, 5, Time.now - 3.days
 
                 @burndown = Burndown.new(sprint, project)
               end
@@ -104,8 +104,8 @@ describe Burndown do
                 other_version = FactoryGirl.create(:version, :name => "other_version", :project => project)
                 project.instance_eval { reload; @shared_versions = nil } # Invalidate cached attributes
                 @story.instance_eval { reload; @assignable_versions = nil }
-                set_attribute_journalized @story, :fixed_version_id=, other_version.id, Time.now - 6.day
-                set_attribute_journalized @story, :fixed_version_id=, version.id, Time.now - 3.day
+                set_attribute_journalized @story, :fixed_version_id=, other_version.id, Time.now - 6.days
+                set_attribute_journalized @story, :fixed_version_id=, version.id, Time.now - 3.days
 
                 @burndown = Burndown.new(sprint, project)
               end
@@ -140,8 +140,8 @@ describe Burndown do
                 other_tracker = FactoryGirl.create(:tracker_bug)
                 project.trackers << other_tracker
 
-                set_attribute_journalized @story, :tracker_id=, other_tracker.id, Time.now - 6.day
-                set_attribute_journalized @story, :tracker_id=, tracker_feature.id, Time.now - 3.day
+                set_attribute_journalized @story, :tracker_id=, other_tracker.id, Time.now - 6.days
+                set_attribute_journalized @story, :tracker_id=, tracker_feature.id, Time.now - 3.days
 
                 @burndown = Burndown.new(sprint, project)
               end
@@ -186,7 +186,7 @@ describe Burndown do
               before(:each) do
                 @task.save!
 
-                set_attribute_journalized @task, :remaining_hours=, 10, Time.now - 3.day
+                set_attribute_journalized @task, :remaining_hours=, 10, Time.now - 3.days
 
                 @burndown = Burndown.new(sprint, project)
               end
@@ -204,8 +204,8 @@ describe Burndown do
 
             describe "WITH the story beeing closed and opened again within the sprint duration" do
               before(:each) do
-                set_attribute_journalized @story, :status_id=, issue_closed.id, Time.now - 6.day
-                set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.day
+                set_attribute_journalized @story, :status_id=, issue_closed.id, Time.now - 6.days
+                set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.days
 
                 @burndown = Burndown.new(sprint, project)
               end
@@ -220,8 +220,8 @@ describe Burndown do
 
             describe "WITH the story marked as resolved and consequently 'done'" do
               before(:each) do
-                set_attribute_journalized @story, :status_id=, issue_resolved.id, Time.now - 6.day
-                set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.day
+                set_attribute_journalized @story, :status_id=, issue_resolved.id, Time.now - 6.days
+                set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.days
                 project.issue_statuses << issue_resolved
                 @burndown = Burndown.new(sprint, project)
               end
