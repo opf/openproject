@@ -13,15 +13,13 @@ describe User do
       end
 
       it 'computes a random color and persists it, when none is set' do
-        u = FactoryGirl.build(:user)
+        u = FactoryGirl.create(:user)
+        u.backlogs_preference(:task_color, nil)
+        u.save!
 
         generated_task_color = u.backlogs_preference(:task_color)
         generated_task_color.should =~ /^#[0-9A-F]{6}$/
-
-        u.backlogs_preference(:task_color).should == generated_task_color
-        u.should be_new_record
-        u.save
-
+        u.save!
         u.reload
         u.backlogs_preference(:task_color).should == generated_task_color
       end
