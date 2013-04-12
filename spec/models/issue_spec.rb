@@ -97,6 +97,7 @@ describe Issue do
     let(:issue) { FactoryGirl.build(:issue) }
 
     it "should be false without a project" do
+      issue.project = nil
       issue.should_not be_backlogs_enabled
     end
 
