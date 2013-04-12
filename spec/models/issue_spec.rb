@@ -16,9 +16,7 @@ describe Issue do
   end
 
   describe 'validations' do
-    let(:issue) { FactoryGirl.build(:issue, :project => FactoryGirl.build(:project),
-                                        :status  => FactoryGirl.build(:issue_status),
-                                        :tracker => FactoryGirl.build(:tracker_feature)) }
+    let(:issue) { FactoryGirl.build(:issue)}
 
     describe 'story points' do
       it 'allows empty values' do
