@@ -102,7 +102,6 @@ describe Issue do
     end
 
     it "should be true with a project having the backlogs module" do
-      project.enabled_module_names = project.enabled_module_names + ["backlogs"]
       issue.project = project
 
       issue.should be_backlogs_enabled
