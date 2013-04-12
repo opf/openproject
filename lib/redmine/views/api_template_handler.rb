@@ -17,10 +17,7 @@ module Redmine
     class ApiTemplateHandler
 
       def self.call(template)
-        "Redmine::Views::Builders.for(params[:format], request, response) do |api|; #{template.source}; self.output_buffer = api.output; end"
-      end
-
-      def compile(template)
+        # This will keep an api builder intact when calling partials
         %Q{
           if @api
             # inner template
@@ -28,7 +25,7 @@ module Redmine
             #{template.source}
           else
             # base template
-            Redmine::Views::Builders.for(params[:format]) do |api|
+            Redmine::Views::Builders.for(params[:format], request, response) do |api|
               @api ||= api
               #{template.source}
               self.output_buffer = api.output
@@ -36,7 +33,6 @@ module Redmine
           end
         }
       end
-
     end
   end
 end
