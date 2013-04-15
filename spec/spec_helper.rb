@@ -51,6 +51,26 @@ Spork.prefork do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   RSpec.configure do |config|
+    config.before(:suite) do
+      require "#{Rails.root}/db/seeds.rb"
+    end
+
+    config.before :each do
+      if Capybara.current_driver == :rack_test
+        DatabaseCleaner.strategy = :transaction
+      else
+        DatabaseCleaner.strategy = :truncation
+      end
+      DatabaseCleaner.start
+    end
+    config.after(:each) do
+      if Capybara.current_driver == :rack_test
+        DatabaseCleaner.clean
+      else
+        DatabaseCleaner.clean
+        load "#{Rails.root}/db/seeds.rb"
+      end
+    end
     # ## Mock Framework
     #
     # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
