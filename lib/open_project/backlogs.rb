@@ -1,4 +1,5 @@
-require "open_project/backlogs/engine"
-
-module OpenProject::Backlogs
+module OpenProject
+  module Backlogs
+    require "open_project/backlogs/engine"
+  end
 end
