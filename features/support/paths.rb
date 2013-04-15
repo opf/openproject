@@ -119,7 +119,7 @@ module NavigationHelpers
     when /^the global index page (?:for|of) (.+)$/
       "/#{$1}"
 
-    when /$the edit page (?:for |of )the version(?: called) (.+)$/
+    when /^the edit page (?:for |of )the version(?: called) (.+)$/
       version_name = $1.gsub("\"", "")
       version = Version.find_by_name(version_name)
       "/versions/edit/#{version.id}"
