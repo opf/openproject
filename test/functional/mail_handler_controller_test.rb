@@ -23,6 +23,7 @@ class MailHandlerControllerTest < ActionController::TestCase
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
   def setup
+    super
     @controller = MailHandlerController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

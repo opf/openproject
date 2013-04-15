@@ -23,6 +23,7 @@ class SysControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = SysController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

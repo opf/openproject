@@ -21,6 +21,7 @@ class JournalsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = JournalsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

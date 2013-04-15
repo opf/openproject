@@ -21,6 +21,7 @@ class QueriesControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = QueriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

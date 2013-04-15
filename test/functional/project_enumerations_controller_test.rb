@@ -18,6 +18,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @request.session[:user_id] = nil
     Setting.default_language = 'en'
   end

@@ -21,6 +21,7 @@ class MyControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = MyController.new
     @request    = ActionController::TestRequest.new
     @request.session[:user_id] = 2

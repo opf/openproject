@@ -21,6 +21,7 @@ class GroupsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = GroupsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

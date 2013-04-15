@@ -21,6 +21,7 @@ class WorkflowsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = WorkflowsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

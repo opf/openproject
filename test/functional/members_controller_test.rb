@@ -22,6 +22,7 @@ class MembersControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = MembersController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

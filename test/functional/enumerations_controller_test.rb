@@ -21,6 +21,7 @@ class EnumerationsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = EnumerationsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

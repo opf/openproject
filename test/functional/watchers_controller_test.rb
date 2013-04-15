@@ -21,6 +21,7 @@ class WatchersControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = WatchersController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

@@ -18,6 +18,7 @@ class LdapAuthSourcesControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @request.session[:user_id] = 1
   end
 

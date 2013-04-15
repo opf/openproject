@@ -23,6 +23,7 @@ class IssueRelationsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = IssueRelationsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

@@ -21,6 +21,7 @@ class RepositoriesControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

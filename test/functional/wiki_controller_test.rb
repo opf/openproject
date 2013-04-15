@@ -21,6 +21,7 @@ class WikiControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = WikiController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

@@ -22,6 +22,7 @@ class TimelogControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = TimelogController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

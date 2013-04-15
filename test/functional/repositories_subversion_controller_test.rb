@@ -23,6 +23,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
   PRJ_ID = 3
 
   def setup
+    super
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

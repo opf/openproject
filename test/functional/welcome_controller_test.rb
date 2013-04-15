@@ -21,6 +21,7 @@ class WelcomeControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = WelcomeController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

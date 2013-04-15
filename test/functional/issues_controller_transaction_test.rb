@@ -23,6 +23,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
   self.use_transactional_fixtures = false
 
   def setup
+    super
     @controller = IssuesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

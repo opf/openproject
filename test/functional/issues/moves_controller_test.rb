@@ -18,6 +18,7 @@ class Issues::MovesControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     User.current = nil
   end
 

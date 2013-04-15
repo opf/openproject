@@ -23,6 +23,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = AttachmentsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

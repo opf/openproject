@@ -21,6 +21,7 @@ class MessagesControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = MessagesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

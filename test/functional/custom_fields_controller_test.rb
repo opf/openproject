@@ -22,6 +22,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = CustomFieldsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

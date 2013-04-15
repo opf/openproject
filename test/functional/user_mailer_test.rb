@@ -3,7 +3,8 @@ require File.expand_path('../../test_helper', __FILE__)
 class UserMailerTest < ActionMailer::TestCase
   include ActionDispatch::Assertions::SelectorAssertions
 
-  setup do
+  def setup
+    super
     Setting.mail_from = 'john@doe.com'
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'http'

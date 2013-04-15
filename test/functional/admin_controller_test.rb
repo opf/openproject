@@ -21,6 +21,7 @@ class AdminControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = AdminController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

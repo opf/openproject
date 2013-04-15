@@ -21,6 +21,7 @@ class DocumentsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @controller = DocumentsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

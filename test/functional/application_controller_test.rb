@@ -21,6 +21,7 @@ class ApplicationControllerTest < ActionController::TestCase
   include Redmine::I18n
 
   def setup
+    super
     @controller = ApplicationController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
