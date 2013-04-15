@@ -9,6 +9,9 @@ Feature: Exporting issues
     And there is 1 project with the following:
       | name       | project1 |
       | identifier | project1 |
+    And the project "project1" has the following trackers:
+      | name | position |
+      | Bug  |     1    |
     And the user "bob" is a "member" in the project "project1"
     And the user "bob" has 1 issue with the following:
       | subject | Some Issue |
