@@ -33,6 +33,10 @@ module HtmlSelectorsHelpers
     # web steps:
     when /^"(.+)"$/
       $1
+    #added second when case as changing the above regexp to
+    #/^"?(.+)"?$/ did not work for some reason
+    when /^(.+)$/
+      $1
 
     else
       raise "Can't find mapping from \"#{locator}\" to a selector.\n" +
