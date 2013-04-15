@@ -4,6 +4,9 @@ Feature: Issue Sum Calculations for Currency
     Given there is 1 project with the following:
       | name       | project1 |
       | identifier | project1 |
+    And the project "project1" has the following trackers:
+      | name | position |
+      | Bug  |     1    |
     And the following issue custom fields are defined:
       | name | type   |
       | cf1  | float  |
