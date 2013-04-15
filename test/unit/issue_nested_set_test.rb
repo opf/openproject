@@ -21,6 +21,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   self.use_transactional_fixtures = false
 
   def setup
+    super
     Issue.delete_all
   end
 

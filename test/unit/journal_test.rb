@@ -17,6 +17,7 @@ class JournalTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    super
     @journal = IssueJournal.find(1)
   end
 

@@ -17,6 +17,7 @@ class ActivityTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    super
     @project = Project.find(1)
     [1,4,5,6].each do |issue_id|
       i = Issue.find(issue_id)

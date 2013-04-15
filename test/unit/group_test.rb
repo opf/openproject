@@ -16,6 +16,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class GroupTest < ActiveSupport::TestCase
 
   def setup
+    super
     @group = FactoryGirl.create :group
     @member = FactoryGirl.build :member
     @roles = FactoryGirl.create_list :role, 2

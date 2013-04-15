@@ -17,6 +17,7 @@ class WikiRedirectTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    super
     @wiki = Wiki.find(1)
     @original = WikiPage.create(:wiki => @wiki, :title => 'Original title')
   end

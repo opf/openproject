@@ -16,9 +16,6 @@ require File.expand_path('../../test_helper', __FILE__)
 class VersionTest < ActiveSupport::TestCase
   fixtures :all
 
-  def setup
-  end
-
   def test_create
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => Project.find(1), :name => '1.1', :effective_date => '2011-03-25' }

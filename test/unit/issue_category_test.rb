@@ -15,6 +15,7 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class IssueCategoryTest < ActiveSupport::TestCase
   def setup
+    super
     @project = FactoryGirl.create :project
     @category = FactoryGirl.create :issue_category, :project => @project
     @issue = FactoryGirl.create :issue, :category => @category

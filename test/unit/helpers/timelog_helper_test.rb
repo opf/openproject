@@ -18,10 +18,6 @@ class TimelogHelperTest < HelperTestCase
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper
 
-  def setup
-    super
-  end
-
   def test_activities_collection_for_select_options_should_return_array_of_activity_names_and_ids
     design = FactoryGirl.create :activity, :name => "Design"
     development = FactoryGirl.create :activity, :name => "Development"

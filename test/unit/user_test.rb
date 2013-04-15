@@ -19,6 +19,7 @@ class UserTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    super
     @admin = User.find(1)
     @jsmith = User.find(2)
     @dlopper = User.find(3)

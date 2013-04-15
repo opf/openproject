@@ -30,6 +30,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
   WINDOWS_PASS = false
 
   def setup
+    super
     @project = Project.find(3)
     @repository = Repository::Git.create(
                       :project       => @project,

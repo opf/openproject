@@ -18,6 +18,7 @@ class BoardTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    super
     @project = Project.find(1)
   end
 

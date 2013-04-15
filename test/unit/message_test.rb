@@ -17,6 +17,7 @@ class MessageTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    super
     Setting.notified_events = ['message_posted']
     @board = Board.find(1)
     @user = User.find(1)

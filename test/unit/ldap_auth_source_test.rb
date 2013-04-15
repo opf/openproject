@@ -16,9 +16,6 @@ require File.expand_path('../../test_helper', __FILE__)
 class LdapAuthSourceTest < ActiveSupport::TestCase
   fixtures :all
 
-  def setup
-  end
-
   def test_create
     a = LdapAuthSource.new(:name => 'My LDAP', :host => 'ldap.example.net', :port => 389, :base_dn => 'dc=example,dc=net', :attr_login => 'sAMAccountName')
     assert a.save

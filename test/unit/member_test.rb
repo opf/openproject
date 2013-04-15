@@ -15,6 +15,7 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class MemberTest < ActiveSupport::TestCase
   def setup
+    super
     Role.non_member.add_permission! :view_issues # non_member users may be watchers of issues
     Role.non_member.add_permission! :view_wiki_pages # non_member users may be watchers of wikis
     @project = FactoryGirl.create :project_with_trackers

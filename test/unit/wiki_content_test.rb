@@ -17,6 +17,7 @@ class WikiContentTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    super
     @wiki = Wiki.find(1)
     @page = @wiki.pages.first
   end

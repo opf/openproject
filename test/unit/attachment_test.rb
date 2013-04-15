@@ -16,9 +16,6 @@ require File.expand_path('../../test_helper', __FILE__)
 class AttachmentTest < ActiveSupport::TestCase
   fixtures :all
 
-  def setup
-  end
-
   def test_create
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file("testfile.txt", "text/plain"),

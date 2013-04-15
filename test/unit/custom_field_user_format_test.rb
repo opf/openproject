@@ -15,6 +15,7 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class CustomFieldUserFormatTest < ActiveSupport::TestCase
   def setup
+    super
     @project = FactoryGirl.create :valid_project
     role   = FactoryGirl.create :role, :permissions => [:view_issues, :edit_issues]
     @users = FactoryGirl.create_list(:user, 5)

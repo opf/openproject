@@ -16,10 +16,6 @@ require File.expand_path('../../test_helper', __FILE__)
 class ChangesetTest < ActiveSupport::TestCase
   fixtures :all
 
-  def setup
-    super
-  end
-
   def test_ref_keywords_any
     ActionMailer::Base.deliveries.clear
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id

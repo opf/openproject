@@ -15,6 +15,7 @@ require 'test_helper'
 
 class WatcherTest < ActiveSupport::TestCase
   def setup
+    super
     @user  = FactoryGirl.create :user
     @issue = FactoryGirl.create :issue
     @role  = FactoryGirl.create :role, :permissions => [:view_issues]

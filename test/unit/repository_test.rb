@@ -17,6 +17,7 @@ class RepositoryTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    super
     @repository = Project.find(1).repository
   end
 

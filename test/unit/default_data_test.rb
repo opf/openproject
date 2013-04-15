@@ -17,6 +17,7 @@ class DefaultDataTest < ActiveSupport::TestCase
   include Redmine::I18n
 
   def setup
+    super
     delete_loaded_data!
     assert Redmine::DefaultData::Loader::no_data?
   end

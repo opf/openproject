@@ -17,6 +17,7 @@ class ProjectTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    super
     @ecookbook = Project.find(1)
     @ecookbook_sub1 = Project.find(3)
     User.current = nil

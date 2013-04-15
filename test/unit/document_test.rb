@@ -19,6 +19,7 @@ class DocumentTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    super
     @documentation_category = FactoryGirl.create :document_category, :name => 'User documentation'
     @project = FactoryGirl.create :project
   end

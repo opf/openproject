@@ -17,6 +17,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    super
     @project = Project.find(3)
     @repository = Repository::Subversion.create(:project => @project,
              :url => self.class.subversion_repository_url)

@@ -17,6 +17,7 @@ class CommentTest < ActiveSupport::TestCase
   include MiniTest::Assertions # refute
 
   def setup
+    super
     DatabaseCleaner.clean_with :truncation
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start

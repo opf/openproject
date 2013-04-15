@@ -20,11 +20,6 @@ class NewsTest < ActiveSupport::TestCase
     { :title => 'Test news', :description => 'Lorem ipsum etc', :author => User.find(:first) }
   end
 
-
-  def setup
-    super
-  end
-
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     Setting.notified_events = Setting.notified_events.dup << 'news_added'
