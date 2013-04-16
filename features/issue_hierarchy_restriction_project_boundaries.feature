@@ -42,6 +42,8 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
         | Resolved    | false      | false       |
         | Closed      | true       | false       |
         | Rejected    | true       | false       |
+    And there is a default issuepriority with:
+        | name   | Normal |
     And there is 1 user with:
         | login | markus |
         | firstname | Markus |
