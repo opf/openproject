@@ -178,6 +178,7 @@ describe Story do
                                        :status => issue_status1,
                                        :tracker => tracker_feature,
                                        :priority => issue_priority)
+      @story.project.enabled_module_names += ["backlogs"]
 
       @issue ||= FactoryGirl.create(:issue, :project => project, :status => issue_status1, :tracker => tracker_feature, :author => @current)
     end
