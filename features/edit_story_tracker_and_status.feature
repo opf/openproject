@@ -39,6 +39,8 @@ Feature: Edit story tracker and status
         | Resolved | false     | false      |
         | Closed   | true      | false      |
         | Rejected | true      | false      |
+    And there is a default issuepriority with:
+        | name   | Normal |
     And the project has the following stories in the following sprints:
         | subject | sprint     | tracker | story_points |
         | Story A | Sprint 001 | Bug     | 10           |
