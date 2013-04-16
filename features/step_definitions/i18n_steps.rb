@@ -77,18 +77,15 @@ def update_localization(container, language, value)
 end
 
 Then /^there should be the following localizations:$/ do |table|
-  wait_for_page_load
-
   cleaned_expectation = table.hashes.map do |x|
     x.reject{ |k, v| v == "nil" }
   end
 
   attributes = []
 
-  wait_until(5) do
-    attributes = page.all(:css, "[name*=\"translations_attributes\"]:not([disabled=disabled])")
-    attributes.size > 0
-  end
+  page.should have_selector(:xpath, '(//*[contains(@name, "translations_attributes") and not(contains(@disabled,"disabled"))])[1]')
+
+  attributes = page.all(:css, "[name*=\"translations_attributes\"]:not([disabled=disabled])")
 
   name_regexp = /\[(\d)+\]\[(\w+)\]$/
 
