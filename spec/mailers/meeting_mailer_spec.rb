@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../spec_helper'
-include Redmine::I18n
 
 describe MeetingMailer do
   before(:each) do
