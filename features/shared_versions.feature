@@ -47,7 +47,7 @@ Feature: Shared Versions
 
   Scenario: Inherited Sprints are displayed
     Given I am on the master backlog
-    Then I should see "ParentSprint" within ".sprint .name"
+    Then I should see "ParentSprint" within "#sprint_backlogs_container .backlog:first-child .sprint .name"
 
   Scenario: Only stories of current project are displayed
     Given the project "parent" has the following stories in the following sprints:
