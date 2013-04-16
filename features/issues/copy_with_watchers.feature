@@ -2,6 +2,8 @@ Feature: Copying an issue should copy the watchers
   Background:
     Given there is 1 project with the following:
       | identifier | omicronpersei8 |
+      | name       | omicronpersei8 |
+    And I am working in project "omicronpersei8"
     And there is a role "CanCopyIssues"
     And the role "CanCopyIssues" may have the following rights:
       | add_issues          |
@@ -22,6 +24,11 @@ Feature: Copying an issue should copy the watchers
     And there are the following issue status:
       | name | is_default |
       | New  | true       |
+    And there is a default issuepriority with:
+      | name   | Normal |
+    And the project "omicronpersei8" has the following trackers:
+      | name | position |
+      | Bug  |     1    |
     And the user "lrrr" has 1 issue with the following:
       | subject     | Improve drive  |
       | description | Acquire horn |
