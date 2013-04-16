@@ -14,32 +14,35 @@
 #  end
 #
 
-require "rspec/core/rake_task"
+begin
+  require "rspec/core/rake_task"
 
-desc "Run all core and plugin specs"
-RSpec::Core::RakeTask.new(:spec_all => :environment) do |t|
-  pattern = []
-  dirs = get_plugins_to_test
-  dirs << File.join(Rails.root).to_s
-  dirs.each do |dir|
-    if File.directory?( dir )
-      pattern << File.join( dir, 'spec', '**', '*_spec.rb' ).to_s
+  desc "Run all core and plugin specs"
+  RSpec::Core::RakeTask.new(:spec_all => :environment) do |t|
+    pattern = []
+    dirs = get_plugins_to_test
+    dirs << File.join(Rails.root).to_s
+    dirs.each do |dir|
+      if File.directory?( dir )
+        pattern << File.join( dir, 'spec', '**', '*_spec.rb' ).to_s
+      end
     end
+    t.fail_on_error = false
+    t.pattern = pattern
   end
-  t.fail_on_error = false
-  t.pattern = pattern
-end
 
-desc "Run all plugin specs"
-RSpec::Core::RakeTask.new(:spec_plugins => :environment) do |t|
-  pattern = []
-  get_plugins_to_test.each do |dir|
-    if File.directory?( dir )
-      pattern << File.join( dir, 'spec', '**', '*_spec.rb' ).to_s
+  desc "Run all plugin specs"
+  RSpec::Core::RakeTask.new(:spec_plugins => :environment) do |t|
+    pattern = []
+    get_plugins_to_test.each do |dir|
+      if File.directory?( dir )
+        pattern << File.join( dir, 'spec', '**', '*_spec.rb' ).to_s
+      end
     end
+    t.fail_on_error = false
+    t.pattern = pattern
   end
-  t.fail_on_error = false
-  t.pattern = pattern
+rescue LoadError
 end
 
 def get_plugins_to_test
