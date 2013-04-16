@@ -37,6 +37,11 @@ module OpenProject::Backlogs
       app.config.plugins_to_test_paths << self.root
     end
 
+    # adds our factories to factory girl's load path
+    initializer "backlogs.register_factories", :after => "factory_girl.set_factory_paths" do |app|
+      FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
+    end
+
     config.to_prepare do
 
       # TODO: avoid this dirty hack necessary to prevent settings method getting lost after reloading
