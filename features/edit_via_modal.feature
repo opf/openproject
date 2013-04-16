@@ -48,11 +48,12 @@ Feature: Edit issue via modal box
   @javascript
   Scenario: Edit issue via modal box
     When I go to the master backlog
-    And I follow "1" within ".story .id"
+    And I follow "" within ".stories .story .id"
 
-    Then I should see "Story #1"
+    Then I should see "Story #"
+    And I should see "Story A"
 
-    When I follow "Update" within ".contextual"
+    When I follow "Update" within ".modal .contextual"
     And fill in "Story A changed" for "issue_subject"
     And I follow "Save"
 
