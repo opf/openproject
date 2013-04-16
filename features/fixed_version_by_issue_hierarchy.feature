@@ -106,7 +106,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I follow the link to add a subtask
       And I select "Task" from "issue_tracker_id"
       And I fill in "Task 0815" for "issue_subject"
-      And I press "Create"
+      And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
   @javascript
@@ -116,7 +116,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I select "Task" from "issue_tracker_id"
       And I fill in "Task 0815" for "issue_subject"
       And I fill in the id of the issue "Story A" as the parent issue
-      And I press "Create"
+      And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
   @javascript
@@ -127,7 +127,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I fill in "Task 0815" for "issue_subject"
       And I fill in the id of the issue "Story A" as the parent issue
       And I select "Sprint 003" from "issue_fixed_version_id"
-      And I press "Create"
+      And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
 
