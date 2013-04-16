@@ -38,6 +38,16 @@ Feature: Edit story on backlogs view
     And the project has the following owner backlogs:
         | Product Backlog |
         | Wishlist        |
+    And there are the following issue status:
+        | name        | is_closed  | is_default  |
+        | New         | false      | true        |
+        | In Progress | false      | false       |
+        | Resolved    | false      | false       |
+        | Closed      | true       | false       |
+        | Rejected    | true       | false       |
+    And the tracker "Story" has the default workflow for the role "team member"
+    And there is a default issuepriority with:
+        | name   | Normal |
     And the project has the following stories in the following owner backlogs:
         | subject | backlog         |
         | Story 1 | Product Backlog |
