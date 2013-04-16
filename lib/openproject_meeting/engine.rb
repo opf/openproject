@@ -26,6 +26,11 @@ module MeetingsPlugin
       app.routes_reloader.paths.uniq!
     end
 
+    # adds our factories to factory girl's load path
+    initializer "meetings.register_factories", :after => "factory_girl.set_factory_paths" do |app|
+      FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
+    end
+
     config.to_prepare do
       require 'redmine/plugin'
 
