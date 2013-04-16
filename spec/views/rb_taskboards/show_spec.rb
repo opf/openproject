@@ -13,16 +13,23 @@ describe 'rb_taskboards/show' do
     view.extend RbCommonHelper
     view.extend TaskboardsHelper
 
-    assigns[:project]  = project
-    assigns[:sprint]   = sprint
-    assigns[:statuses] = statuses
-    assigns[:all_issue_status] = statuses
+    assign(:project, project)
+    assign(:sprint, sprint)
+    assign(:statuses, statuses)
+    assign(:all_issue_status, statuses)
   end
 
   describe 'story blocks' do
-    let(:story_a) { stub_model(Story, :id => 1001, :subject => 'Story A', :status => statuses[0], :status_id => statuses[0].id, :assigned_to => assignee) }
-    let(:story_b) { stub_model(Story, :id => 1002, :subject => 'Story B', :status => statuses[1], :status_id => statuses[1].id, :assigned_to => assignee) }
-    let(:story_c) { stub_model(Story, :id => 1003, :subject => 'Story C', :status => statuses[2], :status_id => statuses[2].id, :assigned_to => assignee) }
+    let(:story_a) { story =
+                    stub_model(Story, :id => 1001, :subject => 'Story A', :status_id => statuses[0].id, :assigned_to => assignee)
+                    story.status = statuses[0]
+                    story }
+    let(:story_b) { story = stub_model(Story, :id => 1002, :subject => 'Story B', :status_id => statuses[1].id, :assigned_to => assignee)
+                    story.status = statuses[1]
+                    story }
+    let(:story_c) { story = stub_model(Story, :id => 1003, :subject => 'Story C', :status_id => statuses[2].id, :assigned_to => assignee)
+                    story.status = statuses[2]
+                    story }
     let(:stories) { [story_a, story_b, story_c] }
 
     before do
@@ -35,8 +42,8 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        view.should have_tag "#story_#{story.id}" do
-          with_tag ".id", Regexp.new(story.id.to_s)
+        rendered.should have_selector "#story_#{story.id}" do
+          with_selector ".id", Regexp.new(story.id.to_s)
         end
       end
     end
@@ -45,8 +52,8 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        view.should have_tag "#story_#{story.id}" do
-          with_tag ".subject", story.subject
+        rendered.should have_selector "#story_#{story.id}" do
+          with_selector ".subject", story.subject
         end
       end
     end
@@ -55,8 +62,8 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        view.should have_tag "#story_#{story.id}" do
-          with_tag ".status", story.status.name
+        rendered.should have_selector "#story_#{story.id}" do
+          with_selector ".status", story.status.name
         end
       end
     end
@@ -65,8 +72,8 @@ describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        view.should have_tag "#story_#{story.id}" do
-          with_tag ".assigned_to_id", assignee.name
+        rendered.should have_selector "#story_#{story.id}" do
+          with_selector ".assigned_to_id", assignee.name
         end
       end
     end
