@@ -1,4 +1,5 @@
 require 'acts_as_silent_list'
+require 'openproject_nissue'
 
 module OpenProject::Backlogs
   class Engine < ::Rails::Engine
