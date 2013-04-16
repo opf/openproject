@@ -27,6 +27,10 @@ Feature: Edit issue via modal box
     And the project uses the following trackers:
         | Story |
         | Task  |
+    And there is a default issuestatus with:
+        | name | new |
+    And there is a default issuepriority with:
+        | name   | Normal |
     And the tracker "Task" has the default workflow for the role "scrum master"
     And there is 1 user with:
         | login | markus |
@@ -44,11 +48,12 @@ Feature: Edit issue via modal box
   @javascript
   Scenario: Edit issue via modal box
     When I go to the master backlog
-    And I follow "1" within ".story .id"
+    And I follow "" within ".stories .story .id"
 
-    Then I should see "Story #1"
+    Then I should see "Story #"
+    And I should see "Story A"
 
-    When I follow "Update" within ".contextual"
+    When I follow "Update" within ".modal .contextual"
     And fill in "Story A changed" for "issue_subject"
     And I follow "Save"
 

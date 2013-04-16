@@ -42,6 +42,8 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
         | Resolved    | false      | false       |
         | Closed      | true       | false       |
         | Rejected    | true       | false       |
+    And there is a default issuepriority with:
+        | name   | Normal |
     And there is 1 user with:
         | login | markus |
         | firstname | Markus |
@@ -63,5 +65,5 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
     And I select "Task" from "issue_tracker_id"
     And I fill in "Task 0815" for "issue_subject"
     And I fill in the id of the issue "Story A" as the parent issue
-    And I press "Create"
+    And I click on the first button matching "Create"
    Then I should be notified that the issue "Story A" is an invalid parent to the issue "Task 0815" because of cross project limitations

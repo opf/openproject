@@ -24,6 +24,10 @@ Feature: Shared Versions
         | story |
         | task  |
     And I am working in project "child"
+    And there is a default issuestatus with:
+        | name | new |
+    And there is a default issuepriority with:
+        | name   | Normal |
     And there is 1 user with:
         | login | padme |
     And there is a role "project admin"
@@ -43,7 +47,7 @@ Feature: Shared Versions
 
   Scenario: Inherited Sprints are displayed
     Given I am on the master backlog
-    Then I should see "ParentSprint" within ".sprint .name"
+    Then I should see "ParentSprint" within "#sprint_backlogs_container .backlog:first-child .sprint .name"
 
   Scenario: Only stories of current project are displayed
     Given the project "parent" has the following stories in the following sprints:

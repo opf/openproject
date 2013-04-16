@@ -134,8 +134,11 @@ When /^I close the "(.+?)" (?:backlogs )?menu/ do |backlog_name|
 end
 
 When /^I click on the text "(.+?)"$/ do |locator|
-  msg = "no element with title, id or text '#{locator}' found"
-  page.all(:xpath, %Q{//*[contains(., "#{locator}")]}, :message => msg).last.click
+  find(:xpath, %Q{//*[contains(text(), "#{locator}")]}).click
+end
+
+When /^I click on the element with class "(.+?)"$/ do |locator|
+  find(:css, ".#{locator}").click
 end
 
 When /^I confirm the story form$/ do

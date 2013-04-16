@@ -21,6 +21,13 @@ Feature: Common
         | view_issues         |
         | edit_issues         |
         | manage_subtasks     |
+    And there are the following issue status:
+        | name        | is_closed  | is_default  |
+        | New         | false      | true        |
+        | In Progress | false      | false       |
+        | Resolved    | false      | false       |
+        | Closed      | true       | false       |
+        | Rejected    | true       | false       |
     And the user "paul" is a "team member"
     And I am already logged in as "paul"
 

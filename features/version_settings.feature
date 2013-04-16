@@ -17,6 +17,8 @@ Feature: Version Settings
         | manage_versions     |
         | view_master_backlog |
     And the user "padme" is a "project admin"
+    And there is a default issuestatus with:
+        | name | new |
     And the project has the following sprints:
         | name       | start_date        | effective_date |
         | Sprint 001 | 2010-01-01        | 2010-01-31     |

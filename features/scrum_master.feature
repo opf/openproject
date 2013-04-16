@@ -32,6 +32,15 @@ Feature: Scrum Master
         | Epic  |
         | Task  |
         | Bug   |
+    And there are the following issue status:
+        | name        | is_closed  | is_default  |
+        | New         | false      | true        |
+        | In Progress | false      | false       |
+        | Resolved    | false      | false       |
+        | Closed      | true       | false       |
+        | Rejected    | true       | false       |
+    And there is a default issuepriority with:
+        | name   | Normal |
     And the tracker "Task" has the default workflow for the role "scrum master"
     And there is 1 user with:
         | login | markus |
@@ -59,13 +68,6 @@ Feature: Scrum Master
         | Story A | Sprint 001 |
         | Story B | Sprint 001 |
         | Story C | Sprint 002 |
-    And there are the following issue status:
-        | name        | is_closed  | is_default  |
-        | New         | false      | true        |
-        | In Progress | false      | false       |
-        | Resolved    | false      | false       |
-        | Closed      | true       | false       |
-        | Rejected    | true       | false       |
     And the project has the following tasks:
         | subject      | sprint     | parent     |
         | Task 1       | Sprint 001 | Story A    |
@@ -105,7 +107,7 @@ Feature: Scrum Master
   @javascript
   Scenario: Create an impediment
     Given I am on the taskboard for "Sprint 001"
-    When I press "td.add_new" within "#impediments"
+    When I click on the element with class "add_new" within "#impediments"
     And I fill in "Bad Company" for "subject"
     And I fill in the ids of the tasks "Task 1" for "blocks_ids"
     And I select "Markus Master" from "assigned_to_id"
@@ -116,7 +118,7 @@ Feature: Scrum Master
   @javascript
   Scenario: Create an impediment blocking an issue of another sprint
     Given I am on the taskboard for "Sprint 001"
-    When I press "td.add_new" within "#impediments"
+    When I click on the element with class "add_new" within "#impediments"
     And I fill in "Bad Company" for "subject"
     And I fill in the ids of the stories "Story C" for "blocks_ids"
     And I select "Markus Master" from "assigned_to_id"
@@ -128,7 +130,7 @@ Feature: Scrum Master
   @javascript
   Scenario: Create an impediment blocking a non existent issue
     Given I am on the taskboard for "Sprint 001"
-    When I press "td.add_new" within "#impediments"
+    When I click on the element with class "add_new" within "#impediments"
     And I fill in "Bad Company" for "subject"
     And I fill in "0" for "blocks_ids"
     And I select "Markus Master" from "assigned_to_id"
@@ -140,7 +142,7 @@ Feature: Scrum Master
   @javascript
   Scenario: Create an impediment without specifying what it blocks
     Given I am on the taskboard for "Sprint 001"
-    When I press "td.add_new" within "#impediments"
+    When I click on the element with class "add_new" within "#impediments"
     And I fill in "Bad Company" for "subject"
     And I fill in "" for "blocks_ids"
     And I select "Markus Master" from "assigned_to_id"

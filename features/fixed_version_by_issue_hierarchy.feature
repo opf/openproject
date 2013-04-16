@@ -25,6 +25,15 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
         | manage_subtasks         |
         | create_tasks            |
         | add_issues              |
+    And there are the following issue status:
+        | name        | is_closed  | is_default  |
+        | New         | false      | true        |
+        | In Progress | false      | false       |
+        | Resolved    | false      | false       |
+        | Closed      | true       | false       |
+        | Rejected    | true       | false       |
+    And there is a default issuepriority with:
+        | name   | Normal |
     And the backlogs module is initialized
     And the following trackers are configured to track stories:
         | Story |
@@ -52,13 +61,6 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
         | Story A | Sprint 001 |
         | Story B | Sprint 001 |
         | Story C | Sprint 002 |
-    And there are the following issue status:
-        | name        | is_closed  | is_default  |
-        | New         | false      | true        |
-        | In Progress | false      | false       |
-        | Resolved    | false      | false       |
-        | Closed      | true       | false       |
-        | Rejected    | true       | false       |
     And I am already logged in as "markus"
 
   @javascript
@@ -104,7 +106,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I follow the link to add a subtask
       And I select "Task" from "issue_tracker_id"
       And I fill in "Task 0815" for "issue_subject"
-      And I press "Create"
+      And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
   @javascript
@@ -114,7 +116,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I select "Task" from "issue_tracker_id"
       And I fill in "Task 0815" for "issue_subject"
       And I fill in the id of the issue "Story A" as the parent issue
-      And I press "Create"
+      And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
   @javascript
@@ -125,7 +127,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I fill in "Task 0815" for "issue_subject"
       And I fill in the id of the issue "Story A" as the parent issue
       And I select "Sprint 003" from "issue_fixed_version_id"
-      And I press "Create"
+      And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
 
