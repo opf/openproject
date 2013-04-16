@@ -368,7 +368,7 @@ def find_lowest_containing_element text, selector
   end
   elements = all(:xpath, search_string)
 
-rescue Capybara::TimeoutError, Nokogiri::CSS::SyntaxError
+rescue Nokogiri::CSS::SyntaxError
   elements
 end
 
