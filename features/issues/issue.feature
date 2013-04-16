@@ -4,6 +4,12 @@ Feature: Issue textile quickinfo links
     And there is 1 project with the following:
       | name        | parent      |
       | identifier  | parent      |
+    And I am working in project "parent"
+    And the project "parent" has the following trackers:
+      | name | position |
+      | Bug  |     1    |
+    And there is a default issuepriority with:
+      | name   | Normal |
     And there is a role "member"
     And the role "member" may have the following rights:
       | add_issues  |

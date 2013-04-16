@@ -5,17 +5,11 @@ require "rack_session_access/capybara"
 Before do |scenario|
   unless ScenarioDisabler.empty_if_disabled(scenario)
     # Reset the DB and load the minimal fixtures for a functional system before each scenario
-    system "RAILS_ENV=test db:test:load >/dev/null 2>/dev/null"
-    ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations['test'])
-    ActiveRecord::Schema.verbose = false
+    system "RAILS_ENV=test rake db:test:prepare >/dev/null 2>/dev/null"
 
-    fixtures_path = File.expand_path(Rails.root.join('test/fixtures'))
     FactoryGirl.create(:admin) unless User.find_by_login("admin")
     FactoryGirl.create(:anonymous) unless AnonymousUser.count > 0
     Setting.notified_events = [] #can not test mailer
-    Dir.glob(File.join(fixtures_path, "*.yml")) do |table_name|
-      ActiveRecord::Fixtures.create_fixtures(fixtures_path, File.basename(table_name).gsub(".yml", ""))
-    end
 
     if Capybara.current_driver.to_s.include?("selenium")
       Capybara.current_session.driver.browser.manage.window.resize_to(3000, 3000)

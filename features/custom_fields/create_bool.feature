@@ -5,6 +5,11 @@ Feature: Localized boolean custom fields can be created
     And the following languages are active:
       | en |
       | de |
+    And there are the following trackers:
+      | name    | position |  is_in_chlog |
+      | Bug     |    1     |  true        |
+      | Feature |    2     |  true        |
+      | Support |    3     |  false       |
     When I go to the custom fields page
     When I follow "New custom field" within "#tab-content-IssueCustomField"
 
