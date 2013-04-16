@@ -17,6 +17,13 @@ Feature: Backlog Settings
         | edit_project              |
         | manage_project_activities |
     And the user "padme" is a "project admin"
+    And there are the following issue status:
+        | name        | is_closed  | is_default  |
+        | New         | false      | true        |
+        | In Progress | false      | false       |
+        | Resolved    | false      | false       |
+        | Closed      | true       | false       |
+        | Rejected    | true       | false       |
     And I am already logged in as "padme"
 
   @javascript
