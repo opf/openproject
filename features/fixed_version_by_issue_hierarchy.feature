@@ -25,6 +25,15 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
         | manage_subtasks         |
         | create_tasks            |
         | add_issues              |
+    And there are the following issue status:
+        | name        | is_closed  | is_default  |
+        | New         | false      | true        |
+        | In Progress | false      | false       |
+        | Resolved    | false      | false       |
+        | Closed      | true       | false       |
+        | Rejected    | true       | false       |
+    And there is a default issuepriority with:
+        | name   | Normal |
     And the backlogs module is initialized
     And the following trackers are configured to track stories:
         | Story |
@@ -52,13 +61,6 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
         | Story A | Sprint 001 |
         | Story B | Sprint 001 |
         | Story C | Sprint 002 |
-    And there are the following issue status:
-        | name        | is_closed  | is_default  |
-        | New         | false      | true        |
-        | In Progress | false      | false       |
-        | Resolved    | false      | false       |
-        | Closed      | true       | false       |
-        | Rejected    | true       | false       |
     And I am already logged in as "markus"
 
   @javascript
