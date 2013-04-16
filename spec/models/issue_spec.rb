@@ -22,7 +22,7 @@ describe Issue do
 
     describe 'story points' do
       before(:each) do
-        issue.project.enabled_module_names = issue.project.enabled_module_names + ["backlogs"]
+        issue.project.enabled_module_names += ["backlogs"]
       end
 
       it 'allows empty values' do
