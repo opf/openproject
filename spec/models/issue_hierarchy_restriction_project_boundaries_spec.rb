@@ -93,13 +93,13 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
                               :priority => issue_priority) }
 
   before(:all) do
-    @are_settings_cached = Setting.use_caching?
-    Setting.use_caching = false
+    @are_settings_cached = ActionController::Base.perform_caching
+    ActionController::Base.perform_caching = false
     Setting.cross_project_issue_relations = "1"
   end
 
   after(:all) do
-    Setting.use_caching = @are_settings_cached
+    ActionController::Base.perform_caching = @are_settings_cached
   end
 
   before(:each) do

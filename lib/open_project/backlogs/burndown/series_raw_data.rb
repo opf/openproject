@@ -78,7 +78,7 @@ module OpenProject::Backlogs::Burndown
 
     def details_by_property(story)
       details = story.journals.sort_by(&:version)[1..-1].map do |journal|
-        journal.changes.map do |prop_key, change|
+        journal.changed_data.map do |prop_key, change|
           if collect_names.include?(prop_key) || out_names.include?(prop_key)
             JournalDetail.new(prop_key, change.first, change.last, journal)
           end
@@ -106,17 +106,17 @@ module OpenProject::Backlogs::Burndown
 
       stories.delete_if do |s|
         s.fixed_version_id != sprint.id and
-          s.journals.none? { |j| j.changes['fixed_version_id'] && j.changes['fixed_version_id'].first == sprint.id }
+          s.journals.none? { |j| j.changed_data['fixed_version_id'] && j.changed_data['fixed_version_id'].first == sprint.id }
       end
 
       stories.delete_if do |s|
         s.project_id != project.id and
-          s.journals.none? { |j| j.changes['project_id'] && j.changes['project_id'].first == project.id }
+          s.journals.none? { |j| j.changed_data['project_id'] && j.changed_data['project_id'].first == project.id }
       end
 
       stories.delete_if do |s|
         !collected_trackers.include?(s.tracker_id) and
-          s.journals.none? { |j| j.changes['tracker_id'] && collected_trackers.map(&:to_s).include?(j.changes['tracker_id'].first.to_s) }
+          s.journals.none? { |j| j.changed_data['tracker_id'] && collected_trackers.map(&:to_s).include?(j.changed_data['tracker_id'].first.to_s) }
       end
 
       stories

@@ -16,11 +16,15 @@ describe Issue do
   end
 
   describe 'validations' do
-    let(:issue) { FactoryGirl.build(:issue, :project => FactoryGirl.build(:project),
-                                        :status  => FactoryGirl.build(:issue_status),
-                                        :tracker => FactoryGirl.build(:tracker_feature)) }
+    let(:issue) do
+      FactoryGirl.build(:issue)
+    end
 
     describe 'story points' do
+      before(:each) do
+        issue.project.enabled_module_names += ["backlogs"]
+      end
+
       it 'allows empty values' do
         issue.story_points.should be_nil
         issue.should be_valid
@@ -97,6 +101,7 @@ describe Issue do
     let(:issue) { FactoryGirl.build(:issue) }
 
     it "should be false without a project" do
+      issue.project = nil
       issue.should_not be_backlogs_enabled
     end
 

@@ -38,7 +38,7 @@ describe Story do
   end
 
   before(:each) do
-    Setting.use_caching = false
+    ActionController::Base.perform_caching = false
 
     Setting.plugin_openproject_backlogs = {"points_burn_direction" => "down",
                                "wiki_template"         => "",
@@ -178,6 +178,7 @@ describe Story do
                                        :status => issue_status1,
                                        :tracker => tracker_feature,
                                        :priority => issue_priority)
+      @story.project.enabled_module_names += ["backlogs"]
 
       @issue ||= FactoryGirl.create(:issue, :project => project, :status => issue_status1, :tracker => tracker_feature, :author => @current)
     end
@@ -187,14 +188,14 @@ describe Story do
       @issue.parent_issue_id = @story.id
       @issue.save!
 
-      @story.journals.last["changes"]["remaining_hours"].should == [nil, 15]
+      @story.journals.last["changed_data"]["remaining_hours"].should == [nil, 15]
     end
 
     it "should not create an empty journal when adding a subtask without remaining hours set" do
       @issue.parent_issue_id  = @story.id
       @issue.save!
 
-      @story.journals.last["changes"]["remaining_hours"].should be_nil
+      @story.journals.last["changed_data"]["remaining_hours"].should be_nil
     end
   end
 end

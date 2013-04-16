@@ -24,23 +24,32 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
   end
 
 
-  let(:story) { FactoryGirl.build(:issue,
+  let(:story) do
+    story = FactoryGirl.build(:issue,
                               :subject => "Story",
                               :project => project,
                               :tracker => tracker_feature,
                               :fixed_version => version1,
                               :status => issue_status,
                               :author => user,
-                              :priority => issue_priority) }
+                              :priority => issue_priority)
+    story.project.enabled_module_names += ["backlogs"]
+    story
+  end
 
-  let(:story2) { FactoryGirl.build(:issue,
-                               :subject => "Story2",
-                               :project => project,
-                               :tracker => tracker_feature,
-                               :fixed_version => version1,
-                               :status => issue_status,
-                               :author => user,
-                               :priority => issue_priority) }
+  let(:story2) do
+    story = FactoryGirl.build(:issue,
+                              :subject => "Story2",
+                              :project => project,
+                              :tracker => tracker_feature,
+                              :fixed_version => version1,
+                              :status => issue_status,
+                              :author => user,
+                              :priority => issue_priority)
+    story.project.enabled_module_names += ["backlogs"]
+    story
+  end
+
 
   let(:task) { FactoryGirl.build(:issue,
                              :subject => "Task",

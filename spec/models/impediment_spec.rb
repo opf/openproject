@@ -43,7 +43,7 @@ describe Impediment do
                                                 :status => issue_status1)}
 
   before(:each) do
-    Setting.use_caching = false
+    ActionController::Base.perform_caching = false
 
     Setting.plugin_openproject_backlogs = {"points_burn_direction" => "down",
                                "wiki_template"         => "",
@@ -122,7 +122,7 @@ describe Impediment do
 
           it_should_behave_like "impediment creation with no blocking relationship"
           it { @impediment.should be_new_record }
-          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
         end
 
         describe "WITH the story being non existent" do
@@ -137,7 +137,7 @@ describe Impediment do
 
           it_should_behave_like "impediment creation with no blocking relationship"
           it { @impediment.should be_new_record }
-          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
         end
       end
 
@@ -153,7 +153,7 @@ describe Impediment do
 
         it_should_behave_like "impediment creation with no blocking relationship"
         it { @impediment.should be_new_record }
-        it { @impediment.errors[:blocks_ids].should eql I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+        it { @impediment.errors[:blocks_ids].should include I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
       end
     end
   end
@@ -234,7 +234,7 @@ describe Impediment do
           it "should not be saved successfully" do
             @saved.should be_false
           end
-          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
         end
 
         describe "WITH the story beeing non existent" do
@@ -248,7 +248,7 @@ describe Impediment do
           it "should not be saved successfully" do
             @saved.should be_false
           end
-          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
         end
       end
 
@@ -264,7 +264,7 @@ describe Impediment do
           @saved.should be_false
         end
 
-        it { @impediment.errors[:blocks_ids].should eql I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+        it { @impediment.errors[:blocks_ids].should include I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
       end
     end
 
