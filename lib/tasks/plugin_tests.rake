@@ -1,4 +1,9 @@
-#  This task will run all plugin specs separated by plugin.
+#  Run all core and plugins specs via
+#  rake spec_all 
+#
+#  Run plugins specs via
+#  rake spec_plugins
+#
 #  A plugin must register for tests via config variable 'plugins_to_test_paths'
 #
 #  e.g.
@@ -9,20 +14,32 @@
 #  end
 #
 
-desc "Run plugin tests"
-namespace :openproject do
-  namespace :plugins do
-    namespace :test do
-      desc "Run specs for all test registered plugins"
-      task :rspec => :environment do
-        get_plugins_to_test.each do |plugin_path|
-          puts "run specs for #{plugin_path.split('/').last} plugin"
-          ENV['SPEC'] = "#{plugin_path}/spec/"
-          Rake::Task["spec"].execute
-        end
-      end
+require "rspec/core/rake_task"
+
+desc "Run all core and plugin specs"
+RSpec::Core::RakeTask.new(:spec_all => :environment) do |t|
+  pattern = []
+  dirs = get_plugins_to_test
+  dirs << File.join(Rails.root).to_s
+  dirs.each do |dir|
+    if File.directory?( dir )
+      pattern << File.join( dir, 'spec', '**', '*_spec.rb' ).to_s
     end
   end
+  t.fail_on_error = false
+  t.pattern = pattern
+end
+
+desc "Run all plugin specs"
+RSpec::Core::RakeTask.new(:spec_plugins => :environment) do |t|
+  pattern = []
+  get_plugins_to_test.each do |dir|
+    if File.directory?( dir )
+      pattern << File.join( dir, 'spec', '**', '*_spec.rb' ).to_s
+    end
+  end
+  t.fail_on_error = false
+  t.pattern = pattern
 end
 
 def get_plugins_to_test
