@@ -3,6 +3,8 @@ class Impediment < Task
 
   after_save :update_blocks_list
 
+  validate :validate_blocks_list
+
   safe_attributes "blocks_ids",
                   :if => lambda {|impediment, user|
                             (impediment.new_record? && user.allowed_to?(:create_impediments, impediment.project)) ||
@@ -54,10 +56,6 @@ class Impediment < Task
       rel.issue_to_id = id #attr_protected
       self.relations_from << rel
     }
-  end
-
-  def validate
-    validate_blocks_list
   end
 
   def validate_blocks_list
