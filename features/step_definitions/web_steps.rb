@@ -281,7 +281,7 @@ When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: t
               timeout.to_f :
               5.0
 
-  wait_until(timeout) do
+  wait_until(timeout, :i_know_im_immoral => true) do
     ajax_done.call
   end
 end
@@ -386,16 +386,14 @@ end
 
 require 'timeout'
 
-def wait_until(seconds = 5, &block)
-  Timeout.timeout(seconds, &block)
-end
+def wait_until(seconds = 5, options = {}, &block)
+  unless options[:i_know_im_immoral]
+    raise "You are immoral. I can't stand this. Goodbye.
 
-def wait_for_page_load(seconds = 5)
-  begin
-    wait_until(seconds) do
-      page.has_css?('body')
+You really shouldn't use wait_until and wait for an element
+using Capybara instead, e.g. using page.should have_selector(...)
+See http://www.elabs.se/blog/53-why-wait_until-was-removed-from-capybara
+"
     end
-  rescue Timeout::Error
-    fail "Page did not load within #{seconds} seconds"
-  end
+  Timeout.timeout(seconds, &block)
 end
