@@ -1,13 +1,11 @@
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'backlogs/global.css', :media => 'print,screen' %>
-  <%= stylesheet_link_tag 'backlogs/global_print.css', :media => 'print' %>
+ <%= stylesheet_link_tag 'backlogs/global.css', :media => 'print,screen' %>
+ <%= stylesheet_link_tag 'backlogs/global_print.css', :media => 'print' %>
 
-  <%= javascript_include_tag 'backlogs/lib/jquery.jeditable.mini.js',
-                             'backlogs/lib/jquery.cookie.js',
-                             'backlogs/app/common.js' %>
+ <%= javascript_include_tag 'backlogs/lib/jquery.jeditable.mini.js',
+                            'backlogs/lib/jquery.cookie.js',
+                            'backlogs/app/common.js' %>
 
-  <%= javascript_include_tag 'backlogs/lib/livepipe-ui/livepipe',
-                             'backlogs/lib/livepipe-ui/window',
-                             'backlogs/app/modal' %>
-  <%= stylesheet_link_tag 'backlogs/livepipe-ui/base' %>
-<% end %>
+ <%= javascript_include_tag 'backlogs/lib/livepipe-ui/livepipe',
+                            'backlogs/lib/livepipe-ui/window',
+                            'backlogs/app/modal' %>
+ <%= stylesheet_link_tag 'backlogs/livepipe-ui/base' %>
