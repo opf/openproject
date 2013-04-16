@@ -142,12 +142,8 @@ Then /^the impediment "(.+)" should signal( | un)successful saving$/ do |impedim
 
   element = {}
   begin
-    wait_until(5) do
-      element = page.find(:xpath, "//div[contains(concat(' ',normalize-space(@class),' '),' impediment ') and contains(., '#{impediment_subject}')]")
-      !element[:class].include?('saving') || element[:class].include?('error')
-    end
-  rescue Capybara::TimeoutError
-    fail "The impediment '#{impediment_subject}' did not finish saving within within 5 sec"
+    element = page.find(:xpath, "//div[contains(concat(' ',normalize-space(@class),' '),' impediment ') and contains(., '#{impediment_subject}')]")
+    !element[:class].include?('saving') || element[:class].include?('error')
   end
 
   if negative
