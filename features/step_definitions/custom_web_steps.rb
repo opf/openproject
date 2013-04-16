@@ -11,15 +11,7 @@ Then /^I should (not )?see "([^"]*)" within "([^"]*)"\s*\#.*$/ do |negative, nam
 end
 
 When /^I click(?:| on) "([^"]*)"$/ do |name|
-  begin
-    steps %Q{
-      When I follow "#{name}"
-    }
-  rescue Capybara::ElementNotFound
-    steps %Q{
-      When I press "#{name}"
-    }
-  end
+  click_link_or_button name
 end
 
 When /^(?:|I )jump to [Pp]roject "([^\"]*)"$/ do |project|

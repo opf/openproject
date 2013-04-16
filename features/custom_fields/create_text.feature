@@ -16,7 +16,6 @@ Feature: Text custom fields can be created
     And I add the german localization of the "name" attribute as "Neues Feld"
     And I add the french localization of the "name" attribute as "Lorem ipsum"
     And I set the english localization of the "default_value" attribute to "default"
-    # And I start debugging
     And I add the german localization of the "default_value" attribute as "Standard"
     And I add the french localization of the "default_value" attribute as "Lorem"
     And I press "Save"
