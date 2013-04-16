@@ -8,6 +8,10 @@ Feature: Product Owner
           | Story |
           | Epic  |
       And the tracker "Task" is configured to track tasks
+      And there are the following issue status:
+          | name        | is_closed  | is_default  |
+          | New         | false      | true        |
+          | Closed      | true       | false       |
 
       And there is a role "product owner"
       And the role "product owner" may have the following rights:
@@ -25,6 +29,8 @@ Feature: Product Owner
       And there is 1 project with:
           | name  | ecookbook |
       And I am working in project "ecookbook"
+      And there is a default issuepriority with:
+          | name   | Normal |
       And the project uses the following modules:
           | backlogs |
       And the project uses the following trackers:
