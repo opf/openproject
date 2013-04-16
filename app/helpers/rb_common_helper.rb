@@ -117,7 +117,7 @@ module RbCommonHelper
   end
 
   def javascript_include_tag_backlogs(*args)
-    min = RAILS_ENV == 'development' ? "" : ".min"
+    min = ENV["RAILS_ENV"] == 'development' ? "" : ".min"
 
     args.each do |jsfile|
       jsfile.gsub!('jquery.js', "jquery-1.5.1#{min}.js")
