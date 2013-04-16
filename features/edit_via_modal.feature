@@ -27,6 +27,10 @@ Feature: Edit issue via modal box
     And the project uses the following trackers:
         | Story |
         | Task  |
+    And there is a default issuestatus with:
+        | name | new |
+    And there is a default issuepriority with:
+        | name   | Normal |
     And the tracker "Task" has the default workflow for the role "scrum master"
     And there is 1 user with:
         | login | markus |
