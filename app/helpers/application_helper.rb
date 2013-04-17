@@ -137,13 +137,13 @@ module ApplicationHelper
       end
     end
     closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
-    s = link_to "#{closed}#{h(options[:before_text].to_s)}#{h(issue.tracker)} ##{issue.id}".html_safe,
+    s = link_to "#{closed}#{h(options[:before_text].to_s)}#{h(issue.tracker)} ##{issue.id}",
                 issue,
                 :class => issue.css_classes,
                 :title => h(title)
     s << ": #{h subject}" if subject
     s = "#{h issue.project} - " + s if options[:project]
-    s
+    s.html_safe
   end
 
   # Generates a link to an attachment.
