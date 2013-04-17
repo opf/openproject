@@ -21,11 +21,11 @@ module ActiveRecord
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, options = {})
       begin
-        options = options.merge({:raise => true})
-        super(attr, options)
+        options_with_raise = options.merge({:raise => true})
+        super(attr, options_with_raise)
       rescue I18n::MissingTranslationData => e
         warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation keys is deprecated. Please use proper ActiveRecord i18n!"
-        l("field_#{attr.to_s.gsub(/_id$/, '')}")
+        l("field_#{attr.to_s.gsub(/_id$/, '')}", options)
       end
     end
   end
