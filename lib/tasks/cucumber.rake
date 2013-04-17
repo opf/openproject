@@ -8,6 +8,7 @@
 unless ARGV.any? {|a| a =~ /^gems/} # Don't load anything when running the gems:* tasks
 
 begin
+  require 'shellwords'
   require 'cucumber'
   require 'cucumber/rake/task'
 
@@ -21,7 +22,39 @@ begin
       ::STATS_DIRECTORIES << %w(Cucumber\ features features) if File.exist?('features')
       ::CodeStatistics::TEST_TYPES << "Cucumber features" if File.exist?('features')
     end
+
+    def get_plugin_features
+      features = []
+      Rails.application.config.plugins_to_test_paths.each do |dir|
+        if File.directory?( dir )
+          feature_dir = Shellwords.escape(File.join(dir, 'features'))
+          # tell cucumber to load support files from feature_dir
+          features << '-r ' + feature_dir
+          # add feature_dir as features
+          features << feature_dir
+        end
+      end
+      features
+    end
+
+    [:plugins, :all].each do |selection|
+      desc "Run #{selection.to_s} features"
+      task selection => 'db:test:prepare' do
+        Cucumber::Rake::Task.new({:cucumber_run => 'db:test:prepare'}, 'Run features that should pass') do |t|
+          # always load feature support files from Rails root
+          base_features = ['-r ' + Shellwords.escape(File.join(Rails.root, 'features'))]
+
+          if selection == :all
+            base_features += [File.join(Rails.root, 'features')]
+          end
+          plugin_features = get_plugin_features
+          t.cucumber_opts = base_features + plugin_features
+        end
+        Rake::Task['cucumber_run'].invoke
+      end
+    end
   end
+
   desc 'Alias for cucumber:ok'
   task :cucumber => 'cucumber:ok'
 
