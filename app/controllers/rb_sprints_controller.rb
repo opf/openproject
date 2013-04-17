@@ -16,9 +16,13 @@ class RbSprintsController < RbApplicationController
     end
   end
 
-#overwrite load_project to load the sprint from the :id instead of :sprint_id
-#which whill automatically also load the project
-  def load_project
-    load_sprint_and_project params[:id]
+#overwrite load_sprint_and_project to load the sprint from the :id instead of :sprint_id
+  def load_sprint_and_project
+    if params[:id]
+      @sprint = Sprint.find(params[:id])
+      @project = @sprint.project
+    end
+    # This overrides sprint's project if we set another project, say a subproject
+    @project = Project.find(params[:project_id]) if params[:project_id]
   end
 end

@@ -11,7 +11,10 @@ class RbApplicationController < ApplicationController
   # Loads the project to be used by the authorize filter to
   # determine if User.current has permission to invoke the method in question.
   def load_sprint_and_project
-    load_sprint_and_parent_project if params[:sprint_id]
+    if params[:sprint_id]
+      @sprint = Sprint.find(params[:sprint_id])
+      @project = @sprint.project
+    end
     # This overrides sprint's project if we set another project, say a subproject
     @project = Project.find(params[:project_id]) if params[:project_id]
   end
@@ -23,10 +26,5 @@ class RbApplicationController < ApplicationController
         format.html { render :file => "shared/not_configured" }
       end
     end
-  end
-
-  def load_sprint_and_parent_project
-    @sprint = Sprint.find(params[:sprint_id])
-    @project = @sprint.project
   end
 end
