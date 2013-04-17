@@ -41,6 +41,9 @@ begin
       desc "Run #{selection.to_s} features"
       task selection => 'db:test:prepare' do
         Cucumber::Rake::Task.new({:cucumber_run => 'db:test:prepare'}, 'Run features that should pass') do |t|
+          opts = (ENV['CUCUMBER_OPTS'] ? ENV['CUCUMBER_OPTS'].split(/\s+/) : [])
+          ENV.delete('CUCUMBER_OPTS')
+
           # always load feature support files from Rails root
           base_features = ['-r ' + Shellwords.escape(File.join(Rails.root, 'features'))]
 
@@ -48,7 +51,8 @@ begin
             base_features += [File.join(Rails.root, 'features')]
           end
           plugin_features = get_plugin_features
-          t.cucumber_opts = base_features + plugin_features
+
+          t.cucumber_opts = opts + base_features + plugin_features
         end
         Rake::Task['cucumber_run'].invoke
       end
