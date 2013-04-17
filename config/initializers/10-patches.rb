@@ -20,7 +20,12 @@ module ActiveRecord
 
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, options = {})
-      l("field_#{attr.to_s.gsub(/_id$/, '')}")
+      begin
+        options = options.merge({:raise => true})
+        super(attr, options)
+      rescue I18n::MissingTranslationData => e
+        l("field_#{attr.to_s.gsub(/_id$/, '')}")
+      end
     end
   end
 end
