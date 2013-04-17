@@ -4,9 +4,6 @@ require "rack_session_access/capybara"
 
 Before do |scenario|
   unless ScenarioDisabler.empty_if_disabled(scenario)
-    # Reset the DB and load the minimal fixtures for a functional system before each scenario
-    system "RAILS_ENV=test rake db:test:prepare >/dev/null 2>/dev/null"
-
     FactoryGirl.create(:admin) unless User.find_by_login("admin")
     FactoryGirl.create(:anonymous) unless AnonymousUser.count > 0
     Setting.notified_events = [] #can not test mailer
