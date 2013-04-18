@@ -23,6 +23,15 @@ describe MeetingMailer do
 
   describe "content_for_review" do
     let(:mail) { MeetingMailer.content_for_review @content, 'agenda' }
+    # this is needed to call module functions from Redmine::I18n
+    let(:i18n) do
+      class A
+        include Redmine::I18n
+        public :format_date, :format_time
+      end
+      A.new
+    end
+
 
     it "renders the headers" do
       mail.subject.should include(@content.meeting.project.name)
@@ -46,9 +55,9 @@ describe MeetingMailer do
   def check_meeting_mail_content(body)
       body.should include(@content.meeting.project.name)
       body.should include(@content.meeting.title)
-      body.should include(format_date @content.meeting.start_date)
-      body.should include(format_time @content.meeting.start_time, false)
-      body.should include(format_time @content.meeting.end_time, false)
+      body.should include(i18n.format_date @content.meeting.start_date)
+      body.should include(i18n.format_time @content.meeting.start_time, false)
+      body.should include(i18n.format_time @content.meeting.end_time, false)
       body.should include(@participants[0].name)
       body.should include(@participants[1].name)
   end
