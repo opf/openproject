@@ -23,40 +23,50 @@ begin
       ::CodeStatistics::TEST_TYPES << "Cucumber features" if File.exist?('features')
     end
 
-    def get_plugin_features
+    def get_plugin_features(prefix = '')
       features = []
       Rails.application.config.plugins_to_test_paths.each do |dir|
         if File.directory?( dir )
           feature_dir = Shellwords.escape(File.join(dir, 'features'))
-          # tell cucumber to load support files from feature_dir
-          features << '-r ' + feature_dir
-          # add feature_dir as features
-          features << feature_dir
+          features << prefix + feature_dir
         end
       end
       features
     end
 
-    [:plugins, :all].each do |selection|
-      desc "Run #{selection.to_s} features"
-      task selection => 'db:test:prepare' do
+    def define_cucumber_task(name, description, arguments=[])
+      desc description
+      task name, arguments => 'db:test:prepare' do |t, args|
+        if name == :custom
+          if not args[:features]
+            raise 'Please provide :features argument, e.g. rake cucumber:custom[features/my_feature.feature]'
+          end
+          features = args[:features].split(/\s+/)
+        else
+          features = get_plugin_features
+          if name == :all
+            features += [File.join(Rails.root, 'features')]
+          end
+        end
+
         Cucumber::Rake::Task.new({:cucumber_run => 'db:test:prepare'}, 'Run features that should pass') do |t|
           opts = (ENV['CUCUMBER_OPTS'] ? ENV['CUCUMBER_OPTS'].split(/\s+/) : [])
           ENV.delete('CUCUMBER_OPTS')
+          opts += args[:options].split(/\s+/) if args[:options]
 
-          # always load feature support files from Rails root
-          base_features = ['-r ' + Shellwords.escape(File.join(Rails.root, 'features'))]
+          # load feature support files from Rails root
+          support_files = ['-r ' + Shellwords.escape(File.join(Rails.root, 'features'))]
+          support_files += get_plugin_features(prefix=' -r ')
 
-          if selection == :all
-            base_features += [File.join(Rails.root, 'features')]
-          end
-          plugin_features = get_plugin_features
-
-          t.cucumber_opts = opts + base_features + plugin_features
+          t.cucumber_opts = opts + support_files + features
         end
         Rake::Task['cucumber_run'].invoke
       end
     end
+
+    define_cucumber_task(:plugins, 'Run plugin features', [:options])
+    define_cucumber_task(:all, 'Run core and plugin features', [:options])
+    define_cucumber_task(:custom, 'Run features selected via features argument', [:features])
   end
 
   desc 'Alias for cucumber:ok'

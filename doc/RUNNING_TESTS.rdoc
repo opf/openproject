@@ -1,3 +1,40 @@
-= Testing ChiliProject
+= Testing OpenProject
 
-The detailed upgrade instructions are located on the {official website}[https://www.chiliproject.org/projects/chiliproject/wiki/Testing]
+== Cucumber
+
+The cucucmber features can be run using rake. You can run the following
+rake tasks using the command `bundle exec rake <task>`.
+
+* `cucumber`: Runs core features
+* `cucumber:plugins`: Runs plugin features
+* `cucumber:all`: Runs core and plugin features
+* `cucumber:custom[features]`: Allows running single features or folders
+    of features
+
+    Example: `cucumber:custom[features/issues/issue.feature]`
+    * When providing moultiple features, the task name and arguments must
+      be enclosed in quotation marks.
+
+      Example: `bundle exec rake "cucumber:custom[features/issues features/projects]"`
+
+`cucumber:plugins` and `cucumber:all` accept an optional parameter which
+allows specifying custom options to cucumber. This can be used for
+executing scenarios by name, e.g. `"cucumber:all[-n 'Adding an issue link']"`.
+Like with spaces in `cucumber:custom` arguments, task name and arguments
+have to be enclosed in quotation marks.
+
+Here are two bash functions which allow using shorter commands for running
+cucumber features:
+
+    # Run OpenProject cucumber features (like arguments to the cucumber command)
+    # Example: cuke features/issues/issue.feature
+    cuke() { bundle exec rake "cucumber:custom[$1]"; }
+
+    # Run OpenProject cucumber scenarios by name
+    # Example: cuken 'Adding an issue link'
+    cuken() { bundle exec rake "cucumber:all[-n '$1']"; }
+
+
+== Spec
+
+TBD
