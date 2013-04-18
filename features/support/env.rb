@@ -6,6 +6,13 @@
 
 require 'cucumber/rails'
 
+# Load paths to ensure they are loaded before the plugin's paths.rbs.
+# Plugin's path_to functions rely on being loaded after the core's path_to
+# function, since they call super if they don't match and the core doesn't.
+# So in case a plugin's path_to is loaded first, the core's path_to will
+# overwrite it when loaded and the plugin's paths are not found.
+require_relative 'paths.rb'
+
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
 # order to ease the transition to Capybara we set the default here. If you'd
 # prefer to use XPath just remove this line and adjust any selectors in your
