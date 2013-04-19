@@ -16,8 +16,7 @@
 
 <% if authorize_for('news', 'edit') %>
 <div id="edit-news" style="display:none;">
-<%= labelled_tabular_form_for :news, @news, :url => news_path(@news),
-                                           :html => { :id => 'news-form', :method => :put } do |f| %>
+<%= labelled_tabular_form_for @news, :html => { :id => 'news-form' } do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
   <%= submit_tag l(:button_save) %>
   <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news"); return false;' %>

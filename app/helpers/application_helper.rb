@@ -933,11 +933,10 @@ module ApplicationHelper
     content_tag("label", label_text)
   end
 
-  def labelled_tabular_form_for(record_or_name_or_array, *args, &proc)
-    options = args.extract_options!
-    options[:html] ||= {}
+  def labelled_tabular_form_for(record, options = {}, &block)
+    options.reverse_merge!(:builder => TabularFormBuilder, :lang => current_language, :html => {})
     options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
-    form_for(*(args << options.merge(:builder => TabularFormBuilder, :lang => current_language, :as => record_or_name_or_array)), &proc)
+    form_for(record, options, &block)
   end
 
   def back_url_hidden_field_tag

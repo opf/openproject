@@ -1,12 +1,10 @@
 <h2><%=l(:label_issue_new)%></h2>
 
 
-<%= labelled_tabular_form_for :issue,
-                             @issue,
-                             :url => project_issues_path(@project),
-                             :html => { :multipart => true,
-                                        :id => 'issue-form',
-                                        :class => 'tabular new-issue-form' } do |f| %>
+<%= labelled_tabular_form_for [@project, @issue],
+                              :html => { :multipart => true,
+                                         :id => 'issue-form',
+                                         :class => 'tabular new-issue-form' } do |f| %>
 
     <%= error_messages_for 'issue' %>
 
