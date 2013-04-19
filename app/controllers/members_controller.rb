@@ -86,8 +86,19 @@ class MembersController < ApplicationController
   end
 
   def autocomplete_for_member
-    roles = Role.find_all_givable
-    available_principals = @project.possible_members(params[:q], 100)
+    size = params[:page_limit].to_i
+    principals = []
+    page = params[:page].to_i
+
+    @principals = Principal.paginated_search(params[:q], page, { :page_limit => size })
+    # we always get all the items on a page, so just check if we just got the last
+    @more = @principals.total_pages > page
+    @total = @principals.total_entries
+
+    respond_to do |format|
+      format.json { render :layout => false }
+      format.html { render :layout => false }
+    end
 
     render :partial => 'members/autocomplete_for_member', :locals => { :available_principals => available_principals, :roles => roles }
   end
