@@ -17,7 +17,7 @@ module Redmine::MenuManager::TopMenuHelper
 
     return "" if User.current.number_of_known_projects.zero?
 
-    heading = link_to l(:label_project_plural), { :controller => 'projects',
+    heading = link_to l(:label_project_plural), { :controller => '/projects',
                                                   :action => 'index' },
                                                 :title => l(:label_project_plural)
 
@@ -29,7 +29,7 @@ module Redmine::MenuManager::TopMenuHelper
       render_drop_down_menu_node heading do
         content_tag :ul, :style => "display:none" do
           ret = content_tag :li do
-            link_to l(:label_project_view_all), :controller => 'projects',
+            link_to l(:label_project_view_all), :controller => '/projects',
                                                 :action => 'index'
           end
 
@@ -46,7 +46,7 @@ module Redmine::MenuManager::TopMenuHelper
   def render_user_top_menu_node(items = menu_items_for(:account_menu))
     unless User.current.logged?
       render_drop_down_menu_node(link_to(l(:label_login),
-                                         { :controller => 'account',
+                                         { :controller => '/account',
                                            :action => 'login' },
                                            :class => 'login',
                                            :title => l(:label_login)),
