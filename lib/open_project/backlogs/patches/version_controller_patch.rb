@@ -8,11 +8,21 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
       include VersionSettingsHelper
       helper :version_settings
 
-      # find project explicitly on update
-      _process_action_callbacks.detect { |m| m.filter == :find_project_from_association }.options[:except] << :update
-      _process_action_callbacks.detect { |m| m.filter == :find_project }.options[:only] << :update
+      # find project explicitly on update and edit
+      skip_before_filter :find_project_from_association, :only => [:edit, :update]
+      skip_before_filter :find_model_object, :only => [:edit, :update]
+      prepend_before_filter :find_project_and_version, :only => [:edit, :update]
 
       before_filter :add_project_to_version_settings_attributes, :only => [:update, :create]
+
+      def find_project_and_version
+        find_model_object
+        if params[:project_id]
+          find_project
+        else
+          find_project_from_association
+        end
+      end
 
       # this forces the current project for the nested version settings
       # in order to prevent it from being set through firebug etc. #mass_assignment
