@@ -88,7 +88,7 @@ describe WikiController do
           post 'create',
                :project_id => @project,
                :page => {:title => "abc"},
-               :content => {:text => "h1. abc"}
+               :wiki_content => {:text => "h1. abc"}
 
           response.should redirect_to :action => 'show', :project_id => @project, :id => 'Abc'
         end
@@ -97,7 +97,7 @@ describe WikiController do
           post 'create',
                :project_id => @project,
                :page => {:title => "abc"},
-               :content => {:text => "h1. abc"}
+               :wiki_content => {:text => "h1. abc"}
 
           page = @project.wiki.pages.find_by_title 'Abc'
           page.should_not be_nil
@@ -111,7 +111,7 @@ describe WikiController do
           post 'create',
                :project_id => @project,
                :page => {:title => ""},
-               :content => {:text => "h1. abc"}
+               :wiki_content => {:text => "h1. abc"}
 
           response.should render_template('new')
         end
@@ -120,7 +120,7 @@ describe WikiController do
           post 'create',
                :project_id => @project,
                :page => {:title => ""},
-               :content => {:text => "h1. abc"}
+               :wiki_content => {:text => "h1. abc"}
 
           assigns[:project].should == @project
         end
@@ -129,7 +129,7 @@ describe WikiController do
           post 'create',
                :project_id => @project,
                :page => {:title => ""},
-               :content => {:text => "h1. abc"}
+               :wiki_content => {:text => "h1. abc"}
 
           assigns[:wiki].should == @project.wiki
           assigns[:wiki].should_not be_new_record
@@ -139,7 +139,7 @@ describe WikiController do
           post 'create',
                :project_id => @project,
                :page => {:title => ""},
-               :content => {:text => "h1. abc"}
+               :wiki_content => {:text => "h1. abc"}
 
           assigns[:page].should be_new_record
           assigns[:page].wiki.project.should == @project
@@ -151,7 +151,7 @@ describe WikiController do
           post 'create',
                :project_id => @project,
                :page => {:title => ""},
-               :content => {:text => "h1. abc"}
+               :wiki_content => {:text => "h1. abc"}
 
           assigns[:content].should be_new_record
           assigns[:content].page.wiki.project.should == @project
