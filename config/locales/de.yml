@@ -353,6 +353,7 @@ de:
   setting_time_format: Zeitformat
   setting_cross_project_issue_relations: Ticket-Beziehungen zwischen Projekten erlauben
   setting_column_options: Anpassen der Darstellung der Ticketlisten
+  setting_issue_properties: Ticket Eigenschaften
   setting_issue_list_default_columns: Standardmäßig anzeigen
   setting_issue_list_summable_columns: Summierbar
   setting_repositories_encodings: Kodierungen der Projektarchive
