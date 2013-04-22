@@ -70,7 +70,7 @@ class Project < ActiveRecord::Base
   acts_as_customizable
   acts_as_searchable :columns => ["#{table_name}.name", "#{table_name}.identifier", "#{table_name}.description", "#{table_name}.summary"], :project_key => 'id', :permission => nil
   acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
-                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o}},
+                :url => Proc.new {|o| {:controller => '/projects', :action => 'show', :id => o}},
                 :author => nil
 
   attr_protected :status
@@ -548,7 +548,7 @@ class Project < ActiveRecord::Base
 
   # Return true if this project is allowed to do the specified action.
   # action can be:
-  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
+  # * a parameter-like Hash (eg. :controller => '/projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allows_to?(action)
     if action.is_a? Hash
