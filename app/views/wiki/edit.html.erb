@@ -11,7 +11,7 @@
 
 <p><%= submit_tag l(:button_save) %>
    <%= link_to_remote l(:label_preview),
-                       { :url => { :controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title },
+                       { :url => { :controller => '/wiki', :action => 'preview', :project_id => @project, :id => @page.title },
                          :method => :post,
                          :update => 'preview',
                          :before => 'var form_data = Form.serialize("wiki_form", true); form_data._method="post";if (typeof(tinyMCE) != "undefined") { tinyMCE.get("content_text").save(); }',

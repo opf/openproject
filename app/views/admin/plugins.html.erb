@@ -10,7 +10,7 @@
 				</td>
         <td class="author"><%= plugin.author_url.blank? ? h(plugin.author) : link_to(h(plugin.author), plugin.author_url) %></td>
         <td class="version"><%=h plugin.version %></td>
-        <td class="configure"><%= link_to(l(:button_configure), :controller => 'settings', :action => 'plugin', :id => plugin.id) if plugin.configurable? %></td>
+        <td class="configure"><%= link_to(l(:button_configure), :controller => '/settings', :action => 'plugin', :id => plugin.id) if plugin.configurable? %></td>
         </tr>
     <% end %>
 </table>

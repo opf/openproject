@@ -35,7 +35,7 @@
 		<%= observe_field(:user_search,
                       :frequency => 0.5,
                       :update => :users,
-                      :url => { :controller => 'groups', :action => 'autocomplete_for_user', :id => @group },
+                      :url => { :controller => '/groups', :action => 'autocomplete_for_user', :id => @group },
                       :with => 'q',
                       :method => :get)
                   %>

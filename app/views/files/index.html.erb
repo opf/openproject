@@ -21,7 +21,7 @@
 	<% if container.is_a?(Version) -%>
   <tr>
   	<th colspan="6" align="left">
-  		<%= link_to(h(container), {:controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
+      <%= link_to(h(container), {:controller => '/versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
 		</th>
 	</tr>
 	<% end -%>
