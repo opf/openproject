@@ -483,6 +483,11 @@ class User < Principal
   # * nil with options[:global] set : check if user has at least one role allowed for this action,
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
   def allowed_to?(action, context, options={})
+    if action.is_a?(Hash) && action[:controller] && action[:controller].starts_with?("/")
+      action = action.dup
+      action[:controller] = action[:controller][1..-1]
+    end
+
     if context.is_a?(Project)
       allowed_to_in_project?(action, context, options)
     elsif context.is_a?(Array)
