@@ -54,3 +54,10 @@ Feature: Issue textile quickinfo links
     Then I should see a quickinfo link with description for "issue1" within "div.wiki"
     When I follow the issue link with 3 hash for "issue1"
     Then I should be on the page of the issue "issue1"
+
+  Scenario: Navigating from issue reports back to issue overview
+    When I go to the issues/report page of the project called "parent"
+    And I follow "Issue" within "#main-menu"
+    Then I should be on the overall issues page
+    And I should have the following query string:
+      | project_id | parent |
