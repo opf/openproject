@@ -1,15 +1,14 @@
-= Testing OpenProject
+# Testing OpenProject
 
-== Cucumber
+## Cucumber
 
 The cucucmber features can be run using rake. You can run the following
 rake tasks using the command `bundle exec rake <task>`.
 
-* `cucumber`: Runs core features
-* `cucumber:plugins`: Runs plugin features
-* `cucumber:all`: Runs core and plugin features
-* `cucumber:custom[features]`: Allows running single features or folders
-    of features
+* `cucumber` Run core features
+* `cucumber:plugins` Run plugin features
+* `cucumber:all` Run core and plugin features
+* `cucumber:custom[features]`: Run single features or folders of features
 
     Example: `cucumber:custom[features/issues/issue.feature]`
     * When providing moultiple features, the task name and arguments must
@@ -28,13 +27,13 @@ cucumber features:
 
     # Run OpenProject cucumber features (like arguments to the cucumber command)
     # Example: cuke features/issues/issue.feature
-    cuke() { bundle exec rake "cucumber:custom[$1]"; }
+    cuke() { bundle exec rake "cucumber:custom[$*]"; }
 
     # Run OpenProject cucumber scenarios by name
-    # Example: cuken 'Adding an issue link'
-    cuken() { bundle exec rake "cucumber:all[-n '$1']"; }
+    # Example: cuken Adding an issue link
+    cuken() { bundle exec rake "cucumber:all[-n '$*']"; }
 
 
-== Spec
+## Spec
 
 TBD
