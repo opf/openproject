@@ -5,6 +5,12 @@ GIT
     object-daddy (1.1.0)
 
 GIT
+  remote: https://github.com/finnlabs/rspec-example_disabler.git
+  revision: 05b1af7d349865b3af39d603016803c958e0b95b
+  specs:
+    rspec-example_disabler (0.0.1)
+
+GIT
   remote: https://github.com/fnando/i18n-js.git
   revision: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
   ref: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
@@ -386,6 +392,7 @@ DEPENDENCIES
   rb-readline
   rdoc (>= 2.4.2)
   rmagick (>= 1.15.17)
+  rspec-example_disabler!
   rspec-rails (~> 2.0)
   ruby-openid (~> 2.1.4)
   ruby-prof
