@@ -6,7 +6,7 @@ class UserMailer < ActionMailer::Base
   default :from => Proc.new { Setting.mail_from }
 
   def test_mail(user)
-    @welcome_url = url_for(:controller => :welcome)
+    @welcome_url = url_for(:controller => '/welcome')
 
     headers['X-OpenProject-Type'] = 'Test'
 
@@ -58,7 +58,7 @@ class UserMailer < ActionMailer::Base
     return unless token.user # token's can have no user
 
     @token = token
-    @reset_password_url = url_for(:controller => :account,
+    @reset_password_url = url_for(:controller => '/account',
                                   :action     => :lost_password,
                                   :token      => @token.value)
 
@@ -90,7 +90,7 @@ class UserMailer < ActionMailer::Base
     return unless token.user
 
     @token = token
-    @activation_url = url_for(:controller => :account,
+    @activation_url = url_for(:controller => '/account',
                               :action     => :activate,
                               :token      => @token.value)
 
@@ -136,7 +136,7 @@ class UserMailer < ActionMailer::Base
 
   def wiki_content_updated(user, wiki_content)
     @wiki_content  = wiki_content
-    @wiki_diff_url = url_for(:controller => :wiki,
+    @wiki_diff_url = url_for(:controller => '/wiki',
                              :action     => :diff,
                              :project_id => wiki_content.project,
                              :id         => wiki_content.page.title,
@@ -208,7 +208,7 @@ class UserMailer < ActionMailer::Base
 
   def account_activation_requested(admin, user)
     @user           = user
-    @activation_url = url_for(:controller => :users,
+    @activation_url = url_for(:controller => '/users',
                               :action     => :index,
                               :status     => User::STATUS_REGISTERED,
                               :sort       => 'created_on:desc')
@@ -232,13 +232,13 @@ class UserMailer < ActionMailer::Base
     case container.class.name
     when 'Project'
       @added_to     = "#{t(:label_project)}: #{container}"
-      @added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container)
+      @added_to_url = url_for(:controller => '/files', :action => 'index', :project_id => container)
     when 'Version'
       @added_to     = "#{t(:label_version)}: #{container.name}"
-      @added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container.project)
+      @added_to_url = url_for(:controller => '/files', :action => 'index', :project_id => container.project)
     when 'Document'
       @added_to     = "#{t(:label_document)}: #{container.title}"
-      @added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
+      @added_to_url = url_for(:controller => '/documents', :action => 'show', :id => container.id)
     end
 
     with_locale_for(user) do
