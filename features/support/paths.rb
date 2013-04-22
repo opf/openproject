@@ -63,9 +63,6 @@ module NavigationHelpers
       issue = Issue.find_by_subject($1)
       "/issues/#{issue.id}"
 
-    when /^the overall issues page$/
-      "/issues"
-
     when /^the edit page (?:for|of) the issue "([^\"]+)"$/
       issue = Issue.find_by_subject($1)
       "/issues/#{issue.id}/edit"

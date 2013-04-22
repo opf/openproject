@@ -58,6 +58,4 @@ Feature: Issue textile quickinfo links
   Scenario: Navigating from issue reports back to issue overview
     When I go to the issues/report page of the project called "parent"
     And I follow "Issue" within "#main-menu"
-    Then I should be on the overall issues page
-    And I should have the following query string:
-      | project_id | parent |
+    Then I should be on the issues index page of the project called "parent"
