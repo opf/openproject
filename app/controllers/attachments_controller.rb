@@ -48,7 +48,7 @@ class AttachmentsController < ApplicationController
     @attachment.container.attachments.delete(@attachment)
     redirect_to :back
   rescue ::ActionController::RedirectBackError
-    redirect_to :controller => 'projects', :action => 'show', :id => @project
+    redirect_to :controller => '/projects', :action => 'show', :id => @project
   end
 
 private

@@ -32,7 +32,7 @@ class IssueCategoriesController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
+          redirect_to :controller => '/projects', :action => 'settings', :tab => 'categories', :id => @project
         end
         format.js do
           # IE doesn't support the replace_html rjs method for select box options
@@ -59,7 +59,7 @@ class IssueCategoriesController < ApplicationController
     @category.safe_attributes = params[:category]
     if @category.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
+      redirect_to :controller => '/projects', :action => 'settings', :tab => 'categories', :id => @project
     else
       render :action => 'edit'
     end
@@ -70,12 +70,12 @@ class IssueCategoriesController < ApplicationController
     if @issue_count == 0
       # No issue assigned to this category
       @category.destroy
-      redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'categories'
+      redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'categories'
       return
     elsif params[:todo]
       reassign_to = @project.issue_categories.find_by_id(params[:reassign_to_id]) if params[:todo] == 'reassign'
       @category.destroy(reassign_to)
-      redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'categories'
+      redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'categories'
       return
     end
     @categories = @project.issue_categories - [@category]

@@ -67,7 +67,7 @@ class RepositoriesController < ApplicationController
 
   def destroy
     @repository.destroy
-    redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'repository'
+    redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'repository'
   end
 
   def show

@@ -82,7 +82,7 @@ class JournalsController < ApplicationController
     @journal.destroy if @journal.details.empty? && @journal.notes.blank?
     call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
     respond_to do |format|
-      format.html { redirect_to :controller => @journal.journaled.class.name.pluralize.downcase,
+      format.html { redirect_to :controller => "/#{@journal.journaled.class.name.pluralize.downcase}",
         :action => 'show', :id => @journal.journaled_id }
       format.js { render :action => 'update' }
     end

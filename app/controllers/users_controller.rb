@@ -185,7 +185,7 @@ class UsersController < ApplicationController
       end
     end
   rescue ::ActionController::RedirectBackError
-    redirect_to :controller => 'users', :action => 'edit', :id => @user
+    redirect_to :controller => '/users', :action => 'edit', :id => @user
   end
 
   def edit_membership
@@ -193,7 +193,7 @@ class UsersController < ApplicationController
     @membership.save if request.post?
     respond_to do |format|
       if @membership.valid?
-        format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
+        format.html { redirect_to :controller => '/users', :action => 'edit', :id => @user, :tab => 'memberships' }
         format.js {
           render(:update) {|page|
             page.replace_html "tab-content-memberships", :partial => 'users/memberships'
@@ -245,7 +245,7 @@ class UsersController < ApplicationController
       @membership.destroy
     end
     respond_to do |format|
-      format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
+      format.html { redirect_to :controller => '/users', :action => 'edit', :id => @user, :tab => 'memberships' }
       format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
     end
   end
