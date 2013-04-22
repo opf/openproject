@@ -82,7 +82,7 @@ module RepositoriesHelper
       if s = tree[file][:s]
         style << ' folder'
         path_param = to_path_param(@repository.relative_path(file))
-        text = link_to(h(text), :controller => 'repositories',
+        text = link_to(h(text), :controller => '/repositories',
                              :action => 'show',
                              :id => @project,
                              :path => path_param,
@@ -92,13 +92,13 @@ module RepositoriesHelper
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
         path_param = to_path_param(@repository.relative_path(c.path))
-        text = link_to(h(text), :controller => 'repositories',
+        text = link_to(h(text), :controller => '/repositories',
                              :action => 'entry',
                              :id => @project,
                              :path => path_param,
                              :rev => @changeset.identifier) unless c.action == 'D'
         text << raw(" - #{h(c.revision)}") unless c.revision.blank?
-        text << raw(' (' + link_to(l(:label_diff), :controller => 'repositories',
+        text << raw(' (' + link_to(l(:label_diff), :controller => '/repositories',
                                        :action => 'diff',
                                        :id => @project,
                                        :path => path_param,
@@ -181,7 +181,7 @@ module RepositoriesHelper
                :disabled => (repository && !repository.new_record?),
                :onchange => remote_function(
                   :url => {
-                      :controller => 'repositories',
+                      :controller => '/repositories',
                       :action => 'edit',
                       :id => @project
                         },

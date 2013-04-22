@@ -30,7 +30,7 @@ module QueriesHelper
     case value.class.name
     when 'String'
       if column.name == :subject
-        link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
+        link_to(h(value), :controller => '/issues', :action => 'show', :id => issue)
       else
         h(value)
       end
@@ -49,7 +49,7 @@ module QueriesHelper
     when 'Project'
       link_to_project value
     when 'Version'
-      link_to(h(value), :controller => 'versions', :action => 'show', :id => value)
+      link_to(h(value), :controller => '/versions', :action => 'show', :id => value)
     when 'TrueClass'
       l(:general_text_Yes)
     when 'FalseClass'
