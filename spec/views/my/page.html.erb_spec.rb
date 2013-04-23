@@ -21,8 +21,8 @@ describe 'my/page' do
 
     render
 
-    assert_select 'tr.time-entry td.subject' do |tr|
-      tr.should have_link("#{issue.tracker.name} ##{issue.id}", :href => issue_path(issue))
+    assert_select 'tr.time-entry td.subject' do |td|
+      td.should have_link("#{issue.tracker.name} ##{issue.id}", :href => issue_path(issue))
     end
   end
 end
