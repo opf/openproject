@@ -17,8 +17,6 @@ class AttachmentsController < ApplicationController
   before_filter :file_readable, :read_authorize, :except => :destroy
   before_filter :delete_authorize, :only => :destroy
 
-  verify :method => :post, :only => :destroy
-
   def show
     if @attachment.is_diff?
       @diff = File.new(@attachment.diskfile, "rb").read
