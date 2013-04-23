@@ -94,7 +94,7 @@ class WikiController < ApplicationController
     @page.title     = params[:page][:title]
     @page.parent_id = params[:page][:parent_id]
 
-    @content.attributes = params[:wiki_content].slice(:comments, :text)
+    @content.attributes = params[:content].slice(:comments, :text)
     @content.author = User.current
 
     if @page.save
