@@ -51,6 +51,26 @@ Spork.prefork do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   RSpec.configure do |config|
+    config.before(:suite) do
+      require "#{Rails.root}/db/seeds.rb"
+    end
+
+    config.before :each do
+      if Capybara.current_driver == :rack_test
+        DatabaseCleaner.strategy = :transaction
+      else
+        DatabaseCleaner.strategy = :truncation
+      end
+      DatabaseCleaner.start
+    end
+    config.after(:each) do
+      if Capybara.current_driver == :rack_test
+        DatabaseCleaner.clean
+      else
+        DatabaseCleaner.clean
+        load "#{Rails.root}/db/seeds.rb"
+      end
+    end
     # ## Mock Framework
     #
     # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -63,10 +83,8 @@ Spork.prefork do
     # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
     config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
-    # If you're not using ActiveRecord, or you'd prefer not to run each of your
-    # examples within a transaction, remove the following line or assign false
-    # instead of true.
-    config.use_transactional_fixtures = true
+    # set to false when database_cleaner is enabled
+    config.use_transactional_fixtures = false
 
     # If true, the base class of anonymous controllers will be inferred
     # automatically. This will be the default behavior in future versions of
