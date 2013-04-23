@@ -14,6 +14,7 @@ Feature: Issue textile quickinfo links
     And the role "member" may have the following rights:
       | add_issues  |
       | view_issues |
+      | edit_issues |
     And there is 1 user with the following:
       | login | bob|
     And the user "bob" is a "member" in the project "parent"
@@ -59,3 +60,15 @@ Feature: Issue textile quickinfo links
     When I go to the issues/report page of the project called "parent"
     And I follow "Issue" within "#main-menu"
     Then I should be on the issues index page of the project called "parent"
+
+  Scenario: An issue attachment is listed
+    Given the issue "issue1" has an attachment "logo.gif"
+    When I go to the page for the issue "issue1"
+    Then I should see "logo.gif" within ".icon-attachment"
+
+  Scenario: Deleting an issue attachment is possible
+    Given the issue "issue1" has an attachment "logo.gif"
+    When I go to the page for the issue "issue1"
+    Then I should see "logo.gif" within ".icon-attachment"
+    When I click the first delete attachment link
+    Then I should not see ".icon-attachment"
