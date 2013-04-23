@@ -11,7 +11,7 @@ describe 'my/page' do
                                         :hours => 1}
 
   before do
-    assign(:user,    user)
+    assign(:user, user)
     time_entry.spent_on = Date.today
     time_entry.save!
   end
