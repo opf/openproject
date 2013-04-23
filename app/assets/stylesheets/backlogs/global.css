@@ -24,3 +24,7 @@
 .subject-input {
     width: 99%;
 }
+
+th {
+  font-weight: bold;
+}
