@@ -3,7 +3,7 @@
         <h3><%= l(:backlogs_sprints) %></h3>
         <% sprints.each do |sp| %>
             <%= link_to(sp.name, {
-                    :controller => 'rb_queries',
+                    :controller => '/rb_queries',
                     :action => 'show',
                     :project_id => project,
                     :sprint_id => sp
@@ -14,7 +14,7 @@
     <% if sprint.present? %>
         <h3><%= l(:label_sprint_name, {:name => sprint.name}) %></h3>
         <%= link_to(l(:label_task_board), {
-                :controller => 'rb_taskboards',
+                :controller => '/rb_taskboards',
                 :action => 'show',
                 :sprint_id => sprint
                 })
@@ -22,7 +22,7 @@
 
         <% if OpenProject::Backlogs::TaskboardCard::PageLayout.available? %>
           <%= link_to(l(:label_sprint_cards), {
-                  :controller => 'rb_stories',
+                  :controller => '/rb_stories',
                   :action => 'index',
                   :project_id => project,
                   :sprint_id => sprint,
@@ -33,7 +33,7 @@
 
         <% if project.module_enabled? "wiki" %>
           <%= link_to(l(:label_wiki), {
-                  :controller => 'rb_wikis',
+                  :controller => '/rb_wikis',
                   :action => 'show',
                   :project_id => project,
                   :sprint_id => sprint
@@ -46,7 +46,7 @@
 
           <%= javascript_include_tag 'backlogs/app/burndown', :plugin => 'chiliproject_backlogs' %>
 
-          <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
+          <%= javascript_include_tag url_for(:controller => '/rb_server_variables',
                                              :action => 'show',
                                              :project_id => project,
                                              :sprint_id => sprint) %>

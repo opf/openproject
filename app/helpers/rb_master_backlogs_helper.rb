@@ -42,14 +42,14 @@ module RbMasterBacklogsHelper
                                     :class => 'add_new_story')
 
     items[:stories_tasks] = link_to(l(:label_stories_tasks),
-                                    :controller => 'rb_queries',
+                                    :controller => '/rb_queries',
                                     :action => 'show',
                                     :project_id => @project,
                                     :sprint_id => backlog.sprint)
 
     if OpenProject::Backlogs::TaskboardCard::PageLayout.selected_label.present?
       items[:cards] = link_to(l(:label_sprint_cards),
-                              :controller => 'rb_stories',
+                              :controller => '/rb_stories',
                               :action => 'index',
                               :project_id => @project,
                               :sprint_id => backlog.sprint,
@@ -63,7 +63,7 @@ module RbMasterBacklogsHelper
     items = {}
 
     items[:task_board] = link_to(l(:label_task_board),
-                                 :controller => 'rb_taskboards',
+                                 :controller => '/rb_taskboards',
                                  :action => 'show',
                                  :project_id => @project,
                                  :sprint_id => backlog.sprint)
@@ -77,7 +77,7 @@ module RbMasterBacklogsHelper
 
     if @project.module_enabled? "wiki"
       items[:wiki] = link_to(l(:label_wiki),
-                             :controller => 'rb_wikis',
+                             :controller => '/rb_wikis',
                              :action => 'edit',
                              :project_id => @project,
                              :sprint_id => backlog.sprint)

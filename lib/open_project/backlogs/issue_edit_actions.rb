@@ -12,7 +12,7 @@ class OpenProject::Backlogs::IssueEditActions < OpenProject::Nissue::View
     content_tag(:div, [
         t.link_to_issue_box(l(:button_cancel), @issue, :class => 'icon icon-cancel'),
         (t.link_to_remote(l(:button_save),
-                           { :url => { :controller => 'issue_boxes', :action => 'update', :id => @issue },
+                           { :url => { :controller => '/issue_boxes', :action => 'update', :id => @issue },
                              :method => 'PUT',
                              :update => @html_id,
                              :with => "Form.serialize('#{@form_id}')"

@@ -152,7 +152,7 @@ module OpenProject::Backlogs
 
           menu :project_menu,
             :backlogs,
-            {:controller => :rb_master_backlogs, :action => :index},
+            {:controller => '/rb_master_backlogs', :action => :index},
             :caption => :project_module_backlogs,
             :before => :calendar,
             :param => :project_id,

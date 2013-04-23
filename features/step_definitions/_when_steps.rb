@@ -1,15 +1,15 @@
 When /^I create the impediment$/ do
-  page.driver.post url_for(:controller => :rb_impediments, :action => :create),
+  page.driver.post url_for(:controller => '/rb_impediments', :action => :create),
                    @impediment_params
 end
 
 When /^I create the story$/ do
-  page.driver.post url_for(:controller => :rb_stories, :action => :create),
+  page.driver.post url_for(:controller => '/rb_stories', :action => :create),
                    @story_params
 end
 
 When /^I create the task$/ do
-  page.driver.post url_for(:controller => :rb_tasks, :action => :create),
+  page.driver.post url_for(:controller => '/rb_tasks', :action => :create),
                    @task_params
 end
 
@@ -23,7 +23,7 @@ When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subj
   attributes[:prev]             = prev.id
   attributes[:fixed_version_id] = prev.fixed_version_id unless type == "task"
 
-  page.driver.post url_for(:controller => controller_name, :action => "update", :id => story),
+  page.driver.post url_for(:controller => '/'+controller_name, :action => "update", :id => story),
                    attributes.merge({ "_method" => "put" })
 end
 
@@ -42,7 +42,7 @@ When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) positio
                         stories[position - (direction=="up" ? 2 : 1)].id
                       end
 
-  page.driver.post url_for(:controller => 'rb_stories', :action => "update", :id => story.id),
+  page.driver.post url_for(:controller => '/rb_stories', :action => "update", :id => story.id),
                    attributes.merge({ "_method" => "put" })
 end
 
@@ -62,60 +62,60 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
            @story_ids[new_pos.to_i-1]
          end
 
-  page.driver.post url_for(:controller => :rb_stories, :action => :update, :id => story.text),
+  page.driver.post url_for(:controller => '/rb_stories', :action => :update, :id => story.text),
                    {:prev => (prev.nil? ? '' : prev.text), :project_id => @project.id, "_method" => "put"}
 
   @story = Story.find(story.text.to_i)
 end
 
 When /^I request the server_variables resource$/ do
-  visit url_for(:controller => :rb_server_variables, :action => :show, :project_id => @project)
+  visit url_for(:controller => '/rb_server_variables', :action => :show, :project_id => @project)
 end
 
 When /^I update the impediment$/ do
-  page.driver.post url_for(:controller => :rb_impediments, :action => :update),
+  page.driver.post url_for(:controller => '/rb_impediments', :action => :update),
                    @impediment_params.merge({ "_method" => "put" })
 end
 
 When /^I update the sprint$/ do
-  page.driver.post url_for(:controller => 'rb_sprints', :action => "update", :sprint_id => @sprint_params['id']),
+  page.driver.post url_for(:controller => '/rb_sprints', :action => "update", :sprint_id => @sprint_params['id']),
                    @sprint_params.merge({ "_method" => "put" })
 end
 
 When /^I update the story$/ do
-  page.driver.post url_for(:controller => :rb_stories, :action => :update, :id => @story_params[:id]),
+  page.driver.post url_for(:controller => '/rb_stories', :action => :update, :id => @story_params[:id]),
                    @story_params.merge({ "_method" => "put" })
 end
 
 When /^I update the task$/ do
-  page.driver.post url_for(:controller => :rb_tasks, :action => :update, :id => @task_params[:id]),
+  page.driver.post url_for(:controller => '/rb_tasks', :action => :update, :id => @task_params[:id]),
                    @task_params.merge({ "_method" => "put" })
 end
 
 When /^I view the master backlog$/ do
-  visit url_for(:controller => :projects, :action => :show, :id => @project)
+  visit url_for(:controller => '/projects', :action => :show, :id => @project)
   click_link("Backlogs")
 end
 
 When /^I view the stories of (.+) in the issues tab/ do |sprint_name|
   sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
-  visit url_for(:controller => :rb_queries, :action => :show, :project_id => sprint.project, :sprint_id => sprint)
+  visit url_for(:controller => '/rb_queries', :action => :show, :project_id => sprint.project, :sprint_id => sprint)
 end
 
 When /^I view the stories in the issues tab/ do
-  visit url_for(:controller => :rb_queries, :action => :show, :project_id => @project)
+  visit url_for(:controller => '/rb_queries', :action => :show, :project_id => @project)
 end
 
 # deprecation warning
 # Depends on deprecated behavior of path_for('the task board for "sprint name"')
 When /^I view the sprint notes$/ do
-  visit url_for(:controller => 'rb_wikis', :action => 'show', :sprint_id => @sprint)
+  visit url_for(:controller => '/rb_wikis', :action => 'show', :sprint_id => @sprint)
 end
 
 # deprecation warning
 # Depends on deprecated behavior of path_for('the task board for "sprint name"')
 When /^I edit the sprint notes$/ do
-  visit url_for(:controller => 'rb_wikis', :action => 'edit', :sprint_id => @sprint)
+  visit url_for(:controller => '/rb_wikis', :action => 'edit', :sprint_id => @sprint)
 end
 
 When /^I follow "(.+?)" within the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_name|
