@@ -8,7 +8,7 @@
   <% end %>
 </h2>
 
-<%= form_for @content, :url => wiki_create_path(:project_id => @project), :html => {:method => :post, :multipart => true, :id => 'wiki_form'} do |f| %>
+<%= form_for @content, :as => :content, :url => wiki_create_path(:project_id => @project), :html => {:method => :post, :multipart => true, :id => 'wiki_form'} do |f| %>
 
   <%= error_messages_for 'page' %>
 
