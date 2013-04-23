@@ -194,7 +194,7 @@ module PrototypeHelper
   #   #      <form action="/some/place" method="post" onsubmit="new Ajax.Request('',
   #   #      {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
   #   form_remote_tag :html => { :action =>
-  #     url_for(:controller => "some", :action => "place") }
+  #     url_for(:controller => "/some", :action => "place") }
   #
   # The Hash passed to the <tt>:html</tt> key is equivalent to the options (2nd)
   # argument in the FormTagHelper.form_tag method.

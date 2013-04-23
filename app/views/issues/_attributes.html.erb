@@ -14,7 +14,7 @@
 <%= prompt_to_remote(image_tag('plus.png', :style => 'vertical-align: middle;'),
                      l(:label_issue_category_new),
                      'category[name]',
-                     {:controller => 'issue_categories', :action => 'new', :project_id => @project},
+                     {:controller => '/issue_categories', :action => 'new', :project_id => @project},
                      :title => l(:label_issue_category_new)) if authorize_for('issue_categories', 'new') %></p>
 <% end %>
 <% unless @issue.assignable_versions.empty? %>
@@ -22,7 +22,7 @@
 <%= prompt_to_remote(image_tag('plus.png', :style => 'vertical-align: middle;'),
                      l(:label_version_new),
                      'version[name]',
-                     {:controller => 'versions', :action => 'create', :project_id => @project},
+                     {:controller => '/versions', :action => 'create', :project_id => @project},
                      :title => l(:label_version_new)) if authorize_for('versions', 'new') %>
 </p>
 <% end %>

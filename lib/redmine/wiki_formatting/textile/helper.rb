@@ -18,7 +18,7 @@ module Redmine
       module Helper
         def wikitoolbar_for(field_id)
           heads_for_wiki_formatter
-          url = url_for(:controller => 'help', :action => 'wiki_syntax')
+          url = url_for(:controller => '/help', :action => 'wiki_syntax')
           help_link = link_to(l(:setting_text_formatting), url,
                               :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes\"); return false;")
 

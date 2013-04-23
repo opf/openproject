@@ -3,7 +3,7 @@
 </div>
 
 <div class="contextual">
-<%= link_to l(:label_project_new), {:controller => 'projects', :action => 'new'}, :class => 'icon icon-add' %>
+<%= link_to l(:label_project_new), {:controller => '/projects', :action => 'new'}, :class => 'icon icon-add' %>
 </div>
 
 <h2><%=l(:label_project_plural)%></h2>
@@ -15,7 +15,7 @@
 <label for='name'><%= l(:label_project) %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
 <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
-<%= link_to l(:button_clear), {:controller => 'admin', :action => 'projects'}, :class => 'icon icon-reload' %>
+<%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'icon icon-reload' %>
 </fieldset>
 <% end %>
 &nbsp;

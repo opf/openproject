@@ -1,6 +1,6 @@
 <% breadcrumb_paths(
-  link_to(l(:label_board_plural), {:controller => 'boards', :action => 'index', :project_id => @project}),
-  link_to(h(@board.name), {:controller => 'boards', :action => 'show', :project_id => @project, :id => @board}))
+  link_to(l(:label_board_plural), {:controller => '/boards', :action => 'index', :project_id => @project}),
+  link_to(h(@board.name), {:controller => '/boards', :action => 'show', :project_id => @project, :id => @board}))
 %>
 
 <div class="contextual">
@@ -53,7 +53,7 @@
     </div>
   <h4>
   	<%= avatar(message.author, :size => "24") %>
-    <%= link_to h(message.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
+    <%= link_to h(message.subject), { :controller => '/messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
     -
     <%= authoring message.created_on, message.author %>
   </h4>
@@ -71,7 +71,7 @@
   <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
   <%= submit_tag l(:button_submit) %>
   <%= link_to_remote l(:label_preview),
-                     { :url => { :controller => 'messages', :action => 'preview', :board_id => @board },
+                     { :url => { :controller => '/messages', :action => 'preview', :board_id => @board },
                        :method => 'post',
                        :update => 'preview',
                        :with => "Form.serialize('message-form')",

@@ -12,9 +12,9 @@
     <td><%=h(category.name) %></td>
     <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
     <td class="buttons">
-    	<%= link_to_if_authorized l(:button_edit), { :controller => 'issue_categories', :action => 'edit', :id => category }, :class => 'icon icon-edit' %>
+      <%= link_to_if_authorized l(:button_edit), { :controller => '/issue_categories', :action => 'edit', :id => category }, :class => 'icon icon-edit' %>
       <%= link_to_if_authorized l(:button_delete),
-                                { :controller => 'issue_categories',
+                                { :controller => '/issue_categories',
                                   :action => 'destroy',
                                   :id => category },
                                 :method => :delete,
@@ -30,4 +30,4 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 
-<p><%= link_to_if_authorized l(:label_issue_category_new), :controller => 'issue_categories', :action => 'new', :project_id => @project %></p>
+<p><%= link_to_if_authorized l(:label_issue_category_new), :controller => '/issue_categories', :action => 'new', :project_id => @project %></p>

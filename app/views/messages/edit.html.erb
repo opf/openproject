@@ -1,4 +1,4 @@
-<h2><%= link_to h(@board.name), :controller => 'boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%=h @message.subject %></h2>
+<h2><%= link_to h(@board.name), :controller => '/boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%=h @message.subject %></h2>
 
 <%= form_for @message,
              :url => topic_path(@message),

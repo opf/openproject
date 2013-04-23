@@ -41,7 +41,7 @@
 <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
     <div class="contextual">
-    <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news/comments', :action => 'destroy', :id => comment},
+    <%= link_to_if_authorized image_tag('delete.png'), {:controller => '/news/comments', :action => 'destroy', :id => comment},
                                                        :confirm => l(:text_are_you_sure),
                                                        :method  => :delete,
                                                        :title   => l(:button_delete),

@@ -31,7 +31,7 @@
 <tr>
     <td align="left">
         <% if Setting.lost_password? %>
-            <%= link_to l(:label_password_lost), :controller => 'account', :action => 'lost_password' %>
+            <%= link_to l(:label_password_lost), :controller => '/account', :action => 'lost_password' %>
         <% end %>
     </td>
     <td align="right">
