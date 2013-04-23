@@ -7,7 +7,7 @@
 %>)
 <% unless @watcher.nil? %>
 	<%= remote_form_for(:watcher, @watcher,
-                	   :url => {:controller => 'watchers',
+                     :url => {:controller => '/watchers',
                               :action => 'create',
                               :object_type => watched.class.name.underscore.pluralize,
          	                    :object_id => watched},

@@ -64,7 +64,7 @@ class NewsController < ApplicationController
     @news.safe_attributes = params[:news]
     if @news.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :controller => 'news', :action => 'index', :project_id => @project
+      redirect_to :controller => '/news', :action => 'index', :project_id => @project
     else
       render :action => 'new'
     end

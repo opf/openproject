@@ -63,7 +63,7 @@ module JournalsHelper
   end
 
   def render_notes(model, journal, options={})
-    controller = model.class.name.downcase.pluralize
+    controller = "/#{model.class.name.downcase.pluralize}"
     action = 'edit'
     reply_links = authorize_for(controller, action)
 

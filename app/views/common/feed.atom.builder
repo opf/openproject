@@ -3,7 +3,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   xml.title   truncate_single_line(@title, :length => 100)
   xml.link    "rel" => "self", "href" => url_for(params.merge(:only_path => false))
   xml.link    "rel" => "alternate", "href" => url_for(params.merge(:only_path => false, :format => nil, :key => nil))
-  xml.id      url_for(:controller => 'welcome', :only_path => false)
+  xml.id      url_for(:controller => '/welcome', :only_path => false)
   xml.updated((@items.first ? @items.first.event_datetime : Time.now).xmlschema)
   xml.author  { xml.name "#{Setting.app_title}" }
   xml.generator(:uri => Redmine::Info.url) { xml.text! Redmine::Info.app_name; }

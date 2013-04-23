@@ -32,7 +32,7 @@
   <td class="roles">
     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
     <% if authorized %>
-      <%= form_for(member, :url => {:controller => 'members', :action => 'edit', :id => member, :page => params[:page]},
+      <%= form_for(member, :url => {:controller => '/members', :action => 'edit', :id => member, :page => params[:page]},
                            :method => :put,
                            :remote => true,
                            :html => { :id => "member-#{member.id}-roles-form", :class => 'hol', :style => 'display:none' }) do |f| %>
@@ -48,7 +48,7 @@
   </td>
   <td class="buttons">
       <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-      <%= link_to(l(:button_delete), {:controller => 'members', :action => 'destroy', :id => member, :page => params[:page]},
+      <%= link_to(l(:button_delete), {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
             :method => :delete,
             :remote => true,
             :confirm => ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil),
@@ -61,7 +61,7 @@
 </table>
 
 <%= pagination_links_full @members_pages, @members_count, :per_page_links => false,
-                          :window_size => 10, :tab => "members", :action=>"settings", :controller => "projects", :id => @project.identifier %>
+                          :window_size => 10, :tab => "members", :action=>"settings", :controller => '/projects', :id => @project.identifier %>
 
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
@@ -70,7 +70,7 @@
 
 <div class="splitcontentright">
 <% if roles.any? && available_principals.any? %>
-  <%= form_for(:member, :url => {:controller => 'members', :action => 'create', :project_id => @project, :page => params[:page]},
+  <%= form_for(:member, :url => {:controller => '/members', :action => 'create', :project_id => @project, :page => params[:page]},
                         :method => :post,
                         :remote => true,
                         :loading => j('$("member-add-submit").disable();'),
@@ -81,7 +81,7 @@
 		<%= observe_field(:principal_search,
                  :frequency => 0.5,
                  :update => :principals,
-                 :url => { :controller => 'members', :action => 'autocomplete_for_member', :id => @project },
+                 :url => { :controller => '/members', :action => 'autocomplete_for_member', :id => @project },
                  :method => :get,
                  :with => 'q')
                   %>

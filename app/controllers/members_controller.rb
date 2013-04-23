@@ -55,7 +55,7 @@ class MembersController < ApplicationController
       member.save
 
   	 respond_to do |format|
-        format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project, :page => params[:page] }
+        format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project, :page => params[:page] }
         format.js {
           render(:update) { |page|
             if params[:membership]
@@ -77,7 +77,7 @@ class MembersController < ApplicationController
       @member.destroy
     end
     respond_to do |format|
-      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+      format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project }
       format.js { render(:update) {|page|
           page.replace_html "tab-content-members", :partial => 'projects/settings/members'
           page << 'hideOnLoad()'

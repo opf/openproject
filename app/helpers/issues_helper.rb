@@ -117,7 +117,7 @@ module IssuesHelper
 
   def query_links(title, queries)
     # links to #index on issues/show
-    url_params = controller_name == 'issues' ? {:controller => 'issues', :action => 'index', :project_id => @project} : params
+    url_params = controller_name == 'issues' ? {:controller => '/issues', :action => 'index', :project_id => @project} : params
 
     content_tag('h3', title) +
       queries.collect {|query|
@@ -261,7 +261,7 @@ module IssuesHelper
 
   def issue_quick_info(issue)
     ret = link_to(h("#{issue.tracker.name} ##{issue.id} #{issue.status}: #{issue.subject} "),
-                  { :controller => 'issues', :action => 'show', :id => issue.id },
+                  { :controller => '/issues', :action => 'show', :id => issue.id },
                     :class => issue.css_classes,
                     :title => "#{ truncate(issue.subject, :length => 100) } (#{ issue.status.name })")
     ret += "#{ issue.start_date.nil? ? "[?]" : issue.start_date.to_s }"

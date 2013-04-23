@@ -27,7 +27,7 @@ class ProjectsController < ApplicationController
 
   after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
     if controller.request.post?
-      controller.send :expire_action, :controller => 'welcome', :action => 'robots.txt'
+      controller.send :expire_action, :controller => '/welcome', :action => 'robots.txt'
     end
   end
 
@@ -84,9 +84,9 @@ class ProjectsController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => 'projects', :action => 'settings', :id => @project
+          redirect_to :controller => '/projects', :action => 'settings', :id => @project
         }
-        format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
+        format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => '/projects', :action => 'show', :id => @project.id) }
       end
     else
       respond_to do |format|
@@ -109,7 +109,7 @@ class ProjectsController < ApplicationController
       if @project
         @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
       else
-        redirect_to :controller => 'admin', :action => 'projects'
+        redirect_to :controller => '/admin', :action => 'projects'
       end
     else
       UserMailer.with_deliveries(params[:notifications] == '1') do
@@ -119,18 +119,18 @@ class ProjectsController < ApplicationController
         if validate_parent_id && @project.copy(@source_project, :only => params[:only])
           @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
           flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => 'projects', :action => 'settings', :id => @project
+          redirect_to :controller => '/projects', :action => 'settings', :id => @project
         elsif !@project.new_record?
           # Project was created
           # But some objects were not copied due to validation failures
           # (eg. issues from disabled trackers)
           # TODO: inform about that
-          redirect_to :controller => 'projects', :action => 'settings', :id => @project
+          redirect_to :controller => '/projects', :action => 'settings', :id => @project
         end
       end
     end
   rescue ActiveRecord::RecordNotFound
-    redirect_to :controller => 'admin', :action => 'projects'
+    redirect_to :controller => '/admin', :action => 'projects'
   end
 
   # Show @project
@@ -195,12 +195,12 @@ class ProjectsController < ApplicationController
 
   def archive
     flash[:error] = l(:error_can_not_archive_project) unless @project.archive
-    redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
+    redirect_to(url_for(:controller => '/admin', :action => 'projects', :status => params[:status]))
   end
 
   def unarchive
     @project.unarchive if !@project.active?
-    redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
+    redirect_to(url_for(:controller => '/admin', :action => 'projects', :status => params[:status]))
   end
 
   # Delete @project
@@ -210,7 +210,7 @@ class ProjectsController < ApplicationController
     if api_request? || params[:confirm]
       @project_to_destroy.destroy
       respond_to do |format|
-        format.html { redirect_to :controller => 'admin', :action => 'projects' }
+        format.html { redirect_to :controller => '/admin', :action => 'projects' }
         format.api  { head :ok }
       end
     end

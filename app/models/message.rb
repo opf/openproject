@@ -29,7 +29,7 @@ class Message < ActiveRecord::Base
                     {:id => msg.id}
                   else
                     {:id => msg.parent_id, :r => msg.id, :anchor => "message-#{msg.id}"}
-                  end.reverse_merge :controller => 'messages', :action => 'show', :board_id => msg.board_id
+                  end.reverse_merge :controller => '/messages', :action => 'show', :board_id => msg.board_id
                 end),
                 :activity_find_options => { :include => { :board => :project } }
 

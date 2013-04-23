@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= link_to_if_authorized l(:label_document_new),
-                          {:controller => 'documents', :action => 'new', :project_id => @project},
+                          {:controller => '/documents', :action => 'new', :project_id => @project},
                           :class => 'icon icon-add' %>
 </div>
 

@@ -74,7 +74,7 @@ class VersionsController < ApplicationController
         respond_to do |format|
           format.html do
             flash[:notice] = l(:notice_successful_create)
-            redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+            redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
           end
           format.js do
             # IE doesn't support the replace_html rjs method for select box options
@@ -104,7 +104,7 @@ class VersionsController < ApplicationController
       @version.safe_attributes = attributes
       if @version.save
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+        redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
       else
         respond_to do |format|
           format.html { render :action => 'edit' }
@@ -117,16 +117,16 @@ class VersionsController < ApplicationController
     if request.put?
       @project.close_completed_versions
     end
-    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+    redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
   end
 
   def destroy
     if @version.fixed_issues.empty?
       @version.destroy
-      redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+      redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
     else
       flash[:error] = l(:notice_unable_delete_version)
-      redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+      redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
     end
   end
 

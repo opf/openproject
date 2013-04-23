@@ -38,7 +38,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   def controller; @controller; end
 
   def link(key, no_html)
-    url_attr = { :controller => 'journals',
+    url_attr = { :controller => '/journals',
                  :action => 'diff',
                  :id => @journal.id,
                  :field => key.downcase,

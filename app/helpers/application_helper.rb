@@ -155,7 +155,7 @@ module ApplicationHelper
     action = options.delete(:download) ? 'download' : 'show'
 
     link_to h(text),
-            {:controller => 'attachments',
+            {:controller => '/attachments',
              :action => action,
              :id => attachment,
              :filename => attachment.filename },
@@ -169,7 +169,7 @@ module ApplicationHelper
     text = options.delete(:text) || format_revision(revision)
     rev = revision.respond_to?(:identifier) ? revision.identifier : revision
 
-    link_to(h(text), {:controller => 'repositories', :action => 'revision', :id => project, :rev => rev},
+    link_to(h(text), {:controller => '/repositories', :action => 'revision', :id => project, :rev => rev},
             :title => l(:label_revision_id, format_revision(revision)))
   end
 
@@ -177,7 +177,7 @@ module ApplicationHelper
   def link_to_message(message, options={}, html_options = nil)
     link_to(
       h(truncate(message.subject, :length => 60)),
-      { :controller => 'messages', :action => 'show',
+      { :controller => '/messages', :action => 'show',
         :board_id => message.board_id,
         :id => message.root,
         :r => (message.parent_id && message.id),
@@ -402,7 +402,7 @@ module ApplicationHelper
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)
     if @project
-      link_to(text, {:controller => 'activities', :action => 'index', :id => @project, :from => time.to_date}, :title => format_time(time))
+      link_to(text, {:controller => '/activities', :action => 'index', :id => @project, :from => time.to_date}, :title => format_time(time))
     else
       content_tag('label', text, :title => format_time(time), :class => "timestamp")
     end
@@ -659,7 +659,7 @@ module ApplicationHelper
         attachments ||= (options[:attachments] || obj.attachments).sort_by(&:created_on).reverse
         # search for the picture in attachments
         if found = attachments.detect { |att| att.filename.downcase == filename }
-          image_url = url_for :only_path => only_path, :controller => 'attachments', :action => 'download', :id => found
+          image_url = url_for :only_path => only_path, :controller => '/attachments', :action => 'download', :id => found
           desc = found.description.to_s.gsub('"', '')
           if !desc.blank? && alttext.blank?
             alt = " title=\"#{desc}\" alt=\"#{desc}\""
@@ -706,7 +706,7 @@ module ApplicationHelper
             when :anchor; "##{title}"   # used for single-file wiki export
             else
               wiki_page_id = page.present? ? Wiki.titleize(page) : nil
-              url_for(:only_path => only_path, :controller => 'wiki', :action => 'show', :project_id => link_project, :id => wiki_page_id, :anchor => anchor)
+              url_for(:only_path => only_path, :controller => '/wiki', :action => 'show', :project_id => link_project, :id => wiki_page_id, :anchor => anchor)
             end
           link_to(h(title || page), url, :class => ('wiki-page' + (wiki_page ? '' : ' new')))
         else
@@ -762,7 +762,7 @@ module ApplicationHelper
         if prefix.nil? && sep == 'r'
           # project.changesets.visible raises an SQL error because of a double join on repositories
           if project && project.repository && (changeset = Changeset.visible.find_by_repository_id_and_revision(project.repository.id, identifier))
-            link = link_to(h("#{project_prefix}r#{identifier}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
+            link = link_to(h("#{project_prefix}r#{identifier}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :id => project, :rev => changeset.revision},
                                       :class => 'changeset',
                                       :title => truncate_single_line(changeset.comments, :length => 100))
           end
@@ -771,18 +771,18 @@ module ApplicationHelper
           case prefix
           when nil
             if issue = Issue.visible.find_by_id(oid, :include => :status)
-              link = link_to("##{oid}", {:only_path => only_path, :controller => 'issues', :action => 'show', :id => oid},
+              link = link_to("##{oid}", {:only_path => only_path, :controller => '/issues', :action => 'show', :id => oid},
                                         :class => issue.css_classes,
                                         :title => "#{truncate(issue.subject, :length => 100)} (#{issue.status.name})")
             end
           when 'document'
             if document = Document.visible.find_by_id(oid)
-              link = link_to h(document.title), {:only_path => only_path, :controller => 'documents', :action => 'show', :id => document},
+              link = link_to h(document.title), {:only_path => only_path, :controller => '/documents', :action => 'show', :id => document},
                                                 :class => 'document'
             end
           when 'version'
             if version = Version.visible.find_by_id(oid)
-              link = link_to h(version.name), {:only_path => only_path, :controller => 'versions', :action => 'show', :id => version},
+              link = link_to h(version.name), {:only_path => only_path, :controller => '/versions', :action => 'show', :id => version},
                                               :class => 'version'
             end
           when 'message'
@@ -812,17 +812,17 @@ module ApplicationHelper
           case prefix
           when 'document'
             if project && document = project.documents.visible.find_by_title(name)
-              link = link_to h(document.title), {:only_path => only_path, :controller => 'documents', :action => 'show', :id => document},
+              link = link_to h(document.title), {:only_path => only_path, :controller => '/documents', :action => 'show', :id => document},
                                                 :class => 'document'
             end
           when 'version'
             if project && version = project.versions.visible.find_by_name(name)
-              link = link_to h(version.name), {:only_path => only_path, :controller => 'versions', :action => 'show', :id => version},
+              link = link_to h(version.name), {:only_path => only_path, :controller => '/versions', :action => 'show', :id => version},
                                               :class => 'version'
             end
           when 'commit'
             if project && project.repository && (changeset = Changeset.visible.find(:first, :conditions => ["repository_id = ? AND scmid LIKE ?", project.repository.id, "#{name}%"]))
-              link = link_to h("#{project_prefix}#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.identifier},
+              link = link_to h("#{project_prefix}#{name}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :id => project, :rev => changeset.identifier},
                                            :class => 'changeset',
                                            :title => truncate_single_line(h(changeset.comments), :length => 100)
             end
@@ -830,7 +830,7 @@ module ApplicationHelper
             if project && project.repository && User.current.allowed_to?(:browse_repository, project)
               name =~ %r{^[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?$}
               path, rev, anchor = $1, $3, $5
-              link = link_to h("#{project_prefix}#{prefix}:#{name}"), {:controller => 'repositories', :action => 'entry', :id => project,
+              link = link_to h("#{project_prefix}#{prefix}:#{name}"), {:controller => '/repositories', :action => 'entry', :id => project,
                                                       :path => to_path_param(path),
                                                       :rev => rev,
                                                       :anchor => anchor,
@@ -840,7 +840,7 @@ module ApplicationHelper
           when 'attachment'
             attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
             if attachments && attachment = attachments.detect {|a| a.filename == name }
-              link = link_to h(attachment.filename), {:only_path => only_path, :controller => 'attachments', :action => 'download', :id => attachment},
+              link = link_to h(attachment.filename), {:only_path => only_path, :controller => '/attachments', :action => 'download', :id => attachment},
                                                      :class => 'attachment'
             end
           when 'project'

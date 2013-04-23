@@ -73,7 +73,7 @@ class DocumentsController < ApplicationController
 
   def destroy
     @document.destroy
-    redirect_to :controller => 'documents', :action => 'index', :project_id => @project
+    redirect_to :controller => '/documents', :action => 'index', :project_id => @project
   end
 
   def add_attachment

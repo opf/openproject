@@ -224,7 +224,7 @@ class IssuesController < ApplicationController
       end
     end
     set_flash_from_bulk_issue_save(@issues, unsaved_issue_ids)
-    redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project})
+    redirect_back_or_default({:controller => '/issues', :action => 'index', :project_id => @project})
   end
 
   def destroy

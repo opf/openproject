@@ -41,6 +41,6 @@
   </fieldset>
   <p>
     <%= submit_tag l(:button_save), :method => :post %>
-    <%= link_to l(:button_cancel), {:controller => 'wiki', :action => 'show', :project_id => @project, :id => @page_title} %>
+    <%= link_to l(:button_cancel), {:controller => '/wiki', :action => 'show', :project_id => @project, :id => @page_title} %>
   </p>
   <% end %>

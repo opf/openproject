@@ -14,12 +14,12 @@
     <td><%=h board.description %></td>
     <td class="small-icons" align="center">
     <% if authorize_for("boards", "edit") %>
-			<%= reorder_links('board', {:controller => 'boards', :action => 'edit', :project_id => @project, :id => board}) %>
+      <%= reorder_links('board', {:controller => '/boards', :action => 'edit', :project_id => @project, :id => board}) %>
     <% end %>
     </td>
     <td class="buttons">
-    	<%= link_to_if_authorized l(:button_edit), {:controller => 'boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %>
-    	<%= link_to_if_authorized l(:button_delete), {:controller => 'boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+      <%= link_to_if_authorized l(:button_edit), {:controller => '/boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %>
+      <%= link_to_if_authorized l(:button_delete), {:controller => '/boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
     </td>
 	</tr>
 <% end %>
@@ -29,4 +29,4 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 
-<p><%= link_to_if_authorized l(:label_board_new), {:controller => 'boards', :action => 'new', :project_id => @project} %></p>
+<p><%= link_to_if_authorized l(:label_board_new), {:controller => '/boards', :action => 'new', :project_id => @project} %></p>
