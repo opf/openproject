@@ -20,7 +20,7 @@ class Message < ActiveRecord::Base
   acts_as_attachable
   belongs_to :last_reply, :class_name => 'Message', :foreign_key => 'last_reply_id'
 
-   acts_as_journalized :event_title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
+  acts_as_journalized :event_title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
                 :event_description => :content,
                 :event_type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
                 :event_url => (Proc.new do |o|
@@ -40,7 +40,7 @@ class Message < ActiveRecord::Base
 
   acts_as_watchable
 
-  attr_protected :locked, :sticky, :author_id
+  attr_protected :author_id
 
   validates_presence_of :board, :subject, :content
   validates_length_of :subject, :maximum => 255
