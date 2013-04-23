@@ -35,7 +35,7 @@ module UsersHelper
   end
 
   def change_status_link(user)
-    url = {:controller => 'users', :action => 'update', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
+    url = {:controller => '/users', :action => 'update', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
 
     if user.locked?
       link_to l(:button_unlock), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'

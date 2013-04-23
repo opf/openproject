@@ -36,7 +36,7 @@
             <% if parent_issue = issue.parent_issue_id %>
               <span class='hidden-for-sighted'><%=l(:description_subissue) + ' ' + l(:label_issue) + ' #' + parent_issue.to_s %></span>
             <% end -%>
-            <%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
+            <%= link_to issue.id, :controller => '/issues', :action => 'show', :id => issue %>
           </td>
         <% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.name %><% end %>
 	</tr>

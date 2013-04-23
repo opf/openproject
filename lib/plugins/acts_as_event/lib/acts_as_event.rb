@@ -30,9 +30,9 @@ module Redmine
                               :title => :title,
                               :description => :description,
                               :author => :author,
-                              :url => {:controller => 'welcome'},
+                              :url => {:controller => '/welcome'},
                               :type => self.name.underscore.dasherize }
-                              
+
           cattr_accessor :event_options
           self.event_options = default_options.merge(options)
           send :include, Redmine::Acts::Event::InstanceMethods

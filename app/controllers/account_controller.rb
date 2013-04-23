@@ -89,7 +89,7 @@ class AccountController < ApplicationController
           session[:auth_source_registration] = nil
           self.logged_user = @user
           flash[:notice] = l(:notice_account_activated)
-          redirect_to :controller => 'my', :action => 'account'
+          redirect_to :controller => '/my', :action => 'account'
         end
       else
         @user.login = params[:user][:login]
@@ -212,10 +212,10 @@ class AccountController < ApplicationController
     if user.first_login
       user.update_attribute(:first_login, false)
 
-      redirect_to :controller => "my", :action => "first_login", :back_url => params[:back_url]
+      redirect_to :controller => "/my", :action => "first_login", :back_url => params[:back_url]
     else
 
-      redirect_back_or_default :controller => 'my', :action => 'page'
+      redirect_back_or_default :controller => '/my', :action => 'page'
     end
   end
 
@@ -272,7 +272,7 @@ class AccountController < ApplicationController
     if user.save
       self.logged_user = user
       flash[:notice] = l(:notice_account_activated)
-      redirect_to :controller => 'my', :action => 'account'
+      redirect_to :controller => '/my', :action => 'account'
     else
       yield if block_given?
     end

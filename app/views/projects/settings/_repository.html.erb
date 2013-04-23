@@ -1,5 +1,5 @@
 <%= remote_form_for :repository, @repository,
-                   :url => { :controller => 'repositories', :action => 'edit', :id => @project },
+                   :url => { :controller => '/repositories', :action => 'edit', :id => @project },
                    :builder => TabularFormBuilder,
                    :lang => current_language do |f| %>
 
@@ -12,8 +12,8 @@
 
 <div class="contextual">
 <% if @repository && !@repository.new_record? %>
-<%= link_to(l(:label_user_plural), {:controller => 'repositories', :action => 'committers', :id => @project}, :class => 'icon icon-user') %>
-<%= link_to(l(:button_delete), {:controller => 'repositories', :action => 'destroy', :id => @project},
+<%= link_to(l(:label_user_plural), {:controller => '/repositories', :action => 'committers', :id => @project}, :class => 'icon icon-user') %>
+<%= link_to(l(:button_delete), {:controller => '/repositories', :action => 'destroy', :id => @project},
             :confirm => l(:text_are_you_sure),
             :method => :post,
             :class => 'icon icon-del') %>

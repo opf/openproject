@@ -161,7 +161,8 @@ class ApplicationController < ActionController::Base
       if request.get?
         url = url_for(params)
       else
-        url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
+        controller = "/#{params[:controller].to_s}" unless params[:controller].to_s.starts_with?('/')
+        url = url_for(:controller => controller, :action => params[:action], :id => params[:id], :project_id => params[:project_id])
       end
       respond_to do |format|
         format.any(:html, :atom) { redirect_to signin_path(:back_url => url) }

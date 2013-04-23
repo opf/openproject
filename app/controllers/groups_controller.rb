@@ -105,7 +105,7 @@ class GroupsController < ApplicationController
     @users = User.find_all_by_id(params[:user_ids], :include => :memberships)
     @group.users << @users
     respond_to do |format|
-      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
+      format.html { redirect_to :controller => '/groups', :action => 'edit', :id => @group, :tab => 'users' }
       format.js { render :action => 'change_members' }
     end
   end
@@ -114,7 +114,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id], :include => :users)
     @group.users.delete(User.find(params[:user_id], :include => :memberships))
     respond_to do |format|
-      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
+      format.html { redirect_to :controller => '/groups', :action => 'edit', :id => @group, :tab => 'users' }
       format.js { render :action => 'change_members' }
     end
   end
@@ -130,7 +130,7 @@ class GroupsController < ApplicationController
     @membership.save
 
     respond_to do |format|
-      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
+      format.html { redirect_to :controller => '/groups', :action => 'edit', :id => @group, :tab => 'memberships' }
       format.js { render :action => 'change_memberships' }
     end
   end
@@ -141,7 +141,7 @@ class GroupsController < ApplicationController
     Member.find(params[:membership_id]).destroy
     @group = Group.find(params[:id])
     respond_to do |format|
-      format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }
+      format.html { redirect_to :controller => '/groups', :action => 'edit', :id => @group, :tab => 'memberships' }
       format.js { render :action => 'destroy_memberships' }
     end
   end

@@ -1,6 +1,6 @@
 <%= render :partial => 'action_menu' %>
 
-<% breadcrumb_paths(*[link_to(l(:label_issue_plural), {:controller => 'issues', :action => 'index'})] << @ancestors.collect {|parent| link_to '#' + h(parent.id), {:controller => 'issues', :action => 'show', :id => parent}}) unless @ancestors.empty? %>
+<% breadcrumb_paths(*[link_to(l(:label_issue_plural), {:controller => '/issues', :action => 'index'})] << @ancestors.collect {|parent| link_to '#' + h(parent.id), {:controller => '/issues', :action => 'show', :id => parent}}) unless @ancestors.empty? %>
 
 <%= content_tag('h2', h(@issue.tracker.name) + ' #' +@issue.id.to_s) %>
 
@@ -56,7 +56,7 @@
   <div class="description">
     <hr />
 	  <div class="contextual">
-	    <%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => 'journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
+	    <%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => '/journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
 	  </div>
 
         <p><strong><%=l(:field_description)%></strong></p>

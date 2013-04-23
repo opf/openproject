@@ -254,7 +254,7 @@ module Redmine #:nodoc:
 
     # Adds an item to the given +menu+.
     # The +id+ parameter (equals to the project id) is automatically added to the url.
-    #   menu :project_menu, :plugin_example, { :controller => 'example', :action => 'say_hello' }, :caption => 'Sample'
+    #   menu :project_menu, :plugin_example, { :controller => '/example', :action => 'say_hello' }, :caption => 'Sample'
     #
     # +name+ parameter can be: :top_menu, :account_menu, :application_menu or :project_menu
     #
