@@ -31,10 +31,6 @@
 
 <% breadcrumb_paths(link_to(l(:label_backlogs), backlogs_project_backlogs_path(@project)), link_to(@sprint.name, backlogs_project_backlogs_path(@sprint))) %>
 
-<h2>
-  <%= link_to @sprint.name, backlogs_project_backlogs_path(@sprint) %>
-</h2>
-
 <div id='rb'>
   <div id="taskboard">
     <table id="board_header" cellspacing="0">
