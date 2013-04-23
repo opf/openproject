@@ -35,7 +35,7 @@ module OpenProject::Backlogs::Hooks
 
     def view_issues_show_details_bottom(context = {})
       return '' unless context[:issue].project.module_enabled? 'backlogs'
-      return '' if context[:from] == 'Backlogs::IssueView::FieldsParagraph'
+      return '' if context[:from] == 'OpenProject::Backlogs::IssueView::FieldsParagraph'
 
       issue = context[:issue]
 
