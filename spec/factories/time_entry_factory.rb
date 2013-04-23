@@ -4,6 +4,7 @@ FactoryGirl.define do
     user
     issue
     spent_on Date.today
+    activity :factory => :time_entry_activity
   end
 end
 
