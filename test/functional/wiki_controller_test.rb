@@ -79,7 +79,7 @@ class WikiControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     put :update, :project_id => 1,
                 :id => 'New page',
-                :wiki_content => {:comments => 'Created the page',
+                :content => {:comments => 'Created the page',
                              :text => "h1. New page\n\nThis is a new page" }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'New_page'
     page = Project.find(1).wiki.find_page('New page')
@@ -94,7 +94,7 @@ class WikiControllerTest < ActionController::TestCase
       assert_difference 'Attachment.count' do
         put :update, :project_id => 1,
                     :id => 'New page',
-                    :wiki_content => {:comments => 'Created the page',
+                    :content => {:comments => 'Created the page',
                                  :text => "h1. New page\n\nThis is a new page",
                                  :lock_version => 0},
                     :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
@@ -112,7 +112,7 @@ class WikiControllerTest < ActionController::TestCase
         assert_difference 'WikiContentJournal.count' do
           put :update, :project_id => 1,
             :id => 'Another_page',
-            :wiki_content => {
+            :content => {
               :comments => "my comments",
               :text => "edited",
               :lock_version => 1
@@ -135,7 +135,7 @@ class WikiControllerTest < ActionController::TestCase
         assert_no_difference 'WikiContentJournal.count' do
           put :update, :project_id => 1,
             :id => 'Another_page',
-            :wiki_content => {
+            :content => {
               :comments => 'a' * 300,  # failure here, comment is too long
               :text => 'edited',
               :lock_version => 1
@@ -163,7 +163,7 @@ class WikiControllerTest < ActionController::TestCase
         assert_no_difference 'WikiContentJournal.count' do
           put :update, :project_id => 1,
             :id => 'Another_page',
-            :wiki_content => {
+            :content => {
               :comments => 'My comments',
               :text => 'Text should not be lost',
               :lock_version => 1
@@ -190,7 +190,7 @@ class WikiControllerTest < ActionController::TestCase
   def test_preview
     @request.session[:user_id] = 2
     xhr :post, :preview, :project_id => 1, :id => 'CookBook_documentation',
-                                   :wiki_content => { :comments => '',
+                                   :content => { :comments => '',
                                                  :text => 'this is a *previewed text*',
                                                  :lock_version => 3 }
     assert_response :success
@@ -201,7 +201,7 @@ class WikiControllerTest < ActionController::TestCase
   def test_preview_new_page
     @request.session[:user_id] = 2
     xhr :post, :preview, :project_id => 1, :id => 'New page',
-                                   :wiki_content => { :text => 'h1. New page',
+                                   :content => { :text => 'h1. New page',
                                                  :comments => '',
                                                  :lock_version => 0 }
     assert_response :success
