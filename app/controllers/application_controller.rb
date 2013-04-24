@@ -514,7 +514,11 @@ class ApplicationController < ActionController::Base
   end
 
   def api_request?
-    %w(xml json).include? params[:format]
+    if params[:format].nil?
+      %w(application/xml application/json).include? request.format.to_s
+    else
+      %w(xml json).include? params[:format]
+    end
   end
 
   # Returns the API key present in the request
