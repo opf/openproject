@@ -18,10 +18,11 @@ RB.Task = (function ($) {
       // Associate this object with the element for later retrieval
       this.$.data('this', this);
       this.$.find(".editable").live('click', this.handleClick);
+      this.defaultColor =  $('#rb .task').css('background-color');
     },
 
     beforeSave: function () {
-      var c = this.$.find('select.assigned_to_id').children(':selected').attr('color');
+      var c = this.$.find('select.assigned_to_id').children(':selected').attr('color') || this.defaultColor;
       this.$.css('background-color', c);
     },
 
