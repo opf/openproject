@@ -137,7 +137,7 @@ module ApplicationHelper
       end
     end
     closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
-    s = link_to "#{closed}#{h(options[:before_text].to_s)}#{h(issue.tracker)} ##{issue.id}",
+    s = link_to "#{closed}#{h(options[:before_text].to_s)}#{h(issue.tracker)} ##{issue.id}".html_safe,
                 issue,
                 :class => issue.css_classes,
                 :title => h(title)
