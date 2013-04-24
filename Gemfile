@@ -80,7 +80,7 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'guard-spork'
-  gem 'rb-fsevent', :group => :test, :require => false if RUBY_PLATFORM =~ /darwin/i
+  gem 'rb-fsevent', :group => :test
   gem 'rack-mini-profiler'
 end
 
