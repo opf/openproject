@@ -12,7 +12,7 @@ jQuery(function ($) {
   $('#assigned_to_id_options').change(function () {
     var selected = $(this).children(':selected');
     if (!defaultDialogColor) {
-      defaultDialogColor = $('<div id="rb"><div class="model issue task"></div></div>').children().css('background-color');
+      defaultDialogColor = $('#rb .task').css('background-color');
     }
     $(this).parents('.ui-dialog').css('background-color', selected.attr('color') || defaultDialogColor);
   });
