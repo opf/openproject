@@ -15,7 +15,7 @@ class MaterialBudgetItem < ActiveRecord::Base
                                  :project => project)
   end
 
-  named_scope :visible_costs, lambda{|*args|
+  scope :visible_costs, lambda{|*args|
     { :include => [{:cost_object => :project}],
       :conditions => MaterialBudgetItem.visible_condition((args.first || User.current), args[1])
     }

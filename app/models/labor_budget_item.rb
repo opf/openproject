@@ -22,7 +22,7 @@ class LaborBudgetItem < ActiveRecord::Base
                                          :project => project)} AND #{LaborBudgetItem.table_name}.user_id = #{user.id})) }
   end
 
-  named_scope :visible_costs, lambda{|*args|
+  scope :visible_costs, lambda{|*args|
     { :include => [{:cost_object => :project}, :user],
       :conditions => LaborBudgetItem.visible_condition((args.first || User.current), args[1])
     }

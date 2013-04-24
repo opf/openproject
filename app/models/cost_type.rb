@@ -10,7 +10,7 @@ class CostType < ActiveRecord::Base
 
   attr_accessible :name, :unit, :unit_plural, :default, :new_rate_attributes, :existing_rate_attributes
 
-  named_scope :active, :conditions => { :deleted_at => nil }
+  scope :active, :conditions => { :deleted_at => nil }
 
   # finds the default CostType
   def self.default

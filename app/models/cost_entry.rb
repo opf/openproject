@@ -20,7 +20,7 @@ class CostEntry < ActiveRecord::Base
   validates_numericality_of :units, :allow_nil => false, :message => :activerecord_error_invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 
-  named_scope :visible, lambda{|*args|
+  scope :visible, lambda{|*args|
     { :include => [:project, :user],
       :conditions => CostEntry.visible_condition(args[0] || User.current, args[1])
     }
@@ -31,7 +31,7 @@ class CostEntry < ActiveRecord::Base
          (#{Project.allowed_to_condition(user, :view_own_cost_entries, :project => project)} AND #{CostEntry.table_name}.user_id = #{user.id})) }
   end
 
-  named_scope :visible_costs, lambda{|*args|
+  scope :visible_costs, lambda{|*args|
     view_cost_rates = Project.allowed_to_condition((args.first || User.current), :view_cost_rates, :project => args[1])
     view_cost_entries = CostEntry.visible_condition((args.first || User.current), args[1])
 
