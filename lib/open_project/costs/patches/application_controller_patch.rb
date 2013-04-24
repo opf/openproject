@@ -1,6 +1,6 @@
 require_dependency 'application_controller'
 
-module CostsApplicationControllerPatch
+module OpenProject::Costs::Patches::ApplicationControllerPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
 
@@ -18,4 +18,4 @@ module CostsApplicationControllerPatch
   end
 end
 
-ApplicationController.send(:include, CostsApplicationControllerPatch)
+ApplicationController.send(:include, OpenProject::Costs::Patches::ApplicationControllerPatch)

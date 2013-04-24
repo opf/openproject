@@ -1,15 +1,15 @@
 require_dependency 'users_helper'
 
-module CostsUsersHelperPatch
+module OpenProject::Costs::Patches::UsersHelperPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
 
-    # Same as typing in the class 
+    # Same as typing in the class
     base.class_eval do
       alias_method_chain :user_settings_tabs, :rate_tab
     end
   end
-  
+
   module InstanceMethods
     # Adds a rates tab to the user administration page
     def user_settings_tabs_with_rate_tab
@@ -21,4 +21,4 @@ module CostsUsersHelperPatch
   end
 end
 
-UsersHelper.send(:include, CostsUsersHelperPatch)
+UsersHelper.send(:include, OpenProject::Costs::Patches::UsersHelperPatch)

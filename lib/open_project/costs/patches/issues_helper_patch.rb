@@ -1,6 +1,6 @@
 require_dependency 'issues_helper'
 
-module CostsIssuesHelperPatch
+module OpenProject::Costs::Patches::IssuesHelperPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
 
@@ -86,4 +86,4 @@ module CostsIssuesHelperPatch
   end
 end
 
-IssuesHelper.send(:include, CostsIssuesHelperPatch)
+IssuesHelper.send(:include, OpenProject::Costs::Patches::IssuesHelperPatch)

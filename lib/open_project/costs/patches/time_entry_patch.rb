@@ -1,7 +1,7 @@
 require_dependency 'time_entry'
 
 # Patches Redmine's Users dynamically.
-module CostsTimeEntryPatch
+module OpenProject::Costs::Patches::TimeEntryPatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
 
@@ -14,7 +14,7 @@ module CostsTimeEntryPatch
       belongs_to :rate, :conditions => {:type => ["HourlyRate", "DefaultHourlyRate"]}, :class_name => "Rate"
       attr_protected :costs, :rate_id
 
-      named_scope :visible, lambda{|*args|
+      scope :visible, lambda{|*args|
         { :include => [:project, :user],
           :conditions => TimeEntry.visible_condition(args[0] || User.current, args[1])
         }
@@ -25,7 +25,7 @@ module CostsTimeEntryPatch
              (#{Project.allowed_to_condition(user, :view_own_time_entries, :project => project)} AND #{TimeEntry.table_name}.user_id = #{user.id})) }
       end
 
-      named_scope :visible_costs, lambda{|*args|
+      scope :visible_costs, lambda{|*args|
         user = args.first || User.current
         project = args[1]
 
@@ -108,4 +108,4 @@ module CostsTimeEntryPatch
   end
 end
 
-TimeEntry.send(:include, CostsTimeEntryPatch)
+TimeEntry.send(:include, OpenProject::Costs::Patches::TimeEntryPatch)

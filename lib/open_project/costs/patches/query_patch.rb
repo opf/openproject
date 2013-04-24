@@ -1,6 +1,6 @@
 require_dependency 'query'
 
-module CostsQueryPatch
+module OpenProject::Costs::Patches::QueryPatch
   class CurrencyQueryColumn < QueryColumn
     unloadable
     include ActionView::Helpers::NumberHelper
@@ -68,4 +68,4 @@ module CostsQueryPatch
   end
 end
 
-Query.send(:include, CostsQueryPatch)
+Query.send(:include, OpenProject::Costs::Patches::QueryPatch)

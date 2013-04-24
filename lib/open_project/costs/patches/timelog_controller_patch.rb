@@ -1,6 +1,6 @@
 require_dependency 'timelog_controller'
 
-module CostsTimelogControllerPatch
+module OpenProject::Costs::Patches::TimelogControllerPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
 
@@ -67,4 +67,4 @@ module CostsTimelogControllerPatch
   end
 end
 
-TimelogController.send(:include, CostsTimelogControllerPatch)
+TimelogController.send(:include, OpenProject::Costs::Patches::TimelogControllerPatch)

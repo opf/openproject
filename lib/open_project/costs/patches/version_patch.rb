@@ -1,6 +1,6 @@
 require_dependency 'version'
 
-module CostsVersionPatch
+module OpenProject::Costs::Patches::VersionPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
 
@@ -8,7 +8,7 @@ module CostsVersionPatch
       alias_method_chain :spent_hours, :inheritance
     end
   end
-  
+
   module InstanceMethods
     def spent_hours_with_inheritance
       # overwritten method
@@ -17,4 +17,4 @@ module CostsVersionPatch
   end
 end
 
-Version.send(:include, CostsVersionPatch)
+Version.send(:include, OpenProject::Costs::Patches::VersionPatch)

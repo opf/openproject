@@ -1,8 +1,8 @@
 require_dependency 'application_helper'
 
-module CostsApplicationHelperPatch
+module OpenProject::Costs::PatchesApplicationHelperPatch
   def self.included(base) # :nodoc:
-    # Same as typing in the class 
+    # Same as typing in the class
     base.class_eval do
       def link_to_cost_object(cost_object, options={})
         title = nil
@@ -16,7 +16,7 @@ module CostsApplicationHelperPatch
             subject = truncate(subject, :length => options[:truncate])
           end
         end
-        s = link_to subject, {:controller => "cost_objects", :action => "show", :id => cost_object}, 
+        s = link_to subject, {:controller => "cost_objects", :action => "show", :id => cost_object},
                                                      :class => cost_object.css_classes,
                                                      :title => title
         s = "#{h cost_object.project} - " + s if options[:project]
@@ -26,4 +26,4 @@ module CostsApplicationHelperPatch
   end
 end
 
-ApplicationHelper.send(:include, CostsApplicationHelperPatch)
+ApplicationHelper.send(:include, OpenProject::Costs::PatchesApplicationHelperPatch)

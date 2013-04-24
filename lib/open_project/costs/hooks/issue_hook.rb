@@ -1,21 +1,21 @@
 # Hooks to attach to the Redmine Issues.
-class CostsIssueHook  < Redmine::Hook::ViewListener
+class OpenProject::Costs::Hooks::IssueHook < Redmine::Hook::ViewListener
   # Renders the Cost Object subject and basic costs information
   render_on :view_issues_show_details_bottom, :partial => 'hooks/view_issues_show_details_bottom'
-  
+
   # Renders a select tag with all the Cost Objects
   render_on :view_issues_form_details_bottom, :partial => 'hooks/view_issues_form_details_bottom'
-  
+
   # Renders a select tag with all the Cost Objects for the bulk edit page
   render_on :view_issues_bulk_edit_details_bottom, :partial => 'hooks/view_issues_bulk_edit_details_bottom'
-  
+
   render_on :view_issues_move_bottom, :partial => 'hooks/view_issues_move_bottom'
-  
+
   render_on :view_issues_context_menu_end, :partial => 'hooks/view_issues_context_menu_end'
-  
-  
+
+
   # Updates the cost object after a move
-  # 
+  #
   # Context:
   # * params => Request parameters
   # * issue => Issue to move
@@ -36,7 +36,7 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
       context[:issue].cost_object_id = cost_object_id
     end
   end
-  
+
   # Saves the Cost Object assignment to the issue
   #
   # Context:
@@ -57,7 +57,7 @@ class CostsIssueHook  < Redmine::Hook::ViewListener
 
     return ''
   end
-  
+
   # Cost Object changes for the journal use the Cost Object subject
   # instead of the id
   #

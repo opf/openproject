@@ -1,6 +1,6 @@
 require_dependency 'issue'
 
-module CostsIssuePatch
+module OpenProject::Costs::Patches::IssuePatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
 
@@ -14,7 +14,7 @@ module CostsIssuePatch
       has_many :cost_entries, :dependent => :delete_all
 
       # disabled for now, implements part of ticket blocking
-      alias_method_chain :validate, :cost_object
+      validate :validate_cost_object
 
       register_journal_formatter(:cost_association) do |value, journaled, field|
         association = journaled.class.reflect_on_association(field.to_sym)
@@ -43,7 +43,7 @@ module CostsIssuePatch
   end
 
   module InstanceMethods
-    def validate_with_cost_object
+    def validate_cost_object
       if cost_object_id_changed?
         unless (cost_object_id.blank? || project.cost_object_ids.include?(cost_object_id))
           errors.add :cost_object_id, :activerecord_error_invalid
@@ -89,4 +89,4 @@ module CostsIssuePatch
 end
 
 Issue::SAFE_ATTRIBUTES << "cost_object_id" if Issue.const_defined? "SAFE_ATTRIBUTES"
-Issue.send(:include, CostsIssuePatch)
+Issue.send(:include, OpenProject::Costs::Patches::IssuePatch)

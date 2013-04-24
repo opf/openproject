@@ -1,6 +1,6 @@
 require_dependency 'issues_controller'
 
-module CostsIssuesControllerPatch
+module OpenProject::Costs::Patches::IssuesControllerPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
 
@@ -24,7 +24,7 @@ module CostsIssuesControllerPatch
       time_entries_with_rate = @time_entries.select{|c| c.costs_visible_by?(User.current)}
       @labor_costs = time_entries_with_rate.blank? ? nil : time_entries_with_rate.collect(&:real_costs).sum
 
-      unless @material_costs.nil? && @labor_costs.nil?:
+      unless @material_costs.nil? && @labor_costs.nil?
         @overall_costs = 0
         @overall_costs += @material_costs unless @material_costs.nil?
         @overall_costs += @labor_costs unless @labor_costs.nil?
@@ -70,4 +70,4 @@ module CostsIssuesControllerPatch
   end
 end
 
-IssuesController.send(:include, CostsIssuesControllerPatch)
+IssuesController.send(:include, OpenProject::Costs::Patches::IssuesControllerPatch)

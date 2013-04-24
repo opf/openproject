@@ -1,4 +1,4 @@
-module CostsRolePatch
+module OpenProject::Costs::Patches::RolePatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
 
@@ -68,4 +68,4 @@ module CostsRolePatch
   end
 end
 
-Role.send(:include, CostsRolePatch)
+Role.send(:include, OpenProject::Costs::Patches::RolePatch)

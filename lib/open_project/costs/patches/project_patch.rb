@@ -1,6 +1,6 @@
 require_dependency 'project'
 
-module CostsProjectPatch
+module OpenProject::Costs::Patches::ProjectPatch
   def self.included(base) # :nodoc:
     # Same as typing in the class
     base.class_eval do
@@ -18,4 +18,4 @@ module CostsProjectPatch
   end
 end
 
-Project.send(:include, CostsProjectPatch)
+Project.send(:include, OpenProject::Costs::Patches::ProjectPatch)
