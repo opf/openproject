@@ -1,4 +1,4 @@
-module Costs
+module OpenProject::Costs
   module DeletedUserFallback
     def self.included(base)
       base.send(:include, InstanceMethods)
