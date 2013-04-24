@@ -15,6 +15,21 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
 
       before_filter :add_project_to_version_settings_attributes, :only => [:update, :create]
 
+      before_filter :whitelist_update_params, :only => :update
+
+      def whitelist_update_params
+        if @project != @version.project
+          #make sure only the version_settings_attributes (column=left|right|none) can be stored when
+          #current project does not equal the version project (which is valid in inherited versions)
+          if params[:version] and params[:version][:version_settings_attributes]
+            params[:version] = { :version_settings_attributes => params[:version][:version_settings_attributes] }
+          else
+            params[:version] = {}
+          end
+        end
+      end
+
+
       def find_project_and_version
         find_model_object
         if params[:project_id]
