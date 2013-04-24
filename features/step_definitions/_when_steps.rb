@@ -171,7 +171,9 @@ When /^I fill in the id of the issue "(.+?)" as the parent issue$/ do |issue_nam
 end
 
 When /^the request on task "(.+?)" is finished$/ do |task_name|
-  step 'I wait 10 seconds for AJAX requests to finish'
+  #wait for the modal link of this task to appear
+  elements = page.find(:xpath, "//div[contains(., '#{task_name}') and contains(@class,'task')]/descendant::a[contains(@href, .)]")
+  #by selecting the task board card for a specific task and then go for the link with the id only appearing after the task was saved
 end
 
 When /^I follow the link to add a subtask$/ do
