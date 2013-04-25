@@ -117,12 +117,12 @@
   margin-right: 40px;
 }
 #rb #backlogs_container .backlog .sprint.saving {
-  background-image:url('images/ajax.gif');
+  background-image:url(<%= asset_path 'backlogs/indicator.gif' %>);
   background-repeat:no-repeat;
   background-position:center;
 }
 #rb #backlogs_container .backlog .sprint.error {
-  background-image:url('images/error.png');
+  background-image:url(<%= asset_path 'warning.png' %>);
   background-repeat:no-repeat;
   background-position:center;
 }
@@ -172,12 +172,12 @@
 }
 
 #rb #backlogs_container .stories .story.saving {
-  background-image:url('images/ajax.gif');
+  background-image:url(<%= asset_path 'backlogs/indicator.gif' %>);
   background-repeat:no-repeat;
   background-position:center;
 }
 #rb #backlogs_container .stories .story.error {
-  background-image:url('images/error.png');
+  background-image:url(<%= asset_path 'warning.png' %>);
   background-repeat:no-repeat;
   background-position:center;
 }
@@ -311,8 +311,8 @@
   float: right;
 }
 
-.controller-rb_master_backlogs.action-show #main, 
-.controller-rb_master_backlogs.action-show #content, 
+.controller-rb_master_backlogs.action-show #main,
+.controller-rb_master_backlogs.action-show #content,
 .controller-rb_master_backlogs.action-show #rb #backlogs_container .backlog .stories {overflow: visible;}
 
 .controller-rb_master_backlogs.action-show div.calendar {

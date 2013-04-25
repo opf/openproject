@@ -1,0 +1,10 @@
+/* *
+ *= require jquery.ui.all
+ *= require backlogs/global
+ *= require backlogs/global_print
+ *= require backlogs/livepipe-ui/base
+ *= require backlogs/jqplot
+ *= require backlogs/master_backlog
+ *= require backlogs/statistics
+ *= require backlogs/taskboard
+ */
