@@ -37,8 +37,8 @@ RB.Taskboard = (function ($) {
     },
 
     initializeNewButtons : function () {
-      this.$.find('#tasks .add_new').click(this.handleAddNewTaskClick);
-      this.$.find('#impediments .add_new').click(this.handleAddNewImpedimentClick);
+      this.$.find('#tasks .add_new.clickable').click(this.handleAddNewTaskClick);
+      this.$.find('#impediments .add_new.clickable').click(this.handleAddNewImpedimentClick);
     },
 
     initializeSortables : function () {
