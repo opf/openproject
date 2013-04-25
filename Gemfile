@@ -34,7 +34,9 @@ gem 'execjs'
 gem 'therubyracer'
 
 group :production do
-  # memcache client (memcached 1.4+)
+  # we use dalli as standard memcache client remove this if you don't
+  # requires memcached 1.4+
+  # see https://github.com/mperham/dalli
   gem 'dalli'
 end
 
