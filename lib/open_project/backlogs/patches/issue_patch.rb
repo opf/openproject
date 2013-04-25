@@ -27,6 +27,7 @@ module OpenProject::Backlogs::Patches::IssuePatch
 
       validates_numericality_of :remaining_hours, :only_integer => false,
                                                   :allow_nil => true,
+                                                  :greater_than_or_equal_to => 0,
                                                   :if => lambda { |i| i.project && i.project.module_enabled?('backlogs') }
 
 
