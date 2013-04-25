@@ -25,6 +25,12 @@ module OpenProject::Backlogs::Patches::IssuePatch
                                                :less_than                => 10_000,
                                                :if => lambda { |i| i.project && i.project.module_enabled?('backlogs') }
 
+      validates_numericality_of :remaining_hours, :only_integer => false,
+                                                  :allow_nil => true,
+                                                  :greater_than_or_equal_to => 0,
+                                                  :if => lambda { |i| i.project && i.project.module_enabled?('backlogs') }
+
+
       validates_each :parent_issue_id do |record, attr, value|
         validate_parent_issue_relation(record, attr, value)
 
