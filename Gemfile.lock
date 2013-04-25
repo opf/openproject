@@ -123,6 +123,7 @@ GEM
       rails (~> 3.0)
     cucumber-rails-training-wheels (1.0.0)
       cucumber-rails (>= 1.1.1)
+    dalli (2.6.2)
     database_cleaner (0.9.1)
     debug_inspector (0.0.2)
     debugger (1.5.0)
@@ -346,6 +347,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   cucumber-rails
   cucumber-rails-training-wheels
+  dalli
   database_cleaner
   delayed_job_active_record
   execjs
