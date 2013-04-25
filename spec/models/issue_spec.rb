@@ -66,6 +66,37 @@ describe Issue do
         issue.should_not be_valid
       end
     end
+
+
+    describe 'remaining hours' do
+      it 'allows empty values' do
+        issue.remaining_hours.should be_nil
+        issue.should be_valid
+      end
+
+      it 'allows values greater than or equal to 0' do
+        issue.remaining_hours = '0'
+        issue.should be_valid
+
+        issue.remaining_hours = '1'
+        issue.should be_valid
+      end
+
+      it 'disallows negative values' do
+        issue.remaining_hours = '-1'
+        issue.should_not be_valid
+      end
+
+      it 'disallows string values, that are not numbers' do
+        issue.remaining_hours = 'abc'
+        issue.should_not be_valid
+      end
+
+      it 'allows non-integers' do
+        issue.remaining_hours = '1.3'
+        issue.should be_valid
+      end
+    end
   end
 
   describe 'definition of done' do
