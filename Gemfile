@@ -33,6 +33,13 @@ gem 'htmldiff'
 gem 'execjs'
 gem 'therubyracer'
 
+group :production do
+  # we use dalli as standard memcache client remove this if you don't
+  # requires memcached 1.4+
+  # see https://github.com/mperham/dalli
+  gem 'dalli'
+end
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'

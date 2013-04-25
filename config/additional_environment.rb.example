@@ -10,4 +10,5 @@
 #   config.gem "aws-s3", :lib => "aws/s3"
 #   ...
 #
-
+# Setup Memcache
+# config.cache_store = :dalli_store, '127.0.0.1:11211', {:namespace => 'openproject'}
