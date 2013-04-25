@@ -1,21 +1,9 @@
 <% content_for :header_tags do %>
 <%= render :partial => 'shared/backlogs_header' %>
-  <%= javascript_include_tag  'backlogs/app/show_main',
-                              'backlogs/app/taskboard',
-                              'backlogs/app/model',
-                              'backlogs/app/issue',
-                              'backlogs/app/task',
-                              'backlogs/app/impediment',
-                              'backlogs/app/burndown' %>
-
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                      :action => 'show',
                                      :project_id => @project,
                                      :sprint_id => @sprint) %>
-
-  <%= stylesheet_link_tag 'backlogs/jqplot.css' %>
-  <%= stylesheet_link_tag 'backlogs/taskboard.css', :media => 'print,screen' %>
-  <%= stylesheet_link_tag 'backlogs/taskboard_print.css', :media => 'print' %>
 <% end %>
 
 <div class="contextual">
