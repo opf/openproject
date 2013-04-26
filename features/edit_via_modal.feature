@@ -48,17 +48,10 @@ Feature: Edit issue via modal box
   @javascript
   Scenario: Edit issue via modal box
     When I go to the master backlog
-    And I follow "" within ".stories .story .id"
-
-    Then I should see "Story #"
-    And I should see "Story A"
-
-    When I follow "Update" within ".modal .contextual"
+    And I open the modal window for the story "Story A"
+    And I switch the modal window into edit mode
     And fill in "Story A changed" for "issue_subject"
     And I follow "Save"
-
-    Then I should see "Subject changed from Story A to Story A changed"
-
-    When I go to the master backlog
+    And I go to the master backlog
 
     Then I should see "Story A changed"

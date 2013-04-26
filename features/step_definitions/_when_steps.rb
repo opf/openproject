@@ -118,7 +118,7 @@ When /^I edit the sprint notes$/ do
   visit url_for(:controller => '/rb_wikis', :action => 'edit', :sprint_id => @sprint)
 end
 
-When /^I follow "(.+?)" within the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_name|
+When /^I follow "(.+?)" of the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_name|
   sprint = Sprint.find_by_name(backlog_name)
   step %Q{I follow "#{link}" within "#backlog_#{sprint.id} .menu"}
 end
@@ -137,7 +137,7 @@ When /^I click on the text "(.+?)"$/ do |locator|
   find(:xpath, %Q{//*[contains(text(), "#{locator}")]}).click
 end
 
-When /^I click on the element with class "(.+?)"$/ do |locator|
+When /^I click on the element with class "([^"]+?)"$/ do |locator|
   find(:css, ".#{locator}").click
 end
 

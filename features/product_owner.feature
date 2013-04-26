@@ -77,7 +77,7 @@ Feature: Product Owner
       And I set the subject of the story to A Whole New Story
       And I create the story
      Then the 1st story in the "Product Backlog" should be "A Whole New Story"
-      And all positions should be unique within versions
+      And all positions should be unique for each version
 
   Scenario: Update a story
     Given I am on the master backlog

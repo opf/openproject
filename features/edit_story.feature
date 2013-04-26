@@ -64,7 +64,7 @@ Feature: Edit story on backlogs view
   Scenario: Create a new story in the backlog
     Given I am on the master backlog
      When I open the "Product Backlog" menu
-      And I follow "New Story" within the "Product Backlog" menu
+      And I follow "New Story" of the "Product Backlog" menu
       And I close the "Product Backlog" menu
       And I fill in "Alice in Wonderland" for "subject"
       And I confirm the story form
@@ -76,7 +76,7 @@ Feature: Edit story on backlogs view
   Scenario: Create a new story in a sprint
     Given I am on the master backlog
      When I open the "Sprint 001" menu
-      And I follow "New Story" within the "Sprint 001" menu
+      And I follow "New Story" of the "Sprint 001" menu
       And I close the "Sprint 001" menu
       And I fill in "The Wizard of Oz" for "subject"
       And I fill in "3" for "story_points"
@@ -110,7 +110,7 @@ Feature: Edit story on backlogs view
   Scenario: Setting trackers of a story
     Given I am on the master backlog
      When I open the "Sprint 001" menu
-      And I follow "New Story" within the "Sprint 001" menu
+      And I follow "New Story" of the "Sprint 001" menu
       And I close the "Sprint 001" menu
       And I fill in "The Wizard of Oz" for "subject"
       And I select "Bug" from "tracker_id"
@@ -122,6 +122,6 @@ Feature: Edit story on backlogs view
   Scenario: Hiding trackers, that are not active in the project
     Given I am on the master backlog
      When I open the "Sprint 001" menu
-      And I follow "New Story" within the "Sprint 001" menu
+      And I follow "New Story" of the "Sprint 001" menu
       And I close the "Sprint 001" menu
      Then I should not see "Epic" within ".tracker_id.helper"

@@ -37,10 +37,13 @@ Feature: Version Settings
 
   Scenario: One can select whether versions are displayed left or right (left is default) in the backlogs page
     When I go to the edit page of the version called "Sprint 001"
-    Then there should be a "version[version_settings_attributes][][display]" field within "#content form"
-    And the "version[version_settings_attributes][][display]" field within "#content form" should contain "2"
-    When I select "right" from "version[version_settings_attributes][][display]"
+
+    Then the editable attributes of the version should be the following:
+      | Column in backlog | left |
+
+    When I select "right" from "Column in backlog"
     And I press "Save"
+
     Then I should be on the settings/versions page of the project called "ecookbook"
 
   Scenario: Inherited versions can also be configured to be displayed left, right or not at all
@@ -53,39 +56,57 @@ Feature: Version Settings
         | name       | start_date | effective_date | sharing       |
         | shared     | 2010-01-01        | 2010-01-31     | system        |
     And I am working in project "ecookbook"
+
     When I go to the settings/versions page of the project called "ecookbook"
+
     Then I should see "Edit" within ".version.shared .buttons"
+
     When I follow "Edit" within ".version.shared .buttons"
-    Then there should be a "version[version_settings_attributes][][display]" field within "#content form"
-    And the "version[version_settings_attributes][][display]" field within "#content form" should contain "2"
-    When I select "right" from "version[version_settings_attributes][][display]"
+
+    Then the editable attributes of the version should be the following:
+      | Column in backlog | left |
+
+    When I select "right" from "Column in backlog"
     And I press "Save"
+
     Then I should be on the settings/versions page of the project called "ecookbook"
 
-  Scenario: Switch from right to left
+  Scenario: Setting "Column in backlog" to the different settings
     When I go to the edit page of the version called "Sprint 001"
-    And I select "right" from "version[version_settings_attributes][][display]"
+    And I select "right" from "Column in backlog"
     And I press "Save"
     And I go to the edit page of the version called "Sprint 001"
-    Then the "version[version_settings_attributes][][display]" field within "#content form" should contain "3"
+
+    Then the editable attributes of the version should be the following:
+      | Column in backlog | right |
+
     When I go to the edit page of the version called "Sprint 002"
-    When I select "left" from "version[version_settings_attributes][][display]"
+    And I select "left" from "Column in backlog"
     And I press "Save"
     And I go to the edit page of the version called "Sprint 002"
-    Then the "version[version_settings_attributes][][display]" field within "#content form" should contain "2"
+
+    Then the editable attributes of the version should be the following:
+      | Column in backlog | left |
+
     When I go to the edit page of the version called "Sprint 003"
-    When I select "right" from "version[version_settings_attributes][][display]"
+    And I select "none" from "Column in backlog"
     And I press "Save"
     And I go to the edit page of the version called "Sprint 003"
-    Then the "version[version_settings_attributes][][display]" field within "#content form" should contain "3"
+
+    Then the editable attributes of the version should be the following:
+      | Column in backlog | none |
+
     When I go to the master backlog of the project "ecookbook"
+
     Then I should see "Sprint 001" within "#owner_backlogs_container"
     And I should see "Sprint 002" within "#sprint_backlogs_container"
-    And I should see "Sprint 003" within "#owner_backlogs_container"
+    And I should not see "Sprint 003" within "#owner_backlogs_container"
+    And I should not see "Sprint 003" within "#sprint_backlogs_container"
 
   Scenario: There should be a version start date field
     When I go to the edit page of the version called "Sprint 001"
-    Then there should be a "version_start_date" field within "#content form"
+    Then the editable attributes of the version should be the following:
+      | Start date | 2010-01-01 |
 
   Scenario: former sprint_start_date and start_date are the same
     When I go to the edit page of the version called "Sprint 001"
