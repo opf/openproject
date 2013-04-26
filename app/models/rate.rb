@@ -3,7 +3,7 @@ class Rate < ActiveRecord::Base
   validate :validate_date_is_a_date
 
   belongs_to :user
-  include Costs::DeletedUserFallback
+  include ::OpenProject::Costs::DeletedUserFallback
   belongs_to :project
 
   attr_accessible :rate, :project, :valid_from

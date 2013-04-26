@@ -3,7 +3,7 @@ class LaborBudgetItem < ActiveRecord::Base
 
   belongs_to :cost_object
   belongs_to :user
-  include Costs::DeletedUserFallback
+  include ::OpenProject::Costs::DeletedUserFallback
 
   validates_length_of :comments, :maximum => 255, :allow_nil => true
   validates_presence_of :user
