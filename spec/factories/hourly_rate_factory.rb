@@ -1,4 +1,6 @@
-Factory.define :hourly_rate do |r|
-  r.valid_from Date.today
-  r.rate 50.0
+FactoryGirl.define do
+  factory :hourly_rate do
+    valid_from Date.today
+    rate 50.0
+  end
 end

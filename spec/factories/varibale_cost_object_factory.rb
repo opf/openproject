@@ -1,7 +1,9 @@
-Factory.define :variable_cost_object do |m|
-  m.association :project, :factory => :project
-  m.sequence(:subject) { |n| "Cost Object No. #{n}" }
-  m.sequence(:description) { |n| "I am a Cost Object No. #{n}" }
-  m.association :author, :factory => :user
-  m.fixed_date Time.now
+FactoryGirl.define do
+  factory :variable_cost_object do
+    association :project, :factory => :project
+    sequence(:subject) { |n| "Cost Object No. #{n}" }
+    sequence(:description) { |n| "I am a Cost Object No. #{n}" }
+    association :author, :factory => :user
+    fixed_date Time.now
+  end
 end

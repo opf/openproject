@@ -2,16 +2,16 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe LaborBudgetItem do
   include Cost::PluginSpecHelper
-  let(:item) { Factory.build(:labor_budget_item, :cost_object => cost_object) }
-  let(:cost_object) { Factory.build(:variable_cost_object, :project => project) }
-  let(:user) { Factory.create(:user) }
-  let(:user2) { Factory.create(:user) }
-  let(:rate) { Factory.create(:hourly_rate, :user => user,
+  let(:item) { FactoryGirl.build(:labor_budget_item, :cost_object => cost_object) }
+  let(:cost_object) { FactoryGirl.build(:variable_cost_object, :project => project) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:user2) { FactoryGirl.create(:user) }
+  let(:rate) { FactoryGirl.create(:hourly_rate, :user => user,
                                             :valid_from => Date.today - 4.days,
                                             :rate => 400.0,
                                             :project => project) }
-  let(:project) { Factory.create(:valid_project) }
-  let(:project2) { Factory.create(:valid_project) }
+  let(:project) { FactoryGirl.create(:valid_project) }
+  let(:project2) { FactoryGirl.create(:valid_project) }
 
   describe :calculated_costs do
     let(:default_costs) { "0.0".to_f }

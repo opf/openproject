@@ -2,15 +2,15 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe TimeEntry do
   include Cost::PluginSpecHelper
-  let(:project) { Factory.create(:project_with_trackers) }
-  let(:project2) { Factory.create(:project_with_trackers) }
-  let(:issue) { Factory.create(:issue, :project => project,
+  let(:project) { FactoryGirl.create(:project_with_trackers) }
+  let(:project2) { FactoryGirl.create(:project_with_trackers) }
+  let(:issue) { FactoryGirl.create(:issue, :project => project,
                                        :tracker => project.trackers.first,
                                        :author => user) }
-  let(:user) { Factory.create(:user) }
-  let(:user2) { Factory.create(:user) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:user2) { FactoryGirl.create(:user) }
   let(:time_entry) do
-    Factory.build(:time_entry, :project => project,
+    FactoryGirl.build(:time_entry, :project => project,
                                :issue => issue,
                                :spent_on => date,
                                :hours => hours,
@@ -21,7 +21,7 @@ describe TimeEntry do
   end
 
   let(:time_entry2) do
-    Factory.build(:time_entry, :project => project,
+    FactoryGirl.build(:time_entry, :project => project,
                                :issue => issue,
                                :spent_on => date,
                                :hours => hours,
@@ -31,8 +31,8 @@ describe TimeEntry do
                                :comments => "lorem")
   end
   let(:date) { Date.today }
-  let(:activity) { Factory.build(:time_entry_activity) }
-  let(:rate) { Factory.build(:cost_rate) }
+  let(:activity) { FactoryGirl.build(:time_entry_activity) }
+  let(:rate) { FactoryGirl.build(:cost_rate) }
   let(:hours) { 5.0 }
 
   before(:each) do

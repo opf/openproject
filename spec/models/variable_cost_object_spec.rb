@@ -1,16 +1,16 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe VariableCostObject do
-  let(:cost_object) { Factory.build(:variable_cost_object) }
-  let(:tracker) { Factory.create(:tracker_feature) }
-  let(:project) { Factory.create(:project_with_trackers) }
-  let(:user) { Factory.create(:user) }
+  let(:cost_object) { FactoryGirl.build(:variable_cost_object) }
+  let(:tracker) { FactoryGirl.create(:tracker_feature) }
+  let(:project) { FactoryGirl.create(:project_with_trackers) }
+  let(:user) { FactoryGirl.create(:user) }
 
   describe 'recreate initial journal' do
     before do
       User.current = user
 
-      @variable_cost_object = Factory.create(:variable_cost_object , :project => project,
+      @variable_cost_object = FactoryGirl.create(:variable_cost_object , :project => project,
                                                                      :author => user)
 
       @initial_journal = @variable_cost_object.journals.first
@@ -31,7 +31,7 @@ describe VariableCostObject do
   end
 
   describe "destroy" do
-    let(:issue) { Factory.create(:valid_issue) }
+    let(:issue) { FactoryGirl.create(:valid_issue) }
 
     before do
       cost_object.author = user

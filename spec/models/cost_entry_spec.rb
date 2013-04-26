@@ -4,20 +4,20 @@ require File.expand_path(File.dirname(__FILE__) + '/../plugin_spec_helper')
 describe CostEntry do
   include Cost::PluginSpecHelper
 
-  let(:project) { Factory.create(:project_with_trackers) }
-  let(:project2) { Factory.create(:project_with_trackers) }
-  let(:issue) { Factory.create(:issue, :project => project,
+  let(:project) { FactoryGirl.create(:project_with_trackers) }
+  let(:project2) { FactoryGirl.create(:project_with_trackers) }
+  let(:issue) { FactoryGirl.create(:issue, :project => project,
                                        :tracker => project.trackers.first,
                                        :author => user) }
-  let(:issue2) { Factory.create(:issue, :project => project2,
+  let(:issue2) { FactoryGirl.create(:issue, :project => project2,
                                         :tracker => project2.trackers.first,
                                         :author => user) }
-  let(:user) { Factory.create(:user) }
-  let(:user2) { Factory.create(:user) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:user2) { FactoryGirl.create(:user) }
   let(:klass) { CostEntry }
   let(:cost_entry) do
     member
-    Factory.build(:cost_entry, :cost_type => cost_type,
+    FactoryGirl.build(:cost_entry, :cost_type => cost_type,
                                :project => project,
                                :issue => issue,
                                :spent_on => date,
@@ -27,7 +27,7 @@ describe CostEntry do
   end
 
   let(:cost_entry2) do
-    Factory.build(:cost_entry, :cost_type => cost_type,
+    FactoryGirl.build(:cost_entry, :cost_type => cost_type,
                                :project => project,
                                :issue => issue,
                                :spent_on => date,
@@ -37,7 +37,7 @@ describe CostEntry do
   end
 
   let(:cost_type) do
-    cost_type = Factory.create(:cost_type)
+    cost_type = FactoryGirl.create(:cost_type)
     [first_rate, second_rate, third_rate].each do |rate|
       rate.cost_type = cost_type
       rate.save!
@@ -45,16 +45,16 @@ describe CostEntry do
     cost_type.reload
     cost_type
   end
-  let(:first_rate) { Factory.build(:cost_rate, :valid_from => 6.days.ago,
+  let(:first_rate) { FactoryGirl.build(:cost_rate, :valid_from => 6.days.ago,
                                                :rate => 10.0) }
-  let(:second_rate) { Factory.build(:cost_rate, :valid_from => 4.days.ago,
+  let(:second_rate) { FactoryGirl.build(:cost_rate, :valid_from => 4.days.ago,
                                                 :rate => 100.0) }
-  let(:third_rate) { Factory.build(:cost_rate, :valid_from => 2.days.ago,
+  let(:third_rate) { FactoryGirl.build(:cost_rate, :valid_from => 2.days.ago,
                                                :rate => 1000.0) }
-  let(:member) { Factory.create(:member, :project => project,
+  let(:member) { FactoryGirl.create(:member, :project => project,
                                          :roles => [role],
                                          :principal => user) }
-  let(:role) { Factory.create(:role, :permissions => []) }
+  let(:role) { FactoryGirl.create(:role, :permissions => []) }
   let(:units) { 5.0 }
   let(:date) { Date.today }
 
@@ -112,7 +112,7 @@ describe CostEntry do
 
   describe "instance" do
     describe :costs do
-      let(:fourth_rate) { Factory.build(:cost_rate, :valid_from => 1.days.ago,
+      let(:fourth_rate) { FactoryGirl.build(:cost_rate, :valid_from => 1.days.ago,
                                                     :rate => 10000.0,
                                                     :cost_type => cost_type) }
 

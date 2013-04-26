@@ -1,3 +1,5 @@
-Factory.define :cost_entry do |ce|
-  ce.association :cost_type, :factory => :cost_type
+FactoryGirl.define do
+  factory :cost_entry  do
+    association :cost_type, :factory => :cost_type
+  end
 end

@@ -2,27 +2,27 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
 describe CostlogController do
   include Cost::PluginSpecHelper
-  let (:project) { Factory.build(:project_with_trackers) }
-  let (:issue) { Factory.build(:issue, :project => project,
+  let (:project) { FactoryGirl.build(:project_with_trackers) }
+  let (:issue) { FactoryGirl.build(:issue, :project => project,
                                        :author => user,
                                        :tracker => project.trackers.first) }
-  let (:user) { Factory.build(:user) }
-  let (:user2) { Factory.build(:user) }
-  let (:controller) { Factory.build(:role, :permissions => [:log_costs, :edit_cost_entries]) }
-  let (:cost_type) { Factory.build(:cost_type) }
-  let (:cost_entry) { Factory.build(:cost_entry, :issue => issue,
+  let (:user) { FactoryGirl.build(:user) }
+  let (:user2) { FactoryGirl.build(:user) }
+  let (:controller) { FactoryGirl.build(:role, :permissions => [:log_costs, :edit_cost_entries]) }
+  let (:cost_type) { FactoryGirl.build(:cost_type) }
+  let (:cost_entry) { FactoryGirl.build(:cost_entry, :issue => issue,
                                                  :project => project,
                                                  :spent_on => Date.today,
                                                  :overridden_costs => 400,
                                                  :units => 100,
                                                  :user => user,
                                                  :comments => "") }
-  let(:issue_status) { Factory.create(:issue_status, :is_default => true) }
+  let(:issue_status) { FactoryGirl.create(:issue_status, :is_default => true) }
 
   def grant_current_user_permissions user, permissions
-    member = Factory.build(:member, :project => project,
+    member = FactoryGirl.build(:member, :project => project,
                                     :principal => user)
-    member.roles << Factory.build(:role, :permissions => permissions)
+    member.roles << FactoryGirl.build(:role, :permissions => permissions)
     member.principal = user
     member.save!
     user.reload # in order to refresh the member/membership associations
@@ -167,7 +167,7 @@ describe CostlogController do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        cost_entry.user = Factory.create(:user)
+        cost_entry.user = FactoryGirl.create(:user)
         cost_entry.save(false)
       end
 
@@ -187,7 +187,7 @@ describe CostlogController do
       before do
         grant_current_user_permissions user, [:edit_own_cost_entries]
 
-        cost_entry.user = Factory.create(:user)
+        cost_entry.user = FactoryGirl.create(:user)
         cost_entry.save(false)
       end
 
@@ -207,8 +207,8 @@ describe CostlogController do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        cost_entry.project = Factory.create(:project_with_trackers)
-        cost_entry.issue = Factory.create(:issue, :project => cost_entry.project,
+        cost_entry.project = FactoryGirl.create(:project_with_trackers)
+        cost_entry.issue = FactoryGirl.create(:issue, :project => cost_entry.project,
                                                   :tracker => cost_entry.project.trackers.first,
                                                   :author => user)
         cost_entry.save!
@@ -248,7 +248,7 @@ describe CostlogController do
     let(:expected_cost_type) { cost_type }
     let(:expected_units) { units }
 
-    let(:user2) { Factory.create(:user) }
+    let(:user2) { FactoryGirl.create(:user) }
     let(:date) { "2012-04-03".to_date }
     let(:overridden_costs) { 500.00 }
     let(:units) { 5.0 }
@@ -338,7 +338,7 @@ describe CostlogController do
       let(:expected_cost_type) { nil }
 
       before do
-        Factory.create(:cost_type, :default => true)
+        FactoryGirl.create(:cost_type, :default => true)
 
         grant_current_user_permissions user, [:log_costs]
         params["cost_entry"]["cost_type_id"] = 1
@@ -354,7 +354,7 @@ describe CostlogController do
       let(:expected_cost_type) { nil }
 
       before do
-        Factory.create(:cost_type, :default => true)
+        FactoryGirl.create(:cost_type, :default => true)
 
         grant_current_user_permissions user, [:log_costs]
         params["cost_entry"].delete("cost_type_id")
@@ -419,8 +419,8 @@ describe CostlogController do
     describe "WHEN the user is allowed to create cost_entries
               WHEN the id of an issue not included in the provided project is provided" do
 
-      let(:project2) { Factory.create(:project_with_trackers) }
-      let(:issue2) { Factory.create(:issue, :project => project2,
+      let(:project2) { FactoryGirl.create(:project_with_trackers) }
+      let(:issue2) { FactoryGirl.create(:issue, :project => project2,
                                             :tracker => project2.trackers.first,
                                             :author => user) }
       let(:expected_issue) { issue2 }
@@ -529,13 +529,13 @@ describe CostlogController do
                 overridden_costs
                 spent_on" do
 
-      let(:expected_issue) { Factory.create(:issue, :project => project,
+      let(:expected_issue) { FactoryGirl.create(:issue, :project => project,
                                                     :tracker => project.trackers.first,
                                                     :author => user) }
-      let(:expected_user) { Factory.create(:user) }
+      let(:expected_user) { FactoryGirl.create(:user) }
       let(:expected_spent_on) { cost_entry.spent_on + 4.days }
       let(:expected_units) { cost_entry.units + 20 }
-      let(:expected_cost_type) { Factory.create(:cost_type) }
+      let(:expected_cost_type) { FactoryGirl.create(:cost_type) }
       let(:expected_overridden_costs) { cost_entry.overridden_costs + 300 }
 
       before do
@@ -580,7 +580,7 @@ describe CostlogController do
               WHEN updating the user
               WHEN the new user isn't a member of the project" do
 
-      let(:user2) { Factory.create(:user) }
+      let(:user2) { FactoryGirl.create(:user) }
       let(:expected_user) { user2 }
 
       before do
@@ -596,8 +596,8 @@ describe CostlogController do
               WHEN updating the issue
               WHEN the new issue isn't an issue of the current project" do
 
-      let(:project2) { Factory.create(:project_with_trackers) }
-      let(:issue2) { Factory.create(:issue, :project => project2,
+      let(:project2) { FactoryGirl.create(:project_with_trackers) }
+      let(:issue2) { FactoryGirl.create(:issue, :project => project2,
                                             :tracker => project2.trackers.first) }
       let(:expected_issue) { issue2 }
 
@@ -630,7 +630,7 @@ describe CostlogController do
               WHEN updating the cost_type
               WHEN the new cost_type is deleted" do
 
-      let(:expected_cost_type) { Factory.create(:cost_type, :deleted_at => Date.today) }
+      let(:expected_cost_type) { FactoryGirl.create(:cost_type, :deleted_at => Date.today) }
 
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
@@ -660,7 +660,7 @@ describe CostlogController do
               WHEN updating own cost entry
               WHEN updating the user" do
 
-      let(:user3) { Factory.create(:user) }
+      let(:user3) { FactoryGirl.create(:user) }
 
       before do
         grant_current_user_permissions user, [:edit_own_cost_entries]
@@ -675,7 +675,7 @@ describe CostlogController do
               WHEN updating foreign cost_entry
               WHEN updating someting" do
 
-      let(:user3) { Factory.create(:user) }
+      let(:user3) { FactoryGirl.create(:user) }
 
       before do
         grant_current_user_permissions user3, [:edit_own_cost_entries]

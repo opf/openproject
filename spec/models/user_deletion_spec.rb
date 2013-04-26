@@ -1,10 +1,10 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe User, "#destroy" do
-  let(:user) { Factory.create(:user) }
-  let(:user2) { Factory.create(:user) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:user2) { FactoryGirl.create(:user) }
   let(:substitute_user) { DeletedUser.first }
-  let(:project) { Factory.create(:valid_project) }
+  let(:project) { FactoryGirl.create(:valid_project) }
 
   before do
     user
@@ -92,7 +92,7 @@ describe User, "#destroy" do
 
   describe "WHEN the user updated a cost object" do
     let(:associations) { [:author] }
-    let(:associated_instance) { Factory.build(:variable_cost_object) }
+    let(:associated_instance) { FactoryGirl.build(:variable_cost_object) }
     let(:associated_class) { CostObject }
 
     it_should_behave_like "updated journalized associated object"
@@ -100,14 +100,14 @@ describe User, "#destroy" do
 
   describe "WHEN the user created a cost object" do
     let(:associations) { [:author] }
-    let(:associated_instance) { Factory.build(:variable_cost_object) }
+    let(:associated_instance) { FactoryGirl.build(:variable_cost_object) }
     let(:associated_class) { CostObject }
 
     it_should_behave_like "created journalized associated object"
   end
 
   describe "WHEN the user has a labor_budget_item associated" do
-    let(:item) { Factory.build(:labor_budget_item, :user => user) }
+    let(:item) { FactoryGirl.build(:labor_budget_item, :user => user) }
 
     before do
       item.save!
@@ -120,8 +120,8 @@ describe User, "#destroy" do
   end
 
   describe "WHEN the user has a cost entry" do
-    let(:issue) { Factory.create(:valid_issue) }
-    let(:entry) { Factory.build(:cost_entry, :user => user,
+    let(:issue) { FactoryGirl.create(:valid_issue) }
+    let(:entry) { FactoryGirl.build(:cost_entry, :user => user,
                                              :project => issue.project,
                                              :units => 100.0,
                                              :spent_on => Date.today,
@@ -129,9 +129,9 @@ describe User, "#destroy" do
                                              :comments => "") }
 
     before do
-      Factory.create(:member, :project => issue.project,
+      FactoryGirl.create(:member, :project => issue.project,
                               :user => user,
-                              :roles => [Factory.build(:role)])
+                              :roles => [FactoryGirl.build(:role)])
       entry.save!
 
       user.destroy
@@ -143,7 +143,7 @@ describe User, "#destroy" do
   end
 
   describe "WHEN the user is assigned an hourly rate" do
-    let(:hourly_rate) { Factory.build(:hourly_rate, :user => user,
+    let(:hourly_rate) { FactoryGirl.build(:hourly_rate, :user => user,
                                                     :project => project) }
 
     before do
@@ -156,7 +156,7 @@ describe User, "#destroy" do
   end
 
   describe "WHEN the user is assigned a default hourly rate" do
-    let(:default_hourly_rate) { Factory.build(:default_hourly_rate, :user => user,
+    let(:default_hourly_rate) { FactoryGirl.build(:default_hourly_rate, :user => user,
                                                                     :project => project) }
 
     before do

@@ -4,9 +4,9 @@ require File.dirname(__FILE__) + '/../plugin_spec_helper'
 describe User do
   include Cost::PluginSpecHelper
   let(:klass) { User }
-  let(:user) { Factory.build(:user) }
-  let(:project) { Factory.build(:valid_project) }
-  let(:project2) { Factory.build(:valid_project) }
+  let(:user) { FactoryGirl.build(:user) }
+  let(:project) { FactoryGirl.build(:valid_project) }
+  let(:project2) { FactoryGirl.build(:valid_project) }
 
   describe :allowed_to do
     describe "WITH querying for a non existent permission" do
