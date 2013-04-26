@@ -78,6 +78,16 @@ describe Issue do
 
         initial_journal.should be_identical(recreated_journal)
       end
+
+      it "should not validate with oddly set estimated_hours" do
+        @issue.estimated_hours = "this should not work"
+        @issue.should_not be_valid
+      end
+
+      it "should validate with sane estimated_hours" do
+        @issue.estimated_hours = "13h"
+        @issue.should be_valid
+      end
     end
   end
 end
