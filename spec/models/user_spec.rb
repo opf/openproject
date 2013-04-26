@@ -101,4 +101,16 @@ describe User do
       it { user.watches.should == [] }
     end
   end
+
+  describe 'user create with empty password' do
+    before do
+      @u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
+      @u.login = "new_user"
+      @u.password, @u.password_confirmation = "", ""
+      @u.save
+    end
+
+    it { @u.valid?.should be_false }
+    it { @u.errors[:password].should include I18n.t('activerecord.errors.messages.too_short', :count => Setting.password_min_length.to_i) }
+  end
 end
