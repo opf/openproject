@@ -49,8 +49,6 @@ module OpenProject::Costs::Patches::IssuePatch
           errors.add :cost_object_id, :activerecord_error_invalid
         end
       end
-
-      validate_without_cost_object
     end
 
     def material_costs
