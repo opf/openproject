@@ -83,7 +83,7 @@ describe 'rb_taskboards/show' do
 
   describe 'create buttons' do
 
-    it 'renders clickable + buttons with the right permissions' do
+    it 'renders clickable + buttons for all stories with the right permissions' do
       User.current = user1
 
       render
@@ -96,7 +96,7 @@ describe 'rb_taskboards/show' do
       end
     end
 
-    it 'does not render a clickable + buttons without the right permissions' do
+    it 'does not render a clickable + buttons for all stories without the right permissions' do
       User.current = user2
 
       render
