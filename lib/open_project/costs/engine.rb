@@ -10,6 +10,11 @@ module OpenProject::Costs
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
 
+    # adds our factories to factory girl's load path
+    initializer "costs.register_factories", :after => "factory_girl.set_factory_paths" do |app|
+      FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
+    end
+
     config.to_prepare do
 
       require 'open_project/costs/patches'
