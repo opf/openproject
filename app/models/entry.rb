@@ -22,7 +22,7 @@ module Entry
         end
       end
 
-      %[find_by_sql count_by_sql count sum].each do |meth|
+      %w[find_by_sql count_by_sql count sum].each do |meth|
         define_method(meth) { |*args| find_all(meth, *args) }
       end
 
