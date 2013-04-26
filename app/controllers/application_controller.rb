@@ -19,11 +19,6 @@ class ApplicationController < ActionController::Base
   # ensure the OpenProject models are required in the right order (as they have circular dependencies)
   OpenProject.preload_circular_dependencies
 
-  def current_user
-    User.current # refactor
-  end
-  helper_method :current_user
-
   class_attribute :_model_object
   class_attribute :_model_scope
   class_attribute :accept_key_auth_actions
@@ -82,6 +77,20 @@ class ApplicationController < ActionController::Base
   Redmine::Scm::Base.all.each do |scm|
     require "repository/#{scm.underscore}"
   end
+
+  # the current user is a per-session kind of thing and session stuff is controller responsibility.
+  # a globally accessible User.current is a big code smell. when used incorrectly it allows getting
+  # the current user outside of a session scope, i.e. in the model layer, from mailers or in the console
+  # which doesn't make any sense. for model code that needs to be aware of the current user, i.e. when
+  # returning all visible projects for <somebody>, the controller should pass the current user to the model,
+  # instead of letting it fetch it by itself through User.current.
+  # this method acts as a reminder and wants to encourage you to use it.
+  # - Project.visible_by actually allows the controller to pass in a user but it falls back to User.current
+  #   and there are other places in the session-unaware codebase, that rely on User.current.)
+  def current_user
+    User.current
+  end
+  helper_method :current_user
 
   def user_setup
     # Find the current user
