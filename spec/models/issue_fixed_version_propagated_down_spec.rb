@@ -33,7 +33,6 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                               :status => issue_status,
                               :author => user,
                               :priority => issue_priority)
-    story.project.enabled_module_names += ["backlogs"]
     story
   end
 
@@ -46,7 +45,6 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                               :status => issue_status,
                               :author => user,
                               :priority => issue_priority)
-    story.project.enabled_module_names += ["backlogs"]
     story
   end
 
@@ -59,7 +57,6 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                               :status => issue_status,
                               :author => user,
                               :priority => issue_priority)
-    story.project.enabled_module_names += ["backlogs"]
     story
   end
 
@@ -237,6 +234,9 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
     end
 
     describe "WITH backlogs enabled" do
+      before(:each) do
+        project.enabled_module_names += ["backlogs"]
+      end
 
       describe "WITH a story" do
         subject { story }
@@ -434,6 +434,10 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
     end
 
     describe "WITH backogs enabled" do
+      before(:each) do
+        story.project.enabled_module_names += ["backlogs"]
+      end
+
       describe "WITH a story as parent" do
         let(:parent) { story }
 
