@@ -665,20 +665,23 @@ color:#505050;
 }
 
 /***** Progress bar *****/
-table.progress {
-    border: 1px solid #D7D7D7;
-    border-collapse: collapse;
-    border-spacing: 0pt;
-    empty-cells: show;
-    text-align: center;
-    float:left;
-    margin: 1px 6px 1px 0px;
+#content .meta table.progress {
+  border-spacing: 0pt;
+  empty-cells: show;
+  text-align: center;
+  float:left;
+  margin: 1px 6px 1px 0px;
+  border:1px solid #BBBBBB;
+  border-collapse:separate;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  border-radius:3px;
 }
 
-table.progress td { height: 0.9em; }
-table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
-table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
-table.progress td.open { background: #FFF none repeat scroll 0%; }
+#content .meta table.progress td { height: 0.9em; }
+#content .meta table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
+#content .meta table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
+#content .meta table.progress td.open { background: #FFF none repeat scroll 0%; }
 p.pourcent {font-size: 80%;}
 p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 
@@ -2427,13 +2430,6 @@ fieldset#filters div.add-filter {
 }
 .extras-actions {
 	border-top:none;
-}
-#content .meta table.progress {
-	border:1px solid #bbb;
-	border-collapse:separate;
-	-moz-border-radius:3px;
-	-webkit-border-radius:3px;
-	border-radius:3px;
 }
 .nosidebar fieldset ul {
 	margin-left:0;
