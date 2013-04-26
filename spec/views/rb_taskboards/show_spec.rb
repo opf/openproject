@@ -108,5 +108,31 @@ describe 'rb_taskboards/show' do
         end
       end
     end
+
+    it 'renders clickable + buttons for impediments with the right permissions' do
+      User.current = user1
+
+      render
+
+      stories.each do |story|
+        assert_select '#impediments td.add_new' do |td|
+          td.should have_content '+'
+          td.should have_css '.clickable'
+        end
+      end
+    end
+
+    it 'does not render a clickable + buttons for impediments without the right permissions' do
+      User.current = user2
+
+      render
+
+      stories.each do |story|
+        assert_select '#impediments td.add_new' do |td|
+          td.should_not have_content '+'
+          td.should_not have_css '.clickable'
+        end
+      end
+    end
   end
 end
