@@ -11,7 +11,7 @@ describe Rate do
 
       it "should not be valid" do
         rate.should_not be_valid
-        rate.errors[:rate].should == I18n.t('activerecord.errors.messages.not_a_number')
+        rate.errors[:rate].should == [I18n.t('activerecord.errors.messages.not_a_number')]
       end
     end
 
@@ -22,7 +22,7 @@ describe Rate do
 
       it "should not be valid" do
         rate.should_not be_valid
-        rate.errors[:rate].should == I18n.t('activerecord.errors.messages.not_a_number')
+        rate.errors[:rate].should == [I18n.t('activerecord.errors.messages.not_a_number')]
       end
     end
 
@@ -57,7 +57,7 @@ describe Rate do
 
       it "should not be valid" do
         rate.should_not be_valid
-        rate.errors[:valid_from].should ==  I18n.t('activerecord.errors.messages.not_a_date')
+        rate.errors[:valid_from].should ==  [I18n.t('activerecord.errors.messages.not_a_date')]
       end
     end
 
@@ -68,7 +68,7 @@ describe Rate do
 
       it "should not be valid" do
         rate.should_not be_valid
-        rate.errors[:valid_from].should ==  I18n.t('activerecord.errors.messages.not_a_date')
+        rate.errors[:valid_from].should ==  [I18n.t('activerecord.errors.messages.not_a_date')]
       end
     end
   end
