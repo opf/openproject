@@ -100,7 +100,7 @@ describe LaborBudgetItem do
 
       it "should not be valid" do
         item.should_not be_valid
-        item.errors[:hours].should == I18n.t('activerecord.errors.messages.not_a_number')
+        item.errors[:hours].should == [I18n.t('activerecord.errors.messages.not_a_number')]
       end
     end
 
@@ -111,7 +111,7 @@ describe LaborBudgetItem do
 
       it "should not be valid" do
         item.should_not be_valid
-        item.errors[:hours].should == I18n.t('activerecord.errors.messages.not_a_number')
+        item.errors[:hours].should == [I18n.t('activerecord.errors.messages.not_a_number')]
       end
     end
 
@@ -122,7 +122,7 @@ describe LaborBudgetItem do
 
       it "should not be valid" do
         item.should_not be_valid
-        item.errors[:cost_object].should == I18n.t('activerecord.errors.messages.blank')
+        item.errors[:cost_object].should == [I18n.t('activerecord.errors.messages.blank')]
       end
     end
 
@@ -133,7 +133,7 @@ describe LaborBudgetItem do
 
       it "should not be valid" do
         item.should_not be_valid
-        item.errors[:user].should == I18n.t('activerecord.errors.messages.blank')
+        item.errors[:user].should == [I18n.t('activerecord.errors.messages.blank')]
       end
     end
   end
