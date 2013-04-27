@@ -28,7 +28,7 @@ class CostObject < ActiveRecord::Base
   validates_length_of :subject, :minimum => 1
 
   User.before_destroy do |user|
-    replace_author_with_deleted_user user
+    CostObject.replace_author_with_deleted_user user
   end
 
   def initialize(attributes = nil)
@@ -146,8 +146,6 @@ class CostObject < ActiveRecord::Base
   def css_classes
     return "issue cost_object"
   end
-
-  private
 
   def self.replace_author_with_deleted_user(user)
     substitute = DeletedUser.first
