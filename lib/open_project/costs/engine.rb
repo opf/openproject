@@ -2,6 +2,12 @@ module OpenProject::Costs
   class Engine < ::Rails::Engine
     engine_name :openproject_costs
 
+    def self.settings
+      { :default => { 'costs_currency' => 'EUR',
+                     'costs_currency_format' => '%n %u' },
+        :partial => 'settings/redmine_costs' }
+    end
+
     initializer "costs.register_hooks" do
       require 'open_project/costs/hooks'
       require 'open_project/costs/hooks/issue_hook'
@@ -16,6 +22,10 @@ module OpenProject::Costs
     end
 
     config.to_prepare do
+
+      # TODO: avoid this dirty hack necessary to prevent settings method getting lost after reloading
+      Setting.create_setting("plugin_openproject_costs", {'default' => Engine.settings[:default], 'serialized' => true})
+      Setting.create_setting_accessors("plugin_openproject_costs")
 
       require 'open_project/costs/patches'
 
@@ -53,10 +63,7 @@ module OpenProject::Costs
 
           version OpenProject::Costs::VERSION
 
-          settings :default => { 'costs_currency' => 'EUR',
-                                 'costs_currency_format' => '%n %u' },
-                   :partial => 'settings/redmine_costs'
-
+          settings Engine.settings
 
           # register our custom permissions
           project_module :costs_module do
