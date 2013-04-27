@@ -40,7 +40,7 @@
         end %>
       <% else %>
         <span id="cost_entry_costs_editor">
-          <input class="currency" value="<%= number_to_currency(@cost_entry.overridden_costs, :unit => "").strip if @cost_entry.overridden_costs %>" size="7" name="cost_entry[overridden_costs]" id="cost_entry_costs_edit"/> <%= Setting.plugin_redmine_costs['costs_currency'] %>
+          <input class="currency" value="<%= number_to_currency(@cost_entry.overridden_costs, :unit => "").strip if @cost_entry.overridden_costs %>" size="7" name="cost_entry[overridden_costs]" id="cost_entry_costs_edit"/> <%= Setting.plugin_openproject_costs['costs_currency'] %>
         </span>
         <br /><em><%= l(:help_override_rate) %></em>
       <% end %>
