@@ -120,7 +120,7 @@ describe User, "#destroy" do
   end
 
   describe "WHEN the user has a cost entry" do
-    let(:issue) { FactoryGirl.create(:valid_issue) }
+    let(:issue) { FactoryGirl.create(:issue) }
     let(:entry) { FactoryGirl.build(:cost_entry, :user => user,
                                              :project => issue.project,
                                              :units => 100.0,

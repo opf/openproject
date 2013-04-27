@@ -31,7 +31,7 @@ describe VariableCostObject do
   end
 
   describe "destroy" do
-    let(:issue) { FactoryGirl.create(:valid_issue) }
+    let(:issue) { FactoryGirl.create(:issue) }
 
     before do
       cost_object.author = user
