@@ -132,7 +132,7 @@ describe CostlogController do
     let(:params) { { "id" => cost_entry.id.to_s } }
 
     before do
-      cost_entry.save(false)
+      cost_entry.save(:validate => false)
     end
 
     shared_examples_for "successful edit" do
@@ -168,7 +168,7 @@ describe CostlogController do
         grant_current_user_permissions user, [:edit_cost_entries]
 
         cost_entry.user = FactoryGirl.create(:user)
-        cost_entry.save(false)
+        cost_entry.save(:validate => false)
       end
 
       it_should_behave_like "successful edit"
@@ -188,7 +188,7 @@ describe CostlogController do
         grant_current_user_permissions user, [:edit_own_cost_entries]
 
         cost_entry.user = FactoryGirl.create(:user)
-        cost_entry.save(false)
+        cost_entry.save(:validate => false)
       end
 
       it_should_behave_like "forbidden edit"
@@ -481,7 +481,7 @@ describe CostlogController do
                                        "cost_type_id" => cost_entry.cost_type.id.to_s } } }
 
     before do
-      cost_entry.save(false)
+      cost_entry.save(:validate => false)
     end
 
     let(:expected_issue) { cost_entry.issue }
