@@ -123,7 +123,7 @@ OpenProject::Application.routes.draw do
         get '/diff/:version/vs/:version_from' => 'wiki#diff', :as => 'wiki_diff'
         get '/diff(/:version)' => 'wiki#diff', :as => 'wiki_diff'
         get '/annotate/:version' => 'wiki#annotate', :as => 'wiki_annotate'
-        match :rename, :via => [:get, :post]
+        match :rename, :via => [:get, :put]
         get :history
         post :preview
         post :protect
