@@ -5,11 +5,11 @@
   <% end %>
 </p>
 
-<% if @relations.present? %>
 <table style="width:100%">
-  <%= render :partial => 'issues/relation', :collection => @relations, :as => :relation %>
+  <tbody>
+    <%= render :partial => 'issues/relation', :collection => @relations, :as => :relation -%>
+  </tbody>
 </table>
-<% end %>
 
 <%= form_for(@issue.new_relation,
              :as => :relation,
