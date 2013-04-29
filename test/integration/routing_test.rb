@@ -974,7 +974,7 @@ class RoutingTest < ActionDispatch::IntegrationTest
                                                                                    :action => 'preview',
                                                                                    :project_id => '567',
                                                                                    :id => 'CookBook_documentation' )
-      should route(:post, "/projects/22/wiki/ladida/rename").to( :controller => 'wiki',
+      should route(:put, "/projects/22/wiki/ladida/rename").to( :controller => 'wiki',
                                                                  :action => 'rename',
                                                                  :project_id => '22',
                                                                 :id => 'ladida' )
