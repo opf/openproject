@@ -1,5 +1,10 @@
 = OpenProject
 
+== This is a beta-Release Branch
+
+You are currently on the beta-release branch. We prepare the OpenProject migration from rails version 2.3 to 3.2.
+Although this is the main development branch, it is *not* a stable code base. For production usage, we recommend to use the master-branch.
+
 == What we do?
 
 OpenProject is a web-based project management software, driven by an active group of open source enthusiasts: software engineers, project managers, creatives, and consultants. OpenProject is supported by companies as well as individuals. What we share? It’s the vision to build great project collaboration software based on open source.
