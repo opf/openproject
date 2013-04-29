@@ -42,3 +42,5 @@
 #/Gemfile.lock
 /Gemfile.local
 /.rvmrc*
+/.ruby-version
+
