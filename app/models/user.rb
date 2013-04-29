@@ -645,7 +645,7 @@ class User < Principal
   # Password length validation based on setting
   def password_not_too_short
     minimum_length = Setting.password_min_length.to_i
-    if password.present? && password.size < minimum_length
+    if !password.nil? && password.size < minimum_length
       errors.add(:password, :too_short, :count => minimum_length)
     end
   end
