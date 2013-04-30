@@ -28,6 +28,7 @@
 //= require jstoolbar
 //= require calendar
 //= require ajaxappender
+//= require issues
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
@@ -1340,43 +1341,4 @@ var Preview = (function ($) {
     });
 })(jQuery);
 
-var Issue = Issue || {};
 
-Issue.Show = (function($) {
-  var init;
-
-  init = function () {
-    $.ajaxAppend({
-      trigger: '.action_menu_main .edit',
-      indicator_class: 'ajax-indicator',
-      load_target: '#update',
-      loading_text: I18n.t("js.ajax.loading"),
-      loading_class: 'box loading',
-      loading: function(update) {
-                 $('html, body').animate({
-                   scrollTop: $(update).offset().top
-                 }, 200);
-               },
-      loaded: function(update) {
-                $('html, body').animate({
-                  scrollTop: $(update).offset().top
-                }, 200);
-
-                $("#notes").focus();
-      }
-    });
-
-    $.ajaxAppend({
-      trigger: '.description-details',
-      indicator_class: 'ajax-indicator',
-      loading_class: 'text-diff',
-      hide_text: I18n.t("js.ajax.hide")
-    } );
-  };
-
-  $('document').ready(function () {
-    if ($('body.controller-issues.action-show').size() > 0) {
-     init();
-    };
-  });
-})(jQuery);
