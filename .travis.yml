@@ -1,7 +1,6 @@
 language: ruby
 rvm:
   - 1.9.3
-  - 1.9.2
 env:
   - "RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
   - "RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
