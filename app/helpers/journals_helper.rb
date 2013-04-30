@@ -79,11 +79,9 @@ module JournalsHelper
         if reply_links
           l << link_to(image_tag('quote.png', :alt => l(:button_quote), :title => l(:button_quote)),
                                                 { :controller => controller,
-                                                  :action => action,
+                                                  :action => 'quoted',
                                                   :id => model,
-                                                  :journal_id => journal },
-                                                :method => :get,
-                                                :remote => true)
+                                                  :journal_id => journal }, :class => 'quote-link')
         end
         if editable
           l << link_to_in_place_notes_editor(image_tag('edit.png', :alt => l(:button_edit), :title => l(:button_edit)), "journal-#{journal.id}-notes",
