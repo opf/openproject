@@ -58,7 +58,7 @@
         <%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => '/journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
       </div>
       <p><strong><%=l(:field_description)%></strong></p>
-      <div class="wiki">
+      <div class="wiki wikicontent" data-user="<%= @issue.author %>">
         <%= textilizable @issue, :description, :attachments => @issue.attachments %>
       </div>
     </div>
