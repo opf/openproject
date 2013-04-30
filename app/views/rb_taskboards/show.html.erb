@@ -49,7 +49,11 @@
     <table id="impediments" class="board" cellspacing="0">
       <tr>
         <td><div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
-        <td class="add_new">+</td>
+        <% if User.current.allowed_to?(:create_impediments, @project) %>
+          <td class ="add_new clickable">+</td>
+        <% else %>
+          <td class ="add_new"></td>
+          <% end %>
         <% @statuses.each do |status| %>
           <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
             <% impediment_html = render :partial => "rb_impediments/impediment",
@@ -83,7 +87,11 @@
               </div>
             </div>
           </td>
-          <td class="add_new">+</td>
+          <% if User.current.allowed_to?(:create_tasks, @project) %>
+            <td class ="add_new clickable">+</td>
+          <% else %>
+            <td class ="add_new"></td>
+          <% end %>
           <% @statuses.each do |status| %>
             <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
               <% task_html = render :partial => "rb_tasks/task",

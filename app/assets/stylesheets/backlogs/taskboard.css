@@ -91,7 +91,7 @@ See RB.Taskboard.initialize()
   vertical-align:middle;
   width:30px;
 }
-#rb .board .add_new:hover {
+#rb .board .add_new.clickable:hover {
   cursor:pointer;
   background-color:#ffffcc;
 }
