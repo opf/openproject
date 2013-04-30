@@ -175,6 +175,31 @@ class IssuesController < ApplicationController
     end
   end
 
+  def quoted
+    @journal = Journal.find(params[:journal_id]) if params[:journal_id]
+    if @journal
+      user = @journal.user
+      text = @journal.notes
+    else
+      user = @issue.author
+      text = @issue.description
+      @journal = @issue.current_journal
+    end
+
+    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
+    quoted_text = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
+    quoted_text << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+    params[:notes] = quoted_text
+
+    update_issue_from_params
+
+    respond_to do |format|
+      format.js { render :partial => 'edit' }
+      format.html { render :action => 'edit'}
+      format.xml  { }
+    end
+  end
+
   def update
     update_issue_from_params
     JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
