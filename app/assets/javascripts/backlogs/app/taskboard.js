@@ -46,8 +46,10 @@ RB.Taskboard = (function ($) {
         placeholder: 'placeholder',
         start:  this.dragStart,
         stop:   this.dragStop,
-        update: this.dragComplete
+        update: this.dragComplete,
+        cancel: '.prevent_edit'
       }).sortable('option', 'connectWith', '#impediments .list');
+      $('#impediments .list').disableSelection();
 
       var list, augmentList, self = this;
 
@@ -58,8 +60,10 @@ RB.Taskboard = (function ($) {
           placeholder: 'placeholder',
           start:  self.dragStart,
           stop:   self.dragStop,
-          update: self.dragComplete
+          update: self.dragComplete,
+          cancel: '.prevent_edit'
         }).sortable('option', 'connectWith', '#tasks .list');
+        $('#tasks .list').disableSelection();
 
         if (list.length > 0) {
           /*globals setTimeout*/
