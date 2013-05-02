@@ -1,3 +1,6 @@
+.controller-rb_taskboards.action-show #main {
+  overflow: visible;
+}
 #rb .task {
   color: #484848;
   line-height: inherit;
