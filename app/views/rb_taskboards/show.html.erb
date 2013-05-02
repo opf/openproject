@@ -112,10 +112,10 @@
       <% end %>
     </select>
     <div id="task_template">
-      <%= render :partial => "rb_tasks/task", :object => Task.new %>
+      <%= render :partial => "rb_tasks/task", :object => Task.new, :locals => {:project => @project} %>
     </div>
     <div id="impediment_template">
-      <%= render :partial => "rb_impediments/impediment", :object => Impediment.new %>
+      <%= render :partial => "rb_impediments/impediment", :object => Impediment.new, :locals => {:project => @project} %>
     </div>
 
     <div id="issue_editor"> </div>
