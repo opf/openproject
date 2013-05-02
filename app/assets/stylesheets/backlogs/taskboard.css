@@ -157,6 +157,9 @@ See RB.Taskboard.initialize()
   position:relative;
   width:85px;
 }
+#rb .issue.prevent_edit {
+  cursor:default;
+}
 #rb .placeholder {
   background-color:#FFFF00;
   border:1px dashed #333300;
