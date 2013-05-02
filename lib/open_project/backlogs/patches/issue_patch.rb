@@ -196,7 +196,7 @@ module OpenProject::Backlogs::Patches::IssuePatch
       ancestor_chain.each do |i|
         # break if we found an element in our chain that is not relevant in backlogs
         break unless i.in_backlogs_tracker?
-        if (i.is_story? || i.is_impediment?) && (i.ancestor_chain.all? {|a| a.in_backlogs_tracker?})
+        if (i.is_story? || i.is_impediment?)
           closest = i
           break
         end
