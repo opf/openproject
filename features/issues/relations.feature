@@ -39,6 +39,5 @@ Feature: Relating issues to each other
     And I press "Add"
     And I wait for the AJAX requests to finish
     Then I should be on the page of the issue "Some Issue"
-    And I start debugging
     And I should see "related to Bug #3: Anothe'r & Issue"
 
