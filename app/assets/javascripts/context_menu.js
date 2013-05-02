@@ -1,45 +1,7 @@
 /* redMine - project management software
    Copyright (C) 2006-2008  Jean-Philippe Lang */
 /* jshint undef: true, unused: true */
-/* global jQuery, document, Class, Event, navigator, Ajax, Effect, window, Form, $$, $, Element */
-
-jQuery(document).ready(function($) {
-  $.fn.onClickDropDown = function() {
-    var that = this;
-    $('html').click(function() {
-      that.find(' > li.drop-down.open').removeClass('open').find('> ul').mySlide();
-      that.removeClass('hover');
-    });
-
-    // Do not close the login window when using it
-    that.find('li li').click(function(event) {
-      $(document).trigger(event); // pass click-event to rails ujs-handler
-      event.stopPropagation();
-    });
-
-    this.find(' > li.drop-down').click(function(event) {
-      // if an h2 tag follows the submenu should unfold out at the border
-      var menu_start_position;
-      if (that.next().get(0) !== undefined &&
-          that.next().get(0).tagName == 'H2') {
-        menu_start_position = that.next().innerHeight() +
-                              that.next().position().top;
-        that.find('ul.action_menu_more').css({ top: menu_start_position });
-      } else if (that.next().hasClass('wiki-content') &&
-                 that.next().children().next().first().get(0) !== undefined &&
-                 that.next().children().next().first().get(0).tagName == 'H1') {
-        var wiki_heading = that.next().children().next().first();
-        menu_start_position = wiki_heading.innerHeight() +
-                              wiki_heading.position().top;
-        that.find('ul.action_menu_more').css({ top: menu_start_position });
-      }
-
-    $(this).toggleSubmenu(that);
-    $(document).trigger(event); // pass click-event to rails ujs-handler
-    return false;
-    });
-  };
-});
+/* global document, Class, Event, navigator, Ajax, Effect, window, Form, $$, $, Element */
 
 var observingContextMenuClick;
 
