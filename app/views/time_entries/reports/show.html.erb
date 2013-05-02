@@ -52,7 +52,7 @@
 <%= render :partial => 'report_criteria', :locals => {:criterias => @criterias, :hours => @hours, :level => 0} %>
   <tr class="total">
   <td><%= l(:label_total) %></td>
-  <%= '<td></td>' * (@criterias.size - 1) %>
+  <%= ('<td></td>' * (@criterias.size - 1)).html_safe %>
   <% total = 0 -%>
   <% @periods.each do |period| -%>
     <% sum = sum_hours(select_hours(@hours, @columns, period.to_s)); total += sum -%>

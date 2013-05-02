@@ -2,9 +2,9 @@
 <% hours_for_value = select_hours(hours, criterias[level], value) -%>
 <% next if hours_for_value.empty? -%>
 <tr class="<%= cycle('odd', 'even') %> <%= 'last-level' unless criterias.length > level+1 %>">
-<%= '<td></td>' * level %>
+<%= ('<td></td>' * level).html_safe %>
 <td><%= h(format_criteria_value(criterias[level], value)) %></td>
-<%= '<td></td>' * (criterias.length - level - 1) -%>
+<%= ('<td></td>' * (criterias.length - level - 1)).html_safe -%>
   <% total = 0 -%>
   <% @periods.each do |period| -%>
     <% sum = sum_hours(select_hours(hours_for_value, @columns, period.to_s)); total += sum -%>
