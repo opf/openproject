@@ -56,38 +56,16 @@ class OpenProject::Backlogs::IssueForm::FieldsParagraph < OpenProject::Backlogs:
   end
 
   def fixed_version_field
-    unless issue.assignable_versions.empty?
-      field_class.new(:fixed_version) do |t|
-        str = t.select_tag "issue[fixed_version_id]", "<option></option>".html_safe + t.version_options_for_select(issue.assignable_versions, issue.fixed_version), { :disabled => issue.is_task? }
-        if t.authorize_for('versions', 'new') and not issue.is_task?
-          str += t.prompt_to_remote(t.image_tag('add.png', :style => 'vertical-align: middle;'),
-                       l(:label_version_new),
-                       'version[name]',
-                       {:controller => '/versions', :action => 'create', :project_id => issue.project},
-                       :title => l(:label_version_new),
-                       :tabindex => 200)
-        end
-        str
-      end
-    else
-      nil
+    return nil if issue.assignable_versions.empty?
+    field_class.new(:fixed_version) do |t|
+      t.select_tag "issue[fixed_version_id]", "<option></option>".html_safe + t.version_options_for_select(issue.assignable_versions, issue.fixed_version), { :disabled => issue.is_task? }
     end
   end
 
   def category_field
-    unless issue.project.issue_categories.empty?
-      field_class.new(:category) do |t|
-        str = t.select_tag "issue[category_id]", "<option></option>".html_safe + options_for_select(issue.project.issue_categories.collect {|c| [c.name, c.id]}, issue.category_id)
-        str += t.prompt_to_remote(t.image_tag('add.png', :style => 'vertical-align: middle;'),
-                             l(:label_issue_category_new),
-                             'category[name]',
-                             {:controller => '/issue_categories', :action => 'new', :project_id => issue.project},
-                             :title => l(:label_issue_category_new),
-                             :tabindex => 199) if t.authorize_for('issue_categories', 'new')
-        str
-      end
-    else
-      nil
+    return nil if issue.project.issue_categories.empty?
+    field_class.new(:category) do |t|
+      t.select_tag "issue[category_id]", "<option></option>".html_safe + options_for_select(issue.project.issue_categories.collect {|c| [c.name, c.id]}, issue.category_id)
     end
   end
 
