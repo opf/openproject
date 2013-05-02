@@ -32,7 +32,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_include v.errors[:effective_date], I18n.translate('activerecord.errors.messages.not_a_date')
   end
 
-  def test_invalid_effective_date_validation
+  def test_start_date_before_due_date
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => Project.find(1), :name => '1.1', :start_date => '2013-05-01', :effective_date => '2012-01-01' }
     end)
