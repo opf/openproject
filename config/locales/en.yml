@@ -1099,6 +1099,8 @@ en:
 
 
   js:
+    logoff: You have been logged off
+    redirect_login: Do you want to be redirected to the login page?
     select2:
       searching: Searching ...
       load_more: Loading more results ...
