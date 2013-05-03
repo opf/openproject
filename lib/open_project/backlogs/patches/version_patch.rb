@@ -36,6 +36,21 @@ module OpenProject::Backlogs::Patches::VersionPatch
 
       nil
     end
+
+    def ==(other)
+      super ||
+          other.is_a?(self.class) &&
+          id.present? &&
+          other.id == id
+    end
+
+    def eql?(other)
+      self == other
+    end
+
+    def hash
+      id.hash
+    end
   end
 end
 

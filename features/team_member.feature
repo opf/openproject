@@ -77,7 +77,7 @@ Feature: Team Member
   Scenario: View the burndown chart from the backlogs dashboard
     Given I am on the master backlog
       And I open the "Sprint 002" backlogs menu
-     When I follow "Burndown Chart" within the "Sprint 002" menu
+     When I follow "Burndown Chart" of the "Sprint 002" menu
      Then I should see the burndown chart for sprint "Sprint 002"
 
   @javascript
@@ -89,7 +89,7 @@ Feature: Team Member
   #from appearing when they do
     Given I am on the master backlog
       And I open the "Sprint 002" backlogs menu
-      And I follow "Stories/Tasks" within the "Sprint 002" menu
+      And I follow "Stories/Tasks" of the "Sprint 002" menu
      Then I should see "Burndown Chart" within "#sidebar"
      When I follow "Burndown Chart" within "#sidebar"
      Then I should see the burndown chart for sprint "Sprint 002"

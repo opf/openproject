@@ -303,7 +303,7 @@ RB.Model = (function ($) {
       model = field.parents('.model').first().data('this');
       j = model.$;
 
-      if (!j.hasClass('editing') && !j.hasClass('dragging') && !$(e.target).hasClass('prevent_edit')) {
+      if (!j.hasClass('editing') && !j.hasClass('dragging') && !j.hasClass('prevent_edit') && !$(e.target).hasClass('prevent_edit')) {
         editor = model.edit();
         editor.find('.' + $(e.currentTarget).attr('fieldname') + '.editor').focus();
       }
