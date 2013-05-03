@@ -460,6 +460,21 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
         end
       end
 
+      describe "WITH a story as parent
+                WITH the story having a non backlogs issue as parent
+                WITH a task as child" do
+        before do
+          bug2.save!
+          story.parent_issue_id = bug2.id
+          story.save!
+        end
+
+        let(:parent) { story }
+        let(:child) { task2 }
+
+        it_should_behave_like "changing the child's parent_issue to the parent changes child's fixed version"
+      end
+
       describe "WITH a task as parent" do
         before(:each) do
           story.save!
