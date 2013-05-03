@@ -111,7 +111,7 @@ module OpenProject::Costs
             permission :view_cost_entries, { :cost_objects => [:index, :show] }
             permission :view_own_cost_entries, { :cost_objects => [:index, :show] }
 
-            permission :edit_cost_objects, {:cost_objects => [:index, :show, :edit, :destroy, :new]}
+            permission :edit_cost_objects, {:cost_objects => [:index, :show, :edit, :update, :destroy, :new, :create]}
           end
 
           # register additional permissions for the time log
