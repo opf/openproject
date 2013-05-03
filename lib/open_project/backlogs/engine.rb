@@ -16,7 +16,7 @@ module OpenProject::Backlogs
     config.autoload_paths += Dir["#{config.root}/lib/"]
 
     initializer 'backlogs.precompile_assets' do
-      Rails.application.config.assets.precompile += %w( backlogs.css backlogs.js )
+      Rails.application.config.assets.precompile += %w( backlogs.css backlogs.js master_backlogs.css taskboard.css)
     end
 
     config.before_configuration do |app|

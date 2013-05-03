@@ -1,5 +1,6 @@
 <% content_for :header_tags do %>
 <%= render :partial => 'shared/backlogs_header' %>
+  <%= stylesheet_link_tag 'backlogs/taskboard.css' %>
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                      :action => 'show',
                                      :project_id => @project,
