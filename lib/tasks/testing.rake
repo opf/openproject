@@ -94,4 +94,9 @@ namespace :test do
     end
     Rake::Task['test:scm:functionals'].comment = "Run the scm functional tests"
   end
+
+  desc 'runs all tests'
+  namespace :suite do
+    task :run => [:cucumber, :spec, :test]
+  end
 end
