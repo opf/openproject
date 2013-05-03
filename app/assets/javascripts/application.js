@@ -28,6 +28,9 @@
 //= require jstoolbar
 //= require calendar
 
+/* jshint undef: true, unused: true */
+/* global openProject, OpenProject, I18n, jQuery, document, Class, Event, navigator, Ajax, Effect, window, Form, $$, $, Element */
+
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
   jQuery.fn.reverse = Array.prototype.reverse;
@@ -36,20 +39,27 @@ if (typeof []._reverse == 'undefined') {
 }
 
 
-function checkAll (id, checked) {
+function checkAll(id, checked) {
   var els = Element.descendants(id);
   for (var i = 0; i < els.length; i++) {
-    if (els[i].disabled==false) {
+    if (els[i].disabled === false) {
       els[i].checked = checked;
     }
   }
 }
 
 function toggleCheckboxesBySelector(selector) {
-  boxes = $$(selector);
+  var boxes = $$(selector);
   var all_checked = true;
-  for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
-  for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
+  var i = 0;
+  for (; i < boxes.length; i++) {
+    if (boxes[i].checked === false) {
+      all_checked = false;
+    }
+  }
+  for (i = 0; i < boxes.length; i++) {
+    boxes[i].checked = !all_checked;
+  }
 }
 
 function setCheckboxesBySelector(checked, selector) {
@@ -61,7 +71,9 @@ function setCheckboxesBySelector(checked, selector) {
 
 function showAndScrollTo(id, focus) {
   Element.show(id);
-  if (focus!=null) { Form.Element.focus(focus); }
+  if (focus !== null) {
+    Form.Element.focus(focus);
+  }
   Element.scrollTo(id);
 }
 
@@ -69,7 +81,7 @@ function toggleRowGroup(el) {
   var tr = Element.up(el, 'tr');
   var n = Element.next(tr);
   tr.toggleClassName('open');
-  while (n != undefined && !n.hasClassName('group')) {
+  while (n !== undefined && !n.hasClassName('group')) {
     Element.toggle(n);
     n = Element.next(n);
   }
@@ -83,7 +95,7 @@ function collapseAllRowGroups(el) {
     } else {
       tr.hide();
     }
-  })
+  });
 }
 
 function expandAllRowGroups(el) {
@@ -94,7 +106,7 @@ function expandAllRowGroups(el) {
     } else {
       tr.show();
     }
-  })
+  });
 }
 
 function toggleAllRowGroups(el) {
@@ -122,8 +134,10 @@ var fileFieldCount = 1;
 
 function addFileField() {
   fileFieldCount++;
-  if (fileFieldCount >= 10) return false
-    var clone = $('attachment_template').cloneNode(true);
+  if (fileFieldCount >= 10) {
+    return false;
+  }
+  var clone = $('attachment_template').cloneNode(true);
   clone.writeAttribute('id', '');
   clone.innerHTML = clone.innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']');
   $('attachments_fields').appendChild(clone);
@@ -131,17 +145,20 @@ function addFileField() {
 
 function showTab(name) {
   var f = $$('div#content .tab-content');
-  for(var i=0; i<f.length; i++){
+  var i = 0;
+  for(; i<f.length; i++){
     Element.hide(f[i]);
   }
-  var f = $$('div.tabs a');
-  for(var i=0; i<f.length; i++){
+  f = $$('div.tabs a');
+  for(i = 0; i<f.length; i++){
     Element.removeClassName(f[i], "selected");
   }
   Element.show('tab-content-' + name);
   Element.addClassName('tab-' + name, "selected");
-  Element.insert('tab-' + name, {top: $$('div.tabs .hidden-for-sighted')[0]})
-    return false;
+  Element.insert('tab-' + name, {
+    top: $$('div.tabs .hidden-for-sighted')[0]}
+  );
+  return false;
 }
 
 function moveTabRight(el) {
@@ -194,7 +211,7 @@ function displayTabsButtons() {
 }
 
 function setPredecessorFieldsVisibility() {
-  relationType = $('relation_relation_type');
+  var relationType = $('relation_relation_type');
   if (relationType && (relationType.value == "precedes" || relationType.value == "follows")) {
     Element.show('predecessor_fields');
   } else {
@@ -203,7 +220,7 @@ function setPredecessorFieldsVisibility() {
 }
 
 function promptToRemote(text, param, url) {
-  value = prompt(text + ':', '');
+  var value = window.prompt(text + ':', '');
   if (value) {
     new Ajax.Request(url + '?' + param + '=' + encodeURIComponent(value), {asynchronous:true, evalScripts:true});
     return false;
@@ -233,7 +250,7 @@ function expandScmEntry(id) {
 }
 
 function scmEntryClick(id) {
-  el = $(id);
+  var el = $(id);
   if (el.hasClassName('open')) {
     collapseScmEntry(id);
     el.addClassName('collapsed');
@@ -264,7 +281,8 @@ function randomKey(size) {
     'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
     'y', 'z');
   var key = '';
-  for (i = 0; i < size; i++) {
+  var i = 0;
+  for (; i < size; i++) {
     key += chars[Math.floor(Math.random() * chars.length)];
   }
   return key;
@@ -276,7 +294,7 @@ var projectIdentifierDefault;
 var projectIdentifierMaxLength;
 
 function generateProjectIdentifier() {
-  var identifier = $('project_name').getValue() // project name
+  var identifier = $('project_name').getValue();
     var diacriticsMap = [
     {'base': 'a', 'letters': /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g},
     {'base': 'aa', 'letters': /[\uA733\uA732]/g},
@@ -345,7 +363,7 @@ function observeProjectName() {
 
 function observeProjectIdentifier() {
   var f = function() {
-    if($('project_identifier').getValue() != '' && $('project_identifier').getValue() != generateProjectIdentifier()) {
+    if($('project_identifier').getValue() !== '' && $('project_identifier').getValue() != generateProjectIdentifier()) {
       projectIdentifierLocked = true;
     } else {
       projectIdentifierLocked = false;
@@ -394,7 +412,7 @@ function setVisible(id, visible) {
 function observeProjectModules() {
   var f = function() {
     /* Hides trackers and issues custom fields on the new project form when issue_tracking module is disabled */
-    var c = ($('project_enabled_module_names_issue_tracking').checked == true);
+    var c = ($('project_enabled_module_names_issue_tracking').checked === true);
     setVisible('project_trackers', c);
     setVisible('project_issue_custom_fields', c);
   };
@@ -472,7 +490,7 @@ Ajax.Responders.register({
     }
   },
   onComplete: function(){
-    if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
+    if ($('ajax-indicator') && Ajax.activeRequestCount === 0) {
       Element.hide('ajax-indicator');
     }
     addClickEventToAllErrorMessages();
@@ -490,7 +508,7 @@ function addClickEventToAllErrorMessages() {
     $(a).observe('click', function(event) {
       var field;
       field = $($(a).readAttribute('href').substr(1));
-      if (field == null) {
+      if (field === null) {
         // Cut off '_id' (necessary for select boxes)
         field = $($(a).readAttribute('href').substr(1).concat('_id'));
       }
@@ -504,7 +522,7 @@ function addClickEventToAllErrorMessages() {
 }
 
 function toggleEmailDecoratorFields() {
-  lang = jQuery("#emails_decorators_switch").val();
+  var lang = jQuery("#emails_decorators_switch").val();
   jQuery(".emails_decorators").hide();
   jQuery("#emails_decorators_" + lang).show();
 }
@@ -513,10 +531,10 @@ $(document).observe('dom:loaded', function() {
   // Set focus on first error message
   var error_focus = $$('a.afocus').first();
   var input_focus = $$('.autofocus').first();
-  if (error_focus != undefined) {
+  if (error_focus !== undefined) {
     error_focus.focus();
   }
-  else if (input_focus != undefined) {
+  else if (input_focus !== undefined) {
     input_focus.focus();
     if (input_focus.tagName === "INPUT") {
       input_focus.select();
@@ -534,6 +552,7 @@ var animationRate = 100;
 /* jQuery code from #263 */
 // returns viewport height
 jQuery.viewportHeight = function() {
+  window.alert("Das ist toter Code");
   return self.innerHeight ||
     jQuery.boxModel && document.documentElement.clientHeight ||
     document.body.clientHeight;
@@ -573,8 +592,9 @@ jQuery(document).ready(function($) {
 
     select = $(select);
     var select2,
-    menu = select.parents('li.drop-down'),
-    that = this;
+        menu = select.parents('li.drop-down'),
+        that = this,
+        closestVisible;
 
     select.select2({
       formatResult : OpenProject.Helpers.Search.formatter,
@@ -582,8 +602,8 @@ jQuery(document).ready(function($) {
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
         jQuery.proxy(openProject, 'fetchProjects'),
         PROJECT_JUMP_BOX_PAGE_SIZE),
-      dropdownCssClass : "project-search-results",
-      containerCssClass : "select2-select",
+      dropdownCssClass  : "project-search-results",
+      containerCssClass : "select2-select"
     }).on('change', function (e) {
       if (e.val) {
         window.location = select2.data().project.url;
@@ -628,7 +648,7 @@ jQuery(document).ready(function($) {
       // Open select2 element, when menu is opened
       select2.open();
 
-      setTimeout(function () {
+      window.setTimeout(function () {
         $("#select2-drop-mask").hide();
       }, 50);
 
@@ -674,14 +694,12 @@ jQuery(document).ready(function($) {
     this.toggleClass("open").find("> ul").mySlide(function() {
       // actually a simple focus should be enough.
       // The rest is only there to work around a rendering bug in webkit (as of Oct 2011) TODO: fix
-      if ($("input#username-pulldown").is(":visible")) {
-        var input = $("input#username-pulldown");
-      } else {
-        var input = $(this).find(".select2-search input");
-      }
+      var input = $("input#username-pulldown").is(":visible") ?
+        $("input#username-pulldown") :
+        $(this).find(".select2-search input");
       if (input.is(":visible")) {
         input.blur();
-        setTimeout(function() {
+        window.setTimeout(function() {
           input.focus();
         }, 100);
       }
@@ -731,11 +749,11 @@ jQuery(document).ready(function($) {
     this.find(" > li.drop-down").click(function(event) {
       // if an h2 tag follows the submenu should unfold out at the border
       var menu_start_position;
-      if (that.next().get(0) != undefined && (that.next().get(0).tagName == 'H2')){
+      if (that.next().get(0) !== undefined && (that.next().get(0).tagName == 'H2')){
         menu_start_position = that.next().innerHeight() + that.next().position().top;
         that.find("ul.action_menu_more").css({ top: menu_start_position });
       }
-      else if(that.next().hasClass("wiki-content") && that.next().children().next().first().get(0) != undefined && that.next().children().next().first().get(0).tagName == 'H1'){
+      else if(that.next().hasClass("wiki-content") && that.next().children().next().first().get(0) !== undefined && that.next().children().next().first().get(0).tagName == 'H1'){
         var wiki_heading = that.next().children().next().first();
         menu_start_position = wiki_heading.innerHeight() + wiki_heading.position().top;
         that.find("ul.action_menu_more").css({ top: menu_start_position });
@@ -817,8 +835,8 @@ jQuery(document).ready(function($) {
     // wait 200 milliseconds for no further resize event
     // then readjust breadcrumb
 
-    if(this.resizeTO) clearTimeout(this.resizeTO);
-    this.resizeTO = setTimeout(function() {
+    if(this.resizeTO) window.clearTimeout(this.resizeTO);
+    this.resizeTO = window.setTimeout(function() {
       $(this).trigger('resizeEnd');
     }, 200);
   });
@@ -869,14 +887,14 @@ jQuery(document).ready(function($) {
   if (typeof window.sessionStorage !== 'undefined') {
     remember_menu_state = function (match) {
       if (typeof match === 'undefined') {
-        return sessionStorage.getItem('openproject:navigation-toggle');
+        return window.sessionStorage.getItem('openproject:navigation-toggle');
       } else {
-        return sessionStorage.setItem('openproject:navigation-toggle',
+        return window.sessionStorage.setItem('openproject:navigation-toggle',
             match.length > 0 ? 'collapsed' : 'expanded');
       }
     };
   } else {
-    remember_menu_state = function (match) {
+    remember_menu_state = function () {
       return false;
     };
   }
@@ -909,9 +927,7 @@ jQuery(document).ready(function($) {
         state_loading,
         state_loaded,
         replace_with_close,
-        replace_with_open,
-        slideIn,
-        init;
+        replace_with_open;
 
     options = $.extend(true,
       {},
@@ -940,11 +956,10 @@ jQuery(document).ready(function($) {
 
     append_href = function (link) {
       var target = target_container(link),
-          loading_div,
           url = link.attr('href');
 
       if (is_loaded(link)) {
-        state_loaded(target, link)
+        state_loaded(target, link);
       } else {
         state_loading(target);
 
@@ -960,13 +975,12 @@ jQuery(document).ready(function($) {
     };
 
     is_inplace = function() {
-      return options.load_target === null
+      return options.load_target === null;
     };
 
     is_loaded = function(link) {
       var container = target_container(link);
-
-      return container.children().not('.' + options.indicator_class).size() > 0
+      return container.children().not('.' + options.indicator_class).size() > 0;
     };
 
     target_container = function(link) {
@@ -977,7 +991,7 @@ jQuery(document).ready(function($) {
       if (is_inplace()) {
         target = link.parent();
       } else {
-        target = $(options.load_target)
+        target = $(options.load_target);
       }
 
       container = target.find('.' + options.container_class);
@@ -988,7 +1002,7 @@ jQuery(document).ready(function($) {
         target.append(container);
       }
 
-      return container
+      return container;
     };
 
     state_loading = function (target) {
@@ -1039,16 +1053,14 @@ jQuery(document).ready(function($) {
 
     replace_with_open = function(to_replace) {
       var load_link = to_replace.siblings(options.trigger);
-
       to_replace.remove();
 
       /* this link is never removed, only hidden */
       load_link.show();
     };
 
-    $(options.trigger).click(function(link) {
+    $(options.trigger).click(function() {
       append_href($(this));
-
       return false;
     });
 
@@ -1057,7 +1069,7 @@ jQuery(document).ready(function($) {
 
   if ($.ajaxAppend) {
     return;
-  };
+  }
 
   $.ajaxAppend = function (options) {
     AjaxAppender(options);
@@ -1068,11 +1080,11 @@ jQuery(document).ready(function($) {
 var Administration = (function ($) {
   var update_default_language_options,
       init_language_selection_handling,
-      toggle_default_language_select;
+      toggle_disabled_state;
 
   update_default_language_options = function (input) {
     var default_language_select = $('#setting_default_language select'),
-      default_language_select_active;
+        default_language_select_active;
 
     if (input.attr('checked')) {
       default_language_select.find('option[value="' + input.val() + '"]').removeAttr('disabled');
@@ -1193,7 +1205,6 @@ var I18nForms = (function ($) {
     update_add_link_status = function (localized_p) {
       var indicator_selector = active_locale_selectors(localized_p),
           taken = taken_options(indicator_selector),
-          all_options,
           available,
           add_link = localized_p.find('.add_locale');
 
@@ -1252,11 +1263,11 @@ var I18nForms = (function ($) {
         element = $(element);
         update_interaction_elements(element);
       });
-    }
+    };
 
     return {
       init : init
-    }
+    };
   })();
 
   memorize_ids = function (form) {
@@ -1379,12 +1390,12 @@ var I18nForms = (function ($) {
 
       init = function() {
         num = 0;
-      }
+      };
 
       set_next_number_in_name = function(elements) {
         replace_number_in_name(elements, num);
         num += 1;
-      }
+      };
 
       replace_number_in_name = function (element, rep_number) {
         element.each(function (index, e) {
@@ -1410,7 +1421,7 @@ var I18nForms = (function ($) {
       locales = collect_elements_by_locale(translations);
 
       $.each(locales, function(locale, elements) {
-        empty_value_elements = add_empty_values_for_missing_attributes(locale, translation_classes);
+        var empty_value_elements = add_empty_values_for_missing_attributes(locale, translation_classes);
         unify_translations_across_attribute(locale, elements.add(empty_value_elements), translation_classes);
       });
 
@@ -1477,7 +1488,7 @@ var SubmitConfirm = (function($) {
 
   init = function(element, question) {
     element.submit(function() {
-      if(!confirm(question)) {
+      if(!window.confirm(question)) {
         return false;
       }
     });
@@ -1545,6 +1556,6 @@ Issue.Show = (function($) {
   $('document').ready(function () {
     if ($('body.controller-issues.action-show').size() > 0) {
       init();
-    };
+    }
   });
 })(jQuery);
