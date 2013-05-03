@@ -58,7 +58,6 @@ module OpenProject::Costs::Patches::IssuesHelperPatch
            value = @issue.spent_hours > 0 ?
                      link_to(l_hours(@issue.spent_hours), { :controller => 'timelog',
                                                             :action => 'index',
-                                                            :project_id => @project,
                                                             :issue_id => @issue}) :
                      "-"
 
