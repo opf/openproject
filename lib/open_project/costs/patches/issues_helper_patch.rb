@@ -38,7 +38,7 @@ module OpenProject::Costs::Patches::IssuesHelperPatch
             str_array << "<span title=\"#{h(k.name)}\">#{txt}</span>"
           end
         end
-        str_array.join(", ")
+        str_array.join(", ").html_safe
       end
 
       def cost_issues_attributes
