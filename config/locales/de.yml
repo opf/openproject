@@ -1119,6 +1119,8 @@ de:
 
 
   js:
+    logoff: Sie wurden ausgeloggt.
+    redirect_login: Wollen sie auf die Loginseite weitergeleitet werden?
     select2:
       searching: Suche ...
       load_more: Mehr Ergebnisse werden geladen ...

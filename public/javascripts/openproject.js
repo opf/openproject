@@ -5,9 +5,14 @@ window.OpenProject = (function ($) {
   var OP = function (options) {
     options = options || {};
     this.urlRoot = options.urlRoot || "";
+    this.loginUrl = options.loginUrl || "";
 
     if (!/\/$/.test(this.urlRoot)) {
       this.urlRoot += '/';
+    }
+
+    if (!/\/$/.test(this.loginUrl)) {
+      this.loginUrl += '/';
     }
   };
 
