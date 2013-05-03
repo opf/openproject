@@ -21,6 +21,20 @@ module OpenProject::Costs
       FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
     end
 
+    config.before_configuration do |app|
+      # This is required for the routes to be loaded first
+      # as the routes should be prepended so they take precedence over the core.
+      app.config.paths['config/routes'].unshift File.join(File.dirname(__FILE__), "..", "..", "..", "config", "routes.rb")
+    end
+
+    initializer "costs.remove_duplicate_routes", :after => "add_routing_paths" do |app|
+      # removes duplicate entry from app.routes_reloader
+      # As we prepend the plugin's routes to the load_path up front and rails
+      # adds all engines' config/routes.rb later, we have double loaded the routes
+      # This is not harmful as such but leads to duplicate routes which decreases performance
+      app.routes_reloader.paths.uniq!
+    end
+
     config.to_prepare do
 
       # TODO: avoid this dirty hack necessary to prevent settings method getting lost after reloading
