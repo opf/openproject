@@ -10,14 +10,17 @@ class CostlogController < ApplicationController
   before_filter :find_associated_objects, :only => [:create,
                                                     :update]
   before_filter :find_optional_project, :only => [:report,
-                                                  :details]
+                                                  :index]
 
   helper :sort
   include SortHelper
   helper :issues
   include CostlogHelper
 
-  def details
+  def index
+    # this looks like it should be moved to openproject_reporting
+    # as it redirects to the CostReportsController and uses CostQuery.
+    # both are defined in openproject_reporting
     unless @project.nil?
       filters = {:operators => {}, :values => {}}
 
@@ -132,7 +135,7 @@ class CostlogController < ApplicationController
     elsif @cost_entry.save
 
       flash[:notice] = l(:notice_successful_create)
-      redirect_back_or_default :action => 'details', :project_id => @cost_entry.project
+      redirect_back_or_default :action => 'index', :project_id => @cost_entry.project
 
     else
       render :action => 'edit'
@@ -149,7 +152,7 @@ class CostlogController < ApplicationController
     elsif @cost_entry.save
 
       flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default :action => 'details', :project_id => @cost_entry.project
+      redirect_back_or_default :action => 'index', :project_id => @cost_entry.project
 
     else
       render :action => 'edit'
@@ -169,7 +172,7 @@ class CostlogController < ApplicationController
       redirect_to :back
     end
   rescue ::ActionController::RedirectBackError
-    redirect_to :action => 'details', :project_id => @cost_entry.project
+    redirect_to :action => 'index', :project_id => @cost_entry.project
   end
 
   def get_cost_type_unit_plural

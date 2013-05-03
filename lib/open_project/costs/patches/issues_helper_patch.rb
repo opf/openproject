@@ -29,7 +29,7 @@ module OpenProject::Costs::Patches::IssuesHelperPatch
           txt = pluralize(v[:units], v[:unit], v[:unit_plural])
           if create_link
             str_array << link_to(txt, { :controller => 'costlog',
-                                        :action => 'details',
+                                        :action => 'index',
                                         :project_id => @issue.project,
                                         :issue_id => @issue,
                                         :cost_type_id => k },
