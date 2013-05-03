@@ -12,6 +12,7 @@
                          :title => l(:label_principal_search),
                          :multiple => true,
                          :'data-placeholder' => l(:label_principal_search),
+                         :'data-minimumInputLength' => 1,
                          :'data-ajaxURL' => url_for(:controller => "members", :action => "autocomplete_for_member"),
                          :'data-projectId' => project.id,
                          :class => "select2-select" %>
@@ -23,6 +24,7 @@
                          :title => l(:label_role_plural),
                          :multiple => true,
                          :'data-placeholder' => l(:label_role_search),
+                         :'data-minimumInputLength' => 0,
                          :'data-ajaxURL' => url_for(:controller => "roles", :action => "autocomplete_for_role"),
                          :'data-projectId' => project.id,
                          :class => "select2-select" %>
