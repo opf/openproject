@@ -20,7 +20,7 @@ class Role < ActiveRecord::Base
     compare = 'not' if args.first == true
     { :conditions => "#{compare} builtin = 0" }
   }
-  named_scope :like, lambda { |q|
+  scope :like, lambda { |q|
     s = "%#{q.to_s.strip.downcase}%"
     {:conditions => ["LOWER(name) LIKE :s", {:s => s}]
     }
@@ -151,10 +151,10 @@ class Role < ActiveRecord::Base
     end
   end
 
-  def self.paginated_search(search, page, options = {})
+  def self.paginated_search(search, options = {})
     limit = options.fetch(:page_limit) || 10
-    registered_scope = givable.like(search).scope(:find)
-    paginate({ :per_page => limit, :page => page }.merge(registered_scope))
+    page = options.fetch(:page) || 1
+    givable.like(search).paginate({ :per_page => limit, :page => page })
   end
 
 private

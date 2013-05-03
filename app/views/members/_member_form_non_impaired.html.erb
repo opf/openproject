@@ -1,4 +1,9 @@
-<% remote_form_for(:member, :url => {:controller => 'members', :action => 'new', :id => project}, :method => :post, :html => {:id => "members_add_form"}) do |f| %>
+<%= javascript_include_tag "members_select_boxes.js" %>
+
+<%= form_for(:member, :url => {:controller => 'members', :action => 'create', :project_id => project},
+                     :remote => true,
+                     :method => :post,
+                     :html => {:id => "members_add_form"}) do |f| %>
   <fieldset>
     <legend><%= l(:label_member_new) %></legend>
       <div class="splitcontentleft">

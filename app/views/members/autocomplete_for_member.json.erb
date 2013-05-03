@@ -1,8 +1,14 @@
 {
   "results":
   {
-    "items": <%= @principals.collect {|item| { :id => item.id, :name => item.name } }.to_json %>,
-    "total": <%= @total ? @total.to_json : @principals.size.to_json %>,
-    "more": <%= @more ? @more.to_json : 0.to_json %>
+    "items":[
+	<% @principals.each_with_index do |principal, ix| %>
+    {
+      "id":   <%= principal.id.to_json.html_safe %>,
+      "name": <%= principal.name.to_json.html_safe %>
+  	} <%= "," unless ix == @principals.length - 1 %>
+	<% end %> ],
+    "total": <%= @total ? @total : @principals.size %>,
+    "more": <%= @more ? @more : 0 %>
   }
 }

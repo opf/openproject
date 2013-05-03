@@ -42,15 +42,14 @@ jQuery(document).ready(function($) {
             minimumInputLength: 1,
             ajax: {
                 url: $(fakeInput).attr("data-ajaxURL"),
-                dataType: 'json',
                 quietMillis: 500,
-                contentType: "application/json",
+                dataType: 'json',
                 data: function (term, page) {
                     return {
                         q: term, //search term
                         page_limit: 10, // page size
                         page: page, // current page number
-                        id: fakeInput.attr("data-projectId") // current project id
+                        project_id: fakeInput.attr("data-projectId") // current project id
                     };
                 },
                 results: function (data, page) {

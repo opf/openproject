@@ -96,7 +96,7 @@ JS
 
     if page
       page = page.to_i
-      @principals = Principal.paginate_scope!(Principal.search_scope_without_project(@project, params[:q]).scope(:find),
+      @principals = Principal.paginate_scope!(Principal.search_scope_without_project(@project, params[:q]),
                         { :page => page, :page_limit => size })
       # we always get all the items on a page, so just check if we just got the last
       @more = @principals.total_pages > page
@@ -106,7 +106,7 @@ JS
     end
 
     respond_to do |format|
-      format.json { render :layout => false }
+      format.json 
       format.html {
         if request.xhr?
           partial = "members/autocomplete_for_member"

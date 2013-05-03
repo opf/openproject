@@ -1,8 +1,14 @@
 {
   "results":
   {
-    "items": <%= @roles.collect {|item| { :id => item.id, :name => item.name } }.to_json %>,
-    "total": <%= @total.to_json %>,
-    "more": <%= @more.to_json %>
+    "items":[
+  <% @roles.each_with_index do |role, ix| %>
+    {
+      "id":   <%= role.id.to_json.html_safe %>,
+      "name": <%= role.name.to_json.html_safe %>
+    } <%= "," unless ix == @roles.length - 1 %>
+  <% end %> ],
+    "total": <%= @total ? @total : @roles.size %>,
+    "more": <%= @more ? @more : 0 %>
   }
 }
