@@ -1,27 +1,27 @@
 class CostTypesController < ApplicationController
   unloadable
-  
+
   # Allow only admins here
   before_filter :require_admin
   before_filter :find_cost_type, :only => [:set_rate, :toggle_delete]
-  before_filter :find_optional_cost_type, :only => [:edit]
+  before_filter :find_optional_cost_type, :only => [:edit, :update]
 
   verify :method => :post, :only => [:set_rate, :toggle_delete], :redirect_to => { :action => :index }
-  
+
   helper :sort
   include SortHelper
   helper :cost_types
   include CostTypesHelper
-  
+
   def index
     sort_init 'name', 'asc'
     sort_columns = { "name" => "#{CostType.table_name}.name",
                      "unit" => "#{CostType.table_name}.unit",
                      "unit_plural" => "#{CostType.table_name}.unit_plural" }
     sort_update sort_columns
-    
+
     @cost_types = CostType.find :all, :order => @sort_clause
-    
+
     unless params[:clear_filter]
       @fixed_date = Date.parse(params[:fixed_date]) rescue Date.today
       @include_deleted = params[:include_deleted]
@@ -29,31 +29,77 @@ class CostTypesController < ApplicationController
       @fixed_date = Date.today
       @include_deleted = nil
     end
-    
+
     render :action => 'index', :layout => !request.xhr?
   end
-  
+
   def edit
     if !@cost_type
       @cost_type = CostType.new()
     end
-    
+
     if params[:cost_type]
       @cost_type.attributes = params[:cost_type]
     end
-    
+
     if request.post? && @cost_type.save
       flash[:notice] = l(:notice_successful_update)
       redirect_back_or_default(:action => 'index')
     else
       @cost_type.rates.build({:valid_from => Date.today}) if @cost_type.rates.empty?
       render :action => "edit", :layout => !request.xhr?
-    end 
+    end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash.now[:error] = l(:notice_locking_conflict)
   end
-  
+
+  def update
+    # TODO: method is copied over from edit
+    # remove code as appropriate
+    if !@cost_type
+      @cost_type = CostType.new()
+    end
+
+    if params[:cost_type]
+      @cost_type.attributes = params[:cost_type]
+    end
+
+    if @cost_type.save
+      flash[:notice] = l(:notice_successful_update)
+      redirect_back_or_default(:action => 'index')
+    else
+      @cost_type.rates.build({:valid_from => Date.today}) if @cost_type.rates.empty?
+      render :action => "edit", :layout => !request.xhr?
+    end
+  rescue ActiveRecord::StaleObjectError
+    # Optimistic locking exception
+    flash.now[:error] = l(:notice_locking_conflict)
+  end
+
+  def new
+    # TODO: method is copied over from edit
+    # remove code as appropriate
+    if !@cost_type
+      @cost_type = CostType.new()
+    end
+
+    if params[:cost_type]
+      @cost_type.attributes = params[:cost_type]
+    end
+
+    if request.post? && @cost_type.save
+      flash[:notice] = l(:notice_successful_update)
+      redirect_back_or_default(:action => 'index')
+    else
+      @cost_type.rates.build({:valid_from => Date.today}) if @cost_type.rates.empty?
+      render :action => "edit", :layout => !request.xhr?
+    end
+  rescue ActiveRecord::StaleObjectError
+    # Optimistic locking exception
+    flash.now[:error] = l(:notice_locking_conflict)
+  end
+
   def toggle_delete
     @cost_type.deleted_at = @cost_type.deleted_at ?  nil : DateTime.now()
     @cost_type.default = false
@@ -89,7 +135,7 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_optional_cost_type
     if !params[:id].blank?
       @cost_type = CostType.find(params[:id])

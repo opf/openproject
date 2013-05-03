@@ -1,10 +1,10 @@
 class CostObjectsController < ApplicationController
   unloadable
 
-  before_filter :find_cost_object, :only => [:show, :edit]
+  before_filter :find_cost_object, :only => [:show, :edit, :update, :preview]
   before_filter :find_cost_objects, :only => [:bulk_edit, :destroy]
   before_filter :find_project, :only => [
-    :preview, :new,
+    :new, :create,
     :update_material_budget_item, :update_labor_budget_item
   ]
   before_filter :find_optional_project, :only => :index
@@ -82,6 +82,8 @@ class CostObjectsController < ApplicationController
   end
 
   def new
+    # TODO: This method used to be responsible for both new and create
+    # Please remove code where necessary
     if params[:cost_object]
       @cost_object = create_cost_object(params[:cost_object].delete(:kind))
     elsif params[:copy_from]
@@ -106,32 +108,76 @@ class CostObjectsController < ApplicationController
 
     @cost_object.attributes = params[:cost_object]
 
-    unless request.get? || request.xhr?
-      if @cost_object.save
-        Attachment.attach_files(@cost_object, params[:attachments])
-        render_attachment_warning_if_needed(@cost_object)
-
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to(params[:continue] ? { :action => 'new' } :
-                                        { :action => 'show', :id => @cost_object })
-        return
-      end
-    end
-
     render :layout => !request.xhr?
   end
 
+  def create
+    # TODO: This was simply copied over from new in order to have
+    # something as a starting point for separating the two
+    # Please go ahead and start removing code where necessary
+    if params[:cost_object]
+      @cost_object = create_cost_object(params[:cost_object].delete(:kind))
+    elsif params[:copy_from]
+      source = CostObject.find(params[:copy_from])
+      if source
+        @cost_object = create_cost_object(source.kind)
+        @cost_object.copy_from(params[:copy_from])
+      end
+    end
+
+    # FIXME: I forcibly create a VariableCostObject for now. Following Ticket #5360
+    @cost_object ||= VariableCostObject.new
+
+    @cost_object.project_id = @project.id
+
+    # fixed_date must be set before material_budget_items and labor_budget_items
+    if params[:cost_object] && params[:cost_object][:fixed_date]
+      @cost_object.fixed_date = params[:cost_object].delete(:fixed_date)
+    else
+      @cost_object.fixed_date = Date.today
+    end
+
+    @cost_object.attributes = params[:cost_object]
+
+    if @cost_object.save
+      Attachment.attach_files(@cost_object, params[:attachments])
+      render_attachment_warning_if_needed(@cost_object)
+
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to(params[:continue] ? { :action => 'new' } :
+                                      { :action => 'show', :id => @cost_object })
+      return
+    else
+      render :action => 'new', :layout => !request.xhr?
+    end
+  end
+
   def edit
+    # TODO: This method used to be responsible for both edit and update
+    # Please remove code where necessary
+    # check whether this method is needed at all
     @cost_object.attributes = params[:cost_object] if params[:cost_object]
 
-    if request.post?
-      if @cost_object.save
-        Attachment.attach_files(@cost_object, params[:attachments])
-        render_attachment_warning_if_needed(@cost_object)
+  end
 
-        flash[:notice] = l(:notice_successful_update)
-        redirect_to(params[:back_to] || {:action => 'show', :id => @cost_object})
-      end
+  def update
+    # TODO: This was simply copied over from edit in order to have
+    # something as a starting point for separating the two
+    # Please go ahead and start removing code where necessary
+
+
+    # TODO: use better way to prevent mass assignment errors
+    params[:cost_object].delete(:kind)
+    @cost_object.attributes = params[:cost_object] if params[:cost_object]
+
+    if @cost_object.save
+      Attachment.attach_files(@cost_object, params[:attachments])
+      render_attachment_warning_if_needed(@cost_object)
+
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to(params[:back_to] || {:action => 'show', :id => @cost_object})
+    else
+      render :action => 'edit'
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
@@ -145,7 +191,6 @@ class CostObjectsController < ApplicationController
   end
 
   def preview
-    @cost_object = CostObjects.find_by_id(params[:id]) unless params[:id].blank?
     @text = params[:notes] || (params[:cost_object] ? params[:cost_object][:description] : nil)
 
     render :partial => 'common/preview'
