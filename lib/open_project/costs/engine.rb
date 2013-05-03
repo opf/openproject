@@ -21,6 +21,10 @@ module OpenProject::Costs
       FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
     end
 
+    initializer 'costs.register_test_paths' do |app|
+      app.config.plugins_to_test_paths << self.root
+    end
+
     config.before_configuration do |app|
       # This is required for the routes to be loaded first
       # as the routes should be prepended so they take precedence over the core.
