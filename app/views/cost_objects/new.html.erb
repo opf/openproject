@@ -1,7 +1,9 @@
 <h2><%=l(:label_cost_object_new)%></h2>
 
-<% labelled_tabular_form_for :cost_object, @cost_object,
-                             :html => {:multipart => true, :id => 'cost_object_form'} do |f| %>
+<%= labelled_tabular_form_for @cost_object,
+                              :url => projects_cost_objects_path(@project),
+                              :as => :cost_object,
+                              :html => {:multipart => true, :id => 'cost_object_form'} do |f| %>
     <%= error_messages_for 'cost_object' %>
     <div class="box">
     <%= render :partial => 'form', :locals => {:f => f} %>

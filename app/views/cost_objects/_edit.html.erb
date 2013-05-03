@@ -1,8 +1,9 @@
-<% labelled_tabular_form_for :cost_object, @cost_object,
-                             :url => {:action => 'edit', :id => @cost_object},
-                             :html => {:multipart => true,
-                                       :id => 'cost_object_form',
-                                       :class => nil} do |f| %>
+<%= labelled_tabular_form_for @cost_object,
+                              :as => :cost_object,
+                              :url => cost_object_path(@cost_object),
+                              :html => {:multipart => true,
+                                        :id => 'cost_object_form',
+                                        :class => nil} do |f| %>
     <%= error_messages_for 'cost_object' %>
     <div class="box">
     <div class="tabular">

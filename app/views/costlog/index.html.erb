@@ -6,7 +6,7 @@
 
 <h2><%= l(:label_spent_costs) %></h2>
 
-<% form_remote_tag( :url => {}, :method => :get, :update => 'content' ) do %>
+<%= form_remote_tag( :url => {}, :method => :get, :update => 'content' ) do %>
 <%= hidden_field_tag('project_id', params[:project_id]) if @project %>
 <%= hidden_field_tag 'issue_id', params[:issue_id] if @issue %>
 <%= hidden_field_tag 'cost_type_id', params[:cost_type_id] if @cost_type %>

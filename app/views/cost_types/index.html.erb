@@ -4,7 +4,7 @@
 
 <h2><%= l(:caption_cost_type_plural) %></h2>
 
-<% form_tag({ :controller => 'cost_types', :action => 'index' }, :id => 'query_form') do %>
+<%= form_tag({ :controller => 'cost_types', :action => 'index' }, :id => 'query_form') do %>
 <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
 <p>
   <label for="fixed_date"><%= l(:label_fixed_date) %></label>

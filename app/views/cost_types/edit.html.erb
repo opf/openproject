@@ -1,6 +1,6 @@
 <h2><%= l(:caption_cost_type) %></h2>
 
-<% labelled_tabular_form_for :cost_type, @cost_type, :url => {:action => 'edit'} do |f| %>
+<%= labelled_tabular_form_for @cost_type, :url => {:action => 'update'}, :method => :put do |f| %>
   <%= error_messages_for 'cost_type' %>
   <%= back_url_hidden_field_tag %>
 
