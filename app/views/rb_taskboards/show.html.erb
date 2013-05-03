@@ -56,9 +56,8 @@
           <% end %>
         <% @statuses.each do |status| %>
           <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
-            <% impediment_html = render :partial => "rb_impediments/impediment",
+            <%= render :partial => "rb_impediments/impediment",
                        :collection => impediments_by_position_for_status(@sprint, @project, status) %>
-            <%= impediment_html.present? ? impediment_html : raw("&nbsp;") %>
           </td>
         <% end %>
       </tr>
@@ -94,9 +93,8 @@
           <% end %>
           <% @statuses.each do |status| %>
             <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
-              <% task_html = render :partial => "rb_tasks/task",
-                                    :collection => story.tasks.select { |task| task.status.id == status.id } %>
-              <%= task_html.present? ? task_html : raw("&nbsp;") %>
+              <%= render :partial => "rb_tasks/task",
+                         :collection => story.tasks.select { |task| task.status.id == status.id } %>
             </td>
           <% end %>
         </tr>
@@ -114,10 +112,10 @@
       <% end %>
     </select>
     <div id="task_template">
-      <%= render :partial => "rb_tasks/task", :object => Task.new %>
+      <%= render :partial => "rb_tasks/task", :object => Task.new, :locals => {:project => @project} %>
     </div>
     <div id="impediment_template">
-      <%= render :partial => "rb_impediments/impediment", :object => Impediment.new %>
+      <%= render :partial => "rb_impediments/impediment", :object => Impediment.new, :locals => {:project => @project} %>
     </div>
 
     <div id="issue_editor"> </div>
