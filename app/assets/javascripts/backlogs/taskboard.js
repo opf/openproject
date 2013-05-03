@@ -149,7 +149,7 @@ RB.Taskboard = (function ($) {
     updateColWidths: function () {
       var w = parseInt($("#col_width input").val(), 10);
 
-      if (w === null || w === undefined || isNaN(w)) {
+      if (w === null || w === undefined || isNaN(w) || w < 1) {
         w = this.defaultColWidth;
       }
       $("#col_width input").val(w);
