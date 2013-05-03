@@ -152,8 +152,13 @@ module OpenProject::Costs
         end
       end
     end
-  end
 
+    config.after_initialize do
+      # We are overwriting issues/_action_menu.html.erb so our view must be found first
+      IssuesController.view_paths.unshift("#{config.root}/app/views")
+    end
+
+  end
 end
 
 
