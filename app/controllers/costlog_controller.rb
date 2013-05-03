@@ -290,6 +290,6 @@ private
     @cost_entry.issue = @issue
     @cost_entry.cost_type = @cost_type
 
-    @cost_entry.attributes = params[:cost_entry]
+    @cost_entry.attributes = permitted_params.cost_entry
   end
 end

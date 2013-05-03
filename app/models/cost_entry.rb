@@ -9,12 +9,7 @@ class CostEntry < ActiveRecord::Base
   belongs_to :cost_object
   belongs_to :rate, :class_name => "CostRate"
 
-  attr_accessible :comments,
-                  :units,
-                  :overridden_costs,
-                  :spent_on,
-                  :created_on,
-                  :updated_on
+  include ActiveModel::ForbiddenAttributesProtection
 
   validates_presence_of :issue_id, :project_id, :user_id, :cost_type_id, :units, :spent_on
   validates_numericality_of :units, :allow_nil => false, :message => :activerecord_error_invalid

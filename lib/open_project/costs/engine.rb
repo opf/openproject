@@ -50,6 +50,7 @@ module OpenProject::Costs
       require_dependency 'open_project/costs/patches/user_patch'
       require_dependency 'open_project/costs/patches/time_entry_patch'
       require_dependency 'open_project/costs/patches/version_patch'
+      require_dependency 'open_project/costs/patches/permitted_params_patch'
 
       # Controller Patchesopen_project/costs/patches/
       require_dependency 'open_project/costs/patches/application_controller_patch'
