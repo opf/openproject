@@ -21,9 +21,8 @@ Feature: Close and open meeting agendas
       Given the role "user" may have the following rights:
             | view_meetings |
        When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
-        And I click on "Agenda"
+        And I go to the show page of the meeting called "Bobs Meeting"
+        And I follow "Agenda"
        Then I should not see "Close" within ".meeting_agenda"
 
   @javascript
@@ -32,9 +31,8 @@ Feature: Close and open meeting agendas
             | view_meetings         |
             | close_meeting_agendas |
        When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
-        And I click on "Minutes"
+        And I go to the show page of the meeting called "Bobs Meeting"
+        And I follow "Minutes" within ".tabs"
        Then I should not see "Edit" within ".meeting_minutes"
         And I should see "Close the agenda to begin the Minutes" within ".meeting_minutes"
 
@@ -47,7 +45,7 @@ Feature: Close and open meeting agendas
             | text | "blubber" |
        When I am already logged in as "alice"
         And I go to the show page of the meeting called "Bobs Meeting"
-        And I follow "Close"
+        And I follow "Close" within ".meeting_agenda"
 
        Then I should be on the show page of the meeting called "Bobs Meeting"
         And the minutes should contain the following text:
@@ -66,9 +64,8 @@ Feature: Close and open meeting agendas
       # And the meeting "Bobs Meeting" has 1 agenda with:
       #     | locked | true |
        When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
-        And I click on "Agenda"
+        And I go to the show page of the meeting called "Bobs Meeting"
+        And I follow "Agenda"
       # And I click on "Open"
        Then I should not see "Open" within ".meeting_agenda"
         And I should see "Close" within ".meeting_agenda"
@@ -81,7 +78,6 @@ Feature: Close and open meeting agendas
         And the meeting "Bobs Meeting" has 1 agenda with:
             | locked | true |
        When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
-        And I click on "Agenda"
+        And I go to the show page of the meeting called "Bobs Meeting"
+        And I follow "Agenda"
        Then I should not see "Edit" within ".meeting_agenda"

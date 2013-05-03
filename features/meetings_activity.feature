@@ -30,21 +30,18 @@ Feature: Show meeting activity
               | text   | foobaz |
           And the meeting "Bobs Meeting" has minutes with:
               | text   | barbaz |
+          And I am already logged in as "alice"
 
   Scenario: Navigate to the project's activity page and see the meeting activity
-       When I am already logged in as "alice"
-        And I go to the meetings activity page for the project "dingens"
+       When I go to the meetings activity page for the project "dingens"
        Then I should see "Meeting: Bobs Meeting (02/10/2011 11:00 am-01:30 pm)" within "dt.meeting > a"
         And I should see "Agenda: Bobs Meeting" within ".meeting-agenda"
         And I should see "Minutes: Bobs Meeting" within ".meeting-minutes"
 
   Scenario: Change a metadata on a meeting and see the activity on the project's activity page
-       When I am already logged in as "alice"
-        And I go to the meetings page for the project called "dingens"
-        And I click on "Bobs Meeting"
-        And I click on "Edit"
+       When I go to the edit page for the meeting called "Bobs Meeting"
         And I fill in the following:
             | meeting_location | Geheimer Ort! |
-        And I click on "Save"
+        And I press "Save"
         And I go to the meetings activity page for the project "dingens"
        Then I should see "Meeting: Bobs Meeting (02/10/2011 11:00 am-01:30 pm)" within ".meeting.me"
