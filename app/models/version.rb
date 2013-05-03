@@ -33,6 +33,7 @@ class Version < ActiveRecord::Base
   validates_format_of :start_date, :with => /^\d{4}-\d{2}-\d{2}$/, :message => :not_a_date, :allow_nil => true
   validates_inclusion_of :status, :in => VERSION_STATUSES
   validates_inclusion_of :sharing, :in => VERSION_SHARINGS
+  validate :validate_start_date_before_effective_date
 
   scope :open, :conditions => {:status => 'open'}
   scope :visible, lambda {|*args| { :include => :project,
@@ -198,6 +199,12 @@ class Version < ActiveRecord::Base
   end
 
   private
+
+  def validate_start_date_before_effective_date
+    if self.effective_date && self.start_date && self.effective_date < self.start_date
+      errors.add :effective_date, :greater_than_start_date
+    end
+  end
 
   # Update the issue's fixed versions. Used if a version's sharing changes.
   def update_issues_from_sharing_change
