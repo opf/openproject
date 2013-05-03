@@ -4,7 +4,7 @@ module CostReportsHelper
   def operators_for_select(type_name)
     CostQuery.filter_types[type_name][:operators].collect {|o| [l(CostQuery.operators[o][:label]), o]}
   end
-  
+
   def scope_icon_class(filter)
     case filter.scope
     when :issues
@@ -24,18 +24,18 @@ module CostReportsHelper
       end
     end
   end
-  
+
   def js_reorder_links(name, function)
     link_to_function(image_tag('2uparrow.png',   :alt => l(:label_sort_highest)), "#{function}('#{escape_javascript(name)}', 'highest')", :title => l(:label_sort_highest)) +
     link_to_function(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),  "#{function}('#{escape_javascript(name)}', 'higher')", :title => l(:label_sort_higher)) +
     link_to_function(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),   "#{function}('#{escape_javascript(name)}', 'lower')", :title => l(:label_sort_lower)) +
     link_to_function(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),  "#{function}('#{escape_javascript(name)}', 'lowest')", :title => l(:label_sort_lowest))
   end
-  
-  
+
+
   def element_hidden_warning()
     # FIXME: Wanring has also to be generated if right is not granted in one of the subprojects only
-    unless User.current.allowed_to?(:view_cost_entries, @project, :for => nil) && 
+    unless User.current.allowed_to?(:view_cost_entries, @project, :for => nil) &&
       User.current.allowed_to?(:view_time_entries, @project, :for => nil) &&
       User.current.allowed_to?(:view_cost_rates, @project, :for => nil) &&
       User.current.allowed_to?(:view_hourly_rates, @project, :for => nil)
