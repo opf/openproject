@@ -89,21 +89,6 @@ if (window.RB === null || window.RB === undefined) {
         }
       };
 
-      // Modify the ajax request before being sent to the server,
-      // i.e. add project id and csrf token
-      $(document).ajaxSend(function (event, request, settings) {
-        var c = window.RB.constants;
-
-        settings.data = settings.data || "";
-        settings.data += (settings.data ? "&" : "") + "project_id=" + c.project_id;
-
-        if (c.protect_against_forgery) {
-          settings.data += "&" +
-                           c.request_forgery_protection_token + "=" +
-                           encodeURIComponent(c.form_authenticity_token);
-        }
-      });
-
       // Process outstanding entries in the ajax queue whenever a ajax request
       // finishes.
       $(document).ajaxComplete(function (event, xhr, settings) {

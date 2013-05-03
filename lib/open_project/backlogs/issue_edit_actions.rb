@@ -8,7 +8,6 @@ class OpenProject::Backlogs::IssueEditActions < OpenProject::Nissue::View
   end
 
   def render(t)
-    css_class = "watcher_link_#{@issue.id}"
     content_tag(:div, [
         t.link_to_issue_box(l(:button_cancel), @issue, :class => 'icon icon-cancel'),
         (t.link_to_remote(l(:button_save),
