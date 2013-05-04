@@ -67,8 +67,10 @@ class UserMailerTest < ActionMailer::TestCase
                     "https://mydomain.foo/issues/#{issue.id}",
                     :text => "My Tracker ##{issue.id}: My awesome Ticket"
       # link to a description diff
-      assert_select 'li',
-                    :text => "Description changed (https://mydomain.foo/journals/#{journal.id}/diff/description)"
+      assert_select 'li', :text => /Description changed/
+      assert_select 'li>a[href=?]',
+                    "https://mydomain.foo/journals/#{journal.id}/diff/description",
+                    :text => "Details"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     "https://mydomain.foo/issues/#{related_issue.id}",
@@ -103,8 +105,10 @@ class UserMailerTest < ActionMailer::TestCase
                     "http://mydomain.foo/rdm/issues/#{issue.id}",
                     :text => "My Tracker ##{issue.id}: My awesome Ticket"
       # link to a description diff
-      assert_select 'li',
-                    :text => "Description changed (http://mydomain.foo/rdm/journals/#{journal.id}/diff/description)"
+      assert_select 'li', :text => /Description changed/
+      assert_select 'li>a[href=?]',
+                    "http://mydomain.foo/rdm/journals/#{journal.id}/diff/description",
+                    :text => "Details"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     "http://mydomain.foo/rdm/issues/#{related_issue.id}",
@@ -142,8 +146,10 @@ class UserMailerTest < ActionMailer::TestCase
                     "http://mydomain.foo/rdm/issues/#{issue.id}",
                     :text => "My Tracker ##{issue.id}: My awesome Ticket"
       # link to a description diff
-      assert_select 'li',
-                    :text => "Description changed (http://mydomain.foo/rdm/journals/#{journal.id}/diff/description)"
+      assert_select 'li', :text => /Description changed/
+      assert_select 'li>a[href=?]',
+                    "http://mydomain.foo/rdm/journals/#{journal.id}/diff/description",
+                    :text => "Details"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     "http://mydomain.foo/rdm/issues/#{related_issue.id}",
