@@ -18,10 +18,10 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
     Setting.rest_api_enabled = '1'
   end
 
-  context "GET /projects" do
+  context "GET /api/v1/projects" do
     context ".xml" do
       should "return projects" do
-        get '/projects.xml'
+        get '/api/v1/projects.xml'
         assert_response :success
         assert_equal 'application/xml', @response.content_type
 
@@ -32,7 +32,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
 
     context ".json" do
       should "return projects" do
-        get '/projects.json'
+        get '/api/v1/projects.json'
         assert_response :success
         assert_equal 'application/json', @response.content_type
 
@@ -45,14 +45,14 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
     end
   end
 
-  context "GET /projects/:id" do
+  context "GET /api/v1/projects/:id" do
     context ".xml" do
       # TODO: A private project is needed because should_allow_api_authentication
       # actually tests that authentication is *required*, not just allowed
-      should_allow_api_authentication(:get, "/projects/2.xml")
+      should_allow_api_authentication(:get, "/api/v1/projects/2.xml")
 
       should "return requested project" do
-        get '/projects/1.xml'
+        get '/api/v1/projects/1.xml'
         assert_response :success
         assert_equal 'application/xml', @response.content_type
 
@@ -68,7 +68,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
         end
 
         should "not display hidden custom fields" do
-          get '/projects/1.xml'
+          get '/api/v1/projects/1.xml'
           assert_response :success
           assert_equal 'application/xml', @response.content_type
 
@@ -79,10 +79,10 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
     end
 
     context ".json" do
-      should_allow_api_authentication(:get, "/projects/2.json")
+      should_allow_api_authentication(:get, "/api/v1/projects/2.json")
 
       should "return requested project" do
-        get '/projects/1.json'
+        get '/api/v1/projects/1.json'
 
         json = ActiveSupport::JSON.decode(response.body)
         assert_kind_of Hash, json
@@ -92,7 +92,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
     end
   end
 
-  context "POST /projects" do
+  context "POST /api/v1/projects" do
     context "with valid parameters" do
       setup do
         Setting.default_projects_modules = ['issue_tracking', 'repository']
@@ -101,14 +101,14 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
 
       context ".xml" do
         should_allow_api_authentication(:post,
-                                        '/projects.xml',
+                                        '/api/v1/projects.xml',
                                         {:project => {:name => 'API test', :identifier => 'api-test'}},
                                         {:success_code => :created})
 
 
         should "create a project with the attributes" do
           assert_difference('Project.count') do
-            post '/projects.xml', @parameters, credentials('admin')
+            post '/api/v1/projects.xml', @parameters, credentials('admin')
           end
 
           project = Project.first(:order => 'id DESC')
@@ -126,7 +126,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
           @parameters[:project].merge!({:enabled_module_names => ['issue_tracking', 'news', 'time_tracking']})
 
           assert_difference('Project.count') do
-            post '/projects.xml', @parameters, credentials('admin')
+            post '/api/v1/projects.xml', @parameters, credentials('admin')
           end
 
           project = Project.first(:order => 'id DESC')
@@ -137,7 +137,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
           @parameters[:project].merge!({:tracker_ids => [1, 3]})
 
           assert_difference('Project.count') do
-            post '/projects.xml', @parameters, credentials('admin')
+            post '/api/v1/projects.xml', @parameters, credentials('admin')
           end
 
           project = Project.first(:order => 'id DESC')
@@ -154,7 +154,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
       context ".xml" do
         should "return errors" do
           assert_no_difference('Project.count') do
-            post '/projects.xml', @parameters, credentials('admin')
+            post '/api/v1/projects.xml', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -165,7 +165,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
     end
   end
 
-  context "PUT /projects/:id" do
+  context "PUT /api/v1/projects/:id" do
     context "with valid parameters" do
       setup do
         @parameters = {:project => {:name => 'API update'}}
@@ -173,13 +173,13 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
 
       context ".xml" do
         should_allow_api_authentication(:put,
-                                        '/projects/2.xml',
+                                        '/api/v1/projects/2.xml',
                                         {:project => {:name => 'API update'}},
                                         {:success_code => :ok})
 
         should "update the project" do
           assert_no_difference 'Project.count' do
-            put '/projects/2.xml', @parameters, credentials('jsmith')
+            put '/api/v1/projects/2.xml', @parameters, credentials('jsmith')
           end
           assert_response :ok
           assert_equal 'application/xml', @response.content_type
@@ -191,7 +191,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
           @parameters[:project].merge!({:enabled_module_names => ['issue_tracking', 'news', 'time_tracking']})
 
           assert_no_difference 'Project.count' do
-            put '/projects/2.xml', @parameters, credentials('admin')
+            put '/api/v1/projects/2.xml', @parameters, credentials('admin')
           end
           assert_response :ok
           project = Project.find(2)
@@ -202,7 +202,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
           @parameters[:project].merge!({:tracker_ids => [1, 3]})
 
           assert_no_difference 'Project.count' do
-            put '/projects/2.xml', @parameters, credentials('admin')
+            put '/api/v1/projects/2.xml', @parameters, credentials('admin')
           end
           assert_response :ok
           project = Project.find(2)
@@ -219,7 +219,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
       context ".xml" do
         should "return errors" do
           assert_no_difference('Project.count') do
-            put '/projects/2.xml', @parameters, credentials('admin')
+            put '/api/v1/projects/2.xml', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -230,16 +230,16 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
     end
   end
 
-  context "DELETE /projects/:id" do
+  context "DELETE /api/v1/projects/:id" do
     context ".xml" do
       should_allow_api_authentication(:delete,
-                                      '/projects/2.xml',
+                                      '/api/v1/projects/2.xml',
                                       {},
                                       {:success_code => :ok})
 
       should "delete the project" do
         assert_difference('Project.count',-1) do
-          delete '/projects/2.xml', {}, credentials('admin')
+          delete '/api/v1/projects/2.xml', {}, credentials('admin')
         end
         assert_response :ok
         assert_nil Project.find_by_id(2)

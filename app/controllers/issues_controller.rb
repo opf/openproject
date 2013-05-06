@@ -18,6 +18,7 @@ class IssuesController < ApplicationController
   menu_item :view_all_issues, :only => [:all]
   default_search_scope :issues
 
+  before_filter :disable_api
   before_filter :find_issue, :only => [:show, :edit, :update, :quoted]
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :move, :perform_move, :destroy]
   before_filter :check_project_uniqueness, :only => [:move, :perform_move]
@@ -71,10 +72,9 @@ class IssuesController < ApplicationController
       @issue_count_by_group = @query.issue_count_by_group
 
       respond_to do |format|
-        format.html { render :template => 'issues/index', :layout => !request.xhr? }
-        format.api
-        format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
+        format.html { render :template => 'issues/index', :layout => !request.xhr? }
+        format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
       end
     else
@@ -121,7 +121,6 @@ class IssuesController < ApplicationController
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     respond_to do |format|
       format.html { render :template => 'issues/show' }
-      format.api
       format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
@@ -149,13 +148,11 @@ class IssuesController < ApplicationController
           redirect_to(params[:continue] ?  { :action => 'new', :project_id => @project, :issue => {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
                       { :action => 'show', :id => @issue })
         }
-        format.api  { render :action => 'show', :status => :created, :location => issue_url(@issue) }
       end
       return
     else
       respond_to do |format|
         format.html { render :action => 'new' }
-        format.api  { render_validation_errors(@issue) }
       end
     end
   end
@@ -207,7 +204,6 @@ class IssuesController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
-        format.api  { head :ok }
       end
     else
       render_attachment_warning_if_needed(@issue)
@@ -216,7 +212,6 @@ class IssuesController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => 'edit' }
-        format.api  { render_validation_errors(@issue) }
       end
     end
   end
@@ -280,7 +275,6 @@ class IssuesController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_back_or_default(:action => 'index', :project_id => @project) }
-      format.api  { head :ok }
     end
   end
 

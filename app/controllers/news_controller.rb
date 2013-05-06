@@ -13,6 +13,8 @@
 class NewsController < ApplicationController
   default_search_scope :news
   model_object News
+
+  before_filter :disable_api
   before_filter :find_model_object, :except => [:new, :create, :index]
   before_filter :find_project_from_association, :except => [:new, :create, :index]
   before_filter :find_project, :only => [:new, :create]
@@ -43,7 +45,6 @@ class NewsController < ApplicationController
 
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
-      format.api
       format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end

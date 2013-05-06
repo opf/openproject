@@ -13,6 +13,7 @@
 class UsersController < ApplicationController
   layout 'admin'
 
+  before_filter :disable_api
   before_filter :require_admin, :except => [:show, :deletion_info, :destroy]
   before_filter :find_user, :only => [:show,
                                       :edit,
@@ -66,7 +67,6 @@ class UsersController < ApplicationController
         @groups = Group.all.sort
         render :layout => !request.xhr?
       }
-      format.api
     end
   end
 
@@ -86,7 +86,6 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { render :layout => 'base' }
-      format.api
     end
   end
 
@@ -121,7 +120,6 @@ class UsersController < ApplicationController
             edit_user_path(@user)
           )
         }
-        format.api  { render :action => 'show', :status => :created, :location => user_url(@user) }
       end
     else
       @auth_sources = AuthSource.find(:all)
@@ -130,7 +128,6 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => 'new' }
-        format.api  { render_validation_errors(@user) }
       end
     end
   end
@@ -169,7 +166,6 @@ class UsersController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to :back
         }
-        format.api  { head :ok }
       end
     else
       @auth_sources = AuthSource.find(:all)
@@ -179,7 +175,6 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => :edit }
-        format.api  { render_validation_errors(@user) }
       end
     end
   rescue ::ActionController::RedirectBackError
@@ -230,9 +225,6 @@ class UsersController < ApplicationController
         else
           redirect_to users_path
         end
-      end
-      format.api  do
-        head :ok
       end
     end
   end

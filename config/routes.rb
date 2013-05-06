@@ -16,6 +16,19 @@ OpenProject::Application.routes.draw do
   match '/login'  => 'account#login',  :as => 'signin'
   match '/logout' => 'account#logout', :as => 'signout'
 
+  namespace :api do
+    namespace :v1 do
+      resources :issues
+      resources :news
+      resources :projects do
+        resources :issues
+        resources :news
+      end
+      resources :time_entries, :controller => 'timelog'
+      resources :users
+    end
+  end
+
   match '/roles/workflow/:id/:role_id/:tracker_id' => 'roles#workflow'
   match '/help/:ctrl/:page' => 'help#index'
 

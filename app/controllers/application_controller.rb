@@ -614,6 +614,21 @@ class ApplicationController < ActionController::Base
   end
   helper_method :default_breadcrumb
 
+  def disable_everything_except_api
+    if !api_request?
+      head 410
+      return false
+    end
+    true
+  end
+
+  def disable_api
+    if api_request?
+      head 410
+      return false
+    end
+    true
+  end
   ActiveSupport.run_load_hooks(:application_controller, self)
 
   private
