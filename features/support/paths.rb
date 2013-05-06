@@ -18,6 +18,10 @@ module MeetingNavigationHelpers
       meeting = Meeting.find_by_title($1)
 
       "/meetings/#{meeting.id}"
+    when /^the edit page (?:of|for) the meeting called "(.+?)"$/
+      meeting = Meeting.find_by_title($1)
+
+      "/meetings/#{meeting.id}/edit"
     else
       super
     end

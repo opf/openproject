@@ -13,9 +13,7 @@ en:
   field_participants: "Participants"
   field_participants_invited: "Invitees"
   field_participants_attended: "Attendants"
-  field_location: "Location"
   field_start_time: "Time"
-  field_duration: "Duration"
   project_module_meetings: "Meetings"
   permission_create_meetings: "Create meetings"
   permission_edit_meetings: "Edit meetings"
@@ -35,3 +33,9 @@ en:
   notice_successful_notification: "Notification sent successfully"
   description_invite: invited
   description_attended: attended
+
+  activerecord:
+    attributes:
+      meeting:
+        location: "Location"
+        duration: "Duration"

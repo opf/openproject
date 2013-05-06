@@ -30,10 +30,9 @@ Feature: Show meetings
 
        When I go to the show page for the meeting called "Bobs Meeting"
 
-       Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
+       Then I should see "Agenda" within ".meeting_agenda"
         And I should see "No data to display" within ".meeting_agenda"
 
-  @javascript
   Scenario: Navigate to a meeting page with a closed agenda
       Given the role "user" may have the following rights:
             | view_meetings |
@@ -42,7 +41,7 @@ Feature: Show meetings
 
        When I go to the show page for the meeting called "Bobs Meeting"
 
-       Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
+       Then I should see "Minutes" within ".meeting_minutes"
         And I should see "No data to display" within ".meeting_minutes"
 
   @javascript
@@ -53,7 +52,7 @@ Feature: Show meetings
 
        When I go to the show page for the meeting called "Bobs Meeting"
 
-       Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
+       Then I should see "Agenda" within ".meeting_agenda"
         And I should not see "No data to display" within "#meeting_agenda_text"
         And I should see "Text formatting" within ".meeting_agenda"
 
@@ -67,7 +66,7 @@ Feature: Show meetings
 
        When I go to the show page of the meeting called "Bobs Meeting"
 
-       Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
+       Then I should see "Minutes" within ".meeting_minutes"
         And I should not see "No data to display" within "#meeting_minutes_text"
         And I should see "Text formatting" within ".meeting_minutes"
 
@@ -108,11 +107,10 @@ Feature: Show meetings
         And I fill in "meeting_minutes[text]" with "Some minutes!"
         And I click on "Save"
 
-       Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
+       Then I should see "Minutes" within ".meeting_minutes"
         And I should see "Some minutes!" within "#meeting_minutes_text"
         And I should not see "Text formatting" within "#edit-meeting_minutes"
 
-  @javascript
   Scenario: Navigate to a meeting page and view an older version of an agenda
       Given the role "user" may have the following rights:
             | view_meetings |
@@ -122,8 +120,8 @@ Feature: Show meetings
             | text | foo  |
 
        When I go to the show page for the meeting called "Bobs Meeting"
-        And I click on "History"
-        And I click on "1"
+        And I follow "History" within ".meeting_agenda"
+        And I follow "1" within "table.list"
 
-       Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
+       Then I should see "Agenda" within ".meeting_agenda"
         And I should see "blah" within ".meeting_agenda"
