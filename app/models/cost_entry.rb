@@ -15,6 +15,11 @@ class CostEntry < ActiveRecord::Base
   validates_numericality_of :units, :allow_nil => false, :message => :activerecord_error_invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 
+  before_save :before_save
+  before_validation :before_validation
+  after_initialize :after_initialize
+  validate :validate
+
   scope :visible, lambda{|*args|
     { :include => [:project, :user],
       :conditions => CostEntry.visible_condition(args[0] || User.current, args[1])
