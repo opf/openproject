@@ -617,4 +617,10 @@ class ApplicationController < ActionController::Base
   helper_method :default_breadcrumb
 
   ActiveSupport.run_load_hooks(:application_controller, self)
+
+  private
+
+  def permitted_params
+    @permitted_params ||= PermittedParams.new(params, current_user)
+  end
 end
