@@ -15,7 +15,7 @@
 require 'diff'
 
 class JournalsController < ApplicationController
-  before_filter :find_journal, :only => [:edit, :update]
+  before_filter :find_journal, :only => [:edit, :update, :diff]
   before_filter :find_optional_project, :only => [:index]
   before_filter :authorize, :only => [:edit, :update]
   accept_key_auth :index
@@ -65,8 +65,8 @@ class JournalsController < ApplicationController
 
   def diff
     if valid_field?(params[:field])
-      from = @journal.changes[params[:field]][0]
-      to = @journal.changes[params[:field]][1]
+      from = @journal.changed_data[params[:field]][0]
+      to = @journal.changed_data[params[:field]][1]
 
       @diff = Redmine::Helpers::Diff.new(to, from)
       @issue = @journal.journaled
