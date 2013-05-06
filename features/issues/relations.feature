@@ -29,3 +29,15 @@ Feature: Relating issues to each other
     Then I should be on the page of the issue "Some Issue"
     And I should see "related to Bug #2: Another Issue"
 
+  @javascript
+  Scenario: Adding a relation to an issue with special chars in subject should not end in broken html
+    Given the user "bob" has 1 issue with the following:
+      | subject | Anothe'r & Issue |
+    When I go to the page of the issue "Some Issue"
+    And I click on "Add related issue"
+    And I fill in "relation_issue_to_id" with "3"
+    And I press "Add"
+    And I wait for the AJAX requests to finish
+    Then I should be on the page of the issue "Some Issue"
+    And I should see "related to Bug #3: Anothe'r & Issue"
+
