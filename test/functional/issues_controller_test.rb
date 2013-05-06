@@ -913,6 +913,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_put_update_with_attachment_only
+    Setting.host_name = 'mydomain.foo'
+    Setting.protocol = 'https'
+
     set_tmp_attachments_directory
 
     # anonymous user
@@ -928,7 +931,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal User.anonymous, j.user
 
     mail = ActionMailer::Base.deliveries.last
-    assert mail.body.encoded.include?('testfile.txt')
+    assert mail.text_part.body.encoded.include?('testfile.txt')
+    assert mail.html_part.body.encoded =~ /<a href="https:\/\/mydomain.foo\/attachments\/\d+\/testfile.txt">testfile.txt<\/a>/
   end
 
   def test_put_update_with_attachment_that_fails_to_save
