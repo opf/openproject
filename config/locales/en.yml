@@ -87,7 +87,7 @@ en:
   field_units: Units
 
   help_click_to_edit: Click here to edit.
-  help_currency_format: Format of displayed currency values. %%n is replaced with the currency value, %%u ist replaced with the currency unit.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit.
   help_override_rate: Enter a value here to override the default rate.
 
   label_costlog: Log unit costs
