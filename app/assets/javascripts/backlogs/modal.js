@@ -105,6 +105,8 @@ var Backlogs = (function () {
   Control.Window.baseZIndex = 50;
   Control.Overlay.styles.zIndex = 49;
   Control.Overlay.ieStyles.zIndex = 49;
+  // should fix overlay not extending till the very base of the modal window
+  Control.Overlay.ieStyles.position = 'fixed';
   return {
     Modal : Modal,
     ModalLink : ModalLink
