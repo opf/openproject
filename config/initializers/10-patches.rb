@@ -22,11 +22,14 @@ module ActiveRecord
     def self.human_attribute_name(attr, options = {})
       begin
         options_with_raise = {:raise => true, :default => false}.merge options
+        attr = attr.to_s.gsub(/_id$/, '')
         super(attr, options_with_raise)
       rescue I18n::MissingTranslationData => e
-        # TODO: remove this method once no warning is displayed when running a server/console/tests/tasks etc.
-        warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n!"
-        l("field_#{attr.to_s.gsub(/_id$/, '')}", options)
+        unless I18n.t('attributes').keys.map(&:to_s).include? attr
+          # TODO: remove this method once no warning is displayed when running a server/console/tests/tasks etc.
+          warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n! \n Catched: #{e.message}"
+        end
+        super(attr, options) # without raise
       end
     end
   end
