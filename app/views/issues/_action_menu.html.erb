@@ -1,7 +1,3 @@
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
-<% end %>
-
 <% content_for :action_menu_main do %>
   <%= li_unless_nil(link_to_if_authorized(l(:button_update), { :controller => 'issues',
                                                                :action => 'edit',

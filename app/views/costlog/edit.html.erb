@@ -53,8 +53,6 @@
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag 'editinplace', :plugin => 'redmine_costs' %>
+  <%= render :partial => 'shared/costs_header' %>
   <%= javascript_tag "initialize_editinplace('src=\"#{image_path('cancel.png')}\" value=\"#{l(:label_cancel)}\" alt=\"#{l(:button_cancel_edit_costs)}\" title=\"#{l(:button_cancel_edit_costs)}\"' )" %>
-
-  <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
 <% end %>
