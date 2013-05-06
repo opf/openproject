@@ -16,6 +16,10 @@ module OpenProject::Costs
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
 
+    initializer 'costs.precompile_assets' do
+      Rails.application.config.assets.precompile += %w(costs.css costs.js)
+    end
+
     # adds our factories to factory girl's load path
     initializer "costs.register_factories", :after => "factory_girl.set_factory_paths" do |app|
       FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
