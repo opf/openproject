@@ -4,12 +4,6 @@ Then /^I should (not )?see "([^"]*)"\s*\#.*$/ do |negative, name|
   }
 end
 
-Then /^I should (not )?see "([^"]*)" within "([^"]*)"\s*\#.*$/ do |negative, name, scope|
-  steps %Q{
-    Then I should #{negative}see "#{name}" within "#{scope}"
-  }
-end
-
 When /^I click(?:| on) "([^"]*)"$/ do |name|
   click_link_or_button name
 end
