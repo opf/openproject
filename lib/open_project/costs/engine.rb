@@ -5,7 +5,7 @@ module OpenProject::Costs
     def self.settings
       { :default => { 'costs_currency' => 'EUR',
                      'costs_currency_format' => '%n %u' },
-        :partial => 'settings/redmine_costs' }
+        :partial => 'settings/openproject_costs' }
     end
 
     initializer "costs.register_hooks" do

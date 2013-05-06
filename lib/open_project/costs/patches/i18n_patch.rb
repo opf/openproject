@@ -3,8 +3,8 @@ module ActionView::Helpers::NumberHelper
     options[:delimiter] = l(:currency_delimiter) unless options[:delimiter]
     options[:separator] = l(:currency_separator) unless options[:separator]
 
-    options[:unit] = Setting.plugin_redmine_costs['costs_currency'] unless options[:unit]
-    options[:format] = Setting.plugin_redmine_costs['costs_currency_format'] unless options[:format]
+    options[:unit] = Setting.plugin_openproject_costs['costs_currency'] unless options[:unit]
+    options[:format] = Setting.plugin_openproject_costs['costs_currency_format'] unless options[:format]
   
     # FIXME: patch ruby instead of this code
     # this circumvents the broken BigDecimal#to_f on Siemens's ruby
