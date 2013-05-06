@@ -16,9 +16,8 @@ require 'diff'
 
 class JournalsController < ApplicationController
   before_filter :find_journal, :only => [:edit, :update]
-  before_filter :find_issue, :only => [:new]
   before_filter :find_optional_project, :only => [:index]
-  before_filter :authorize, :only => [:new, :edit, :update ]
+  before_filter :authorize, :only => [:edit, :update]
   accept_key_auth :index
   menu_item :issues
 
@@ -40,30 +39,6 @@ class JournalsController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  # Used when replying to an issue or journal
-  def new
-    journal = Journal.find(params[:journal_id]) if params[:journal_id]
-    if journal
-      user = journal.user
-      text = journal.notes
-    else
-      user = @issue.author
-      text = @issue.description
-    end
-    # Replaces pre blocks with [...]
-    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
-    content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
-    content << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
-
-    render(:update) { |page|
-      page.<< "$('notes').value = \"#{escape_javascript content}\";"
-      page.show 'update'
-      page << "Form.Element.focus('notes');"
-      page << "Element.scrollTo('update');"
-      page << "$('notes').scrollTop = $('notes').scrollHeight - $('notes').clientHeight;"
-    }
   end
 
   def edit
@@ -109,14 +84,6 @@ class JournalsController < ApplicationController
   def find_journal
     @journal = Journal.find(params[:id])
     @project = @journal.journalized.project
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  # TODO: duplicated in IssuesController
-  def find_issue
-    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
-    @project = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end

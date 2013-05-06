@@ -1356,11 +1356,28 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_reply_to_note
+  def test_quote_issue
     @request.session[:user_id] = 2
-    get :edit, :id => 1, :journal_id => 1
+    get :quoted, :id => 6
     assert_response :success
-    assert_select_rjs :show, "update"
+    assert_template 'edit'
+    assert_not_nil assigns(:issue)
+    assert_equal Issue.find(6), assigns(:issue)
   end
 
+  def test_quote_issue_without_permission
+    @request.session[:user_id] = 7
+    get :quoted, :id => 6
+    assert_response 403
+  end
+
+  def test_quote_note
+    @request.session[:user_id] = 2
+    get :quoted, :id => 6, :journal_id => 4
+    assert_response :success
+    assert_template 'edit'
+    assert_not_nil assigns(:issue)
+    assert_equal Issue.find(6), assigns(:issue)
+    assert_equal Journal.find(4), assigns(:journal)
+  end
 end

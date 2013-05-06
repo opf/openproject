@@ -79,11 +79,9 @@ module JournalsHelper
         if reply_links
           l << link_to(image_tag('quote.png', :alt => l(:button_quote), :title => l(:button_quote)),
                                                 { :controller => controller,
-                                                  :action => action,
+                                                  :action => 'quoted',
                                                   :id => model,
-                                                  :journal_id => journal },
-                                                :method => :get,
-                                                :remote => true)
+                                                  :journal_id => journal }, :class => 'quote-link')
         end
         if editable
           l << link_to_in_place_notes_editor(image_tag('edit.png', :alt => l(:button_edit), :title => l(:button_edit)), "journal-#{journal.id}-notes",
@@ -95,7 +93,7 @@ module JournalsHelper
 
     content = ''
     content << content_tag('div', links.join(' '),{ :class => 'contextual' }, false) unless links.empty?
-    content << textilizable(journal, :notes)
+    content << content_tag('div', textilizable(journal, :notes), :class => 'wikicontent', "data-user" => journal.author)
 
     css_classes = "wiki"
     css_classes << " editable" if editable
