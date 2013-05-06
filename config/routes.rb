@@ -230,6 +230,7 @@ OpenProject::Application.routes.draw do
       match '/preview' => 'issues/previews#create', :via => :post
       # this route is defined so that it has precedence of the one defined on the collection
       delete :destroy
+      get :quoted
     end
 
     collection do
@@ -247,7 +248,6 @@ OpenProject::Application.routes.draw do
   end
 
   # Misc issue routes. TODO: move into resources
-  match '/issues/:id/quoted' => 'journals#new', :id => /\d+/, :via => :post, :as => 'quoted_issue'
   match '/issues/:id/destroy' => 'issues#destroy', :via => :post # legacy
 
   # Misc journal routes. TODO: move into resources
