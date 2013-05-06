@@ -54,6 +54,7 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
         | backlogs |
     And the user "markus" is a "scrum master" in the project "parent_project"
     And the user "markus" is a "scrum master" in the project "child_project"
+    And the "cross_project_issue_relations" setting is set to true
     And I am already logged in as "markus"
 
   @javascript
