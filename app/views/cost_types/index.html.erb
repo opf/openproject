@@ -1,3 +1,4 @@
+<%= render :partial => 'shared/costs_header' %>
 <div class="contextual">
 <%= link_to l(:button_add_cost_type), new_cost_type_path, :class => 'icon icon-add' %>
 </div>
@@ -37,5 +38,3 @@
   <h3><%= l(:label_deleted_cost_types) %></h3>
   <%= render :partial => 'list_deleted' %>
 <% end %>
-
-<%= render :partial => 'shared/costs_header' %>

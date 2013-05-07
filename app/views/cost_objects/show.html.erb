@@ -1,3 +1,4 @@
+<%= render :partial => 'shared/costs_header' %>
 <div class="contextual">
   <%= link_to_if_authorized l(:button_update), {:controller => 'cost_objects', :action => 'edit', :id => @cost_object}, :onclick => 'showAndScrollTo("update", "cost_object_description"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
   <%= link_to_if_authorized l(:button_copy), {:controller => 'cost_objects', :action => 'new', :project_id => @project, :copy_from => @cost_object }, :class => 'icon icon-copy' %>
@@ -51,5 +52,3 @@
 <% end %>
 
 <% html_title "#{l(:label_cost_object)} ##{@cost_object.id}: #{@cost_object.subject}" %>
-
-<%= render :partial => 'shared/costs_header' %>

@@ -1,3 +1,4 @@
+<%= render :partial => 'shared/costs_header' %>
 <h2><%=l(:label_cost_object_plural)%></h2>
 <% html_title(l(:label_cost_object_plural)) %>
 
@@ -18,8 +19,6 @@
 <span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
 -->
 </p>
-
-<%= render :partial => 'shared/costs_header' %>
 
 <% html_title l(:label_cost_object_plural) %>
 

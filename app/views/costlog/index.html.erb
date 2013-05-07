@@ -1,3 +1,4 @@
+<%= render :partial => 'shared/costs_header' %>
 <div class="contextual">
 <%= link_to_if_authorized l(:button_log_costs), {:controller => 'costlog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-pieces' %>
 </div>
@@ -26,7 +27,6 @@
 
 <% html_title l(:label_spent_costs), l(:label_details) %>
 
-<%= render :partial => 'shared/costs_header' %>
 <% content_for :header_tags do %>
 	<%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_costs)) %>
 <% end %>

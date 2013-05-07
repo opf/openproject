@@ -1,3 +1,4 @@
+<%= render :partial => 'shared/costs_header' %>
 <h2><%= @project.nil? ? l(:caption_default_rate_history_for, :user => @user.name) :  l(:caption_rate_history_for_project, :user => @user.name, :project => @project.name) %></h2>
 
 <%- default_rate = @user.current_default_rate -%>
@@ -32,5 +33,3 @@
 </div>
 <div><%= submit_tag l(:button_save) %></div>
 <% end %>
-
-<%= render :partial => 'shared/costs_header' %>
