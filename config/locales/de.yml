@@ -1,7 +1,5 @@
-# German translations for Ruby on Rails
-# by Clemens Kofler (clemens@railway.at)
-
 de:
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   date:
     formats:
@@ -111,6 +109,40 @@ de:
       sentence_connector: "und"
       skip_last_comma: true
 
+  # common attributes of all models
+  attributes:
+    assigned_to: Zugewiesen an
+    author: Autor
+    base: "Allgemeiner Fehler:"
+    category: Kategorie
+    comments: Kommentar
+    created_on: Angelegt
+    custom_values: Benutzerdefinierte Felder
+    description: Beschreibung
+    due_date: Abgabedatum
+    estimated_hours: Geschätzter Aufwand
+    firstname: Vorname
+    group: Gruppe
+    is_for_all: Für alle Projekte
+    is_default: Standardeinstellung
+    is_public: Öffentlich
+    lastname: Nachname
+    login: Mitgliedsname
+    mail: E-Mail
+    name: Name
+    password: Kennwort
+    project: Projekt
+    role: Rolle
+    start_date: Beginn
+    status: Status
+    subject: Thema
+    summary: Zusammenfassung
+    title: Titel
+    type: Typ
+    updated_on: Aktualisiert
+    user: Benutzer
+    version: Version
+
   activerecord:
     errors:
       template:
@@ -144,6 +176,133 @@ de:
         not_same_project: "gehört nicht zum selben Projekt"
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
         cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer ihrer Unteraufgaben verlinkt werden"
+    models:
+      attachment: Datei
+      board: Forum
+      comment: Kommentar
+      custom_field: Benutzerdefiniertes Feld
+      document: Dokument
+      group: Gruppe
+      issue: Ticket
+      issue_category: Ticket-Kategorie
+      issue_status: Ticket-Status
+      member: Mitglied
+      news: News
+      project: Projekt
+      query: Benutzerdefinierte Abfrage
+      role: Rolle
+      tracker: Tracker
+      user: Benutzer
+      version: Version
+      wiki: Wiki
+      wiki_page: Wiki-Seite
+      workflow: Workflow
+    attributes:
+      # attributes grouped by their model
+      attachment:
+        downloads: Downloads
+        filename: Datei
+        filesize: Größe
+      auth_source:
+        account: Konto
+        attr_firstname: Vorname-Attribut
+        attr_lastname: Name-Attribut
+        attr_login: Mitgliedsname-Attribut
+        attr_mail: E-Mail-Attribut
+        base_dn: Base DN
+        host: Host
+        onthefly: On-the-fly-Benutzererstellung
+        port: Port
+      comment:
+        commented: Kommentiert # an object that this comment belongs to
+      custom_field:
+        default_value: Standardwert
+        editable: Bearbeitbar
+        field_format: Format
+        is_filter: Als Filter benutzen
+        is_required: Erforderlich
+        max_length: Maximale Länge
+        min_length: Minimale Länge
+        possible_values: Mögliche Werte
+        regexp: Regulärer Ausdruck
+        searchable: Durchsuchbar
+        visible: Sichtbar
+      custom_value:
+        value: Wert
+      enumeration:
+        active: Aktiv
+      issue:
+        done_ratio: "% erledigt"
+        fixed_version: Zielversion
+        parent: Übergeordnete Aufgabe
+        parent_issue: Übergeordnete Aufgabe
+        priority: Priorität
+        subproject: Unterprojekt von
+        time_entries: Logzeit
+        tracker: Tracker
+        watcher: Beobachter
+      issue_relation:
+        delay: Pufferzeit
+        issue_from: Ticket
+        issue_to: Zugehöriges Ticket
+      issue_status:
+        is_closed: Ticket geschlossen
+      journal:
+        notes: Kommentare
+      member:
+        roles: Rollen
+      message:
+        content: Inhalt
+      project:
+        homepage: Projekt-Homepage
+        identifier: Kennung
+        issues: Tickets
+        parent: Unterprojekt von
+        versions: Versionen
+      query:
+        column_names: Spalten
+        group_by: Gruppiere Ergebnisse nach
+      repository:
+        url: URL
+      role:
+        assignable: Tickets können dieser Rolle zugewiesen werden
+      time_entry:
+        activity: Aktivität
+        hours: Stunden
+        issue: Ticket
+        spent_on: Datum
+        tracker: Tracker
+      tracker:
+        is_in_roadmap: In der Roadmap anzeigen
+      user:
+        admin: Administrator
+        auth_source: Authentifizierungs-Modus
+        identity_url: OpenID-URL
+        language: Sprache
+        last_login_on: Letzte Anmeldung
+        mail_notification: Mailbenachrichtigung
+        new_password: Neues Kennwort
+        password_confirmation: Bestätigung
+      user_preference:
+        comments_sorting: Kommentare anzeigen
+        hide_mail: E-Mail-Adresse nicht anzeigen
+        impaired: Für die barrierefreie Nutzung optimierte Oberfläche
+        time_zone: Zeitzone
+        warn_on_leaving_unsaved: "Beim Verlassen einer Seite mit ungespeichertem Text warnen"
+      version:
+        effective_date: Abgabedatum
+        sharing: Gemeinsame Verwendung
+      wiki:
+        start_page: Hauptseite
+      wiki_page:
+        parent_title: Übergeordnete Seite
+        redirect_existing_links: Existierende Links umleiten
+
+  # possible query parameters (e.g. issue queries),
+  # which are not attributes of an AR-Model.
+  query_fields:
+    member_of_group: Zuständigkeitsgruppe
+    assigned_to_role: Zuständigkeitsrolle
 
   actionview_instancetag_blank_option: Bitte auswählen
 
@@ -233,100 +392,6 @@ de:
   gui_validation_error: 1 Fehler
   gui_validation_error_plural: "%{count} Fehler"
 
-  field_name: Name
-  field_description: Beschreibung
-  field_summary: Zusammenfassung
-  field_is_required: Erforderlich
-  field_firstname: Vorname
-  field_lastname: Nachname
-  field_mail: E-Mail
-  field_filename: Datei
-  field_filesize: Größe
-  field_downloads: Downloads
-  field_author: Autor
-  field_created_on: Angelegt
-  field_updated_on: Aktualisiert
-  field_field_format: Format
-  field_is_for_all: Für alle Projekte
-  field_possible_values: Mögliche Werte
-  field_regexp: Regulärer Ausdruck
-  field_min_length: Minimale Länge
-  field_max_length: Maximale Länge
-  field_value: Wert
-  field_category: Kategorie
-  field_title: Titel
-  field_project: Projekt
-  field_issue: Ticket
-  field_status: Status
-  field_notes: Kommentare
-  field_is_closed: Ticket geschlossen
-  field_is_default: Standardeinstellung
-  field_tracker: Tracker
-  field_subject: Thema
-  field_due_date: Abgabedatum
-  field_assigned_to: Zugewiesen an
-  field_priority: Priorität
-  field_fixed_version: Zielversion
-  field_user: Benutzer
-  field_principal: Auftraggeber
-  field_role: Rolle
-  field_homepage: Projekt-Homepage
-  field_is_public: Öffentlich
-  field_parent: Unterprojekt von
-  field_is_in_roadmap: In der Roadmap anzeigen
-  field_login: Mitgliedsname
-  field_mail_notification: Mailbenachrichtigung
-  field_admin: Administrator
-  field_last_login_on: Letzte Anmeldung
-  field_language: Sprache
-  field_password: Kennwort
-  field_new_password: Neues Kennwort
-  field_password_confirmation: Bestätigung
-  field_version: Version
-  field_type: Typ
-  field_host: Host
-  field_port: Port
-  field_account: Konto
-  field_base: "Allgemeiner Fehler:"
-  field_base_dn: Base DN
-  field_attr_login: Mitgliedsname-Attribut
-  field_attr_firstname: Vorname-Attribut
-  field_attr_lastname: Name-Attribut
-  field_attr_mail: E-Mail-Attribut
-  field_onthefly: On-the-fly-Benutzererstellung
-  field_start_date: Beginn
-  field_done_ratio: "% erledigt"
-  field_auth_source: Authentifizierungs-Modus
-  field_hide_mail: E-Mail-Adresse nicht anzeigen
-  field_comments: Kommentar
-  field_url: URL
-  field_start_page: Hauptseite
-  field_subproject: Unterprojekt von
-  field_hours: Stunden
-  field_activity: Aktivität
-  field_spent_on: Datum
-  field_identifier: Kennung
-  field_is_filter: Als Filter benutzen
-  field_issue_to: Zugehöriges Ticket
-  field_delay: Pufferzeit
-  field_assignable: Tickets können dieser Rolle zugewiesen werden
-  field_redirect_existing_links: Existierende Links umleiten
-  field_estimated_hours: Geschätzter Aufwand
-  field_column_names: Spalten
-  field_time_entries: Logzeit
-  field_time_zone: Zeitzone
-  field_searchable: Durchsuchbar
-  field_default_value: Standardwert
-  field_comments_sorting: Kommentare anzeigen
-  field_parent_title: Übergeordnete Seite
-  field_editable: Bearbeitbar
-  field_watcher: Beobachter
-  field_identity_url: OpenID-URL
-  field_content: Inhalt
-  field_group_by: Gruppiere Ergebnisse nach
-  field_sharing: Gemeinsame Verwendung
-  field_parent_issue: Übergeordnete Aufgabe
-
   setting_app_title: Applikations-Titel
   setting_app_subtitle: Applikations-Untertitel
   setting_welcome_text: Willkommenstext
@@ -387,6 +452,7 @@ de:
   setting_issue_startdate_is_adddate: Neue Tickets haben "Heute" als Anfangsdatum
   setting_users_deletable_by_admins: Admins können Nutzeraccounts löschen
   setting_users_deletable_by_self: Nutzer können ihren Account löschen
+  setting_ui_theme: Stil
 
   permission_add_project: Projekt erstellen
   permission_add_subprojects: Unterprojekte erstellen
@@ -453,11 +519,11 @@ de:
   project_module_boards: Foren
   project_module_calendar: Kalender
 
-  label_user: Benutzer
+  label_ui: Nutzeroberfläche
+  label_workflow_summary: Zusammenfassung
   label_user_plural: Benutzer
   label_user_new: Neuer Benutzer
   label_user_anonymous: Anonym
-  label_project: Projekt
   label_project_new: Neues Projekt
   label_project_plural: Projekte
   label_x_projects:
@@ -467,7 +533,6 @@ de:
   label_project_all: Alle Projekte
   label_project_latest: Neueste Projekte
   label_project_view_all: Alle Projekte anzeigen
-  label_issue: Ticket
   label_issue_new: Neues Ticket
   label_issue_plural: Tickets
   label_issue_view_all: Alle Tickets anzeigen
@@ -480,29 +545,21 @@ de:
   label_sum_for: "Summe für %{value}"
   label_all_issues: alle Tickets
   label_display_sums: Summen anzeigen
-  label_document: Dokument
   label_document_new: Neues Dokument
   label_document_plural: Dokumente
   label_document_added: Dokument hinzugefügt
-  label_role: Rolle
   label_role_plural: Rollen
   label_role_new: Neue Rolle
   label_role_and_permissions: Rollen und Rechte
-  label_member: Mitglied
   label_member_new: Neues Mitglied
   label_member_plural: Mitglieder
   label_modules: Module
-  label_tracker: Tracker
   label_tracker_plural: Tracker
   label_tracker_new: Neuer Tracker
-  label_workflow: Workflow
-  label_issue_status: Ticket-Status
   label_issue_status_plural: Ticket-Status
   label_issue_status_new: Neuer Status
-  label_issue_category: Ticket-Kategorie
   label_issue_category_plural: Ticket-Kategorien
   label_issue_category_new: Neue Kategorie
-  label_custom_field: Benutzerdefiniertes Feld
   label_custom_field_plural: Benutzerdefinierte Felder
   label_custom_field_new: Neues Feld
   label_enumerations: Aufzählungen
@@ -557,14 +614,12 @@ de:
   label_no_data: Nichts anzuzeigen
   label_change_status: Statuswechsel
   label_history: Historie
-  label_attachment: Datei
   label_attachment_new: Neue Datei
   label_attachment_delete: Anhang löschen
   label_attachment_plural: Dateien
   label_file_added: Datei hinzugefügt
   label_report: Bericht
   label_report_plural: Berichte
-  label_news: News
   label_news_new: News hinzufügen
   label_news_plural: News
   label_news_latest: Letzte News
@@ -574,7 +629,6 @@ de:
   label_summary: Zusammenfassung
   label_project_settings: Projektkonfiguration
   label_overview: Übersicht
-  label_version: Version
   label_version_new: Neue Version
   label_version_plural: Versionen
   label_close_versions: Vollständige Versionen schließen
@@ -619,7 +673,6 @@ de:
   label_last_changes: "%{count} letzte Änderungen"
   label_change_view_all: Alle Änderungen anzeigen
   label_personalize_page: Diese Seite anpassen
-  label_comment: Kommentar
   label_comment_plural: Kommentare
   label_x_comments:
     zero: keine Kommentare
@@ -628,7 +681,6 @@ de:
   label_comment_add: Kommentar hinzufügen
   label_comment_added: Kommentar hinzugefügt
   label_comment_delete: Kommentar löschen
-  label_query: Benutzerdefinierte Abfrage
   label_query_plural: Benutzerdefinierte Berichte
   label_query_new: Neuer Bericht
   label_filter_add: Filter hinzufügen
@@ -692,11 +744,9 @@ de:
   search_input_placeholder: Suche ...
   label_result_plural: Resultate
   label_all_words: Alle Wörter
-  label_wiki: Wiki
   label_wiki_navigation: Wiki Navigation
   label_wiki_edit: Wiki-Bearbeitung
   label_wiki_edit_plural: Wiki-Bearbeitungen
-  label_wiki_page: Wiki-Seite
   label_wiki_page_plural: Wiki-Seiten
 
   wiki_menu_item: "Menüpunkt"
@@ -757,7 +807,6 @@ de:
   label_disabled: gesperrt
   label_show_completed_versions: Abgeschlossene Versionen anzeigen
   label_me: ich
-  label_board: Forum
   label_board_new: Neues Forum
   label_board_plural: Foren
   label_board_locked: Gesperrt
@@ -828,7 +877,6 @@ de:
   label_date_from_to: von %{start} bis %{end}
   label_wiki_content_added: Die Wiki-Seite wurde erfolgreich hinzugefügt.
   label_wiki_content_updated: Die Wiki-Seite wurde erfolgreich aktualisiert.
-  label_group: Gruppe
   label_group_plural: Gruppen
   label_group_new: Neue Gruppe
   label_time_entry_plural: Benötigte Zeit
@@ -913,8 +961,6 @@ de:
   version_status_open: offen
   version_status_locked: gesperrt
   version_status_closed: abgeschlossen
-
-  field_active: Aktiv
 
   text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll.
   text_regexp_info: z. B. ^[A-Z0-9]+$
@@ -1008,16 +1054,12 @@ de:
   enumeration_activities: Aktivitäten (Zeiterfassung)
   enumeration_system_activity: System-Aktivität
 
-  field_text: Textfeld
   label_user_mail_option_only_owner: Nur für Aufgaben die ich angelegt habe
   setting_default_notification_option: Standard Benachrichtigungsoptionen
   label_user_mail_option_only_my_events: Nur für Aufgaben die ich beobachte oder an welchen ich mitarbeite
   label_user_mail_option_only_assigned: Nur für Aufgaben für die ich zuständig bin.
   notice_not_authorized_archived_project: Das Projekt wurde archiviert und ist daher nicht nicht verfügbar.
   label_user_mail_option_none: keine Ereignisse
-  field_member_of_group: Zuständigkeitsgruppe
-  field_assigned_to_role: Zuständigkeitsrolle
-  field_visible: Sichtbar
   setting_emails_header: Emailkopf
   setting_commit_logtime_activity_id: Aktivität für die Zeiterfassung
   text_time_logged_by_changeset: Angewendet in Changeset %{value}.
@@ -1031,12 +1073,7 @@ de:
   button_expand_all: "Alle aufklappen"
   button_collapse_all: "Alle zuklappen"
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  field_effective_date: "Abgabedatum"
   label_news_comment_added: "Kommentar einer News hinzugefügt"
-  field_warn_on_leaving_unsaved: "Beim Verlassen einer Seite mit ungespeichertem Text warnen"
-  field_impaired: Für die barrierefreie Nutzung optimierte Oberfläche
-  field_ui: Nutzeroberfläche
-  field_custom_values: Benutzerdefinierte Felder
   text_warn_on_leaving_unsaved: "Der eingegebene Text wird nicht gespeichert, wenn sie die Seite jetzt verlassen."
   text_default_encoding: "Default: UTF-8"
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
