@@ -550,6 +550,30 @@ jQuery.viewportHeight = function() {
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
 
+  /* TODO: This duplicates the ajax indicator code for Prototype.
+     Switch to one implementation that does it all */
+  $(document).ajaxSend(function (event, request) {
+    var csrf_meta_tag = $('meta[name=csrf-token]');
+
+    if (csrf_meta_tag) {
+      var header = 'X-CSRF-Token',
+      token = csrf_meta_tag.attr('content');
+
+      request.setRequestHeader[header] = token;
+    }
+
+    if ($('#ajax-indicator')) {
+      $('#ajax-indicator').show();
+    }
+  });
+  // ajaxStop gets called when ALL Requests finish, so we won't need a counter as in PT
+  $(document).ajaxStop(function () {
+    if ($('#ajax-indicator')) {
+      $('#ajax-indicator').hide();
+    }
+    addClickEventToAllErrorMessages();
+  });
+
     var propagateOpenClose = function () {
       if ($(this).is(":visible")) {
         $(this).parents('li.drop-down').trigger("opened");
