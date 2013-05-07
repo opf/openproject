@@ -252,7 +252,7 @@ class MailHandler < ActionMailer::Base
     else
       @keywords[attr] = begin
         if (options[:override] || @@handler_options[:allow_override].include?(attr)) &&
-           (v = extract_keyword!(plain_text_body, attr.to_sym, options[:format]))
+           (v = extract_keyword!(plain_text_body, attr, options[:format]))
           v
         elsif !@@handler_options[:issue][attr.to_sym].blank?
           @@handler_options[:issue][attr.to_sym]
@@ -265,10 +265,9 @@ class MailHandler < ActionMailer::Base
   # Returns nil if no matching keyword found
   def extract_keyword!(text, attr, format=nil)
     keys = [attr.to_s.humanize]
-    if attr.is_a?(Symbol)
-      keys << l("field_#{attr}", :default => '', :locale =>  user.language) if user && user.language.present?
-      keys << l("field_#{attr}", :default => '', :locale =>  Setting.default_language) if Setting.default_language.present?
-    end
+    keys << all_attribute_translations(user.language)[attr.to_sym] if user && user.language.present?
+    keys << all_attribute_translations(Setting.default_language)[attr.to_sym] if Setting.default_language.present?
+
     keys.reject! {|k| k.blank?}
     keys.collect! {|k| Regexp.escape(k)}
     format ||= '.+'
@@ -300,7 +299,7 @@ class MailHandler < ActionMailer::Base
       'due_date' => get_keyword(:due_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
       'estimated_hours' => get_keyword(:estimated_hours, :override => true),
       'done_ratio' => get_keyword(:done_ratio, :override => true, :format => '(\d|10)?0')
-    }.delete_if {|k, v| v.blank? }
+    }.delete_if {|_, v| v.blank? }
 
     if issue.new_record? && attrs['tracker_id'].nil?
       attrs['tracker_id'] = issue.project.trackers.find(:first).try(:id)
