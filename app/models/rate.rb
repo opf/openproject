@@ -2,6 +2,8 @@ class Rate < ActiveRecord::Base
   validates_numericality_of :rate, :allow_nil => false
   validate :validate_date_is_a_date
 
+  before_save :convert_valid_from_to_date
+
   belongs_to :user
   include ::OpenProject::Costs::DeletedUserFallback
   belongs_to :project
@@ -18,11 +20,12 @@ class Rate < ActiveRecord::Base
     end
   end
 
-  def before_save
-    self.valid_from &&= valid_from.to_date
-  end
 
   private
+
+  def convert_valid_from_to_date
+    self.valid_from &&= valid_from.to_date
+  end
 
   def validate_date_is_a_date
     valid_from.to_date
