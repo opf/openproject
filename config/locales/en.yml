@@ -98,15 +98,37 @@ en:
 
   # common attributes of all models
   attributes:
+    assigned_to: Assignee
     author: Author
+    base: "General Error:"
+    category: Kategorie
     comments: Comment
     created_on: Created on
+    custom_values: Custom fields
     description: Description
+    due_date: Due date
+    firstname: First name
+    estimated_hours: Estimated time
     group: Group
+    is_default: Default value
+    is_for_all: For all projects
+    is_public: Public
+    lastname: Last name
+    login: Login
+    mail: Email
     name: Name
+    password: Password
+    project: Project
     role: Role
+    start_date: Start date
+    status: Status
+    subject: Subject
+    summary: Summary
+    title: Title
+    type: Type
     updated_on: Updated on
     user: User
+    version: Version
 
   activerecord:
     errors:
@@ -156,14 +178,12 @@ en:
       role: Role
       tracker: Tracker
       user: User
-      version: Version
       wiki: Wiki
       wiki_page: Wiki page
       workflow: Workflow
     attributes:
       # attributes grouped by their model
       attachment:
-        base: "General Error:"
         downloads: Downloads
         filename: File
         filesize: Size
@@ -174,15 +194,9 @@ en:
         attr_login: Login attribute
         attr_mail: Email attribute
         base_dn: Base DN
-        firstname: First name
         host: Host
-        lastname: Last name
-        login: Login
-        mail: Email
         onthefly: On-the-fly user creation
-        password: Password
         port: Port
-        type: Type
       comment:
         commented: Commented # an object that this comment belongs to
       custom_field:
@@ -190,7 +204,6 @@ en:
         editable: Editable
         field_format: Format
         is_filter: Used as a filter
-        is_for_all: For all projects
         is_required: Required
         max_length: Maximum length
         min_length: Minimum length
@@ -200,73 +213,41 @@ en:
         visible: Visible
       custom_value:
         value: Value
-      document:
-        category: Category
-        title: Title
       enumeration:
         active: Active
-        custom_values: Custom fields
-        is_default: Default value
       issue:
-        assigned_to: Assignee
-        category: Category
-        custom_values: Custom fields
         done_ratio: "% Done"
-        due_date: Due date
-        estimated_hours: Estimated time
         fixed_version: Target version
         parent: Parent issue
         parent_issue: Parent issue
         priority: Priority
-        project: Project
-        start_date: Start date
-        status: Status
-        subject: Subject
         subproject: Subproject
         time_entries: Log time
         tracker: Tracker
-        version: Version
         watcher: Watcher
-      issue_category:
-        assigned_to: Assignee
       issue_relation:
-        base: "General Error:"
         delay: Delay
         issue_from: Issue
         issue_to: Related issue
       issue_status:
         is_closed: Issue closed
-        is_default: Default value
       journal:
         notes: Notes
         version: Version
       member:
-        project: Project
         roles: Roles
       message:
         content: Content
-        subject: Subject
-      news:
-        title: Title
-        summary: summary
       project:
         homepage: Homepage
         identifier: Identifier
-        is_public: Public
         issues: Issues
         parent: Subproject of
-        status: Status
-        summary: Summary
         versions: Versions
       query:
         column_names: Columns
         group_by: Group results by
-        is_for_all: For all projects
-        is_public: Public
       repository:
-        login: Login
-        password: Password
-        type: Type
         url: URL
       role:
         assignable: Issues can be assigned to this role
@@ -274,27 +255,19 @@ en:
         activity: Activity
         hours: Hours
         issue: Issue
-        project: Project
         spent_on: Date
-        subject: Subject
         tracker: Tracker
       tracker:
         is_in_roadmap: Issues displayed in roadmap
       user:
         admin: Administrator
         auth_source: Authentication mode
-        firstname: First name
         identity_url: OpenID URL
         language: Language
         last_login_on: Last connection
-        lastname: Last name
-        login: Login
-        mail: Email
         mail_notification: Email notifications
         new_password: New password
-        password: Password
         password_confirmation: Confirmation
-        status: Status
       user_preference:
         comments_sorting: Display comments
         hide_mail: Hide my email address
@@ -302,18 +275,13 @@ en:
         time_zone: Time zone
         warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
       version:
-        due_date: Due date
         effective_date: Due date
-        estimated_hours: Estimated time
         sharing: Sharing
-        start_date: Start date
-        status: Status
       wiki:
         start_page: Start page
       wiki_page:
         parent_title: Parent page
         redirect_existing_links: Redirect existing links
-        title: Title
 
   # possible query parameters (e.g. issue queries),
   # which are not attributes of an AR-Model.
