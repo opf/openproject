@@ -169,7 +169,7 @@ class TimeEntries::ReportsController < ApplicationController
                                             :label => IssueCategory.model_name.human},
                              'member' => {:sql => "#{TimeEntry.table_name}.user_id",
                                          :klass => User,
-                                         :label => User.model_name.human},
+                                         :label => Member.model_name.human},
                              'tracker' => {:sql => "#{Issue.table_name}.tracker_id",
                                           :klass => Tracker,
                                           :label => Tracker.model_name.human},
