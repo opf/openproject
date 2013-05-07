@@ -1,3 +1,4 @@
+<%= render :partial => 'shared/costs_header' %>
 <% if not project.nil? and project.module_enabled? :costs_module and User.current.allowed_to?(:view_hourly_rates, project) %>
 <% unless member.user %>
   <td class="currency"></td>
@@ -29,6 +30,5 @@
   <td align="center" style="white-space: nowrap;"></td>
 <% end %>
 
-<%= render :partial => 'shared/costs_header' %>
 <% end %>
 <% end %>

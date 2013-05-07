@@ -1,3 +1,4 @@
+<%= render :partial => 'shared/costs_header' %>
 <h2><%= l(:label_spent_costs) %></h2>
 
 <% url = @cost_entry.new_record? ?
@@ -52,7 +53,6 @@
     <%= submit_tag l(:button_save) %>
 <% end %>
 
-<%= render :partial => 'shared/costs_header' %>
 <% content_for :header_tags do %>
   <%= javascript_tag "initialize_editinplace('src=\"#{image_path('cancel.png')}\" value=\"#{l(:label_cancel)}\" alt=\"#{l(:button_cancel_edit_costs)}\" title=\"#{l(:button_cancel_edit_costs)}\"' )" %>
 <% end %>

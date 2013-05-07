@@ -1,3 +1,4 @@
+<%= render :partial => 'shared/costs_header' %>
 <h2><%=l(:label_cost_object_new)%></h2>
 
 <%= labelled_tabular_form_for @cost_object,
@@ -22,8 +23,6 @@
 <% end %>
 
 <div id="preview" class="wiki"></div>
-
-<%= render :partial => 'shared/costs_header' %>
 
 
 

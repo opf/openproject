@@ -1,3 +1,4 @@
+<%= render :partial => 'shared/costs_header' %>
 <h2><%= l(:caption_cost_type) %></h2>
 
 <%= labelled_tabular_form_for @cost_type, :url => {:action => 'update'}, :method => :put do |f| %>
@@ -49,5 +50,3 @@
 
 
 <%= javascript_tag "Form.Element.focus('cost_type_name');" %>
-
-<%= render :partial => 'shared/costs_header' %>

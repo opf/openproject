@@ -1,3 +1,4 @@
+<%= render :partial => 'shared/costs_header' %>
 <h2><%= l(:caption_rate_history_for, :user => @user.name) %></h2>
 
 <% if @project %>
@@ -6,5 +7,3 @@
   <%= render :partial => 'list_default' %>
   <%= render :partial => 'list' %>
 <% end %>
-
-<%= render :partial => 'shared/costs_header' %>
