@@ -39,8 +39,14 @@ class CostObject < ActiveRecord::Base
   def attributes=(attrs)
     # Remove any attributes which can not be assigned.
     # This is to protect from exceptions during change of cost object type
-    attrs.delete_if{|k, v| !self.respond_to?("#{k}=")} if attrs.is_a?(Hash)
-
+    if(attrs.is_a?(Hash))
+      attrs.delete_if{|k, v| !self.respond_to?("#{k}=")}
+      #also remove any attributes that cannot be mass assigned like id and type, set type manually instead
+      attrs.delete("id")
+      if attrs.has_key?("type")
+        self.type = attrs.delete("type")
+      end
+    end
     super(attrs)
   end
 
