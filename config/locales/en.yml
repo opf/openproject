@@ -222,6 +222,7 @@ en:
         start_date: Start date
         status: Status
         subject: Subject
+        subproject: Subproject
         time_entries: Log time
         tracker: Tracker
         version: Version
@@ -317,7 +318,6 @@ en:
   query_fields:
     member_of_group: "Assignee's group"
     assigned_to_role: "Assignee's role"
-    subproject: Subproject
 
   actionview_instancetag_blank_option: Please select
 
