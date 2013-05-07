@@ -56,6 +56,7 @@ jQuery(document).ready(function($) {
 
                     active_items = []
                     data.results.items.each(function (e) {
+                      e.name = $('<pre>').text(e.name).html();
                       active_items.push(e);
                     });
                     return {'results': active_items, 'more': data.results.more};
