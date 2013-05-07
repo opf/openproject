@@ -7,48 +7,45 @@ describe TimeEntry do
   let(:issue) { FactoryGirl.create(:issue, :project => project,
                                        :tracker => project.trackers.first,
                                        :author => user) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:issue2) { FactoryGirl.create(:issue, :project => project2,
+                                       :tracker => project2.trackers.first,
+                                       :author => user2) }
+  let(:user) { FactoryGirl.create(:admin) }
   let(:user2) { FactoryGirl.create(:user) }
+  let(:date) { Date.today }
+  let(:rate) { FactoryGirl.build(:cost_rate) }
+  let(:hourly_one) { FactoryGirl.create(:hourly_rate, valid_from: 2.days.ago, project: project, user: user) }
+  let(:hourly_three) { FactoryGirl.create(:hourly_rate, valid_from: 4.days.ago, project: project, user: user) }
+  let(:hourly_five) { FactoryGirl.create(:hourly_rate, valid_from: 6.days.ago, project: project, user: user) }
+  let(:default_hourly_one) { FactoryGirl.create(:default_hourly_rate, valid_from: 2.days.ago, project: project, user: user2) }
+  let(:default_hourly_three) { FactoryGirl.create(:default_hourly_rate, valid_from: 4.days.ago, project: project, user: user2) }
+  let(:default_hourly_five) { FactoryGirl.create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
+  let(:hours) { 5.0 }
   let(:time_entry) do
-    FactoryGirl.build(:time_entry, :project => project,
+    FactoryGirl.create(:time_entry, :project => project,
                                :issue => issue,
                                :spent_on => date,
                                :hours => hours,
                                :user => user,
-                               :activity => activity,
-                               :rate => rate,
+                               :rate => hourly_one,
                                :comments => "lorem")
   end
 
   let(:time_entry2) do
-    FactoryGirl.build(:time_entry, :project => project,
-                               :issue => issue,
+    FactoryGirl.create(:time_entry, :project => project2,
+                               :issue => issue2,
                                :spent_on => date,
                                :hours => hours,
-                               :user => user,
-                               :activity => activity,
-                               :rate => rate,
+                               :user => user2,
+                               :rate => default_hourly_one,
                                :comments => "lorem")
   end
-  let(:date) { Date.today }
-  let(:activity) { FactoryGirl.build(:time_entry_activity) }
-  let(:rate) { FactoryGirl.build(:cost_rate) }
-  let(:hours) { 5.0 }
 
   before(:each) do
-    User.current = users("admin")
-    @example = time_entries "example"
-    @default_example = time_entries "default_example"
+    User.current = user
+    @example = time_entry
+    @default_example = time_entry2
   end
-
-  fixtures :users
-  fixtures :time_entries
-  fixtures :rates
-  fixtures :projects
-  fixtures :issues
-  fixtures :trackers
-  fixtures :enumerations
-  fixtures :issue_statuses
 
   it "should always prefer overridden_costs" do
     value = rand(500)
@@ -73,15 +70,15 @@ describe TimeEntry do
       @example.spent_on = Time.now
       @example.hours = 1
       @example.save!
-      @example.costs.should == rates("hourly_one").rate
+      @example.costs.should == hourly_one.rate
       (hourly = HourlyRate.new.tap do |hr|
         hr.valid_from = 1.day.ago
         hr.rate       = 1.0
         hr.user       = User.current
-        hr.project    = rates("hourly_one").project
+        hr.project    = hourly_one.project
       end).save!
       @example.reload
-      @example.rate.should_not == rates("hourly_one")
+      @example.rate.should_not == hourly_one
       @example.costs.should == hourly.rate
     end
 
@@ -90,44 +87,41 @@ describe TimeEntry do
       @example.spent_on = 3.days.ago.to_date
       @example.hours = 1
       @example.save!
-      @example.costs.should == rates("hourly_three").rate
+      @example.costs.should == hourly_three.rate
       (hourly = HourlyRate.new.tap do |hr|
         hr.valid_from = 3.days.ago.to_date
         hr.rate       = 1.0
         hr.user       = User.current
-        hr.project    = rates("hourly_one").project
+        hr.project    = hourly_one.project
       end).save!
       @example.reload
-      @example.rate.should_not == rates("hourly_three")
+      @example.rate.should_not == hourly_three
       @example.costs.should == hourly.rate
     end
 
     it "should update cost if a spent_on changes" do
       @example.hours = 1
-      (5.days.ago..Time.now).step(1.day) do |time|
+      (5.days.ago.to_date..Date.today).each do |time|
         @example.spent_on = time.to_date
         @example.save!
-        @example.costs.should == @example.user.rate_at(time, 1).rate
+        @example.costs.should == @example.user.rate_at(time, project.id).rate
       end
     end
 
     it "should update cost if a rate is removed" do
-      hourly_one = rates("hourly_one")
       @example.spent_on = hourly_one.valid_from
       @example.hours = 1
       @example.save!
       @example.costs.should == hourly_one.rate
       hourly_one.destroy
       @example.reload
-      @example.costs.should == rates("hourly_three").rate
-      rates("hourly_three").destroy
+      @example.costs.should == hourly_three.rate
+      hourly_three.destroy
       @example.reload
-      @example.costs.should == rates("hourly_five").rate
+      @example.costs.should == hourly_five.rate
     end
 
     it "should be able to change order of rates (sorted by valid_from)" do
-      hourly_one = rates("hourly_one")
-      hourly_three = rates("hourly_three")
       @example.spent_on = hourly_one.valid_from
       @example.save!
       @example.rate.should == hourly_one
@@ -150,34 +144,34 @@ describe TimeEntry do
     end
 
     it "should update cost if a new rate is added at the end" do
-      @default_example.user = users("john")
+      @default_example.user = user2
       @default_example.spent_on = Time.now.to_date
       @default_example.hours = 1
       @default_example.save!
-      @default_example.costs.should == rates("default_hourly_one").rate
+      @default_example.costs.should == default_hourly_one.rate
       (hourly = DefaultHourlyRate.new.tap do |dhr|
         dhr.valid_from = 1.day.ago.to_date
         dhr.rate       = 1.0
-        dhr.user       = users("john")
+        dhr.user       = user2
       end).save!
       @default_example.reload
-      @default_example.rate.should_not == rates("default_hourly_one")
+      @default_example.rate.should_not == default_hourly_one
       @default_example.costs.should == hourly.rate
     end
 
     it "should update cost if a new rate is added in between" do
-      @default_example.user = users("john")
+      @default_example.user = user2
       @default_example.spent_on = 3.days.ago.to_date
       @default_example.hours = 1
       @default_example.save!
-      @default_example.costs.should == rates("default_hourly_three").rate
+      @default_example.costs.should == default_hourly_three.rate
       (hourly = DefaultHourlyRate.new.tap do |dhr|
         dhr.valid_from = 3.days.ago.to_date
         dhr.rate       = 1.0
-        dhr.user       = users("john")
+        dhr.user       = user2
       end).save!
       @default_example.reload
-      @default_example.rate.should_not == rates("default_hourly_three")
+      @default_example.rate.should_not == default_hourly_three
       @default_example.costs.should == hourly.rate
     end
 
@@ -191,33 +185,31 @@ describe TimeEntry do
     end
 
     it "should update cost if a rate is removed" do
-      default_hourly_one = rates("default_hourly_one")
       @default_example.spent_on = default_hourly_one.valid_from
       @default_example.hours = 1
       @default_example.save!
       @default_example.costs.should == default_hourly_one.rate
       default_hourly_one.destroy
       @default_example.reload
-      @default_example.costs.should == rates("default_hourly_three").rate
-      rates("default_hourly_three").destroy
+      @default_example.costs.should == default_hourly_three.rate
+      default_hourly_three.destroy
       @default_example.reload
-      @default_example.costs.should == rates("default_hourly_five").rate
+      @default_example.costs.should == default_hourly_five.rate
     end
 
     it "shoud be able to switch between default hourly rate and hourly rate" do
-      user = users("john")
-      @default_example.rate.should == rates("default_hourly_one")
+      @default_example.rate.should == default_hourly_one
       (rate = HourlyRate.new.tap do |hr|
         hr.valid_from = 10.days.ago.to_date
         hr.rate       = 1337.0
-        hr.user       = user
-        hr.project    = rates("hourly_one").project
+        hr.user       = user2
+        hr.project    = hourly_one.project
       end).save!
       @default_example.reload
       @default_example.rate.should == rate
       rate.destroy
       @default_example.reload
-      @default_example.rate.should == rates("default_hourly_one")
+      @default_example.rate.should == default_hourly_one
     end
 
     describe :costs_visible_by? do
