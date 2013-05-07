@@ -913,6 +913,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_put_update_with_attachment_only
+    Setting.host_name = 'mydomain.foo'
+    Setting.protocol = 'https'
+
     set_tmp_attachments_directory
 
     # anonymous user
@@ -928,7 +931,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal User.anonymous, j.user
 
     mail = ActionMailer::Base.deliveries.last
-    assert mail.body.encoded.include?('testfile.txt')
+    assert mail.text_part.body.encoded.include?('testfile.txt')
+    assert mail.html_part.body.encoded =~ /<a href="https:\/\/mydomain.foo\/attachments\/\d+\/testfile.txt">testfile.txt<\/a>/
   end
 
   def test_put_update_with_attachment_that_fails_to_save
@@ -1356,11 +1360,28 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_reply_to_note
+  def test_quote_issue
     @request.session[:user_id] = 2
-    get :edit, :id => 1, :journal_id => 1
+    get :quoted, :id => 6
     assert_response :success
-    assert_select_rjs :show, "update"
+    assert_template 'edit'
+    assert_not_nil assigns(:issue)
+    assert_equal Issue.find(6), assigns(:issue)
   end
 
+  def test_quote_issue_without_permission
+    @request.session[:user_id] = 7
+    get :quoted, :id => 6
+    assert_response 403
+  end
+
+  def test_quote_note
+    @request.session[:user_id] = 2
+    get :quoted, :id => 6, :journal_id => 4
+    assert_response :success
+    assert_template 'edit'
+    assert_not_nil assigns(:issue)
+    assert_equal Issue.find(6), assigns(:issue)
+    assert_equal Journal.find(4), assigns(:journal)
+  end
 end

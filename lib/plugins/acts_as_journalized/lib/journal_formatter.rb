@@ -69,7 +69,7 @@ module JournalFormatter
 
     return nil if formatter.nil?
 
-    formatter.render(key, values, options)
+    formatter.render(key, values, options).html_safe
   end
 
   def formatter_instance(formatter_key)

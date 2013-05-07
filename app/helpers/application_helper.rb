@@ -141,9 +141,9 @@ module ApplicationHelper
                 issue,
                 :class => issue.css_classes,
                 :title => h(title)
-    s << ": #{h subject}" if subject
-    s = "#{h issue.project} - " + s if options[:project]
-    s.html_safe
+    s << ": #{subject}" if subject
+    s = "#{issue.project} - " + s if options[:project]
+    s
   end
 
   # Generates a link to an attachment.
@@ -153,12 +153,16 @@ module ApplicationHelper
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
     action = options.delete(:download) ? 'download' : 'show'
+    only_path = options.delete(:only_path) { true }
 
     link_to h(text),
             {:controller => '/attachments',
              :action => action,
              :id => attachment,
-             :filename => attachment.filename },
+             :filename => attachment.filename,
+             :host => Setting.host_name,
+             :protocol => Setting.protocol,
+             :only_path => only_path },
             options
   end
 

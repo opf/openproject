@@ -61,24 +61,5 @@ class JournalsControllerTest < ActionController::TestCase
     assert_equal 'application/atom+xml', @response.content_type
   end
 
-  def test_reply_to_issue
-    @request.session[:user_id] = 2
-    get :new, :id => 6
-    assert_response :success
-    assert_select_rjs :show, "update"
-  end
-
-  def test_reply_to_issue_without_permission
-    @request.session[:user_id] = 7
-    get :new, :id => 6
-    assert_response 403
-  end
-
-  def test_reply_to_note
-    @request.session[:user_id] = 2
-    get :new, :id => 6, :journal_id => 4
-    assert_response :success
-    assert_select_rjs :show, "update"
-  end
 
 end
