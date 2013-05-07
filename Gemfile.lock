@@ -160,13 +160,9 @@ GEM
     guard-cucumber (1.4.0)
       cucumber (>= 1.2.0)
       guard (>= 1.1.0)
-    guard-rspec (2.6.0)
-      guard (>= 1.8)
-      rspec (~> 2.13)
-    guard-spork (1.5.0)
-      childprocess (>= 0.2.3)
+    guard-rspec (2.5.4)
       guard (>= 1.1)
-      spork (>= 0.8.4)
+      rspec (~> 2.11)
     guard-test (0.8.0)
       guard (>= 1.1)
       test-unit (~> 2.2)
@@ -203,7 +199,7 @@ GEM
     mime-types (1.23)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
-    multi_json (1.7.3)
+    multi_json (1.7.2)
     mysql (2.9.1)
     mysql2 (0.3.11)
     nokogiri (1.5.9)
@@ -249,8 +245,8 @@ GEM
       railties (~> 3.1)
     rails-footnotes (3.7.9)
       rails (>= 3.0.0)
-    rails_autolink (1.1.0)
-      rails (> 3.1)
+    rails_autolink (1.0.9)
+      rails (~> 3.1)
     rake (10.0.4)
     rb-fsevent (0.9.3)
     rb-inotify (0.9.0)
@@ -301,12 +297,6 @@ GEM
       activesupport (>= 3.0.0)
       bourne (~> 1.3)
     slop (3.4.4)
-    spork (1.0.0rc3)
-    spork-rails (3.2.1)
-      rails (>= 3.0.0, < 3.3.0)
-      spork (>= 1.0rc0)
-    spork-testunit (0.0.8)
-      spork (>= 0.6.0)
     sqlite3 (1.3.7)
     sqlite3-ruby (1.2.5)
     strong_parameters (0.2.0)
@@ -319,8 +309,8 @@ GEM
       libv8 (~> 3.11.8.12)
       ref
     thor (0.18.1)
-    tilt (1.4.0)
-    tinymce-rails (3.5.8.2)
+    tilt (1.3.7)
+    tinymce-rails (3.5.8.1)
       railties (>= 3.1.1)
     tinymce-rails-langs (0.1)
       tinymce-rails (>= 3.4.9)
@@ -360,7 +350,6 @@ DEPENDENCIES
   globalize3!
   guard-cucumber
   guard-rspec
-  guard-spork
   guard-test
   htmldiff
   i18n-js!
@@ -398,8 +387,6 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   selenium-webdriver
   shoulda (~> 3.1.1)
-  spork-rails
-  spork-testunit
   sprockets!
   sqlite3
   sqlite3-ruby (< 1.3)

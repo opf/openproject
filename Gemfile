@@ -69,8 +69,6 @@ group :test do
   gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
   gem "rspec-rails", "~> 2.0", :group => :development
   gem 'capybara'
-  gem 'spork-rails'
-  gem 'spork-testunit' # needed for test-unit only
   gem 'selenium-webdriver'
 
   gem 'rb-readline' # ruby on CI needs this
@@ -89,7 +87,6 @@ group :development do
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'guard-rspec'
   gem 'guard-cucumber'
-  gem 'guard-spork'
   gem 'rb-fsevent', :group => :test
   gem 'rack-mini-profiler'
 end
