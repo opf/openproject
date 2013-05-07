@@ -6,7 +6,7 @@ class Rate < ActiveRecord::Base
   include ::OpenProject::Costs::DeletedUserFallback
   belongs_to :project
 
-  attr_accessible :rate, :project, :valid_from
+  include ActiveModel::ForbiddenAttributesProtection
 
   def self.clean_currency(value)
     if value && value.is_a?(String)

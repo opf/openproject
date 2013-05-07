@@ -10,7 +10,7 @@ class CostObject < ActiveRecord::Base
   has_many :cost_entries, :through => :issues
   has_many :time_entries, :through => :issues
 
-  attr_accessible :subject, :description, :fixed_date, :project_manager_signoff, :client_signoff
+  include ActiveModel::ForbiddenAttributesProtection
 
   acts_as_attachable :after_remove => :attachment_removed
 
