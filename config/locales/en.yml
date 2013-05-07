@@ -96,6 +96,18 @@ en:
       sentence_connector: "and"
       skip_last_comma: false
 
+  # common attributes of all models
+  attributes:
+    author: Author
+    comments: Comment
+    created_on: Created on
+    description: Description
+    group: Group
+    name: Name
+    role: Role
+    updated_on: Updated on
+    user: User
+
   activerecord:
     errors:
       template:
@@ -127,9 +139,185 @@ en:
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
         cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
+    models:
+      attachment: File
+      board: Forum
+      comment: Comment
+      custom_field: Custom field
+      document: Document
+      group: Group
+      issue: Issue
+      issue_category: Category
+      issue_status: Issue status
+      member: Member
+      news: News
+      project: Project
+      query: Custom query
+      role: Role
+      tracker: Tracker
+      user: User
+      version: Version
+      wiki: Wiki
+      wiki_page: Wiki page
+      workflow: Workflow
     attributes:
+      # attributes grouped by their model
+      attachment:
+        base: "General Error:"
+        downloads: Downloads
+        filename: File
+        filesize: Size
+      auth_source:
+        account: Account
+        attr_firstname: Firstname attribute
+        attr_lastname: Lastname attribute
+        attr_login: Login attribute
+        attr_mail: Email attribute
+        base_dn: Base DN
+        firstname: First name
+        host: Host
+        lastname: Last name
+        login: Login
+        mail: Email
+        onthefly: On-the-fly user creation
+        password: Password
+        port: Port
+        type: Type
+      comment:
+        commented: Commented # an object that this comment belongs to
+      custom_field:
+        default_value: Default value
+        editable: Editable
+        field_format: Format
+        is_filter: Used as a filter
+        is_for_all: For all projects
+        is_required: Required
+        max_length: Maximum length
+        min_length: Minimum length
+        possible_values: Possible values
+        regexp: Regular expression
+        searchable: Searchable
+        visible: Visible
+      custom_value:
+        value: Value
+      document:
+        category: Category
+        title: Title
+      enumeration:
+        active: Active
+        custom_values: Custom fields
+        is_default: Default value
+      issue:
+        assigned_to: Assignee
+        category: Category
+        custom_values: Custom fields
+        done_ratio: "% Done"
+        due_date: Due date
+        estimated_hours: Estimated time
+        fixed_version: Target version
+        parent: Parent issue
+        parent_issue: Parent issue
+        priority: Priority
+        project: Project
+        start_date: Start date
+        status: Status
+        subject: Subject
+        time_entries: Log time
+        tracker: Tracker
+        version: Version
+        watcher: Watcher
+      issue_category:
+        assigned_to: Assignee
+      issue_relation:
+        base: "General Error:"
+        delay: Delay
+        issue_from: Issue
+        issue_to: Related issue
+      issue_status:
+        is_closed: Issue closed
+        is_default: Default value
+      journal:
+        notes: Notes
+        version: Version
       member:
+        project: Project
         roles: Roles
+      message:
+        content: Content
+        subject: Subject
+      news:
+        title: Title
+        summary: summary
+      project:
+        homepage: Homepage
+        identifier: Identifier
+        is_public: Public
+        issues: Issues
+        parent: Subproject of
+        status: Status
+        summary: Summary
+        versions: Versions
+      query:
+        column_names: Columns
+        group_by: Group results by
+        is_for_all: For all projects
+        is_public: Public
+      repository:
+        url: URL
+        type: Type
+      role:
+        assignable: Issues can be assigned to this role
+      time_entry:
+        activity: Activity
+        hours: Hours
+        issue: Issue
+        project: Project
+        spent_on: Date
+        subject: Subject
+        tracker: Tracker
+      tracker:
+        is_in_roadmap: Issues displayed in roadmap
+      user:
+        admin: Administrator
+        auth_source: Authentication mode
+        firstname: First name
+        identity_url: OpenID URL
+        language: Language
+        last_login_on: Last connection
+        lastname: Last name
+        login: Login
+        mail: Email
+        mail_notification: Email notifications
+        new_password: New password
+        password: Password
+        password_confirmation: Confirmation
+        status: Status
+      user_preference:
+        comments_sorting: Display comments
+        hide_mail: Hide my email address
+        impaired: Accessibility mode
+        time_zone: Time zone
+        warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
+      version:
+        due_date: Due date
+        effective_date: Due date
+        estimated_hours: Estimated time
+        sharing: Sharing
+        start_date: Start date
+        status: Status
+      wiki:
+        start_page: Start page
+      wiki_page:
+        parent_title: Parent page
+        redirect_existing_links: Redirect existing links
+        title: Title
+
+  # possible query parameters (e.g. issue queries),
+  # which are not attributes of an AR-Model.
+  query_fields:
+    member_of_group: "Assignee's group"
+    assigned_to_role: "Assignee's role"
+    subproject: Subproject
 
   actionview_instancetag_blank_option: Please select
 
@@ -220,108 +408,8 @@ en:
   gui_validation_error: 1 error
   gui_validation_error_plural: "%{count} errors"
 
-  field_name: Name
-  field_description: Description
-  field_summary: Summary
-  field_is_required: Required
-  field_firstname: First name
-  field_lastname: Last name
-  field_mail: Email
-  field_filename: File
-  field_filesize: Size
-  field_downloads: Downloads
-  field_author: Author
-  field_created_on: Created
-  field_updated_on: Updated
-  field_field_format: Format
-  field_is_for_all: For all projects
-  field_possible_values: Possible values
-  field_regexp: Regular expression
-  field_min_length: Minimum length
-  field_max_length: Maximum length
-  field_value: Value
-  field_category: Category
-  field_title: Title
-  field_project: Project
-  field_issue: Issue
-  field_status: Status
-  field_notes: Notes
-  field_is_closed: Issue closed
-  field_is_default: Default value
-  field_tracker: Tracker
-  field_subject: Subject
-  field_due_date: Due date
-  field_assigned_to: Assignee
-  field_priority: Priority
-  field_fixed_version: Target version
-  field_user: User
-  field_principal: Principal
-  field_role: Role
-  field_homepage: Homepage
-  field_is_public: Public
-  field_parent: Subproject of
-  field_is_in_roadmap: Issues displayed in roadmap
-  field_login: Login
-  field_mail_notification: Email notifications
-  field_admin: Administrator
-  field_last_login_on: Last connection
-  field_language: Language
-  field_effective_date: Due date
-  field_password: Password
-  field_new_password: New password
-  field_password_confirmation: Confirmation
-  field_version: Version
-  field_type: Type
-  field_host: Host
-  field_port: Port
-  field_account: Account
-  field_base: "General Error:"
-  field_base_dn: Base DN
-  field_attr_login: Login attribute
-  field_attr_firstname: Firstname attribute
-  field_attr_lastname: Lastname attribute
-  field_attr_mail: Email attribute
-  field_onthefly: On-the-fly user creation
-  field_start_date: Start date
-  field_done_ratio: "% Done"
-  field_auth_source: Authentication mode
-  field_hide_mail: Hide my email address
-  field_comments: Comment
-  field_url: URL
-  field_start_page: Start page
-  field_subproject: Subproject
-  field_hours: Hours
-  field_activity: Activity
-  field_spent_on: Date
-  field_identifier: Identifier
-  field_is_filter: Used as a filter
-  field_issue_to: Related issue
-  field_delay: Delay
-  field_assignable: Issues can be assigned to this role
-  field_redirect_existing_links: Redirect existing links
-  field_estimated_hours: Estimated time
-  field_column_names: Columns
-  field_time_entries: Log time
-  field_time_zone: Time zone
-  field_searchable: Searchable
-  field_default_value: Default value
-  field_comments_sorting: Display comments
-  field_parent_title: Parent page
-  field_editable: Editable
-  field_watcher: Watcher
-  field_identity_url: OpenID URL
-  field_content: Content
-  field_group_by: Group results by
-  field_sharing: Sharing
-  field_parent_issue: Parent task
-  field_member_of_group: "Assignee's group"
-  field_assigned_to_role: "Assignee's role"
-  field_text: Text field
-  field_visible: Visible
-  field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
-  field_impaired: Accessibility mode
-  field_ui: User Interface
-  field_custom_values: Custom fields
+  label_workflow_summary: Summary
+  label_ui: User Interface
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
   setting_welcome_text: Welcome text
@@ -386,6 +474,7 @@ en:
   setting_issue_startdate_is_adddate: Use current date as start date for new issues
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
+  setting_ui_theme: Theme
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -452,11 +541,9 @@ en:
   project_module_boards: Forums
   project_module_calendar: Calendar
 
-  label_user: User
   label_user_plural: Users
   label_user_new: New user
   label_user_anonymous: Anonymous
-  label_project: Project
   label_project_new: New project
   label_project_plural: Projects
   label_x_projects:
@@ -466,7 +553,6 @@ en:
   label_project_all: All Projects
   label_project_latest: Latest projects
   label_project_view_all: "View all projects"
-  label_issue: Issue
   label_issue_new: New issue
   label_issue_plural: Issues
   label_issue_view_all: View all issues
@@ -479,29 +565,21 @@ en:
   label_sum_for: "Sum for %{value}"
   label_all_issues: all Issues
   label_display_sums: Display Sums
-  label_document: Document
   label_document_new: New document
   label_document_plural: Documents
   label_document_added: Document added
-  label_role: Role
   label_role_plural: Roles
   label_role_new: New role
   label_role_and_permissions: Roles and permissions
-  label_member: Member
   label_member_new: New member
   label_member_plural: Members
   label_modules: Modules
-  label_tracker: Tracker
   label_tracker_plural: Trackers
   label_tracker_new: New tracker
-  label_workflow: Workflow
-  label_issue_status: Issue status
   label_issue_status_plural: Issue statuses
   label_issue_status_new: New status
-  label_issue_category: Issue category
   label_issue_category_plural: Issue categories
   label_issue_category_new: New category
-  label_custom_field: Custom field
   label_custom_field_plural: Custom fields
   label_custom_field_new: New custom field
   label_enumerations: Enumerations
@@ -556,14 +634,12 @@ en:
   label_no_data: No data to display
   label_change_status: Change status
   label_history: History
-  label_attachment: File
   label_attachment_new: New file
   label_attachment_delete: Delete file
   label_attachment_plural: Files
   label_file_added: File added
   label_report: Report
   label_report_plural: Reports
-  label_news: News
   label_news_new: Add news
   label_news_plural: News
   label_news_latest: Latest news
@@ -574,7 +650,6 @@ en:
   label_summary: Summary
   label_project_settings: Project settings
   label_overview: Overview
-  label_version: Version
   label_version_new: New version
   label_version_plural: Versions
   label_close_versions: Close completed versions
@@ -619,7 +694,6 @@ en:
   label_last_changes: "last %{count} changes"
   label_change_view_all: View all changes
   label_personalize_page: Personalize this page
-  label_comment: Comment
   label_comment_plural: Comments
   label_x_comments:
     zero: no comments
@@ -628,7 +702,6 @@ en:
   label_comment_add: Add a comment
   label_comment_added: Comment added
   label_comment_delete: Delete comments
-  label_query: Custom query
   label_query_plural: Custom queries
   label_query_new: New query
   label_my_queries: My custom queries
@@ -693,11 +766,9 @@ en:
   search_input_placeholder: search ...
   label_result_plural: Results
   label_all_words: All words
-  label_wiki: Wiki
   label_wiki_navigation: Wiki navigation
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki edits
-  label_wiki_page: Wiki page
   label_wiki_page_plural: Wiki pages
   wiki_menu_item: "Menu item"
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
@@ -758,7 +829,6 @@ en:
   label_disabled: disabled
   label_show_completed_versions: Show completed versions
   label_me: me
-  label_board: Forum
   label_board_new: New forum
   label_board_plural: Forums
   label_board_locked: Locked
@@ -833,7 +903,6 @@ en:
   label_date_from_to: "From %{start} to %{end}"
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
-  label_group: Group
   label_group_plural: Groups
   label_group_new: New group
   label_time_entry_plural: Spent time
@@ -926,8 +995,6 @@ en:
   version_status_open: open
   version_status_locked: locked
   version_status_closed: closed
-
-  field_active: Active
 
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$
