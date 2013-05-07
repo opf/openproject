@@ -8,7 +8,7 @@ class CostType < ActiveRecord::Base
 
   after_update :save_rates
 
-  attr_accessible :name, :unit, :unit_plural, :default, :new_rate_attributes, :existing_rate_attributes
+  include ActiveModel::ForbiddenAttributesProtection
 
   scope :active, :conditions => { :deleted_at => nil }
 

@@ -7,7 +7,7 @@ class MaterialBudgetItem < ActiveRecord::Base
   validates_length_of :comments, :maximum => 255, :allow_nil => true
   validates_presence_of :cost_type
 
-  attr_accessible :units, :comments, :budget, :cost_type, :cost_type_id
+  include ActiveModel::ForbiddenAttributesProtection
 
   def self.visible_condition(user, project)
     Project.allowed_to_condition(user,

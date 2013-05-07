@@ -25,17 +25,6 @@ class VariableCostObject < CostObject
                         :activity_permission => :view_cost_objects
 
   end
-  def attributes=(attrs)
-    if attrs
-      [:new_material_budget_item_attributes, :new_labor_budget_item_attributes,
-        :existing_material_budget_item_attributes, :existing_labor_budget_item_attributes].each do |attribute|
-          if (value = attrs.delete(attribute.to_s)).present?
-            self.send(:"#{attribute}=", value)
-          end
-        end
-      end
-    super(attrs)
-  end
 
   # override acts_as_journalized method
   def activity_type
@@ -43,8 +32,17 @@ class VariableCostObject < CostObject
   end
 
   def copy_from(arg)
-    cost_object = arg.is_a?(VariableCostObject) ? arg : VariableCostObject.find(arg)
-    self.attributes = cost_object.attributes.dup
+    cost_object = (arg.is_a?(VariableCostObject) ? arg : self.class.find(arg))
+    attrs = cost_object.attributes.dup
+    #do single assignments of attributes not allowed for mass assignment
+    [:new_material_budget_item_attributes, :new_labor_budget_item_attributes,
+     :existing_material_budget_item_attributes, :existing_labor_budget_item_attributes].each do |attribute|
+      if (value = attrs.delete(attribute.to_s)).present?
+        self.send(:"#{attribute}=", value)
+      end
+    end
+    #pass the remaining attributes to base class which will set them
+    super(attrs)
     self.material_budget_items = cost_object.material_budget_items.collect {|v| v.clone}
     self.labor_budget_items = cost_object.labor_budget_items.collect {|v| v.clone}
   end

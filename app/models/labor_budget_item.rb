@@ -10,8 +10,8 @@ class LaborBudgetItem < ActiveRecord::Base
   validates_presence_of :cost_object
   validates_numericality_of :hours, :allow_nil => false
 
+  include ActiveModel::ForbiddenAttributesProtection
   # user_id correctness is ensured in VariableCostObject#*_labor_budget_item_attributes=
-  attr_accessible :hours, :comments, :budget, :user_id
 
   def self.visible_condition(user, project)
     %Q{ (#{Project.allowed_to_condition(user,

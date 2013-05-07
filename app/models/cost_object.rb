@@ -10,7 +10,7 @@ class CostObject < ActiveRecord::Base
   has_many :cost_entries, :through => :issues
   has_many :time_entries, :through => :issues
 
-  attr_accessible :subject, :description, :fixed_date, :project_manager_signoff, :client_signoff
+  include ActiveModel::ForbiddenAttributesProtection
 
   acts_as_attachable :after_remove => :attachment_removed
 
@@ -36,17 +36,14 @@ class CostObject < ActiveRecord::Base
     self.author = User.current if self.new_record?
   end
 
-  def attributes=(attrs)
-    # Remove any attributes which can not be assigned.
-    # This is to protect from exceptions during change of cost object type
-    attrs.delete_if{|k, v| !self.respond_to?("#{k}=")} if attrs.is_a?(Hash)
-
-    super(attrs)
-  end
-
   def copy_from(arg)
-    cost_object = arg.is_a?(CostObject) ? arg : CostObject.find(arg)
-    self.attributes = cost_object.attributes.dup
+    if !arg.is_a?(Hash)
+      #turn args into an attributes hash if it is not already (which is the case when called from VariableCostObject)
+      arg = (arg.is_a?(CostObject) ? arg : self.class.find(arg)).attributes.dup
+    end
+    arg.delete("id")
+    self.type = arg.delete("type")
+    self.attributes = arg
   end
 
   # Wrap type column to make it usable in views (especially in a select tag)
