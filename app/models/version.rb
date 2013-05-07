@@ -59,7 +59,10 @@ class Version < ActiveRecord::Base
   # Can either be a set date stored in the database or a dynamic one
   # based on the earlist start_date of the fixed_issues
   def start_date
-    read_attribute(:start_date) || fixed_issues.minimum('start_date')
+    # when self.id is nil (e.g. when self is a new_record),
+    # minimum('start_date') works on all issues with :fixed_version => nil
+    # but we expect only issues belonging to this version
+    read_attribute(:start_date) || fixed_issues.where(Issue.arel_table[:fixed_version_id].not_eq(nil)).minimum('start_date')
   end
 
   def due_date
