@@ -111,7 +111,7 @@ JS
         if request.xhr?
           partial = "members/autocomplete_for_member"
         else
-          partial = "members/members_form"
+          partial = "members/member_form"
         end
         render :partial => partial,
                :locals => { :project => @project,
