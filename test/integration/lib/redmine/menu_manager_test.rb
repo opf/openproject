@@ -23,7 +23,7 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
     get 'projects/ecookbook/issues', { }, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
 
     assert_tag :div, :attributes => { :id => 'main-menu' },
-                     :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', l(:label_activity)),
+                     :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_activity),
                                                                              :attributes => { :href => '/projects/ecookbook/activity',
                                                                                               :class => 'activity ellipsis' } } }
     assert_tag :div, :attributes => { :id => 'main-menu' },
