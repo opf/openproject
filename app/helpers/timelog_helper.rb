@@ -137,7 +137,10 @@ module TimelogHelper
   def report_to_csv(criterias, periods, hours)
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # Column headers
-      headers = criterias.collect {|criteria| l(@available_criterias[criteria][:label]) }
+      headers = criterias.collect do |criteria|
+        label = @available_criterias[criteria][:label]
+        label.is_a?(Symbol) ? l(label) : label
+      end
       headers += periods
       headers << l(:label_total)
       csv << headers.collect {|c| to_utf8_for_timelogs(c) }
