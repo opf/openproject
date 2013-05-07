@@ -601,7 +601,8 @@ class Query < ActiveRecord::Base
   end
 
   def add_custom_fields_filters(custom_fields)
-    @available_filters ||= {}
+    available_filters # compute default available_filters
+    return available_filters if available_filters.any? { |key, _| key.starts_with? 'cf_' }
 
     custom_fields.select(&:is_filter?).each do |field|
       case field.field_format
