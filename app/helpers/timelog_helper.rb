@@ -85,15 +85,15 @@ module TimelogHelper
     custom_fields = TimeEntryCustomField.find(:all)
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
-      headers = [l(:field_spent_on),
-                 l(:field_user),
-                 l(:field_activity),
-                 l(:field_project),
-                 l(:field_issue),
-                 l(:field_tracker),
-                 l(:field_subject),
-                 l(:field_hours),
-                 l(:field_comments)
+      headers = [TimeEntry.human_attribute_name(:spent_on),
+                 TimeEntry.human_attribute_name(:user),
+                 TimeEntry.human_attribute_name(:activity),
+                 TimeEntry.human_attribute_name(:project),
+                 TimeEntry.human_attribute_name(:issue),
+                 TimeEntry.human_attribute_name(:tracker),
+                 TimeEntry.human_attribute_name(:subject),
+                 TimeEntry.human_attribute_name(:hours),
+                 TimeEntry.human_attribute_name(:comments)
                  ]
       # Export custom fields
       headers += custom_fields.collect(&:name)
