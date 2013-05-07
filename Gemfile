@@ -92,6 +92,7 @@ group :development do
   gem 'guard-spork'
   gem 'rb-fsevent', :group => :test
   gem 'rack-mini-profiler'
+  gem 'thin'
 end
 
 group :development, :test do
