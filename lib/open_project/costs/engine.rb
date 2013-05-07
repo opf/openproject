@@ -5,7 +5,7 @@ module OpenProject::Costs
     def self.settings
       { :default => { 'costs_currency' => 'EUR',
                      'costs_currency_format' => '%n %u' },
-        :partial => 'settings/redmine_costs' }
+        :partial => 'settings/openproject_costs' }
     end
 
     initializer "costs.register_hooks" do
@@ -15,6 +15,10 @@ module OpenProject::Costs
     end
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
+
+    initializer 'costs.precompile_assets' do
+      Rails.application.config.assets.precompile += %w(costs.css costs.js)
+    end
 
     # adds our factories to factory girl's load path
     initializer "costs.register_factories", :after => "factory_girl.set_factory_paths" do |app|

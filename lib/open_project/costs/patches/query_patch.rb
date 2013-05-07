@@ -53,7 +53,7 @@ module OpenProject::Costs::Patches::QueryPatch
       @available_filters = available_filters_without_costs
 
       if project && project.module_enabled?(:costs_module)
-        redmine_costs_filters = {
+        openproject_costs_filters = {
           "cost_object_id" => {
             :type => :list_optional,
             :order => 14,
@@ -61,9 +61,9 @@ module OpenProject::Costs::Patches::QueryPatch
           },
         }
       else
-        redmine_costs_filters = { }
+        openproject_costs_filters = { }
       end
-      return @available_filters.merge(redmine_costs_filters)
+      return @available_filters.merge(openproject_costs_filters)
     end
   end
 end

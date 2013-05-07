@@ -33,7 +33,4 @@
 <div><%= submit_tag l(:button_save) %></div>
 <% end %>
 
-<% content_for :header_tags do %>
-  <%= javascript_include_tag 'subform', :plugin => 'redmine_costs' %>
-  <%= javascript_include_tag 'rates', :plugin => 'redmine_costs' %>
-<% end %>
+<%= render :partial => 'shared/costs_header' %>

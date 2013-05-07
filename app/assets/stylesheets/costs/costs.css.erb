@@ -1,3 +1,7 @@
+/* *
+ *= require scm
+ *= require context_menu
+ */
 .wide-icon {
   background-position: 0% 40%;
   background-repeat: no-repeat;
@@ -12,7 +16,7 @@
 }
 
 .icon-ticket {
-  background-image: url(../../../images/ticket.png);
+  background-image: url(<%= asset_path 'ticket.png' %>);
 }
 
 .filter_values select {

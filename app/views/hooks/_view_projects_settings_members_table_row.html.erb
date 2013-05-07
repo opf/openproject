@@ -29,8 +29,6 @@
   <td align="center" style="white-space: nowrap;"></td>
 <% end %>
 
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
-<% end %>
+<%= render :partial => 'shared/costs_header' %>
 <% end %>
 <% end %>

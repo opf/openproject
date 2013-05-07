@@ -50,7 +50,4 @@
 
 <%= javascript_tag "Form.Element.focus('cost_type_name');" %>
 
-<% content_for :header_tags do %>
-  <%= javascript_include_tag 'subform', :plugin => 'redmine_costs' %>
-  <%= javascript_include_tag 'rates', :plugin => 'redmine_costs' %>
-<% end %>
+<%= render :partial => 'shared/costs_header' %>

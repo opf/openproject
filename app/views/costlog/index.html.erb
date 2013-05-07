@@ -26,7 +26,7 @@
 
 <% html_title l(:label_spent_costs), l(:label_details) %>
 
+<%= render :partial => 'shared/costs_header' %>
 <% content_for :header_tags do %>
-    <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>
-    <%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_costs)) %>
+	<%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_costs)) %>
 <% end %>

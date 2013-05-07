@@ -92,9 +92,5 @@
 <%= wikitoolbar_for 'cost_object_description' %>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag 'cost_objects', :plugin => 'redmine_costs' %>
-  <%= javascript_include_tag 'subform', :plugin => 'redmine_costs' %>
-
-  <%= javascript_include_tag 'editinplace', :plugin => 'redmine_costs' %>
   <%= javascript_tag "initialize_editinplace('src=\"#{image_path('cancel.png')}\" alt=\"#{l(:button_cancel_edit_budget)}\" title=\"#{l(:button_cancel_edit_budget)}\"' )" %>
 <% end %>
