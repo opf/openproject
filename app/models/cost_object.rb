@@ -36,23 +36,14 @@ class CostObject < ActiveRecord::Base
     self.author = User.current if self.new_record?
   end
 
-  def attributes=(attrs)
-    # Remove any attributes which can not be assigned.
-    # This is to protect from exceptions during change of cost object type
-    if(attrs.is_a?(Hash))
-      attrs.delete_if{|k, v| !self.respond_to?("#{k}=")}
-      #also remove any attributes that cannot be mass assigned like id and type, set type manually instead
-      attrs.delete("id")
-      if attrs.has_key?("type")
-        self.type = attrs.delete("type")
-      end
-    end
-    super(attrs)
-  end
-
   def copy_from(arg)
-    cost_object = arg.is_a?(CostObject) ? arg : CostObject.find(arg)
-    self.attributes = cost_object.attributes.dup
+    if !arg.is_a?(Hash)
+      #turn args into an attributes hash if it is not already (which is the case when called from VariableCostObject)
+      arg = (arg.is_a?(CostObject) ? arg : self.class.find(arg)).attributes.dup
+    end
+    arg.delete("id")
+    self.type = arg.delete("type")
+    self.attributes = arg
   end
 
   # Wrap type column to make it usable in views (especially in a select tag)
