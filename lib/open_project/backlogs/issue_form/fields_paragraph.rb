@@ -75,7 +75,7 @@ class OpenProject::Backlogs::IssueForm::FieldsParagraph < OpenProject::Backlogs:
     return fields if @issue.custom_field_values.empty?
 
     @issue.custom_field_values.each do |custom_value|
-      fields[custom_value.custom_field.name] = Backlogs::IssueForm::CustomFieldParagraph.new(custom_value)
+      fields[custom_value.custom_field.name] = OpenProject::Backlogs::IssueForm::CustomFieldParagraph.new(custom_value)
     end
 
     fields
