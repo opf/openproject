@@ -29,6 +29,11 @@ module OpenProject::Costs
       app.config.plugins_to_test_paths << self.root
     end
 
+    initializer 'costs.register_observers' do |app|
+      # Observers
+      ActiveRecord::Base.observers.push :rate_observer, :default_hourly_rate_observer#, :costs_issue_observer
+    end
+
     config.before_configuration do |app|
       # This is required for the routes to be loaded first
       # as the routes should be prepended so they take precedence over the core.
@@ -166,5 +171,3 @@ module OpenProject::Costs
 end
 
 
-# Observers
-ActiveRecord::Base.observers.push :rate_observer, :default_hourly_rate_observer#, :costs_issue_observer
