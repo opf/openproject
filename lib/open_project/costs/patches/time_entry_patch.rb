@@ -20,6 +20,8 @@ module OpenProject::Costs::Patches::TimeEntryPatch
         }
       }
 
+      before_save :update_costs
+
       def self.visible_condition(user, project)
         %Q{ (#{Project.allowed_to_condition(user, :view_time_entries, :project => project)} OR
              (#{Project.allowed_to_condition(user, :view_own_time_entries, :project => project)} AND #{TimeEntry.table_name}.user_id = #{user.id})) }
@@ -60,9 +62,6 @@ module OpenProject::Costs::Patches::TimeEntryPatch
   end
 
   module InstanceMethods
-    def before_save
-      update_costs
-    end
 
     def real_costs
       # This methods returns the actual assigned costs of the entry
