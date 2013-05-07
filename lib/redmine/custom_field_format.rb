@@ -73,7 +73,7 @@ module Redmine
 
       def label_for(name)
         format = @@available[name.to_s]
-        format.label if format
+        format.label.is_a?(Proc) ? format.label.call : l(format.label) if format
       end
 
       # Return an array of custom field formats which can be used in select_tag
@@ -83,7 +83,7 @@ module Redmine
         fields.sort {|a,b|
           a.order <=> b.order
         }.collect {|custom_field_format|
-          [ l(custom_field_format.label), custom_field_format.name ]
+          [ label_for(custom_field_format.name), custom_field_format.name ]
         }
       end
 
