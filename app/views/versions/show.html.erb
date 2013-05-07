@@ -11,7 +11,7 @@
 <fieldset><legend><%= l(:label_time_tracking) %></legend>
 <table>
 <tr>
-    <td width="130px" align="right"><%= l(:field_estimated_hours) %></td>
+    <td width="130px" align="right"><%= Version.human_attribute_name(:estimated_hours) %></td>
     <td width="240px" class="total-hours"width="130px" align="right"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
 </tr>
 <% if User.current.allowed_to?(:view_time_entries, @project) %>
