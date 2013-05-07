@@ -3,8 +3,8 @@
 <% else %>
 <p><%= t(:mail_body_account_information) %>:</p>
 <ul>
-  <li><%= t(:field_login)    %>: <%= @user.login %></li>
-  <li><%= t(:field_password) %>: <%= @password   %></li>
+  <li><%= User.human_attribute_name(:login) %>: <%= @user.login %></li>
+  <li><%= User.human_attribute_name(:password) %>: <%= @password %></li>
 </ul>
 <% end %>
 

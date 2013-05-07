@@ -1,12 +1,12 @@
 <%= "#{issue.tracker.name} ##{issue.id}: #{issue.subject}" %>
 <%= issue_url(issue) %>
 
-<%= t(:field_author)        %>: <%= issue.author        %>
-<%= t(:field_status)        %>: <%= issue.status        %>
-<%= t(:field_priority)      %>: <%= issue.priority      %>
-<%= t(:field_assigned_to)   %>: <%= issue.assigned_to   %>
-<%= t(:field_category)      %>: <%= issue.category      %>
-<%= t(:field_fixed_version) %>: <%= issue.fixed_version %>
+<%= Issue.human_attribute_name(:author)        %>: <%= issue.author        %>
+<%= Issue.human_attribute_name(:status)        %>: <%= issue.status        %>
+<%= Issue.human_attribute_name(:priority)      %>: <%= issue.priority      %>
+<%= Issue.human_attribute_name(:assigned_to)   %>: <%= issue.assigned_to   %>
+<%= Issue.human_attribute_name(:category)      %>: <%= issue.category      %>
+<%= Issue.human_attribute_name(:fixed_version) %>: <%= issue.fixed_version %>
 
 <% issue.custom_field_values.each do |value| %>
   <%= value.custom_field.name %>: <%= show_value(value) %>
