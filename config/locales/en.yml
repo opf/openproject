@@ -264,8 +264,10 @@ en:
         is_for_all: For all projects
         is_public: Public
       repository:
-        url: URL
+        login: Login
+        password: Password
         type: Type
+        url: URL
       role:
         assignable: Issues can be assigned to this role
       time_entry:
