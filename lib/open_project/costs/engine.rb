@@ -100,9 +100,9 @@ module OpenProject::Costs
             permission :view_own_hourly_rate, {}
             permission :view_hourly_rates, {}
 
-            permission :edit_own_hourly_rate, {:hourly_rates => [:set_rate, :edit]},
+            permission :edit_own_hourly_rate, {:hourly_rates => [:set_rate, :edit, :update]},
                                               :require => :member
-            permission :edit_hourly_rates, {:hourly_rates => [:set_rate, :edit]},
+            permission :edit_hourly_rates, {:hourly_rates => [:set_rate, :edit, :update]},
                                            :require => :member
             permission :view_cost_rates, {} # cost item values
 
