@@ -263,7 +263,7 @@ describe CostlogController do
       end
 
       # is this really usefull, shouldn't it redirect to the creating issue by default?
-      it { response.should redirect_to(:controller => "costlog", :action => "details", :project_id => project) }
+      it { response.should redirect_to(:controller => "costlog", :action => "index", :project_id => project) }
       it { assigns(:cost_entry).should_not be_new_record }
       it_should_behave_like "assigns"
       it { flash[:notice].should eql I18n.t(:notice_successful_create) }
@@ -497,7 +497,7 @@ describe CostlogController do
         put :update, params
       end
 
-      it { response.should redirect_to(:controller => "costlog", :action => "details", :project_id => project) }
+      it { response.should redirect_to(:controller => "costlog", :action => "index", :project_id => project) }
       it { assigns(:cost_entry).should == cost_entry }
       it_should_behave_like "assigns"
       it { assigns(:cost_entry).should_not be_changed }
