@@ -5,8 +5,8 @@
 
 <h3><%=l(:label_my_account_data)%></h3>
 
-<p><%=l(:field_login)%>: <strong><%= link_to_user(@user, :format => :username) %></strong><br />
-<%=l(:field_created_on)%>: <%= format_time(@user.created_on) %></p>
+<p><%= User.human_attribute_name(:login) %>: <strong><%= link_to_user(@user, :format => :username) %></strong><br />
+<%= User.human_attribute_name(:created_on) %>: <%= format_time(@user.created_on) %></p>
 
 
 <h3><%= l(:label_feeds_access_key) %></h3>

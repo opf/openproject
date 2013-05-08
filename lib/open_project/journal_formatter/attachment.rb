@@ -22,7 +22,7 @@ class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
   private
 
   def label(key)
-    l(:label_attachment)
+    Attachment.model_name.human
   end
 
   # we need to tell the url_helper that there is not controller to get url_options

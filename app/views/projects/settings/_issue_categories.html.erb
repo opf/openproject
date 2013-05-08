@@ -1,8 +1,8 @@
 <% if @project.issue_categories.any? %>
 <table class="list">
 	<thead><tr>
-	<th><%= l(:label_issue_category) %></th>
-	<th><%= l(:field_assigned_to) %></th>
+	<th><%= IssueCategory.model_name.human %></th>
+	<th><%= IssueCategory.human_attribute_name(:assigned_to) %></th>
 	<th></th>
 	</tr></thead>
 	<tbody>

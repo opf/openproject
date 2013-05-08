@@ -14,12 +14,15 @@
 
   <%= fields_for :page, @page do |page_fields| %>
     <%= page_fields.hidden_field :parent_id %>
-    <p><label><%= l(:field_title) %></label><br /><%= page_fields.text_field :title, :size => 120 %></p>
+    <p>
+      <label><%= WikiPage.human_attribute_name(:title) %></label><br />
+      <%= page_fields.text_field :title, :size => 120 %>
+    </p>
   <% end %>
 
 
   <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
-  <p><label><%= l(:field_comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
+  <p><label><%= Journal.human_attribute_name(:comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
   <p><label><%= l(:label_attachment_plural) %></label><br /><%= render :partial => 'attachments/form', :f => f %></p>
 
   <p><%= submit_tag l(:button_save) %>

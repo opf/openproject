@@ -7,7 +7,7 @@
 <% if @groups.any? %>
 <table class="list groups">
   <thead><tr>
-  <th><%=l(:label_group)%></th>
+  <th><%= Group.model_name.human %></th>
   <th><%=l(:label_user_plural)%></th>
   <th></th>
   </tr></thead>

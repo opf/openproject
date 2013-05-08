@@ -80,7 +80,7 @@ class UserMailer < ActionMailer::Base
     message_id @news
 
     with_locale_for(user) do
-      subject = "#{t(:label_news)}: #{@news.title}"
+      subject = "#{News.model_name.human}: #{@news.title}"
       subject = "[#{@news.project.name}] #{subject}" if @news.project
       mail :to => user.mail, :subject => subject
     end
@@ -113,7 +113,7 @@ class UserMailer < ActionMailer::Base
     references @news
 
     with_locale_for(user) do
-      subject = "#{t(:label_news)}: #{@news.title}"
+      subject = "#{News.model_name.human}: #{@news.title}"
       subject = "Re: [#{@news.project.name}] #{subject}" if @news.project
       mail :to => user.mail, :subject => subject
     end
@@ -231,13 +231,13 @@ class UserMailer < ActionMailer::Base
 
     case container.class.name
     when 'Project'
-      @added_to     = "#{t(:label_project)}: #{container}"
+      @added_to     = "#{Project.model_name.human}: #{container}"
       @added_to_url = url_for(:controller => '/files', :action => 'index', :project_id => container)
     when 'Version'
-      @added_to     = "#{t(:label_version)}: #{container.name}"
+      @added_to     = "#{Version.model_name.human}: #{container.name}"
       @added_to_url = url_for(:controller => '/files', :action => 'index', :project_id => container.project)
     when 'Document'
-      @added_to     = "#{t(:label_document)}: #{container.title}"
+      @added_to     = "#{Document.model_name.human}: #{container.title}"
       @added_to_url = url_for(:controller => '/documents', :action => 'show', :id => container.id)
     end
 

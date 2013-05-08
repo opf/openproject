@@ -53,8 +53,8 @@ Redmine::CustomFieldFormat.map do |fields|
   fields.register Redmine::CustomFieldFormat.new('list', :label => :label_list, :order => 5)
   fields.register Redmine::CustomFieldFormat.new('date', :label => :label_date, :order => 6)
   fields.register Redmine::CustomFieldFormat.new('bool', :label => :label_boolean, :order => 7)
-  fields.register Redmine::CustomFieldFormat.new('user', :label => :label_user, :only => %w(Issue TimeEntry Version Project), :edit_as => 'list', :order => 8)
-  fields.register Redmine::CustomFieldFormat.new('version', :label => :label_version, :only => %w(Issue TimeEntry Version Project), :edit_as => 'list', :order => 9)
+  fields.register Redmine::CustomFieldFormat.new('user', :label => Proc.new { User.model_name.human }, :only => %w(Issue TimeEntry Version Project), :edit_as => 'list', :order => 8)
+  fields.register Redmine::CustomFieldFormat.new('version', :label => Proc.new { Version.model_name.human }, :only => %w(Issue TimeEntry Version Project), :edit_as => 'list', :order => 9)
 end
 
 # Permissions
@@ -194,7 +194,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :trackers, {:controller => '/trackers'}, :caption => :label_tracker_plural
   menu.push :issue_statuses, {:controller => '/issue_statuses'}, :caption => :label_issue_status_plural,
             :html => {:class => 'issue_statuses'}
-  menu.push :workflows, {:controller => '/workflows', :action => 'edit'}, :caption => :label_workflow
+  menu.push :workflows, {:controller => '/workflows', :action => 'edit'}, :caption => Proc.new { Workflow.model_name.human }
   menu.push :custom_fields, {:controller => '/custom_fields'},  :caption => :label_custom_field_plural,
             :html => {:class => 'custom_fields'}
   menu.push :enumerations, {:controller => '/enumerations'}
@@ -215,7 +215,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :new_issue, { :controller => '/issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
   menu.push :view_all_issues, { :controller => '/issues', :action => 'all' }, :param => :project_id, :caption => :label_issue_view_all, :parent => :issues
-  menu.push :summary_field, {:controller => '/issues/reports', :action => 'report'}, :param => :project_id, :caption => :field_summary, :parent => :issues
+  menu.push :summary_field, {:controller => '/issues/reports', :action => 'report'}, :param => :project_id, :caption => :label_workflow_summary, :parent => :issues
   menu.push :calendar, { :controller => '/calendars', :action => 'show' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => '/news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
   menu.push :new_news, { :controller => '/news', :action => 'new' }, :param => :project_id, :caption => :label_news_new, :parent => :news,

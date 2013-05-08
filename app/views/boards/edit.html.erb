@@ -1,4 +1,4 @@
-<h2><%= l(:label_board) %></h2>
+<h2><%= Board.name.humanize %></h2>
 
 <%= labelled_tabular_form_for [@project, @board] do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>

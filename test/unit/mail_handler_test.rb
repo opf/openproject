@@ -247,7 +247,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_localized_attributes
-    User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'fr'
+    User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'de'
     issue = submit_email('ticket_with_localized_attributes.eml', :allow_override => 'tracker,category,priority')
     assert issue.is_a?(Issue)
     assert !issue.new_record?

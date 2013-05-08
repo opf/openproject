@@ -13,7 +13,7 @@
   </div>
   <ul>
     <% if @project.homepage.present? %>
-      <li><%= l(:field_homepage) %>: <%=raw auto_link(@project.homepage) %></li>
+      <li><%= Project.human_attribute_name(:homepage) %>: <%=raw auto_link(@project.homepage) %></li>
     <% end %>
     <% if @subprojects.any? %>
       <li>

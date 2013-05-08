@@ -1,6 +1,6 @@
 <%= render :partial => 'action_menu' %>
 
-<h2><%=l(:label_workflow)%></h2>
+<h2><%=  Workflow.model_name.human %></h2>
 
 <% if @workflow_counts.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>

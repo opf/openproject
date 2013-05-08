@@ -19,7 +19,7 @@
   <% authorized = authorize_for('members', 'edit') %>
 <table class="list members">
 	<thead><tr>
-	  <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
+	  <th><%= User.model_name.human %> / <%= Group.model_name.human %></th>
 	  <th><%= l(:label_role_plural) %></th>
 	  <th style="width:15%"></th>
           <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>

@@ -10,8 +10,8 @@
 <table class="list">
 <thead>
 	<tr>
-		<th><%= l(:field_login) %></th>
-		<th><%= l(:label_user) %></th>
+		<th><%= User.human_attribute_name(:login) %></th>
+		<th><%= User.model_name.human %></th>
 	</tr>
 </thead>
 <tbody>

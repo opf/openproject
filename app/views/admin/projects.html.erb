@@ -10,9 +10,9 @@
 
 <%= form_tag({}, :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
-<label for='status'><%= l(:field_status) %> :</label>
+<label for='status'><%= Project.human_attribute_name(:status) %> :</label>
 <%= select_tag 'status', project_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
-<label for='name'><%= l(:label_project) %>:</label>
+<label for='name'><%= Project.model_name.human %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
 <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
 <%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'icon icon-reload' %>
@@ -23,9 +23,9 @@
 <div class="autoscroll">
 <table class="list">
   <thead><tr>
-	<th><%=l(:label_project)%></th>
-	<th><%=l(:field_is_public)%></th>
-	<th><%=l(:field_created_on)%></th>
+    <th><%=  Project.model_name.human %></th>
+    <th><%=  Project.human_attribute_name(:is_public) %></th>
+    <th><%=  Project.human_attribute_name(:created_on) %></th>
   <th></th>
   </tr></thead>
   <tbody>

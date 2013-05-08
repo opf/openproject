@@ -1,10 +1,10 @@
 <table class="list">
   <thead><tr>
-	<th width="30%"><%=l(:field_name)%></th>
-	<th><%=l(:field_field_format)%></th>
-	<th><%=l(:field_is_required)%></th>
+	<th width="30%"><%= CustomField.human_attribute_name(:name) %></th>
+	<th><%= CustomField.human_attribute_name(:field_format) %></th>
+	<th><%= CustomField.human_attribute_name(:is_required) %></th>
 	<% if tab[:name] == 'IssueCustomField' %>
-	<th><%=l(:field_is_for_all)%></th>
+	<th><%= CustomField.human_attribute_name(:is_for_all) %></th>
 	<th><%=l(:label_used_by)%></th>
 	<% end %>
 	<th><%=l(:button_sort)%></th>
@@ -14,7 +14,7 @@
 	<% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
 		<tr class="<%= cycle("odd", "even") %>">
 			<td><%= link_to h(custom_field.name), :action => 'edit', :id => custom_field %></td>
-			<td align="center"><%= l(Redmine::CustomFieldFormat.label_for(custom_field.field_format)) %></td>
+			<td align="center"><%= Redmine::CustomFieldFormat.label_for(custom_field.field_format) %></td>
 			<td align="center"><%= checked_image custom_field.is_required? %></td>
 			<% if tab[:name] == 'IssueCustomField' %>
 			<td align="center"><%= checked_image custom_field.is_for_all? %></td>
