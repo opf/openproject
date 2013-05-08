@@ -50,8 +50,8 @@ Feature: Permission View Own hourly and cost rates
     And I toggle the Options fieldset
 		And I select to see columns
       | Overall costs  |
-      | Labor Costs    |
-      | Unit Costs     |
+      | Labor costs    |
+      | Unit costs     |
     And I follow "Apply"
     And I wait for AJAX
 		Then I should see "24.00 EUR"

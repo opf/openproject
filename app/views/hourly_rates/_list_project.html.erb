@@ -16,9 +16,9 @@
 <% else %>
 <table class="list rates">
   <thead><tr>
-    <th><%= l(:label_valid_from) %></th>
-    <th class="currency"><%= l(:label_rate) %></th>
-    <th><%= l(:caption_current_rate) %></th>
+    <th><%= Rate.human_attribute_name(:valid_from) %></th>
+    <th class="currency"><%= Rate.model_name.human %></th>
+    <th><%= User.human_attribute_name(:current_rate) %></th>
   </tr></thead>
   <tbody id="rates_body">
   <% current_rate = @user.current_rate(project, false) %>

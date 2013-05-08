@@ -34,10 +34,10 @@
   <legend><%= l(:caption_material_budget) %></legend>
   <table class="list material_budget_items" id="material_budget_items">
     <thead><tr>
-      <th class="cost_units"><%= l(:caption_cost_unit_plural)%></th>
-      <th><%= l(:caption_cost_type) %></th>
-      <th><%= l(:label_comment) %></th>
-      <% if User.current.allowed_to?(:view_cost_rates, @project)%><th class="currency" id="material_budget_items_price"><%= l(:caption_budget) %></th><%end%>
+      <th class="cost_units"><%= MaterialBudgetItem.human_attribute_name(:units) %></th>
+      <th><%= MaterialBudgetItem.human_attribute_name(:cost_type) %></th>
+      <th><%= MaterialBudgetItem.human_attribute_name(:comment) %></th>
+      <% if User.current.allowed_to?(:view_cost_rates, @project)%><th class="currency" id="material_budget_items_price"><%= MaterialBudgetItem.human_attribute_name(:budget) %></th><%end%>
       <th></th>
     </tr></thead>
     <tbody id="material_budget_items_body">
@@ -53,11 +53,11 @@
   <legend><%= l(:caption_labor_budget) %></legend>
   <table class="list labor_budget_items" id="labor_budget_items">
     <thead><tr>
-      <th class="cost_units"><%= l(:field_hours)%></th>
-      <th><%= l(:label_user) %></th>
-      <th><%= l(:label_comment) %></th>
+      <th class="cost_units"><%= LaborBudgetItem.human_attribute_name(:hours) %></th>
+      <th><%= LaborBudgetItem.human_attribute_name(:user) %></th>
+      <th><%= LaborBudgetItem.human_attribute_name(:comment) %></th>
       <% if User.current.allowed_to?(:view_hourly_rates, @project) %>
-        <th class="currency" id="labor_budget_items_price"><%= l(:caption_budget) %></th>
+        <th class="currency" id="labor_budget_items_price"><%= LaborBudgetItem.human_attribute_name(:budget) %></th>
       <% end %>
       <th></th>
     </tr></thead>
