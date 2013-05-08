@@ -242,7 +242,8 @@ end
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [iI]ssue(?:s)? with(?: the following)?:$/ do |project, count, table|
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin count do
-    i = Issue.generate_for_project!(p)
+    i = FactoryGirl.build(:issue, :project => p,
+                                  :tracker => p.trackers.first)
     send_table_to_object(i, table, {}, method(:add_custom_value_to_issue))
   end
 end
