@@ -93,9 +93,13 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
   steps %Q{
     Given there is 1 project with the following:
       | Name | #{name} |
+    And the project "#{name}" has the following trackers:
+      | name     |
+      | tracker1 |
     And the project "#{name}" has 1 subproject
     And the project "#{name}" has 1 issue with:
       | subject | #{name}issue |
+    And there is a role "Manager"
     And the role "Manager" may have the following rights:
       | view_own_hourly_rate |
       | view_issues |
@@ -105,8 +109,10 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
     And there is a role "Controller"
     And the role "Controller" may have the following rights:
       | View own cost entries |
+    And there is a role "Developer"
     And the role "Developer" may have the following rights:
       | View own cost entries |
+    And there is a role "Reporter"
     And the role "Reporter" may have the following rights:
       | Create issues |
     And there is a role "Supplier"
