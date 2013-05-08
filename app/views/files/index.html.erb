@@ -8,9 +8,9 @@
 
 <table class="list files">
   <thead><tr>
-    <%= sort_header_tag('filename', :caption => l(:field_filename)) %>
+    <%= sort_header_tag('filename', :caption => Attachment.human_attribute_name(:filename)) %>
     <%= sort_header_tag('created_on', :caption => l(:label_date), :default_order => 'desc') %>
-    <%= sort_header_tag('size', :caption => l(:field_filesize), :default_order => 'desc') %>
+    <%= sort_header_tag('size', :caption => Attachment.human_attribute_name(:filesize), :default_order => 'desc') %>
     <%= sort_header_tag('downloads', :caption => l(:label_downloads_abbr), :default_order => 'desc') %>
     <th>MD5</th>
     <th></th>

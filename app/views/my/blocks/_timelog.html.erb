@@ -15,9 +15,9 @@ entries_by_day = entries.group_by(&:spent_on)
 <table class="list time-entries">
 <thead><tr>
 <th><%= l(:label_activity) %></th>
-<th><%= l(:label_project) %></th>
-<th><%= l(:field_comments) %></th>
-<th><%= l(:field_hours) %></th>
+<th><%= Project.model_name.human %></th>
+<th><%= TimeEntry.human_attribute_name(:comments) %></th>
+<th><%= TimeEntry.human_attribute_name(:hours) %></th>
 <th></th>
 </tr></thead>
 <tbody>

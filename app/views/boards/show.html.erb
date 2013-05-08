@@ -31,9 +31,9 @@
 <% if @topics.any? %>
 <table class="list messages">
   <thead><tr>
-    <th><%= l(:field_subject) %></th>
-    <th><%= l(:field_author) %></th>
-    <%= sort_header_tag('created_on', :caption => l(:field_created_on)) %>
+    <th><%= Message.human_attribute_name(:subject) %></th>
+    <th><%= Message.human_attribute_name(:author) %></th>
+    <%= sort_header_tag('created_on', :caption => Message.human_attribute_name(:created_on)) %>
     <%= sort_header_tag('replies', :caption => l(:label_reply_plural)) %>
     <%= sort_header_tag('updated_on', :caption => l(:label_message_last)) %>
   </tr></thead>

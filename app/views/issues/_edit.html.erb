@@ -18,7 +18,7 @@
         <fieldset class="tabular"><legend><%= l(:button_log_time) %></legend>
         <%= fields_for :time_entry, @time_entry, { :builder => TabularFormBuilder, :lang => current_language} do |time_entry| %>
         <div class="splitcontentleft">
-        <p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
+        <p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= TimeEntry.human_attribute_name(:hours) %></p>
         </div>
         <div class="splitcontentright">
         <p><%= time_entry.select :activity_id, activity_collection_for_select_options %></p>
@@ -31,8 +31,8 @@
     </fieldset>
     <% end %>
 
-    <fieldset><legend><%= l(:field_notes) %></legend>
-    <%= label_tag 'notes', l(:field_notes), :class => 'hidden-for-sighted' %>
+    <fieldset><legend><%= Journal.human_attribute_name(:notes) %></legend>
+    <%= label_tag 'notes', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
     <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
     <%= wikitoolbar_for 'notes' %>
     <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>

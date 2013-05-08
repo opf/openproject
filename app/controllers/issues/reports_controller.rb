@@ -40,32 +40,32 @@ class Issues::ReportsController < ApplicationController
       @field = "tracker_id"
       @rows = @project.trackers
       @data = Issue.by_tracker(@project)
-      @report_title = l(:field_tracker)
+      @report_title = Issue.human_attribute_name(:tracker)
     when "version"
       @field = "fixed_version_id"
       @rows = @project.shared_versions.sort
       @data = Issue.by_version(@project)
-      @report_title = l(:field_version)
+      @report_title = Issue.human_attribute_name(:version)
     when "priority"
       @field = "priority_id"
       @rows = IssuePriority.all
       @data = Issue.by_priority(@project)
-      @report_title = l(:field_priority)
+      @report_title = Issue.human_attribute_name(:priority)
     when "category"
       @field = "category_id"
       @rows = @project.issue_categories
       @data = Issue.by_category(@project)
-      @report_title = l(:field_category)
+      @report_title = Issue.human_attribute_name(:category)
     when "assigned_to"
       @field = "assigned_to_id"
       @rows = @project.members.collect { |m| m.user }.sort
       @data = Issue.by_assigned_to(@project)
-      @report_title = l(:field_assigned_to)
+      @report_title = Issue.human_attribute_name(:assigned_to)
     when "author"
       @field = "author_id"
       @rows = @project.members.collect { |m| m.user }.sort
       @data = Issue.by_author(@project)
-      @report_title = l(:field_author)
+      @report_title = Issue.human_attribute_name(:author)
     when "subproject"
       @field = "project_id"
       @rows = @project.descendants.visible

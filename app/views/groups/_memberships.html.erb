@@ -5,7 +5,7 @@
 <% if @group.memberships.any? %>
 <table class="list memberships">
 	<thead><tr>
-	  <th><%= l(:label_project) %></th>
+	  <th><%= Project.model_name.human %></th>
 	  <th><%= l(:label_role_plural) %></th>
 	  <th style="width:15%"></th>
 	</tr></thead>

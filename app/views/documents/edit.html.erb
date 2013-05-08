@@ -1,4 +1,4 @@
-<h2><%=l(:label_document)%></h2>
+<h2><%= Document.model_name.human %></h2>
 
 <%= form_tag(document_path(@document),
              :method => :put,

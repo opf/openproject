@@ -2,18 +2,18 @@
 
 <div class="box">
 <!--[form:issue_status]-->
-<p><label for="issue_status_name"><%=l(:field_name)%><span class="required"> *</span></label>
+<p><label for="issue_status_name"><%= IssueStatus.human_attribute_name(:name) %><span class="required"> *</span></label>
 <%= text_field 'issue_status', 'name'  %></p>
 
 <% if Issue.use_status_for_done_ratio? %>
-<p><label for="issue_done_ratio"><%=l(:field_done_ratio)%></label>
+<p><label for="issue_done_ratio"><%= Issue.human_attribute_name(:done_ratio) %></label>
 <%= select 'issue_status', :default_done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :include_blank => true %></p>
 <% end %>
 
-<p><label for="issue_status_is_closed"><%=l(:field_is_closed)%></label>
+<p><label for="issue_status_is_closed"><%=IssueStatus.human_attribute_name(:is_closed) %></label>
 <%= check_box 'issue_status', 'is_closed' %></p>
 
-<p><label for="issue_status_is_default"><%=l(:field_is_default)%></label>
+<p><label for="issue_status_is_default"><%= IssueStatus.human_attribute_name(:is_default) %></label>
 <%= check_box 'issue_status', 'is_default' %></p>
 
 <%= call_hook(:view_issue_statuses_form, :issue_status => @issue_status) %>

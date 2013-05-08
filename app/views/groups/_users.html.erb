@@ -2,7 +2,7 @@
 <% if @group.users.any? %>
 	<table class="list users">
 		<thead><tr>
-		  <th><%= l(:label_user) %></th>
+		  <th><%= User.model_name.human %></th>
 		  <th style="width:15%"></th>
 		</tr></thead>
 		<tbody>

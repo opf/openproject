@@ -331,41 +331,41 @@ module Redmine
         y0 = pdf.GetY
 
         pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_status) + ":","LT")
+        pdf.RDMCell(35,5, Issue.human_attribute_name(:status) + ":","LT")
         pdf.SetFontStyle('',9)
         pdf.RDMCell(60,5, issue.status.to_s,"RT")
         pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_priority) + ":","LT")
+        pdf.RDMCell(35,5, Issue.human_attribute_name(:priority) + ":","LT")
         pdf.SetFontStyle('',9)
         pdf.RDMCell(60,5, issue.priority.to_s,"RT")
         pdf.Ln
 
         pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_author) + ":","L")
+        pdf.RDMCell(35,5, Issue.human_attribute_name(:author) + ":","L")
         pdf.SetFontStyle('',9)
         pdf.RDMCell(60,5, issue.author.to_s,"R")
         pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_category) + ":","L")
+        pdf.RDMCell(35,5, Issue.human_attribute_name(:category) + ":","L")
         pdf.SetFontStyle('',9)
         pdf.RDMCell(60,5, issue.category.to_s,"R")
         pdf.Ln
 
         pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_created_on) + ":","L")
+        pdf.RDMCell(35,5, Issue.human_attribute_name(:created_on) + ":","L")
         pdf.SetFontStyle('',9)
         pdf.RDMCell(60,5, format_date(issue.created_on),"R")
         pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_assigned_to) + ":","L")
+        pdf.RDMCell(35,5, Issue.human_attribute_name(:assigned_to) + ":","L")
         pdf.SetFontStyle('',9)
         pdf.RDMCell(60,5, issue.assigned_to.to_s,"R")
         pdf.Ln
 
         pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_updated_on) + ":","LB")
+        pdf.RDMCell(35,5, Issue.human_attribute_name(:updated_on) + ":","LB")
         pdf.SetFontStyle('',9)
         pdf.RDMCell(60,5, format_date(issue.updated_on),"RB")
         pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_due_date) + ":","LB")
+        pdf.RDMCell(35,5, Issue.human_attribute_name(:due_date) + ":","LB")
         pdf.SetFontStyle('',9)
         pdf.RDMCell(60,5, format_date(issue.due_date),"RB")
         pdf.Ln
@@ -378,7 +378,7 @@ module Redmine
         end
 
         pdf.SetFontStyle('B',9)
-        pdf.RDMCell(35,5, l(:field_description) + ":")
+        pdf.RDMCell(35,5, Issue.human_attribute_name(:description) + ":")
         pdf.SetFontStyle('',9)
         pdf.RDMMultiCell(155,5, issue.description.to_s,"BR")
 
