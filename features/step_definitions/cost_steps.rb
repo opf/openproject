@@ -12,10 +12,8 @@ Given /^there is 1 cost type with the following:$/ do |table|
   ct = CostType.generate
   send_table_to_object(ct, table, {
     :cost_rate => Proc.new do |o,v|
-      CostRate.generate.tap do |cr|
-        cr.rate = v
-        cr.cost_type = o
-      end.save!
+      FactoryGirl.create(:cost_rate, :rate => v,
+                                     :cost_type => o)
     end,
     :name => Proc.new do |o,v|
       o.name = v
