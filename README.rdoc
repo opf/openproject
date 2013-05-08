@@ -1,4 +1,4 @@
-= OpenProject
+= OpenProject {<img src="https://travis-ci.org/opf/openproject.png?branch=feature/rails3" alt="Build Status" />}[https://travis-ci.org/opf/openproject]
 
 == This is a beta-Release Branch
 
