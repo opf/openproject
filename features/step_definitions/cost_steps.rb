@@ -76,7 +76,7 @@ end
 Given /^the issue "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |issue, count, table|
   i = Issue.find(:last, :conditions => ["subject = '#{issue}'"])
   as_admin count do
-    ce = Factory.build(:cost_entry, :spent_on => (table.rows_hash["date"] ? table.rows_hash["date"].to_date : Date.today),
+    ce = FactoryGirl.build(:cost_entry, :spent_on => (table.rows_hash["date"] ? table.rows_hash["date"].to_date : Date.today),
                                     :units => table.rows_hash["units"],
                                     :project => i.project,
                                     :issue => i,
@@ -166,7 +166,7 @@ Given /^users have times and the cost type "([^\"]*)" logged on the issue "([^\"
 end
 
 Given /^there is a variable cost object with the following:$/ do |table|
-  cost_object = Factory.build(:variable_cost_object)
+  cost_object = FactoryGirl.build(:variable_cost_object)
 
   table_hash = table.rows_hash
 
