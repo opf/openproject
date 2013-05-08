@@ -101,6 +101,7 @@ en:
     assigned_to: Assignee
     author: Author
     base: "General Error:"
+    blocks_ids: Blocks
     category: Kategorie
     comments: Comment
     created_on: Created on
