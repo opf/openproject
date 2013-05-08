@@ -7,13 +7,13 @@ class HourlyRatesController < ApplicationController
   helper :hourly_rates
   include HourlyRatesHelper
 
-  before_filter :find_user, :only => [:show, :edit, :set_rate]
+  before_filter :find_user, :only => [:show, :edit, :update, :set_rate]
 
-  before_filter :find_optional_project, :only => [:show, :edit]
+  before_filter :find_optional_project, :only => [:show, :edit, :update]
   before_filter :find_project, :only => [:set_rate]
 
   # #show, #edit have their own authorization
-  before_filter :authorize, :except => [:show, :edit]
+  before_filter :authorize, :except => [:show, :edit, :update]
 
   # TODO: this should be an index
   def show
@@ -82,17 +82,15 @@ class HourlyRatesController < ApplicationController
       return deny_access unless User.current.admin?
     end
 
-    if request.post?
-      if params[:user].is_a?(Hash)
-        new_attributes = params[:user][:new_rate_attributes]
-        existing_attributes = params[:user][:existing_rate_attributes]
-      end
-
-      @user.add_rates(@project, new_attributes)
-      @user.set_existing_rates(@project, existing_attributes)
+    if params[:user].is_a?(Hash)
+      new_attributes = params[:user][:new_rate_attributes]
+      existing_attributes = params[:user][:existing_rate_attributes]
     end
 
-    if request.post? && @user.save
+    @user.add_rates(@project, new_attributes)
+    @user.set_existing_rates(@project, existing_attributes)
+
+    if @user.save
       flash[:notice] = l(:notice_successful_update)
       if @project.nil?
         redirect_back_or_default(:action => 'show', :id => @user)
