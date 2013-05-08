@@ -7,16 +7,16 @@
   <% attributes_array = cost_issues_attributes %>
   <% (0..(attributes_array.size - 1)).step(2) do |i| %>
     <tr>
-      <td>
-        <b><%= attributes_array[i].first %>:</b>
-      </td>
+      <th>
+        <%= attributes_array[i].first %>:
+      </th>
       <td>
         <%= attributes_array[i].last %>
       </td>
       <% if i + 1 < attributes_array.size %>
-        <td>
-          <b><%= attributes_array[i + 1].first %>:</b>
-        </td>
+        <th>
+          <%= attributes_array[i + 1].first %>:
+        </th>
         <td>
           <%= attributes_array[i + 1].last %>
         </td>
