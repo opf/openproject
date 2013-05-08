@@ -105,8 +105,7 @@ class CostObjectsController < ApplicationController
     else
       @cost_object.fixed_date = Date.today
     end
-
-    @cost_object.attributes = params[:cost_object]
+    permitted_params.cost_object if params[:cost_object]
 
     render :layout => !request.xhr?
   end
@@ -137,7 +136,7 @@ class CostObjectsController < ApplicationController
       @cost_object.fixed_date = Date.today
     end
 
-    @cost_object.attributes = params[:cost_object]
+    @cost_object.attributes = permitted_params.cost_object
 
     if @cost_object.save
       Attachment.attach_files(@cost_object, params[:attachments])
@@ -156,7 +155,7 @@ class CostObjectsController < ApplicationController
     # TODO: This method used to be responsible for both edit and update
     # Please remove code where necessary
     # check whether this method is needed at all
-    @cost_object.attributes = params[:cost_object] if params[:cost_object]
+    @cost_object.attributes = permitted_params.cost_object if params[:cost_object]
 
   end
 
@@ -168,7 +167,7 @@ class CostObjectsController < ApplicationController
 
     # TODO: use better way to prevent mass assignment errors
     params[:cost_object].delete(:kind)
-    @cost_object.attributes = params[:cost_object] if params[:cost_object]
+    @cost_object.attributes = permitted_params.cost_object if params[:cost_object]
 
     if @cost_object.save
       Attachment.attach_files(@cost_object, params[:attachments])

@@ -38,9 +38,7 @@ class CostTypesController < ApplicationController
       @cost_type = CostType.new()
     end
 
-    if params[:cost_type]
-      @cost_type.attributes = params[:cost_type]
-    end
+    @cost_type.attributes = permitted_params.cost_type if params[:cost_type]
 
     if request.post? && @cost_type.save
       flash[:notice] = l(:notice_successful_update)
@@ -61,9 +59,7 @@ class CostTypesController < ApplicationController
       @cost_type = CostType.new()
     end
 
-    if params[:cost_type]
-      @cost_type.attributes = params[:cost_type]
-    end
+    @cost_type.attributes = permitted_params.cost_type if params[:cost_type]
 
     if @cost_type.save
       flash[:notice] = l(:notice_successful_update)
@@ -84,9 +80,7 @@ class CostTypesController < ApplicationController
       @cost_type = CostType.new()
     end
 
-    if params[:cost_type]
-      @cost_type.attributes = params[:cost_type]
-    end
+    @cost_type.attributes = permitted_params.cost_type if params[:cost_type]
 
     if request.post? && @cost_type.save
       flash[:notice] = l(:notice_successful_update)
