@@ -17,8 +17,8 @@ Feature: Credit unit costs
   Scenario: Crediting units costs to an issue
     When I am already logged in as "manager"
     And I go to the page of the issue "issue1"
-    And I follow "More functions" within ".action_menu_main"
-    And I follow "Log unit costs" within ".action_menu_main"
+    And I select "Log unit costs" from the action menu
     And I fill in "cost_entry_units" with "100"
+    And I select "cost_type_1" from "Cost type"
     And I press "Save"
     Then I should be on the page of the issue "issue1"

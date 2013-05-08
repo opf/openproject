@@ -1,7 +1,7 @@
 <%= render :partial => 'shared/costs_header' %>
 <h2><%= l(:caption_cost_type) %></h2>
 
-<%= labelled_tabular_form_for @cost_type, :url => {:action => 'update'}, :method => :put do |f| %>
+<%= labelled_tabular_form_for @cost_type do |f| %>
   <%= error_messages_for 'cost_type' %>
   <%= back_url_hidden_field_tag %>
 
@@ -13,7 +13,7 @@
   </div>
 
   <h3><%= l :caption_rate_history %></h3>
-  <% javascript_tag do -%>
+  <%= javascript_tag do -%>
     RatesForm = new Subform('<%= escape_javascript(render(:partial => "rate", :object => CostRate.new )) %>',<%= @cost_type.rates.length %>,'rates_body');
   <% end -%>
   <table class="list" style="width:auto">

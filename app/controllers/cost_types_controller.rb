@@ -3,10 +3,7 @@ class CostTypesController < ApplicationController
 
   # Allow only admins here
   before_filter :require_admin
-  before_filter :find_cost_type, :only => [:set_rate, :toggle_delete]
-  before_filter :find_optional_cost_type, :only => [:edit, :update]
-
-  verify :method => :post, :only => [:set_rate, :toggle_delete], :redirect_to => { :action => :index }
+  before_filter :find_cost_type, :only => [:edit, :update, :set_rate, :toggle_delete]
 
   helper :sort
   include SortHelper
@@ -34,38 +31,18 @@ class CostTypesController < ApplicationController
   end
 
   def edit
-    if !@cost_type
-      @cost_type = CostType.new()
-    end
-
-    @cost_type.attributes = permitted_params.cost_type if params[:cost_type]
-
-    if request.post? && @cost_type.save
-      flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default(:action => 'index')
-    else
-      @cost_type.rates.build({:valid_from => Date.today}) if @cost_type.rates.empty?
-      render :action => "edit", :layout => !request.xhr?
-    end
-  rescue ActiveRecord::StaleObjectError
-    # Optimistic locking exception
-    flash.now[:error] = l(:notice_locking_conflict)
+    render :action => "edit", :layout => !request.xhr?
   end
 
   def update
     # TODO: method is copied over from edit
     # remove code as appropriate
-    if !@cost_type
-      @cost_type = CostType.new()
-    end
-
-    @cost_type.attributes = permitted_params.cost_type if params[:cost_type]
+    @cost_type.attributes = permitted_params.cost_type
 
     if @cost_type.save
       flash[:notice] = l(:notice_successful_update)
       redirect_back_or_default(:action => 'index')
     else
-      @cost_type.rates.build({:valid_from => Date.today}) if @cost_type.rates.empty?
       render :action => "edit", :layout => !request.xhr?
     end
   rescue ActiveRecord::StaleObjectError
@@ -76,13 +53,19 @@ class CostTypesController < ApplicationController
   def new
     # TODO: method is copied over from edit
     # remove code as appropriate
-    if !@cost_type
-      @cost_type = CostType.new()
-    end
+    @cost_type = CostType.new()
 
-    @cost_type.attributes = permitted_params.cost_type if params[:cost_type]
+    @cost_type.rates.build({:valid_from => Date.today}) if @cost_type.rates.empty?
 
-    if request.post? && @cost_type.save
+    render :action => "edit", :layout => !request.xhr?
+  end
+
+  def create
+    # TODO: method is copied over from edit
+    # remove code as appropriate
+    @cost_type = CostType.new(permitted_params.cost_type)
+
+    if @cost_type.save
       flash[:notice] = l(:notice_successful_update)
       redirect_back_or_default(:action => 'index')
     else
@@ -128,12 +111,6 @@ private
     @cost_type = CostType.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def find_optional_cost_type
-    if !params[:id].blank?
-      @cost_type = CostType.find(params[:id])
-    end
   end
 
   def default_breadcrumb

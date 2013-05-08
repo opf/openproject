@@ -1,17 +1,30 @@
-module ActionView::Helpers::NumberHelper
-  def number_to_currency_with_l10n(number, options = {})
-    options[:delimiter] = l(:currency_delimiter) unless options[:delimiter]
-    options[:separator] = l(:currency_separator) unless options[:separator]
+module OpenProject::Costs::Patches
+  module NumberHelper
+    def self.included(base) # :nodoc:
+      base.class_eval do
+        include InstanceMethods
 
-    options[:unit] = Setting.plugin_openproject_costs['costs_currency'] unless options[:unit]
-    options[:format] = Setting.plugin_openproject_costs['costs_currency_format'] unless options[:format]
-  
-    # FIXME: patch ruby instead of this code
-    # this circumvents the broken BigDecimal#to_f on Siemens's ruby
-    number = number.to_s if number.is_a? BigDecimal
-  
-    number_to_currency_without_l10n(number, options)
+        alias_method_chain :number_to_currency, :l10n
+      end
+    end
+
+    module InstanceMethods
+      def number_to_currency_with_l10n(number, options = {})
+        options_with_default = { unit: Setting.plugin_openproject_costs['costs_currency'],
+                                 format: Setting.plugin_openproject_costs['costs_currency_format'],
+                                 delimiter: l(:currency_delimiter),
+                                 separator: l(:currency_separator) }.merge(options)
+
+        # FIXME: patch ruby instead of this code
+        # this circumvents the broken BigDecimal#to_f on Siemens's ruby
+        number = number.to_s if number.is_a? BigDecimal
+
+        number_to_currency_without_l10n(number, options_with_default)
+      end
+    end
   end
+end
 
-  alias_method_chain :number_to_currency, :l10n
+unless ActionView::Helpers::NumberHelper.included_modules.include?(OpenProject::Costs::Patches::NumberHelper)
+  ActionView::Helpers::NumberHelper.send(:include, OpenProject::Costs::Patches::NumberHelper)
 end

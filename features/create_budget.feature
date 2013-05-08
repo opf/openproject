@@ -13,10 +13,8 @@ Feature: Creating a Budget
     And I am already logged in as "testuser"
 
     When I go to the overview page of the project called "project1"
-    And I toggle the "Budgets" submenu
-    And I follow "New Budget" within "#main-menu"
-    And I fill in "cost_object_subject" with "budget1"
-    And I press "Create"
+    And I create a budget with the following:
+      | subject | budget1 |
 
     Then I should be on the show page for the budget "budget1"
     And I should see "Successful creation"

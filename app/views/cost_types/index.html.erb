@@ -5,28 +5,31 @@
 
 <h2><%= l(:caption_cost_type_plural) %></h2>
 
-<%= form_tag({ :controller => 'cost_types', :action => 'index' }, :id => 'query_form') do %>
-<fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
-<p>
-  <label for="fixed_date"><%= l(:label_fixed_date) %></label>
-  <%= text_field_tag :fixed_date, @fixed_date, :size => 10 %><%= calendar_for('fixed_date') %>
-</p>
+<%= form_tag(cost_types_path, { :method => :get, :id => 'query_form' }) do %>
+  <fieldset id="filters">
+    <legend><%= l(:label_filter_plural) %></legend>
+    <p>
+      <label for="fixed_date"><%= l(:label_fixed_date) %></label>
+      <%= text_field_tag :fixed_date, @fixed_date, :size => 10 %><%= calendar_for('fixed_date') %>
+    </p>
 <p>
   <%= check_box_tag :include_deleted, "1", @include_deleted, :autocomplete => "off" %>
   <label for="include_deleted"><%= l(:caption_show_locked) %></label>
 </p>
+</fieldset>
 <p class="buttons">
 <%= link_to_remote l(:button_apply),
                    { :update => "content",
-                     :with => "Form.serialize('query_form')"
+                     :with => "Form.serialize('query_form')",
+                     :method => :get
                    }, :class => 'icon icon-checked' %>
 
 <%= link_to_remote l(:button_clear),
                    { :url => { :clear_filter => true },
+                     :method => :get,
                      :update => "content",
                    }, :class => 'icon icon-reload'  %>
 </p>
-</fieldset>
 <% end %>
 
 <div id="cost_type_flash_notice_outer" style="display:none">

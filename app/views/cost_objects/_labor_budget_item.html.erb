@@ -12,7 +12,7 @@
 -%>
 
 <% unless error_messages.blank? %><tr><td colspan="5"><%= error_messages %></td></tr><% end %>
-<% fields_for prefix, labor_budget_item do |cost_form| %>
+<%= fields_for prefix, labor_budget_item do |cost_form| %>
 <tr class="cost_entry <%= classes %>" id="<%= id_prefix %>">
   <td class="units">
     <label class="hidden-for-sighted" for="<%= id_prefix %>_units"><%= l(:field_hours) %></label>

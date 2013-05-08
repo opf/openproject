@@ -99,15 +99,15 @@ describe PermittedParams do
     end
 
     it "should return new_rate_attributes" do
-      params = ActionController::Parameters.new(:cost_type => { "new_rate_attributes" => "new_rate_attributes_test" } )
+      params = ActionController::Parameters.new(:cost_type => { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" }, "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } } )
 
-      PermittedParams.new(params, user).cost_type.should == { "new_rate_attributes" => "new_rate_attributes_test" }
+      PermittedParams.new(params, user).cost_type.should == { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" }, "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } }
     end
 
     it "should return existing_rate_attributes" do
-      params = ActionController::Parameters.new(:cost_type => { "existing_rate_attributes" => "new_rate_attributes_test" } )
+      params = ActionController::Parameters.new(:cost_type => { "existing_rate_attributes" => { "9" => { "valid_from" => "2013-05-05", "rate" => "50.0" } } } )
 
-      PermittedParams.new(params, user).cost_type.should == { "existing_rate_attributes" => "new_rate_attributes_test" }
+      PermittedParams.new(params, user).cost_type.should == { "existing_rate_attributes" => { "9" => { "valid_from" => "2013-05-05", "rate" => "50.0" } } }
     end
 
     it "should not return project_id" do

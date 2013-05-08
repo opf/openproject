@@ -1,10 +1,12 @@
+require_dependency 'open_project/costs/patches/i18n_patch'
+
 module OpenProject::Costs
   class Engine < ::Rails::Engine
     engine_name :openproject_costs
 
     def self.settings
       { :default => { 'costs_currency' => 'EUR',
-                     'costs_currency_format' => '%n %u' },
+                      'costs_currency_format' => '%n %u' },
         :partial => 'settings/openproject_costs' }
     end
 

@@ -12,10 +12,8 @@ Given /^there is 1 cost type with the following:$/ do |table|
   ct = CostType.generate
   send_table_to_object(ct, table, {
     :cost_rate => Proc.new do |o,v|
-      CostRate.generate.tap do |cr|
-        cr.rate = v
-        cr.cost_type = o
-      end.save!
+      FactoryGirl.create(:cost_rate, :rate => v,
+                                     :cost_type => o)
     end,
     :name => Proc.new do |o,v|
       o.name = v
@@ -78,7 +76,7 @@ end
 Given /^the issue "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |issue, count, table|
   i = Issue.find(:last, :conditions => ["subject = '#{issue}'"])
   as_admin count do
-    ce = Factory.build(:cost_entry, :spent_on => (table.rows_hash["date"] ? table.rows_hash["date"].to_date : Date.today),
+    ce = FactoryGirl.build(:cost_entry, :spent_on => (table.rows_hash["date"] ? table.rows_hash["date"].to_date : Date.today),
                                     :units => table.rows_hash["units"],
                                     :project => i.project,
                                     :issue => i,
@@ -95,9 +93,13 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
   steps %Q{
     Given there is 1 project with the following:
       | Name | #{name} |
+    And the project "#{name}" has the following trackers:
+      | name     |
+      | tracker1 |
     And the project "#{name}" has 1 subproject
     And the project "#{name}" has 1 issue with:
       | subject | #{name}issue |
+    And there is a role "Manager"
     And the role "Manager" may have the following rights:
       | view_own_hourly_rate |
       | view_issues |
@@ -107,8 +109,10 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
     And there is a role "Controller"
     And the role "Controller" may have the following rights:
       | View own cost entries |
+    And there is a role "Developer"
     And the role "Developer" may have the following rights:
       | View own cost entries |
+    And there is a role "Reporter"
     And the role "Reporter" may have the following rights:
       | Create issues |
     And there is a role "Supplier"
@@ -162,7 +166,7 @@ Given /^users have times and the cost type "([^\"]*)" logged on the issue "([^\"
 end
 
 Given /^there is a variable cost object with the following:$/ do |table|
-  cost_object = Factory.build(:variable_cost_object)
+  cost_object = FactoryGirl.build(:variable_cost_object)
 
   table_hash = table.rows_hash
 
@@ -171,7 +175,7 @@ Given /^there is a variable cost object with the following:$/ do |table|
                              Time.now
   cost_object.fixed_date = cost_object.created_on.to_date
   cost_object.project = (Project.find_by_identifier(table_hash["project"]) || Project.find_by_name(table_hash ["project"])) if table_hash.has_key? "project"
-  cost_object.author = User.current
+  cost_object.author = User.find_by_login(table_hash["author"]) || cost_object.project.members.first.principal
   cost_object.subject = table_hash["subject"] if table_hash.has_key? "subject"
 
   cost_object.save!
