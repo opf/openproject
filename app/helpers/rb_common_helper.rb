@@ -116,21 +116,6 @@ module RbCommonHelper
     item.remaining_hours.blank? || item.remaining_hours==0 ? "" : item.remaining_hours
   end
 
-  def javascript_include_tag_backlogs(*args)
-    min = ENV["RAILS_ENV"] == 'development' ? "" : ".min"
-
-    args.each do |jsfile|
-      jsfile.gsub!('jquery.js', "jquery-1.5.1#{min}.js")
-      jsfile.gsub!('jquery-ui.js', "jquery-ui-1.8.11.custom.min.js")
-      jsfile.gsub!('jquery.jeditable.js', "jquery.jeditable.mini.js")
-      jsfile.gsub!('excanvas.js', "excanvas#{min}.js")
-      jsfile.gsub!('jquery.jqplot.js', "jquery.jqplot#{min}.js")
-    end
-
-    args.push(:plugin => 'chiliproject_backlogs')
-    javascript_include_tag *args
-  end
-
   def available_story_trackers
     @available_story_trackers ||= begin
       trackers = story_trackers & @project.trackers if @project
