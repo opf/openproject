@@ -28,7 +28,7 @@ Feature: User deletion
       | login     | bob |
     And I am already logged in as "admin"
     When I go to the edit page of the user "bob"
-    And I follow "Delete" within ".contextual"
+    And I select "Delete" from the action menu
     And I press "Delete"
     And I accept the alert dialog
     Then I should see "Account successfully deleted"
@@ -40,7 +40,7 @@ Feature: User deletion
       | login     | bob |
     And I am already logged in as "admin"
     And I go to the edit page of the user "bob"
-    Then I should not see "Delete" within ".contextual"
+    Then there should not be a "Delete" entry in the action menu
 
   Scenario: Deletablilty settings can be set in the users tab of the settings
     Given I am already logged in as "admin"
