@@ -13,6 +13,10 @@
 #++
 
 ENV["RAILS_ENV"] = "test"
+
+require 'coveralls'
+Coveralls.wear!('rails')
+
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 require File.expand_path(File.dirname(__FILE__) + '/helper_testcase')
