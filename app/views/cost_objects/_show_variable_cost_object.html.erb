@@ -4,10 +4,10 @@
   <h4><%= l(:caption_material_budget)%></h4>
   <table class="material_budget_items list">
     <thead><tr>
-      <th><%= l(:caption_cost_unit_plural)%></th>
-      <th><%= l(:caption_cost_type) %></th>
-      <th><%= l(:caption_comment) %></th>
-      <th class="currency"><%= l(:caption_budget) %></th>
+      <th><%= MaterialBudgetItem.human_attribute_name(:units) %></th>
+      <th><%= MaterialBudgetItem.human_attribute_name(:cost_type) %></th>
+      <th><%= MaterialBudgetItem.human_attribute_name(:comment) %></th>
+      <th class="currency"><%= MaterialBudgetItem.human_attribute_name(:budget) %></th>
     </tr></thead>
     <tbody>
       <% @cost_object.material_budget_items.each do |material_budget_item| %>
@@ -28,10 +28,10 @@
   <h4><%= l(:caption_material_costs) %></h4>
   <table class="material_budget_items list">
     <thead><tr>
-      <th><%= l(:caption_issue)%></th>
-      <th><%= l(:caption_cost_unit_plural) %></th>
-      <th><%= l(:caption_cost_type) %></th>
-      <th class="currency"><%= l(:caption_costs) %></th>
+      <th><%= CostEntry.human_attribute_name(:issue)%></th>
+      <th><%= CostEntry.human_attribute_name(:units) %></th>
+      <th><%= CostEntry.human_attribute_name(:cost_type) %></th>
+      <th class="currency"><%= CostEntry.human_attribute_name(:costs) %></th>
     </tr></thead>
     <tbody>
       <% @cost_object.cost_entries.visible(User.current, @project).all(:include => [:cost_type]).group_by(&:issue).each do |issue, cost_entries|
@@ -71,10 +71,10 @@
   <h4><%= l(:caption_labor_budget)%></h4>
   <table class="labor_budget_items list">
     <thead><tr>
-      <th><%= l(:field_hours)%></th>
-      <th><%= l(:label_user) %></th>
-      <th><%= l(:caption_comment) %></th>
-      <th class="currency"><%= l(:caption_budget) %></th>
+      <th><%= LaborBudgetItem.human_attribute_name(:hours) %></th>
+      <th><%= LaborBudgetItem.human_attribute_name(:user) %></th>
+      <th><%= LaborBudgetItem.human_attribute_name(:comment) %></th>
+      <th class="currency"><%= LaborBudgetItem.human_attribute_name(:budget) %></th>
     </tr></thead>
     <tbody>
       <% @cost_object.labor_budget_items.each do |labor_budget_item| %>
@@ -103,10 +103,10 @@
   <h4><%= l(:caption_labor_costs) %></h4>
   <table class="labor_budget_items list">
     <thead><tr>
-      <th><%= l(:caption_issue)%></th>
-      <th><%= l(:field_hours)%></th>
-      <th><%= l(:label_user) %></th>
-      <th class="currency"><%= l(:caption_costs) %></th>
+      <th><%= TimeEntry.human_attribute_name(:issue) %></th>
+      <th><%= TimeEntry.human_attribute_name(:hours) %></th>
+      <th><%= TimeEntry.human_attribute_name(:user) %></th>
+      <th class="currency"><%= TimeEntry.human_attribute_name(:costs) %></th>
     </tr></thead>
     <tbody>
     <% @cost_object.time_entries.visible(User.current, @project).all.group_by(&:issue).each do |issue, time_entries|

@@ -1,8 +1,51 @@
 ---
 de:
+  attributes:
+    units: Einheiten
+    hours: Stunden
+    budget: Geplante Kosten
+    comment: Kommentar
+    costs: Kosten
+    valid_from: Gültig ab
+
+  activerecord:
+    models:
+      cost_object: Budget
+      rate: Satz
+    attributes:
+      cost_object:
+        type: Kostenart
+        budget_ratio: Verbraucht (Prozent)
+        project_manager_signoff: Genehmigt vom Projektmanager
+        client_signoff: Genehmigt vom Kunden
+        fixed_date: Referenzdatum
+        planned: Geplant
+        spent: Verbraucht
+        available: Verfügbar
+      cost_type:
+        unit: Einheit
+        unit_plural: Einheit plural
+      cost_entry:
+        cost_type: Kostenart
+        issue: Ticket
+        spent_on: Datum
+      material_budget_item:
+        cost_type: Kostenart
+      issue:
+        cost_object: Budget
+        spent_units: Gebuchte Einheiten
+        spent_costs: Gebuchte Kosten
+        spent_hours: Gebuchte Stunden
+        material_costs: Stückkosten
+        overall_costs: Gesamtkosten
+        labor_costs: Personaleinzelkosten
+        cost_object_subject: Budgettitel
+      user:
+        current_rate: Aktueller Satz
+        default_rates: Standardsätze
+
   cost_objects_title: Budgets
   cost_types_title: Kostenarten
-  cost_reports_title: Reports
   project_module_costs_module: Controlling
 
   currency_separator: ","
@@ -15,30 +58,23 @@ de:
   week: Woche
   group_by_others: In keiner der Gruppen
 
-  button_add_budget_item: "Budgetposition hinzuf\xC3\xBCgen"
+  button_add_budget_item: "Budgetposition hinzufügen"
   button_add_cost_object: Neues Budget anlegen
   button_add_cost_type: Kostenart anlegen
-  button_add_rate: "Satz hinzuf\xC3\xBCgen"
+  button_add_rate: "Satz hinzufügen"
   button_log_costs: "Stückkosten buchen"
   button_log_time: "Zeit buchen"
 
   caption_booked_on_project: "Auf das Projekt gebucht"
-  caption_budget: Budget
-  caption_budget_available: Verfügbares Budget
-  caption_budget_ratio: Verbrauchtes Budget
-  caption_comment: Kommentar
   caption_cost_type: Kostenart
   caption_cost_type_plural: Kostenarten
   caption_cost_type_unit_name: Einheit
   caption_cost_type_unit_name_plural: Einheit Plural
   caption_cost_unit_plural: Einheiten
-  caption_costs: Kosten
   caption_current_rate: Aktueller Satz
   caption_default: Standard
-  field_rate: Satz
-  field_rates: Sätze
-  caption_default_rate_history_for: "Standardsatz-Historie f\xC3\xBCr %{user}"
-  caption_default_rates: "Standards\xC3\xA4tze"
+  caption_default_rate_history_for: "Standardsatz-Historie für %{user}"
+  caption_default_rates: "Standardsätze"
   caption_fixed_date: Referenzdatum
   caption_issue: Ticket
   caption_labor: Personal
@@ -51,50 +87,27 @@ de:
   caption_progress: Fortschritt
   caption_rate: Satz
   caption_rate_history: Stundensatz-Historie
-  caption_rate_history_for: "Stundensatz-Historie f\xC3\xBCr %{user}"
-  caption_rate_history_for_project: "Studensatz-Historie f\xC3\xBCr %{user} in Projekt %{project}"
+  caption_rate_history_for: "Stundensatz-Historie für %{user}"
+  caption_rate_history_for_project: "Studensatz-Historie für %{user} in Projekt %{project}"
   caption_set_rate: Aktuellen Satz festlegen
   caption_spent: Gebucht
   caption_status: Status
   caption_subject: Titel
-  caption_valid_from: "G\xC3\xBCltig ab"
-  field_valid_from: "G\xC3\xBCltig ab"
+  caption_valid_from: "Gültig ab"
 
   error_generic: "Bei der Anfrage ist ein Fehler aufgetreten. Sie wurde zurückgesetzt. Bitte melden Sie das Problem Ihrem Redmine Administrator"
 
-  field_budget_ratio: Verbrauchtes Budget
-  field_client_signoff: Genehmigt vom Kunden
-  field_cost_object: Budget
-  field_cost_object_subject: Budgettitel
-  field_cost_type: Kostenart
-  field_costs: Kosten
-  field_default: Standard
-  field_deliverable: Budget
-  field_fixed_date: Referenzdatum
-  field_kind: Typ
-  field_labor_budget: Geplante Personaleinzelkosten
-  field_labor_costs: Personaleinzelkosten
-  field_material_budget: Geplante Stückkosten
-  field_material_costs: Stückkosten
-  field_overall_costs: Gesamtkosten
-  field_overridden_costs: "\xC3\x9Cberschriebene Kosten"
-  field_project_manager_signoff: Genehmigt vom Projektmanager
-  field_spent: Gebucht
-  field_unit: Einheit
-  field_unit_plural: Einheit Plural
-  field_unit_price: Stückeinzelpreis
-  field_units: Einheiten
 
   help_click_to_edit: Hier Klicken zum bearbeiten.
-  help_currency_format: "Format der angezeigten W\xC3\xA4hrungswerte. %n wird mit dem Zahlenwert ersetzt, %u mit der W\xC3\xA4hrung."
-  help_override_rate: "Hier einen Wert eingeben um den Standardwert zu \xC3\xBCberschreiben."
+  help_currency_format: "Format der angezeigten Währungswerte. %n wird mit dem Zahlenwert ersetzt, %u mit der Währung."
+  help_override_rate: "Hier einen Wert eingeben um den Standardwert zu Überschreiben."
 
-  label_costlog: Stückkosten buchen
+  label_log_costs: Stückkosten buchen
   label_awaiting_client: Warten auf Kundenantwort
   label_status_awaiting_client: Warten auf Kundenantwort
   label_awaiting_manager: Warten auf Managerantwort
   label_between: zwischen
-  label_cost_filter_add: "Kostenfilter hinzuf\xC3\xBCgen"
+  label_cost_filter_add: "Kostenfilter hinzufügen"
   label_cost_object: Budget
   label_cost_object_id: "Budget #%{id}"
   label_cost_object_new: Neues Budget
@@ -102,11 +115,11 @@ de:
   label_cost_plural: Kosten
   label_cost_report: Report
   label_costs_per_page: Kosten dieser Seite
-  label_currency: "W\xC3\xA4hrung"
-  label_currency_format: "W\xC3\xA4hrungsformat"
+  label_currency: "Währung"
+  label_currency_format: "Währungsformat"
   label_current_default_rate: Aktueller Standardsatz
   label_date_on: am
-  label_deleted_cost_types: "Gel\xC3\xB6schte Kostenarten"
+  label_deleted_cost_types: "Gelöschte Kostenarten"
   label_deliverable: Budget
   label_display_cost_entries: Stückkosten anzeigen
   label_display_time_entries: Personaleinzelkosten anzeigen
@@ -117,9 +130,9 @@ de:
   label_generic_user: Generischer Benutzer
   label_greater_or_equal: ">="
   label_group_by: Gruppiere Ergebnisse
-  label_group_by_add: "Gruppierungsfeld hinzuf\xC3\xBCgen"
-  label_include_deleted: "Gel\xC3\xB6schte anzeigen"
-  label_issue_filter_add: "Ticketfilter hinzuf\xC3\xBCgen"
+  label_group_by_add: "Gruppierungsfeld hinzufügen"
+  label_include_deleted: "Gelöschte anzeigen"
+  label_issue_filter_add: "Ticketfilter hinzufügen"
   label_kind: Art
   label_less_or_equal: <=
   label_no: Nein
@@ -127,13 +140,11 @@ de:
   label_overall_costs: Gesamtkosten
   label_rate: Satz
   label_rate_plural: Sätze
-  label_spent_costs: Gebuchte Kosten
-  label_spent_units: Gebuchte Einheiten
   label_status_finished: Abgeschlossen
   label_status_in_progress: In  Bearbeitung
   label_units: Einheiten
   label_until: bis
-  label_valid_from: "G\xC3\xBCltig ab"
+  label_valid_from: "Gültig ab"
   label_variable_cost_object: Variables Budget
   label_view_all_cost_objects: "Alle Budgets anzeigen"
   label_yes: Ja
@@ -148,17 +159,17 @@ de:
   permission_edit_cost_entries: Bearbeiten gebuchter Stückkosten
   permission_edit_cost_objects: "Budgets bearbeiten"
   permission_edit_own_cost_entries: Bearbeiten eigener gebuchter Stückkosten
-  permission_edit_rates: "Stundens\xC3\xA4tze editieren"
+  permission_edit_rates: "Stundensätze editieren"
   permission_log_costs: Stückkosten buchen
   permission_log_own_costs: Eigene Stückkosten buchen
   permission_view_cost_entries: Gebuchte Kosten ansehen
   permission_view_cost_objects: "Budgets ansehen"
   permission_view_cost_rates: Anzeigen von Stückpreisen
-  permission_view_hourly_rates: "Alle Stundens\xC3\xA4tze ansehen"
-  permission_view_own_hourly_rate: "Eigene Stundens\xC3\xA4tze ansehen"
+  permission_view_hourly_rates: "Alle Stundensätze ansehen"
+  permission_view_own_hourly_rate: "Eigene Stundensätze ansehen"
 
   text_assign_time_and_cost_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
-  text_cost_object_change_type_confirmation: "Sind Sie sicher? Diese Operation wird einige Informationen des aktuellen Budgets l\xC3\xB6schen."
+  text_cost_object_change_type_confirmation: "Sind Sie sicher? Diese Operation wird einige Informationen des aktuellen Budgets löschen."
   text_destroy_cost_entries_question: Es wurden bereits %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_destroy_time_and_cost_entries:  Gebuchte Aufwände löschen
   text_destroy_time_and_cost_entries_question: Es wurden bereits %{hours} Stunden sowie %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?

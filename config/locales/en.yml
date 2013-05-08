@@ -1,8 +1,51 @@
 ---
 en:
+  attributes:
+    units: Units
+    hours: Hours
+    budget: Planned costs
+    comment: Comment
+    costs: Costs
+    valid_from: Valid from
+
+  activerecord:
+    models:
+      cost_object: Budget
+      rate: Rate
+    attributes:
+      cost_object:
+        type: Cost type
+        budget_ratio: Spent (ratio)
+        project_manager_signoff: Project manager signoff
+        client_signoff: Client signoff
+        fixed_date: Fixed date
+        budget: Planned
+        spent: Spent
+        available: Available
+      cost_type:
+        unit: Unit name
+        unit_plural: Pluralized unit name
+      cost_entry:
+        cost_type: Cost type
+        issue: Issue
+        spent_on: Date
+      material_budget_item:
+        cost_type: Cost type
+      issue:
+        cost_object: Budget
+        spent_units: Spent units
+        spent_costs: Spent costs
+        spent_hours: Spent hours
+        material_costs: Unit costs
+        overall_costs: Overall costs
+        labor_costs: Labor costs
+        cost_object_subject: Budget title
+      user:
+        current_rate: Current rate
+        default_rates: Default rates
+
   cost_objects_title: Budgets
   cost_types_title: Cost Types
-  cost_reports_title: Cost Reports
   project_module_costs_module: Cost Control
 
   currency_separator: .
@@ -22,20 +65,13 @@ en:
   button_log_costs: Log unit costs
 
   caption_booked_on_project: "Booked on Project"
-  caption_budget: Planned Costs
-  caption_budget_available: Remaining Budget
-  caption_budget_ratio: Spent Budget
-  caption_comment: Comment
   caption_cost_type: Cost Type
   caption_cost_type_plural: Cost Types
   caption_cost_type_unit_name: Unit Name
   caption_cost_type_unit_name_plural: Pluralized Unit Name
   caption_cost_unit_plural: Units
-  caption_costs: Costs
   caption_current_rate: Current Rate
   caption_default: Default
-  field_rate: Rate
-  field_rates: Rates
   caption_default_rate_history_for: Default Rate History for %{user}
   caption_default_rates: Default Rates
   caption_fixed_date: Fixed Date
@@ -57,40 +93,15 @@ en:
   caption_status: Status
   caption_subject: Title
   caption_valid_from: Valid from
-  field_valid_from: Valid from
 
   error_generic: "An error occurred while executing the query. It has been resetted. Please report this error to your Redmine administrator."
 
-  field_budget_ratio: Spent Budget
-  field_client_signoff: Client signoff
-  field_cost_object: Budget
-  field_cost_object_subject: Budget Title
-  field_cost_type: Cost type
-  field_costs: Costs
-  field_default: Default
-  field_deliverable: Budget
-  label_display_cost_entries: Display unit costs
-  label_display_time_entries: Display reported hours
-  field_fixed_date: Fixed Date
-  field_kind: Type
-  field_labor_budget: Planned Labor Costs
-  field_labor_costs: Labor Costs
-  field_material_budget: Planned Unit Costs
-  field_material_costs: Unit Costs
-  field_overall_costs: Overall costs
-  field_overridden_costs: Overridden Costs
-  field_project_manager_signoff: Project manager signoff
-  field_spent: Spent
-  field_unit: Unit name
-  field_unit_plural: Pluralized unit name
-  field_unit_price: Unit price
-  field_units: Units
 
   help_click_to_edit: Click here to edit.
   help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit.
   help_override_rate: Enter a value here to override the default rate.
 
-  label_costlog: Log unit costs
+  label_log_costs: Log unit costs
   label_awaiting_client: Awaiting client response
   label_status_awaiting_client: Awaiting client response
   label_awaiting_manager: Awaiting manager response
@@ -126,8 +137,6 @@ en:
   label_overall_costs: Overall costs
   label_rate: Rate
   label_rate_plural: Rates
-  label_spent_costs: Spent costs
-  label_spent_units: Spent units
   label_status_finished: Finished
   label_status_in_progress: In progress
   label_units: Cost units
@@ -137,6 +146,8 @@ en:
   label_view_all_cost_objects: View all Budgets
   label_yes: "Yes"
   label_hourly_rate: "Hourly rate"
+  label_display_cost_entries: Display unit costs
+  label_display_time_entries: Display reported hours
 
   notice_cost_object_conflict: "Issues must be of the same project."
   notice_no_cost_objects_available: "No budgets available."

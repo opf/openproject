@@ -1,15 +1,15 @@
 <div class="contextual">
 <%= link_to l(:button_update), {:controller => 'hourly_rates', :action => 'edit', :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
 </div>
-<h3><%= l(:caption_default_rates) %></h3>
+<h3><%= User.human_attribute_name(:default_rates) %></h3>
 <% if @rates_default.blank? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
 <table class="list rates">
   <thead><tr>
-    <th><%= l(:label_valid_from) %></th>
-    <th class="currency"><%= l(:label_rate) %></th>
-    <th><%= l(:caption_current_rate) %></th>
+    <th><%= Rate.human_attribute_name(:valid_from) %></th>
+    <th class="currency"><%= Rate.model_name.human %></th>
+    <th><%= User.human_attribute_name(:current_rate) %></th>
   </tr></thead>
   <tbody id="rates_body">
   <% current_rate = @user.current_default_rate() %>
