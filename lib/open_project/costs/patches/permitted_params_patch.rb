@@ -27,8 +27,8 @@ module OpenProject::Costs::Patches::PermittedParamsPatch
                                         :unit,
                                         :unit_plural,
                                         :default,
-                                        :new_rate_attributes,
-                                        :existing_rate_attributes)
+                                        { new_rate_attributes: [:valid_from, :rate] },
+                                        { existing_rate_attributes: [:valid_from, :rate] })
     end
 
     def labor_budget_item
