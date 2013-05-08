@@ -175,7 +175,7 @@ Given /^there is a variable cost object with the following:$/ do |table|
                              Time.now
   cost_object.fixed_date = cost_object.created_on.to_date
   cost_object.project = (Project.find_by_identifier(table_hash["project"]) || Project.find_by_name(table_hash ["project"])) if table_hash.has_key? "project"
-  cost_object.author = User.current
+  cost_object.author = User.find_by_login(table_hash["author"]) || cost_object.project.members.first.principal
   cost_object.subject = table_hash["subject"] if table_hash.has_key? "subject"
 
   cost_object.save!
