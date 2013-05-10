@@ -14,12 +14,12 @@ describe TimeEntry do
   let(:user2) { FactoryGirl.create(:user) }
   let(:date) { Date.today }
   let(:rate) { FactoryGirl.build(:cost_rate) }
-  let(:hourly_one) { FactoryGirl.create(:hourly_rate, valid_from: 2.days.ago, project: project, user: user) }
-  let(:hourly_three) { FactoryGirl.create(:hourly_rate, valid_from: 4.days.ago, project: project, user: user) }
-  let(:hourly_five) { FactoryGirl.create(:hourly_rate, valid_from: 6.days.ago, project: project, user: user) }
-  let(:default_hourly_one) { FactoryGirl.create(:default_hourly_rate, valid_from: 2.days.ago, project: project, user: user2) }
-  let(:default_hourly_three) { FactoryGirl.create(:default_hourly_rate, valid_from: 4.days.ago, project: project, user: user2) }
-  let(:default_hourly_five) { FactoryGirl.create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
+  let!(:hourly_one) { FactoryGirl.create(:hourly_rate, valid_from: 2.days.ago, project: project, user: user) }
+  let!(:hourly_three) { FactoryGirl.create(:hourly_rate, valid_from: 4.days.ago, project: project, user: user) }
+  let!(:hourly_five) { FactoryGirl.create(:hourly_rate, valid_from: 6.days.ago, project: project, user: user) }
+  let!(:default_hourly_one) { FactoryGirl.create(:default_hourly_rate, valid_from: 2.days.ago, project: project, user: user2) }
+  let!(:default_hourly_three) { FactoryGirl.create(:default_hourly_rate, valid_from: 4.days.ago, project: project, user: user2) }
+  let!(:default_hourly_five) { FactoryGirl.create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
   let(:hours) { 5.0 }
   let(:time_entry) do
     FactoryGirl.create(:time_entry, :project => project,
