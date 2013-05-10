@@ -177,10 +177,10 @@ describe TimeEntry do
 
     it "should update cost if a spent_on changes" do
       @default_example.hours = 1
-      (5.days.ago..Time.now).step(1.day) do |time|
+      (5.days.ago.to_date..Date.today).each do |time|
         @default_example.spent_on = time.to_date
         @default_example.save!
-        @default_example.costs.should == @default_example.user.rate_at(time, 1).rate
+        @default_example.costs.should == @default_example.user.rate_at(time, project2.id).rate
       end
     end
 
