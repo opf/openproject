@@ -3,7 +3,7 @@
 <% if cost_types.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-<table class="list cost_types">
+<table class="list cost_types deleted_cost_types">
   <thead><tr>
     <%= sort_header_tag "name", :caption => l(:caption_cost_type) %>
     <%= sort_header_tag "unit", :caption => l(:caption_cost_type_unit_name) %>
@@ -19,10 +19,12 @@
       <%= content_tag :td, cost_type.name %>
       <%= content_tag :td, cost_type.unit %>
       <%= content_tag :td, cost_type.unit_plural %>
-      <%= content_tag :td, number_to_currency(cost_type.rate_at(@fixed_date).rate), :class => "currency" %>
+      <%= content_tag :td, to_currency_with_empty(cost_type.rate_at(@fixed_date)), :class => "currency" %>
       <%= content_tag :td, cost_type.deleted_at.to_date %>
       <td>
-        <%= form_for :cost_type, cost_type, toggle_delete_cost_type_path(cost_type)  do |f| %>
+        <%= form_for cost_type, :url => toggle_delete_cost_type_path(cost_type),
+                                :html => { :id => "restore_cost_type_#{cost_type.id}",
+                                           :class => "restore_cost_type" } do |f| %>
           <%= image_submit_tag "unlock.png" , :alt => l(:button_unlock), :title => l(:button_unlock) %>
         <% end %>
       </td>

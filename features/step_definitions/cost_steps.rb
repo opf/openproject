@@ -8,21 +8,6 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |pro
   end
 end
 
-Given /^there is 1 cost type with the following:$/ do |table|
-  ct = CostType.generate
-  send_table_to_object(ct, table, {
-    :cost_rate => Proc.new do |o,v|
-      FactoryGirl.create(:cost_rate, :rate => v,
-                                     :cost_type => o)
-    end,
-    :name => Proc.new do |o,v|
-      o.name = v
-      o.unit = v
-      o.unit_plural = "#{v}s"
-      o.save!
-    end})
-end
-
 Given /^there (?:is|are) (\d+) (default )?hourly rate[s]? with the following:$/ do |num, is_default, table|
   if is_default
     hr = DefaultHourlyRate.spawn

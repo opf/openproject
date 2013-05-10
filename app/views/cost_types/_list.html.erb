@@ -20,8 +20,7 @@
       <%= content_tag :td, link_to(cost_type.name, {:controller => '/cost_types', :action => 'edit', :id => cost_type}) %>
       <%= content_tag :td, cost_type.unit %>
       <%= content_tag :td, cost_type.unit_plural %>
-      <% rate = cost_type.rate_at(@fixed_date) %>
-      <%= content_tag :td, number_to_currency( rate ? rate.rate : 0.0), :class => "currency", :id => "cost_type_#{cost_type.id}_rate"%>
+      <%= content_tag :td, to_currency_with_empty(cost_type.rate_at(@fixed_date)), :class => "currency", :id => "cost_type_#{cost_type.id}_rate"%>
       <td>
         <%= form_for cost_type, :url => { :controller => '/cost_types', :action => 'set_rate', :id => cost_type }  do |f| %>
           <label class="hidden-for-sighted" for="<%= "rate_field_#{cost_type.id}" %>"><%= l(:caption_set_rate) %></label>
@@ -31,7 +30,9 @@
       </td>
       <%= content_tag :td, cost_type.is_default? ? image_tag('check.png', :alt => l(:general_text_Yes)) : "" %>
       <td>
-        <%= form_for cost_type, :url => { :controller => '/cost_types', :action => 'toggle_delete', :id => cost_type }  do |f| %>
+        <%= form_for cost_type, :url => toggle_delete_cost_type_path(cost_type),
+                                :html => { :id => "delete_cost_type_#{cost_type.id}",
+                                           :class => "delete_cost_type" } do |f| %>
           <%= image_submit_tag "locked.png", :alt => l(:button_lock), :title => l(:button_lock), :onclick => "return confirm('#{escape_javascript(l(:text_are_you_sure))}')" %>
         <% end %>
       </td>
