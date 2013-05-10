@@ -3,7 +3,12 @@ OpenProject::Application.routes.draw do
   scope 'projects/:project_id', :as => 'projects' do
     resources :cost_entries, :controller => 'costlog', :only => [:new, :create]
 
-    resources :cost_objects, :only => [:new, :create, :index]
+    resources :cost_objects, :only => [:new, :create, :index] do
+      post :update_labor_budget_item, :on => :member
+      post :update_material_budget_item, :on => :member
+      post :preview, :on => :member
+    end
+
 
     resources :hourly_rates, :only => [:show, :edit, :update] do
       post :set_rate, :on => :member

@@ -19,7 +19,11 @@ module OpenProject::Costs::Patches::PermittedParamsPatch
                                           :description,
                                           :fixed_date,
                                           :project_manager_signoff,
-                                          :client_signoff)
+                                          :client_signoff,
+                                          {new_material_budget_item_attributes: [:units, :cost_type_id, :comments]},
+                                          {new_labor_budget_item_attributes: [:hours, :user_id, :comments]},
+                                          {existing_material_budget_item_attributes: [:units, :cost_type_id, :comments]},
+                                          {existing_labor_budget_item_attributes: [:hours, :user_id, :comments]})
     end
 
     def cost_type
