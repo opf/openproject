@@ -107,7 +107,7 @@ class VariableCostObject < CostObject
 
   def save_material_budget_items
     material_budget_items.each do |material_budget_item|
-      material_budget_item.save(false)
+      material_budget_item.save(:validate => false)
     end
   end
 
@@ -139,7 +139,7 @@ class VariableCostObject < CostObject
 
   def save_labor_budget_items
     labor_budget_items.each do |labor_budget_item|
-      labor_budget_item.save(false)
+      labor_budget_item.save(:validate =>false)
     end
   end
 end
