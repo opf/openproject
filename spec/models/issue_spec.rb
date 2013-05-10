@@ -19,13 +19,13 @@ describe Issue do
   before(:each) do
     User.current = user
     @example = issue
+    @cost_entry = cost_entry
   end
 
   it "should update cost entries on move" do
     @example.project_id.should eql project.id
-
     @example.move_to_project(project2).should_not be_false
-    cost_entry.project_id.should eql project2.id
+    @cost_entry.reload.project_id.should eql project2.id
   end
 
   it "should allow to set cost_object to nil" do
@@ -33,7 +33,7 @@ describe Issue do
     @example.save!
     @example.cost_object.should eql cost_object
 
-    @example.cost_object= nil
+    @example.cost_object = nil
     lambda { @example.save! }.should_not raise_error(ActiveRecord::RecordInvalid)
   end
 end
