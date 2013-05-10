@@ -17,15 +17,23 @@ class DefaultDataTest < ActiveSupport::TestCase
   def setup
     super
     delete_loaded_data!
-    assert Redmine::DefaultData::Loader::no_data?
+    refute Redmine::DefaultData::Loader.data_already_loaded?
+  end
+
+  def test_data_already_loaded
+    Redmine::DefaultData::Loader.load
+    assert Redmine::DefaultData::Loader.data_already_loaded?
+
+    delete_loaded_data!
+    refute Redmine::DefaultData::Loader.data_already_loaded?
   end
 
   def test_no_data
-    Redmine::DefaultData::Loader::load
-    assert !Redmine::DefaultData::Loader::no_data?
+    Redmine::DefaultData::Loader.load
+    refute Redmine::DefaultData::Loader.no_data?
 
     delete_loaded_data!
-    assert Redmine::DefaultData::Loader::no_data?
+    assert Redmine::DefaultData::Loader.no_data?
   end
 
   def test_load
