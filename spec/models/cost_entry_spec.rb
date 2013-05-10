@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../plugin_spec_helper')
 
 describe CostEntry do
   include Cost::PluginSpecHelper
