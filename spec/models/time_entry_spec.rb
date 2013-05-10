@@ -203,7 +203,7 @@ describe TimeEntry do
         hr.valid_from = 10.days.ago.to_date
         hr.rate       = 1337.0
         hr.user       = user2
-        hr.project    = hourly_one.project
+        hr.project    = project2
       end).save!
       @default_example.reload
       @default_example.rate.should == rate
