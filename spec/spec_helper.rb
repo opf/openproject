@@ -6,6 +6,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 
 require 'rspec/autorun'
+require 'rspec/example_disabler'
 require 'capybara/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -51,3 +52,11 @@ RSpec.configure do |config|
   end
 end
 
+# load disable_specs.rbs from plugins
+Rails.application.config.plugins_to_test_paths.each do |dir|
+  disable_specs_file = File.join(dir, 'spec', 'disable_specs.rb')
+  if File.exists?(disable_specs_file)
+    puts 'Loading ' + disable_specs_file
+    require disable_specs_file
+  end
+end
