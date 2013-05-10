@@ -17,7 +17,8 @@ OpenProject::Application.routes.draw do
   resources :cost_entries, :controller => 'costlog', :only => [:index, :edit, :update, :destroy]
 
   resources :cost_objects, :only => [:show, :update, :destroy] do
-    post :preview, :on => :member
+    put :preview, :on => :member
+    get :copy, :on => :member
   end
 
   resources :cost_types, :only => [:index, :new, :edit, :update, :create] do

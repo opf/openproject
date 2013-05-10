@@ -1,7 +1,7 @@
 class CostObjectsController < ApplicationController
   unloadable
 
-  before_filter :find_cost_object, :only => [:show, :edit, :update, :preview]
+  before_filter :find_cost_object, :only => [:show, :edit, :update, :preview, :copy]
   before_filter :find_cost_objects, :only => [:bulk_edit, :destroy]
   before_filter :find_project, :only => [
     :new, :create,
@@ -82,46 +82,31 @@ class CostObjectsController < ApplicationController
   end
 
   def new
-    # TODO: This method used to be responsible for both new and create
-    # Please remove code where necessary
-    if params[:cost_object]
-      @cost_object = create_cost_object(params[:cost_object].delete(:kind))
-    elsif params[:copy_from]
-      source = CostObject.find(params[:copy_from])
-      if source
-        @cost_object = create_cost_object(source.kind)
-        @cost_object.copy_from(params[:copy_from])
-      end
-    end
-
     # FIXME: I forcibly create a VariableCostObject for now. Following Ticket #5360
     @cost_object ||= VariableCostObject.new
-
     @cost_object.project_id = @project.id
-
-    # fixed_date must be set before material_budget_items and labor_budget_items
-    if params[:cost_object] && params[:cost_object][:fixed_date]
-      @cost_object.fixed_date = params[:cost_object].delete(:fixed_date)
-    else
-      @cost_object.fixed_date = Date.today
-    end
-    permitted_params.cost_object if params[:cost_object]
+    @cost_object.fixed_date ||= Date.today
 
     render :layout => !request.xhr?
   end
 
+  def copy
+    source = CostObject.find(params[:id].to_i)
+    if source
+      @cost_object = create_cost_object(source.kind)
+      @cost_object.copy_from(source)
+    end
+
+    # FIXME: I forcibly create a VariableCostObject for now. Following Ticket #5360
+    @cost_object ||= VariableCostObject.new
+    @cost_object.fixed_date ||= Date.today
+
+    render :action => :new, :layout => !request.xhr?
+  end
+
   def create
-    # TODO: This was simply copied over from new in order to have
-    # something as a starting point for separating the two
-    # Please go ahead and start removing code where necessary
     if params[:cost_object]
       @cost_object = create_cost_object(params[:cost_object].delete(:kind))
-    elsif params[:copy_from]
-      source = CostObject.find(params[:copy_from])
-      if source
-        @cost_object = create_cost_object(source.kind)
-        @cost_object.copy_from(params[:copy_from])
-      end
     end
 
     # FIXME: I forcibly create a VariableCostObject for now. Following Ticket #5360
