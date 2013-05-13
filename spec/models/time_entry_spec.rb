@@ -2,15 +2,15 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe TimeEntry do
   include Cost::PluginSpecHelper
-  let(:project) { FactoryGirl.create(:project_with_trackers) }
-  let(:project2) { FactoryGirl.create(:project_with_trackers) }
+  let(:project) { FactoryGirl.create(:project_with_trackers, is_public: false) }
+  let(:project2) { FactoryGirl.create(:project_with_trackers, is_public: false) }
   let(:issue) { FactoryGirl.create(:issue, :project => project,
                                        :tracker => project.trackers.first,
                                        :author => user) }
   let(:issue2) { FactoryGirl.create(:issue, :project => project2,
                                        :tracker => project2.trackers.first,
                                        :author => user2) }
-  let(:user) { FactoryGirl.create(:admin) }
+  let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:date) { Date.today }
   let(:rate) { FactoryGirl.build(:cost_rate) }
@@ -311,14 +311,14 @@ describe TimeEntry do
                 WHEN querying for a project
                 WHEN a time entry from the user is defined" do
         before do
-          is_member(project, time_entry2.user, [:view_own_time_entries])
+          is_member(project2, time_entry2.user, [:view_own_time_entries])
           # don't understand why memberships get loaded on the user
           time_entry2.user.memberships(true)
 
           time_entry2.save!
         end
 
-        it { TimeEntry.visible(time_entry2.user, project).all.should =~ [time_entry2] }
+        it { TimeEntry.visible(time_entry2.user, project2).all.should =~ [time_entry2] }
       end
     end
   end
