@@ -1,4 +1,4 @@
-require 'sortable_init'
+require 'open_project/reporting/widgets/sortable_init'
 
 class Widget::Table::SimpleTable < Widget::Table
   simple_table self
