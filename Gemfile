@@ -1,12 +1,6 @@
 source 'https://rubygems.org'
 
 gem "rails", :git => "https://github.com/rails/rails.git", :branch => "3-2-stable"
-# be careful when updating past 3-2-13
-# rails commit 9bd5c86c3bdc70bf29be7f756d1dec2fdd4eaaf0 resultsin a bug, when creating WikiContent Objects via FactoryGirl.
-# So we use the commit before that for now.
-# gem "rails", :git => "https://github.com/rails/rails.git", :ref => "bb0007f70420445f140004587aa1228895ab6653"
-
-#gem "sprockets", :git => "https://github.com/tessi/sprockets.git", :branch => "2_2_1-backport"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
