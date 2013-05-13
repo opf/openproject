@@ -270,7 +270,7 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
-    ruby-openid (2.1.8)
+    ruby-openid (2.2.3)
     ruby-prof (0.13.0)
     rubytree (0.8.3)
       json (>= 1.7.5)
@@ -388,7 +388,7 @@ DEPENDENCIES
   rmagick (>= 1.15.17)
   rspec-example_disabler!
   rspec-rails (~> 2.0)
-  ruby-openid (~> 2.1.4)
+  ruby-openid (~> 2.2.3)
   ruby-prof
   rubytree (~> 0.8.3)
   sass-rails (~> 3.2.3)

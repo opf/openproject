@@ -72,7 +72,7 @@ group :test do
 end
 
 group :openid do
-  gem "ruby-openid", '~> 2.1.4', :require => 'openid'
+  gem "ruby-openid", '~> 2.2.3', :require => 'openid'
 end
 
 group :development do
