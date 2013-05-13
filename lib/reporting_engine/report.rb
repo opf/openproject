@@ -1,6 +1,4 @@
-require 'forwardable'
-require 'proactive_autoloader'
-require 'engine'
+require 'reporting_engine/engine'
 
 class Report < ActiveRecord::Base
   extend ProactiveAutoloader

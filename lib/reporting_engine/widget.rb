@@ -1,3 +1,7 @@
+require 'reporting_engine/reporting_helper'
+require 'reporting_engine/proactive_autoloader'
+
+
 class Widget < ActionView::Base
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::AssetTagHelper

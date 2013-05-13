@@ -1,3 +1,5 @@
+require 'reporting_engine/report/inherited_attribute'
+
 class Widget::Table < Widget::Base
   extend Report::InheritedAttribute
   include ReportingHelper
