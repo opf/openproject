@@ -174,7 +174,7 @@ GEM
     jquery-ui-rails (4.0.2)
       jquery-rails
       railties (>= 3.1.0)
-    json (1.7.7)
+    json (1.8.0)
     launchy (2.1.2)
       addressable (~> 2.3)
     letter_opener (1.0.0)
@@ -316,7 +316,7 @@ GEM
       rack (>= 1.0.0)
     thor (0.18.1)
     tilt (1.4.1)
-    tinymce-rails (3.5.8.1)
+    tinymce-rails (3.5.8.2)
       railties (>= 3.1.1)
     tinymce-rails-langs (0.1)
       tinymce-rails (>= 3.4.9)
