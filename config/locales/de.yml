@@ -43,6 +43,10 @@ de:
       user:
         current_rate: Aktueller Satz
         default_rates: Standardsätze
+      labor_budget_item:
+        cost_object: Budget
+      rate:
+        rate: Satz
 
   cost_objects_title: Budgets
   cost_types_title: Kostenarten
