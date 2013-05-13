@@ -37,6 +37,8 @@ de:
   label_sprint_cards: "Karten exportieren"
   label_select_all: "Alle ausw\xC3\xA4hlen"
 
+  label_wiki: "Wiki"
+
   label_back_to_project: "Zur\xC3\xBCck zur Projektseite"
   label_sprint_name: "Sprint \"%{name}\""
   label_backlogs: "Backlogs"
