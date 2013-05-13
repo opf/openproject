@@ -217,9 +217,9 @@ GEM
     pry-doc (0.4.5)
       pry (>= 0.9)
       yard (>= 0.8)
-    pry-rails (0.2.2)
+    pry-rails (0.3.0)
       pry (>= 0.9.10)
-    pry-rescue (1.1.0)
+    pry-rescue (1.1.1)
       interception (>= 0.3)
       pry
     pry-stack_explorer (0.4.9)
