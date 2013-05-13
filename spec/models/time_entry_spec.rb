@@ -32,22 +32,20 @@ describe TimeEntry do
   end
 
   let(:time_entry2) do
-    FactoryGirl.create(:time_entry, :project => project2,
-                               :issue => issue2,
+    FactoryGirl.create(:time_entry, :project => project,
+                               :issue => issue,
                                :spent_on => date,
                                :hours => hours,
-                               :user => user2,
-                               :rate => default_hourly_one,
+                               :user => user,
+                               :rate => hourly_one,
                                :comments => "lorem")
   end
 
-  before(:each) do
-    User.current = user
-    @example = time_entry
-    @default_example = time_entry2
-  end
 
   it "should always prefer overridden_costs" do
+    User.current = user
+    @example = time_entry
+
     value = rand(500)
     @example.overridden_costs = value
     @example.overridden_costs.should == value
@@ -56,6 +54,11 @@ describe TimeEntry do
   end
 
   describe "given rate" do
+    before(:each) do
+      User.current = user
+      @example = time_entry
+      @default_example = time_entry2
+    end
 
     it "should return the current costs depending on the number of hours" do
       (0..100).each do |hours|
@@ -134,6 +137,11 @@ describe TimeEntry do
   end
 
   describe "default rate" do
+    before(:each) do
+      User.current = user
+      @example = time_entry
+      @default_example = time_entry2
+    end
 
     it "should return the current costs depending on the number of hours" do
       (0..100).each do |hours|
@@ -180,7 +188,7 @@ describe TimeEntry do
       (5.days.ago.to_date..Date.today).each do |time|
         @default_example.spent_on = time.to_date
         @default_example.save!
-        @default_example.costs.should == @default_example.user.rate_at(time, project2.id).rate
+        @default_example.costs.should == @default_example.user.rate_at(time, project.id).rate
       end
     end
 
@@ -198,13 +206,19 @@ describe TimeEntry do
     end
 
     it "shoud be able to switch between default hourly rate and hourly rate" do
+      @default_example.user = user2
+      @default_example.rate = default_hourly_one
+      @default_example.save!
+      @default_example.reload
       @default_example.rate.should == default_hourly_one
+
       (rate = HourlyRate.new.tap do |hr|
         hr.valid_from = 10.days.ago.to_date
         hr.rate       = 1337.0
-        hr.user       = user2
-        hr.project    = project2
+        hr.user       = @default_example.user
+        hr.project    = project
       end).save!
+
       @default_example.reload
       @default_example.rate.should == rate
       rate.destroy
@@ -311,14 +325,14 @@ describe TimeEntry do
                 WHEN querying for a project
                 WHEN a time entry from the user is defined" do
         before do
-          is_member(project2, time_entry2.user, [:view_own_time_entries])
+          is_member(project, time_entry2.user, [:view_own_time_entries])
           # don't understand why memberships get loaded on the user
           time_entry2.user.memberships(true)
 
           time_entry2.save!
         end
 
-        it { TimeEntry.visible(time_entry2.user, project2).all.should =~ [time_entry2] }
+        it { TimeEntry.visible(time_entry2.user, project).all.should =~ [time_entry2] }
       end
     end
   end
