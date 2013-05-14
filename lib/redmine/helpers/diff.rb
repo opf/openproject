@@ -52,11 +52,11 @@ module Redmine
             end
           end
           if add_at
-            words[add_at] = '<span class="diff_in">' + words[add_at]
-            words[add_to] = words[add_to] + '</span>'
+            words[add_at] = '<ins class="diffmod">'.html_safe + words[add_at]
+            words[add_to] = words[add_to] + '</ins>'.html_safe
           end
           if del_at
-            words.insert del_at - del_off + dels + words_add, '<span class="diff_out">' + deleted + '</span>'
+            words.insert del_at - del_off + dels + words_add, '<del class="diffmod">'.html_safe + deleted + '</del>'.html_safe
             dels += 1
             del_off += words_del
             words_del = 0
