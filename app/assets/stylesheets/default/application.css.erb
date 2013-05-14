@@ -665,8 +665,7 @@ color:#505050;
 }
 
 /***** Progress bar *****/
-#content #roadmap table.progress,
-#content .meta table.progress {
+#content table.progress {
   border-spacing: 0pt;
   empty-cells: show;
   text-align: center;
@@ -679,10 +678,10 @@ color:#505050;
   border-radius:3px;
 }
 
-#content #roadmap table.progress td, #content .meta table.progress td { height: 0.9em; }
-#content #roadmap table.progress td.closed, #content .meta table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
-#content #roadmap table.progress td.done , #content .meta table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
-#content #roadmap table.progress td.open , #content .meta table.progress td.open { background: #FFF none repeat scroll 0%; }
+#content table.progress td { height: 0.9em; }
+#content table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
+#content table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
+#content table.progress td.open { background: #FFF none repeat scroll 0%; }
 p.pourcent {font-size: 80%;}
 p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 
@@ -1761,9 +1760,6 @@ div.issue hr {
   border:0px;
   margin-top: -6px;
   margin-bottom: 0px;
-}
-#content .meta table {
-	border:0 none;
 }
 #content .meta table tr:hover {
 	background:none;
