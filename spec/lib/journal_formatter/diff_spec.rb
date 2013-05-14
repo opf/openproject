@@ -8,20 +8,12 @@ describe OpenProject::JournalFormatter::Diff do
   include ActionView::Helpers::UrlHelper
   include Rails.application.routes.url_helpers
 
-<<<<<<< HEAD
-  Struct.new("TestJournal", :id)
-=======
   Struct.new("TestJournal", :id, :journaled)
->>>>>>> feature/rails3_fix_issue_description_diff
 
   let(:klass) { OpenProject::JournalFormatter::Diff }
   let(:id) { 1 }
   let(:journal) do
-<<<<<<< HEAD
-    Struct::TestJournal.new(id)
-=======
     Struct::TestJournal.new(id, Issue.new)
->>>>>>> feature/rails3_fix_issue_description_diff
   end
   let(:instance) { klass.new(journal) }
   let(:key) { "description" }
