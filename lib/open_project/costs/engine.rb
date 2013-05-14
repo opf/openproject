@@ -136,27 +136,27 @@ module OpenProject::Costs
           # Menu extensions
           menu :top_menu,
                :cost_types,
-               {:controller => 'cost_types', :action => 'index'},
+               {:controller => '/cost_types', :action => 'index'},
                :caption => :cost_types_title,
                :if => Proc.new { User.current.admin? }
 
           menu :project_menu,
                :cost_objects,
-               {:controller => 'cost_objects', :action => 'index'},
+               {:controller => '/cost_objects', :action => 'index'},
                :param => :project_id,
                :before => :settings,
                :caption => :cost_objects_title
 
           menu :project_menu,
                :new_budget,
-               {:action => 'new', :controller => 'cost_objects' },
+               {:controller => '/cost_objects', :action => 'new' },
                :param => :project_id,
                :caption => :label_cost_object_new,
                :parent => :cost_objects
 
           menu :project_menu,
                :show_all,
-               {:action => 'index', :controller => 'cost_objects' },
+               {:controller => '/cost_objects', :action => 'index' },
                :param => :project_id,
                :caption => :label_view_all_cost_objects,
                :parent => :cost_objects

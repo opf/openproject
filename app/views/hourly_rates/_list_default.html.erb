@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to l(:button_update), {:controller => 'hourly_rates', :action => 'edit', :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+<%= link_to l(:button_update), edit_hourly_rate_path(@user), :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
 </div>
 <h3><%= User.human_attribute_name(:default_rates) %></h3>
 <% if @rates_default.blank? %>

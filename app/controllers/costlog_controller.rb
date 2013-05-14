@@ -43,9 +43,9 @@ class CostlogController < ApplicationController
           session[CostQuery.name.underscore.to_sym] = { :filters => filters, :groups => {:rows => [], :columns => []} }
 
           if @cost_type
-            redirect_to :controller => "cost_reports", :action => "index", :project_id => @project, :unit => @cost_type.id
+            redirect_to :controller => "/cost_reports", :action => "index", :project_id => @project, :unit => @cost_type.id
           else
-            redirect_to :controller => "cost_reports", :action => "index", :project_id => @project
+            redirect_to :controller => "/cost_reports", :action => "index", :project_id => @project
           end
           return
         }
@@ -167,7 +167,7 @@ class CostlogController < ApplicationController
     flash[:notice] = l(:notice_successful_delete)
 
     if request.referer =~ /cost_reports/
-      redirect_to :controller => 'cost_reports', :action => :index
+      redirect_to :controller => '/cost_reports', :action => :index
     else
       redirect_to :back
     end

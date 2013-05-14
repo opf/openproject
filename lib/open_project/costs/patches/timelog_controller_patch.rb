@@ -19,7 +19,7 @@ module OpenProject::Costs::Patches::TimelogControllerPatch
     # This is for cost reporting
     def redirect_to(*args, &block)
       if args.first == :back and args.size == 1 and request.referer =~ /cost_reports/
-        super(:controller => 'cost_reports', :action => :index)
+        super(:controller => '/cost_reports', :action => :index)
       else
         super(*args, &block)
       end
@@ -52,7 +52,7 @@ module OpenProject::Costs::Patches::TimelogControllerPatch
           # this was the original line, have to set something for now
           session[:costs_query] = { :filters => filters, :groups => {:rows => [], :columns => []} }
 
-          redirect_to :controller => "cost_reports", :action => "index", :project_id => @project, :unit => -1
+          redirect_to :controller => "/cost_reports", :action => "index", :project_id => @project, :unit => -1
         }
         format.all {
           index_without_report_view

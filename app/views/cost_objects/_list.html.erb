@@ -18,9 +18,9 @@
     <% cost_objects.each do |cost_object| %>
     <tr id="cost_object-<%= cost_object.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= cost_object.css_classes %>">
       <td class="checkbox"><%= check_box_tag("ids[]", cost_object.id, false, :id => nil) %></td>
-      <td><%= link_to cost_object.id, :controller => 'cost_objects', :action => 'show', :id => cost_object %></td>
+      <td><%= link_to cost_object.id, cost_object_path(cost_object.id) %></td>
       <%= content_tag(:td, l(cost_object.status), :class => 'status') %>
-      <%= content_tag(:td, link_to(h(cost_object.subject), :controller => 'cost_objects', :action => 'show', :id => cost_object), :class => 'subject') %>
+      <%= content_tag(:td, link_to(h(cost_object.subject), cost_object_path(cost_object.id), :class => 'subject')) %>
       <%= content_tag(:td, number_to_currency(cost_object.budget, :precision => 0), :class => 'currency') %>
       <%= content_tag(:td, number_to_currency(cost_object.spent, :precision => 0), :class => 'currency') %>
       <%= content_tag(:td, number_to_currency(cost_object.budget - cost_object.spent, :precision => 0), :class => 'currency') %>
