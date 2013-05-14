@@ -19,7 +19,11 @@ module OpenProject::Costs::Patches::PermittedParamsPatch
                                           :description,
                                           :fixed_date,
                                           :project_manager_signoff,
-                                          :client_signoff)
+                                          :client_signoff,
+                                          {new_material_budget_item_attributes: [:units, :cost_type_id, :comments]},
+                                          {new_labor_budget_item_attributes: [:hours, :user_id, :comments]},
+                                          {existing_material_budget_item_attributes: [:units, :cost_type_id, :comments]},
+                                          {existing_labor_budget_item_attributes: [:hours, :user_id, :comments]})
     end
 
     def cost_type
@@ -29,27 +33,6 @@ module OpenProject::Costs::Patches::PermittedParamsPatch
                                         :default,
                                         { new_rate_attributes: [:valid_from, :rate] },
                                         { existing_rate_attributes: [:valid_from, :rate] })
-    end
-
-    def labor_budget_item
-      params.require(:labor_budget_item).permit(:hours,
-                                                :comments,
-                                                :budget,
-                                                :user_id)
-    end
-
-    def material_budget_item
-      params.require(:material_budget_item).permit(:units,
-                                                   :comments,
-                                                   :budget,
-                                                   :cost_type,
-                                                   :cost_type_id)
-    end
-
-    def rate
-      params.require(:rate).permit(:rate,
-                                   :project,
-                                   :valid_from)
     end
   end
 end

@@ -1,7 +1,7 @@
 <%= render :partial => 'shared/costs_header' %>
 <div class="contextual">
   <%= link_to_if_authorized l(:button_update), {:controller => 'cost_objects', :action => 'edit', :id => @cost_object}, :onclick => 'showAndScrollTo("update", "cost_object_description"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
-  <%= link_to_if_authorized l(:button_copy), {:controller => 'cost_objects', :action => 'new', :project_id => @project, :copy_from => @cost_object }, :class => 'icon icon-copy' %>
+  <%= link_to_if_authorized l(:button_copy), {:controller => 'cost_objects', :action => 'copy', :id => @cost_object }, :class => 'icon icon-copy' %>
   <%= link_to_if_authorized l(:button_delete), {:controller => 'cost_objects', :action => 'destroy', :id => @cost_object}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
 

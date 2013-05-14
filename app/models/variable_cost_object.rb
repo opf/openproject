@@ -34,17 +34,9 @@ class VariableCostObject < CostObject
   def copy_from(arg)
     cost_object = (arg.is_a?(VariableCostObject) ? arg : self.class.find(arg))
     attrs = cost_object.attributes.dup
-    #do single assignments of attributes not allowed for mass assignment
-    [:new_material_budget_item_attributes, :new_labor_budget_item_attributes,
-     :existing_material_budget_item_attributes, :existing_labor_budget_item_attributes].each do |attribute|
-      if (value = attrs.delete(attribute.to_s)).present?
-        self.send(:"#{attribute}=", value)
-      end
-    end
-    #pass the remaining attributes to base class which will set them
     super(attrs)
-    self.material_budget_items = cost_object.material_budget_items.collect {|v| v.clone}
-    self.labor_budget_items = cost_object.labor_budget_items.collect {|v| v.clone}
+    self.labor_budget_items = cost_object.labor_budget_items.collect(&:dup)
+    self.material_budget_items = cost_object.material_budget_items.collect(&:dup)
   end
 
   # Label of the current cost_object type for display in GUI.
@@ -115,7 +107,7 @@ class VariableCostObject < CostObject
 
   def save_material_budget_items
     material_budget_items.each do |material_budget_item|
-      material_budget_item.save(false)
+      material_budget_item.save(:validate => false)
     end
   end
 
@@ -147,7 +139,7 @@ class VariableCostObject < CostObject
 
   def save_labor_budget_items
     labor_budget_items.each do |labor_budget_item|
-      labor_budget_item.save(false)
+      labor_budget_item.save(:validate =>false)
     end
   end
 end
