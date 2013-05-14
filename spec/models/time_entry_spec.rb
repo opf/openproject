@@ -2,24 +2,24 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe TimeEntry do
   include Cost::PluginSpecHelper
-  let(:project) { FactoryGirl.create(:project_with_trackers) }
-  let(:project2) { FactoryGirl.create(:project_with_trackers) }
+  let(:project) { FactoryGirl.create(:project_with_trackers, is_public: false) }
+  let(:project2) { FactoryGirl.create(:project_with_trackers, is_public: false) }
   let(:issue) { FactoryGirl.create(:issue, :project => project,
                                        :tracker => project.trackers.first,
                                        :author => user) }
   let(:issue2) { FactoryGirl.create(:issue, :project => project2,
                                        :tracker => project2.trackers.first,
                                        :author => user2) }
-  let(:user) { FactoryGirl.create(:admin) }
+  let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:date) { Date.today }
   let(:rate) { FactoryGirl.build(:cost_rate) }
-  let(:hourly_one) { FactoryGirl.create(:hourly_rate, valid_from: 2.days.ago, project: project, user: user) }
-  let(:hourly_three) { FactoryGirl.create(:hourly_rate, valid_from: 4.days.ago, project: project, user: user) }
-  let(:hourly_five) { FactoryGirl.create(:hourly_rate, valid_from: 6.days.ago, project: project, user: user) }
-  let(:default_hourly_one) { FactoryGirl.create(:default_hourly_rate, valid_from: 2.days.ago, project: project, user: user2) }
-  let(:default_hourly_three) { FactoryGirl.create(:default_hourly_rate, valid_from: 4.days.ago, project: project, user: user2) }
-  let(:default_hourly_five) { FactoryGirl.create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
+  let!(:hourly_one) { FactoryGirl.create(:hourly_rate, valid_from: 2.days.ago, project: project, user: user) }
+  let!(:hourly_three) { FactoryGirl.create(:hourly_rate, valid_from: 4.days.ago, project: project, user: user) }
+  let!(:hourly_five) { FactoryGirl.create(:hourly_rate, valid_from: 6.days.ago, project: project, user: user) }
+  let!(:default_hourly_one) { FactoryGirl.create(:default_hourly_rate, valid_from: 2.days.ago, project: project, user: user2) }
+  let!(:default_hourly_three) { FactoryGirl.create(:default_hourly_rate, valid_from: 4.days.ago, project: project, user: user2) }
+  let!(:default_hourly_five) { FactoryGirl.create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
   let(:hours) { 5.0 }
   let(:time_entry) do
     FactoryGirl.create(:time_entry, :project => project,
@@ -32,22 +32,20 @@ describe TimeEntry do
   end
 
   let(:time_entry2) do
-    FactoryGirl.create(:time_entry, :project => project2,
-                               :issue => issue2,
+    FactoryGirl.create(:time_entry, :project => project,
+                               :issue => issue,
                                :spent_on => date,
                                :hours => hours,
-                               :user => user2,
-                               :rate => default_hourly_one,
+                               :user => user,
+                               :rate => hourly_one,
                                :comments => "lorem")
   end
 
-  before(:each) do
-    User.current = user
-    @example = time_entry
-    @default_example = time_entry2
-  end
 
   it "should always prefer overridden_costs" do
+    User.current = user
+    @example = time_entry
+
     value = rand(500)
     @example.overridden_costs = value
     @example.overridden_costs.should == value
@@ -56,6 +54,11 @@ describe TimeEntry do
   end
 
   describe "given rate" do
+    before(:each) do
+      User.current = user
+      @example = time_entry
+      @default_example = time_entry2
+    end
 
     it "should return the current costs depending on the number of hours" do
       (0..100).each do |hours|
@@ -134,6 +137,11 @@ describe TimeEntry do
   end
 
   describe "default rate" do
+    before(:each) do
+      User.current = user
+      @example = time_entry
+      @default_example = time_entry2
+    end
 
     it "should return the current costs depending on the number of hours" do
       (0..100).each do |hours|
@@ -177,10 +185,10 @@ describe TimeEntry do
 
     it "should update cost if a spent_on changes" do
       @default_example.hours = 1
-      (5.days.ago..Time.now).step(1.day) do |time|
+      (5.days.ago.to_date..Date.today).each do |time|
         @default_example.spent_on = time.to_date
         @default_example.save!
-        @default_example.costs.should == @default_example.user.rate_at(time, 1).rate
+        @default_example.costs.should == @default_example.user.rate_at(time, project.id).rate
       end
     end
 
@@ -198,13 +206,19 @@ describe TimeEntry do
     end
 
     it "shoud be able to switch between default hourly rate and hourly rate" do
+      @default_example.user = user2
+      @default_example.rate = default_hourly_one
+      @default_example.save!
+      @default_example.reload
       @default_example.rate.should == default_hourly_one
+
       (rate = HourlyRate.new.tap do |hr|
         hr.valid_from = 10.days.ago.to_date
         hr.rate       = 1337.0
-        hr.user       = user2
-        hr.project    = hourly_one.project
+        hr.user       = @default_example.user
+        hr.project    = project
       end).save!
+
       @default_example.reload
       @default_example.rate.should == rate
       rate.destroy

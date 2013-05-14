@@ -6,6 +6,7 @@ module Cost
       ::FactoryGirl.create(:member, :project => project,
                                     :principal => user,
                                     :roles => [role])
+      user.reload
     end
   end
 end

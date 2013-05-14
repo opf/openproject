@@ -33,7 +33,7 @@ module OpenProject::Costs
 
     initializer 'costs.register_observers' do |app|
       # Observers
-      ActiveRecord::Base.observers.push :rate_observer, :default_hourly_rate_observer#, :costs_issue_observer
+      ActiveRecord::Base.observers.push :rate_observer, :default_hourly_rate_observer, :costs_issue_observer
     end
 
     config.before_configuration do |app|

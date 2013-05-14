@@ -43,6 +43,10 @@ en:
       user:
         current_rate: Current rate
         default_rates: Default rates
+      labor_budget_item:
+        cost_object: Budget
+      rate:
+        rate: Rate
 
   cost_objects_title: Budgets
   cost_types_title: Cost Types

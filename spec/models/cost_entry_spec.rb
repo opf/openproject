@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../plugin_spec_helper')
 
 describe CostEntry do
   include Cost::PluginSpecHelper
@@ -189,7 +188,7 @@ describe CostEntry do
         end
 
         it "should take the then active rate to calculate" do
-          (5.days.ago..Time.now).step(1.day) do |time|
+          (5.days.ago.to_date..Date.today).each do |time|
             cost_entry.spent_on = time
             cost_entry.save!
             cost_entry.costs.should == cost_entry.units * CostRate.first(:conditions => ["cost_type_id = ? AND valid_from <= ?", cost_entry.cost_type.id, cost_entry.spent_on], :order => "valid_from DESC").rate
