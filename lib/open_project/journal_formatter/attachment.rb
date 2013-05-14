@@ -33,7 +33,7 @@ class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
 
   def format_html_attachment_detail(key, value)
     if !value.blank? && a = Attachment.find_by_id(key.to_i)
-      link_to_attachment(a, :only_path => false )
+      link_to_attachment(a, :only_path => true )
     else
       value if value.present?
     end
