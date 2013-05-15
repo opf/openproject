@@ -22,10 +22,6 @@ module Entry
         end
       end
 
-      %[find_by_sql count_by_sql count sum].each do |meth|
-        define_method(meth) { |*args| find_all(meth, *args) }
-      end
-
       undef_method :create, :update, :delete, :destroy, :new, :update_counters,
           :increment_counter, :decrement_counter
 
