@@ -25,7 +25,7 @@
         </div>
         <p><%= time_entry.text_field :comments, :size => 60 %></p>
         <% @time_entry.custom_field_values.each do |value| %>
-        	<p><%= custom_field_tag_with_label :time_entry, value %></p>
+            <p><%= custom_field_tag_with_label :time_entry, value %></p>
         <% end %>
         <% end %>
     </fieldset>
