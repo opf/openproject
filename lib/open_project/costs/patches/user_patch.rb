@@ -92,7 +92,7 @@ module OpenProject::Costs::Patches::UserPatch
       end
 
       if has_rate
-        rate.attributes = attributes
+        rate.attributes = attributes.permit(:valid_from, :rate)
       else
         project_rate ? rates.delete(rate) : default_rates.delete(rate)
       end
