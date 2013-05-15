@@ -22,7 +22,7 @@
       <%= content_tag :td, number_to_currency(cost_type.rate_at(@fixed_date).rate), :class => "currency" %>
       <%= content_tag :td, cost_type.deleted_at.to_date %>
       <td>
-        <%= form_for :cost_type, cost_type, :url => { :controller => 'cost_types', :action => 'toggle_delete', :id => cost_type }  do |f| %>
+        <%= form_for :cost_type, cost_type, toggle_delete_cost_type_path(cost_type)  do |f| %>
           <%= image_submit_tag "unlock.png" , :alt => l(:button_unlock), :title => l(:button_unlock) %>
         <% end %>
       </td>

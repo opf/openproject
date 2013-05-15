@@ -28,7 +28,8 @@ module OpenProject::Costs::Patches::IssuesHelperPatch
         result.each do |k, v|
           txt = pluralize(v[:units], v[:unit], v[:unit_plural])
           if create_link
-            str_array << link_to(txt, { :controller => 'costlog',
+            # TODO why does this have project_id, issue_id and cost_type_id params?
+            str_array << link_to(txt, { :controller => '/costlog',
                                         :action => 'index',
                                         :project_id => @issue.project,
                                         :issue_id => @issue,
@@ -56,10 +57,7 @@ module OpenProject::Costs::Patches::IssuesHelperPatch
            User.current.allowed_to?(:view_own_time_entries, @project)
 
            value = @issue.spent_hours > 0 ?
-                     link_to(l_hours(@issue.spent_hours), { :controller => 'timelog',
-                                                            :action => 'index',
-                                                            :issue_id => @issue}) :
-                     "-"
+                     link_to(l_hours(@issue.spent_hours), issue_time_entries_path(@issue)) : "-"
 
            attributes << [Issue.human_attribute_name(:spent_hours), value]
         end
