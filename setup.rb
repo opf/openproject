@@ -147,18 +147,13 @@ def setup_openproject
       return false unless system("rake db:drop:all")
     end
 
-    return false unless system("rake db:create:all") and migrate_core and migrate_plugins
+    return false unless system("rake db:create:all") and migrate_core
   else
     return false
   end
 
   puts $output_prefix + "Generate Session Store"
   system("rake generate_session_store")
-end
-
-def migrate_plugins
-  puts $output_prefix + "Migrate Plugins"
-  return system("rake db:migrate:plugins")
 end
 
 def migrate_core
