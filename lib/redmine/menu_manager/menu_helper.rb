@@ -60,6 +60,7 @@ module Redmine::MenuManager::MenuHelper
     menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
+    debugger if menu == :issues_show
     links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, :class => "menu_root")
   end
 

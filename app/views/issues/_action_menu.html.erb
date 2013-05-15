@@ -11,6 +11,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% content_for :action_menu_main do %>
+  <%= render_menu(:issues_show) %>
   <%= li_unless_nil(link_to_if_authorized(l(:button_update), { :controller => '/issues',
                                                                :action => 'edit',
                                                                :id => @issue },

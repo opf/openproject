@@ -10,6 +10,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'redmine/menu_manager/menus'
+
 module Redmine::MenuManager
   def self.map(menu_name, &menu_builder)
     @menu_builder_queues ||= {}
