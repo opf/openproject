@@ -206,4 +206,3 @@ Given /^the (?:variable cost object|budget) "(.+)" has the following material it
     FactoryGirl.create(:material_budget_item, :cost_type => cost_type, :cost_object => cost_object, :comments => hash['comment'], :units => hash['units'])
   end
 end
-
