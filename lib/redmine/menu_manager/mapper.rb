@@ -32,7 +32,7 @@ class Redmine::MenuManager::Mapper
   #   eg. :children => Proc.new {|project| [Redmine::MenuManager::MenuItem.new(...)] }
   # * last: menu item will stay at the end (eg. :last => true)
   # * html_options: a hash of html options that are passed to link_to
-  def push(name, url, options={})
+  def push(name, url = nil, options={}, &block)
     options = options.dup
 
     if options[:parent]
@@ -47,29 +47,31 @@ class Redmine::MenuManager::Mapper
       target_root = @menu_items.root
     end
 
+    new_node = Redmine::MenuManager::MenuItem.new(name, url, options, &block)
+
     # menu item position
     if first = options.delete(:first)
-      target_root.prepend(Redmine::MenuManager::MenuItem.new(name, url, options))
+      target_root.prepend(new_node)
     elsif before = options.delete(:before)
 
       if exists?(before)
-        target_root.add_at(Redmine::MenuManager::MenuItem.new(name, url, options), position_of(before))
+        target_root.add_at(new_node, position_of(before))
       else
-        target_root.add(Redmine::MenuManager::MenuItem.new(name, url, options))
+        target_root.add(new_node)
       end
 
     elsif after = options.delete(:after)
 
       if exists?(after)
-        target_root.add_at(Redmine::MenuManager::MenuItem.new(name, url, options), position_of(after) + 1)
+        target_root.add_at(new_node, position_of(after) + 1)
       else
-        target_root.add(Redmine::MenuManager::MenuItem.new(name, url, options))
+        target_root.add(new_node)
       end
 
     elsif options[:last] # don't delete, needs to be stored
-      target_root.add_last(Redmine::MenuManager::MenuItem.new(name, url, options))
+      target_root.add_last(new_node)
     else
-      target_root.add(Redmine::MenuManager::MenuItem.new(name, url, options))
+      target_root.add(new_node)
     end
   end
 

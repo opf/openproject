@@ -127,4 +127,14 @@ describe Redmine::MenuManager::MenuItem do
       instance.last.should == false
     end
   end
+
+  describe "block" do
+    it "should be the provided block" do
+      block = Proc.new { "" }
+
+      instance = klass.new(*valid_attributes, &block)
+
+      instance.block.should == block
+    end
+  end
 end

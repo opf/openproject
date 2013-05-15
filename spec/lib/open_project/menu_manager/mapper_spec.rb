@@ -11,6 +11,22 @@ describe Redmine::MenuManager::Mapper do
       mapper.exists?(:test_overview).should be_true
     end
 
+    describe "a menu item with a block" do
+      let(:block) { Proc.new { "" } }
+
+      before do
+        mapper.push :test, &block
+      end
+
+      it "should exist" do
+        mapper.exists?(:test).should be_true
+      end
+
+      it "should create a MenuItem with the block" do
+        mapper.find(:test).block.should == block
+      end
+    end
+
     it "should allow pushing onto parent" do
       mapper.push :test_overview, { :controller => 'projects', :action => 'show'}, {}
       mapper.push :test_child, { :controller => 'projects', :action => 'show'}, {:parent => :test_overview}
