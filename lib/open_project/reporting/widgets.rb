@@ -1,0 +1,5 @@
+require 'reporting_engine/widget.rb'
+require 'open_project/reporting/widgets/simple_table'
+require 'open_project/reporting/widgets/entry_table'
+require 'open_project/reporting/widgets/cost_types'
+require 'open_project/reporting/widgets/settings'

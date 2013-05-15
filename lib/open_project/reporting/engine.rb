@@ -1,3 +1,5 @@
+require 'openproject_costs'
+
 module OpenProject::Reporting
   class Engine < ::Rails::Engine
     engine_name :openproject_reporting
@@ -35,10 +37,7 @@ module OpenProject::Reporting
     end
 
     config.to_prepare do
-      require 'open_project/reporting/widgets/simple_table'
-      require 'open_project/reporting/widgets/entry_table'
-      require 'open_project/reporting/widgets/cost_types'
-      require 'open_project/reporting/widgets/settings'
+      require_dependency 'open_project/reporting/widgets.rb'
 
       unless Redmine::Plugin.registered_plugins.include?(:openproject_reporting)
         Redmine::Plugin.register :openproject_reporting do
@@ -51,7 +50,6 @@ module OpenProject::Reporting
           version OpenProject::Reporting::VERSION
 
           requires_redmine :version_or_higher => '3.0'
-          requires_redmine_plugin :redmine_costs, :version_or_higher => '3.0'
 
           view_actions = [:index, :show, :drill_down, :available_values, :display_report_list]
           edit_actions = [:create, :update, :rename, :delete]
