@@ -6,7 +6,7 @@ remove_old_sidebar = function() {
     // The sidebar is showing spent time, remove the links, which are in the second para
     $("sidebar").down().siblings()[1].remove();
     // Make the hours a link, which are in the first para
-    reporting_link = "<%= link_to('PLACEHOLDER', {
+    reporting_link = "<%= raw link_to('PLACEHOLDER', {
       :controller => 'cost_reports', :project_id => project,
       :unit => -1, :set_filter => 1,
       :values => {:project_id => [project.id]},
