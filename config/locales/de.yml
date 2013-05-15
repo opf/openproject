@@ -98,6 +98,11 @@ de:
   caption_status: Status
   caption_subject: Titel
   caption_valid_from: "Gültig ab"
+  caption_project: Projekt
+  caption_author: Autor
+  caption_created_on: Erstellt
+  caption_updated_on: Aktualisiert
+  caption_description: Beschreibung
 
   error_generic: "Bei der Anfrage ist ein Fehler aufgetreten. Sie wurde zurückgesetzt. Bitte melden Sie das Problem Ihrem Redmine Administrator"
 

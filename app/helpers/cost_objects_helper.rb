@@ -1,4 +1,5 @@
 require 'csv'
+require 'iconv'
 
 module CostObjectsHelper
   include ApplicationHelper

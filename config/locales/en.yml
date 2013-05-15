@@ -97,6 +97,12 @@ en:
   caption_status: Status
   caption_subject: Title
   caption_valid_from: Valid from
+  caption_project: Project
+  caption_author: Author
+  caption_created_on: Created On
+  caption_updated_on: Updated On
+  caption_description: Description
+
 
   error_generic: "An error occurred while executing the query. It has been resetted. Please report this error to your Redmine administrator."
 
