@@ -41,7 +41,7 @@ describe OpenProject::JournalFormatter::Attachment do
       #it { instance.render(key, [nil, attachment.id.to_s]).should == expected }
       #
       # Setting value by hand is just a workaround until rspec bug is fixed
-      it { instance.render(key, [nil, attachment.id.to_s]).should == I18n.t(:text_journal_added, :label => "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>", :value => "<a href=\"/attachments/#{attachment.id}/#{attachment.filename}\">#{attachment.filename}</a>") }
+      it { instance.render(key, [nil, attachment.id.to_s]).should == I18n.t(:text_journal_added, :label => "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>", :value => "<a href=\"#{Setting.protocol}://#{Setting.host_name}/attachments/#{attachment.id}/#{attachment.filename}\">#{attachment.filename}</a>") }
     end
 
     describe "WITH the first value beeing an id as string, and the second nil" do
