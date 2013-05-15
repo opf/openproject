@@ -30,7 +30,7 @@
   //]]>
 </script>
 
-<fieldset>
+<fieldset id="material_budget_items">
   <legend><%= l(:caption_material_budget) %></legend>
   <table class="list material_budget_items" id="material_budget_items">
     <thead><tr>
@@ -49,7 +49,7 @@
   <div style="text-align: right"><%= link_to_function l(:button_add_budget_item), "materialBudgetItemsForm.add()", {:class => "icon icon-add"} %></div>
 </fieldset>
 
-<fieldset>
+<fieldset id="labor_budget_items">
   <legend><%= l(:caption_labor_budget) %></legend>
   <table class="list labor_budget_items" id="labor_budget_items">
     <thead><tr>
