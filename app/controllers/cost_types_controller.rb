@@ -80,8 +80,10 @@ class CostTypesController < ApplicationController
   def toggle_delete
     @cost_type.deleted_at = @cost_type.deleted_at ?  nil : DateTime.now()
     @cost_type.default = false
-    if request.post? && @cost_type.save
+
+    if @cost_type.save
       flash[:notice] = @cost_type.deleted_at ? l(:notice_successful_delete) : l(:notice_successful_restore)
+
       redirect_back_or_default(:action => 'index')
     end
   end

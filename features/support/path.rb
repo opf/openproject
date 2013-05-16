@@ -10,6 +10,8 @@ module CostNavigationHelpers
     when /^the show page (?:of|for) the budget "(.+)?"$/
       budget = CostObject.find_by_subject($1)
       "/cost_objects/#{budget.id}"
+    when /^the index page (?:of|for) cost types$/
+      "/cost_types"
     else
       super
     end

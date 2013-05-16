@@ -95,5 +95,10 @@ module CostlogHelper
     value.gsub(',', '.')
     BigDecimal.new(value)
   end
-end
 
+  def to_currency_with_empty(rate)
+    rate.nil? ?
+      "0.0" :
+      number_to_currency(rate.rate)
+  end
+end
