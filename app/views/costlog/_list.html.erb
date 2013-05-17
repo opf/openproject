@@ -5,7 +5,7 @@
   <%= sort_header_tag('user', :caption => l(:label_member)) %>
   <%= sort_header_tag('project', :caption => l(:label_project)) %>
   <%= sort_header_tag('issue', :caption => l(:label_issue), :default_order => 'desc') %>
-  <th><%= l(:field_comments) %></th>
+  <th><%= CostEntry.human_attribute_namel(:comment) %></th>
   <%= sort_header_tag('units', :caption => l(:label_units)) %>
   <%= sort_header_tag('costs', :caption => l(:label_overall_costs)) %>
   <th></th>
