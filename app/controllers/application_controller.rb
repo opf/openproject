@@ -157,9 +157,9 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
         format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
-        format.xml  { head :forbidden }
-        format.js   { head :forbidden }
-        format.json { head :forbidden }
+        format.xml  { head :forbidden, "Reason" => "login needed" }
+        format.js   { head :forbidden, "Reason" => "login needed" }
+        format.json { head :forbidden, "Reason" => "login needed" }
       end
       return false
     end
