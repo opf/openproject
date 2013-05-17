@@ -86,19 +86,9 @@ class CostObject < ActiveRecord::Base
     0
   end
 
-  def spent_for_display
-    # FIXME: Remove this function
-    spent
-  end
-
   # Budget of labor.  Virtual accessor that is overriden by subclasses.
   def labor_budget
     0.0
-  end
-
-  def labor_budget_for_display
-    # FIXME: Remove this function
-    labor_budget
   end
 
   # Budget of material, i.e. all costs besides labor costs.  Virtual accessor that is overriden by subclasses.
@@ -106,18 +96,8 @@ class CostObject < ActiveRecord::Base
     0.0
   end
 
-  def material_budget_for_display
-    # FIXME: Remove this function
-    material_budget
-  end
-
   def budget
     material_budget + labor_budget
-  end
-
-  def budget_for_display
-    # FIXME: Remove this function
-    budget
   end
 
   def status
