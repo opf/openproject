@@ -8,7 +8,7 @@ en:
     costs: Costs
     valid_from: Valid from
     current_rate: Current rate
-    cost_type: Cost Type
+    cost_type: Cost type
     cost_object: Budget
 
   activerecord:
@@ -28,7 +28,7 @@ en:
         spent: Spent
         available: Available
         status: Status
-        subject: Title
+        subject: Subject
         author: Author
         created_on: Created On
         updated_on: Updated On
