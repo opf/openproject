@@ -1,5 +1,3 @@
-require_dependency 'open_project/costs/patches/i18n_patch'
-
 module OpenProject::Costs
   class Engine < ::Rails::Engine
     engine_name :openproject_costs
@@ -57,6 +55,8 @@ module OpenProject::Costs
       Setting.create_setting_accessors("plugin_openproject_costs")
 
       require 'open_project/costs/patches'
+
+      require_dependency 'open_project/costs/patches/i18n_patch'
 
       # Model Patches
       require_dependency 'open_project/costs/patches/issue_patch'
