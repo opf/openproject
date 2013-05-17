@@ -5,10 +5,10 @@
 <% else %>
 <table class="list cost_types deleted_cost_types">
   <thead><tr>
-    <%= sort_header_tag "name", :caption => l(:caption_cost_type) %>
+    <%= sort_header_tag "name", :caption => CostType.model_name.human %>
     <%= sort_header_tag "unit", :caption => l(:caption_cost_type_unit_name) %>
     <%= sort_header_tag "unit_plural", :caption => l(:caption_cost_type_unit_name_plural) %>
-    <th><%= l(:caption_current_rate) %></th>
+    <th><%= CostType.human_attribute_name(:current_rate) %></th>
     <th><%= l(:caption_locked_on) %></th>
     <th></th>
   </tr></thead>

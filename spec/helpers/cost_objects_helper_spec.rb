@@ -26,18 +26,18 @@ describe CostObjectsHelper do
       end
 
       it "should start with a header explaining the fields" do
-        expected = [ "#",
-                    l(:field_status),
-                    l(:field_project),
-                    l(:field_subject),
-                    l(:field_author),
-                    l(:field_fixed_date),
-                    l(:field_material_budget),
-                    l(:field_labor_budget),
-                    l(:field_spent),
-                    l(:field_created_on),
-                    l(:field_updated_on),
-                    l(:field_description)
+        expected = ["#",
+                    CostObject.human_attribute_name(:status),
+                    Project.model_name.human,
+                    CostObject.human_attribute_name(:subject),
+                    CostObject.human_attribute_name(:author),
+                    CostObject.human_attribute_name(:fixed_date),
+                    VariableCostObject.human_attribute_name(:material_budget),
+                    VariableCostObject.human_attribute_name(:labor_budget),
+                    CostObject.human_attribute_name(:spent),
+                    CostObject.human_attribute_name(:created_on),
+                    CostObject.human_attribute_name(:updated_on),
+                    CostObject.human_attribute_name(:description)
                     ].join(I18n.t(:general_csv_separator))
 
         cost_objects_to_csv([cost_object]).start_with?(expected).should be_true
