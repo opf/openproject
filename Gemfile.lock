@@ -20,12 +20,12 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: b1fb8efd9b541117af327b9c06f79f088442ba18
+  revision: b0f96d4436619b25b8024cc70a71c77bcfc12bf6
   branch: 3-2-stable
   specs:
     actionmailer (3.2.13)
       actionpack (= 3.2.13)
-      mail (~> 2.5.3)
+      mail (~> 2.5.4)
     actionpack (3.2.13)
       activemodel (= 3.2.13)
       activesupport (= 3.2.13)
@@ -187,8 +187,7 @@ GEM
     loofah (1.2.1)
       nokogiri (>= 1.4.4)
     lumberjack (1.0.3)
-    mail (2.5.3)
-      i18n (>= 0.4.0)
+    mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     metaclass (0.0.1)
