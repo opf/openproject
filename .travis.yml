@@ -2,9 +2,19 @@ language: ruby
 rvm:
   - 1.9.3
 env:
-  - "RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
-  - "RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
-script: "bundle exec rake"
+  # mysql2
+  - "TEST_SUITE=test:units       RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
+  - "TEST_SUITE=test:functionals RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
+  - "TEST_SUITE=test:integration RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
+  - "TEST_SUITE=spec             RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
+  - "TEST_SUITE=cucumber         RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
+  # postgres
+  - "TEST_SUITE=test:units       RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
+  - "TEST_SUITE=test:functionals RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
+  - "TEST_SUITE=test:integration RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
+  - "TEST_SUITE=spec             RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
+  - "TEST_SUITE=cucumber         RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
+script: "bundle exec rake $TEST_SUITE"
 before_install:
   - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install git subversion"
