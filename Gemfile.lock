@@ -120,7 +120,7 @@ GEM
       cucumber-rails (>= 1.1.1)
     daemons (1.1.9)
     dalli (2.6.3)
-    database_cleaner (0.9.1)
+    database_cleaner (1.0.1)
     debug_inspector (0.0.2)
     debugger (1.5.0)
       columnize (>= 0.3.1)
