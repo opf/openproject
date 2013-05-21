@@ -158,9 +158,10 @@ JS
 
   def transform_array_of_comma_seperated_ids(array)
     each_comma_seperated(array) do |elem|
-      elem.split(",").map(&:to_i)
+      elem.to_s.split(",").map(&:to_i)
     end
   end
+
 
   def update_member_from_params
     # this way, mass assignment is considered and all updates happen in one transaction (autosave)
