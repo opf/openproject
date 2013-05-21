@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require_relative 'query_helper'
 
-describe CostQuery do
+describe CostQuery, :reporting_query_helper => true do
   before { User.current = users(:admin) }
   minimal_query
 
