@@ -152,7 +152,7 @@ module Report::QueryUtils
     else_part = options.delete :else
     "-- #{desc}\n\t" \
     "CASE #{options.map { |k,v| "\n\t\tWHEN #{field_name_for k}\n\t\t" \
-    "THEN #{field_name_for v}" }}\n\t\tELSE #{field_name_for else_part}\n\tEND"
+    "THEN #{field_name_for v}" }.join(', ')}\n\t\tELSE #{field_name_for else_part}\n\tEND"
   end
 
   def iso_year_week(field, default_table = nil)
