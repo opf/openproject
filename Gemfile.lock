@@ -252,7 +252,7 @@ GEM
     rb-readline (0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
-    ref (1.0.4)
+    ref (1.0.5)
     rmagick (2.13.2)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
