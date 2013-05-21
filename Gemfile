@@ -171,8 +171,8 @@ platforms :jruby do
   end
 end
 
-# Load Gemfile.local and plugins' Gemfiles
-Dir.glob File.expand_path("../{Gemfile.local,lib/plugins/*/Gemfile}", __FILE__) do |file|
+# Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
+Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}", __FILE__) do |file|
   next unless File.readable?(file)
   instance_eval File.read(file)
 end
