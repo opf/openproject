@@ -175,7 +175,7 @@ GEM
       jquery-rails
       railties (>= 3.1.0)
     json (1.8.0)
-    launchy (2.1.2)
+    launchy (2.3.0)
       addressable (~> 2.3)
     letter_opener (1.0.0)
       launchy (>= 2.0.4)
@@ -361,7 +361,7 @@ DEPENDENCIES
   jquery-rails (~> 2.0.3)
   jquery-ui-rails
   jruby-openssl
-  launchy (~> 2.1.0)
+  launchy (~> 2.3.0)
   letter_opener (~> 1.0.0)
   loofah
   mocha (~> 0.13.1)
