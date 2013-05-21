@@ -16,17 +16,6 @@ require_relative '../test_helper'
 class CommentTest < ActiveSupport::TestCase
   include MiniTest::Assertions # refute
 
-  def setup
-    super
-    DatabaseCleaner.clean_with :truncation
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.start
-  end
-
-  def teardown
-    DatabaseCleaner.clean
-  end
-
   def test_validations
     # factory valid
     assert FactoryGirl.build(:comment).valid?
