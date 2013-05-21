@@ -1,14 +1,21 @@
-<% if available_principals.size > 20 %>
-  <p><%= simple_format(l('notice_to_many_principals_to_display'))%></p>
-<% elsif available_principals.size == 0 %>
-  <p><%= l('notice_no_principals_found')%></p>
-<% else %>
-  <%= principals_check_box_tags 'member[user_ids][]', available_principals %>
+<div class="principals splitcontentleft">
+  <% if principals.size > 20 %>
+    <p><%= simple_format(l('notice_to_many_principals_to_display'))%></p>
+</div>
+  <% elsif principals.size == 0 %>
+    <p><%= l('notice_no_principals_found')%></p>
+</div>
+  <% else %>
+    <%= principals_check_box_tags 'member[user_ids][]', principals %>
+</div>
 
-  <p><%= l(:label_role_plural) %>:
-  <% roles.each do |role| %>
-    <label><%= check_box_tag 'member[role_ids][]', role.id %> <%=h role %></label>
-  <% end %></p>
+    <div class="roles splitcontentright">
+      <%= l(:label_role_plural) %>:
+      <% roles.each do |role| %>
+        <label><%= check_box_tag 'member[role_ids][]', role.id %> <%=h role %></label>
+      <% end %>
+    </div>
 
-  <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
-<% end %>
+    <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
+  <% end %>
+

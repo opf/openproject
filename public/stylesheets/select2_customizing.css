@@ -77,3 +77,19 @@
 .select2-search input {
   min-height: 0\9;
 }
+.select2-results .select2-no-results {
+  background: white;
+  border: none;
+}
+.select2-container-active .select2-choice, .select2-container-active .select2-choices {
+    outline: 5px auto #999;
+    border-color: #AAA;
+}
+
+.select2-results .select2-no-results, .select2-results .select2-searching, .select2-results .select2-selection-limit {
+  background-color: transparent;
+}
+
+.select2-more-results.select2-active {
+  background: transparent url('../images/loading.gif') no-repeat 100%;
+}

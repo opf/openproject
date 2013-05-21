@@ -22,6 +22,11 @@ class Role < ActiveRecord::Base
     compare = 'not' if args.first == true
     { :conditions => "#{compare} builtin = 0" }
   }
+  named_scope :like, lambda { |q|
+    s = "%#{q.to_s.strip.downcase}%"
+    {:conditions => ["LOWER(name) LIKE :s", {:s => s}]
+    }
+  }
 
   before_destroy :check_deletable
   has_many :workflows, :dependent => :delete_all do
@@ -146,6 +151,12 @@ class Role < ActiveRecord::Base
     all.select do |role|
       role.allowed_to? permission
     end
+  end
+
+  def self.paginated_search(search, page, options = {})
+    limit = options.fetch(:page_limit) || 10
+    registered_scope = givable.like(search).scope(:find)
+    paginate({ :per_page => limit, :page => page }.merge(registered_scope))
   end
 
 private

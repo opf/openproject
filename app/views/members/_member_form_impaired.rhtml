@@ -1,0 +1,18 @@
+<% remote_form_for(:member, members, :url => {:controller => 'members', :action => 'new', :id => project}, :method => :post,
+                       :loading => '$(\'member-add-submit\').disable();',
+                       :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable();') do |f| %>
+  <fieldset>
+    <legend><%=l(:label_member_new)%></legend>
+    <p><%= label_tag "principal_search", l(:label_principal_search) %><%= text_field_tag 'principal_search', nil %></p>
+    <%= observe_field(:principal_search,
+                 :frequency => 0.5,
+                 :update => :principal_results,
+                 :url => { :controller => 'members', :action => 'autocomplete_for_member', :id => project },
+                 :with => 'q')
+                  %>
+
+    <div id="principal_results">
+      <%= render :partial => 'members/autocomplete_for_member', :locals => { :principals => principals, :roles => roles } %>
+    </div>
+  </fieldset>
+<% end %>

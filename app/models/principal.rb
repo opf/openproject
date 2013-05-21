@@ -39,6 +39,25 @@ class Principal < ActiveRecord::Base
     to_s
   end
 
+  def self.possible_members(criteria, limit)
+    Principal.active_or_registered.like(criteria).find(:all, :limit => limit)
+  end
+
+  def self.paginate_scope!(scope, options = {})
+    limit = options.fetch(:page_limit) || 10
+    page = options.fetch(:page) || 1
+    scope = (scope.respond_to?(:scope) ? scope.scope(:find) : scope)
+    paginate({ :per_page => limit, :page => page }.merge(scope))
+  end
+
+  def self.search_scope_without_project(project, query)
+    search_scope(query).not_in_project(project)
+  end
+
+  def self.search_scope(query)
+    active_or_registered.like(query)
+  end
+
   def <=>(principal)
     if self.class.name == principal.class.name
       self.to_s.downcase <=> principal.to_s.downcase

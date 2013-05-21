@@ -1,0 +1,8 @@
+{
+  "results":
+  {
+    "items": <%= @principals.collect {|item| { :id => item.id, :name => item.name } }.to_json %>,
+    "total": <%= @total ? @total.to_json : @principals.size.to_json %>,
+    "more": <%= @more ? @more.to_json : 0.to_json %>
+  }
+}

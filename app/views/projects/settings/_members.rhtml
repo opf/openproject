@@ -1,6 +1,6 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   available_principals = @project.possible_members("", 100)
+   available_principals = Principal.possible_members("", 100) - @project.principals
 
    member_per_page = 20
 
@@ -12,8 +12,15 @@
                           :include => [:roles, :principal, :member_roles],
                           :order => User::USER_FORMATS_STRUCTURE[Setting.user_format].map{|attr| attr.to_s}.join(", ")
 %>
-
-<div class="splitcontentleft">
+<div>
+  <% if roles.any? && available_principals.any? %>
+    <%= render :partial => "members/member_form",
+               :locals => { :project => @project,
+                            :roles => roles,
+                            :principals => available_principals } %>
+  <% end %>
+</div>
+<div>
 <% if @members.any? %>
   <% authorized = authorize_for('members', 'edit') %>
 <table class="list members">
@@ -32,11 +39,11 @@
     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
     <% if authorized %>
       <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member, :page => params[:page]},
-      																		:method => :post,
-      																		:html => { :id => "member-#{member.id}-roles-form", :class => 'hol' }) do |f| %>
-      	<p><% roles.each do |role| %>
+                                          :method => :post,
+                                          :html => { :id => "member-#{member.id}-roles-form", :class => 'hol' }) do |f| %>
+        <p><% roles.each do |role| %>
         <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role),
-        																							 :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
+                                                       :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
         <% end %></p>
         <%= hidden_field_tag 'member[role_ids][]', '' %>
         <p><%= submit_tag l(:button_change), :class => "small" %>
@@ -53,9 +60,9 @@
                                                :class => 'icon icon-del') if member.deletable? %>
   </td>
   <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
-	</tr>
+  </tr>
 <% end; reset_cycle %>
-	</tbody>
+  </tbody>
 </table>
 
 <%= pagination_links_full @members_pages, @members_count, :per_page_links => false,
@@ -63,30 +70,5 @@
 
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
-</div>
-
-<div class="splitcontentright">
-<% if roles.any? && available_principals.any? %>
-  <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project, :page => params[:page]}, :method => :post,
-									   :loading => '$(\'member-add-submit\').disable();',
-									   :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable();') do |f| %>
-    <fieldset><legend><%=l(:label_member_new)%></legend>
-
-		<p><%= label_tag "principal_search", l(:label_principal_search) %><%= text_field_tag 'principal_search', nil %></p>
-		<%= observe_field(:principal_search,
-                 :frequency => 0.5,
-                 :update => :principals,
-                 :url => { :controller => 'members', :action => 'autocomplete_for_member', :id => @project },
-                 :with => 'q')
-                  %>
-
-		<div id="principals">
-      <%= render :partial => 'members/autocomplete_for_member', :locals => { :available_principals => available_principals, :roles => roles } %>
-		</div>
-
-
-		</fieldset>
-  <% end %>
 <% end %>
 </div>

@@ -1,0 +1,8 @@
+{
+  "results":
+  {
+    "items": <%= @roles.collect {|item| { :id => item.id, :name => item.name } }.to_json %>,
+    "total": <%= @total.to_json %>,
+    "more": <%= @more.to_json %>
+  }
+}
