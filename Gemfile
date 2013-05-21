@@ -52,10 +52,10 @@ gem 'jquery-rails', '~> 2.0.3'
 gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
 
 group :test do
-  gem 'shoulda', '~> 3.1.1'
+  gem 'shoulda'
   gem 'object-daddy', :git => 'https://github.com/awebneck/object_daddy.git'
   gem 'mocha', '~> 0.13.1', :require => false
-  gem "launchy", "~> 2.1.0"
+  gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.0"
   gem 'cucumber-rails', :require => false
   gem 'rack_session_access'
