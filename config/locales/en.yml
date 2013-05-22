@@ -5,8 +5,8 @@ en:
     deleted: "Account successfully deleted"
     deletion_info:
       data_consequences:
-        other: "Of the data the user created (e.g. e-mail, preferences, issues, wiki entries) as much as possible will be deleted. Note however, that data like issues and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
-        self: "Of the data you created (e.g. e-mail, preferences, issues, wiki entries) as much as possible will be deleted. Note however, that data like issues and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
+        other: "Of the data the user created (e.g. e-mail, preferences, issues, wiki entries) as much as possible will be deleted. Note however, that data like issues and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
+        self: "Of the data you created (e.g. e-mail, preferences, issues, wiki entries) as much as possible will be deleted. Note however, that data like issues and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
       heading: "Delete account %{name}"
       info:
         other: "Deleting the user account is an irreversible action."
@@ -258,7 +258,7 @@ en:
   button_wiki_menu_entry: "Configure menu item"
 
   create_child_page: "Create new child page"
-  create_child_page_for: "Create new child page: "%{title}""
+  create_child_page_for: "Create new child page: \"%{title}\""
   create_new_page: "Create new page"
 
   date:
@@ -394,7 +394,7 @@ en:
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
   error_issue_not_found_in_project: "The issue was not found or does not belong to this project"
   error_must_be_project_member: "must be project member"
-  error_no_default_issue_status: "No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses")."
+  error_no_default_issue_status: "No default issue status is defined. Please check your configuration (Go to \"Administration -> Issue statuses\")."
   error_no_tracker_in_project: "No tracker is associated to this project. Please check the Project settings."
   error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
@@ -1079,7 +1079,7 @@ en:
   text_enumeration_category_reassign_to: "Reassign them to this value:"
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_file_repository_writable: "Attachments directory writable"
-  text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\gitrepo)"
+  text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
   text_issue_added: "Issue %{id} has been reported by %{author}."
   text_issue_category_destroy_assignments: "Remove category assignments"
   text_issue_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do?"
@@ -1152,5 +1152,5 @@ en:
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
 
   wiki_menu_item: "Menu item"
-  wiki_menu_item_for: "Menu item for wikipage "%{title}""
+  wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
   wiki_menu_item_setting: "Visibility"

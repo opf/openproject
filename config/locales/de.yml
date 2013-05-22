@@ -5,8 +5,8 @@ de:
     deleted: "Account erfolgreich gelöscht"
     deletion_info:
       data_consequences:
-        other: "Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem "Gelöschten Nutzer" zugewiesen. Da die Daten aller gelöschter Accounts dem "Gelöschten Nutzer" zugewiesen werden ist es unmöglich die von Nutzer erstellten Daten auf seine Person zurückzuführen."
-        self: "Von den von Ihnen im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem "Gelöschten Nutzer" zugewiesen. Da die Daten aller gelöschter Accounts dem "Gelöschten Nutzer" zugewiesen werden ist es unmöglich die von ihnen erstellten Daten auf Ihre Person zurückzuführen."
+        other: "Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden ist es unmöglich die von Nutzer erstellten Daten auf seine Person zurückzuführen."
+        self: "Von den von Ihnen im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden ist es unmöglich die von ihnen erstellten Daten auf Ihre Person zurückzuführen."
       heading: "Lösche account %{name}"
       info:
         other: "Das Löschen des Accounts kann nicht rückgängig gemacht werden."
@@ -258,7 +258,7 @@ de:
   button_wiki_menu_entry: "Menüpunkt verwalten"
 
   create_child_page: "Neue Unterseite anlegen"
-  create_child_page_for: "Neue Unterseite anlegen: "%{title}""
+  create_child_page_for: "Neue Unterseite anlegen: \"%{title}\""
   create_new_page: "Neue Seite anlegen"
 
   date:
@@ -394,7 +394,7 @@ de:
   error_issue_done_ratios_not_updated: "Der Ticket-Fortschritt wurde nicht aktualisiert."
   error_issue_not_found_in_project: "Das Ticket wurde nicht gefunden oder gehört nicht zu diesem Projekt."
   error_must_be_project_member: "muss Mitglied des Projekts sein"
-  error_no_default_issue_status: "Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Ticket-Status")."
+  error_no_default_issue_status: "Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter \"Administration -> Ticket-Status\")."
   error_no_tracker_in_project: "Diesem Projekt ist kein Tracker zugeordnet. Bitte überprüfen Sie die Projekteinstellungen."
   error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
@@ -640,7 +640,7 @@ de:
   label_my_account: "Mein Konto"
   label_my_account_data: "Meine Kontodaten"
   label_my_page: "Meine Seite"
-  label_my_page_block: "Bereich "Meine Seite""
+  label_my_page_block: "Bereich \"Meine Seite\""
   label_my_projects: "Meine Projekte"
   label_my_queries: "Meine Berichte"
   label_new: "Neu"
@@ -1021,7 +1021,7 @@ de:
   setting_issue_list_default_columns: "Standardmäßig anzeigen"
   setting_issue_list_summable_columns: "Summierbar"
   setting_issue_properties: "Ticket Eigenschaften"
-  setting_issue_startdate_is_adddate: "Neue Tickets haben "Heute" als Anfangsdatum"
+  setting_issue_startdate_is_adddate: "Neue Tickets haben \"Heute\" als Anfangsdatum"
   setting_issues_export_limit: "Max. Anzahl Tickets bei CSV/PDF-Export"
   setting_login_required: "Authentifizierung erforderlich"
   setting_mail_from: "E-Mail-Absender"
@@ -1079,7 +1079,7 @@ de:
   text_enumeration_category_reassign_to: "Die Objekte stattdessen diesem Wert zuordnen:"
   text_enumeration_destroy_question: "%{count} Objekt(e) sind diesem Wert zugeordnet."
   text_file_repository_writable: "Verzeichnis für Dateien beschreibbar"
-  text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\gitrepo)"
+  text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
   text_issue_added: "Ticket %{id} wurde erstellt von %{author}."
   text_issue_category_destroy_assignments: "Kategorie-Zuordnung entfernen"
   text_issue_category_destroy_question: "Einige Tickets (%{count}) sind dieser Kategorie zugeodnet. Was möchten Sie tun?"
@@ -1152,5 +1152,5 @@ de:
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
 
   wiki_menu_item: "Menüpunkt"
-  wiki_menu_item_for: "Menüpunkt für die Wikiseite "%{title}""
+  wiki_menu_item_for: "Menüpunkt für die Wikiseite \"%{title}\""
   wiki_menu_item_setting: "Sichtbarkeit"
