@@ -68,7 +68,7 @@ class CostObjectsController < ApplicationController
 
     respond_to do |format|
       format.html { render :action => 'index', :layout => !request.xhr? }
-      format.csv  { send_data(cost_objects_to_csv(@cost_objects, @project).read, :type => 'text/csv; header=present', :filename => 'export.csv') }
+      format.csv  { send_data(cost_objects_to_csv(@cost_objects).read, :type => 'text/csv; header=present', :filename => 'export.csv') }
     end
   end
 

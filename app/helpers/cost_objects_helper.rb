@@ -9,7 +9,7 @@ module CostObjectsHelper
     return User.current.allowed_to?(:edit_cost_objects, @project)
   end
 
-  def cost_objects_to_csv(cost_objects, project)
+  def cost_objects_to_csv(cost_objects)
     export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [ "#",
