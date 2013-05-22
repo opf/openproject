@@ -12,6 +12,8 @@ module CostNavigationHelpers
       "/cost_objects/#{budget.id}"
     when /^the index page (?:of|for) cost types$/
       "/cost_types"
+    when /^the hourly rates page of user "(.*)" of the project called "(.*)"/
+      "/projects/#{$2}/hourly_rates/#{$1}"
     else
       super
     end
