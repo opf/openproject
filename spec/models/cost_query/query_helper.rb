@@ -9,6 +9,6 @@ module Reporting
   end
 end
 
-Rspec.configure do |c|
+RSpec.configure do |c|
   c.extend Reporting::QueryHelper, :reporting_query_helper => true
 end
