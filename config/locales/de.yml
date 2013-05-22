@@ -890,12 +890,12 @@ de:
         unit: "€"
     format:
       delimiter: "."
-      precision: "2"
+      precision: 2
       separator: ","
     human:
       format:
         delimiter: ""
-        precision: "1"
+        precision: 1
       storage_units:
         format: "%n %u"
         units:

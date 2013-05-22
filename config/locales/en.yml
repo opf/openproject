@@ -890,12 +890,12 @@ en:
 
     format:
       delimiter: ""
-      precision: "3"
+      precision: 3
       separator: "."
     human:
       format:
         delimiter: ""
-        precision: "1"
+        precision: 1
       storage_units:
         format: "%n %u"
         units:
