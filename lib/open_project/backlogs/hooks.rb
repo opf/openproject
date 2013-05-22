@@ -44,15 +44,14 @@ module OpenProject::Backlogs::Hooks
       if issue.is_story?
         snippet += %Q{
           <tr>
-            <th class="story-points">#{l(:field_story_points)}:</th>
+            <th class="story-points">#{Issue.human_attribute_name(:story_points)}:</th>
             <td class="story-points">#{issue.story_points || '-'}</td>
           </tr>
         }
       end
-
       snippet += %Q{
         <tr>
-          <th class="remaining_hours">#{l(:field_remaining_hours)}:</th>
+          <th class="remaining_hours">#{Issue.human_attribute_name(:remaining_hours)}:</th>
           <td class="remaining_hours">#{l_hours(issue.remaining_hours)}</td>
         </tr>
       }
@@ -94,7 +93,7 @@ module OpenProject::Backlogs::Hooks
       snippet << '<p>'
       snippet << context[:form].text_field(:remaining_hours, :size => 3)
       snippet << ' '
-      snippet << l(:field_hours)
+      snippet << l(:label_hours)
       snippet << '</p>'
 
       params = context[:controller].params
