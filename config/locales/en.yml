@@ -19,6 +19,7 @@ en:
   actionview_instancetag_blank_option: "Please select"
 
   activerecord:
+    # attributes grouped by their model
     attributes:
       attachment:
         downloads: "Downloads"
@@ -35,7 +36,7 @@ en:
         onthefly: "On-the-fly user creation"
         port: "Port"
       comment:
-        commented: "Commented"
+        commented: "Commented" # an object that this comment belongs to
       custom_field:
         default_value: "Default value"
         editable: "Editable"
@@ -171,6 +172,7 @@ en:
       wiki_page: "Wiki page"
       workflow: "Workflow"
 
+  # common attributes of all models
   attributes:
     assigned_to: "Assignee"
     author: "Author"
@@ -261,15 +263,23 @@ en:
   create_new_page: "Create new page"
 
   date:
-    abbr_day_names: "["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]"
-    abbr_month_names: "[nil, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]"
-    day_names: "["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]"
+    abbr_day_names: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    abbr_month_names: [~, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    day_names: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
-    month_names: "[nil, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]"
-    order: "[:year, :month, :day]"
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    # Used in date_select and datime_select.
+    order:
+      - :year
+      - :month
+      - :day
 
   datetime:
     distance_in_words:
@@ -367,7 +377,8 @@ en:
   description_user_mail_notification: "Mail notification settings"
   description_wiki_subpages_reassign: "Choose new parent page"
 
-  direction: "ltr"
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
+  direction: ltr
 
   enumeration_activities: "Activities (time tracking)"
   enumeration_doc_categories: "Document categories"
@@ -870,6 +881,7 @@ en:
   notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_unable_delete_version: "Unable to delete version."
 
+  # Default format for numbers
   number:
 
 
@@ -965,6 +977,8 @@ en:
   project_module_time_tracking: "Time tracking"
   project_module_wiki: "Wiki"
 
+  # possible query parameters (e.g. issue queries),
+  # which are not attributes of an AR-Model.
   query_fields:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
@@ -1043,6 +1057,7 @@ en:
   status_locked: "locked"
   status_registered: "registered"
 
+  # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "and"
