@@ -113,6 +113,8 @@ de:
         sharing: "Gemeinsame Verwendung"
       wiki:
         start_page: "Hauptseite"
+      wiki_content:
+        text: "Text"
       wiki_page:
         parent_title: "Übergeordnete Seite"
         redirect_existing_links: "Existierende Links umleiten"

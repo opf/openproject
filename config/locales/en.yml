@@ -113,6 +113,8 @@ en:
         sharing: "Sharing"
       wiki:
         start_page: "Start page"
+      wiki_content:
+        text: "Text"
       wiki_page:
         parent_title: "Parent page"
         redirect_existing_links: "Redirect existing links"
