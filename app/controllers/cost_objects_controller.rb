@@ -236,7 +236,7 @@ private
   def find_cost_object
     # This function comes directly from issues_controller.rb (Redmine 0.8.4)
     @cost_object = CostObject.find_by_id(params[:id].to_i, :include => [:project, :author])
-    @project = @cost_object.project
+    @project = @cost_object.project if @cost_object
   rescue ActiveRecord::RecordNotFound
     render_404
   end
