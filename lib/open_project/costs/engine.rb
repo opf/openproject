@@ -48,6 +48,13 @@ module OpenProject::Costs
       app.routes_reloader.paths.uniq!
     end
 
+    initializer "costs.patch_i18n" do
+      # This is done here instead of doing it along with the rest of the patches as
+      # i18n is not unloaded between requests. Hence, placing it inside the config.to_prepare
+      # block would patch i18n once for every request.
+      require_dependency 'open_project/costs/patches/i18n_patch'
+    end
+
     config.to_prepare do
 
       # TODO: avoid this dirty hack necessary to prevent settings method getting lost after reloading
@@ -55,8 +62,6 @@ module OpenProject::Costs
       Setting.create_setting_accessors("plugin_openproject_costs")
 
       require 'open_project/costs/patches'
-
-      require_dependency 'open_project/costs/patches/i18n_patch'
 
       # Model Patches
       require_dependency 'open_project/costs/patches/issue_patch'
