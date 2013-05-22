@@ -41,7 +41,6 @@ class CostObjectsController < ApplicationController
     respond_to do |format|
       format.html { }
       format.csv  { limit = Setting.issues_export_limit.to_i }
-      format.pdf  { limit = Setting.issues_export_limit.to_i }
     end
 
 
@@ -70,7 +69,6 @@ class CostObjectsController < ApplicationController
     respond_to do |format|
       format.html { render :action => 'index', :layout => !request.xhr? }
       format.csv  { send_data(cost_objects_to_csv(@cost_objects, @project).read, :type => 'text/csv; header=present', :filename => 'export.csv') }
-      format.pdf  { send_data(cost_objects_to_pdf(@cost_objects, @project), :type => 'application/pdf', :filename => 'export.pdf') }
     end
   end
 
