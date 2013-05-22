@@ -5,6 +5,12 @@ module Entry
   [TimeEntry, CostEntry].each { |e| e.send :include, self }
 
   class Delegator < ActiveRecord::Base
+    # Rails 3.2.13 delegates most of the methods defined here to an
+    # ActiveRecord::Relation (see active_record/querying.rb).
+    # Thus only implementing the four find_x methods isn't enough
+    # Rails 2.3 internally called these e.g. for all().
+    # A quick fix is implementing all(), but we might need to reconsider how we
+    # do the delegation here if more methods were based on the four find_xs.
     self.abstract_class = true
     class << self
       def ===(obj)
@@ -30,6 +36,9 @@ module Entry
       end
 
       private
+      def all(*args)
+        find_many :find, :all, *args
+      end
       def find_initial(options)         find_one  :find_initial,  options end
       def find_last(options)            find_one  :find_last,     options end
       def find_every(options)           find_many :find_every,    options end
