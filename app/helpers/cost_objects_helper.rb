@@ -25,7 +25,7 @@ module CostObjectsHelper
                   l(:field_updated_on),
                   l(:field_description)
                   ]
-      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
+      csv << headers.collect {|c| begin; c.to_s.encode('UTF-8'); rescue; c.to_s; end }
       # csv lines
       cost_objects.each do |cost_object|
         fields = [cost_object.id,
