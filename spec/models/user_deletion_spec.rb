@@ -11,7 +11,7 @@ describe User, "#destroy" do
     user2
   end
 
-  shared_examples_for "updated journalized associated object" do
+  shared_examples_for "costs updated journalized associated object" do
     before do
       User.current = user2
       associations.each do |association|
@@ -50,7 +50,7 @@ describe User, "#destroy" do
     end
   end
 
-  shared_examples_for "created journalized associated object" do
+  shared_examples_for "costs created journalized associated object" do
     before do
       User.current = user # in order to have the content journal created by the user
       associations.each do |association|
@@ -95,7 +95,7 @@ describe User, "#destroy" do
     let(:associated_instance) { FactoryGirl.build(:variable_cost_object) }
     let(:associated_class) { CostObject }
 
-    it_should_behave_like "updated journalized associated object"
+    it_should_behave_like "costs updated journalized associated object"
   end
 
   describe "WHEN the user created a cost object" do
@@ -103,7 +103,7 @@ describe User, "#destroy" do
     let(:associated_instance) { FactoryGirl.build(:variable_cost_object) }
     let(:associated_class) { CostObject }
 
-    it_should_behave_like "created journalized associated object"
+    it_should_behave_like "costs created journalized associated object"
   end
 
   describe "WHEN the user has a labor_budget_item associated" do
