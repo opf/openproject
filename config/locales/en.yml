@@ -799,6 +799,7 @@ en:
   label_wiki_edit: "Wiki edit"
   label_wiki_edit_plural: "Wiki edits"
   label_wiki_navigation: "Wiki navigation"
+  label_wiki_page: "Wiki page"
   label_wiki_page_plural: "Wiki pages"
   label_wiki_show_index_page_link: "Show submenu item 'Table of Contents'"
   label_wiki_show_menu_item: "Show as menu item in project navigation"

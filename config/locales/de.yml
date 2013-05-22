@@ -799,6 +799,7 @@ de:
   label_wiki_edit: "Wiki-Bearbeitung"
   label_wiki_edit_plural: "Wiki-Bearbeitungen"
   label_wiki_navigation: "Wiki Navigation"
+  label_wiki_page: "Wiki-Seite"
   label_wiki_page_plural: "Wiki-Seiten"
   label_wiki_show_index_page_link: "'Inhaltsverzeichnis' Link als Untermenüpunkt anzeigen"
   label_wiki_show_menu_item: "als Menüpunkt in der Projektnavigation anzeigen"
