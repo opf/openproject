@@ -4,23 +4,24 @@ require_relative 'query_helper'
 describe CostQuery, :reporting_query_helper => true do
   minimal_query
 
-  fixtures :users
-  fixtures :cost_types
-  fixtures :cost_entries
-  fixtures :rates
-  fixtures :projects
-  fixtures :issues
-  fixtures :trackers
-  fixtures :time_entries
-  fixtures :enumerations
-  fixtures :issue_statuses
-  fixtures :roles
-  fixtures :issue_categories
-  fixtures :versions
-  fixtures :custom_fields
-  fixtures :custom_values
+  let!(:project) { FactoryGirl.create(:project_with_trackers) }
+  let!(:user) { FactoryGirl.create(:user, :member_in_project => project) }
 
   describe CostQuery::Filter do
+    def create_issue_with_entry(entry_type, issue_params={}, entry_params = {})
+        issue_params = {:project => project}.merge!(issue_params)
+        issue = FactoryGirl.create(:issue, issue_params)
+        entry_params = {:issue => issue,
+                        :project => issue_params[:project],
+                        :user => user}.merge!(entry_params)
+        FactoryGirl.create(entry_type, entry_params)
+        issue
+    end
+
+    def create_issue_with_time_entry(issue_params={}, entry_params = {})
+      create_issue_with_entry(:time_entry, issue_params, entry_params)
+    end
+
     it "shows all entries when no filter is applied" do
       @query.result.count.should == Entry.count
     end
@@ -38,15 +39,31 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     [
-      [CostQuery::Filter::ProjectId,  Project,            "project_id"    ],
-      [CostQuery::Filter::UserId,     User,               "user_id"       ],
-      [CostQuery::Filter::CostTypeId, CostType,           "cost_type_id"  ],
-      [CostQuery::Filter::IssueId,    Issue,              "issue_id"      ],
-      [CostQuery::Filter::ActivityId, TimeEntryActivity,  "activity_id"   ]
-    ].each do |filter, model, field|
+      [CostQuery::Filter::ProjectId,  'project',    "project_id",   2],
+      [CostQuery::Filter::UserId,     'user',       "user_id",      2],
+      [CostQuery::Filter::AuthorId,   'author',     "author_id",    2],
+      [CostQuery::Filter::CostTypeId, 'cost_type',  "cost_type_id", 1],
+      [CostQuery::Filter::IssueId,    'issue',      "issue_id",     2],
+      [CostQuery::Filter::ActivityId, 'activity',   "activity_id",  1],
+    ].each do |filter, object_name, field, expected_count|
       describe filter do
-        it "should only return entries from the given #{model}" do
-          object = model.first
+        let!(:non_matching_entry) { FactoryGirl.create(:cost_entry) }
+        let!(:object) { send(object_name) }
+        let!(:author) { FactoryGirl.create(:user, :member_in_project => project) }
+        let!(:issue) { FactoryGirl.create(:issue, :project => project,
+                                                  :author => author) }
+        let!(:cost_type) { FactoryGirl.create(:cost_type) }
+        let!(:cost_entry) { FactoryGirl.create(:cost_entry, :issue => issue,
+                                                            :user => user,
+                                                            :project => project,
+                                                            :cost_type => cost_type) }
+        let!(:activity) { FactoryGirl.create(:time_entry_activity) }
+        let!(:time_entry) { FactoryGirl.create(:time_entry, :issue => issue,
+                                                            :user => user,
+                                                            :project => project,
+                                                            :activity => activity) }
+
+        it "should only return entries from the given #{filter.to_s}" do
           @query.filter field, :value => object.id
           @query.result.each do |result|
             result[field].to_s.should == object.id.to_s
@@ -54,7 +71,6 @@ describe CostQuery, :reporting_query_helper => true do
         end
 
         it "should allow chaining the same filter" do
-          object = model.first
           @query.filter field, :value => object.id
           @query.filter field, :value => object.id
           @query.result.each do |result|
@@ -63,49 +79,15 @@ describe CostQuery, :reporting_query_helper => true do
         end
 
         it "should return no results for excluding filters" do
-          object = model.first
           @query.filter field, :value => object.id
           @query.filter field, :value => object.id + 1
           @query.result.count.should == 0
         end
 
         it "should compute the correct number of results" do
-          object = model.first
           @query.filter field, :value => object.id
-          @query.result.count.should == Entry.all.select { |i| i.respond_to? field and i.send(field) == object.id }.count
+          @query.result.count.should == expected_count
         end
-      end
-    end
-
-    describe CostQuery::Filter::AuthorId do
-      it "should only return entries from the given author" do
-        object = User.first
-        @query.filter "author_id", :value => object.id
-        @query.result.each do |result|
-          result["author_id"].to_s.should == object.id.to_s
-        end
-      end
-
-      it "should allow chaining the same filter" do
-        object = User.first
-        @query.filter "author_id", :value => object.id
-        @query.filter "author_id", :value => object.id
-        @query.result.each do |result|
-          result["author_id"].to_s.should == object.id.to_s
-        end
-      end
-
-      it "should return no results for excluding filters" do
-        object = User.first
-        @query.filter "author_id", :value => object.id
-        @query.filter "author_id", :value => object.id + 1
-        @query.result.count.should == 0
-      end
-
-      it "should compute the correct number of results" do
-        object = User.first
-        @query.filter "author_id", :value => object.id
-        @query.result.count.should == Entry.all.select { |i| i.issue and i.issue.author == object }.count
       end
     end
 
@@ -130,68 +112,111 @@ describe CostQuery, :reporting_query_helper => true do
       old_user = User.current
       User.current = User.all.detect {|u| !u.anonymous?} # for any not anonym user we have at least one available_value
       val = CostQuery::Filter::UserId.available_values.first[1].to_i
+      create_issues_and_time_entries_for(user, )
       @query.filter :user_id, :value => val, :operator => '='
       @query.result.count.should == Entry.all.select { |e| e.user_id == val }.count
       User.current = old_user
     end
 
-    it "filters overridden_costs" do
-      @query.filter :overridden_costs, :operator => 'y'
-      @query.result.count.should == Entry.all.select { |e| not e.overridden_costs.nil? }.count
-    end
+    describe "issue-based filters" do
+      # Create an object, assign it to an issue attribute and create cost
+      # entries assigned to the issue.
+      # Params:
+      # [factory_or_object] object factory name
+      # [issue_field] the issue field, the object should be assigned to
+      # [entry_count] the number of time entries to create
+      # [object_params] optional parameters given to the object factory
+      def create_issues_and_time_entries_for(object, issue_field, entry_count, *args)
+        FactoryGirl.create_list(:issue, entry_count, issue_field => object,
+                                           :project => project).each do |issue|
+          FactoryGirl.create(:cost_entry, :issue => issue,
+                                          :project => project,
+                                          :user => user)
+        end
+        object
+      end
 
-    it "filters status" do
-      @query.filter :status_id, :operator => 'c'
-      @query.result.count.should == Entry.all.select { |e| e.issue.status.is_closed }.count
-    end
+      def create_matching_object_with_time_entries(factory, issue_field, entry_count)
+        create_issues_and_time_entries_for(FactoryGirl.create(factory),
+                                           issue_field,
+                                           entry_count)
+      end
 
-    it "filters tracker" do
-      @query.filter :tracker_id, :operator => '=', :value => Tracker.all.first.id
-      @query.result.count.should == Entry.all.select { |e| e.issue.tracker == Tracker.all.first}.count
-    end
+      it "filters overridden_costs" do
+        @query.filter :overridden_costs, :operator => 'y'
+        @query.result.count.should == Entry.all.select { |e| not e.overridden_costs.nil? }.count
+      end
 
-    it "filters issue authors" do
-      @query.filter :author_id, :operator => '=', :value => User.all.first.id
-      @query.result.count.should == Entry.all.select { |e| e.issue.author == User.all.first}.count
-    end
+      it "filters status" do
+        matching_status = FactoryGirl.create(:issue_status, :is_closed => true)
+        create_issues_and_time_entries_for(matching_status, :status, 3)
+        @query.filter :status_id, :operator => 'c'
+        @query.result.count.should == 3
+      end
 
-    it "filters priority" do
-      @query.filter :priority_id, :operator => '=', :value => IssuePriority.all.first.id
-      @query.result.count.should == Entry.all.select { |e| e.issue.priority == IssuePriority.all.first}.count
-    end
+      it "filters tracker" do
+        matching_tracker = create_matching_object_with_time_entries(:tracker, :tracker, 3)
+        @query.filter :tracker_id, :operator => '=', :value => Tracker.all.first.id
+        @query.result.count.should == 3
+      end
 
-    it "filters assigned to" do
-      @query.filter :assigned_to_id, :operator => '=', :value => User.all.first.id
-      @query.result.count.should == Entry.all.select { |e| e.issue.assigned_to ? e.issue.assigned_to == User.all.first : false }.count
-    end
+      it "filters issue authors" do
+        matching_author = create_matching_object_with_time_entries(:user, :author, 3)
+        @query.filter :author_id, :operator => '=', :value => matching_author.id
+        @query.result.count.should == 3
+      end
 
-    it "filters category" do
-      @query.filter :category_id, :operator => '=', :value => IssueCategory.all.first.id
-      @query.result.count.should == Entry.all.select { |e| e.issue.category ? e.issue.category == IssueCategory.all.first : false }.count
-    end
+      it "filters priority" do
+        matching_priority = create_matching_object_with_time_entries(:priority, :priority, 3)
+        @query.filter :priority_id, :operator => '=', :value => matching_priority.id
+        @query.result.count.should == 3
+      end
 
-    it "filters target version" do
-      @query.filter :fixed_version_id, :operator => '=', :value => Version.all.second.id
-      @query.result.count.should == Entry.all.select { |e| e.issue.fixed_version ? e.issue.fixed_version == Version.all.second : false }.count
-    end
+      it "filters assigned to" do
+        matching_user = create_matching_object_with_time_entries(:user, :assigned_to, 3)
+        @query.filter :assigned_to_id, :operator => '=', :value => matching_user.id
+        @query.result.count.should == 3
+      end
 
-    it "filters subject" do
-      @query.filter :subject, :operator => '=', :value => Issue.all.first.subject
-      @query.result.count.should == Entry.all.select { |e| e.issue.subject == Issue.all.first.subject}.count
-    end
+      it "filters category" do
+        category = create_matching_object_with_time_entries(:issue_category, :category, 3)
+        @query.filter :category_id, :operator => '=', :value => category.id
+        @query.result.count.should == 3
+      end
 
-    it "filters start" do
-      @query.filter :start_date, :operator => '=d', :value => Issue.all(:order => "id ASC").first.start_date
-      @query.result.count.should == Entry.all.select { |e| e.issue.start_date == Issue.all(:order => "id ASC").first.start_date }.count
-    end
+      it "filters target version" do
+        matching_version = FactoryGirl.create(:version, :project => project)
+        create_issues_and_time_entries_for(matching_version, :fixed_version, 3)
 
-    it "filters due date" do
-      @query.filter :due_date, :operator => '=d', :value => Issue.all(:order => "id ASC").first.due_date
-      @query.result.count.should == Entry.all.select { |e| e.issue.due_date == Issue.all(:order => "id ASC").first.due_date }.count
-    end
+        @query.filter :fixed_version_id, :operator => '=', :value => matching_version.id
+        @query.result.count.should == 3
+      end
 
-    it "raises an error if operator is not supported" do
-      proc { @query.filter :spent_on, :operator => 'c' }.should raise_error(ArgumentError)
+      it "filters subject" do
+        matching_issue = create_issue_with_time_entry(:subject => 'matching subject')
+        @query.filter :subject, :operator => '=', :value => 'matching subject'
+        @query.result.count.should == 1
+      end
+
+      it "filters start" do
+        start_date = Date.new(2013, 1, 1)
+        matching_issue = create_issue_with_time_entry(:start_date => start_date)
+        @query.filter :start_date, :operator => '=d', :value => start_date
+        @query.result.count.should == 1
+        #Entry.all.select { |e| e.issue.start_date == Issue.all(:order => "id ASC").first.start_date }.count
+      end
+
+      it "filters due date" do
+        due_date = Date.new(2013, 1, 1)
+        matching_issue = create_issue_with_time_entry(:due_date => due_date)
+        @query.filter :due_date, :operator => '=d', :value => due_date
+        @query.result.count.should == 1
+        #Entry.all.select { |e| e.issue.due_date == Issue.all(:order => "id ASC").first.due_date }.count
+      end
+
+      it "raises an error if operator is not supported" do
+        proc { @query.filter :spent_on, :operator => 'c' }.should raise_error(ArgumentError)
+      end
     end
 
     #filter for specific objects, which can't be null

@@ -39,6 +39,11 @@ module Entry
       def all(*args)
         find_many :find, :all, *args
       end
+
+      def count(*args)
+        find_many :count, :all, *args
+      end
+
       def find_initial(options)         find_one  :find_initial,  options end
       def find_last(options)            find_one  :find_last,     options end
       def find_every(options)           find_many :find_every,    options end
