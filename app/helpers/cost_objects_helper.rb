@@ -10,7 +10,7 @@ module CostObjectsHelper
   end
 
   def cost_objects_to_csv(cost_objects)
-    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [ "#",
                   l(:field_status),
@@ -44,6 +44,5 @@ module CostObjectsHelper
         csv << fields.collect {|c| begin; c.to_s.encode('UTF-8'); rescue; c.to_s; end }
       end
     end
-    StringIO.new(export)
   end
 end

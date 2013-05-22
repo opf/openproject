@@ -7,10 +7,6 @@ describe CostObjectsHelper do
   describe :cost_objects_to_csv do
     describe "WITH a list of one cost object" do
 
-      it "should be of type StringIO" do
-        helper.cost_objects_to_csv([cost_object]).is_a?(StringIO).should be_true
-      end
-
       it "should output the cost objects attributes" do
         expected = [cost_object.id,
                     l(cost_object.status),
@@ -26,7 +22,7 @@ describe CostObjectsHelper do
                     cost_object.description
                   ].join(I18n.t(:general_csv_separator))
 
-        cost_objects_to_csv([cost_object]).read.include?(expected).should be_true
+        cost_objects_to_csv([cost_object]).include?(expected).should be_true
       end
 
       it "should start with a header explaining the fields" do
@@ -44,7 +40,7 @@ describe CostObjectsHelper do
                     l(:field_description)
                     ].join(I18n.t(:general_csv_separator))
 
-        cost_objects_to_csv([cost_object]).read.start_with?(expected).should be_true
+        cost_objects_to_csv([cost_object]).start_with?(expected).should be_true
       end
     end
   end
