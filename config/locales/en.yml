@@ -39,8 +39,8 @@ en:
         labor_budget: Planned Labor Costs
         material_budget: Planned Unit Costs
       cost_type:
-        unit: Unit name
-        unit_plural: Pluralized unit name
+        unit: "Unit Name"
+        unit_plural: "Pluralized Unit Name"
       cost_entry:
         issue: Issue
         spent_on: Date
@@ -80,8 +80,6 @@ en:
   button_log_time: Log time
 
   caption_booked_on_project: "Booked on Project"
-  caption_cost_type_unit_name: Unit Name
-  caption_cost_type_unit_name_plural: Pluralized Unit Name
   caption_default: Default
   caption_default_rate_history_for: Default Rate History for %{user}
   caption_labor: Labor

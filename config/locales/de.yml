@@ -39,8 +39,8 @@ de:
         labor_budget: Geplante Personaleinzelkosten
         material_budget: Geplante Stückkosten
       cost_type:
-        unit: Einheit
-        unit_plural: Einheit plural
+        unit: "Einheit"
+        unit_plural: "Einheit plural"
       cost_entry:
         issue: Ticket
         spent_on: Datum
@@ -80,8 +80,6 @@ de:
   button_log_time: "Zeit buchen"
 
   caption_booked_on_project: "Auf das Projekt gebucht"
-  caption_cost_type_unit_name: Einheit
-  caption_cost_type_unit_name_plural: Einheit Plural
   caption_default: Standard
   caption_default_rate_history_for: "Standardsatz-Historie für %{user}"
   caption_labor: Personal
