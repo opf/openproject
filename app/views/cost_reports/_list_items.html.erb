@@ -12,7 +12,7 @@
       <%= sort_header_tag("entry__activity_id", :caption => l(:label_activity), :default_order => 'asc') %>
       <%= sort_header_tag("entry__issue_id", :caption => Issue.model_name.human, :default_order => 'desc') %>
       <th><%= CostEntry.human_attribute_name(:comment) %></th>
-      <th><%= CostType.human_attribute_name(:unit).pluralize %></th>
+      <th><%= CostEntry.human_attribute_name(:units) %></th>
       <%= sort_header_tag("entry__cost_type_id", :caption => CostType.model_name.human, :default_order => 'asc') %>
       <%= sort_header_tag("entry__costs", :caption => l(:caption_costs), :default_order => 'asc', :class => "currency") %>
       <th></th>
