@@ -34,6 +34,11 @@ module OpenProject::Costs::Patches::PermittedParamsPatch
                                         { new_rate_attributes: [:valid_from, :rate] },
                                         { existing_rate_attributes: [:valid_from, :rate] })
     end
+
+    def user_rates
+      params.require(:user).permit({ new_rate_attributes: [:valid_from, :rate],
+                                     existing_rate_attributes: [:valid_from, :rate] })
+    end
   end
 end
 

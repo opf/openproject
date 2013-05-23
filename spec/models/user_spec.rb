@@ -6,6 +6,9 @@ describe User do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.build(:valid_project) }
   let(:project2) { FactoryGirl.build(:valid_project) }
+  let(:project_hourly_rate) { FactoryGirl.build(:hourly_rate, :user => user,
+                                                              :project => project) }
+  let(:default_hourly_rate) { FactoryGirl.build(:default_hourly_rate, :user => user) }
 
   describe :allowed_to do
     describe "WITH querying for a non existent permission" do
@@ -65,6 +68,97 @@ describe User do
 
       it "should return a sql condition where all the project ids the user has the permission in is enforced" do
         user.allowed_to_condition_with_project_id(permission, project).should == "(projects.id in (#{project.id}))"
+      end
+    end
+  end
+
+  describe :set_existing_rates do
+    before do
+      user.save
+      project.save
+    end
+
+    describe "WHEN providing a project
+              WHEN providing attributes for an existing rate in the project" do
+
+      let(:new_attributes) { { project_hourly_rate.id.to_s => { :valid_from => (Date.today + 1.day).to_s,
+                                                                :rate => (project_hourly_rate.rate + 5).to_s } } }
+
+      before do
+        project_hourly_rate.save!
+        user.rates(true)
+
+        user.set_existing_rates(project, new_attributes)
+      end
+
+      it "should update the rate" do
+        user.rates.detect{ |r| r.id == project_hourly_rate.id }.rate.should == new_attributes[project_hourly_rate.id.to_s][:rate].to_i
+      end
+
+      it "should update valid_from" do
+        user.rates.detect{ |r| r.id == project_hourly_rate.id }.valid_from.should == new_attributes[project_hourly_rate.id.to_s][:valid_from].to_date
+      end
+
+      it "should not create a rate" do
+        user.rates.size.should == 1
+      end
+    end
+
+    describe "WHEN providing a project
+              WHEN providing attributes for an existing rate in another project" do
+
+      let(:new_attributes) { { project_hourly_rate.id.to_s => { :valid_from => (Date.today + 1.day).to_s,
+                                                                :rate => (project_hourly_rate.rate + 5).to_s } } }
+
+      before do
+        project_hourly_rate.save!
+        user.rates(true)
+        @original_rate = project_hourly_rate.rate
+        @original_valid_from = project_hourly_rate.valid_from
+
+        user.set_existing_rates(project2, new_attributes)
+      end
+
+      it "should not update the rate" do
+        user.rates.detect{ |r| r.id == project_hourly_rate.id }.rate.should == @original_rate
+      end
+
+      it "should not update valid_from" do
+        user.rates.detect{ |r| r.id == project_hourly_rate.id }.valid_from.should == @original_valid_from
+      end
+
+      it "should not create a rate" do
+        user.rates.size.should == 1
+      end
+    end
+
+    describe "WHEN providing a project
+              WHEN not providing attributes" do
+
+      before do
+        project_hourly_rate.save!
+        user.rates(true)
+
+        user.set_existing_rates(project, {})
+      end
+
+      it "should delete the hourly rate" do
+        user.rates(true).should be_empty
+      end
+    end
+
+    describe "WHEN not providing a project
+              WHEN not providing attributes" do
+
+      before do
+        default_hourly_rate.save!
+        user.default_rates(true)
+
+        user.set_existing_rates(nil, {})
+      end
+
+      it "should delete the default hourly rate" do
+        user.default_rates(true).should be_empty
       end
     end
   end

@@ -62,14 +62,14 @@ module OpenProject::Costs::Patches::UserPatch
       end
     end
 
-    def set_existing_rates (project, rate_attributes)
+    def set_existing_rates (project, rates_attributes)
       if project.nil?
         default_rates.reject(&:new_record?).each do |rate|
-          update_rate(rate, rate_attributes, false)
+          update_rate(rate, rates_attributes[rate.id.to_s], false)
         end
       else
         rates.reject{|r| r.new_record? || r.project_id != project.id}.each do |rate|
-          update_rate(rate, rate_attributes, true)
+          update_rate(rate, rates_attributes[rate.id.to_s], true)
         end
       end
     end
@@ -82,18 +82,14 @@ module OpenProject::Costs::Patches::UserPatch
 
 
   private
-    def update_rate(rate, rate_attributes, project_rate = true)
-      attributes = rate_attributes[rate.id.to_s] if rate_attributes
-
-      has_rate = false
+    def update_rate(rate, attributes, project_rate = true)
       if attributes && attributes[:rate].present?
         attributes[:rate] = Rate.clean_currency(attributes[:rate])
-        has_rate = true
-      end
-
-      if has_rate
         rate.attributes = attributes
       else
+        # TODO: this is surprising
+        #       as it actually deletes the rate right away
+        #       as opposed to the behaviour when changing the attributes
         project_rate ? rates.delete(rate) : default_rates.delete(rate)
       end
     end
