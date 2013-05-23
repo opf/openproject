@@ -35,7 +35,7 @@ When(/^I (?:create|update) (?:a|the) (labor|material) item in row (\d+) with the
 end
 
 When(/^I add a new (labor|material) item$/) do | type|
-	steps %Q{ When I click on "Add Planned Costs" within "fieldset##{type}_budget_items" }
+	steps %Q{ When I click on "Add Planned Costs" within "fieldset##{type}_budget_items_fieldset" }
 end
 
 Then (/^the planned (labor|material) costs in row (\d+) should be (.+)$/) do | type, row_nr, amount|
