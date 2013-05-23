@@ -5,7 +5,6 @@ class OpenProject::Backlogs::IssueView::FieldsParagraph < OpenProject::Nissue::I
 
   def default_fields
     base_fields = super
-
     fields = ActiveSupport::OrderedHash.new
 
     fields[:status]          = base_fields[:status]
