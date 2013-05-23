@@ -19,37 +19,35 @@
     <% end %>
   </p>
 
-  <div class="meta">
-    <table class="attributes">
-      <tr>
-        <th class="status"><%= Issue.human_attribute_name(:status)%>:</th><td class="status"><%= h(@issue.status.name) %></td>
-        <th class="start-date"><%= Issue.human_attribute_name(:start_date)%>:</th><td class="start-date"><%= format_date(@issue.start_date) %></td>
-      </tr>
-      <tr>
-        <th class="priority"><%= Issue.human_attribute_name(:priority)%>:</th><td class="priority"><%= h(@issue.priority.name) %></td>
-        <th class="due-date"><%= Issue.human_attribute_name(:due_date)%>:</th><td class="due-date"><%= format_date(@issue.due_date) %></td>
-      </tr>
-      <tr>
-        <th class="assigned-to"><%= Issue.human_attribute_name(:assigned_to)%>:</th><td class="assigned-to"><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
-        <th class="progress"><%= Issue.human_attribute_name(:done_ratio)%>:</th><td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
-      </tr>
-      <tr>
-        <th class="category"><%= Issue.human_attribute_name(:category)%>:</th><td class="category"><%=h(@issue.category ? @issue.category.name : "-") %></td>
-        <% if User.current.allowed_to?(:view_time_entries, @project) %>
-          <th class="spent-time"><%=l(:label_spent_time)%>:</th>
-          <td class="spent-time"><%= @issue.spent_hours > 0 ? (link_to l_hours(@issue.spent_hours), issue_time_entries_path(@issue)) : "-" %></td>
-        <% end %>
-      </tr>
-      <tr>
-        <th class="fixed-version"><%= Issue.human_attribute_name(:fixed_version)%>:</th><td class="fixed-version"><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
-        <% if @issue.estimated_hours %>
-          <th class="estimated-hours"><%= Issue.human_attribute_name(:estimated_hours)%>:</th><td class="estimated-hours"><%= l_hours(@issue.estimated_hours) %></td>
-        <% end %>
-      </tr>
-      <%= render_custom_fields_rows(@issue) %>
-      <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
-    </table>
-  </div><!-- .meta -->
+  <table class="attributes">
+    <tr>
+      <th class="status"><%= Issue.human_attribute_name(:status)%>:</th><td class="status"><%= h(@issue.status.name) %></td>
+      <th class="start-date"><%= Issue.human_attribute_name(:start_date)%>:</th><td class="start-date"><%= format_date(@issue.start_date) %></td>
+    </tr>
+    <tr>
+      <th class="priority"><%= Issue.human_attribute_name(:priority)%>:</th><td class="priority"><%= h(@issue.priority.name) %></td>
+      <th class="due-date"><%= Issue.human_attribute_name(:due_date)%>:</th><td class="due-date"><%= format_date(@issue.due_date) %></td>
+    </tr>
+    <tr>
+      <th class="assigned-to"><%= Issue.human_attribute_name(:assigned_to)%>:</th><td class="assigned-to"><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
+      <th class="progress"><%= Issue.human_attribute_name(:done_ratio)%>:</th><td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
+    </tr>
+    <tr>
+      <th class="category"><%= Issue.human_attribute_name(:category)%>:</th><td class="category"><%=h(@issue.category ? @issue.category.name : "-") %></td>
+      <% if User.current.allowed_to?(:view_time_entries, @project) %>
+        <th class="spent-time"><%=l(:label_spent_time)%>:</th>
+        <td class="spent-time"><%= @issue.spent_hours > 0 ? (link_to l_hours(@issue.spent_hours), issue_time_entries_path(@issue)) : "-" %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <th class="fixed-version"><%= Issue.human_attribute_name(:fixed_version)%>:</th><td class="fixed-version"><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
+      <% if @issue.estimated_hours %>
+        <th class="estimated-hours"><%= Issue.human_attribute_name(:estimated_hours)%>:</th><td class="estimated-hours"><%= l_hours(@issue.estimated_hours) %></td>
+      <% end %>
+    </tr>
+    <%= render_custom_fields_rows(@issue) %>
+    <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
+  </table>
 
   <% if @issue.description? %>
     <div class="description">
