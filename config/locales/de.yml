@@ -15,7 +15,9 @@ de:
     models:
       cost_object: Budget
       rate: Satz
-      cost_type: Kostenart
+      cost_type:
+        one: "Kostenart"
+        other: "Kostenarten"
       material_budget_item: Stück
     attributes:
       cost_object:

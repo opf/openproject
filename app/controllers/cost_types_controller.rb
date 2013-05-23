@@ -116,6 +116,6 @@ private
   end
 
   def default_breadcrumb
-    CostType.model_name.human.pluralize
+    CostType.model_name.human(:count=>2)
   end
 end
