@@ -84,6 +84,7 @@ de:
   caption_default_rate_history_for: "Standardsatz-Historie für %{user}"
   caption_labor: Personal
   caption_labor_costs: Ist-Personaleinzelkosten
+  caption_materials: Stücke
   caption_material_costs: Ist-Stückkosten
   caption_rate_history: Stundensatz-Historie
   caption_rate_history_for: "Stundensatz-Historie für %{user}"

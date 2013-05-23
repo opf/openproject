@@ -84,6 +84,7 @@ en:
   caption_default_rate_history_for: Default Rate History for %{user}
   caption_labor: Labor
   caption_labor_costs: Actual Labor Costs
+  caption_materials: Units
   caption_material_costs: Actual Unit Costs
   caption_rate_history: Rate History
   caption_rate_history_for: Rate History for %{user}
