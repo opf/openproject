@@ -3,10 +3,12 @@ class VariableCostObject < CostObject
 
   has_many :material_budget_items, :include => :cost_type,
                                    :foreign_key => 'cost_object_id',
-                                   :dependent => :destroy
+                                   :dependent => :destroy,
+                                   :order => 'material_budget_items.id ASC'
   has_many :labor_budget_items, :include => :user,
                                 :foreign_key => 'cost_object_id',
-                                :dependent => :destroy
+                                :dependent => :destroy,
+                                :order => 'labor_budget_items.id ASC'
 
   validates_associated :material_budget_items
   validates_associated :labor_budget_items
