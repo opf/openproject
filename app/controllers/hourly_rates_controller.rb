@@ -34,7 +34,7 @@ class HourlyRatesController < ApplicationController
     # remove code where appropriate
     if @project
       # Hourly Rate
-      return deny_access unless User.current.allowed_to?(:edit_hourly_rates, @project, :for => @user)
+      return deny_access unless User.current.allowed_to?(:edit_hourly_rates, @project)
     else
       # Default Hourly Rate
       return deny_access unless User.current.admin?
@@ -76,7 +76,7 @@ class HourlyRatesController < ApplicationController
     # remove code where appropriate
     if @project
       # Hourly Rate
-      return deny_access unless User.current.allowed_to?(:edit_hourly_rates, @project, :for => @user)
+      return deny_access unless User.current.allowed_to?(:edit_hourly_rates, @project)
     else
       # Default Hourly Rate
       return deny_access unless User.current.admin?
