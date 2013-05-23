@@ -150,7 +150,7 @@ Given /^users have times and the cost type "([^\"]*)" logged on the issue "([^\"
   end
 end
 
-Given /^there is a variable cost object with the following:$/ do |table|
+Given /^there is a (?:variable cost object|budget) with the following:$/ do |table|
   cost_object = FactoryGirl.build(:variable_cost_object)
 
   table_hash = table.rows_hash
@@ -174,3 +174,20 @@ Given /^I update the variable cost object "([^"]*)" with the following:$/ do |su
   cost_object.save!
 end
 
+Given /^the (?:variable cost object|budget) "(.+)" has the following labor items:$/ do |subject, table|
+  cost_object = VariableCostObject.find_by_subject(subject)
+
+  table.hashes.each do | hash |
+    user = User.find_by_login(hash['user']) || User.find_by_name(hash['user']) || cost_object.project.members.first.principal
+    FactoryGirl.create(:labor_budget_item, :user => user, :cost_object => cost_object, :comments => hash['comment'], :hours => hash['hours'])
+  end
+end
+
+Given /^the (?:variable cost object|budget) "(.+)" has the following material items:$/ do |subject, table|
+  cost_object = VariableCostObject.find_by_subject(subject)
+
+  table.hashes.each do | hash |
+    cost_type = CostType.find_by_name(hash['cost_type']) || Cost_type.first
+    FactoryGirl.create(:material_budget_item, :cost_type => cost_type, :cost_object => cost_object, :comments => hash['comment'], :units => hash['units'])
+  end
+end
