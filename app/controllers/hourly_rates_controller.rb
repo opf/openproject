@@ -20,7 +20,7 @@ class HourlyRatesController < ApplicationController
     if @project
       return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project, :for => @user)
 
-      @rates = HourlyRate.find(:all,
+      @rates = HourlyRate.all(
           :conditions =>  { :user_id => @user, :project_id => @project },
           :order => "#{HourlyRate.table_name}.valid_from desc")
     else
@@ -41,7 +41,7 @@ class HourlyRatesController < ApplicationController
     end
 
     if @project.nil?
-      @rates = DefaultHourlyRate.find(:all,
+      @rates = DefaultHourlyRate.all(
         :conditions => {:user_id => @user},
         :order => "#{DefaultHourlyRate.table_name}.valid_from desc")
       @rates << @user.default_rates.build({:valid_from => Date.today}) if @rates.empty?
@@ -76,7 +76,7 @@ class HourlyRatesController < ApplicationController
       end
     else
       if @project.nil?
-        @rates = DefaultHourlyRate.find(:all,
+        @rates = DefaultHourlyRate.all(
           :conditions => {:user_id => @user},
           :order => "#{DefaultHourlyRate.table_name}.valid_from desc")
         @rates << @user.default_rates.build({:valid_from => Date.today}) if @rates.empty?
