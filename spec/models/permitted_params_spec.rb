@@ -122,7 +122,7 @@ describe PermittedParams do
       params = ActionController::Parameters.new(:user => { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
                                                                                       "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } } )
 
-      PermittedParams.new(params, user).user_rate.should == { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
+      PermittedParams.new(params, user).user_rates.should == { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
                                                                                          "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } }
     end
 
@@ -130,7 +130,7 @@ describe PermittedParams do
       params = ActionController::Parameters.new(:user => { "existing_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
                                                                                            "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } } )
 
-      PermittedParams.new(params, user).user_rate.should == { "existing_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
+      PermittedParams.new(params, user).user_rates.should == { "existing_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
                                                                                               "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } }
     end
 

@@ -64,8 +64,8 @@ class HourlyRatesController < ApplicationController
       return deny_access unless User.current.admin?
     end
 
-    @user.add_rates(@project, permitted_params.user_rate[:new_rate_attributes])
-    @user.set_existing_rates(@project, permitted_params.user_rate[:existing_rate_attributes])
+    @user.add_rates(@project, permitted_params.user_rates[:new_rate_attributes])
+    @user.set_existing_rates(@project, permitted_params.user_rates[:existing_rate_attributes])
 
     if @user.save
       flash[:notice] = l(:notice_successful_update)
