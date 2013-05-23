@@ -7,11 +7,18 @@ de:
     comment: Kommentar
     costs: Kosten
     valid_from: Gültig ab
+    current_rate: Aktueller Satz
+    cost_type: Kostenart
+    cost_object: Budget
 
   activerecord:
     models:
       cost_object: Budget
       rate: Satz
+      cost_type:
+        one: "Kostenart"
+        other: "Kostenarten"
+      material_budget_item: Stück
     attributes:
       cost_object:
         type: Kostenart
@@ -22,17 +29,23 @@ de:
         planned: Geplant
         spent: Verbraucht
         available: Verfügbar
+        status: Status
+        subject: Thema
+        author: Autor
+        created_on: Erstellt
+        updated_on: Aktualisiert
+        description: Beschreibung
+      variable_cost_object:
+        labor_budget: Geplante Personaleinzelkosten
+        material_budget: Geplante Stückkosten
       cost_type:
-        unit: Einheit
-        unit_plural: Einheit plural
+        unit: "Einheit"
+        unit_plural: "Einheit plural"
       cost_entry:
-        cost_type: Kostenart
         issue: Ticket
         spent_on: Datum
-      material_budget_item:
-        cost_type: Kostenart
+        spent: Gebucht
       issue:
-        cost_object: Budget
         spent_units: Gebuchte Einheiten
         spent_costs: Gebuchte Kosten
         spent_hours: Gebuchte Stunden
@@ -41,13 +54,10 @@ de:
         labor_costs: Personaleinzelkosten
         cost_object_subject: Budgettitel
       user:
-        current_rate: Aktueller Satz
         default_rates: Standardsätze
-      labor_budget_item:
-        cost_object: Budget
       rate:
         rate: Satz
-
+#TODO: these could be mapped to cost object and cost type model human names
   cost_objects_title: Budgets
   cost_types_title: Kostenarten
   project_module_costs_module: Controlling
@@ -70,37 +80,16 @@ de:
   button_log_time: "Zeit buchen"
 
   caption_booked_on_project: "Auf das Projekt gebucht"
-  caption_cost_type: Kostenart
-  caption_cost_type_plural: Kostenarten
-  caption_cost_type_unit_name: Einheit
-  caption_cost_type_unit_name_plural: Einheit Plural
-  caption_cost_unit_plural: Einheiten
-  caption_current_rate: Aktueller Satz
   caption_default: Standard
   caption_default_rate_history_for: "Standardsatz-Historie für %{user}"
-  caption_default_rates: "Standardsätze"
-  caption_fixed_date: Referenzdatum
-  caption_issue: Ticket
   caption_labor: Personal
-  caption_labor_budget: Geplante Personaleinzelkosten
   caption_labor_costs: Ist-Personaleinzelkosten
-  caption_material_budget: Geplante Stückkosten
-  caption_material_costs: Ist-Stückkosten
   caption_materials: Stücke
-  caption_overall_costs: Gesamtkosten
-  caption_progress: Fortschritt
-  caption_rate: Satz
+  caption_material_costs: Ist-Stückkosten
   caption_rate_history: Stundensatz-Historie
   caption_rate_history_for: "Stundensatz-Historie für %{user}"
   caption_rate_history_for_project: "Studensatz-Historie für %{user} in Projekt %{project}"
   caption_set_rate: Aktuellen Satz festlegen
-  caption_spent: Gebucht
-  caption_status: Status
-  caption_subject: Titel
-  caption_valid_from: "Gültig ab"
-
-  error_generic: "Bei der Anfrage ist ein Fehler aufgetreten. Sie wurde zurückgesetzt. Bitte melden Sie das Problem Ihrem Redmine Administrator"
-
 
   help_click_to_edit: Hier Klicken zum bearbeiten.
   help_currency_format: "Format der angezeigten Währungswerte. %n wird mit dem Zahlenwert ersetzt, %u mit der Währung."

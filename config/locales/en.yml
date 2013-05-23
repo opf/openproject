@@ -7,11 +7,18 @@ en:
     comment: Comment
     costs: Costs
     valid_from: Valid from
+    current_rate: Current rate
+    cost_type: Cost type
+    cost_object: Budget
 
   activerecord:
     models:
       cost_object: Budget
       rate: Rate
+      cost_type:
+        one: "Cost Type"
+        other: "Cost Types"
+      material_budget_item: Unit
     attributes:
       cost_object:
         type: Cost type
@@ -22,17 +29,23 @@ en:
         budget: Planned
         spent: Spent
         available: Available
+        status: Status
+        subject: Subject
+        author: Author
+        created_on: Created On
+        updated_on: Updated On
+        description: Description
+      variable_cost_object:
+        labor_budget: Planned Labor Costs
+        material_budget: Planned Unit Costs
       cost_type:
-        unit: Unit name
-        unit_plural: Pluralized unit name
+        unit: "Unit Name"
+        unit_plural: "Pluralized Unit Name"
       cost_entry:
-        cost_type: Cost type
         issue: Issue
         spent_on: Date
-      material_budget_item:
-        cost_type: Cost type
+        spent: Spent
       issue:
-        cost_object: Budget
         spent_units: Spent units
         spent_costs: Spent costs
         spent_hours: Spent hours
@@ -41,13 +54,10 @@ en:
         labor_costs: Labor costs
         cost_object_subject: Budget title
       user:
-        current_rate: Current rate
         default_rates: Default rates
-      labor_budget_item:
-        cost_object: Budget
       rate:
         rate: Rate
-
+#TODO: these could be mapped to cost object and cost type model human names
   cost_objects_title: Budgets
   cost_types_title: Cost Types
   project_module_costs_module: Cost Control
@@ -67,39 +77,19 @@ en:
   button_add_cost_type: Add cost type
   button_add_rate: Add rate
   button_log_costs: Log unit costs
+  button_log_time: Log time
 
   caption_booked_on_project: "Booked on Project"
-  caption_cost_type: Cost Type
-  caption_cost_type_plural: Cost Types
-  caption_cost_type_unit_name: Unit Name
-  caption_cost_type_unit_name_plural: Pluralized Unit Name
-  caption_cost_unit_plural: Units
-  caption_current_rate: Current Rate
   caption_default: Default
   caption_default_rate_history_for: Default Rate History for %{user}
-  caption_default_rates: Default Rates
-  caption_fixed_date: Fixed Date
-  caption_issue: Issue
   caption_labor: Labor
-  caption_labor_budget: Planned Labor Costs
   caption_labor_costs: Actual Labor Costs
-  caption_material_budget: Planned Unit Costs
-  caption_material_costs: Actual Unit Costs
   caption_materials: Units
-  caption_overall_costs: Overall Costs
-  caption_progress: Progress
-  caption_rate: Rate
+  caption_material_costs: Actual Unit Costs
   caption_rate_history: Rate History
   caption_rate_history_for: Rate History for %{user}
   caption_rate_history_for_project: Rate History for %{user} in Project %{project}
   caption_set_rate: Set Current Rate
-  caption_spent: Spent
-  caption_status: Status
-  caption_subject: Title
-  caption_valid_from: Valid from
-
-  error_generic: "An error occurred while executing the query. It has been resetted. Please report this error to your Redmine administrator."
-
 
   help_click_to_edit: Click here to edit.
   help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit.

@@ -30,8 +30,8 @@
   //]]>
 </script>
 
-<fieldset id="material_budget_items">
-  <legend><%= l(:caption_material_budget) %></legend>
+<fieldset>
+  <legend><%= VariableCostObject.human_attribute_name(:material_budget) %></legend>
   <table class="list material_budget_items" id="material_budget_items">
     <thead><tr>
       <th class="cost_units"><%= MaterialBudgetItem.human_attribute_name(:units) %></th>
@@ -49,8 +49,8 @@
   <div style="text-align: right"><%= link_to_function l(:button_add_budget_item), "materialBudgetItemsForm.add()", {:class => "icon icon-add"} %></div>
 </fieldset>
 
-<fieldset id="labor_budget_items">
-  <legend><%= l(:caption_labor_budget) %></legend>
+<fieldset>
+  <legend><%= VariableCostObject.human_attribute_name(:labor_budget) %></legend>
   <table class="list labor_budget_items" id="labor_budget_items">
     <thead><tr>
       <th class="cost_units"><%= LaborBudgetItem.human_attribute_name(:hours) %></th>

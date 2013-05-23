@@ -116,6 +116,6 @@ private
   end
 
   def default_breadcrumb
-    l(:caption_cost_type_plural)
+    CostType.model_name.human(:count=>2)
   end
 end

@@ -3,7 +3,7 @@
 <%= link_to l(:button_add_cost_type), new_cost_type_path, :class => 'icon icon-add' %>
 </div>
 
-<h2><%= l(:caption_cost_type_plural) %></h2>
+<h2><%= CostType.model_name.human(:count => 2) %></h2>
 
 <%= form_tag(cost_types_path, { :method => :get, :id => 'query_form' }) do %>
   <fieldset id="filters">

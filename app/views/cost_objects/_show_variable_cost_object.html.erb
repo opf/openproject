@@ -1,7 +1,7 @@
 <h3><%= l(:caption_materials) %></h3>
 <div style="float: left; width: 100%">
 <div class="splitcontentleft">
-  <h4><%= l(:caption_material_budget)%></h4>
+  <h4><%= VariableCostObject.human_attribute_name(:material_budget) %></h4>
   <table class="material_budget_items list">
     <thead><tr>
       <th><%= MaterialBudgetItem.human_attribute_name(:units) %></th>
@@ -68,7 +68,7 @@
 <h3 style="clear:left;"><%= l(:caption_labor) %></h3>
 
 <div class="splitcontentleft">
-  <h4><%= l(:caption_labor_budget)%></h4>
+  <h4><%= VariableCostObject.human_attribute_name(:labor_budget)%></h4>
   <table class="labor_budget_items list">
     <thead><tr>
       <th><%= LaborBudgetItem.human_attribute_name(:hours) %></th>

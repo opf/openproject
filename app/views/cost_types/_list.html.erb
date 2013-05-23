@@ -5,10 +5,10 @@
 <% else %>
 <table class="list cost_types">
   <thead><tr>
-    <%= sort_header_tag "name", :caption => l(:caption_cost_type) %>
-    <%= sort_header_tag "unit", :caption => l(:caption_cost_type_unit_name) %>
-    <%= sort_header_tag "unit_plural", :caption => l(:caption_cost_type_unit_name_plural) %>
-    <th class="currency"><%= l(:caption_current_rate) %></th>
+    <%= sort_header_tag "name", :caption => CostType.model_name.human %>
+    <%= sort_header_tag "unit", :caption => CostType.human_attribute_name(:unit) %>
+    <%= sort_header_tag "unit_plural", :caption => CostType.human_attribute_name(:unit_plural) %>
+    <th class="currency"><%= CostType.human_attribute_name(:current_rate) %></th>
     <th><%= l(:caption_set_rate) %></th>
     <th><%= l(:caption_default) %></th>
     <th></th>

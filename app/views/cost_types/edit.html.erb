@@ -1,5 +1,5 @@
 <%= render :partial => 'shared/costs_header' %>
-<h2><%= l(:caption_cost_type) %></h2>
+<h2><%= CostType.model_name.human %></h2>
 
 <%= labelled_tabular_form_for @cost_type do |f| %>
   <%= error_messages_for 'cost_type' %>
@@ -18,8 +18,8 @@
   <% end -%>
   <table class="list" style="width:auto">
     <thead><tr>
-      <th><%= l(:caption_valid_from) %></th>
-      <th class="currency"><%= l(:caption_rate) %></th>
+      <th><%= Rate.human_attribute_name(:valid_from) %></th>
+      <th class="currency"><%= Rate.model_name.human %></th>
       <th></th>
     </tr></thead>
     <tbody id="rates_body">

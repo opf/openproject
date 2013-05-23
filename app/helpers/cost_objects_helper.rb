@@ -13,17 +13,17 @@ module CostObjectsHelper
     CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [ "#",
-                  l(:field_status),
-                  l(:field_project),
-                  l(:field_subject),
-                  l(:field_author),
-                  l(:field_fixed_date),
-                  l(:field_material_budget),
-                  l(:field_labor_budget),
-                  l(:field_spent),
-                  l(:field_created_on),
-                  l(:field_updated_on),
-                  l(:field_description)
+                  CostObject.human_attribute_name(:status),
+                  Project.model_name.human,
+                  CostObject.human_attribute_name(:subject),
+                  CostObject.human_attribute_name(:author),
+                  CostObject.human_attribute_name(:fixed_date),
+                  VariableCostObject.human_attribute_name(:material_budget),
+                  VariableCostObject.human_attribute_name(:labor_budget),
+                  CostObject.human_attribute_name(:spent),
+                  CostObject.human_attribute_name(:created_on),
+                  CostObject.human_attribute_name(:updated_on),
+                  CostObject.human_attribute_name(:description)
                   ]
       csv << headers.collect {|c| begin; c.to_s.encode('UTF-8'); rescue; c.to_s; end }
       # csv lines

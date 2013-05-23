@@ -7,13 +7,13 @@
   <table class="list cost_entries">
     <thead><tr>
       <th></th>
-      <%= sort_header_tag("entry__spent_on", :caption => l(:caption_spent), :default_order => 'desc') %>
+      <%= sort_header_tag("entry__spent_on", :caption => CostEntry.human_attribute_name(:spent), :default_order => 'desc') %>
       <%= sort_header_tag("entry__user_id", :caption => l(:label_user), :default_order => 'asc') %>
       <%= sort_header_tag("entry__activity_id", :caption => l(:label_activity), :default_order => 'asc') %>
-      <%= sort_header_tag("entry__issue_id", :caption => l(:caption_issue), :default_order => 'desc') %>
-      <th><%= CostEntry.human_attribute_namel(:comment) %></th>
-      <th><%= l(:caption_cost_unit_plural) %></th>
-      <%= sort_header_tag("entry__cost_type_id", :caption => l(:caption_cost_type), :default_order => 'asc') %>
+      <%= sort_header_tag("entry__issue_id", :caption => Issue.model_name.human, :default_order => 'desc') %>
+      <th><%= CostEntry.human_attribute_name(:comment) %></th>
+      <th><%= CostEntry.human_attribute_name(:units) %></th>
+      <%= sort_header_tag("entry__cost_type_id", :caption => CostType.model_name.human, :default_order => 'asc') %>
       <%= sort_header_tag("entry__costs", :caption => l(:caption_costs), :default_order => 'asc', :class => "currency") %>
       <th></th>
     </tr></thead>
