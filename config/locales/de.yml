@@ -56,24 +56,24 @@ de:
 
   backlogs_active: "aktiv"
   backlogs_any: "beliebig"
-  backlogs_card_specification: "Etikettenart fÃ¼r den Kartendruck"
-  backlogs_inactive: "Projekt zeigt keine AktivitÃ¤t"
+  backlogs_card_specification: "Etikettenart für den Kartendruck"
+  backlogs_inactive: "Projekt zeigt keine Aktivität"
   backlogs_points_burn_direction: "Burnup/-down Punkte"
   backlogs_product_backlog: "Produkt Backlog"
   backlogs_product_backlog_is_empty: "Produkt Backlog ist leer"
   backlogs_product_backlog_unsized: "Die Spitze des Produkt Backlogs hat Stories ohne Aufwandsangaben"
-  backlogs_sizing_inconsistent: "Story Aufwand weicht von den SchÃ¤tzwerten ab"
+  backlogs_sizing_inconsistent: "Story Aufwand weicht von den Schätzwerten ab"
   backlogs_sprint_notes_missing: "Geschlossene Sprints ohne Closed sprints without Retrospective-/Besprechungsnotizen"
-  backlogs_sprint_unestimated: "Geschlossene oder aktive Sprints mit nicht abgeschÃ¤tzten Stories"
+  backlogs_sprint_unestimated: "Geschlossene oder aktive Sprints mit nicht abgeschätzten Stories"
   backlogs_sprint_unsized: "Das Projekt hat Stories auf aktiven oder vor kurzem geschlossenen Sprints welche keine Aufwandsangaben enthalten"
   backlogs_sprints: "Sprints"
   backlogs_story: "Story"
   backlogs_story_tracker: "Story Tracker"
   backlogs_task: "Aufgabe"
   backlogs_task_tracker: "Aufgaben Tracker"
-  backlogs_velocity_missing: "Es konnte keine Geschwindigkeit fÃ¼r dieses Projekt berechnet werden"
+  backlogs_velocity_missing: "Es konnte keine Geschwindigkeit für dieses Projekt berechnet werden"
   backlogs_velocity_varies: "Die Geschwindigkeit variiert stark zwischen den Sprints"
-  backlogs_wiki_template: "Vorlage fÃ¼r das Sprint-Wiki"
+  backlogs_wiki_template: "Vorlage für das Sprint-Wiki"
 
   button_edit_wiki: "Wiki Seite bearbeiten"
 
@@ -92,10 +92,10 @@ de:
 
   inclusion: "ist nicht in der Liste enthalten"
 
-  label_back_to_project: "ZurÃ¼ck zur Projektseite"
+  label_back_to_project: "Zurück zur Projektseite"
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
-  label_backlogs_unconfigured: "Sie haben noch keine Backlogs konfiguriert. Bitte gehen Sie auf %{administration} > %{plugins}, klicken Sie dann auf den %{configure} Link fÃ¼r dieses Plugin. Kommen Sie hierher zurÃ¼ck, sobald sie die Felder konfiguriert haben."
+  label_backlogs_unconfigured: "Sie haben noch keine Backlogs konfiguriert. Bitte gehen Sie auf %{administration} > %{plugins}, klicken Sie dann auf den %{configure} Link für dieses Plugin. Kommen Sie hierher zurück, sobald sie die Felder konfiguriert haben."
   label_burndown: "Burndown"
   label_chart_options: "Chart-Optionen"
   label_hours: "Stunden"
@@ -106,7 +106,7 @@ de:
   label_points_burn_down: "Runter"
   label_points_burn_up: "Hoch"
   label_product_backlog: "Produkt Backlog"
-  label_select_all: "Alle auswÃ¤hlen"
+  label_select_all: "Alle auswählen"
   label_sprint_backlog: "Sprint Backlog"
   label_sprint_cards: "Karten exportieren"
   label_sprint_impediments: "Sprint Hindernisse"
@@ -135,8 +135,8 @@ de:
 
   remaining_hours: "Verbleibende Stunden"
 
-  required_burn_rate_hours: "benÃ¶tigte Burn-Rate (Stunden)"
-  required_burn_rate_points: "benÃ¶tigte Burn-Rate (Punkte)"
+  required_burn_rate_hours: "benötigte Burn-Rate (Stunden)"
+  required_burn_rate_points: "benötigte Burn-Rate (Punkte)"
 
   todo_issue_description: "%{summary}: %{url}\n%{description}"
   todo_issue_summary: "%{type}: %{summary}"
