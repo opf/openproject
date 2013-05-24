@@ -2,10 +2,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe User, "#destroy" do
   let(:substitute_user) { DeletedUser.first }
-  let(:private_query) { Factory.create(:private_cost_query) }
-  let(:public_query) { Factory.create(:public_cost_query) }
-  let(:user) { Factory.create(:user) }
-  let(:user2) { Factory.create(:user) }
+  let(:private_query) { FactoryGirl.create(:private_cost_query) }
+  let(:public_query) { FactoryGirl.create(:public_cost_query) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:user2) { FactoryGirl.create(:user) }
 
   describe "WHEN the user has saved private cost queries" do
 

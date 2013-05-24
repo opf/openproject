@@ -1,8 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe CostReportsController do
-  let(:user) { Factory.build(:user) }
-  let(:project) { Factory.build(:valid_project) }
+  let(:user) { FactoryGirl.build(:user) }
+  let(:project) { FactoryGirl.build(:valid_project) }
 
   describe "GET show" do
     before(:each) do

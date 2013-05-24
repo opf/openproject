@@ -24,9 +24,9 @@ def login_user(user)
 end
 
 def is_member(project, user, permissions = [])
-  role = Factory.create(:role, :permissions => permissions)
+  role = FactoryGirl.create(:role, :permissions => permissions)
 
-  Factory.create(:member, :project => project,
+  FactoryGirl.create(:member, :project => project,
                           :principal => user,
                           :roles => [role])
 end
