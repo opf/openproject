@@ -1,7 +1,3 @@
-// Benötigt: I18n-js!
-
-// timeline mit alten daten wegen vergleich
-
 var ModalHelper = (function() {
 
   var ModalHelper = function(timeline, options) {
@@ -128,7 +124,10 @@ var ModalHelper = (function() {
         }
 
         modalHelper.submitBackground(jQuery(this), submiturl, function(err, res) {
+          var element;
+
           modalHelper.hideLoadingModal();
+
           // display errors correctly.
           if (!err) {
 
@@ -138,7 +137,9 @@ var ModalHelper = (function() {
 
             if (elementId === undefined) {
               try {
-                elementId = res.getElementsByTagName('id')[0].textContent;
+                // internet explorer has a text attribute instead of textContent.
+                element = res.getElementsByTagName('id')[0];
+                elementId = element.textContent || element.text;
               } catch (e) {
                 console.log(e);
               }
@@ -154,19 +155,23 @@ var ModalHelper = (function() {
             var json = jQuery.parseJSON(res);
             var i, errorSpan, errorFormEle;
 
-            for (i = 0; i < json.errors.length; i += 1) {
-              error.append(
-                jQuery('<ul/>').append(
-                  jQuery('<li/>').text(I18n.t('js.timelines.' + json.errors[i][0]) + ' ' + json.errors[i][1]))
-                );
+            var errorField;
+            for (errorField in json.errors) {
+              if (json.errors.hasOwnProperty(errorField)) {
+            //for (i = 0; i < json.errors.length; i += 1) {
+                error.append(
+                  jQuery('<ul/>').append(
+                    jQuery('<li/>').text(I18n.t('js.timelines.' + errorField) + ' ' + json.errors[errorField]))
+                  );
 
-              try {
-                errorSpan = jQuery('<span/>').attr('class', 'errorSpan');
-                errorFormEle = jQuery('#planning_element_' + json.errors[i][0]);
-                errorFormEle.before(errorSpan);
-                errorSpan.append(errorFormEle);
-              } catch (e) {
-                // nop
+                try {
+                  errorSpan = jQuery('<span/>').attr('class', 'errorSpan');
+                  errorFormEle = jQuery('#planning_element_' + errorField);
+                  errorFormEle.before(errorSpan);
+                  errorSpan.append(errorFormEle);
+                } catch (e) {
+                  // nop
+                }
               }
             }
 
@@ -270,16 +275,34 @@ var ModalHelper = (function() {
           e.preventDefault();
         });
 
+        ele.find('.icon-cancel').click(function(e) {
+          modalHelper.showLoadingModal();
+
+          modalHelper.submitBackground(jQuery(ele.find('.icon-cancel').parent()[0]),
+            function(err, res) {
+              modalHelper.hideLoadingModal();
+              // display errors correctly.
+              if (!err) {
+                ele.dialog('close');
+                timeline.reload();
+              }
+            }
+          );
+
+          e.preventDefault();
+        });
+
         ele.find('.icon-del').click(function(e) {
           var tokenName, token, action, data = {};
           var url = modalHelper.options.url_prefix +
                     modalHelper.options.project_prefix +
                     projectId + '/planning_elements/';
 
-          if (confirm(I18n.t('js.timelines.really_move_planning_element_to_trash'))) {
+          tokenName = jQuery('meta[name=csrf-param]').attr('content');
+          token = jQuery('meta[name=csrf-token]').attr('content');
+
+          if (jQuery(this).attr('href').indexOf("destroy") == -1) {
             modalHelper.showLoadingModal();
-            tokenName = jQuery('meta[name=csrf-param]').attr('content');
-            token = jQuery('meta[name=csrf-token]').attr('content');
             action = 'delete';
 
             data['_method'] = 'delete';
@@ -296,7 +319,27 @@ var ModalHelper = (function() {
                 alert(I18n.t('js.timelines.error'));
               });
             //move to bin
+          } else if (confirm(I18n.t('js.timelines.really_delete_planning_element'))) {
+            modalHelper.showLoadingModal();
+            action = 'delete';
+
+            data['_method'] = 'delete';
+            data[tokenName] = token;
+            data['commit'] = 'delete';
+
+            jQuery.post(url + elementId,
+              data,
+              function() {
+                modalHelper.hideLoadingModal();
+                ele.dialog('close');
+                timeline.reload();
+              }).error(function() {
+                modalHelper.hideLoadingModal();
+                alert(I18n.t('js.timelines.error'));
+              });
+            //move to bin
           }
+
           e.preventDefault();
         });
       }
@@ -344,9 +387,8 @@ var ModalHelper = (function() {
         url: url,
         dataType: 'html',
         error: function(obj, error) {
+          modalHelper.hideLoadingModal();
           modalHelper.loadingModal = false;
-          console.log(error);
-          throw error;
         },
         success: function(data) {
           try {

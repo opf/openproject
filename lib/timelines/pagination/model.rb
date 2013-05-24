@@ -15,8 +15,8 @@ module Timelines::Pagination::Model
       def paginate_scope!(scope, options = {})
         limit = options.fetch(:page_limit) || 10
         page = options.fetch(:page) || 1
-        scope = (scope.respond_to?(:scope) ? scope.scope(:find) : scope)
-        paginate({ :per_page => limit, :page => page }.merge(scope))
+
+        scope.paginate({ :per_page => limit, :page => page }) 
       end
 
       def search_scope(query)

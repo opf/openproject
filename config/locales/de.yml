@@ -519,6 +519,7 @@ de:
         other: "Sie dürfen nur {{limit}} Elemente auswählen"
         zero: "Sie dürfen keine Elemente auswählen"
     timelines:
+      tooManyProjects: "Mehr als %{count} Projekte. Bitte genauer filtern!"
       cancel: Abbrechen
       create_planning_select_project: "Projekt:"
       end_date: "Abschlussdatum"
@@ -535,6 +536,9 @@ de:
       really_move_planning_element_to_trash: >
         Möchten Sie dieses Planungselement und all seine Kind-Elemente wirklich in
         den Papierkorb verschieben?
+      really_delete_planning_element: >
+        Möchten Sie wirklich das folgende Planungselement und seine Kind-Elemente
+        permanent löschen? Diese Operation kann nicht rückgängig gemacht werden.
       really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
 
   label_account: "Konto"
@@ -1295,6 +1299,13 @@ de:
       report_epicfail: "Der Zeitplan-Report konnte auf Grund eines unerwarteten Fehlers nicht geladen werden."
       report_timeout: "Der Zeitplan-Report konnte nicht innerhalb einer gewissen Zeit geladen werden."
     filter:
+      sort:
+        sortation: "Sortieren nach"
+        alphabet: "Alphabet"
+        explicit_order: "angegebener Reihenfolge"
+        project_sortation: "Projekte sortieren nach"
+        date: "Datum"
+        default: "Default"
       column:
         end_date: "Abschlussdatum"
         name: "Name"
@@ -1311,8 +1322,16 @@ de:
         none: "Kein Planungsvergleich"
         relative: "Relativ"
         scenario: "Szenario"
+        compare_relative: "Vergleiche aktuelle Planung mit vor %{timespan}"
+        compare_absolute: "Vergleiche aktuelle Planung mit %{date}"
+        compare_historical: "Vergleiche %{startdate} mit %{enddate}"
+      time_relative:
+        days: "Tagen"
+        weeks: "Wochen"
+        months: "Monaten"
       exclude_own_planning_elements: "Planungselemente dieses Projektes ausblenden"
       exclude_reporters: "Andere Projekte ausblenden"
+      exclude_empty: "Leere Projekte ausblenden"
       grouping: "Gruppierung"
       grouping_hide_group: "Gruppe \"%{group}\" verstecken"
       grouping_one: "Erstes Gruppierungskriterium"
@@ -1327,6 +1346,11 @@ de:
       planning_element_filters: "Planungselemente filtern"
       planning_element_responsible: "Planungselemente von diesem Planungsverantwortlichen anzeigen"
       planning_element_types: "Planungselement-Type anzeigen"
+
+
+      project_time_filter: "Projekte mit Planungselementen eines Typs in einem Zeitfenster"
+      project_time_filter_historical: "von %{startdate} bis %{enddate}"
+      project_time_filter_relative: "vor %{startspan}%{startspanunit} bis in %{endspan}%{endspanunit}"
       project_filters: "Projekte filtern"
       project_responsible: "Projekte von diesem Planungsverantwortlichen anzeigen"
       project_status: "Projekt-Status anzeigen"

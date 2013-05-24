@@ -43,6 +43,11 @@ li.select2-result.select2-visible-selected-parent {
  * │ Timeline forms.                                                   │ *
  * ╰───────────────────────────────────────────────────────────────────╯ */
 
+#specialForm {
+  display: block;
+  padding-bottom: 5px;
+}
+
 #content .timelines_edit_form .tl-form-overflow {
   overflow: visible;
 }
@@ -66,7 +71,10 @@ li.select2-result.select2-visible-selected-parent {
 #s2id_timeline_options_columns,
 #s2id_timeline_options_initial_outline_expansion,
 #s2id_timeline_options_zoom_factor,
-#s2id_project_association_select_project_b_id {
+#s2id_project_association_select_project_b_id,
+#s2id_timeline_options_grouping_one_sort,
+#s2id_timeline_options_project_sort,
+#s2id_timeline_options_grouping_two_sort {
   width: 250px;
 }
 
@@ -77,6 +85,20 @@ li.select2-result.select2-visible-selected-parent {
 .select2-container {
   vertical-align: middle;
   margin-left: 5px;
+}
+
+#s2id_timeline_options_compare_to_relative_unit,
+#s2id_timeline_options_planning_element_time_relative_one_unit,
+#s2id_timeline_options_planning_element_time_relative_two_unit {
+  margin-right: 1em;
+}
+
+.timelines_edit_form .calendar-trigger {
+  margin-right: 1em;
+}
+
+.timelines_edit_form input {
+  margin-left: 1em;
 }
 
 #timeline_options_compare_to_relative {
@@ -90,6 +112,7 @@ li.select2-result.select2-visible-selected-parent {
   display: inline-block;
   width: 250px;
   padding-right: 5px;
+  vertical-align: middle;
 }
 
 #content .tabular input {
@@ -281,7 +304,7 @@ a.tl-discreet-link:hover, input.icon:hover {
 }
 
 .tl-expanded > span, .tl-collapsed > span {
-  padding-right: 12px;
+  padding-right: 0px;
   position: relative;
   left: -16px;
 }
@@ -302,6 +325,12 @@ a.tl-discreet-link:hover, input.icon:hover {
 
 .tl-column {
   left: 100px;
+}
+
+#content .tl-word-ellipsis {
+   overflow:hidden;
+   text-overflow:ellipsis;
+   display: inline-block;
 }
 
 #content table th.tl-first-column, #content table td.tl-first-column {
@@ -446,20 +475,35 @@ a:hover.tl-project, a.tl-project, .tl-project {
   .tl-historical {
     text-decoration:line-through;
   }
+
+  #content table {
+    max-width: 900px;
+  }
+  #content .tl-word-ellipsis {
+    overflow:hidden;
+    text-wrap: ellipsis;
+    max-width: 250px !important;
+    display: inline-block;
+  }
   #content .action_menu_main,
   #content .tl-toolbar-container,
   #content .flash,
-  #content .tl-scrollcontainer,
   #content .tl-chart,
+  #content .tl-scrollcontainer,
   #content form {
     display: none;
   }
+
+  .timeline {
+    overflow: visible;
+  }
+
   #content h2 {
     border: none;
   }
   #content .tl-left,
   #content .tl-left table {
-    width: 100%;
+    /*width: 100%;*/
   }
   #content .tl-left table {
     border-left:  0;
@@ -481,20 +525,6 @@ a:hover.tl-project, a.tl-project, .tl-project {
     border: 0;
   }
 
-  /* Limit column width to a size where PE-type, start and end date, responsible
-   * and project status fit on single A4 portrait page */
-  #content .timeline table td,
-  #content .timeline table th {
-    max-width: 13em;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  /* IE needs table layout fixed to apply the overflow properties from above.
-   * This might otherwise be solved by wrapping the table cell contents into
-   * a separate div, which could carry the overflow properties instead. */
-  #content .timeline table {
-    table-layout: fixed\9;
-  }
 }
 
 /* Icons for activity view */

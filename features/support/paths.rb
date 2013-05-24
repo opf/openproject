@@ -229,6 +229,20 @@ module NavigationHelpers
     when /^the authentication modes page$/
       '/auth_sources'
 
+    when /the page of the timeline "([^\"]+)" of the project called "([^\"]+)"$/
+      timeline_name = $1
+      project_name = $2
+      project_identifier = Project.find_by_name(project_name).identifier.gsub(' ', '%20')
+      timeline = Timelines::Timeline.find_by_name(timeline_name)
+      "/timelines/projects/#{project_identifier}/timelines/#{timeline.id}"
+
+    when /the edit page of the timeline "([^\"]+)" of the project called "([^\"]+)"$/
+      timeline_name = $1
+      project_name = $2
+      project_identifier = Project.find_by_name(project_name).identifier.gsub(' ', '%20')
+      timeline = Timelines::Timeline.find_by_name(timeline_name)
+      "/timelines/projects/#{project_identifier}/timelines/#{timeline.id}/edit"
+
     when /^the page of the planning element "([^\"]+)" of the project called "([^\"]+)"$/
       planning_element_name = $1
       project_name = $2

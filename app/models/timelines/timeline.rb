@@ -42,20 +42,32 @@ class Timelines::Timeline < ActiveRecord::Base
     "comparison",
     "exclude_own_planning_elements",
     "exclude_reporters",
+    "exclude_empty",
     "exist",
     "grouping_one_enabled",
     "grouping_one_selection",
+    "grouping_one_sort",
     "grouping_two_enabled",
     "grouping_two_selection",
+    "grouping_two_sort",
     "hide_chart",
     "hide_other_group",
     "initial_outline_expansion",
     "parents",
     "planning_element_responsibles",
     "planning_element_types",
+    "planning_element_time_types",
+    "planning_element_time_absolute_one", 
+    "planning_element_time_absolute_two",
+    "planning_element_time_relative_one",
+    "planning_element_time_relative_two",
+    "planning_element_time_relative_one_unit",
+    "planning_element_time_relative_two_unit",
+    "planning_element_time",
     "project_responsibles",
     "project_status",
     "project_types",
+    "project_sort",
     "timeframe_end",
     "timeframe_start",
     "vertical_planning_elements",
@@ -156,6 +168,12 @@ class Timelines::Timeline < ActiveRecord::Base
     end
   end
 
+  def selected_planning_element_time_types
+    resolve_with_none_element(:planning_element_time_types) do |ary|
+      Timelines::PlanningElementType.find(ary)
+    end
+  end  
+
   def available_project_types
     Timelines::ProjectType.find(:all)
   end
@@ -210,6 +228,14 @@ class Timelines::Timeline < ActiveRecord::Base
     end
   end
 
+  def planning_element_time
+    if options["planning_element_time"].present?
+      options["planning_element_time"]
+    else
+      'absolute'
+    end
+  end
+
   def comparison
     if options["comparison"].present?
       options["comparison"]
@@ -220,7 +246,10 @@ class Timelines::Timeline < ActiveRecord::Base
 
   def selected_grouping_projects
     resolve_with_none_element(:grouping_one_selection) do |ary|
-      Project.find(ary)
+      projects = Project.find(ary)
+      projectsHashMap = Hash[projects.collect { |v| [v.id, v]}]
+
+      ary.map { |a| projectsHashMap[a] }
     end
   end
 

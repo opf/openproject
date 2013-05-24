@@ -13,6 +13,7 @@ gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink'
+gem "will_paginate", '~> 3.0'
 
 gem 'awesome_nested_set'
 
@@ -22,9 +23,6 @@ gem 'tinymce-rails'
 gem 'tinymce-rails-langs'
 
 gem 'loofah'
-
-# will need to be removed once we are on rails4 as it will be part of the rails4 core
-gem 'strong_parameters'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'

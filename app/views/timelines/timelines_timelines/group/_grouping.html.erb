@@ -43,6 +43,22 @@
       </p>
 
       <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_grouping_one_sort,
+                      l('timelines.filter.sort.sortation') %>
+
+        <span>
+          <%= select("timeline[options]",
+                     :grouping_one_sort,
+                     [[l('timelines.filter.sort.alphabet'), '0'], [l('timelines.filter.sort.explicit_order'), '1']],
+
+                     {:selected => timeline.options['grouping_one_sort']},
+                     {:multiple => false,
+                      :size => 1}) %>
+        </span>
+
+      </p>
+
+      <p class="tl-form-overflow">
         <%= label_tag :timeline_options_grouping_two,
                       l('timelines.filter.grouping_two') %>
 
@@ -76,6 +92,22 @@
                      })
           %>
         <% end %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_grouping_two_sort,
+                      l('timelines.filter.sort.sortation') %>
+
+        <span>
+          <%= select("timeline[options]",
+                     :grouping_two_sort,
+                     [[l('timelines.filter.sort.default'), '0'], [l('timelines.filter.sort.date'), '1'], [l('timelines.filter.sort.alphabet'), '2']],
+
+                     {:selected => timeline.options['grouping_two_sort']},
+                     {:multiple => false,
+                      :size => 1}) %>
+        </span>
+
       </p>
 
       <p class="tl-form-overflow">

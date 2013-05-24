@@ -28,12 +28,15 @@
     setupInput: function () {
       var attrs_to_copy = {}, currentName, select2id, values = [];
 
+      $("input[name='" + $(this.element).attr("name")+"']").remove();
+
       for(var i = 0; i < $(this.element).get(0).attributes.length; i++) {
         currentName = $(this.element).get(0).attributes[i].name;
         if(currentName.indexOf("data-") === 0 || $.inArray(currentName, this.opts.allowedAttributes) !== -1) { //only ones starting with data-
           attrs_to_copy[currentName] = $(this.element).attr(currentName);
         }
       }
+
       select2id = $(this.element).attr("id");
       this.fakeInput = $(this.element).after("<input type='hidden' id='" + select2id + "'></input>").siblings(":input#" + select2id);
       this.fakeInput.attr(attrs_to_copy);
@@ -48,6 +51,19 @@
     initSelect2: function () {
       $(this.element).remove();
       $(this.fakeInput).select2(this.opts);
+
+      if (this.opts.sortable) {
+        var input = $(this.fakeInput);
+        input.select2("container").find("ul.select2-choices").sortable({
+          containment: 'parent',
+          start: function() {
+            input.select2("onSortStart");
+          },
+          update: function() {
+            input.select2("onSortEnd");
+          }
+        });
+      }
     }
   });
 

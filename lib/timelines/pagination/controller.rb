@@ -122,14 +122,13 @@ module Timelines::Pagination::Controller
 
           methods = {}
           [:pagination, :search].each do |meth|
-
             methods[meth] = if paginator.send(meth).respond_to?(:call)
                 paginator.send(meth)
               else
                 paginator.model.method(paginator.send(meth))
               end
           end
-          @paginated_items = methods[:pagination].call(methods[:search].call(params[:q]).scope(:find),
+          @paginated_items = methods[:pagination].call(methods[:search].call(params[:q]),
                                { :page => page, :page_limit => size }
                              )
 

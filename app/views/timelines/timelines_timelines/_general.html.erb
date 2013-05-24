@@ -55,17 +55,15 @@
         <%= label_tag :timeline_options_display_timeframe,
                       l('timelines.filter.timeframe') %>
 
-        <span class="tl-space-after">
-          <%= l('timelines.filter.timeframe_start') %>
-        </span>
+        <%= l('timelines.filter.timeframe_start') %>
+
         <%= text_field_tag "timeline[options][timeframe_start]",
                            timeline.options["timeframe_start"],
                            :size => 10 %>
         <%= calendar_for('timeline_options_timeframe_start') %>
 
-        <span class="tl-space-both">
-          <%= l('timelines.filter.timeframe_end') %>
-        </span>
+        <%= l('timelines.filter.timeframe_end') %>
+
         <%= text_field_tag "timeline[options][timeframe_end]",
                            timeline.options["timeframe_end"],
                            :size => 10 %>
@@ -83,6 +81,22 @@
                    {:selected => timeline.selected_columns},
                    {:multiple => true,
                     :size => 12}) %>
+
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_project_sort,
+                      l('timelines.filter.sort.project_sortation') %>
+
+        <span>
+          <%= select("timeline[options]",
+                     :project_sort,
+                     [[l('timelines.filter.sort.date'), 0], [l('timelines.filter.sort.alphabet'), '1']],
+
+                     {:selected => timeline.options['project_sort']},
+                     {:multiple => false,
+                      :size => 1}) %>
+        </span>
 
       </p>
     </div>

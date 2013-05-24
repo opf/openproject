@@ -57,7 +57,7 @@ Feature: Timeline Wiki Macro
               | February | 2012-02-01 | 2012-02-24 | Avocado Sali        | closed      | manager     |
               | March    | 2012-03-01 | 2012-03-30 | Sali Grande         | closed      | manager     |
               | April    | 2012-04-01 | 2012-04-30 | Avocado Sali Grande | closed      | manager     |
-      And there are is a timeline "Testline" for project "ecookbook"
+      And there is a timeline "Testline" for project "ecookbook"
 
   @javascript
   Scenario: Adding a timeline to a wiki

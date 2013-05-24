@@ -90,6 +90,67 @@ Timeline = {
     }
     return +Date.parse(value) / 1000;
   },
+  calculateTimeFilter: function () {
+    if (!this.frameSet) {
+      if (this.options.planning_element_time === "absolute") {
+        this.frameStart = Date.parse(this.options.planning_element_time_absolute_one);
+        this.frameEnd = Date.parse(this.options.planning_element_time_absolute_two);
+      } else if (this.options.planning_element_time === "relative") {
+        var startR = parseInt(this.options.planning_element_time_relative_one, 10);
+        var endR = parseInt(this.options.planning_element_time_relative_two, 10);
+        if (!isNaN(startR)) {
+          this.frameStart = Date.now();
+
+          switch (this.options.planning_element_time_relative_one_unit[0]) {
+            case "0":
+              this.frameStart.add(-1 * startR).days();
+              break;
+            case "1":
+              this.frameStart.add(-1 * startR).weeks();
+              break;
+            case "2":
+              this.frameStart.add(-1 * startR).months();
+              break;
+          }
+        }
+
+        if (!isNaN(endR)) {
+          this.frameEnd = Date.now();
+
+          switch (this.options.planning_element_time_relative_two_unit[0]) {
+            case "0":
+              this.frameEnd.add(endR).days();
+              break;
+            case "1":
+              this.frameEnd.add(endR).weeks();
+              break;
+            case "2":
+              this.frameEnd.add(endR).months();
+              break;
+          }
+        }
+      }
+
+      this.frameSet = true;
+    }
+  },
+  inTimeFilter: function (start, end) {
+    this.calculateTimeFilter();
+
+    if (this.frameStart) {
+      if (start < this.frameStart && end < this.frameStart) {
+        return false;
+      }
+    }
+
+    if (this.frameEnd) {
+      if (start > this.frameEnd && end > this.frameEnd) {
+        return false;
+      }
+    }
+
+    return true;
+  },
   verticalPlanningElementIds: function() {
 
     return this.options.vertical_planning_elements ?
@@ -97,7 +158,7 @@ Timeline = {
         this.options.vertical_planning_elements.split(/\,/),
         function(a) {
           try {
-            return parseInt(a.match(/\s*\*?(\d*)\s*/)[1]);
+            return parseInt(a.match(/\s*\*?(\d*)\s*/)[1], 10);
           } catch (e) {
             return;
           }
@@ -267,10 +328,18 @@ Timeline = {
     );
 
     jQuery(timelineLoader).on('complete', jQuery.proxy(function (e, data) {
-      jQuery.extend(this, data);
 
+      jQuery.extend(this, data);
       jQuery(this).trigger('dataReLoaded');
+
+      if (this.isGrouping() && this.options.grouping_two_enabled) {
+        this.secondLevelGroupingAdjustments();
+      }
+
+      this.adjustForPlanningElements();
+
       this.rebuildAll();
+
     }, this));
 
     timelineLoader.load();
@@ -522,6 +591,8 @@ Timeline = {
         this.augmentReportingsWithProjectObjects();
         this.augmentProjectsWithProjectTypesAndAssociations();
 
+        this.removeTrashedPlanningElements();
+
         this.augmentPlanningElementsWithHistoricalData();
         this.augmentPlanningElementsWithProjectAndParentAndChildInformation();
         this.augmentPlanningElementsWithVerticalityData();
@@ -664,12 +735,12 @@ Timeline = {
             other = dataEnhancer.getElement(Timeline.Project, a.project.id);
             if (other) {
               a.project = other;
+              dataEnhancer.setElement(
+                  Timeline.ProjectAssociation,
+                  a.id,
+                  jQuery.extend(Object.create(Timeline.ProjectAssociation), a));
             }
 
-            dataEnhancer.setElement(
-                Timeline.ProjectAssociation,
-                a.id,
-                jQuery.extend(Object.create(Timeline.ProjectAssociation), a));
           }
         }
 
@@ -680,6 +751,15 @@ Timeline = {
         else {
           e.parent = undefined;
         }
+      });
+    };
+
+    DataEnhancer.prototype.removeTrashedPlanningElements = function () {
+      var dataEnhancer = this;
+      jQuery.each(dataEnhancer.getElements(Timeline.PlanningElement), function (i, e) {
+         if (e.in_trash) {
+          delete dataEnhancer.data[Timeline.PlanningElement.identifier][e.id];
+         }
       });
     };
 
@@ -767,7 +847,9 @@ Timeline = {
         var pe = dataEnhancer.getElement(Timeline.PlanningElement, e.id);
         var pet = pe.getPlanningElementType();
 
-        pe.vertical = this.timeline.verticalPlanningElementIds().indexOf(pe.id) != -1;
+        if (!pe.in_trash) {
+          pe.vertical = this.timeline.verticalPlanningElementIds().indexOf(pe.id) != -1;
+        }
         //this.timeline.optionsfalse || Math.random() < 0.5 || (pet && pet.is_milestone);
       });
     };
@@ -1253,6 +1335,7 @@ Timeline = {
 
               // add the other project as a simulated reporter to the current one.
               e.addReporter(other);
+              other.hasSecondLevelGroupingAdjustment = true;
               // remove the project from the root level of the report.
               listToRemove.push(other);
 
@@ -1416,6 +1499,54 @@ Timeline = {
       return Timeline.Project.identifier === t.identifier;
     },
     identifier: 'projects',
+    hide: function () {
+      var hidden =  this.hiddenForEmpty() ||
+                    this.hiddenForTimeFrame();
+
+      this.hide = function () { return hidden; };
+
+      return hidden;
+    },
+    hiddenForEmpty: function () {
+      if (this.timeline.options.exclude_empty !== 'yes') {
+        return false;
+      }
+
+      var hidden = true;
+      // iterates over projects for second level grouping adjustments.
+      // TODO simply hiding parents might be sufficient.
+      jQuery.each(this.getPlanningElements(), function (i, child) {
+        if (!child.filteredOut()) {
+          hidden = false;
+        }
+      });
+
+      return hidden;
+    },
+    hiddenForTimeFrame: function () {
+      var types = this.timeline.options.planning_element_time_types;
+      if (!types) {
+        return false;
+      }
+
+      var hidden = true;
+
+      //we need to look at every element
+      jQuery.each(this.getPlanningElements(), function (i, child) {
+        //if hidden is already false, do not calculate
+        //otherwise, we show this project current element is a planning element (redundant?)
+        //and it is inside our timeframe
+        //and it has got the planning element type we want
+        if (hidden &&
+              child.is(Timeline.PlanningElement) &&
+              child.inTimeFrame() &&
+              Timeline.idInArray(types, child.getPlanningElementType())) {
+                hidden = false;
+        }
+      });
+
+      return hidden;
+    },
     filteredOut: function() {
       var filtered = this.filteredOutForExclusionOfOwnPlanningElements() ||
                      this.filteredOutForExclusionOfReporters() ||
@@ -1513,6 +1644,9 @@ Timeline = {
       }
       return this.planning_elements;
     },
+    getFirstLevelGroupingData: function() {
+      return this.timeline.getGroupForProject(this);
+    },
     getFirstLevelGrouping: function() {
       return this.timeline.getGroupForProject(this).number;
     },
@@ -1520,19 +1654,39 @@ Timeline = {
       return this.timeline.getGroupForProject(this).name;
     },
     sort: function(field) {
+      var timeline = this.timeline;
       this[field] = this[field].sort(function(a, b) {
 
         // order by inverse grouping, date, name, id
-        var dc = 0;
+        var dc = 0, nc = 0;
         var as = a.start(), bs = b.start();
         var ag, bg;
         if (a.is(Timeline.Project) && b.is(Timeline.Project)) {
-          ag = a.getFirstLevelGrouping();
-          bg = b.getFirstLevelGrouping();
-          if (ag > bg) {
+          var dataAGrouping = a.getFirstLevelGroupingData();
+          var dataBGrouping = b.getFirstLevelGroupingData();
+
+          // order first level grouping.
+          if (dataAGrouping.id != dataBGrouping.id) {
+            /** other is always at bottom */
+            if (dataAGrouping.id == 0) {
+              return 1;
+            } else if (dataBGrouping.id == 0) {
+              return -1;
+            }
+
+            if (timeline.options.grouping_one_sort == 1) {
+              ag = dataAGrouping.number;
+              bg = dataBGrouping.number;
+            } else {
+              ag = dataAGrouping.p.name;
+              bg = dataBGrouping.p.name;
+            }
+
+            if (ag > bg) {
+              return 1;
+            }
+
             return -1;
-          } else if (bg > ag) {
-            return 1;
           }
         }
         if (as) {
@@ -1544,15 +1698,60 @@ Timeline = {
         } else if (bs) {
           dc = -1;
         }
-        if (dc !== 0) {
-          return dc;
+
+        if (!a.nameLower) {
+          a.nameLower = a.name.toLowerCase();
         }
-        if (a.name < b.name) {
-          return -1;
+
+        if (!b.nameLower) {
+          b.nameLower = b.name.toLowerCase()
         }
-        if (a.name > b.name) {
-          return +1;
+
+        if (a.nameLower < b.nameLower) {
+          nc = -1;
         }
+        if (a.nameLower > b.nameLower) {
+          nc = +1;
+        }
+
+        if (a.hasSecondLevelGroupingAdjustment && b.hasSecondLevelGroupingAdjustment) {
+          if (timeline.options.grouping_two_sort == 1) {
+            if (dc !== 0) {
+              return dc;
+            }
+
+            if (nc !== 0) {
+              return nc;
+            }
+          } else if (timeline.options.grouping_two_sort == 2) {
+            if (nc !== 0) {
+              return nc;
+            }
+
+            if (dc !== 0) {
+              return dc;
+            }
+          }
+        }
+
+        if (timeline.options.project_sort == 1 && a.is(Timeline.Project) && b.is(Timeline.Project)) {
+          if (nc !== 0) {
+            return nc;
+          }
+
+          if (dc !== 0) {
+            return dc;
+          }
+        } else {
+          if (dc !== 0) {
+            return dc;
+          }
+
+          if (nc !== 0) {
+            return nc;
+          }
+        }
+
         if (a.id > b.id) {
           return +1;
         } else if (a.id < b.id) {
@@ -1713,7 +1912,8 @@ Timeline = {
             return;
           }
 
-          //do not shorten if current element is not a milestone and begins before me.
+          // do not shorten if current element is not a milestone and
+          // begins before me.
           if (!is_milestone(f) && cb.x < b.x) {
             return;
           }
@@ -1747,6 +1947,15 @@ Timeline = {
                       // but I start before current elements end.
                       cb.end() > space.x;
 
+            if ((cb.x < space.x && cb.end() > space.end()) &&
+                (label_spaces[i].length > 0)) {
+              if (label_spaces[i].length === 1) {
+                label_spaces[i][0].w = 0;
+              } else {
+                label_spaces[i].splice(k, 1);
+              }
+            }
+
             //  fffffffeeeeeeeeeeeeffffffffff
             if (rightSideOverlap && leftSideOverlap) {
 
@@ -1773,7 +1982,7 @@ Timeline = {
               // space starts, adjust the beginning of the space.
               // we also need to modify the width because we want to
               // keep the end at the same position.
-              var oldStart = space.x
+              var oldStart = space.x;
               space.x = Math.max(space.x, cb.end());
               space.w -= (space.x - oldStart);
             }
@@ -1828,25 +2037,35 @@ Timeline = {
       return Timeline.PlanningElement.identifier === t.identifier;
     },
     identifier: 'planning_elements',
+    hide: function () {
+      return false;
+    },
     filteredOut: function() {
       var filtered = this.filteredOutForProjectFilter() ||
                      this.filteredOutForPlanningElementTypes() ||
                      this.filteredOutForResponsibles();
 
-      this.filteredOut = function () { return filtered; };
+      this.filteredOut = function() { return filtered; };
 
       return filtered;
     },
-    filteredOutForProjectFilter: function () {
+    inTimeFrame: function () {
+      return this.timeline.inTimeFilter(this.start(), this.end());
+    },
+    filteredOutForProjectFilter: function() {
       return this.project.filteredOut();
     },
     filteredOutForResponsibles: function() {
-      return Timeline.filterOutBasedOnArray(this.timeline.options.planning_element_responsibles,
-                                            this.getResponsible());
+      return Timeline.filterOutBasedOnArray(
+        this.timeline.options.planning_element_responsibles,
+        this.getResponsible()
+      );
     },
     filteredOutForPlanningElementTypes: function() {
-      return Timeline.filterOutBasedOnArray(this.timeline.options.planning_element_types,
-                                            this.getPlanningElementType());
+      return Timeline.filterOutBasedOnArray(
+        this.timeline.options.planning_element_types,
+        this.getPlanningElementType()
+      );
     },
     all: function(timeline) {
       // collect all planning elements
@@ -1863,7 +2082,8 @@ Timeline = {
       return (this.project !== undefined) ? this.project : null;
     },
     getPlanningElementType: function() {
-      return (this.planning_element_type !== undefined) ? this.planning_element_type : null;
+      return (this.planning_element_type !== undefined) ?
+        this.planning_element_type : null;
     },
     getResponsible: function() {
       return (this.responsible !== undefined) ? this.responsible : null;
@@ -1983,7 +2203,7 @@ Timeline = {
         //we are in the middle of the diamond so we have to move half the size to the left
         x -= ((scale.height - 1) / 2);
         //and add the diamonds corners to the width.
-        w += scale.height - 1
+        w += scale.height - 1;
       }
 
       return {
@@ -2037,6 +2257,7 @@ Timeline = {
       var has_alternative = this.hasAlternateDates();
       var could_have_been_milestone = (this.alternate_start === this.alternate_end);
 
+      var height, top;
 
       // if there is a color for this planning element type, use it.
       // use it also for planning elements w/ children. if there are
@@ -2060,11 +2281,10 @@ Timeline = {
       // ╰─────────────────────────────────────────────────────────╯
 
       if (!in_aggregation && has_alternative) {
-
         if (pet && pet.is_milestone && could_have_been_milestone) {
 
-          var height = scale.height - 1; //6px makes the element a little smaller.
-          var top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
+          height = scale.height - 1; //6px makes the element a little smaller.
+          top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
 
           paper.path(
             timeline.psub('M#{x} #{y}h#{w}l#{d} #{d}l-#{d} #{d}H#{x}l-#{d} -#{d}l#{d} -#{d}Z', {
@@ -2082,8 +2302,8 @@ Timeline = {
 
         } else {
 
-          var height = scale.height - 6; //6px makes the element a little smaller.
-          var top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
+          height = scale.height - 6; //6px makes the element a little smaller.
+          top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
 
           paper.rect(
             alternate_left,
@@ -2131,8 +2351,8 @@ Timeline = {
 
         // generic.
 
-        var height = scale.height - 6; //6px makes the element a little smaller.
-        var top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
+        height = scale.height - 6; //6px makes the element a little smaller.
+        top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
 
         paper.rect(
           left,
@@ -2177,6 +2397,8 @@ Timeline = {
       var has_alternative = this.hasAlternateDates();
       var could_have_been_milestone = (this.alternate_start === this.alternate_end);
 
+      var height, top;
+
       // if there is a color for this planning element type, use it.
       // use it also for planning elements w/ children. if there are
       // children but no planning element type, use the default color
@@ -2194,8 +2416,8 @@ Timeline = {
       if (!deleted && pet && pet.is_milestone) {
 
         // milestones.
-        var height = scale.height - 1; //6px makes the element a little smaller.
-        var top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
+        height = scale.height - 1; //6px makes the element a little smaller.
+        top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
 
         paper.path(
           timeline.psub('M#{x} #{y}h#{w}l#{d} #{d}l-#{d} #{d}H#{x}l-#{d} -#{d}l#{d} -#{d}Z', {
@@ -2218,8 +2440,8 @@ Timeline = {
       // │ or out of aggregation, inside of elements or outside.   │
       // ╰─────────────────────────────────────────────────────────╯
 
-      var height = scale.height - 6; //6px makes the element a little smaller.
-      var top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
+      height = scale.height - 6; //6px makes the element a little smaller.
+      top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
 
       y = top + 11;
 
@@ -2315,8 +2537,8 @@ Timeline = {
       // │ over planning elements.                                 │
       // ╰─────────────────────────────────────────────────────────╯
 
-      var height = scale.height - 6; //6px makes the element a little smaller.
-      var top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
+      height = scale.height - 6; //6px makes the element a little smaller.
+      top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
 
       elements.push(paper.rect(
         hover_left - Timeline.HOVER_THRESHOLD,
@@ -2470,6 +2692,13 @@ Timeline = {
   adjustForPlanningElements: function() {
     var timeline = this;
     var tree = this.getLefthandTree();
+
+    // nullify potential previous dates seen. this is relevant when
+    // adjusting after the addition of a planning element via modal.
+
+    timeline.firstDateSeen = null;
+    timeline.lastDateSeen = null;
+
     tree.iterateWithChildren(function(node) {
       var data = node.getData();
       if (data.is(Timeline.PlanningElement)) {
@@ -2497,24 +2726,27 @@ Timeline = {
     else return this.projects[id];
   },
   getGroupForProject: function(p) {
-    var i, j = 0, projects, key;
+    var i, j = 0, projects, key, group;
     var groups = this.getFirstLevelGroups();
-    for (key in groups) {
-      if (groups.hasOwnProperty(key)) {
-        j++;
-        projects = groups[key];
-        for (i = 0; i < projects.length; i++) {
-          if (p.id === projects[i].id) {
-            return {
-              'number': j,
-              'name': key
-            };
-          }
+    for (j = 0; j < groups.length; j += 1) {
+      projects = groups[j].projects;
+      group = this.getProject(groups[j].id);
+
+      for (i = 0; i < projects.length; i++) {
+        if (p.id === projects[i].id) {
+          return {
+            'id': group.id,
+            'p': group,
+            'number': j,
+            'name': group.name
+          };
         }
       }
     }
+
     return {
       'number': 0,
+      'id': 0,
       'name': this.i18n('timelines.filter.grouping_other')
     };
   },
@@ -2525,7 +2757,7 @@ Timeline = {
       return this.firstLevelGroups;
     }
     var i, selection = this.options.grouping_one_selection;
-    var p, groups = {};
+    var p, groups = [], children;
     if (this.isGrouping()) {
       for ( i = 0; i < selection.length; i++ ) {
         p = this.getProject(selection[i]);
@@ -2535,9 +2767,12 @@ Timeline = {
           // to lack of rights.
           continue;
         }
-        groups[p.name] = this.getSubprojectsOf([selection[i]]);
-        if (groups[p.name].length === 0) {
-          delete groups[p.name];
+        children = this.getSubprojectsOf([selection[i]]);
+        if (children.length !== 0) {
+          groups.push({
+            projects: children,
+            id: selection[i]
+          });
         }
       }
     }
@@ -2547,13 +2782,8 @@ Timeline = {
   },
   getNumberOfGroups: function() {
     var result = this.options.hide_other_group? 0: 1;
-    var key, groups = this.getFirstLevelGroups();
-    for (key in groups) {
-      if (groups.hasOwnProperty(key)) {
-        result++;
-      }
-    }
-    return result;
+    var groups = this.getFirstLevelGroups();
+    return result + groups.length;
   },
   getSubprojectsOf: function(parents) {
     var projects = this.getProjects();
@@ -2713,7 +2943,7 @@ Timeline = {
       var root = this.root();
       var self = this;
       var timeline;
-      var filtered_out;
+      var filtered_out, hidden;
       var children = this.children();
       var has_children = children !== undefined;
 
@@ -2727,6 +2957,7 @@ Timeline = {
       }
 
       timeline = root.payload.timeline;
+      hidden = this.payload.hide();
       filtered_out = this.payload.filteredOut();
       options = options || {indent: 0, index: 0, projects: 0};
 
@@ -2780,7 +3011,7 @@ Timeline = {
         // │ count.                                                │
         // ╰───────────────────────────────────────────────────────╯
 
-        if (!filtered_out) {
+        if (!filtered_out && !hidden) {
 
           if (callback) {
             callback.call(this, this, options.indent, options.index);
@@ -2805,7 +3036,6 @@ Timeline = {
         // if there are children, loop over them, independently of
         // current node expansion state.
         if (has_children) {
-
           options.indent++;
 
           jQuery.each(children, function(i, child) {
@@ -2817,14 +3047,19 @@ Timeline = {
             // │ if the iteration was configured with the          │
             // │ traverseCollapsed flag. Last but not least, if    │
             // │ the current child is a project, iterate over it   │
-            // │ no matter what.                                   │
+            // │ only if indentation is not too deep.              │
             // ╰───────────────────────────────────────────────────╯
 
             if (options.traverseCollapsed ||
                 self.isExpanded() ||
                 child.payload.is(Timeline.Project)) {
 
-              child.iterateWithChildren(callback, options);
+                //do we wan to inherit the hidden status from projects to planning elements?
+                if (!hidden || child.payload.is(Timeline.Project)) {
+                  if (!(options.indent > 1 && child.payload.is(Timeline.Project))) {
+                    child.iterateWithChildren(callback, options);
+                  }
+                }
             }
           });
 
@@ -2919,9 +3154,17 @@ Timeline = {
         return tree;
       }
 
+      var count = 1;
       // for the given node, appends the given planning_elements as children,
       // recursively. every node will have the planning_element as data.
       var treeConstructor = function(node, elements) {
+        count += 1;
+
+        var MAXIMUMPROJECTCOUNT = 12000;
+        if (count > MAXIMUMPROJECTCOUNT) {
+          throw I18n.t('js.timelines.tooManyProjects', {count: MAXIMUMPROJECTCOUNT});
+        }
+
         jQuery.each(elements, function(i, e) {
           parent_stack.push(node.payload);
           for (var j = 0; j < parent_stack.length; j++) {
@@ -3660,15 +3903,18 @@ Timeline = {
    * with an id field which contains a number
    */
   filterOutBasedOnArray: function (array, object) {
+    return !Timeline.idInArray(array, object);
+  },
+  idInArray: function (array, object) {
     // when object is not set, check if the (none) a.k.a. -1 option is selected
     var id = object ? object.id + '' : '-1';
 
     if (jQuery.isArray(array) && array.length > 0) {
-      return jQuery.inArray(id, array) === -1;
+      return jQuery.inArray(id, array) !== -1;
     }
     else {
-      // if there is no array, do not filter out anything.
-      return false;
+      // if there is no array, we just accept.
+      return true;
     }
   },
 
@@ -3750,7 +3996,6 @@ Timeline = {
     // body
     table.append(body);
 
-
     row = jQuery('<tr></tr>');
 
     tree.iterateWithChildren(function(node, indent) {
@@ -3761,8 +4006,12 @@ Timeline = {
 
       // create a new cell with the name for the current level.
       row = jQuery('<tr></tr>');
-      cell = jQuery('<td class="tl-first-column"></td>');
+      cell = jQuery(
+          '<td class="tl-first-column"></td>'
+        );
       row.append(cell);
+
+      var contentWrapper = jQuery('<span class="tl-word-ellipsis"></span>');
 
       cell.addClass('tl-indent-' + indent);
 
@@ -3774,9 +4023,9 @@ Timeline = {
 
             body.append(jQuery(
               '<tr><td class="tl-grouping" colspan="' +
-              (timeline.options.columns.length + 1) + '">' +
+              (timeline.options.columns.length + 1) + '"><span class="tl-word-ellipsis">' +
               timeline.escape(data.getFirstLevelGroupingName()) +
-              '</td></tr>'));
+              '</span></td></tr>'));
 
             previousGroup = group;
           }
@@ -3794,9 +4043,12 @@ Timeline = {
         link.append(node.isExpanded() ? '-' : '+');
         cell.append(link);
       }
+
+      cell.append(contentWrapper);
+
       text = timeline.escape(data.name);
       if (data.getUrl instanceof Function) {
-        text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank"/>').append(text);
+        text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank"/>').append(text).attr("title", text);
         text.click(function(event) {
           if (!event.ctrlKey && !event.metaKey && data.is(Timeline.PlanningElement)) {
             timeline.modalHelper.createPlanningModal(
@@ -3814,7 +4066,7 @@ Timeline = {
       }
 
       span = jQuery('<span/>').append(text);
-      cell.append(span);
+      contentWrapper.append(span);
 
       // the node will later need to know where on the screen the
       // corresponding table cell is, i.e. for computing the vertical
@@ -3871,6 +4123,17 @@ Timeline = {
     }
 
     where.empty().append(table);
+
+    var maxWidth = jQuery("#content").width() * 0.25;
+    jQuery(".tl-word-ellipsis").each(function (i, e) {
+      e = jQuery(e);
+
+      if (e.parent().width() > maxWidth) {
+        var indent = e.offset().left - e.parent().offset().left;
+
+        e.css("width", maxWidth - indent);
+      }
+    });
   },
   scrollbarBox: function() {
     var scrollbar_height = this.getMeasuredScrollbarHeight();
@@ -4031,6 +4294,7 @@ Timeline = {
       }
     }
 
+    this.frameLine();
     this.nowLine();
   },
   getRelativeVerticalOffsetCorrectionForIE8: function() {
@@ -4066,8 +4330,11 @@ Timeline = {
   getRelativeVerticalBottomOffset: function(offset) {
     var result;
     result = this.getRelativeVerticalOffset(offset);
+    if (offset.find("div").length == 1) {
+      result -= jQuery(offset.find("div")[0]).height();
+    }
     if (offset !== undefined)
-      result += offset.outerHeight()
+      result += offset.outerHeight();
     return result;
   },
   rebuildForeground: function(tree) {
@@ -4255,6 +4522,46 @@ Timeline = {
     };
 
     render_next_bucket();
+  },
+
+  frameLine: function () {
+    var timeline = this;
+    var scale = timeline.getScale();
+    var beginning = timeline.getBeginning();
+    var decoHeight = timeline.decoHeight();
+    var linePosition;
+
+    this.calculateTimeFilter();
+
+    if (this.frameStart) {
+      linePosition = (timeline.getDaysBetween(beginning, this.frameStart)) * scale.day;
+
+      timeline.paper.path(
+        timeline.psub("M#{position} #{top}L#{position} #{height}", {
+          'position': linePosition,
+          'top': decoHeight,
+          'height': this.getHeight()
+        })
+      ).attr({
+        'stroke': 'blue',
+        'stroke-dasharray': '- '
+      });
+    }
+
+    if (this.frameEnd) {
+      linePosition = ((timeline.getDaysBetween(beginning, this.frameEnd) + 1) * scale.day);
+
+      timeline.paper.path(
+        timeline.psub("M#{position} #{top}L#{position} #{height}", {
+          'position': linePosition,
+          'top': decoHeight,
+          'height': this.getHeight()
+        })
+      ).attr({
+        'stroke': 'blue',
+        'stroke-dasharray': '- '
+      });
+    }
   },
 
   nowLine: function () {

@@ -1,4 +1,55 @@
 #encoding: utf-8
+
+Then /^I should see the planning element edit modal$/ do
+ steps 'Then I should see a modal window with selector "#planningElementDialog"'
+end
+Then /^I should see a modal window with selector "(.*?)"$/ do |selector|
+  page.should have_selector(selector, visible: true)
+  dialog = find(selector)
+
+  dialog["class"].include?("ui-dialog-content").should be_true
+end
+Then /^I should see a modal window$/ do
+  steps 'Then I should see a modal window with selector ".ui-dialog-content"'
+end
+Then(/^I should not see the planning element "(.*?)"$/) do |planning_element_name|
+  steps %Q{
+    Then I should not see "#{planning_element_name}" within ".tl-left-main"
+  }
+end
+Then(/^the project "(.*?)" should have an indent of (\d+)$/) do |project_name, indent|
+  find(".tl-indent-#{indent}", :text => project_name).should_not be_nil
+end
+Then(/^the project "(.*?)" should follow after "(.*?)"$/) do |project_name_one, project_name_two|
+  #Check that the things really exist and wait until the exist
+  steps %Q{
+    Then I should see "#{project_name_one}" within ".tl-left-main"
+    Then I should see "#{project_name_two}" within ".tl-left-main"
+  }
+
+  elements = find_lowest_containing_element project_name_one, ".tl-word-ellipsis"
+  elements[-1].should have_xpath("preceding::span[@class='tl-word-ellipsis']/descendant-or-self::*[text()='#{project_name_two}']")
+end
+Then(/^I should see the planning element "(.*?)"$/) do |planning_element_name|
+  steps %Q{
+    Then I should see "#{planning_element_name}" within ".tl-left-main"
+  }
+end
+Then(/^I should see the project "(.*?)"$/) do |project_name|
+  steps %Q{
+    Then I should see "#{project_name}" within ".tl-left-main"
+  }
+end
+Then(/^I should not see the project "(.*?)"$/) do |project_name|
+  steps %Q{
+    Then I should not see "#{project_name}" within ".tl-left-main"
+  }
+end
+Then /^the first table column should not take more than 25% of the space$/ do
+  result = page.evaluate_script("jQuery('.tl-left-main th').width() < (jQuery('body').width() * 0.25 + 22)")
+  result.should be_true
+end
+
 Then /^the "([^"]*)" row should (not )?be marked as default$/ do |title, negation|
   should_be_visible = !negation
 

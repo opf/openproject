@@ -1,9 +1,22 @@
+Given /^the [pP]roject "([^\"]*)" has the parent "([^\"]*)"$/ do |child_name, parent_name|
+  parent = Project.find_by_name(parent_name)
+  child = Project.find_by_name(child_name)
+
+  child.set_parent!(parent);
+  child.save!
+end
+
 Given /^there are the following colors:$/ do |table|
   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:timelines_color, type_attributes)
   end
+end
+
+Given /^I am working in the [tT]imeline "([^"]*)" of the project called "([^"]*)"$/ do |timeline_name, project_name|
+  @project = Project.find_by_name(project_name)
+  @timeline_name = timeline_name
 end
 
 Given /^there are the following planning element types:$/ do |table|
@@ -49,11 +62,13 @@ Given /^there are the following planning elements(?: in project "([^"]*)")?:$/ d
   table.hashes.each do |type_attributes|
     status = Timelines::PlanningElementStatus.find_by_name(type_attributes.delete("status_name"))
     responsible = User.find_by_login(type_attributes.delete("responsible"))
+    planning_element_type = Timelines::PlanningElementType.find_by_name(type_attributes.delete("planning_element_type"));
 
     factory = FactoryGirl.create(:timelines_planning_element, type_attributes.merge(:project_id => project.id))
 
     factory.planning_element_status = status unless status.nil?
     factory.responsible = responsible unless responsible.nil?
+    factory.planning_element_type = planning_element_type unless planning_element_type.nil?
     factory.save! if factory.changed?
   end
 end
@@ -73,6 +88,10 @@ end
 Given /^there is a scenario "([^"]*)" in project "([^"]*)"$/ do |scenario_name, project_name|
   FactoryGirl.create(:timelines_scenario, :name => scenario_name, :project_id => Project.find_by_name!(project_name).id)
 end
+
+
+#Factory.create(:timelines_reporting, :project => add_project, :reporting_to_project => Project.find(identifier))
+
 
 Given /^there are the following alternate dates for "([^"]*)":$/ do |scenario_name, table|
   scenario = Timelines::Scenario.find_by_name!(scenario_name)
@@ -131,7 +150,7 @@ Given /^there are the following reportings:$/ do |table|
   end
 end
 
-Given /^there are is a timeline "([^"]*)" for project "([^"]*)"$/ do |timeline_name, project_name|
+Given /^there is a timeline "([^"]*)" for project "([^"]*)"$/ do |timeline_name, project_name|
   project = Project.find_by_name(project_name)
 
   timeline = FactoryGirl.create(:timelines_timeline, :project_id => project.id, :name => timeline_name)

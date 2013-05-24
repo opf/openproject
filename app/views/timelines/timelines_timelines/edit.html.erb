@@ -7,7 +7,7 @@
             :url => timelines_project_timeline_path(@project, @timeline),
             :html => {:class => "tabular", :method => 'put'}) do |f| %>
 
-  <%= render(:partial => "timelines_timelines/form",
+  <%= render(:partial => "timelines/timelines_timelines/form",
              :locals => {:f => f, :timeline => @timeline}) %>
 
   <%= f.submit l(:button_save) %>

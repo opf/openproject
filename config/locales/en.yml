@@ -505,11 +505,15 @@ en:
         other: "You can only select {{limit}} items"
         zero: "You cannot select any items"
     timelines:
+      tooManyProjects: "More than %{count} Projects. Please use a better filter!"
       cancel: Cancel
       save: Save
       really_move_planning_element_to_trash: >
         Are you sure, you want to move the following planning element and all
         its child elements to recycle bin?
+      really_delete_planning_element: >
+        Are you sure, you want to permanently delete the following planning element and all
+        its child elements?
       end_date: "End date"
       name: "Name"
       planning_element_types: "Planning element type"
@@ -1285,6 +1289,13 @@ en:
       report_epicfail: "The timeline could not be loaded due to an unexpected error."
       report_timeout: "The timeline could not be loaded in a reasonable amount of time."
     filter:
+      sort:
+        sortation: "Sort by"
+        alphabet: "alphabet"
+        explicit_order: "explicit order"
+        project_sortation: "Sort projects by"
+        date: "date"
+        default: "default"
       column:
         end_date: "End date"
         name: "Name"
@@ -1301,8 +1312,16 @@ en:
         none: "None"
         relative: "Relative"
         scenario: "Scenario"
+        compare_relative: "Compare current planning to %{timespan} ago"
+        compare_absolute: "Compare current planning to %{date}"
+        compare_historical: "Compare %{startdate} to %{enddate}"
+      time_relative:
+        days: "days"
+        weeks: "weeks"
+        months: "months"
       exclude_own_planning_elements: "Hide planning elements from this project"
       exclude_reporters: "Hide other projects"
+      exclude_empty: "Hide empty projects"
       grouping: "Grouping"
       grouping_hide_group: "Hide group \"%{group}\""
       grouping_one: "First grouping criterion"
@@ -1317,6 +1336,10 @@ en:
       planning_element_filters: "Filter planning elements"
       planning_element_responsible: "Show planning elements with responsible"
       planning_element_types: "Show planning element types"
+
+      project_time_filter: "Projects with a Planning Element of a certain type in a certain timeframe"
+      project_time_filter_historical: "from %{startdate} to %{enddate}"
+      project_time_filter_relative: "from %{startspan}%{startspanunit} ago, to %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
       project_responsible: "Show projects with responsible"
       project_status: "Show project status"
