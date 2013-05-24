@@ -17,9 +17,6 @@ class CostObjectsController < ApplicationController
     :update_material_budget_item, :update_labor_budget_item
     ]
 
-  verify :method => :post, :only => :destroy,
-         :redirect_to => { :action => :index }
-
   helper :sort
   include SortHelper
   helper :projects
