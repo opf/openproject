@@ -16,7 +16,7 @@ class Widget::CostTypes < Widget::Base
         type_selection = radio_button_tag("unit", id, id == @selected_type_id)
         type_selection += label_tag "unit_#{id}", h(label)
         type_selection
-      end.join("</br>")
+      end.join("<br />").html_safe
     end
   end
 end
