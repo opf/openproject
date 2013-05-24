@@ -1,15 +1,15 @@
 Given(/^there is an hourly rate with the following:$/) do |table|
   table_hash = table.rows_hash
-  rate = HourlyRate.new
-  rate.valid_from = eval(table_hash[:valid_from])
-  rate.user = User.find_by_login(table_hash[:user])
-  rate.project = Project.find_by_name(table_hash[:project])
-  rate.rate = table_hash[:rate].to_i
-  rate.save!
+  rate = FactoryGirl.create(:hourly_rate,
+    :valid_from => eval(table_hash[:valid_from]),
+    :user => User.find_by_login(table_hash[:user]),
+    :project => Project.find_by_name(table_hash[:project]),
+    :rate => table_hash[:rate].to_i)
 end
 
-When(/^I set the hourly rate of member "(.*?)" to "(.*?)"$/) do |arg1, arg2|
-  within("tr#member-#{arg1}") do
+When(/^I set the hourly rate of user "(.*?)" to "(.*?)"$/) do |arg1, arg2|
+  user = User.find_by_login(arg1)
+  within("tr#member-#{user.id}") do
     fill_in('rate', with: arg2)
     click_button('Save')
   end

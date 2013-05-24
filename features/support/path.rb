@@ -13,7 +13,8 @@ module CostNavigationHelpers
     when /^the index page (?:of|for) cost types$/
       "/cost_types"
     when /^the hourly rates page of user "(.*)" of the project called "(.*)"/
-      "/projects/#{$2}/hourly_rates/#{$1}"
+      user = User.find_by_login($1)
+      "/projects/#{$2}/hourly_rates/#{user.id}"
     else
       super
     end
