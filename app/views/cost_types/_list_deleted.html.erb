@@ -6,8 +6,8 @@
 <table class="list cost_types deleted_cost_types">
   <thead><tr>
     <%= sort_header_tag "name", :caption => CostType.model_name.human %>
-    <%= sort_header_tag "unit", :caption => l(:caption_cost_type_unit_name) %>
-    <%= sort_header_tag "unit_plural", :caption => l(:caption_cost_type_unit_name_plural) %>
+    <%= sort_header_tag "unit", :caption => CostType.human_attribute_name(:unit) %>
+    <%= sort_header_tag "unit_plural", :caption => CostType.human_attribute_name(:unit_plural) %>
     <th><%= CostType.human_attribute_name(:current_rate) %></th>
     <th><%= l(:caption_locked_on) %></th>
     <th></th>
