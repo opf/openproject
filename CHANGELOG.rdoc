@@ -1,0 +1,4 @@
+= 5.0.0.rc1 - 2013-05-24
+
+* RC1 of the Rails 3 version
+* This version is no longer compatible with the Rails 2 core
