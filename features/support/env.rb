@@ -26,17 +26,6 @@ Capybara.configure do |config|
     config.visible_text_only = true
 end
 
-# Found here https://gist.github.com/msgehard/922296
-# Fix for random timeout error that we were seeing in CI.
-# May be related to: http://code.google.com/p/selenium/issues/detail?id=1439
-
-Capybara.register_driver :selenium_with_long_timeout do |app|
-  http_client = Selenium::WebDriver::Remote::Http::Default.new
-  http_client.timeout = 240
-  Capybara::Selenium::Driver.new(app, :browser => :firefox, :http_client => http_client)
-end
-Capybara.javascript_driver = :selenium_with_long_timeout
-
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 
 # your application behaves in the production environment, where an error page will 
