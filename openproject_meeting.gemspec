@@ -8,7 +8,7 @@ require "openproject_meeting/version"
 Gem::Specification.new do |s|
   s.name        = "openproject_meeting"
   s.version     = MeetingsPlugin::VERSION
-  s.authors     = "Felix Schäfer, Finn GmbH"
+  s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
   s.homepage    = "http://www.finn.de"
   s.summary     = "This plugin adds a meeting module with functionality to plan an agenda and save the minutes of a meeting."

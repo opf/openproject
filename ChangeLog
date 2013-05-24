@@ -1,3 +1,8 @@
+2013-05-24 Christian Ratz <c.ratz@finn.de>
+
+	* RC1 of the Rails 3 version
+	* This version is no longer compatible with the Rails 2 core
+
 2013-03-22 Jens Ulferts <j.ulferts@finn.de>
 
   * fixes routes

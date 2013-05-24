@@ -1,3 +1,3 @@
 module MeetingsPlugin
-  VERSION = "2.5.0.9f84cd"
+  VERSION = "2.5.1.rc1"
 end
