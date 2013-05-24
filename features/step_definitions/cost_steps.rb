@@ -78,6 +78,7 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
   steps %Q{
     Given there is 1 project with the following:
       | Name | #{name} |
+      | Identifier | #{name.gsub(' ', '_').downcase} |
     And the project "#{name}" has the following trackers:
       | name     |
       | tracker1 |
@@ -106,16 +107,16 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
       | View own cost entries |
     And there is 1 user with:
       | Login | manager |
-		And the user "manager" is a "Manager" in the project "#{name}"
-		And there is 1 user with:
+    And the user "manager" is a "Manager" in the project "#{name}"
+    And there is 1 user with:
       | Login | controller |
-		And the user "controller" is a "Controller" in the project "#{name}"
-		And there is 1 user with:
+    And the user "controller" is a "Controller" in the project "#{name}"
+    And there is 1 user with:
       | Login | developer |
-		And the user "developer" is a "Developer" in the project "#{name}"
-		And there is 1 user with:
+    And the user "developer" is a "Developer" in the project "#{name}"
+    And there is 1 user with:
       | Login | reporter |
-		And the user "reporter" is a "Reporter" in the project "#{name}"
+    And the user "reporter" is a "Reporter" in the project "#{name}"
   }
 end
 

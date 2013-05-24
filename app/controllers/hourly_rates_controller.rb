@@ -92,13 +92,15 @@ class HourlyRatesController < ApplicationController
     today = Date.today
 
     rate = @user.rate_at(today, @project)
-    rate ||= HourlyRate.new.tap do |hr|
+    rate = HourlyRate.new if rate.nil? || rate.valid_from != today
+
+    rate.tap do |hr|
       hr.project    = @project
       hr.user       = @user
       hr.valid_from = today
+      hr.rate = clean_currency(params[:rate])
     end
 
-    rate.rate = clean_currency(params[:rate])
     if rate.save
       if request.xhr?
         render :update do |page|
