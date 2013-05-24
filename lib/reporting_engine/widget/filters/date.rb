@@ -11,7 +11,7 @@ class Widget::Filters::Date < Widget::Filters::Base
     name = "values[#{filter_class.underscore_name}][]"
     id_prefix = "#{filter_class.underscore_name}_"
 
-    write(content_tag :td do
+    write(content_tag(:td) do
       label1 = label_tag "#{id_prefix}arg_1_val",
                          h(l(filter_class.label)) + " " + l(:label_filter_value),
                          :class => 'hidden-for-sighted'

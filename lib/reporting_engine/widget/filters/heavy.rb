@@ -6,7 +6,7 @@
 class Widget::Filters::Heavy < Widget::Filters::Base
 
   def render
-    write(content_tag :td do
+    write(content_tag(:td) do
       # TODO: sometimes filter.values is of the form [["3"]] and somtimes ["3"].
       #       (using cost reporting)
       #       this might be a bug - further research would be fine

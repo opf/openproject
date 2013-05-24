@@ -10,10 +10,9 @@ class Widget::Table::Progressbar < Widget::Base
     if render_table?
       render_widget Widget::Table, @subject, :to => (@output ||= "".html_safe)
     else
-      write (content_tag :label, :style => "display:none" do
-              content_tag(:div, l(:label_progress_bar_explanation).html_safe) + \
-                render_progress_bar
-            end)
+      write(content_tag(:label, :style => "display:none") do
+        content_tag(:div, l(:label_progress_bar_explanation).html_safe) + render_progress_bar
+      end)
     end
   end
 

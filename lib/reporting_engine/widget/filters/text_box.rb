@@ -1,6 +1,6 @@
 class Widget::Filters::TextBox < Widget::Filters::Base
   def render
-    write(content_tag :td do
+    write(content_tag(:td) do
 
       label = content_tag :label,
                           h(l(filter_class.underscore_name)) + " " + l(:label_filter_value),

@@ -1,6 +1,6 @@
 class Widget::Filters::RemoveButton < Widget::Filters::Base
   def render
-    write( content_tag :td, :width => "25px" do
+    write(content_tag(:td, :width => "25px") do
       hidden_field = tag :input, :id => "rm_#{filter_class.underscore_name}",
         :name => "fields[]", :type => "hidden", :value => ""
       button = tag :input, :type => "button", :value => "",

@@ -3,7 +3,7 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
 
   def render
     filterName = filter_class.underscore_name
-    write(content_tag :td do
+    write(content_tag(:td) do
       content_tag :div, :id => "#{filterName}_arg_1", :class => "filter_values" do
         choices = filter_class.available_values.each_with_index.map do |(label, value), i|
           opts = {

@@ -34,7 +34,7 @@ class Widget::Settings < Widget::Base
   end
 
   def render
-    write(form_tag("#", {:id => 'query_form', :method => :post}) do
+    write(form_tag("#", :id => 'query_form', :method => :post) do
       content_tag :div, :id => "query_form_content" do
         # will render a setting menu for every setting.
         # To add new settings, write a new instance method render_<a name>_setting

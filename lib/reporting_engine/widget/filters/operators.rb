@@ -1,6 +1,6 @@
 class Widget::Filters::Operators < Widget::Filters::Base
   def render
-    write(content_tag :td, :width => 100 do
+    write(content_tag(:td, :width => 100) do
       hide_select_box = (filter_class.available_operators.count == 1 || filter_class.heavy?)
       options = {:class => "select-small filters-select filter_operator",
                  :style => "vertical-align: top", # FIXME: put into CSS

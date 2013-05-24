@@ -1,7 +1,7 @@
 class Widget::Filters::MultiValues < Widget::Filters::Base
 
   def render
-    write(content_tag :td do
+    write(content_tag(:td) do
       content_tag :div, :id => "#{filter_class.underscore_name}_arg_1", :class => "filter_values" do
         select_options = {  :"data-remote-url" => url_for(:action => "available_values"),
                             :style => "vertical-align: top;", # FIXME: Do CSS

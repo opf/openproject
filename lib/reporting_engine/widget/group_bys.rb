@@ -65,7 +65,7 @@ class Widget::GroupBys < Widget::Base
   end
 
   def render
-    write(content_tag :div, :id => 'group_by_area' do
+    write(content_tag(:div, :id => 'group_by_area') do
       out =  render_group 'columns', @subject.group_bys(:column), true
       out += render_group 'rows', @subject.group_bys(:row)
       out += image_tag "remove.gif",
