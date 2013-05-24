@@ -21,8 +21,8 @@
   </td>
   <td class="currency">
     <label class="hidden-for-sighted", for="<%= "#{id_prefix}_rate" %>"><%= Rate.model_name.human %></label>
-    <%= rate_form.text_field :rate, :size => 7, :index => id_or_index, :value => rate.rate ? rate.rate.round(2) : ""  %>  <%= Setting.plugin_openproject_costs['costs_currency'] %>
+    <%= rate_form.text_field :rate, :size => 7, :index => id_or_index, :value => rate.rate ? rate.rate.round(2) : "" %>  <%= Setting.plugin_openproject_costs['costs_currency'] %>
   </td>
-  <td><%= image_to_function 'delete.png', "var e = $('#{id_prefix}');parent=e.up();e.remove();recalculate_even_odd(parent)", :alt => l(:button_delete) %></td>
+  <td><%= image_tag 'delete.png', :alt => l(:button_delete), :title => l(:button_delete), :class => "delete" %></td>
 </tr>
 <% end %>
