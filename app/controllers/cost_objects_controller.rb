@@ -2,7 +2,7 @@ class CostObjectsController < ApplicationController
   unloadable
 
   before_filter :find_cost_object, :only => [:show, :edit, :update, :preview, :copy]
-  before_filter :find_cost_objects, :only => [:bulk_edit, :destroy]
+  before_filter :find_cost_objects, :only => :destroy
   before_filter :find_project, :only => [
     :new, :create,
     :update_material_budget_item, :update_labor_budget_item
@@ -11,15 +11,11 @@ class CostObjectsController < ApplicationController
 
   before_filter :authorize_global, :only => :index
   before_filter :authorize, :except => [
-    :index,
-
     # unrestricted actions
-    :preview, :context_menu,
+    :index,
+    :preview,
     :update_material_budget_item, :update_labor_budget_item
     ]
-
-  verify :method => :post, :only => [:bulk_edit, :destroy],
-         :redirect_to => { :action => :index }
 
   helper :sort
   include SortHelper
