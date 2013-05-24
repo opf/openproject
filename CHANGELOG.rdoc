@@ -1,3 +1,10 @@
+= 3.0.3.rc1 - 2013-05-24
+
+== Major Change
+
+* RC1 of the Rails 3 version
+* This version is no longer compatible with the Rails 2 core
+
 = 2.1.0 - 2012-04-13
 
 == Major Change
