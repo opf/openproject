@@ -1,7 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require_relative 'query_helper'
 
-describe CostQuery, :reporting_query_helper do
+describe CostQuery, :reporting_query_helper => true do
   minimal_query
 
   fixtures :users

@@ -12,6 +12,12 @@ def l(*args)
   I18n.t(*args)
 end
 
+ENGINE_RAILS_ROOT = File.join(File.dirname(__FILE__), '../')
+
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/support/ and its subdirectories.
+Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
+
 # not sure whether these are required - commenting them out for now
 #  - mfrister
 # require File.join(RAILS_ROOT, "test", "object_daddy_helpers.rb")
