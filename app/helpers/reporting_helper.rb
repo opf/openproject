@@ -8,14 +8,14 @@ module ReportingHelper
 
   # Extends the definition in ApplicationHelper, to allow passing Dates as well
   # This is the definitions that is hit by the views and widgets
-  def l(*values)
-    return values.first if values.size == 1 and values.first.respond_to? :to_str
-    if [Date, DateTime, Time].include? values.first.class
-      ::I18n.l values.first
-    else
-      ApplicationHelper.l(*values)
-    end
-  end
+  #def l(*values)
+  #  return values.first if values.size == 1 and values.first.respond_to? :to_str
+  #  if [Date, DateTime, Time].include? values.first.class
+  #    ::I18n.l values.first
+  #  else
+  #    ApplicationHelper.l(*values)
+  #  end
+  #end
 
   # ##
   # # For a given CostQuery::Filter filter, return an array of hashes, that contain
