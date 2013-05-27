@@ -13,7 +13,7 @@ module OpenProject::Backlogs::Patches::MyControllerPatch
 
   module InstanceMethods
     def save_backlogs_preferences
-      if request.post? && flash[:notice] == l(:notice_account_updated)
+      if request.put? && flash[:notice] == l(:notice_account_updated)
         color = (params[:backlogs] ? params[:backlogs][:task_color] : '').to_s
         if color == '' || color.match(/^#[A-Fa-f0-9]{6}$/)
           User.current.backlogs_preference(:task_color, color)
