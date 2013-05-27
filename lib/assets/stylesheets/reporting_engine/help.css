@@ -1,0 +1,56 @@
+.help {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.tooltip {
+  position: absolute;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  padding: 3px;
+  width: 400px;
+  z-index: 256;
+  color: #000000;
+  border: 1px solid #000000;
+  background: #FFFFCC;
+  font: 12px Verdana, sans-serif;
+  text-align: left;
+  padding: -50px;
+  line-height: 16px;
+  font-size: 11px;
+  white-space: normal;
+}
+
+.filter-icon {
+
+}
+
+.filter-tip {
+
+}
+
+.group-by-icon {
+	float: right;
+	margin-right: 5px;
+}
+
+.group-by-tip {
+	margin-top: -300px;
+	margin-left: -475px;
+}
+
+.filter-legend-icon {
+
+}
+
+.filter-legend-tip {
+  margin-left: 10px;
+}
+
+.group_by-legend-icon {
+
+}
+
+.group_by-legend-tip {
+  margin-left: 10px;
+}

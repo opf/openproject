@@ -1,0 +1,619 @@
+.cost_types {
+  padding-bottom: 3px;
+}
+
+.cost_types a.active {
+  color: #000;
+  font-weight: bold;
+}
+
+.report {
+  text-align:       center;
+  border-collapse:  collapse;
+  border:           solid 1px #ccc !important;
+  width:            auto !important;
+}
+
+.report td, .report th {
+  min-width:        90px;
+  white-space:      nowrap;
+}
+
+.report td {
+  border: dotted 1px #ddd;
+  color: #666;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.report tbody th, .report tbody td, .inner {
+  max-width: 300px;
+  white-space: normal !important;
+}
+
+.report td:hover {
+  color: #000;
+  outline: #ccc 1px solid;
+  outline-offset: 1px;
+}
+
+.report td.empty:hover {
+  outline: none;
+}
+
+.report th {
+  border: solid 1px #ccc;
+  background-color: #e3e3e3;
+  text-align: center;
+}
+
+.report .odd th.inner {
+  background-color: #e8e8e8;
+}
+
+.report .even th.inner {
+  background-color: #e3e3e3;
+}
+
+.report th.inner {
+  border: solid 1px #ccc;
+  background-color: #efefef;
+  text-align: right;
+}
+
+.report tr.even:hover .inner,
+.report tr.even:hover .bottom,
+.report tr.even:hover .empty,
+.report tr.even:hover .right {
+  background-color: #f5f5c5 !important;
+}
+/* IE7 made me do it! */
+.report tr.odd:hover .inner,
+.report tr.odd:hover .bottom,
+.report tr.odd:hover .empty,
+.report tr.odd:hover .right {
+  background-color: #f5f5c5 !important;
+}
+
+.report .top {
+  border-top-style: solid;
+  border-top-color: #ccc;
+  /* border-top: 2px solid #ccc !important; */
+}
+
+.report .bottom {
+  border-bottom-style: solid;
+  border-bottom-color: #ccc;
+  /* border-bottom: 2px solid #ccc !important; */
+}
+
+.report td.penultimate {
+  border-right-style: solid;
+}
+
+.report thead .inner, .report tfoot .inner {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.report .result {
+  font-size: 120%;
+  text-align: right;
+}
+
+#result-table {
+  margin-top: 10px !important;
+}
+
+.report thead tr:hover .inner, .report tfoot tr:hover .inner {
+  background-color: #efefef;
+}
+
+.report .left {
+  text-align: left !important;
+  padding-left: 5px;
+}
+
+.report .right {
+  text-align: right !important;
+  padding-right: 5px;
+}
+
+/* Details view*/
+
+.detail-report td {
+  text-align: left;
+  vertical-align: top;
+}
+
+#query_form_content {
+  width: 916px;
+}
+
+#query_form fieldset.header_collapsible.collapsible {
+  padding-bottom: 10px;
+}
+
+/* Overwriting styling for headlines within the query. */
+/* TODO: Font-size seems to be a bit odd. Needs some love. */
+.new_report fieldset h3 {
+  font-size: 1.17em;
+  border: none;
+}
+
+.remove-box {
+  height: 20px;
+  width: 20px;
+  background: white;
+  float: right;
+  padding: 1px 0 0 0;
+  display: block;
+  margin-top: -5px;
+  margin-right: -2px;
+}
+
+.filter_rem {
+  color: transparent;
+  overflow: hidden;
+  cursor: pointer;
+  background: no-repeat center center transparent;
+  height: 18px;
+  width: 18px;
+  border-style: none;
+  display: block;
+  margin: 0 0 0 2px;
+}
+
+.icon-filter-rem {
+  background-image: url(../images/close.gif);
+  position: relative;
+  float: right;
+  padding: 0px;
+}
+
+/***** icons *****/
+/*
+  We hide the original content of things with class 'icon' and disply an icon instead.
+  This css class is optimized for usage report breadcrumbs.
+  Hint: The content of the title attribute is shown as a tooltip if the underlying DOM element is an <a>.
+*/
+.breadcrumb_icon {
+  padding: 3px 5px 0 16px;
+  cursor: pointer;
+  background: no-repeat left center;
+  border-style: none;
+  display: inline-block;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.icon-edit {
+  background-image: url(../images/edit.png);
+}
+.icon-delete {
+  background-image: url(../images/delete.png);
+}
+
+#query-name-edit-button {
+  margin-left: 16px;
+  font-size: 12px;
+}
+
+.filter {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.inactive-filter {
+  background-color: #FCE29A !important;
+}
+
+.dependent-filter-label {
+  margin-left: 20px;
+}
+
+.filter_values {
+  white-space: nowrap;
+}
+
+.filter_radio_option {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#add_filter_block {
+  margin-top: 6px;
+}
+
+#add_filter_select {
+  margin-bottom: 10px;
+}
+
+fieldset#filters table tr.filter:hover {
+  background: #aaa;
+}
+
+fieldset#filters table tr.filter {
+  color: #000;
+  background: #ededed;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+/* Aligning filter elements at the top. */
+fieldset#filters table td {
+  vertical-align: top;
+  border-spacing: 5px 5px;
+  border-color: white;
+  border-style: solid;
+  border-width: 2px 0px 0px;
+  padding: 5px 2px 5px 2px;
+}
+
+fieldset#filters table .no-border td {
+  border-style: none !important;
+}
+
+fieldset#filters table td > label {
+  left: 3px;
+  top: 3px;
+  position: relative;
+}
+
+/* ----- group by --- */
+#group_by_area {
+  margin: 5px 0 10px 0;
+}
+
+.in_row {
+  float: left;
+  display: block;
+  list-style: none;
+  border-width: 0px;
+}
+
+.group_by_element {
+  margin-left: -15px;
+  cursor: move;
+}
+
+/* have #content here to overwrite line-heigth of other themes through being more specific*/
+#content .group_by_label {
+  margin: 0px;
+  padding: 0px 18px 0 0;
+  min-width: 60px;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: bold;
+  color: #fff;
+  background-color: #9A9A9A;
+  height: 22px;
+  line-height: 22px;
+  cursor: move;
+}
+
+.group_by_label.hover {
+  background-color: #009999 !important;
+}
+
+.group_by_remove {
+  background-color: #9A9A9A;
+  height: 7px;
+  width: 8px;
+  position: absolute;
+  top: 7px;
+  right: 21px;
+  cursor: pointer;
+}
+
+.group_by_remove.hover {
+  background-color: #009999 !important;
+}
+
+/* Overwrite normal h3 definition - a h-tag is needed for accessibility purposes */
+h3.reporting_formatting {
+  font-weight:normal;
+  font-size: 13px;
+  margin:0px;
+  padding:0px;
+  color:#333;
+  border:0px;
+}
+
+/* have #content here to overwrite line-heigth of other themes through being more specific*/
+#content .group_by_caption {
+  color: #FFFFFF;
+  background-color: #4B4B4B;
+  font-weight: bold;
+  padding: 0 7px;
+  margin: 0;
+  height: 22px;
+  line-height: 22px;
+  min-width: 55px;
+}
+
+.arrow {
+  height: 0;
+  width: 0;
+  border-style: solid;
+  border-width: 11px 11px 11px 7px;
+}
+
+.arrow_left {
+  border-color: #9A9A9A #9A9A9A #9A9A9A transparent;
+}
+
+.arrow_left.hover {
+  border-color: #009999 #009999 #009999 transparent !important;
+}
+
+.arrow_right {
+  border-color: transparent transparent transparent #9A9A9A;
+}
+
+.arrow_right.hover {
+  border-color: transparent transparent transparent #009999 !important;
+}
+
+.arrow_group_by_caption {
+  border-color: transparent transparent transparent #4B4B4B;
+}
+
+.drag_container {
+  padding: 0;
+  height: 22px;
+  margin-bottom: 1em;
+  background-color: #EEE;
+}
+
+.drag_container select {
+  margin-right: 3px;
+  float: right;
+}
+
+.drag_target {
+  min-height: 10px;
+}
+
+.drag_container_accept {
+  background-color: #F5F5C5;
+}
+
+/* -- end group-by -- */
+
+td .drill_down, th .drill_down {
+  font-size: 8px;
+  display: block;
+  float: right;
+  font-weight: bold;
+  visibility: hidden;
+}
+
+td:hover .drill_down, th:hover .drill_down {
+  visibility: visible;
+}
+
+/*Buttons*/
+
+.buttons .reporting_button {
+  background-color: #008BD0;
+  border: none;
+  cursor: pointer;
+  margin: 0px;
+  overflow: visible;
+  text-align: center;
+  white-space: nowrap;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 4px;
+}
+
+.form_controls {
+  margin-top: 6px;
+}
+
+.form_controls > * {
+  margin: 0 5px 0 5px;
+}
+
+.buttons .reporting_button:hover {
+  background-color: #24B3E7;
+}
+
+.buttons .reporting_button * em {
+  color: white;
+  display: block;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 17px;
+}
+
+.buttons .reporting_button > * {
+  display: inline-block;
+  margin: 0px;
+}
+
+.saved_queries .reporting_button {
+  float: left;
+  margin: 2px;
+}
+
+.buttons .button {
+  border: none;
+  cursor: pointer;
+  margin: 0px;
+  margin-right: 4px;
+  overflow: visible;
+  text-align: center;
+  white-space: nowrap;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 4px;
+}
+
+.buttons .apply {
+  background-color: #008BD0;
+}
+
+.buttons .apply:hover {
+  background-color: #24B3E7;
+}
+
+.buttons .secondary {
+  background-color: #9a9a9a;
+}
+
+.buttons .secondary:hover {
+  background-color: #666666;
+}
+
+.buttons .button span em {
+  color: white;
+  display: block;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 17px;
+}
+
+.buttons .button span {
+  display: inline-block;
+  margin: 3px;
+}
+
+
+.buttons .button-icon {
+  padding: 0px 5px 0 16px;
+  cursor: pointer;
+  background: no-repeat left center;
+  border-style: none;
+  display: inline-block;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.button .icon-save {
+  background-image: url(../images/disk.gif);
+}
+
+.button .icon-save-as {
+  background-image: url(../images/disks.gif);
+}
+
+.button .icon-delete {
+  background-image: url(../images/delete.gif);
+}
+
+.button .icon-clear {
+  background-image: url(../images/remove.gif);
+}
+
+div.button_form {
+  /* TODO IE Compatibility! */
+  background-color: white;
+  border: 1px solid gray;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  left: 100px;
+  position: absolute;
+  padding: 5px;
+}
+
+div.button_form * input#name {
+  width: 200px
+}
+
+div.button_form * input[type="button"] {
+  float: right;
+} br { clear: right; }
+
+div.button_form p * {
+  margin: 2px;
+}
+
+/***** Save and Delete Reports ****/
+#save_as_form, #delete_form {
+  z-index: 999;
+}
+
+#progressbar, .hidden {
+  display: none;
+}
+
+#progressbar_container {
+  width: 300px;
+  height: 16px;
+  border: 1px solid #ccc;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  background-color: #9A9A9A;
+  background-repeat: repeat-x;
+}
+
+#progressbar_container div {
+    background-color:#fff;
+}
+
+/***** Ajax indicator ******/
+#ajax-indicator {
+  font-family: Verdana, sans-serif;
+  position: absolute; /* fixed not supported by IE */
+  background-color:#eee;
+  border: 1px solid #bbb;
+  top:35%;
+  left:40%;
+  width:20%;
+  font-weight:bold;
+  text-align:center;
+  padding:0.6em;
+  z-index:100;
+  filter:alpha(opacity=50);
+  opacity: 0.5;
+  line-height: 10px;
+  font-size: 18px;
+}
+
+html>body #ajax-indicator { position: fixed; }
+
+#ajax-indicator span {
+  background-position: 0% 40%;
+  background-repeat: no-repeat;
+  background-image: url(../images/loading.gif);
+  padding-left: 26px;
+  vertical-align: bottom;
+}
+
+/* Calendar Fixes */
+div.calendar /* let calendar expand properly */
+{
+  font-size: medium;
+  line-height: normal;
+}
+
+div.calendar table div { /* make sure the nested divs are large enough, too */
+  font-size: medium;
+  line-height: normal;
+}
+
+.calendar .combo .label, .calendar .combo .label-IEfix { /* set the proper size for the combo boxes with months and years */
+  font-size: 10px;
+  line-height: normal;
+}
+
+.calendar tbody .day { /* avoid jitter during quick mouse-overs over days */
+  border: 1px dotted transparent;
+  padding: 1px 3px 1px 1px;
+}
+
+/* Accessibility specific styles */
+fieldset#filters table td > label.hidden-for-sighted, .hidden-for-sighted {
+  position:absolute;
+  left:-10000px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
+

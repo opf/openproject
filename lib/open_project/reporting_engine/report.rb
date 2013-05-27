@@ -1,4 +1,4 @@
-require 'reporting_engine/engine'
+require_dependency 'open_project/reporting_engine/engine_module'
 
 class Report < ActiveRecord::Base
   extend ProactiveAutoloader

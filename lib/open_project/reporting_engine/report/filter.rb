@@ -2,8 +2,8 @@ require "set"
 
 class Report::Filter
   extend ProactiveAutoloader
-  autoload :Base, 'reporting_engine/report/filter/base'
-  autoload :NoFilter, 'reporting_engine/report/filter/no_filter'
+  autoload :Base, 'open_project/reporting_engine/report/filter/base'
+  autoload :NoFilter, 'open_project/reporting_engine/report/filter/no_filter'
 
   def self.all
     @all ||= Set[]
