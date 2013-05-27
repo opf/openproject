@@ -3,19 +3,12 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, :reporting_query_helper => true do
   minimal_query
 
-  fixtures :users
-  fixtures :cost_types
-  fixtures :cost_entries
-  fixtures :rates
-  fixtures :projects
-  fixtures :issues
-  fixtures :trackers
-  fixtures :time_entries
-  fixtures :enumerations
-  fixtures :issue_statuses
-  fixtures :roles
-  fixtures :issue_categories
-  fixtures :versions
+  before do
+    FactoryGirl.create(:admin)
+    project = FactoryGirl.create(:project_with_trackers)
+    issue = FactoryGirl.create(:issue, project: project)
+    FactoryGirl.create(:time_entry, issue: issue, project: project)
+  end
 
   describe CostQuery::Transformer do
     it "should walk down row_first" do
