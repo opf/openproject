@@ -55,12 +55,18 @@ module Redmine::MenuManager::MenuHelper
     Redmine::MenuManager.items(menu_name).size > 1 # 1 element is the root
   end
 
-  def render_menu(menu, project=nil)
-    links = []
-    menu_items_for(menu, project) do |node|
-      links << render_menu_node(node, project)
+  def render_menu(menu, locals = {})
+    # support both the old and the new signature
+    # old: (menu, project=nil)
+    project = locals.is_a?(Project) ?
+                locals :
+                locals[:project]
+
+
+    links = menu_items_for(menu, project).map do |node|
+      render_menu_node(node, locals)
     end
-    debugger if menu == :issues_show
+
     links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, :class => "menu_root")
   end
 
@@ -90,30 +96,41 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  def render_menu_node(node, project=nil)
+  def render_menu_node(node, locals = {})
+    # support both the old and the new interface
+    project = locals.is_a?(Project) ?
+                locals :
+                locals[:project]
+
     return "" if project and not allowed_node?(node, User.current, project)
     if node.has_children? || !node.child_menus.nil?
-      render_menu_node_with_children(node, project)
+      render_menu_node_with_children(node, locals)
     else
       caption, url, selected = extract_node_details(node, project)
-      content_tag('li', render_single_menu_node(node, caption, url, selected))
+
+      content_tag('li', render_single_menu_node(node, caption, url, selected, locals))
     end
   end
 
-  def render_menu_node_with_children(node, project=nil)
+  def render_menu_node_with_children(node, locals = {})
+    # support both the old and the new interface
+    project = locals.is_a?(Project) ?
+                locals :
+                locals[:project]
+
     caption, url, selected = extract_node_details(node, project)
 
     content_tag :li do
       # Standard children
       standard_children_list = node.children.collect do |child|
-                                 render_menu_node(child, project)
+                                 render_menu_node(child, locals)
                                end.join.html_safe
 
       # Unattached children
-      unattached_children_list = render_unattached_children_menu(node, project)
+      unattached_children_list = render_unattached_children_menu(node, locals)
 
       # Parent
-      node = [render_single_menu_node(node, caption, url, selected)]
+      node = [render_single_menu_node(node, caption, url, selected, locals)]
 
       # add children
       node << content_tag(:ul, standard_children_list, :class => 'menu-children') unless standard_children_list.empty?
@@ -140,12 +157,18 @@ module Redmine::MenuManager::MenuHelper
     end.html_safe
   end
 
-  def render_single_menu_node(item, caption, url, selected)
+  def render_single_menu_node(item, caption, url, selected, locals)
     link_text    = you_are_here_info(selected) + caption
-    html_options = item.html_options(:selected => selected)
-    html_options[:title] = caption
 
-    link_to link_text, url, html_options
+    if item.block
+      item.block.call locals
+    else
+
+      html_options = item.html_options(:selected => selected)
+      html_options[:title] = caption
+
+      link_to link_text, url, html_options
+    end
   end
 
   def render_unattached_menu_item(menu_item, project)
@@ -160,6 +183,12 @@ module Redmine::MenuManager::MenuHelper
 
   def menu_items_for(menu, project=nil)
     items = []
+
+    # TODO: have an explicit method for querying for undefined menus
+    if Redmine::MenuManager.items(menu).children.size == 0
+      require Rails.root.join("app/widgets/menus/#{menu}")
+    end
+
     Redmine::MenuManager.items(menu).root.children.each do |node|
       if allowed_node?(node, User.current, project)
         if block_given?
@@ -197,6 +226,15 @@ module Redmine::MenuManager::MenuHelper
     if node.condition && !node.condition.call(project)
       # Condition that doesn't pass
       return false
+    end
+
+    # TODO: get a better mechanism
+    if node.block
+      return true
+    end
+
+    if node.url.empty?
+      return true
     end
 
     if project

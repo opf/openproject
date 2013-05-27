@@ -10,7 +10,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= render_menu(:issues_show) %>
+<%= render_menu(:'issues/show', :project => @project, :issue => @issue, :controller => self.controller) %>
 
 <%= render :partial => 'action_menu' %>
 
