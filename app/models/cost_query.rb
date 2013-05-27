@@ -1,4 +1,4 @@
-require 'reporting_engine/report'
+require 'open_project/reporting_engine/report'
 
 class CostQuery < Report
   def_delegators :result, :real_costs
