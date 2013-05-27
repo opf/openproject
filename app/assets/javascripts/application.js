@@ -819,7 +819,7 @@ jQuery(document).ready(function($) {
 
 
 	// open and close the main-menu sub-menus
-	$("#main-menu li:has(ul) > a").not("ul ul a")
+	$("#main-menu li:has(ul) > a, .action_menu_main li:has(ul) > a").not("ul ul a")
 		.append("<span class='toggler'></span>")
 		.click(function() {
 
@@ -889,7 +889,7 @@ $(window).bind('resizeEnd', function() {
     jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize();
 });
 
-	$("#main-menu li:has(ul) > a").not("ul ul a")
+	$("#main-menu li:has(ul) > a, .action_menu_main li:has(ul) > a").not("ul ul a")
 		// 1. unbind the current click functions
 		.unbind("click")
 		// 2. wrap each in a span that we'll use for the new click element

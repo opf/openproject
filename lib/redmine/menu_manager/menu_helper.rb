@@ -62,12 +62,25 @@ module Redmine::MenuManager::MenuHelper
                 locals :
                 locals[:project]
 
-
     links = menu_items_for(menu, project).map do |node|
       render_menu_node(node, locals)
     end
 
     links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, :class => "menu_root")
+  end
+
+  def render_action_menu(menu, locals = {})
+    # support both the old and the new signature
+    # old: (menu, project=nil)
+    project = locals.is_a?(Project) ?
+                locals :
+                locals[:project]
+
+    links = menu_items_for(menu, project).map do |node|
+      render_menu_node(node, locals)
+    end
+
+    links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, :class => "menu_root action_menu_main")
   end
 
   def render_drop_down_menu_node(label, items_or_options_with_block = nil, html_options = {}, &block)

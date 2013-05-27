@@ -6,11 +6,12 @@ module Menus
         menu.push :edit, { :controller => '/issues',
                            :action => 'edit',
                            :id => @issue }
+
         menu.push :watch do |locals|
           Helper.new(locals[:controller]).link_for_watching(locals[:issue], locals[:project])
         end
 
-        menu.push :more_functions, {}, :if => Proc.new{ |p| true }, :class => 'drop-down'
+        menu.push :more_functions, {}, :if => Proc.new{ |p| true }, :class => 'drop-down action_menu_more'
 
         menu.push :log_time, { :controller => '/timelog', :action => 'new', :issue_id => @issue },
                              :class => 'icon icon-time-add',

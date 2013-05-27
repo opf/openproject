@@ -10,9 +10,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= render_menu(:'issues/show', :project => @project, :issue => @issue, :controller => self.controller) %>
+<%= render_action_menu(:'issues/show', :project => @project, :issue => @issue, :controller => self.controller) %>
 
-<%= render :partial => 'action_menu' %>
+<%#= render :partial => 'action_menu' %>
 
 <% breadcrumb_paths(*[link_to(l(:label_issue_plural), {:controller => '/issues', :action => 'index'})] << @ancestors.collect {|parent| link_to '#' + h(parent.id), {:controller => '/issues', :action => 'show', :id => parent}}) unless @ancestors.empty? %>
 
