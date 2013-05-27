@@ -286,7 +286,7 @@ module IssuesHelper
   end
 
   def entries_for_filter_select_sorted(query)
-    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || l(("field_"+field[0].to_s.gsub(/_id$/, "")).to_sym), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
+    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || Issue.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
       ActiveSupport::Inflector.transliterate(el[0]).downcase
     end
   end
