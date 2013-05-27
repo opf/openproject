@@ -109,36 +109,26 @@ describe CostQuery, :reporting_query_helper => true do
 
     it "filters user_id" do
       old_user = User.current
-      User.current = User.all.detect {|u| !u.anonymous?} # for any not anonym user we have at least one available_value
-      val = CostQuery::Filter::UserId.available_values.first[1].to_i
-      create_issues_and_time_entries_for(user, )
-      @query.filter :user_id, :value => val, :operator => '='
-      @query.result.count.should == Entry.all.select { |e| e.user_id == val }.count
-      User.current = old_user
+      # create non-matching entry
+      anonymous = FactoryGirl.create(:anonymous)
+      create_issue_with_time_entry({}, {:user => anonymous})
+      # create matching entry
+      create_issue_with_time_entry()
+      @query.filter :user_id, :value => user.id, :operator => '='
+      @query.result.count.should == 1
     end
 
     describe "issue-based filters" do
-      # Create an object, assign it to an issue attribute and create cost
-      # entries assigned to the issue.
-      # Params:
-      # [factory_or_object] object factory name
-      # [issue_field] the issue field, the object should be assigned to
-      # [entry_count] the number of time entries to create
-      # [object_params] optional parameters given to the object factory
-      def create_issues_and_time_entries_for(object, issue_field, entry_count, *args)
-        FactoryGirl.create_list(:issue, entry_count, issue_field => object,
-                                           :project => project).each do |issue|
-          FactoryGirl.create(:cost_entry, :issue => issue,
-                                          :project => project,
-                                          :user => user)
+      def create_issues_and_time_entries(entry_count, issue_params={}, entry_params={})
+        entry_count.times do
+          create_issue_with_entry(:cost_entry, issue_params, entry_params)
         end
-        object
       end
 
       def create_matching_object_with_time_entries(factory, issue_field, entry_count)
-        create_issues_and_time_entries_for(FactoryGirl.create(factory),
-                                           issue_field,
-                                           entry_count)
+        object = FactoryGirl.create(factory)
+        create_issues_and_time_entries(entry_count, {issue_field => object})
+        object
       end
 
       it "filters overridden_costs" do
@@ -148,14 +138,15 @@ describe CostQuery, :reporting_query_helper => true do
 
       it "filters status" do
         matching_status = FactoryGirl.create(:issue_status, :is_closed => true)
-        create_issues_and_time_entries_for(matching_status, :status, 3)
+        create_issues_and_time_entries(3, :status => matching_status)
         @query.filter :status_id, :operator => 'c'
         @query.result.count.should == 3
       end
 
       it "filters tracker" do
-        matching_tracker = create_matching_object_with_time_entries(:tracker, :tracker, 3)
-        @query.filter :tracker_id, :operator => '=', :value => Tracker.all.first.id
+        matching_tracker = project.trackers.first
+        create_issues_and_time_entries(3, :tracker => matching_tracker)
+        @query.filter :tracker_id, :operator => '=', :value => matching_tracker.id
         @query.result.count.should == 3
       end
 
@@ -185,7 +176,7 @@ describe CostQuery, :reporting_query_helper => true do
 
       it "filters target version" do
         matching_version = FactoryGirl.create(:version, :project => project)
-        create_issues_and_time_entries_for(matching_version, :fixed_version, 3)
+        create_issues_and_time_entries(3, :fixed_version => matching_version)
 
         @query.filter :fixed_version_id, :operator => '=', :value => matching_version.id
         @query.result.count.should == 3
