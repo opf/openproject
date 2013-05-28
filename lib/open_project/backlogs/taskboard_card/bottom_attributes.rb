@@ -34,7 +34,7 @@ module OpenProject::Backlogs::TaskboardCard
 
       def render_assigned_to(pdf, issue, options)
 
-        assigned_to = "#{l(:field_assigned_to)}: #{issue.assigned_to ? issue.assigned_to : "-"}"
+        assigned_to = "#{Issue.human_attribute_name(:assigned_to)}: #{issue.assigned_to ? issue.assigned_to : "-"}"
 
         text_box(pdf,
                  assigned_to,
@@ -45,7 +45,7 @@ module OpenProject::Backlogs::TaskboardCard
 
       def render_category(pdf, issue, options)
 
-        category = "#{l(:field_category)}: #{issue.category ? issue.category : "-"}"
+        category = "#{Issue.human_attribute_name(:category)}: #{issue.category ? issue.category : "-"}"
 
         text_box(pdf,
                  category,
