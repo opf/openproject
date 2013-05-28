@@ -55,16 +55,20 @@ module OpenProject::Costs::Patches::IssuesControllerPatch
             CostEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
           end
         else
-          unless params[:format] == 'xml'
-            # display the destroy form if it's a user request
-            return
-          end
+          # display the destroy form if it's a user request
+          return unless api_request?
         end
       end
-      @issues.each(&:destroy)
+      @issues.each do |issue|
+        begin
+          issue.reload.destroy
+        rescue ::ActiveRecord::RecordNotFound # raised by #reload if issue no longer exists
+          # nothing to do, issue was already deleted (eg. by a parent)
+        end
+      end
       respond_to do |format|
         format.html { redirect_to :action => 'index', :project_id => @project }
-        format.xml  { head :ok }
+        format.api  { head :ok }
       end
     end
   end
