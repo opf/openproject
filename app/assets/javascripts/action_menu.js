@@ -32,9 +32,12 @@ jQuery(function ($) {
 
   function close_menu(event) {
     var menu = $(event.data.menu);
-    menu.find(" > li.drop-down.open").removeClass("open").find("> ul").slideUp(animationSpeed);
-    // no need to watch for clicks, when the menu is already closed
-    $('html').off('click', close_menu);
+    // do not close the menu, if the user accidentally clicked next to a menu item (but still within the menu)
+    if ( event.target !== menu.find(" > li.drop-down.open > ul").get(0)) {
+      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").slideUp(animationSpeed);
+      // no need to watch for clicks, when the menu is already closed
+      $('html').off('click', close_menu);
+    };
   };
 
   function open_menu(menu) {
