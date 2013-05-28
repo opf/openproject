@@ -113,4 +113,16 @@ describe User do
     it { @u.valid?.should be_false }
     it { @u.errors[:password].should include I18n.t('activerecord.errors.messages.too_short', :count => Setting.password_min_length.to_i) }
   end
+
+  describe '#random_password' do
+    before do
+      @u = User.new
+      @u.password.should be_nil
+      @u.password_confirmation.should be_nil
+      @u.random_password
+    end
+
+    it { @u.password.should_not be_blank }
+    it { @u.password_confirmation.should_not be_blank }
+  end
 end

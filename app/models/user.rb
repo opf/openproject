@@ -294,13 +294,10 @@ class User < Principal
     return auth_source.allow_password_changes?
   end
 
-  # Generate and set a random password.  Useful for automated user creation
-  # Based on Token#generate_token_value
-  #
+  # Generate and set a random password.
   def random_password
     chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-    password = ''
-    40.times { |i| password << chars[rand(chars.size-1)] }
+    password = chars.shuffle[0,40].join
     self.password = password
     self.password_confirmation = password
     self
