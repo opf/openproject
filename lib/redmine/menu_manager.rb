@@ -13,42 +13,61 @@
 require 'redmine/menu_manager/menus'
 
 module Redmine::MenuManager
-  def self.map(menu_name, &menu_builder)
-    @menu_builder_queues ||= {}
-    current_queue = @menu_builder_queues[menu_name.to_sym] ||= []
 
-    if menu_builder
-      current_queue.push menu_builder
-    else
-      MapDeferrer.new current_queue
-    end
+  def self.map(menu_name, &menu_block)
+    push menu_name, permanent_build_queue(menu_name), &menu_block
   end
 
-  def self.loose(menu_name, &menu_builder)
-    @temp_menu_builder_queues ||= {}
-    current_queue = @temp_menu_builder_queues[menu_name.to_sym] ||= []
-
-    if menu_builder
-      current_queue.push menu_builder
-    else
-      MapDeferrer.new current_queue
-    end
+  def self.loose(menu_name, &menu_block)
+    push menu_name, temporary_build_queue(menu_name), &menu_block
   end
 
   def self.items(menu_name)
     items = {}
 
-    potential_items = @menu_builder_queues[menu_name.to_sym] || []
-    potential_items += @temp_menu_builder_queues[menu_name.to_sym] if @temp_menu_builder_queues and @temp_menu_builder_queues[menu_name.to_sym]
+    potential_items = permanent_build_queue(menu_name)
+    potential_items += temporary_build_queue(menu_name)
 
-    @temp_menu_builder_queues = {}
+    reset_temporary_build_queues
 
     mapper = Mapper.new(menu_name.to_sym, items)
 
-    potential_items.each do |menu_builder|
-      menu_builder.call(mapper)
+    potential_items.each do |menu_block|
+      menu_block.call(mapper)
     end
 
     items[menu_name.to_sym] || Redmine::MenuManager::TreeNode.new(:root, {})
+  end
+
+  private
+
+  class << self
+    attr_accessor :menu_builder_queues, :temp_menu_builder_queues
+  end
+
+  private
+
+  def self.permanent_build_queue(menu_name)
+    self.menu_builder_queues ||= {}
+
+    self.menu_builder_queues[menu_name] ||= []
+  end
+
+  def self.temporary_build_queue(menu_name)
+    self.temp_menu_builder_queues ||= {}
+
+    self.temp_menu_builder_queues[menu_name] ||= []
+  end
+
+  def self.reset_temporary_build_queues
+    self.temp_menu_builder_queues = {}
+  end
+
+  def self.push(menu_name, queue, &menu_block)
+    if menu_block
+      queue.push menu_block
+    else
+      MapDeferrer.new queue
+    end
   end
 end
