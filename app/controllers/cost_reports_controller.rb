@@ -34,13 +34,14 @@ class CostReportsController < ApplicationController
   # Checks if custom fields have been updated, added or removed since we
   # last saw them, to rebuild the filters and group bys.
   # Called once per request.
-  def check_cache
+  def check_cache(force_update=false)
     custom_fields_updated_on = IssueCustomField.maximum(:updated_at)
     custom_fields_id_sum = IssueCustomField.sum(:id) + IssueCustomField.count
 
-    if custom_fields_updated_on && custom_fields_id_sum
-      if self.class.custom_fields_updated_on != custom_fields_updated_on ||
-            self.class.custom_fields_id_sum != custom_fields_id_sum
+    if force_update or (custom_fields_updated_on && custom_fields_id_sum)
+      if force_update or (
+          self.class.custom_fields_updated_on != custom_fields_updated_on ||
+          self.class.custom_fields_id_sum != custom_fields_id_sum)
 
         self.class.custom_fields_updated_on = custom_fields_updated_on
         self.class.custom_fields_id_sum = custom_fields_id_sum
