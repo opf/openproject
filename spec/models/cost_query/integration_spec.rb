@@ -3,28 +3,27 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, :reporting_query_helper => true do
   minimal_query
 
-  fixtures :users
-  fixtures :cost_types
-  fixtures :cost_entries
-  fixtures :rates
-  fixtures :projects
-  fixtures :issues
-  fixtures :trackers
-  fixtures :time_entries
-  fixtures :enumerations
-  fixtures :issue_statuses
-  fixtures :roles
-  fixtures :issue_categories
-  fixtures :versions
+  let!(:project1){ FactoryGirl.create(:project_with_trackers) }
+  let!(:issue1) { FactoryGirl.create(:issue, project: project1) }
+  let!(:time_entry1) { FactoryGirl.create(:time_entry, issue: issue1, project: project1) }
+  let!(:time_entry2) { FactoryGirl.create(:time_entry, issue: issue1, project: project1) }
+
+  let!(:project2) { FactoryGirl.create(:project_with_trackers) }
+  let!(:issue2) { FactoryGirl.create(:issue, project: project2) }
+  let!(:time_entry3) { FactoryGirl.create(:time_entry, issue: issue2, project: project2) }
+  let!(:time_entry4) { FactoryGirl.create(:time_entry, issue: issue2, project: project2) }
+
+  before do
+    FactoryGirl.create(:admin)
+  end
 
   describe "the reporting system" do
     it "should compute group_by and a filter" do
       @query.group_by :project_id
       @query.filter :status_id, :operator => 'o'
       sql_result = @query.result
-      ruby_result = Entry.all.select { |e| ! e.issue.status.is_closed? }.group_by { |e| e.project_id }
 
-      sql_result.size.should == ruby_result.size
+      sql_result.size.should == 2
       #for each project the number of entries should be correct
       sql_count = []
       sql_result.each do |sub_result|
@@ -32,21 +31,16 @@ describe CostQuery, :reporting_query_helper => true do
         sub_result.fields.should include(:project_id)
         sql_count.push sub_result.count
       end
-      ruby_count = []
-      ruby_result.each do |sub_result_array|
-        ruby_count.push sub_result_array.second.size
-      end
-      sql_count.sort.should == ruby_count.sort
+      sql_count.sort.should == [2, 2]
     end
 
     it "should apply two filter and a group_by correctly" do
-      @query.filter :project_id, :operator => '=', :value => [1, 2, 3, 4, 5]
+      @query.filter :project_id, :operator => '=', :value => [project1.id]
       @query.group_by :user_id
       @query.filter :overridden_costs, :operator => 'n'
 
       sql_result = @query.result
-      ruby_result = Entry.all.select { |e| e.project_id > 0 && e.project_id < 6 && e.overridden_costs == nil }.group_by { |e| e.user_id }
-      sql_result.size.should == ruby_result.size
+      sql_result.size.should == 2
       #for each user the number of entries should be correct
       sql_count = []
       sql_result.each do |sub_result|
@@ -54,20 +48,15 @@ describe CostQuery, :reporting_query_helper => true do
         sub_result.fields.should include(:user_id)
         sql_count.push sub_result.count
       end
-      ruby_count = []
-      ruby_result.each do |sub_result_array|
-        ruby_count.push sub_result_array.second.size
-      end
-      sql_count.sort.should == ruby_count.sort
+      sql_count.sort.should == [1, 1]
     end
 
-    it "should apply two different filter on the same field" do
-      @query.filter :project_id, :operator => '=', :value => [1, 2, 3, 4, 5]
-      @query.filter :project_id, :operator => '!', :value => [2, 5]
+    it "should apply two different filters on the same field" do
+      @query.filter :project_id, :operator => '=', :value => [project1.id, project2.id]
+      @query.filter :project_id, :operator => '!', :value => [project2.id]
 
       sql_result = @query.result
-      ruby_result = Entry.all.select { |e| e.project_id == 1 || e.project_id == 3 || e.project_id == 4 }
-      sql_result.count.should == ruby_result.size
+      sql_result.count.should == 2
     end
 
     it "should process only _one_ SQL query for any operations on a valid CostQuery" do

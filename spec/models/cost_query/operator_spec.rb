@@ -3,19 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, :reporting_query_helper => true do
   minimal_query
 
-  fixtures :users
-  fixtures :cost_types
-  fixtures :cost_entries
-  fixtures :rates
-  fixtures :projects
-  fixtures :issues
-  fixtures :trackers
-  fixtures :time_entries
-  fixtures :enumerations
-  fixtures :issue_statuses
-  fixtures :roles
-  fixtures :issue_categories
-  fixtures :versions
+  let!(:project1) { FactoryGirl.create(:project, name: "project1", created_on: Time.now - 1) }
+  let!(:project2) { FactoryGirl.create(:project, name: "project2", created_on: Time.now - 2) }
 
   describe CostQuery::Operator do
     def query(table, field, operator, *values)
@@ -28,7 +17,7 @@ describe CostQuery, :reporting_query_helper => true do
     def query_on_entries(field, operator, *values)
       sql = CostQuery::SqlStatement.for_entries
       operator.to_operator.modify sql, field, *values
-      result = ActiveRecord::Base.connection.select_all sql.to_s
+      ActiveRecord::Base.connection.select_all sql.to_s
     end
 
     def create_project(options = {})
@@ -39,11 +28,11 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     it "does =" do
-      query('projects', 'id', '=', 1).size.should == 1
+      query('projects', 'id', '=', project1.id).size.should == 1
     end
 
     it "does = for multiple values" do
-      query('projects', 'id', '=', 1, 2).size.should == 2
+      query('projects', 'id', '=', project1.id, project2.id).size.should == 2
     end
 
     it "does = for no values" do
@@ -58,19 +47,19 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     it "does <=" do
-      query('projects', 'id', '<=', Project.count - 1).size.should == Project.count - 1
+      query('projects', 'id', '<=', project2.id - 1).size.should == 1
     end
 
     it "does >=" do
-      query('projects', 'id', '>=', Project.first(:order => "id ASC").id + 1).size.should == Project.count - 1
+      query('projects', 'id', '>=', project1.id + 1).size.should == 1
     end
 
     it "does !" do
-      query('projects', 'id', '!', 1).size.should == Project.count - 1
+      query('projects', 'id', '!', project1.id).size.should == 1
     end
 
     it "does ! for multiple values" do
-      query('projects', 'id', '!', 1, 2).size.should == Project.count - 2
+      query('projects', 'id', '!', project1.id, project2.id).size.should == 0
     end
 
     it "does !*" do
@@ -172,55 +161,46 @@ describe CostQuery, :reporting_query_helper => true do
 
     #Our own operators
     it "does =_child_projects" do
-      n = query('projects', 'id', '=_child_projects', 1).size
-      p = Project.find(1)
-      n.should == 1 + p.descendants.size
-      p_c1 = create_project :parent => p
-      query('projects', 'id', '=_child_projects', 1).size.should == n + 1
+      query('projects', 'id', '=_child_projects', project1.id).size.should == 1
+      p_c1 = create_project :parent => project1
+      query('projects', 'id', '=_child_projects', project1.id).size.should == 2
       create_project :parent => p_c1
-      query('projects', 'id', '=_child_projects', 1).size.should == n + 2
+      query('projects', 'id', '=_child_projects', project1.id).size.should == 3
     end
 
     it "does =_child_projects on multiple projects" do
-      p1 = create_project
-      p2 = create_project
-      query('projects', 'id', '=_child_projects', p1.id, p2.id).size.should == 2
-      p1_c1 = create_project :parent => p1
-      p2_c1 = create_project :parent => p2
-      query('projects', 'id', '=_child_projects', p1.id, p2.id).size.should == 4
+      query('projects', 'id', '=_child_projects', project1.id, project2.id).size.should == 2
+      p1_c1 = create_project :parent => project1
+      p2_c1 = create_project :parent => project2
+      query('projects', 'id', '=_child_projects', project1.id, project2.id).size.should == 4
       p1_c1_c1 = create_project :parent => p1_c1
       create_project :parent => p1_c1_c1
       create_project :parent => p2_c1
-      query('projects', 'id', '=_child_projects', p1.id, p2.id).size.should == 7
+      query('projects', 'id', '=_child_projects', project1.id, project2.id).size.should == 7
     end
 
     it "does !_child_projects" do
-      p = create_project
-      n = query('projects', 'id', '!_child_projects', p.id).size
-      n.should == Project.all.size - 1
-      p_c1 = create_project :parent => p
-      query('projects', 'id', '!_child_projects', p.id).size.should == n
-      create_project :parent => p
+      query('projects', 'id', '!_child_projects', project1.id).size.should == 1
+      p_c1 = create_project :parent => project1
+      query('projects', 'id', '!_child_projects', project1.id).size.should == 1
+      create_project :parent => project1
       create_project :parent => p_c1
-      query('projects', 'id', '!_child_projects', p.id).size.should == n
+      query('projects', 'id', '!_child_projects', project1.id).size.should == 1
       create_project
-      query('projects', 'id', '!_child_projects', p.id).size.should == n + 1
+      query('projects', 'id', '!_child_projects', project1.id).size.should == 2
     end
 
     it "does !_child_projects on multiple projects" do
-      n = Project.all.size
-      p1 = create_project
-      p2 = create_project
-      query('projects', 'id', '!_child_projects', p1.id, p2.id).size.should == n
-      p1_c1 = create_project :parent => p1
-      p2_c1 = create_project :parent => p2
+      query('projects', 'id', '!_child_projects', project1.id, project2.id).size.should == 0
+      p1_c1 = create_project :parent => project1
+      p2_c1 = create_project :parent => project2
       create_project
-      query('projects', 'id', '!_child_projects', p1.id, p2.id).size.should == n + 1
+      query('projects', 'id', '!_child_projects', project1.id, project2.id).size.should == 1
       p1_c1_c1 = create_project :parent => p1_c1
       create_project :parent => p1_c1_c1
       create_project :parent => p2_c1
       create_project
-      query('projects', 'id', '!_child_projects', p1.id, p2.id).size.should == n + 2
+      query('projects', 'id', '!_child_projects', project1.id, project2.id).size.should == 2
     end
 
     it "does =n" do

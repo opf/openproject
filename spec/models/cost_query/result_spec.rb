@@ -1,22 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery, :reporting_query_helper => true do
-  before { User.current = users(:admin) }
-  minimal_query
+  before do
+    FactoryGirl.create(:admin)
+    project = FactoryGirl.create(:project_with_trackers)
+    issue = FactoryGirl.create(:issue, project: project)
+    FactoryGirl.create(:time_entry, issue: issue, project: project)
+    FactoryGirl.create(:cost_entry, issue: issue, project: project)
+  end
 
-  fixtures :users
-  fixtures :cost_types
-  fixtures :cost_entries
-  fixtures :rates
-  fixtures :projects
-  fixtures :issues
-  fixtures :trackers
-  fixtures :time_entries
-  fixtures :enumerations
-  fixtures :issue_statuses
-  fixtures :roles
-  fixtures :issue_categories
-  fixtures :versions
+  minimal_query
 
   describe CostQuery::Result do
     def direct_results(quantity = 0)
@@ -103,8 +96,8 @@ describe CostQuery, :reporting_query_helper => true do
       id_sorted = @query.result.values.sort_by { |r| r[:id] }
       te_result = id_sorted.select { |r| r[:type]==TimeEntry.to_s }.first
       ce_result = id_sorted.select { |r| r[:type]==CostEntry.to_s }.first
-      te_result.units.should == TimeEntry.all.first.hours
-      ce_result.units.should == CostEntry.all(:order => "id ASC").first.units
+      te_result.units.to_s.should == "1.0"
+      ce_result.units.to_s.should == "1.0"
     end
 
     it "should compute real_costs for DirectResults" do
