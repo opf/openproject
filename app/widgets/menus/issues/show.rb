@@ -5,37 +5,48 @@ module Menus
       Redmine::MenuManager.map :'issues/show' do |menu|
         menu.push :edit, { :controller => '/issues',
                            :action => 'edit',
-                           :id => @issue }
+                           :id => @issue },
+                         :html => { :class => 'edit icon icon-edit' }
 
         menu.push :watch, {}, {}, Watch.new
 
-        menu.push :more_functions, {}, :if => Proc.new{ |p| true }, :class => 'drop-down action_menu_more'
+        menu.push :more_functions, {},
+                                   :caption => :more_actions,
+                                   :if => Proc.new{ |p| true },
+                                   :html => { :class => 'drop-down action_menu_more icon icon-more' }
 
         menu.push :log_time, { :controller => '/timelog', :action => 'new', :issue_id => @issue },
-                             :class => 'icon icon-time-add',
+                             :html => { :class => 'icon icon-time-add' },
+                             :caption => :button_log_time,
                              :parent => :more_functions
 
         menu.push(
           :duplicate,
           { :controller => '/issues', :action => 'new', :project_id => @project, :copy_from => @issue },
-          :class => 'icon icon-duplicate',
+          :html => { :class => 'icon icon-duplicate' },
           :caption => :button_duplicate,
           :parent => :more_functions)
 
         menu.push(
           :copy,
-          { :controller => '/issue_moves', :action => 'new', :id => @issue, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy',
+          { :controller => '/issue_moves', :action => 'new', :id => @issue, :copy_options => {:copy => 't'}},
+          :html => { :class => 'icon icon-copy' },
           :caption => :button_copy,
-          :parent => :more_functions)
+          :parent => :more_functions
+        )
 
         menu.push(
           :move,
           { :controller => '/issue_moves', :action => 'new', :id => @issue },
-          :class => 'icon icon-move',
+          :html => { :class => 'icon icon-move' },
           :caption => :button_move,
-          :parent => :more_functions)
+          :parent => :more_functions
+        )
 
-        menu.push :delete, {}, { :parent => :more_functions, :caption => :button_delete }, Delete.new
+        menu.push :delete, {},
+                           { :parent => :more_functions,
+                             :caption => :button_delete },
+                           Delete.new
       end
 
       class LinkCreator
