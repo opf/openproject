@@ -1101,7 +1101,7 @@ module ApplicationHelper
       });
     })
     unless User.current.pref.warn_on_leaving_unsaved == '0'
-      tags += javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
+      tags += javascript_tag("jQuery(function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
     end
 
     if User.current.impaired? and accessibility_js_enabled?
