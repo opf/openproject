@@ -7,7 +7,8 @@
 require 'cucumber/rails'
 
 require 'coveralls'
-Coveralls.wear_merged!('rails')
+require 'simplecov_openproject_profile'
+Coveralls.wear_merged!('openproject')
 
 # Load paths to ensure they are loaded before the plugin's paths.rbs.
 # Plugin's path_to functions rely on being loaded after the core's path_to

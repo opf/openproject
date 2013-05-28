@@ -298,8 +298,8 @@ GEM
     shoulda-context (1.1.2)
     shoulda-matchers (2.1.0)
       activesupport (>= 3.0.0)
-    simplecov (0.7.1)
-      multi_json (~> 1.0)
+    simplecov (0.8.0.pre)
+      multi_json
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
     slop (3.4.5)
@@ -404,6 +404,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   selenium-webdriver
   shoulda
+  simplecov (>= 0.8.pre)
   sqlite3
   sqlite3-ruby (< 1.3)
   strong_parameters

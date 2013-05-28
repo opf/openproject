@@ -4,7 +4,8 @@ require 'rubygems'
 ENV["RAILS_ENV"] ||= 'test'
 
 require 'coveralls'
-Coveralls.wear_merged!('rails')
+require 'simplecov_openproject_profile'
+Coveralls.wear_merged!('openproject')
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
