@@ -15,7 +15,7 @@ describe Redmine::MenuManager::Mapper do
       let(:block) { Proc.new { "" } }
 
       before do
-        mapper.push :test, &block
+        mapper.push :test, block
       end
 
       it "should exist" do

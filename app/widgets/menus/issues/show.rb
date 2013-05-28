@@ -8,7 +8,7 @@ module Menus
                            :id => @issue },
                          :html => { :class => 'edit icon icon-edit' }
 
-        menu.push :watch, {}, {}, Watch.new
+        menu.push :watch, Watch.new
 
         menu.push :more_functions, {},
                                    :caption => :more_actions,
@@ -43,10 +43,10 @@ module Menus
           :parent => :more_functions
         )
 
-        menu.push :delete, {},
+        menu.push :delete, Delete.new,
                            { :parent => :more_functions,
-                             :caption => :button_delete },
-                           Delete.new
+                             :caption => :button_delete }
+
       end
 
       class LinkCreator

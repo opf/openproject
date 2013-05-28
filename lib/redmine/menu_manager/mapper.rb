@@ -32,7 +32,7 @@ class Redmine::MenuManager::Mapper
   #   eg. :children => Proc.new {|project| [Redmine::MenuManager::MenuItem.new(...)] }
   # * last: menu item will stay at the end (eg. :last => true)
   # * html_options: a hash of html options that are passed to link_to
-  def push(name, url = nil, options={}, proc_block = nil, &block)
+  def push(name, url_or_block = nil, options={})
     options = options.dup
 
     if options[:parent]
@@ -47,12 +47,7 @@ class Redmine::MenuManager::Mapper
       target_root = @menu_items.root
     end
 
-    if (block_given?)
-      new_node = Redmine::MenuManager::MenuItem.new(name, url, options, &block)
-    elsif
-      new_node = Redmine::MenuManager::MenuItem.new(name, url, options, proc_block)
-    end
-
+    new_node = Redmine::MenuManager::MenuItem.new(name, url_or_block, options)
 
     # menu item position
     if first = options.delete(:first)
