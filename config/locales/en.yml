@@ -84,10 +84,6 @@ en:
   event_sprint_description: "%{summary}: %{url}\n%{description}"
   event_sprint_summary: "%{project}: %{summary}"
 
-  field_blocks_ids: "Blocks (IDs)"
-  field_children: "child issues"
-  field_display: "Column in backlog"
-
   ideal: "ideal"
 
   inclusion: "is not included in the list"
@@ -96,8 +92,10 @@ en:
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
+  label_blocks_ids: "Blocks (IDs)"
   label_burndown: "Burndown"
   label_chart_options: "Chart Options"
+  label_display: "Column in backlog"
   label_hours: "hours"
   label_issue_hierarchy: "Issue Hierarchy"
   label_master_backlog: "Master Backlog"
