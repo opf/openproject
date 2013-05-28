@@ -1,5 +1,5 @@
 require 'openproject_costs'
-require 'openproject-reportingengine'
+require 'reporting_engine'
 
 module OpenProject::Reporting
   class Engine < ::Rails::Engine
@@ -38,7 +38,7 @@ module OpenProject::Reporting
     end
 
     config.to_prepare do
-      require_dependency 'open_project/reporting_engine/widget.rb'
+      require_dependency 'reporting_engine/widget.rb'
       require_dependency 'open_project/reporting/widgets/simple_table'
       require_dependency 'open_project/reporting/widgets/entry_table'
       require_dependency 'open_project/reporting/widgets/cost_types'
