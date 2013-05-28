@@ -7,9 +7,7 @@ module Menus
                            :action => 'edit',
                            :id => @issue }
 
-        menu.push :watch do |locals|
-          Helper.new(locals[:controller]).link_for_watching(locals[:issue], locals[:project])
-        end
+        menu.push :watch, {}, {}, Watch.new
 
         menu.push :more_functions, {}, :if => Proc.new{ |p| true }, :class => 'drop-down action_menu_more'
 
@@ -37,12 +35,10 @@ module Menus
           :caption => :button_move,
           :parent => :more_functions)
 
-        menu.push :delete, {}, :parent => :more_functions, :caption => :button_delete do |locals|
-          Helper.new(locals[:controller]).link_for_deletion(locals[:issue])
-        end
+        menu.push :delete, {}, { :parent => :more_functions, :caption => :button_delete }, Delete.new
       end
 
-      class Helper
+      class LinkCreator
         include WatchersHelper
         include Rails.application.routes.url_helpers
         include Redmine::I18n
@@ -50,9 +46,22 @@ module Menus
 
         attr_reader :controller
 
-        def initialize(controller)
-          @controller = controller
+        def call(locals)
+          # this is required for generating urls
+          # as the included modules assume to be included into something responding to controller
+
+          controller = locals[:controller]
         end
+      end
+
+      class Watch < LinkCreator
+        def call(locals)
+          super
+
+          link_for_watching(locals[:issue], locals[:project])
+        end
+
+        private
 
         def link_for_watching(issue, project)
           watcher_link(issue,
@@ -60,6 +69,17 @@ module Menus
                        { :class => 'watcher_link',
                          :replace => User.current.allowed_to?(:view_issue_watchers, project) ? ['#watchers', '.watcher_link'] : ['.watcher_link'] })
         end
+      end
+
+      class Delete < LinkCreator
+
+        def call(locals)
+          super
+
+          link_for_deletion(locals[:issue])
+        end
+
+        private
 
         def link_for_deletion(issue)
           link_to l(:button_delete), { :controller => '/issues',

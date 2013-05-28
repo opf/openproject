@@ -14,7 +14,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   include Redmine::I18n
   attr_reader :name, :url, :param, :condition, :child_menus, :last, :block
 
-  def initialize(name, url, options, &block)
+  def initialize(name, url, options, proc_block = nil, &block)
     raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
     raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
     raise ArgumentError, "Cannot set the :parent to be the same as this item" if options[:parent] == name.to_sym
@@ -29,7 +29,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @html_options[:class] = [@html_options[:class], @name.to_s.dasherize, 'ellipsis'].compact.join(' ')
     @child_menus = options[:children]
     @last = options[:last] || false
-    @block = block
+    @block = block_given? ? block : proc_block
     super @name.to_sym
   end
 
