@@ -6,17 +6,17 @@ describe CostQuery, :reporting_query_helper => true do
   let!(:project) { FactoryGirl.create(:project_with_trackers) }
   let!(:user) { FactoryGirl.create(:user, :member_in_project => project) }
 
-  describe CostQuery::Filter do
-    def create_issue_with_entry(entry_type, issue_params={}, entry_params = {})
-        issue_params = {:project => project}.merge!(issue_params)
-        issue = FactoryGirl.create(:issue, issue_params)
-        entry_params = {:issue => issue,
-                        :project => issue_params[:project],
-                        :user => user}.merge!(entry_params)
-        FactoryGirl.create(entry_type, entry_params)
-        issue
-    end
+  def create_issue_with_entry(entry_type, issue_params={}, entry_params = {})
+      issue_params = {:project => project}.merge!(issue_params)
+      issue = FactoryGirl.create(:issue, issue_params)
+      entry_params = {:issue => issue,
+                      :project => issue_params[:project],
+                      :user => user}.merge!(entry_params)
+      FactoryGirl.create(entry_type, entry_params)
+      issue
+  end
 
+  describe CostQuery::Filter do
     def create_issue_with_time_entry(issue_params={}, entry_params = {})
       create_issue_with_entry(:time_entry, issue_params, entry_params)
     end
@@ -249,61 +249,53 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     describe CostQuery::Filter::CustomFieldEntries do
+      let!(:custom_field) { FactoryGirl.create(:issue_custom_field,
+                                               :name => 'My custom field') }
+
       before do
         CostQuery::Filter.all.merge CostQuery::Filter::CustomFieldEntries.all
       end
 
-      def check_cache
-        CostReportsController.new.check_cache
-        CostQuery::Filter::CustomFieldEntries.all
+      after do
+        clear_cache
       end
 
-      def create_issue_custom_field(name)
-        IssueCustomField.create(:name => name,
-          :min_length => 1,
-          :regexp => "",
-          :is_for_all => true,
-          :max_length => 100,
-          :possible_values => "",
-          :is_required => false,
-          :field_format => "string",
-          :searchable => true,
-          :default_value => "Default string",
-          :editable => true)
-        check_cache
+      def clear_cache
+        CostReportsController.new.check_cache(true)
+        CostQuery::Filter::CustomFieldEntries.all
       end
 
       def delete_issue_custom_field(name)
         IssueCustomField.find_by_name(name).destroy
-        check_cache
+        clear_cache
       end
 
       def update_issue_custom_field(name, options)
         fld = IssueCustomField.find_by_name(name)
         options.each_pair {|k, v| fld.send(:"#{k}=", v) }
         fld.save!
-        check_cache
+        clear_cache
       end
 
-      it "should create classes for custom fields" do
-        # Would raise a name error
-        CostQuery::Filter::CustomFieldSearchableField
-      end
-
-      it "should create new classes for custom fields that get added after starting the server" do
-        create_issue_custom_field("AFreshCustomField")
-        # Would raise a name error
-        CostQuery::Filter::CustomFieldAfreshcustomfield
-        delete_issue_custom_field("AFreshCustomField")
+      it "should create classes for custom fields that get added after starting the server" do
+        clear_cache
+        # Would raise a name error if class wasn't created
+        CostQuery::Filter::CustomFieldMyCustomField
       end
 
       it "should remove the custom field classes after it is deleted" do
-        create_issue_custom_field("AFreshCustomField")
+        FactoryGirl.create(:issue_custom_field, :name => "AFreshCustomField")
+        clear_cache
+        CostQuery::Filter.all.should include CostQuery::Filter::CustomFieldAfreshcustomfield
         delete_issue_custom_field("AFreshCustomField")
         CostQuery::Filter.all.should_not include CostQuery::Filter::CustomFieldAfreshcustomfield
       end
 
       it "should provide the correct available values" do
+        FactoryGirl.create(:issue_custom_field, :name => 'Database',
+                                                :field_format => "list",
+                                                :possible_values => ['value'])
+        clear_cache
         ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
         CostQuery::Operator.null_operators.each do |o|
           ao.should include o.name
@@ -311,14 +303,14 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "should update the available values on change" do
+        FactoryGirl.create(:issue_custom_field, :name => 'Database',
+                                                :field_format => "list",
+                                                :possible_values => ['value'])
         update_issue_custom_field("Database", :field_format => "string")
         ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
         CostQuery::Operator.string_operators.each do |o|
           ao.should include o.name
         end
-        # Make sure to wait long enough for the cache to be invalidated
-        # (the cache is invalidated according to custom_field.updated_at, which is precise to a second)
-        sleep 1
         update_issue_custom_field("Database", :field_format => "int")
         ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
         CostQuery::Operator.integer_operators.each do |o|
@@ -328,22 +320,42 @@ describe CostQuery, :reporting_query_helper => true do
 
       it "includes custom fields classes in CustomFieldEntries.all" do
         CostQuery::Filter::CustomFieldEntries.all.
-          should include(CostQuery::Filter::CustomFieldSearchableField)
+          should include(CostQuery::Filter::CustomFieldMyCustomField)
       end
 
       it "includes custom fields classes in Filter.all" do
-        CostQuery::Filter::CustomFieldEntries.all.
-          should include(CostQuery::Filter::CustomFieldSearchableField)
+        CostQuery::Filter.all.
+          should include(CostQuery::Filter::CustomFieldMyCustomField)
+      end
+
+      def create_searchable_fields_and_values
+        searchable_field = FactoryGirl.create(:issue_custom_field,
+                                              :field_format => "text",
+                                              :name => "Searchable Field")
+        2.times do
+          issue = create_issue_with_entry(:cost_entry)
+          FactoryGirl.create(:issue_custom_value,
+                             :custom_field => searchable_field,
+                             :customized => issue,
+                             :value => "125")
+        end
+        issue = create_issue_with_entry(:cost_entry)
+        FactoryGirl.create(:custom_value,
+                           :custom_field => searchable_field,
+                           :value => "non-matching value")
+        clear_cache
       end
 
       it "is usable as filter" do
+        create_searchable_fields_and_values
         @query.filter :custom_field_searchable_field, :operator => '=', :value => "125"
-        @query.result.count.should == 8 # see fixtures
+        @query.result.count.should == 2
       end
 
       it "is usable as filter #2" do
+        create_searchable_fields_and_values
         @query.filter :custom_field_searchable_field, :operator => '=', :value => "finnlabs"
-        @query.result.count.should == 0 # see fixtures
+        @query.result.count.should == 0
       end
     end
   end
