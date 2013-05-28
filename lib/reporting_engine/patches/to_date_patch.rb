@@ -1,6 +1,6 @@
 require 'date'
 
-module OpenProject::ReportingEngine::Patches::ToDatePatch
+module ReportingEngine::Patches::ToDatePatch
   module StringAndNil
     ::String.send(:include, self)
     ::NilClass.send(:include, self)

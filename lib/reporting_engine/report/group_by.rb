@@ -3,10 +3,10 @@ require "set"
 class Report::GroupBy
   extend ProactiveAutoloader
   include Report::QueryUtils
-  autoload :Base, 'open_project/reporting_engine/report/group_by/base'
-  autoload :RubyAggregation, 'open_project/reporting_engine/report/group_by/ruby_aggregation'
-  autoload :SingletonValue, 'open_project/reporting_engine/report/group_by/singleton_value.rb'
-  autoload :SqlAggregation, 'open_project/reporting_engine/report/group_by/sql_aggregation'
+  autoload :Base, 'reporting_engine/report/group_by/base'
+  autoload :RubyAggregation, 'reporting_engine/report/group_by/ruby_aggregation'
+  autoload :SingletonValue, 'reporting_engine/report/group_by/singleton_value.rb'
+  autoload :SqlAggregation, 'reporting_engine/report/group_by/sql_aggregation'
 
   def self.all
     Set[engine::GroupBy::SingletonValue]

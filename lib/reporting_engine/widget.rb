@@ -1,5 +1,5 @@
-require_dependency 'open_project/reporting_engine/helpers/reporting_helper'
-require_dependency 'open_project/reporting_engine/proactive_autoloader'
+require_dependency 'reporting_engine/helpers/reporting_helper'
+require_dependency 'reporting_engine/proactive_autoloader'
 
 
 class Widget < ActionView::Base

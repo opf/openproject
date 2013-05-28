@@ -1,4 +1,4 @@
-module OpenProject::ReportingEngine::Patches::BigDecimalPatch
+module ReportingEngine::Patches::BigDecimalPatch
   module BigDecimal
     ::BigDecimal.send :include, self
     def to_d; self end
