@@ -48,7 +48,7 @@
         <%= full_breadcrumb %>
       </h1>
     </div>
-    <%= javascript_tag('jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize()') %>
+    <%= javascript_tag('jQuery(function($) { $("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize(); });') %>
   </div>
 
   <% main_menu = render_main_menu(@project) %>

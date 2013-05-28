@@ -21,6 +21,7 @@
 //= require controls
 //= require i18n/translations
 //= require select2
+//= require action_menu
 //= require openproject
 //= require breadcrumb
 //= require findDomElement
@@ -752,7 +753,6 @@ jQuery(document).ready(function($) {
   };
 
 
-
 	// open and close the main-menu sub-menus
 	$("#main-menu li:has(ul) > a").not("ul ul a")
 		.append("<span class='toggler'></span>")
@@ -803,7 +803,6 @@ jQuery(document).ready(function($) {
           return false;
           });
         $("#account-nav").onClickDropDown();
-        $(".action_menu_main").onClickDropDown();
 
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
