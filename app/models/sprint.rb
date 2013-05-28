@@ -3,8 +3,6 @@ require 'date'
 class Sprint < Version
   unloadable
 
-  validate :start_and_end_dates
-
   scope :open_sprints, lambda { |project|
     {
       :order => "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC",
@@ -119,10 +117,4 @@ class Sprint < Version
     Impediment.find(:all, :conditions => {:fixed_version_id => self, :project_id => project})
   end
 
-  private
-  def start_and_end_dates
-    if self.effective_date && self.start_date && self.start_date >= self.effective_date
-      errors.add(:base, :cannot_end_before_it_starts)
-    end
-  end
 end
