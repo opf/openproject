@@ -36,6 +36,13 @@ Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
   login(username, 'admin')
 end
 
+When(/^I log me in as "(.*?)" with password "(.*?)"$/) do |username, password|
+  FactoryGirl.create :admin unless User.where(:login => 'admin').any?
+  FactoryGirl.create :anonymous unless AnonymousUser.count > 0
+  #provokes a unsuccessful login by using any username but admin
+  login(username, 'admin')
+end
+
 Given /^there is 1 [pP]roject with(?: the following)?:$/ do |table|
   p = FactoryGirl.build(:project)
   send_table_to_object(p, table)

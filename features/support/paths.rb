@@ -19,6 +19,12 @@ module NavigationHelpers
     when /^the login page$/
       '/login'
 
+    when /^the lost password page$/
+      '/account/lost_password' 
+
+     when /^the groups administration page$/
+     '/admin/groups' 
+
     when /^the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
       wiki_page = Wiki.titleize($1)
       project_identifier = $2.gsub("\"", "")
@@ -229,6 +235,9 @@ module NavigationHelpers
     when /^the admin page of the group called "([^"]*)"$/
       id = Group.find_by_lastname!($1).id
       "/admin/groups/#{id}/edit"
+
+    when /^the admin page of pending users$/
+      "/users?sort=created_on:desc&status=2"
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

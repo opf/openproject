@@ -31,7 +31,7 @@ FactoryGirl.define do
     end
 
     factory :admin do
-      firstname 'Redmine'
+      firstname 'Openproject'
       lastname 'Admin'
       login 'admin'
       password 'admin'
