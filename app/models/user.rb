@@ -93,7 +93,7 @@ class User < Principal
                         :firstname,
                         :lastname,
                         :mail,
-                        :unless => Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) }
+                        :unless => Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) || user.is_a?(SystemUser) }
 
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }, :case_sensitive => false
   validates_uniqueness_of :mail, :allow_blank => true, :case_sensitive => false
@@ -613,6 +613,24 @@ class User < Principal
       raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
     end
     anonymous_user
+  end
+
+  def self.system
+    system_user = SystemUser.find(:first)
+    if system_user.nil?
+      (system_user = SystemUser.new.tap do |u|
+        u.lastname = 'System'
+        u.login = ''
+        u.firstname = ''
+        u.mail = ''
+        u.admin = false
+        u.status = User::STATUS_LOCKED
+        u.first_login = false
+        u.random_password
+      end).save
+      raise 'Unable to create the automatic migration user.' if system_user.new_record?
+    end
+    system_user
   end
 
   # Salts all existing unsalted passwords
