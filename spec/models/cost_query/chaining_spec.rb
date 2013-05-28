@@ -3,20 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, :reporting_query_helper => true do
   minimal_query
 
-  fixtures :users
-  fixtures :cost_types
-  fixtures :cost_entries
-  fixtures :rates
-  fixtures :projects
-  fixtures :issues
-  fixtures :trackers
-  fixtures :time_entries
-  fixtures :enumerations
-  fixtures :issue_statuses
-  fixtures :roles
-  fixtures :issue_categories
-  fixtures :versions
-
   describe :chain do
     before do
       #FIXME: is there a better way to load all filter and groups?
@@ -111,15 +97,16 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     it "should initialize the chain through a block" do
+      project = FactoryGirl.create(:project)
       class TestFilter < CostQuery::Filter::Base
         def self.engine
           CostQuery
         end
-        initialize_query_with {|query| query.filter(:project_id, :value => Project.all.first.id)}
       end
+      TestFilter.send(:initialize_query_with) {|query| query.filter(:project_id, :value => project.id)}
       @query.build_new_chain
       @query.filters.collect {|f| f.class.underscore_name}.should include "project_id"
-      @query.filters.detect {|f| f.class.underscore_name == "project_id"}.values.should == Array(Project.all.first.id)
+      @query.filters.detect {|f| f.class.underscore_name == "project_id"}.values.should == Array(project.id)
     end
 
     context "store and load" do
