@@ -13,8 +13,10 @@
 #++
 
 ### From http://svn.geekdaily.org/public/rails/plugins/generally_useful/tasks/coverage_via_rcov.rake
+require 'coveralls/rake/task'
 
 namespace :test do
+
   desc 'Measures test coverage'
   task :coverage do
     rm_f "coverage"
