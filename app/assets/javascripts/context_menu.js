@@ -48,11 +48,11 @@ ContextMenu.prototype = {
 		Event.observe(document, 'contextmenu', this.RightClick.bindAsEventListener(this));
 		observingContextMenuClick = true;
 	}
-	
+
 	this.unselectAll();
 	this.lastSelected = null;
 	},
-  
+
 	RightClick: function(e) {
 		this.hideMenu();
 		// do not show the context menu on links
