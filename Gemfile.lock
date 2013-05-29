@@ -103,7 +103,14 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.2)
+    colorize (0.5.8)
     columnize (0.3.6)
+    coveralls (0.6.7)
+      colorize
+      multi_json (~> 1.3)
+      rest-client
+      simplecov (>= 0.7)
+      thor
     cucumber (1.3.2)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.3)
@@ -251,6 +258,8 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rmagick (2.13.2)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
@@ -289,6 +298,10 @@ GEM
     shoulda-context (1.1.2)
     shoulda-matchers (2.1.0)
       activesupport (>= 3.0.0)
+    simplecov (0.8.0.pre)
+      multi_json
+      simplecov-html (~> 0.7.1)
+    simplecov-html (0.7.1)
     slop (3.4.5)
     sprockets (2.2.2)
       hike (~> 1.2)
@@ -341,6 +354,7 @@ DEPENDENCIES
   capybara
   coderay (~> 1.0.5)
   coffee-rails (~> 3.2.1)
+  coveralls
   cucumber-rails
   cucumber-rails-training-wheels
   dalli
@@ -390,6 +404,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   selenium-webdriver
   shoulda
+  simplecov (>= 0.8.pre)
   sqlite3
   sqlite3-ruby (< 1.3)
   strong_parameters

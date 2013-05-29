@@ -13,6 +13,11 @@
 #++
 
 ENV["RAILS_ENV"] = "test"
+
+require 'coveralls'
+require 'simplecov_openproject_profile'
+Coveralls.wear_merged!('openproject')
+
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'fileutils'
