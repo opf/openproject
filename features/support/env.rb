@@ -4,11 +4,10 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
-require 'cucumber/rails'
-
 require 'coveralls'
 require 'simplecov_openproject_profile'
 Coveralls.wear_merged!('openproject')
+require 'cucumber/rails'
 
 # Load paths to ensure they are loaded before the plugin's paths.rbs.
 # Plugin's path_to functions rely on being loaded after the core's path_to
