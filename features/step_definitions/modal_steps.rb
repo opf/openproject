@@ -7,6 +7,16 @@ When(/^I open the modal window for the story "(.*?)"$/) do |subject|
 end
 
 When(/^I switch the modal window into edit mode$/) do
-  click_link("Update")
+  modal = find(".modal", :visible => true)
+
+  within(modal) do
+    click_link("Update")
+  end
+
+  safeguard_backlogs_modal_in_edit_mode
+end
+
+def safeguard_backlogs_modal_in_edit_mode
+  find_field("issue[description]", :visible => true)
 end
 
