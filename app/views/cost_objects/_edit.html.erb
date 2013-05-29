@@ -14,13 +14,4 @@
     </fieldset>
     </div>
     <%= submit_tag l(:button_submit) %>
-    <%= link_to_remote l(:label_preview),
-                       { :url => { :controller => 'cost_objects', :action => 'preview' },
-                         :method => 'put',
-                         :update => 'preview',
-                         :with => "Form.serialize('cost_object_form')",
-                         :complete => "Element.scrollTo('preview')"
-                       }, :accesskey => accesskey(:preview) %>
 <% end %>
-
-<div id="preview" class="wiki"></div>
