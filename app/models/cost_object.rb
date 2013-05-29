@@ -100,15 +100,6 @@ class CostObject < ActiveRecord::Base
     material_budget + labor_budget
   end
 
-  def status
-    # this just returns the symbol for I18N
-    if project_manager_signoff
-      client_signoff ? :label_status_finished : :label_status_awaiting_client
-    else
-      client_signoff ? :label_status_awaiting_client : :label_status_in_progress
-    end
-  end
-
   # Label of the current type for display in GUI.  Virtual accessor that is overriden by subclasses.
   def type_label
     return l(:label_cost_object)

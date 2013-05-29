@@ -23,8 +23,6 @@ en:
       cost_object:
         type: Cost type
         budget_ratio: Spent (ratio)
-        project_manager_signoff: Project manager signoff
-        client_signoff: Client signoff
         fixed_date: Fixed date
         budget: Planned
         spent: Spent

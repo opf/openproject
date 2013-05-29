@@ -13,7 +13,6 @@ module CostObjectsHelper
     CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [ "#",
-                  CostObject.human_attribute_name(:status),
                   Project.model_name.human,
                   CostObject.human_attribute_name(:subject),
                   CostObject.human_attribute_name(:author),
@@ -29,7 +28,6 @@ module CostObjectsHelper
       # csv lines
       cost_objects.each do |cost_object|
         fields = [cost_object.id,
-                  l(cost_object.status),
                   cost_object.project.name,
                   cost_object.subject,
                   cost_object.author.name,

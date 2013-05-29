@@ -24,8 +24,6 @@
     </tr>
 
     <tr>
-      <td class="status"><strong><%= CostObject.human_attribute_name(:status)%>:</strong></td>
-      <td class="status"><%= l(@cost_object.status) %></td>
 
       <td class="progress"><strong><%= CostObject.human_attribute_name(:budget_ratio) %>:</strong></td>
       <td class="progress"><%= extended_progress_bar(@cost_object.budget_ratio, :width => '80px', :legend => "#{@cost_object.budget_ratio}%") %></td>

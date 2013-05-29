@@ -3,7 +3,6 @@
 <table class="list cost_objects">
   <thead><tr>
     <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
-    <%= sort_header_tag("status", :caption => CostObject.human_attribute_name(:status), :default_order => 'desc') %>
     <%= sort_header_tag("subject", :caption => CostObject.human_attribute_name(:subject)) %>
     <th class="currency"><%= CostObject.human_attribute_name(:budget) %></th>
     <th class="currency"><%= CostObject.human_attribute_name(:spent) %></th>

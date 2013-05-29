@@ -9,7 +9,6 @@ describe CostObjectsHelper do
 
       it "should output the cost objects attributes" do
         expected = [cost_object.id,
-                    l(cost_object.status),
                     cost_object.project.name,
                     cost_object.subject,
                     cost_object.author.name,
@@ -27,7 +26,6 @@ describe CostObjectsHelper do
 
       it "should start with a header explaining the fields" do
         expected = ["#",
-                    CostObject.human_attribute_name(:status),
                     Project.model_name.human,
                     CostObject.human_attribute_name(:subject),
                     CostObject.human_attribute_name(:author),

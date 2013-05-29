@@ -23,8 +23,6 @@ de:
       cost_object:
         type: Kostenart
         budget_ratio: Verbraucht (Prozent)
-        project_manager_signoff: Genehmigt vom Projektmanager
-        client_signoff: Genehmigt vom Kunden
         fixed_date: Referenzdatum
         budget: Geplant
         spent: Verbraucht

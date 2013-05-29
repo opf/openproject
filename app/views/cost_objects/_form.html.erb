@@ -74,11 +74,6 @@
 
 <div style="clear: both;"> </div>
 
-<div class="splitcontentleft">
-  <p><%= f.check_box(:project_manager_signoff) %></p>
-  <p><%= f.check_box(:client_signoff) %></p>
-</div>
-
 <div class="splitcontentright">
   <p><%= f.text_field :fixed_date, :size => 10 %><%= calendar_for('cost_object_fixed_date') %></p>
 </div>
