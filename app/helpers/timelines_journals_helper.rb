@@ -25,13 +25,13 @@ module TimelinesJournalsHelper
     end
   end
 
-  def timelines_render_journal(model, journal, options = {})
+  def render_journal(model, journal, options = {})
     return "" if journal.initial?
-    journal_content = timelines_render_journal_details(journal, :label_updated_time_at, model, options)
+    journal_content = render_journal_details(journal, :label_updated_time_at, model, options)
     content_tag("div", journal_content, { :id => "change-#{journal.id}", :class => journal.css_classes }).html_safe
   end
 
-  def timelines_time_tag(time)
+  def time_tag(time)
     text = format_time(time)
     if @project
       link_to(text, {:controller => 'activities', :action => 'index', :id => @project, :from => time.to_date}, :title => format_time(time))
@@ -41,7 +41,7 @@ module TimelinesJournalsHelper
   end
 
   # This renders a journal entry with a header and details
-  def timelines_render_journal_details(journal, header_label = :label_updated_time_at, model=nil, options={})
+  def render_journal_details(journal, header_label = :label_updated_time_at, model=nil, options={})
     header = <<-HTML
       <div class="profile-wrap">
         #{avatar(journal.user, :size => "40")}
@@ -49,7 +49,7 @@ module TimelinesJournalsHelper
       <h4>
         <span>#{link_to "##{journal.anchor}", :anchor => "note-#{journal.anchor}"}</span>
 
-        #{l(header_label, :author => link_to_user(journal.user), :age => timelines_time_tag(journal.created_at))}
+        #{l(header_label, :author => link_to_user(journal.user), :age => time_tag(journal.created_at))}
         #{content_tag('a', '', :name => "note-#{journal.anchor}")}
       </h4>
     HTML
@@ -65,12 +65,12 @@ module TimelinesJournalsHelper
     end
 
     notes = <<-HTML
-      #{timelines_render_notes(model, journal, options) unless journal.notes.blank?}
+      #{render_notes(model, journal, options) unless journal.notes.blank?}
     HTML
     content_tag("div", "#{header}#{details}#{notes}".html_safe, :id => "change-#{journal.id}", :class => "journal")
   end
 
-  def timelines_render_notes(model, journal, options={})
+  def render_notes(model, journal, options={})
     controller = model.class.name.downcase.pluralize
     action = 'edit'
     reply_links = authorize_for(controller, action)

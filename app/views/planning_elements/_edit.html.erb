@@ -1,0 +1,3 @@
+<%= form_for :planning_element, :url => project_planning_element_path(@project, @planning_element), :html => {:method => :put} do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f, :planning_element => @planning_element, :project => @project} %>
+<% end %>

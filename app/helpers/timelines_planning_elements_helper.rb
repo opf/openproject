@@ -61,7 +61,7 @@ module TimelinesPlanningElementsHelper
       if include_journals?
         api.array :journals, :size => planning_element.journals.size do
           planning_element.journals.each do |journal|
-            render(:partial => '/timelines/timelines_planning_element_journals/journal.api',
+            render(:partial => '/timelines/planning_element_journals/journal.api',
                    :object  => journal)
           end
         end

@@ -1,0 +1,17 @@
+<%= header_tags %>
+
+<h2>
+  <%=h @scenario.name %>
+</h2>
+
+<%= form_for :scenario,
+            :url  => project_scenario_url(@project, @scenario),
+            :html => {:method => 'delete'} do |f| %>
+
+  <div class='flash warning'>
+    <%= l('timelines.really_delete_scenario') %>
+  </div>
+
+  <%= submit_tag l(:button_delete) %>
+  <%= link_to l(:button_cancel), project_settings_path %>
+<% end %>

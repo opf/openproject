@@ -1,9 +1,0 @@
-<%= timelines_header_tags %>
-
-<%= form_for(:project_type,
-            :url  => timelines_project_types_path,
-            :html => {:class => "tabular", :method => 'post'}) do |f| %>
-
-  <%= render :partial => "timelines/timelines_project_types/form",
-             :locals  => {:f => f, :project_type => @project_type} %>
-<% end %>

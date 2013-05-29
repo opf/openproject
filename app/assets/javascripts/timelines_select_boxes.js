@@ -1,4 +1,4 @@
-//requires 'timelines_autocompleter'
+//requires 'autocompleter'
 
 jQuery(document).ready(function($) {
   [

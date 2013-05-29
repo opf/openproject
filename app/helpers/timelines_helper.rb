@@ -32,7 +32,7 @@ module TimelinesHelper
   end
 
   def parent_id_select_tag(form, planning_element)
-    available_parents = planning_element.project.timelines_planning_elements.without_deleted.find(:all, :order => "COALESCE(parent_id, id), parent_id")
+    available_parents = planning_element.project.planning_elements.without_deleted.find(:all, :order => "COALESCE(parent_id, id), parent_id")
     available_parents -= [planning_element]
 
     available_options = available_parents.map do |pe|
@@ -74,7 +74,7 @@ module TimelinesHelper
   end
 
   def options_for_project_types
-    Timelines::ProjectType.all.map { |t| [t.name, t.id] }
+    ProjectType.all.map { |t| [t.name, t.id] }
   end
 
   def options_for_responsible(project)
@@ -84,14 +84,14 @@ module TimelinesHelper
   def visible_parent_project(project)
     parent = project.parent
 
-    while parent.present? && !parent.timelines_visible?
+    while parent.present? && !parent.visible?
       parent = parent.parent
     end
 
     parent
   end
 
-  def timelines_header_tags
+  def header_tags
     %Q{
       <style type='text/css'>
         #content table.issues td.center,

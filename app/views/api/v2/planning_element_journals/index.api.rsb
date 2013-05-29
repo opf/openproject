@@ -1,0 +1,6 @@
+api.array :journals, :size => @journals.size do
+  @journals.each do |journal|
+    render(:partial => '/planning_element_journals/journal.api.rsb',
+           :object  => journal)
+  end
+end

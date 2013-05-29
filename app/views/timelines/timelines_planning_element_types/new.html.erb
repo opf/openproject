@@ -1,8 +1,0 @@
-<%= timelines_header_tags %>
-
-<%= form_for :planning_element_type,
-            :url  => timelines_planning_element_types_url,
-            :html => {:method => 'post'} do |f| %>
-  <%= render :partial => 'form',
-             :locals => {:f => f, :planning_element_type => @planning_element_type} %>
-<% end %>

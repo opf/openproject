@@ -1,5 +1,0 @@
-api.array :colors, :size => @colors.size do
-  @colors.each do |color|
-    render(:partial => '/timelines/timelines_colors/color.api', :object => color)
-  end
-end

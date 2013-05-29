@@ -485,8 +485,8 @@ de:
 
 # cannot get rid of these, since I do not want to change the way the project
 # model is internationalized
-  field_timelines_project_type: "Projekttyp"
-  field_timelines_responsible: "Planungsverantwortlicher"
+  field_project_type: "Projekttyp"
+  field_responsible: "Planungsverantwortlicher"
 
   general_csv_decimal_separator: ","
   general_csv_encoding: "ISO-8859-1"
@@ -862,7 +862,7 @@ de:
   label_this_year: "aktuelles Jahr"
   label_time_entry_plural: "Benötigte Zeit"
   label_time_tracking: "Zeiterfassung"
-  label_timelines_planning_element_plural: "Plannungselemente"
+  label_planning_element_plural: "Plannungselemente"
   label_today: "heute"
   label_top_menu: "Hauptmenu"
   label_topic_plural: "Themen"
@@ -1456,7 +1456,7 @@ de:
     start: "Beginn"
     timeline: "Zeitplan-Report"
     timelines: "Zeitplan-Reporte"
-    timelines_settings: "Timelines"
+    settings: "Timelines"
     used_in_x_planning_elements:
       one:   "Wird in %{count} Planungselement verwendet"
       other: "Wird in %{count} Planungselementen verwendet"

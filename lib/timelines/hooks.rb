@@ -1,2 +1,0 @@
-module Timelines::Hooks
-end

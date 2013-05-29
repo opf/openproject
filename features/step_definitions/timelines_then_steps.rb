@@ -150,14 +150,14 @@ Then /^I should not be able to add new project associations$/ do
 end
 
 Then /^I should (not )?see a planning element link for "([^"]*)"$/ do |negate, planning_element_name|
-  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+  planning_element = PlanningElement.find_by_name(planning_element_name)
   text = "*#{planning_element.id}"
 
   step %Q{I should #{negate}see "#{text}"}
 end
 
 Then /^I should (not )?see a planning element quickinfo link for "([^"]*)"$/ do |negate, planning_element_name|
-  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+  planning_element = PlanningElement.find_by_name(planning_element_name)
 
 
   text = "*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.name} #{planning_element.start_date.to_s} – #{planning_element.end_date.to_s} (#{planning_element.responsible.to_s})"
@@ -165,7 +165,7 @@ Then /^I should (not )?see a planning element quickinfo link for "([^"]*)"$/ do 
 end
 
 Then /^I should (not )?see a planning element quickinfo link with description for "([^"]*)"$/ do |negate, planning_element_name|
-  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+  planning_element = PlanningElement.find_by_name(planning_element_name)
 
   step %Q{I should #{negate}see a planning element quickinfo link for "#{planning_element_name}"}
   step %Q{I should #{negate}see "#{planning_element.description}"}
@@ -173,10 +173,10 @@ end
 
 Then /^I should (not )?see the timeline "([^"]*)"$/ do |negate, timeline_name|
   selector = "div.timeline div.tl-left-main"
-  timeline = Timelines::Timeline.find_by_name(timeline_name)
+  timeline = Timeline.find_by_name(timeline_name)
 
   if (negate && page.has_css?(selector)) || !negate
-    timeline.project.timelines_planning_elements.each do |planning_element|
+    timeline.project.planning_elements.each do |planning_element|
       step %Q{I should #{negate}see "#{planning_element.name}" within "#{selector}"}
     end
   end

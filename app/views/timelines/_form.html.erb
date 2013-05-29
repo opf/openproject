@@ -1,0 +1,29 @@
+<%= error_messages_for 'timeline' %>
+<% unless User.current.impaired? %>
+  <%# TODO: Require autocompleter inside select_boxes.js
+    For lack of a requiring policy (such as requirejs), just include the
+    autocompleter on its own.
+  %>
+  <%= javascript_include_tag "autocompleter.js", :plugin => "chiliproject_timelines" %>
+  <%= javascript_include_tag "select_boxes.js", :plugin => "chiliproject_timelines" %>
+<% end %>
+
+<div class="edit_form">
+
+  <%= render :partial => "timelines/timelines/general", :locals => {:timeline => @timeline, :f => f}%>
+
+  <%= render :partial => "timelines/timelines/comparison", :locals => {:timeline => @timeline}%>
+
+  <%= render :partial => "timelines/timelines/vertical_planning_elements", :locals => {:timeline => @timeline}%>
+
+  <%= render :partial => "timelines/timelines/filter/planning_elements", :locals => {:timeline => @timeline} %>
+
+  <%= render :partial => "timelines/timelines/filter/projects", :locals => {:timeline => @timeline} %>
+
+  <%= render :partial => "timelines/timelines/group/grouping", :locals => {:timeline => @timeline} %>
+
+</div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'timelines.css', :plugin => 'chiliproject_timelines', :media => "all" %>
+<% end %>

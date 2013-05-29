@@ -1,0 +1,7 @@
+<%= header_tags %>
+
+<% html_title l("timelines.new_planning_element") %>
+
+<%= form_for :planning_element, :url => project_planning_elements_path(@project) do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f, :planning_element => @planning_element, :project => @project} %>
+<% end %>

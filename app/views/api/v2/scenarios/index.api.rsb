@@ -1,0 +1,5 @@
+api.array :scenarios, :size => @scenarios.size do
+  @scenarios.each do |scenario|
+    render(:partial => '/timelines/scenarios/scenario.api', :object => scenario)
+  end
+end

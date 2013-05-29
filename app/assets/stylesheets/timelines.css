@@ -57,7 +57,7 @@ li.select2-result.select2-visible-selected-parent {
 .tl-space-both, .tl-space-before {
   margin-left: 1em;
 }
-#content .timelines_edit_form fieldset.collapsible.header_collapsible {
+#content .edit_form fieldset.collapsible.header_collapsible {
   margin-bottom: 1em;
 }
 

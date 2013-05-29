@@ -15,7 +15,7 @@ describe OpenProject::JournalFormatter::ScenarioDate do
 
   let(:klass) { OpenProject::JournalFormatter::ScenarioDate }
   let(:journal_id) { 1 }
-  let(:scenario) { FactoryGirl.create(:timelines_scenario) }
+  let(:scenario) { FactoryGirl.create(:scenario) }
   let(:journal) do
     Struct::TimelinesScenarioDateTestJournal.new(journal_id, scenario)
   end

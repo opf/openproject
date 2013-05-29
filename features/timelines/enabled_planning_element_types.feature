@@ -29,7 +29,7 @@ Feature: Enabled Planning Element Types Settings
       And there is a role "project admin"
       And the role "project admin" may have the following rights:
           | edit_project                           |
-          | manage_timelines_project_configuration |
+          | manage_project_configuration |
 
       And there is a project named "ecookbook" of type "Standard Project"
       And I am working in project "ecookbook"

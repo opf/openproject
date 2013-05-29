@@ -1,0 +1,8 @@
+<%= header_tags %>
+
+<%= form_for :planning_element_type,
+            :url  => planning_element_type_url(@planning_element_type),
+            :html => {:method => 'put'} do |f| %>
+  <%= render :partial => 'form',
+             :locals => {:f => f, :planning_element_type => @planning_element_type} %>
+<% end %>

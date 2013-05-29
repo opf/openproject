@@ -1,0 +1,16 @@
+<% html_title("Edit #{l('timelines.project_menu.timelines')}") %>
+<h2>
+  <%=l('timelines.edit_timeline')%>
+</h2>
+
+<%= form_for(:timeline,
+            :url => project_timeline_path(@project, @timeline),
+            :html => {:class => "tabular", :method => 'put'}) do |f| %>
+
+  <%= render(:partial => "timelines/form",
+             :locals => {:f => f, :timeline => @timeline}) %>
+
+  <%= f.submit l(:button_save) %>
+  <%= link_to l(:button_cancel), project_timeline_path(@project, @timeline) %>
+
+<% end %>

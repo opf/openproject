@@ -1,0 +1,2 @@
+render(:partial => '/timelines/planning_element_statuses/planning_element_status.api',
+       :object => @planning_element_status)

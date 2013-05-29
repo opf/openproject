@@ -1,0 +1,18 @@
+<fieldset class="timelines-reporting-properties">
+  <legend><%= l('timelines.properties') %></legend>
+
+  <p>
+    <label for="reporting_reported_project_status_id">
+      <%= Reporting.human_attribute_name(:reported_project_status_id) %>:
+    </label>
+    <span class="timelines-value">
+      <%=h @reporting.reported_project_status.try(:name) || '-' %>
+    </span>
+  </p>
+  <p>
+    <label for="reporting_reported_project_status_comment">
+      <%= Reporting.human_attribute_name(:reported_project_status_comment) %>:
+    </label><br/>
+    <%= textilizable(@reporting, :reported_project_status_comment) %>
+  </p>
+</fieldset>

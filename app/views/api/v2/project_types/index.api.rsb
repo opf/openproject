@@ -1,0 +1,5 @@
+api.array :project_types, :size => @project_types.size do
+  @project_types.each do |project_type|
+    render(:partial => '/timelines/project_types/project_type.api', :object => project_type)
+  end
+end

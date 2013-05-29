@@ -1,8 +1,0 @@
-<%= timelines_header_tags %>
-
-<%= form_for :color,
-            :url  => timelines_color_url(@color),
-            :html => {:method => 'put'} do |f| %>
-  <%= render :partial => 'form',
-             :locals => {:f => f, :color => @color} %>
-<% end %>

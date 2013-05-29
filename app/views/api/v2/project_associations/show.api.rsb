@@ -1,0 +1,2 @@
+render(:partial => '/timelines/project_associations/project_association.api',
+       :object  => @project_association)

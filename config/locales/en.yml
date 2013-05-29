@@ -77,8 +77,8 @@ en:
         issues: "Issues"
         parent: "Subproject of"
         versions: "Versions"
-        timelines_project_type: "Project type"
-        timelines_responsible: "Responsible"
+        project_type: "Project type"
+        responsible: "Responsible"
       query:
         column_names: "Columns"
         group_by: "Group results by"
@@ -851,7 +851,7 @@ en:
   label_this_year: "this year"
   label_time_entry_plural: "Spent time"
   label_time_tracking: "Time tracking"
-  label_timelines_planning_element_plural: "Planning elements"
+  label_planning_element_plural: "Planning elements"
   label_today: "today"
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"
@@ -1438,7 +1438,7 @@ en:
     start: "Start"
     timeline: "Timeline report"
     timelines: "Timeline reports"
-    timelines_settings: "Timelines"
+    settings: "Timelines"
     used_in_x_planning_elements:
       one:   "Used in %{count} planning element"
       other: "Used in %{count} planning elements"

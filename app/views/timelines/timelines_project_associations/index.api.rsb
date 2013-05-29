@@ -1,6 +1,0 @@
-api.array :project_associations, :size => @project_associations.size do
-  @project_associations.each do |project_association|
-    render(:partial => '/timelines/timelines_project_associations/project_association.api',
-           :object  => project_association)
-  end
-end

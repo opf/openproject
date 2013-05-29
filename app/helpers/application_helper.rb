@@ -1197,7 +1197,7 @@ module ApplicationHelper
     end
 
     link_to(h(text),
-            timelines_project_planning_element_path(planning_element.project, planning_element),
+            project_planning_element_path(planning_element.project, planning_element),
             :title => planning_element.name)
   end
 
@@ -1228,7 +1228,7 @@ module ApplicationHelper
     end
 
     link = link_to(h("*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.name} "),
-            timelines_project_planning_element_path(planning_element.project, planning_element),
+            project_planning_element_path(planning_element.project, planning_element),
            :title => h("#{truncate(planning_element.name, :length => 100)} #{planning_element.planning_element_status.nil? ? "" :
                         "(" + planning_element.planning_element_status.name + ")"}"))
     link += "#{planning_element.start_date.nil? ? "[?]" : planning_element.start_date.to_s}#{start_date_change} – #{planning_element.end_date.nil? ? "[?]" :
@@ -1257,7 +1257,7 @@ module ApplicationHelper
     parse_redmine_links_without_planning_element_links(text, project, obj, attr, only_path, options)
     text.gsub!(%r{(?:\W|^|\A)((\*+)(\d+))(?:\W|$|\z)}) do |match|
       text, stars, id = $1, $2, $3
-      planning_element = Timelines::PlanningElement.without_deleted.visible.find_by_id(id)
+      planning_element = PlanningElement.without_deleted.visible.find_by_id(id)
 
       if planning_element.present?
         if stars == "*"

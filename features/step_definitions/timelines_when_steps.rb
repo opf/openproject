@@ -38,7 +38,7 @@ When(/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?
   grouping_project = Project.find_by_name(grouping_project_name)
 
   page.should have_selector("#timeline_options_grouping_one_enabled")
-  
+
   page.execute_script("jQuery('#timeline_options_grouping_one_enabled').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{grouping_project.id}')")
   page.execute_script("jQuery('#content form').submit()")
@@ -64,7 +64,7 @@ When(/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
   project_type = Timelines::ProjectType.find_by_name(project_type_name)
-  
+
   page.should have_selector("#timeline_options_grouping_two_enabled")
 
   page.execute_script("jQuery('#timeline_options_grouping_two_enabled').prop('checked', true)")
@@ -102,7 +102,7 @@ When(/^I set the sortation of the first level grouping criteria to explicit orde
   }
 
   page.should have_selector("#timeline_options_grouping_one_sort")
-  
+
   page.execute_script("jQuery('#timeline_options_grouping_one_sort').val('1')")
   page.execute_script("jQuery('#content form').submit()")
 end
@@ -189,14 +189,14 @@ When (/^I move "([^"]*)" down by one$/) do |name|
 end
 
 When (/^I fill in the planning element ID of "([^"]*)" with (\d+) star for "([^"]*)"$/) do |planning_element_name, number_hash_keys, container|
-  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+  planning_element = PlanningElement.find_by_name(planning_element_name)
   text = "#{('*' * number_hash_keys.to_i)}#{planning_element.id}"
 
   step %Q{I fill in "#{text}" for "#{container}"}
 end
 
 When (/^I follow the planning element link with (\d+) star for "([^"]*)"$/) do |star_count, planning_element_name|
-  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+  planning_element = PlanningElement.find_by_name(planning_element_name)
 
   text = ""
   if star_count.to_i > 1
@@ -209,14 +209,14 @@ When (/^I follow the planning element link with (\d+) star for "([^"]*)"$/) do |
 end
 
 When (/^I fill in a wiki macro for timeline "([^"]*)" for "([^"]*)"$/) do |timeline_name, container|
-  timeline = Timelines::Timeline.find_by_name(timeline_name)
+  timeline = Timeline.find_by_name(timeline_name)
 
   text = "{{timeline(#{timeline.id})}}"
   step %Q{I fill in "#{text}" for "#{container}"}
 end
 
 When (/^(.*) for the color "([^"]*)"$/) do |step_name, color_name|
-  color = Timelines::Color.find_by_name(color_name)
+  color = Color.find_by_name(color_name)
 
   step %Q{#{step_name} within "#color-#{color.id} td:first-child"}
 end

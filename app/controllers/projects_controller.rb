@@ -11,9 +11,15 @@
 #++
 
 class ProjectsController < ApplicationController
+  extend Pagination::Controller
+
+  paginate_model Project
+
   menu_item :overview
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
+
+  helper :timelines
 
   before_filter :disable_api
   before_filter :find_project, :except => [ :index, :level_list, :new, :create, :copy ]
@@ -22,6 +28,7 @@ class ProjectsController < ApplicationController
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   before_filter :jump_to_project_menu_item, :only => :show
   before_filter :load_project_settings, :only => :settings
+  before_filter :determine_base
 
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
@@ -38,8 +45,8 @@ class ProjectsController < ApplicationController
   include ProjectsHelper
 
   # for timelines
-  def timelines_planning_element_types
-    params[:project].assert_valid_keys("timelines_planning_element_type_ids")
+  def planning_element_types
+    params[:project].assert_valid_keys("planning_element_type_ids")
     if @project.update_attributes(params[:project])
       flash[:notice] = l('notice_successful_update')
     else
@@ -268,6 +275,16 @@ private
         member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works
       end
       project.members << m
+    end
+  end
+
+  protected
+
+  def determine_base
+    if params[:project_type_id]
+      @base = ProjectType.find(params[:project_type_id]).projects
+    else
+      @base = Project
     end
   end
 

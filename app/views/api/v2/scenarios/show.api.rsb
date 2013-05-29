@@ -1,0 +1,2 @@
+render(:partial => '/timelines/scenarios/scenario.api',
+       :object => @scenario)
