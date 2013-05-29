@@ -19,15 +19,3 @@ And   I fill in "user_firstname" with "Jon"
 And   I fill in "user_lastname" with "Snow"
 And   I click on "Save"
 Then  I should see "Account was successfully updated."
-
-
-
-
-
-
-
-
-
-
-
-
