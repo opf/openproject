@@ -1761,23 +1761,14 @@ div.issue hr {
   margin-top: -6px;
   margin-bottom: 0px;
 }
-#content table tr:hover {
-	background:none;
-}
-#content table td, #content table th {
+#content div.issue table td, #content table th {
   background: none;
 	border:0 none;
 	padding:0 3px;
   padding-left: 0px;
 }
-#content table th {
+#content div.issue table th {
 	font-weight:bold;
-}
-#content table td a:hover, #content table th a:hover {
-	text-decoration:underline;
-}
-#content table td.priority {
-	text-align:left; /* Is set to center above */
 }
 .gravatar {
 	border:1px solid #aaa;
@@ -2137,14 +2128,6 @@ td.issue div.issue-wrap-outer {
 	z-index:16;
 	background:url(<%= asset_path 'tooltip-arrow.png' %>) no-repeat left top;
 }
-.js-tooltip {
-	margin-top:20px;
-	overflow:hidden;
-}
-.js-tooltip li {
-	float:left;
-	margin-right:30px;
-}
 .button-large ul {
 	position:absolute;
 	right:-1px;
@@ -2436,9 +2419,6 @@ fieldset#filters div.add-filter {
 }
 tr.time-entry {
 	white-space:normal;
-}
-td.priority {
-	background:none !important;
 }
 
 /*===== Replacement Images =====*/
