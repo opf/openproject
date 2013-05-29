@@ -7,10 +7,6 @@ function addRate(date_field){
   newRateRow.down('td.currency').down('input').select();
 }
 
-function disableEnterKey(event){
-  if (event.keyCode == 13) event.preventDefault();
-}
-
 function deleteRow(image){
   var row = image.up("tr")
   var parent=row.up();
@@ -19,10 +15,6 @@ function deleteRow(image){
 }
 
 jQuery(function(jQuery){
-  jQuery(document).on("keydown", "body.action-edit input", function(event){
-    disableEnterKey(event);
-  });
-
   jQuery(document).on("click", "body.action-edit img.delete", function(){
     deleteRow(this);
   });
