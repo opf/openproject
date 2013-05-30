@@ -16,6 +16,7 @@
                    :rows => (@cost_object.description.blank? ? 10 : [[10, @cost_object.description.length / 50].max, 100].min),
                    :accesskey => accesskey(:edit),
                    :class => 'wiki-edit' %></p>
+<p><%= f.text_field :fixed_date, :size => 10 %><%= calendar_for('cost_object_fixed_date') %></p>
 
 <% if @cost_object.kind == "VariableCostObject" -%>
 <script type="text/javascript">
@@ -71,12 +72,6 @@
 </fieldset>
 
 <%- end %>
-
-<div style="clear: both;"> </div>
-
-<div class="splitcontentright">
-  <p><%= f.text_field :fixed_date, :size => 10 %><%= calendar_for('cost_object_fixed_date') %></p>
-</div>
 
 <div style="clear: both;"> </div>
 
