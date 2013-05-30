@@ -1654,7 +1654,7 @@ form#issue-list {
 	font-weight:normal;
 }
 #content table.issues td, #content table th {
-	border:1px solid #e6e6e6;
+	border: 0 none;
 	padding: 3px 6px;
 	text-align:left;
 	position:relative;
@@ -1761,23 +1761,14 @@ div.issue hr {
   margin-top: -6px;
   margin-bottom: 0px;
 }
-#content table tr:hover {
-	background:none;
-}
-#content table td, #content table th {
+#content div.issue table td, #content div.issue table th {
   background: none;
 	border:0 none;
 	padding:0 3px;
   padding-left: 0px;
 }
-#content table th {
+#content div.issue table th {
 	font-weight:bold;
-}
-#content table td a:hover, #content table th a:hover {
-	text-decoration:underline;
-}
-#content table td.priority {
-	text-align:left; /* Is set to center above */
 }
 .gravatar {
 	border:1px solid #aaa;
@@ -2112,39 +2103,6 @@ td.issue div.issue-wrap-outer {
 	display:block;
 }
 
-/* table tooltips */
-.js-tooltip {
-	position:absolute;
-	left:-30px;
-	z-index:20;
-}
-.js-tooltip-inner {
-	position:absolute;
-	bottom:5px;
-	padding:10px;
-	width:500px;
-	font-size:11px;
-	max-height:200px;
-	overflow:hidden;
-	z-index:15;
-}
-.js-tooltip .arrow {
-	width:16px;
-	height:12px;
-	position:absolute;
-	bottom:-6px;
-	left:76px;
-	z-index:16;
-	background:url(<%= asset_path 'tooltip-arrow.png' %>) no-repeat left top;
-}
-.js-tooltip {
-	margin-top:20px;
-	overflow:hidden;
-}
-.js-tooltip li {
-	float:left;
-	margin-right:30px;
-}
 .button-large ul {
 	position:absolute;
 	right:-1px;
@@ -2436,9 +2394,6 @@ fieldset#filters div.add-filter {
 }
 tr.time-entry {
 	white-space:normal;
-}
-td.priority {
-	background:none !important;
 }
 
 /*===== Replacement Images =====*/
@@ -3327,9 +3282,6 @@ a.atom {
 body.theme-Bsp .buttons .apply,
 body.theme-Dtag .buttons .apply {
   background-color:  #24b3e7;
-}
-#content table.issues td, #content table th{
-  border: 0px;
 }
 .title-bar .title-bar-actions .contextual a.icon:hover {
   color: #008BD0;
