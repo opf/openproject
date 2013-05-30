@@ -5,7 +5,7 @@ require "reporting_engine/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "reportingengine"
+  s.name        = "reporting_engine"
   s.version     = ReportingEngine::VERSION
   s.authors = "Finn GmbH"
   s.email = "info@finn.de"
