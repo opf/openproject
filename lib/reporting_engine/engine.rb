@@ -7,7 +7,7 @@ module ReportingEngine
     config.autoload_paths += Dir["#{config.root}/lib/"]
 
     initializer 'reportingengine.precompile_assets' do
-      Rails.application.config.assets.precompile += %w(reportingengine.css reportingengine.js)
+      Rails.application.config.assets.precompile += %w(reporting_engine.css reporting_engine.js)
     end
 
 
