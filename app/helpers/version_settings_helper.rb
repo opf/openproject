@@ -5,7 +5,7 @@ module VersionSettingsHelper
     setting = version_setting_for_project(version, project)
 
     ret = "<p>"
-    ret += label_tag name_for_setting_attributes("display"), l(:field_display)
+    ret += label_tag name_for_setting_attributes("display"), l(:label_display)
     ret += select_tag name_for_setting_attributes("display"), options_for_select(position_display_options, setting.display)
     ret += hidden_field_tag name_for_setting_attributes("id"), setting.id if setting.id
     ret += hidden_field_tag "project_id", project.id

@@ -84,10 +84,6 @@ de:
   event_sprint_description: "%{summary}: %{url}\n%{description}"
   event_sprint_summary: "%{project}: %{summary}"
 
-  field_blocks_ids: "Blockiert (IDs)"
-  field_children: "Kind-Tickets"
-  field_display: "Spalte im Backlog"
-
   ideal: "Ideal"
 
   inclusion: "ist nicht in der Liste enthalten"
@@ -96,8 +92,10 @@ de:
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "Sie haben noch keine Backlogs konfiguriert. Bitte gehen Sie auf %{administration} > %{plugins}, klicken Sie dann auf den %{configure} Link für dieses Plugin. Kommen Sie hierher zurück, sobald sie die Felder konfiguriert haben."
+  label_blocks_ids: "Blockiert (IDs)"
   label_burndown: "Burndown"
   label_chart_options: "Chart-Optionen"
+  label_display: "Spalte im Backlog"
   label_hours: "Stunden"
   label_issue_hierarchy: "Tickethierarchie"
   label_master_backlog: "Master Backlog"

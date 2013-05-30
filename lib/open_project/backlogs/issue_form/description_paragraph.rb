@@ -5,7 +5,7 @@ class OpenProject::Backlogs::IssueForm::DescriptionParagraph < OpenProject::Niss
 
   def render(t)
     html_id = "issue_description_#{SecureRandom.hex(10)}"
-    content_tag(:p, content_tag(:strong, l(:field_description))) +
+    content_tag(:p, content_tag(:strong, Issue.human_attribute_name(:description))) +
     content_tag(:div,
       content_tag(:p,
         t.text_area_tag("issue[description]", issue.description.to_s,
