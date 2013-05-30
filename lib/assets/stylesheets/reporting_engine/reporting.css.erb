@@ -165,7 +165,7 @@
 }
 
 .icon-filter-rem {
-  background-image: url(../images/close.gif);
+  background-image: url(<%= asset_path 'reporting_engine/close.gif' %>);
   position: relative;
   float: right;
   padding: 0px;
@@ -188,10 +188,10 @@
 }
 
 .icon-edit {
-  background-image: url(../images/edit.png);
+  background-image: url(<%= asset_path 'reporting_engine/edit.png' %>);
 }
 .icon-delete {
-  background-image: url(../images/delete.png);
+  background-image: url(<%= asset_path 'reporting_engine/delete.png' %>);
 }
 
 #query-name-edit-button {
@@ -494,19 +494,19 @@ td:hover .drill_down, th:hover .drill_down {
 }
 
 .button .icon-save {
-  background-image: url(../images/disk.gif);
+  background-image: url(<%= asset_path 'reporting_engine/disk.gif' %>);
 }
 
 .button .icon-save-as {
-  background-image: url(../images/disks.gif);
+  background-image: url(<%= asset_path 'reporting_engine/disks.gif' %>);
 }
 
 .button .icon-delete {
-  background-image: url(../images/delete.gif);
+  background-image: url(<%= asset_path 'reporting_engine/delete.gif' %>);
 }
 
 .button .icon-clear {
-  background-image: url(../images/remove.gif);
+  background-image: url(<%= asset_path 'reporting_engine/remove.gif' %>);
 }
 
 div.button_form {
@@ -580,7 +580,7 @@ html>body #ajax-indicator { position: fixed; }
 #ajax-indicator span {
   background-position: 0% 40%;
   background-repeat: no-repeat;
-  background-image: url(../images/loading.gif);
+  background-image: url(<%= asset_path 'reporting_engine/loading.gif' %>);
   padding-left: 26px;
   vertical-align: bottom;
 }

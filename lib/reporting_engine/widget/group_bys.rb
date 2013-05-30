@@ -68,8 +68,7 @@ class Widget::GroupBys < Widget::Base
     write(content_tag(:div, :id => 'group_by_area') do
       out =  render_group 'columns', @subject.group_bys(:column), true
       out += render_group 'rows', @subject.group_bys(:row)
-      out += image_tag "remove.gif",
-                       :plugin => "reporting_engine",
+      out += image_tag "reporting_engine/remove.gif",
                        :id => "hidden_remove_img",
                        :style => "display:none",
                        :class => "reporting_hidden_group_remove_image"
