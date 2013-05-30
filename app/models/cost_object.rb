@@ -121,7 +121,7 @@ class CostObject < ActiveRecord::Base
   end
 
   def css_classes
-    return "issue cost_object"
+    return "cost_object"
   end
 
   def self.replace_author_with_deleted_user(user)
