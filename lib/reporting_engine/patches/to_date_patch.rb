@@ -1,6 +1,6 @@
 require 'date'
 
-module ToDatePatch
+module ReportingEngine::Patches::ToDatePatch
   module StringAndNil
     ::String.send(:include, self)
     ::NilClass.send(:include, self)
@@ -14,7 +14,7 @@ module ToDatePatch
   module DateAndTime
     ::Date.send(:include, self)
     ::Time.send(:include, self)
-  
+
     def to_dateish
       self
     end
