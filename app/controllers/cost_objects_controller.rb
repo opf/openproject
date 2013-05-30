@@ -1,7 +1,7 @@
 class CostObjectsController < ApplicationController
   unloadable
 
-  before_filter :find_cost_object, :only => [:show, :edit, :update, :preview, :copy]
+  before_filter :find_cost_object, :only => [:show, :edit, :update, :copy]
   before_filter :find_cost_objects, :only => :destroy
   before_filter :find_project, :only => [
     :new, :create,
@@ -13,7 +13,6 @@ class CostObjectsController < ApplicationController
   before_filter :authorize, :except => [
     # unrestricted actions
     :index,
-    :preview,
     :update_material_budget_item, :update_labor_budget_item
     ]
 
@@ -166,12 +165,6 @@ class CostObjectsController < ApplicationController
     @cost_objects.each(&:destroy)
     flash[:notice] = l(:notice_successful_delete)
     redirect_to :action => 'index', :project_id => @project
-  end
-
-  def preview
-    @text = params[:notes] || (params[:cost_object] ? params[:cost_object][:description] : nil)
-
-    render :partial => 'common/preview'
   end
 
   def update_material_budget_item

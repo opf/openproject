@@ -20,12 +20,6 @@ describe CostObjectsController do
     it { delete('/cost_objects/5').should route_to(:controller => 'cost_objects',
                                                    :action => 'destroy',
                                                    :id => '5') }
-    it { put('/cost_objects/5/preview').should route_to(:controller => 'cost_objects',
-                                                         :action => 'preview',
-                                                         :id => '5') }
-    it { post('/projects/42/cost_objects/preview').should route_to(:controller => 'cost_objects',
-                                                      :action => 'preview',
-                                                      :project_id => '42') }
     it { post('/projects/42/cost_objects/update_material_budget_item').should route_to(:controller => 'cost_objects',
                                                       :action => 'update_material_budget_item',
                                                       :project_id => '42') }
