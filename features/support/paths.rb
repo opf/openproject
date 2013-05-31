@@ -230,6 +230,10 @@ module NavigationHelpers
       id = Group.find_by_lastname!($1).id
       "/admin/groups/#{id}/edit"
 
+    when /^the time entry page of issue "(.+)"$/
+      issue_id = Issue.find_by_subject($1).id
+      "/issues/#{issue_id}/time_entries"
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
