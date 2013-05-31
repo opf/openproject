@@ -1,3 +1,11 @@
+= 3.0.4.beta - 2013-05-31
+
+== Minor Change
+
+* Fixed Translation bugs
+* Fixed task color setting
+* Fixed sprint date validation
+
 = 3.0.3.rc1 - 2013-05-24
 
 == Major Change
