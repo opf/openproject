@@ -1,6 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery, :reporting_query_helper => true do
+  let(:project) { FactoryGirl.create(:project) }
+
   minimal_query
 
   describe :chain do
@@ -45,7 +47,7 @@ describe CostQuery, :reporting_query_helper => true do
       @query.chain.bottom.parent.type.should == :column
       @query.chain.top.type.should == :column
 
-      @query.row :project_id
+      @query.row :project:d
       @query.chain.bottom.parent.type.should == :column
       @query.chain.top.type.should == :row
     end
@@ -97,7 +99,6 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     it "should initialize the chain through a block" do
-      project = FactoryGirl.create(:project)
       class TestFilter < CostQuery::Filter::Base
         def self.engine
           CostQuery
@@ -111,7 +112,7 @@ describe CostQuery, :reporting_query_helper => true do
 
     context "store and load" do
       before do
-        @query.filter :project_id, :value => Project.all.first.id
+        @query.filter :project_id, :value => project.id
         @query.filter :cost_type_id, :value => CostQuery::Filter::CostTypeId.available_values.first
         @query.filter :category_id, :value => CostQuery::Filter::CategoryId.available_values.first
         @query.group_by :activity_id
