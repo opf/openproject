@@ -11,7 +11,7 @@ Although this is the main development branch, it is *not* a stable code base. Fo
 
 == What we do?
 
-OpenProject is a web-based project management software, driven by an active group of open source enthusiasts: software engineers, project managers, creatives, and consultants. OpenProject is supported by companies as well as individuals. What we share? It�s the vision to build great project collaboration software based on open source.
+OpenProject is a web-based project management software, driven by an active group of open source enthusiasts: software engineers, project managers, creatives, and consultants. OpenProject is supported by companies as well as individuals. What we share? It is the vision to build great project collaboration software based on open source.
 The OpenProject Foundation (OPF) will give official guidance to the project and the community and oversees contributions and decisions.
 More information can be found on our website[https://www.openproject.org] and soon in the doc directory.
 
