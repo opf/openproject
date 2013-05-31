@@ -47,7 +47,7 @@ describe CostQuery, :reporting_query_helper => true do
       @query.chain.bottom.parent.type.should == :column
       @query.chain.top.type.should == :column
 
-      @query.row :project:d
+      @query.row :project_id
       @query.chain.bottom.parent.type.should == :column
       @query.chain.top.type.should == :row
     end
