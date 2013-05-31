@@ -95,7 +95,7 @@ de:
   label_blocks_ids: "Blockiert (IDs)"
   label_burndown: "Burndown"
   label_chart_options: "Chart-Optionen"
-  label_display: "Spalte im Backlog"
+  label_column_in_backlog: "Spalte im Backlog"
   label_hours: "Stunden"
   label_issue_hierarchy: "Tickethierarchie"
   label_master_backlog: "Master Backlog"
