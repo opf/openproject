@@ -95,7 +95,7 @@ en:
   label_blocks_ids: "Blocks (IDs)"
   label_burndown: "Burndown"
   label_chart_options: "Chart Options"
-  label_display: "Column in backlog"
+  label_column_in_backlog: "Column in backlog"
   label_hours: "hours"
   label_issue_hierarchy: "Issue Hierarchy"
   label_master_backlog: "Master Backlog"
