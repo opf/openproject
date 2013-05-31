@@ -5,7 +5,7 @@ module Menus
       Redmine::MenuManager.map :'issues/show' do |menu|
         menu.push :edit, { :controller => '/issues',
                            :action => 'edit',
-                           :id => @issue },
+                           :id => :issue },
                          :html => { :class => 'edit icon icon-edit' }
 
         menu.push :watch, Watch.new
@@ -15,21 +15,29 @@ module Menus
                                    :if => Proc.new{ |p| true },
                                    :html => { :class => 'drop-down action_menu_more icon icon-more' }
 
-        menu.push :log_time, { :controller => '/timelog', :action => 'new', :issue_id => @issue },
+        menu.push :log_time, { :controller => '/timelog',
+                               :action => 'new',
+                               :id => :issue },
                              :html => { :class => 'icon icon-time-add' },
                              :caption => :button_log_time,
                              :parent => :more_functions
 
         menu.push(
           :duplicate,
-          { :controller => '/issues', :action => 'new', :project_id => @project, :copy_from => @issue },
+          { :controller => '/issues',
+            :action => 'new',
+            :project_id => :project,
+            :copy_from => :issue },
           :html => { :class => 'icon icon-duplicate' },
           :caption => :button_duplicate,
           :parent => :more_functions)
 
         menu.push(
           :copy,
-          { :controller => '/issue_moves', :action => 'new', :id => @issue, :copy_options => {:copy => 't'}},
+          { :controller => '/issue_moves',
+            :action => 'new',
+            :id => :issue,
+            :copy_options => {:copy => 't'}},
           :html => { :class => 'icon icon-copy' },
           :caption => :button_copy,
           :parent => :more_functions
@@ -37,7 +45,9 @@ module Menus
 
         menu.push(
           :move,
-          { :controller => '/issue_moves', :action => 'new', :id => @issue },
+          { :controller => '/issue_moves',
+            :action => 'new',
+            :id => :issue },
           :html => { :class => 'icon icon-move' },
           :caption => :button_move,
           :parent => :more_functions

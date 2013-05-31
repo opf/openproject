@@ -58,7 +58,7 @@ module Redmine::MenuManager::MenuHelper
   def render_menu(menu, locals = {})
     # support both the old and the new signature
     # old: (menu, project=nil)
-    project = locals.is_a?(Project) ?
+    project = locals.is_a?(Project) || locals.nil? ?
                 locals :
                 locals[:project]
 
@@ -111,15 +111,16 @@ module Redmine::MenuManager::MenuHelper
 
   def render_menu_node(node, locals = {})
     # support both the old and the new interface
-    project = locals.is_a?(Project) ?
-                locals :
-                locals[:project]
+    project, locals = locals.is_a?(Project) ?
+                        [project, locals] :
+                        [locals[:project], locals]
 
     return "" if project and not allowed_node?(node, User.current, project)
+
     if node.has_children? || !node.child_menus.nil?
       render_menu_node_with_children(node, locals)
     else
-      caption, url, selected = extract_node_details(node, project)
+      caption, url, selected = extract_node_details(node, locals)
 
       content_tag('li', render_single_menu_node(node, caption, url, selected, locals))
     end
@@ -131,7 +132,7 @@ module Redmine::MenuManager::MenuHelper
                 locals :
                 locals[:project]
 
-    caption, url, selected = extract_node_details(node, project)
+    caption, url, selected = extract_node_details(node, locals)
 
     content_tag :li do
       # Standard children
@@ -199,7 +200,9 @@ module Redmine::MenuManager::MenuHelper
 
     # TODO: have an explicit method for querying for undefined menus
     if Redmine::MenuManager.items(menu).children.size == 0
-      require Rails.root.join("app/widgets/menus/#{menu}")
+      file = Rails.root.join("app/widgets/menus/#{menu}.rb")
+
+      require Rails.root.join("app/widgets/menus/#{menu}") if File.exists?(file)
     end
 
     Redmine::MenuManager.items(menu).root.children.each do |node|
@@ -214,11 +217,28 @@ module Redmine::MenuManager::MenuHelper
     return block_given? ? nil : items
   end
 
-  def extract_node_details(node, project=nil)
+  def extract_node_details(node, locals = {})
+    # support both the old and the new signature
+    # old: (menu, project=nil)
+    project = locals.is_a?(Project) || locals.nil? ?
+                locals :
+                locals[:project]
+
+    locals = { :project => locals } if locals.is_a?(Project)
+
     item = node
     url = case item.url
     when Hash
-      project.nil? ? item.url : {item.param => project}.merge(item.url)
+      item.url.inject({}) do |h, (k, v)|
+        h[k] = if locals.has_key?(v) && locals[v].is_a?(ActiveRecord::Base)
+                 locals[v].id
+               else
+                 v
+               end
+
+        h
+      end
+      #project.nil? ? item.url : {item.param => project}.merge(item.url)
     when Symbol
       send(item.url)
     else
