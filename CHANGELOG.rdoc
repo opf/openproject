@@ -1,3 +1,13 @@
+= 5.0.1.beta - 2013-05-24
+
+* Fixed API requests for issues#destory
+* Added budget icon for activity view
+* Fixed budget overview table layout
+* Fixed costobject view
+* Removed signoff
+* Translations fixes
+* Enable enter key for the hourly rate forms
+
 = 5.0.0.rc1 - 2013-05-24
 
 * RC1 of the Rails 3 version
