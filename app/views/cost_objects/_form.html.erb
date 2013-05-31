@@ -1,21 +1,12 @@
 <%= f.hidden_field :kind %>
 
-<%# if @cost_object.new_record? %>
-<% if false %>
-<p><%= f.select :kind, [[l(:label_variable_cost_object), VariableCostObject.name], [l(:label_fixed_cost_object), FixedCostObject.name]], {:required => true, :prompt => true }, :autocomplete => 'off' %></p>
-<%= observe_field :cost_object_kind, :url => { :action => :new },
-                                     :update => :content,
-                                     :with => "Form.serialize('cost_object_form')",
-                                     :before => "confirmChangeType('#{l(:text_cost_object_change_type_confirmation)}', $('cost_object_kind'), '#{@cost_object.kind.to_s}')" %>
-<hr />
-<% end %>
-
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
 <p><%= f.text_area :description,
                    :cols => 60,
                    :rows => (@cost_object.description.blank? ? 10 : [[10, @cost_object.description.length / 50].max, 100].min),
                    :accesskey => accesskey(:edit),
                    :class => 'wiki-edit' %></p>
+<p><%= f.text_field :fixed_date, :size => 10 %><%= calendar_for('cost_object_fixed_date') %></p>
 
 <% if @cost_object.kind == "VariableCostObject" -%>
 <script type="text/javascript">
@@ -71,17 +62,6 @@
 </fieldset>
 
 <%- end %>
-
-<div style="clear: both;"> </div>
-
-<div class="splitcontentleft">
-  <p><%= f.check_box(:project_manager_signoff) %></p>
-  <p><%= f.check_box(:client_signoff) %></p>
-</div>
-
-<div class="splitcontentright">
-  <p><%= f.text_field :fixed_date, :size => 10 %><%= calendar_for('cost_object_fixed_date') %></p>
-</div>
 
 <div style="clear: both;"> </div>
 

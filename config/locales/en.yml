@@ -23,8 +23,6 @@ en:
       cost_object:
         type: Cost type
         budget_ratio: Spent (ratio)
-        project_manager_signoff: Project manager signoff
-        client_signoff: Client signoff
         fixed_date: Fixed date
         budget: Planned
         spent: Spent
@@ -96,9 +94,6 @@ en:
   help_override_rate: Enter a value here to override the default rate.
 
   label_log_costs: Log unit costs
-  label_awaiting_client: Awaiting client response
-  label_status_awaiting_client: Awaiting client response
-  label_awaiting_manager: Awaiting manager response
   label_between: between
   label_cost_filter_add: Add cost entry filter
   label_cost_object: Budget
@@ -132,7 +127,6 @@ en:
   label_rate: Rate
   label_rate_plural: Rates
   label_status_finished: Finished
-  label_status_in_progress: In progress
   label_units: Cost units
   label_until: until
   label_valid_from: Valid from

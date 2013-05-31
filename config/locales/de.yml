@@ -23,8 +23,6 @@ de:
       cost_object:
         type: Kostenart
         budget_ratio: Verbraucht (Prozent)
-        project_manager_signoff: Genehmigt vom Projektmanager
-        client_signoff: Genehmigt vom Kunden
         fixed_date: Referenzdatum
         budget: Geplant
         spent: Verbraucht
@@ -96,9 +94,6 @@ de:
   help_override_rate: "Hier einen Wert eingeben um den Standardwert zu Überschreiben."
 
   label_log_costs: Stückkosten buchen
-  label_awaiting_client: Warten auf Kundenantwort
-  label_status_awaiting_client: Warten auf Kundenantwort
-  label_awaiting_manager: Warten auf Managerantwort
   label_between: zwischen
   label_cost_filter_add: "Kostenfilter hinzufügen"
   label_cost_object: Budget
@@ -134,7 +129,6 @@ de:
   label_rate: Satz
   label_rate_plural: Sätze
   label_status_finished: Abgeschlossen
-  label_status_in_progress: In  Bearbeitung
   label_units: Einheiten
   label_until: bis
   label_valid_from: "Gültig ab"

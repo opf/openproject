@@ -54,18 +54,6 @@ describe PermittedParams do
       PermittedParams.new(params, user).cost_object.should == { "fixed_date" => "2013-05-06" }
     end
 
-    it "should return project_manager_signoff" do
-      params = ActionController::Parameters.new(:cost_object => { "project_manager_signoff" => true } )
-
-      PermittedParams.new(params, user).cost_object.should == { "project_manager_signoff" => true }
-    end
-
-    it "should return client_signoff" do
-      params = ActionController::Parameters.new(:cost_object => { "client_signoff" => true } )
-
-      PermittedParams.new(params, user).cost_object.should == { "client_signoff" => true }
-    end
-
     it "should not return project_id" do
       params = ActionController::Parameters.new(:cost_object => { "project_id" => 42 } )
 
