@@ -12,8 +12,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'coveralls/rake/task'
-Coveralls::RakeTask.new
+if Rails.env.test?
+  require 'coveralls/rake/task'
+  Coveralls::RakeTask.new
+end
 
 namespace :test do
   desc 'Run unit and functional scm tests'
