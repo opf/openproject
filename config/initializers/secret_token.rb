@@ -19,7 +19,8 @@ else
 end
 
 if OpenProject::Application.config.secret_token.nil?
-  puts "Warning: secret_token empty!"
+  puts "Error: secret_token empty!"
   puts "Please set it with ENV variable 'SECRET_TOKEN' or "
   puts "run 'rake generate_secret_token'"
+  exit 1
 end
