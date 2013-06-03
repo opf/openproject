@@ -195,9 +195,11 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     describe CostQuery::GroupBy::CustomFieldEntries do
-      let!(:issue_custom_field1){ FactoryGirl.create(:issue_custom_field) }
+      let!(:searchable_field){ FactoryGirl.create(:issue_custom_field, name: "Searchable Field") }
+      let!(:project){ FactoryGirl.create(:project_with_trackers) }
 
       before do
+        # create_issue_custom_field("Searchable Field")
         CostQuery::GroupBy.all.merge CostQuery::GroupBy::CustomFieldEntries.all
       end
 
@@ -255,9 +257,11 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "is usable as filter" do
+        create_issue_custom_field("Database")
+        crw
         @query.group_by :custom_field_searchable_field
         footprint = @query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
-        footprint.should == [[1, 1], [2, 2], [2, 3], [8, 11]] # see fixtures
+        footprint.should == [[8, 8]]
       end
     end
   end
