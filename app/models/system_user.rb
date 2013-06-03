@@ -6,7 +6,7 @@ class SystemUser < User
 
   validate :validate_unique_system_user, :on => :create
 
-  # There should be only one AutomaticMigrationUser in the database
+  # There should be only one SystemUser in the database
   def validate_unique_system_user
     errors.add :base, 'A SystemUser already exists.' if SystemUser.find(:first)
   end
