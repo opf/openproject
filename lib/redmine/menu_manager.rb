@@ -39,6 +39,11 @@ module Redmine::MenuManager
     items[menu_name.to_sym] || Redmine::MenuManager::TreeNode.new(:root, {})
   end
 
+  def self.exists?(menu_name)
+    # TODO: have an explicit method for querying for undefined menus
+    items(menu).children.size == 0
+  end
+
   private
 
   class << self

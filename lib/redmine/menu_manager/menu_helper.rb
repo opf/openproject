@@ -199,7 +199,7 @@ module Redmine::MenuManager::MenuHelper
     items = []
 
     # TODO: have an explicit method for querying for undefined menus
-    if Redmine::MenuManager.items(menu).children.size == 0
+    if Redmine::MenuManager.exists?(menu)
       file = Rails.root.join("app/widgets/menus/#{menu}.rb")
 
       require Rails.root.join("app/widgets/menus/#{menu}") if File.exists?(file)
