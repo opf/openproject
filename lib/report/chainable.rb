@@ -84,7 +84,7 @@ class Report < ActiveRecord::Base
       @cache_key ||= underscore_name
     end
 
-    inherited_attribute :label, :default => :translation_needed
+    inherited_attribute :label, :default => "Translation needed"
     inherited_attribute :properties, :list => true
 
     class << self

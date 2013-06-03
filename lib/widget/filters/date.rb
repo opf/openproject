@@ -16,7 +16,7 @@ class Widget::Filters::Date < Widget::Filters::Base
 
     write(content_tag(:td) do
       label1 = label_tag "#{id_prefix}arg_1_val",
-                         h(l(filter_class.label)) + " " + l(:label_filter_value),
+                         h(filter_class.label) + " " + l(:label_filter_value),
                          :class => 'hidden-for-sighted'
 
       arg1 = content_tag :span, :id => "#{id_prefix}arg_1", :class => "filter_values" do
@@ -29,7 +29,7 @@ class Widget::Filters::Date < Widget::Filters::Base
         label1 + text1 + cal1
       end
       label2 = label_tag "#{id_prefix}arg_2_val",
-                         h(l(filter_class.label)) + " " + l(:label_filter_value),
+                         h(filter_class.label) + " " + l(:label_filter_value),
                          :class => 'hidden-for-sighted'
 
       arg2 = content_tag :span, :id => "#{id_prefix}arg_2", :class => "between_tags" do

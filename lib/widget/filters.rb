@@ -27,11 +27,11 @@ class Widget::Filters < Widget::Base
   def selectables
     filters = engine::Filter.all
     filters.sort_by do |filter|
-      l(filter.label)
+      filter.label
     end.select do |filter|
       filter.selectable?
     end.collect do |filter|
-      [ l(filter.label), filter.underscore_name ]
+      [ filter.label, filter.underscore_name ]
     end
   end
 
