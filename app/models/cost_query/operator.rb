@@ -1,6 +1,6 @@
 class CostQuery::Operator < Report::Operator
   # Operators from Redmine
-  new "c", :arity => 0, :label => :label_closed do
+  new "c", :arity => 0, :label => I18n.t(:label_closed) do
     def modify(query, field, *values)
       raise "wrong field" if field.to_s.split('.').last != "status_id"
       query.where "(#{IssueStatus.table_name}.is_closed = #{quoted_true})"
@@ -16,7 +16,7 @@ class CostQuery::Operator < Report::Operator
     end
   end
 
-  new "=_child_projects", :validate => :integers, :label => :label_is_project_with_subprojects do
+  new "=_child_projects", :validate => :integers, :label =>  I18n.t(:label_is_project_with_subprojects) do
     def modify(query, field, *values)
       p_ids = []
       values.each do |value|
@@ -28,7 +28,7 @@ class CostQuery::Operator < Report::Operator
     end
   end
 
-  new "!_child_projects", :validate => :integers, :label => :label_is_not_project_with_subprojects do
+  new "!_child_projects", :validate => :integers, :label =>  I18n.t(:label_is_not_project_with_subprojects) do
     def modify(query, field, *values)
       p_ids = []
       values.each do |value|

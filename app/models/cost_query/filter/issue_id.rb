@@ -1,5 +1,5 @@
 class CostQuery::Filter::IssueId < CostQuery::Filter::Base
-  label :field_issue
+  label Issue.model_name.human
 
   def self.available_values(*)
     issues = Project.visible.collect { |p| p.issues }.flatten.uniq.sort_by { |i| i.id }

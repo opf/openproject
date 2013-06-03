@@ -1,5 +1,5 @@
 class CostQuery::GroupBy
   class UserId < Base
-    label :field_user
+    label Issue.human_attribute_name(:user)
   end
 end

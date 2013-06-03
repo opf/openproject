@@ -1,6 +1,6 @@
 class CostQuery::Filter::CostObjectId < CostQuery::Filter::Base
   join_table Project
-  label :field_cost_object
+  label CostObject.model_name.human
   applies_for :label_issue_attributes
 
   def self.available_values(*)

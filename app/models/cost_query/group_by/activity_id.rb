@@ -1,5 +1,5 @@
 class CostQuery::GroupBy
   class ActivityId < Base
-    label :field_activity
+    label Issue.human_attribute_name(:activity)
   end
 end

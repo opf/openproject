@@ -1,5 +1,5 @@
 class CostQuery::GroupBy
   class Tmonth < Base
-    label :label_month_reporting
+    label I18n.t(:label_month_reporting)
   end
 end

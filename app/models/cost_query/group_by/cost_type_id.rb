@@ -1,5 +1,5 @@
 class CostQuery::GroupBy
   class CostTypeId < Base
-    label :field_cost_type
+    label CostType.model_name.human
   end
 end

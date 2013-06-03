@@ -1,5 +1,5 @@
 class CostQuery::Filter::CostTypeId < CostQuery::Filter::Base
-  label :field_cost_type
+  label Issue.human_attribute_name(:cost_type)
   extra_options :display
   selectable false
 
