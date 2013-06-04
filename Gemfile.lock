@@ -124,7 +124,7 @@ GEM
     cucumber-rails-training-wheels (1.0.0)
       cucumber-rails (>= 1.1.1)
     daemons (1.1.9)
-    dalli (2.6.3)
+    dalli (2.6.4)
     database_cleaner (1.0.1)
     debug_inspector (0.0.2)
     debugger (1.6.0)
