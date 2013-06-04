@@ -46,4 +46,10 @@ class Issues::CalendarsController < ApplicationController
 
     render :layout => !request.xhr?
   end
+
+private
+
+  def default_breadcrumb
+    l(:label_calendar)
+  end
 end
