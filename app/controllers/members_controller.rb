@@ -127,14 +127,8 @@ JS
     members = []
 
     attrs = params[:member].dup
-    user_ids = if attrs[:user_ids].present?
-                 transform_array_of_comma_seperated_ids(attrs.delete(:user_ids))
-               elsif attrs[:user_id].present?
-                 [attrs.delete(:user_id)]
-               else
-                 []
-               end
-    roles = Role.find_all_by_id(transform_array_of_comma_seperated_ids(attrs.delete(:role_ids)))
+    user_ids = possibly_seperated_ids_for_entity(attrs, :user)
+    roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(attrs, :role))
 
     user_ids.each do |user_id|
       member = Member.new attrs
@@ -159,6 +153,16 @@ JS
   def transform_array_of_comma_seperated_ids(array)
     each_comma_seperated(array) do |elem|
       elem.to_s.split(",").map(&:to_i)
+    end
+  end
+
+  def possibly_seperated_ids_for_entity(array, entity = :user)
+    if array[:"#{entity}_ids"].present?
+      transform_array_of_comma_seperated_ids(array.delete(:"#{entity}_ids"))
+    elsif array[:"#{entity}_id"].present?
+      [array.delete(:"#{entity}_id")]
+    else
+      []
     end
   end
 
