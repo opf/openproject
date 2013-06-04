@@ -30,12 +30,12 @@
 </div>
 
 <div class="splitcontentright">
-<h3><%=l(:field_mail_notification)%></h3>
+<h3><%= User.human_attribute_name(:mail_notification) %></h3>
 <div class="box">
 <%= render :partial => 'users/mail_notifications' %>
 </div>
 
-<h3><%=l(:field_ui, :app_title => Setting.app_title)%></h3>
+<h3><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
 <div class="box tabular">
 <%= render :partial => 'users/impaired_settings' %>
 </div>

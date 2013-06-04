@@ -22,7 +22,7 @@ class WikiPage < ActiveRecord::Base
   acts_as_tree :dependent => :nullify, :order => 'title'
 
   acts_as_watchable
-  acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
+  acts_as_event :title => Proc.new {|o| "#{Wiki.model_name.human}: #{o.title}"},
                 :description => :text,
                 :datetime => :created_on,
                 :url => Proc.new {|o| {:controller => '/wiki', :action => 'show', :project_id => o.wiki.project, :id => o.title}}

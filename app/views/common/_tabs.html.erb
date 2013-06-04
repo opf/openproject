@@ -5,10 +5,16 @@
   <% tabs.each do |tab| -%>
     <li><%=
     position_span = you_are_here_info(tab[:name] == selected_tab)
-    link_to(position_span + l(tab[:label]), { :tab => tab[:name] },
-                                    :id => "tab-#{tab[:name]}",
-                                    :class => (tab[:name] != selected_tab ? nil : 'selected'),
-                                    :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;") %></li>
+    caption = case tab[:label]
+    when Proc
+      tab[:label].call
+    else
+      l(tab[:label])
+    end
+    link_to(position_span + caption, { :tab => tab[:name] },
+                                       :id => "tab-#{tab[:name]}",
+                                       :class => (tab[:name] != selected_tab ? nil : 'selected'),
+                                       :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;") %></li>
   <% end -%>
   </ul>
   <div class="tabs-buttons" style="display:none;">

@@ -665,7 +665,7 @@ color:#505050;
 }
 
 /***** Progress bar *****/
-#content .meta table.progress {
+#content table.progress {
   border-spacing: 0pt;
   empty-cells: show;
   text-align: center;
@@ -678,10 +678,10 @@ color:#505050;
   border-radius:3px;
 }
 
-#content .meta table.progress td { height: 0.9em; }
-#content .meta table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
-#content .meta table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
-#content .meta table.progress td.open { background: #FFF none repeat scroll 0%; }
+#content table.progress td { height: 0.9em; }
+#content table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
+#content table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
+#content table.progress td.open { background: #FFF none repeat scroll 0%; }
 p.pourcent {font-size: 80%;}
 p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 
@@ -1654,7 +1654,7 @@ form#issue-list {
 	font-weight:normal;
 }
 #content table.issues td, #content table th {
-	border:1px solid #e6e6e6;
+	border: 0 none;
 	padding: 3px 6px;
 	text-align:left;
 	position:relative;
@@ -1761,26 +1761,14 @@ div.issue hr {
   margin-top: -6px;
   margin-bottom: 0px;
 }
-#content .meta table {
-	border:0 none;
-}
-#content .meta table tr:hover {
-	background:none;
-}
-#content .meta table td, #content .meta table th {
+#content div.issue table td, #content div.issue table th {
   background: none;
 	border:0 none;
 	padding:0 3px;
   padding-left: 0px;
 }
-#content .meta table th {
+#content div.issue table th {
 	font-weight:bold;
-}
-#content .meta table td a:hover, #content .meta table th a:hover {
-	text-decoration:underline;
-}
-#content .meta table td.priority {
-	text-align:left; /* Is set to center above */
 }
 .gravatar {
 	border:1px solid #aaa;
@@ -2115,39 +2103,6 @@ td.issue div.issue-wrap-outer {
 	display:block;
 }
 
-/* table tooltips */
-.js-tooltip {
-	position:absolute;
-	left:-30px;
-	z-index:20;
-}
-.js-tooltip-inner {
-	position:absolute;
-	bottom:5px;
-	padding:10px;
-	width:500px;
-	font-size:11px;
-	max-height:200px;
-	overflow:hidden;
-	z-index:15;
-}
-.js-tooltip .arrow {
-	width:16px;
-	height:12px;
-	position:absolute;
-	bottom:-6px;
-	left:76px;
-	z-index:16;
-	background:url(<%= asset_path 'tooltip-arrow.png' %>) no-repeat left top;
-}
-.js-tooltip .meta {
-	margin-top:20px;
-	overflow:hidden;
-}
-.js-tooltip .meta li {
-	float:left;
-	margin-right:30px;
-}
 .button-large ul {
 	position:absolute;
 	right:-1px;
@@ -2439,9 +2394,6 @@ fieldset#filters div.add-filter {
 }
 tr.time-entry {
 	white-space:normal;
-}
-.meta td.priority {
-	background:none !important;
 }
 
 /*===== Replacement Images =====*/
@@ -2819,13 +2771,13 @@ ul.action_menu_more {
   background-position:-39px -200px;
   background-repeat:no-repeat;
 }
-.navigate-left {
+.pagination .navigate-left {
   background: url(<%= asset_path 'double_arrow_left.png' %>) 0 1px no-repeat;
   width:100%;
   height:15px;
   padding-left: 18px;
 }
-.navigate-right {
+.pagination .navigate-right {
   background: url(<%= asset_path 'double_arrow_right.png' %>) right 1px no-repeat;
   width:100%;
   height:15px;
@@ -3330,9 +3282,6 @@ a.atom {
 body.theme-Bsp .buttons .apply,
 body.theme-Dtag .buttons .apply {
   background-color:  #24b3e7;
-}
-#content table.issues td, #content table th{
-  border: 0px;
 }
 .title-bar .title-bar-actions .contextual a.icon:hover {
   color: #008BD0;

@@ -137,13 +137,14 @@ module ApplicationHelper
       end
     end
     closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
-    s = link_to "#{closed}#{h(options[:before_text].to_s)}#{h(issue.tracker)} ##{issue.id}".html_safe,
+    s = ActiveSupport::SafeBuffer.new
+    s << "#{issue.project} - " if options[:project]
+    s << link_to("#{closed}#{h(options[:before_text].to_s)}#{h(issue.tracker)} ##{issue.id}".html_safe,
                 issue,
                 :class => issue.css_classes,
-                :title => h(title)
-    s << ": #{h subject}" if subject
-    s = "#{h issue.project} - " + s if options[:project]
-    s.html_safe
+                :title => h(title))
+    s << ": #{subject}" if subject
+    s
   end
 
   # Generates a link to an attachment.
@@ -153,12 +154,16 @@ module ApplicationHelper
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
     action = options.delete(:download) ? 'download' : 'show'
+    only_path = options.delete(:only_path) { true }
 
     link_to h(text),
             {:controller => '/attachments',
              :action => action,
              :id => attachment,
-             :filename => attachment.filename },
+             :filename => attachment.filename,
+             :host => Setting.host_name,
+             :protocol => Setting.protocol,
+             :only_path => only_path },
             options
   end
 
@@ -1096,7 +1101,7 @@ module ApplicationHelper
       });
     })
     unless User.current.pref.warn_on_leaving_unsaved == '0'
-      tags += javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
+      tags += javascript_tag("jQuery(function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
     end
 
     if User.current.impaired? and accessibility_js_enabled?

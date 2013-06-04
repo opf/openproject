@@ -10,11 +10,11 @@ class QueryColumn
       self.groupable = name.to_s
     end
     self.default_order = options[:default_order]
-    @caption_key = options[:caption] || "field_#{name}"
+    @caption_key = options[:caption] || name.to_s
   end
 
   def caption
-    l(@caption_key)
+    Issue.human_attribute_name(@caption_key)
   end
 
   # Returns true if the column is sortable, otherwise false

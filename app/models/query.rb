@@ -65,7 +65,7 @@ class Query < ActiveRecord::Base
   @@available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
     QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position", :groupable => true),
-    QueryColumn.new(:parent, :sortable => ["#{Issue.table_name}.root_id", "#{Issue.table_name}.lft ASC"], :default_order => 'desc', :caption => :field_parent_issue),
+    QueryColumn.new(:parent, :sortable => ["#{Issue.table_name}.root_id", "#{Issue.table_name}.lft ASC"], :default_order => 'desc', :caption => :parent_issue),
     QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position", :groupable => true),
     QueryColumn.new(:priority, :sortable => "#{IssuePriority.table_name}.position", :default_order => 'desc', :groupable => true),
     QueryColumn.new(:subject, :sortable => "#{Issue.table_name}.subject"),
@@ -152,10 +152,10 @@ class Query < ActiveRecord::Base
     @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values } unless user_values.empty?
 
     group_values = Group.all.collect {|g| [g.name, g.id.to_s] }
-    @available_filters["member_of_group"] = { :type => :list_optional, :order => 6, :values => group_values } unless group_values.empty?
+    @available_filters["member_of_group"] = { :type => :list_optional, :order => 6, :values => group_values, :name => I18n.t('query_fields.member_of_group') } unless group_values.empty?
 
     role_values = Role.givable.collect {|r| [r.name, r.id.to_s] }
-    @available_filters["assigned_to_role"] = { :type => :list_optional, :order => 7, :values => role_values } unless role_values.empty?
+    @available_filters["assigned_to_role"] = { :type => :list_optional, :order => 7, :values => role_values, :name => I18n.t('query_fields.assigned_to_role') } unless role_values.empty?
 
     if User.current.logged?
       # populate the watcher list with the same user list as other user filters if the user has the :view_issue_watchers permission in at least one project
@@ -177,7 +177,7 @@ class Query < ActiveRecord::Base
       unless project.leaf?
         subprojects = project.descendants.visible.all
         unless subprojects.empty?
-          @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => subprojects.collect{|s| [s.name, s.id.to_s] } }
+          @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => subprojects.collect{|s| [s.name, s.id.to_s] }, :name => I18n.t('query_fields.subproject_id') }
         end
       end
       add_custom_fields_filters(project.all_issue_custom_fields)
@@ -601,7 +601,8 @@ class Query < ActiveRecord::Base
   end
 
   def add_custom_fields_filters(custom_fields)
-    @available_filters ||= {}
+    available_filters # compute default available_filters
+    return available_filters if available_filters.any? { |key, _| key.starts_with? 'cf_' }
 
     custom_fields.select(&:is_filter?).each do |field|
       case field.field_format

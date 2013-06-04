@@ -1,12 +1,6 @@
 source 'https://rubygems.org'
 
-gem "rails", :git => "https://github.com/rails/rails.git", :branch => "3-2-13"
-# be careful when updating past 3-2-13
-# rails commit 9bd5c86c3bdc70bf29be7f756d1dec2fdd4eaaf0 resultsin a bug, when creating WikiContent Objects via FactoryGirl.
-# So we use the commit before that for now.
-# gem "rails", :git => "https://github.com/rails/rails.git", :ref => "bb0007f70420445f140004587aa1228895ab6653"
-
-gem "sprockets", :git => "https://github.com/tessi/sprockets.git", :branch => "2_2_1-backport"
+gem "rails", :git => "https://github.com/rails/rails.git", :branch => "3-2-stable"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -33,6 +27,9 @@ gem 'htmldiff'
 gem 'execjs'
 gem 'therubyracer'
 
+# will need to be removed once we are on rails4 as it will be part of the rails4 core
+gem 'strong_parameters'
+
 group :production do
   # we use dalli as standard memcache client remove this if you don't
   # requires memcached 1.4+
@@ -55,28 +52,29 @@ gem 'jquery-rails', '~> 2.0.3'
 gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
 
 group :test do
-  gem 'shoulda', '~> 3.1.1'
+  gem 'shoulda'
   gem 'object-daddy', :git => 'https://github.com/awebneck/object_daddy.git'
   gem 'mocha', '~> 0.13.1', :require => false
-  gem "launchy", "~> 2.1.0"
+  gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.0"
   gem 'cucumber-rails', :require => false
   gem 'rack_session_access'
   gem 'database_cleaner'
   gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
   gem "rspec-rails", "~> 2.0", :group => :development
+  gem 'rspec-example_disabler', :git => 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'capybara'
-  gem 'spork-rails'
-  gem 'spork-testunit' # needed for test-unit only
   gem 'selenium-webdriver'
 
   gem 'rb-readline' # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
+  gem 'simplecov', ">= 0.8.pre"
+  gem 'coveralls', :require => false
 end
 
 group :openid do
-  gem "ruby-openid", '~> 2.1.4', :require => 'openid'
+  gem "ruby-openid", '~> 2.2.3', :require => 'openid'
 end
 
 group :development do
@@ -86,9 +84,9 @@ group :development do
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'guard-rspec'
   gem 'guard-cucumber'
-  gem 'guard-spork'
   gem 'rb-fsevent', :group => :test
   gem 'rack-mini-profiler'
+  gem 'thin'
 end
 
 group :development, :test do
@@ -175,8 +173,8 @@ platforms :jruby do
   end
 end
 
-# Load Gemfile.local and plugins' Gemfiles
-Dir.glob File.expand_path("../{Gemfile.local,lib/plugins/*/Gemfile}", __FILE__) do |file|
+# Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
+Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}", __FILE__) do |file|
   next unless File.readable?(file)
   instance_eval File.read(file)
 end

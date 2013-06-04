@@ -217,8 +217,8 @@ class RoutingTest < ActionDispatch::IntegrationTest
     should route(:post, "/issues/move").to( :controller => 'issues/moves',
                                             :action => 'create')
 
-    should route(:post, "/issues/1/quoted").to( :controller => 'journals',
-                                                :action => 'new',
+    should route(:get, "/issues/1/quoted").to( :controller => 'issues',
+                                                :action => 'quoted',
                                                 :id => '1')
 
     should route(:get, "/issues/calendar").to( :controller => 'issues/calendars',

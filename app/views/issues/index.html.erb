@@ -25,11 +25,11 @@
     	<div style="display: none;">
     		<table>
     			<tr>
-    				<td><%= l(:field_column_names) %></td>
+    				<td><%= Query.human_attribute_name(:column_names) %></td>
 						<td><%= render :partial => 'queries/columns', :locals => {:query => @query} %></td>
 					</tr>
 					<tr>
-						<td><label for='group_by'><%= l(:field_group_by) %></label></td>
+						<td><label for='group_by'><%= Query.human_attribute_name(:group_by) %></label></td>
 						<td><%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %></td>
 					</tr>
 					<% if any_summable_columns? %>

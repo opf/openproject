@@ -160,25 +160,25 @@ class TimeEntries::ReportsController < ApplicationController
   def load_available_criterias
     @available_criterias = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
                                           :klass => Project,
-                                          :label => :label_project},
+                                          :label => Project.model_name.human},
                              'version' => {:sql => "#{Issue.table_name}.fixed_version_id",
                                           :klass => Version,
-                                          :label => :label_version},
+                                          :label => Version.model_name.human},
                              'category' => {:sql => "#{Issue.table_name}.category_id",
                                             :klass => IssueCategory,
-                                            :label => :field_category},
+                                            :label => IssueCategory.model_name.human},
                              'member' => {:sql => "#{TimeEntry.table_name}.user_id",
                                          :klass => User,
-                                         :label => :label_member},
+                                         :label => Member.model_name.human},
                              'tracker' => {:sql => "#{Issue.table_name}.tracker_id",
                                           :klass => Tracker,
-                                          :label => :label_tracker},
+                                          :label => Tracker.model_name.human},
                              'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
                                            :klass => TimeEntryActivity,
                                            :label => :label_activity},
                              'issue' => {:sql => "#{TimeEntry.table_name}.issue_id",
                                          :klass => Issue,
-                                         :label => :label_issue}
+                                         :label => Issue.model_name.human}
                            }
 
     # Add list and boolean custom fields as available criterias

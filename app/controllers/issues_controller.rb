@@ -20,7 +20,7 @@ class IssuesController < ApplicationController
   menu_item :view_all_issues, :only => [:all]
   default_search_scope :issues
 
-  before_filter :find_issue, :only => [:show, :edit, :update]
+  before_filter :find_issue, :only => [:show, :edit, :update, :quoted]
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :move, :perform_move, :destroy]
   before_filter :check_project_uniqueness, :only => [:move, :perform_move]
   before_filter :find_project, :only => [:new, :create]
@@ -171,6 +171,31 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.js { render :partial => 'edit' }
       format.html { }
+      format.xml  { }
+    end
+  end
+
+  def quoted
+    @journal = Journal.find(params[:journal_id]) if params[:journal_id]
+    if @journal
+      user = @journal.user
+      text = @journal.notes
+    else
+      user = @issue.author
+      text = @issue.description
+      @journal = @issue.current_journal
+    end
+
+    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
+    quoted_text = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
+    quoted_text << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+    params[:notes] = quoted_text
+
+    update_issue_from_params
+
+    respond_to do |format|
+      format.js { render :partial => 'edit' }
+      format.html { render :action => 'edit'}
       format.xml  { }
     end
   end

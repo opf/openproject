@@ -22,7 +22,7 @@ class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
   private
 
   def label(key)
-    l(:label_attachment)
+    Attachment.model_name.human
   end
 
   # we need to tell the url_helper that there is not controller to get url_options
@@ -33,7 +33,7 @@ class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
 
   def format_html_attachment_detail(key, value)
     if !value.blank? && a = Attachment.find_by_id(key.to_i)
-      link_to_attachment(a)
+      link_to_attachment(a, :only_path => false )
     else
       value if value.present?
     end

@@ -1,8 +1,8 @@
 <% if @project.boards.any? %>
 <table class="list">
 	<thead><tr>
-		<th><%= l(:label_board) %></th>
-		<th><%= l(:field_description) %></th>
+		<th><%= Board.model_name.human %></th>
+		<th><%= Board.human_attribute_name(:description) %></th>
 		<th></th>
 		<th></th>
 	</tr></thead>

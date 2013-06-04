@@ -93,5 +93,16 @@ module Redmine
     def current_language
       ::I18n.locale
     end
+
+    # Collects all translations for ActiveRecord attributes
+    def all_attribute_translations(locale = current_locale)
+      @cached_attribute_translations ||= {}
+      @cached_attribute_translations[locale] ||= (
+        general_attributes = ::I18n.t('attributes', :locale => locale)
+        ::I18n.t("activerecord.attributes", :locale => locale).inject(general_attributes) do |attr_t, model_t|
+          attr_t.merge(model_t.last || {})
+        end)
+      @cached_attribute_translations[locale]
+    end
   end
 end

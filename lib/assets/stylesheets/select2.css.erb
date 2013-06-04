@@ -1,5 +1,5 @@
 /*
-Version: @@ver@@ Timestamp: @@timestamp@@
+Version: 3.3.2 Timestamp: Mon Mar 25 12:14:18 PDT 2013
 */
 .select2-container {
     position: relative;
@@ -7,7 +7,7 @@ Version: @@ver@@ Timestamp: @@timestamp@@
     /* inline-block for ie7 */
     zoom: 1;
     *display: inline;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 .select2-container,
@@ -119,7 +119,11 @@ Version: @@ver@@ Timestamp: @@timestamp@@
     left: 0;
     top: 0;
     z-index: 9998;
+    background-color: #fff;
     opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; /* works in IE 8 */
+        filter: "alpha(opacity=0)"; /* expected to work in IE 8 */
+        filter: alpha(opacity=0); /* IE 4-7 */
 }
 
 .select2-drop {
@@ -334,6 +338,8 @@ Version: @@ver@@ Timestamp: @@timestamp@@
     padding: 3px 7px 4px;
     margin: 0;
     cursor: pointer;
+
+    min-height: 1em;
 
     -webkit-touch-callout: none;
       -webkit-user-select: none;
@@ -585,8 +591,14 @@ disabled look for disabled choices in the results dropdown
 }
 
 .select2-offscreen {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
     position: absolute;
-    left: -10000px;
+    width: 1px;
 }
 
 /* Retina-ize icons */

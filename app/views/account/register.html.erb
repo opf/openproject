@@ -8,31 +8,31 @@
 <div class="box">
 <!--[form:user]-->
 <% if @user.auth_source_id.nil? %>
-<p><label for="user_login"><%=l(:field_login)%> <span class="required">*</span></label>
+<p><label for="user_login"><%= User.human_attribute_name :login %> <span class="required">*</span></label>
 <%= text_field 'user', 'login', :size => 25 %></p>
 
-<p><label for="user_password"><%=l(:field_password)%> <span class="required">*</span></label>
+<p><label for="user_password"><%= User.human_attribute_name :password %> <span class="required">*</span></label>
 <%= password_field 'user', 'password', :size => 25  %><br />
 <%= password_complexity_requirements %></p>
 
-<p><label for="user_password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label>
+<p><label for="user_password_confirmation"><%= User.human_attribute_name :password_confirmation %> <span class="required">*</span></label>
 <%= password_field 'user', 'password_confirmation', :size => 25  %></p>
 <% end %>
 
-<p><label for="user_firstname"><%=l(:field_firstname)%> <span class="required">*</span></label>
+<p><label for="user_firstname"><%= User.human_attribute_name :firstname %> <span class="required">*</span></label>
 <%= text_field 'user', 'firstname'  %></p>
 
-<p><label for="user_lastname"><%=l(:field_lastname)%> <span class="required">*</span></label>
+<p><label for="user_lastname"><%= User.human_attribute_name :lastname %> <span class="required">*</span></label>
 <%= text_field 'user', 'lastname'  %></p>
 
-<p><label for="user_mail"><%=l(:field_mail)%> <span class="required">*</span></label>
+<p><label for="user_mail"><%= User.human_attribute_name :mail %> <span class="required">*</span></label>
 <%= text_field 'user', 'mail'  %></p>
 
-<p><label for="user_language"><%=l(:field_language)%></label>
+<p><label for="user_language"><%= User.human_attribute_name :language %></label>
 <%= select("user", "language", lang_options_for_select) %></p>
 
 <% if Setting.openid? %>
-<p><label for="user_identity_url"><%=l(:field_identity_url)%></label>
+<p><label for="user_identity_url"><%= User.human_attribute_name :identity_url %></label>
 <%= text_field 'user', 'identity_url'  %></p>
 <% end %>
 

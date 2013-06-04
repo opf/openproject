@@ -1,12 +1,12 @@
 <table class="list entries" id="browser">
 <thead>
 <tr id="root">
-<th><%= l(:field_name) %></th>
-<th><%= l(:field_filesize) %></th>
+<th><%= Attachment.human_attribute_name(:filename) %></th>
+<th><%= Attachment.human_attribute_name(:filesize) %></th>
 <th><%= l(:label_revision) %></th>
 <th><%= l(:label_age) %></th>
-<th><%= l(:field_author) %></th>
-<th><%= l(:field_comments) %></th>
+<th><%= Changeset.human_attribute_name(:author) %></th>
+<th><%= Changeset.human_attribute_name(:comments) %></th>
 </tr>
 </thead>
 <tbody>

@@ -57,12 +57,9 @@ namespace :ci do
         YAML.dump({"test" => database_yml}, f)
       end
 
-      Rake::Task["generate_session_store"].invoke
-
       # Create and migrate the database
       Rake::Task["db:create"].invoke
       Rake::Task["db:migrate"].invoke
-      Rake::Task["db:migrate:plugins"].invoke #noop currently
       Rake::Task["db:schema:dump"].invoke
 
       # Create test repositories
@@ -76,7 +73,6 @@ namespace :ci do
     Rake::Task["db:drop"].invoke
     Rake::Task["db:create"].invoke
     Rake::Task["db:migrate"].invoke
-    Rake::Task["db:migrate:plugins"].invoke
     Rake::Task["db:schema:dump"].invoke
     Rake::Task["test:scm:update"].invoke
   end

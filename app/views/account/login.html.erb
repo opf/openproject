@@ -7,16 +7,16 @@
 <%= back_url_hidden_field_tag %>
 <table>
 <tr>
-    <td align="right"><label for="username"><%=l(:field_login)%>:</label></td>
+    <td align="right"><label for="username"><%= User.human_attribute_name :login %>:</label></td>
     <td align="left"><%= text_field_tag 'username', nil %></td>
 </tr>
 <tr>
-    <td align="right"><label for="password"><%=l(:field_password)%>:</label></td>
+    <td align="right"><label for="password"><%= User.human_attribute_name :password %>:</label></td>
     <td align="left"><%= password_field_tag 'password', nil %></td>
 </tr>
 <% if Setting.openid? %>
 <tr>
-  <td align="right"><label for="openid_url"><%=l(:field_identity_url)%></label></td>
+  <td align="right"><label for="openid_url"><%= User.human_attribute_name :identity_url %></label></td>
   <td align="left"><%= text_field_tag "openid_url", nil %></td>
 </tr>
 <% end %>

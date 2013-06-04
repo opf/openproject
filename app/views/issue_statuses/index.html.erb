@@ -7,12 +7,12 @@
 
 <table class="list">
   <thead><tr>
-  <th><%=l(:field_status)%></th>
+  <th><%= IssueStatus.model_name.human %></th>
   <% if Issue.use_status_for_done_ratio? %>
-  <th><%=l(:field_done_ratio)%></th>
+    <th><%= Issue.human_attribute_name(:done_ratio) %></th>
   <% end %>
-  <th><%=l(:field_is_default)%></th>
-  <th><%=l(:field_is_closed)%></th>
+  <th><%= IssueStatus.human_attribute_name(:is_default) %></th>
+  <th><%= IssueStatus.human_attribute_name(:is_closed) %></th>
   <th><%=l(:button_sort)%></th>
   <th></th>
   </tr></thead>

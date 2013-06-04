@@ -523,7 +523,11 @@ class ApplicationController < ActionController::Base
   end
 
   def api_request?
-    %w(xml json).include? params[:format]
+    if params[:format].nil?
+      %w(application/xml application/json).include? request.format.to_s
+    else
+      %w(xml json).include? params[:format]
+    end
   end
 
   # Returns the API key present in the request
@@ -613,4 +617,10 @@ class ApplicationController < ActionController::Base
   helper_method :default_breadcrumb
 
   ActiveSupport.run_load_hooks(:application_controller, self)
+
+  private
+
+  def permitted_params
+    @permitted_params ||= PermittedParams.new(params, current_user)
+  end
 end

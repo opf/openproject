@@ -20,7 +20,7 @@
 /config/configuration.yml
 /config/database.yml
 /config/email.yml
-#/config/initializers/session_store.rb
+/config/secret_token.yml
 /coverage
 /db/*.db
 /db/*.sqlite3
@@ -41,6 +41,7 @@
 /doc/app
 #/Gemfile.lock
 /Gemfile.local
+/Gemfile.plugins
 /.rvmrc*
 /.ruby-version
 

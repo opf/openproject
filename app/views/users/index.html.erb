@@ -6,11 +6,11 @@
 
 <%= form_tag({}, :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
-<label for='status'><%= l(:field_status) %>:</label>
+<label for='status'><%=  User.human_attribute_name(:status) %>:</label>
 <%= select_tag 'status', users_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
 
 <% if @groups.present? %>
-  <label for='group_id'><%= l(:label_group) %>:</label>
+  <label for='group_id'><%= Group.model_name.human %>:</label>
   <%= collection_select :group,
                         :id,
                         @groups,
@@ -22,7 +22,7 @@
                           :onchange => "this.form.submit(); return false;" } %>
 <% end %>
 
-<label for='name'><%= l(:label_user) %>:</label>
+<label for='name'><%= User.model_name.human %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
 <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
 <%= link_to l(:button_clear), users_path, :class => 'icon icon-reload' %>
@@ -33,13 +33,13 @@
 <div class="autoscroll">
 <table class="list">
   <thead><tr>
-	<%= sort_header_tag('login', :caption => l(:field_login)) %>
-	<%= sort_header_tag('firstname', :caption => l(:field_firstname)) %>
-	<%= sort_header_tag('lastname', :caption => l(:field_lastname)) %>
-	<%= sort_header_tag('mail', :caption => l(:field_mail)) %>
-	<%= sort_header_tag('admin', :caption => l(:field_admin), :default_order => 'desc') %>
-	<%= sort_header_tag('created_on', :caption => l(:field_created_on), :default_order => 'desc') %>
-	<%= sort_header_tag('last_login_on', :caption => l(:field_last_login_on), :default_order => 'desc') %>
+	<%= sort_header_tag('login', :caption => User.human_attribute_name(:login)) %>
+	<%= sort_header_tag('firstname', :caption => User.human_attribute_name(:firstname)) %>
+	<%= sort_header_tag('lastname', :caption => User.human_attribute_name(:lastname)) %>
+	<%= sort_header_tag('mail', :caption => User.human_attribute_name(:mail)) %>
+	<%= sort_header_tag('admin', :caption => User.human_attribute_name(:admin), :default_order => 'desc') %>
+	<%= sort_header_tag('created_on', :caption => User.human_attribute_name(:created_on), :default_order => 'desc') %>
+	<%= sort_header_tag('last_login_on', :caption => User.human_attribute_name(:last_login_on), :default_order => 'desc') %>
     <th></th>
   </tr></thead>
   <tbody>

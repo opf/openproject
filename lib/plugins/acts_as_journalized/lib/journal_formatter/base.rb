@@ -45,8 +45,7 @@ class JournalFormatter::Base
   end
 
   def label(key)
-    field = key.to_s.gsub(/\_id$/, "")
-    l(("field_" + field).to_sym)
+    @journal.journaled.class.human_attribute_name(key)
   end
 
   def render_ternary_detail_text(label, value, old_value)

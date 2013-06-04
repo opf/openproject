@@ -21,12 +21,15 @@
 //= require controls
 //= require i18n/translations
 //= require select2
+//= require action_menu
 //= require openproject
 //= require breadcrumb
 //= require findDomElement
 //= require context_menu
 //= require jstoolbar
 //= require calendar
+//= require ajaxappender
+//= require issues
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
@@ -750,7 +753,6 @@ jQuery(document).ready(function($) {
   };
 
 
-
 	// open and close the main-menu sub-menus
 	$("#main-menu li:has(ul) > a").not("ul ul a")
 		.append("<span class='toggler'></span>")
@@ -801,7 +803,6 @@ jQuery(document).ready(function($) {
           return false;
           });
         $("#account-nav").onClickDropDown();
-        $(".action_menu_main").onClickDropDown();
 
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
@@ -893,175 +894,7 @@ $(window).bind('resizeEnd', function() {
         }
 });
 
-/* this could and should be moved into separate file once the asset pipeline
-   is in place */
 
-(function ($) {
-  var AjaxAppender = function (options) {
-    var append_href,
-        close,
-        target_container,
-        is_inplace,
-        is_loaded,
-        state_loading,
-        state_loaded,
-        replace_with_close,
-        replace_with_open,
-        slideIn,
-        init;
-
-    options = $.extend(true,
-                       {},
-                       { loading_class: 'loading',
-                         loading: null,
-                         loaded: null,
-                         load_target: null,
-                         trigger: '.ajax_append',
-                         container_class: 'ajax_appended_information',
-                         indicator_class: 'ajax_indicator',
-                         hide_text: 'Hide',
-                         loading_text: null
-                       },
-                       options);
-
-    close = function () {
-      var close_link = $(this),
-          information_window = close_link.siblings('.' + options.container_class);
-
-      replace_with_open(close_link);
-
-      information_window.slideUp();
-    };
-
-    append_href = function (link) {
-      var target = target_container(link),
-          loading_div,
-          url = link.attr('href');
-
-      if (is_loaded(link)) {
-        state_loaded(target, link)
-      }
-      else {
-        state_loading(target);
-
-        $.ajax({ url: url,
-                 headers: { Accept: 'text/javascript' },
-                 complete: function (jqXHR) {
-                             target.html(jqXHR.responseText);
-
-                             state_loaded(target, link);
-                           }
-               });
-      }
-    };
-
-    is_inplace = function() {
-      return options.load_target === null
-    };
-
-    is_loaded = function(link) {
-      var container = target_container(link);
-
-      return container.children().not('.' + options.indicator_class).size() > 0
-    };
-
-    target_container = function(link) {
-      var target,
-          container_string = '<div class="' + options.container_class + '"></div>',
-          container;
-
-      if (is_inplace()) {
-        target = link.parent();
-      }
-      else {
-        target = $(options.load_target)
-      }
-
-      container = target.find('.' + options.container_class);
-
-      if (container.size() === 0) {
-        container = $(container_string);
-
-        target.append(container);
-      }
-
-      return container
-    };
-
-    state_loading = function (target) {
-      var loading = $('<span class="' + options.indicator_class + '"></span>');
-
-      if (options.loading_text !== null) {
-        loading.html(options.loading_text);
-      }
-
-      target.addClass(options.loading_class);
-      target.append(loading);
-
-      if (options.loading !== null) {
-        options.loading.call(this, target);
-      }
-    };
-
-    state_loaded = function (target, link) {
-      target.removeClass(options.loading_class);
-
-      if (is_inplace()) {
-        replace_with_close(link, true);
-      }
-
-      if (options.loaded !== null) {
-        target.slideDown(function() {
-          options.loaded.call(this, target);
-        });
-      }
-      else{
-        target.slideDown();
-      }
-    };
-
-    replace_with_close = function (to_replace, hide) {
-      var close_link = $('<a href="javascript:void(0)">' + options.hide_text + '</a>');
-
-      to_replace.after(close_link);
-
-      if (hide) {
-        to_replace.hide();
-      }
-      else {
-        to_replace.remove();
-      }
-
-      close_link.click(close);
-    };
-
-    replace_with_open = function(to_replace) {
-      var load_link = to_replace.siblings(options.trigger);
-
-      to_replace.remove();
-
-      /* this link is never removed, only hidden */
-      load_link.show();
-    };
-
-    $(options.trigger).click(function(link) {
-      append_href($(this));
-
-      return false;
-    });
-
-    return this;
-  };
-
-  if ($.ajaxAppend) {
-    return;
-  };
-
-  $.ajaxAppend = function (options) {
-    AjaxAppender(options);
-    return this;
-  };
-}(jQuery));
 
 var Administration = (function ($) {
   var update_default_language_options,
@@ -1507,43 +1340,4 @@ var Preview = (function ($) {
     });
 })(jQuery);
 
-var Issue = Issue || {};
 
-Issue.Show = (function($) {
-  var init;
-
-  init = function () {
-    $.ajaxAppend({
-      trigger: '.action_menu_main .edit',
-      indicator_class: 'ajax-indicator',
-      load_target: '#update',
-      loading_text: I18n.t("js.ajax.loading"),
-      loading_class: 'box loading',
-      loading: function(update) {
-                 $('html, body').animate({
-                   scrollTop: $(update).offset().top
-                 }, 200);
-               },
-      loaded: function(update) {
-                $('html, body').animate({
-                  scrollTop: $(update).offset().top
-                }, 200);
-
-                $("#notes").focus();
-      }
-    });
-
-    $.ajaxAppend({
-      trigger: '.description-details',
-      indicator_class: 'ajax-indicator',
-      loading_class: 'text-diff',
-      hide_text: I18n.t("js.ajax.hide")
-    } );
-  };
-
-  $('document').ready(function () {
-    if ($('body.controller-issues.action-show').size() > 0) {
-     init();
-    };
-  });
-})(jQuery);
