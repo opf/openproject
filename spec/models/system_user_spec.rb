@@ -56,7 +56,7 @@ describe SystemUser do
 
     it 'runs block with SystemUser' do
       @u.admin?.should be_false
-      User.current.should == User.anonymous
+      before_user = User.current
 
       @u.run_given do
         issue.done_ratio = 50
@@ -66,7 +66,7 @@ describe SystemUser do
       issue.journals.last.user.should == @u
 
       @u.admin?.should be_false
-      User.current.should == User.anonymous
+      User.current.should == before_user
     end
   end
 end
