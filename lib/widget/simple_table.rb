@@ -19,10 +19,10 @@ class Widget::Table::SimpleTable < Widget::Table
       content_tag :tr do
         tr_tag = "".html_safe
         @list.each do |field|
-          tr_tag << content_tag(:th, :class => "right") { label_for(field) }
+          tr_tag << content_tag(:th, :class => "right") { label_for(field).html_safe }
         end
-        tr_tag << content_tag(:th, :class => "right") { label_for(:field_units) } if @show_units
-        tr_tag << content_tag(:th, :class => "right") { label_for(:label_sum) }
+        tr_tag << content_tag(:th, :class => "right") { label_for(:field_units).html_safe } if @show_units
+        tr_tag << content_tag(:th, :class => "right") { label_for(:label_sum).html_safe }
       end
     end.html_safe
   end
@@ -31,7 +31,7 @@ class Widget::Table::SimpleTable < Widget::Table
     content_tag :tfoot do
       content_tag :tr do
         tr_tag = content_tag(:th, :class => "result inner", :colspan => @list.size) {""}
-        tr_tag << (content_tag(:th, @show_units ? {:class => "result right", :collspan => "2"} : {:class => "result right"}) do
+        tr_tag << (content_tag(:th, @show_units ? {:class => "result right", :colspan => "2"} : {:class => "result right"}) do
           show_result @subject
         end)
       end
