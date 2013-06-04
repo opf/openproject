@@ -791,7 +791,7 @@ en:
   label_preview: "Preview"
   label_previous: "Previous"
   label_previous_week: "Previous week"
-  label_principal_search: "Search for user or group:"
+  label_principal_search: "Search for users or groups:"
   label_profile: "Profile"
   label_project_all: "All Projects"
   label_project_copy_notifications: "Send email notifications during the project copy"
@@ -833,7 +833,7 @@ en:
   label_role_and_permissions: "Roles and permissions"
   label_role_new: "New role"
   label_role_plural: "Roles"
-  label_role_search: "Search for role:"
+  label_role_search: "Search for roles:"
   label_scenario_end_date: "Scenario %{title}: End date"
   label_scenario_start_date: "Scenario %{title}: Start date"
   label_scenario_deleted: '(deleted scenario)'
