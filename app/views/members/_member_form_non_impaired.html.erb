@@ -8,7 +8,7 @@
     <legend><%= l(:label_member_new) %></legend>
       <div class="splitcontentleft">
         <label>
-          <%= select_tag "member[user_ids][]", options_for_select([]),
+          <%= select_tag "member[user_ids]", options_for_select([]),
                          :title => l(:label_principal_search),
                          :multiple => true,
                          :'data-placeholder' => l(:label_principal_search),
@@ -20,7 +20,7 @@
       </div>
       <div class="splitcontentright">
         <label>
-          <%= select_tag 'member[role_ids][]', options_for_select([]),
+          <%= select_tag 'member[role_ids]', options_for_select([]),
                          :title => l(:label_role_plural),
                          :multiple => true,
                          :'data-placeholder' => l(:label_role_search),
