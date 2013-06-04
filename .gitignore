@@ -20,11 +20,13 @@
 /config/configuration.yml
 /config/database.yml
 /config/email.yml
-#/config/initializers/session_store.rb
 /coverage
 /db/*.db
 /db/*.sqlite3
 /db/schema.rb
+# ignored, because engines copy their migrations here.
+# do `git add -f <migration file>` to explicitly add a new core migration
+/db/migrate/*.rb
 /files/*
 /log/*.log*
 /log/mongrel_debug
