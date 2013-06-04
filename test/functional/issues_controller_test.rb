@@ -430,6 +430,28 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'Value for field 2', v.value
   end
 
+  def test_post_new_with_group_assignment
+    group = Group.find(11)
+    project = Project.find(1)
+    project.members << Member.new(:principal => group, :roles => [Role.first])
+
+    with_settings :issue_group_assignment => '1' do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        post :create, :project_id => project.id,
+                      :issue => {:tracker_id => 3,
+                                 :status_id => 1,
+                                 :subject => 'This is the test_new_with_group_assignment issue',
+                                 :assigned_to_id => group.id}
+      end
+    end
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
+
+    issue = Issue.find_by_subject('This is the test_new_with_group_assignment issue')
+    assert_not_nil issue
+    assert_equal group, issue.assigned_to
+  end
+
   def test_post_new_should_not_send_a_notification_if_send_notification_is_off
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
@@ -1178,6 +1200,22 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response 302
     assert_equal 0, ActionMailer::Base.deliveries.size
+  end
+
+  def test_bulk_update_with_group_assignee
+    group = Group.find(11)
+    project = Project.find(1)
+    project.members << Member.new(:principal => group, :roles => [Role.first])
+
+    @request.session[:user_id] = 2
+    # update issues assignee
+    post :bulk_update, :ids => [1, 2], :notes => 'Bulk editing',
+                                     :issue => {:priority_id => '',
+                                                :assigned_to_id => group.id,
+                                                :custom_field_values => {'2' => ''}}
+
+    assert_response 302
+    assert_equal [group, group], Issue.find_all_by_id([1, 2]).collect {|i| i.assigned_to}
   end
 
   def test_bulk_update_on_different_projects

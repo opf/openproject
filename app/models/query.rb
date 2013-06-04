@@ -123,15 +123,14 @@ class Query < ActiveRecord::Base
                            "estimated_hours" => { :type => :integer, :order => 13 },
                            "done_ratio" =>  { :type => :integer, :order => 14 }}
 
-    user_values = []
-    user_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+    principals = []
     if project
-      user_values += project.users.sort.collect{|s| [s.name, s.id.to_s] }
+      principals += project.principals.sort
     else
       all_projects = Project.visible.all
       if all_projects.any?
         # members of visible projects
-        user_values += User.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", all_projects.collect(&:id)]).sort.collect{|s| [s.name, s.id.to_s] }
+        principals += Principal.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", all_projects.collect(&:id)]).sort
 
         # project filter
         project_values = []
@@ -142,8 +141,24 @@ class Query < ActiveRecord::Base
         @available_filters["project_id"] = { :type => :list, :order => 1, :values => project_values} unless project_values.empty?
       end
     end
-    @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values } unless user_values.empty?
-    @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values } unless user_values.empty?
+    principals_by_class = principals.group_by(&:class)
+
+    user_values = principals_by_class[User].present? ?
+                    principals_by_class[User].collect{ |s| [s.name, s.id.to_s] }.sort :
+                    []
+
+    group_values = Setting.issue_group_assignment? && principals_by_class[Group].present? ?
+                      principals_by_class[Group].collect{ |s| [s.name, s.id.to_s] }.sort :
+                      []
+
+    assigned_to_values = (user_values + group_values).sort
+    assigned_to_values = [["<< #{l(:label_me)} >>", "me"]] + assigned_to_values if User.current.logged?
+    @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => assigned_to_values } unless assigned_to_values.empty?
+
+    author_values = []
+    author_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+    author_values += user_values
+    @available_filters["author_id"] = { :type => :list, :order => 5, :values => author_values } unless author_values.empty?
 
     group_values = Group.all.collect {|g| [g.name, g.id.to_s] }
     @available_filters["member_of_group"] = { :type => :list_optional, :order => 6, :values => group_values } unless group_values.empty?
@@ -154,7 +169,8 @@ class Query < ActiveRecord::Base
     if User.current.logged?
       # populate the watcher list with the same user list as other user filters if the user has the :view_issue_watchers permission in at least one project
       # TODO: this could be differentiated more, e.g. all users could watch issues in public projects, but won't necessarily be shown here
-      watcher_values = User.current.allowed_to_globally?(:view_issue_watchers, {}) ? user_values : [["<< #{l(:label_me)} >>", "me"]]
+      watcher_values = [["<< #{l(:label_me)} >>", "me"]]
+      watcher_values << user_values if User.current.allowed_to_globally?(:view_issue_watchers, {})
       @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => watcher_values }
     end
 
@@ -375,7 +391,14 @@ class Query < ActiveRecord::Base
 
       # "me" value subsitution
       if %w(assigned_to_id author_id watcher_id).include?(field)
-        v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
+        if v.delete("me")
+          if User.current.logged?
+            v.push(User.current.id.to_s)
+            v += User.current.group_ids.map(&:to_s) if field == 'assigned_to_id'
+          else
+            v.push("0")
+          end
+        end
       end
 
       sql = ''
