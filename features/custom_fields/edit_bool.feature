@@ -5,7 +5,6 @@ Feature: Editing a bool custom field
     And the following languages are active:
       | en |
       | de |
-      | fr |
     And the following issue custom fields are defined:
       | name              | type      |
       | IssueCustomField  | bool      |
@@ -16,7 +15,6 @@ Feature: Editing a bool custom field
     When I follow "IssueCustomField"
     And I set the english localization of the "name" attribute to "Issue Field"
     And I add the german localization of the "name" attribute as "Ticket Feld"
-    And I add the french localization of the "name" attribute as "Lorem"
     And I press "Save"
     Then I should be on the custom fields page
     When I follow "Issue Field"
@@ -24,7 +22,6 @@ Feature: Editing a bool custom field
       | locale  | name        | default_value |
       | en      | Issue Field | 0             |
       | de      | Ticket Feld | nil           |
-      | fr      | Lorem       | nil           |
     And I should not see "Add" within "#custom_field_name_attributes"
 
   Scenario: Entering a long name displays an error

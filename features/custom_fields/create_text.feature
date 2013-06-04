@@ -5,7 +5,6 @@ Feature: Text custom fields can be created
     And the following languages are active:
       | en |
       | de |
-      | fr |
     When I go to the custom fields page
     When I follow "New custom field" within "#tab-content-IssueCustomField"
 
@@ -14,17 +13,14 @@ Feature: Text custom fields can be created
     When I select "Text" from "custom_field_field_format"
     And I set the english localization of the "name" attribute to "New Field"
     And I add the german localization of the "name" attribute as "Neues Feld"
-    And I add the french localization of the "name" attribute as "Lorem ipsum"
     And I set the english localization of the "default_value" attribute to "default"
     And I add the german localization of the "default_value" attribute as "Standard"
-    And I add the french localization of the "default_value" attribute as "Lorem"
     And I press "Save"
     And I follow "New Field"
     Then there should be the following localizations:
       | locale  | name          | default_value  |
       | en      | New Field     | default        |
       | de      | Neues Feld    | Standard       |
-      | fr      | Lorem ipsum   | Lorem          |
 
   Scenario: Creating a custom field with one name
     And I set the english localization of the "name" attribute to "Issue Field"
