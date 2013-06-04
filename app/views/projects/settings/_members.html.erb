@@ -12,7 +12,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   members = @project.member_principals.find(:all, :include => [:roles, :principal]).sort
    available_principals = Principal.possible_members("", 100)
 
    member_per_page = 20

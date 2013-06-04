@@ -1,0 +1,14 @@
+<%= javascript_include_tag "members_select_boxes.js" %>
+
+<% if User.current.impaired? %>
+  <% partial = "members/member_form_impaired" %>
+  <% locals = { :members => @project.member_principals.find(:all, :include => [:roles, :principal, :member_roles]) }%>
+<% else %>
+  <% partial = "members/member_form_non_impaired" %>
+  <% locals = {} %>
+<% end %>
+
+<%= render :partial => partial,
+           :locals => locals.merge!({ :project => project,
+                        :roles => roles,
+                        :principals => principals }) %>

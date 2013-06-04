@@ -15,54 +15,66 @@ jQuery(document).ready(function($) {
           }
           fakeInput = $(elem).after("<input type='hidden'></input>").siblings(":input:first");
           fakeInput.attr(attributes);
+
+          formatItems = function (item, container, query) {
+            var match = item.name.toUpperCase().indexOf(query.term.toUpperCase()),
+            tl = query.term.length,
+            markup = [];
+
+            if (match < 0) {
+              return "<span data-value='" + item.id + "'>" + item.name + "</span>";
+            }
+
+            markup.push(item.name.substring(0, match));
+            markup.push("<span class='select2-match' data-value='" + item.id + "'>");
+            markup.push(item.name.substring(match, match + tl));
+            markup.push("</span>");
+            markup.push(item.name.substring(match + tl, item.name.length));
+            return markup.join("")
+          }
+
+          formatItemSelection = function (item) {
+            return item.name;
+          }
+
           $(fakeInput).select2({
             minimumInputLength: 1,
             ajax: {
                 url: $(fakeInput).attr("data-ajaxURL"),
                 dataType: 'json',
-                quietMillis: 100,
+                quietMillis: 500,
                 contentType: "application/json",
                 data: function (term, page) {
                     return {
                         q: term, //search term
                         page_limit: 10, // page size
-                        page: page, // page number
+                        page: page, // current page number
                         id: fakeInput.attr("data-projectId") // current project id
                     };
                 },
                 results: function (data, page) {
 
-                    // notice we return the value of more so Select2 knows if more results can be loaded
-                    active_principals = []
-                    data.results.principals.each(function (e) {
-                      if (e.active === true) {
-                        active_principals.push(e);
-                      }
+                    active_items = []
+                    data.results.items.each(function (e) {
+                      active_items.push(e);
                     });
-                    return {'results': active_principals, 'more': data.results.more};
+                    return {'results': active_items, 'more': data.results.more};
                 }
             },
-            formatResult: formatPrincipal, // omitted for brevity, see the source of this page
-            formatSelection: formatPrincipalSelection
+            formatResult: formatItems,
+            formatSelection: formatItemSelection
           });
-          // $(elem).hide();
+          $(elem).hide();
         }, 0);
       }
     });
   }
+
   memberstab = $('#tab-members').first();
   if ((memberstab != null) && (memberstab.hasClass("selected"))) {
     init_members_cb();
   } else {
     memberstab.click(init_members_cb);
   }
-
-  formatPrincipal = function (principal) {
-    var markup = "<span class='select2-match' data-value='" + principal.id + "'>" + principal.name + "</span>";
-    return markup;
-  }
-  formatPrincipalSelection = function (principal) {
-    return principal.name;
-  }
-
 });
+
