@@ -25,11 +25,15 @@ class Report::Table
     fields_for :column
   end
 
-  def rows_for(result)    fields_for result, :row     end
-  def columns_for(result) fields_for result, :column end
+  def rows_for(result)
+    fields_for result, :row
+  end
+
+  def columns_for(result)
+    fields_for result, :column
+  end
 
   def fields_from(result, type)
-    #fields_for(type).map { |k| result[k] }
     fields_for(type).map { |k| map_field k, result.fields[k] }
   end
 

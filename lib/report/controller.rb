@@ -15,14 +15,7 @@ module Report::Controller
       before_filter :prepare_query, :only => [:index, :create]
       before_filter :find_optional_report, :only => [:index, :show, :update, :delete, :rename]
       before_filter :possibly_only_narrow_values
-
-      if Rails.version.start_with? "3"
-        before_filter { @no_progress = no_progress? }
-      else
-        before_filter do |controller|
-          controller.instance_eval { @no_progress = controller.no_progress? }
-        end
-      end
+      before_filter { @no_progress = no_progress? }
     end
   end
 
@@ -52,14 +45,8 @@ module Report::Controller
     render :text => render_widget(Widget::Table::Progressbar, @query), :layout => !request.xhr?
   end
 
-  if Rails.version.start_with? "3"
-    def stream(&block)
-      self.response_body = block
-    end
-  else
-    def stream(&block)
-      render :text => block.call, :layout => false
-    end
+  def stream(&block)
+    self.response_body = block
   end
 
   ##
