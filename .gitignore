@@ -25,6 +25,9 @@
 /db/*.db
 /db/*.sqlite3
 /db/schema.rb
+# ignored, because engines copy their migrations here.
+# do `git add -f <migration file>` to explicitly add a new core migration
+/db/migrate/*.rb
 /files/*
 /log/*.log*
 /log/mongrel_debug
@@ -39,7 +42,6 @@
 /vendor/rails
 /*.rbc
 /doc/app
-#/Gemfile.lock
 /Gemfile.local
 /Gemfile.plugins
 /.rvmrc*
