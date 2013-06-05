@@ -342,4 +342,8 @@ private
   def load_pages_for_index
     @pages = @wiki.pages.with_updated_on.all(:order => 'title', :include => {:wiki => :project})
   end
+
+  def default_breadcrumb
+    Wiki.name.humanize
+  end
 end
