@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 # "Then I should see 5 articles"
 Then /^I should see (\d+) ([^\" ]+)(?: within "([^\"]*)")?$/ do |number, name, selector|
   with_scope(selector) do

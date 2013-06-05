@@ -1,3 +1,15 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
 <% @entries.each do |entry| %>
 <% tr_id = Digest::MD5.hexdigest(entry.path)
    depth = params[:depth].to_i %>
