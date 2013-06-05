@@ -154,7 +154,8 @@ module ReportingHelper
   # For a given row, determine how to render it's contents according to usability and
   # localization rules
   def show_row(row)
-    link_to_details(row) << row.render { |k,v| show_field(k,v) }
+    row_text = link_to_details(row) << row.render { |k,v| show_field(k,v) }
+    row_text.html_safe
   end
 
   def delimit(items, options = {})
