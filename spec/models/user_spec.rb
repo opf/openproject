@@ -130,7 +130,7 @@ describe User do
       @u = User.new
       @u.password.should be_nil
       @u.password_confirmation.should be_nil
-      @u.random_password
+      @u.random_password!
     end
 
     it { @u.password.should_not be_blank }
