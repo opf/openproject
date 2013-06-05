@@ -41,7 +41,7 @@ module Redmine::MenuManager
 
   def self.exists?(menu_name)
     # TODO: have an explicit method for querying for undefined menus
-    items(menu).children.size == 0
+    items(menu_name).children.size == 0
   end
 
   private

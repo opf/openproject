@@ -62,4 +62,31 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
       @html_options
     end
   end
+
+  # Checks if a user is allowed to access the menu item by:
+  #
+  # * Checking the conditions of the item
+  # * Checking the url target (project only)
+  def allowed?(user, project)
+    if condition && !condition.call(project)
+      # Condition that doesn't pass
+      return false
+    end
+
+    # TODO: get a better mechanism
+    if block
+      return true
+    end
+
+    if url.empty?
+      return true
+    end
+
+    if project
+      return user && user.allowed_to?(url, project)
+    else
+      # outside a project, all menu items allowed
+      return true
+    end
+  end
 end

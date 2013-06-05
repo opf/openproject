@@ -21,15 +21,16 @@ module Redmine::MenuManager::MenuHelper
 
   # Renders the application main menu
   def render_main_menu(project)
+    debugger
     build_wiki_menus(project) if project
-    render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
+    render_menu((project && !project.new_record?) ? :'project/modules' : :application_menu, project)
   end
 
   def build_wiki_menus(project)
     project_wiki = project.wiki
 
     WikiMenuItem.main_items(project_wiki).each do |main_item|
-      Redmine::MenuManager.loose :project_menu do |menu|
+      Redmine::MenuManager.loose :'project/modules' do |menu|
         menu.push "#{main_item.item_class}".to_sym,
           { :controller => '/wiki', :action => 'show', :id => h(main_item.title) },
             :param => :project_id, :caption => main_item.name
@@ -51,7 +52,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def display_main_menu?(project)
-    menu_name = project && !project.new_record? ? :project_menu : :application_menu
+    menu_name = project && !project.new_record? ? :'project/modules' : :application_menu
     Redmine::MenuManager.items(menu_name).size > 1 # 1 element is the root
   end
 
@@ -115,7 +116,7 @@ module Redmine::MenuManager::MenuHelper
                         [project, locals] :
                         [locals[:project], locals]
 
-    return "" if project and not allowed_node?(node, User.current, project)
+    return "" if project and not node.allowed?(User.current, project)
 
     if node.has_children? || !node.child_menus.nil?
       render_menu_node_with_children(node, locals)
@@ -198,7 +199,6 @@ module Redmine::MenuManager::MenuHelper
   def menu_items_for(menu, project=nil)
     items = []
 
-    # TODO: have an explicit method for querying for undefined menus
     if Redmine::MenuManager.exists?(menu)
       file = Rails.root.join("app/widgets/menus/#{menu}.rb")
 
@@ -206,7 +206,7 @@ module Redmine::MenuManager::MenuHelper
     end
 
     Redmine::MenuManager.items(menu).root.children.each do |node|
-      if allowed_node?(node, User.current, project)
+      if node.allowed?(User.current, project)
         if block_given?
           yield node
         else
@@ -249,32 +249,5 @@ module Redmine::MenuManager::MenuHelper
     selected = current_menu_item == item.name
 
     return [caption, url, selected]
-  end
-
-  # Checks if a user is allowed to access the menu item by:
-  #
-  # * Checking the conditions of the item
-  # * Checking the url target (project only)
-  def allowed_node?(node, user, project)
-    if node.condition && !node.condition.call(project)
-      # Condition that doesn't pass
-      return false
-    end
-
-    # TODO: get a better mechanism
-    if node.block
-      return true
-    end
-
-    if node.url.empty?
-      return true
-    end
-
-    if project
-      return user && user.allowed_to?(node.url, project)
-    else
-      # outside a project, all menu items allowed
-      return true
-    end
   end
 end
