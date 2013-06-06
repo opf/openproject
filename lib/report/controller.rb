@@ -36,17 +36,11 @@ module Report::Controller
   end
 
   def table_without_progress_info
-    stream do
-      render_widget Widget::Table, @query
-    end
+    render :text => render_widget(Widget::Table, @query), :layout => !request.xhr?
   end
 
   def table_with_progress_info
     render :text => render_widget(Widget::Table::Progressbar, @query), :layout => !request.xhr?
-  end
-
-  def stream(&block)
-    self.response_body = block
   end
 
   ##
@@ -56,9 +50,9 @@ module Report::Controller
     @query.public! if make_query_public?
     @query.send("#{user_key}=", current_user.id)
     @query.save!
-    if request.xhr? # Update via AJAX - return url for redirect
-      render :text => url_for(:action => "show", :id => @query.id)
-    else # Redirect to the new record
+    if request.xhr?
+      table
+    else
       redirect_to :action => "show", :id => @query.id
     end
   end
