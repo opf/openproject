@@ -1,3 +1,6 @@
 if Rails.env == 'test'
-  Setting.password_min_length = 4
+  puts 'Reducing minimum password length to 4 characters for test environment'
+  # Set default minimum length to 4, this doesn't require writing to the database.
+  # Migrations might not have run here.
+  Setting.available_settings['password_min_length'] = 4
 end
