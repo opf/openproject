@@ -9,6 +9,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+[CustomField, IssueCustomField].each do |const|
+  InstanceFinder.register(const, Proc.new{ |name| const.find_by_name(name) })
+  RouteMap.register(const, "/custom_fields")
+end
+
 Given /^the following (user|issue) custom fields are defined:$/ do |type, table|
   type = (type + "_custom_field").to_sym
 
@@ -21,6 +26,7 @@ Given /^the following (user|issue) custom fields are defined:$/ do |type, table|
       attr_hash[:is_required] = (r[:required] == 'true') if r[:required]
       attr_hash[:editable] = (r[:editable] == 'true') if r[:editable]
       attr_hash[:visible] = (r[:visible] == 'true') if r[:visible]
+      attr_hash[:is_filter] = (r[:is_filter] == 'true') if r[:is_filter]
       attr_hash[:default_value] = r[:default_value] ? r[:default_value] : nil
       attr_hash[:is_for_all] = r[:is_for_all] || true
 

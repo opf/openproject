@@ -20,12 +20,12 @@ When /^I click(?:| on) "([^"]*)"$/ do |name|
 end
 
 When /^(?:|I )jump to [Pp]roject "([^\"]*)"$/ do |project|
-  begin
-    find(:xpath, '//div[@id="quick-search"]/select[last()]').select project
-  rescue Capybara::ElementNotFound
-    click_link('Projects')
-    find(:css, '#account-nav .chzn-results li', :text => project).click
-  end
+  click_link('Projects')
+  # supports both variants of finding: by class and by id
+  # id is older and can be dropped later
+  project_div = find(:css, '.project-search-results', :text => project) || find(:css, '#project-search-results', :text => project)
+
+  page.execute_script("window.location = jQuery(\"##{project_div[:id]} div[title='#{project}']\").parent().data('select2Data').project.url;")
 end
 
 Then /^"([^"]*)" should be selected for "([^"]*)"$/ do |value, select_id|

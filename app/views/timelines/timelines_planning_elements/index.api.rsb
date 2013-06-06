@@ -1,0 +1,5 @@
+api.array :planning_elements, :size => @planning_elements.size do
+  @planning_elements.each do |planning_element|
+    render_planning_element(api, planning_element)
+  end
+end

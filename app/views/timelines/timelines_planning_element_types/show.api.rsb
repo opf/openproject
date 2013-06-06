@@ -1,0 +1,2 @@
+render(:partial => '/timelines/timelines_planning_element_types/planning_element_type.api',
+       :object => @planning_element_type)

@@ -348,6 +348,86 @@ OpenProject::Application.routes.draw do
     match '/deletion_info' => 'users#deletion_info', :via => :get, :as => 'delete_my_account_info'
   end
 
+  namespace :timelines do
+    get 'authentication' => 'timelines_authentication#index'
+
+    resources :colors, :controller => 'timelines_colors' do
+       member do
+         get :confirm_destroy
+         get :move
+         post :move
+       end
+    end
+
+    resources :planning_element_statuses, :controller => 'timelines_planning_element_statuses'
+    resources :planning_element_types, :controller => 'timelines_planning_element_types' do
+      member do
+        get :confirm_destroy
+        get :move
+        post :move
+      end
+    end
+
+    get 'planning_elements' => 'timelines_planning_elements', :action => 'list'
+
+    resources :project_types, :controller => 'timelines_project_types' do
+      member do
+        get :confirm_destroy
+        get :move
+        post :move
+      end
+
+      resources :projects, :only => [:index, :show], :controller => 'timelines_projects'
+      resources :reported_project_statuses,          :controller => 'timelines_reported_project_statuses'
+    end
+
+    resources :projects, :only => [:index, :show], :controller => 'timelines_projects' do
+      resources :planning_element_types, :controller => 'timelines_planning_element_types' do
+        get :confirm_destroy
+        get :move
+        post :move
+      end
+
+      resources :planning_elements,      :controller => 'timelines_planning_elements' do
+        collection do
+          get :all
+          delete :destroy_all
+          get :confirm_destroy_all
+          post :restore_all
+          get :confirm_restore_all
+          get :recycle_bin
+        end
+
+        member do
+          get :confirm_move_to_trash
+          get :confirm_destroy
+          delete :move_to_trash
+          post :restore
+        end
+
+        resources :journals, :controller => 'timelines_planning_element_journals',
+                                             :only       => [:index, :create]
+      end
+      resources :project_associations,   :controller => 'timelines_project_associations' do
+        get :confirm_destroy, :on => :member
+        get :available_projects, :on => :collection
+      end
+
+      resources :reportings,             :controller => 'timelines_reportings' do
+        get :confirm_destroy, :on => :member
+        get :available_projects, :on => :collection
+      end
+
+      resources :scenarios,              :controller => 'timelines_scenarios' do
+        get :confirm_destroy, :on => :member
+      end
+
+      resources :timelines,              :controller => 'timelines_timelines'
+    end
+
+    resources :reported_project_statuses, :controller => 'timelines_reported_project_statuses'
+  end
+
   # Install the default route as the lowest priority.
   match '/:controller(/:action(/:id))'
   match '/robots' => 'welcome#robots', :defaults => { :format => :txt }

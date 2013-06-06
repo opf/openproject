@@ -1,0 +1,15 @@
+<h2>
+  <%=l('timelines.new_timeline')%>
+</h2>
+
+<%= form_for(:timeline,
+            :url => timelines_project_timelines_path(@project),
+            :html => {:class => "tabular", :method => 'post'}) do |f| %>
+
+  <%= render(:partial => "timelines/timelines_timelines/form",
+             :locals => {:f => f, :timeline => @timeline}) %>
+
+  <%= f.submit l(:button_create) %>
+  <%= link_to l(:button_cancel), timelines_project_timelines_path(@project) %>
+
+<% end %>

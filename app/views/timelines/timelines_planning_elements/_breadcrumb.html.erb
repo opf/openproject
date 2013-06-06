@@ -1,0 +1,3 @@
+<% planning_element.ancestors.reverse.each do |ancestor| %>
+  <% breadcrumb_paths(link_to_planning_element(ancestor)) %>
+<% end %>

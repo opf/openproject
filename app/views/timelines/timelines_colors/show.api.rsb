@@ -1,0 +1,1 @@
+render(:partial => '/timelines/timelines_colors/color.api', :object => @color)

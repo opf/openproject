@@ -1,0 +1,7 @@
+<%= f.error_messages %>
+<label for="project_association_description">
+  <%= Timelines::ProjectAssociation.human_attribute_name(:description)%>:
+</label>
+
+<%= f.text_area(:description, :class => 'timelines-project-association-description wiki-edit', :rows => 10) %>
+<%= wikitoolbar_for 'project_association_description' %>

@@ -1,0 +1,6 @@
+api.planning_element_status do
+  api.id(planning_element_status.id)
+  api.name(planning_element_status.name)
+
+  api.position(planning_element_status.position)
+end

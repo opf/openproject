@@ -1,0 +1,12 @@
+<% if @planning_elements.blank? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+  <table class="list issues">
+    <%= render :partial => 'table_header', :locals => {:show_deleted => true} %>
+    <tbody>
+      <% @planning_elements.each do |planning_element| %>
+        <%= render :partial => 'table_row', :locals => {:planning_element => planning_element, :show_deleted => true} %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

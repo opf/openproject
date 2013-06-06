@@ -1,0 +1,130 @@
+<fieldset id="project_filters" class="header_collapsible collapsible collapsed">
+  <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.project_filters') %></a>
+  </legend>
+
+  <div style="display:none;">
+    <div>
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_exclude_reporters,
+                      l('timelines.filter.exclude_reporters') %>
+
+        <%= check_box_tag("timeline[options][exclude_reporters]",
+                          :yes,
+                          timeline.options["exclude_reporters"].present?) %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_project_types',
+                      l("timelines.filter.project_types") %>
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :project_types,
+                     filter_select_with_none(
+                       @timeline.available_project_types,
+                       :name, :id),
+                     {:selected => @timeline.selected_project_types.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+         <%= select("timeline[options]",
+                   :project_types,
+                   options_for_select([]),
+                   {},
+                   { :'data-ajaxURL' => url_for({:controller => "timelines_project_types",
+                                                 :action     => "paginate_timelines_project_types"}),
+                     :multiple => true,
+                     :'data-selected' => filter_select(
+                                           timeline.selected_project_types,
+                                           :name, :id).to_json
+                   }) %>
+        <% end %>
+
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_project_status',
+                      l("timelines.filter.project_status") %>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :project_status,
+                     filter_select_with_none(
+                       @timeline.available_project_status,
+                       :name, :id),
+                     {:selected => @timeline.selected_project_status.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= select("timeline[options]",
+                   :project_status,
+                   options_for_select([]),
+                   {},
+                   { :'data-ajaxURL' => url_for({:controller => "timelines_reported_project_statuses",
+                                                 :action     => "paginate_timelines_reported_project_statuses"}),
+                     :multiple => true,
+                     :'data-selected' => filter_select(
+                                           timeline.selected_project_status,
+                                           :name, :id).to_json
+                   }) %>
+      <% end %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_project_responsibles',
+                      l("timelines.filter.project_responsible") %>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :project_responsibles,
+                     filter_select_with_none(
+                       @timeline.available_responsibles,
+                       :name, :id),
+                     {:selected => @timeline.selected_project_responsibles.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= select("timeline[options]",
+                   :project_responsibles,
+                   options_for_select([]),
+                   {},
+                   { :'data-ajaxURL' => url_for({:controller => "timelines_principals",
+                                                 :action     => "paginate_principals"}),
+                    :multiple => true,
+                    :'data-selected' => filter_select(
+                                           timeline.selected_project_responsibles,
+                                           :name, :id).to_json
+                   }) %>
+        <% end %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_parents',
+                      l("timelines.filter.parent") %>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :parents,
+                     filter_select_with_none(
+                       @timeline.available_parents,
+                       :name, :id),
+                     {:selected => @timeline.selected_parents.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= select("timeline[options]",
+                   :parents,
+                   options_for_select([]),
+                   {},
+                   { :'data-ajaxURL' => url_for({:controller => "timelines_projects",
+                                                 :action     => "paginate_projects"}),
+                    :multiple => true,
+                    :'data-selected' => filter_select(
+                                           timeline.selected_parents,
+                                           :name, :id).to_json
+                   }) %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+</fieldset>

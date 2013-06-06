@@ -35,6 +35,17 @@ class ProjectsController < ApplicationController
   include RepositoriesHelper
   include ProjectsHelper
 
+  # for timelines
+  def timelines_planning_element_types
+    params[:project].assert_valid_keys("timelines_planning_element_type_ids")
+    if @project.update_attributes(params[:project])
+      flash[:notice] = l('notice_successful_update')
+    else
+      flash[:error] = l('timelines.cannot_update_planning_element_types')
+    end
+    redirect_to :action => "settings", :tab => "timelines"
+  end
+
   # Lists visible projects
   def index
     respond_to do |format|

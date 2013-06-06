@@ -1,0 +1,14 @@
+api.scenario do
+  api.id(scenario.id)
+
+  api.project(:id => scenario.project.id,
+              :identifier => scenario.project.identifier,
+              :name => scenario.project.name)
+
+  api.name(scenario.name)
+
+  api.description(scenario.description)
+
+  api.created_on(scenario.created_on.utc) if scenario.created_on
+  api.updated_on(scenario.updated_on.utc) if scenario.updated_on
+end

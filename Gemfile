@@ -16,10 +16,15 @@ gem 'rails_autolink'
 
 gem 'awesome_nested_set'
 
+gem 'color-tools', '~> 1.3.0', :require => 'color'
+
 gem 'tinymce-rails'
 gem 'tinymce-rails-langs'
 
 gem 'loofah'
+
+# will need to be removed once we are on rails4 as it will be part of the rails4 core
+gem 'strong_parameters'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'

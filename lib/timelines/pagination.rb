@@ -1,0 +1,2 @@
+module Timelines::Pagination
+end

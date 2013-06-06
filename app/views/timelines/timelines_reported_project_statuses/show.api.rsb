@@ -1,0 +1,2 @@
+render(:partial => '/timelines/timelines_reported_project_statuses/reported_project_status.api',
+       :object  => @reported_project_status)

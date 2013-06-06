@@ -74,6 +74,15 @@ module OpenProject
           end
         end
 
+        Redmine::WikiFormatting::Macros.register do
+          desc <<-EOF
+            Display a timeline report on the Wiki page.
+          EOF
+
+          macro :timeline do |obj, args, options|
+            Timelines::WikiMacro.new.apply obj, args, options.merge(:view => self)
+          end
+        end
       end
     end
   end

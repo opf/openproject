@@ -1,0 +1,8 @@
+api.reported_project_status do
+  api.id(reported_project_status.id)
+
+  api.name(reported_project_status.name)
+
+  api.position(reported_project_status.position)
+  api.is_default(reported_project_status.is_default)
+end

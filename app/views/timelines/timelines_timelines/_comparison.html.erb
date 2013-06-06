@@ -1,0 +1,118 @@
+<fieldset id="timelines_filter_comparison" class="header_collapsible collapsible collapsed">
+  <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.comparisons') %></a>
+  </legend>
+
+  <div style="display:none;">
+    <div>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_comparison_none',
+                      l('timelines.filter.comparison.none') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'none',
+                         :checked => (timeline.comparison == 'none')) %>
+
+      </p>
+      <p class="tl-form-overflow">
+
+        <%= label_tag 'timeline_options_comparison_relative',
+                      l('timelines.filter.comparison.relative') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'relative',
+                         :checked => (timeline.comparison == 'relative')) %>
+
+        <span class="tl-space-after">
+          Compare current planning to
+        </span>
+
+        <%= text_field_tag "timeline[options][compare_to_relative]",
+                           timeline.options["compare_to_relative"],
+                           :size => 3 %>
+
+        <span class="tl-space-after">
+          <%= select("timeline[options]",
+                   :compare_to_relative_unit,
+                   [['days', 0], ['weeks', '1'], ['months', '2']],
+
+                   {:selected => timeline.options['compare_to_relative_unit']},
+                   {:multiple => false,
+                    :size => 1}) %>
+        </span>
+        ago.
+
+      </p>
+      <p class="tl-form-overflow">
+
+        <%= label_tag 'timeline_options_comparison_absolute',
+                      l('timelines.filter.comparison.absolute') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'absolute',
+                         :checked => (timeline.comparison == 'absolute')) %>
+
+        <span class="tl-space-after">
+          Compare current planning to
+          <%# l('timelines.filter.timeframe_start') %>
+        </span>
+
+        <%= text_field_tag "timeline[options][compare_to_absolute]",
+                           timeline.options["compare_to_absolute"],
+                           :size => 10 %>
+        <%= calendar_for('timeline_options_compare_to_absolute') %>
+
+      </p>
+      <p class="tl-form-overflow">
+
+        <%= label_tag 'timeline_options_comparison_historical',
+                      l('timelines.filter.comparison.historical') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'historical',
+                         :checked => (timeline.comparison == 'historical')) %>
+
+        <span class="tl-space-after">
+          Compare
+          <%# l('timelines.filter.timeframe_start') %>
+        </span>
+
+        <%= text_field_tag "timeline[options][compare_to_historical_one]",
+                           timeline.options["compare_to_historical_one"],
+                           :size => 10 %>
+        <%= calendar_for('timeline_options_compare_to_historical_one') %>
+
+        <span class="tl-space-both">
+          to
+          <%# l('timelines.filter.timeframe_start') %>
+        </span>
+
+        <%= text_field_tag "timeline[options][compare_to_historical_two]",
+                           timeline.options["compare_to_historical_two"],
+                           :size => 10 %>
+        <%= calendar_for('timeline_options_compare_to_historical_two') %>
+
+      </p>
+      <!--
+      <p class="tl-form-overflow">
+
+        <%= label_tag 'timeline_options_comparison_scenario',
+                      l('timelines.filter.comparison.scenario') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'scenario',
+                         :checked => (timeline.comparison == 'scenario')) %>
+
+        Compare to scenario
+
+      </p>
+      -->
+    </div>
+  </div>
+</fieldset>

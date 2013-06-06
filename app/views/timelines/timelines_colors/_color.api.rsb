@@ -1,0 +1,11 @@
+api.color do
+  api.id(color.id)
+
+  api.name(color.name)
+  api.hexcode(color.hexcode)
+
+  api.position(color.position)
+
+  api.created_on(color.created_on.utc) if color.created_on
+  api.updated_on(color.updated_on.utc) if color.updated_on
+end

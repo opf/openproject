@@ -1,0 +1,3 @@
+api.authorization do
+  api.authorized true
+end

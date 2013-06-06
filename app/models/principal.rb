@@ -11,6 +11,8 @@
 #++
 
 class Principal < ActiveRecord::Base
+  extend Timelines::Pagination::Model
+
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 
   has_many :members, :foreign_key => 'user_id', :dependent => :destroy
@@ -32,6 +34,10 @@ class Principal < ActiveRecord::Base
   }
 
   before_create :set_default_empty_values
+
+  def self.search_scope(query)
+    active_or_registered.like(query)
+  end
 
   def name(formatter = nil)
     to_s

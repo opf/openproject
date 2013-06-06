@@ -37,6 +37,13 @@ module NavigationHelpers
       project_identifier = project.identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/wiki/#{wiki_page}"
 
+    when /^the edit menu item page of the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
+      wiki_page = Wiki.titleize($1)
+      project_identifier = $2.gsub("\"", "")
+      project = Project.find_by_name(project_identifier)
+      project_identifier = project.identifier.gsub(' ', '%20')
+      "/projects/#{project_identifier}/wiki/#{wiki_page}/wiki_menu_item/edit"
+
     when /^the [cC]ost [rR]eports page (?:of|for) the project called "([^\"]+)" without filters or groups$/
       project_identifier = Project.find_by_name($1).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/cost_reports?set_filter=1"
@@ -134,6 +141,14 @@ module NavigationHelpers
       version_name = $1.gsub("\"", "")
       version = Version.find_by_name(version_name)
       "/versions/edit/#{version.id}"
+
+    # this should be handled by the generic "the edit page of ..." path
+    # but the path required differs from the standard
+    # delete once the path is corrected
+    when /the edit page (?:for |of )the (?:issue )?custom field(?: called) (.+)/
+      name = $1.gsub("\"", "")
+      instance = InstanceFinder.find(CustomField, name)
+      "/custom_fields/edit/#{instance.id}"
 
     when /^the new page (?:for|of) (.+)$/
       model = $1.gsub!("\"", "").downcase

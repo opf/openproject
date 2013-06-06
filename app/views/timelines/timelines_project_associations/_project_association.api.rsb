@@ -1,0 +1,16 @@
+api.project_association do
+  api.id(project_association.id)
+
+  api.array(:projects, :size => project_association.projects.size) do
+    project_association.projects.each do |project|
+      api.project(:id         => project.id,
+                  :identifier => project.identifier,
+                  :name       => project.name)
+    end
+  end
+
+  api.description(project_association.description)
+
+  api.created_on(project_association.created_on.utc) if project_association.created_on
+  api.updated_on(project_association.updated_on.utc) if project_association.updated_on
+end

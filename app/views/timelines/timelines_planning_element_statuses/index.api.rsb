@@ -1,0 +1,6 @@
+api.array :planning_element_statuses, :size => @planning_element_statuses.size do
+  @planning_element_statuses.each do |planning_element_status|
+    render(:partial => '/timelines/timelines_planning_element_statuses/planning_element_status.api',
+           :object => planning_element_status)
+  end
+end
