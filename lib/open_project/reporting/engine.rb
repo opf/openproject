@@ -35,6 +35,7 @@ module OpenProject::Reporting
     end
 
     config.to_prepare do
+      require_dependency 'widget/settings_patch'
       unless Redmine::Plugin.registered_plugins.include?(:openproject_reporting)
         Redmine::Plugin.register :openproject_reporting do
           name 'Reporting Plugin'
