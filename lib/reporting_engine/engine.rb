@@ -12,9 +12,9 @@ module ReportingEngine
 
 
     config.to_prepare do
-      require_dependency 'reporting_engine/patches'
-      require_dependency 'reporting_engine/patches/big_decimal_patch'
-      require_dependency 'reporting_engine/patches/to_date_patch'
+      require 'reporting_engine/patches'
+      require 'reporting_engine/patches/big_decimal_patch'
+      require 'reporting_engine/patches/to_date_patch'
     end
 
     config.after_initialize do

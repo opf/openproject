@@ -1,4 +1,6 @@
-
+#make sure to require Widget::Filters::Base first because otherwise
+#ruby might find Base within Widget and Rails will not load it
+require_dependency 'widget/filters/base'
 class Widget::Filters::Label < Widget::Filters::Base
   def render
     write(content_tag(:td, :width => 150) do

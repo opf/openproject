@@ -1,6 +1,4 @@
 require_dependency 'reporting_engine/helpers/reporting_helper'
-require_dependency 'reporting_engine/proactive_autoloader'
-
 
 class Widget < ActionView::Base
   include ActionView::Helpers::TagHelper
@@ -10,8 +8,6 @@ class Widget < ActionView::Base
   include ReportingHelper
 
   attr_accessor :output_buffer, :controller, :config, :_content_for, :_routes, :subject
-
-  extend ProactiveAutoloader
 
   def self.new(subject)
     super(subject).tap do |o|

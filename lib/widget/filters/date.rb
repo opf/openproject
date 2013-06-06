@@ -1,3 +1,6 @@
+#make sure to require Widget::Filters::Base first because otherwise
+#ruby might find Base within Widget and Rails will not load it
+require_dependency 'widget/filters/base'
 class Widget::Filters::Date < Widget::Filters::Base
 
   def calendar_for(field_id)

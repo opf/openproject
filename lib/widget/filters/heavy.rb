@@ -1,12 +1,23 @@
-class Widget::Filters::MultiValues < Widget::Filters::Base
+# FIXME: This basically is the MultiValues-Filter, except that we do not show
+#        The select-box. This way we allow our JS to pretend this is just another
+#        Filter. This is overhead...
+#        But well this is again one of those temporary solutions.
+#make sure to require Widget::Filters::Base first because otherwise
+#ruby might find Base within Widget and Rails will not load it
+require_dependency 'widget/filters/base'
+class Widget::Filters::Heavy < Widget::Filters::Base
 
   def render
     write(content_tag(:td) do
-      content_tag :div, :id => "#{filter_class.underscore_name}_arg_1", :class => "filter_values" do
+      # TODO: sometimes filter.values is of the form [["3"]] and somtimes ["3"].
+      #       (using cost reporting)
+      #       this might be a bug - further research would be fine
+      values = filter.values.first.is_a?(Array) ? filter.values.first : filter.values
+      opts = Array(values).empty? ? [] : values.map{ |i| filter_class.label_for_value(i.to_i) }
+      div = content_tag :div, :id => "#{filter_class.underscore_name}_arg_1", :class => "filter_values hidden" do
         select_options = {  :"data-remote-url" => url_for(:action => "available_values"),
-                            :style => "vertical-align: top;", # FIXME: Do CSS
                             :name => "values[#{filter_class.underscore_name}][]",
-                            :"data-loading" => @options[:lazy] ? "ajax" : "",
+                            :"data-loading" => "",
                             :id => "#{filter_class.underscore_name}_arg_1_val",
                             :class => "select-small filters-select filter-value",
                             :"data-filter-name" => filter_class.underscore_name,
@@ -22,25 +33,16 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
         # store selected value(s) in data-initially-selected if this filter is a dependent
         # of another filter, as we have to restore values manually in the client js
         if (filter_class.is_dependent? || @options[:lazy]) && !Array(filter.values).empty?
-          select_options.merge! :"data-initially-selected" =>
-            filter.values.to_json.gsub!('"', "'") || "[" + filter.values.map { |v| "'#{v}'" }.join(',') + "]"
+          select_options.merge! :"data-initially-selected" => filter.values.to_json.gsub!('"', "'")
         end
-        select_options.merge! :"data-dependent" => true if filter_class.is_dependent?
-        box_content = "".html_safe
-        label = label_tag "#{filter_class.underscore_name}_arg_1_val",
-                          h(l(filter_class.label)) + ' ' + l(:label_filter_value),
-                          :class => 'hidden-for-sighted'
-
-        box = content_tag :select, select_options, :id => "#{filter_class.underscore_name}_select_1" do
-            render_widget Widget::Filters::Option, filter, :to => box_content unless @options[:lazy]
+        box = content_tag :select, select_options do
+          render_widget Widget::Filters::Option, filter, :to => "", :content => opts
         end
-        plus = content_tag :a, :href => 'javascript:', :class => "filter_multi-select", :"data-filter-name" => filter_class.underscore_name,
-          :title => l(:description_multi_select) do
-          image_tag 'bullet_toggle_plus.png',
-                    :alt => l(:toggle_multiselect),
-                    :style => "vertical-align: bottom;"
-        end
-        label + box + plus
+        box
+      end
+      alternate_text = opts.map{ |o| o.first }.join(', ').html_safe
+      div + content_tag(:label) do
+        alternate_text
       end
     end)
   end
