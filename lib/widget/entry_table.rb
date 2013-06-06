@@ -1,5 +1,3 @@
-require 'open_project/reporting/widgets/sortable_init'
-
 class Widget::Table::EntryTable < Widget::Table
   Fields = [:spent_on, :user_id, :activity_id, :issue_id, :comments, :project_id]
 
