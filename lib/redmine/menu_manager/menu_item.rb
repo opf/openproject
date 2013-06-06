@@ -33,14 +33,14 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     if url_or_block.respond_to?(:call)
       @block = url_or_block
     else
-      @url = url_or_block
+      @url = Redmine::MenuManager::UrlAggregator.new(url_or_block)
     end
 
     super @name.to_sym
   end
 
   def caption(project=nil)
-    if @caption.is_a?(Proc)
+    if @caption.respond_to?(:call)
       c = @caption.call(project).to_s
       c = @name.to_s.humanize if c.blank?
       c
@@ -74,11 +74,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     end
 
     # TODO: get a better mechanism
-    if block
-      return true
-    end
-
-    if url.empty?
+    if block || url.try(:empty?)
       return true
     end
 
@@ -88,5 +84,21 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
       # outside a project, all menu items allowed
       return true
     end
+  end
+
+  def extract_details(locals = {})
+    # support both the old and the new signature
+    # old: (menu, project=nil)
+    project = locals.is_a?(Project) || locals.nil? ?
+                locals :
+                locals[:project]
+
+    locals = { :project => locals } if locals.is_a?(Project)
+
+    caption = item.caption(project)
+
+    selected = current_menu_item == item.name
+
+    return [caption, url, selected]
   end
 end

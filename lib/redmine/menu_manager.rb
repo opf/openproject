@@ -25,10 +25,7 @@ module Redmine::MenuManager
   def self.items(menu_name)
     items = {}
 
-    potential_items = permanent_build_queue(menu_name)
-    potential_items += temporary_build_queue(menu_name)
-
-    reset_temporary_build_queues
+    potential_items = get_items_of_menu(menu_name)
 
     mapper = Mapper.new(menu_name.to_sym, items)
 
@@ -51,6 +48,15 @@ module Redmine::MenuManager
   end
 
   private
+
+  def self.get_items_of_menu(menu_name)
+    potential_items = permanent_build_queue(menu_name)
+    potential_items += temporary_build_queue(menu_name)
+
+    reset_temporary_build_queues
+
+    potential_items
+  end
 
   def self.permanent_build_queue(menu_name)
     self.menu_builder_queues ||= {}

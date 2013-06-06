@@ -4,23 +4,24 @@ module Menus::Project
     Redmine::MenuManager.map :'project/modules' do |menu|
       menu.push :overview,
                 { :controller => '/projects',
-                  :action => 'show' }
+                  :action => 'show',
+                  :id => :project }
 
       menu.push :activity,
                 { :controller => '/activities',
-                  :action => 'index' },
-                :param => :project_id
+                  :action => 'index',
+                  :id => :project }
 
       menu.push :roadmap,
                 { :controller => '/versions',
-                  :action => 'index' },
-                :param => :project_id,
+                  :action => 'index',
+                  :id => :project },
                 :if => Proc.new { |p| p.shared_versions.any? }
 
       menu.push :issues,
                 { :controller => '/issues',
-                  :action => 'index' },
-                :param => :project_id,
+                  :action => 'index',
+                  :id => :project },
                 :caption => :label_issue_plural
 
       menu.push :new_issue,

@@ -21,9 +21,9 @@ module Redmine::MenuManager::MenuHelper
 
   # Renders the application main menu
   def render_main_menu(project)
-    debugger
+    locals = { :project => project, :controller => self.controller }
     build_wiki_menus(project) if project
-    render_menu((project && !project.new_record?) ? :'project/modules' : :application_menu, project)
+    render_menu((project && !project.new_record?) ? :'project/modules' : :application_menu, locals)
   end
 
   def build_wiki_menus(project)
@@ -121,7 +121,10 @@ module Redmine::MenuManager::MenuHelper
     if node.has_children? || !node.child_menus.nil?
       render_menu_node_with_children(node, locals)
     else
-      caption, url, selected = extract_node_details(node, locals)
+      caption = node.caption(project)#, url, selected = #extract_node_details(node, locals)
+      #url = node.url(locals)
+      url = {}
+      selected = current_menu_item == node.name
 
       content_tag('li', render_single_menu_node(node, caption, url, selected, locals))
     end
@@ -133,7 +136,11 @@ module Redmine::MenuManager::MenuHelper
                 locals :
                 locals[:project]
 
-    caption, url, selected = extract_node_details(node, locals)
+    #caption, url, selected = extract_node_details(node, locals)
+      caption = node.caption(project)#, url, selected = #extract_node_details(node, locals)
+      #url = node.url(locals)
+      url = {}
+      selected = current_menu_item == node.name
 
     content_tag :li do
       # Standard children
@@ -215,39 +222,5 @@ module Redmine::MenuManager::MenuHelper
       end
     end
     return block_given? ? nil : items
-  end
-
-  def extract_node_details(node, locals = {})
-    # support both the old and the new signature
-    # old: (menu, project=nil)
-    project = locals.is_a?(Project) || locals.nil? ?
-                locals :
-                locals[:project]
-
-    locals = { :project => locals } if locals.is_a?(Project)
-
-    item = node
-    url = case item.url
-    when Hash
-      item.url.inject({}) do |h, (k, v)|
-        h[k] = if locals.has_key?(v) && locals[v].is_a?(ActiveRecord::Base)
-                 locals[v].id
-               else
-                 v
-               end
-
-        h
-      end
-      #project.nil? ? item.url : {item.param => project}.merge(item.url)
-    when Symbol
-      send(item.url)
-    else
-      item.url
-    end
-    caption = item.caption(project)
-
-    selected = current_menu_item == item.name
-
-    return [caption, url, selected]
   end
 end

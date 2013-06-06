@@ -47,7 +47,13 @@ class Redmine::MenuManager::Mapper
       target_root = @menu_items.root
     end
 
-    new_node = Redmine::MenuManager::MenuItem.new(name, url_or_block, options)
+    block = if url_or_block.respond_to?(:call)
+      url_or_block
+    else
+      Redmine::MenuManager::UrlAggregator.new(url_or_block)
+    end
+
+    new_node = Redmine::MenuManager::MenuItem.new(name, block, options)
 
     # menu item position
     if first = options.delete(:first)
