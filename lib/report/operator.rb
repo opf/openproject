@@ -26,7 +26,7 @@ class Report::Operator
       end
 
       def label
-        @label ||= self.class.name.to_sym
+        @label ||= self.class.name
       end
     end
 

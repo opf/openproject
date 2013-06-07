@@ -17,16 +17,16 @@ class Widget::Filters::Operators < Widget::Filters::Base
           opts = {:value => h(o.to_s), :"data-arity" => o.arity}
           opts.reverse_merge! :"data-forced" => o.forced if o.forced?
           opts[:selected] = "selected" if filter.operator.to_s == o.to_s
-          content_tag(:option, opts) { h(l(o.label)) }
+          content_tag(:option, opts) { h(I18n.t(o.label)) }
         end.join.html_safe
       end
       label1 = content_tag :label,
-                           h(l(filter_class.label)) + " " + l(:label_operator),
+                           h(filter_class.label) + " " + l(:label_operator),
                            :for => "operators[#{filter_class.underscore_name}]",
                            :class => 'hidden-for-sighted'
       label = content_tag :label do
         if filter_class.available_operators.any?
-          l(filter_class.available_operators.first.label)
+          filter_class.available_operators.first.label
         end
       end
       hide_select_box ? label1 + select_box + label : label1 + select_box

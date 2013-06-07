@@ -1,12 +1,14 @@
+puts 'XXX:  lib/reporting_engine/widget/group_bys.rb'
+
 class Widget::GroupBys < Widget::Base
 
   def render_options(group_by_ary)
     group_by_ary.sort_by do |group_by|
-      l(group_by.label)
+      group_by.label
     end.collect do |group_by|
       next unless group_by.selectable?
-      content_tag :option, :value => group_by.underscore_name, :'data-label' => "#{CGI::escapeHTML(h(l(group_by.label)))}" do
-        h(l(group_by.label))
+      content_tag :option, :value => group_by.underscore_name, :'data-label' => "#{CGI::escapeHTML(h(group_by.label))}" do
+        h(group_by.label)
       end
     end.join.html_safe
   end
@@ -23,7 +25,7 @@ class Widget::GroupBys < Widget::Base
 
   def render_group(type, initially_selected, show_help = false)
     initially_selected = initially_selected.map do |group_by|
-      [group_by.class.underscore_name, h(l(group_by.class.label))]
+      [group_by.class.underscore_name, h(group_by.class.label)]
     end
 
     content_tag :fieldset,
@@ -49,7 +51,6 @@ class Widget::GroupBys < Widget::Base
             render_options group_by_ary
           end
         end.join.html_safe
-
         content
       end
 

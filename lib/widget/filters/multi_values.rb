@@ -31,7 +31,7 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
         select_options.merge! :"data-dependent" => true if filter_class.is_dependent?
         box_content = "".html_safe
         label = label_tag "#{filter_class.underscore_name}_arg_1_val",
-                          h(l(filter_class.label)) + ' ' + l(:label_filter_value),
+                          h(filter_class.label) + ' ' + l(:label_filter_value),
                           :class => 'hidden-for-sighted'
 
         box = content_tag :select, select_options, :id => "#{filter_class.underscore_name}_select_1" do
