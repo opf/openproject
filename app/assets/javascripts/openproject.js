@@ -17,6 +17,8 @@ window.OpenProject = (function ($) {
     options = options || {};
     this.urlRoot = options.urlRoot || "";
 
+    this.loginUrl = options.loginUrl || "";
+
     if (!/\/$/.test(this.urlRoot)) {
       this.urlRoot += '/';
     }
