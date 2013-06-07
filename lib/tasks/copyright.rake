@@ -118,6 +118,11 @@ namespace :copyright do
   desc "Update the copyright on .js source files"
   task :update_js do
     excluded = ["lib/assets",
+                "app/assets/javascripts/Bitstream_Vera_Sans_400.font.js",
+                "app/assets/javascripts/date-de-DE.js",
+                "app/assets/javascripts/date-en-US.js",
+                "app/assets/javascripts/raphael.js",
+                "app/assets/javascripts/raphael-min.js",
                 "app/assets/javascripts/tinymce",
                 "app/assets/javascripts/calendar",
                 "app/assets/javascripts/jstoolbar"]
