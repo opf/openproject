@@ -17,7 +17,7 @@ class Widget::Filters::Operators < Widget::Filters::Base
           opts = {:value => h(o.to_s), :"data-arity" => o.arity}
           opts.reverse_merge! :"data-forced" => o.forced if o.forced?
           opts[:selected] = "selected" if filter.operator.to_s == o.to_s
-          content_tag(:option, opts) { h(o.label) }
+          content_tag(:option, opts) { h(I18n.t(o.label)) }
         end.join.html_safe
       end
       label1 = content_tag :label,
