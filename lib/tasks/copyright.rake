@@ -80,7 +80,6 @@ namespace :copyright do
                  "acts_as_tree",
                  "classic_pagination",
                  "dynamic_form",
-                 "prototype_legacy_helper",
                  "rfpdf",
                  "gravatar",
                  "verification"].map{ |dir| "lib/plugins/#{dir}" }) +
