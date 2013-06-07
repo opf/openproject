@@ -65,9 +65,6 @@ class Widget::Filters < Widget::Base
     elsif engine::Operator.string_operators.all? { |o| f_cls.available_operators.include? o }
       render_widget TextBox, f, :to => html
     elsif engine::Operator.time_operators.all? { |o| f_cls.available_operators.include? o }
-      #We have to require this here because ruby will otherwise find Date
-      #as Object::Date and rails wont autoload Widget::Filters::Date
-      require_dependency 'widget/filters/date'
       render_widget Date, f, :to => html
     elsif engine::Operator.integer_operators.all? {|o| f_cls.available_operators.include? o }
       if f_cls.available_values.empty?
