@@ -1,20 +1,13 @@
-#-- encoding: UTF-8
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 module Redmine
   module Acts
@@ -43,7 +36,7 @@ module Redmine
         def self.included(base)
           base.extend ClassMethods
         end
-        
+
         %w(datetime title description author type).each do |attr|
           src = <<-END_SRC
             def event_#{attr}
@@ -59,11 +52,11 @@ module Redmine
           END_SRC
           class_eval src, __FILE__, __LINE__
         end
-        
+
         def event_date
           event_datetime.to_date
         end
-        
+
         def event_url(options = {})
           option = event_options[:url]
           if option.is_a?(Proc)
