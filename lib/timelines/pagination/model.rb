@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 # This module includes some boilerplate code for pagination using scopes.
 # #search_scope has to be overridden by the model itself and MUST return an
 # actual scope (i.e. scope in Rails3 or named_scope in Rails2) or its corresponding hash.

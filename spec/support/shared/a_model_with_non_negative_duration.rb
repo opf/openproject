@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 shared_examples_for "a model with non-negative duration" do
   # it is assumed, that planning elements start on start_date 00:01 and end
   # on end_date 23:59. Therefore, if start_date and end_date are on the very
