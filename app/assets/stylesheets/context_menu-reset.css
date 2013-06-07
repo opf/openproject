@@ -1,3 +1,14 @@
+//-- copyright
+// OpenProject is a project management system.
+//
+// Copyright (C) 2012-2013 the OpenProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
 
 #context-menu ul { background:#F4F4F4 none repeat scroll 0 0;}
 #context-menu a { border: none; }
