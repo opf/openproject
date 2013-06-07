@@ -15,14 +15,7 @@ module Report::Controller
       before_filter :prepare_query, :only => [:index, :create]
       before_filter :find_optional_report, :only => [:index, :show, :update, :delete, :rename]
       before_filter :possibly_only_narrow_values
-
-      if Rails.version.start_with? "3"
-        before_filter { @no_progress = no_progress? }
-      else
-        before_filter do |controller|
-          controller.instance_eval { @no_progress = controller.no_progress? }
-        end
-      end
+      before_filter { @no_progress = no_progress? }
     end
   end
 
@@ -43,23 +36,11 @@ module Report::Controller
   end
 
   def table_without_progress_info
-    stream do
-      render_widget Widget::Table, @query
-    end
+    render :text => render_widget(Widget::Table, @query), :layout => !request.xhr?
   end
 
   def table_with_progress_info
     render :text => render_widget(Widget::Table::Progressbar, @query), :layout => !request.xhr?
-  end
-
-  if Rails.version.start_with? "3"
-    def stream(&block)
-      self.response_body = block
-    end
-  else
-    def stream(&block)
-      render :text => block.call, :layout => false
-    end
   end
 
   ##
@@ -69,9 +50,9 @@ module Report::Controller
     @query.public! if make_query_public?
     @query.send("#{user_key}=", current_user.id)
     @query.save!
-    if request.xhr? # Update via AJAX - return url for redirect
-      render :text => url_for(:action => "show", :id => @query.id)
-    else # Redirect to the new record
+    if request.xhr?
+      table
+    else
       redirect_to :action => "show", :id => @query.id
     end
   end
