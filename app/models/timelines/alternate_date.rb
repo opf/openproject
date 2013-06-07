@@ -14,8 +14,6 @@ class Timelines::AlternateDate < ActiveRecord::Base
 
   self.table_name = 'timelines_alternate_dates'
 
-  include Timelines::TimestampsCompatibility
-
   belongs_to :planning_element, :class_name  => "Timelines::PlanningElement",
                                 :foreign_key => 'planning_element_id'
   belongs_to :scenario,         :class_name  => "Timelines::Scenario",

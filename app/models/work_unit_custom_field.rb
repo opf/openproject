@@ -10,13 +10,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class IssueCustomField < CustomField
+class WorkUnitCustomField < CustomField
   has_and_belongs_to_many :projects, :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}", :foreign_key => "custom_field_id"
   has_and_belongs_to_many :trackers, :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :foreign_key => "custom_field_id"
-  has_many :issues, :through => :issue_custom_values
+  has_many :work_units, :through => :work_unit_custom_values
 
   def type_name
-    :label_issue_plural
+    :label_work_unit_plural
   end
 end
 

@@ -159,6 +159,9 @@ class CustomField < ActiveRecord::Base
   # objects by their value of the custom field.
   # Returns false, if the custom field can not be used for sorting.
   def order_statement
+    customized_class = self.class.customized_class
+    klass = (customized_class.superclass && !(customized_class.superclass == ActiveRecord::Base)) ? customized_class.superclass : customized_class
+
     case field_format
       when 'string', 'text', 'list', 'date', 'bool'
         # COALESCE is here to make sure that blank and NULL values are sorted equally

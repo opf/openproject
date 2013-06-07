@@ -14,8 +14,6 @@ class Timelines::Reporting < ActiveRecord::Base
 
   self.table_name = 'timelines_reportings'
 
-  include Timelines::TimestampsCompatibility
-
   belongs_to :project
   belongs_to :reporting_to_project,    :class_name  => 'Project',
                                        :foreign_key => 'reporting_to_project_id'

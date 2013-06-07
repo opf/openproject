@@ -83,7 +83,7 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def planning_element
-    params.require(:planning_element).permit(:name,
+    params.require(:planning_element).permit(:subject,
                                              :description,
                                              :start_date,
                                              :end_date,

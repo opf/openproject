@@ -47,7 +47,7 @@ module TimelinesHelper
     available_parents -= [planning_element]
 
     available_options = available_parents.map do |pe|
-      texts = (pe.ancestors.reverse << pe).map { |a| "*#{a.id} #{a.name}" }
+      texts = (pe.ancestors.reverse << pe).map { |a| "*#{a.id} #{a.subject}" }
       [texts.join(right_pointing_arrow), pe.id]
     end
 

@@ -18,7 +18,7 @@ module TimelinesPlanningElementsHelper
                   :identifier => planning_element.project.identifier,
                   :name => planning_element.project.name)
 
-      api.name(planning_element.name)
+      api.name(planning_element.subject)
 
       api.description(planning_element.description)
 
@@ -28,13 +28,13 @@ module TimelinesPlanningElementsHelper
       api.in_trash(!!planning_element.deleted_at)
 
       if planning_element.parent
-        api.parent(:id => planning_element.parent_id, :name => planning_element.parent.name)
+        api.parent(:id => planning_element.parent_id, :name => planning_element.parent.subject)
       end
 
       if planning_element.children.present?
         api.array(:children, :size => planning_element.children.size) do
           planning_element.children.each do |child|
-            api.child(:id => child.id, :name => child.name)
+            api.child(:id => child.id, :name => child.subject)
           end
         end
       end

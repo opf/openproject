@@ -16,7 +16,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if planning_element.new_record? %>
     <%= l("timelines.new_planning_element") %>
   <% else %>
-    *<%=h planning_element.id %> <%=h planning_element.name %>
+    *<%=h planning_element.id %> <%=h planning_element.subject %>
   <% end %>
 </h2>
 
@@ -33,12 +33,12 @@ See doc/COPYRIGHT.rdoc for more details.
     <table class="attributes timelines-attributes">
       <tr>
         <th class="name">
-          <label for="planning_element_name">
-            <%= Timelines::PlanningElement.human_attribute_name(:name) %><span class="required"> *</span>:
+          <label for="planning_element_subject">
+            <%= Timelines::PlanningElement.human_attribute_name(:subject) %><span class="required"> *</span>:
           </label>
         </th>
         <td>
-          <%= f.text_field(:name, :size => 50) %>
+          <%= f.text_field(:subject, :size => 50) %>
         </td>
       </tr>
       <tr>

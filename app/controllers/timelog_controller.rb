@@ -28,12 +28,12 @@ class TimelogController < ApplicationController
                 'user' => 'user_id',
                 'activity' => 'activity_id',
                 'project' => "#{Project.table_name}.name",
-                'issue' => 'issue_id',
+                'work_unit' => 'work_unit_id',
                 'hours' => 'hours'
 
     cond = ARCondition.new
     if @issue
-      cond << "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
+      cond << "#{WorkUnit.table_name}.root_id = #{@issue.root_id} AND #{WorkUnit.table_name}.lft >= #{@issue.lft} AND #{WorkUnit.table_name}.rgt <= #{@issue.rgt}"
     elsif @project
       cond << @project.project_condition(Setting.display_subprojects_issues?)
     end
@@ -57,10 +57,10 @@ class TimelogController < ApplicationController
         render :layout => !request.xhr?
       }
       format.api  {
-        @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
+        @entry_count = TimeEntry.visible.count(:include => [:project, :work_unit], :conditions => cond.conditions)
         @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
         @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:issue => :tracker}],
+                                  :include => [:project, :activity, :user, {:work_unit => :tracker}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause,
                                   :limit  =>  @entry_pages.items_per_page,
@@ -68,7 +68,7 @@ class TimelogController < ApplicationController
       }
       format.atom {
         entries = TimeEntry.visible.find(:all,
-                                 :include => [:project, :activity, :user, {:issue => :tracker}],
+                                 :include => [:project, :activity, :user, {:work_unit => :tracker}],
                                  :conditions => cond.conditions,
                                  :order => "#{TimeEntry.table_name}.created_on DESC",
                                  :limit => Setting.feeds_limit.to_i)
@@ -77,7 +77,7 @@ class TimelogController < ApplicationController
       format.csv {
         # Export all entries
         @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
+                                  :include => [:project, :activity, :user, {:work_unit => [:tracker, :assigned_to, :priority]}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause)
         send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
@@ -185,8 +185,8 @@ private
   end
 
   def find_project
-    if (issue_id = (params[:issue_id] || params[:time_entry] && params[:time_entry][:issue_id])).present?
-      @issue = Issue.find(issue_id)
+    if (work_unit_id = (params[:work_unit_id] || params[:time_entry] && params[:time_entry][:work_unit_id])).present?
+      @issue = WorkUnit.find(work_unit_id)
       @project = @issue.project
     elsif (project_id = (params[:project_id] || params[:time_entry] && params[:time_entry][:project_id])).present?
       @project = Project.find(project_id)
@@ -199,8 +199,8 @@ private
   end
 
   def find_optional_project
-    if !params[:issue_id].blank?
-      @issue = Issue.find(params[:issue_id])
+    if !params[:work_unit_id].blank?
+      @issue = WorkUnit.find(params[:work_unit_id])
       @project = @issue.project
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])

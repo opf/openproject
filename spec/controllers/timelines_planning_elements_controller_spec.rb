@@ -150,6 +150,7 @@ describe Timelines::TimelinesPlanningElementsController do
           end
 
           it 'assigns a planning_elements array containing all except the deleted elements' do
+            @created_planning_elements.first.reload
             destroyed = @created_planning_elements.first.destroy
             get 'index', :project_id => project.identifier
             assigns(:planning_elements).include?(destroyed).should be_false

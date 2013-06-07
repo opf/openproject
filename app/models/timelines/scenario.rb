@@ -14,7 +14,6 @@ class Timelines::Scenario < ActiveRecord::Base
 
   self.table_name = 'timelines_scenarios'
 
-  include Timelines::TimestampsCompatibility
   include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :project

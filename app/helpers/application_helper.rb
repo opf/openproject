@@ -1189,7 +1189,7 @@ module ApplicationHelper
       text = []
 
       text << "*#{planning_element.id}" if options["include_id"]
-      text << "#{planning_element.name}" if options["include_name"]
+      text << "#{planning_element.subject}" if options["include_name"]
 
       text = text.join(" ")
     else
@@ -1198,7 +1198,7 @@ module ApplicationHelper
 
     link_to(h(text),
             timelines_project_planning_element_path(planning_element.project, planning_element),
-            :title => planning_element.name)
+            :title => planning_element.subject)
   end
 
   def planning_element_quick_info(planning_element)

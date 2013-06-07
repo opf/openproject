@@ -189,7 +189,9 @@ describe Timelines::PlanningElement do
 
     describe 'start_date' do
       it 'equals the minimum start date of all children' do
+        @pe11.reload
         @pe11.update_attributes(:start_date => Date.new(2000, 01, 20), :end_date => Date.new(2001, 01, 20))
+        @pe12.reload
         @pe12.update_attributes(:start_date => Date.new(2000, 03, 20), :end_date => Date.new(2001, 03, 20))
 
         @pe1.reload
@@ -199,7 +201,9 @@ describe Timelines::PlanningElement do
 
     describe 'end_date' do
       it 'equals the maximum end date of all children' do
+        @pe11.reload
         @pe11.update_attributes(:start_date => Date.new(2000, 01, 20), :end_date => Date.new(2001, 01, 20))
+        @pe12.reload
         @pe12.update_attributes(:start_date => Date.new(2000, 03, 20), :end_date => Date.new(2001, 03, 20))
 
         @pe1.reload
@@ -221,6 +225,7 @@ describe Timelines::PlanningElement do
         pe = Timelines::PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
         pe.save
 
+        pe.reload
         pe.alternate_dates.should_not be_empty
         pe.alternate_dates.size.should == 1
 
@@ -233,6 +238,7 @@ describe Timelines::PlanningElement do
         pe = Timelines::PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
         pe.save
 
+        pe.reload
         pe.update_attributes(:start_date => Date.today + 1.day,
                              :end_date   => Date.today + 1.day + 2.weeks)
 
@@ -248,7 +254,8 @@ describe Timelines::PlanningElement do
         pe = Timelines::PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
         pe.save
 
-        pe.update_attributes(:name => 'Things')
+        pe.reload
+        pe.update_attributes(:subject => 'Things')
 
         pe.alternate_dates.size.should == 1
       end
@@ -281,11 +288,13 @@ describe Timelines::PlanningElement do
         begin
           Timelines::PlanningElement.record_timestamps = false
           # This will keep an api builder intact when calling partials
+          pe.reload
           changes[1..-1].each do |change|
             pe[:start_date] = change[:start_date]
             pe[:end_date]   = change[:end_date]
             pe[:updated_at] = change[:time]
             pe.save
+            pe.reload
           end
         ensure
           Timelines::PlanningElement.record_timestamps = true
@@ -575,6 +584,7 @@ describe Timelines::PlanningElement do
     end
 
     it 'stores updates in journals' do
+      pe.reload
       pe.update_attribute(:end_date, Date.new(2012, 2, 1))
 
       pe.journals.size.should == 2
@@ -609,6 +619,7 @@ describe Timelines::PlanningElement do
         pe.journals.size.should == 1
 
         # update child
+        child_pe.reload
         child_pe.update_attribute(:start_date, Date.new(2012, 1, 1))
 
         # reload parent to avoid stale journal caches
@@ -727,6 +738,7 @@ describe Timelines::PlanningElement do
     end
 
     it 'should set deleted_at on destroy' do
+      @pe1.reload
       @pe1.destroy
 
       @pe1.deleted_at.should_not be_nil
@@ -735,7 +747,9 @@ describe Timelines::PlanningElement do
     end
 
     it 'should keep associated objects' do
+      @pe1.reload
       @pe1.update_attribute(:start_date, Date.new(2011, 2, 1))
+      @pe1.reload
       @pe1.update_attribute(:end_date, Date.new(2012, 2, 1))
 
       pe11  = FactoryGirl.create(:timelines_planning_element,
@@ -745,6 +759,7 @@ describe Timelines::PlanningElement do
                              :end_date   => Date.new(2011, 2, 1))
       update_journal = @pe1.journals.last
 
+      @pe1.reload
       @pe1.destroy
 
       pe11.should_not be_nil
@@ -752,6 +767,7 @@ describe Timelines::PlanningElement do
     end
 
     it 'should create a journal when marked as deleted' do
+      @pe1.reload
       @pe1.destroy
 
       @pe1.journals.reload
@@ -759,37 +775,40 @@ describe Timelines::PlanningElement do
     end
 
     it 'should adjust parent start and end dates' do
-        @pe1.update_attributes(:start_date => Date.new(2011, 5, 1),
-                               :end_date   => Date.new(2011, 6, 20))
+      @pe1.reload
+      @pe1.update_attributes(:start_date => Date.new(2011, 5, 1),
+                             :end_date   => Date.new(2011, 6, 20))
 
-        pe11  = FactoryGirl.create(:timelines_planning_element,
-                               :project_id => project.id,
-                               :parent_id  => @pe1.id,
-                               :start_date => Date.new(2011, 1, 1),
-                               :end_date   => Date.new(2011, 2, 1))
-        pe12  = FactoryGirl.create(:timelines_planning_element,
-                               :project_id => project.id,
-                               :parent_id  => @pe1.id,
-                               :start_date => Date.new(2012, 2, 1),
-                               :end_date   => Date.new(2012, 6, 1))
-        pe13  = FactoryGirl.create(:timelines_planning_element,
-                               :project_id => project.id,
-                               :parent_id  => @pe1.id,
-                               :start_date => Date.new(2013, 1, 1),
-                               :end_date   => Date.new(2013, 2, 1))
+      pe11  = FactoryGirl.create(:timelines_planning_element,
+                             :project_id => project.id,
+                             :parent_id  => @pe1.id,
+                             :start_date => Date.new(2011, 1, 1),
+                             :end_date   => Date.new(2011, 2, 1))
+      pe12  = FactoryGirl.create(:timelines_planning_element,
+                             :project_id => project.id,
+                             :parent_id  => @pe1.id,
+                             :start_date => Date.new(2012, 2, 1),
+                             :end_date   => Date.new(2012, 6, 1))
+      pe13  = FactoryGirl.create(:timelines_planning_element,
+                             :project_id => project.id,
+                             :parent_id  => @pe1.id,
+                             :start_date => Date.new(2013, 1, 1),
+                             :end_date   => Date.new(2013, 2, 1))
 
-        @pe1.reload
+      @pe1.reload
 
-        @pe1.start_date.should == pe11.start_date
-        @pe1.end_date.should == pe13.end_date
+      @pe1.start_date.should == pe11.start_date
+      @pe1.end_date.should == pe13.end_date
 
-        pe11.destroy
-        pe13.destroy
+      pe11.reload
+      pe11.destroy
+      pe13.reload
+      pe13.destroy
 
-        @pe1.reload
+      @pe1.reload
 
-        @pe1.start_date.should == pe12.start_date
-        @pe1.end_date.should == pe12.end_date
+      @pe1.start_date.should == pe12.start_date
+      @pe1.end_date.should == pe12.end_date
     end
 
     it 'should keep start and end date when all children are deleted' do
@@ -807,6 +826,7 @@ describe Timelines::PlanningElement do
       @pe1.start_date.should == start_date
       @pe1.end_date.should == end_date
 
+      pe11.reload
       pe11.destroy
 
       @pe1.reload
@@ -821,6 +841,7 @@ describe Timelines::PlanningElement do
                              :parent_id  => @pe1.id,
                              :start_date => Date.new(2011, 1, 1),
                              :end_date   => Date.new(2011, 2, 1))
+      @pe1.reload
       @pe1.destroy
 
       pe11.reload
@@ -835,6 +856,7 @@ describe Timelines::PlanningElement do
                              :start_date => Date.new(2011, 1, 1),
                              :end_date   => Date.new(2011, 2, 1))
 
+      @pe1.reload
       @pe1.destroy
 
       @pe1 = Timelines::PlanningElement.find(@pe1.id)
@@ -853,6 +875,7 @@ describe Timelines::PlanningElement do
       pe121 = FactoryGirl.create(:timelines_planning_element, :project_id => project.id, :parent_id => pe12.id)
       pe2   = FactoryGirl.create(:timelines_planning_element, :project_id => project.id)
 
+      pe1.reload
       pe1.destroy
 
       pe1.children.reload

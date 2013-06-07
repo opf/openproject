@@ -31,8 +31,6 @@ class Timelines::Timeline < ActiveRecord::Base
 
   default_scope :order => 'name ASC'
 
-  include Timelines::TimestampsCompatibility
-
   belongs_to :project, :class_name => "Project"
 
   validates_presence_of :name, :project

@@ -103,9 +103,9 @@ module TimelogHelper
                   entry.user,
                   entry.activity,
                   entry.project,
-                  (entry.issue ? entry.issue.id : nil),
-                  (entry.issue ? entry.issue.tracker : nil),
-                  (entry.issue ? entry.issue.subject : nil),
+                  (entry.work_unit ? entry.work_unit.id : nil),
+                  (entry.work_unit ? entry.work_unit.tracker : nil),
+                  (entry.work_unit ? entry.work_unit.subject : nil),
                   entry.hours.to_s.gsub('.', decimal_separator),
                   entry.comments
                   ]

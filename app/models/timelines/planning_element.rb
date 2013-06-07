@@ -9,18 +9,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Timelines::PlanningElement < ActiveRecord::Base
+class Timelines::PlanningElement < WorkUnit
   unloadable
 
-  self.table_name = 'timelines_planning_elements'
-
-  acts_as_tree
-
-  include Timelines::TimestampsCompatibility
   include Timelines::NestedAttributesForApi
   include ActiveModel::ForbiddenAttributesProtection
 
-  belongs_to :project,     :class_name => "Project"
   belongs_to :responsible, :class_name => "User",
                            :foreign_key => "responsible_id"
 
@@ -39,15 +33,7 @@ class Timelines::PlanningElement < ActiveRecord::Base
                                          :planning_element_type,
                                          :project
 
-  acts_as_watchable
-
-  acts_as_journalized :activity_type => 'timelines_planning_elements',
-                      :activity_permission => :view_planning_elements,
-                      :event_url   => Proc.new { |j| {:controller => 'timelines_planning_elements',
-                                                      :action     => 'show',
-                                                      :id         => j.journaled,
-                                                      :project_id => j.project,
-                                                      :anchor     => ("note-#{j.anchor}" unless j.initial?)} }
+  acts_as_tree
 
   # This SQL only works when there are no two updates in the same
   # millisecond. As soon as updates happen in rapid succession, multiple
@@ -55,7 +41,7 @@ class Timelines::PlanningElement < ActiveRecord::Base
 
   SQL_FOR_AT = {
     :select => "#{Timelines::PlanningElement.quoted_table_name}.id,
-                #{Timelines::PlanningElement.quoted_table_name}.name,
+                #{Timelines::PlanningElement.quoted_table_name}.subject,
                 #{Timelines::PlanningElement.quoted_table_name}.description,
                 #{Timelines::PlanningElement.quoted_table_name}.planning_element_status_comment,
                 #{Timelines::AlternateDate.quoted_table_name  }.start_date,
@@ -65,16 +51,16 @@ class Timelines::PlanningElement < ActiveRecord::Base
                 #{Timelines::PlanningElement.quoted_table_name}.responsible_id,
                 #{Timelines::PlanningElement.quoted_table_name}.planning_element_type_id,
                 #{Timelines::PlanningElement.quoted_table_name}.planning_element_status_id,
-                #{Timelines::PlanningElement.quoted_table_name}.created_at,
+                #{Timelines::PlanningElement.quoted_table_name}.created_on,
                 #{Timelines::PlanningElement.quoted_table_name}.deleted_at,
-                #{Timelines::AlternateDate.quoted_table_name  }.updated_at",
+                #{Timelines::AlternateDate.quoted_table_name  }.updated_on",
     :joins => "LEFT JOIN (
                   SELECT
                     #{Timelines::AlternateDate.quoted_table_name}.planning_element_id,
-                    MAX(#{Timelines::AlternateDate.quoted_table_name}.updated_at) AS updated_at
+                    MAX(#{Timelines::AlternateDate.quoted_table_name}.updated_on) AS updated_on
                   FROM #{Timelines::AlternateDate.quoted_table_name}
                   WHERE
-                    #{Timelines::AlternateDate.quoted_table_name}.created_at <= ?
+                    #{Timelines::AlternateDate.quoted_table_name}.created_on <= ?
                   GROUP BY
                     #{Timelines::AlternateDate.quoted_table_name}.planning_element_id
                 )  AS timelines_alternate_dates_sub
@@ -82,12 +68,10 @@ class Timelines::PlanningElement < ActiveRecord::Base
               INNER JOIN
                 #{Timelines::AlternateDate.quoted_table_name}
                   ON #{Timelines::AlternateDate.quoted_table_name}.planning_element_id = timelines_alternate_dates_sub.planning_element_id
-                    AND #{Timelines::AlternateDate.quoted_table_name}.updated_at = timelines_alternate_dates_sub.updated_at"
+                    AND #{Timelines::AlternateDate.quoted_table_name}.updated_on = timelines_alternate_dates_sub.updated_at"
 
   }
 
-  scope :without_deleted, :conditions => "#{Timelines::PlanningElement.quoted_table_name}.deleted_at IS NULL"
-  scope :deleted, :conditions => "#{Timelines::PlanningElement.quoted_table_name}.deleted_at IS NOT NULL"
   scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Timelines::PlanningElement.visible_condition(args.first || User.current) } }
 
@@ -106,6 +90,7 @@ class Timelines::PlanningElement < ActiveRecord::Base
     {:conditions => {:project_id => projects}}
   }
 
+<<<<<<< HEAD
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_planning_elements, options)
   end
@@ -115,26 +100,18 @@ class Timelines::PlanningElement < ActiveRecord::Base
     'timelines_planning_elements'
   end
 
+=======
+>>>>>>> abe58b2... Join issue and pe journalization
   # Used for activities list
   def title
     title = ''
-    title << name
+    title << subject
     title << ' ('
     title << planning_element_type.name << ' ' if planning_element_type
     title << '*'
     title << id.to_s
     title << ')'
   end
-
-  register_on_journal_formatter :plaintext,         :name, :description,
-                                                    :planning_element_status_comment
-  register_on_journal_formatter :named_association, :parent_id, :project_id,
-                                                    :planning_element_type_id,
-                                                    :planning_element_status_id,
-                                                    :responsible_id
-  register_on_journal_formatter :datetime,          :start_date, :end_date, :deleted_at
-
-  register_on_journal_formatter :scenario_date,     /^scenario_(\d+)_(start|end)_date$/
 
   # Overriding Journal Class to provide extended information in activity view
   journal_class.class_eval do
@@ -170,9 +147,9 @@ class Timelines::PlanningElement < ActiveRecord::Base
   after_save :update_parent_attributes
   after_save :create_alternate_date
 
-  validates_presence_of :name, :start_date, :end_date, :project
+  validates_presence_of :subject, :start_date, :end_date, :project
 
-  validates_length_of :name, :maximum => 255, :unless => lambda { |e| e.name.blank? }
+  validates_length_of :subject, :maximum => 255, :unless => lambda { |e| e.subject.blank? }
 
   def duration
     if start_date >= end_date
@@ -274,9 +251,10 @@ class Timelines::PlanningElement < ActiveRecord::Base
 
 
   def destroy
-    unless new_record?
+    unless new_record? or self.deleted_at
       self.children.each{|child| child.destroy}
 
+      self.reload
       self.deleted_at = Time.now
       self.save!
     end

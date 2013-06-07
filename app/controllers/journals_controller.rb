@@ -28,8 +28,8 @@ class JournalsController < ApplicationController
     sort_update(@query.sortable_columns)
 
     if @query.valid?
-      @journals = @query.issue_journals(:order => "#{Journal.table_name}.created_at DESC",
-                                        :limit => 25)
+      @journals = @query.work_unit_journals(:order => "#{Journal.table_name}.created_at DESC",
+                                            :limit => 25)
     end
     @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
     respond_to do |format|

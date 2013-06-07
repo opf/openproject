@@ -77,6 +77,8 @@ Given /^there are the following planning elements(?: in project "([^"]*)")?:$/ d
 
     factory = FactoryGirl.create(:timelines_planning_element, type_attributes.merge(:project_id => project.id))
 
+    factory.reload
+
     factory.planning_element_status = status unless status.nil?
     factory.responsible = responsible unless responsible.nil?
     factory.planning_element_type = planning_element_type unless planning_element_type.nil?

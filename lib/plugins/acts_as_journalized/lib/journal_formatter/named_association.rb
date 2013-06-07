@@ -40,7 +40,13 @@ class JournalFormatter::NamedAssociation < JournalFormatter::Attribute
     values.map do |value|
       if klass
         record = associated_object(klass, value.to_i, options)
-        record.name if record
+        if record
+          if record.respond_to? 'name'
+            record.name
+          else
+            record.subject
+          end
+        end
       end
     end
   end

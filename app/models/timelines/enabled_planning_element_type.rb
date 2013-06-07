@@ -14,8 +14,6 @@ class Timelines::EnabledPlanningElementType < ActiveRecord::Base
 
   self.table_name = 'timelines_enabled_planning_element_types'
 
-  include Timelines::TimestampsCompatibility
-
   belongs_to :project,               :class_name  => 'Project',
                                      :foreign_key => 'project_id'
   belongs_to :planning_element_type, :class_name  => 'Timelines::PlanningElementType',

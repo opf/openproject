@@ -19,8 +19,6 @@ class Timelines::ProjectType < ActiveRecord::Base
   acts_as_list
   default_scope :order => 'position ASC'
 
-  include Timelines::TimestampsCompatibility
-
   has_many :projects, :class_name  => 'Project',
                       :foreign_key => 'timelines_project_type_id'
 

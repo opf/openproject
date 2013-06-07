@@ -17,8 +17,6 @@ class Timelines::PlanningElementType < ActiveRecord::Base
   acts_as_list
   default_scope :order => 'position ASC'
 
-  include Timelines::TimestampsCompatibility
-
   extend Timelines::Pagination::Model
 
   has_many :default_planning_element_types, :class_name  => 'Timelines::DefaultPlanningElementType',
