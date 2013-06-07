@@ -34,7 +34,6 @@ describe JournalsController do
     end
 
     it { response.should be_success }
-    it { response.should render_template("_diff") }
-    it { response.body.should == "<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>\n" }
+    it { response.body.strip.should == "<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>" }
   end
 end
