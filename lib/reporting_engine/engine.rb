@@ -12,9 +12,12 @@ module ReportingEngine
 
 
     config.to_prepare do
-      require_dependency 'reporting_engine/patches'
-      require_dependency 'reporting_engine/patches/big_decimal_patch'
-      require_dependency 'reporting_engine/patches/to_date_patch'
+      require 'reporting_engine/patches'
+      require 'reporting_engine/patches/big_decimal_patch'
+      require 'reporting_engine/patches/to_date_patch'
+      #We have to require this here because Ruby will otherwise find Date
+      #as Object::Date and Rails wont autoload Widget::Filters::Date
+      require_dependency 'widget/filters/date'
     end
 
     config.after_initialize do

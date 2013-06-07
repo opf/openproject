@@ -1,5 +1,4 @@
 class Widget::GroupBys < Widget::Base
-  extend ProactiveAutoloader
 
   def render_options(group_by_ary)
     group_by_ary.sort_by do |group_by|

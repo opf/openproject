@@ -1,7 +1,4 @@
-require_dependency 'reporting_engine/engine_module'
-
 class Report < ActiveRecord::Base
-  extend ProactiveAutoloader
   extend Forwardable
   include Enumerable
   include Engine

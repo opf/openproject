@@ -1,5 +1,4 @@
 class Widget::Filters < Widget::Base
-  extend ProactiveAutoloader
 
   def render
     table = content_tag :table, :width => "100%" do
@@ -59,29 +58,29 @@ class Widget::Filters < Widget::Base
   def render_filter(f_cls, f_inst)
     f = f_inst || f_cls
     html = ''.html_safe
-    render_widget Filters::Label, f, :to => html
-    render_widget Filters::Operators, f, :to => html
+    render_widget Label, f, :to => html
+    render_widget Operators, f, :to => html
     if f_cls.heavy?
-      render_widget Filters::Heavy, f, :to => html
+      render_widget Heavy, f, :to => html
     elsif engine::Operator.string_operators.all? { |o| f_cls.available_operators.include? o }
-      render_widget Filters::TextBox, f, :to => html
+      render_widget TextBox, f, :to => html
     elsif engine::Operator.time_operators.all? { |o| f_cls.available_operators.include? o }
-      render_widget Filters::Date, f, :to => html
+      render_widget Date, f, :to => html
     elsif engine::Operator.integer_operators.all? {|o| f_cls.available_operators.include? o }
       if f_cls.available_values.empty?
-        render_widget Filters::TextBox, f, :to => html
+        render_widget TextBox, f, :to => html
       else
-        render_widget Filters::MultiValues, f, :to => html, :lazy => true
+        render_widget MultiValues, f, :to => html, :lazy => true
       end
     else
       if f_cls.is_multiple_choice?
-        render_widget Filters::MultiChoice, f, :to => html
+        render_widget MultiChoice, f, :to => html
       else
-        render_widget Filters::MultiValues, f, :to => html, :lazy => true
+        render_widget MultiValues, f, :to => html, :lazy => true
       end
     end
     render_filter_help f, :to => html
-    render_widget Filters::RemoveButton, f, :to => html
+    render_widget RemoveButton, f, :to => html
   end
 
   ##Renders help for a filter (chainable)

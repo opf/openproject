@@ -1,5 +1,4 @@
 require 'set'
-require_dependency 'reporting_engine/report'
 
 module Report::InheritedAttribute
   include Report::QueryUtils

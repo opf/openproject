@@ -1,7 +1,6 @@
 class Report::Filter
   class Base < Report::Chainable
     include Report::QueryUtils
-
     engine::Operator.load
 
     inherited_attribute   :available_operators,
