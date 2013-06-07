@@ -45,7 +45,9 @@ end
 
 ActionView::Base.send(:include, Widget::RenderWidgetInstanceMethods)
 ActionController::Base.send(:include, Widget::RenderWidgetInstanceMethods)
-if Rails.version.start_with? "2"
-  class ::String; def html_safe; self; end; end
+
+class ::String
+  def write(s)
+    concat(s)
+  end
 end
-class ::String; def write(s); concat(s); end; end
