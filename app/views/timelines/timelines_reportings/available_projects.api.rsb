@@ -1,0 +1,30 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+api.array :projects, api_meta(:size => @elements.size) do
+  @elements.each do |element|
+    project = element[:project]
+
+    api.project do
+      api.id(project.id)
+      api.name(project.name)
+      api.identifier(project.identifier)
+
+      api.level(element[:level])
+
+      api.created_on(project.created_on.utc) if project.created_on
+      api.updated_on(project.updated_on.utc) if project.updated_on
+
+      api.disabled(@disabled.include? project)
+
+    end
+  end
+end
