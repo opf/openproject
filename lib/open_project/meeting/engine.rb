@@ -14,7 +14,7 @@ module OpenProject::Meeting
     config.before_configuration do |app|
       # This is required for the routes to be loaded first
       # as the routes should be prepended so they take precedence over the core.
-      app.config.paths['config/routes'].unshift File.join(File.dirname(__FILE__), "..", "..", "config", "routes.rb")
+      app.config.paths['config/routes'].unshift File.join(File.dirname(__FILE__), "..", "..", "..", "config", "routes.rb")
     end
 
     initializer "remove_duplicate_meeting_routes", :after => "add_routing_paths" do |app|
