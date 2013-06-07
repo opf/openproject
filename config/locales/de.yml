@@ -91,6 +91,47 @@ de:
         issue: "Ticket"
         spent_on: "Datum"
         tracker: "Tracker"
+      "timelines/color":
+        name: Name
+        hexcode: Hex-Code
+      "timelines/planning_element":
+        alternate_dates:
+          end_date: Abschlussdatum des alternativen Datums
+        description: Beschreibung
+        end_date: Abschlussdatum
+        id: ID
+        name: Name
+        parent: Eltern-Element
+        planning_element_type: Typ
+        responsible: Planungsverantwortlicher
+        start_date: Startdatum
+        updated_at: Aktualisiert
+      "timelines/planning_element_type":
+        color: Farbe
+        id: ID
+        in_aggregation: In Aggregration
+        is_default: Standardwert
+        is_milestone: Meilenstein
+        name: Name
+      "timelines/project_association":
+        description: Begründung
+      "timelines/project_type":
+        allows_association: Erlaubt Projekt-Abhängigkeiten
+        name: Name
+        planning_element_types: Standard-Planungselement-Typen
+        reported_project_statuses: Gemeldeter Projekt-Status
+      "timelines/scenario":
+        created_at: Angelegt
+        name: Name
+        updated_at: Aktualisiert
+      "timelines/timeline":
+        name: Name
+      "timelines/reporting":
+        created_at: Angelegt
+        reported_project_status_comment: Status-Kommentar
+        reported_project_status_id: Projekt-Status
+        reporting_to_project_id: Beziehung zu Projekt
+        updated_at: Aktualisert
       tracker:
         is_in_roadmap: "In der Roadmap anzeigen"
       user:
@@ -141,10 +182,26 @@ de:
         not_a_number: "ist keine Zahl"
         not_same_project: "gehört nicht zum selben Projekt"
         odd: "muss ungerade sein"
+        project_association_already_exists: "Projekt-Abhängigkeit existiert bereits"
         taken: "ist bereits vergeben"
         too_long: "ist zu lang (nicht mehr als %{count} Zeichen)"
         too_short: "ist zu kurz (nicht weniger als %{count} Zeichen)"
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
+      models:
+        "timelines/alternate_date":
+          attributes:
+            end_date:
+              not_start_date: "ist nicht identisch mit dem Startdatum, obwohl dies bei Meilensteinen Pflicht ist"
+        "timelines/planning_element":
+          attributes:
+            end_date:
+              not_start_date: "ist nicht am Startdatum, obwohl die bei Meilensteinen Pflicht ist"
+            parent:
+              cannot_be_milestone: "darf kein Meilenstein sein"
+              cannot_be_in_another_project: "darf nicht in einem anderen Projekt sein"
+              cannot_be_in_recycle_bin : "darf nicht im Papierkorb liegen"
+        "timelines/project_association":
+          project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:
@@ -167,6 +224,10 @@ de:
       query: "Benutzerdefinierte Abfrage"
       role: "Rolle"
       tracker: "Tracker"
+      "timelines/planning_element": Planungselement
+      "timelines/planning_element_type": Planungselement-Typ
+      "timelines/project_type": Projekt-Typ
+      "timelines/scenario": Szenario
       user: "Benutzer"
       version: "Version"
       wiki: "Wiki"
@@ -176,6 +237,7 @@ de:
   # common attributes of all models
   attributes:
     assigned_to: "Zugewiesen an"
+    active: "Aktiv"
     author: "Autor"
     base: "Allgemeiner Fehler:"
     blocks_ids: "Blockiert"
@@ -384,6 +446,8 @@ de:
   enumeration_activities: "Aktivitäten (Zeiterfassung)"
   enumeration_doc_categories: "Dokumentenkategorien"
   enumeration_issue_priorities: "Ticket-Prioritäten"
+  enumeration_planning_element_statuses: "Planungselement-Status"
+  enumeration_reported_project_statuses: "Gemeldeter Projekt-Status"
   enumeration_system_activity: "System-Aktivität"
 
   error_can_not_archive_project: "Dieses Projekt kann nicht archiviert werden."
@@ -405,6 +469,24 @@ de:
   error_unable_to_connect: "Fehler beim Verbinden (%{value})"
   error_workflow_copy_source: "Bitte wählen Sie einen Quell-Tracker und eine Quell-Rolle."
   error_workflow_copy_target: "Bitte wählen Sie die Ziel-Tracker und -Rollen."
+
+  field_responsible: "Planungsverantwortlicher"
+  field_end_date: "Abschlussdatum"
+  field_deleted_at: "Gelöscht am"
+  field_scenario_end_date: "Szenario %{title}: Abschlussdatum"
+  field_scenario_start_date: "Szenario %{title}: Startdatum"
+  field_scenario_deleted: '(gelöschtes Szenario)'
+  field_planning_element_status: "Status"
+  field_planning_element_type: "Typ"
+
+# Overriding definition in core to make field_parent more generic, so that it
+# also works for sub planning elements
+  field_parent: "Unterelement von"
+
+# cannot get rid of these, since I do not want to change the way the project
+# model is internationalized
+  field_timelines_project_type: "Projekttyp"
+  field_timelines_responsible: "Planungsverantwortlicher"
 
   general_csv_decimal_separator: ","
   general_csv_encoding: "ISO-8859-1"
@@ -436,6 +518,28 @@ de:
         one: "Sie dürfen nur ein Element auswählen"
         other: "Sie dürfen nur {{limit}} Elemente auswählen"
         zero: "Sie dürfen keine Elemente auswählen"
+    timelines:
+      tooManyProjects: "Mehr als %{count} Projekte. Bitte genauer filtern!"
+      cancel: Abbrechen
+      create_planning_select_project: "Projekt:"
+      end_date: "Abschlussdatum"
+      error: "Ein Fehler ist aufgetretten."
+      filter:
+        none: "(keines)"
+      name: "Name"
+      planning_element_types: "Planungselement-Typ"
+      project_status: "Projekt-Status"
+      project_type: "Projekt-Typ"
+      responsible: "Planungsverantwortlicher"
+      save: Speichern
+      start_date: "Startdatum"
+      really_move_planning_element_to_trash: >
+        Möchten Sie dieses Planungselement und all seine Kind-Elemente wirklich in
+        den Papierkorb verschieben?
+      really_delete_planning_element: >
+        Möchten Sie wirklich das folgende Planungselement und seine Kind-Elemente
+        permanent löschen? Diese Operation kann nicht rückgängig gemacht werden.
+      really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
 
   label_account: "Konto"
   label_activity: "Aktivität"
@@ -758,6 +862,7 @@ de:
   label_this_year: "aktuelles Jahr"
   label_time_entry_plural: "Benötigte Zeit"
   label_time_tracking: "Zeiterfassung"
+  label_timelines_planning_element_plural: "Plannungselemente"
   label_today: "heute"
   label_top_menu: "Hauptmenu"
   label_topic_plural: "Themen"
@@ -767,6 +872,7 @@ de:
   label_ui: "Nutzeroberfläche"
   label_update_issue_done_ratios: "Ticket-Fortschritt aktualisieren"
   label_updated_time: "Vor %{value} aktualisiert"
+  label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Von %{author} vor %{age} aktualisiert"
   label_used_by: "Benutzt von"
   label_user_activity: "Aktivität von %{value}"
@@ -927,6 +1033,10 @@ de:
   permission_delete_issues: "Tickets löschen"
   permission_delete_messages: "Forenbeiträge löschen"
   permission_delete_own_messages: "Eigene Forenbeiträge löschen"
+  permission_delete_planning_elements: "Planungselemente löschen"
+  permission_delete_project_associations: "Projektabhängigkeiten löschen"
+  permission_delete_reportings: "Statusberichte löschen"
+  permission_delete_timelines: "Zeitplan-Reporte löschen"
   permission_delete_wiki_pages: "Wiki-Seiten löschen"
   permission_delete_wiki_pages_attachments: "Anhänge löschen"
   permission_edit_issue_notes: "Kommentare bearbeiten"
@@ -935,8 +1045,12 @@ de:
   permission_edit_own_issue_notes: "Eigene Kommentare bearbeiten"
   permission_edit_own_messages: "Eigene Forenbeiträge bearbeiten"
   permission_edit_own_time_entries: "Selbst gebuchte Aufwände bearbeiten"
+  permission_edit_planning_elements: "Planungselemente bearbeiten"
   permission_edit_project: "Projekt bearbeiten"
+  permission_edit_project_associations: "Projektabhängigkeiten bearbeiten"
+  permission_edit_reportings: "Statusberichte bearbeiten"
   permission_edit_time_entries: "Gebuchte Aufwände bearbeiten"
+  permission_edit_timelines: "Zeitplan-Reporte bearbeiten"
   permission_edit_wiki_pages: "Wiki-Seiten bearbeiten"
   permission_export_issues: "Tickets exportieren"
   permission_export_wiki_pages: "Wiki-Seiten exportieren"
@@ -955,6 +1069,7 @@ de:
   permission_manage_versions: "Versionen verwalten"
   permission_manage_wiki: "Wiki verwalten"
   permission_move_issues: "Tickets verschieben"
+  permission_move_planning_elements_to_trash: "Planungselemente in den Papierkorb verschieben"
   permission_protect_wiki_pages: "Wiki-Seiten schützen"
   permission_rename_wiki_pages: "Wiki-Seiten umbenennen"
   permission_save_queries: "Filter speichern"
@@ -965,7 +1080,11 @@ de:
   permission_view_issue_watchers: "Liste der Beobachter ansehen"
   permission_view_issues: "Tickets anzeigen"
   permission_view_messages: "Forenbeiträge ansehen"
+  permission_view_planning_elements: "Planungselemente ansehen"
+  permission_view_project_associations: "Projektabhängigkeiten ansehen"
+  permission_view_reportings: "Statusberichte ansehen"
   permission_view_time_entries: "Gebuchte Aufwände ansehen"
+  permission_view_timelines: "Zeitplan-Reporte anzeigen"
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"
   permission_view_wiki_pages: "Wiki ansehen"
 
@@ -1142,6 +1261,217 @@ de:
       short: "%e. %b %H:%M"
       time: "%H:%M"
     pm: "nachmittags"
+
+  timelines:
+    admin_menu:
+      colors: "Farben"
+      planning_element_types: "Planungselement-Typen"
+      project_types: "Projekt-Typen"
+    add_project_association: "Projekt-Abhängigkeit erstellen"
+    associations: "Abhängigkeiten"
+    button_delete_all: "Alle löschen"
+    button_move_to_trash: "In den Papierkorb verschieben"
+    button_restore: "Wiederherstellen"
+    button_restore_all: "Alle wiederherstellen"
+    cannot_update_planning_element_types: "Planungselement-Typen konnten nicht aktualisiert werden"
+    change: "Planungsveränderung"
+    children: "Kind-Elemente"
+    color_could_not_be_saved: "Farbe konnte nicht gespeichert werden"
+    current_planning: "Aktuelle Planung"
+    dates: "Daten"
+    dates_are_calculated_based_on_sub_elements: "Daten wurden auf Basis der Kind-Elemente berechnet."
+    delete_all: "Alle löschen"
+    delete_thing: "Löschen"
+    duration: "Dauer"
+    duration_days:
+      one:   "1 Tag"
+      other: "%{count} Tage"
+    edit_color: "Farbe bearbeiten"
+    edit_planning_element_type: "Planungselement-Typ bearbeiten"
+    edit_project_type: "Projekt-Typ bearbeiten"
+    edit_thing: "Bearbeiten"
+    edit_timeline: "Zeitplan-Report bearbeiten"
+    enable_planning_element_in_project: 'Planungselement-Typ "%{type}" aktivieren'
+    end: "Abschluss"
+    errors:
+      not_implemented: "Der Zeitplan-Report konnte nicht gezeichnet werden, da eine noch nicht implementierte Funktionalität benutzt wird."
+      report_comparison: "Der Zeitplan-Report konnte nicht gezeichnet werden weil es ein Problem mit den konfigurierten Planungsvergleichen gibt. Ein Zurücksetzen der Vergleichsoptionen kann dieses Problem beheben."
+      report_epicfail: "Der Zeitplan-Report konnte auf Grund eines unerwarteten Fehlers nicht geladen werden."
+      report_timeout: "Der Zeitplan-Report konnte nicht innerhalb einer gewissen Zeit geladen werden."
+    filter:
+      sort:
+        sortation: "Sortieren nach"
+        alphabet: "Alphabet"
+        explicit_order: "angegebener Reihenfolge"
+        project_sortation: "Projekte sortieren nach"
+        date: "Datum"
+        default: "Default"
+      column:
+        end_date: "Abschlussdatum"
+        name: "Name"
+        planning_element_types: "Planungselement-Typ"
+        project_status: "Projekt-Status"
+        project_type: "Projekt-Typ"
+        responsible: "Planungsverantwortlicher"
+        start_date: "Startdatum"
+      columns: "Spalten"
+      comparisons: "Planungsvergleiche"
+      comparison:
+        absolute: "Absolut"
+        historical: "Historisch"
+        none: "Kein Planungsvergleich"
+        relative: "Relativ"
+        scenario: "Szenario"
+        compare_relative: "Vergleiche aktuelle Planung mit vor %{timespan}"
+        compare_absolute: "Vergleiche aktuelle Planung mit %{date}"
+        compare_historical: "Vergleiche %{startdate} mit %{enddate}"
+      time_relative:
+        days: "Tagen"
+        weeks: "Wochen"
+        months: "Monaten"
+      exclude_own_planning_elements: "Planungselemente dieses Projektes ausblenden"
+      exclude_reporters: "Andere Projekte ausblenden"
+      exclude_empty: "Leere Projekte ausblenden"
+      grouping: "Gruppierung"
+      grouping_hide_group: "Gruppe \"%{group}\" verstecken"
+      grouping_one: "Erstes Gruppierungskriterium"
+      grouping_one_phrase: "Ist ein Unterprojekt von"
+      grouping_other: "Andere"
+      grouping_two: "Zweites Gruppierungskriterium"
+      grouping_two_phrase: "Hat eine Abhängigkeit zu Projekttyp"
+      hide_chart: "Diagramm ausblenden"
+      none: "(keines)"
+      outline: "Zu Beginn angezeigte Hierarchie"
+      parent: "Zeige Unterprojekte von"
+      planning_element_filters: "Planungselemente filtern"
+      planning_element_responsible: "Planungselemente von diesem Planungsverantwortlichen anzeigen"
+      planning_element_types: "Planungselement-Type anzeigen"
+
+
+      project_time_filter: "Projekte mit Planungselementen eines Typs in einem Zeitfenster"
+      project_time_filter_historical: "von %{startdate} bis %{enddate}"
+      project_time_filter_relative: "vor %{startspan}%{startspanunit} bis in %{endspan}%{endspanunit}"
+      project_filters: "Projekte filtern"
+      project_responsible: "Projekte von diesem Planungsverantwortlichen anzeigen"
+      project_status: "Projekt-Status anzeigen"
+      project_types: "Projekt-Typ anzeigen"
+      timeframe: "Zeitausschnitt bestimmen"
+      timeframe_end: "bis"
+      timeframe_start: "von"
+      timeline: "Allgemeine Einstellungen"
+      zoom: "Zoomstufe"
+    history: "Historie"
+    new_association: "Neue Abhängigkeit"
+    new_color: "Neue Farbe"
+    new_planning_element: "Neues Planungselement"
+    new_planning_element_type: "Neuer Planungselement-Typ"
+    new_project_type: "Neuer Projekt-Typ"
+    new_reporting: "Neuer Statusbericht"
+    new_scenario: "Neues Szenario"
+    new_timeline: "Neuer Zeitplan-Report"
+    no_projects_for_reporting_available: "Es gibt keine Projekte, zu denen ein Statusbericht erstellt werden könnte."
+    no_right_to_view_timeline: "Sie haben nicht das Recht den ausgewählten Zeitplan zu sehen."
+    no_timeline_for_id: "Es konnte keine Timeline mit der ID %{id} gefunden werden."
+    notice_successful_deleted_all_elements: "Alle Elemente erfolgreich gelöscht"
+    notice_successful_moved_to_trash: "Erfolgreich in den Papierkorb verschoben"
+    notice_successful_restored: "Erfolgreich wiederhergestellt"
+    notice_successful_restored_all_elements: "Erfolgreich alle Elemente wiederhergestellt"
+    outline: "Hierarchie zurücksetzen"
+    outlines:
+      aggregation: "Nur Aggregationen anzeigen"
+      level1:      "Bis zur ersten Ebene"
+      level2:      "Bis zur zweiten Ebene"
+      level3:      "Bis zur dritten Ebene"
+      level4:      "Bis zur vierten Ebene"
+      level5:      "Bis zur fünften Ebene"
+      all:         "Alle Ebenen anzeigen"
+    project_menu:
+      planning_elements: "Planungselemente"
+      project_associations: "Abhängigkeiten"
+      recycle_bin: "Papierkorb"
+      reportings: "Statusberichte"
+      reports: "Zeitplan-Reporte"
+      timelines: "Zeitpläne"
+
+    planning_element_could_not_be_saved: "Planungselement konnte nicht gespeichert werden"
+    planning_element_could_not_be_restored: "Planungselement konnte nicht wiederhergestellt werden"
+    planning_element_creation: "Anlegen: %{title}"
+    planning_element_updated_automatically_by_child_changes: |
+        _Automatisch durch die Änderungen in %{child} aktualisert_
+    planning_element_type_could_not_be_saved: "Planungselement-Typ konnte nicht gespeichert werden"
+    planning_element_update: "Aktualisierung: %{title}"
+    planning_elements_are_displayed_in_aggregations: "Planungselemente werden in Aggregation angezeigt"
+    project_association_new: "Projekt-Abhängigkeit hinzufügen"
+    project_association_new_for_with: "Anlegen der Projekt-Abhängigkeit von “%{project_a}” zu"
+    project_association_with_other: "Projekt-Abhängigkeit zwischen “%{project_a}” und “%{project_b}”"
+    project_association_of_type: "Projekt-Abhängigkeit zu Projekt des Typs “%{type}”"
+    project_type_could_not_be_saved: "Projekt-Typ konnte nicht gespeichert werden."
+    properties: "Eigenschaften"
+    reporting_could_not_be_saved: "Statusbericht konnte nicht gespeichert werden."
+    reporting_for_project:
+      show: "Statusbericht zu Projekt: %{title}"
+      delete: "Löschen des Statusberichts zu Projekt: %{title}"
+      edit: "Bearbeiten des Statusberichts zu Projekt: %{title}"
+      history: "Historie des Statusberichts zu Projekt:"
+    reporting:
+      delete: "Statusbericht löschen: %{comment}"
+      edit: "Statusbericht bearbeiten: %{comment}"
+      show: "Statusbericht: %{comment}"
+    really_delete_color: >
+      Möchten Sie die folgende Farbe wirklich löschen?
+      Planungselement-Typen, die diese Farbe verwenden bleiben erhalten.
+    really_delete_all_planning_elements: >
+      Möchten Sie wirklich alle folgenden Planungselemente und ihre
+      Kind-Elemente permanent löschen? Diese Operation kann nicht rückgängig
+      gemacht werden.
+    really_delete_planning_element: >
+      Möchten Sie wirklich das folgende Planungselement und seine Kind-Elemente
+      permanent löschen? Diese Operation kann nicht rückgängig gemacht werden.
+    really_delete_planning_element_type: >
+      Möchten Sie den folgenden Planungselement-Typ wirklich löschen?
+      Planungselemente dieses Typs bleiben erhalten.
+    really_delete_project_association_between_project_a_and_project_b: >
+      Möchten Sie die Projekt-Abhängigkeit zwischen “%{project_a}” und
+      “%{project_b}” wirklich löschen?
+    really_delete_project_type: >
+      Möchten Sie den folgenden Projekt-Typ wirklich löschen?
+      Projekte dieses Typs bleiben erhalten.
+    really_delete_scenario: >
+      Möchten Sie dieses Szenario wirklich löschen?
+      Planungselemente werden nicht mit gelöscht - die Planungsinformationen
+      für dieses Szenario gehen jedoch verloren.
+    really_delete_timeline: >
+      Möchten Sie dieses Zeitplan-Report wirklich löschen?
+      Planungselemente dieses Reports bleiben erhalten.
+    really_delete_reporting: >
+      Möchten Sie diesen Statusbericht wirklich löschen?
+      Vorherige gemeldete Statusberichte gehen dabei verloren.
+    really_move_planning_element_to_trash: >
+      Möchten Sie dieses Planungselement und all seine Kind-Elemente wirklich in
+      den Papierkorb verschieben?
+    really_restore_all_planning_elements: >
+      Möchten Sie die folgenden Planungselemente wirklich wiederherstellen?
+    restore_all: "Alle wiederherstellen"
+    scenarios: "Szenarien"
+    start: "Beginn"
+    timeline: "Zeitplan-Report"
+    timelines: "Zeitplan-Reporte"
+    timelines_settings: "Timelines"
+    used_in_x_planning_elements:
+      one:   "Wird in %{count} Planungselement verwendet"
+      other: "Wird in %{count} Planungselementen verwendet"
+    vertical_planning_elements: "Vertikale Planungselemente"
+    without_project_type: "Ohne Projekt-Typ"
+    you_are_viewing_all_planning_elements_in_this_project: "Sie sehen alle Planungselemente innerhalb dieses Projekts"
+    you_are_viewing_the_selected_timeline: "Sie sehen den ausgewählten Zeitplan-Report"
+    zoom:
+      in: "Mehr Details"
+      out: "Weniger Details"
+      days: "Tage"
+      weeks: "Wochen"
+      months: "Monate"
+      quarters: "Quartale"
+      years: "Jahre"
 
   total_progress: "Gesamtfortschritt"
 

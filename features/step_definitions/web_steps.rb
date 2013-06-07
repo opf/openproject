@@ -29,7 +29,6 @@
 # * http://elabs.se/blog/15-you-re-cuking-it-wrong
 #
 
-
 require 'uri'
 require 'cgi'
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
@@ -94,7 +93,13 @@ When /^(?:|I )fill in the following:$/ do |fields|
 end
 
 When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
-  select(value, :from => field)
+  begin
+    select(value, :from => field)
+  rescue Capybara::ElementNotFound
+    container = find(:xpath, "//label[contains(., '#{field}')]/parent::*/*[contains(@class, 'select2-container')]")
+    container.find(".select2-choice").click
+    find(:xpath, "//*[@id='select2-drop']/descendant::li[contains(., '#{value}')]").click
+  end
 end
 
 When /^(?:|I )check "([^"]*)"$/ do |field|
@@ -369,7 +374,7 @@ end
 def find_lowest_containing_element text, selector
   elements = []
 
-  node_criteria = "[contains(., \"#{text}\") and not(self::script) and not(child::*[contains(., \"#{text}\")])]"
+  node_criteria = "[contains(normalize-space(.), \"#{text}\") and not(self::script) and not(child::*[contains(normalize-space(.), \"#{text}\")])]"
 
   if selector
     search_string = Nokogiri::CSS.xpath_for(selector).first + "//*#{node_criteria}"

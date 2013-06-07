@@ -17,7 +17,7 @@ Feature: Wiki menu items
     And there is a role "member"
     And the role "member" may have the following rights:
       | view_wiki_pages  |
-      | edit_wiki_pages |
+      | edit_wiki_pages  |
       | manage_wiki_menu |
     And there is 1 user with the following:
       | login | bob |
@@ -33,23 +33,23 @@ Feature: Wiki menu items
     When I go to the wiki page "AwesomePage" for the project called "Awesome Project"
     And I click on "More functions"
     And I click on "Configure menu item"
-    And I fill in "Aioli Wuaärst" for "wiki_menu_item_name"
+    And I fill in "Avocado Wuaärst" for "wiki_menu_item_name"
     And I choose "Show as menu item in project navigation"
     And I press "Save"
-    And I should see "Aioli Wuaärst" within "#main-menu"
+    And I should see "Avocado Wuaärst" within "#main-menu"
 
     @javascript
   Scenario: Adding a main menu entry with index and toc links
     When I go to the wiki page "AwesomePage" for the project called "Awesome Project"
     And I click on "More functions"
     And I click on "Configure menu item"
-    And I fill in "Aioli Wuaärst" for "wiki_menu_item_name"
+    And I fill in "Avocado Wuaärst" for "wiki_menu_item_name"
     And I choose "Show as menu item in project navigation"
     And I check "Show submenu item 'Create new child page'"
     And I check "Show submenu item 'Table of Contents'"
     And I press "Save"
     When I go to the wiki page "AwesomePage" for the project called "Awesome Project"
-    Then I should see "Aioli Wuaärst" within "#main-menu"
+    Then I should see "Avocado Wuaärst" within "#main-menu"
     Then I should see "Table of Contents" within "#main-menu"
     Then I should see "Create new child page" within "#main-menu"
 

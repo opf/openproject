@@ -18,7 +18,6 @@ en:
   actionview_instancetag_blank_option: "Please select"
 
   activerecord:
-    # attributes grouped by their model
     attributes:
       attachment:
         downloads: "Downloads"
@@ -78,6 +77,8 @@ en:
         issues: "Issues"
         parent: "Subproject of"
         versions: "Versions"
+        timelines_project_type: "Project type"
+        timelines_responsible: "Responsible"
       query:
         column_names: "Columns"
         group_by: "Group results by"
@@ -118,6 +119,51 @@ en:
       wiki_page:
         parent_title: "Parent page"
         redirect_existing_links: "Redirect existing links"
+      "timelines/color":
+        name: Name
+        hexcode: Hex code
+      "timelines/planning_element":
+        alternate_dates:
+          end_date: End date of alternate date
+        description: Description
+        end_date: "End date"
+        id: ID
+        name: Name
+        parent: Parent element
+        planning_element_type: "Type"
+        responsible: "Responsible"
+        start_date: Start date
+        updated_at: Updated
+        deleted_at: Deleted at
+        planning_element_status: "Status"
+        # parent: Subelement of
+      "timelines/planning_element_type":
+        color: Color
+        id: ID
+        in_aggregation: In aggregation
+        is_default: Default value
+        is_milestone: Milestone
+        name: Name
+      "timelines/project_association":
+        description: Cause
+      "timelines/project_type":
+        allows_association: Allows association
+        name: Name
+        planning_element_types: Standard planning element types
+        reported_project_statuses: Reported project statuses
+        position: Position
+      "timelines/scenario":
+        created_at: Created
+        name: Name
+        updated_at: Updated
+      "timelines/timeline":
+        name: Name
+      "timelines/reporting":
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        updated_at: Updated
+        created_at: Created
 
     errors:
       messages:
@@ -145,6 +191,21 @@ en:
         too_long: "is too long (maximum is %{count} characters)"
         too_short: "is too short (minimum is %{count} characters)"
         wrong_length: "is the wrong length (should be %{count} characters)"
+      models:
+        "timelines/alternate_date":
+          attributes:
+            end_date:
+              not_start_date: "is not on start date, although this is required for milestones"
+        "timelines/planning_element":
+          attributes:
+            end_date:
+              not_start_date: "is not on start date, although this is required for milestones"
+            parent:
+              cannot_be_milestone: "cannot be a milestone"
+              cannot_be_in_another_project: "cannot be in another project"
+              cannot_be_in_recycle_bin : "cannot be in recycle bin."
+        "timelines/project_association":
+          project_association_not_allowed: "does not allow associations"
       template:
         body: "Please check the following fields:"
         header:
@@ -167,6 +228,10 @@ en:
       query: "Custom query"
       role: "Role"
       tracker: "Tracker"
+      "timelines/planning_element": Planning element
+      "timelines/planning_element_type": Planning element type
+      "timelines/project_type": Project type
+      "timelines/scenario": Scenario
       user: "User"
       version: "Version"
       wiki: "Wiki"
@@ -176,6 +241,7 @@ en:
   # common attributes of all models
   attributes:
     assigned_to: "Assignee"
+    active: "Active"
     author: "Author"
     base: "General Error:"
     blocks_ids: "Blocks"
@@ -385,6 +451,8 @@ en:
   enumeration_doc_categories: "Document categories"
   enumeration_issue_priorities: "Issue priorities"
   enumeration_system_activity: "System Activity"
+  enumeration_planning_element_statuses: "Planning element status"
+  enumeration_reported_project_statuses: "Reported project status"
 
   error_can_not_archive_project: "This project cannot be archived"
   error_can_not_delete_custom_field: "Unable to delete custom field"
@@ -436,6 +504,28 @@ en:
         one: "You can only select one item"
         other: "You can only select {{limit}} items"
         zero: "You cannot select any items"
+    timelines:
+      tooManyProjects: "More than %{count} Projects. Please use a better filter!"
+      cancel: Cancel
+      save: Save
+      really_move_planning_element_to_trash: >
+        Are you sure, you want to move the following planning element and all
+        its child elements to recycle bin?
+      really_delete_planning_element: >
+        Are you sure, you want to permanently delete the following planning element and all
+        its child elements?
+      end_date: "End date"
+      name: "Name"
+      planning_element_types: "Planning element type"
+      project_status: "Project status"
+      project_type: "Project type"
+      responsible: "Responsible"
+      start_date: "Start date"
+      error: "An error has occured."
+      create_planning_select_project: "Project:"
+      really_close_dialog: "Do you really want to close the dialog and loose the entered data?"
+      filter:
+        none: "(none)"
 
   label_account: "Account"
   label_activity: "Activity"
@@ -725,6 +815,9 @@ en:
   label_role_and_permissions: "Roles and permissions"
   label_role_new: "New role"
   label_role_plural: "Roles"
+  label_scenario_end_date: "Scenario %{title}: End date"
+  label_scenario_start_date: "Scenario %{title}: Start date"
+  label_scenario_deleted: '(deleted scenario)'
   label_scm: "SCM"
   label_search: "Search"
   label_search_titles_only: "Search titles only"
@@ -758,6 +851,7 @@ en:
   label_this_year: "this year"
   label_time_entry_plural: "Spent time"
   label_time_tracking: "Time tracking"
+  label_timelines_planning_element_plural: "Planning elements"
   label_today: "today"
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"
@@ -767,6 +861,7 @@ en:
   label_ui: "User Interface"
   label_update_issue_done_ratios: "Update issue done ratios"
   label_updated_time: "Updated %{value} ago"
+  label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Updated by %{author} %{age} ago"
   label_used_by: "Used by"
   label_user_activity: "%{value}'s activity"
@@ -908,12 +1003,6 @@ en:
           mb: "MB"
           tb: "TB"
 
-
-
-
-
-
-
   permission_add_issue_notes: "Add notes"
   permission_add_issue_watchers: "Add watchers"
   permission_add_issues: "Add issues"
@@ -927,6 +1016,10 @@ en:
   permission_delete_issues: "Delete issues"
   permission_delete_messages: "Delete messages"
   permission_delete_own_messages: "Delete own messages"
+  permission_delete_planning_elements: "Delete planning elements"
+  permission_delete_project_associations: "Delete project dependencies"
+  permission_delete_reportings: "Delete reportings"
+  permission_delete_timelines: "Delete timelines"
   permission_delete_wiki_pages: "Delete wiki pages"
   permission_delete_wiki_pages_attachments: "Delete attachments"
   permission_edit_issue_notes: "Edit notes"
@@ -935,8 +1028,12 @@ en:
   permission_edit_own_issue_notes: "Edit own notes"
   permission_edit_own_messages: "Edit own messages"
   permission_edit_own_time_entries: "Edit own time logs"
+  permission_edit_planning_elements: "Edit planning elements"
   permission_edit_project: "Edit project"
+  permission_edit_project_associations: "Edit project dependencies"
+  permission_edit_reportings: "Edit reportings"
   permission_edit_time_entries: "Edit time logs"
+  permission_edit_timelines: "Edit timelines"
   permission_edit_wiki_pages: "Edit wiki pages"
   permission_export_issues: "Export Issues"
   permission_export_wiki_pages: "Export wiki pages"
@@ -955,6 +1052,7 @@ en:
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
   permission_move_issues: "Move issues"
+  permission_move_planning_elements_to_trash: "Move planning elements to recycle bin"
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
   permission_save_queries: "Save queries"
@@ -965,7 +1063,11 @@ en:
   permission_view_issue_watchers: "View watchers list"
   permission_view_issues: "View Issues"
   permission_view_messages: "View messages"
+  permission_view_planning_elements: "View planning elements"
+  permission_view_project_associations: "View project dependencies"
+  permission_view_reportings: "View reportings"
   permission_view_time_entries: "View spent time"
+  permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
 
@@ -1142,6 +1244,216 @@ en:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: "pm"
+
+  timelines:
+    admin_menu:
+      colors: "Colors"
+      planning_element_types: "Planning element types"
+      project_types: "Project types"
+    project_menu:
+      planning_elements: "Planning elements"
+      project_associations: "Dependencies"
+      recycle_bin: "Recycle bin"
+      reportings: "Status reportings"
+      reports: "Timeline reports"
+      timelines: "Timelines"
+    add_project_association: "Add dependency"
+    associations: "Dependencies"
+    button_delete_all: "Delete all"
+    button_move_to_trash: "Move to recycle bin"
+    button_restore: "Restore"
+    button_restore_all: "Restore all"
+    cannot_update_planning_element_types: "Planning element types could not be updated"
+    change: "Change in planning"
+    children: "Child elements"
+    color_could_not_be_saved: "Color could not be saved"
+    current_planning: "Current planning"
+    dates: "Dates"
+    dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
+    delete_all: "Delete all"
+    delete_thing: "Delete"
+    duration: "Duration"
+    duration_days:
+      one:   "1 day"
+      other: "%{count} days"
+    edit_color: "Edit color"
+    edit_planning_element_type: "Edit planning element type"
+    edit_project_type: "Edit project type"
+    edit_thing: "Edit"
+    edit_timeline: "Edit timeline report"
+    enable_planning_element_in_project: 'Enable planning element type "%{type}"'
+    end: "End"
+    errors:
+      not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
+      report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
+      report_epicfail: "The timeline could not be loaded due to an unexpected error."
+      report_timeout: "The timeline could not be loaded in a reasonable amount of time."
+    filter:
+      sort:
+        sortation: "Sort by"
+        alphabet: "alphabet"
+        explicit_order: "explicit order"
+        project_sortation: "Sort projects by"
+        date: "date"
+        default: "default"
+      column:
+        end_date: "End date"
+        name: "Name"
+        planning_element_types: "Planning element type"
+        project_status: "Project status"
+        project_type: "Project type"
+        responsible: "Responsible"
+        start_date: "Start date"
+      columns: "Columns"
+      comparisons: "Comparisons"
+      comparison:
+        absolute: "Absolute"
+        historical: "Historical"
+        none: "None"
+        relative: "Relative"
+        scenario: "Scenario"
+        compare_relative: "Compare current planning to %{timespan} ago"
+        compare_absolute: "Compare current planning to %{date}"
+        compare_historical: "Compare %{startdate} to %{enddate}"
+      time_relative:
+        days: "days"
+        weeks: "weeks"
+        months: "months"
+      exclude_own_planning_elements: "Hide planning elements from this project"
+      exclude_reporters: "Hide other projects"
+      exclude_empty: "Hide empty projects"
+      grouping: "Grouping"
+      grouping_hide_group: "Hide group \"%{group}\""
+      grouping_one: "First grouping criterion"
+      grouping_one_phrase: "Is a subproject of"
+      grouping_other: "Other"
+      grouping_two: "Second grouping criterion"
+      grouping_two_phrase: "Has a dependency to project type"
+      hide_chart: "Hide chart"
+      none: "(none)"
+      outline: "Intitial outline expansion"
+      parent: "Show subprojects of"
+      planning_element_filters: "Filter planning elements"
+      planning_element_responsible: "Show planning elements with responsible"
+      planning_element_types: "Show planning element types"
+
+      project_time_filter: "Projects with a Planning Element of a certain type in a certain timeframe"
+      project_time_filter_historical: "from %{startdate} to %{enddate}"
+      project_time_filter_relative: "from %{startspan}%{startspanunit} ago, to %{endspan}%{endspanunit} from now"
+      project_filters: "Filter projects"
+      project_responsible: "Show projects with responsible"
+      project_status: "Show project status"
+      project_types: "Show project types"
+      timeframe: "Show timeframe"
+      timeframe_end: "to"
+      timeframe_start: "from"
+      timeline: "General Settings"
+      zoom: "Zoom factor"
+    history: "History"
+    new_color: "New color"
+    new_association: "New dependency"
+    new_planning_element: "New planning element"
+    new_planning_element_type: "New planning element type"
+    new_project_type: "New project type"
+    new_reporting: "New reporting"
+    new_scenario: "New scenario"
+    new_timeline: "New timeline report"
+    no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
+    no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
+    no_timeline_for_id: "There is no timeline with ID %{id}."
+    notice_successful_deleted_all_elements: "Successfully deleted all elements"
+    notice_successful_moved_to_trash: "Successfully moved to recycle bin"
+    notice_successful_restored: "Successfully restored"
+    notice_successful_restored_all_elements: "Successfully restored all elements"
+    outline: "Reset Outline"
+    outlines:
+      aggregation: "Show aggregations only"
+      level1:      "Expand level 1"
+      level2:      "Expand level 2"
+      level3:      "Expand level 3"
+      level4:      "Expand level 4"
+      level5:      "Expand level 5"
+      all:         "Show all"
+    reporting_for_project:
+      show: "Status reported to project: %{title}"
+      delete: "Delete status reported to project: %{title}"
+      edit: "Edit status for project: %{title}"
+      history: "History for status for project: %{title}"
+    reporting:
+      delete: "Delete status: %{comment}"
+      edit: "Edit status: %{comment}"
+      show: "Status: %{comment}"
+
+    planning_element_could_not_be_saved: "Planning element could not be saved"
+    planning_element_could_not_be_restored: "Planning element could not be restored"
+    planning_element_creation: "Creation: %{title}"
+    planning_element_updated_automatically_by_child_changes: |
+        _Updated automatically by changing values within child planning element %{child}_
+    planning_element_type_could_not_be_saved: "Planning element type could not be saved"
+    planning_element_update: "Update: %{title}"
+    planning_elements_are_displayed_in_aggregations: "Planning elements are displayed in aggregations"
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: "Project dependency between “%{project_a}” and “%{project_b}”"
+    project_association_of_type: "Dependency to project of type “%{type}”"
+    project_type_could_not_be_saved: "Project type could not be saved"
+    reporting_could_not_be_saved: "Reporting could not be saved"
+    properties: "Properties"
+    really_delete_color: >
+      Are you sure, you want to delete the following color?
+      Planning element types using this color will not be deleted.
+    really_delete_all_planning_elements: >
+      Are you sure, you want to permanently delete all the following planning elements and all
+      its child elements? You cannot undo this operation.
+    really_delete_planning_element: >
+      Are you sure, you want to permanently delete the following planning element and all
+      its child elements?
+    really_delete_planning_element_type: >
+      Are you sure, you want to delete the following planning element type?
+      Planning Elements using this type will not be deleted.
+    really_delete_project_association_between_project_a_and_project_b: >
+      Are you sure, you want to delete the dependency between “%{project_a}” and
+      “%{project_b}”?
+    really_delete_project_type: >
+      Are you sure, you want to delete the following project type?
+      Projects using this type will not be deleted.
+    really_delete_scenario: >
+      Are you sure, you want to delete this scenario?
+      Planning elements with start and end dates within this scenario will not
+      be deleted.
+    really_delete_timeline: >
+      Are you sure, you want to delete the following timeline report?
+      Planning elements shown in this timeline report will not be
+      deleted.
+    really_delete_reporting: >
+      Are you sure, you want to delete the following reporting?
+      Previous reporting statuses will be deleted, too.
+    really_move_planning_element_to_trash: >
+      Are you sure, you want to move the following planning element and all
+      its child elements to recycle bin?
+    really_restore_all_planning_elements: >
+      Are you sure, you want to restore all the following planning elements?
+    restore_all: Restore all
+    scenarios: "Scenarios"
+    start: "Start"
+    timeline: "Timeline report"
+    timelines: "Timeline reports"
+    timelines_settings: "Timelines"
+    used_in_x_planning_elements:
+      one:   "Used in %{count} planning element"
+      other: "Used in %{count} planning elements"
+    vertical_planning_elements: "Vertical planning elements"
+    without_project_type: "Without project type"
+    you_are_viewing_all_planning_elements_in_this_project: "You are viewing all planning elements in this project"
+    you_are_viewing_the_selected_timeline: "You are viewing the selected timeline report"
+    zoom:
+      in: "Zoom in"
+      out: "Zoom out"
+      days: "Days"
+      weeks: "Weeks"
+      months: "Months"
+      quarters: "Quarters"
+      years: "Years"
 
   total_progress: "Total progress"
 

@@ -91,6 +91,150 @@ class Project < ActiveRecord::Base
   scope :public, lambda { |*args| where(:is_public => true) }
   scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
 
+  # timelines stuff
+
+  extend Timelines::Pagination::Model
+
+  scope :like, lambda { |q|
+    s = "%#{q.to_s.strip.downcase}%"
+    { :conditions => ["LOWER(name) LIKE :s", {:s => s}],
+      :order => "name" }
+  }
+
+  scope :selectable_projects
+
+  belongs_to :timelines_project_type, :class_name => "::Timelines::ProjectType"
+
+  belongs_to :timelines_responsible,  :class_name => "User"
+
+  has_many :timelines_timelines,         :class_name => "::Timelines::Timeline",
+                                         :dependent  => :destroy
+  has_many :timelines_planning_elements, :class_name => "::Timelines::PlanningElement",
+                                         :dependent  => :destroy
+  has_many :timelines_scenarios,         :class_name => "::Timelines::Scenario",
+                                         :dependent  => :destroy
+
+
+  has_many :timelines_reportings_via_source, :class_name  => "::Timelines::Reporting",
+                                             :foreign_key => 'project_id',
+                                             :dependent   => :delete_all
+  has_many :timelines_reportings_via_target, :class_name  => "::Timelines::Reporting",
+                                             :foreign_key => 'reporting_to_project_id',
+                                             :dependent   => :delete_all
+
+  has_many :timelines_reporting_to_projects, :through => :timelines_reportings_via_source,
+                                             :source  => :reporting_to_project
+
+  has_many :timelines_project_a_associations, :class_name  => "::Timelines::ProjectAssociation",
+                                              :foreign_key => 'project_a_id',
+                                              :dependent   => :delete_all
+  has_many :timelines_project_b_associations, :class_name  => "::Timelines::ProjectAssociation",
+                                              :foreign_key => 'project_b_id',
+                                              :dependent   => :delete_all
+
+  has_many :timelines_associated_a_projects, :through => :timelines_project_a_associations,
+                                             :source  => :project_b
+  has_many :timelines_associated_b_projects, :through => :timelines_project_b_associations,
+                                             :source  => :project_a
+
+
+  has_many :timelines_enabled_planning_element_types, :class_name  => "::Timelines::EnabledPlanningElementType",
+                                                      :dependent => :delete_all
+
+  has_many :timelines_planning_element_types, :through => :timelines_enabled_planning_element_types,
+                                              :source  => :planning_element_type
+
+
+  include Timelines::CollectionProxy
+
+  collection_proxy :timelines_project_associations, :for => [:timelines_project_a_associations,
+                                                             :timelines_project_b_associations] do
+    def visible(user = User.current)
+      all.select { |assoc| assoc.visible?(user) }
+    end
+  end
+
+  collection_proxy :timelines_associated_projects, :for => [:timelines_associated_a_projects,
+                                                            :timelines_associated_b_projects] do
+    def visible(user = User.current)
+      all.select { |other| other.timelines_visible?(user) }
+    end
+  end
+
+  collection_proxy :timelines_reportings, :for => [:timelines_reportings_via_source,
+                                                   :timelines_reportings_via_target],
+                                          :leave_public => true
+
+  after_save :assign_default_planning_element_types_as_enabled_planning_element_types
+
+  safe_attributes 'timelines_project_type_id',
+                  'timelines_planning_element_type_ids',
+                  'timelines_responsible_id'
+
+  def timelines_associated_project_candidates(user = User.current)
+    # TODO: Check if admins shouldn't see all projects here
+    projects = Project.visible.all
+    projects.delete(self)
+    projects -= timelines_associated_projects
+    projects.select{|p| p.timelines_allows_association?}
+  end
+
+  def timelines_associated_project_candidates_by_type(user = User.current)
+    # TODO: values need sorting by project tree
+    timelines_associated_project_candidates(user).group_by(&:timelines_project_type)
+  end
+
+  def timelines_project_associations_by_type(user = User.current)
+    # TODO: values need sorting by project tree
+    timelines_project_associations.visible.group_by do |a|
+      a.project(self).timelines_project_type
+    end
+  end
+
+  def timelines_reporting_to_project_candidates(user = User.current)
+    # TODO: Check if admins shouldn't see all projects here
+    projects = Project.visible.all
+    projects.delete(self)
+    projects -= timelines_reporting_to_projects
+    projects
+  end
+
+  def timelines_visible?(user = User.current)
+    self.active? and (self.is_public? or user.admin? or user.member_of?(self))
+  end
+
+  def timelines_allows_association?
+    if self.timelines_project_type.present?
+      self.timelines_project_type.allows_association
+    else
+      true
+    end
+  end
+
+  def assign_default_planning_element_types_as_enabled_planning_element_types
+    return if timelines_enabled_planning_element_types.present?
+    return if timelines_project_type.blank?
+
+    self.timelines_planning_element_types = timelines_project_type.planning_element_types
+  end
+
+  def has_many_dependent_for_timelines_planning_elements
+    # Overwrites :dependent => :destroy - before_destroy callback
+    # since we need to call the destroy! method instead of the destroy
+    # method which just moves the element to the recycle bin
+    timelines_planning_elements.each {|element| element.destroy!}
+  end
+
+  def self.selectable_projects
+    Project.visible.select {|p| User.current.member_of? p }.sort_by(&:to_s)
+  end
+
+  def self.search_scope(query)
+    visible.like(query)
+  end
+
+  # end timelines
+
   def initialize(attributes = nil, options = {})
     super
 

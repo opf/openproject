@@ -356,8 +356,7 @@ end
 Given /^I select to see [cC]olumn "([^\"]*)"$/ do |column_name|
   steps %Q{
     When I select \"#{column_name}\" from \"available_columns\"
-    When I click on \"→\"
-    When I click on \"Apply\"
+    When I press \"→\"
   }
 end
 

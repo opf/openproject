@@ -1,0 +1,52 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title l("timelines.project_menu.timelines") %>
+
+<% content_for :action_menu_main do %>
+
+  <%= li_unless_nil(link_to_if_authorized(l('timelines.new_timeline'),
+                                          {:controller => '/timelines/timelines_timelines', :action => 'new', :project_id => @project},
+                                          :title => l('timelines.new_timeline'),
+                                          :class => 'icon icon-add')) %>
+
+  <%= li_unless_nil(link_to_if_authorized(h("#{l(:button_edit)} ") + content_tag(:span, @timeline.name, :class=>"hidden-for-sighted"),
+                                          {:controller => '/timelines/timelines_timelines', :action => 'edit', :project_id => @project, :id => @timeline},
+                                          :class => 'icon icon-edit')) %>
+
+  <%= li_unless_nil(link_to_if_authorized(h("#{l(:button_delete)}") + content_tag(:span, @timeline.name, :class=>"hidden-for-sighted"),
+                                          {:controller => '/timelines/timelines_timelines', :action => 'confirm_destroy', :project_id => @project, :id => @timeline},
+                                          :class => 'icon icon-del')) %>
+<% end %>
+
+<h2><%= @timeline.name %></h2>
+
+<% form_tag :id => "specialForm" do %>
+  <%= label_tag 'timeline_select', l("timelines.timeline") %>
+  <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {:id => 'timeline_select'}) %>
+<% end %>
+
+<script type="text/javascript">
+  (function() {
+    var timelines = {};
+    <% @visible_timelines.each do |timeline| %>
+    timelines[<%= timeline.id %>] = {
+      url: '<%= timelines_project_timeline_path(@project, timeline) %>'
+    }
+    <% end %>
+    jQuery('#timeline_select').change(function() {
+      document.location.href = timelines[this.value].url;
+    });
+  })();
+</script>
+
+<%= render :partial => "timelines/timelines_timelines/timeline", :locals => {:timeline => @timeline} %>

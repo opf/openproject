@@ -1,0 +1,19 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+api.reported_project_status do
+  api.id(reported_project_status.id)
+
+  api.name(reported_project_status.name)
+
+  api.position(reported_project_status.position)
+  api.is_default(reported_project_status.is_default)
+end

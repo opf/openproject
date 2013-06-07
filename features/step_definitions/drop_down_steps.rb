@@ -28,3 +28,7 @@ Then /^the "(.+)" drop-down(?: within "([^\"]*)")? should have "([^\"]*)" select
     find_field(field_name).find('option[selected]').text.should == option_name
   end
 end
+
+Then /^the "(.+)" drop-down should have the following sorted options:$/ do |field_name, table|
+  find_field(field_name).all('option').map(&:text).should == table.raw.flatten
+end

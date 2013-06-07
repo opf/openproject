@@ -48,9 +48,9 @@ module JournalFormatter
   end
 
   def self.register_formatted_field(klass, field, formatter)
-    field_key = field.is_a?(Regexp) ? field : Regexp.new(field.to_s)
+    field_key = field.is_a?(Regexp) ? field : Regexp.new("^#{field}$")
 
-    registered_fields[klass].merge!(field => formatter)
+    registered_fields[klass].merge!(field_key => formatter)
   end
 
   def self.default_formatters
@@ -88,7 +88,7 @@ module JournalFormatter
     # This is especially true for associations created by plugins. Those are sometimes nameed according to
     # the schema "association_name[n]" or "association_name_[n]" where n is an integer representing an id.
     # Using regexp we are able to handle those fields with the rest.
-    formatter = JournalFormatter.registered_fields[self.class.name.to_sym].keys.detect{ |k| formatter_key.match(k.to_s) }
+    formatter = JournalFormatter.registered_fields[self.class.name.to_sym].keys.detect{ |k| formatter_key.match(k) }
 
     return nil if formatter.nil?
 
