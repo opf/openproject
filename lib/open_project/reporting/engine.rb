@@ -37,7 +37,11 @@ module OpenProject::Reporting
     config.to_prepare do
       require_dependency 'report/walker'
       require_dependency 'report/transformer'
+      require_dependency 'widget/sortable_init'
+      require_dependency 'widget/simple_table'
+      require_dependency 'widget/entry_table'
       require_dependency 'widget/settings_patch'
+
       unless Redmine::Plugin.registered_plugins.include?(:openproject_reporting)
         Redmine::Plugin.register :openproject_reporting do
           name 'Reporting Plugin'
