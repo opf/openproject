@@ -1,5 +1,8 @@
 class CostQuery::GroupBy
   class Tweek < Base
-    label :label_week_reporting
+
+    def self.label
+      I18n.t(:label_week_reporting)
+    end
   end
 end

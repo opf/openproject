@@ -1,6 +1,9 @@
 class CostQuery::Filter::ProjectId < CostQuery::Filter::Base
   db_field "entries.project_id"
-  label :field_project
+
+  def self.label
+    Project.model_name.human
+  end
 
   def self.available_operators
     ["=", "!", "=_child_projects", "!_child_projects"].map { |s| s.to_operator }

@@ -1,5 +1,8 @@
 class CostQuery::GroupBy
   class Week < Base
-    label :label_week_reporting
+
+    def self.label
+      I18n.t(:label_week_reporting)
+    end
   end
 end

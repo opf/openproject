@@ -1,5 +1,7 @@
 class CostQuery::Filter::UserId < CostQuery::Filter::Base
-  label :field_user
+  def self.label
+    Issue.human_attribute_name(:user)
+  end
 
   def self.available_values(*)
     users = Project.visible.collect {|p| p.users}.flatten.uniq.sort

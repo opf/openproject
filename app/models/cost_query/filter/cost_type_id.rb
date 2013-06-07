@@ -1,7 +1,10 @@
 class CostQuery::Filter::CostTypeId < CostQuery::Filter::Base
-  label :field_cost_type
   extra_options :display
   selectable false
+
+  def self.label
+    Issue.human_attribute_name(:cost_type)
+  end
 
   def initialize(child = nil, options = {})
     super

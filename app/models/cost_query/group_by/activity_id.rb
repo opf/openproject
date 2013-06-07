@@ -1,5 +1,8 @@
 class CostQuery::GroupBy
   class ActivityId < Base
-    label :field_activity
+
+    def self.label
+      TimeEntry.human_attribute_name(:activity)
+    end
   end
 end

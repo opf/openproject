@@ -1,5 +1,8 @@
 class CostQuery::Filter::OverriddenCosts < CostQuery::Filter::Base
-  label :field_overridden_costs
+
+  def self.label
+    CostEntry.human_attribute_name(:overridden_costs)
+  end
 
   def self.available_operators
     ['y', 'n'].map { |s| s.to_operator }

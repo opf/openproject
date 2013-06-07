@@ -1,5 +1,8 @@
 class CostQuery::GroupBy
   class Tyear < Base
-    label :label_year_reporting
+
+    def self.label
+      I18n.t(:label_year_reporting)
+    end
   end
 end

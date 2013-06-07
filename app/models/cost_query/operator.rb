@@ -16,7 +16,7 @@ class CostQuery::Operator < Report::Operator
     end
   end
 
-  new "=_child_projects", :validate => :integers, :label => :label_is_project_with_subprojects do
+  new "=_child_projects", :validate => :integers, :label =>  :label_is_project_with_subprojects do
     def modify(query, field, *values)
       p_ids = []
       values.each do |value|
@@ -28,7 +28,7 @@ class CostQuery::Operator < Report::Operator
     end
   end
 
-  new "!_child_projects", :validate => :integers, :label => :label_is_not_project_with_subprojects do
+  new "!_child_projects", :validate => :integers, :label =>  :label_is_not_project_with_subprojects do
     def modify(query, field, *values)
       p_ids = []
       values.each do |value|

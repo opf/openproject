@@ -2,6 +2,9 @@ class CostQuery::GroupBy
   class CostObjectId < Base
     join_table Issue
     applies_for :label_issue_attributes
-    label :field_cost_object
+
+    def self.label
+      CostObject.model_name.human
+    end
   end
 end

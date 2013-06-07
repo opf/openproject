@@ -1,5 +1,8 @@
 class CostQuery::GroupBy
   class IssueId < Base
-    label :field_issue
+
+    def self.label
+      Issue.model_name.human
+    end
   end
 end

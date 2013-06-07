@@ -1,5 +1,8 @@
 class CostQuery::GroupBy
   class ProjectId < Base
-    label :field_project
+
+    def self.label
+      Project.model_name.human
+    end
   end
 end

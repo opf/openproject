@@ -2,7 +2,10 @@ class CostQuery::Filter::FixedVersionId < CostQuery::Filter::Base
   use :null_operators
   join_table Issue
   applies_for :label_issue_attributes
-  label :field_fixed_version
+
+  def self.label
+    Issue.human_attribute_name(:fixed_version)
+  end
 
   def self.available_values(*)
     versions = Version.find :all, :conditions => {:project_id => Project.visible.map{|p| p.id}}
