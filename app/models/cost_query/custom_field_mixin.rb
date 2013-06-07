@@ -29,7 +29,7 @@ module CostQuery::CustomFieldMixin
       class_name = class_name_for field.name
       parent.send(:remove_const, class_name) if parent.const_defined? class_name
       parent.const_set class_name, Class.new(self)
-      (parent.const_get class_name).prepare(field, class_name)
+      parent.const_get(class_name).prepare(field, class_name)
     end
   end
 
@@ -48,9 +48,12 @@ module CostQuery::CustomFieldMixin
     @class_name.demodulize.underscore.tableize.singularize
   end
 
+  def label
+    @custom_field.name
+  end
+
   def prepare(field, class_name)
     @custom_field = field
-    label field.name
     @class_name = class_name
     dont_inherit :group_fields
     db_field table_name
