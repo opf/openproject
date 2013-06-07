@@ -1,6 +1,3 @@
-require_dependency "time_entry"
-require_dependency "cost_entry"
-
 module Entry
   [TimeEntry, CostEntry].each { |e| e.send :include, self }
 

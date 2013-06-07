@@ -1,6 +1,3 @@
-require 'openproject_costs'
-require 'reporting_engine'
-
 module OpenProject::Reporting
   class Engine < ::Rails::Engine
     engine_name :openproject_reporting
@@ -38,12 +35,9 @@ module OpenProject::Reporting
     end
 
     config.to_prepare do
-      require_dependency 'reporting_engine/widget.rb'
-      require_dependency 'open_project/reporting/widgets/simple_table'
-      require_dependency 'open_project/reporting/widgets/entry_table'
-      require_dependency 'open_project/reporting/widgets/cost_types'
-      require_dependency 'open_project/reporting/widgets/settings'
-
+      require_dependency 'report/walker'
+      require_dependency 'report/transformer'
+      require_dependency 'widget/settings_patch'
       unless Redmine::Plugin.registered_plugins.include?(:openproject_reporting)
         Redmine::Plugin.register :openproject_reporting do
           name 'Reporting Plugin'
