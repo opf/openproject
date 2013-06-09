@@ -183,7 +183,7 @@ module Redmine::MenuManager::MenuHelper
     link_text    = you_are_here_info(selected) + caption
 
     if item.block
-      item.block.call locals
+      item.block.call locals.merge(:caption => item.caption)
     else
 
       html_options = item.html_options(:selected => selected)

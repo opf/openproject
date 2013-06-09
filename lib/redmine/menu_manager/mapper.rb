@@ -48,10 +48,10 @@ class Redmine::MenuManager::Mapper
     end
 
     block = if url_or_block.respond_to?(:call)
-      url_or_block
-    else
-      Redmine::MenuManager::UrlAggregator.new(url_or_block)
-    end
+              url_or_block
+            else
+              Redmine::MenuManager::UrlAggregator.new(url_or_block, options)
+            end
 
     new_node = Redmine::MenuManager::MenuItem.new(name, block, options)
 

@@ -5,33 +5,34 @@ class Redmine::MenuManager::UrlAggregator
   include ActionView::Helpers::UrlHelper
 
   attr_reader :controller,
-              :url
+              :url,
+              :options
 
-  def initialize(url)
+  def initialize(url, options = {})
     @url = url
+    @options = options
   end
 
   def call(locals = {})
     @controller = locals.delete(:controller)
 
     full_url = case url
-    when Hash
-      url.inject({}) do |h, (k, v)|
-        h[k] = if locals.has_key?(v) && locals[v].is_a?(ActiveRecord::Base)
-                 locals[v].id
+               when Hash
+                 url.inject({}) do |h, (k, v)|
+                   h[k] = if locals.has_key?(v) && locals[v].is_a?(ActiveRecord::Base)
+                            locals[v].id
+                          else
+                            v
+                          end
+
+                   h
+                 end
+               when Symbol
+                 send(url)
                else
-                 v
+                 url
                end
 
-        h
-      end
-    when Symbol
-      send(url)
-    else
-      url
-    end
-
-    debugger if full_url == {}
-    link_to "blubs", full_url
+    link_to options[:caption], full_url
   end
 end
