@@ -1333,7 +1333,7 @@ var SubmitConfirm = (function($) {
 
 var Preview = (function ($) {
   $('document').ready(function() {
-      $('a.preview').click(function() {
+      $('html').on('click','a.preview', function() {
         $.ajax({
           url: $(this).attr('href'),
           type: 'POST',
