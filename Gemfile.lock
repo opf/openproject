@@ -177,7 +177,7 @@ GEM
     guard-test (1.0.0)
       guard (>= 1.8)
       test-unit (~> 2.2)
-    hike (1.2.2)
+    hike (1.2.3)
     htmldiff (0.0.1)
     i18n (0.6.4)
     interception (0.3)
@@ -185,7 +185,7 @@ GEM
     jquery-rails (2.0.3)
       railties (>= 3.1.0, < 5.0)
       thor (~> 0.14)
-    jquery-ui-rails (4.0.2)
+    jquery-ui-rails (4.0.3)
       jquery-rails
       railties (>= 3.1.0)
     json (1.8.0)
