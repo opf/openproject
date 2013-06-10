@@ -55,6 +55,17 @@ class Enumeration < ActiveRecord::Base
     end
   end
 
+  # Destroys enumerations in a single transaction
+  # It ensures, that the transactions can be safely transfered to each
+  # entry's parent
+  def self.bulk_destroy(entries)
+    sorted_entries = sort_by_ancestor_last(entries)
+
+    sorted_entries.each do |entry|
+      entry.destroy(entry.parent)
+    end
+  end
+
   # Overloaded on concrete classes
   def option_name
     nil
@@ -126,6 +137,21 @@ class Enumeration < ActiveRecord::Base
   end
 
 private
+  # This is not a performant method.
+  def self.sort_by_ancestor_last(entries)
+    ancestor_relationships = entries.map { |entry| [entry, entry.ancestors] }
+
+    ancestor_relationships.sort do |one, two|
+      if one.last.include?(two.first)
+        -1
+      elsif two.last.include?(one.first)
+        1
+      else
+        0
+      end
+    end.map(&:first)
+  end
+
   def check_integrity
     raise "Can't delete enumeration" if self.in_use?
   end
