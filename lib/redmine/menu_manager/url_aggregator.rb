@@ -47,19 +47,23 @@ class Redmine::MenuManager::UrlAggregator
 
     if c.nil?
       l_or_humanize("name", :prefix => 'label_')
+    elsif c.respond_to?(:call)
+      c.call
+    elsif c.is_a?(Symbol)
+      l(c)
     else
-      c.is_a?(Symbol) ? l(c) : c
+      c
     end
   end
 
-  def html_options(options={})
-    debugger if options[:selected]
-    if options[:selected]
-      o = @options[:html_options].dup
-      o[:class] += ' selected'
-      o
+  def html_options(current_options={})
+    html_options = (@options[:html] || {}).merge(current_options[:html] || {})
+
+    if current_options[:selected]
+      html_options[:class] += ' selected'
+      html_options
     else
-      options[:html_options]
+      html_options
     end
   end
 end

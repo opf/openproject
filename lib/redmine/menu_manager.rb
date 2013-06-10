@@ -39,7 +39,7 @@ module Redmine::MenuManager
   def self.menu_items_for(menu, project=nil)
     items = []
 
-    if Redmine::MenuManager.exists?(menu)
+    if exists?(menu)
       file = Rails.root.join("app/widgets/menus/#{menu}.rb")
 
       require Rails.root.join("app/widgets/menus/#{menu}") if File.exists?(file)

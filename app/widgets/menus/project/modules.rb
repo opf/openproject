@@ -100,40 +100,54 @@ module Menus::Project
       # ** Planning Elemnts
       # ** Papierkorb
 
-      {:param => :project_id}.tap do |options|
+      {}.tap do |options|
 
         menu.push :timelines_timelines,
-                  {:controller => '/timelines/timelines_timelines', :action => 'index'},
-                  options.merge(:caption => :'timelines.project_menu.timelines')
+                  { :controller => '/timelines/timelines_timelines',
+                    :action => 'index',
+                    :project_id => :project },
+                  :caption => :'timelines.project_menu.timelines'
 
         options.merge(:parent => :timelines_timelines).tap do |rep_options|
 
           menu.push :timelines_reports,
-                    {:controller => '/timelines/timelines_timelines', :action => 'index'},
+                    { :controller => '/timelines/timelines_timelines',
+                      :action => 'index',
+                      :project_id => :project },
                     rep_options.merge(:caption => :'timelines.project_menu.reports')
 
           menu.push :timelines_project_associations,
-                    {:controller => '/timelines/timelines_project_associations', :action => 'index'},
+                    { :controller => '/timelines/timelines_project_associations',
+                      :action => 'index',
+                      :project_id => :project },
                     rep_options.merge(:caption => :'timelines.project_menu.project_associations',
                                       :if => Proc.new { |p| p.timelines_project_type.try :allows_association })
 
           menu.push :timelines_reportings,
-                    {:controller => '/timelines/timelines_reportings', :action => 'index'},
+                    { :controller => '/timelines/timelines_reportings',
+                      :action => 'index',
+                      :project_id => :project },
                     rep_options.merge(:caption => :'timelines.project_menu.reportings')
 
           menu.push :timelines_planning_elements,
-                    {:controller => '/timelines/timelines_planning_elements', :action => 'all'},
+                    { :controller => '/timelines/timelines_planning_elements',
+                      :action => 'all',
+                      :project_id => :project },
                     rep_options.merge(:caption => :'timelines.project_menu.planning_elements')
 
           menu.push :timelines_recycle_bin,
-                    {:controller => '/timelines/timelines_planning_elements', :action => 'recycle_bin'},
+                    { :controller => '/timelines/timelines_planning_elements',
+                      :action => 'recycle_bin',
+                      :project_id => :project },
                     rep_options.merge(:caption => :'timelines.project_menu.recycle_bin')
 
         end
       end
 
       menu.push :settings,
-                { :controller => '/projects', :action => 'settings' },
+                { :controller => '/projects',
+                  :action => 'settings',
+                  :project_id => :project },
                 :caption => :label_project_settings,
                 :last => true
     end

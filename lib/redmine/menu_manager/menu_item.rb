@@ -39,32 +39,8 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     super @name.to_sym
   end
 
-  def caption(project=nil)
-    if @caption.respond_to?(:call)
-      c = @caption.call(project).to_s
-      c = @name.to_s.humanize if c.blank?
-      c
-    else
-      if @caption.nil?
-        l_or_humanize(name, :prefix => 'label_')
-      else
-        @caption.is_a?(Symbol) ? l(@caption) : @caption
-      end
-    end
-  end
-
   def label(locals = {})
     @block.call(locals)
-  end
-
-  def html_options(options={})
-    if options[:selected]
-      o = @html_options.dup
-      o[:class] += ' selected'
-      o
-    else
-      @html_options
-    end
   end
 
   # Checks if a user is allowed to access the menu item by:
