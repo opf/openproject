@@ -84,6 +84,8 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    acts_as_list (0.2.0)
+      activerecord (>= 3.0)
     addressable (2.3.4)
     arel (3.0.2)
     awesome_nested_set (2.1.6)
@@ -358,6 +360,7 @@ DEPENDENCIES
   activerecord-jdbcmysql-adapter
   activerecord-jdbcpostgresql-adapter
   activerecord-jdbcsqlite3-adapter
+  acts_as_list (~> 0.2.0)
   awesome_nested_set
   bullet
   capybara
