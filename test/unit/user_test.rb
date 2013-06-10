@@ -383,13 +383,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 'jsmith@somenet.foo', u.mail
   end
 
-  def test_random_password
-    u = User.new
-    u.random_password
-    assert !u.password.blank?
-    assert !u.password_confirmation.blank?
-  end
-
   context "#change_password_allowed?" do
     should "be allowed if no auth source is set" do
       user = User.generate_with_protected!
