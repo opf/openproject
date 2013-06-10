@@ -34,8 +34,12 @@ class Widget < ActionView::Base
   module RenderWidgetInstanceMethods
     def render_widget(widget, subject, options = {}, &block)
       i = widget.new(subject)
-      i.config = config
-      i._routes = _routes
+      if Rails.version.start_with? "3"
+        i.config = config
+        i._routes = _routes
+      else
+        i.output_buffer = ""
+      end
       i._content_for = @_content_for
       i.controller = respond_to?(:controller) ? controller : self
       i.render_with_options(options, &block)
