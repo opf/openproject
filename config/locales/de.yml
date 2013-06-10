@@ -41,6 +41,7 @@ de:
         unit_plural: "Einheit plural"
       cost_entry:
         issue: Ticket
+        overridden_costs: "Überschriebene Kosten"
         spent_on: Datum
         spent: Gebucht
       issue:
