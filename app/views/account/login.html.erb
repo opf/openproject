@@ -15,7 +15,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% breadcrumb_paths(l(:label_login)) %>
 <%= call_hook :view_account_login_top %>
 <div id="login-form">
-<%= form_tag({:action=> "login"}) do %>
+<%= form_tag({:action=> "login"}, :autocomplete => 'off') do %>
 <%= back_url_hidden_field_tag %>
 <table>
 <tr>
@@ -24,7 +24,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </tr>
 <tr>
     <td align="right"><label for="password"><%= User.human_attribute_name :password %>:</label></td>
-    <td align="left"><%= password_field_tag 'password', nil %></td>
+    <td align="left"><%= password_field_tag 'password', nil, :autocomplete => 'off' %></td>
 </tr>
 <% if Setting.openid? %>
 <tr>
