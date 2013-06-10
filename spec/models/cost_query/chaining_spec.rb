@@ -1,21 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery, :reporting_query_helper => true do
-  minimal_query
+  let(:project) { FactoryGirl.create(:project) }
 
-  fixtures :users
-  fixtures :cost_types
-  fixtures :cost_entries
-  fixtures :rates
-  fixtures :projects
-  fixtures :issues
-  fixtures :trackers
-  fixtures :time_entries
-  fixtures :enumerations
-  fixtures :issue_statuses
-  fixtures :roles
-  fixtures :issue_categories
-  fixtures :versions
+  minimal_query
 
   describe :chain do
     before do
@@ -115,16 +103,16 @@ describe CostQuery, :reporting_query_helper => true do
         def self.engine
           CostQuery
         end
-        initialize_query_with {|query| query.filter(:project_id, :value => Project.all.first.id)}
       end
+      TestFilter.send(:initialize_query_with) {|query| query.filter(:project_id, :value => project.id)}
       @query.build_new_chain
       @query.filters.collect {|f| f.class.underscore_name}.should include "project_id"
-      @query.filters.detect {|f| f.class.underscore_name == "project_id"}.values.should == Array(Project.all.first.id)
+      @query.filters.detect {|f| f.class.underscore_name == "project_id"}.values.should == Array(project.id)
     end
 
     context "store and load" do
       before do
-        @query.filter :project_id, :value => Project.all.first.id
+        @query.filter :project_id, :value => project.id
         @query.filter :cost_type_id, :value => CostQuery::Filter::CostTypeId.available_values.first
         @query.filter :category_id, :value => CostQuery::Filter::CategoryId.available_values.first
         @query.group_by :activity_id
