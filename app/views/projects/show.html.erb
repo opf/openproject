@@ -11,9 +11,9 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div class="contextual">
-	<% if User.current.allowed_to?(:add_subprojects, @project) %>
+  <% if User.current.allowed_to?(:add_subprojects, @project) %>
     <%= link_to l(:label_subproject_new), {:controller => '/projects', :action => 'new', :parent_id => @project}, :class => 'icon icon-add' %>
-	<% end %>
+  <% end %>
 </div>
 
 <h2><%=l(:label_overview)%></h2>
@@ -44,21 +44,21 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="issues box">
     <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
-    <% for tracker in @trackers %>
-      <li><%= link_to h(tracker.name), :controller => '/issues', :action => 'index', :project_id => @project,
-                                                :set_filter => 1,
-                                                "tracker_id" => tracker.id %>:
-					<%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
-																										:total => @total_issues_by_tracker[tracker].to_i) %>
-			</li>
-    <% end %>
+      <% for tracker in @trackers %>
+        <li><%= link_to h(tracker.name), :controller => '/issues', :action => 'index', :project_id => @project,
+                                         :set_filter => 1,
+                                         "tracker_id" => tracker.id %>:
+            <%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
+                                                      :total => @total_issues_by_tracker[tracker].to_i) %>
+        </li>
+      <% end %>
     </ul>
     <p>
-    	<%= link_to l(:label_issue_view_all), :controller => '/issues', :action => 'index', :project_id => @project, :set_filter => 1 %>
-	    <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-				| <%= link_to(l(:label_calendar), :controller => '/calendars', :action => 'show', :project_id => @project) %>
-			<% end %>
-		</p>
+      <%= link_to l(:label_issue_view_all), :controller => '/issues', :action => 'index', :project_id => @project, :set_filter => 1 %>
+      <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
+        | <%= link_to(l(:label_calendar), :controller => '/issues/calendars', :action => 'index', :project_id => @project) %>
+      <% end %>
+    </p>
   </div>
   <% end %>
   <%= call_hook(:view_projects_show_left, :project => @project) %>
@@ -68,17 +68,17 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'members_box' %>
 
   <% if @news.any? && authorize_for('news', 'index') %>
-  <div class="news box">
-    <h3><%=l(:label_news_latest)%></h3>
-    <%= render :partial => 'news/news', :collection => @news %>
-    <p><%= link_to l(:label_news_view_all), :controller => '/news', :action => 'index', :project_id => @project %></p>
-  </div>
+    <div class="news box">
+      <h3><%=l(:label_news_latest)%></h3>
+      <%= render :partial => 'news/news', :collection => @news %>
+      <p><%= link_to l(:label_news_view_all), :controller => '/news', :action => 'index', :project_id => @project %></p>
+    </div>
   <% end %>
   <%= call_hook(:view_projects_show_right, :project => @project) %>
 </div>
 
 <% content_for :sidebar do %>
-    <% if @total_hours.present? %>
+  <% if @total_hours.present? %>
     <h3><%= l(:label_spent_time) %></h3>
     <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
     <p>
@@ -88,8 +88,8 @@ See doc/COPYRIGHT.rdoc for more details.
         | <%= link_to l(:button_log_time), {:controller => '/timelog', :action => 'new', :project_id => @project} %>
       <% end %>
     </p>
-    <% end %>
-    <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
+  <% end %>
+  <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
 <% end %>
 
 <% content_for :header_tags do %>
