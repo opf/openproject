@@ -74,7 +74,7 @@ GIT
 
 GIT
   remote: https://github.com/svenfuchs/globalize3.git
-  revision: ab69160adc66d23b8d34aedc3ea9bfc724207494
+  revision: bc2402bb067802e1d02fa12d647daf283bae126c
   specs:
     globalize3 (0.3.0)
       activemodel (>= 3.0.0)
