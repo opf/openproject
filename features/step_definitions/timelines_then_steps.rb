@@ -121,8 +121,7 @@ Then /^I should not see the "([^"]*)" color$/ do |name|
 end
 
 Then /^"([^"]*)" should be the first element in the list$/ do |name|
-  cell = page.all(:css, "table.list tbody tr:first-child td", :text => name)
-  cell.should_not be_empty
+  should have_selector("table.list tbody tr td", :text => Regexp.new("^#{name}$"))
 end
 
 Then /^"([^"]*)" should be the last element in the list$/ do |name|
