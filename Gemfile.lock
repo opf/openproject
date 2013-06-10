@@ -90,6 +90,8 @@ GEM
       activerecord (>= 3.0.0)
     binding_of_caller (0.7.1)
       debug_inspector (>= 0.0.1)
+    bourne (1.4.0)
+      mocha (~> 0.13.2)
     builder (3.0.4)
     bullet (4.6.0)
       uniform_notifier
@@ -228,7 +230,7 @@ GEM
     pry-doc (0.4.6)
       pry (>= 0.9)
       yard (>= 0.8)
-    pry-rails (0.3.0)
+    pry-rails (0.3.1)
       pry (>= 0.9.10)
     pry-rescue (1.1.1)
       interception (>= 0.3)
