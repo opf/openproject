@@ -341,7 +341,7 @@ GEM
       railties (>= 3.1.1)
     tinymce-rails-langs (0.1)
       tinymce-rails (>= 3.4.9)
-    treetop (1.4.12)
+    treetop (1.4.14)
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.37)
