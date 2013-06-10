@@ -33,7 +33,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     if url_or_block.respond_to?(:call)
       @block = url_or_block
     else
-      @url = Redmine::MenuManager::UrlAggregator.new(url_or_block)
+      @block = Redmine::MenuManager::UrlAggregator.new(url_or_block, options)
     end
 
     super @name.to_sym
@@ -53,6 +53,10 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     end
   end
 
+  def label(locals = {})
+    @block.call(locals)
+  end
+
   def html_options(options={})
     if options[:selected]
       o = @html_options.dup
@@ -67,7 +71,8 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   #
   # * Checking the conditions of the item
   # * Checking the url target (project only)
-  def allowed?(user, project)
+  def allowed?(user, project=nil)
+#    @condition.call
     if condition && !condition.call(project)
       # Condition that doesn't pass
       return false

@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Redmine::MenuManager::Mapper do
+  let(:root) { double('root') }
   let(:items) { {} }
   let(:mapper) { Redmine::MenuManager::Mapper.new(:lorem, items) }
 
@@ -11,19 +12,25 @@ describe Redmine::MenuManager::Mapper do
       mapper.exists?(:test_overview).should be_true
     end
 
-    describe "a menu item with a block" do
+    describe "a menu item with a block for contents" do
       let(:block) { Proc.new { "" } }
+      let(:name) { :test }
 
-      before do
-        mapper.push :test, block
-      end
+      it "should create the item" do
+        root = double(Redmine::MenuManager::TreeNode)
+        container = double(Redmine::MenuManager::TreeNode, :root => root)
 
-      it "should exist" do
-        mapper.exists?(:test).should be_true
-      end
+        mapper = Redmine::MenuManager::Mapper.new(:lorem, { :lorem => container })
 
-      it "should create a MenuItem with the block" do
-        mapper.find(:test).block.should == block
+        node = double(Redmine::MenuManager::MenuItem, name: name)
+
+        Redmine::MenuManager::MenuItem.should_receive(:new).with(name, block, {}) do
+          node
+        end
+
+        root.should_receive(:add).with(node)
+
+        mapper.push name, block
       end
     end
 

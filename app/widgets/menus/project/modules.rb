@@ -10,85 +10,86 @@ module Menus::Project
       menu.push :activity,
                 { :controller => '/activities',
                   :action => 'index',
-                  :id => :project }
+                  :project_id => :project }
 
       menu.push :roadmap,
                 { :controller => '/versions',
                   :action => 'index',
-                  :id => :project },
+                  :project_id => :project },
                 :if => Proc.new { |p| p.shared_versions.any? }
 
       menu.push :issues,
                 { :controller => '/issues',
                   :action => 'index',
-                  :id => :project },
+                  :project_id => :project },
                 :caption => :label_issue_plural
 
       menu.push :new_issue,
                 { :controller => '/work_packages',
                   :action => 'new',
-                  :type => 'Issue' },
-                :param => :project_id,
+                  :type => 'Issue',
+                  :project_id => :project },
                 :caption => :label_issue_new,
                 :parent => :issues,
                 :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
 
       menu.push :view_all_issues,
                 { :controller => '/issues',
-                  :action => 'all' },
-                :param => :project_id,
+                  :action => 'all',
+                  :project_id => :project },
                 :caption => :label_issue_view_all,
                 :parent => :issues
 
       menu.push :summary_field,
                 { :controller => '/issues/reports',
-                  :action => 'report' },
-                :param => :project_id,
+                  :action => 'report',
+                  :project_id => :project },
                 :caption => :label_workflow_summary,
                 :parent => :issues
 
       menu.push :calendar,
                 { :controller => '/calendars',
-                  :action => 'show' },
-                :param => :project_id,
+                  :action => 'show',
+                  :project_id => :project },
                 :caption => :label_calendar
 
       menu.push :news,
                 { :controller => '/news',
-                  :action => 'index' },
-                :param => :project_id,
+                  :action => 'index',
+                  :project_id => :project },
                 :caption => :label_news_plural
 
       menu.push :new_news,
                 { :controller => '/news',
-                  :action => 'new' },
-                :param => :project_id,
+                  :action => 'new',
+                  :project_id => :project },
                 :caption => :label_news_new,
                 :parent => :news,
                 :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) }
 
       menu.push :documents,
                 { :controller => '/documents',
-                  :action => 'index' },
-                :param => :project_id,
+                  :action => 'index',
+                  :project_id => :project },
                 :caption => :label_document_plural
 
       menu.push :boards,
                 { :controller => '/boards',
                   :action => 'index',
-                  :id => nil },
-                :param => :project_id,
+                  :project_id => :project },
                 :if => Proc.new { |p| p.boards.any? },
                 :caption => :label_board_plural
 
       menu.push :files,
                 { :controller => '/files',
-                  :action => 'index' },
-                :param => :project_id,
+                  :action => 'index',
+                  :project_id => :project },
                 :caption => :label_file_plural
 
       menu.push :repository,
-                { :controller => '/repositories', :action => 'show' },
+                { :controller => '/repositories',
+                  :action => 'show',
+                  :project_id => :project },
                 :if => Proc.new { |p| p.repository && !p.repository.new_record? }
 
       # Project menu entries

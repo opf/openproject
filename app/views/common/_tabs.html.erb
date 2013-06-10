@@ -18,11 +18,11 @@ See doc/COPYRIGHT.rdoc for more details.
     <li><%=
     position_span = you_are_here_info(tab[:name] == selected_tab)
     caption = case tab[:label]
-    when Proc
-      tab[:label].call
-    else
-      l(tab[:label])
-    end
+              when Proc
+                tab[:label].call
+              else
+                l(tab[:label])
+              end
     link_to(position_span + caption, { :tab => tab[:name] },
                                        :id => "tab-#{tab[:name]}",
                                        :class => (tab[:name] != selected_tab ? nil : 'selected'),
@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% tabs.each do |tab| -%>
   <%= content_tag('div', render(:partial => tab[:partial], :locals => {:tab => tab} ),
-                       :id => "tab-content-#{tab[:name]}",
-                       :style => (tab[:name] != selected_tab ? 'display:none' : nil),
-                       :class => 'tab-content') %>
+                         :id => "tab-content-#{tab[:name]}",
+                         :style => (tab[:name] != selected_tab ? 'display:none' : nil),
+                         :class => 'tab-content') %>
 <% end -%>

@@ -36,6 +36,27 @@ module Redmine::MenuManager
     items[menu_name.to_sym] || Redmine::MenuManager::TreeNode.new(:root, {})
   end
 
+  def self.menu_items_for(menu, project=nil)
+    items = []
+
+    if Redmine::MenuManager.exists?(menu)
+      file = Rails.root.join("app/widgets/menus/#{menu}.rb")
+
+      require Rails.root.join("app/widgets/menus/#{menu}") if File.exists?(file)
+    end
+
+    items(menu).root.children.each do |node|
+      if node.allowed?(User.current, project)
+        if block_given?
+          yield node
+        else
+          items << node
+        end
+      end
+    end
+    return block_given? ? nil : items
+  end
+
   def self.exists?(menu_name)
     # TODO: have an explicit method for querying for undefined menus
     items(menu_name).children.size == 0

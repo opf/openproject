@@ -54,7 +54,7 @@ module Redmine::MenuManager::TopMenuHelper
     end
   end
 
-  def render_user_top_menu_node(items = menu_items_for(:account_menu))
+  def render_user_top_menu_node(items = Redmine::MenuManager.menu_items_for(:account_menu))
     unless User.current.logged?
       render_drop_down_menu_node(link_to(l(:label_login),
                                          { :controller => '/account',
@@ -109,7 +109,7 @@ module Redmine::MenuManager::TopMenuHelper
       items_for_main_level = []
       items_for_more_level = []
       help_menu = nil
-      menu_items_for(:top_menu) do |item|
+      Redmine::MenuManager.menu_items_for(:top_menu) do |item|
         if item.name == :home || item.name == :my_page
           items_for_main_level << item
         elsif item.name == :help

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Redmine::MenuManager::Menu do
-
-
-end
+#describe Redmine::MenuManager::Menu do
+#
+#
+#end

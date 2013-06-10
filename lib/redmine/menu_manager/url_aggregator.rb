@@ -3,6 +3,8 @@ class Redmine::MenuManager::UrlAggregator
   include Rails.application.routes.url_helpers
   include Redmine::I18n
   include ActionView::Helpers::UrlHelper
+  include AccessibilityHelper
+
 
   attr_reader :controller,
               :url,
@@ -33,6 +35,31 @@ class Redmine::MenuManager::UrlAggregator
                  url
                end
 
-    link_to options[:caption], full_url
+    text = you_are_here_info(locals[:selected]) + caption
+
+    link_to text, full_url, html_options(locals)
+  end
+
+  private
+
+  def caption
+    c = @options[:caption]
+
+    if c.nil?
+      l_or_humanize("name", :prefix => 'label_')
+    else
+      c.is_a?(Symbol) ? l(c) : c
+    end
+  end
+
+  def html_options(options={})
+    debugger if options[:selected]
+    if options[:selected]
+      o = @options[:html_options].dup
+      o[:class] += ' selected'
+      o
+    else
+      options[:html_options]
+    end
   end
 end

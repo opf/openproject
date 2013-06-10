@@ -20,9 +20,11 @@ module Redmine::MenuManager::MenuHelper
   end
 
   # Renders the application main menu
-  def render_main_menu(project)
-    locals = { :project => project, :controller => self.controller }
-    build_wiki_menus(project) if project
+  def render_main_menu(locals = {})
+    locals = menu_locals.merge(locals)
+    project = locals[:project]
+
+    build_wiki_menus(locals[:project]) if locals[:project]
     render_menu((project && !project.new_record?) ? :'project/modules' : :application_menu, locals)
   end
 
@@ -51,35 +53,29 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
+  def menu_locals
+    @menu_locals ||= { :controller => self.controller }
+  end
+
   def display_main_menu?(project)
     menu_name = project && !project.new_record? ? :'project/modules' : :application_menu
     Redmine::MenuManager.items(menu_name).size > 1 # 1 element is the root
   end
 
   def render_menu(menu, locals = {})
-    # support both the old and the new signature
-    # old: (menu, project=nil)
-    project = locals.is_a?(Project) || locals.nil? ?
-                locals :
-                locals[:project]
+    project = locals[:project]
 
-    links = menu_items_for(menu, project).map do |node|
-      render_menu_node(node, locals)
-    end
+    links = Redmine::MenuManager.menu_items_for(menu, project).map do |node|
+              render_menu_node(node, locals)
+            end
 
     links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, :class => "menu_root")
   end
 
   def render_action_menu(menu, locals = {})
-    # support both the old and the new signature
-    # old: (menu, project=nil)
-    project = locals.is_a?(Project) ?
-                locals :
-                locals[:project]
-
-    links = menu_items_for(menu, project).map do |node|
-      render_menu_node(node, locals)
-    end
+    links = Redmine::MenuManager.menu_items_for(menu, locals[:project]).map do |node|
+              render_menu_node(node, locals)
+            end
 
     links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, :class => "menu_root action_menu_main")
   end
@@ -111,36 +107,21 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_menu_node(node, locals = {})
-    # support both the old and the new interface
-    project, locals = locals.is_a?(Project) ?
-                        [project, locals] :
-                        [locals[:project], locals]
+    project = locals[:project]
+    locals[:selected] = current_menu_item == node.name
 
     return "" if project and not node.allowed?(User.current, project)
 
     if node.has_children? || !node.child_menus.nil?
       render_menu_node_with_children(node, locals)
     else
-      caption = node.caption(project)#, url, selected = #extract_node_details(node, locals)
-      #url = node.url(locals)
-      url = {}
-      selected = current_menu_item == node.name
-
-      content_tag('li', render_single_menu_node(node, caption, url, selected, locals))
+      content_tag('li', render_single_menu_node(node, locals))
     end
   end
 
   def render_menu_node_with_children(node, locals = {})
     # support both the old and the new interface
-    project = locals.is_a?(Project) ?
-                locals :
-                locals[:project]
-
-    #caption, url, selected = extract_node_details(node, locals)
-      caption = node.caption(project)#, url, selected = #extract_node_details(node, locals)
-      #url = node.url(locals)
-      url = {}
-      selected = current_menu_item == node.name
+    project = locals[:project]
 
     content_tag :li do
       # Standard children
@@ -152,7 +133,7 @@ module Redmine::MenuManager::MenuHelper
       unattached_children_list = render_unattached_children_menu(node, locals)
 
       # Parent
-      node = [render_single_menu_node(node, caption, url, selected, locals)]
+      node = [render_single_menu_node(node, locals)]
 
       # add children
       node << content_tag(:ul, standard_children_list, :class => 'menu-children') unless standard_children_list.empty?
@@ -179,18 +160,8 @@ module Redmine::MenuManager::MenuHelper
     end.html_safe
   end
 
-  def render_single_menu_node(item, caption, url, selected, locals)
-    link_text    = you_are_here_info(selected) + caption
-
-    if item.block
-      item.block.call locals.merge(:caption => item.caption)
-    else
-
-      html_options = item.html_options(:selected => selected)
-      html_options[:title] = caption
-
-      link_to link_text, url, html_options
-    end
+  def render_single_menu_node(item, locals)
+    item.label(locals)
   end
 
   def render_unattached_menu_item(menu_item, project)
@@ -203,24 +174,4 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  def menu_items_for(menu, project=nil)
-    items = []
-
-    if Redmine::MenuManager.exists?(menu)
-      file = Rails.root.join("app/widgets/menus/#{menu}.rb")
-
-      require Rails.root.join("app/widgets/menus/#{menu}") if File.exists?(file)
-    end
-
-    Redmine::MenuManager.items(menu).root.children.each do |node|
-      if node.allowed?(User.current, project)
-        if block_given?
-          yield node
-        else
-          items << node  # TODO: not used?
-        end
-      end
-    end
-    return block_given? ? nil : items
-  end
 end

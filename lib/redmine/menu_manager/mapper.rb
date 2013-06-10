@@ -35,50 +35,9 @@ class Redmine::MenuManager::Mapper
   def push(name, url_or_block = nil, options={})
     options = options.dup
 
-    if options[:parent]
-      subtree = self.find(options[:parent])
-      if subtree
-        target_root = subtree
-      else
-        target_root = @menu_items.root
-      end
+    new_node = Redmine::MenuManager::MenuItem.new(name, url_or_block, options)
 
-    else
-      target_root = @menu_items.root
-    end
-
-    block = if url_or_block.respond_to?(:call)
-              url_or_block
-            else
-              Redmine::MenuManager::UrlAggregator.new(url_or_block, options)
-            end
-
-    new_node = Redmine::MenuManager::MenuItem.new(name, block, options)
-
-    # menu item position
-    if first = options.delete(:first)
-      target_root.prepend(new_node)
-    elsif before = options.delete(:before)
-
-      if exists?(before)
-        target_root.add_at(new_node, position_of(before))
-      else
-        target_root.add(new_node)
-      end
-
-    elsif after = options.delete(:after)
-
-      if exists?(after)
-        target_root.add_at(new_node, position_of(after) + 1)
-      else
-        target_root.add(new_node)
-      end
-
-    elsif options[:last] # don't delete, needs to be stored
-      target_root.add_last(new_node)
-    else
-      target_root.add(new_node)
-    end
+    add(new_node, options)
   end
 
   # Removes a menu item
@@ -102,6 +61,52 @@ class Redmine::MenuManager::Mapper
       if node.name == name
         return node.position
       end
+    end
+  end
+
+  private
+
+  def find_target_root(parent_name)
+    if parent_name
+      subtree = self.find(parent_name)
+
+      if subtree
+        target_root = subtree
+      else
+        target_root = @menu_items.root
+      end
+
+    else
+      target_root = @menu_items.root
+    end
+  end
+
+  def add(new_node, options)
+    target_root = find_target_root(options[:parent])
+
+    # menu item position
+    if first = options.delete(:first)
+      target_root.prepend(new_node)
+    elsif before = options.delete(:before)
+
+      if exists?(before)
+        target_root.add_at(new_node, position_of(before))
+      else
+        target_root.add(new_node)
+
+      end
+    elsif after = options.delete(:after)
+
+      if exists?(after)
+        target_root.add_at(new_node, position_of(after) + 1)
+      else
+        target_root.add(new_node)
+      end
+
+    elsif options[:last] # don't delete, needs to be stored
+      target_root.add_last(new_node)
+    else
+      target_root.add(new_node)
     end
   end
 end
