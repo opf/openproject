@@ -1,5 +1,3 @@
-puts 'XXX:  lib/reporting_engine/widget/group_bys.rb'
-
 class Widget::GroupBys < Widget::Base
 
   def render_options(group_by_ary)
