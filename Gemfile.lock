@@ -88,7 +88,7 @@ GEM
     arel (3.0.2)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
-    binding_of_caller (0.7.1)
+    binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bourne (1.4.0)
       mocha (~> 0.13.2)
