@@ -213,7 +213,7 @@ GEM
     mysql (2.9.1)
     mysql2 (0.3.11)
     nokogiri (1.5.9)
-    paper_trail (2.7.1)
+    paper_trail (2.7.2)
       activerecord (~> 3.0)
       railties (~> 3.0)
     pg (0.15.1)
