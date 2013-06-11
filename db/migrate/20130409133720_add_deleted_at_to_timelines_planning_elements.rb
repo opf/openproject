@@ -9,18 +9,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddTimelinesResponsibleIdToProjects < ActiveRecord::Migration
+class AddDeletedAtToTimelinesPlanningElements < ActiveRecord::Migration
   def self.up
-    change_table(:projects) do |t|
-      t.belongs_to :responsible
-
-      t.index :responsible_id
-    end
+    add_column :timelines_planning_elements, :deleted_at, :datetime
   end
 
   def self.down
-    change_table(:projects) do |t|
-      t.remove_belongs_to :responsible
-    end
+    remove_column :timelines_planning_elements, :deleted_at
   end
 end

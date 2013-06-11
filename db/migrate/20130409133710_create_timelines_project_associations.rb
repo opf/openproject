@@ -11,7 +11,7 @@
 
 class CreateTimelinesProjectAssociations < ActiveRecord::Migration
   def self.up
-    create_table(:project_associations) do |t|
+    create_table(:timelines_project_associations) do |t|
       t.belongs_to :project_a
       t.belongs_to :project_b
 
@@ -20,11 +20,11 @@ class CreateTimelinesProjectAssociations < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :project_associations, :project_a_id
-    add_index :project_associations, :project_b_id
+    add_index :timelines_project_associations, :project_a_id
+    add_index :timelines_project_associations, :project_b_id
   end
 
   def self.down
-    drop_table :project_associations
+    drop_table :timelines_project_associations
   end
 end

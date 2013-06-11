@@ -9,21 +9,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesScenarios < ActiveRecord::Migration
+class AddTimelinesProjectTypeIdToProjects < ActiveRecord::Migration
   def self.up
-    create_table(:scenarios) do |t|
-      t.column :name,        :string, :null => false
-      t.column :description, :text
+    change_table(:projects) do |t|
+      t.belongs_to :timelines_project_type
 
-      t.belongs_to :project
-
-      t.timestamps
+      t.index :timelines_project_type_id
     end
-
-    add_index :scenarios, :project_id
   end
 
   def self.down
-    drop_table(:scenarios)
+    change_table(:projects) do |t|
+      t.remove_belongs_to :timelines_project_type
+    end
   end
 end

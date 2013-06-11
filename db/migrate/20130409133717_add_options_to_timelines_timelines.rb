@@ -9,18 +9,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddTimelinesProjectTypeIdToProjects < ActiveRecord::Migration
+class AddOptionsToTimelinesTimelines < ActiveRecord::Migration
   def self.up
-    change_table(:projects) do |t|
-      t.belongs_to :project_type
-
-      t.index :project_type_id
+    change_table(:timelines_timelines) do |t|
+      t.text :options
     end
   end
 
   def self.down
-    change_table(:projects) do |t|
-      t.remove_belongs_to :project_type
+    change_table(:timelines_timelines) do |t|
+      t.remove :options
     end
   end
 end

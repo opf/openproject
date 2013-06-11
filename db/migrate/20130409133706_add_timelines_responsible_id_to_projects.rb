@@ -9,21 +9,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesTimelines < ActiveRecord::Migration
+class AddTimelinesResponsibleIdToProjects < ActiveRecord::Migration
   def self.up
-    create_table :timelines do |t|
-      t.column :name,        :string,  :null => false
-      t.column :content,     :text
+    change_table(:projects) do |t|
+      t.belongs_to :timelines_responsible
 
-      t.belongs_to :project
-
-      t.timestamps
+      t.index :timelines_responsible_id
     end
-
-    add_index :timelines, :project_id
   end
 
   def self.down
-    drop_table :timelines
+    change_table(:projects) do |t|
+      t.remove_belongs_to :timelines_responsible
+    end
   end
 end

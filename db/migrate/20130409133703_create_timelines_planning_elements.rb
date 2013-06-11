@@ -11,7 +11,7 @@
 
 class CreateTimelinesPlanningElements < ActiveRecord::Migration
   def self.up
-    create_table(:planning_elements) do |t|
+    create_table(:timelines_planning_elements) do |t|
       t.column :name,        :string,  :null => false
       t.column :description, :text
       t.column :planning_element_status_comment, :text
@@ -28,14 +28,14 @@ class CreateTimelinesPlanningElements < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :planning_elements, :parent_id
-    add_index :planning_elements, :project_id
-    add_index :planning_elements, :responsible_id
-    add_index :planning_elements, :planning_element_type_id
-    add_index :planning_elements, :planning_element_status_id
+    add_index :timelines_planning_elements, :parent_id
+    add_index :timelines_planning_elements, :project_id
+    add_index :timelines_planning_elements, :responsible_id
+    add_index :timelines_planning_elements, :planning_element_type_id
+    add_index :timelines_planning_elements, :planning_element_status_id
   end
 
   def self.down
-    drop_table(:planning_elements)
+    drop_table(:timelines_planning_elements)
   end
 end

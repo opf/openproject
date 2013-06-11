@@ -9,12 +9,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddDeletedAtToTimelinesPlanningElements < ActiveRecord::Migration
+class RemoveContentFromTimelinesTimelines < ActiveRecord::Migration
   def self.up
-    add_column :planning_elements, :deleted_at, :datetime
+    change_table(:timelines_timelines) do |t|
+      t.remove :content
+    end
   end
 
   def self.down
-    remove_column :planning_elements, :deleted_at
+    change_table(:timelines_timelines) do |t|
+      t.text :content
+    end
   end
 end

@@ -9,16 +9,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddOptionsToTimelinesTimelines < ActiveRecord::Migration
+class CreateTimelinesScenarios < ActiveRecord::Migration
   def self.up
-    change_table(:timelines) do |t|
-      t.text :options
+    create_table(:timelines_scenarios) do |t|
+      t.column :name,        :string, :null => false
+      t.column :description, :text
+
+      t.belongs_to :project
+
+      t.timestamps
     end
+
+    add_index :timelines_scenarios, :project_id
   end
 
   def self.down
-    change_table(:timelines) do |t|
-      t.remove :options
-    end
+    drop_table(:timelines_scenarios)
   end
 end

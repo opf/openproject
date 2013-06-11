@@ -11,7 +11,7 @@
 
 class CreateTimelinesReportings < ActiveRecord::Migration
   def self.up
-    create_table(:reportings) do |t|
+    create_table(:timelines_reportings) do |t|
       t.column :reported_project_status_comment, :text
 
       t.belongs_to :project
@@ -20,12 +20,12 @@ class CreateTimelinesReportings < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :reportings, :project_id
-    add_index :reportings, :reporting_to_project_id
-    add_index :reportings, :reported_project_status_id
+    add_index :timelines_reportings, :project_id
+    add_index :timelines_reportings, :reporting_to_project_id
+    add_index :timelines_reportings, :reported_project_status_id
   end
 
   def self.down
-    drop_table(:reportings)
+    drop_table(:timelines_reportings)
   end
 end

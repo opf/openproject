@@ -11,7 +11,7 @@
 
 class CreateTimelinesPlanningElementTypes < ActiveRecord::Migration
   def self.up
-    create_table(:planning_element_types) do |t|
+    create_table(:timelines_planning_element_types) do |t|
       t.column :name,         :string,  :null => false
 
       t.column :in_aggregation, :boolean, :default => true,  :null => false
@@ -26,11 +26,11 @@ class CreateTimelinesPlanningElementTypes < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :planning_element_types, :color_id
-    add_index :planning_element_types, :project_type_id
+    add_index :timelines_planning_element_types, :color_id
+    add_index :timelines_planning_element_types, :project_type_id
   end
 
   def self.down
-    drop_table(:planning_element_types)
+    drop_table(:timelines_planning_element_types)
   end
 end
