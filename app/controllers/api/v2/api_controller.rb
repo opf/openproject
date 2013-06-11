@@ -14,7 +14,7 @@ module Api
 
     module ApiController
 
-      include ::Api::V1::ApiController
+      extend ::Api::V1::ApiController
 
     end
 
