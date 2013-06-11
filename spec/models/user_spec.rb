@@ -44,7 +44,12 @@ describe User do
       end
 
       it "should return a sql condition where all the project ids the user has the permission in is enforced" do
-        user.allowed_to_condition_with_project_id(permission).should == "(projects.id in (#{project.id}, #{project2.id}))"
+        # as order is not guaranteed and in fact does not matter
+        # we have to check for both valid options
+        valid_conditions = ["(projects.id in (#{project.id}, #{project2.id}))",
+                            "(projects.id in (#{project2.id}, #{project.id}))"]
+
+        valid_conditions.should include(user.allowed_to_condition_with_project_id(permission))
       end
     end
 
