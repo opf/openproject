@@ -36,17 +36,12 @@ module Report::Controller
   end
 
   def table_without_progress_info
-    stream do
-      render_widget Widget::Table, @query
-    end
+    # stream result to client
+    self.response_body = render_widget(Widget::Table, @query)
   end
 
   def table_with_progress_info
     render :text => render_widget(Widget::Table::Progressbar, @query), :layout => !request.xhr?
-  end
-
-  def stream(&block)
-    self.response_body = block
   end
 
   ##
