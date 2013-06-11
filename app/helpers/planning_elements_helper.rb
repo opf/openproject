@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module TimelinesPlanningElementsHelper
+module PlanningElementsHelper
   def render_planning_element(api, planning_element)
     api.planning_element(planning_element.destroyed? ? {:destroyed => true} : {}) do
       api.id(planning_element.id)
@@ -72,7 +72,7 @@ module TimelinesPlanningElementsHelper
       if include_journals?
         api.array :journals, :size => planning_element.journals.size do
           planning_element.journals.each do |journal|
-            render(:partial => '/timelines/planning_element_journals/journal.api',
+            render(:partial => '/planning_element_journals/journal.api',
                    :object  => journal)
           end
         end
