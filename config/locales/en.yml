@@ -41,6 +41,7 @@ en:
         unit_plural: "Pluralized Unit Name"
       cost_entry:
         issue: Issue
+        overridden_costs: "Overridden costs"
         spent_on: Date
         spent: Spent
       issue:
