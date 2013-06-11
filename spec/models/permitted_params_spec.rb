@@ -142,7 +142,7 @@ describe PermittedParams do
 
   describe :planning_element do
     it "should permit planning_element" do
-      hash = { "name" => "blubs" }
+      hash = { "subject" => "blubs" }
 
       params = ActionController::Parameters.new(:planning_element => hash)
 

@@ -247,7 +247,7 @@ module NavigationHelpers
       planning_element_name = $1
       project_name = $2
       project_identifier = Project.find_by_name(project_name).identifier.gsub(' ', '%20')
-      planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+      planning_element = Timelines::PlanningElement.find_by_subject(planning_element_name)
       "/timelines/projects/#{project_identifier}/planning_elements/#{planning_element.id}"
 
     when /^the (.+) page (?:for|of) the project called "([^\"]+)"$/

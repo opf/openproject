@@ -60,7 +60,7 @@ describe Timelines::PlanningElement do
 
   describe '- Validations ' do
     let(:attributes) {
-      {:name       => 'Planning Element No. 1',
+      {:subject    => 'Planning Element No. 1',
        :start_date => Date.today,
        :end_date   => Date.today + 2.weeks,
        :project_id => project.id}
@@ -68,25 +68,25 @@ describe Timelines::PlanningElement do
 
     it { Timelines::PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }.should be_valid }
 
-    describe 'name' do
-      it 'is invalid w/o a name' do
-        attributes[:name] = nil
+    describe 'subject' do
+      it 'is invalid w/o a subject' do
+        attributes[:subject] = nil
         planning_element = Timelines::PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
         planning_element.should_not be_valid
 
-        planning_element.errors[:name].should be_present
-        planning_element.errors[:name].should == ["can't be blank"]
+        planning_element.errors[:subject].should be_present
+        planning_element.errors[:subject].should == ["can't be blank"]
       end
 
-      it 'is invalid w/ a name longer than 255 characters' do
-        attributes[:name] = "A" * 500
+      it 'is invalid w/ a subject longer than 255 characters' do
+        attributes[:subject] = "A" * 500
         planning_element = Timelines::PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
         planning_element.should_not be_valid
 
-        planning_element.errors[:name].should be_present
-        planning_element.errors[:name].should == ["is too long (maximum is 255 characters)"]
+        planning_element.errors[:subject].should be_present
+        planning_element.errors[:subject].should == ["is too long (maximum is 255 characters)"]
       end
     end
 
@@ -215,7 +215,7 @@ describe Timelines::PlanningElement do
   describe 'alternate dates' do
     describe 'auto-creation' do
       let(:attributes) {
-        {:name       => 'Planning Element No. 1',
+        {:subject    => 'Planning Element No. 1',
          :start_date => Date.today,
          :end_date   => Date.today + 2.weeks,
          :project_id => project.id}
@@ -348,7 +348,7 @@ describe Timelines::PlanningElement do
 
         fetched.start_date.should == edit[:start_date]
         fetched.end_date.should   == edit[:end_date]
-        fetched.updated_at        == edit[:updated_at]
+        fetched.updated_at       == edit[:updated_at]
         fetched.should be_readonly
       end
     end
@@ -554,16 +554,16 @@ describe Timelines::PlanningElement do
     let(:pe_status)   { FactoryGirl.create(:timelines_planning_element_status) }
 
     let(:pe) { FactoryGirl.create(:timelines_planning_element,
-                              :name                            => "Plan A",
-                              :description                     => "This won't work out",
-                              :start_date                      => Date.new(2012, 1, 24),
-                              :end_date                        => Date.new(2012, 1, 31),
-                              :project_id                      => project.id,
-                              :responsible_id                  => responsible.id,
-                              :planning_element_type_id        => pe_type.id,
-                              :planning_element_status_id      => pe_status.id,
-                              :planning_element_status_comment => 'All lost'
-                             ) }
+                                  :subject                         => "Plan A",
+                                  :description                     => "This won't work out",
+                                  :start_date                      => Date.new(2012, 1, 24),
+                                  :end_date                        => Date.new(2012, 1, 31),
+                                  :project_id                      => project.id,
+                                  :responsible_id                  => responsible.id,
+                                  :planning_element_type_id        => pe_type.id,
+                                  :planning_element_status_id      => pe_status.id,
+                                  :planning_element_status_comment => 'All lost'
+                                  ) }
 
     it "has an initial journal, so that it's creation shows up in activity" do
       pe.journals.size.should == 1
@@ -572,7 +572,7 @@ describe Timelines::PlanningElement do
 
       changes.size.should == 9
 
-      changes.should include("name")
+      changes.should include("subject")
       changes.should include("description")
       changes.should include("start_date")
       changes.should include("end_date")
@@ -601,7 +601,7 @@ describe Timelines::PlanningElement do
     describe 'planning element hierarchies' do
       let(:child_pe) { FactoryGirl.create(:timelines_planning_element,
                                       :parent_id                       => pe.id,
-                                      :name                            => "Plan B",
+                                      :subject                         => "Plan B",
                                       :description                     => "This will work out",
                                       # interval is the same as parent, so that
                                       # dates are not updated
@@ -734,7 +734,7 @@ describe Timelines::PlanningElement do
                             :project_id => project.id,
                             :start_date => Date.new(2011, 1, 1),
                             :end_date   => Date.new(2011, 2, 1),
-                            :name       => "Numero Uno")
+                            :subject    => "Numero Uno")
     end
 
     it 'should set deleted_at on destroy' do

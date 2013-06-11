@@ -65,11 +65,11 @@ FactoryGirl.define do
 
     factory :issue_custom_field do
       sequence(:name) { |n| "Issue Custom Field #{n}" }
-      type "IssueCustomField"
+      type "WorkUnitCustomField"
 
       factory :user_issue_custom_field do
         field_format "user"
-        sequence(:name) { |n| "UserIssueCustomField #{n}" }
+        sequence(:name) { |n| "UserWorkUnitCustomField #{n}" }
       end
     end
   end

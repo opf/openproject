@@ -22,7 +22,7 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
         :project => @project,
         :author => @users.first,
         :tracker => @project.trackers.first
-    @field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user')
+    @field = WorkUnitCustomField.create!(:name => 'Tester', :field_format => 'user')
   end
 
   def test_possible_values_with_no_arguments
@@ -31,7 +31,7 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   end
 
   def test_possible_values_with_project_resource
-    possible_values = @field.possible_values(@project.issues.first)
+    possible_values = @field.possible_values(@project.work_units.first)
     assert possible_values.any?
     assert_equal @project.users.sort.collect(&:id).map(&:to_s), possible_values
   end
@@ -46,7 +46,7 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   end
 
   def test_possible_values_options_with_project_resource
-    possible_values_options = @field.possible_values_options(@project.issues.first)
+    possible_values_options = @field.possible_values_options(@project.work_units.first)
     assert possible_values_options.any?
     assert_equal @project.users.sort.map {|u| [u.name, u.id.to_s]}, possible_values_options
   end

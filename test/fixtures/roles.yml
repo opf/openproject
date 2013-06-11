@@ -12,6 +12,7 @@ roles_001:
     - :manage_versions
     - :manage_categories
     - :view_issues
+    - :view_work_units
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
@@ -66,6 +67,7 @@ roles_002:
     - :manage_versions
     - :manage_categories
     - :view_issues
+    - :view_work_units
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
@@ -110,6 +112,7 @@ roles_003:
     - :manage_versions
     - :manage_categories
     - :view_issues
+    - :view_work_units
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
@@ -144,6 +147,7 @@ roles_004:
   permissions: |
     ---
     - :view_issues
+    - :view_work_units
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
@@ -174,6 +178,7 @@ roles_005:
   permissions: |
     ---
     - :view_issues
+    - :view_work_units
     - :add_issue_notes
     - :view_calendar
     - :view_time_entries

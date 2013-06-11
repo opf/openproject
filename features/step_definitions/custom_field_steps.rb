@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-[CustomField, IssueCustomField].each do |const|
+[CustomField, WorkUnitCustomField].each do |const|
   InstanceFinder.register(const, Proc.new{ |name| const.find_by_name(name) })
   RouteMap.register(const, "/custom_fields")
 end
@@ -44,7 +44,7 @@ Given /^the user "(.+?)" has the user custom field "(.+?)" set to "(.+?)"$/ do |
 end
 
 Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|
-  custom_field = IssueCustomField.find_by_name(field_name)
+  custom_field = WorkUnitCustomField.find_by_name(field_name)
 
   Setting.issue_list_summable_columns = negative ?
                                           Setting.issue_list_summable_columns - ["cf_#{custom_field.id}"] :
@@ -52,7 +52,7 @@ Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|
 end
 
 Given /^the custom field "(.*?)" is activated for tracker "(.*?)"$/ do |field_name, tracker_name|
-  custom_field = IssueCustomField.find_by_name(field_name)
+  custom_field = WorkUnitCustomField.find_by_name(field_name)
   tracker = Tracker.find_by_name(tracker_name)
   custom_field.trackers << tracker
 end

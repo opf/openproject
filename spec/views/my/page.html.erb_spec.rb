@@ -18,7 +18,7 @@ describe 'my/page' do
   let(:time_entry) { FactoryGirl.create :time_entry,
                                         :project => project,
                                         :user => user,
-                                        :issue => issue,
+                                        :work_unit => issue,
                                         :hours => 1}
 
   before do

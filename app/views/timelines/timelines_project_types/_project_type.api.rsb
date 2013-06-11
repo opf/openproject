@@ -16,6 +16,6 @@ api.project_type do
   api.allows_association(project_type.allows_association)
   api.position(project_type.position)
 
-  api.created_on(project_type.created_on.utc) if project_type.created_on
-  api.updated_on(project_type.updated_on.utc) if project_type.updated_on
+  api.created_at(project_type.created_at.utc) if project_type.created_at
+  api.updated_at(project_type.updated_at.utc) if project_type.updated_at
 end

@@ -78,8 +78,8 @@ module TimelinesPlanningElementsHelper
         end
       end
 
-      api.created_on(planning_element.created_on.utc) if planning_element.created_on
-      api.updated_on(planning_element.updated_on.utc) if planning_element.updated_on
+      api.created_at(planning_element.created_at.utc) if planning_element.created_at
+      api.updated_at(planning_element.updated_at.utc) if planning_element.updated_at
     end
   end
 

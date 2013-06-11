@@ -1227,9 +1227,9 @@ module ApplicationHelper
       end
     end
 
-    link = link_to(h("*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.name} "),
+    link = link_to(h("*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.subject} "),
             timelines_project_planning_element_path(planning_element.project, planning_element),
-           :title => h("#{truncate(planning_element.name, :length => 100)} #{planning_element.planning_element_status.nil? ? "" :
+           :title => h("#{truncate(planning_element.subject, :length => 100)} #{planning_element.planning_element_status.nil? ? "" :
                         "(" + planning_element.planning_element_status.name + ")"}"))
     link += "#{planning_element.start_date.nil? ? "[?]" : planning_element.start_date.to_s}#{start_date_change} – #{planning_element.end_date.nil? ? "[?]" :
       planning_element.end_date.to_s}#{end_date_change}"

@@ -69,6 +69,7 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:subject, :sortable => "#{WorkUnit.table_name}.subject"),
     QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
+<<<<<<< HEAD
     QueryColumn.new(:updated_at, :sortable => "#{WorkUnit.table_name}.updated_at", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
@@ -78,6 +79,17 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:estimated_hours, :sortable => "#{WorkUnit.table_name}.estimated_hours"),
     QueryColumn.new(:done_ratio, :sortable => "#{WorkUnit.table_name}.done_ratio", :groupable => true),
     QueryColumn.new(:created_at, :sortable => "#{WorkUnit.table_name}.created_at", :default_order => 'desc'),
+=======
+    QueryColumn.new(:updated_at, :sortable => "#{Issue.table_name}.updated_at", :default_order => 'desc'),
+    QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
+    QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
+    # Put empty start_dates and due_dates in the far future rather than in the far past
+    QueryColumn.new(:start_date, :sortable => ["CASE WHEN #{Issue.table_name}.start_date IS NULL THEN 1 ELSE 0 END", "#{Issue.table_name}.start_date"]),
+    QueryColumn.new(:due_date, :sortable => ["CASE WHEN #{Issue.table_name}.due_date IS NULL THEN 1 ELSE 0 END", "#{Issue.table_name}.due_date"]),
+    QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
+    QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
+    QueryColumn.new(:created_at, :sortable => "#{Issue.table_name}.created_at", :default_order => 'desc'),
+>>>>>>> 657cb41... Fix tests
   ]
   cattr_reader :available_columns
 
@@ -120,8 +132,8 @@ class Query < ActiveRecord::Base
                            "tracker_id" => { :type => :list, :order => 2, :values => trackers.collect{|s| [s.name, s.id.to_s] } },
                            "priority_id" => { :type => :list, :order => 3, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s] } },
                            "subject" => { :type => :text, :order => 8 },
-                           "created_on" => { :type => :date_past, :order => 9 },
-                           "updated_on" => { :type => :date_past, :order => 10 },
+                           "created_at" => { :type => :date_past, :order => 9 },
+                           "updated_at" => { :type => :date_past, :order => 10 },
                            "start_date" => { :type => :date, :order => 11 },
                            "due_date" => { :type => :date, :order => 12 },
                            "estimated_hours" => { :type => :integer, :order => 13 },

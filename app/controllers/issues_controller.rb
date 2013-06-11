@@ -118,7 +118,7 @@ class IssuesController < ApplicationController
                                                                :project])
 
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
-    @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
+    @time_entry = TimeEntry.new(:work_unit=> @issue, :project => @issue.project)
     respond_to do |format|
       format.html { render :template => 'issues/show' }
       format.api
@@ -257,14 +257,14 @@ class IssuesController < ApplicationController
       when 'destroy'
         # nothing to do
       when 'nullify'
-        TimeEntry.update_all('issue_id = NULL', ['issue_id IN (?)', @issues])
+        TimeEntry.update_all('work_unit_id = NULL', ['work_unit_id IN (?)', @issues])
       when 'reassign'
         reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
         if reassign_to.nil?
           flash.now[:error] = l(:error_issue_not_found_in_project)
           return
         else
-          TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
+          TimeEntry.update_all("work_unit_id = #{reassign_to.id}", ['work_unit_id IN (?)', @issues])
         end
       else
         # display the destroy form if it's a user request
@@ -313,7 +313,7 @@ private
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @priorities = IssuePriority.all
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
-    @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
+    @time_entry = TimeEntry.new(:work_unit => @issue, :project => @issue.project)
     @time_entry.attributes = params[:time_entry]
 
     @notes = params[:notes] || (params[:issue].present? ? params[:issue][:notes] : nil)

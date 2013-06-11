@@ -51,16 +51,16 @@ class Timelines::PlanningElement < WorkUnit
                 #{Timelines::PlanningElement.quoted_table_name}.responsible_id,
                 #{Timelines::PlanningElement.quoted_table_name}.planning_element_type_id,
                 #{Timelines::PlanningElement.quoted_table_name}.planning_element_status_id,
-                #{Timelines::PlanningElement.quoted_table_name}.created_on,
+                #{Timelines::PlanningElement.quoted_table_name}.created_at,
                 #{Timelines::PlanningElement.quoted_table_name}.deleted_at,
-                #{Timelines::AlternateDate.quoted_table_name  }.updated_on",
+                #{Timelines::AlternateDate.quoted_table_name  }.updated_at",
     :joins => "LEFT JOIN (
                   SELECT
                     #{Timelines::AlternateDate.quoted_table_name}.planning_element_id,
-                    MAX(#{Timelines::AlternateDate.quoted_table_name}.updated_on) AS updated_on
+                    MAX(#{Timelines::AlternateDate.quoted_table_name}.updated_at) AS updated_at
                   FROM #{Timelines::AlternateDate.quoted_table_name}
                   WHERE
-                    #{Timelines::AlternateDate.quoted_table_name}.created_on <= ?
+                    #{Timelines::AlternateDate.quoted_table_name}.created_at <= ?
                   GROUP BY
                     #{Timelines::AlternateDate.quoted_table_name}.planning_element_id
                 )  AS timelines_alternate_dates_sub
@@ -68,7 +68,7 @@ class Timelines::PlanningElement < WorkUnit
               INNER JOIN
                 #{Timelines::AlternateDate.quoted_table_name}
                   ON #{Timelines::AlternateDate.quoted_table_name}.planning_element_id = timelines_alternate_dates_sub.planning_element_id
-                    AND #{Timelines::AlternateDate.quoted_table_name}.updated_on = timelines_alternate_dates_sub.updated_at"
+                    AND #{Timelines::AlternateDate.quoted_table_name}.updated_at = timelines_alternate_dates_sub.updated_at"
 
   }
 
@@ -90,18 +90,6 @@ class Timelines::PlanningElement < WorkUnit
     {:conditions => {:project_id => projects}}
   }
 
-<<<<<<< HEAD
-  def self.visible_condition(user, options={})
-    Project.allowed_to_condition(user, :view_planning_elements, options)
-  end
-
-  # Used for journal entry / activities list
-  def activity_type
-    'timelines_planning_elements'
-  end
-
-=======
->>>>>>> abe58b2... Join issue and pe journalization
   # Used for activities list
   def title
     title = ''

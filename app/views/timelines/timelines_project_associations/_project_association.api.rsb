@@ -22,6 +22,6 @@ api.project_association do
 
   api.description(project_association.description)
 
-  api.created_on(project_association.created_on.utc) if project_association.created_on
-  api.updated_on(project_association.updated_on.utc) if project_association.updated_on
+  api.created_at(project_association.created_at.utc) if project_association.created_at
+  api.updated_at(project_association.updated_at.utc) if project_association.updated_at
 end

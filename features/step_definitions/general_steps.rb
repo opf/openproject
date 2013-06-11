@@ -486,12 +486,12 @@ end
 
 # Encapsule the logic to set a custom field on an issue
 def add_custom_value_to_issue(object, key, value)
-  if IssueCustomField.all.collect(&:name).include? key.to_s
+  if WorkUnitCustomField.all.collect(&:name).include? key.to_s
     cv = CustomValue.find(:first, :conditions => ["customized_id = '#{object.id}'"])
     cv ||= CustomValue.new
-    cv.customized_type = "Issue"
+    cv.customized_type = "WorkUnit"
     cv.customized_id = object.id
-    cv.custom_field_id = IssueCustomField.first(:joins => :translations, :conditions => ["custom_field_translations.name = ?", key]).id
+    cv.custom_field_id = WorkUnitCustomField.first(:joins => :translations, :conditions => ["custom_field_translations.name = ?", key]).id
     cv.value = value
     cv.save!
   end

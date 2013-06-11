@@ -23,7 +23,7 @@ Feature: Paginated issue index list
       | login      | bob      |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | view_issues   |
+      | view_work_units |
       | create_issues |
     And the user "bob" is a "member" in the project "project1"
     And the user "bob" has 26 issues with the following:

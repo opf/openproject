@@ -17,6 +17,6 @@ api.color do
 
   api.position(color.position)
 
-  api.created_on(color.created_on.utc) if color.created_on
-  api.updated_on(color.updated_on.utc) if color.updated_on
+  api.created_at(color.created_at.utc) if color.created_at
+  api.updated_at(color.updated_at.utc) if color.updated_at
 end

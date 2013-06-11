@@ -80,7 +80,11 @@ describe Timelines::AlternateDate do
        :end_date   => Date.today + 2.weeks}
     }
 
-    before { FactoryGirl.create(:timelines_planning_element, :id => 1) }
+    before { 
+      FactoryGirl.create(:timelines_planning_element, :id => 1)
+
+      ApplicationHelper.set_language_if_valid 'en'
+    }
 
     it { Timelines::AlternateDate.new.tap { |ad| ad.send(:assign_attributes, attributes, :without_protection => true) }.should be_valid }
 

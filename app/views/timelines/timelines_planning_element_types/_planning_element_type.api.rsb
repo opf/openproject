@@ -24,6 +24,6 @@ api.planning_element_type do
     api.color(:id => color.id, :name => color.name, :hexcode => color.hexcode)
   end
 
-  api.created_on(planning_element_type.created_on.utc) if planning_element_type.created_on
-  api.updated_on(planning_element_type.updated_on.utc) if planning_element_type.updated_on
+  api.created_at(planning_element_type.created_at.utc) if planning_element_type.created_at
+  api.updated_at(planning_element_type.updated_at.utc) if planning_element_type.updated_at
 end

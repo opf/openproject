@@ -90,6 +90,13 @@ Redmine::AccessControl.map do |map|
                                   :journals => [:index, :diff],
                                   :queries => :index,
                                   :'issues/reports' => [:report, :report_details]}
+    map.permission :view_work_units, {:'issues' => [:index, :all, :show],
+                                  :auto_complete => [:issues],
+                                  :context_menus => [:issues],
+                                  :versions => [:index, :show, :status_by],
+                                  :journals => [:index, :diff],
+                                  :queries => :index,
+                                  :'issues/reports' => [:report, :report_details]}
     map.permission :export_issues, {:'issues' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
@@ -345,7 +352,7 @@ Redmine::MenuManager.map :project_menu do |menu|
 end
 
 Redmine::Activity.map do |activity|
-  activity.register :issues, :class_name => 'Issue'
+  activity.register :work_units, :class_name => 'WorkUnit'
   activity.register :changesets
   activity.register :news
   activity.register :documents, :class_name => %w(Document Attachment)
@@ -356,7 +363,7 @@ Redmine::Activity.map do |activity|
 end
 
 Redmine::Search.map do |search|
-  search.register :issues
+  search.register :work_units
   search.register :news
   search.register :documents
   search.register :changesets

@@ -581,7 +581,7 @@ class Issue < WorkUnit
       if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, project)
         @time_entry = existing_time_entry || TimeEntry.new
         @time_entry.project = project
-        @time_entry.issue = self
+        @time_entry.work_unit = self
         @time_entry.user = User.current
         @time_entry.spent_on = Date.today
         @time_entry.attributes = params[:time_entry]

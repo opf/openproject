@@ -44,15 +44,15 @@ class TimelogController < ApplicationController
     respond_to do |format|
       format.html {
         # Paginate results
-        @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
+        @entry_count = TimeEntry.visible.count(:include => [:project, :work_unit], :conditions => cond.conditions)
         @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
         @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:issue => :tracker}],
+                                  :include => [:project, :activity, :user, {:work_unit => :tracker}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause,
                                   :limit  =>  @entry_pages.items_per_page,
                                   :offset =>  @entry_pages.current.offset)
-        @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :issue], :conditions => cond.conditions).to_f
+        @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :work_unit], :conditions => cond.conditions).to_f
 
         render :layout => !request.xhr?
       }
@@ -94,7 +94,7 @@ class TimelogController < ApplicationController
   end
 
   def new
-    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(:project => @project, :work_unit=> @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
@@ -102,7 +102,7 @@ class TimelogController < ApplicationController
   end
 
   def create
-    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(:project => @project, :work_unit => @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
@@ -185,7 +185,10 @@ private
   end
 
   def find_project
-    if (work_unit_id = (params[:work_unit_id] || params[:time_entry] && params[:time_entry][:work_unit_id])).present?
+    if (issue_id = (params[:issue_id] || params[:time_entry] && params[:time_entry][:issue_id])).present?
+      @issue = Issue.find(issue_id)
+      @project = @issue.project
+    elsif (work_unit_id = (params[:work_unit_id] || params[:time_entry] && params[:time_entry][:work_unit_id])).present?
       @issue = WorkUnit.find(work_unit_id)
       @project = @issue.project
     elsif (project_id = (params[:project_id] || params[:time_entry] && params[:time_entry][:project_id])).present?
@@ -199,7 +202,10 @@ private
   end
 
   def find_optional_project
-    if !params[:work_unit_id].blank?
+    if !params[:issue_id].blank?
+      @issue = Issue.find(params[:issue_id])
+      @project = @issue.project
+    elsif !params[:work_unit_id].blank?
       @issue = WorkUnit.find(params[:work_unit_id])
       @project = @issue.project
     elsif !params[:project_id].blank?

@@ -61,16 +61,16 @@ describe 'timelines/timelines_project_types/_project_type.api' do
         response.should have_selector('project_type position', :text => '100')
       end
 
-      it 'contains a created_on element containing the project type created_on in UTC in ISO 8601' do
+      it 'contains a created_at element containing the project type created_at in UTC in ISO 8601' do
         render
 
-        response.should have_selector('project_type created_on', :text => '2011-01-06T11:35:00Z')
+        response.should have_selector('project_type created_at', :text => '2011-01-06T11:35:00Z')
       end
 
-      it 'contains an updated_on element containing the project type updated_on in UTC in ISO 8601' do
+      it 'contains an updated_at element containing the project type updated_at in UTC in ISO 8601' do
         render
 
-        response.should have_selector('project_type updated_on', :text => '2011-01-07T11:35:00Z')
+        response.should have_selector('project_type updated_at', :text => '2011-01-07T11:35:00Z')
       end
     end
   end

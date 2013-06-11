@@ -18,12 +18,12 @@ Feature: Copying an issue should copy the watchers
     And there is a role "CanCopyIssues"
     And the role "CanCopyIssues" may have the following rights:
       | add_issues          |
-      | view_issues         |
+      | view_work_units     |
       | view_issue_watchers |
     And there is a role "CanAddWatchers"
     And the role "CanAddWatchers" may have the following rights:
       | add_issues          |
-      | view_issues         |
+      | view_work_units     |
       | view_issue_watchers |
       | add_issue_watchers  |
     And there is 1 user with the following:

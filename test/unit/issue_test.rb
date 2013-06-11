@@ -46,7 +46,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_with_required_custom_field
-    field = IssueCustomField.find_by_name('Database')
+    field = WorkUnitCustomField.find_by_name('Database')
     field.update_attribute(:is_required, true)
 
     issue = Issue.new.tap do |i|
@@ -120,7 +120,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_errors_full_messages_should_include_custom_fields_errors
-    field = IssueCustomField.find_by_name('Database')
+    field = WorkUnitCustomField.find_by_name('Database')
 
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
@@ -140,7 +140,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_update_issue_with_required_custom_field
-    field = IssueCustomField.find_by_name('Database')
+    field = WorkUnitCustomField.find_by_name('Database')
     field.update_attribute(:is_required, true)
 
     issue = Issue.find(1)
@@ -160,7 +160,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_should_not_update_attributes_if_custom_fields_validation_fails
     issue = Issue.find(1)
-    field = IssueCustomField.find_by_name('Database')
+    field = WorkUnitCustomField.find_by_name('Database')
     assert issue.available_custom_fields.include?(field)
 
     issue.custom_field_values = { field.id => 'Invalid' }
@@ -172,7 +172,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_not_recreate_custom_values_objects_on_update
-    field = IssueCustomField.find_by_name('Database')
+    field = WorkUnitCustomField.find_by_name('Database')
 
     issue = Issue.find(1)
     issue.custom_field_values = { field.id => 'PostgreSQL' }
@@ -615,7 +615,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_issue_destroy
     Issue.find(1).destroy
     assert_nil Issue.find_by_id(1)
-    assert_nil TimeEntry.find_by_issue_id(1)
+    assert_nil TimeEntry.find_by_work_unit_id(1)
   end
 
   def test_blocked
@@ -766,7 +766,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_journalized_description
-    IssueCustomField.delete_all
+    WorkUnitCustomField.delete_all
 
     i = Issue.first
     old_description = i.description
@@ -774,11 +774,11 @@ class IssueTest < ActiveSupport::TestCase
 
     i.init_journal(User.find(2))
     i.description = new_description
-    assert_difference 'IssueJournal.count', 1 do
+    assert_difference 'WorkUnitJournal.count', 1 do
       i.save!
     end
 
-    journal = IssueJournal.first(:order => 'id DESC')
+    journal = WorkUnitJournal.first(:order => 'id DESC')
     assert_equal i, journal.journaled
     assert journal.changed_data.has_key? "description"
     assert_equal old_description, journal.old_value_for("description")
@@ -1011,7 +1011,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_recently_updated_with_limit_scopes
     #should return the last updated issue
     assert_equal 1, Issue.recently_updated.with_limit(1).length
-    assert_equal Issue.find(:first, :order => "updated_on DESC"), Issue.recently_updated.with_limit(1).first
+    assert_equal Issue.find(:first, :order => "updated_at DESC"), Issue.recently_updated.with_limit(1).first
   end
 
   def test_on_active_projects_scope

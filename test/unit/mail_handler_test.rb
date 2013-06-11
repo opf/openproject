@@ -340,27 +340,27 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journaled
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.issue.tracker.name
+    assert_equal 'Feature request', journal.work_unit.tracker.name
   end
 
   test "reply to issue update (Journal) by message_id" do
     journal = submit_email('ticket_reply_by_message_id.eml')
-    assert journal.is_a?(IssueJournal), "Email was a #{journal.class}"
+    assert journal.is_a?(WorkUnitJournal), "Email was a #{journal.class}"
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journaled
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.issue.tracker.name
+    assert_equal 'Feature request', journal.work_unit.tracker.name
   end
 
   def test_add_issue_note_with_attribute_changes
     # This email contains: 'Status: Resolved'
     journal = submit_email('ticket_reply_with_status.eml')
-    assert journal.is_a?(Journal)
+    assert journal.is_a?(WorkUnitJournal)
     issue = Issue.find(journal.journaled.id)
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journaled
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.issue.tracker.name
+    assert_equal 'Feature request', journal.work_unit.tracker.name
     assert_equal IssueStatus.find_by_name("Resolved"), issue.status
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
@@ -382,8 +382,8 @@ class MailHandlerTest < ActiveSupport::TestCase
     journal = submit_email('ticket_reply.eml', :issue => {:tracker => 'Support request', :priority => 'High'})
     assert journal.is_a?(Journal)
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.issue.tracker.name
-    assert_equal 'Normal', journal.issue.priority.name
+    assert_equal 'Feature request', journal.work_unit.tracker.name
+    assert_equal 'Normal', journal.work_unit.priority.name
   end
 
   def test_reply_to_a_message

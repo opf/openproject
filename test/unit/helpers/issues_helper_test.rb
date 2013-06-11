@@ -42,7 +42,7 @@ class IssuesHelperTest < HelperTestCase
   context "IssuesHelper#show_detail" do
     context "with no_html" do
       should 'show a changing attribute' do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkUnitJournal.create! do |j|
           j.changed_data = {"done_ratio" => [40, 100]}
           j.journaled = FactoryGirl.create :issue
         end
@@ -50,7 +50,7 @@ class IssuesHelperTest < HelperTestCase
       end
 
       should 'show a new attribute' do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkUnitJournal.create! do |j|
           j.changed_data = {"done_ratio" => [nil, 100]}
           j.journaled = FactoryGirl.create :issue
         end
@@ -58,7 +58,7 @@ class IssuesHelperTest < HelperTestCase
       end
 
       should 'show a deleted attribute' do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkUnitJournal.create! do |j|
           j.changed_data = {"done_ratio" => [50, nil]}
           j.journaled = FactoryGirl.create :issue
         end
@@ -68,7 +68,7 @@ class IssuesHelperTest < HelperTestCase
 
     context "with html" do
       should 'show a changing attribute with HTML highlights' do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkUnitJournal.create! do |j|
           j.changed_data = {"done_ratio" => [40, 100]}
           j.journaled = FactoryGirl.create :issue
         end
@@ -81,7 +81,7 @@ class IssuesHelperTest < HelperTestCase
       end
 
       should 'show a new attribute with HTML highlights' do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkUnitJournal.create! do |j|
           j.changed_data = {"done_ratio" => [nil, 100]}
           j.journaled = FactoryGirl.create :issue
         end
@@ -93,7 +93,7 @@ class IssuesHelperTest < HelperTestCase
       end
 
       should 'show a deleted attribute with HTML highlights' do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkUnitJournal.create! do |j|
           j.changed_data = {"done_ratio" => [50, nil]}
           j.journaled = FactoryGirl.create :issue
         end
@@ -107,7 +107,7 @@ class IssuesHelperTest < HelperTestCase
 
     context "with a start_date attribute" do
       should "format the current date" do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkUnitJournal.create! do |j|
           j.changed_data = {"start_date" => ['2010-01-01', '2010-01-31']}
           j.journaled = FactoryGirl.create :issue
         end
@@ -115,7 +115,7 @@ class IssuesHelperTest < HelperTestCase
       end
 
       should "format the old date" do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkUnitJournal.create! do |j|
           j.changed_data = {"start_date" => ['2010-01-01', '2010-01-31']}
           j.journaled = FactoryGirl.create :issue
         end
@@ -125,7 +125,7 @@ class IssuesHelperTest < HelperTestCase
 
     context "with a due_date attribute" do
       should "format the current date" do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkUnitJournal.create! do |j|
           j.changed_data = {"due_date" => ['2010-01-01', '2010-01-31']}
           j.journaled = FactoryGirl.create :issue
         end
@@ -133,7 +133,7 @@ class IssuesHelperTest < HelperTestCase
       end
 
       should "format the old date" do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkUnitJournal.create! do |j|
           j.changed_data = {"due_date" => ['2010-01-01', '2010-01-31']}
           j.journaled = FactoryGirl.create :issue
         end

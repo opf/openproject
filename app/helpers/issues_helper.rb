@@ -209,8 +209,8 @@ module IssuesHelper
                   Issue.human_attribute_name(:done_ratio),
                   Issue.human_attribute_name(:estimated_hours),
                   Issue.human_attribute_name(:parent_issue),
-                  Issue.human_attribute_name(:created_on),
-                  Issue.human_attribute_name(:updated_on)
+                  Issue.human_attribute_name(:created_at),
+                  Issue.human_attribute_name(:updated_at)
                   ]
       # Export project custom fields if project is given
       # otherwise export custom fields marked as "For all projects"
@@ -236,8 +236,8 @@ module IssuesHelper
                   issue.done_ratio,
                   issue.estimated_hours.to_s.gsub('.', decimal_separator),
                   issue.parent_id,
-                  format_time(issue.created_on),
-                  format_time(issue.updated_on)
+                  format_time(issue.created_at),
+                  format_time(issue.updated_at)
                   ]
         custom_fields.each {|f| fields << show_value(issue.custom_value_for(f)) }
         fields << issue.description

@@ -18,7 +18,7 @@ class IssueCategoryTest < ActiveSupport::TestCase
     @category = FactoryGirl.create :issue_category, :project => @project
     @issue = FactoryGirl.create :issue, :category => @category
     assert_equal @issue.category, @category
-    assert_equal @category.issues, [@issue]
+    assert_equal @category.work_units, [@issue]
   end
 
   # Make sure the category was nullified on the issue

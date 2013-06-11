@@ -71,12 +71,12 @@ describe 'timelines/timelines_reportings/_reporting.api' do
 
       it 'contains a created_on element containing the reporting created_on in UTC in ISO 8601' do
         render
-        response.should have_selector('reporting created_on', :text => '2011-01-06T11:35:00Z')
+        response.should have_selector('reporting created_at', :text => '2011-01-06T11:35:00Z')
       end
 
       it 'contains an updated_on element containing the reporting updated_on in UTC in ISO 8601' do
         render
-        response.should have_selector('reporting updated_on', :text => '2011-01-07T11:35:00Z')
+        response.should have_selector('reporting updated_at', :text => '2011-01-07T11:35:00Z')
       end
     end
 

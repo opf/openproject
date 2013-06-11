@@ -28,7 +28,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
   end
 
   def test_get_new_issue_custom_field
-    get :new, :type => 'IssueCustomField'
+    get :new, :type => 'WorkUnitCustomField'
     assert_response :success
     assert_template 'new'
     assert_tag :select,
@@ -54,7 +54,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
 
   def test_post_new_list_custom_field
     assert_difference 'CustomField.count' do
-      post :new, :type => "IssueCustomField",
+      post :new, :type => "WorkUnitCustomField",
                  :custom_field => {:name => "test_post_new_list",
                                    :default_value => "",
                                    :min_length => "0",
@@ -68,8 +68,8 @@ class CustomFieldsControllerTest < ActionController::TestCase
                                    :field_format => "list",
                                    :tracker_ids => ["1", ""]}
     end
-    assert_redirected_to '/custom_fields?tab=IssueCustomField'
-    field = IssueCustomField.find_by_name('test_post_new_list')
+    assert_redirected_to '/custom_fields?tab=WorkUnitCustomField'
+    field = WorkUnitCustomField.find_by_name('test_post_new_list')
     assert_not_nil field
     assert_equal ["0.1", "0.2"], field.possible_values
     assert_equal 1, field.trackers.size
