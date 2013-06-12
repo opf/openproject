@@ -384,7 +384,7 @@ Given /^I (?:stop|pause) (?:step )?execution$/ do
   end
 end
 
-When /^(?:|I )login as (.+)?(?: with password )?(.+)?$/ do |username, password|
+When /^(?:|I )login as (.+)(?: with password (.+))?$/ do |username, password|
   username = username.gsub("\"", "")
   password = password.nil? ? "admin" : password.gsub("\"", "")
   login(username, password)
@@ -426,8 +426,10 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following trackers:$/ do |project
     tracker.position = t['position'] ? t['position'] : i
     tracker.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
     tracker.save!
-    p.trackers << tracker
-    p.save!
+    if !p.trackers.include?(tracker)
+      p.trackers << tracker
+      p.save!
+    end
   end
 end
 
