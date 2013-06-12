@@ -13,7 +13,6 @@ Feature: Groups
   @javascript
   Scenario: A click on clear removes all groups
     When I click on "Clear"
-
     Then I should not see "Week (Spent)" in columns
     And I should not see "Issue" in rows
     And I group rows by "User"
