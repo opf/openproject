@@ -24,7 +24,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </tr>
 <tr>
     <td align="right"><label for="password"><%= User.human_attribute_name :password %>:</label></td>
-    <td align="left"><%= password_field_tag 'password', nil, :autocomplete => 'off' %></td>
+    <td align="left"><%= password_field_tag 'password', nil %></td>
 </tr>
 <% if Setting.openid? %>
 <tr>
