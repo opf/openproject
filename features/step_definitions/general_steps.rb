@@ -73,9 +73,7 @@ Given /^there is 1 [Uu]ser with(?: the following)?:$/ do |table|
   login = table.rows_hash[:Login].to_s + table.rows_hash[:login].to_s
   user = User.find_by_login(login) unless login.blank?
 
-  if user
-    table = table.reject_key(/(L|l)ogin/)
-  else
+  if !user
     user = FactoryGirl.create(:user)
     user.password = user.password_confirmation = nil
   end
@@ -386,9 +384,9 @@ Given /^I (?:stop|pause) (?:step )?execution$/ do
   end
 end
 
-When /^(?:|I )login as (.+)? with password (.+)?$/ do |username, password|
+When /^(?:|I )login as (.+)(?: with password (.+))?$/ do |username, password|
   username = username.gsub("\"", "")
-  password = password.gsub("\"", "")
+  password = password.nil? ? "admin" : password.gsub("\"", "")
   login(username, password)
 end
 
@@ -397,12 +395,6 @@ Then /^I should be logged in as "([^\"]*)"?$/ do |username|
   page.should have_xpath("//div[contains(., 'Logged in as #{username}')] | //a[contains(.,'#{user.name}')]")
 
   User.current = user
-end
-
-When /^(?:|I )login as (.+)?$/ do |username|
-  steps %Q{
-    When I login as #{username} with password admin
-  }
 end
 
 When /^I satisfy the "(.+)" plugin to (.+)$/ do |plugin_name, action|
@@ -434,8 +426,10 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following trackers:$/ do |project
     tracker.position = t['position'] ? t['position'] : i
     tracker.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
     tracker.save!
-    p.trackers << tracker
-    p.save!
+    if !p.trackers.include?(tracker)
+      p.trackers << tracker
+      p.save!
+    end
   end
 end
 
