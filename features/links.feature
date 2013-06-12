@@ -35,7 +35,8 @@ Feature: Cost Reporting Linkage
     And I am already logged in as "manager"
     And I am on the Cost Reports page for the project called "Standard Project"
 
-    Then I should see "107.07" # 100 EUR (labour cost) + 7.07 EUR (words)
+    # 100 EUR (labour cost) + 7.07 EUR (words)
+    Then I should see "107.07"
     And I should not see "No data to display"
 
   @javascript
@@ -55,9 +56,8 @@ Feature: Cost Reporting Linkage
 
     When I click on "Clear"
     And I send the query
-    And I wait for Ajax
-
-    Then I should see "7.07" # 7.07 EUR (words)
+    # 7.07 EUR (words)
+    Then I should see "7.07"
     And I delete the cost entry "7.07"
     Then I should see "Successful deletion."
     And I should see "No data to display"
@@ -82,12 +82,13 @@ Feature: Cost Reporting Linkage
     And I am on the page for the issue "manager issue"
 
     Then I should see "10.00 hours"
-
     When I follow "10.00 hours"
 
     Then I should be on the Cost Reports page for the project called "Standard Project"
-    And I should see "100.00" # 10 EUR x 10 (hours)
-    And I should not see "50.00" # 10 EUR x 5 (hours)
+    # 10 EUR x 10 (hours)
+    And I should see "100.00"
+    # 10 EUR x 5 (hours)
+    And I should not see "50.00"
     And I should not see "150.00"
 
   #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/issues/issue/77
@@ -117,8 +118,10 @@ Feature: Cost Reporting Linkage
     When I follow "10.0 words"
 
     Then I should be on the Cost Reports page for the project called "Standard Project"
-    And I should see "100.00" # 10 EUR x 10 (words)
-    And I should not see "50.00" # 10 EUR x 5 (words)
+    # 10 EUR x 10 (words)
+    And I should see "100.00"
+    # 10 EUR x 5 (words)
+    And I should not see "50.00"
     And I should not see "150.00"
 
   @javascript
@@ -146,7 +149,6 @@ Feature: Cost Reporting Linkage
     And there is a standard cost control project named "Second Project"
     And I am already logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
-
     When I jump to project "Second Project"
 
     Then I should be on the cost reports page of the project called "Second Project"

@@ -15,7 +15,7 @@ Feature: Saving Queries
       | save_private_cost_reports |
     And I am already logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
-    Then I should see "Save" within "#query-icon-save-as" # Save
+    Then I should see "Save" within "#query-icon-save-as"
     And I click on "Clear"
     And I group columns by "Issue"
     And I group rows by "Project"
@@ -45,7 +45,7 @@ Feature: Saving Queries
       | save_private_cost_reports |
     And I am already logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
-    Then I should see "Save" within "#query-icon-save-as" # Save
+    Then I should see "Save" within "#query-icon-save-as"
     And I click on "Clear"
     And I group columns by "Issue"
     And I group rows by "Project"
@@ -80,7 +80,7 @@ Feature: Saving Queries
       | save_private_cost_reports |
     And I am already logged in as "testuser"
     And I am on the Cost Reports page for the project called "Permission_Test"
-    Then I should see "Save" within "#query-icon-save-as" # Save
+    Then I should see "Save"
     And I click on "Save"
     Then I should not see "Public"
     And I fill in "Testreport" for "query_name"
@@ -98,7 +98,7 @@ Feature: Saving Queries
       | save_cost_reports |
     And I am already logged in as "testuser"
     And I am on the Cost Reports page for the project called "Permission_Test"
-    Then I should see "Save" within "#query-icon-save-as" # Save
+    Then I should see "Save" within "#query-icon-save-as"
     And I click on "Save"
     Then I should see "Public"
     And I fill in "Testreport" for "query_name"
@@ -106,7 +106,7 @@ Feature: Saving Queries
     And I wait 10 seconds for Ajax
     Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
-    Then I should see "Save" within "#query-icon-save-as" # Save
+    Then I should see "Save" within "#query-icon-save-as"
     And I click on "Save Report As..."
     Then I should see "Public"
     And I check "Public"
