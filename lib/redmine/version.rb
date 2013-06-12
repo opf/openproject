@@ -12,5 +12,5 @@
 
 module Redmine
   # THIS IS A REDMINE COMPATIBILITY INTERFACE
-  VERSION = ChiliProject::VERSION
+  VERSION = OpenProject::VERSION
 end
