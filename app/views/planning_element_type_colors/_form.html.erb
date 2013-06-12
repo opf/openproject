@@ -20,7 +20,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <label for="color_name" class="hidden-for-sighted">
-    <%= Color.human_attribute_name(:name) %>
+    <%= PlanningElementTypeColor.human_attribute_name(:name) %>
   </label>
   <%= f.text_field :name %>
 </h2>
@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <p>
     <label for="color_hexcode">
-      <%= Color.human_attribute_name(:hexcode) %>
+      <%= PlanningElementTypeColor.human_attribute_name(:hexcode) %>
     </label>
     <%= icon_for_color(color, :class => 'timelines-x-update-color') %>
     <%= f.text_field :hexcode %>

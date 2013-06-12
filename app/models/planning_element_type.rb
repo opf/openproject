@@ -31,7 +31,7 @@ class PlanningElementType < ActiveRecord::Base
                                             :dependent   => :delete_all
   has_many :projects, :through => :enabled_planning_element_types
 
-  belongs_to :color, :class_name  => 'Color',
+  belongs_to :color, :class_name  => 'PlanningElementTypeColor',
                      :foreign_key => 'color_id'
 
   has_many :planning_elements, :class_name  => 'PlanningElement',
@@ -67,6 +67,6 @@ class PlanningElementType < ActiveRecord::Base
   end
 
   def available_colors
-    Color.all
+    PlanningElementTypeColor.all
   end
 end

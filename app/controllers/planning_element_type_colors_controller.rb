@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ColorsController < ApplicationController
+class PlanningElementTypeColorsController < ApplicationController
   unloadable
   helper :timelines
 
@@ -20,7 +20,7 @@ class ColorsController < ApplicationController
   layout 'admin'
 
   def index
-    @colors = Color.all
+    @colors = PlanningElementTypeColor.all
     respond_to do |format|
       format.html
       format.api
@@ -28,21 +28,21 @@ class ColorsController < ApplicationController
   end
 
   def show
-    @color = Color.find(params[:id])
+    @color = PlanningElementTypeColor.find(params[:id])
     respond_to do |format|
       format.api
     end
   end
 
   def new
-    @color = Color.new
+    @color = PlanningElementTypeColor.new
     respond_to do |format|
       format.html
     end
   end
 
   def create
-    @color = Color.new(permitted_params.color)
+    @color = PlanningElementTypeColor.new(permitted_params.color)
 
     if @color.save
       flash[:notice] = l(:notice_successful_create)
@@ -54,14 +54,14 @@ class ColorsController < ApplicationController
   end
 
   def edit
-    @color = Color.find(params[:id])
+    @color = PlanningElementTypeColor.find(params[:id])
     respond_to do |format|
       format.html
     end
   end
 
   def update
-    @color = Color.find(params[:id])
+    @color = PlanningElementTypeColor.find(params[:id])
 
     if @color.update_attributes(permitted_params.color)
       flash[:notice] = l(:notice_successful_update)
@@ -73,7 +73,7 @@ class ColorsController < ApplicationController
   end
 
   def move
-    @color = Color.find(params[:id])
+    @color = PlanningElementTypeColor.find(params[:id])
 
     if @color.update_attributes(permitted_params.color_move)
       flash[:notice] = l(:notice_successful_update)
@@ -84,14 +84,14 @@ class ColorsController < ApplicationController
   end
 
   def confirm_destroy
-    @color = Color.find(params[:id])
+    @color = PlanningElementTypeColor.find(params[:id])
     respond_to do |format|
       format.html
     end
   end
 
   def destroy
-    @color = Color.find(params[:id])
+    @color = PlanningElementTypeColor.find(params[:id])
     @color.destroy
 
     flash[:notice] = l(:notice_successful_delete)

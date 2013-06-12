@@ -9,10 +9,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Color < ActiveRecord::Base
+class PlanningElementTypeColor < ActiveRecord::Base
   unloadable
 
-  self.table_name = 'colors'
+  self.table_name = 'planning_element_type_colors'
 
   acts_as_list
   default_scope :order => 'position ASC'
