@@ -85,8 +85,14 @@ Then /^filter "([^\"]*)" should (not )?be visible$/ do |filter, negative|
   page.evaluate_script("$('tr_#{filter}').visible()") =~ /^#{bool}$/
 end
 
-Then /^(?:|I )should( not)? see "([^\"]*)" in (columns|rows)$/ do |negation, text, axis|
-  steps %Q{ Then I should#{negation} see "#{text}" within "#group_by_#{axis} span" }
+Then /^(?:|I )should not see "([^\"]*)" in (columns|rows)$/ do |text, axis|
+  page.all("fieldset#group_by_#{axis} span").each do |element|
+    element.should_not have_content(text)
+  end
+end
+
+Then /^(?:|I )should see "([^\"]*)" in (columns|rows)$/ do |text, axis|
+  page.should have_xpath(".//fieldset[@id='group_by_#{axis}']/span[contains(label,'#{text}')]")
 end
 
 Given /^I group (rows|columns) by "([^\"]*)"/ do |target, group|
