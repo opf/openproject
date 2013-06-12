@@ -125,7 +125,7 @@ Feature: Saving Queries
     And I fill in "Testreport" for "query_name"
     And I click on "Save" within "#save_as_form"
     And I should see "Testreport" within "#private_sidebar_report_list"
-    And I click on "#query_saved_name"
+    And I edit the report name in place
     And I fill in "Renamed" for "value"
     And I press "Rename" within "#query_saved_name-inplaceeditor"
     Then I should see "Renamed" within "#private_sidebar_report_list"
@@ -145,7 +145,7 @@ Feature: Saving Queries
     And I check "Public"
     And I click on "Save" within "#save_as_form"
     Then I should see "Testreport" within "#public_sidebar_report_list"
-    And I click on "#query_saved_name"
+    And I edit the report name in place
     And I fill in "Renamed" for "value"
     And I press "Rename" within "#query_saved_name-inplaceeditor"
     Then I should see "Renamed" within "#public_sidebar_report_list"

@@ -113,3 +113,6 @@ Given /^I (delete|remove) the (cost|time) entry "([^\"]*)"$/ do |method, type, n
   step %{I accept the alert dialog}
 end
 
+Given /^I edit the report name in place$/ do
+  find(:css, "#query_saved_name").click
+end
