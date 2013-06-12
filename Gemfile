@@ -72,6 +72,7 @@ group :test do
   gem "rspec-rails", "~> 2.0", :group => :development
   gem 'rspec-example_disabler', :git => 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'selenium-webdriver'
 
   gem 'rb-readline' # ruby on CI needs this
