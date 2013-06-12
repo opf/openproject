@@ -36,7 +36,7 @@ Given /^the [Uu]ser "([^\"]*)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |use
   p = u.projects.last
   i = Issue.generate_for_project!(p)
   as_admin count do
-    ce = CostEntry.spawn
+    ce = FactoryGirl.create(:cost_entry)
     ce.user = u
     ce.project = p
     ce.issue = i
