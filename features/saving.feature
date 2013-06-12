@@ -22,8 +22,7 @@ Feature: Saving Queries
     And I set the filter "user_id" to the user with the login "developer" with the operator "!"
     And I click on "Save"
     And I fill in "Testreport" for "query_name"
-    And I follow "Save" within "#save_as_form"
-    And I wait 10 seconds for Ajax
+    And I click on "Save" within "#save_as_form"
     Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
     And I should see "Issue" in columns
@@ -53,8 +52,7 @@ Feature: Saving Queries
     And I click on "Save"
     And I fill in "Testreport" for "query_name"
     And I check "Public"
-    And I follow "Save" within "#save_as_form"
-    And I wait 10 seconds for Ajax
+    And I click on "Save" within "#save_as_form"
     Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#public_sidebar_report_list"
     And I should see "Issue" in columns
@@ -84,8 +82,7 @@ Feature: Saving Queries
     And I click on "Save"
     Then I should not see "Public"
     And I fill in "Testreport" for "query_name"
-    And I follow "Save" within "#save_as_form"
-    And I wait 10 seconds for Ajax
+    And I click on "Save" within "#save_as_form"
     Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
 
@@ -102,8 +99,7 @@ Feature: Saving Queries
     And I click on "Save"
     Then I should see "Public"
     And I fill in "Testreport" for "query_name"
-    And I follow "Save" within "#save_as_form"
-    And I wait 10 seconds for Ajax
+    And I click on "Save" within "#save_as_form"
     Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
     Then I should see "Save" within "#query-icon-save-as"
@@ -127,8 +123,7 @@ Feature: Saving Queries
     And I am on the Cost Reports page for the project called "Permission_Test"
     And I click on "Save"
     And I fill in "Testreport" for "query_name"
-    And I follow "Save" within "#save_as_form"
-    And I wait 10 seconds for Ajax
+    And I click on "Save" within "#save_as_form"
     And I should see "Testreport" within "#private_sidebar_report_list"
     And I click on "#query_saved_name"
     And I fill in "Renamed" for "value"
@@ -148,8 +143,7 @@ Feature: Saving Queries
     And I click on "Save"
     And I fill in "Testreport" for "query_name"
     And I check "Public"
-    And I follow "Save" within "#save_as_form"
-    And I wait 10 seconds for Ajax
+    And I click on "Save" within "#save_as_form"
     Then I should see "Testreport" within "#public_sidebar_report_list"
     And I click on "#query_saved_name"
     And I fill in "Renamed" for "value"
