@@ -73,9 +73,7 @@ Given /^there is 1 [Uu]ser with(?: the following)?:$/ do |table|
   login = table.rows_hash[:Login].to_s + table.rows_hash[:login].to_s
   user = User.find_by_login(login) unless login.blank?
 
-  if user
-    table = table.reject_key(/(L|l)ogin/)
-  else
+  if !user
     user = FactoryGirl.create(:user)
     user.password = user.password_confirmation = nil
   end
