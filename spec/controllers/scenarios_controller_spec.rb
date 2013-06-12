@@ -11,7 +11,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe TimelinesScenariosController do
+describe ScenariosController do
   describe 'index.xml' do
     describe 'w/o a given project' do
       it 'renders a 404 Not Found page' do

@@ -11,7 +11,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe TimelinesPlanningElementJournalsController do
+describe PlanningElementJournalsController do
   let(:project) { FactoryGirl.create(:project, :is_public => false) }
 
   describe 'index.xml' do

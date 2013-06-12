@@ -11,7 +11,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe TimelinesReportedProjectStatusesController do
+describe ReportedProjectStatusesController do
 
   let(:valid_user) { FactoryGirl.create(:user) }
   let(:available_reported_project_status) do

@@ -11,7 +11,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe TimelinesPlanningElementTypesController do
+describe PlanningElementTypesController do
   let (:current_user) { FactoryGirl.create(:admin) }
 
   before do

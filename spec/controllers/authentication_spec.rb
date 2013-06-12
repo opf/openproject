@@ -11,7 +11,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe TimelinesAuthenticationController do
+describe AuthenticationController do
   describe 'index.html' do
     def fetch
       get 'index'
