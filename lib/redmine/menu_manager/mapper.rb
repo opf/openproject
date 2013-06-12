@@ -32,10 +32,13 @@ class Redmine::MenuManager::Mapper
   #   eg. :children => Proc.new {|project| [Redmine::MenuManager::MenuItem.new(...)] }
   # * last: menu item will stay at the end (eg. :last => true)
   # * html_options: a hash of html options that are passed to link_to
-  def push(name, url_or_block = nil, options={})
+  def push(name, content = nil, options={})
     options = options.dup
 
-    new_node = Redmine::MenuManager::MenuItem.new(name, url_or_block, options)
+    node_granter = granter(content, options)
+    node_content = content(content, options)
+
+    new_node = Redmine::MenuManager::MenuItem.new(name, node_content, node_granter)
 
     add(new_node, options)
   end
@@ -65,6 +68,14 @@ class Redmine::MenuManager::Mapper
   end
 
   private
+
+  def granter(content, options)
+    Redmine::MenuManager::Granter::Factory.build(content, options)
+  end
+
+  def content(content, options)
+    Redmine::MenuManager::Content::Factory.build(content, options)
+  end
 
   def find_target_root(parent_name)
     if parent_name

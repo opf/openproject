@@ -33,7 +33,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     if url_or_block.respond_to?(:call)
       @block = url_or_block
     else
-      @block = Redmine::MenuManager::UrlAggregator.new(url_or_block, options)
+      @block = Redmine::MenuManager::LinkContent.new(url_or_block, options)
     end
 
     super @name.to_sym
