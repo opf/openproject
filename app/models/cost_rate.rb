@@ -21,6 +21,6 @@ class CostRate < Rate
   private
 
   def change_of_cost_type_only_on_first_creation
-    errors.add :cost_type_id, :activerecord_error_invalid if cost_type_id_changed? && ! self.new_record?
+    errors.add :cost_type_id, :invalid if cost_type_id_changed? && ! self.new_record?
   end
 end

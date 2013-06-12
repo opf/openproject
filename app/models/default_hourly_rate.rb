@@ -33,11 +33,11 @@ class DefaultHourlyRate < Rate
 
   def change_of_user_only_on_first_creation
     # Only allow change of user on first creation
-    errors.add :user_id, :activerecord_error_invalid if !self.new_record? and user_id_changed?
+    errors.add :user_id, :invalid if !self.new_record? and user_id_changed?
     begin
       valid_from.to_date
     rescue Exception
-      errors.add :valid_from, :activerecord_error_invalid
+      errors.add :valid_from, :invalid
     end
   end
 end

@@ -61,7 +61,7 @@ class HourlyRate < Rate
     # Only allow change of project and user on first creation
     return if self.new_record?
 
-    errors.add :project_id, :activerecord_error_invalid if project_id_changed?
-    errors.add :user_id, :activerecord_error_invalid if user_id_changed?
+    errors.add :project_id, :invalid if project_id_changed?
+    errors.add :user_id, :invalid if user_id_changed?
   end
 end
