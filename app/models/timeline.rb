@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 class Timeline < ActiveRecord::Base
   class Empty
     attr_accessor :id, :name
@@ -57,7 +68,7 @@ class Timeline < ActiveRecord::Base
     "planning_element_responsibles",
     "planning_element_types",
     "planning_element_time_types",
-    "planning_element_time_absolute_one", 
+    "planning_element_time_absolute_one",
     "planning_element_time_absolute_two",
     "planning_element_time_relative_one",
     "planning_element_time_relative_two",
@@ -172,7 +183,7 @@ class Timeline < ActiveRecord::Base
     resolve_with_none_element(:planning_element_time_types) do |ary|
       Timelines::PlanningElementType.find(ary)
     end
-  end  
+  end
 
   def available_project_types
     ProjectType.find(:all)
