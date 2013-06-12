@@ -19,6 +19,7 @@ require 'coveralls'
 require 'simplecov_openproject_profile'
 Coveralls.wear_merged!('openproject')
 require 'cucumber/rails'
+require 'capybara-screenshot/cucumber'
 
 # Load paths to ensure they are loaded before the plugin's paths.rbs.
 # Plugin's path_to functions rely on being loaded after the core's path_to
