@@ -62,23 +62,28 @@ class MyController < ApplicationController
 
   # Manage user's password
   def password
-    @user = User.current
-    unless @user.change_password_allowed?
-      flash[:error] = l(:notice_can_t_change_password)
-      redirect_to :action => 'account'
-      return
-    end
-    if request.post?
-      if @user.check_password?(params[:password])
-        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
-        if @user.save
-          flash[:notice] = l(:notice_account_password_updated)
-          redirect_to :action => 'account'
-        end
-      else
-        flash[:error] = l(:notice_account_wrong_password)
+    @user = User.current  # required by "my" layout
+    @username = params[:username]
+    redirect_if_password_change_not_allowed_for(@user)
+  end
+
+  # When making changes here, also check AccountController.change_password
+  def change_password
+    @user = User.current  # required by "my" layout
+    return if redirect_if_password_change_not_allowed_for(@user)
+    if @user.check_password?(params[:password])
+      @user.password = params[:new_password]
+      @user.password_confirmation = params[:new_password_confirmation]
+      @user.force_password_change = false
+      if @user.save
+        flash[:notice] = l(:notice_account_password_updated)
+        redirect_to :action => 'account'
+        return
       end
+    else
+      flash.now[:error] = l(:notice_account_wrong_password)
     end
+    render 'my/password'
   end
 
   def first_login
@@ -183,5 +188,15 @@ class MyController < ApplicationController
 
   def default_breadcrumb
     l(:label_my_account)
+  end
+
+  private
+  def redirect_if_password_change_not_allowed_for(user)
+    unless user.change_password_allowed?
+      flash[:error] = l(:notice_can_t_change_password)
+      redirect_to :action => 'account'
+      return true
+    end
+    false
   end
 end

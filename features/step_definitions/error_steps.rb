@@ -18,3 +18,12 @@ end
 Then /^I should see an error explanation stating "([^"]*)"$/ do |message|
   page.all(:css, ".errorExplanation li, .errorExplanation li *", :text => message).should_not be_empty
 end
+
+Then /^there should be a flash error message$/ do
+  should have_selector('.flash.error')
+end
+
+Then /^there should be a flash notice message$/ do
+  should have_selector('.flash.notice')
+end
+

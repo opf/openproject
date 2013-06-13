@@ -103,6 +103,7 @@ en:
         mail_notification: "Email notifications"
         new_password: "New password"
         password_confirmation: "Confirmation"
+        force_password_change: "Enforce password change on next login"
       user_preference:
         comments_sorting: "Display comments"
         hide_mail: "Hide my email address"
@@ -963,6 +964,7 @@ en:
   notice_account_inactive: "Your account has not yet been activated. To activate your account, click on the link that was emailed to you."
   notice_account_invalid_creditentials: "Invalid user or password"
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
+  notice_account_new_password_forced: "A new password is required."
   notice_account_password_updated: "Password was successfully updated."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_account_register_done: "Account was successfully created. To activate your account, click on the link that was emailed to you."

@@ -79,35 +79,6 @@ class MyControllerTest < ActionController::TestCase
     assert user.groups.empty?
   end
 
-  def test_change_password
-    get :password
-    assert_response :success
-    assert_template 'password'
-
-    # non matching password confirmation
-    post :password, :password => 'jsmith',
-                    :new_password => 'hello',
-                    :new_password_confirmation => 'hello2'
-    assert_response :success
-    assert_template 'password'
-    assert_tag :tag => "div", :attributes => { :class => "errorExplanation" }
-
-    # wrong password
-    post :password, :password => 'wrongpassword',
-                    :new_password => 'hello',
-                    :new_password_confirmation => 'hello'
-    assert_response :success
-    assert_template 'password'
-    assert_equal 'Wrong password', flash[:error]
-
-    # good password
-    post :password, :password => 'jsmith',
-                    :new_password => 'newpassPASS!',
-                    :new_password_confirmation => 'newpassPASS!'
-    assert_redirected_to '/my/account'
-    assert User.try_to_login('jsmith', 'newpassPASS!')
-  end
-
   def test_page_layout
     get :page_layout
     assert_response :success
