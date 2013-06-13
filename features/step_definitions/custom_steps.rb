@@ -2,6 +2,9 @@ Given /^there is a standard permission test project named "([^\"]*)"$/ do |name|
   steps %Q{
     Given there is 1 project with the following:
       | Name | #{name}           |
+    And the project "#{name}" has the following trackers:
+      | name | position |
+      | Bug  |     1    |
     And the project "#{name}" has 1 issue with:
       | subject | #{name}issue   |
       And there is a role "Testuser"
@@ -82,8 +85,14 @@ Then /^filter "([^\"]*)" should (not )?be visible$/ do |filter, negative|
   page.evaluate_script("$('tr_#{filter}').visible()") =~ /^#{bool}$/
 end
 
-Then /^(?:|I )should( not)? see "([^\"]*)" in (columns|rows)$/ do |negation, text, axis|
-  steps %Q{ Then I should#{negation} see "#{text}" within "#group_by_#{axis} span" }
+Then /^(?:|I )should not see "([^\"]*)" in (columns|rows)$/ do |text, axis|
+  page.all("fieldset#group_by_#{axis} span").each do |element|
+    element.should_not have_content(text)
+  end
+end
+
+Then /^(?:|I )should see "([^\"]*)" in (columns|rows)$/ do |text, axis|
+  page.should have_xpath(".//fieldset[@id='group_by_#{axis}']/span[contains(label,'#{text}')]")
 end
 
 Given /^I group (rows|columns) by "([^\"]*)"/ do |target, group|
@@ -104,3 +113,6 @@ Given /^I (delete|remove) the (cost|time) entry "([^\"]*)"$/ do |method, type, n
   step %{I accept the alert dialog}
 end
 
+Given /^I edit the report name in place$/ do
+  find(:css, "#query_saved_name").click
+end
