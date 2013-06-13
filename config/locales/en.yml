@@ -16,8 +16,8 @@ en:
       cost_object: Budget
       rate: Rate
       cost_type:
-        one: "Cost Type"
-        other: "Cost Types"
+        one: "Cost type"
+        other: "Cost types"
       material_budget_item: Unit
     attributes:
       cost_object:

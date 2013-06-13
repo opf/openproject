@@ -12,7 +12,7 @@ class CostEntry < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
   validates_presence_of :issue_id, :project_id, :user_id, :cost_type_id, :units, :spent_on
-  validates_numericality_of :units, :allow_nil => false, :message => :activerecord_error_invalid
+  validates_numericality_of :units, :allow_nil => false, :message => :invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 
   before_save :before_save
@@ -53,16 +53,16 @@ class CostEntry < ActiveRecord::Base
   end
 
   def validate
-    errors.add :units, :activerecord_error_invalid if units && (units < 0)
-    errors.add :project_id, :activerecord_error_invalid if project.nil?
-    errors.add :issue_id, :activerecord_error_invalid if issue.nil? || (project != issue.project)
-    errors.add :cost_type_id, :activerecord_error_invalid if cost_type.present? && cost_type.deleted_at.present?
-    errors.add :user_id, :activerecord_error_invalid if project.present? && !project.users.include?(user) && user_id_changed?
+    errors.add :units, :invalid if units && (units < 0)
+    errors.add :project_id, :invalid if project.nil?
+    errors.add :issue_id, :invalid if issue.nil? || (project != issue.project)
+    errors.add :cost_type_id, :invalid if cost_type.present? && cost_type.deleted_at.present?
+    errors.add :user_id, :invalid if project.present? && !project.users.include?(user) && user_id_changed?
 
     begin
       spent_on.to_date
     rescue Exception
-      errors.add :spent_on, :activerecord_error_invalid
+      errors.add :spent_on, :invalid
     end
   end
 

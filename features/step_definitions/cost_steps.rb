@@ -10,14 +10,12 @@ end
 
 Given /^there (?:is|are) (\d+) (default )?hourly rate[s]? with the following:$/ do |num, is_default, table|
   if is_default
-    hr = DefaultHourlyRate.spawn
+    hr = FactoryGirl.create(:default_hourly_rate)
   else
-    hr = HourlyRate.spawn
+    hr = FactoryGirl.create(:hourly_rate)
   end
   send_table_to_object(hr, table, {
     :user => Proc.new do |rate, value|
-      rate.save!
-      rate.reload
       unless rate.project.nil? || User.find_by_login(value).projects.include?(rate.project)
         Rate.update_all({ :project_id =>  User.find_by_login(value).projects(:order => "id ASC").last.id },
                         { :id => rate.id })
@@ -38,7 +36,7 @@ Given /^the [Uu]ser "([^\"]*)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |use
   p = u.projects.last
   i = Issue.generate_for_project!(p)
   as_admin count do
-    ce = CostEntry.spawn
+    ce = FactoryGirl.create(:cost_entry)
     ce.user = u
     ce.project = p
     ce.issue = i
