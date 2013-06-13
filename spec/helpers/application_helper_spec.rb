@@ -26,5 +26,10 @@ describe ApplicationHelper do
       format_activity_description(text).should == text_html
       format_activity_description(text).html_safe?.should be_true
     end
+
+    it "escapes potentially harmful code" do
+      text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
+      format_activity_description(text).include?("lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;").should be_true
+    end
   end
 end
