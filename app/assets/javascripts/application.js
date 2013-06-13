@@ -459,30 +459,32 @@ var WarnLeavingUnsaved = Class.create({
  * CVE-2011-0447
  * 2 - shows and hides ajax indicator
  */
-Ajax.Responders.register({
+document.observe("dom:loaded", function() {
+  Ajax.Responders.register({
     onCreate: function(request){
-        var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
+      var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
 
-        if (csrf_meta_tag) {
-            var header = 'X-CSRF-Token',
-                token = csrf_meta_tag.readAttribute('content');
+      if (csrf_meta_tag) {
+        var header = 'X-CSRF-Token',
+        token = csrf_meta_tag.readAttribute('content');
 
-            if (!request.options.requestHeaders) {
-              request.options.requestHeaders = {};
-            }
-            request.options.requestHeaders[header] = token;
-          }
-
-        if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
-            Element.show('ajax-indicator');
+        if (!request.options.requestHeaders) {
+          request.options.requestHeaders = {};
         }
+        request.options.requestHeaders[header] = token;
+      }
+
+      if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
+        Element.show('ajax-indicator');
+      }
     },
     onComplete: function(){
-        if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
-            Element.hide('ajax-indicator');
-        }
-        addClickEventToAllErrorMessages();
+      if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
+        Element.hide('ajax-indicator');
+      }
+      addClickEventToAllErrorMessages();
     }
+  });
 });
 
 function hideOnLoad() {
