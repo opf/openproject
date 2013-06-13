@@ -153,8 +153,36 @@ module Redmine #:nodoc:
       self.id.to_s <=> plugin.id.to_s
     end
 
+    # Sets a requirement on the OpenProject version.
+    # Raises a PluginRequirementError exception if the requirement is not met.
+    #
+    # It uses the same syntax as rubygems requirements.
+    # Examples
+    #   # Requires exactly OpenProject 1.1.1
+    #   requires_openproject "1.1.1"
+    #   requires_openproject "= 1.1.1"
+
+    #   # Requires OpenProject 1.1.x
+    #   requires_openproject "~> 1.1.0"
+
+    #   # Requires OpenProject between 1.1.0 and 1.1.5 or higher
+    #   requires_openproject ">= 1.1.0", "<= 1.1.5"
+
+    def requires_openproject(*args)
+      required_version = Gem::Requirement.new(*args)
+      op_version = Gem::Version.new(OpenProject::VERSION.to_semver)
+
+      unless required_version.satisfied_by? op_version
+        raise PluginRequirementError.new("#{id} plugin requires OpenProject version #{required_version} but current version is #{op_version}.")
+      end
+      true
+    end
+
     # Sets a requirement on the ChiliProject version.
     # Raises a PluginRequirementError exception if the requirement is not met.
+    #
+    # THIS IS A CHILIPROJECT COMPATIBILITY INTERFACE AND
+    # SHOULD BE REMOVED ONCE WE HAVE MOVED EVERYTHING TO OPENPROJECT NAMESPACE
     #
     # It uses the same syntax as rubygems requirements.
     # Examples
