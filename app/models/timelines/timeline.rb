@@ -68,7 +68,7 @@ class Timelines::Timeline < ActiveRecord::Base
     "planning_element_responsibles",
     "planning_element_types",
     "planning_element_time_types",
-    "planning_element_time_absolute_one", 
+    "planning_element_time_absolute_one",
     "planning_element_time_absolute_two",
     "planning_element_time_relative_one",
     "planning_element_time_relative_two",
@@ -183,7 +183,7 @@ class Timelines::Timeline < ActiveRecord::Base
     resolve_with_none_element(:planning_element_time_types) do |ary|
       Timelines::PlanningElementType.find(ary)
     end
-  end  
+  end
 
   def available_project_types
     Timelines::ProjectType.find(:all)
@@ -206,7 +206,7 @@ class Timelines::Timeline < ActiveRecord::Base
   end
 
   def available_responsibles
-    User.find(:all).sort_by(&:name)
+    User.active_or_registered.all.sort_by(&:name)
   end
 
   def selected_project_responsibles
