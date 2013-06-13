@@ -14,7 +14,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%=l(:label_register)%> <%=link_to l(:label_login_with_open_id_option), signin_url if Setting.openid? %></h2>
 
-<%= form_tag({:action => 'register'}, :class => "tabular") do %>
+<%= form_tag({:action => 'register'},
+             :class => "tabular") do %>
 <%= error_messages_for 'user' %>
 
 <div class="box">
@@ -24,11 +25,17 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= text_field 'user', 'login', :size => 25 %></p>
 
 <p><label for="user_password"><%= User.human_attribute_name :password %> <span class="required">*</span></label>
-<%= password_field 'user', 'password', :size => 25  %><br />
+<%= password_field 'user',
+                   'password',
+                   :size => 25,
+                   :autocomplete => 'off' %><br />
 <%= password_complexity_requirements %></p>
 
 <p><label for="user_password_confirmation"><%= User.human_attribute_name :password_confirmation %> <span class="required">*</span></label>
-<%= password_field 'user', 'password_confirmation', :size => 25  %></p>
+<%= password_field 'user',
+                   'password_confirmation',
+                   :size => 25,
+                   :autocomplete => 'off'  %></p>
 <% end %>
 
 <p><label for="user_firstname"><%= User.human_attribute_name :firstname %> <span class="required">*</span></label>

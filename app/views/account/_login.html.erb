@@ -11,7 +11,8 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div id="nav-login-content">
-  <%= form_tag({:controller => '/account', :action=> "login"}) do %>
+  <%= form_tag({:controller => '/account', :action=> "login"},
+               :autocomplete => 'off') do %>
     <%= back_url_to_current_page_hidden_field_tag %>
     <table>
       <tr>
@@ -20,7 +21,9 @@ See doc/COPYRIGHT.rdoc for more details.
       </tr>
       <tr>
         <td><%= text_field_tag 'username', nil, :id => 'username-pulldown' %></td>
-        <td><%= password_field_tag 'password', nil, :id => 'password-pulldown' %></td>
+        <td><%= password_field_tag 'password',
+                                   nil,
+                                   :id => 'password-pulldown' %></td>
         <td><input type="submit" name="login" value="<%=l(:button_login)%>" /></td>
       </tr>
     </table>

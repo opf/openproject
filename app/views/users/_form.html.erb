@@ -42,9 +42,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {Element.show('password_fields');} else {Element.hide('password_fields');}" %></p>
 <% end %>
 <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
-<p><%= f.password_field :password, :required => true, :size => 25, :autocomplete => :off %><br />
+<p><%= f.password_field :password, :required => true, :size => 25 %><br />
 <%= password_complexity_requirements %></p>
-<p><%= f.password_field :password_confirmation, :required => true, :size => 25, :autocomplete => :off %></p>
+<p><%= f.password_field :password_confirmation, :required => true, :size => 25 %></p>
 </div>
 </div>
 
