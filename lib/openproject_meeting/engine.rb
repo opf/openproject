@@ -54,8 +54,7 @@ module MeetingsPlugin
           description spec.description
           version spec.version
 
-          # This plugin actually requires chiliproject 2.0 or higher…
-          requires_redmine :version_or_higher => '1.0'
+          requires_openproject ">= 3.0.0beta1"
 
           project_module :meetings do
             permission :create_meetings, {:meetings => [:new, :create, :copy]}, :require => :member
