@@ -31,10 +31,7 @@ module OpenProject::Costs::Patches::IssuePatch
         @spent_hours ||= self.time_entries.visible(User.current).sum(:hours) || 0
       end
 
-      if Redmine::VERSION::MAJOR >= 1
-      #chili 1.1.0 uses safe_attributes. Hence we must proclaim cost_object safe
-        safe_attributes "cost_object_id"
-      end
+      safe_attributes "cost_object_id"
     end
   end
 
