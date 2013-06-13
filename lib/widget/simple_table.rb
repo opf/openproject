@@ -21,7 +21,7 @@ class Widget::Table::SimpleTable < Widget::Table
         @list.each do |field|
           concat content_tag(:th, :class => "right") { label_for(field) }
         end
-        concat content_tag(:th, :class => "right") { label_for(:field_units) } if @show_units
+        concat content_tag(:th, :class => "right") { label_for(:units) } if @show_units
         concat content_tag(:th, :class => "right") { label_for(:label_sum) }
       end
     end

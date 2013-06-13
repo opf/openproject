@@ -19,9 +19,19 @@ module ReportingHelper
   end
 
   def label_for(field)
-    name = field.to_s.camelcase
-    return l(field) unless CostQuery::Filter.const_defined? name
-    l(CostQuery::Filter.const_get(name).label)
+    name = field.to_s
+    if name.starts_with?("label")
+      return I18n.t(field)
+    end
+    name = name.camelcase
+    if CostQuery::Filter.const_defined? name
+      CostQuery::Filter.const_get(name).label
+    else
+      #note that using Issue.human_attribute_name relies on the attribute
+      #being an issue attribute or a general attribute for all models whicht might not
+      #be the case but so far I have only seen the "comments" attribute in reports
+      Issue.human_attribute_name(field)
+    end
   end
 
   def debug_fields(result, prefix = ", ")
