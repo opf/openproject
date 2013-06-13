@@ -176,7 +176,6 @@ class TimeEntries::ReportsController < ApplicationController
                                            :label => :label_activity},
                              'work_unit' => {:sql => "#{TimeEntry.table_name}.work_unit_id",
                                          :klass => WorkUnit,
-                                         :label => WorkUnit.model_name.human}
                            }
 
     # Add list and boolean custom fields as available criterias
@@ -207,11 +206,7 @@ class TimeEntries::ReportsController < ApplicationController
 
   def time_report_joins
     sql = ''
-<<<<<<< HEAD
-    sql << " LEFT JOIN #{Issue.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
-=======
     sql << " LEFT JOIN #{WorkUnit.table_name} ON #{TimeEntry.table_name}.work_unit_id = #{WorkUnit.table_name}.id"
->>>>>>> 21b29ed... Use WorkUnit class
     sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
     # TODO: rename hook
     call_hook(:controller_timelog_time_report_joins, {:sql => sql} )
