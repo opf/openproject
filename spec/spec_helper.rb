@@ -10,6 +10,7 @@
 #++
 
 require 'rubygems'
+require 'pp'
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
@@ -60,6 +61,34 @@ RSpec.configure do |config|
 
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
+
+  config.after(:each) do
+    # Using the hacky way of getting current_user to avoid under the hood creation of AnonymousUser
+    unless User.instance_variable_get(:@current_user).nil?
+      warn <<-DOC
+
+              ============================================================================================
+              #{ example.full_description }
+              ============================================================================================
+              This spec leaves User.current in an unclean state, creating a dependency to other specs.
+
+              It sets User.current to a value other than User.anonymous but does not clean up after the
+              spec is run. User.current saves this value in an instance variable of the User class.
+              This class instance variable is not removed between tests.
+
+              So please go ahead and set User.current to nil afterwards.
+              ============================================================================================
+
+              #{ example.metadata[:caller].join("\n              ") }
+
+              ============================================================================================
+
+
+      DOC
+
+      User.current = nil
+    end
+  end
 
   config.after(:suite) do
     [User, Project, Issue].each do |cls|
