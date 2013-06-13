@@ -12,8 +12,7 @@
 class ScenarioDisabler
   def self.empty_if_disabled(scenario)
     if self.disabled?(scenario)
-      step_collection = scenario.instance_variable_get(:@steps)
-      step_collection.instance_variable_set(:@steps, [])
+      scenario.instance_variable_set(:@steps,::Cucumber::Ast::StepCollection.new([]))
 
       true
     else
