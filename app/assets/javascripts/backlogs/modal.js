@@ -84,9 +84,7 @@ var Backlogs = (function () {
 
   ModalLink = Class.create({
     initialize : function (element) {
-      // setTimeout to please IE7. Otherwise, the element might not be there
-      // yet.
-      setTimeout(this.observeMouseOver.bind(this, element), 100);
+      this.observeMouseOver(element);
     },
 
     observeMouseOver : function (element) {
