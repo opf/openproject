@@ -11,7 +11,7 @@ class Widget::Table::SortableInit < Widget::Base
         content << %Q{ if (table_date_header.childElements().size() > 0) {
             ts_resortTable(table_date_header.childElements().first(), table_date_header.cellIndex);
           }
-        }
+        }.html_safe
       end
       content << "//]]>"
     end.html_safe)
