@@ -91,7 +91,7 @@ module OpenProject::Backlogs
 
           version OpenProject::Backlogs::VERSION
 
-          #requires_redmine_plugin 'chiliproject_nissue', '1.0.0'
+          requires_openproject ">= 3.0.0beta1"
 
           Redmine::AccessControl.permission(:edit_project).actions << "projects/project_issue_statuses"
           Redmine::AccessControl.permission(:edit_project).actions << "projects/rebuild_positions"
