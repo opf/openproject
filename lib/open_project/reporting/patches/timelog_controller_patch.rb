@@ -47,10 +47,7 @@ module OpenProject::Reporting::Patches::TimelogControllerPatch
       filters[:values][:project_id] = [@project.id.to_s]
       respond_to do |format|
         format.html {
-          # TODO: refactor reporting_engine/this plugin to have a CostQuery in costs
-          # session[::CostQuery.name.underscore.to_sym] = { :filters => filters, :groups => {:rows => [], :columns => []} }
-          # this was the original line, have to set something for now
-          session[:costs_query] = { :filters => filters, :groups => {:rows => [], :columns => []} }
+          session[::CostQuery.name.underscore.to_sym] = { :filters => filters, :groups => {:rows => [], :columns => []} }
 
           redirect_to :controller => "/cost_reports", :action => "index", :project_id => @project, :unit => -1
         }
