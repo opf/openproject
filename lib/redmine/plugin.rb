@@ -197,6 +197,7 @@ module Redmine #:nodoc:
     #   requires_chiliproject ">= 1.1.0", "<= 1.1.5"
 
     def requires_chiliproject(*args)
+      ActiveSupport::Deprecation.warn "requires_chiliproject() is deprecated and will be removed, use requires_openproject() instead.", caller
       required_version = Gem::Requirement.new(*args)
       chili_version = Gem::Version.new(ChiliProject::VERSION.to_semver)
 
@@ -220,6 +221,7 @@ module Redmine #:nodoc:
     #   requires_redmine :version => '0.7.3'              # 0.7.3 only
     #   requires_redmine :version => ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
     def requires_redmine(arg)
+      ActiveSupport::Deprecation.warn "requires_redmine() is deprecated and will be removed, use requires_openproject() instead.", caller
       arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
       arg.assert_valid_keys(:version, :version_or_higher)
 
