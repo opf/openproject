@@ -50,7 +50,7 @@ if (typeof []._reverse == 'undefined') {
 }
 
 jQuery(document).ajaxError(function(event, request, settings) {
-  if (request.status === 403 && /Reason: login needed/.match(request.getAllResponseHeaders())) {
+  if (request.status === 401 && /Reason: login needed/.match(request.getAllResponseHeaders())) {
     if (confirm(I18n.t("js.logoff") + "\r\n" + I18n.t("js.redirect_login"))) {
       location.href = openProject.loginUrl + "?back_url=" + encodeURIComponent(location.href);
     }
