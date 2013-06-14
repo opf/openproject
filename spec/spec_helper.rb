@@ -63,31 +63,7 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
 
   config.after(:each) do
-    # Using the hacky way of getting current_user to avoid under the hood creation of AnonymousUser
-    unless User.instance_variable_get(:@current_user).nil?
-      warn <<-DOC
-
-              ============================================================================================
-              #{ example.full_description }
-              ============================================================================================
-              This spec leaves User.current in an unclean state, creating a dependency to other specs.
-
-              It sets User.current to a value other than User.anonymous but does not clean up after the
-              spec is run. User.current saves this value in an instance variable of the User class.
-              This class instance variable is not removed between tests.
-
-              So please go ahead and set User.current to nil afterwards.
-              ============================================================================================
-
-              #{ example.metadata[:caller].join("\n              ") }
-
-              ============================================================================================
-
-
-      DOC
-
-      User.current = nil
-    end
+    OpenProject::RSpecLazinessWarn.warn_if_user_current_set(example)
   end
 
   config.after(:suite) do
@@ -104,4 +80,69 @@ Rails.application.config.plugins_to_test_paths.each do |dir|
     puts 'Loading ' + disable_specs_file
     require disable_specs_file
   end
+end
+
+module OpenProject::RSpecLazinessWarn
+
+  def self.warn_if_user_current_set(example)
+    # Using the hacky way of getting current_user to avoid under the hood creation of AnonymousUser
+    # which might break other tests and at least leaves this user in the db after the test is run.
+    unless User.instance_variable_get(:@current_user).nil?
+
+      # we only want an abbreviated_stacktrace because the logfiles
+      # might otherwise not be capable to show all the warnings.
+      # Thus we only take the callers that are part of the user code.
+      file_roots = Rails::Application::Railties.engines.map { |e| e.root.to_s } << Rails.root.to_s
+      abbreviated_stacktrace = example.metadata[:caller].select { |s| file_roots.any?{ |root| s.include?(root) } }
+
+      # we only want to show the more verbose warning once
+      if self.warned
+        warn <<-DOC
+
+              ============================================================================================
+              #{ example.full_description }
+              ============================================================================================
+              This spec also leaves User.current in an unclean state.
+              ============================================================================================
+              #{ abbreviated_stacktrace.join("\n              ") }
+              ============================================================================================
+        DOC
+      else
+        warn <<-DOC
+
+                ============================================================================================
+                #{ example.full_description }
+                ============================================================================================
+                This spec leaves User.current in an unclean state, creating a dependency to other specs.
+
+                It sets User.current to a value other than User.anonymous but does not clean up after the
+                spec is run. User.current saves this value in an instance variable of the User class.
+                This class instance variable is not removed between tests.
+
+                So please go ahead and set User.current to nil afterwards.
+                ============================================================================================
+
+                Abbreviated stacktrace:
+
+                #{ abbreviated_stacktrace.join("\n              ") }
+
+                ============================================================================================
+
+
+        DOC
+
+        self.warned = true
+      end
+
+      User.current = nil
+    end
+  end
+
+
+  protected
+
+  class << self
+    attr_accessor :warned
+  end
+
 end
