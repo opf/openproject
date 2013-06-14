@@ -503,6 +503,8 @@ de:
   gui_validation_error_plural: "%{count} Fehler"
 
   js:
+    logoff: Sie wurden ausgeloggt.
+    redirect_login: Wollen sie auf die Loginseite weitergeleitet werden?
     ajax:
       hide: "Verbergen"
       loading: "Lädt ..."

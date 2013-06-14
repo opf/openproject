@@ -413,3 +413,11 @@ See http://www.elabs.se/blog/53-why-wait_until-was-removed-from-capybara
     end
   Timeout.timeout(seconds, &block)
 end
+
+When /^I confirm popups$/ do
+  page.driver.browser.switch_to.alert.accept    
+end
+
+Then(/^I should see a confirm dialog$/) do
+  page.should have_selector("#confirm_dialog")
+end

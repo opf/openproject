@@ -26,6 +26,16 @@ Before do |scenario|
   end
 end
 
+When(/^I log out in the background$/) do
+  page.execute_script("jQuery.ajax('/logout', {
+    success: function () {
+      jQuery(document.body).addClass('logout-ajax')
+    }
+  })")
+
+  page.should have_selector("body.logout-ajax")
+end
+
 Given /^(?:|I )am not logged in$/ do
   User.current = AnonymousUser.first
 end

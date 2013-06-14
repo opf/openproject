@@ -1095,7 +1095,8 @@ module ApplicationHelper
     tags = ''
     tags += javascript_tag(%Q{
       window.openProject = new OpenProject({
-        urlRoot : '#{Redmine::Utils.relative_url_root}'
+        urlRoot : '#{Redmine::Utils.relative_url_root}',
+        loginUrl: '#{url_for :controller => "/account", :action => "login"}'
       });
     })
     unless User.current.pref.warn_on_leaving_unsaved == '0'
