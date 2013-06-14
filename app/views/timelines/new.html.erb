@@ -18,7 +18,7 @@ See doc/COPYRIGHT.rdoc for more details.
             :url => project_path(@project),
             :html => {:class => "tabular", :method => 'post'}) do |f| %>
 
-  <%= render(:partial => "timelines/timelines/form",
+  <%= render(:partial => "timelines/form",
              :locals => {:f => f, :timeline => @timeline}) %>
 
   <%= f.submit l(:button_create) %>
