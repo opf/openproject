@@ -26,6 +26,9 @@ module ReportingHelper
     name = name.camelcase
     if CostQuery::Filter.const_defined? name
       CostQuery::Filter.const_get(name).label
+    elsif
+      CostQuery::GroupBy.const_defined? name
+      CostQuery::GroupBy.const_get(name).label
     else
       #note that using Issue.human_attribute_name relies on the attribute
       #being an issue attribute or a general attribute for all models whicht might not
