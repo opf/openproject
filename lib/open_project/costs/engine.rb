@@ -99,6 +99,8 @@ module OpenProject::Costs
 
           settings Engine.settings
 
+          requires_openproject ">= 3.0.0beta1"
+
           # register our custom permissions
           project_module :costs_module do
             permission :view_own_hourly_rate, {}
