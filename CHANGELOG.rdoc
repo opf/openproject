@@ -1,0 +1,5 @@
+= 0.0.1.pre1 - 2013-06-14
+
+== Major Change
+
+* First release of the Rails 3 version
