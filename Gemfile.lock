@@ -424,7 +424,7 @@ DEPENDENCIES
   ruby-prof
   rubytree (~> 0.8.3)
   sass-rails (~> 3.2.3)
-  select2-rails
+  select2-rails (~> 3.3.2)
   selenium-webdriver
   shoulda
   simplecov (>= 0.8.pre)
