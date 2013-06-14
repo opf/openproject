@@ -24,7 +24,6 @@ class ReportedProjectStatusesController < ApplicationController
     @reported_project_statuses = @base.all
     respond_to do |format|
       format.html { render_404 }
-      format.api
     end
   end
 
@@ -32,7 +31,6 @@ class ReportedProjectStatusesController < ApplicationController
     @reported_project_status = @base.find(params[:id])
     respond_to do |format|
       format.html { render_404 }
-      format.api
     end
   end
 
