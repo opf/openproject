@@ -52,7 +52,7 @@ module OpenProject::Reporting
           author_url 'https://www.finn.de'
           version OpenProject::Reporting::VERSION
 
-          requires_redmine :version_or_higher => '3.0'
+          requires_openproject ">= 3.0.0beta1"
 
           view_actions = [:index, :show, :drill_down, :available_values, :display_report_list]
           edit_actions = [:create, :update, :rename, :delete]
