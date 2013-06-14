@@ -1,15 +1,6 @@
 module CostReportsHelper
   include QueriesHelper
 
-  # TODO check whether this is necessary, clean up CostQuery usage as it is defined in redmine reporting
-  def operators_for_select(type_name)
-    if defined?(::CostQuery)
-      ::CostQuery.filter_types[type_name][:operators].collect {|o| [l(::CostQuery.operators[o][:label]), o]}
-    else
-      super
-    end
-  end
-
   def scope_icon_class(filter)
     case filter.scope
     when :issues
