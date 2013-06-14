@@ -40,14 +40,6 @@ Then /^the "(.+?)" setting should be (true|false)$/ do |name, trueish|
   Setting.send((name + "?").to_sym).should == (trueish == "true")
 end
 
-When /^I visit the ([^ ]+) settings page$/ do |tab|
-  visit("/settings?tab=#{tab}")
-  @settings_tab = tab
-end
-
 Given /^I save the settings$/ do
-  within("#tab-content-#{@settings_tab}") do
-    click_button('Save')
-  end
-  @settings_tab = nil
+  click_button('Save', :visible => true)
 end

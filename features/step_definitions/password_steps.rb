@@ -1,3 +1,16 @@
+#encoding: utf-8
+
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 def parse_password_rules(str)
   str.sub(', and ', ', ').split(', ')
 end
@@ -23,22 +36,20 @@ Given /^I try to set my new password to "(.+)"$/ do |password|
   @new_password = password
 end
 
-Given /^there should be an error describing the password complexity is too low$/ do
-  should have_selector('#errorExplanation')
-end
-
-Given /^the password change should succeed$/ do
+Then /^the password change should succeed$/ do
   find('.notice').should have_content('success')
 end
 
-Given /^I should be able to login using the new password$/ do
+Then /^I should be able to login using the new password$/ do
   visit('/logout')
   login(@user.login, @new_password)
 end
 
-Given /^I activate the ([a-z, ]+) password rules$/ do |rules|
+When /^I activate the ([a-z, ]+) password rules$/ do |rules|
   rules = parse_password_rules(rules)
+  # ensure checkboxes are loaded, 'all' doesn't wait
   should have_selector(:xpath, "//input[@id='settings_password_active_rules_' and @value='#{rules.first}']")
+
   all(:xpath, "//input[@id='settings_password_active_rules_']").each do |checkbox|
     checkbox.set(false)
   end
