@@ -1,3 +1,10 @@
+= 3.0.4.pre2 - 2013-06-14
+
+== Minor Change
+
+* added dependency to OpenProject core >= 3.0.0beta1
+* more robust tests by dropping IE7 workaround
+
 = 3.0.4.beta - 2013-05-31
 
 == Minor Change
