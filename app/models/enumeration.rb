@@ -162,3 +162,5 @@ end
 require_dependency 'time_entry_activity'
 require_dependency 'document_category'
 require_dependency 'issue_priority'
+require_dependency 'timelines/reported_project_status'
+require_dependency 'timelines/planning_element_status'

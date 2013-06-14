@@ -84,12 +84,12 @@ class Timelines::TimelinesScenariosController < ApplicationController
   protected
 
   def project_settings_path
-    url_for(:controller => 'projects', :action => 'settings', :tab => 'timelines', :id => @project)
+    url_for(:controller => '/projects', :action => 'settings', :tab => 'timelines', :id => @project)
   end
   helper_method :project_settings_path
 
   def default_breadcrumb
-    [render_to_string(:inline => "<%= link_to(l(:label_settings), project_settings_path) %>"),
+    [render_to_string(:inline => "<%= link_to(l(:label_settings), project_settings_path) %>").html_safe,
      l('timelines.scenarios')]
   end
 end
