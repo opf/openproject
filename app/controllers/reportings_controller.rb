@@ -24,10 +24,6 @@ class ReportingsController < ApplicationController
     available_projects = @project.reporting_to_project_candidates
     respond_to do |format|
       format.html { render_404 }
-      format.api {
-        @elements = Project.project_level_list(Project.visible)
-        @disabled = Project.visible - available_projects
-      }
     end
   end
 
@@ -156,9 +152,6 @@ class ReportingsController < ApplicationController
       format.html do
         @reportings = @project.reportings_via_source.all.select(&:visible?)
       end
-      format.api do
-        @reportings.select(&:visible?)
-      end
     end
   end
 
@@ -168,7 +161,6 @@ class ReportingsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.api
     end
   end
 
