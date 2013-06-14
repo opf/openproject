@@ -21,6 +21,10 @@ OpenProject::Application.routes.draw do
       resources :issues
       resources :news
       resources :projects do
+        collection do
+          get :level_list
+        end
+
         resources :issues
         resources :news
       end
@@ -89,10 +93,6 @@ OpenProject::Application.routes.draw do
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, :as => 'confirm_destroy'
 
-    end
-
-    collection do
-      get :level_list
     end
 
     resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]
