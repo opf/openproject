@@ -1,4 +1,8 @@
-2013-05-24 Christian Ratz <c.ratz@finn.de>
+2013-06-14 Christian Ratz <c.ratz@finn.de>
+
+	* added dependency to OpenProject core >= 3.0.0beta1
+
+2013024 Christian Ratz <c.ratz@finn.de>
 
 	* RC1 of the Rails 3 version
 	* This version is no longer compatible with the Rails 2 core
