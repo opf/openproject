@@ -249,14 +249,14 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     describe CostQuery::Filter::CustomFieldEntries do
-      let!(:custom_field) { FactoryGirl.create(:issue_custom_field,
-                                               :name => 'My custom field') }
-
-      before do
-        CostQuery::Filter.all.merge CostQuery::Filter::CustomFieldEntries.all
+      let!(:custom_field) do
+        cf = FactoryGirl.create(:issue_custom_field,
+                                :name => 'My custom field')
+        clear_cache
+        cf
       end
 
-      after do
+      after(:all) do
         clear_cache
       end
 
@@ -279,16 +279,12 @@ describe CostQuery, :reporting_query_helper => true do
 
       it "should create classes for custom fields that get added after starting the server" do
         clear_cache
-        # Would raise a name error if class wasn't created
-        CostQuery::Filter::CustomFieldMyCustomField
+        expect { CostQuery::Filter::CustomFieldMyCustomField }.to_not raise_error
       end
 
       it "should remove the custom field classes after it is deleted" do
-        FactoryGirl.create(:issue_custom_field, :name => "AFreshCustomField")
-        clear_cache
-        CostQuery::Filter.all.should include CostQuery::Filter::CustomFieldAfreshcustomfield
-        delete_issue_custom_field("AFreshCustomField")
-        CostQuery::Filter.all.should_not include CostQuery::Filter::CustomFieldAfreshcustomfield
+        delete_issue_custom_field("My custom field")
+        CostQuery::Filter.all.should_not include CostQuery::Filter::CustomFieldMyCustomField
       end
 
       it "should provide the correct available values" do
