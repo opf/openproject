@@ -101,7 +101,7 @@ describe ProjectsController do
   end
 end
 
-describe ProjectsController do
+describe Api::V2::ProjectsController do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
@@ -118,7 +118,7 @@ describe ProjectsController do
 
         it 'renders the index template' do
           get 'index', :format => 'xml'
-          response.should render_template('timelines/projects/index', :formats => ["api"])
+          response.should render_template('api/v2/projects/index', :formats => ["api"])
         end
       end
 
@@ -131,16 +131,16 @@ describe ProjectsController do
             FactoryGirl.create(:project, :is_public => false)
           ].each do |project|
             FactoryGirl.create(:member,
-                           :project => project,
-                           :principal => current_user,
-                           :roles => [FactoryGirl.create(:role)])
+                               :project => project,
+                               :principal => current_user,
+                               :roles => [FactoryGirl.create(:role)])
           end
           @visible_projects << FactoryGirl.create(:project, :is_public => true)
 
           @invisible_projects = [
             FactoryGirl.create(:project, :is_public => false),
             FactoryGirl.create(:project, :is_public => true,
-                                     :status => Project::STATUS_ARCHIVED)
+                               :status => Project::STATUS_ARCHIVED)
           ]
         end
 
@@ -151,7 +151,7 @@ describe ProjectsController do
 
         it 'renders the index template' do
           get 'index', :format => 'xml'
-          response.should render_template('timelines/projects/index', :formats => ["api"])
+          response.should render_template('api/v2/projects/index', :formats => ["api"])
         end
       end
     end
@@ -195,7 +195,7 @@ describe ProjectsController do
 
         it 'renders the show template' do
           get 'show', :id => project.identifier, :format => 'xml'
-          response.should render_template('timelines/projects/show', :formats => ["api"])
+          response.should render_template('api/v2/projects/show', :formats => ["api"])
         end
       end
     end
