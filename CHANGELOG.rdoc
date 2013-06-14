@@ -1,3 +1,10 @@
+= 5.0.1.pre1 - 2013-05-24
+
+* fixed failing migrations when TimeEntry(s) exists
+* removed a lot of reporting-plugin patches
+* Translations fixes
+* added dependency to OpenProject core >= 3.0.0beta1
+
 = 5.0.1.beta - 2013-05-24
 
 * Fixed API requests for issues#destory
