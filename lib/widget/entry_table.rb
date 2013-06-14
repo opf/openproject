@@ -19,7 +19,7 @@ class Widget::Table::EntryTable < Widget::Table
       content_tag :tr do
         Fields.collect { |field| concat content_tag(:th) { label_for(field) } }
         concat content_tag(:th, :class => 'right') { cost_type.try(:unit_plural) || l(:units) }
-        concat content_tag(:th, :class => 'right') { l(:field_costs) }
+        concat content_tag(:th, :class => 'right') { CostEntry.human_attribute_name(:costs) }
         hit = false
         @subject.each_direct_result do |result|
           next if hit
