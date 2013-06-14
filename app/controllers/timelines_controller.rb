@@ -73,7 +73,7 @@ class TimelinesController < ApplicationController
     @timeline.destroy
 
     flash[:notice] = l(:notice_successful_delete)
-    redirect_to project_path @project
+    redirect_to project_timelines_path @project
   end
 
   protected

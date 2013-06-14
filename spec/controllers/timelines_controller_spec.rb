@@ -257,7 +257,7 @@ describe TimelinesController do
 
       it 'renders the new template' do
         fetch :project_id => project.id
-        response.should render_template('timelines/timelines/new', :formats => ["html"], :layout => :base)
+        response.should render_template('timelines/new', :formats => ["html"], :layout => :base)
       end
 
       it 'assigns a new timeline instance for the current project' do
@@ -313,7 +313,7 @@ describe TimelinesController do
         it 'renders the create action' do
           fetch :project_id => project.id, :timeline => {:name => ''}
 
-          response.should render_template('timelines/timelines/new', :formats => ["html"], :layout => :base)
+          response.should render_template('timelines/new', :formats => ["html"], :layout => :base)
         end
 
         it 'assigns the unsaved timeline instance for the view to access it' do
@@ -362,7 +362,7 @@ describe TimelinesController do
 
       it 'renders the show template' do
         fetch :project_id => project.id, :id => timeline.id
-        response.should render_template('timelines/timelines/show', :formats => ["html"], :layout => :base)
+        response.should render_template('timelines/show', :formats => ["html"], :layout => :base)
       end
     end
   end
@@ -382,7 +382,7 @@ describe TimelinesController do
 
       it 'renders the edit template' do
         fetch :project_id => project.id, :id => timeline.id
-        response.should render_template('timelines/timelines/edit', :formats => ["html"], :layout => :base)
+        response.should render_template('timelines/edit', :formats => ["html"], :layout => :base)
       end
     end
   end
@@ -432,7 +432,7 @@ describe TimelinesController do
         it 'renders the edit action' do
           fetch :project_id => project.id, :id => timeline.id, :timeline => {:name => ''}
 
-          response.should render_template('timelines/timelines/edit', :formats => ["html"], :layout => :base)
+          response.should render_template('timelines/edit', :formats => ["html"], :layout => :base)
         end
 
         it 'assigns the unsaved timeline instance for the view to access it' do
@@ -461,7 +461,7 @@ describe TimelinesController do
       it 'renders the confirm_destroy action' do
         fetch :project_id => project.id, :id => timeline.id
 
-        response.should render_template('timelines/timelines/confirm_destroy', :formats => ["html"], :layout => :base)
+        response.should render_template('timelines/confirm_destroy', :formats => ["html"], :layout => :base)
       end
     end
   end
@@ -488,7 +488,7 @@ describe TimelinesController do
       it 'redirects to index' do
         fetch :project_id => project.id, :id => timeline.id
 
-        response.should redirect_to :action => 'index', :project_id => project.identifier
+        response.should redirect_to project_timelines_path project
       end
 
       it 'notifies the user about the successful deletion' do
