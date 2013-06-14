@@ -549,6 +549,16 @@ jQuery.viewportHeight = function() {
 
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
+  document.ajaxActive = false;
+
+
+  $(document).ajaxStart(function () {
+    document.ajaxActive = true;
+  });
+
+  $(document).ajaxStop(function () {
+    document.ajaxActive = false;
+  });
 
     var propagateOpenClose = function () {
       if ($(this).is(":visible")) {
