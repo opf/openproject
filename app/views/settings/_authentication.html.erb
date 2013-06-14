@@ -24,6 +24,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p><%= setting_text_field :password_min_length, :size => 6 %></p>
 
+<p><%= setting_multiselect :password_active_rules, OpenProject::Passwords::Evaluator.known_rules.map {|r| [l("label_password_rule_#{r}"), r] } %></p>
+
+<p><%= setting_text_field :password_min_adhered_rules, :size => 6 %></p>
+
 <p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
 
 <p><%= setting_check_box :openid, :disabled => !Object.const_defined?(:OpenID) %></p>

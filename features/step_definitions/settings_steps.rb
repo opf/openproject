@@ -39,3 +39,7 @@ end
 Then /^the "(.+?)" setting should be (true|false)$/ do |name, trueish|
   Setting.send((name + "?").to_sym).should == (trueish == "true")
 end
+
+Given /^I save the settings$/ do
+  click_button('Save', :visible => true)
+end
