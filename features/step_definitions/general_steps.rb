@@ -391,7 +391,7 @@ end
 
 When /^(?:|I )login as (.+)(?: with password (.+))?$/ do |username, password|
   username = username.gsub("\"", "")
-  password = password.nil? ? "admin" : password.gsub("\"", "")
+  password = password.nil? ? "adminADMIN!" : password.gsub("\"", "")
   login(username, password)
 end
 
