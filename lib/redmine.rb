@@ -59,9 +59,9 @@ end
 Redmine::AccessControl.map do |map|
   map.permission :view_project,
                  {
-                   :'timelines/planning_element_types' => [:index, :show],
-                   :'timelines/projects' => [:show],
-                   :'timelines/scenarios' => [:index, :show],
+                   :planning_element_types => [:index, :show],
+                   :projects => [:show],
+                   :scenarios => [:index, :show],
                    :projects => [:show],
                    :activities => [:index]
                  },
@@ -71,7 +71,7 @@ Redmine::AccessControl.map do |map|
   map.permission :edit_project,
                  {
                    :projects => [:settings, :edit, :update],
-                   :'timelines/scenarios' => [:new, :create, :edit, :update, :confirm_destroy, :destroy]
+                   :scenarios => [:new, :create, :edit, :update, :confirm_destroy, :destroy]
                  },
                  :require => :member
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
@@ -174,53 +174,51 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_project_configuration,
                    :require => :member
     map.permission :view_project_associations,
-                   {'timelines/project_associations' => [:index, :show]}
+                   {:project_associations => [:index, :show]}
     map.permission :edit_project_associations,
-                   {'timelines/project_associations' => [:edit, :update, :new,
-                                                         :create, :available_projects]},
+                   {:project_associations => [:edit, :update, :new,
+                                              :create, :available_projects]},
                    {:require => :member}
     map.permission :delete_project_associations,
-                   {'timelines/project_associations' => [:confirm_destroy,
-                                                         :destroy]},
+                   {:project_associations => [:confirm_destroy, :destroy]},
                    {:require => :member}
 
     map.permission :view_timelines,
-                   {'timelines/timelines' => [:index, :show]}
+                   {:timelines => [:index, :show]}
     map.permission :edit_timelines,
-                   {'timelines/timelines' => [:edit, :update, :new, :create]},
+                   {:timelines => [:edit, :update, :new, :create]},
                    {:require => :member}
     map.permission :delete_timelines,
-                   {'timelines/timelines' => [:confirm_destroy, :destroy]},
+                   {:timelines => [:confirm_destroy, :destroy]},
                    {:require => :member}
 
     map.permission :view_planning_elements,
-                   {'timelines/planning_elements' => [:index, :all, :show,
-                                                      :recycle_bin],
-                    'timelines/planning_element_journals' => [:index]}
+                   {:planning_elements => [:index, :all, :show,
+                                           :recycle_bin],
+                    :planning_element_journals => [:index]}
     map.permission :edit_planning_elements,
-                   {'timelines/planning_elements' => [:new, :create, :edit,
-                                                      :update],
-                    'timelines/planning_element_journals' => [:create]},
+                   {:planning_elements => [:new, :create, :edit, :update],
+                    :planning_element_journals => [:create]},
                    {:require => :member}
     map.permission :move_planning_elements_to_trash,
-                   {'timelines/planning_elements' => [:confirm_move_to_trash,
-                                                      :move_to_trash, :restore,
-                                                      :restore_all, :recycle_bin,
-                                                      :confirm_restore_all]},
+                   {:planning_elements => [:confirm_move_to_trash,
+                                           :move_to_trash, :restore,
+                                           :restore_all, :recycle_bin,
+                                           :confirm_restore_all]},
                    {:require => :member}
     map.permission :delete_planning_elements,
-                   {'timelines/planning_elements' => [:confirm_destroy, :destroy,
+                   {:planning_elements => [:confirm_destroy, :destroy,
                                                       :destroy_all,
                                                       :confirm_destroy_all]},
                    {:require => :member}
 
     map.permission :view_reportings,
-                   {'timelines/reportings' => [:index, :all, :show]}
+                   {:reportings => [:index, :all, :show]}
     map.permission :edit_reportings,
-                   {'timelines/reportings' => [:new, :create, :edit, :update, :available_projects]},
+                   {:reportings => [:new, :create, :edit, :update, :available_projects]},
                    {:require => :member}
     map.permission :delete_reportings,
-                   {'timelines/reportings' => [:confirm_destroy, :destroy]},
+                   {:reportings => [:confirm_destroy, :destroy]},
                    {:require => :member}
   end
 end
@@ -269,13 +267,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :plugins, {:controller => '/admin', :action => 'plugins'}, :last => true
   menu.push :info, {:controller => '/admin', :action => 'info'}, :caption => :label_information_plural, :last => true
   menu.push :colors,
-            {:controller => '/timelines/colors', :action => 'index'},
+            {:controller => '/planning_element_type_colors', :action => 'index'},
             {:caption    => :'timelines.admin_menu.colors' }
   menu.push :planning_element_types,
-            {:controller => '/timelines/planning_element_types', :action => 'index'},
+            {:controller => '/planning_element_types', :action => 'index'},
             {:caption    => :'timelines.admin_menu.planning_element_types' }
   menu.push :project_types,
-            {:controller => '/timelines/project_types', :action => 'index'},
+            {:controller => '/project_types', :action => 'index'},
             {:caption    => :'timelines.admin_menu.project_types' }
 end
 
@@ -314,30 +312,30 @@ Redmine::MenuManager.map :project_menu do |menu|
   {:param => :project_id}.tap do |options|
 
     menu.push :timelines,
-              {:controller => '/timelines/timelines', :action => 'index'},
+              {:controller => '/timelines', :action => 'index'},
               options.merge(:caption => :'timelines.project_menu.timelines')
 
     options.merge(:parent => :timelines).tap do |rep_options|
 
       menu.push :reports,
-                {:controller => '/timelines/timelines', :action => 'index'},
+                {:controller => '/timelines', :action => 'index'},
                 rep_options.merge(:caption => :'timelines.project_menu.reports')
 
       menu.push :project_associations,
-                {:controller => '/timelines/project_associations', :action => 'index'},
+                {:controller => '/project_associations', :action => 'index'},
                 rep_options.merge(:caption => :'timelines.project_menu.project_associations',
                                   :if => Proc.new { |p| p.project_type.try :allows_association })
 
       menu.push :reportings,
-                {:controller => '/timelines/reportings', :action => 'index'},
+                {:controller => '/reportings', :action => 'index'},
                 rep_options.merge(:caption => :'timelines.project_menu.reportings')
 
       menu.push :planning_elements,
-                {:controller => '/timelines/planning_elements', :action => 'all'},
+                {:controller => '/planning_elements', :action => 'all'},
                 rep_options.merge(:caption => :'timelines.project_menu.planning_elements')
 
       menu.push :recycle_bin,
-                {:controller => '/timelines/planning_elements', :action => 'recycle_bin'},
+                {:controller => '/planning_elements', :action => 'recycle_bin'},
                 rep_options.merge(:caption => :'timelines.project_menu.recycle_bin')
 
     end
