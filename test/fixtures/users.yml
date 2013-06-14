@@ -23,9 +23,9 @@ users_001:
   status: 1
   last_login_on: 2006-07-19 22:57:52 +02:00
   language: en
-  # password = admin
-  salt: 82090c953c4a0000a7db253b0691a6b4
-  hashed_password: b5b6ff9543bf1387374cdfa27a54c96d236a7150
+  # password = adminADMIN!
+  salt: a19f9743f4b7b043a2fd07b8eb13a1df
+  hashed_password: b4596ce83c0e154e5ce9d3dd5636fde4d6f38b75
   updated_on: 2006-07-19 22:57:52 +02:00
   admin: true
   mail: admin@somenet.foo

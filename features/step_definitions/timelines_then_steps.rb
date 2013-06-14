@@ -132,10 +132,6 @@ Then /^I should see an? (notice|warning|error) flash stating "([^"]*)"$/ do |cla
   page.all(:css, ".flash.#{class_name}, .flash.#{class_name} *", :text => message).should_not be_empty
 end
 
-Then /^I should see an error explanation stating "([^"]*)"$/ do |message|
-  page.all(:css, ".errorExplanation li, .errorExplanation li *", :text => message).should_not be_empty
-end
-
 Then /^I should see a planning element named "([^"]*)"$/ do |name|
   cells = page.all(:css, "table td.timelines-pe-name *", :text => name)
   cells.should_not be_empty

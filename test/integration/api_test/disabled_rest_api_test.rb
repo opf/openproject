@@ -45,8 +45,8 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
 
       context "with a valid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password')
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'my_password')
+          @user = User.generate_with_protected!(:password => 'adminADMIN!', :password_confirmation => 'adminADMIN!')
+          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'adminADMIN!')
           get "/news.xml", nil, :authorization => @authorization
         end
 
@@ -90,8 +90,8 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
 
       context "with a valid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password')
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'my_password')
+          @user = User.generate_with_protected!(:password => 'adminADMIN!', :password_confirmation => 'adminADMIN!')
+          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'adminADMIN!')
           get "/news.json", nil, :authorization => @authorization
         end
 
