@@ -35,13 +35,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
   <% if User.current.impaired? %>
-    <%= debugger
-      select("project_association_select", "project_b_id",
-             grouped_options_for_select(@associated_project_candidates_by_type.collect do |type, projects|
-               [type.try(:name) || l('timelines.without_project_type'), projects.collect do |candidate|
-                 [candidate.name, candidate.id]
-               end]
-             end)) %>
+    <%= select("project_association_select", "project_b_id",
+               grouped_options_for_select(@associated_project_candidates_by_type.collect do |type, projects|
+                 [type.try(:name) || l('timelines.without_project_type'), projects.collect do |candidate|
+                   [candidate.name, candidate.id]
+                 end]
+               end)) %>
   <% else %>
     <%= select("project_association_select", "project_b_id",
                  options_for_select([]),
