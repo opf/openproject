@@ -16,8 +16,47 @@ module Api
 
       extend ::Api::V1::ApiController
 
+      def self.included(base)
+        base.class_eval do
+          skip_before_filter    :disable_api
+          prepend_before_filter :disable_everything_except_api
+        end
+      end
+
       def api_version
         @@api_version ||= /api\/v2\//
+      end
+
+      def authorize(*args, &block)
+        original_controller = params[:controller]
+        params[:controller] = original_controller.gsub(api_version, "")
+        result = super(*args, &block)
+        params[:controller] = original_controller
+        result
+      end
+
+      def determine_base(*args, &block)
+        original_controller = params[:controller]
+        params[:controller] = original_controller.gsub(api_version, "")
+        result = super(*args, &block)
+        params[:controller] = original_controller
+        result
+      end
+
+      def jump_to_project_menu_item(*args, &block)
+        original_controller = params[:controller]
+        params[:controller] = original_controller.gsub(api_version, "")
+        result = super(*args, &block)
+        params[:controller] = original_controller
+        result
+      end
+
+      def find_project(*args, &block)
+        original_controller = params[:controller]
+        params[:controller] = original_controller.gsub(api_version, "")
+        result = super(*args, &block)
+        params[:controller] = original_controller
+        result
       end
 
       def find_project_by_project_id(*args, &block)
@@ -37,6 +76,5 @@ module Api
       end
 
     end
-
   end
 end
