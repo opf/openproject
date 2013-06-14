@@ -10,6 +10,19 @@ module ReportingEngine
       Rails.application.config.assets.precompile += %w(reporting_engine.css reporting_engine.js)
     end
 
+    initializer 'check mysql version' do
+      connection = ActiveRecord::Base.connection
+      adapter_name = connection.adapter_name.to_s.downcase.to_sym
+      if [:mysql, :mysql2].include?(adapter_name)
+        mysql_version = connection.show_variable("VERSION")
+        if  mysql_version.start_with?("5.6")
+          # The reporting engine is not compatible with mysql version 5.6
+          # due to a bug in MySQL itself.
+          # see https://www.openproject.org/issues/967 for details.
+          raise "MySQL 5.6 is not yet supported."
+        end
+      end
+    end
 
     config.to_prepare do
       require 'reporting_engine/patches'
