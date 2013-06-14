@@ -11,7 +11,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ReportedProjectStatusesController do
+describe Api::V2::ReportedProjectStatusesController do
 
   let(:valid_user) { FactoryGirl.create(:user) }
   let(:available_reported_project_status) do
@@ -58,7 +58,7 @@ describe ReportedProjectStatusesController do
 
           it 'renders the index builder template' do
             get 'index', :project_type_id => project_type.id, :format => 'xml'
-            response.should render_template('timelines/reported_project_statuses/index', :formats => ["api"])
+            response.should render_template('api/v2/reported_project_statuses/index', :formats => ["api"])
           end
         end
 
@@ -93,7 +93,7 @@ describe ReportedProjectStatusesController do
 
           it 'renders the index template' do
             get 'index', :project_type_id => project_type.id, :format => 'xml'
-            response.should render_template('timelines/reported_project_statuses/index', :formats => ["api"])
+            response.should render_template('api/v2/reported_project_statuses/index', :formats => ["api"])
           end
         end
       end
@@ -159,7 +159,7 @@ describe ReportedProjectStatusesController do
 
         it 'renders the show template' do
           get 'show', :project_type_id => project_type.id, :id => '1337', :format => 'xml'
-          response.should render_template('timelines/reported_project_statuses/show', :formats => ["api"])
+          response.should render_template('api/v2/reported_project_statuses/show', :formats => ["api"])
         end
       end
     end
@@ -175,7 +175,7 @@ describe ReportedProjectStatusesController do
 
         it 'renders the index builder template' do
           get 'index', :format => 'xml'
-          response.should render_template('timelines/reported_project_statuses/index', :formats => ["api"])
+          response.should render_template('api/v2/reported_project_statuses/index', :formats => ["api"])
         end
       end
 
@@ -196,7 +196,7 @@ describe ReportedProjectStatusesController do
 
         it 'renders the index template' do
           get 'index', :format => 'xml'
-          response.should render_template('timelines/reported_project_statuses/index', :formats => ["api"])
+          response.should render_template('api/v2/reported_project_statuses/index', :formats => ["api"])
         end
       end
     end
@@ -237,7 +237,7 @@ describe ReportedProjectStatusesController do
 
         it 'renders the show template' do
           get 'show', :id => '1337', :format => 'xml'
-          response.should render_template('timelines/reported_project_statuses/show', :formats => ["api"])
+          response.should render_template('api/v2/reported_project_statuses/show', :formats => ["api"])
         end
       end
     end
