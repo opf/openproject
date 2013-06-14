@@ -21,9 +21,13 @@ module Api
         end
       end
 
+      def api_version
+        @@api_version ||= /api\/v1\//
+      end
+
       def check_if_deletion_allowed(*args, &block)
         original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(/api\/v1\//, "")
+        params[:controller] = original_controller.gsub(api_version, "")
         result = super(*args, &block)
         params[:controller] = original_controller
         result
@@ -31,7 +35,7 @@ module Api
 
       def find_project(*args, &block)
         original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(/api\/v1\//, "")
+        params[:controller] = original_controller.gsub(api_version, "")
         result = super(*args, &block)
         params[:controller] = original_controller
         result
@@ -39,7 +43,7 @@ module Api
 
       def find_time_entry(*args, &block)
         original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(/api\/v1\//, "")
+        params[:controller] = original_controller.gsub(api_version, "")
         result = super(*args, &block)
         params[:controller] = original_controller
         result
@@ -47,7 +51,7 @@ module Api
 
       def find_optional_project(*args, &block)
         original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(/api\/v1\//, "")
+        params[:controller] = original_controller.gsub(api_version, "")
         result = super(*args, &block)
         params[:controller] = original_controller
         result
@@ -55,7 +59,7 @@ module Api
 
       def authorize_for_user(*args, &block)
         original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(/api\/v1\//, "")
+        params[:controller] = original_controller.gsub(api_version, "")
         result = super(*args, &block)
         params[:controller] = original_controller
         result
@@ -63,7 +67,7 @@ module Api
 
       def authorize(*args, &block)
         original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(/api\/v1\//, "")
+        params[:controller] = original_controller.gsub(api_version, "")
         result = super(*args, &block)
         params[:controller] = original_controller
         result

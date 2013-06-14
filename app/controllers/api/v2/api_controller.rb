@@ -16,6 +16,26 @@ module Api
 
       extend ::Api::V1::ApiController
 
+      def api_version
+        @@api_version ||= /api\/v2\//
+      end
+
+      def find_project_by_project_id(*args, &block)
+        original_controller = params[:controller]
+        params[:controller] = original_controller.gsub(api_version, "")
+        result = super(*args, &block)
+        params[:controller] = original_controller
+        result
+      end
+
+      def authorize(*args, &block)
+        original_controller = params[:controller]
+        params[:controller] = original_controller.gsub(api_version, "")
+        result = super(*args, &block)
+        params[:controller] = original_controller
+        result
+      end
+
     end
 
   end
