@@ -1,3 +1,14 @@
 = OpenProject changelog
 
-TODO
+==3.0.0pre1
+
+https://www.openproject.org/projects/openproject/versions/64
+
+
+==3.0.0pre2
+
+https://www.openproject.org/projects/openproject/versions/81
+
+==3.0.0pre3
+
+https://www.openproject.org/projects/openproject/versions/93
