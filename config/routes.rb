@@ -374,6 +374,9 @@ OpenProject::Application.routes.draw do
   resources :planning_element_statuses, :controller => 'planning_element_statuses'
 
   resources :planning_element_types, :controller => 'planning_element_types' do
+    collection do
+      get :paginate_planning_element_types
+    end
     member do
       get :confirm_destroy
       get :move
@@ -396,9 +399,6 @@ OpenProject::Application.routes.draw do
 
   resources :projects, :only => [:index, :show], :controller => 'projects' do
     resources :planning_element_types, :controller => 'planning_element_types' do
-      collection do
-        get :paginate_timelines_planning_element_types
-      end
       member do
         get :confirm_destroy
         get :move
