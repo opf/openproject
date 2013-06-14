@@ -12,7 +12,7 @@
 
 class Redmine::MenuManager::Mapper
   def initialize(menu, items)
-    items[menu] ||= Redmine::MenuManager::TreeNode.new(:root, {})
+    items[menu] ||= Menu.new
     @menu = menu
     @menu_items = items[menu]
   end
@@ -38,9 +38,9 @@ class Redmine::MenuManager::Mapper
     node_granter = granter(content, options)
     node_content = content(content, options)
 
-    new_node = Redmine::MenuManager::MenuItem.new(name, node_content, node_granter)
+    node = new_item(name, node_content, node_granter)
 
-    add(new_node, options)
+    add(node, options)
   end
 
   # Removes a menu item
@@ -56,7 +56,7 @@ class Redmine::MenuManager::Mapper
   end
 
   def find(name)
-    @menu_items.find {|node| node.name == name}
+    @menu_items.find_item(name)
   end
 
   def position_of(name)
@@ -75,6 +75,10 @@ class Redmine::MenuManager::Mapper
 
   def content(content, options)
     Redmine::MenuManager::Content::Factory.build(content, options)
+  end
+
+  def new_item(name, node_content, node_granter)
+    Redmine::MenuManager::MenuItem.new(name, node_content, node_granter)
   end
 
   def find_target_root(parent_name)

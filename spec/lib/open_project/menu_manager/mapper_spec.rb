@@ -5,62 +5,54 @@ describe Redmine::MenuManager::Mapper do
   let(:items) { {} }
   let(:mapper) { Redmine::MenuManager::Mapper.new(:lorem, items) }
 
+  def should_create_new_item_by_content_and_options content, options
+    node = double('new_node')
+    factory_content = double("factory_content")
+    factory_granter = double("factory_content")
+
+    Redmine::MenuManager::Content::Factory.should_receive(:build)
+                                          .with(content, options)
+                                          .and_return(factory_content)
+
+    Redmine::MenuManager::Granter::Factory.should_receive(:build)
+                                          .with(content, options)
+                                          .and_return(factory_granter)
+
+    Redmine::MenuManager::MenuItem.should_receive(:new)
+                                  .with(name, factory_content, factory_granter)
+                                  .and_return(node)
+
+    node
+  end
+
   describe :push do
-#    it "should allow pushing on root" do
-#      mapper.push :test_overview, { :controller => 'projects', :action => 'show'}, {}
-#
-#      mapper.exists?(:test_overview).should be_true
-#    end
+    let(:name) { :test }
+    let(:root) { double(Redmine::MenuManager::TreeNode) }
+    let(:container) { double(Redmine::MenuManager::TreeNode, :root => root) }
+    let(:mapper) { Redmine::MenuManager::Mapper.new(:lorem, :lorem => container) }
+    let(:contents) { double("contents") }
+    let(:options) { { } }
+    let(:new_node) { should_create_new_node_by_content_and_options contents, options }
 
-    describe "TEMP" do
-      let(:block) { Proc.new { "" } }
-      let(:name) { :test }
-      let(:root) { double(Redmine::MenuManager::TreeNode) }
-      let(:container) { double(Redmine::MenuManager::TreeNode, :root => root) }
-      let(:mapper) { Redmine::MenuManager::Mapper.new(:lorem, { :lorem => container }) }
-      let(:node) { Redmine::MenuManager::Mapper.new(:lorem, { :lorem => container }) }
-      let(:granter_always) { Redmine::MenuManager::Granter::Always }
+    it "should push a new item onto root if nothing else is specified" do
+      new_item = should_create_new_item_by_content_and_options contents, options
+      root.should_receive(:add).with(new_item)
 
-      describe "a menu item with a block for contents" do
+      mapper.push name, contents, options
+    end
 
-        it "should create a new node with content and granter determined by their factory
-            and add that new node to the menu" do
+    it "should push a new item onto parent if such is referenced by name" do
+      options = { :parent => 'target_parent' }
 
-          content = double("content")
-          options = { }
-          factory_content = double("factory_content")
-          factory_granter = double("factory_content")
+      target_parent = double('target_parent')
+      root.should_receive(:find_item)
+          .with(options[:parent])
+          .and_return(target_parent)
 
-          Redmine::MenuManager::Content::Factory.should_receive(:build)
-                                                .with(content, options)
-                                                .and_return(factory_content)
+      new_item = should_create_new_item_by_content_and_options contents, options
+      target_parent.should_receive(:add).with(new_item)
 
-          Redmine::MenuManager::Granter::Factory.should_receive(:build)
-                                                .with(content, options)
-                                                .and_return(factory_granter)
-
-          Redmine::MenuManager::MenuItem.should_receive(:new)
-                                        .with(name, factory_content, factory_granter)
-                                        .and_return(node)
-
-          root.should_receive(:add).with(node)
-
-          mapper.push name, content, options
-        end
-      end
-
-#      describe "a menu item with a block for condition" do
-#
-#        it "should create a new node with the block as condition and add it to the menu" do
-#          Redmine::MenuManager::MenuItem.should_receive(:new).with(name, {}, block) do
-#            node
-#          end
-#
-#          root.should_receive(:add).with(node)
-#
-#          mapper.push name, {}, :if => block
-#        end
-#      end
+      mapper.push name, contents, options
     end
 
 #    it "should allow pushing onto parent" do
