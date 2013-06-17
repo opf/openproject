@@ -40,6 +40,7 @@ de:
   label_filter_value: "Wert"
   label_days_ago: "in den letzten Tagen"
   button_save_as: "Speichern unter ..."
+  project_module_reporting_module: "Kostenauswertungen"
 
   load_query_question: "Die Kostenauswertung wird %{size} Tabellen-Zellen haben, was sehr rechenintensiv sein kann. Wollen Sie dennoch versuchen, die Kostenauswertung durch zu führen?"
   label_progress_bar_explanation: "Kostenauswertung wird erstellt ..."
