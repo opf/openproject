@@ -16,7 +16,7 @@ class WatcherTest < ActiveSupport::TestCase
     super
     @user  = FactoryGirl.create :user
     @issue = FactoryGirl.create :issue
-    @role  = FactoryGirl.create :role, :permissions => [:view_issues]
+    @role  = FactoryGirl.create :role, :permissions => [:view_work_units]
     @issue.project.add_member! @user, @role
   end
 

@@ -24,7 +24,7 @@ class ApplicationHelperTest < ActionView::TestCase
     @project_member = FactoryGirl.create :user,
       :member_in_project => @project,
       :member_through_role => FactoryGirl.create(:role,
-          :permissions => [:view_issues, :edit_issues, :view_documents,
+          :permissions => [:view_work_units, :edit_work_units, :view_documents,
                            :browse_repository, :view_changesets, :view_wiki_pages])
 
     @issue = FactoryGirl.create :issue, :project => @project, :author => @project_member, :tracker => @project.trackers.first

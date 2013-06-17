@@ -175,11 +175,12 @@ class TimeEntries::ReportsController < ApplicationController
                                            :klass => TimeEntryActivity,
                                            :label => :label_activity},
                              'work_unit' => {:sql => "#{TimeEntry.table_name}.work_unit_id",
-                                         :klass => WorkUnit,
+                                            :klass => WorkUnit,
+                                            :label => WorkUnit.model_name.human}
                            }
 
     # Add list and boolean custom fields as available criterias
-    custom_fields = (@project.nil? ? WorkUnitCustomField.for_all : @project.all_issue_custom_fields)
+    custom_fields = (@project.nil? ? WorkUnitCustomField.for_all : @project.all_work_unit_custom_fields)
     custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
       @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'WorkUnit' AND c.customized_id = #{WorkUnit.table_name}.id)",
                                              :format => cf.field_format,

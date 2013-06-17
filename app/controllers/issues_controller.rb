@@ -117,7 +117,7 @@ class IssuesController < ApplicationController
                                                                :fixed_version,
                                                                :project])
 
-    @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
+    @edit_allowed = User.current.allowed_to?(:edit_work_units, @project)
     @time_entry = TimeEntry.new(:work_unit=> @issue, :project => @issue.project)
     respond_to do |format|
       format.html { render :template => 'issues/show' }
@@ -225,7 +225,7 @@ class IssuesController < ApplicationController
   def bulk_edit
     @issues.sort!
     @available_statuses = @projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
-    @custom_fields = @projects.map{|p|p.all_issue_custom_fields}.inject{|memo,c|memo & c}
+    @custom_fields = @projects.map{|p|p.all_work_unit_custom_fields}.inject{|memo,c|memo & c}
     @assignables = @projects.map(&:assignable_users).inject{|memo,a| memo & a}
     @trackers = @projects.map(&:trackers).inject{|memo,t| memo & t}
   end
@@ -259,7 +259,7 @@ class IssuesController < ApplicationController
       when 'nullify'
         TimeEntry.update_all('work_unit_id = NULL', ['work_unit_id IN (?)', @issues])
       when 'reassign'
-        reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
+        reassign_to = @project.work_units.find_by_id(params[:reassign_to_id])
         if reassign_to.nil?
           flash.now[:error] = l(:error_issue_not_found_in_project)
           return
@@ -312,7 +312,7 @@ private
   def update_issue_from_params
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @priorities = IssuePriority.all
-    @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
+    @edit_allowed = User.current.allowed_to?(:edit_work_units, @project)
     @time_entry = TimeEntry.new(:work_unit => @issue, :project => @issue.project)
     @time_entry.attributes = params[:time_entry]
 
@@ -330,7 +330,7 @@ private
       @issue.copy_from(params[:copy_from]) if params[:copy_from]
       @issue.project = @project
     else
-      @issue = @project.issues.visible.find(params[:id])
+      @issue = @project.work_units.visible.find(params[:id])
     end
 
     @issue.project = @project

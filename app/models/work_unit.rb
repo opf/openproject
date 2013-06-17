@@ -91,7 +91,7 @@ class WorkUnit < ActiveRecord::Base
 
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
-    Project.allowed_to_condition(user, :view_issues, options)
+    Project.allowed_to_condition(user, :view_work_units, options)
   end
 
   WorkUnitJournal.class_eval do

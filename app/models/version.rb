@@ -35,7 +35,7 @@ class Version < ActiveRecord::Base
 
   scope :open, :conditions => {:status => 'open'}
   scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_work_units) } }
 
   safe_attributes 'name',
     'description',
@@ -49,7 +49,7 @@ class Version < ActiveRecord::Base
 
   # Returns true if +user+ or current user is allowed to view the version
   def visible?(user=User.current)
-    user.allowed_to?(:view_issues, self.project)
+    user.allowed_to?(:view_work_units, self.project)
   end
 
   # When a version started.

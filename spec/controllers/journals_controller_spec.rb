@@ -14,7 +14,7 @@ require 'spec_helper'
 describe JournalsController do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project_with_trackers) }
-  let(:role) { FactoryGirl.create(:role, :permissions => [:view_issues]) }
+  let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_unit]) }
   let(:member) { FactoryGirl.build(:member, :project => project,
                                         :roles => [role],
                                         :principal => user) }

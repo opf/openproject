@@ -69,7 +69,6 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:subject, :sortable => "#{WorkUnit.table_name}.subject"),
     QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
-<<<<<<< HEAD
     QueryColumn.new(:updated_at, :sortable => "#{WorkUnit.table_name}.updated_at", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
@@ -79,17 +78,6 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:estimated_hours, :sortable => "#{WorkUnit.table_name}.estimated_hours"),
     QueryColumn.new(:done_ratio, :sortable => "#{WorkUnit.table_name}.done_ratio", :groupable => true),
     QueryColumn.new(:created_at, :sortable => "#{WorkUnit.table_name}.created_at", :default_order => 'desc'),
-=======
-    QueryColumn.new(:updated_at, :sortable => "#{Issue.table_name}.updated_at", :default_order => 'desc'),
-    QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
-    QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
-    # Put empty start_dates and due_dates in the far future rather than in the far past
-    QueryColumn.new(:start_date, :sortable => ["CASE WHEN #{Issue.table_name}.start_date IS NULL THEN 1 ELSE 0 END", "#{Issue.table_name}.start_date"]),
-    QueryColumn.new(:due_date, :sortable => ["CASE WHEN #{Issue.table_name}.due_date IS NULL THEN 1 ELSE 0 END", "#{Issue.table_name}.due_date"]),
-    QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
-    QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
-    QueryColumn.new(:created_at, :sortable => "#{Issue.table_name}.created_at", :default_order => 'desc'),
->>>>>>> 657cb41... Fix tests
   ]
   cattr_reader :available_columns
 
@@ -253,7 +241,7 @@ class Query < ActiveRecord::Base
     return @available_columns if @available_columns
     @available_columns = ::Query.available_columns
     @available_columns += (project ?
-                            project.all_issue_custom_fields :
+                            project.all_work_unit_custom_fields :
                             WorkUnitCustomField.find(:all)
                            ).collect {|cf| ::QueryCustomFieldColumn.new(cf) }
   end

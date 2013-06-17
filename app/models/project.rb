@@ -280,7 +280,7 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
-    find(:all, :limit => count, :conditions => visible_by(user), :order => "created_at DESC")
+    find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")
   end
 
   def self.latest_for(user, options = {})
@@ -293,7 +293,7 @@ class Project < ActiveRecord::Base
 
   # table_name shouldn't be needed :(
   def self.newest_first
-    order "#{table_name}.created_at DESC"
+    order "#{table_name}.created_on DESC"
   end
 
   # Returns a SQL :conditions string used to find all active projects for the specified user.
@@ -744,7 +744,7 @@ class Project < ActiveRecord::Base
 
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
-    p = Project.find(:first, :order => 'created_at DESC')
+    p = Project.find(:first, :order => 'created_on DESC')
     p.nil? ? nil : p.identifier.to_s.succ
   end
 
@@ -887,7 +887,7 @@ class Project < ActiveRecord::Base
         # Skip pages without content
         next if page.content.nil?
         new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id", "updated_at"))
-        new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_at", "parent_id"))
+        new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_on", "parent_id"))
         new_wiki_page.content = new_wiki_content
         wiki.pages << new_wiki_page
         wiki_pages_map[page.id] = new_wiki_page
@@ -998,7 +998,7 @@ class Project < ActiveRecord::Base
 
     members_to_copy.each do |member|
       new_member = Member.new
-      new_member.send(:assign_attributes, member.attributes.dup.except("id", "project_id", "created_at"), :without_protection => true)
+      new_member.send(:assign_attributes, member.attributes.dup.except("id", "project_id", "created_on"), :without_protection => true)
       # only copy non inherited roles
       # inherited roles will be added when copying the group membership
       role_ids = member.member_roles.reject(&:inherited?).collect(&:role_id)

@@ -214,7 +214,7 @@ module IssuesHelper
                   ]
       # Export project custom fields if project is given
       # otherwise export custom fields marked as "For all projects"
-      custom_fields = project.nil? ? WorkUnitCustomField.for_all : project.all_issue_custom_fields
+      custom_fields = project.nil? ? WorkUnitCustomField.for_all : project.all_work_unit_custom_fields
       custom_fields.each {|f| headers << f.name}
       # Description in the last column
       headers << CustomField.human_attribute_name(:description)

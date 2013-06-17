@@ -81,8 +81,8 @@ class IssueTest < ActiveSupport::TestCase
     issues = Issue.visible(User.anonymous).all
     assert issues.any?
     assert_nil issues.detect {|issue| !issue.project.is_public?}
-    # Anonymous user should not see issues without permission
-    Role.anonymous.remove_permission!(:view_issues)
+    # Anonymous user should not see work units without permission
+    Role.anonymous.remove_permission!(:view_work_units)
     issues = Issue.visible(User.anonymous).all
     assert issues.empty?
   end
@@ -95,7 +95,7 @@ class IssueTest < ActiveSupport::TestCase
     assert issues.any?
     assert_nil issues.detect {|issue| !issue.project.is_public?}
     # Non member user should not see issues without permission
-    Role.non_member.remove_permission!(:view_issues)
+    Role.non_member.remove_permission!(:view_work_units)
     user.reload
     issues = Issue.visible(user).all
     assert issues.empty?
@@ -606,7 +606,7 @@ class IssueTest < ActiveSupport::TestCase
     issue = FactoryGirl.create :issue
     user = FactoryGirl.create :user, :member_in_project => issue.project
     Watcher.create!(:user => user, :watchable => issue)
-    issue.project.members.first.roles.first.remove_permission! :view_issues
+    issue.project.members.first.roles.first.remove_permission! :view_work_units
     issue.reload
     assert issue.watched_by?(user)
     assert !issue.watcher_recipients.include?(user.mail)

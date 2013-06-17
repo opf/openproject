@@ -24,9 +24,9 @@ class Redmine::AccessControlTest < ActiveSupport::TestCase
   end
 
   def test_module_permission
-    perm = @access_module.permission(:view_issues)
+    perm = @access_module.permission(:view_work_units)
     assert perm.is_a?(Redmine::AccessControl::Permission)
-    assert_equal :view_issues, perm.name
+    assert_equal :view_work_units, perm.name
     assert_equal :issue_tracking, perm.project_module
     assert perm.actions.is_a?(Array)
     assert perm.actions.include?('issues/index')

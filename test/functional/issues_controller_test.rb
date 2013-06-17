@@ -280,20 +280,20 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_should_deny_anonymous_access_without_permission
-    Role.anonymous.remove_permission!(:view_issues)
+    Role.anonymous.remove_permission!(:view_work_units)
     get :show, :id => 1
     assert_response :redirect
   end
 
   def test_show_should_deny_non_member_access_without_permission
-    Role.non_member.remove_permission!(:view_issues)
+    Role.non_member.remove_permission!(:view_work_units)
     @request.session[:user_id] = 9
     get :show, :id => 1
     assert_response 403
   end
 
   def test_show_should_deny_member_access_without_permission
-    Role.find(1).remove_permission!(:view_issues)
+    Role.find(1).remove_permission!(:view_work_units)
     @request.session[:user_id] = 2
     get :show, :id => 1
     assert_response 403
@@ -692,9 +692,9 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
 
-    context "and :edit_issues permission" do
+    context "and :edit_work_units permission" do
       setup do
-        Role.anonymous.add_permission! :add_issues, :edit_issues
+        Role.anonymous.add_permission! :add_issues, :edit_work_units
       end
 
       should "accept authorized status" do

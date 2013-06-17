@@ -19,6 +19,7 @@ issues_001:
   root_id: 1
   lft: 1
   rgt: 2
+  lock_version: 3
 issues_002:
   type: "Issue"
   created_at: 2006-07-19 21:04:21 +02:00
@@ -39,6 +40,7 @@ issues_002:
   root_id: 2
   lft: 1
   rgt: 2
+  lock_version: 3
   done_ratio: 30
 issues_003:
   type: "Issue"

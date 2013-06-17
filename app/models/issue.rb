@@ -228,7 +228,7 @@ class Issue < WorkUnit
     'custom_field_values',
     'custom_fields',
     'lock_version',
-    :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_issues, issue.project) }
+    :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_work_units, issue.project) }
 
   safe_attributes 'status_id',
     'assigned_to_id',
