@@ -54,7 +54,7 @@ describe Api::V2::ProjectAssociationsController do
 
           it 'renders the index builder template' do
             get 'index', :project_id => project.id, :format => 'xml'
-            response.should render_template('timelines/project_associations/index', :formats => ["api"])
+            response.should render_template('project_associations/index', :formats => ["api"])
           end
         end
 
@@ -77,7 +77,7 @@ describe Api::V2::ProjectAssociationsController do
 
           it 'renders the index builder template' do
             get 'index', :project_id => project.id, :format => 'xml'
-            response.should render_template('timelines/project_associations/index', :formats => ["api"])
+            response.should render_template('project_associations/index', :formats => ["api"])
           end
         end
       end
@@ -143,7 +143,7 @@ describe Api::V2::ProjectAssociationsController do
 
           it 'renders the index builder template' do
             get 'index', :project_id => project.id, :id => project_association.id, :format => 'xml'
-            response.should render_template('timelines/project_associations/index', :formats => ["api"])
+            response.should render_template('project_associations/index', :formats => ["api"])
           end
         end
       end

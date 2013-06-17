@@ -208,8 +208,8 @@ Redmine::AccessControl.map do |map|
                    {:require => :member}
     map.permission :delete_planning_elements,
                    {:planning_elements => [:confirm_destroy, :destroy,
-                                                      :destroy_all,
-                                                      :confirm_destroy_all]},
+                                           :destroy_all,
+                                           :confirm_destroy_all]},
                    {:require => :member}
 
     map.permission :view_reportings,

@@ -32,7 +32,7 @@ describe Api::V2::PlanningElementStatusesController do
 
       it 'renders the index builder template' do
         get 'index', :format => 'xml'
-        response.should render_template('timelines/planning_element_statuses/index', :formats => ["api"])
+        response.should render_template('planning_element_statuses/index', :formats => ["api"])
       end
     end
 
@@ -52,7 +52,7 @@ describe Api::V2::PlanningElementStatusesController do
 
       it 'renders the index template' do
         get 'index', :format => 'xml'
-        response.should render_template('timelines/planning_element_statuses/index', :formats => ["api"])
+        response.should render_template('planning_element_statuses/index', :formats => ["api"])
       end
     end
   end
@@ -98,7 +98,7 @@ describe Api::V2::PlanningElementStatusesController do
 
       it 'renders the show template' do
         get 'show', :id => '1337', :format => 'xml'
-        response.should render_template('timelines/planning_element_statuses/show', :formats => ["api"])
+        response.should render_template('planning_element_statuses/show', :formats => ["api"])
       end
     end
   end

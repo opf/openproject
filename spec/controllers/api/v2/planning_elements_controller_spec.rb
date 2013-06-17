@@ -78,7 +78,6 @@ describe Api::V2::PlanningElementsController do
     end
   end
 
-
   before do
     User.stub(:current).and_return current_user
   end
@@ -129,7 +128,7 @@ describe Api::V2::PlanningElementsController do
 
           it 'renders the index builder template' do
             get 'index', :project_id => project.id, :format => 'xml'
-            response.should render_template('timelines/planning_elements/index', :formats => ["api"])
+            response.should render_template('planning_elements/index', :formats => ["api"])
           end
         end
 
@@ -149,7 +148,7 @@ describe Api::V2::PlanningElementsController do
 
           it 'renders the index builder template' do
             get 'index', :project_id => project.id, :format => 'xml'
-            response.should render_template('timelines/planning_elements/index', :formats => ["api"])
+            response.should render_template('planning_elements/index', :formats => ["api"])
           end
         end
       end
@@ -181,7 +180,7 @@ describe Api::V2::PlanningElementsController do
 
         it 'renders the index builder template' do
           get 'index', :project_id => 'project_a,project_b', :format => 'xml'
-          response.should render_template('timelines/planning_elements/index', :formats => ["api"])
+          response.should render_template('planning_elements/index', :formats => ["api"])
         end
       end
 
@@ -196,7 +195,7 @@ describe Api::V2::PlanningElementsController do
 
           it 'renders the index builder template' do
             get 'index', :project_id => 'project_a,project_b', :format => 'xml'
-            response.should render_template('timelines/planning_elements/index', :formats => ["api"])
+            response.should render_template('planning_elements/index', :formats => ["api"])
           end
         end
 
@@ -219,7 +218,7 @@ describe Api::V2::PlanningElementsController do
 
           it 'renders the index builder template' do
             get 'index', :project_id => 'project_a,project_b', :format => 'xml'
-            response.should render_template('timelines/planning_elements/index', :formats => ["api"])
+            response.should render_template('planning_elements/index', :formats => ["api"])
           end
         end
       end
@@ -325,7 +324,7 @@ describe Api::V2::PlanningElementsController do
 
           it 'renders the show builder template' do
             get 'show', :project_id => project.id, :id => planning_element.id, :format => 'xml'
-            response.should render_template('timelines/planning_elements/show', :formats => ["api"])
+            response.should render_template('planning_elements/show', :formats => ["api"])
           end
         end
       end
@@ -434,7 +433,7 @@ describe Api::V2::PlanningElementsController do
           it 'renders the destroy builder template' do
             get 'destroy', :project_id => project.id, :id => planning_element.id, :format => 'xml'
 
-            response.should render_template('timelines/planning_elements/destroy', :formats => ["api"])
+            response.should render_template('planning_elements/destroy', :formats => ["api"])
           end
 
           it 'deletes the record' do

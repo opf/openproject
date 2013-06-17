@@ -50,7 +50,7 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'renders the index builder template' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          response.should render_template('timelines/planning_element_types/index', :formats => ["api"])
+          response.should render_template('planning_element_types/index', :formats => ["api"])
         end
       end
 
@@ -79,7 +79,7 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'renders the index template' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          response.should render_template('timelines/planning_element_types/index', :formats => ["api"])
+          response.should render_template('planning_element_types/index', :formats => ["api"])
         end
       end
     end
@@ -136,7 +136,7 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'renders the show template' do
           get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
-          response.should render_template('timelines/planning_element_types/show', :formats => ["api"])
+          response.should render_template('planning_element_types/show', :formats => ["api"])
         end
       end
     end
@@ -157,7 +157,7 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'renders the index builder template' do
           get 'index', :format => 'xml'
-          response.should render_template('timelines/planning_element_types/index', :formats => ["api"])
+          response.should render_template('planning_element_types/index', :formats => ["api"])
         end
       end
 
@@ -177,7 +177,7 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'renders the index template' do
           get 'index', :format => 'xml'
-          response.should render_template('timelines/planning_element_types/index', :formats => ["api"])
+          response.should render_template('planning_element_types/index', :formats => ["api"])
         end
       end
     end
@@ -223,7 +223,7 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'renders the show template' do
           get 'show', :id => '1337', :format => 'xml'
-          response.should render_template('timelines/planning_element_types/show', :formats => ["api"])
+          response.should render_template('planning_element_types/show', :formats => ["api"])
         end
       end
     end

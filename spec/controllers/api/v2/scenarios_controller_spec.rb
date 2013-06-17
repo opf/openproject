@@ -40,7 +40,7 @@ describe Api::V2::ScenariosController do
 
         it 'renders the index builder template' do
           get 'index', :project_id => project.id, :format => 'xml'
-          response.should render_template('timelines/scenarios/index', :formats => ["api"])
+          response.should render_template('scenarios/index', :formats => ["api"])
         end
       end
 
@@ -60,7 +60,7 @@ describe Api::V2::ScenariosController do
 
         it 'renders the index builder template' do
           get 'index', :project_id => project.id, :format => 'xml'
-          response.should render_template('timelines/scenarios/index', :formats => ["api"])
+          response.should render_template('scenarios/index', :formats => ["api"])
         end
       end
     end
@@ -137,7 +137,7 @@ describe Api::V2::ScenariosController do
 
         it 'renders the index builder template' do
           get 'index', :project_id => project.id, :id => scenario.id, :format => 'xml'
-          response.should render_template('timelines/scenarios/index', :formats => ["api"])
+          response.should render_template('scenarios/index', :formats => ["api"])
         end
       end
 
