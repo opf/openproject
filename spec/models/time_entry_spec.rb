@@ -44,94 +44,92 @@ describe TimeEntry do
 
   it "should always prefer overridden_costs" do
     User.current = user
-    @example = time_entry
 
     value = rand(500)
-    @example.overridden_costs = value
-    @example.overridden_costs.should == value
-    @example.real_costs.should == value
-    @example.save!
+    time_entry.overridden_costs = value
+    time_entry.overridden_costs.should == value
+    time_entry.real_costs.should == value
+    time_entry.save!
   end
 
   describe "given rate" do
     before(:each) do
       User.current = user
-      @example = time_entry
       @default_example = time_entry2
     end
 
     it "should return the current costs depending on the number of hours" do
       (0..100).each do |hours|
-        @example.hours = hours
-        @example.save!
-        @example.costs.should == @example.rate.rate * hours
+        time_entry.hours = hours
+        time_entry.save!
+        time_entry.costs.should == time_entry.rate.rate * hours
       end
     end
 
     it "should update cost if a new rate is added at the end" do
-      @example.user = User.current
-      @example.spent_on = Time.now
-      @example.hours = 1
-      @example.save!
-      @example.costs.should == hourly_one.rate
+      time_entry.user = User.current
+      time_entry.spent_on = Time.now
+      time_entry.hours = 1
+      time_entry.save!
+      time_entry.costs.should == hourly_one.rate
       (hourly = HourlyRate.new.tap do |hr|
         hr.valid_from = 1.day.ago
         hr.rate       = 1.0
         hr.user       = User.current
         hr.project    = hourly_one.project
       end).save!
-      @example.reload
-      @example.rate.should_not == hourly_one
-      @example.costs.should == hourly.rate
+      time_entry.reload
+      time_entry.rate.should_not == hourly_one
+      time_entry.costs.should == hourly.rate
     end
 
     it "should update cost if a new rate is added in between" do
-      @example.user = User.current
-      @example.spent_on = 3.days.ago.to_date
-      @example.hours = 1
-      @example.save!
-      @example.costs.should == hourly_three.rate
+      time_entry.user = User.current
+      time_entry.spent_on = 3.days.ago.to_date
+      time_entry.hours = 1
+      time_entry.save!
+      time_entry.costs.should == hourly_three.rate
       (hourly = HourlyRate.new.tap do |hr|
         hr.valid_from = 3.days.ago.to_date
         hr.rate       = 1.0
         hr.user       = User.current
         hr.project    = hourly_one.project
       end).save!
-      @example.reload
-      @example.rate.should_not == hourly_three
-      @example.costs.should == hourly.rate
+      time_entry.reload
+      time_entry.rate.should_not == hourly_three
+      time_entry.costs.should == hourly.rate
     end
 
     it "should update cost if a spent_on changes" do
-      @example.hours = 1
+      time_entry.hours = 1
       (5.days.ago.to_date..Date.today).each do |time|
-        @example.spent_on = time.to_date
-        @example.save!
-        @example.costs.should == @example.user.rate_at(time, project.id).rate
+        time_entry.spent_on = time.to_date
+        time_entry.save!
+        time_entry.costs.should == time_entry.user.rate_at(time, project.id).rate
       end
     end
 
     it "should update cost if a rate is removed" do
-      @example.spent_on = hourly_one.valid_from
-      @example.hours = 1
-      @example.save!
-      @example.costs.should == hourly_one.rate
+      time_entry.spent_on = hourly_one.valid_from
+      time_entry.hours = 1
+      time_entry.save!
+      time_entry.costs.should == hourly_one.rate
       hourly_one.destroy
-      @example.reload
-      @example.costs.should == hourly_three.rate
+      time_entry.reload
+      time_entry.costs.should == hourly_three.rate
       hourly_three.destroy
-      @example.reload
-      @example.costs.should == hourly_five.rate
+      time_entry.reload
+      time_entry.costs.should == hourly_five.rate
     end
 
     it "should be able to change order of rates (sorted by valid_from)" do
-      @example.spent_on = hourly_one.valid_from
-      @example.save!
-      @example.rate.should == hourly_one
+      time_entry.spent_on = hourly_one.valid_from
+      time_entry.save!
+      time_entry.rate.should == hourly_one
       hourly_one.valid_from = hourly_three.valid_from - 1.day
       hourly_one.save!
-      @example.reload
-      @example.rate.should == hourly_three
+      time_entry.reload
+      time_entry.rate.should == hourly_three
     end
 
   end
@@ -139,7 +137,6 @@ describe TimeEntry do
   describe "default rate" do
     before(:each) do
       User.current = user
-      @example = time_entry
       @default_example = time_entry2
     end
 
