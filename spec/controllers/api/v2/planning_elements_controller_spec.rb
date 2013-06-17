@@ -233,8 +233,9 @@ describe Api::V2::PlanningElementsController do
     let(:project) { FactoryGirl.create(:project, :is_public => false) }
     def fetch
       post 'create', :project_id => project.identifier,
+                     :format => 'xml',
                      :planning_element => FactoryGirl.build(:planning_element,
-                                                        :project_id => project.id).attributes
+                                                            :project_id => project.id).attributes
     end
     def expect_redirect_to
       Regexp.new(project_planning_elements_path(project))
@@ -343,13 +344,13 @@ describe Api::V2::PlanningElementsController do
     def fetch
       post 'update', :project_id       => project.identifier,
                      :id               => planning_element.id,
-                     :planning_element => { name: "blubs" }
+                     :planning_element => { name: "blubs" },
+                     :format => 'xml'
     end
-    def expect_redirect_to
-      project_planning_element_path(project, planning_element)
+    def expect_no_content
+      true
     end
     let(:permission) { :edit_planning_elements }
-
     it_should_behave_like "a controller action which needs project permissions"
   end
 
