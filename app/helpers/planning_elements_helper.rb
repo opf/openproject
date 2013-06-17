@@ -72,7 +72,7 @@ module PlanningElementsHelper
       if include_journals?
         api.array :journals, :size => planning_element.journals.size do
           planning_element.journals.each do |journal|
-            render(:partial => '/planning_element_journals/journal.api',
+            render(:partial => '/api/v2/planning_element_journals/journal.api',
                    :object  => journal)
           end
         end

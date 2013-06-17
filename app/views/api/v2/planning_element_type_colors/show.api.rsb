@@ -9,4 +9,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-render(:partial => '/timelines/colors/color.api', :object => @color)
+render(:partial => '/api/v2/planning_element_type_colors/color.api', :object => @color)

@@ -9,5 +9,5 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-render(:partial => '/timelines/scenarios/scenario.api',
+render(:partial => '/api/v2/scenarios/scenario.api',
        :object => @scenario)

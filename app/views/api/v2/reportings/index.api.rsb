@@ -11,6 +11,6 @@
 
 api.array :reportings, :size => @reportings.size do
   @reportings.each do |reporting|
-    render(:partial => '/timelines/reportings/reporting.api', :object => reporting)
+    render(:partial => '/api/v2/reportings/reporting.api', :object => reporting)
   end
 end

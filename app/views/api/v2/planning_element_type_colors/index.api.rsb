@@ -11,6 +11,6 @@
 
 api.array :colors, :size => @colors.size do
   @colors.each do |color|
-    render(:partial => '/timelines/colors/color.api', :object => color)
+    render(:partial => '/api/v2/planning_element_type_colors/color.api', :object => color)
   end
 end

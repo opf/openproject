@@ -9,5 +9,5 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-render(:partial => '/timelines/reported_project_statuses/reported_project_status.api',
+render(:partial => '/api/v2/reported_project_statuses/reported_project_status.api',
        :object  => @reported_project_status)

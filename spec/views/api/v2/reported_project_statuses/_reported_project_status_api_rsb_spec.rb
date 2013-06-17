@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../spec_helper', __FILE__)
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/reported_project_statuses/_reported_project_status.api' do
   before do
@@ -24,10 +24,10 @@ describe 'api/v2/reported_project_statuses/_reported_project_status.api' do
 
   describe 'with an assigned reported_project_status' do
     let(:reported_project_status) { FactoryGirl.build(:reported_project_status,
-                                                      :id         => 1,
-                                                      :name       => 'Awesometastic reported_project_status',
-                                                      :is_default => true,
-                                                      :position   => 10) }
+                                                  :id         => 1,
+                                                  :name       => 'Awesometastic reported_project_status',
+                                                  :is_default => true,
+                                                  :position   => 10) }
 
     it 'renders a reported_project_status node' do
       render

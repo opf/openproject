@@ -11,7 +11,7 @@
 
 api.array :project_associations, :size => @project_associations.size do
   @project_associations.each do |project_association|
-    render(:partial => '/timelines/project_associations/project_association.api',
+    render(:partial => '/api/v2/project_associations/project_association.api',
            :object  => project_association)
   end
 end

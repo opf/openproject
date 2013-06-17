@@ -11,7 +11,7 @@
 
 api.array :planning_element_types, :size => @planning_element_types.size do
   @planning_element_types.each do |planning_element_type|
-    render(:partial => '/timelines/planning_element_types/planning_element_type.api',
+    render(:partial => '/api/v2/planning_element_types/planning_element_type.api',
            :object => planning_element_type)
   end
 end
