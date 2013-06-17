@@ -1,42 +1,89 @@
 require 'spec_helper'
 
 describe Redmine::MenuManager::MenuItem do
-  let(:name) { valid_attributes[0] }
-  let(:url) { valid_attributes[1] }
-  let(:options) { valid_attributes[2] }
-  let(:valid_attributes) { ["MenuNode1", { :controller => :"/issues", :action => :index }, {}] }
+  let(:name) { :blubs }
+  let(:content) { Proc.new { "" } }
+  let(:condition) { Proc.new { "" } }
+
   let(:klass) { Redmine::MenuManager::MenuItem }
+  let(:item) { klass.new(name, content, condition) }
 
-  describe "name" do
-    it "should be the provided name as a symbol" do
-      instance = klass.new(*valid_attributes)
+  describe :new do
+    describe "takes a name, a content block and a condition block" do
 
-      instance.name.should == name.to_sym
+      it "should save the provided symbol as name" do
+        item.name.should == name
+      end
+
+      it "should save the provided conent block as content" do
+        item.content.should == content
+      end
+
+      it "should save the provided condition block as condition" do
+        item.condition.should == condition
+      end
     end
   end
 
-  describe "label" do
-    it "should return the result of the provided block" do
-      expected_return = "lorem ipsum"
+  describe "name attribute" do
+    it "should have getter and setter for name" do
+      item.name = :lorem
+      item.name.should == :lorem
+    end
+  end
 
-      valid_attributes[1] = Proc.new { |x| expected_return }
+  describe "content attribute" do
+    it "should have getter and setter for content" do
+      content = Proc.new { "lorem" }
 
-      instance = klass.new(*valid_attributes)
+      item.content = content
+      item.content.should == content
+    end
+  end
 
-      instance.label.should == expected_return
+  describe "condition attribute" do
+    it "should have getter and setter for condition" do
+      condition = Proc.new { "lorem" }
+
+      item.condition = condition
+      item.condition.should == condition
     end
   end
 
   describe "allowed?" do
-    it "should return the result of the provided block" do
-      options[:if] = Proc.new { true }
+    it "should return the result of the condition block which is true" do
+      item = klass.new :item, Proc.new { "" }, Proc.new { true }
 
-      instance = klass.new(*valid_attributes)
+      item.allowed?.should be_true
+    end
 
-      instance.allowed?.should be_true
+    it "should return the result of the condition block which is false" do
+      item = klass.new :item, Proc.new { "" }, Proc.new { false }
+
+      item.allowed?.should be_false
     end
   end
-
+#
+#  describe "name" do
+#    it "should be the provided name as a symbol" do
+#      instance = klass.new(*valid_attributes)
+#
+#      instance.name.should == name.to_sym
+#    end
+#  end
+#
+#  describe "label" do
+#    it "should return the result of the provided block" do
+#      expected_return = "lorem ipsum"
+#
+#      valid_attributes[1] = Proc.new { |x| expected_return }
+#
+#      instance = klass.new(*valid_attributes)
+#
+#      instance.label.should == expected_return
+#    end
+#  end
+#
 #  describe "url" do
 #    it "should be the provided url" do
 #      instance = klass.new(*valid_attributes)

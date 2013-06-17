@@ -60,7 +60,10 @@ class Redmine::MenuManager::Content::Link
     html_options = (@options[:html] || {}).merge(current_options[:html] || {})
 
     if current_options[:selected]
-      html_options[:class] += ' selected'
+      html_options[:class] = html_options[:class] ?
+                               html_options[:class] + ' selected' :
+                               'selected'
+
       html_options
     else
       html_options

@@ -12,59 +12,46 @@
 
 class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   include Redmine::I18n
-  attr_reader :name, :url, :param, :condition, :child_menus, :last, :block
+  #attr_reader :name, :url, :param, :condition, :child_menus, :last, :block
+  attr_accessor :name,
+                :content,
+                :condition
 
-  def initialize(name, url_or_block, options)
-    raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
-    raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
-    raise ArgumentError, "Cannot set the :parent to be the same as this item" if options[:parent] == name.to_sym
-    raise ArgumentError, "Invalid option :children for menu item '#{name}'" if options[:children] && !options[:children].respond_to?(:call)
-
+  def initialize(name, content, condition)
     @name = name
-    @condition = options[:if]
-    @param = options[:param] || :id
-    @caption = options[:caption]
-    @html_options = options[:html] || {}
-    # Adds a unique class to each menu item based on its name
-    @html_options[:class] = [@html_options[:class], @name.to_s.dasherize, 'ellipsis'].compact.join(' ')
-    @child_menus = options[:children]
-    @last = options[:last] || false
+    @content = content
+    @condition = condition
 
-    if url_or_block.respond_to?(:call)
-      @block = url_or_block
-    else
-      @block = Redmine::MenuManager::LinkContent.new(url_or_block, options)
-    end
-
-    super @name.to_sym
+    super @name.to_sym, content
   end
 
   def label(locals = {})
-    @block.call(locals)
+    @content.call(locals)
   end
 
   # Checks if a user is allowed to access the menu item by:
   #
   # * Checking the conditions of the item
   # * Checking the url target (project only)
-  def allowed?(user, project=nil)
+  def allowed?(locals = {})
+    condition.call(locals)
 #    @condition.call
-    if condition && !condition.call(project)
-      # Condition that doesn't pass
-      return false
-    end
-
-    # TODO: get a better mechanism
-    if block || url.try(:empty?)
-      return true
-    end
-
-    if project
-      return user && user.allowed_to?(url, project)
-    else
-      # outside a project, all menu items allowed
-      return true
-    end
+#    if condition && !condition.call(project)
+#      # Condition that doesn't pass
+#      return false
+#    end
+#
+#    # TODO: get a better mechanism
+#    if block || url.try(:empty?)
+#      return true
+#    end
+#
+#    if project
+#      return user && user.allowed_to?(url, project)
+#    else
+#      # outside a project, all menu items allowed
+#      return true
+#    end
   end
 
   def extract_details(locals = {})

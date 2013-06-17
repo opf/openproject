@@ -46,7 +46,7 @@ module Redmine::MenuManager
     end
 
     items(menu).root.children.each do |node|
-      if node.allowed?(User.current, project)
+      if node.allowed?(:user => User.current, :project => project)
         if block_given?
           yield node
         else

@@ -19,7 +19,29 @@ describe Redmine::MenuManager::Content::Factory do
       url = { :one => "1", :two => "2" }
       options = { :a => "1", :b => "2" }
 
-      new_content = "new_content"
+      new_content = double("new_content")
+
+      Redmine::MenuManager::Content::Link.stub!(:new).with(url, options).and_return(new_content)
+
+      klass.build(url, options).should == new_content
+    end
+
+    it "should return a link content when a symbol is provided" do
+      url = :home_path
+      options = {}
+
+      new_content = double("new_content")
+
+      Redmine::MenuManager::Content::Link.stub!(:new).with(url, options).and_return(new_content)
+
+      klass.build(url, options).should == new_content
+    end
+
+    it "should return a link content when a url is provided" do
+      url = "https://www.openproject.org/projects/support"
+      options = {}
+
+      new_content = double("new_content")
 
       Redmine::MenuManager::Content::Link.stub!(:new).with(url, options).and_return(new_content)
 

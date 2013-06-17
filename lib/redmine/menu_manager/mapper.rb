@@ -11,13 +11,12 @@
 #++
 
 class Redmine::MenuManager::Mapper
-  def initialize(menu, items)
-    items[menu] ||= Menu.new
-    @menu = menu
-    @menu_items = items[menu]
-  end
 
-  @@last_items_count = Hash.new {|h,k| h[k] = 0}
+  attr_reader :menu
+
+  def initialize(name, items)
+    @menu = items[name] ||= Redmine::MenuManager::Menu.new(name)
+  end
 
   # Adds an item at the end of the menu. Available options:
   # * param: the parameter name that is used for the project id (default is :id)
@@ -40,32 +39,25 @@ class Redmine::MenuManager::Mapper
 
     node = new_item(name, node_content, node_granter)
 
-    add(node, options)
+    menu.place(node, options)
   end
 
   # Removes a menu item
   def delete(name)
     if found = self.find(name)
-      @menu_items.remove!(found)
+      menu.remove!(found)
     end
   end
 
   # Checks if a menu item exists
   def exists?(name)
-    @menu_items.any? {|node| node.name == name}
+    menu.any? {|node| node.name == name}
   end
 
   def find(name)
-    @menu_items.find_item(name)
+    menu.find_item(name)
   end
 
-  def position_of(name)
-    @menu_items.each do |node|
-      if node.name == name
-        return node.position
-      end
-    end
-  end
 
   private
 
@@ -79,50 +71,6 @@ class Redmine::MenuManager::Mapper
 
   def new_item(name, node_content, node_granter)
     Redmine::MenuManager::MenuItem.new(name, node_content, node_granter)
-  end
-
-  def find_target_root(parent_name)
-    if parent_name
-      subtree = self.find(parent_name)
-
-      if subtree
-        target_root = subtree
-      else
-        target_root = @menu_items.root
-      end
-
-    else
-      target_root = @menu_items.root
-    end
-  end
-
-  def add(new_node, options)
-    target_root = find_target_root(options[:parent])
-
-    # menu item position
-    if first = options.delete(:first)
-      target_root.prepend(new_node)
-    elsif before = options.delete(:before)
-
-      if exists?(before)
-        target_root.add_at(new_node, position_of(before))
-      else
-        target_root.add(new_node)
-
-      end
-    elsif after = options.delete(:after)
-
-      if exists?(after)
-        target_root.add_at(new_node, position_of(after) + 1)
-      else
-        target_root.add(new_node)
-      end
-
-    elsif options[:last] # don't delete, needs to be stored
-      target_root.add_last(new_node)
-    else
-      target_root.add(new_node)
-    end
   end
 end
 

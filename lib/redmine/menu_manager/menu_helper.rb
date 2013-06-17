@@ -112,7 +112,7 @@ module Redmine::MenuManager::MenuHelper
 
     return "" if project and not node.allowed?(User.current, project)
 
-    if node.has_children? || !node.child_menus.nil?
+    if node.has_children?# || !node.child_menus.nil?
       render_menu_node_with_children(node, locals)
     else
       content_tag('li', render_single_menu_node(node, locals))
