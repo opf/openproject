@@ -43,6 +43,14 @@ module Api
         result
       end
 
+      def apply_at_timestamp(*args, &block)
+        original_controller = params[:controller]
+        params[:controller] = original_controller.gsub(api_version, "")
+        result = super(*args, &block)
+        params[:controller] = original_controller
+        result
+      end
+
       def jump_to_project_menu_item(*args, &block)
         original_controller = params[:controller]
         params[:controller] = original_controller.gsub(api_version, "")
@@ -52,6 +60,14 @@ module Api
       end
 
       def find_project(*args, &block)
+        original_controller = params[:controller]
+        params[:controller] = original_controller.gsub(api_version, "")
+        result = super(*args, &block)
+        params[:controller] = original_controller
+        result
+      end
+
+      def find_all_projects_by_project_id(*args, &block)
         original_controller = params[:controller]
         params[:controller] = original_controller.gsub(api_version, "")
         result = super(*args, &block)
