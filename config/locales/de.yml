@@ -91,10 +91,10 @@ de:
         issue: "Ticket"
         spent_on: "Datum"
         tracker: "Tracker"
-      "timelines/color":
+      planning_element_type_color:
         name: Name
         hexcode: Hex-Code
-      "timelines/planning_element":
+      planning_element:
         alternate_dates:
           end_date: Abschlussdatum des alternativen Datums
         description: Beschreibung
@@ -106,27 +106,27 @@ de:
         responsible: Planungsverantwortlicher
         start_date: Startdatum
         updated_at: Aktualisiert
-      "timelines/planning_element_type":
+      planning_element_type:
         color: Farbe
         id: ID
         in_aggregation: In Aggregration
         is_default: Standardwert
         is_milestone: Meilenstein
         name: Name
-      "timelines/project_association":
+      project_association:
         description: Begründung
-      "timelines/project_type":
+      project_type:
         allows_association: Erlaubt Projekt-Abhängigkeiten
         name: Name
         planning_element_types: Standard-Planungselement-Typen
         reported_project_statuses: Gemeldeter Projekt-Status
-      "timelines/scenario":
+      scenario:
         created_at: Angelegt
         name: Name
         updated_at: Aktualisiert
-      "timelines/timeline":
+      timeline:
         name: Name
-      "timelines/reporting":
+      reporting:
         created_at: Angelegt
         reported_project_status_comment: Status-Kommentar
         reported_project_status_id: Projekt-Status
@@ -188,11 +188,11 @@ de:
         too_short: "ist zu kurz (nicht weniger als %{count} Zeichen)"
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
       models:
-        "timelines/alternate_date":
+        alternate_date:
           attributes:
             end_date:
               not_start_date: "ist nicht identisch mit dem Startdatum, obwohl dies bei Meilensteinen Pflicht ist"
-        "timelines/planning_element":
+        planning_element:
           attributes:
             end_date:
               not_start_date: "ist nicht am Startdatum, obwohl die bei Meilensteinen Pflicht ist"
@@ -200,7 +200,7 @@ de:
               cannot_be_milestone: "darf kein Meilenstein sein"
               cannot_be_in_another_project: "darf nicht in einem anderen Projekt sein"
               cannot_be_in_recycle_bin : "darf nicht im Papierkorb liegen"
-        "timelines/project_association":
+        project_association:
           project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
@@ -224,10 +224,10 @@ de:
       query: "Benutzerdefinierte Abfrage"
       role: "Rolle"
       tracker: "Tracker"
-      "timelines/planning_element": Planungselement
-      "timelines/planning_element_type": Planungselement-Typ
-      "timelines/project_type": Projekt-Typ
-      "timelines/scenario": Szenario
+      planning_element: Planungselement
+      planning_element_type: Planungselement-Typ
+      project_type: Projekt-Typ
+      scenario: Szenario
       user: "Benutzer"
       version: "Version"
       wiki: "Wiki"
