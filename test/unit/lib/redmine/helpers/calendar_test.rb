@@ -16,11 +16,11 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 class CalendarTest < ActiveSupport::TestCase
 
   def test_monthly
-    Setting.available_languages = [:fr, :en]
-    c = Redmine::Helpers::Calendar.new(Date.today, :fr, :month)
+    Setting.available_languages = [:de, :en]
+    c = Redmine::Helpers::Calendar.new(Date.today, :de, :month)
     assert_equal [1, 7], [c.startdt.cwday, c.enddt.cwday]
 
-    c = Redmine::Helpers::Calendar.new('2007-07-14'.to_date, :fr, :month)
+    c = Redmine::Helpers::Calendar.new('2007-07-14'.to_date, :de, :month)
     assert_equal ['2007-06-25'.to_date, '2007-08-05'.to_date], [c.startdt, c.enddt]
 
     c = Redmine::Helpers::Calendar.new(Date.today, :en, :month)
@@ -28,11 +28,11 @@ class CalendarTest < ActiveSupport::TestCase
   end
 
   def test_weekly
-    Setting.available_languages = [:fr, :en]
-    c = Redmine::Helpers::Calendar.new(Date.today, :fr, :week)
+    Setting.available_languages = [:de, :en]
+    c = Redmine::Helpers::Calendar.new(Date.today, :de, :week)
     assert_equal [1, 7], [c.startdt.cwday, c.enddt.cwday]
 
-    c = Redmine::Helpers::Calendar.new('2007-07-14'.to_date, :fr, :week)
+    c = Redmine::Helpers::Calendar.new('2007-07-14'.to_date, :de, :week)
     assert_equal ['2007-07-09'.to_date, '2007-07-15'.to_date], [c.startdt, c.enddt]
 
     c = Redmine::Helpers::Calendar.new(Date.today, :en, :week)

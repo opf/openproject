@@ -25,7 +25,7 @@ class WelcomeControllerTest < ActionController::TestCase
     @controller = WelcomeController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    Setting.available_languages = [:en, :fr, :"zh-TW"]
+    Setting.available_languages = [:en, :de]
     User.current = nil
   end
 
@@ -40,23 +40,23 @@ class WelcomeControllerTest < ActionController::TestCase
 
   def test_browser_language
     Setting.default_language = 'en'
-    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
     get :index
-    assert_equal :fr, @controller.current_language
+    assert_equal :de, @controller.current_language
   end
 
   def test_browser_language_alternate
     Setting.default_language = 'en'
-    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'zh-TW'
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de'
     get :index
-    assert_equal :"zh-TW", @controller.current_language
+    assert_equal :"de", @controller.current_language
   end
 
   def test_browser_language_alternate_not_valid
     Setting.default_language = 'en'
-    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr-CA'
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de-CA'
     get :index
-    assert_equal :fr, @controller.current_language
+    assert_equal :de, @controller.current_language
   end
 
   def test_robots
