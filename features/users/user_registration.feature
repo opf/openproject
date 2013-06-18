@@ -29,7 +29,7 @@ And I fill in "user_password_confirmation" with "test12"
 And I fill in "user_firstname" with "Heidi"
 And I fill in "user_lastname" with "Swiss"
 And I click on "Submit"
-Then I should see "Mail can't be blank"
+Then I should see "Email can't be blank"
 
 @javascript
 Scenario: A user is unable to register if the password does not match the confirmation
