@@ -44,13 +44,13 @@ Timeline = {
     columns:                        [],
     exclude_own_planning_elements:  false,
     exclude_reporters:              false,
-    global_prefix:                  '/timelines/',
+    global_prefix:                  '/',
     hide_other_group:               false,
     hide_tree_root:                 false,
     i18n:                           {},  // undefined would be bad.
     initial_outline_expansion:      0,   // aggregations only
-    project_prefix:                 '/timelines/projects/',
-    planning_element_prefix:        '/timelines',
+    project_prefix:                 '/projects/',
+    planning_element_prefix:        '',
     ui_root:                        jQuery('#timeline'),
     url_prefix:                     ''   // empty prefix so it is not undefined.
   },
@@ -58,7 +58,7 @@ Timeline = {
   ajax_defaults: {
     cache: false,
     context: this,
-    dataType: 'json'
+    dataType: 'xml'
   },
 
   instances: [],
@@ -980,13 +980,13 @@ Timeline = {
 
       this.loader.register(
           Timeline.PlanningElementType.identifier,
-          { url : this.globalPrefix + 'planning_element_types.json' });
+          { url : this.globalPrefix + 'planning_element_types.xml' });
       this.loader.register(
           Timeline.Color.identifier,
-          { url : this.globalPrefix + 'colors.json' });
+          { url : this.globalPrefix + 'colors.xml' });
       this.loader.register(
           Timeline.ProjectType.identifier,
-          { url : this.globalPrefix + 'project_types.json' });
+          { url : this.globalPrefix + 'project_types.xml' });
     };
 
     TimelineLoader.prototype.registerProjects = function (ids) {
@@ -1014,7 +1014,7 @@ Timeline = {
         this.loader.register(
             Timeline.PlanningElement.identifier + '_' + i,
             { url : projectPrefix +
-                    '/planning_elements.json?exclude=scenarios' +
+                    '/planning_elements.xml?exclude=scenarios' +
                     this.comparisonCurrentUrlSuffix()},
             { storeIn: Timeline.PlanningElement.identifier }
           );
@@ -1024,7 +1024,7 @@ Timeline = {
           this.loader.register(
               Timeline.HistoricalPlanningElement.identifier + '_' + i,
               { url : projectPrefix +
-                      '/planning_elements.json?exclude=scenarios' +
+                      '/planning_elements.xml?exclude=scenarios' +
                       this.comparisonTargetUrlSuffix() },
               { storeIn: Timeline.HistoricalPlanningElement.identifier,
                 readFrom: Timeline.PlanningElement.identifier }
@@ -1044,7 +1044,7 @@ Timeline = {
         this.loader.register(
             Timeline.PlanningElement.identifier + '_IDS_' + i,
             { url : planningElementPrefix +
-                    '/planning_elements.json?ids=' +
+                    '/planning_elements.xml?ids=' +
                     planningElementIdsOfPacket.join(',')},
             { storeIn: Timeline.PlanningElement.identifier }
           );
@@ -1849,7 +1849,7 @@ Timeline = {
 
       url += options.project_prefix;
       url += this.identifier;
-      url += "/timelines";
+      // url += "/timelines";
 
       return url;
     },
