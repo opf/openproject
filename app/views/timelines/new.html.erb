@@ -15,7 +15,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </h2>
 
 <%= form_for(:timeline,
-            :url => project_path(@project),
+            :url => project_timelines_path,
             :html => {:class => "tabular", :method => 'post'}) do |f| %>
 
   <%= render(:partial => "timelines/form",
