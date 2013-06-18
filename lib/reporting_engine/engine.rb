@@ -37,9 +37,9 @@ module ReportingEngine
       Redmine::Plugin.register :reportingengine do
         name 'ReportingEngine'
         author 'Finn GmbH'
-        description 'A plugin for reports'
+        description 'A plugin to support creating reports'
 
-        url 'https://github.com/finnlabs/reportingengine'
+        url 'https://github.com/finnlabs/reporting_engine'
         author_url 'http://www.finn.de/'
 
         version ReportingEngine::VERSION
