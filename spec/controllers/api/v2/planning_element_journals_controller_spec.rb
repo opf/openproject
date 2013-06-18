@@ -9,15 +9,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe PlanningElementJournalsController do
+describe Api::V2::PlanningElementJournalsController do
   let(:project) { FactoryGirl.create(:project, :is_public => false) }
 
   describe 'index.xml' do
     def fetch
       planning_element = FactoryGirl.create(:planning_element,
-                                        :project_id => project.id)
+                                            :project_id => project.id)
 
       get 'index', :project_id          => project.identifier,
                    :planning_element_id => planning_element.id,
