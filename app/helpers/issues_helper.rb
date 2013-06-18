@@ -294,7 +294,6 @@ module IssuesHelper
   end
 
   def attrib_disbaled?(issue, attrib)
-    return false if !value_overridden_by_childs?(attrib)
-    issue.new_record? ? false : !issue.leaf?
+    value_overridden_by_childs?(attrib) && !(issue.new_record? || issue.leaf?)
   end
 end
