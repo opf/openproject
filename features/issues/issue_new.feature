@@ -37,7 +37,7 @@ Feature: Issue edit
       | New         | false      | true        |
     And I am logged in as "lrrr"
 
-  Scenario: Wile creating a issue user can change attributes which are overriden by childs
+  Scenario: Wile creating an issue user can change attributes which are overriden by childs
     When I go to the overview page of the project "omicronpersei8"
     And I click on "Issues" within "#menu-sidebar"
     Then I should see "New issue" within ".new-issue"
