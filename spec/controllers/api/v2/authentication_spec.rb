@@ -9,12 +9,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe AuthenticationController do
-  describe 'index.html' do
+describe Api::V2::AuthenticationController do
+  describe 'index.xml' do
     def fetch
-      get 'index'
+      get 'index', :format => 'xml'
     end
 
     it_should_behave_like "a controller action with require_login"
