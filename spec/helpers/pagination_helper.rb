@@ -102,5 +102,13 @@ describe PaginationHelper do
       end
 
     end
+
+    describe "WHEN the paginated object is empty" do
+      let(:total_entries) { 0 }
+
+      it "should be empty" do
+        pagination.should have_selector(".pagination", :text => /^$/)
+      end
+    end
   end
 end
