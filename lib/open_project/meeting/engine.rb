@@ -52,6 +52,7 @@ module OpenProject::Meeting
           author_url spec.homepage
           description spec.description
           version spec.version
+          url 'https://github.com/finnlabs/openproject-meeting'
 
           requires_openproject ">= 3.0.0beta1"
 
