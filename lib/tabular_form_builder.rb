@@ -1,13 +1,11 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2012-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# modify it under the terms of the GNU General Public License version 3.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -61,12 +59,12 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   # Returns a label tag for the given field
   def label_for_field(field, options = {})
-      return '' if options.delete(:no_label)
-      text = options[:label].is_a?(Symbol) ? l(options[:label]) : options[:label]
-      text ||= @object.class.human_attribute_name(field.to_sym) if @object.is_a?(ActiveRecord::Base)
-      text += @template.content_tag("span", " *", :class => "required") if options.delete(:required)
-      @template.label(@object_name, field.to_s, text.html_safe,
-                                     :class => (@object && @object.errors[field] ? "error" : nil))
+    return '' if options.delete(:no_label)
+    text = options[:label].is_a?(Symbol) ? l(options[:label]) : options[:label]
+    text ||= @object.class.human_attribute_name(field.to_sym) if @object.is_a?(ActiveRecord::Base)
+    text += @template.content_tag("span", " *", :class => "required") if options.delete(:required)
+    @template.label(@object_name, field.to_s, text.html_safe,
+                                   :class => (@object && @object.errors[field] ? "error" : nil))
   end
 
   def localized_field(translation_form, method, field, options)

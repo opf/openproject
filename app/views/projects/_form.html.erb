@@ -1,3 +1,15 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
 <%= error_messages_for 'project' %>
 
 <div class="box">
@@ -28,7 +40,14 @@
 <% @project.custom_field_values.each do |value| %>
 	<p><%= custom_field_tag_with_label :project, value %></p>
 <% end %>
+
+<%# former timelines hook: %>
+<% extend TimelinesHelper %>
+<p><%= f.select :timelines_project_type_id, options_for_project_types, :include_blank => true %></p>
+<p><%= f.select :timelines_responsible_id, options_for_responsible(@project), :include_blank => true %></p>
+
 <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
+
 </div>
 
 <% if @project.new_record? %>

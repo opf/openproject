@@ -13,8 +13,12 @@ gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink'
+gem "will_paginate", '~> 3.0'
+gem "acts_as_list", "~> 0.2.0"
 
 gem 'awesome_nested_set'
+
+gem 'color-tools', '~> 1.3.0', :require => 'color'
 
 gem 'tinymce-rails'
 gem 'tinymce-rails-langs'
@@ -45,6 +49,10 @@ group :assets do
 end
 
 gem "prototype-rails"
+# remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
+# replace those with :remote => true
+gem 'prototype_legacy_helper', '0.0.0', :git => 'git://github.com/rails/prototype_legacy_helper.git'
+
 gem 'jquery-rails', '~> 2.0.3'
 # branch rewrite has commit 6bfdcd7e14df1efffc00b2bbdf4e14e614d00418 which adds
 # a "magic comment" in the translations.js.erb and somehow breaks i18n-js
@@ -64,6 +72,7 @@ group :test do
   gem "rspec-rails", "~> 2.0", :group => :development
   gem 'rspec-example_disabler', :git => 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'selenium-webdriver'
 
   gem 'rb-readline' # ruby on CI needs this

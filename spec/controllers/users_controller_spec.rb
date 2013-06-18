@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require 'spec_helper'
 
 describe UsersController do
@@ -7,6 +18,7 @@ describe UsersController do
 
   let(:user) { FactoryGirl.create(:user) }
   let(:admin) { FactoryGirl.create(:admin) }
+  let(:anonymous) { FactoryGirl.create(:anonymous) }
 
   describe "GET deletion_info" do
 
@@ -15,10 +27,11 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.stub!(:find_current_user).and_return(user)
         Setting.stub!(:users_deletable_by_self?).and_return(true)
 
-        get :deletion_info, params
+        as_logged_in_user user do
+          get :deletion_info, params
+        end
       end
 
       it { response.should be_success }
@@ -31,22 +44,23 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.stub!(:find_current_user).and_return(user)
         Setting.stub!(:users_deletable_by_self?).and_return(false)
 
-        get :deletion_info, params
+        as_logged_in_user user do
+          get :deletion_info, params
+        end
       end
 
       it { response.response_code.should == 404 }
     end
 
     describe "WHEN the current user is the anonymous user" do
-      let(:params) { { "id" => User.anonymous.id.to_s } }
+      let(:params) { { "id" => anonymous.id.to_s } }
 
       before do
-        @controller.stub!(:find_current_user).and_return(User.anonymous)
-
-        get :deletion_info, params
+        as_logged_in_user anonymous do
+          get :deletion_info, params
+        end
       end
 
       it { response.should redirect_to({ :controller => 'account',
@@ -57,14 +71,14 @@ describe UsersController do
 
     describe "WHEN the current user is admin
               WHEN the setting users_deletable_by_admins is set to true" do
-      let(:admin) { FactoryGirl.create(:admin) }
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.stub!(:find_current_user).and_return(admin)
         Setting.stub!(:users_deletable_by_admins?).and_return(true)
 
-        get :deletion_info, params
+        as_logged_in_user admin do
+          get :deletion_info, params
+        end
       end
 
       it { response.should be_success }
@@ -74,14 +88,14 @@ describe UsersController do
 
     describe "WHEN the current user is admin
               WHEN the setting users_deletable_by_admins is set to false" do
-      let(:admin) { FactoryGirl.create(:admin) }
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.stub!(:find_current_user).and_return(admin)
         Setting.stub!(:users_deletable_by_admins?).and_return(false)
 
-        get :deletion_info, params
+        as_logged_in_user admin do
+          get :deletion_info, params
+        end
       end
 
       it { response.response_code.should == 404 }
@@ -95,10 +109,11 @@ describe UsersController do
 
       before do
         @controller.instance_eval{ flash.stub!(:sweep) }
-        @controller.stub!(:find_current_user).and_return(user)
         Setting.stub!(:users_deletable_by_self?).and_return(true)
 
-        post :destroy, params
+        as_logged_in_user user do
+          post :destroy, params
+        end
       end
 
       it { response.should redirect_to({ :controller => 'account', :action => 'login' }) }
@@ -111,10 +126,11 @@ describe UsersController do
 
       before do
         @controller.instance_eval{ flash.stub!(:sweep) }
-        @controller.stub!(:find_current_user).and_return(user)
         Setting.stub!(:users_deletable_by_self?).and_return(false)
 
-        post :destroy, params
+        as_logged_in_user user do
+          post :destroy, params
+        end
       end
 
       it { response.response_code.should == 404 }
@@ -122,13 +138,15 @@ describe UsersController do
 
     describe "WHEN the current user is the anonymous user
               EVEN when the setting login_required is set to false" do
-      let(:params) { { "id" => User.anonymous.id.to_s } }
+      let(:params) { { "id" => anonymous.id.to_s } }
 
       before do
-        @controller.stub!(:find_current_user).and_return(User.anonymous)
+        @controller.stub!(:find_current_user).and_return(anonymous)
         Setting.stub!(:login_required?).and_return(false)
 
-        post :destroy, params
+        as_logged_in_user anonymous do
+          post :destroy, params
+        end
       end
 
       # redirecting post is not possible for now
@@ -142,10 +160,11 @@ describe UsersController do
 
       before do
         @controller.instance_eval{ flash.stub!(:sweep) }
-        @controller.stub!(:find_current_user).and_return(admin)
         Setting.stub!(:users_deletable_by_admins?).and_return(true)
 
-        post :destroy, params
+        as_logged_in_user admin do
+          post :destroy, params
+        end
       end
 
       it { response.should redirect_to({ :controller => 'users', :action => 'index' }) }
@@ -159,10 +178,11 @@ describe UsersController do
 
       before do
         @controller.instance_eval{ flash.stub!(:sweep) }
-        @controller.stub!(:find_current_user).and_return(admin)
         Setting.stub!(:users_deletable_by_admins).and_return(false)
 
-        post :destroy, params
+        as_logged_in_user admin do
+          post :destroy, params
+        end
       end
 
       it { response.response_code.should == 404 }

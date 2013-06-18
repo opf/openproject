@@ -1,4 +1,23 @@
-<%= labelled_tabular_form_for @user, :url => { :controller => '/users', :action => "update", :tab => nil }, :html => { :method => :put, :class => nil }, :as => :user do |f| %>
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= labelled_tabular_form_for @user,
+                              :url => { :controller => '/users',
+                                        :action => "update",
+                                        :tab => nil },
+                              :html => { :method => :put,
+                                         :class => nil,
+                                         :autocomplete => 'off' },
+                              :as => :user do |f| %>
 	<%= render :partial => 'form', :locals => { :f => f } %>
 	<% if @user.active? -%>
 		<p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>

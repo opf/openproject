@@ -1,3 +1,15 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
 <table class="cal">
 <thead>
 <tr><th scope="col" title="<%= l(:label_week) %>" class="week-number"></th><% 7.times do |i| %><th scope="col"><%= day_name( (calendar.first_wday+i)%7 ) %></th><% end %></tr>

@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 module OpenProject
   module WikiFormatting
     module Macros
@@ -63,6 +74,15 @@ module OpenProject
           end
         end
 
+        Redmine::WikiFormatting::Macros.register do
+          desc <<-EOF
+            Display a timeline report on the Wiki page.
+          EOF
+
+          macro :timeline do |obj, args, options|
+            Timelines::WikiMacro.new.apply obj, args, options.merge(:view => self)
+          end
+        end
       end
     end
   end

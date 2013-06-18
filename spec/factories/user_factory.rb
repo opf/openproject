@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 FactoryGirl.define do
   factory :user do
     ignore do
@@ -9,8 +20,8 @@ FactoryGirl.define do
     lastname 'Bobbit'
     sequence(:login) { |n| "bob#{n}" }
     sequence(:mail) {|n| "bob#{n}.bobbit@bob.com" }
-    password 'admin'
-    password_confirmation 'admin'
+    password 'adminADMIN!'
+    password_confirmation 'adminADMIN!'
 
     mail_notification(Redmine::VERSION::MAJOR > 0 ? 'all' : true)
 
@@ -34,8 +45,6 @@ FactoryGirl.define do
       firstname 'Redmine'
       lastname 'Admin'
       login 'admin'
-      password 'admin'
-      password_confirmation 'admin'
       mail 'admin@example.com'
       admin true
       first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'

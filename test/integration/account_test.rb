@@ -1,13 +1,11 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2012-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# modify it under the terms of the GNU General Public License version 3.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -48,7 +46,7 @@ class AccountTest < ActionDispatch::IntegrationTest
     Token.delete_all
 
     # User logs in with 'autologin' checked
-    post '/login', :username => user.login, :password => 'admin', :autologin => 1
+    post '/login', :username => user.login, :password => 'adminADMIN!', :autologin => 1
     assert_redirected_to '/my/page'
     token = Token.find :first
     assert_not_nil token
@@ -93,11 +91,11 @@ class AccountTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "account/password_recovery"
 
-    post "account/lost_password", :token => token.value, :new_password => 'newpass', :new_password_confirmation => 'newpass'
+    post "account/lost_password", :token => token.value, :new_password => 'newpassPASS!', :new_password_confirmation => 'newpassPASS!'
     assert_redirected_to "/login"
     assert_equal 'Password was successfully updated.', flash[:notice]
 
-    log_user('jsmith', 'newpass')
+    log_user('jsmith', 'newpassPASS!')
     assert_equal 0, Token.count
   end
 
@@ -109,7 +107,7 @@ class AccountTest < ActionDispatch::IntegrationTest
     assert_template 'account/register'
 
     post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"},
-                             :password => "newpass", :password_confirmation => "newpass"
+                             :password => "newpassPASS!", :password_confirmation => "newpassPASS!"
     assert_redirected_to '/my/account'
     follow_redirect!
     assert_response :success
@@ -134,7 +132,7 @@ class AccountTest < ActionDispatch::IntegrationTest
     Setting.self_registration = '1'
     Token.delete_all
 
-    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar", :password => "newpass", :password_confirmation => "newpass"}
+    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar", :password => "newpassPASS!", :password_confirmation => "newpassPASS!"}
     assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
 
@@ -145,7 +143,7 @@ class AccountTest < ActionDispatch::IntegrationTest
 
     get 'account/activate', :token => token.value
     assert_redirected_to '/login'
-    log_user('newuser', 'newpass')
+    log_user('newuser', 'newpassPASS!')
   end
 
   should_eventually "login after losing password should redirect back to home" do

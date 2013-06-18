@@ -1,13 +1,11 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2012-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# modify it under the terms of the GNU General Public License version 3.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -54,6 +52,17 @@ class Enumeration < ActiveRecord::Base
     else
       # STI classes are
       find(:first, :conditions => { :is_default => true })
+    end
+  end
+
+  # Destroys enumerations in a single transaction
+  # It ensures, that the transactions can be safely transfered to each
+  # entry's parent
+  def self.bulk_destroy(entries)
+    sorted_entries = sort_by_ancestor_last(entries)
+
+    sorted_entries.each do |entry|
+      entry.destroy(entry.parent)
     end
   end
 
@@ -128,6 +137,21 @@ class Enumeration < ActiveRecord::Base
   end
 
 private
+  # This is not a performant method.
+  def self.sort_by_ancestor_last(entries)
+    ancestor_relationships = entries.map { |entry| [entry, entry.ancestors] }
+
+    ancestor_relationships.sort do |one, two|
+      if one.last.include?(two.first)
+        -1
+      elsif two.last.include?(one.first)
+        1
+      else
+        0
+      end
+    end.map(&:first)
+  end
+
   def check_integrity
     raise "Can't delete enumeration" if self.in_use?
   end

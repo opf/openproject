@@ -1,3 +1,14 @@
+//-- copyright
+// OpenProject is a project management system.
+//
+// Copyright (C) 2012-2013 the OpenProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
@@ -448,30 +459,32 @@ var WarnLeavingUnsaved = Class.create({
  * CVE-2011-0447
  * 2 - shows and hides ajax indicator
  */
-Ajax.Responders.register({
+document.observe("dom:loaded", function() {
+  Ajax.Responders.register({
     onCreate: function(request){
-        var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
+      var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
 
-        if (csrf_meta_tag) {
-            var header = 'X-CSRF-Token',
-                token = csrf_meta_tag.readAttribute('content');
+      if (csrf_meta_tag) {
+        var header = 'X-CSRF-Token',
+        token = csrf_meta_tag.readAttribute('content');
 
-            if (!request.options.requestHeaders) {
-              request.options.requestHeaders = {};
-            }
-            request.options.requestHeaders[header] = token;
-          }
-
-        if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
-            Element.show('ajax-indicator');
+        if (!request.options.requestHeaders) {
+          request.options.requestHeaders = {};
         }
+        request.options.requestHeaders[header] = token;
+      }
+
+      if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
+        Element.show('ajax-indicator');
+      }
     },
     onComplete: function(){
-        if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
-            Element.hide('ajax-indicator');
-        }
-        addClickEventToAllErrorMessages();
+      if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
+        Element.hide('ajax-indicator');
+      }
+      addClickEventToAllErrorMessages();
     }
+  });
 });
 
 function hideOnLoad() {
@@ -536,6 +549,16 @@ jQuery.viewportHeight = function() {
 
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
+  document.ajaxActive = false;
+
+
+  $(document).ajaxStart(function () {
+    document.ajaxActive = true;
+  });
+
+  $(document).ajaxStop(function () {
+    document.ajaxActive = false;
+  });
 
     var propagateOpenClose = function () {
       if ($(this).is(":visible")) {
@@ -1322,7 +1345,7 @@ var SubmitConfirm = (function($) {
 
 var Preview = (function ($) {
   $('document').ready(function() {
-      $('a.preview').click(function() {
+      $('html').on('click','a.preview', function() {
         $.ajax({
           url: $(this).attr('href'),
           type: 'POST',

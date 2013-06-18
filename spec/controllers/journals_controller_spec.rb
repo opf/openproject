@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require 'spec_helper'
 
 describe JournalsController do
@@ -23,7 +34,6 @@ describe JournalsController do
     end
 
     it { response.should be_success }
-    it { response.should render_template("_diff") }
-    it { response.body.should == "<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>\n" }
+    it { response.body.strip.should == "<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>" }
   end
 end

@@ -1,13 +1,11 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2012-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# modify it under the terms of the GNU General Public License version 3.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -30,9 +28,8 @@ class ProjectEnumerationsController < ApplicationController
   end
 
   def destroy
-    @project.time_entry_activities.each do |time_entry_activity|
-      time_entry_activity.destroy(time_entry_activity.parent)
-    end
+    TimeEntryActivity.bulk_destroy(@project.time_entry_activities)
+
     flash[:notice] = l(:notice_successful_update)
     redirect_to :controller => '/projects', :action => 'settings', :tab => 'activities', :id => @project
   end

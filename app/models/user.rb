@@ -1,13 +1,11 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2012-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# modify it under the terms of the GNU General Public License version 3.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -93,7 +91,7 @@ class User < Principal
                         :firstname,
                         :lastname,
                         :mail,
-                        :unless => Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) }
+                        :unless => Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) || user.is_a?(SystemUser) }
 
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }, :case_sensitive => false
   validates_uniqueness_of :mail, :allow_blank => true, :case_sensitive => false
@@ -106,7 +104,7 @@ class User < Principal
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
 
-  validate :password_not_too_short
+  validate :password_meets_requirements
 
   before_save :encrypt_password
   before_create :sanitize_mail_notification_setting
@@ -294,15 +292,10 @@ class User < Principal
     return auth_source.allow_password_changes?
   end
 
-  # Generate and set a random password.  Useful for automated user creation
-  # Based on Token#generate_token_value
-  #
-  def random_password
-    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-    password = ''
-    40.times { |i| password << chars[rand(chars.size-1)] }
-    self.password = password
-    self.password_confirmation = password
+  # Generate and set a random password.
+  def random_password!
+    self.password = OpenProject::Passwords::Generator.random_password
+    self.password_confirmation = self.password
     self
   end
 
@@ -618,6 +611,24 @@ class User < Principal
     anonymous_user
   end
 
+  def self.system
+    system_user = SystemUser.find(:first)
+    if system_user.nil?
+      (system_user = SystemUser.new.tap do |u|
+        u.lastname = 'System'
+        u.login = ''
+        u.firstname = ''
+        u.mail = ''
+        u.admin = false
+        u.status = User::STATUS_LOCKED
+        u.first_login = false
+        u.random_password!
+      end).save
+      raise 'Unable to create the automatic migration user.' if system_user.new_record?
+    end
+    system_user
+  end
+
   # Salts all existing unsalted passwords
   # It changes password storage scheme from SHA1(password) to SHA1(salt + SHA1(password))
   # This method is used in the SaltPasswords migration and is to be kept as is
@@ -642,12 +653,15 @@ class User < Principal
 
   protected
 
-  # Password length validation based on setting
-  def password_not_too_short
-    minimum_length = Setting.password_min_length.to_i
-    if !password.nil? && password.size < minimum_length
-      errors.add(:password, :too_short, :count => minimum_length)
-    end
+  # Password requirement validation based on settings
+  def password_meets_requirements
+      # Passwords are stored hashed in self.hashed_password,
+      # self.password is only set when it was changed after the last
+      # save. Otherwise, password is nil.
+      unless self.password.nil? or anonymous?
+          password_errors = OpenProject::Passwords::Evaluator.errors_for_password(self.password)
+          password_errors.each { |error| errors.add(:password, error)}
+      end
   end
 
   private

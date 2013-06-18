@@ -1,4 +1,16 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 class PermittedParams < Struct.new(:params, :user)
+
   # This class intends to provide a method for all params hashes comming from the
   # client and that are used for mass assignment.
   #
@@ -29,5 +41,58 @@ class PermittedParams < Struct.new(:params, :user)
   # strong_params
   #
   # include ActiveModel::ForbiddenAttributesProtection
-end
 
+  def project_type
+    params.require(:project_type).permit(:name,
+                                         :allows_association,
+                                         # have to check whether this is correct
+                                         # just copying over from model for now
+                                         :planning_element_type_ids => [],
+                                         :reported_project_status_ids => [])
+  end
+
+  def project_type_move
+    params.require(:project_type).permit(:move_to)
+  end
+
+  def color
+    params.require(:color).permit(:name,
+                                  :hexcode,
+                                  :move_to)
+  end
+
+  def color_move
+    params.require(:color).permit(:move_to)
+  end
+
+  def planning_element_type
+    params.require(:planning_element_type).permit(:name,
+                                                  :in_aggregation,
+                                                  :is_milestone,
+                                                  :is_default,
+                                                  :color_id)
+  end
+
+  def planning_element_type_move
+    params.require(:planning_element_type).permit(:move_to)
+  end
+
+  def scenario
+    params.require(:scenario).permit(:name,
+                                     :description)
+  end
+
+  def planning_element
+    params.require(:planning_element).permit(:name,
+                                             :description,
+                                             :start_date,
+                                             :end_date,
+                                             { scenarios: [:id, :start_date, :end_date] },
+                                             :note,
+                                             :planning_element_type_id,
+                                             :planning_element_status_comment,
+                                             :planning_element_status_id,
+                                             :parent_id,
+                                             :responsible_id)
+  end
+end

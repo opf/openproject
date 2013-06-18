@@ -1,13 +1,11 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2012-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# modify it under the terms of the GNU General Public License version 3.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -159,8 +157,8 @@ class UsersControllerTest < ActionController::TestCase
             :firstname => 'John',
             :lastname => 'Doe',
             :login => 'jdoe',
-            :password => 'secret',
-            :password_confirmation => 'secret',
+            :password => 'adminADMIN!',
+            :password_confirmation => 'adminADMIN!',
             :mail => 'jdoe@gmail.com',
             :mail_notification => 'none'
           },
@@ -176,12 +174,12 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal 'jdoe', user.login
     assert_equal 'jdoe@gmail.com', user.mail
     assert_equal 'none', user.mail_notification
-    assert user.check_password?('secret')
+    assert user.check_password?('adminADMIN!')
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal [user.mail], mail.to
-    assert mail.body.encoded.include?('secret')
+    assert mail.body.encoded.include?('adminADMIN!')
   end
 
   def test_create_with_failure
@@ -252,14 +250,14 @@ class UsersControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'
 
-    put :update, :id => 2, :user => {:password => 'newpass', :password_confirmation => 'newpass'}, :send_information => '1'
+    put :update, :id => 2, :user => {:password => 'newpassPASS!', :password_confirmation => 'newpassPASS!'}, :send_information => '1'
     u = User.find(2)
-    assert u.check_password?('newpass')
+    assert u.check_password?('newpassPASS!')
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal [u.mail], mail.to
-    assert mail.body.encoded.include?('newpass')
+    assert mail.body.encoded.include?('newpassPASS!')
   end
 
   test "put :update with a password change to an AuthSource user switching to Internal authentication" do
@@ -268,10 +266,10 @@ class UsersControllerTest < ActionController::TestCase
     u.auth_source = AuthSource.find(1)
     u.save!
 
-    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpass'}, :password_confirmation => 'newpass'
+    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpassPASS!'}, :password_confirmation => 'newpassPASS!'
 
     assert_equal nil, u.reload.auth_source
-    assert u.check_password?('newpass')
+    assert u.check_password?('newpassPASS!')
   end
 
   def test_edit_membership

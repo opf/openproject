@@ -1,13 +1,11 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2012-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# modify it under the terms of the GNU General Public License version 3.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -15,7 +13,6 @@
 module ProjectsHelper
   def link_to_version(version, html_options = {}, options={})
     return '' unless version && version.is_a?(Version)
-    options
     link_to_if version.visible?, options[:before_text].to_s + format_version_name(version), { :controller => '/versions', :action => 'show', :id => version }, html_options
   end
 
@@ -27,7 +24,8 @@ module ProjectsHelper
             {:name => 'categories', :action => :manage_categories, :partial => 'projects/settings/issue_categories', :label => :label_issue_category_plural},
             {:name => 'repository', :action => :manage_repository, :partial => 'projects/settings/repository', :label => :label_repository},
             {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural},
-            {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities}
+            {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities},
+            {:name => 'timelines', :action => :manage_timelines_project_configuration, :partial => 'projects/settings/timelines', :label => :'timelines.timelines_settings'}
             ]
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end

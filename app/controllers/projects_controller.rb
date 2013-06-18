@@ -1,13 +1,11 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2012-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# modify it under the terms of the GNU General Public License version 3.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -36,6 +34,17 @@ class ProjectsController < ApplicationController
   include QueriesHelper
   include RepositoriesHelper
   include ProjectsHelper
+
+  # for timelines
+  def timelines_planning_element_types
+    params[:project].assert_valid_keys("timelines_planning_element_type_ids")
+    if @project.update_attributes(params[:project])
+      flash[:notice] = l('notice_successful_update')
+    else
+      flash[:error] = l('timelines.cannot_update_planning_element_types')
+    end
+    redirect_to :action => "settings", :tab => "timelines"
+  end
 
   # Lists visible projects
   def index

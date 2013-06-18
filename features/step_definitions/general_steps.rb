@@ -1,4 +1,16 @@
 # encoding: utf-8
+
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require 'active_record/fixtures'
 require "rack_session_access/capybara"
 
@@ -14,6 +26,11 @@ Before do |scenario|
   end
 end
 
+Given /^I am logged in$/ do
+  @user = FactoryGirl.create :user
+  page.set_rack_session(:user_id => @user.id)
+end
+
 Given /^(?:|I )am not logged in$/ do
   User.current = AnonymousUser.first
 end
@@ -21,7 +38,7 @@ end
 Given /^(?:|I )am [aA]dmin$/ do
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
-  login('admin', 'admin')
+  login('admin', 'adminADMIN!')
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
@@ -33,7 +50,7 @@ end
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
-  login(username, 'admin')
+  login(username, 'adminADMIN!')
 end
 
 Given /^there is 1 [pP]roject with(?: the following)?:$/ do |table|
@@ -61,9 +78,7 @@ Given /^there is 1 [Uu]ser with(?: the following)?:$/ do |table|
   login = table.rows_hash[:Login].to_s + table.rows_hash[:login].to_s
   user = User.find_by_login(login) unless login.blank?
 
-  if user
-    table = table.reject_key(/(L|l)ogin/)
-  else
+  if !user
     user = FactoryGirl.create(:user)
     user.password = user.password_confirmation = nil
   end
@@ -344,8 +359,7 @@ end
 Given /^I select to see [cC]olumn "([^\"]*)"$/ do |column_name|
   steps %Q{
     When I select \"#{column_name}\" from \"available_columns\"
-    When I click on \"→\"
-    When I click on \"Apply\"
+    When I press \"→\"
   }
 end
 
@@ -375,9 +389,9 @@ Given /^I (?:stop|pause) (?:step )?execution$/ do
   end
 end
 
-When /^(?:|I )login as (.+)? with password (.+)?$/ do |username, password|
+When /^(?:|I )login as (.+)(?: with password (.+))?$/ do |username, password|
   username = username.gsub("\"", "")
-  password = password.gsub("\"", "")
+  password = password.nil? ? "adminADMIN!" : password.gsub("\"", "")
   login(username, password)
 end
 
@@ -386,12 +400,6 @@ Then /^I should be logged in as "([^\"]*)"?$/ do |username|
   page.should have_xpath("//div[contains(., 'Logged in as #{username}')] | //a[contains(.,'#{user.name}')]")
 
   User.current = user
-end
-
-When /^(?:|I )login as (.+)?$/ do |username|
-  steps %Q{
-    When I login as #{username} with password admin
-  }
 end
 
 When /^I satisfy the "(.+)" plugin to (.+)$/ do |plugin_name, action|
@@ -423,8 +431,10 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following trackers:$/ do |project
     tracker.position = t['position'] ? t['position'] : i
     tracker.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
     tracker.save!
-    p.trackers << tracker
-    p.save!
+    if !p.trackers.include?(tracker)
+      p.trackers << tracker
+      p.save!
+    end
   end
 end
 

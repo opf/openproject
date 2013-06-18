@@ -1,9 +1,21 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
 <% disable_accessibility_css! %>
 
 <% breadcrumb_paths(l(:label_login)) %>
 <%= call_hook :view_account_login_top %>
 <div id="login-form">
-<%= form_tag({:action=> "login"}) do %>
+<%= form_tag({:action=> "login"}, :autocomplete => 'off') do %>
 <%= back_url_hidden_field_tag %>
 <table>
 <tr>

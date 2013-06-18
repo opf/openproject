@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 Feature: Issue textile quickinfo links
   Background:
     Given there are no issues
@@ -19,14 +30,14 @@ Feature: Issue textile quickinfo links
       | login | bob|
     And the user "bob" is a "member" in the project "parent"
     And there are the following issue status:
-      | name        | is_closed  | is_default  |
-      | New         | false      | true        |
-      | In Progress | false      | false       |
+      | name        | is_closed | is_default |
+      | New         | false     | true       |
+      | In Progress | false     | false      |
     Given the user "bob" has 1 issue with the following:
-      |  subject      | issue1             |
-      |  due_date     | 2012-05-04         |
-      |  start_date   | 2011-05-04         |
-      |  description  | Aioli Sali Grande  |
+      | subject     | issue1              |
+      | due_date    | 2012-05-04          |
+      | start_date  | 2011-05-04          |
+      | description | Avocado Sali Grande |
     And I am logged in as "bob"
 
   Scenario: Adding an issue link

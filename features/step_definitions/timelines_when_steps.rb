@@ -1,0 +1,233 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+When /^I click on the Planning Element with name "(.*?)"$/ do |planning_element_name|
+  click_link(planning_element_name);
+end
+When /^I click on the Edit Link$/ do
+  click_link("Update")
+end
+When /^I click on the Save Link$/ do
+  click_link("Save")
+end
+When /^I click on the Trash Link$/ do
+  click_link("Move to recycle bin")
+end
+When(/^I hide empty projects for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |timeline_name, project_name|
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+
+  page.should have_selector("#timeline_options_exclude_empty")
+
+  page.execute_script("jQuery('#timeline_options_exclude_empty').prop('checked', true)")
+  page.execute_script("jQuery('#content form').submit()")
+end
+When(/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |planning_element_name, timeline_name, project_name|
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+
+  page.should have_selector("#timeline_options_vertical_planning_elements")
+
+  page.execute_script("jQuery('#timeline_options_vertical_planning_elements').val('#{planning_element.id}')")
+  page.execute_script("jQuery('#content form').submit()")
+end
+When(/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |grouping_project_name, timeline_name, project_name|
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+  grouping_project = Project.find_by_name(grouping_project_name)
+
+  page.should have_selector("#timeline_options_grouping_one_enabled")
+  
+  page.execute_script("jQuery('#timeline_options_grouping_one_enabled').prop('checked', true)")
+  page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{grouping_project.id}')")
+  page.execute_script("jQuery('#content form').submit()")
+end
+When(/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, end_date, type|
+  timeline_name = @timeline_name
+  project_name = @project.name
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+
+  page.should have_selector("#timeline_options_planning_element_time_types")
+
+  planning_element_type = Timelines::PlanningElementType.find_by_name(type)
+  page.execute_script("jQuery('#timeline_options_planning_element_time_types').val('#{planning_element_type.id}')")
+  page.execute_script("jQuery('#timeline_options_planning_element_time_absolute').prop('checked', true)")
+  page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_one').val('#{start_date}')")
+  page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_two').val('#{end_date}')")
+  page.execute_script("jQuery('#content form').submit()")
+end
+When(/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |project_type_name, timeline_name, project_name|
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+  project_type = Timelines::ProjectType.find_by_name(project_type_name)
+  
+  page.should have_selector("#timeline_options_grouping_two_enabled")
+
+  page.execute_script("jQuery('#timeline_options_grouping_two_enabled').prop('checked', true)")
+  page.execute_script("jQuery('#timeline_options_grouping_two_selection').val('#{project_type.id}')")
+  page.execute_script("jQuery('#content form').submit()")
+end
+When(/^I set the first level grouping criteria to:$/) do |table|
+  timeline_name = @timeline_name
+  project_name = @project.name
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+  result = []
+  table.raw.each do |_perm|
+    perm = _perm.first
+    unless perm.blank?
+      result.push(Project.find_by_name(perm).id)
+    end
+  end
+  results = result.join(",");
+
+  #we need to wait for our submit form to load ...
+  page.should have_selector("#timeline_options_grouping_one_enabled")
+
+  page.execute_script("jQuery('#timeline_options_grouping_one_enabled').prop('checked', true)")
+  page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{results}')")
+
+  page.execute_script("jQuery('#content form').submit()")
+end
+When(/^I set the sortation of the first level grouping criteria to explicit order$/) do
+  timeline_name = @timeline_name
+  project_name = @project.name
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+
+  page.should have_selector("#timeline_options_grouping_one_sort")
+  
+  page.execute_script("jQuery('#timeline_options_grouping_one_sort').val('1')")
+  page.execute_script("jQuery('#content form').submit()")
+end
+When (/^I trash the planning element with name "([^"]*?)"$/) do |planning_element_name|
+  steps %Q{
+    When I click on the Planning Element with name "#{planning_element_name}"
+      And I wait for the modal to show
+      And I click on the Trash Link
+      And I wait for the modal to close
+  }
+end
+When(/^I restore the planning element with name "(.*?)" of project "(.*?)"$/) do |planning_element_name, project|
+  steps %Q{
+    When I open a modal for planning element "#{planning_element_name}" of project "#{project}"
+      And I wait for the modal to show
+      And I click on the Restore Link
+      And I wait for the modal to close
+  }
+end
+When (/^I trash the planning element with name "([^"]*?)" of project "([^"]*?)"$/) do |planning_element_name, project|
+  steps %Q{
+    When I open a modal for planning element "#{planning_element_name}" of project "#{project}"
+      And I wait for the modal to show
+      And I click on the Trash Link
+      And I wait for the modal to close
+  }
+end
+When /^I click on the Restore Link$/ do
+  page.execute_script("jQuery('.input-as-link').click()")
+end
+When /^I wait (\d+) seconds?$/ do |seconds|
+  sleep seconds.to_i
+end
+When /^I wait for the modal to show$/ do
+  page.should have_selector('#planningElementDialog', visible: true)
+end
+When /^I wait for the modal to close$/ do
+  page.should have_no_selector('#planningElementDialog', visible: true)
+end
+When (/^I set enddate to "([^"]*)"$/) do |value|
+  fill_in 'planning_element_end_date', :with => value
+end
+When /^I wait for timeline to load table$/ do
+  page.should have_selector('.tl-left-main', visible: true)
+end
+When (/^I open a modal for planning element "([^"]*)" of project "([^"]*)"$/) do |planning_name, project_name|
+  planning_element = Timelines::PlanningElement.find_by_name(planning_name)
+  project = Project.find_by_name(project_name)
+  page.execute_script <<-JS
+    Timeline.get().modalHelper.createPlanningModal(
+      'show',
+      #{project.id},
+      #{planning_element.id}
+    );
+  JS
+end
+
+When (/^I move "([^"]*)" to the top$/) do |name|
+  cell = find(:css, "table.list td", :text => Regexp.new("^#{name}$"))
+  row = cell.find(:xpath, './ancestor::tr')
+  link = row.find_link('Move to top')
+  link.click
+end
+
+When (/^I move "([^"]*)" to the bottom$/) do |name|
+  cell = find(:css, "table.list td", :text => Regexp.new("^#{name}$"))
+  row = cell.find(:xpath, './ancestor::tr')
+  link = row.find_link('Move to bottom')
+  link.click
+end
+
+When (/^I move "([^"]*)" up by one$/) do |name|
+  cell = find(:css, "table.list td", :text => Regexp.new("^#{name}$"))
+  row = cell.find(:xpath, './ancestor::tr')
+  link = row.find_link('Move up')
+  link.click
+end
+
+When (/^I move "([^"]*)" down by one$/) do |name|
+  cell = find(:css, "table.list td", :text => Regexp.new("^#{name}$"))
+  row = cell.find(:xpath, './ancestor::tr')
+  link = row.find_link('Move down')
+  link.click
+end
+
+When (/^I fill in the planning element ID of "([^"]*)" with (\d+) star for "([^"]*)"$/) do |planning_element_name, number_hash_keys, container|
+  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+  text = "#{('*' * number_hash_keys.to_i)}#{planning_element.id}"
+
+  step %Q{I fill in "#{text}" for "#{container}"}
+end
+
+When (/^I follow the planning element link with (\d+) star for "([^"]*)"$/) do |star_count, planning_element_name|
+  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+
+  text = ""
+  if star_count.to_i > 1
+    text = "*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.name}"
+  elsif star_count.to_i == 1
+    text = "*#{planning_element.id}"
+  end
+
+  step %Q{I follow "#{text}"}
+end
+
+When (/^I fill in a wiki macro for timeline "([^"]*)" for "([^"]*)"$/) do |timeline_name, container|
+  timeline = Timelines::Timeline.find_by_name(timeline_name)
+
+  text = "{{timeline(#{timeline.id})}}"
+  step %Q{I fill in "#{text}" for "#{container}"}
+end
+
+When (/^(.*) for the color "([^"]*)"$/) do |step_name, color_name|
+  color = Timelines::Color.find_by_name(color_name)
+
+  step %Q{#{step_name} within "#color-#{color.id} td:first-child"}
+end

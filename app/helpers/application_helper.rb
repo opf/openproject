@@ -1,13 +1,11 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2012-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# modify it under the terms of the GNU General Public License version 3.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -250,7 +248,7 @@ module ApplicationHelper
   end
 
   def format_activity_description(text)
-    h(truncate(text.to_s, :length => 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />")
+    h(truncate(text.to_s, :length => 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />").html_safe
   end
 
   def format_version_name(version)
@@ -1176,6 +1174,112 @@ module ApplicationHelper
     end
   end
 
+  # start timelines stuff
+  #
+  def link_to_planning_element(planning_element, options = {})
+    return if planning_element.new_record?
+
+    options = options.stringify_keys
+    options.assert_valid_keys("include_id", "include_name", "text")
+
+    options.reverse_merge!("include_id"   => true,
+                           "include_name" => true)
+
+    if options["text"].blank?
+      text = []
+
+      text << "*#{planning_element.id}" if options["include_id"]
+      text << "#{planning_element.name}" if options["include_name"]
+
+      text = text.join(" ")
+    else
+      text = options[:text]
+    end
+
+    link_to(h(text),
+            timelines_project_planning_element_path(planning_element.project, planning_element),
+            :title => planning_element.name)
+  end
+
+  def planning_element_quick_info(planning_element)
+    start_date_change = ""
+    end_date_change = ""
+
+    journals = planning_element.journals.find(:all, :conditions => ["created_at >= ?", Date.today.to_time - 7.day], :order => "created_at desc")
+
+    journals.each do |journal|
+      break if !start_date_change.empty? and !end_date_change.empty?
+
+      if start_date_change.empty?
+        unless journal.changes["start_date"].nil?
+          unless journal.changes["start_date"].first.nil?
+            start_date_change = " (<del>#{journal.changes["start_date"].first}</del>)"
+          end
+        end
+      end
+
+      if end_date_change.empty?
+        unless journal.changes["end_date"].nil?
+          unless journal.changes["end_date"].first.nil?
+            end_date_change = " (<del>#{journal.changes["end_date"].first}</del>)"
+          end
+        end
+      end
+    end
+
+    link = link_to(h("*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.name} "),
+            timelines_project_planning_element_path(planning_element.project, planning_element),
+           :title => h("#{truncate(planning_element.name, :length => 100)} #{planning_element.planning_element_status.nil? ? "" :
+                        "(" + planning_element.planning_element_status.name + ")"}"))
+    link += "#{planning_element.start_date.nil? ? "[?]" : planning_element.start_date.to_s}#{start_date_change} – #{planning_element.end_date.nil? ? "[?]" :
+      planning_element.end_date.to_s}#{end_date_change}"
+    link += "#{planning_element.responsible.nil? ? "" : h(" (#{planning_element.responsible.to_s})")}"
+
+    return link
+  end
+
+  def planning_element_quick_info_with_description(planning_element, lines)
+    description_lines = planning_element.description.to_s.lines.to_a[0,lines]
+
+    if description_lines[lines-1] && planning_element.description.to_s.lines.to_a.size > lines
+      description_lines[lines-1].strip!
+
+      while !description_lines[lines-1].end_with?("...") do
+        description_lines[lines-1] = description_lines[lines-1] + "."
+      end
+    end
+
+    planning_element_quick_info(planning_element) +
+      content_tag(:div, textilizable("\n" + description_lines.to_s), :class => "indent")
+  end
+
+  def parse_redmine_links_with_planning_element_links(text, project, obj, attr, only_path, options)
+    parse_redmine_links_without_planning_element_links(text, project, obj, attr, only_path, options)
+    text.gsub!(%r{(?:\W|^|\A)((\*+)(\d+))(?:\W|$|\z)}) do |match|
+      text, stars, id = $1, $2, $3
+      planning_element = Timelines::PlanningElement.without_deleted.visible.find_by_id(id)
+
+      if planning_element.present?
+        if stars == "*"
+          match.sub(text, link_to_planning_element(planning_element, :include_name => false))
+        elsif stars == "**"
+          replace = planning_element_quick_info(planning_element)
+          match.sub(text, replace)
+        elsif stars == "***"
+          replace = planning_element_quick_info_with_description(planning_element,3)
+          match.sub(text, replace)
+        end
+      else
+        match
+      end
+    end
+  end
+
+  #TODO remove method chain!
+  alias_method_chain :parse_redmine_links, :planning_element_links
+
+  # end timelines stuff
+
   private
 
   def wiki_helper
@@ -1189,7 +1293,13 @@ module ApplicationHelper
   end
 
   def password_complexity_requirements
-    raw "<em>" + l(:text_caracters_minimum, :count => Setting.password_min_length) + "</em>"
+    rules = OpenProject::Passwords::Evaluator.rules_description
+    # use 0..0, so this doesn't fail if rules is an empty string
+    rules[0] = rules[0..0].upcase
+
+    s = raw "<em>" + OpenProject::Passwords::Evaluator.min_length_description + "</em>"
+    s += raw "<br /><em>" + rules + "</em>" unless rules.empty?
+    s
   end
 
 end
