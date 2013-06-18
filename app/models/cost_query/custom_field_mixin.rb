@@ -26,7 +26,7 @@ module CostQuery::CustomFieldMixin
 
   def generate_subclasses
     IssueCustomField.all.map do |field|
-      class_name = class_name_for field.name
+      class_name = "CustomField#{field.id}"
       parent.send(:remove_const, class_name) if parent.const_defined? class_name
       parent.const_set class_name, Class.new(self)
       parent.const_get(class_name).prepare(field, class_name)
@@ -82,7 +82,4 @@ module CostQuery::CustomFieldMixin
     super
   end
 
-  def class_name_for(field)
-    "CustomField" << field.split(/[ \-_]/).map { |part| part.gsub(/\W/, '').capitalize }.join
-  end
 end
