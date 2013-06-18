@@ -31,6 +31,15 @@ OpenProject::Application.routes.draw do
       resources :time_entries, :controller => 'timelog'
       resources :users
     end
+
+    namespace :v2 do
+      resources :project_types
+      resources :projects do
+        collection do
+          get :level_list
+        end
+      end
+    end
   end
 
   match '/roles/workflow/:id/:role_id/:tracker_id' => 'roles#workflow'
