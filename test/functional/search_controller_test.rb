@@ -46,10 +46,6 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:results).include?(Issue.find(2))
     assert assigns(:results).include?(Issue.find(5))
     assert assigns(:results).include?(Changeset.find(101))
-    save_and_open_page
-    assert_select "dt.work_unit" do
-      assert_select "a", :text => /Add ingredients categories/
-    end
 
     assert assigns(:results_by_type).is_a?(Hash)
     assert_equal 5, assigns(:results_by_type)['changesets']
