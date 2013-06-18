@@ -35,7 +35,7 @@ When(/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
-  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+  planning_element = PlanningElement.find_by_name(planning_element_name)
 
   page.should have_selector("#timeline_options_vertical_planning_elements")
 
@@ -63,7 +63,7 @@ When(/^I show only projects which have a planning element which lies between "(.
 
   page.should have_selector("#timeline_options_planning_element_time_types")
 
-  planning_element_type = Timelines::PlanningElementType.find_by_name(type)
+  planning_element_type = PlanningElementType.find_by_name(type)
   page.execute_script("jQuery('#timeline_options_planning_element_time_types').val('#{planning_element_type.id}')")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_one').val('#{start_date}')")
