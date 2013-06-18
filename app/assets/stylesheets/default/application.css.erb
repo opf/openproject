@@ -2782,18 +2782,36 @@ ul.action_menu_more {
   background-position:-39px -200px;
   background-repeat:no-repeat;
 }
-.pagination .navigate-left {
+
+.pagination .previous_page {
   background: url(<%= asset_path 'double_arrow_left.png' %>) 0 1px no-repeat;
   width:100%;
   height:15px;
   padding-left: 18px;
 }
-.pagination .navigate-right {
+
+.pagination .next_page {
   background: url(<%= asset_path 'double_arrow_right.png' %>) right 1px no-repeat;
   width:100%;
   height:15px;
   padding-right: 18px;
 }
+
+.pagination .next_page.disabled,
+.pagination .previous_page.disabled {
+  display: none;
+}
+
+.pagination .range,
+.pagination .per_page_options {
+  padding-left: 0.5em;
+}
+
+.pagination .per_page_options {
+  border-left: 1px solid #4B4B4B;
+  margin-left: 0.5em;
+}
+
 #menu-sidebar.hidden {
   display:none;
 }
