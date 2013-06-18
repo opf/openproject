@@ -77,7 +77,7 @@ describe 'api/v2/planning_element_type_colors/index.api.rsb' do
       view.should_receive(:render).once.with(hash_including(:object => colors.third)).and_return('')
 
       # just to render the speced template despite the should receive expectations above
-      view.should_receive(:render).once.with({:template => 'planning_element_type_colors/index', :handlers=>['rsb'], :formats=>['api']}, {}).and_call_original
+      view.should_receive(:render).once.with({:template => 'api/v2/planning_element_type_colors/index', :handlers=>['rsb'], :formats=>['api']}, {}).and_call_original
 
       render
     end
