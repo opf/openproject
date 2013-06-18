@@ -1,8 +1,7 @@
 require 'rails/engine'
 
-module MeetingsPlugin
+module OpenProject::Meeting
   class Engine < ::Rails::Engine
-    isolate_namespace MeetingsPlugin
 
     initializer 'openproject_meeting.precompile_assets' do |app|
       app.config.assets.precompile += ["openproject_meeting.css"]
@@ -34,8 +33,8 @@ module MeetingsPlugin
     config.to_prepare do
       require 'redmine/plugin'
 
-      require_dependency 'openproject_meeting/hooks'
-      require 'openproject_meeting/patches/project_patch'
+      require_dependency 'open_project/meeting/hooks'
+      require 'open_project/meeting/patches/project_patch'
       Project.send(:include, Patches::ProjectPatch)
 
       # load classes so that all User.before_destroy filters are loaded
@@ -44,11 +43,11 @@ module MeetingsPlugin
       require_dependency 'meeting_minutes'
       require_dependency 'meeting_participant'
 
-      spec = Bundler.environment.specs['openproject_meeting'][0]
+      spec = Bundler.environment.specs['openproject-meeting'][0]
 
-      unless Redmine::Plugin.registered_plugins.include?(:redmine_meeting)
-        Redmine::Plugin.register :redmine_meeting do
-          name 'OpenProject Meeting Plugin'
+      unless Redmine::Plugin.registered_plugins.include?(:openproject_meeting)
+        Redmine::Plugin.register :openproject_meeting do
+          name 'OpenProject Meeting'
           author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
           author_url spec.homepage
           description spec.description
