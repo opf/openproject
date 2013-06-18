@@ -92,7 +92,8 @@ module OpenProject::Costs
 
           name 'OpenProject Costs'
           author 'Finn GmbH'
-          author_url 'http://finn.de/team'
+          author_url 'http://finn.de/'
+          url 'https://github.com/finnlabs/openproject-costs'
           description 'The costs plugin provides basic cost management functionality for OpenProject.'
 
           version OpenProject::Costs::VERSION
