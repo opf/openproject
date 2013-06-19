@@ -227,7 +227,7 @@ When (/^I fill in a wiki macro for timeline "([^"]*)" for "([^"]*)"$/) do |timel
 end
 
 When (/^(.*) for the color "([^"]*)"$/) do |step_name, color_name|
-  color = Color.find_by_name(color_name)
+  color = PlanningElementTypeColor.find_by_name(color_name)
 
   step %Q{#{step_name} within "#color-#{color.id} td:first-child"}
 end
