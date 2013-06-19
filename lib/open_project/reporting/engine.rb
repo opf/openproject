@@ -49,7 +49,7 @@ module OpenProject::Reporting
           author 'Finn GmbH'
           description 'The reporting plugin provides extended reporting functionality for OpenProject including Cost Reports.'
 
-          url 'https://github.com/finnlabs/openproject-reporting'
+          url 'https://www.openproject.org/projects/plugin-reporting'
           author_url 'https://www.finn.de'
           version OpenProject::Reporting::VERSION
 
