@@ -18,6 +18,8 @@ class ChangesetNotFound < Exception; end
 class InvalidRevisionParam < Exception; end
 
 class RepositoriesController < ApplicationController
+  include PaginationHelper
+
   menu_item :repository
   menu_item :settings, :only => :edit
   default_search_scope :changesets
@@ -94,14 +96,9 @@ class RepositoriesController < ApplicationController
   end
 
   def revisions
-    @changeset_count = @repository.changesets.size
-    @changeset_pages = Paginator.new self, @changeset_count,
-                                     per_page_option,
-                                     params['page']
-    @changesets = @repository.changesets.find(:all,
-                       :limit  =>  @changeset_pages.items_per_page,
-                       :offset =>  @changeset_pages.current.offset,
-                       :include => [:user, :repository])
+    @changesets = @repository.changesets.includes(:user, :repository)
+                                        .page(params[:page])
+                                        .per_page(per_page_option)
 
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
