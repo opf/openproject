@@ -37,6 +37,7 @@ class WikiController < ApplicationController
   verify :method => :post, :only => :create,            :render => {:nothing => true, :status => :method_not_allowed}
 
   include AttachmentsHelper
+  include PaginationHelper
 
   attr_reader :page, :related_page
 
@@ -209,16 +210,13 @@ class WikiController < ApplicationController
 
   # show page history
   def history
-    @version_count = @page.content.versions.count
-    @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
     # don't load text
-    @versions = @page.content.versions.find :all,
-                                            :select => "id, user_id, notes, created_at, version",
-                                            :order => 'version DESC',
-                                            :limit  =>  @version_pages.items_per_page + 1,
-                                            :offset =>  @version_pages.current.offset
+    @versions = @page.content.versions.select("id, user_id, notes, created_at, version")
+                                      .order('version DESC')
+                                      .page(params[:page])
+                                      .per_page(per_page_option)
 
-    render :layout => false if request.xhr?
+    render :layout => !request.xhr?
   end
 
   def diff
