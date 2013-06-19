@@ -17,6 +17,7 @@ OpenProject::Application.routes.draw do
   match '/logout' => 'account#logout', :as => 'signout'
 
   namespace :api do
+
     namespace :v1 do
       resources :issues
       resources :news
@@ -30,6 +31,27 @@ OpenProject::Application.routes.draw do
       end
       resources :time_entries, :controller => 'timelog'
       resources :users
+    end
+
+    namespace :v2 do
+
+      resources :authentication
+      resources :planning_element_journals
+      resources :planning_element_statuses
+      resources :planning_element_type_colors
+      resources :planning_element_types
+      resources :planning_elements
+      resources :project_associations
+      resources :project_types
+      resources :reported_project_statuses
+      resources :scenarios
+      resources :timelines
+
+      resources :projects do
+        resources :planning_elements
+        resources :reportings
+      end
+
     end
   end
 
@@ -363,7 +385,7 @@ OpenProject::Application.routes.draw do
 
   get 'authentication' => 'authentication#index'
 
-  resources :colors, :controller => 'colors' do
+  resources :colors, :controller => 'planning_element_type_colors' do
      member do
        get :confirm_destroy
        get :move

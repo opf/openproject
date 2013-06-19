@@ -13,9 +13,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= header_tags %>
 
 <%= form_for(:project_type,
-            :url  => project_type_path(@project_type),
-            :html => {:class => "tabular", :method => 'put'}) do |f| %>
+             :url  => project_type_path(@project_type),
+             :html => {:class => "tabular", :method => 'put'}) do |f| %>
 
-  <%= render :partial => "timelines/project_types/form",
+  <%= render :partial => "project_types/form",
              :locals => {:f => f, :project_type => @project_type} %>
 <% end %>

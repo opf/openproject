@@ -44,13 +44,13 @@ Timeline = {
     columns:                        [],
     exclude_own_planning_elements:  false,
     exclude_reporters:              false,
-    global_prefix:                  '/timelines/',
+    global_prefix:                  '/api/v2/',
     hide_other_group:               false,
     hide_tree_root:                 false,
     i18n:                           {},  // undefined would be bad.
     initial_outline_expansion:      0,   // aggregations only
-    project_prefix:                 '/timelines/projects/',
-    planning_element_prefix:        '/timelines',
+    project_prefix:                 '/api/v2/projects/',
+    planning_element_prefix:        '/api/v2',
     ui_root:                        jQuery('#timeline'),
     url_prefix:                     ''   // empty prefix so it is not undefined.
   },
