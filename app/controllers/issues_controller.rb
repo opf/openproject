@@ -45,6 +45,7 @@ class IssuesController < ApplicationController
   include SortHelper
   include IssuesHelper
   include Redmine::Export::PDF
+  include PaginationHelper
 
   def index
     sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
@@ -56,8 +57,6 @@ class IssuesController < ApplicationController
         @limit = Setting.issues_export_limit.to_i
       when 'atom'
         @limit = Setting.feeds_limit.to_i
-      when 'xml', 'json'
-        @offset, @limit = api_offset_and_limit
       else
         @limit = per_page_option
       end
