@@ -11,12 +11,15 @@
 #++
 
 class AuthSourcesController < ApplicationController
+  include PaginationHelper
   layout 'admin'
 
   before_filter :require_admin
 
   def index
-    @auth_source_pages, @auth_sources = paginate auth_source_class.name.tableize, :per_page => 10
+    @auth_sources = AuthSource.page(params[:page])
+                              .per_page(per_page_option)
+
     render "auth_sources/index"
   end
 
