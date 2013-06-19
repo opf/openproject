@@ -23,6 +23,7 @@ class TimelogController < ApplicationController
   include SortHelper
   include TimelogHelper
   include CustomFieldsHelper
+  include PaginationHelper
 
   def index
     sort_init 'spent_on', 'desc'
@@ -47,13 +48,13 @@ class TimelogController < ApplicationController
       format.html {
         # Paginate results
         @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
-        @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-        @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:issue => :tracker}],
-                                  :conditions => cond.conditions,
-                                  :order => sort_clause,
-                                  :limit  =>  @entry_pages.items_per_page,
-                                  :offset =>  @entry_pages.current.offset)
+
+        @entries = TimeEntry.visible.includes(:project, :activity, :user, {:issue => :tracker})
+                                    .where(cond.conditions)
+                                    .order(sort_clause)
+                                    .page(params[:page])
+                                    .per_page(per_page_option)
+
         @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :issue], :conditions => cond.conditions).to_f
 
         render :layout => !request.xhr?
