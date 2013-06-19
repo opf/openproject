@@ -86,7 +86,7 @@ module OpenProject::Backlogs
           author 'relaxdiego, friflaj, Finn GmbH'
           description 'A plugin for agile teams'
 
-          url 'https://github.com/finnlabs/openproject-backlogs'
+          url 'https://www.openproject.org/projects/plugin-backlogs'
           author_url 'http://www.finn.de/'
 
           version OpenProject::Backlogs::VERSION
