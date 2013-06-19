@@ -90,9 +90,10 @@ module OpenProject::Costs
       unless Redmine::Plugin.registered_plugins.include?(:openproject_costs)
         Redmine::Plugin.register :openproject_costs do
 
-          name 'Costs Plugin'
+          name 'OpenProject Costs'
           author 'Finn GmbH'
-          author_url 'http://finn.de/team'
+          author_url 'http://finn.de/'
+          url 'https://www.openproject.org/projects/costs-plugin'
           description 'The costs plugin provides basic cost management functionality for OpenProject.'
 
           version OpenProject::Costs::VERSION
