@@ -30,6 +30,7 @@ class UsersController < ApplicationController
 
   include SortHelper
   include CustomFieldsHelper
+  include PaginationHelper
 
   def index
     sort_init 'login', 'asc'
@@ -53,14 +54,10 @@ class UsersController < ApplicationController
       c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", name, name, name, name]
     end
 
-    @user_count = scope.count(:conditions => c.conditions)
-    @user_pages = Paginator.new self, @user_count, @limit, params['page']
-    @offset ||= @user_pages.current.offset
-    @users =  scope.find :all,
-                        :order => sort_clause,
-                        :conditions => c.conditions,
-                        :limit  =>  @limit,
-                        :offset =>  @offset
+    @users = scope.order(sort_clause)
+                  .where(c.conditions)
+                  .page(params[:page])
+                  .per_page(per_page_option)
 
     respond_to do |format|
       format.html {
