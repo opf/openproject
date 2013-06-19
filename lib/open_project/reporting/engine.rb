@@ -45,11 +45,11 @@ module OpenProject::Reporting
 
       unless Redmine::Plugin.registered_plugins.include?(:openproject_reporting)
         Redmine::Plugin.register :openproject_reporting do
-          name 'Reporting Plugin'
+          name 'OpenProject Reporting'
           author 'Finn GmbH'
-          description 'The reporting plugin provides extended reporting functionality for Redmine including Cost Reports.'
+          description 'The reporting plugin provides extended reporting functionality for OpenProject including Cost Reports.'
 
-          url 'https://github.com/finnlabs/openproject_reporting'
+          url 'https://www.openproject.org/projects/plugin-reporting'
           author_url 'https://www.finn.de'
           version OpenProject::Reporting::VERSION
 
