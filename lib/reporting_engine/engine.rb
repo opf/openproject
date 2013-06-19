@@ -39,7 +39,7 @@ module ReportingEngine
         author 'Finn GmbH'
         description 'A plugin to support creating reports'
 
-        url 'https://github.com/finnlabs/reporting_engine'
+        url 'https://www.openproject.org/projects/plugin-reportingengine/'
         author_url 'http://www.finn.de/'
 
         version ReportingEngine::VERSION
