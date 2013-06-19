@@ -18,6 +18,7 @@ class MessagesController < ApplicationController
   before_filter :authorize, :except => [:preview, :edit, :update, :destroy]
 
   include AttachmentsHelper
+  include PaginationHelper
 
   REPLIES_PER_PAGE = 25 unless const_defined?(:REPLIES_PER_PAGE)
 
@@ -32,15 +33,13 @@ class MessagesController < ApplicationController
       page = 1 + offset / REPLIES_PER_PAGE
     end
 
-    @reply_count = @topic.children.count
-    @reply_pages = Paginator.new self, @reply_count, REPLIES_PER_PAGE, page
-    @replies =  @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}],
-                                           :order => "#{Message.table_name}.created_on ASC",
-                                           :limit => @reply_pages.items_per_page,
-                                           :offset => @reply_pages.current.offset)
+    @replies =  @topic.children.includes(:author, :attachments, {:board => :project})
+                               .order("#{Message.table_name}.created_on ASC")
+                               .page(page)
+                               .per_page(per_page_option)
 
     @reply = Message.new(:subject => "RE: #{@message.subject}")
-    render :action => "show", :layout => false if request.xhr?
+    render :action => "show", :layout => !request.xhr?
   end
 
   # new topic

@@ -18,6 +18,7 @@ class BoardsController < ApplicationController
   include MessagesHelper
   include SortHelper
   include WatchersHelper
+  include PaginationHelper
 
   def index
     @boards = @project.boards
@@ -37,19 +38,19 @@ class BoardsController < ApplicationController
                     'replies' => "#{Message.table_name}.replies_count",
                     'updated_on' => "#{Message.table_name}.updated_on"
 
-        @topic_count = @board.topics.count
-        @topic_pages = Paginator.new self, @topic_count, per_page_option, params['page']
-        @topics =  @board.topics.find :all, :order => ["#{Message.table_name}.sticky DESC", sort_clause].compact.join(', '),
-                                      :include => [:author, {:last_reply => :author}],
-                                      :limit  =>  @topic_pages.items_per_page,
-                                      :offset =>  @topic_pages.current.offset
+        @topics =  @board.topics.order(["#{Message.table_name}.sticky DESC", sort_clause].compact.join(', '))
+                                .includes(:author, { :last_reply => :author })
+                                .page(params[:page])
+                                .per_page(per_page_option)
+
         @message = Message.new
         render :action => 'show', :layout => !request.xhr?
       }
       format.atom {
-        @messages = @board.messages.find :all, :order => 'created_on DESC',
-                                               :include => [:author, :board],
-                                               :limit => Setting.feeds_limit.to_i
+        @messages = @board.messages.order('created_on DESC')
+                                   .includes(:author, :board)
+                                   .limit(Setting.feeds_limit.to_i)
+
         render_feed(@messages, :title => "#{@project}: #{@board}")
       }
     end
