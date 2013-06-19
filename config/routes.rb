@@ -38,7 +38,7 @@ OpenProject::Application.routes.draw do
       resources :authentication
       resources :planning_element_journals
       resources :planning_element_statuses
-      resources :planning_element_type_colors
+      resources :colors, :controller => 'planning_element_type_colors'
       resources :planning_element_types
       resources :planning_elements
       resources :project_associations
@@ -49,7 +49,9 @@ OpenProject::Application.routes.draw do
 
       resources :projects do
         resources :planning_elements
-        resources :reportings
+        resources :reportings do
+          get :available_projects, :on => :collection
+        end
       end
 
     end
@@ -455,7 +457,6 @@ OpenProject::Application.routes.draw do
 
     resources :reportings,             :controller => 'reportings' do
       get :confirm_destroy, :on => :member
-      get :available_projects, :on => :collection
     end
 
     resources :scenarios,              :controller => 'scenarios' do
