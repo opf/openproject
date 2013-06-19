@@ -65,13 +65,13 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
   context "POST /api/v1/users" do
     context "with valid parameters" do
       setup do
-        @parameters = {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'secret', :mail_notification => 'only_assigned'}}
+        @parameters = {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'adminADMIN!', :mail_notification => 'only_assigned'}}
       end
 
       context ".xml" do
         should_allow_api_authentication(:post,
           '/api/v1/users.xml',
-          {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'secret'}},
+          {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'adminADMIN!'}},
           {:success_code => :created})
 
         should "create a user with the attributes" do
@@ -86,7 +86,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
           assert_equal 'foo@example.net', user.mail
           assert_equal 'only_assigned', user.mail_notification
           assert !user.admin?
-          assert user.check_password?('secret')
+          assert user.check_password?('adminADMIN!')
 
           assert_response :created
           assert_equal 'application/xml', @response.content_type

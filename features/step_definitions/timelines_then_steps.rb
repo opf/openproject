@@ -120,8 +120,7 @@ Then /^I should not see the "([^"]*)" color$/ do |name|
 end
 
 Then /^"([^"]*)" should be the first element in the list$/ do |name|
-  cell = page.all(:css, "table.list tbody tr:first-child td", :text => name)
-  cell.should_not be_empty
+  should have_selector("table.list tbody tr td", :text => Regexp.new("^#{name}$"))
 end
 
 Then /^"([^"]*)" should be the last element in the list$/ do |name|
@@ -130,10 +129,6 @@ end
 
 Then /^I should see an? (notice|warning|error) flash stating "([^"]*)"$/ do |class_name, message|
   page.all(:css, ".flash.#{class_name}, .flash.#{class_name} *", :text => message).should_not be_empty
-end
-
-Then /^I should see an error explanation stating "([^"]*)"$/ do |message|
-  page.all(:css, ".errorExplanation li, .errorExplanation li *", :text => message).should_not be_empty
 end
 
 Then /^I should see a planning element named "([^"]*)"$/ do |name|

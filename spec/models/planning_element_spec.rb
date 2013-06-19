@@ -620,6 +620,21 @@ describe PlanningElement do
         changes.size.should == 1
         changes.should include("start_date")
       end
+
+      it 'disallows circular structures' do
+        child_pe # trigger creation of child and parent
+
+        # create a circular structure
+        pe.parent_id = child_pe.id
+
+        # ensure it is not valid
+        pe.should_not be_valid
+
+        pe.errors[:parent].should be_present
+        pe.errors[:parent].should == ["This relation would create a circular dependency"]
+
+      end
+
     end
 
     describe "a planning elements' journals includes changes to associated alternate dates start/end date" do

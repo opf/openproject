@@ -248,7 +248,7 @@ module ApplicationHelper
   end
 
   def format_activity_description(text)
-    h(truncate(text.to_s, :length => 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />")
+    h(truncate(text.to_s, :length => 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />").html_safe
   end
 
   def format_version_name(version)
@@ -1247,7 +1247,13 @@ module ApplicationHelper
   end
 
   def password_complexity_requirements
-    raw "<em>" + l(:text_caracters_minimum, :count => Setting.password_min_length) + "</em>"
+    rules = OpenProject::Passwords::Evaluator.rules_description
+    # use 0..0, so this doesn't fail if rules is an empty string
+    rules[0] = rules[0..0].upcase
+
+    s = raw "<em>" + OpenProject::Passwords::Evaluator.min_length_description + "</em>"
+    s += raw "<br /><em>" + rules + "</em>" unless rules.empty?
+    s
   end
 
 end

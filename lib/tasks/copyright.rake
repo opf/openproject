@@ -76,7 +76,6 @@ namespace :copyright do
   task :update_rb do
     excluded = (["diff",
                  "ruby-net-ldap-0.0.4",
-                 "acts_as_list",
                  "acts_as_tree",
                  "classic_pagination",
                  "dynamic_form",

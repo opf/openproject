@@ -43,18 +43,18 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
 
     user.login = "jsmith"
-    user.password, user.password_confirmation = "password", "password"
+    user.password, user.password_confirmation = "adminADMIN!", "adminADMIN!"
     # login uniqueness
     assert !user.save
     assert_equal 1, user.errors.count
 
     user.login = "newuser"
-    user.password, user.password_confirmation = "passwd", "password"
+    user.password, user.password_confirmation = "adminADMIN!", "NOTadminADMIN!"
     # password confirmation
     assert !user.save
     assert_equal 1, user.errors.count
 
-    user.password, user.password_confirmation = "password", "password"
+    user.password, user.password_confirmation = "adminADMIN!", "adminADMIN!"
     assert user.save
   end
 
@@ -74,12 +74,12 @@ class UserTest < ActiveSupport::TestCase
     should "be case-insensitive." do
       u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
       u.login = 'newuser'
-      u.password, u.password_confirmation = "password", "password"
+      u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
       assert u.save
 
       u = User.new(:firstname => "Similar", :lastname => "User", :mail => "similaruser@somenet.foo")
       u.login = 'NewUser'
-      u.password, u.password_confirmation = "password", "password"
+      u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
       assert !u.save
       assert_include u.errors[:login], I18n.translate('activerecord.errors.messages.taken')
     end
@@ -88,12 +88,12 @@ class UserTest < ActiveSupport::TestCase
   def test_mail_uniqueness_should_not_be_case_sensitive
     u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
     u.login = 'newuser1'
-    u.password, u.password_confirmation = "password", "password"
+    u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
     assert u.save
 
     u = User.new(:firstname => "new", :lastname => "user", :mail => "newUser@Somenet.foo")
     u.login = 'newuser2'
-    u.password, u.password_confirmation = "password", "password"
+    u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
     assert !u.save
     assert_include u.errors[:mail], I18n.translate('activerecord.errors.messages.taken')
   end
@@ -127,17 +127,17 @@ class UserTest < ActiveSupport::TestCase
 
   context "User#try_to_login" do
     should "fall-back to case-insensitive if user login is not found as-typed." do
-      user = User.try_to_login("AdMin", "admin")
+      user = User.try_to_login("AdMin", "adminADMIN!")
       assert_kind_of User, user
       assert_equal "admin", user.login
     end
 
     should "select the exact matching user first" do
-      case_sensitive_user = User.generate_with_protected!(:login => 'changed', :password => 'admin', :password_confirmation => 'admin')
+      case_sensitive_user = User.generate_with_protected!(:login => 'changed', :password => 'adminADMIN!', :password_confirmation => 'adminADMIN!')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
-      user = User.try_to_login("ADMIN", "admin")
+      user = User.try_to_login("ADMIN", "adminADMIN!")
       assert_kind_of User, user
       assert_equal "ADMIN", user.login
 
@@ -145,13 +145,13 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_password
-    user = User.try_to_login("admin", "admin")
+    user = User.try_to_login("admin", "adminADMIN!")
     assert_kind_of User, user
     assert_equal "admin", user.login
-    user.password = "hello"
+    user.password = "newpassPASS!"
     assert user.save
 
-    user = User.try_to_login("admin", "hello")
+    user = User.try_to_login("admin", "newpassPASS!")
     assert_kind_of User, user
     assert_equal "admin", user.login
   end
@@ -178,7 +178,7 @@ class UserTest < ActiveSupport::TestCase
   context ".try_to_login" do
     context "with good credentials" do
       should "return the user" do
-        user = User.try_to_login("admin", "admin")
+        user = User.try_to_login("admin", "adminADMIN!")
         assert_kind_of User, user
         assert_equal "admin", user.login
       end
@@ -381,13 +381,6 @@ class UserTest < ActiveSupport::TestCase
     u = User.find_by_mail('JSmith@somenet.foo')
     assert_not_nil u
     assert_equal 'jsmith@somenet.foo', u.mail
-  end
-
-  def test_random_password
-    u = User.new
-    u.random_password
-    assert !u.password.blank?
-    assert !u.password_confirmation.blank?
   end
 
   context "#change_password_allowed?" do

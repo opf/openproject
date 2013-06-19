@@ -211,8 +211,8 @@ class AccountControllerTest < ActionController::TestCase
         Setting.self_registration = '3'
         post :register, :user => {
           :login => 'register',
-          :password => 'test',
-          :password_confirmation => 'test',
+          :password => 'adminADMIN!',
+          :password_confirmation => 'adminADMIN!',
           :firstname => 'John',
           :lastname => 'Doe',
           :mail => 'register@example.com'

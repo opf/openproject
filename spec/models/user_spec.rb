@@ -124,4 +124,46 @@ describe User do
     it { @u.valid?.should be_false }
     it { @u.errors[:password].should include I18n.t('activerecord.errors.messages.too_short', :count => Setting.password_min_length.to_i) }
   end
+
+  describe '#random_password' do
+    before do
+      @u = User.new
+      @u.password.should be_nil
+      @u.password_confirmation.should be_nil
+      @u.random_password!
+    end
+
+    it { @u.password.should_not be_blank }
+    it { @u.password_confirmation.should_not be_blank }
+  end
+
+  describe '.system' do
+    context 'no SystemUser exists' do
+      before do
+        SystemUser.delete_all
+      end
+
+      it 'creates a SystemUser' do
+        lambda do
+          system_user = User.system
+          system_user.new_record?.should be_false
+          system_user.is_a?(SystemUser).should be_true
+        end.should change(User, :count).by(1)
+      end
+    end
+
+    context 'a SystemUser exists' do
+      before do
+        @u = User.system
+        SystemUser.first.should == @u
+      end
+
+      it 'returns existing SystemUser'  do
+        lambda do
+          system_user = User.system
+          system_user.should == @u
+        end.should change(User, :count).by(0)
+      end
+    end
+  end
 end

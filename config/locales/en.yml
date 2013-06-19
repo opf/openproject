@@ -206,6 +206,15 @@ en:
               cannot_be_in_recycle_bin : "cannot be in recycle bin."
         project_association:
           project_association_not_allowed: "does not allow associations"
+        user:
+          attributes:
+            password:
+              weak: "must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
+              lowercase: "lowercase (e.g. 'a')"
+              uppercase: "uppercase (e.g. 'A')"
+              numeric: "numeric (e.g. '1')"
+              special: "special (e.g. '%')"
+              reused: "must not be one of the last %{count} used"
       template:
         body: "Please check the following fields:"
         header:
@@ -760,6 +769,10 @@ en:
   label_overall_spent_time: "Overall spent time"
   label_overview: "Overview"
   label_password_lost: "Lost password"
+  label_password_rule_lowercase: "Lowercase"
+  label_password_rule_numeric: "Numeric Characters"
+  label_password_rule_special: "Special Characters"
+  label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
   label_per_page: "Per page"
   label_permissions: "Permissions"
@@ -1135,7 +1148,9 @@ en:
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_new_project_user_role_id: "Role given to a non-admin user who creates a project"
   setting_openid: "Allow OpenID login and registration"
+  setting_password_active_rules: "Active password rules"
   setting_password_min_length: "Minimum password length"
+  setting_password_min_adhered_rules: "Minimum number of rules to adhere to"
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"

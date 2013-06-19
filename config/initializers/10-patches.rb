@@ -271,3 +271,6 @@ module CollectiveIdea
     end
   end
 end
+
+# Patch acts_as_list before any class includes the module
+require 'open_project/patches/acts_as_list'
