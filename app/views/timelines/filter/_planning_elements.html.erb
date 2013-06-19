@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= select("timeline[options]", :planning_element_types,
                    options_for_select([]),
                    {},
-                   { :'data-ajaxURL' => url_for({:controller => "planning_element_types",
+                   { :'data-ajaxURL' => url_for({:controller => "/planning_element_types",
                                                  :action     => "paginate_planning_element_types"}),
                      :multiple => true,
                      :'data-selected' => filter_select(
@@ -71,7 +71,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select "timeline[options]", :planning_element_responsibles,
                    options_for_select([]),
                    {},
-                   { :'data-ajaxURL' => url_for({:controller => "principals",
+                   { :'data-ajaxURL' => url_for({:controller => "/principals",
                                                  :action     => "paginate_principals"}),
                      :multiple => true,
                      :'data-selected' => filter_select(

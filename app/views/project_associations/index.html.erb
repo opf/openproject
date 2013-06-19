@@ -80,7 +80,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= textilizable association, :description %>
           </td>
           <td class="timelines-pa-actions">
-            <%= link_to_if_authorized({:controller => 'project_associations',
+            <%= link_to_if_authorized({:controller => '/project_associations',
                                       :action     => 'edit',
                                       :project_id => @project,
                                       :id         => association},
@@ -90,7 +90,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 <%= h(other.name) %>
               </span>
             <% end %>
-            <%= link_to_if_authorized({:controller => 'project_associations',
+            <%= link_to_if_authorized({:controller => '/project_associations',
                                       :action     => 'confirm_destroy',
                                       :project_id => @project,
                                       :id         => association},

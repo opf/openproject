@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <% end %>
       <% end %>
       <%= link_to_if_authorized(l(:button_delete),
-                                {:controller => 'planning_elements',
+                                {:controller => '/planning_elements',
                                  :action => 'confirm_destroy',
                                  :project_id => planning_element.project,
                                  :id => planning_element},

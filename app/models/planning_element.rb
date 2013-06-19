@@ -43,7 +43,7 @@ class PlanningElement < ActiveRecord::Base
 
   acts_as_journalized :activity_type => 'planning_elements',
                       :activity_permission => :view_planning_elements,
-                      :event_url   => Proc.new { |j| {:controller => 'planning_elements',
+                      :event_url   => Proc.new { |j| {:controller => '/planning_elements',
                                                       :action     => 'show',
                                                       :id         => j.journaled,
                                                       :project_id => j.project,

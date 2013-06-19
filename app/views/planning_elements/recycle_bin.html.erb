@@ -14,11 +14,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="contextual">
   <%= link_to_if_authorized(l("timelines.restore_all"),
-                            {:controller => "planning_elements", :action => "confirm_restore_all", :project_id => @project.id},
+                            {:controller => "/planning_elements", :action => "confirm_restore_all", :project_id => @project.id},
                             :title => l("timelines.restore_all"),
                             :class => "icon icon-cancel") %>
   <%= link_to_if_authorized(l("timelines.delete_all"),
-                            {:controller => "planning_elements", :action => "confirm_destroy_all", :project_id => @project.id},
+                            {:controller => "/planning_elements", :action => "confirm_destroy_all", :project_id => @project.id},
                             :title => l("timelines.delete_all"),
                             :class => "icon icon-del") %>
 </div>

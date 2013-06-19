@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select "timeline[options]", :grouping_one_selection,
                    options_for_select([]),
                    {},
-                   { :'data-ajaxURL' => url_for({:controller => "projects",
+                   { :'data-ajaxURL' => url_for({:controller => "/projects",
                                                  :action     => "paginate_projects"}),
                      :multiple => true,
                      :'data-selected' => filter_select(
@@ -95,7 +95,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select("timeline[options]", :grouping_two_selection,
                      options_for_select([]),
                      {},
-                     { :'data-ajaxURL' => url_for({:controller => "project_types",
+                     { :'data-ajaxURL' => url_for({:controller => "/project_types",
                                                    :action     => "paginate_project_types" }),
                        :multiple => true,
                        :'data-selected' => filter_select(

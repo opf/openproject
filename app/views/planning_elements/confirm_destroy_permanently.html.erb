@@ -13,7 +13,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= header_tags %>
 <%= render :partial => 'breadcrumb', :locals => {:planning_element => @planning_element} %>
 
-<%= form_for @planning_element, :url => {:controller => 'planning_elements',
+<%= form_for @planning_element, :url => {:controller => '/planning_elements',
                                :action => 'destroy_permanently',
                                :project_id => @planning_element.project,
                                :id => @planning_element}, :html => {:method => 'delete'} do |f| %>

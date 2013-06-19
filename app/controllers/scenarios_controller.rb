@@ -84,7 +84,7 @@ class ScenariosController < ApplicationController
   protected
 
   def project_settings_path
-    url_for(:controller => 'projects', :action => 'settings', :tab => 'timelines', :id => @project)
+    url_for(:controller => '/projects', :action => 'settings', :tab => 'timelines', :id => @project)
   end
   helper_method :project_settings_path
 
