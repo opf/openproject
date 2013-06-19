@@ -17,13 +17,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
    member_per_page = 20
 
-   @members_count = @project.member_principals.count
-   @members_pages = controller.class::Paginator.new controller, @members_count, member_per_page, params[:page]
-   @members = @project.member_principals.find :all,
-                          :limit  =>  @members_pages.items_per_page,
-                          :offset =>  @members_pages.current.offset,
-                          :include => [:roles, :principal, :member_roles],
-                          :order => User::USER_FORMATS_STRUCTURE[Setting.user_format].map{|attr| attr.to_s}.join(", ")
+   @members = @project.member_principals.includes(:roles, :principal, :member_roles)
+                                        .order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map{|attr| attr.to_s}.join(", "))
+                                        .page(params[:page])
+                                        .per_page(per_page_option)
 %>
 
 <div class="splitcontentleft">
@@ -72,8 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
 	</tbody>
 </table>
 
-<%= pagination_links_full @members_pages, @members_count, :per_page_links => false,
-                          :window_size => 10, :tab => "members", :action=>"settings", :controller => '/projects', :id => @project.identifier %>
+<%= pagination_links_full @members, :params => { :tab => 'members' } %>
 
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
