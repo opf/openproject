@@ -1,4 +1,4 @@
-module MeetingsPlugin
+module OpenProject::Meeting
   module Patches
     module ProjectPatch
       def self.included(receiver)

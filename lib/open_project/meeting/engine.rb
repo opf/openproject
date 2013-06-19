@@ -1,8 +1,7 @@
 require 'rails/engine'
 
-module MeetingsPlugin
+module OpenProject::Meeting
   class Engine < ::Rails::Engine
-    isolate_namespace MeetingsPlugin
 
     initializer 'openproject_meeting.precompile_assets' do |app|
       app.config.assets.precompile += ["openproject_meeting.css"]
@@ -15,7 +14,7 @@ module MeetingsPlugin
     config.before_configuration do |app|
       # This is required for the routes to be loaded first
       # as the routes should be prepended so they take precedence over the core.
-      app.config.paths['config/routes'].unshift File.join(File.dirname(__FILE__), "..", "..", "config", "routes.rb")
+      app.config.paths['config/routes'].unshift File.join(File.dirname(__FILE__), "..", "..", "..", "config", "routes.rb")
     end
 
     initializer "remove_duplicate_meeting_routes", :after => "add_routing_paths" do |app|
@@ -34,8 +33,8 @@ module MeetingsPlugin
     config.to_prepare do
       require 'redmine/plugin'
 
-      require_dependency 'openproject_meeting/hooks'
-      require 'openproject_meeting/patches/project_patch'
+      require_dependency 'open_project/meeting/hooks'
+      require 'open_project/meeting/patches/project_patch'
       Project.send(:include, Patches::ProjectPatch)
 
       # load classes so that all User.before_destroy filters are loaded
@@ -44,15 +43,16 @@ module MeetingsPlugin
       require_dependency 'meeting_minutes'
       require_dependency 'meeting_participant'
 
-      spec = Bundler.environment.specs['openproject_meeting'][0]
+      spec = Bundler.environment.specs['openproject-meeting'][0]
 
-      unless Redmine::Plugin.registered_plugins.include?(:redmine_meeting)
-        Redmine::Plugin.register :redmine_meeting do
-          name 'OpenProject Meeting Plugin'
+      unless Redmine::Plugin.registered_plugins.include?(:openproject_meeting)
+        Redmine::Plugin.register :openproject_meeting do
+          name 'OpenProject Meeting'
           author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
           author_url spec.homepage
           description spec.description
           version spec.version
+          url 'https://www.openproject.org/projects/plugin-meetings'
 
           requires_openproject ">= 3.0.0beta1"
 
