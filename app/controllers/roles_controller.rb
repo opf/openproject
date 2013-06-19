@@ -11,12 +11,17 @@
 #++
 
 class RolesController < ApplicationController
+  include PaginationHelper
+
   layout 'admin'
 
   before_filter :require_admin
 
   def index
-    @role_pages, @roles = paginate :roles, :per_page => 25, :order => 'builtin, position'
+    @roles = Role.order('builtin, position')
+                 .page(params[:page])
+                 .per_page(per_page_option)
+
     render :action => "index", :layout => false if request.xhr?
   end
 
