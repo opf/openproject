@@ -72,6 +72,18 @@ describe PaginationHelper do
                                       :text => "(#{(current_page * per_page) - per_page + 1} - #{current_page * per_page}/#{total_entries})")
     end
 
+    it "should have different urls if the params are specified as options" do
+      params = { :tab => 'lorem' }
+
+      pagination = helper.pagination_links_full(paginator, { :params => params })
+
+      (1..(total_entries / per_page)).each do |i|
+        next if i == current_page
+
+        pagination.should have_selector("a[href='#{issues_path({:page => i}.merge(params))}']", :text => Regexp.new("^#{i}$"))
+      end
+    end
+
     it "should show the available pre page options" do
       ar = Setting.per_page_options
 
@@ -92,6 +104,9 @@ describe PaginationHelper do
         pagination.should have_selector(".previous_page.disabled")
       end
 
+      it "should have a link to the next page" do
+        pagination.should have_selector("a.next_page[href='#{issues_path({:page => current_page + 1})}']")
+      end
     end
 
     describe "WHEN the last page is the current" do
@@ -101,6 +116,9 @@ describe PaginationHelper do
         pagination.should have_selector(".next_page.disabled")
       end
 
+      it "should have a link to the previous page" do
+        pagination.should have_selector("a.previous_page[href='#{issues_path({:page => current_page - 1})}']")
+      end
     end
 
     describe "WHEN the paginated object is empty" do

@@ -13,11 +13,15 @@
 require 'will_paginate'
 
 module PaginationHelper
-  def pagination_links_full(paginator, count=nil, options={})
+  def pagination_links_full(paginator, options = {})
     html = ''.html_safe
 
     if paginator.total_entries > 0
-      html << will_paginate(paginator, next_label: I18n.t(:label_next), previous_label: I18n.t(:label_next), :container => false)
+      merged_options = { next_label: I18n.t(:label_next),
+                         previous_label: I18n.t(:label_next),
+                         container: false }.merge(options)
+
+      html << will_paginate(paginator, merged_options)
 
       html << content_tag(:span, "(#{paginator.offset + 1} - #{paginator.offset + paginator.length}/#{paginator.total_entries})", :class => 'range')
 
