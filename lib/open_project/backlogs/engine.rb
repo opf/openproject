@@ -1,5 +1,5 @@
 require 'acts_as_silent_list'
-require 'openproject_nissue'
+require 'openproject-nissue'
 
 module OpenProject::Backlogs
   class Engine < ::Rails::Engine
@@ -86,7 +86,7 @@ module OpenProject::Backlogs
           author 'relaxdiego, friflaj, Finn GmbH'
           description 'A plugin for agile teams'
 
-          url 'https://github.com/finnlabs/openproject_backlogs'
+          url 'https://www.openproject.org/projects/plugin-backlogs'
           author_url 'http://www.finn.de/'
 
           version OpenProject::Backlogs::VERSION

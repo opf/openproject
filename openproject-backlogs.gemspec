@@ -5,7 +5,7 @@ require "open_project/backlogs/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "openproject_backlogs"
+  s.name        = "openproject-backlogs"
   s.version     = OpenProject::Backlogs::VERSION
   s.authors = "Finn GmbH"
   s.email = "info@finn.de"
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.2.9"
   s.add_dependency "prawn"
   s.add_dependency "acts_as_silent_list"
-  s.add_dependency "openproject_nissue"
+  s.add_dependency "openproject-nissue"
 
   s.add_development_dependency "factory_girl_rails", "~> 4.0"
   s.add_development_dependency "pdf-inspector", "~>1.0.0"
