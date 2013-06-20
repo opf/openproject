@@ -13,18 +13,16 @@ class ScenariosController < ApplicationController
   unloadable
   helper :timelines
 
+  before_filter :disable_api
   before_filter :find_project_by_project_id
   before_filter :authorize
 
   accept_key_auth :index, :show
 
-  # API actions
-
   def index
     @scenarios = @project.scenarios
     respond_to do |format|
       format.html { render_404 }
-      format.api
     end
   end
 
@@ -32,7 +30,6 @@ class ScenariosController < ApplicationController
     @scenario = @project.scenarios.find(params[:id])
     respond_to do |format|
       format.html { render_404 }
-      format.api
     end
   end
 
