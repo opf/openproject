@@ -13,7 +13,9 @@ class PlanningElementTypeColorsController < ApplicationController
   unloadable
   helper :timelines
 
+  before_filter :disable_api
   before_filter :require_admin_unless_readonly_api_request
+
   accept_key_auth :index, :show
 
   helper :timelines
@@ -23,14 +25,12 @@ class PlanningElementTypeColorsController < ApplicationController
     @colors = PlanningElementTypeColor.all
     respond_to do |format|
       format.html
-      format.api
     end
   end
 
   def show
     @color = PlanningElementTypeColor.find(params[:id])
     respond_to do |format|
-      format.api
     end
   end
 
