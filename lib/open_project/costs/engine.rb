@@ -126,19 +126,17 @@ module OpenProject::Costs
             permission :block_tickets, {}, :require => :member
             permission :view_cost_objects, {:cost_objects => [:index, :show]}
 
-            permission :view_cost_entries, { :cost_objects => [:index, :show] }
-            permission :view_own_cost_entries, { :cost_objects => [:index, :show] }
+            permission :view_cost_entries, { :cost_objects => [:index, :show], :costlog => [:index] }
+            permission :view_own_cost_entries, { :cost_objects => [:index, :show], :costlog => [:index] }
 
             permission :edit_cost_objects, {:cost_objects => [:index, :show, :edit, :update, :destroy, :new, :create, :copy]}
           end
 
           # register additional permissions for the time log
           project_module :time_tracking do
-            permission :view_own_time_entries, {:timelog => [:details, :report]}
+            permission :view_own_time_entries, {:timelog => [:index, :report]}
           end
 
-          view_time_entries = Redmine::AccessControl.permission(:view_time_entries)
-          view_time_entries.actions << "cost_reports/index"
 
           # Menu extensions
           menu :top_menu,
