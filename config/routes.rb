@@ -41,7 +41,6 @@ OpenProject::Application.routes.draw do
       resources :colors, :controller => 'planning_element_type_colors'
       resources :planning_element_types
       resources :planning_elements
-      resources :project_associations
       resources :project_types
       resources :reported_project_statuses
       resources :scenarios
@@ -50,6 +49,9 @@ OpenProject::Application.routes.draw do
       resources :projects do
         resources :planning_elements
         resources :reportings do
+          get :available_projects, :on => :collection
+        end
+        resources :project_associations do
           get :available_projects, :on => :collection
         end
       end
