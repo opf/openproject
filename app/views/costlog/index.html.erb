@@ -5,7 +5,7 @@
 
 <%= render_costlog_breadcrumb %>
 
-<h2><%= l(:label_spent_costs) %></h2>
+<h2><%= Issue.human_attribute_name(:spent_costs) %></h2>
 
 <%= form_remote_tag( :url => {}, :method => :get, :update => 'content' ) do %>
 <%= hidden_field_tag('project_id', params[:project_id]) if @project %>
@@ -25,8 +25,8 @@
 </p>
 <% end %>
 
-<% html_title l(:label_spent_costs), l(:label_details) %>
+<% html_title Issue.human_attribute_name(:spent_costs), l(:label_details) %>
 
 <% content_for :header_tags do %>
-	<%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_costs)) %>
+	<%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => Issue.human_attribute_name(:spent_costs)) %>
 <% end %>

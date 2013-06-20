@@ -94,6 +94,7 @@ de:
 
   label_between: "zwischen"
   label_cost_filter_add: "Kostenfilter hinzufügen"
+  label_costlog: "Gebuchte Stückkosten"
   label_cost_object: "Budget"
   label_cost_object_id: "Budget #%{id}"
   label_cost_object_new: "Neues Budget"

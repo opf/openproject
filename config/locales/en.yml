@@ -94,6 +94,7 @@ en:
 
   label_between: "between"
   label_cost_filter_add: "Add cost entry filter"
+  label_costlog: "Logged unit costs"
   label_cost_object: "Budget"
   label_cost_object_id: "Budget #%{id}"
   label_cost_object_new: "New Budget"
