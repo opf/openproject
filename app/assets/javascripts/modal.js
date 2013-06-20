@@ -69,12 +69,18 @@ var ModalHelper = (function() {
     var modalHelper = this;
     var timeline = modalHelper.timeline;
 
-    var url = modalHelper.options.url_prefix +
-              modalHelper.options.project_prefix +
-              "/" +
-              projectId +
-              '/planning_elements/';
-    var submiturl = url
+    var non_api_url = modalHelper.options.url_prefix +
+                      modalHelper.options.project_prefix +
+                      "/" +
+                      projectId +
+                      '/planning_elements/';
+
+    var api_url = modalHelper.options.url_prefix +
+                  modalHelper.options.api_prefix +
+                  modalHelper.options.project_prefix +
+                  "/" +
+                  projectId +
+                  '/planning_elements/';
 
     if (typeof elementId === 'function') {
       callback = elementId;
@@ -87,13 +93,14 @@ var ModalHelper = (function() {
 
     if (type === 'new') {
 
-      url += 'new.js';
+      non_api_url += 'new.js';
 
     } else if (type === 'edit') {
+
       if (typeof elementId === 'string' || typeof elementId === 'number') {
 
-        url += elementId + '/edit.js';
-        submiturl += elementId + '.json';
+        non_api_url += elementId + '/edit.js';
+        api_url += elementId + '.json';
 
       } else {
 
@@ -103,7 +110,7 @@ var ModalHelper = (function() {
     } else if (type === 'show') {
       if (typeof elementId === 'string' || typeof elementId === 'number') {
 
-        url += elementId + '.js';
+        non_api_url += elementId + '.js';
 
       } else {
 
@@ -117,7 +124,7 @@ var ModalHelper = (function() {
     }
 
     //create the modal by using the html the url gives us.
-    modalHelper.createModal(url, function(ele) {
+    modalHelper.createModal(non_api_url, function(ele) {
       var projects = timeline.projects;
       var project;
       var projectSelect;
@@ -131,15 +138,15 @@ var ModalHelper = (function() {
 
         if (type === 'new') {
 
-          submiturl = modalHelper.options.url_prefix +
-                      modalHelper.options.api_prefix +
-                      modalHelper.options.project_prefix +
-                      "/" +
-                      projectSelect.val() +
-                      '/planning_elements.json';
+          api_url = modalHelper.options.url_prefix +
+                    modalHelper.options.api_prefix +
+                    modalHelper.options.project_prefix +
+                    "/" +
+                    projectSelect.val() +
+                    '/planning_elements.json';
         }
 
-        modalHelper.submitBackground(jQuery(this), submiturl, function(err, res) {
+        modalHelper.submitBackground(jQuery(this), api_url, function(err, res) {
           var element;
 
           modalHelper.hideLoadingModal();
