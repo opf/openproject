@@ -630,20 +630,6 @@ class User < Principal
     system_user
   end
 
-  # Salts all existing unsalted passwords
-  # It changes password storage scheme from SHA1(password) to SHA1(salt + SHA1(password))
-  # This method is used in the SaltPasswords migration and is to be kept as is
-  def self.salt_unsalted_passwords!
-    transaction do
-      User.find_each(:conditions => "salt IS NULL OR salt = ''") do |user|
-        next if user.hashed_password.blank?
-        salt = User.generate_salt
-        hashed_password = User.hash_password("#{salt}#{user.hashed_password}")
-        User.update_all("salt = '#{salt}', hashed_password = '#{hashed_password}'", ["id = ?", user.id] )
-      end
-    end
-  end
-
   def latest_news(options = {})
     News.latest_for self, options
   end

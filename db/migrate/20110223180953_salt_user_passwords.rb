@@ -14,12 +14,17 @@ class SaltUserPasswords < ActiveRecord::Migration
 
   def self.up
     say_with_time "Salting user passwords, this may take some time..." do
-      User.salt_unsalted_passwords!
+      User.find_each(:conditions => "salt IS NULL OR salt = ''") do |user|
+        next if user.hashed_password.blank?
+        salt = SecureRandom.hex(16)
+        hashed_password = Digest::SHA1.hexdigest("#{salt}#{user.hashed_password}")
+        User.update_all("salt = '#{salt}', hashed_password = '#{hashed_password}'", ["id = ?", user.id] )
+      end
     end
   end
 
   def self.down
     # Unsalted passwords can not be restored
-    raise ActiveRecord::IrreversibleMigration, "Can't decypher salted passwords. This migration can not be rollback'ed."
+    raise ActiveRecord::IrreversibleMigration, "Can't reverse hashing of passwords. This migration can not be rolled back."
   end
 end

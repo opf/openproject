@@ -564,23 +564,6 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  def test_salt_unsalted_passwords
-    # Restore a user with an unsalted password
-    user = User.find(1)
-    user.salt = nil
-    user.hashed_password = User.hash_password("unsalted")
-    user.save!
-
-    User.salt_unsalted_passwords!
-
-    user.reload
-    # Salt added
-    assert !user.salt.blank?
-    # Password still valid
-    assert user.check_password?("unsalted")
-    assert_equal user, User.try_to_login(user.login, "unsalted")
-  end
-
   if Object.const_defined?(:OpenID)
 
   def test_setting_identity_url
