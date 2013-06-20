@@ -1,4 +1,4 @@
-class CostQuery::Filter::Tyear < CostQuery::Filter::Base
+class CostQuery::Filter::Tyear < Report::Filter::Base
   use :integer_operators
 
   def self.label

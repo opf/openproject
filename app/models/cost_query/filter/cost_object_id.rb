@@ -1,4 +1,4 @@
-class CostQuery::Filter::CostObjectId < CostQuery::Filter::Base
+class CostQuery::Filter::CostObjectId < Report::Filter::Base
   join_table Project
   applies_for :label_issue_attributes
 

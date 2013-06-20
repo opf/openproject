@@ -1,4 +1,4 @@
-class CostQuery::Filter::ProjectId < CostQuery::Filter::Base
+class CostQuery::Filter::ProjectId < Report::Filter::Base
   db_field "entries.project_id"
 
   def self.label

@@ -1,4 +1,4 @@
-class CostQuery::Filter::ActivityId < CostQuery::Filter::Base
+class CostQuery::Filter::ActivityId < Report::Filter::Base
 
   def self.label
     TimeEntry.human_attribute_name(:activity)

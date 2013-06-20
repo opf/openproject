@@ -1,4 +1,4 @@
-class CostQuery::Filter::DueDate < CostQuery::Filter::Base
+class CostQuery::Filter::DueDate < Report::Filter::Base
   use :time_operators
   join_table Issue
   applies_for :label_issue_attributes

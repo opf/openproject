@@ -1,8 +1,6 @@
-class CostQuery::GroupBy
-  class IssueId < Base
+class CostQuery::GroupBy::IssueId < Report::GroupBy::Base
 
-    def self.label
-      Issue.model_name.human
-    end
+  def self.label
+    Issue.model_name.human
   end
 end
