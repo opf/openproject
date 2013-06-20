@@ -13,6 +13,7 @@ class ReportingsController < ApplicationController
   unloadable
   helper :timelines
 
+  before_filter :disable_api
   before_filter :find_project_by_project_id
   before_filter :authorize
 
