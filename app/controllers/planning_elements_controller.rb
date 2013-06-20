@@ -32,7 +32,7 @@ class PlanningElementsController < ApplicationController
 
 
   helper :timelines
-  helper :journals
+  helper :timelines_journals
 
   accept_key_auth :index, :create, :show, :update, :destroy, :list
 

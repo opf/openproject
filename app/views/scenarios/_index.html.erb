@@ -42,10 +42,10 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= l('timelines.used_in_x_planning_elements', :count => scenario.alternate_dates.count) %>
         </td>
         <td class="timelines-scenario-created_at">
-          <%= time_tag(scenario.created_at) %>
+          <%= timelines_time_tag(scenario.created_at) %>
         </td>
         <td class="timelines-scenario-updated_at">
-          <%= time_tag(scenario.updated_at) %>
+          <%= timelines_time_tag(scenario.updated_at) %>
         </td>
         <td class="timelines-scenario-actions">
           <%= link_to l(:button_edit),

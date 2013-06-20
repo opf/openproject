@@ -128,10 +128,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div id='history'>
     <% planning_element.journals.changing.each do |journal| %>
-      <%= render_journal planning_element,
-                         journal,
-                         :edit_permission     => :edit_planning_element_notes,
-                         :edit_own_permission => :edit_own_planning_element_notes %>
+      <%= timelines_render_journal planning_element,
+                                   journal,
+                                   :edit_permission     => :edit_planning_element_notes,
+                                   :edit_own_permission => :edit_own_planning_element_notes %>
     <% end %>
   </div>
 <% end %>
