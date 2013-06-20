@@ -32,7 +32,12 @@ module Api
 
           format.api do
             if successfully_created
-              see_other(project_planning_element_url(@project, @planning_element, :format => 'xml'))
+              redirect_url = api_v2_project_planning_element_url(
+                @project, @planning_element,
+                # TODO this probably should be (params[:format] ||'xml'), however, client code currently anticipates xml responses.
+                :format => 'xml'
+              )
+              see_other(redirect_url)
             else
               render_validation_errors(@planning_element)
             end
