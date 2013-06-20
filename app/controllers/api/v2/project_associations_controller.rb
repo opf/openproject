@@ -16,31 +16,28 @@ module Api
 
       include ::Api::V2::ApiController
 
+      respond_to :api
+
       def index
-        respond_to do |format|
-          format.api do
-            @project_associations = @project.project_associations.visible
-          end
-        end
+        @project_associations = @project.project_associations.visible
+
+        respond_with(@project_associations)
       end
 
       def available_projects
         available_projects = @project.associated_project_candidates
-        respond_to do |format|
-          format.api {
-            @elements = Project.project_level_list(Project.visible)
-            @disabled = Project.visible - available_projects
-          }
-        end
+
+        @elements = Project.project_level_list(Project.visible)
+        @disabled = Project.visible - available_projects
+
+        respond_with(@elements, @disabled)
       end
 
       def show
         @project_association = @project.project_associations.find(params[:id])
         check_visibility
 
-        respond_to do |format|
-          format.api
-        end
+        respond_with(@project_associations)
       end
     end
 
