@@ -16,6 +16,7 @@ class ProjectTypesController < ApplicationController
   unloadable
   helper :timelines
 
+  before_filter :disable_api
   before_filter :check_permissions
   accept_key_auth :index, :show
 
@@ -26,7 +27,6 @@ class ProjectTypesController < ApplicationController
     @project_types = ProjectType.all
     respond_to do |format|
       format.html
-      format.api
     end
   end
 
@@ -52,7 +52,6 @@ class ProjectTypesController < ApplicationController
   def show
     @project_type = ProjectType.find(params[:id])
     respond_to do |format|
-      format.api
     end
   end
 
