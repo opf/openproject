@@ -20,6 +20,7 @@ class PlanningElementsController < ApplicationController
                                               :recycle_bin, :destroy_all, :confirm_destroy_all,
                                               :restore_all, :confirm_restore_all]
 
+  before_filter :disable_api
   before_filter :find_project_by_project_id,
                 :authorize,
                 :assign_planning_elements, :except => [:index, :list]
@@ -41,7 +42,6 @@ class PlanningElementsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.api
     end
   end
 
@@ -82,14 +82,6 @@ class PlanningElementsController < ApplicationController
           render :action => "new"
         end
       end
-
-      format.api do
-        if successfully_created
-          see_other(project_planning_element_url(@project, @planning_element, :format => 'xml'))
-        else
-          render_validation_errors(@planning_element)
-        end
-      end
     end
   end
 
@@ -98,7 +90,6 @@ class PlanningElementsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.api
       format.js { render :partial => 'show'}
     end
   end
@@ -128,14 +119,6 @@ class PlanningElementsController < ApplicationController
           render :action => "edit"
         end
       end
-
-      format.api do
-        if successfully_updated
-          no_content
-        else
-          render_validation_errors(@planning_element)
-        end
-      end
     end
   end
 
@@ -156,7 +139,6 @@ class PlanningElementsController < ApplicationController
 
     respond_to do |format|
       format.html { render :action => :index }
-      format.api { render :action => :index }
     end
   end
 
@@ -185,7 +167,6 @@ class PlanningElementsController < ApplicationController
         flash[:notice] = l(:notice_successful_delete)
         redirect_to project_planning_elements_path(@project)
       end
-      format.api
     end
   end
 
@@ -215,7 +196,6 @@ class PlanningElementsController < ApplicationController
         flash[:notice] = l("timelines.notice_successful_moved_to_trash")
         redirect_to project_planning_elements_path(@project)
       end
-      format.api
     end
   end
 
