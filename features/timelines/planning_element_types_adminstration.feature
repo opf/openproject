@@ -53,7 +53,7 @@ Feature: Planning Element Type Adminstration
      Then I should see an error explanation stating "Name can't be blank"
 
   Scenario: The admin may edit a planning element type
-     When I go to the edit page of the timelines planning element type called "Phase"
+     When I go to the edit page of the planning element type called "Phase"
       And I fill in "Updated Phase" for "Name"
       And I press "Save"
      Then I should see a notice flash stating "Successful update."

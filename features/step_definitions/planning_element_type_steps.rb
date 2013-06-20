@@ -13,4 +13,4 @@
 
 InstanceFinder.register(:planning_element_type, Proc.new { |name| PlanningElementType.find_by_name(name) })
 
-RouteMap.register(PlanningElementType, "/timelines/planning_element_types")
+RouteMap.register(PlanningElementType, "/planning_element_types")
