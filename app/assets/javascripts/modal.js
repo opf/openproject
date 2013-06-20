@@ -71,7 +71,9 @@ var ModalHelper = (function() {
 
     var url = modalHelper.options.url_prefix +
               modalHelper.options.project_prefix +
-              projectId + '/planning_elements/';
+              "/" +
+              projectId +
+              '/planning_elements/';
     var submiturl = url
 
     if (typeof elementId === 'function') {
@@ -130,8 +132,11 @@ var ModalHelper = (function() {
         if (type === 'new') {
 
           submiturl = modalHelper.options.url_prefix +
+                      modalHelper.options.api_prefix +
                       modalHelper.options.project_prefix +
-                      projectSelect.val() + '/planning_elements.json';
+                      "/" +
+                      projectSelect.val() +
+                      '/planning_elements.json';
         }
 
         modalHelper.submitBackground(jQuery(this), submiturl, function(err, res) {
@@ -307,7 +312,9 @@ var ModalHelper = (function() {
           var tokenName, token, action, data = {};
           var url = modalHelper.options.url_prefix +
                     modalHelper.options.project_prefix +
-                    projectId + '/planning_elements/';
+                    "/" +
+                    projectId +
+                    '/planning_elements/';
 
           tokenName = jQuery('meta[name=csrf-param]').attr('content');
           token = jQuery('meta[name=csrf-token]').attr('content');
