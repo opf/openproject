@@ -74,7 +74,7 @@ When(/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
-  project_type = Timelines::ProjectType.find_by_name(project_type_name)
+  project_type = ProjectType.find_by_name(project_type_name)
 
   page.should have_selector("#timeline_options_grouping_two_enabled")
 
@@ -160,7 +160,7 @@ When /^I wait for timeline to load table$/ do
   page.should have_selector('.tl-left-main', visible: true)
 end
 When (/^I open a modal for planning element "([^"]*)" of project "([^"]*)"$/) do |planning_name, project_name|
-  planning_element = Timelines::PlanningElement.find_by_name(planning_name)
+  planning_element = PlanningElement.find_by_name(planning_name)
   project = Project.find_by_name(project_name)
   page.execute_script <<-JS
     Timeline.get().modalHelper.createPlanningModal(
