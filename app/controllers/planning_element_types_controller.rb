@@ -13,6 +13,7 @@ class PlanningElementTypesController < ApplicationController
   unloadable
   helper :timelines
 
+  before_filter :disable_api
   before_filter :determine_base
   before_filter :check_permissions
   before_filter :ensure_global_scope, :except => [:index, :show]
@@ -29,7 +30,6 @@ class PlanningElementTypesController < ApplicationController
     @planning_element_types = @base.all
     respond_to do |format|
       format.html { render_404 if @project }
-      format.api
     end
   end
 
@@ -37,7 +37,6 @@ class PlanningElementTypesController < ApplicationController
     @planning_element_type = @base.find(params[:id])
     respond_to do |format|
       format.html { render_404 }
-      format.api
     end
   end
 
