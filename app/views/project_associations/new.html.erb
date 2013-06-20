@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= select("project_association_select", "project_b_id",
                  options_for_select([]),
                  {},
-                 { :'data-ajaxURL' => url_for({:controller => "/project_associations",
+                 { :'data-ajaxURL' => url_for({:controller => "/api/v2/project_associations",
                                                :action     => "available_projects",
                                                :format     => "json"})
                  })
