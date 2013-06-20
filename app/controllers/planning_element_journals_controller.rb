@@ -15,6 +15,7 @@ class PlanningElementJournalsController < ApplicationController
 
   include ExtendedHTTP
 
+  before_filter :disable_api
   before_filter :find_project_by_project_id
   before_filter :find_planning_element_by_planning_element_id
   before_filter :authorize
@@ -25,7 +26,6 @@ class PlanningElementJournalsController < ApplicationController
     @journals = @planning_element.journals
     respond_to do |format|
       format.html { render_404 }
-      format.api
     end
   end
 
