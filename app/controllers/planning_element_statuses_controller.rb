@@ -13,13 +13,14 @@ class PlanningElementStatusesController < ApplicationController
   unloadable
   helper :timelines
 
+  before_filter :disable_api
+
   accept_key_auth :index, :show
 
   def index
     @planning_element_statuses = PlanningElementStatus.active
     respond_to do |format|
       format.html { render_404 }
-      format.api
     end
   end
 
@@ -27,7 +28,6 @@ class PlanningElementStatusesController < ApplicationController
     @planning_element_status = PlanningElementStatus.active.find(params[:id])
     respond_to do |format|
       format.html { render_404 }
-      format.api
     end
   end
 end
