@@ -15,10 +15,10 @@ OpenProject::Application.routes.draw do
   end
 
   scope 'issues/:issue_id', :as => 'issues' do
-    resources :cost_entries, :controller => 'costlog', :only => [:new]
+    resources :cost_entries, :controller => 'costlog', :only => [:new, :index]
   end
 
-  resources :cost_entries, :controller => 'costlog', :only => [:index, :edit, :update, :destroy]
+  resources :cost_entries, :controller => 'costlog', :only => [:edit, :update, :destroy]
 
   resources :cost_objects, :only => [:show, :update, :destroy, :edit] do
     get :copy, :on => :member
