@@ -30,21 +30,6 @@ class ProjectAssociationsController < ApplicationController
         @project_types = [nil] + ProjectType.all
         @project_associations_by_type = @project.project_associations_by_type
       end
-
-      format.api do
-        @project_associations = @project.project_associations.visible
-      end
-    end
-  end
-
-  def available_projects
-    available_projects = @project.associated_project_candidates
-    respond_to do |format|
-      format.html { render_404 }
-      format.api {
-        @elements = Project.project_level_list(Project.visible)
-        @disabled = Project.visible - available_projects
-      }
     end
   end
 
@@ -69,6 +54,8 @@ class ProjectAssociationsController < ApplicationController
     end
   end
 
+  # TODO: this method should be removed once the controller no longer responds to
+  # api calls
   def show
     @project_association = @project.project_associations.find(params[:id])
     check_visibility
