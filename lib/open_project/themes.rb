@@ -9,10 +9,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'redmine/themes/theme'
-require 'redmine/themes/default_theme' # always load the default theme
+require 'open_project/themes/theme'
+require 'open_project/themes/default_theme' # always load the default theme
 
-module Redmine
+module OpenProject
   module Themes
     class << self
       delegate :new_theme, :themes, :all, to: Theme
@@ -44,6 +44,6 @@ module Redmine
 end
 
 # add view helpers to application
-require 'redmine/themes/view_helpers'
+require 'open_project/themes/view_helpers'
 
 ActiveSupport.run_load_hooks(:themes)

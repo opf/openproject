@@ -10,11 +10,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/themes/theme'
+require 'open_project/themes/theme'
 
-module Redmine
+module OpenProject
   module Themes
-    class DefaultTheme < Redmine::Themes::Theme
+    class DefaultTheme < OpenProject::Themes::Theme
       def identifier
         :default
       end

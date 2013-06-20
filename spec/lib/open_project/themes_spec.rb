@@ -11,7 +11,7 @@
 
 require 'spec_helper'
 
-module Redmine
+module OpenProject
   describe Themes do
     before { Themes.clear_themes }
 

@@ -12,7 +12,7 @@
 require 'singleton'
 require 'active_support/descendants_tracker'
 
-module Redmine
+module OpenProject
   module Themes
     class Theme
       class SubclassResponsibility < StandardError
@@ -81,13 +81,13 @@ module Redmine
         delegate :each, to: :themes
       end
 
-      # "Redmine::Themes::AwesomeTheme".demodulize.underscore.dasherize.to_sym => :"awesome-theme"
+      # 'OpenProject::Themes::GoofyTheme' => :'goofy-theme'
       def identifier
         @identifier ||= self.class.to_s.demodulize.underscore.dasherize.to_sym
       end
       attr_writer :identifier
 
-      # "Redmine::Themes::AwesomeTheme".demodulize.titleize => "Awesome Theme"
+      # 'OpenProject::Themes::GoofyTheme' => 'Goofy Theme'
       def name
         @name ||= self.class.to_s.demodulize.titleize
       end

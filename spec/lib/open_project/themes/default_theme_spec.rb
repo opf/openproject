@@ -11,7 +11,7 @@
 
 require 'spec_helper'
 
-module Redmine
+module OpenProject
   module Themes
     describe DefaultTheme do
       let(:theme) { DefaultTheme.instance }
