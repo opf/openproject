@@ -1,8 +1,6 @@
-class CostQuery::GroupBy
-  class ProjectId < Base
+class CostQuery::GroupBy::ProjectId < Report::GroupBy::Base
 
-    def self.label
-      Project.model_name.human
-    end
+  def self.label
+    Project.model_name.human
   end
 end
