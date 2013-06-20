@@ -16,6 +16,7 @@ class ReportedProjectStatusesController < ApplicationController
   extend Pagination::Controller
   paginate_model ReportedProjectStatus
 
+  before_filter :disable_api
   before_filter :require_login
   before_filter :determine_base
   accept_key_auth :index, :show
