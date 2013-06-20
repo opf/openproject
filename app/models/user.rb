@@ -64,6 +64,11 @@ class User < Principal
   has_many :watches, :class_name => 'Watcher',
                      :dependent => :delete_all
   has_many :changesets, :dependent => :nullify
+  has_many :passwords, :class_name => 'UserPassword',
+                       :order => 'id DESC',
+                       :readonly => true,
+                       :dependent => :destroy,
+                       :inverse_of => :user
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   has_one :api_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='api'"
@@ -85,7 +90,7 @@ class User < Principal
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
   # Prevents unauthorized assignments
-  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
+  attr_protected :login, :admin, :password, :password_confirmation
 
   validates_presence_of :login,
                         :firstname,
@@ -106,7 +111,7 @@ class User < Principal
 
   validate :password_meets_requirements
 
-  before_save :encrypt_password
+  after_save :update_password
   before_create :sanitize_mail_notification_setting
   before_destroy :delete_associated_public_queries
   before_destroy :reassign_associated
@@ -126,10 +131,21 @@ class User < Principal
     true
   end
 
-  # update hashed_password if password was set
-  def encrypt_password
-    if self.password && self.auth_source_id.blank?
-      salt_password(password)
+  def current_password
+    self.passwords.first
+  end
+
+  # create new password if password was set
+  def update_password
+    if password && auth_source_id.blank?
+      new_password = passwords.build()
+      new_password.plain_password = password
+      new_password.save
+
+      # force reload of passwords, so the new password is sorted to the top
+      passwords(true)
+
+      clean_up_former_passwords
     end
   end
 
@@ -276,15 +292,9 @@ class User < Principal
     if auth_source_id.present?
       auth_source.authenticate(self.login, clear_password)
     else
-      User.hash_password("#{salt}#{User.hash_password clear_password}") == hashed_password
+      return false if current_password.nil?
+      current_password.same_as_plain_password?(clear_password)
     end
-  end
-
-  # Generates a random salt and computes hashed_password for +clear_password+
-  # The hashed password is stored in the following form: SHA1(salt + SHA1(password))
-  def salt_password(clear_password)
-    self.salt = User.generate_salt
-    self.hashed_password = User.hash_password("#{salt}#{User.hash_password clear_password}")
   end
 
   # Does the backend storage allow this user to change their password?
@@ -642,26 +652,28 @@ class User < Principal
 
   # Password requirement validation based on settings
   def password_meets_requirements
-      # Passwords are stored hashed in self.hashed_password,
+      # Passwords are stored hashed as UserPasswords,
       # self.password is only set when it was changed after the last
       # save. Otherwise, password is nil.
-      unless self.password.nil? or anonymous?
-          password_errors = OpenProject::Passwords::Evaluator.errors_for_password(self.password)
-          password_errors.each { |error| errors.add(:password, error)}
+      unless password.nil? or anonymous?
+        password_errors = OpenProject::Passwords::Evaluator.errors_for_password(self.password)
+        password_errors.each { |error| errors.add(:password, error)}
+
+        if former_passwords_include?(self.password)
+          errors.add(:password,
+                     I18n.t(:reused,
+                            :count => Setting[:password_count_former_banned],
+                            :scope => [:activerecord,
+                                       :errors,
+                                       :models,
+                                       :user,
+                                       :attributes,
+                                       :password]))
+        end
       end
   end
 
   private
-
-  # Return password digest
-  def self.hash_password(clear_password)
-    Digest::SHA1.hexdigest(clear_password || "")
-  end
-
-  # Returns a 128bits random salt as a hex string (32 chars long)
-  def self.generate_salt
-    SecureRandom.hex(16)
-  end
 
   def initialize_allowance_evaluators
     @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.collect do |evaluator|
@@ -675,6 +687,20 @@ class User < Principal
 
   def candidates_for_project_allowance project
     @registered_allowance_evaluators.map{ |f| f.project_granting_candidates(project) }.flatten.uniq
+  end
+
+  def former_passwords_include?(password)
+    return false if Setting[:password_count_former_banned].to_i == 0
+    ban_count = Setting[:password_count_former_banned].to_i
+    # make reducing the number of banned former passwords immediately effective
+    # by only checking this number of former passwords
+    passwords[0, ban_count].any?{ |f| f.same_as_plain_password?(password) }
+  end
+
+  def clean_up_former_passwords
+    # minimum 1 to keep the actual user password
+    keep_count = [1, Setting[:password_count_former_banned].to_i].max
+    (passwords[keep_count..-1] || []).each { |p| p.destroy }
   end
 
   def reassign_associated
