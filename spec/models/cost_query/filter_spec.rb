@@ -277,14 +277,20 @@ describe CostQuery, :reporting_query_helper => true do
         clear_cache
       end
 
+      def class_name_for(name)
+        "CostQuery::Filter::CustomField#{IssueCustomField.find_by_name(name).id}"
+      end
+
       it "should create classes for custom fields that get added after starting the server" do
-        clear_cache
-        expect { CostQuery::Filter::CustomFieldMyCustomField }.to_not raise_error
+        custom_field
+        expect { class_name_for('My custom field').constantize }.to_not raise_error
       end
 
       it "should remove the custom field classes after it is deleted" do
+        custom_field
+        class_name = class_name_for('My custom field')
         delete_issue_custom_field("My custom field")
-        CostQuery::Filter.all.should_not include CostQuery::Filter::CustomFieldMyCustomField
+        CostQuery::Filter.all.should_not include class_name.constantize
       end
 
       it "should provide the correct available values" do
@@ -292,7 +298,7 @@ describe CostQuery, :reporting_query_helper => true do
                                                 :field_format => "list",
                                                 :possible_values => ['value'])
         clear_cache
-        ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
+        ao = class_name_for('Database').constantize.available_operators.map(&:name)
         CostQuery::Operator.null_operators.each do |o|
           ao.should include o.name
         end
@@ -303,25 +309,27 @@ describe CostQuery, :reporting_query_helper => true do
                                                 :field_format => "list",
                                                 :possible_values => ['value'])
         update_issue_custom_field("Database", :field_format => "string")
-        ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
+        ao = class_name_for('Database').constantize.available_operators.map(&:name)
         CostQuery::Operator.string_operators.each do |o|
           ao.should include o.name
         end
         update_issue_custom_field("Database", :field_format => "int")
-        ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
+        ao = class_name_for('Database').constantize.available_operators.map(&:name)
         CostQuery::Operator.integer_operators.each do |o|
           ao.should include o.name
         end
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do
+        custom_field
         CostQuery::Filter::CustomFieldEntries.all.
-          should include(CostQuery::Filter::CustomFieldMyCustomField)
+          should include(class_name_for('My custom field').constantize)
       end
 
       it "includes custom fields classes in Filter.all" do
+        custom_field
         CostQuery::Filter.all.
-          should include(CostQuery::Filter::CustomFieldMyCustomField)
+          should include(class_name_for('My custom field').constantize)
       end
 
       def create_searchable_fields_and_values
@@ -344,13 +352,15 @@ describe CostQuery, :reporting_query_helper => true do
 
       it "is usable as filter" do
         create_searchable_fields_and_values
-        @query.filter :custom_field_searchable_field, :operator => '=', :value => "125"
+        id = IssueCustomField.find_by_name("Searchable Field").id
+        @query.filter "custom_field_#{id}".to_sym, :operator => '=', :value => "125"
         @query.result.count.should == 2
       end
 
       it "is usable as filter #2" do
         create_searchable_fields_and_values
-        @query.filter :custom_field_searchable_field, :operator => '=', :value => "finnlabs"
+        id = IssueCustomField.find_by_name("Searchable Field").id
+        @query.filter "custom_field_#{id}".to_sym, :operator => '=', :value => "finnlabs"
         @query.result.count.should == 0
       end
     end

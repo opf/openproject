@@ -227,37 +227,43 @@ describe CostQuery, :reporting_query_helper => true do
         check_cache
       end
 
+      def class_name_for(name)
+        "CostQuery::GroupBy::CustomField#{IssueCustomField.find_by_name(name).id}"
+      end
+
       it "should create classes for custom fields" do
         # Would raise a name error
-        CostQuery::GroupBy::CustomFieldSearchableField
+        expect { class_name_for('Searchable Field').constantize }.to_not raise_error
       end
 
       it "should create new classes for custom fields that get added after starting the server" do
         create_issue_custom_field("AFreshCustomField")
         # Would raise a name error
-        CostQuery::GroupBy::CustomFieldAfreshcustomfield
+        expect { class_name_for('AFreshCustomField').constantize }.to_not raise_error
         IssueCustomField.find_by_name("AFreshCustomField").destroy
       end
 
       it "should remove the custom field classes after it is deleted" do
         create_issue_custom_field("AFreshCustomField")
+        name = class_name_for('AFreshCustomField')
         delete_issue_custom_field("AFreshCustomField")
-        CostQuery::GroupBy.all.should_not include CostQuery::GroupBy::CustomFieldAfreshcustomfield
+        CostQuery::GroupBy.all.should_not include name.constantize
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do
         CostQuery::GroupBy::CustomFieldEntries.all.
-          should include(CostQuery::GroupBy::CustomFieldSearchableField)
+          should include(class_name_for('Searchable Field').constantize)
       end
 
       it "includes custom fields classes in GroupBy.all" do
         CostQuery::GroupBy.all.
-          should include(CostQuery::GroupBy::CustomFieldSearchableField)
+          should include(class_name_for('Searchable Field').constantize)
       end
 
       it "is usable as filter" do
         create_issue_custom_field("Database")
-        @query.group_by :custom_field_searchable_field
+        id = IssueCustomField.find_by_name('Database').id
+        @query.group_by "custom_field_#{id}".to_sym
         footprint = @query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
         footprint.should == [[8, 8]]
       end
