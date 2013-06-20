@@ -42,6 +42,7 @@ module OpenProject::Reporting
       require_dependency 'widget/entry_table'
       require_dependency 'widget/settings_patch'
       require_dependency 'open_project/reporting/patches/timelog_controller_patch'
+      require_dependency 'open_project/reporting/patches/costlog_controller_patch'
 
       unless Redmine::Plugin.registered_plugins.include?(:openproject_reporting)
         Redmine::Plugin.register :openproject_reporting do
