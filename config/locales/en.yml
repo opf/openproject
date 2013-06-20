@@ -205,6 +205,7 @@ en:
               cannot_be_in_another_project: "cannot be in another project"
               cannot_be_in_recycle_bin : "cannot be in recycle bin."
         project_association:
+          identical_projects: "can not be created from one project to itself"
           project_association_not_allowed: "does not allow associations"
         user:
           attributes:

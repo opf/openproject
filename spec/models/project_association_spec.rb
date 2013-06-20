@@ -63,6 +63,21 @@ describe ProjectAssociation do
 
     it { ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes, :without_protection => true) }.should be_valid }
 
+    it "should be invalid for a self referential association" do
+      attributes[:project_b_id] = attributes[:project_a_id]
+
+      project_association = ProjectAssociation.new do |a|
+        a.send(:assign_attributes, attributes, :without_protection => true)
+      end
+
+      project_association.should_not be_valid
+
+      project_association.errors[:base].should == [I18n.t(:identical_projects, :scope => [:activerecord,
+                                                                                         :errors,
+                                                                                         :models,
+                                                                                         :project_association])]
+    end
+
     describe 'project_a' do
       it 'is invalid w/o a project_a' do
         attributes[:project_a_id] = nil
@@ -70,7 +85,6 @@ describe ProjectAssociation do
 
         project_association.should_not be_valid
 
-        project_association.errors[:project_a].should be_present
         project_association.errors[:project_a].should == ["can't be blank"]
       end
     end
@@ -82,7 +96,6 @@ describe ProjectAssociation do
 
         project_association.should_not be_valid
 
-        project_association.errors[:project_b].should be_present
         project_association.errors[:project_b].should == ["can't be blank"]
       end
     end

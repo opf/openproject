@@ -25,6 +25,9 @@ class ProjectAssociation < ActiveRecord::Base
 
   attr_accessible :description
 
+  validate :validate,
+           :validate_projects_not_identical
+
   def projects
     [project_a, project_b].compact.uniq.sort_by(&:id)
   end
@@ -49,6 +52,10 @@ class ProjectAssociation < ActiveRecord::Base
         errors.add(field, :project_association_not_allowed) unless project.allows_association?
       end
     end
+  end
+
+  def validate_projects_not_identical
+    errors.add(:base, :identical_projects) if project_a == project_b
   end
 
   def visible?(user = User.current)
