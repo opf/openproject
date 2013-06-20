@@ -129,4 +129,119 @@ describe PaginationHelper do
       end
     end
   end
+
+  describe :page_param do
+    it "should return page if provided and sensible" do
+      page = 2
+
+      page_param( { :page => page } ).should == page
+    end
+
+    it "should return default page 1 if page provided but useless" do
+      page = 0
+
+      page_param( { :page => page } ).should == 1
+    end
+
+    it "should calculate page from offset and limit if page is not provided" do
+      # need to change settings as only multiples of per_page
+      # are allowed for limit
+      with_settings :per_page_options => '5,10,15' do
+        offset = 55
+        limit = 10
+
+        page_param( { :offset => offset, :limit => limit } ).should == 6
+      end
+    end
+
+    it "should ignore offset and limit if page is provided" do
+      offset = 55
+      limit = 10
+      page = 7
+
+      page_param( { :offset => offset, :limit => limit, :page => page } ).should == page
+    end
+
+    it "should not break if limit is bogus (also faulty settings)" do
+      with_settings :per_page_options => '-1,2,3' do
+        offset = 55
+        limit = "lorem"
+
+        page_param( { :offset => offset, :limit => limit } ).should == 28
+      end
+    end
+
+    it "should return 1 if nothing is provided" do
+      page_param( {} ).should == 1
+    end
+  end
+
+  describe :per_page_param do
+    it "should return per_page if provided and one of the values stored in the settings" do
+      with_settings :per_page_options => '1,2,3' do
+        per_page = 2
+
+        per_page_param( { :per_page => per_page } ).should == per_page
+      end
+    end
+
+    it "should save per_page in the settings if per_page" do
+      with_settings :per_page_options => '1,2,3' do
+        per_page = 2
+
+        per_page_param( { :per_page => per_page } ).should == per_page
+      end
+    end
+
+    it "should take the smallest value stored in the settings if provided per_page param is not one of the configured" do
+      with_settings :per_page_options => '1,2,3' do
+        per_page = 4
+
+        per_page_param( { :per_page => per_page } ).should == 1
+      end
+    end
+
+    it "preferes the value stored in the session if it is valid according to the settings" do
+      with_settings :per_page_options => '1,2,3' do
+        session[:per_page] = 2
+
+        per_page_param( { :per_page => 3 } ).should == session[:per_page]
+      end
+    end
+
+    it "ignores the value stored in the session if it is not valid according to the settings" do
+      with_settings :per_page_options => '1,2,3' do
+        session[:per_page] = 4
+
+        per_page_param( { :per_page => 3 } ).should == 3
+      end
+    end
+
+    it "uses limit synonomously to per_page" do
+      with_settings :per_page_options => '1,2,3' do
+        limit = 2
+
+        per_page_param( { :limit => limit } ).should == limit
+      end
+    end
+
+    it "preferes per_page over limit" do
+      with_settings :per_page_options => '1,2,3' do
+        limit = 2
+        per_page = 3
+
+        per_page_param( { :limit => limit, :per_page => per_page } ).should == per_page
+      end
+    end
+
+    it "stores the value in the session" do
+      with_settings :per_page_options => '1,2,3' do
+        limit = 2
+
+        per_page_param( { :limit => limit } )
+
+        session[:per_page].should == limit
+      end
+    end
+  end
 end

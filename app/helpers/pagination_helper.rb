@@ -44,42 +44,58 @@ module PaginationHelper
     end
   end
 
-  # Returns the number of objects that should be displayed
-  # on the paginated list
-  def per_page_option
-    per_page = nil
-    if params[:per_page] && Setting.per_page_options_array.include?(params[:per_page].to_s.to_i)
-      per_page = params[:per_page].to_s.to_i
-      session[:per_page] = per_page
-    elsif session[:per_page]
-      per_page = session[:per_page]
-    else
-      per_page = Setting.per_page_options_array.first || 25
-    end
-    per_page
+  # Returns page option used for pagination
+  # based on:
+  #  * offset
+  #  * limit
+  #  * page
+  #  parameters.
+  #  Preferes page over the other two and
+  #  calculates page in it's absence based on limit and offset.
+  #  Return 1 if all else fails.
+
+  def page_param(options = params)
+    page = if options[:page]
+
+             options[:page].to_i
+
+           elsif options[:offset] && options[:limit]
+
+             begin
+              # + 1 as page is not 0 but 1 based
+              options[:offset].to_i/per_page_param(options) + 1
+             rescue ZeroDivisionError
+               1
+             end
+
+           else
+
+             1
+
+           end
+
+    page > 0 ?
+      page :
+      1
   end
 
-  # Returns offset and limit used to retrieve objects
-  # for an API response based on offset, limit and page parameters
-  def api_offset_and_limit(options=params)
-    if options[:offset].present?
-      offset = options[:offset].to_i
-      if offset < 0
-        offset = 0
-      end
-    end
-    limit = options[:limit].to_i
-    if limit < 1
-      limit = 25
-    elsif limit > 100
-      limit = 100
-    end
-    if offset.nil? && options[:page].present?
-      offset = (options[:page].to_i - 1) * limit
-      offset = 0 if offset < 0
-    end
-    offset ||= 0
+  # Returns per_page option used for pagination
+  # based on:
+  #  * per_page session value
+  #  * per_page options value
+  #  * limit options value
+  #  in that order
+  #  Return smallest possible setting if all else fails.
 
-    [offset, limit]
+  def per_page_param(options = params)
+    per_page_candidates = [session[:per_page].to_i, options[:per_page].to_i, options[:limit].to_i]
+
+    unless (union = per_page_candidates & Setting.per_page_options_array).empty?
+      session[:per_page] = union.first
+
+      union.first
+    else
+      Setting.per_page_options_array.sort.first
+    end
   end
 end
