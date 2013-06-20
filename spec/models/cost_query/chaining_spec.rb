@@ -99,7 +99,7 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     it "should initialize the chain through a block" do
-      class TestFilter < CostQuery::Filter::Base
+      class TestFilter < Report::Filter::Base
         def self.engine
           CostQuery
         end
@@ -250,7 +250,7 @@ describe CostQuery, :reporting_query_helper => true do
 
     describe :display do
       it "should give display? == false when a filter says dont_display!" do
-        class TestFilter < CostQuery::Filter::Base
+        class TestFilter < Report::Filter::Base
           dont_display!
         end
         TestFilter.display?.should be false
@@ -258,14 +258,14 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "should give display? == true when a filter doesn't specify it's visibility" do
-        class TestFilter < CostQuery::Filter::Base
+        class TestFilter < Report::Filter::Base
         end
         TestFilter.display?.should be true
         Object.send(:remove_const, :TestFilter)
       end
 
       it "should give display? == true when a filter says display!" do
-        class TestFilter < CostQuery::Filter::Base
+        class TestFilter < Report::Filter::Base
           display!
         end
         TestFilter.display?.should be true
@@ -275,7 +275,7 @@ describe CostQuery, :reporting_query_helper => true do
 
     describe :selectable do
       it "should give selectable? == false when a filter says not_selectable!" do
-        class TestFilter < CostQuery::Filter::Base
+        class TestFilter < Report::Filter::Base
           not_selectable!
         end
         TestFilter.selectable?.should be false
@@ -283,14 +283,14 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "should give selectable? == true when a filter doesn't specify it's selectability" do
-        class TestFilter < CostQuery::Filter::Base
+        class TestFilter < Report::Filter::Base
         end
         TestFilter.selectable?.should be true
         Object.send(:remove_const, :TestFilter)
       end
 
       it "should give selectable? == true when a filter says selectable!" do
-        class TestFilter < CostQuery::Filter::Base
+        class TestFilter < Report::Filter::Base
           selectable!
         end
         TestFilter.selectable?.should be true

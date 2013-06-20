@@ -1,4 +1,4 @@
-class CostQuery::Filter::CostTypeId < CostQuery::Filter::Base
+class CostQuery::Filter::CostTypeId < Report::Filter::Base
   extra_options :display
   selectable false
 

@@ -1,4 +1,4 @@
-class CostQuery::Filter::AssignedToId < CostQuery::Filter::Base
+class CostQuery::Filter::AssignedToId < Report::Filter::Base
   use :null_operators
   join_table Issue
   applies_for :label_issue_attributes

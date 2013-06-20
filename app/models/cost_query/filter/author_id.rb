@@ -1,4 +1,4 @@
-class CostQuery::Filter::AuthorId < CostQuery::Filter::Base
+class CostQuery::Filter::AuthorId < Report::Filter::Base
   join_table Issue
   applies_for :label_issue_attributes
 

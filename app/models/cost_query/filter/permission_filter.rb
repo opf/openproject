@@ -1,4 +1,4 @@
-class CostQuery::Filter::PermissionFilter < CostQuery::Filter::Base
+class CostQuery::Filter::PermissionFilter < Report::Filter::Base
   dont_display!
   not_selectable!
   db_field ""

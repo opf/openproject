@@ -1,4 +1,4 @@
-class CostQuery::Filter::OverriddenCosts < CostQuery::Filter::Base
+class CostQuery::Filter::OverriddenCosts < Report::Filter::Base
 
   def self.label
     CostEntry.human_attribute_name(:overridden_costs)

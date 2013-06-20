@@ -1,4 +1,4 @@
-class CostQuery::Filter::UserId < CostQuery::Filter::Base
+class CostQuery::Filter::UserId < Report::Filter::Base
   def self.label
     Issue.human_attribute_name(:user)
   end

@@ -1,4 +1,4 @@
-class CostQuery::Filter::PriorityId < CostQuery::Filter::Base
+class CostQuery::Filter::PriorityId < Report::Filter::Base
   join_table Issue
   applies_for :label_issue_attributes
 

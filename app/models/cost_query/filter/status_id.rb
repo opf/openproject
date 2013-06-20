@@ -1,6 +1,6 @@
 #we have to require this here because the operators would not be defined otherwise
 require_dependency 'cost_query/operator'
-class CostQuery::Filter::StatusId < CostQuery::Filter::Base
+class CostQuery::Filter::StatusId < Report::Filter::Base
   available_operators 'c', 'o'
   join_table Issue, IssueStatus => [Issue, :status]
   applies_for :label_issue_attributes
