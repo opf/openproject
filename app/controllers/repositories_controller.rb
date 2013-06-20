@@ -98,7 +98,7 @@ class RepositoriesController < ApplicationController
   def revisions
     @changesets = @repository.changesets.includes(:user, :repository)
                                         .page(params[:page])
-                                        .per_page(per_page_option)
+                                        .per_page(per_page_param)
 
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }

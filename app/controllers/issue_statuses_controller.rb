@@ -23,7 +23,7 @@ class IssueStatusesController < ApplicationController
   def index
     @issue_statuses = IssueStatus.order('position')
                                  .page(params[:page])
-                                 .per_page(per_page_option)
+                                 .per_page(per_page_param)
 
     render :action => "index", :layout => false if request.xhr?
   end

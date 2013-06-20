@@ -29,7 +29,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
       assert_tag :tag => 'issues',
         :attributes => {
           :type => 'array',
-          :total_count => assigns(:issue_count),
+          :total_count => assigns(:issues).total_entries,
           :limit => 25,
           :offset => 0
         }
@@ -37,11 +37,15 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
 
     context "with offset and limit" do
       should "use the params" do
-        get '/api/v1/issues.xml?offset=2&limit=3'
+        with_settings :per_page_options => '1,2,3' do
+          get '/api/v1/issues.xml?offset=4&limit=3'
 
-        assert_equal 3, assigns(:limit)
-        assert_equal 2, assigns(:offset)
-        assert_tag :tag => 'issues', :children => {:count => 3, :only => {:tag => 'issue'}}
+          assert_equal 3, assigns(:issues).per_page
+          # We only allow for offsets that are multiples of
+          # per_page
+          assert_equal 3, assigns(:issues).offset
+          assert_tag :tag => 'issues', :children => {:count => 3, :only => {:tag => 'issue'}}
+        end
       end
     end
 

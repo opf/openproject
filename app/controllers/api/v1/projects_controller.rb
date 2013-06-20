@@ -16,10 +16,12 @@ module Api
 
       include ::Api::V1::ApiController
 
+      include PaginationHelper
+
       def index
-        @offset, @limit = api_offset_and_limit
-        @project_count = Project.visible.count
-        @projects = Project.visible.all(:offset => @offset, :limit => @limit, :order => 'lft')
+        @projects = Project.visible.order('lft')
+                                   .page(page_param)
+                                   .per_page(per_page_param)
 
         respond_to do |format|
           format.api

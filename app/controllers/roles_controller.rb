@@ -20,7 +20,7 @@ class RolesController < ApplicationController
   def index
     @roles = Role.order('builtin, position')
                  .page(params[:page])
-                 .per_page(per_page_option)
+                 .per_page(per_page_param)
 
     render :action => "index", :layout => false if request.xhr?
   end

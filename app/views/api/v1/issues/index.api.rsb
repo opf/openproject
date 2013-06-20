@@ -9,7 +9,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :issues, api_meta(:total_count => @issue_count, :offset => @offset, :limit => @limit) do
+api.array :issues, api_meta(:total_count => @issues.total_entries,
+                            :offset => @issues.offset,
+                            :limit => @issues.per_page) do
   @issues.each do |issue|
     api.issue do
       api.id issue.id

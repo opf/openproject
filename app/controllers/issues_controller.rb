@@ -52,20 +52,21 @@ class IssuesController < ApplicationController
     sort_update(@query.sortable_columns)
 
     if @query.valid?
-      case params[:format]
-      when 'csv', 'pdf'
-        @limit = Setting.issues_export_limit.to_i
-      when 'atom'
-        @limit = Setting.feeds_limit.to_i
-      else
-        @limit = per_page_option
-      end
+      per_page = case params[:format]
+                 when 'csv', 'pdf'
+                   Setting.issues_export_limit.to_i
+                 when 'atom'
+                   Setting.feeds_limit.to_i
+                 else
+                   per_page_param
+                 end
 
       @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
-                              :order => sort_clause,
-                              :offset => @offset,
-                              :limit => @limit,
-                              :page => params[:page])
+                              :order => sort_clause)
+                             .page(page_param)
+                             .per_page(per_page)
+
+      @issue_count_by_group = @query.issue_count_by_group
 
       respond_to do |format|
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }

@@ -36,7 +36,7 @@ class MessagesController < ApplicationController
     @replies =  @topic.children.includes(:author, :attachments, {:board => :project})
                                .order("#{Message.table_name}.created_on ASC")
                                .page(page)
-                               .per_page(per_page_option)
+                               .per_page(per_page_param)
 
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => !request.xhr?

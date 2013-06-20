@@ -20,13 +20,6 @@ module Api
         sort_init 'login', 'asc'
         sort_update %w(login firstname lastname mail admin created_on last_login_on)
 
-        case params[:format]
-        when 'xml', 'json'
-          @offset, @limit = api_offset_and_limit
-        else
-          @limit = per_page_option
-        end
-
         scope = User
         scope = scope.in_group(params[:group_id].to_i) if params[:group_id].present?
 
@@ -38,14 +31,10 @@ module Api
           c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", name, name, name, name]
         end
 
-        @user_count = scope.count(:conditions => c.conditions)
-        @user_pages = Paginator.new self, @user_count, @limit, params['page']
-        @offset ||= @user_pages.current.offset
-        @users =  scope.find :all,
-                            :order => sort_clause,
-                            :conditions => c.conditions,
-                            :limit  =>  @limit,
-                            :offset =>  @offset
+        @users =  scope.order(sort_clause)
+                       .where(c.conditions)
+                       .page(page_param)
+                       .per_page(per_page_param)
 
         respond_to do |format|
           format.api

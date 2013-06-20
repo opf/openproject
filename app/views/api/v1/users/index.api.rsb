@@ -9,7 +9,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :users, api_meta(:total_count => @user_count, :offset => @offset, :limit => @limit) do
+api.array :users, api_meta(:total_count => @users.total_entries,
+                           :offset => @users.offset,
+                           :limit => @users.per_page) do
   @users.each do |user|
     api.user do
       api.id         user.id

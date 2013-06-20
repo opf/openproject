@@ -491,7 +491,7 @@ class Query < ActiveRecord::Base
   end
 
   # Returns the issues
-  # Valid options are :order, :offset, :limit, :include, :conditions
+  # Valid options are :order, :include, :conditions
   def issues(options={})
     order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
     order_option = nil if order_option.blank?
@@ -499,11 +499,6 @@ class Query < ActiveRecord::Base
     Issue.where(::Query.merge_conditions(statement, options[:conditions]))
          .includes([:status, :project] + (options[:include] || []).uniq)
          .order(order_option)
-         .page(options[:page])
-         .per_page(options[:limit])
-
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise ::Query::StatementInvalid.new(e.message)
   end
 
   # Returns the journals

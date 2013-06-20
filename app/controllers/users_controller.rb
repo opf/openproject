@@ -36,13 +36,6 @@ class UsersController < ApplicationController
     sort_init 'login', 'asc'
     sort_update %w(login firstname lastname mail admin created_on last_login_on)
 
-    case params[:format]
-    when 'xml', 'json'
-      @offset, @limit = api_offset_and_limit
-    else
-      @limit = per_page_option
-    end
-
     scope = User
     scope = scope.in_group(params[:group_id].to_i) if params[:group_id].present?
 
@@ -56,8 +49,8 @@ class UsersController < ApplicationController
 
     @users = scope.order(sort_clause)
                   .where(c.conditions)
-                  .page(params[:page])
-                  .per_page(per_page_option)
+                  .page(page_param)
+                  .per_page(per_page_param)
 
     respond_to do |format|
       format.html {

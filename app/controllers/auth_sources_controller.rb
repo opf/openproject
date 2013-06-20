@@ -18,7 +18,7 @@ class AuthSourcesController < ApplicationController
 
   def index
     @auth_sources = AuthSource.page(params[:page])
-                              .per_page(per_page_option)
+                              .per_page(per_page_param)
 
     render "auth_sources/index"
   end

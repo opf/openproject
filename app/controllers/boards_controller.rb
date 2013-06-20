@@ -41,7 +41,7 @@ class BoardsController < ApplicationController
         @topics =  @board.topics.order(["#{Message.table_name}.sticky DESC", sort_clause].compact.join(', '))
                                 .includes(:author, { :last_reply => :author })
                                 .page(params[:page])
-                                .per_page(per_page_option)
+                                .per_page(per_page_param)
 
         @message = Message.new
         render :action => 'show', :layout => !request.xhr?

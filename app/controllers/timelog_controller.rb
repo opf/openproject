@@ -53,7 +53,7 @@ class TimelogController < ApplicationController
                                     .where(cond.conditions)
                                     .order(sort_clause)
                                     .page(params[:page])
-                                    .per_page(per_page_option)
+                                    .per_page(per_page_param)
 
         @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :issue], :conditions => cond.conditions).to_f
 

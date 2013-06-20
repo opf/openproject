@@ -38,13 +38,11 @@ module Api
         respond_to do |format|
           format.api  {
             @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
-            @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-            @entries = TimeEntry.visible.find(:all,
-                                      :include => [:project, :activity, :user, {:issue => :tracker}],
-                                      :conditions => cond.conditions,
-                                      :order => sort_clause,
-                                      :limit  =>  @entry_pages.items_per_page,
-                                      :offset =>  @entry_pages.current.offset)
+            @entries = TimeEntry.visible.includes(:project, :activity, :user, {:issue => :tracker})
+                                        .where(cond.conditions)
+                                        .order(sort_clause)
+                                        .page(page_param)
+                                        .per_page(per_page_param)
           }
         end
       end

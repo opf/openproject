@@ -32,7 +32,7 @@ class NewsController < ApplicationController
     @newss = scope.includes(:author, :project)
                   .order("#{News.table_name}.created_on DESC")
                   .page(params[:page])
-                  .per_page(per_page_option)
+                  .per_page(per_page_param)
 
     respond_to do |format|
       format.html { render :layout => !request.xhr? }

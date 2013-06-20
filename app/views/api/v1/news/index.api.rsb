@@ -9,7 +9,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :news, api_meta(:total_count => @news_count, :offset => @offset, :limit => @limit) do
+api.array :news, api_meta(:total_count => @newss.total_entries,
+                          :offset => @newss.offset,
+                          :limit => @newss.per_page) do
   @newss.each do |news|
     api.news do
       api.id news.id

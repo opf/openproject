@@ -17,22 +17,12 @@ module Api
       include ::Api::V1::ApiController
 
       def index
-        case params[:format]
-        when 'xml', 'json'
-          @offset, @limit = api_offset_and_limit
-        else
-          @limit =  10
-        end
-
         scope = @project ? @project.news.visible : News.visible
 
-        @news_count = scope.count
-        @news_pages = Paginator.new self, @news_count, @limit, params['page']
-        @offset ||= @news_pages.current.offset
-        @newss = scope.all(:include => [:author, :project],
-                                        :order => "#{News.table_name}.created_on DESC",
-                                        :offset => @offset,
-                                        :limit => @limit)
+        @newss = scope.includes(:author, :project)
+                      .order("#{News.table_name}.created_on DESC")
+                      .page(page_param)
+                      .per_page(per_page_param)
 
         respond_to do |format|
           format.api
