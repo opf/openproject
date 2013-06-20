@@ -13,6 +13,7 @@ class ProjectAssociationsController < ApplicationController
   unloadable
   helper :timelines
 
+  before_filter :disable_api
   before_filter :find_project_by_project_id
   before_filter :authorize
   before_filter :check_allows_association
@@ -61,7 +62,6 @@ class ProjectAssociationsController < ApplicationController
     check_visibility
 
     respond_to do |format|
-      format.api
     end
   end
 
