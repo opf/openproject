@@ -64,17 +64,12 @@ module OpenProject::Reporting
             permission :save_private_cost_reports, {:cost_reports => edit_actions}
           end
 
-          #register additional permissions for the time log
+          #register additional permissions for viewing time and cost entries through the CostReportsController
           view_actions.each do |action|
             Redmine::AccessControl.permission(:view_time_entries).actions << "cost_reports/#{action}"
             Redmine::AccessControl.permission(:view_own_time_entries).actions << "cost_reports/#{action}"
             Redmine::AccessControl.permission(:view_cost_entries).actions << "cost_reports/#{action}"
             Redmine::AccessControl.permission(:view_own_cost_entries).actions << "cost_reports/#{action}"
-          end
-
-          [:details].each do |action|
-            Redmine::AccessControl.permission(:view_cost_entries).actions << "costlog/#{action}"
-            Redmine::AccessControl.permission(:view_own_cost_entries).actions << "costlog/#{action}"
           end
 
           #menu extensions
