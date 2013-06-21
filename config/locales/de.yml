@@ -1119,6 +1119,7 @@ de:
   query_fields:
     assigned_to_role: "Zuständigkeitsrolle"
     member_of_group: "Zuständigkeitsgruppe"
+    subproject_id: "Teilprojekt"
 
   search_input_placeholder: "Suche ..."
 

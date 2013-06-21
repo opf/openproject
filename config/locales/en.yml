@@ -1102,6 +1102,7 @@ en:
   query_fields:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
+    subproject_id: "Subproject"
 
   search_input_placeholder: "search ..."
 
