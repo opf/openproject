@@ -89,18 +89,10 @@ module Api
       def destroy
         if @time_entry.destroy && @time_entry.destroyed?
           respond_to do |format|
-            format.html {
-              flash[:notice] = l(:notice_successful_delete)
-              redirect_to :back
-            }
             format.api { head :ok }
           end
         else
           respond_to do |format|
-            format.html {
-              flash[:error] = l(:notice_unable_delete_time_entry)
-              redirect_to :back
-            }
             format.api { render_validation_errors(@time_entry) }
           end
         end

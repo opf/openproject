@@ -54,7 +54,6 @@ module Api
 
       def level_list
         respond_to do |format|
-          format.html { render_404 }
           format.api {
             @elements = Project.project_level_list(Project.visible)
           }
