@@ -1,3 +1,7 @@
+2013-06-21 Christian Ratz <c.ratz@finn.de>
+
+	* Use final plugin name schema
+
 2013-06-14 Christian Ratz <c.ratz@finn.de>
 
 	* added dependency to OpenProject core >= 3.0.0beta1
