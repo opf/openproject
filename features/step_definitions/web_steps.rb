@@ -362,6 +362,10 @@ Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following op
   end
 end
 
+Then /^there should be the disabled "(.+)" element$/ do |element|
+  page.find(element)[:disabled].should == "true"
+end
+
 # This needs an active js driver to work properly
 Given /^I (accept|dismiss) the alert dialog$/ do |method|
   if Capybara.current_driver.to_s.include?("selenium")
