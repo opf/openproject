@@ -1,22 +1,24 @@
 module Menus::Project
   module Modules
-
     Redmine::MenuManager.map :'project/modules' do |menu|
       menu.push :overview,
                 { :controller => '/projects',
                   :action => 'show',
-                  :id => :project }
+                  :id => :project },
+                :caption => :label_overview
 
       menu.push :activity,
                 { :controller => '/activities',
                   :action => 'index',
-                  :project_id => :project }
+                  :project_id => :project },
+                :caption => :label_activity
 
       menu.push :roadmap,
                 { :controller => '/versions',
                   :action => 'index',
                   :project_id => :project },
-                :if => Proc.new { |p| p.shared_versions.any? }
+                :caption => :label_roadmap,
+                :if => Proc.new { |locals| locals[:project].shared_versions.any? }
 
       menu.push :issues,
                 { :controller => '/issues',
@@ -65,7 +67,7 @@ module Menus::Project
                   :project_id => :project },
                 :caption => :label_news_new,
                 :parent => :news,
-                :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) }
+                :if => Proc.new { |locals| User.current.allowed_to?(:manage_news, locals[:project]) }
 
       menu.push :documents,
                 { :controller => '/documents',
@@ -77,7 +79,7 @@ module Menus::Project
                 { :controller => '/boards',
                   :action => 'index',
                   :project_id => :project },
-                :if => Proc.new { |p| p.boards.any? },
+                :if => Proc.new { |locals| locals[:project].boards.any? },
                 :caption => :label_board_plural
 
       menu.push :files,
@@ -90,7 +92,7 @@ module Menus::Project
                 { :controller => '/repositories',
                   :action => 'show',
                   :project_id => :project },
-                :if => Proc.new { |p| p.repository && !p.repository.new_record? }
+                :if => Proc.new { |locals| locals[:project].repository && !locals[:project].repository.new_record? }
 
       # Project menu entries
       # * Timelines
@@ -121,7 +123,7 @@ module Menus::Project
                       :action => 'index',
                       :project_id => :project },
                     rep_options.merge(:caption => :'timelines.project_menu.project_associations',
-                                      :if => Proc.new { |p| p.timelines_project_type.try :allows_association })
+                                      :if => Proc.new { |locals| locals[:project].timelines_project_type.try :allows_association })
 
           menu.push :timelines_reportings,
                     { :controller => '/timelines/timelines_reportings',

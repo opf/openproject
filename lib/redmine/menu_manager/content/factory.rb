@@ -15,7 +15,9 @@ module Redmine::MenuManager::Content
     def self.build(content, options = {})
       if content.respond_to?(:call)
         content
-      elsif content.is_a?(Hash) || content.is_a?(Symbol)
+      elsif content.is_a?(Hash) ||
+            content.is_a?(Symbol) ||
+            content.is_a?(String)
         Redmine::MenuManager::Content::Link.new(content, options)
       else
         raise "Don't know what content to create from #{content}, #{options}"

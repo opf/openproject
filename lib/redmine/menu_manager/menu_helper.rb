@@ -110,7 +110,7 @@ module Redmine::MenuManager::MenuHelper
     project = locals[:project]
     locals[:selected] = current_menu_item == node.name
 
-    return "" if project and not node.allowed?(User.current, project)
+    return "" if project and not node.allowed?(locals)
 
     if node.has_children?# || !node.child_menus.nil?
       render_menu_node_with_children(node, locals)
@@ -130,7 +130,7 @@ module Redmine::MenuManager::MenuHelper
                                end.join.html_safe
 
       # Unattached children
-      unattached_children_list = render_unattached_children_menu(node, locals)
+      unattached_children_list = nil#render_unattached_children_menu(node, locals)
 
       # Parent
       node = [render_single_menu_node(node, locals)]

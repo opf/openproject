@@ -39,7 +39,7 @@ module Redmine::MenuManager
   def self.menu_items_for(menu, project=nil)
     items = []
 
-    if exists?(menu)
+    unless exists?(menu)
       file = Rails.root.join("app/widgets/menus/#{menu}.rb")
 
       require Rails.root.join("app/widgets/menus/#{menu}") if File.exists?(file)
@@ -59,7 +59,7 @@ module Redmine::MenuManager
 
   def self.exists?(menu_name)
     # TODO: have an explicit method for querying for undefined menus
-    items(menu_name).children.size == 0
+    self.permanent_build_queue(menu_name).nil?
   end
 
   private

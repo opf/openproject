@@ -29,44 +29,8 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @content.call(locals)
   end
 
-  # Checks if a user is allowed to access the menu item by:
-  #
-  # * Checking the conditions of the item
-  # * Checking the url target (project only)
+  # Checks if a user is allowed to access the menu item
   def allowed?(locals = {})
     condition.call(locals)
-#    @condition.call
-#    if condition && !condition.call(project)
-#      # Condition that doesn't pass
-#      return false
-#    end
-#
-#    # TODO: get a better mechanism
-#    if block || url.try(:empty?)
-#      return true
-#    end
-#
-#    if project
-#      return user && user.allowed_to?(url, project)
-#    else
-#      # outside a project, all menu items allowed
-#      return true
-#    end
-  end
-
-  def extract_details(locals = {})
-    # support both the old and the new signature
-    # old: (menu, project=nil)
-    project = locals.is_a?(Project) || locals.nil? ?
-                locals :
-                locals[:project]
-
-    locals = { :project => locals } if locals.is_a?(Project)
-
-    caption = item.caption(project)
-
-    selected = current_menu_item == item.name
-
-    return [caption, url, selected]
   end
 end

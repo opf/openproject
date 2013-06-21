@@ -10,7 +10,7 @@ module Menus
 
         menu.push :watch, Watch.new
 
-        menu.push :more_functions, Proc.new {|x| true },
+        menu.push :more_functions, Proc.new {|x| '<a class="icon icon-more" href="javascript:">Weitere Funktionen</a>' },
                                    :caption => :more_actions,
                                    :if => Proc.new{ |p| true },
                                    :html => { :class => 'drop-down action_menu_more icon icon-more' }
