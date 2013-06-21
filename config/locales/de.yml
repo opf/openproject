@@ -153,7 +153,9 @@ de:
   permission_view_cost_objects: "Budgets ansehen"
   permission_view_cost_rates: "Anzeigen von Stückpreisen"
   permission_view_hourly_rates: "Alle Stundensätze ansehen"
+  permission_view_own_cost_entries: "Eigene gebuchte Kosten ansehen"
   permission_view_own_hourly_rate: "Eigene Stundensätze ansehen"
+  permission_view_own_time_entries: "Eigene gebuchte Aufwände ansehen"
   project_module_costs_module: "Controlling"
 
   text_assign_time_and_cost_entries_to_project: "Gebuchte Aufwände dem Projekt zuweisen"

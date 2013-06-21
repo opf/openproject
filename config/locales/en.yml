@@ -153,7 +153,9 @@ en:
   permission_view_cost_objects: "View Budgets"
   permission_view_cost_rates: "View cost rates"
   permission_view_hourly_rates: "View all hourly rates"
+  permission_view_own_cost_entries: "View own booked costs"
   permission_view_own_hourly_rate: "View own hourly rate"
+  permission_view_own_time_entries: "View own spent time"
   project_module_costs_module: "Cost Control"
 
   text_assign_time_and_cost_entries_to_project: "Assign reported hours and costs to the project"
