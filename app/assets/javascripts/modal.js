@@ -286,6 +286,11 @@ var ModalHelper = (function() {
           e.preventDefault();
         });
 
+        ele.delegate('.watcher_link', 'click', function (e) {
+          jQuery(this).trigger('click.rails');
+          e.preventDefault();
+        });
+
         ele.find('.icon-cancel').click(function(e) {
           modalHelper.showLoadingModal();
 
