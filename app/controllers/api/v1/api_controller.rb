@@ -14,64 +14,47 @@ module Api
 
     module ApiController
 
-      def self.included(base)
-        base.class_eval do
-          skip_before_filter    :disable_api
-          prepend_before_filter :disable_everything_except_api
+      module ClassMethods
+
+        def included(base)
+          base.class_eval do
+            if ((respond_to? :skip_before_filter) &&
+                (respond_to? :prepend_before_filter))
+              skip_before_filter    :disable_api
+              prepend_before_filter :disable_everything_except_api
+            end
+          end
+        end
+
+        def permeate_permissions(*filter_names)
+          filter_names.each do |filter_name|
+            define_method filter_name do |*args, &block|
+              begin
+                original_controller = params[:controller]
+                params[:controller] = original_controller.gsub(api_version, "")
+                result = super(*args, &block)
+              ensure
+                params[:controller] = original_controller
+              end
+              result
+            end
+          end
         end
       end
 
+      extend ClassMethods
+
       def api_version
-        @@api_version ||= /api\/v1\//
+        /api\/v1\//
       end
 
-      def check_if_deletion_allowed(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
+      permeate_permissions :authorize
+      permeate_permissions :authorize_for_user
+      permeate_permissions :check_if_deletion_allowed
+      permeate_permissions :find_optional_project
+      permeate_permissions :find_project
+      permeate_permissions :find_time_entry
 
-      def find_project(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
-
-      def find_time_entry(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
-
-      def find_optional_project(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
-
-      def authorize_for_user(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
-
-      def authorize(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
     end
   end
 end

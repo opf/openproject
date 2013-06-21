@@ -14,82 +14,18 @@ module Api
 
     module ApiController
 
-      extend ::Api::V1::ApiController
-
-      def self.included(base)
-        base.class_eval do
-          skip_before_filter    :disable_api
-          prepend_before_filter :disable_everything_except_api
-        end
-      end
+      include ::Api::V1::ApiController
+      extend ::Api::V1::ApiController::ClassMethods
 
       def api_version
-        @@api_version ||= /api\/v2\//
+        /api\/v2\//
       end
 
-      def authorize(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
-
-      def determine_base(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
-
-      def apply_at_timestamp(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
-
-      def jump_to_project_menu_item(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
-
-      def find_project(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
-
-      def find_all_projects_by_project_id(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
-
-      def find_project_by_project_id(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
-
-      def authorize(*args, &block)
-        original_controller = params[:controller]
-        params[:controller] = original_controller.gsub(api_version, "")
-        result = super(*args, &block)
-        params[:controller] = original_controller
-        result
-      end
+      permeate_permissions :apply_at_timestamp,
+                           :determine_base,
+                           :find_all_projects_by_project_id,
+                           :find_project_by_project_id,
+                           :jump_to_project_menu_item
 
     end
   end
