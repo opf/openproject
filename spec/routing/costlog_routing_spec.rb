@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe CostlogController do
   describe "routing" do
-    it { get('/cost_entries').should route_to(:controller => 'costlog',
-                                              :action => 'index') }
+    it { get('/issues/5/cost_entries').should route_to(:controller => 'costlog',
+                                              :action => 'index',
+                                              :issue_id => '5') }
 
     it { get('/projects/blubs/cost_entries/new').should route_to(:controller => 'costlog',
                                                                  :action => 'new',

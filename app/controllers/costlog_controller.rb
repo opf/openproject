@@ -18,40 +18,6 @@ class CostlogController < ApplicationController
   include CostlogHelper
 
   def index
-    # this looks like it should be moved to openproject_reporting
-    # as it redirects to the CostReportsController and uses CostQuery.
-    # both are defined in openproject_reporting
-    unless @project.nil?
-      filters = {:operators => {}, :values => {}}
-
-      if @issue
-        if @issue.respond_to?("lft")
-          issue_ids = Issue.all(:select => :id, :conditions => ["root_id = ? AND lft >= ? AND rgt <= ?", @issue.root_id, @issue.lft, @issue.rgt]).collect{|i| i.id}
-        else
-          issue_ids = [@issue.id]
-        end
-
-        filters[:operators][:issue_id] = "="
-        filters[:values][:issue_id] = issue_ids
-      end
-
-      filters[:operators][:project_id] = "="
-      filters[:values][:project_id] = [@project.id.to_s]
-
-      respond_to do |format|
-        format.html {
-          session[CostQuery.name.underscore.to_sym] = { :filters => filters, :groups => {:rows => [], :columns => []} }
-
-          if @cost_type
-            redirect_to :controller => "/cost_reports", :action => "index", :project_id => @project, :unit => @cost_type.id
-          else
-            redirect_to :controller => "/cost_reports", :action => "index", :project_id => @project
-          end
-          return
-        }
-      end
-    end
-
     sort_init 'spent_on', 'desc'
     sort_update 'spent_on' => 'spent_on',
                 'user' => 'user_id',
@@ -70,7 +36,7 @@ class CostlogController < ApplicationController
       cond << "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
     end
 
-    cond << User.current.allowed_for(:view_cost_entries, @project)
+    cond << Project.allowed_to_condition(User.current, :view_cost_entries, :project => @project)
 
     if @cost_type
       cond << ["#{CostEntry.table_name}.cost_type_id = ?", @cost_type.id ]
@@ -79,38 +45,36 @@ class CostlogController < ApplicationController
     retrieve_date_range
     cond << ['spent_on BETWEEN ? AND ?', @from, @to]
 
-    CostEntry.visible_by(User.current) do
-      respond_to do |format|
-        format.html {
-          # Paginate results
-          @entry_count = CostEntry.count(:include => [:project, :user], :conditions => cond.conditions)
-          @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-          @entries = CostEntry.find(:all,
-                                    :include => [:project, :cost_type, :user, {:issue => :tracker}],
-                                    :conditions => cond.conditions,
-                                    :order => sort_clause,
-                                    :limit  =>  @entry_pages.items_per_page,
-                                    :offset =>  @entry_pages.current.offset)
+    respond_to do |format|
+      format.html {
+        # Paginate results
+        @entry_count = CostEntry.count(:include => [:project, :user, :issue], :conditions => cond.conditions)
+        @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
+        @entries = CostEntry.find(:all,
+                                  :include => [:project, :cost_type, :user, {:issue => :tracker}],
+                                  :conditions => cond.conditions,
+                                  :order => sort_clause,
+                                  :limit  =>  @entry_pages.items_per_page,
+                                  :offset =>  @entry_pages.current.offset)
 
-          render :layout => !request.xhr?
-        }
-        format.atom {
-          entries = TimeEntry.find(:all,
-                                   :include => [:project, :cost_type, :user, {:issue => :tracker}],
-                                   :conditions => cond.conditions,
-                                   :order => "#{CostEntry.table_name}.created_on DESC",
-                                   :limit => Setting.feeds_limit.to_i)
-          render_feed(entries, :title => l(:label_spent_costs))
-        }
-        format.csv {
-          # Export all entries
-          @entries = CostEntry.find(:all,
-                                    :include => [:project, :cost_type, :user, {:issue => [:tracker, :assigned_to, :priority]}],
-                                    :conditions => cond.conditions,
-                                    :order => sort_clause)
-          send_data(entries_to_csv(@entries).read, :type => 'text/csv; header=present', :filename => 'costlog.csv')
-        }
-      end
+        render :layout => !request.xhr?
+      }
+      format.atom {
+        entries = TimeEntry.find(:all,
+                                 :include => [:project, :cost_type, :user, {:issue => :tracker}],
+                                 :conditions => cond.conditions,
+                                 :order => "#{CostEntry.table_name}.created_on DESC",
+                                 :limit => Setting.feeds_limit.to_i)
+        render_feed(entries, :title => Issue.human_attribute_name(:spent_costs))
+      }
+      format.csv {
+        # Export all entries
+        @entries = CostEntry.find(:all,
+                                  :include => [:project, :cost_type, :user, {:issue => [:tracker, :assigned_to, :priority]}],
+                                  :conditions => cond.conditions,
+                                  :order => sort_clause)
+        send_data(entries_to_csv(@entries).read, :type => 'text/csv; header=present', :filename => 'costlog.csv')
+      }
     end
   end
 
@@ -274,8 +238,8 @@ private
     end
 
     @from, @to = @to, @from if @from && @to && @from > @to
-    @from ||= (CostEntry.minimum(:spent_on, :include => [:project, :user], :conditions => User.current.allowed_for(:view_cost_entries)) || Date.today) - 1
-    @to   ||= (CostEntry.maximum(:spent_on, :include => [:project, :user], :conditions => User.current.allowed_for(:view_cost_entries)) || Date.today)
+    @from ||= (CostEntry.minimum(:spent_on, :include => [:project, :user], :conditions => Project.allowed_to_condition(User.current, :view_cost_entries)) || Date.today) - 1
+    @to   ||= (CostEntry.maximum(:spent_on, :include => [:project, :user], :conditions => Project.allowed_to_condition(User.current, :view_cost_entries)) || Date.today)
   end
 
   def new_default_cost_entry
