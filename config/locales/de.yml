@@ -202,6 +202,15 @@ de:
               cannot_be_in_recycle_bin : "darf nicht im Papierkorb liegen"
         "timelines/project_association":
           project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"
+        user:
+          attributes:
+            password:
+              weak: "muss Zeichen aus folgenden Klassen beinhalten (mindestens %{min_count} von %{all_count}): %{rules}"
+              lowercase: "Kleinbuchstaben (z.B. 'a')"
+              uppercase: "Großbuchstaben (z.B. 'A')"
+              numeric: "Ziffern (z.B. '1')"
+              special: "Sonderzeichen (z.B. '%')"
+              reused: "darf nicht eines der %{count} zuletzt genutzten sein."
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:
@@ -774,6 +783,10 @@ de:
   label_overall_spent_time: "Aufgewendete Zeit aller Projekte anzeigen"
   label_overview: "Übersicht"
   label_password_lost: "Kennwort vergessen"
+  label_password_rule_lowercase: "Kleinbuchstaben"
+  label_password_rule_numeric: "Ziffern"
+  label_password_rule_special: "Sonderzeichen"
+  label_password_rule_uppercase: "Großbuchstaben"
   label_path_encoding: "Path encoding"
   label_per_page: "Pro Seite"
   label_permissions: "Berechtigungen"
@@ -1152,7 +1165,9 @@ de:
   setting_mail_handler_body_delimiters: "Schneide E-Mails nach einer dieser Zeilen ab"
   setting_new_project_user_role_id: "Rolle, die einem Nicht-Administrator zugeordnet wird, der ein Projekt erstellt"
   setting_openid: "Erlaube OpenID-Anmeldung und -Registrierung"
+  setting_password_active_rules: "Aktive Passwortregeln"
   setting_password_min_length: "Mindestlänge des Kennworts"
+  setting_password_min_adhered_rules: "Mindestanzahl zu erfüllender Regeln"
   setting_per_page_options: "Objekte pro Seite"
   setting_plain_text_mail: "Nur reinen Text (kein HTML) senden"
   setting_protocol: "Protokoll"

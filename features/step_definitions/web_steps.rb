@@ -273,24 +273,27 @@ end
 
 When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: to finish)?)?$/ do |timeout|
   ajax_done = lambda do
-    page.evaluate_script(%Q{
-      (function (){
-        var done = true;
+    is_done = false
+    while (!is_done) do
+      is_done = page.evaluate_script(%Q{
+        (function (){
+          var done = true;
 
-        if (window.jQuery) {
-          if (!window.jQuery.isReady || window.jQuery.active != 0) {
-            done = false;
+          if (window.jQuery) {
+            if (document.ajaxActive) {
+              done = false;
+            }
           }
-        }
-        if (window.Prototype && window.Ajax) {
-          if (window.Ajax.activeRequestCount != 0) {
-            done = false;
+          if (window.Prototype && window.Ajax) {
+            if (window.Ajax.activeRequestCount != 0) {
+              done = false;
+            }
           }
-        }
 
-        return done;
-      }())
-    }.gsub("\n", ''))
+          return done;
+        }())
+      }.gsub("\n", ''))
+    end
   end
 
   timeout = timeout.present? ?
@@ -357,6 +360,10 @@ Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following op
       raise NotImplementedError, "Only Matcher implemented"
     end
   end
+end
+
+Then /^there should be the disabled "(.+)" element$/ do |element|
+  page.find(element)[:disabled].should == "true"
 end
 
 # This needs an active js driver to work properly

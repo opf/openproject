@@ -64,6 +64,7 @@ class Issue < ActiveRecord::Base
                      :order_column => "#{table_name}.id"
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
+  ATTRIBS_WITH_VALUES_FROM_CHILDREN = %w(priority_id start_date due_date estimated_hours done_ratio)
 
   attr_protected :project_id, :author_id, :lft, :rgt
 

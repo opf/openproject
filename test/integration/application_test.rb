@@ -17,20 +17,14 @@ class ApplicationTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def test_set_localization
-    Setting.available_languages = [:fr, :en, :it]
+    Setting.available_languages = [:de, :en]
     Setting.default_language = 'en'
 
     # a french user
-    get 'projects', { }, { 'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'}
+    get 'projects', { }, { 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'}
     assert_response :success
-    assert_tag :tag => 'h2', :content => 'Projets'
-    assert_equal :fr, current_language
-
-    # then an italien user
-    get 'projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'it;q=0.8,en-us;q=0.5,en;q=0.3'
-    assert_response :success
-    assert_tag :tag => 'h2', :content => 'Progetti'
-    assert_equal :it, current_language
+    assert_tag :tag => 'h2', :content => 'Projekte'
+    assert_equal :de, current_language
 
     # not a supported language: default language should be used
     get 'projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'zz'

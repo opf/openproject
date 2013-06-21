@@ -124,18 +124,22 @@
       markup = [];
 
       if (match < 0) {
-        return "<span data-value='" + item.id + "'>" + item.name + "</span>";
+        return "<span data-value='" + item.id + "'>" +
+               OpenProject.Helpers.markupEscape(item.name) + "</span>";
       }
 
-      markup.push(item.name.substring(0, match));
+      markup.push(OpenProject.Helpers.markupEscape(
+                  item.name.substring(0, match)));
       markup.push("<span class='select2-match' data-value='" + item.id + "'>");
-      markup.push(item.name.substring(match, match + tl));
+      markup.push(OpenProject.Helpers.markupEscape(
+                  item.name.substring(match, match + tl)));
       markup.push("</span>");
-      markup.push(item.name.substring(match + tl, item.name.length));
-      return markup.join("")
+      markup.push(OpenProject.Helpers.markupEscape(
+                  item.name.substring(match + tl, item.name.length)));
+      return markup.join("");
     },
     formatSelection: function (item) {
-      return item.name;
+      return OpenProject.Helpers.markupEscape(item.name);
     },
     initSelection: function (element, callback) {
       var data = [];

@@ -557,7 +557,9 @@ jQuery.viewportHeight = function() {
 +  * 2 - shows and hides ajax indicator
 +  */
 jQuery(document).ready(function($) {
+  document.ajaxActive = false;
   $(document).ajaxSend(function (event, request) {
+    document.ajaxActive = true;
     var csrf_meta_tag = $('meta[name=csrf-token]');
 
     if (csrf_meta_tag) {
@@ -573,6 +575,7 @@ jQuery(document).ready(function($) {
   });
   // ajaxStop gets called when ALL Requests finish, so we won't need a counter as in PT
   $(document).ajaxStop(function () {
+    document.ajaxActive = false;
     if ($('#ajax-indicator')) {
       $('#ajax-indicator').hide();
     }

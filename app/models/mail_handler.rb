@@ -342,7 +342,7 @@ class MailHandler < ActionMailer::Base
     user = User.new
     user.mail = email_address
     user.login = user.mail
-    user.password = SecureRandom.hex [Setting.password_min_length.to_i, 10].max
+    user.random_password!
     user.language = Setting.default_language
 
     names = fullname.blank? ? email_address.gsub(/@.*$/, '').split('.') : fullname.split
