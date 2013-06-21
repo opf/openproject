@@ -64,7 +64,7 @@ Feature: Issue edit
     And I should see "human Horn" within "#history"
 
   @javascript
-  Scenario: On an issue with child(s) a User should not be able to change attributes which are overridden by childs
+  Scenario: On an issue with children a User should not be able to change attributes which are overridden by children
     When I go to the page of the issue "issue1"
     And I click on "Add subtask"
     Then I should see "New issue" within "#content"

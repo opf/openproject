@@ -289,11 +289,11 @@ module IssuesHelper
     end
   end
 
-  def value_overridden_by_childs?(attrib)
-    Issue::ATTRIBS_WITH_VALUES_FROM_CHILDS.include? attrib
+  def value_overridden_by_children?(attrib)
+    Issue::ATTRIBS_WITH_VALUES_FROM_CHILDREN.include? attrib
   end
 
-  def attrib_disbaled?(issue, attrib)
-    value_overridden_by_childs?(attrib) && !(issue.new_record? || issue.leaf?)
+  def attrib_disabled?(issue, attrib)
+    value_overridden_by_children?(attrib) && !(issue.new_record? || issue.leaf?)
   end
 end
