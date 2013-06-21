@@ -1089,6 +1089,7 @@ de:
   permission_rename_wiki_pages: "Wiki-Seiten umbenennen"
   permission_save_queries: "Filter speichern"
   permission_select_project_modules: "Projektmodule auswählen"
+  permission_view_calendar: "Kalender ansehen"
   permission_view_changesets: "Changesets ansehen"
   permission_view_documents: "Dokumente ansehen"
   permission_view_files: "Dateien ansehen"
