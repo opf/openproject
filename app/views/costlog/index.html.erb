@@ -17,12 +17,6 @@
 <% unless @entries.empty? %>
 <%= render :partial => 'list', :locals => { :entries => @entries }%>
 <p class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></p>
-
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'Atom', {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
-<span><%= link_to 'CSV', params.merge(:format => 'csv'), :class => 'csv' %></span>
-</p>
 <% end %>
 
 <% html_title Issue.human_attribute_name(:spent_costs), l(:label_details) %>

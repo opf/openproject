@@ -59,22 +59,6 @@ class CostlogController < ApplicationController
 
         render :layout => !request.xhr?
       }
-      format.atom {
-        entries = TimeEntry.find(:all,
-                                 :include => [:project, :cost_type, :user, {:issue => :tracker}],
-                                 :conditions => cond.conditions,
-                                 :order => "#{CostEntry.table_name}.created_on DESC",
-                                 :limit => Setting.feeds_limit.to_i)
-        render_feed(entries, :title => Issue.human_attribute_name(:spent_costs))
-      }
-      format.csv {
-        # Export all entries
-        @entries = CostEntry.find(:all,
-                                  :include => [:project, :cost_type, :user, {:issue => [:tracker, :assigned_to, :priority]}],
-                                  :conditions => cond.conditions,
-                                  :order => sort_clause)
-        send_data(entries_to_csv(@entries).read, :type => 'text/csv; header=present', :filename => 'costlog.csv')
-      }
     end
   end
 
