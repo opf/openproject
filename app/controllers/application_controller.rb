@@ -173,7 +173,7 @@ class ApplicationController < ActionController::Base
       end
       respond_to do |format|
         format.any(:html, :atom) { redirect_to signin_path(:back_url => url) }
-        format.any(:xml, :js, :json) { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.any(:xml, :js, :json)  { head :unauthorized, "Reason" => "login needed" }
       end
       return false
     end

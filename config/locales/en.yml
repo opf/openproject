@@ -498,6 +498,8 @@ en:
   gui_validation_error_plural: "%{count} errors"
 
   js:
+    logoff: You have been logged off
+    redirect_login: Do you want to be redirected to the login page?  
     ajax:
       hide: "Hide"
       loading: "Loading ..."
