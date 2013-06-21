@@ -228,14 +228,6 @@ Redmine::AccessControl.map do |map|
   end
 end
 
-Redmine::MenuManager.map :top_menu do |menu|
-  menu.push :home, :home_path, :caption => :label_home
-  menu.push :my_page, { :controller => '/my', :action => 'page' }, :caption => :label_my_page, :if => Proc.new { User.current.logged? }
-  # projects menu will be added by Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
-  menu.push :administration, { :controller => '/admin', :action => 'projects' }, :if => Proc.new { User.current.admin? }, :last => true
-  menu.push :help, Redmine::Info.help_url, :last => true, :caption => "?", :html => { :accesskey => Redmine::AccessKeys.key_for(:help) }
-end
-
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_account, { :controller => '/my', :action => 'account' }, :if => Proc.new { User.current.logged? }
   menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
