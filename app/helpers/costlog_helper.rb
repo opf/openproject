@@ -29,51 +29,6 @@ module CostlogHelper
     collection
   end
 
-  def entries_to_csv(entries)
-    # TODO
-    raise( NotImplementedError, "entries_to_csv is not implemented yet" )
-
-    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
-    decimal_separator = l(:general_csv_decimal_separator)
-    export = StringIO.new
-    CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
-      # csv header fields
-      headers = [l(:field_spent_on),
-                 l(:field_user),
-                 l(:field_project),
-                 l(:field_issue),
-                 l(:field_tracker),
-                 l(:field_subject),
-                 l(:field_comments),
-                 l(:field_cost_type),
-                 l(:field_unit_price),
-                 l(:field_units),
-                 l(:field_overall_costs)
-                 ]
-
-      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
-      # csv lines
-      entries.each do |entry|
-        fields = [format_date(entry.spent_on),
-                  entry.user,
-                  entry.project,
-                  (entry.issue ? entry.issue.id : nil),
-                  (entry.issue ? entry.issue.tracker : nil),
-                  (entry.issue ? entry.issue.subject : nil),
-                  entry.comments,
-                  entry.cost_type.name,
-                  User.current.allowed_to?(:view_cost_rates, entry.project) ? entry.cost_type.unit_price.to_s.gsub('.', decimal_separator): "-",
-                  entry.units.to_s.gsub('.', decimal_separator),
-                  User.current.allowed_to?(:view_cost_rates, entry.project) ? entry.cost.to_s.gsub('.', decimal_separator): "-"
-                  ]
-
-        csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
-      end
-    end
-    export.rewind
-    export
-  end
-
   def extended_progress_bar(pcts, options={})
     return progress_bar(pcts, options) unless pcts.is_a?(Numeric) && pcts > 100
 
