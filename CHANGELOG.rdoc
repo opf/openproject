@@ -1,3 +1,9 @@
+= 3.0.4.pre3 - 2013-06-21
+
+== Minor Change
+
+* Use final plugin name schema
+
 = 3.0.4.pre2 - 2013-06-14
 
 == Minor Change
