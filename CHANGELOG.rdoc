@@ -1,3 +1,9 @@
+= 5.0.1.pre2 - 2013-06-21
+
+* Use final plugin name schema
+* Removed reporting related code
+* Permission fix
+
 = 5.0.1.pre1 - 2013-05-24
 
 * fixed failing migrations when TimeEntry(s) exists
