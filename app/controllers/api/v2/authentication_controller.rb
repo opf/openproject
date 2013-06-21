@@ -14,6 +14,8 @@ module Api
 
     class AuthenticationController < AuthenticationController
 
+      include ::Api::V2::ApiController
+
       unloadable
 
       def index

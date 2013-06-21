@@ -16,6 +16,8 @@ module Api
       unloadable
       helper :timelines
 
+      include ::Api::V2::ApiController
+
       accept_key_auth :index, :show
 
       def index
