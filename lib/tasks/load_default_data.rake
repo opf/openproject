@@ -12,14 +12,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-desc 'Load Redmine default configuration data. Language is chosen interactively or by setting REDMINE_LANG environment variable.'
+desc 'Load ChiliProject default configuration data. Language is chosen interactively or by setting CHILIPROJECT_LANG environment variable.'
 
 namespace :redmine do
   task :load_default_data => :environment do
     include Redmine::I18n
     set_language_if_valid('en')
 
-    envlang = ENV['REDMINE_LANG']
+    envlang = ENV['CHILIPROJECT_LANG'] || ENV['REDMINE_LANG']
     if !envlang || !set_language_if_valid(envlang)
       puts
       while true
