@@ -819,7 +819,8 @@ jQuery(document).ready(function($) {
 
 
 	// open and close the main-menu sub-menus
-	$("#main-menu li:has(ul) > a, .action_menu_main li:has(ul) > a").not("ul ul a")
+	//$("#main-menu li:has(ul) > a, .action_menu_main li:has(ul) > a").not("ul ul a")
+	$(".menu_root li:has(ul) > a").not("ul ul a")
 		.append("<span class='toggler'></span>")
 		.click(function() {
 

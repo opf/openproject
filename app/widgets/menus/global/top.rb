@@ -20,7 +20,8 @@ module Menus::Global
                           :caption => :label_my_page,
                           :if => Proc.new { User.current.logged? }
 
-      menu.push :projects, Project::Content.new, :if => Project::Allowed
+      menu.push :projects, Project::Content.new,
+                           :if => Project::Allowed
 
       menu.push :administration, { :controller => '/admin',
                                    :action => 'projects' },
@@ -48,17 +49,19 @@ module Menus::Global
         def call(locals)
           @controller = locals[:controller]
 
-          heading = link_to l(:label_project_plural), { :controller => '/projects',
-                                                        :action => 'index' },
-                                                      :title => l(:label_project_plural)
+          menu = ''.html_safe
+          menu << link_to(l(:label_project_plural), { :controller => '/projects',
+                                                     :action => 'index' },
+                                                   :title => l(:label_project_plural))
 
-          if User.current.impaired?
-            content_tag :li do
-              heading
-            end
-          else
-            render_drop_down_menu_node heading do
-              content_tag :ul, :style => "display:none" do
+          #if User.current.impaired?
+            #content_tag :li do
+            #  heading
+            #end
+          #else
+            #render_drop_down_menu_node heading do
+          unless User.current.impaired?
+              menu << content_tag(:ul, :style => "display:none", :class => "menu-children") do
                 ret = content_tag :li do
                   link_to l(:label_project_view_all), :controller => '/projects',
                                                       :action => 'index'
@@ -70,8 +73,10 @@ module Menus::Global
 
                 ret
               end
-            end
+            #end
           end
+
+          menu
         end
 
       end

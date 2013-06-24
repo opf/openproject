@@ -77,7 +77,7 @@ module Redmine::MenuManager::MenuHelper
               render_menu_node(node, locals)
             end
 
-    links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, :class => "menu_root action_menu_main")
+    links.empty? ? nil : content_tag(:ul, links.join("\n").html_safe, :class => "menu_root action_menu_main")
   end
 
   def render_drop_down_menu_node(label, items_or_options_with_block = nil, html_options = {}, &block)
@@ -115,7 +115,7 @@ module Redmine::MenuManager::MenuHelper
     if node.has_children?# || !node.child_menus.nil?
       render_menu_node_with_children(node, locals)
     else
-      content_tag('li', render_single_menu_node(node, locals))
+      content_tag(:li, render_single_menu_node(node, locals))
     end
   end
 

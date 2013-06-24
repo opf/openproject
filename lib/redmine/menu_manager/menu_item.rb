@@ -12,7 +12,6 @@
 
 class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   include Redmine::I18n
-  #attr_reader :name, :url, :param, :condition, :child_menus, :last, :block
   attr_accessor :name,
                 :content,
                 :condition
