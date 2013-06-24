@@ -1,7 +1,7 @@
 require_dependency "project"
 require_dependency "principal"
 
-module GlobalRoles
+module OpenProject::GlobalRoles::Patches
   module PrincipalPatch
     def self.included(base) # :nodoc:
       base.class_eval do
@@ -14,4 +14,4 @@ module GlobalRoles
   end
 end
 
-Principal.send(:include, GlobalRoles::PrincipalPatch)
+Principal.send(:include, OpenProject::GlobalRoles::Patches::PrincipalPatch)

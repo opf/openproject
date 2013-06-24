@@ -1,4 +1,4 @@
-module GlobalRoles
+module OpenProject::GlobalRoles::Patches
   module AccessControlPatch
     def self.included(base)
       base.send(:extend, ClassMethods)
@@ -24,4 +24,4 @@ module GlobalRoles
   end
 end
 
-Redmine::AccessControl.send(:include, GlobalRoles::AccessControlPatch)
+Redmine::AccessControl.send(:include, OpenProject::GlobalRoles::Patches::AccessControlPatch)

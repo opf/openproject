@@ -1,4 +1,4 @@
-class GlobalRoles::PrincipalAllowanceEvaluator::Global < ChiliProject::PrincipalAllowanceEvaluator::Base
+class OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global < ChiliProject::PrincipalAllowanceEvaluator::Base
   unloadable
 
   def granted_for_global? membership, action, options

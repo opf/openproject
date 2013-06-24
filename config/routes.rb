@@ -1,4 +1,4 @@
-ActionController::Routing::Routes.draw do |map|
-  map.resources :global_roles
-  map.resources :principal_roles
+OpenProject::Application.routes.draw do
+  resources :global_roles
+  resources :principal_roles
 end

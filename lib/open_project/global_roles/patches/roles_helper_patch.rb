@@ -1,6 +1,6 @@
 require_dependency "roles_helper"
 
-module GlobalRoles
+module OpenProject::GlobalRoles::Patches
   module RolesHelperPatch
     def self.included(base) # :nodoc:
       base.class_eval do
@@ -14,4 +14,4 @@ module GlobalRoles
   end
 end
 
-RolesHelper.send(:include, GlobalRoles::RolesHelperPatch)
+RolesHelper.send(:include, OpenProject::GlobalRoles::Patches::RolesHelperPatch)

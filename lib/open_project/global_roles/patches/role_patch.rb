@@ -1,4 +1,4 @@
-module GlobalRoles
+module OpenProject::GlobalRoles::Patches
   module RolePatch
     def self.included(base)
       base.send(:include, InstanceMethods)
@@ -36,4 +36,4 @@ module GlobalRoles
   end
 end
 
-Role.send(:include, GlobalRoles::RolePatch)
+Role.send(:include, OpenProject::GlobalRoles::Patches::RolePatch)

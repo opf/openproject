@@ -1,6 +1,6 @@
 require_dependency "users_controller"
 
-module GlobalRoles
+module OpenProject::GlobalRoles::Patches
   module UsersControllerPatch
     def self.included(base) # :nodoc:
       base.send(:include, InstanceMethods)
@@ -21,4 +21,4 @@ module GlobalRoles
   end
 end
 
-UsersController.send(:include, GlobalRoles::UsersControllerPatch)
+UsersController.send(:include, OpenProject::GlobalRoles::Patches::UsersControllerPatch)

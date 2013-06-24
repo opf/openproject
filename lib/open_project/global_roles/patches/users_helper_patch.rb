@@ -1,6 +1,6 @@
 require_dependency 'users_helper'
 
-module GlobalRoles
+module OpenProject::GlobalRoles::Patches
   module UsersHelperPatch
     def self.included(base) # :nodoc:
       base.send(:include, InstanceMethods)
@@ -26,4 +26,4 @@ module GlobalRoles
   end
 end
 
-UsersHelper.send(:include, GlobalRoles::UsersHelperPatch)
+UsersHelper.send(:include, OpenProject::GlobalRoles::Patches::UsersHelperPatch)

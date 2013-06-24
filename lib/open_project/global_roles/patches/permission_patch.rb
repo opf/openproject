@@ -1,6 +1,6 @@
 require_dependency 'redmine/access_control'
 
-module GlobalRoles
+module OpenProject::GlobalRoles::Patches
   module PermissionPatch
     def self.included(base)
       base.send(:include, InstanceMethods)
@@ -35,4 +35,4 @@ module GlobalRoles
   end
 end
 
-Redmine::AccessControl::Permission.send(:include, GlobalRoles::PermissionPatch)
+Redmine::AccessControl::Permission.send(:include, OpenProject::GlobalRoles::Patches::PermissionPatch)
