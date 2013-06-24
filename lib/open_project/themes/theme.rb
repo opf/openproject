@@ -9,8 +9,9 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+
 require 'singleton'
-require 'active_support/descendants_tracker'
+require 'open_project/themes/theme_finder'
 
 module OpenProject
   module Themes
@@ -19,77 +20,44 @@ module OpenProject
       end
 
       class << self
-        include ActiveSupport::DescendantsTracker
+        def inherited(subclass)
+          # make all theme classes singletons
+          subclass.send :include, Singleton
 
-        def inherited(base)
-          super                          # call to ActiveSupport::DescendantsTracker
-          base.send :include, Singleton  # make all theme classes singletons
-          clear_cache                    # clear the themes cache
-
-          # register the theme's stylesheet manifest with rails' asset pipeline
-          # we need to wrap the call to #stylesheet_manifest in a Proc,
-          # because when this code is executed the theme class (base) hasn't had
-          # a chance to override the method yet
-          Rails.application.config.assets.precompile << Proc.new {
-            base.instance.stylesheet_manifest unless base.abstract?
-          }
+          # register the theme with the ThemeFinder
+          ThemeFinder.register_theme(subclass.instance)
         end
 
         def new_theme(identifier = nil)
           theme = Class.new(self).instance
-          theme.identifier = identifier
+          theme.identifier = identifier if identifier
           theme
         end
 
-        def themes
-          @_themes ||= (descendants - abstract_themes).map(&:instance)
-        end
-        alias_method :all, :themes
-
-        def registered_themes
-          @_registered_themes ||= \
-            themes.each_with_object(Hash.new) do |theme, themes|
-              themes[theme.identifier] = theme
-            end
-        end
-        delegate :fetch, to: :registered_themes
-
-        def clear
-          direct_descendants.clear && clear_cache
-        end
-
-        def clear_cache
-          @_themes = @_registered_themes = nil
-        end
-
         def abstract!
-          Theme.abstract_themes << self
+          @abstract = true
+
+          # tell ThemeFinder to forget the theme
+          ThemeFinder.forget_theme(instance)
 
           # undefine methods responsible for creating instances
           singleton_class.send :remove_method, *[:new, :allocate, :instance]
         end
 
         def abstract?
-          self.in?(Theme.abstract_themes)
+          @abstract
         end
-
-        def abstract_themes
-          @_abstract_themes ||= Array.new
-        end
-
-        include Enumerable
-        delegate :each, to: :themes
       end
 
-      # 'OpenProject::Themes::GoofyTheme' => :'goofy-theme'
+      # 'OpenProject::Themes::GoofyTheme' => :'goofy'
       def identifier
-        @identifier ||= self.class.to_s.demodulize.underscore.dasherize.to_sym
+        @identifier ||= self.class.to_s.gsub(/Theme$/, '').demodulize.underscore.dasherize.to_sym
       end
       attr_writer :identifier
 
-      # 'OpenProject::Themes::GoofyTheme' => 'Goofy Theme'
+      # 'OpenProject::Themes::GoofyTheme' => 'Goofy'
       def name
-        @name ||= self.class.to_s.demodulize.titleize
+        @name ||= self.class.to_s.gsub(/Theme$/, '').demodulize.titleize
       end
 
       def stylesheet_manifest
@@ -134,12 +102,8 @@ module OpenProject
         end
       end
 
-      def default?
-        false
-      end
-
       include Comparable
-      delegate :'<=>', to: :'self.class'
+      delegate :'<=>', :abstract?, to: :'self.class'
 
       include Singleton
       abstract!

@@ -15,20 +15,8 @@ require 'open_project/themes/theme'
 module OpenProject
   module Themes
     class DefaultTheme < OpenProject::Themes::Theme
-      def identifier
-        :default
-      end
-
-      def name
-        'Default'
-      end
-
       def assets_path
         @assets_path ||= Rails.root.join('app/assets').to_s
-      end
-
-      def stylesheet_manifest
-        'default.css'
       end
 
       def assets_prefix
@@ -37,10 +25,6 @@ module OpenProject
 
       def overridden_images
         []
-      end
-
-      def default?
-        true
       end
 
       def image_overridden?(source)

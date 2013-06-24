@@ -81,12 +81,6 @@ module OpenProject
           expect(theme.image_overridden?('theme_spec.rb')).to be_false
         end
       end
-
-      describe '#default?' do
-        it "returns true" do
-          expect(DefaultTheme.instance).to be_default
-        end
-      end
     end
 
     describe ViewHelpers do

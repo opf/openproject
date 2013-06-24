@@ -13,8 +13,12 @@ require 'spec_helper'
 
 module OpenProject
   module Themes
+    GoofyTheme = Class.new(Theme)
+
     describe Theme do
-      before { Theme.clear }
+      before { ThemeFinder.clear_themes }
+
+      # class methods
 
       describe '.new_theme' do
         it "returns a new theme" do
@@ -28,52 +32,7 @@ module OpenProject
         end
       end
 
-      describe '.themes' do
-        it "returns all instances of descendants of themes" do
-          theme = Theme.new_theme
-          expect(Theme.themes).to include theme
-        end
-
-        # the before filter above removes the default theme as well. to test
-        # the correct behaviour we just spec that the default theme class
-        # was loaded (by looking through all subclasses of BasicObject)
-        it "always includes the default theme" do
-          loaded_classes = Object.descendants
-          expect(loaded_classes).to include Themes::DefaultTheme
-        end
-
-        # test through the theme instances classes because
-        # an abstract theme can't have an instance
-        it "filters out themes marked as abstract" do
-          theme_class = Class.new(Theme) { abstract! }
-          theme_classes = Theme.themes.map(&:class)
-          expect(theme_classes).to_not include theme_class
-        end
-
-        it "subclasses of abstract themes aren't abstract by default" do
-          abstract_theme_class = Class.new(Theme) { abstract! }
-          child_theme_class = Class.new(abstract_theme_class)
-          expect(Theme.themes).to include child_theme_class.instance
-        end
-      end
-      
-      describe '.registered_themes' do
-        it "returns a hash of themes if their identifiers as keys" do
-          theme = Theme.new_theme(:new_theme)
-          expect(Theme.registered_themes).to include :new_theme => theme
-        end
-      end
-
       describe '.abstract!' do
-        it "marks the theme class as abstract" do
-          theme_class = Class.new(Theme) { abstract! }
-          expect(Theme.abstract_themes).to include theme_class
-        end
-
-        it "the basic theme class is abstract" do
-          expect(Theme.abstract_themes).to include Theme
-        end
-
         it "abstract themes have no instance" do
           theme_class = Class.new(Theme) { abstract! }
           expect { theme_class.instance }.to raise_error NoMethodError
@@ -89,26 +48,7 @@ module OpenProject
         end
       end
 
-      describe '.descendants' do
-        it "it rememberes all classes that descend from Theme" do
-          theme_class = Class.new(Theme)
-          expect(Theme.descendants).to include theme_class
-        end
-
-        it "it works on multiple levels" do
-          theme_class = Class.new(Class.new(Theme))
-          expect(Theme.descendants).to include theme_class
-        end
-      end
-
-      describe '.clear' do
-        it "it wipes out all remembered descendants" do
-          theme_class = Class.new(Theme)
-          Theme.clear
-          expect(Theme.descendants).to be_empty
-        end
-      end
-
+      # duplicates singleton code, just to make sure
       describe '.instance' do
         it "is an instance of the class" do
           theme_class = Class.new(Theme)
@@ -122,26 +62,39 @@ module OpenProject
       end
 
       describe '.inherited' do
-        it "it is aware of the new theme (clears the cache when subclassing)" do
-          Theme.themes
+        it "is aware of the new theme after inheriting" do
           theme = Theme.new_theme
-          expect(Theme.themes).to include theme
+          expect(ThemeFinder.themes).to include theme
         end
       end
 
-      describe '.each' do
-        it "iterates over all themes" do
-          Theme.new_theme(:new_theme)
-          themes = []
-          Theme.each { |theme| themes << theme.identifier }
-          expect(themes).to eq [:new_theme]
-        end
-      end
-      
+      # instance methods
+
       describe '#assets_path' do
         it "should raise exception telling it is sublass responsibility" do
           theme = Theme.new_theme(:new_theme)
           expect { theme.assets_path }.to raise_error Theme::SubclassResponsibility
+        end
+      end
+
+      describe '#identifier' do
+        it 'symbolizes the identifier from the class name by default' do
+          theme = GoofyTheme.instance
+          expect(theme.identifier).to eq :goofy
+        end
+      end
+
+      describe '#name' do
+        it 'titlelizes the name from the class name by default' do
+          theme = GoofyTheme.instance
+          expect(theme.name).to eq 'Goofy'
+        end
+      end
+
+      describe '#stylesheet_manifest' do
+        it 'stringifies the identier and appends the css extension' do
+          theme = Theme.new_theme(:goofy)
+          expect(theme.stylesheet_manifest).to eq 'goofy.css'
         end
       end
 
@@ -256,12 +209,6 @@ module OpenProject
 
         it "is not equal when the classes don't match" do
           expect(Class.new(Theme).instance).to_not eq Class.new(Theme).instance
-        end
-      end
-
-      describe '#default?' do
-        it "returns false" do
-          expect(Theme.new_theme).to_not be_default
         end
       end
     end
