@@ -699,6 +699,7 @@ en:
   label_issue_view_all_watched: "View all watched issues"
   label_issue_watchers: "Watchers"
   label_issues_by: "Issues by %{value}"
+  label_journal_diff: "Description Comparison"
   label_jump_to_a_project: "Jump to a project..."
   label_language_based: "Based on user's language"
   label_last_changes: "last %{count} changes"
@@ -915,6 +916,7 @@ en:
   label_wiki_show_menu_item: "Show as menu item in project navigation"
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
+  label_workflow: "Workflow"
   label_workflow_summary: "Summary"
   label_x_closed_issues_abbr:
     one: "1 closed"
@@ -1072,6 +1074,7 @@ en:
   permission_rename_wiki_pages: "Rename wiki pages"
   permission_save_queries: "Save queries"
   permission_select_project_modules: "Select project modules"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "View changesets"
   permission_view_documents: "View documents"
   permission_view_files: "View files"
@@ -1101,6 +1104,7 @@ en:
   query_fields:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
+    subproject_id: "Subproject"
 
   search_input_placeholder: "search ..."
 
