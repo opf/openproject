@@ -484,7 +484,7 @@ module ApplicationHelper
   def body_css_classes
     theme = OpenProject::Themes.theme(Setting.ui_theme)
 
-    css = ['theme-' + theme.name.to_s]
+    css = ['theme-' + theme.identifier.to_s]
 
     if params[:controller] && params[:action]
       css << 'controller-' + params[:controller]
