@@ -1166,12 +1166,17 @@ module ApplicationHelper
   #
   # Returns the footer text displayed in the layout file.
   #
-  def layout_footer_text
-    content_tag :div, :class => 'bgl' do
-      content_tag :div, :class => 'bgr' do
-        raw t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url))
+  def footer_content
+    elements = []
+    unless OpenProject::Footer.content.nil?
+      OpenProject::Footer.content.each do |name, value|
+        elements << (content_tag :span, :class => "footer_#{name}" do
+          value.respond_to?(:call) ? value.call.strip : value.strip
+        end)
       end
     end
+    elements << I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url))
+    result = elements.join(", ").html_safe
   end
 
   # start timelines stuff
