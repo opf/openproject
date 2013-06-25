@@ -31,7 +31,10 @@
 </div>
 <% end -%>
 
-<p class="pagination"><%= link_to_content_update(l(:label_today), params.merge(:page => @page_of_today, :anchor => Date.today.strftime("%m-%d-%Y"))) %> <%= pagination_links_full @meetings_pages, @meeting_count %></p>
+<p class="pagination">
+  <%= link_to_content_update(l(:label_today), params.merge(:page => @page_of_today, :anchor => Date.today.strftime("%m-%d-%Y"))) %>
+  <%= pagination_links_full @meetings, :container => false %>
+</p>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'openproject_meeting', :plugin => 'openproject_meeting' %>

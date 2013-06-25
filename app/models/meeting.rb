@@ -10,7 +10,10 @@ class Meeting < ActiveRecord::Base
   has_many :contents, :class_name => 'MeetingContent', :readonly => true
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
 
+  default_scope order("#{Meeting.table_name}.start_time DESC")
   scope :from_tomorrow, :conditions => ['start_time >= ?', Date.tomorrow.beginning_of_day]
+  scope :with_users_by_date, order("#{Meeting.table_name}.title ASC")
+                             .includes({:participants => :user}, :author)
 
   attr_accessible :title, :location, :start_time, :duration
 
@@ -39,24 +42,6 @@ class Meeting < ActiveRecord::Base
 
   User.before_destroy do |user|
     Meeting.update_all ['author_id = ?', DeletedUser.first.id], ['author_id = ?', user.id]
-  end
-
-  def self.find_time_sorted(*args)
-    options = args.extract_options!
-    options[:order] = ["#{Meeting.table_name}.start_time DESC", options[:order]].compact.join(', ')
-    args << options
-
-    by_start_year_month_date = ActiveSupport::OrderedHash.new
-    self.find(*args).group_by(&:start_year).each do |year,objs|
-      by_start_year_month_date[year] = ActiveSupport::OrderedHash.new
-      objs.group_by(&:start_month).each do |month,objs|
-        by_start_year_month_date[year][month] = ActiveSupport::OrderedHash.new
-        objs.group_by(&:start_date).each do |date,objs|
-          by_start_year_month_date[year][month][date] = objs
-        end
-      end
-    end
-    by_start_year_month_date
   end
 
   def start_date
@@ -112,10 +97,35 @@ class Meeting < ActiveRecord::Base
     copy
   end
 
+  def self.group_by_time(meetings)
+    by_start_year_month_date = ActiveSupport::OrderedHash.new do |hy, year|
+      hy[year] = ActiveSupport::OrderedHash.new do |hm, month|
+        hm[month] = ActiveSupport::OrderedHash.new
+      end
+    end
+
+    meetings.group_by(&:start_year).each do |year, objs|
+
+      objs.group_by(&:start_month).each do |month,objs|
+
+        objs.group_by(&:start_date).each do |date,objs|
+
+          by_start_year_month_date[year][month][date] = objs
+
+        end
+
+      end
+
+    end
+
+    by_start_year_month_date
+  end
+
   def close_agenda_and_copy_to_minutes!
     self.agenda.lock!
     self.create_minutes(:text => agenda.text)
   end
+
 
   protected
 

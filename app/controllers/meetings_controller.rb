@@ -10,30 +10,26 @@ class MeetingsController < ApplicationController
   helper :watchers
   helper :meeting_contents
   include WatchersHelper
+  include PaginationHelper
 
   menu_item :new_meeting, :only => [:new, :create]
 
   def index
-    # Wo sollen Meetings ohne Termin hin?
-    # (gibt's momentan nicht, Zeitpunkt ist ein Pflichtfeld)
     scope = @project.meetings
-
-    @meeting_count = scope.count
-    @limit = per_page_option
 
     # from params => today's page otherwise => first page as fallback
     tomorrows_meetings_count = scope.from_tomorrow.count
-    @page_of_today = 1 + tomorrows_meetings_count / @limit
-    @page = params['page'] || @page_of_today
+    @page_of_today = 1 + tomorrows_meetings_count / per_page_param
 
-    @meetings_pages = Paginator.new self, @meeting_count, @limit, @page
-    @offset = @meetings_pages.current.offset
+    page = params['page'] ?
+             page_param :
+             @page_of_today
 
-    @meetings_by_start_year_month_date = scope.find_time_sorted(:all,
-                                            :include => [{:participants => :user}, :author],
-                                            :order   => "#{Meeting.table_name}.title ASC",
-                                            :offset  => @offset,
-                                            :limit   => @limit)
+    @meetings = scope.with_users_by_date
+                     .page(page)
+                     .per_page(per_page_param)
+
+    @meetings_by_start_year_month_date = Meeting.group_by_time(@meetings)
   end
 
   def show
