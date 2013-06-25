@@ -63,12 +63,18 @@ class CreateWorkUnits < ActiveRecord::Migration
 
       t.index :work_units_responsible_id
     end
+
+    # Time Entry
+    rename_column :time_entries, :issue_id, :work_unit_id
   end
 
   def down
     change_table(:projects) do |t|
       t.remove_belongs_to :work_units_responsible
     end
+
+    # Time Entry
+    rename_column :time_entries, :work_unit_id, :issue_id
 
     drop_table(:work_units)
   end
