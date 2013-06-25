@@ -141,7 +141,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     project = Project.find(1)
     project.time_entries.create!(:hours => 1.0,
                                  :user => User.find(1),
-                                 :work_unit_id => 3,
+                                 :work_package_id => 3,
                                  :activity_id => 10,
                                  :spent_on => '2009-01-01')
 

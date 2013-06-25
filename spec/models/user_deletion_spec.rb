@@ -262,7 +262,7 @@ describe User, 'deletion' do
 
   describe "WHEN the user has created a time entry" do
     let(:associated_instance) { FactoryGirl.build(:time_entry, :project => project,
-                                                           :work_unit => issue,
+                                                           :work_package => issue,
                                                            :hours => 2,
                                                            :activity => FactoryGirl.create(:time_entry_activity)) }
     let(:associated_class) { TimeEntry }
@@ -273,7 +273,7 @@ describe User, 'deletion' do
 
   describe "WHEN the user has worked on time_entry" do
     let(:associated_instance) { FactoryGirl.build(:time_entry, :project => project,
-                                                           :work_unit => issue,
+                                                           :work_package => issue,
                                                            :hours => 2,
                                                            :activity => FactoryGirl.create(:time_entry_activity)) }
     let(:associated_class) { TimeEntry }

@@ -15,7 +15,7 @@ See doc/COPYRIGHT.rdoc for more details.
 	<th width="30%"><%= CustomField.human_attribute_name(:name) %></th>
 	<th><%= CustomField.human_attribute_name(:field_format) %></th>
 	<th><%= CustomField.human_attribute_name(:is_required) %></th>
-	<% if tab[:name] == 'WorkUnitCustomField' %>
+	<% if tab[:name] == 'WorkPackageCustomField' %>
 	<th><%= CustomField.human_attribute_name(:is_for_all) %></th>
 	<th><%=l(:label_used_by)%></th>
 	<% end %>
@@ -28,9 +28,9 @@ See doc/COPYRIGHT.rdoc for more details.
 			<td><%= link_to h(custom_field.name), :action => 'edit', :id => custom_field %></td>
 			<td align="center"><%= Redmine::CustomFieldFormat.label_for(custom_field.field_format) %></td>
 			<td align="center"><%= checked_image custom_field.is_required? %></td>
-			<% if tab[:name] == 'WorkUnitCustomField' %>
+			<% if tab[:name] == 'WorkPackageCustomField' %>
 			<td align="center"><%= checked_image custom_field.is_for_all? %></td>
-			<td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? WorkUnitCustomField and !custom_field.is_for_all? %></td>
+			<td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? WorkPackageCustomField and !custom_field.is_for_all? %></td>
 			<% end %>
 		  <td align="center" style="width:15%;"><%= reorder_links('custom_field', {:action => 'edit', :id => custom_field}) %></td>
 			<td class="buttons">

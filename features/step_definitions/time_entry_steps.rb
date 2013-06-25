@@ -10,8 +10,8 @@
 #++
 
 Given(/^there is a time entry for "(.*?)" with (\d+) hours$/) do |subject, hours|
-  work_unit = WorkUnit.find_by_subject(subject)
-  time_entry = FactoryGirl.create(:time_entry, work_unit: work_unit, hours: hours, project: work_unit.project)
+  work_package = WorkPackage.find_by_subject(subject)
+  time_entry = FactoryGirl.create(:time_entry, work_package: work_package, hours: hours, project: work_package.project)
 end
 
 Given(/^there is an activity "(.*?)"$/) do |name|

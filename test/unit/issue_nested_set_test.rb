@@ -239,7 +239,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue3.save!
 
     assert_difference 'Issue.count', -2 do
-      assert_difference 'WorkUnitJournal.count', -3 do
+      assert_difference 'WorkPackageJournal.count', -3 do
         Issue.find(issue2.id).destroy
       end
     end
@@ -272,7 +272,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
     total_journals_on_children = leaf.reload.journals.count + child.reload.journals.count
     assert_difference 'Issue.count', -2 do
-      assert_difference 'WorkUnitJournal.count', -total_journals_on_children do
+      assert_difference 'WorkPackageJournal.count', -total_journals_on_children do
         Issue.find(child.id).destroy
       end
     end
@@ -390,11 +390,11 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     i4 = create_issue!(:project_id => p.id, :subject => 'i4', :parent_issue_id => i2.id)
     i5 = create_issue!(:project_id => p.id, :subject => 'i5')
     c = Project.new(:name => 'Copy', :identifier => 'copy', :tracker_ids => [1, 2])
-    c.copy(p, :only => 'work_units')
+    c.copy(p, :only => 'work_packages')
     c.reload
 
-    assert_equal 5, c.work_units.count
-    ic1, ic2, ic3, ic4, ic5 = c.work_units.reorder('subject')
+    assert_equal 5, c.work_packages.count
+    ic1, ic2, ic3, ic4, ic5 = c.work_packages.reorder('subject')
     assert ic1.root?
     assert_equal ic1, ic2.parent
     assert_equal ic1, ic3.parent

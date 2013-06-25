@@ -162,7 +162,7 @@ function toggle_custom_field_format() {
 
 <div class="box">
   <% case @custom_field.class.name
-     when "WorkUnitCustomField" %>
+     when "WorkPackageCustomField" %>
       <fieldset>
         <legend><%=l(:label_tracker_plural)%></legend>
         <% for tracker in @trackers %>

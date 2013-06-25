@@ -149,7 +149,7 @@ class ProjectsControllerTest < ActionController::TestCase
             :custom_field_values => { '3' => 'Beta' },
             :tracker_ids => ['1', '3'],
             # an issue custom field that is not for all project
-            :work_unit_custom_field_ids => ['9'],
+            :work_package_custom_field_ids => ['9'],
             :enabled_module_names => ['issue_tracking', 'news', 'repository']
           }
         assert_redirected_to '/projects/blog/settings'
@@ -164,7 +164,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_equal 'Beta', project.custom_value_for(3).value
         assert_equal [1, 3], project.trackers.map(&:id).sort
         assert_equal ['issue_tracking', 'news', 'repository'], project.enabled_module_names.sort
-        assert project.work_unit_custom_fields.include?(WorkUnitCustomField.find(9))
+        assert project.work_package_custom_fields.include?(WorkPackageCustomField.find(9))
       end
 
       should "create a new subproject" do

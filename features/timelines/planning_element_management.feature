@@ -38,7 +38,7 @@ Feature: Planning Element Management
           | view_planning_elements   |
           | edit_planning_elements   |
           | delete_planning_elements |
-          | view_work_units |
+          | view_work_packages |
 
       And there is a project named "ecookbook" of type "Standard Project"
       And I am working in project "ecookbook"

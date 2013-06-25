@@ -76,7 +76,7 @@ class TimelogControllerTest < ActionController::TestCase
                                 # Not the default activity
                                 :activity_id => '11',
                                 :spent_on => '2008-03-14',
-                                :work_unit_id => '1',
+                                :work_package_id => '1',
                                 :hours => '7.3'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
 
@@ -86,7 +86,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
     assert_equal 3, t.user_id
-    assert_equal i, t.work_unit
+    assert_equal i, t.work_package
     assert_equal i.project, t.project
   end
 
@@ -98,7 +98,7 @@ class TimelogControllerTest < ActionController::TestCase
                 :time_entry => {:comments => 'Some work on TimelogControllerTest',
                                 # Not the default activity
                                 :activity_id => '11',
-                                :work_unit_id => '',
+                                :work_package_id => '',
                                 :spent_on => '2008-03-14',
                                 :hours => '7.3'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
@@ -112,18 +112,18 @@ class TimelogControllerTest < ActionController::TestCase
 
   def test_update
     entry = TimeEntry.find(1)
-    assert_equal 1, entry.work_unit_id
+    assert_equal 1, entry.work_package_id
     assert_equal 2, entry.user_id
 
     @request.session[:user_id] = 1
     put :update, :id => 1,
-                :time_entry => {:work_unit_id => '2',
+                :time_entry => {:work_package_id => '2',
                                 :hours => '8'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     entry.reload
 
     assert_equal 8, entry.hours
-    assert_equal 2, entry.work_unit_id
+    assert_equal 2, entry.work_package_id
     assert_equal 2, entry.user_id
   end
 
@@ -216,7 +216,7 @@ class TimelogControllerTest < ActionController::TestCase
   end
 
   def test_index_at_issue_level
-    get :index, :work_unit_id => 1
+    get :index, :work_package_id => 1
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:entries)

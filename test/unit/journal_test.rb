@@ -16,7 +16,7 @@ class JournalTest < ActiveSupport::TestCase
 
   def setup
     super
-    @journal = WorkUnitJournal.find(1)
+    @journal = WorkPackageJournal.find(1)
   end
 
   def test_journalized_is_an_issue

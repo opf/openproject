@@ -214,7 +214,7 @@ class Changeset < ActiveRecord::Base
     time_entry = TimeEntry.new(
       :user => user,
       :hours => hours,
-      :work_unit => issue,
+      :work_package => issue,
       :spent_on => commit_date,
       :comments => l(:text_time_logged_by_changeset, :value => text_tag, :locale => Setting.default_language)
       )

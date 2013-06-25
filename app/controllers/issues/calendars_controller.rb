@@ -35,7 +35,7 @@ class Issues::CalendarsController < ApplicationController
     if @query.valid?
       events = []
       events += @query.issues(:include => [:tracker, :assigned_to, :priority],
-                              :conditions => ["((#{WorkUnit.table_name}.start_date BETWEEN ? AND ?) OR (#{WorkUnit.table_name}.due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
+                              :conditions => ["((#{WorkPackage.table_name}.start_date BETWEEN ? AND ?) OR (#{WorkPackage.table_name}.due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
                               )
       events += @query.versions(:conditions => ["#{Version.table_name}.effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
 

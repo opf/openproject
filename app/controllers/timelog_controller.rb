@@ -28,12 +28,12 @@ class TimelogController < ApplicationController
                 'user' => 'user_id',
                 'activity' => 'activity_id',
                 'project' => "#{Project.table_name}.name",
-                'work_unit' => 'work_unit_id',
+                'work_package' => 'work_package_id',
                 'hours' => 'hours'
 
     cond = ARCondition.new
     if @issue
-      cond << "#{WorkUnit.table_name}.root_id = #{@issue.root_id} AND #{WorkUnit.table_name}.lft >= #{@issue.lft} AND #{WorkUnit.table_name}.rgt <= #{@issue.rgt}"
+      cond << "#{WorkPackage.table_name}.root_id = #{@issue.root_id} AND #{WorkPackage.table_name}.lft >= #{@issue.lft} AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
     elsif @project
       cond << @project.project_condition(Setting.display_subprojects_issues?)
     end
@@ -44,23 +44,23 @@ class TimelogController < ApplicationController
     respond_to do |format|
       format.html {
         # Paginate results
-        @entry_count = TimeEntry.visible.count(:include => [:project, :work_unit], :conditions => cond.conditions)
+        @entry_count = TimeEntry.visible.count(:include => [:project, :work_package], :conditions => cond.conditions)
         @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
         @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:work_unit => :tracker}],
+                                  :include => [:project, :activity, :user, {:work_package => :tracker}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause,
                                   :limit  =>  @entry_pages.items_per_page,
                                   :offset =>  @entry_pages.current.offset)
-        @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :work_unit], :conditions => cond.conditions).to_f
+        @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :work_package], :conditions => cond.conditions).to_f
 
         render :layout => !request.xhr?
       }
       format.api  {
-        @entry_count = TimeEntry.visible.count(:include => [:project, :work_unit], :conditions => cond.conditions)
+        @entry_count = TimeEntry.visible.count(:include => [:project, :work_package], :conditions => cond.conditions)
         @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
         @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:work_unit => :tracker}],
+                                  :include => [:project, :activity, :user, {:work_package => :tracker}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause,
                                   :limit  =>  @entry_pages.items_per_page,
@@ -68,7 +68,7 @@ class TimelogController < ApplicationController
       }
       format.atom {
         entries = TimeEntry.visible.find(:all,
-                                 :include => [:project, :activity, :user, {:work_unit => :tracker}],
+                                 :include => [:project, :activity, :user, {:work_package => :tracker}],
                                  :conditions => cond.conditions,
                                  :order => "#{TimeEntry.table_name}.created_on DESC",
                                  :limit => Setting.feeds_limit.to_i)
@@ -77,7 +77,7 @@ class TimelogController < ApplicationController
       format.csv {
         # Export all entries
         @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:work_unit => [:tracker, :assigned_to, :priority]}],
+                                  :include => [:project, :activity, :user, {:work_package => [:tracker, :assigned_to, :priority]}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause)
         send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
@@ -94,7 +94,7 @@ class TimelogController < ApplicationController
   end
 
   def new
-    @time_entry ||= TimeEntry.new(:project => @project, :work_unit=> @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(:project => @project, :work_package=> @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
@@ -102,7 +102,7 @@ class TimelogController < ApplicationController
   end
 
   def create
-    @time_entry ||= TimeEntry.new(:project => @project, :work_unit => @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(:project => @project, :work_package => @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
@@ -188,8 +188,8 @@ private
     if (issue_id = (params[:issue_id] || params[:time_entry] && params[:time_entry][:issue_id])).present?
       @issue = Issue.find(issue_id)
       @project = @issue.project
-    elsif (work_unit_id = (params[:work_unit_id] || params[:time_entry] && params[:time_entry][:work_unit_id])).present?
-      @issue = WorkUnit.find(work_unit_id)
+    elsif (work_package_id = (params[:work_package_id] || params[:time_entry] && params[:time_entry][:work_package_id])).present?
+      @issue = WorkPackage.find(work_package_id)
       @project = @issue.project
     elsif (project_id = (params[:project_id] || params[:time_entry] && params[:time_entry][:project_id])).present?
       @project = Project.find(project_id)
@@ -205,8 +205,8 @@ private
     if !params[:issue_id].blank?
       @issue = Issue.find(params[:issue_id])
       @project = @issue.project
-    elsif !params[:work_unit_id].blank?
-      @issue = WorkUnit.find(params[:work_unit_id])
+    elsif !params[:work_package_id].blank?
+      @issue = WorkPackage.find(params[:work_package_id])
       @project = @issue.project
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])

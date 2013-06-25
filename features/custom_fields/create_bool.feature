@@ -22,7 +22,7 @@ Feature: Localized boolean custom fields can be created
       | Feature |    2     |  true        |
       | Support |    3     |  false       |
     When I go to the custom fields page
-    When I follow "New custom field" within "#tab-content-WorkUnitCustomField"
+    When I follow "New custom field" within "#tab-content-WorkPackageCustomField"
 
   @javascript
   Scenario: Available fields

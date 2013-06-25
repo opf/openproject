@@ -9,7 +9,7 @@ Feature: Creating Projects
     And there is a role "CanViewCal"
     And the role "CanViewCal" may have the following rights:
       | view_calendar   |
-      | view_work_units |
+      | view_work_packages |
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "CanViewCal" in the project "omicronpersei8"

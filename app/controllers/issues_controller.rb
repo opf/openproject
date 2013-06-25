@@ -117,8 +117,8 @@ class IssuesController < ApplicationController
                                                                :fixed_version,
                                                                :project])
 
-    @edit_allowed = User.current.allowed_to?(:edit_work_units, @project)
-    @time_entry = TimeEntry.new(:work_unit=> @issue, :project => @issue.project)
+    @edit_allowed = User.current.allowed_to?(:edit_work_packages, @project)
+    @time_entry = TimeEntry.new(:work_package=> @issue, :project => @issue.project)
     respond_to do |format|
       format.html { render :template => 'issues/show' }
       format.api
@@ -225,7 +225,7 @@ class IssuesController < ApplicationController
   def bulk_edit
     @issues.sort!
     @available_statuses = @projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
-    @custom_fields = @projects.map{|p|p.all_work_unit_custom_fields}.inject{|memo,c|memo & c}
+    @custom_fields = @projects.map{|p|p.all_work_package_custom_fields}.inject{|memo,c|memo & c}
     @assignables = @projects.map(&:assignable_users).inject{|memo,a| memo & a}
     @trackers = @projects.map(&:trackers).inject{|memo,t| memo & t}
   end
@@ -251,20 +251,20 @@ class IssuesController < ApplicationController
   end
 
   def destroy
-    @hours = TimeEntry.sum(:hours, :conditions => ['work_unit_id IN (?)', @issues]).to_f
+    @hours = TimeEntry.sum(:hours, :conditions => ['work_package_id IN (?)', @issues]).to_f
     if @hours > 0
       case params[:todo]
       when 'destroy'
         # nothing to do
       when 'nullify'
-        TimeEntry.update_all('work_unit_id = NULL', ['work_unit_id IN (?)', @issues])
+        TimeEntry.update_all('work_package_id = NULL', ['work_package_id IN (?)', @issues])
       when 'reassign'
-        reassign_to = @project.work_units.find_by_id(params[:reassign_to_id])
+        reassign_to = @project.work_packages.find_by_id(params[:reassign_to_id])
         if reassign_to.nil?
           flash.now[:error] = l(:error_issue_not_found_in_project)
           return
         else
-          TimeEntry.update_all("work_unit_id = #{reassign_to.id}", ['work_unit_id IN (?)', @issues])
+          TimeEntry.update_all("work_package_id = #{reassign_to.id}", ['work_package_id IN (?)', @issues])
         end
       else
         # display the destroy form if it's a user request
@@ -312,8 +312,8 @@ private
   def update_issue_from_params
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @priorities = IssuePriority.all
-    @edit_allowed = User.current.allowed_to?(:edit_work_units, @project)
-    @time_entry = TimeEntry.new(:work_unit => @issue, :project => @issue.project)
+    @edit_allowed = User.current.allowed_to?(:edit_work_packages, @project)
+    @time_entry = TimeEntry.new(:work_package => @issue, :project => @issue.project)
     @time_entry.attributes = params[:time_entry]
 
     @notes = params[:notes] || (params[:issue].present? ? params[:issue][:notes] : nil)
@@ -330,7 +330,7 @@ private
       @issue.copy_from(params[:copy_from]) if params[:copy_from]
       @issue.project = @project
     else
-      @issue = @project.work_units.visible.find(params[:id])
+      @issue = @project.work_packages.visible.find(params[:id])
     end
 
     @issue.project = @project

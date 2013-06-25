@@ -227,7 +227,7 @@ class ActiveSupport::TestCase
       end
 
       should "use the new value's name" do
-        @journal = WorkUnitJournal.create! do |j|
+        @journal = WorkPackageJournal.create! do |j|
           j.changed_data = {prop_key => [@old_value.id, @new_value.id]}
           j.journaled = Issue.last
         end
@@ -235,7 +235,7 @@ class ActiveSupport::TestCase
       end
 
       should "use the old value's name" do
-        @journal = WorkUnitJournal.create! do |j|
+        @journal = WorkPackageJournal.create! do |j|
           j.changed_data = {prop_key => [@old_value.id, @new_value.id]}
           j.journaled = Issue.last
         end

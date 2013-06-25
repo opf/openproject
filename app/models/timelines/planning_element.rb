@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Timelines::PlanningElement < WorkUnit
+class Timelines::PlanningElement < WorkPackage
   unloadable
 
   include Timelines::NestedAttributesForApi

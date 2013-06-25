@@ -63,7 +63,7 @@ describe CustomFieldsController do
     describe "WITH all ok params" do
       let(:de_name) { "Ticket Feld" }
       let(:en_name) { "Issue Field" }
-      let(:params) { { "type" => "WorkUnitCustomField",
+      let(:params) { { "type" => "WorkPackageCustomField",
                        "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
@@ -78,7 +78,7 @@ describe CustomFieldsController do
     describe "WITH one empty name params" do
       let(:en_name) { "Issue Field" }
       let(:de_name) { "" }
-      let(:params) { { "type" => "WorkUnitCustomField",
+      let(:params) { { "type" => "WorkPackageCustomField",
                        "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do

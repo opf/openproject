@@ -13,7 +13,7 @@ FactoryGirl.define do
   factory :time_entry do
     project
     user
-    work_unit :factory => :issue
+    work_package :factory => :issue
     spent_on Date.today
     activity :factory => :time_entry_activity
     hours 1.0

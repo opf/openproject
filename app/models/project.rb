@@ -42,8 +42,8 @@ class Project < ActiveRecord::Base
 
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
-  has_many :work_units, :dependent => :destroy, :order => "#{WorkUnit.table_name}.created_at DESC", :include => [:status, :tracker]
-  has_many :work_unit_changes, :through => :work_units, :source => :journals
+  has_many :work_packages, :dependent => :destroy, :order => "#{WorkPackage.table_name}.created_at DESC", :include => [:status, :tracker]
+  has_many :work_package_changes, :through => :work_packages, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
   has_many :time_entries, :dependent => :delete_all
   has_many :queries, :dependent => :delete_all
@@ -55,8 +55,8 @@ class Project < ActiveRecord::Base
   has_many :changesets, :through => :repository
   has_one :wiki, :dependent => :destroy
   # Custom field for the project work units
-  has_and_belongs_to_many :work_unit_custom_fields,
-                          :class_name => 'WorkUnitCustomField',
+  has_and_belongs_to_many :work_package_custom_fields,
+                          :class_name => 'WorkPackageCustomField',
                           :order => "#{CustomField.table_name}.position",
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
@@ -612,8 +612,8 @@ class Project < ActiveRecord::Base
 
   # Returns an array of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
-  def all_work_unit_custom_fields
-    @all_work_unit_custom_fields ||= (WorkUnitCustomField.for_all + work_unit_custom_fields).uniq.sort
+  def all_work_package_custom_fields
+    @all_work_package_custom_fields ||= (WorkPackageCustomField.for_all + work_package_custom_fields).uniq.sort
   end
 
   def project
@@ -651,7 +651,7 @@ class Project < ActiveRecord::Base
   # The earliest start date of a project, based on it's issues and versions
   def start_date
     [
-     work_units.minimum('start_date'),
+     work_packages.minimum('start_date'),
      shared_versions.collect(&:effective_date),
      shared_versions.collect(&:start_date)
     ].flatten.compact.min
@@ -660,7 +660,7 @@ class Project < ActiveRecord::Base
   # The latest due date of an issue or version
   def due_date
     [
-     work_units.maximum('due_date'),
+     work_packages.maximum('due_date'),
      shared_versions.collect(&:effective_date),
      shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
     ].flatten.compact.max
@@ -728,7 +728,7 @@ class Project < ActiveRecord::Base
     'custom_field_values',
     'custom_fields',
     'tracker_ids',
-    'work_unit_custom_field_ids'
+    'work_package_custom_field_ids'
 
   safe_attributes 'enabled_module_names',
     :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
@@ -766,7 +766,7 @@ class Project < ActiveRecord::Base
   def copy(project, options={})
     project = project.is_a?(Project) ? project : Project.find(project)
 
-    to_be_copied = %w(wiki versions issue_categories work_units members queries boards)
+    to_be_copied = %w(wiki versions issue_categories work_packages members queries boards)
     to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
 
     Project.transaction do
@@ -794,7 +794,7 @@ class Project < ActiveRecord::Base
         copy.enabled_modules = project.enabled_modules
         copy.trackers = project.trackers
         copy.custom_values = project.custom_values.collect {|v| v.clone}
-        copy.work_unit_custom_fields = project.work_unit_custom_fields
+        copy.work_package_custom_fields = project.work_package_custom_fields
         return copy
       else
         return nil
@@ -922,14 +922,14 @@ class Project < ActiveRecord::Base
   end
 
   # Copies issues from +project+
-  def copy_work_units(project)
+  def copy_work_packages(project)
     # Stores the source issue id as a key and the copied issues as the
     # value.  Used to map the two togeather for issue relations.
-    work_units_map = {}
+    work_packages_map = {}
 
     # Get issues sorted by root_id, lft so that parent issues
     # get copied before their children
-    project.work_units.reorder('root_id, lft').each do |issue|
+    project.work_packages.reorder('root_id, lft').each do |issue|
       new_issue = Issue.new
       new_issue.copy_from(issue)
       new_issue.project = self
@@ -945,22 +945,22 @@ class Project < ActiveRecord::Base
       end
       # Parent issue
       if issue.parent_id
-        if copied_parent = work_units_map[issue.parent_id]
+        if copied_parent = work_packages_map[issue.parent_id]
           new_issue.parent_issue_id = copied_parent.id
         end
       end
 
-      self.work_units << new_issue
+      self.work_packages << new_issue
       if new_issue.new_record?
-        logger.info "Project#copy_work_units: work unit ##{issue.id} could not be copied: #{new_issue.errors.full_messages}" if logger && logger.info
+        logger.info "Project#copy_work_packages: work unit ##{issue.id} could not be copied: #{new_issue.errors.full_messages}" if logger && logger.info
       else
-        work_units_map[issue.id] = new_issue unless new_issue.new_record?
+        work_packages_map[issue.id] = new_issue unless new_issue.new_record?
       end
     end
 
     # Relations after in case issues related each other
-    project.work_units.each do |issue|
-      new_issue = work_units_map[issue.id]
+    project.work_packages.each do |issue|
+      new_issue = work_packages_map[issue.id]
       unless new_issue
         # Issue was not copied
         next
@@ -969,8 +969,8 @@ class Project < ActiveRecord::Base
       # Relations
       issue.relations_from.each do |source_relation|
         new_issue_relation = IssueRelation.new
-        new_issue_relation.force_attributes = source_relation.attributes.dup.except("id", "work_unit_from_id", "work_unit_to_id")
-        new_issue_relation.issue_to = work_units_map[source_relation.issue_to_id]
+        new_issue_relation.force_attributes = source_relation.attributes.dup.except("id", "work_package_from_id", "work_package_to_id")
+        new_issue_relation.issue_to = work_packages_map[source_relation.issue_to_id]
         if new_issue_relation.issue_to.nil? && Setting.cross_project_issue_relations?
           new_issue_relation.issue_to = source_relation.issue_to
         end
@@ -979,8 +979,8 @@ class Project < ActiveRecord::Base
 
       issue.relations_to.each do |source_relation|
         new_issue_relation = IssueRelation.new
-        new_issue_relation.force_attributes = source_relation.attributes.dup.except("id", "work_unit_from_id", "work_unit_to_id")
-        new_issue_relation.issue_from = work_units_map[source_relation.issue_from_id]
+        new_issue_relation.force_attributes = source_relation.attributes.dup.except("id", "work_package_from_id", "work_package_to_id")
+        new_issue_relation.issue_from = work_packages_map[source_relation.issue_from_id]
         if new_issue_relation.issue_from.nil? && Setting.cross_project_issue_relations?
           new_issue_relation.issue_from = source_relation.issue_from
         end

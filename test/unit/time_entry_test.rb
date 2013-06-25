@@ -85,7 +85,7 @@ class TimeEntryTest < ActiveSupport::TestCase
       @public_project = Project.generate!(:is_public => true)
       @issue = Issue.generate_for_project!(@public_project)
       TimeEntry.generate!(:spent_on => '2010-01-01',
-                          :work_unit => @issue,
+                          :work_package => @issue,
                           :project => @public_project)
     end
 
@@ -109,7 +109,7 @@ class TimeEntryTest < ActiveSupport::TestCase
       @public_project = Project.generate!(:is_public => true)
       @issue = Issue.generate_for_project!(@public_project)
       TimeEntry.generate!(:spent_on => '2010-01-01',
-                          :work_unit => @issue,
+                          :work_package => @issue,
                           :project => @public_project)
     end
 

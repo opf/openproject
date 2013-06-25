@@ -14,7 +14,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class MemberTest < ActiveSupport::TestCase
   def setup
     super
-    Role.non_member.add_permission! :view_work_units # non_member users may be watchers of work units
+    Role.non_member.add_permission! :view_work_packages # non_member users may be watchers of work units
     Role.non_member.add_permission! :view_wiki_pages # non_member users may be watchers of wikis
     @project = FactoryGirl.create :project_with_trackers
     @user = FactoryGirl.create :user, :member_in_project => @project
@@ -106,7 +106,7 @@ class MemberTest < ActiveSupport::TestCase
       Watcher.create!(:watchable => FactoryGirl.create(:wiki, :project => @private_project), :user => @watcher_user)
       @private_project.reload # to access @private_project.wiki
       Watcher.create!(:watchable => FactoryGirl.create(:wiki_page, :wiki => @private_project.wiki), :user => @watcher_user)
-      @private_role = FactoryGirl.create :role, :permissions => [:view_wiki_pages, :view_work_units]
+      @private_role = FactoryGirl.create :role, :permissions => [:view_wiki_pages, :view_work_packages]
 
       @private_project.is_public = false
       @private_project.save

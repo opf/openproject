@@ -24,8 +24,8 @@ Feature: Tracking Time
     And there is an activity "Design"
     And the role "member" may have the following rights:
       | add_issues  |
-      | view_work_units |
-      | edit_work_units |
+      | view_work_packages |
+      | edit_work_packages |
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "member" in the project "project1"

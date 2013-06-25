@@ -13,7 +13,7 @@
 # While loading the Issue class below, we lazy load the Project class. Which itself need Issue.
 # So we create an 'emtpy' Issue class first, to make Project happy.
 
-class Issue < WorkUnit
+class Issue < WorkPackage
   include Redmine::SafeAttributes
 
   has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
@@ -107,7 +107,7 @@ class Issue < WorkUnit
 
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
-    (project && tracker) ? (project.all_work_unit_custom_fields & tracker.custom_fields.all) : []
+    (project && tracker) ? (project.all_work_package_custom_fields & tracker.custom_fields.all) : []
   end
 
   # Moves/copies an issue to a new project and tracker
@@ -163,7 +163,7 @@ class Issue < WorkUnit
     if issue.save
       unless options[:copy]
         # Manually update project_id on related time entries
-        TimeEntry.update_all("project_id = #{new_project.id}", {:work_unit_id => id})
+        TimeEntry.update_all("project_id = #{new_project.id}", {:work_package_id => id})
 
         issue.children.each do |child|
           unless child.move_to_project_without_transaction(new_project)
@@ -228,7 +228,7 @@ class Issue < WorkUnit
     'custom_field_values',
     'custom_fields',
     'lock_version',
-    :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_work_units, issue.project) }
+    :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_work_packages, issue.project) }
 
   safe_attributes 'status_id',
     'assigned_to_id',
@@ -581,7 +581,7 @@ class Issue < WorkUnit
       if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, project)
         @time_entry = existing_time_entry || TimeEntry.new
         @time_entry.project = project
-        @time_entry.work_unit = self
+        @time_entry.work_package = self
         @time_entry.user = User.current
         @time_entry.spent_on = Date.today
         @time_entry.attributes = params[:time_entry]

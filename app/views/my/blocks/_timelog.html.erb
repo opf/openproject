@@ -14,8 +14,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <%
 entries = TimeEntry.find(:all,
 				:conditions => ["#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", @user.id, Date.today - 6, Date.today],
-				:include => [:activity, :project, {:work_unit => [:tracker, :status]}],
-				:order => "#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{Tracker.table_name}.position ASC, #{WorkUnit.table_name}.id ASC")
+				:include => [:activity, :project, {:work_package => [:tracker, :status]}],
+				:order => "#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{Tracker.table_name}.position ASC, #{WorkPackage.table_name}.id ASC")
 entries_by_day = entries.group_by(&:spent_on)
 %>
 
@@ -43,7 +43,7 @@ entries_by_day = entries.group_by(&:spent_on)
     <% entries_by_day[day].each do |entry| -%>
     <tr class="time-entry" style="border-bottom: 1px solid #f5f5f5;">
     <td class="activity"><%=h entry.activity %></td>
-    <td class="subject"><%=h entry.project %> <%= ' - '.html_safe + link_to_issue(entry.work_unit, :truncate => 50) if entry.work_unit%></td>
+    <td class="subject"><%=h entry.project %> <%= ' - '.html_safe + link_to_issue(entry.work_package, :truncate => 50) if entry.work_package%></td>
     <td class="comments"><%=h entry.comments %></td>
     <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
     <td align="center">

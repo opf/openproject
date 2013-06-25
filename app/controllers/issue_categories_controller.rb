@@ -64,7 +64,7 @@ class IssueCategoriesController < ApplicationController
   end
 
   def destroy
-    @issue_count = @category.work_units.size
+    @issue_count = @category.work_packages.size
     if @issue_count == 0
       # No issue assigned to this category
       @category.destroy

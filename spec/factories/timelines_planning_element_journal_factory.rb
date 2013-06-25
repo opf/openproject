@@ -12,7 +12,7 @@
 Timelines::PlanningElement # this should fix "uninitialized constant Timelines_PlanningElementJournal" errors on ci.
 
 FactoryGirl.define do
-  factory(:timelines_planning_element_journal, :class => WorkUnitJournal) do
+  factory(:timelines_planning_element_journal, :class => WorkPackageJournal) do
 
     association :journaled, :factory => :timelines_planning_element
   end

@@ -87,7 +87,7 @@ class ChangesetTest < ActiveSupport::TestCase
       assert_equal [1], c.issue_ids.sort
 
       time = TimeEntry.first(:order => 'id desc')
-      assert_equal 1, time.work_unit_id
+      assert_equal 1, time.work_package_id
       assert_equal 1, time.project_id
       assert_equal 2, time.user_id
       assert_equal expected_hours, time.hours, "@#{syntax} should be logged as #{expected_hours} hours but was #{time.hours}"
@@ -116,7 +116,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert Issue.find(2).closed?
 
     times = TimeEntry.all(:order => 'id desc', :limit => 2)
-    assert_equal [1, 2], times.collect(&:work_unit_id).sort
+    assert_equal [1, 2], times.collect(&:work_package_id).sort
   end
 
   def test_ref_keywords_any_line_start

@@ -63,7 +63,7 @@ describe "Journalized Objects" do
     @status_open ||= FactoryGirl.create(:issue_status, :name => "Open", :is_default => true)
     @issue ||= FactoryGirl.create(:issue, :project => @project, :status => @status_open, :tracker => @tracker, :author => @current)
 
-    @time_entry ||= FactoryGirl.create(:time_entry, :work_unit => @issue, :project => @project, :spent_on => Time.now, :hours => 5, :user => @current, :activity => FactoryGirl.create(:time_entry_activity))
+    @time_entry ||= FactoryGirl.create(:time_entry, :work_package => @issue, :project => @project, :spent_on => Time.now, :hours => 5, :user => @current, :activity => FactoryGirl.create(:time_entry_activity))
 
     initial_journal = @time_entry.journals.first
     recreated_journal = @time_entry.recreate_initial_journal!
