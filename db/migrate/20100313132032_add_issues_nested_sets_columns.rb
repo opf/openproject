@@ -11,6 +11,9 @@
 #++
 
 class AddIssuesNestedSetsColumns < ActiveRecord::Migration
+
+  class Issue < ActiveRecord::Base; end
+
   def self.up
     add_column :issues, :parent_id, :integer, :default => nil
     add_column :issues, :root_id, :integer, :default => nil
