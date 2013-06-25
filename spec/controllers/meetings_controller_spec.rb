@@ -14,14 +14,18 @@ describe MeetingsController do
         @ms = [mock_model(Meeting), mock_model(Meeting), mock_model(Meeting)]
         @ms.stub!(:from_tomorrow).and_return(@ms)
         @p.stub!(:meetings).and_return(@ms)
-        @ms.stub!(:find_time_sorted).and_return(@ms)
+        [:with_users_by_date, :page, :per_page].each do |meth|
+          @ms.should_receive(meth).and_return(@ms)
+        end
+        @grouped = double('grouped')
+        Meeting.should_receive(:group_by_time).with(@ms).and_return(@grouped)
       end
       describe "html" do
         before(:each) do
           get "index", :project_id => @p.id
         end
         it {response.should be_success}
-        it {assigns(:meetings_by_start_year_month_date).should eql @ms}
+        it {assigns(:meetings_by_start_year_month_date).should eql @grouped }
       end
     end
 
