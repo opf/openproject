@@ -13,7 +13,7 @@
 # While loading the Issue class below, we lazy load the Project class. Which itself need Issue.
 # So we create an 'emtpy' Issue class first, to make Project happy.
 
-class WorkUnit < ActiveRecord::Base
+class WorkPackage < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :tracker
@@ -26,11 +26,11 @@ class WorkUnit < ActiveRecord::Base
 
   has_many :time_entries, :dependent => :delete_all
 
-  scope :recently_updated, :order => "#{WorkUnit.table_name}.updated_at DESC" 
+  scope :recently_updated, :order => "#{WorkPackage.table_name}.updated_at DESC" 
   scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => WorkUnit.visible_condition(args.first || User.current) } }
-  scope :without_deleted, :conditions => "#{WorkUnit.quoted_table_name}.deleted_at IS NULL"
-  scope :deleted, :conditions => "#{WorkUnit.quoted_table_name}.deleted_at IS NOT NULL"
+                                    :conditions => WorkPackage.visible_condition(args.first || User.current) } }
+  scope :without_deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NULL"
+  scope :deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NOT NULL"
 
   acts_as_watchable
 
@@ -57,7 +57,7 @@ class WorkUnit < ActiveRecord::Base
 
   acts_as_journalized :event_title => Proc.new {|o| "#{o.tracker.name} ##{o.journaled_id} (#{o.status}): #{o.subject}"},
                       :event_type => Proc.new {|o|
-                                                t = 'work_unit'
+                                                t = 'work_package'
                                                 if o.changed_data.empty?
                                                   t << '-note' unless o.initial?
                                                 else
@@ -91,10 +91,10 @@ class WorkUnit < ActiveRecord::Base
 
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
-    Project.allowed_to_condition(user, :view_work_units, options)
+    Project.allowed_to_condition(user, :view_work_packages, options)
   end
 
-  WorkUnitJournal.class_eval do
+  WorkPackageJournal.class_eval do
     # Shortcut
     def new_status
       if details.keys.include? 'status_id'
@@ -105,16 +105,16 @@ class WorkUnit < ActiveRecord::Base
 
   # Returns true if usr or current user is allowed to view the issue
   def visible?(usr=nil)
-    (usr || User.current).allowed_to?(:view_work_units, self.project)
+    (usr || User.current).allowed_to?(:view_work_packages, self.project)
   end
 
   def copy_from(arg)
-    work_unit = arg.is_a?(WorkUnit) ? arg : WorkUnit.visible.find(arg)
+    work_package = arg.is_a?(WorkPackage) ? arg : WorkPackage.visible.find(arg)
     # attributes don't come from form, so it's save to force assign
-    self.force_attributes = work_unit.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_at", "updated_at")
-    self.parent_issue_id = work_unit.parent_id if work_unit.parent_id
-    self.custom_field_values = work_unit.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
-    self.status = work_unit.status
+    self.force_attributes = work_package.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_at", "updated_at")
+    self.parent_issue_id = work_package.parent_id if work_package.parent_id
+    self.custom_field_values = work_package.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
+    self.status = work_package.status
     self
   end
 
@@ -128,6 +128,6 @@ class WorkUnit < ActiveRecord::Base
 
   # ACTS AS JOURNALIZED
   def activity_type
-    "work_units"
+    "work_packages"
   end
 end
