@@ -43,6 +43,10 @@ describe PaginationHelper do
       pagination.should have_selector("p.pagination")
     end
 
+    it "should not be inside a 'pagination' p if not desired" do
+      helper.pagination_links_full(paginator, :container => false).should_not have_selector("p.pagination")
+    end
+
     it "should have a next_page reference" do
       pagination.should have_selector(".next_page")
     end
