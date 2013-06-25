@@ -1055,8 +1055,7 @@ module ApplicationHelper
     tags << javascript_include_tag("openproject")
     tags << javascript_tag(%Q{
       window.openProject = new OpenProject({
-        urlRoot : '#{Redmine::Utils.relative_url_root}',
-        loginUrl: '#{url_for :controller => "account", :action => "login"}'
+        urlRoot : '#{Redmine::Utils.relative_url_root}'
       });
     })
 
