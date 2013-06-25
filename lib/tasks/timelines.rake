@@ -1,5 +1,5 @@
 #encoding: utf-8
-
+#
 #-- copyright
 # OpenProject is a project management system.
 #
@@ -20,27 +20,27 @@ namespace :timelines do
                   :available_project_status]
 
     task :colors => :environment do
-      Timelines::Color.delete_all
+      Color.delete_all
     end
 
     task :project_types => :environment do
-      Timelines::ProjectType.delete_all
+      ProjectType.delete_all
     end
 
     task :planning_element_types => :environment do
-      Timelines::PlanningElementType.delete_all
+      PlanningElementType.delete_all
     end
 
     task :reported_project_status => :environment do
-      Timelines::ReportedProjectStatus.delete_all
+      ReportedProjectStatus.delete_all
     end
 
     task :planning_element_status => :environment do
-      Timelines::PlanningElementStatus.delete_all
+      PlanningElementStatus.delete_all
     end
 
     task :available_project_status => :environment do
-      Timelines::AvailableProjectStatus.delete_all
+      AvailableProjectStatus.delete_all
     end
   end
 
@@ -52,15 +52,15 @@ namespace :timelines do
                   :available_project_status]
 
     task :colors => :environment do
-      Timelines::Color.ms_project_colors.map(&:save!)
+      Color.ms_project_colors.map(&:save!)
     end
 
     task :project_types => :environment do
       %w{ÜRM QAM PM}.each do |name|
-        Timelines::ProjectType.create!(:name => name, :allows_association => false)
+        ProjectType.create!(:name => name, :allows_association => false)
       end
       %w{Anforderung Release Test Umgebung}.each do |name|
-        Timelines::ProjectType.create!(:name => name, :allows_association => true)
+        ProjectType.create!(:name => name, :allows_association => true)
       end
     end
 
@@ -97,12 +97,12 @@ namespace :timelines do
         'Umgebung' => [
         ]
       }.each do |project_type_name, planning_element_types|
-        project_type = Timelines::ProjectType.find_by_name(project_type_name)
+        project_type = ProjectType.find_by_name(project_type_name)
         raise "Could not find ProjectType named #{project_type_name}" if project_type.blank?
 
         planning_element_types.each do |planning_element_type|
-          planning_element_type[:color] = Timelines::Color.find_by_name(planning_element_type[:color])
-          Timelines::PlanningElementType.create!(planning_element_type.merge(:project_type_id => project_type.id))
+          planning_element_type[:color] = Color.find_by_name(planning_element_type[:color])
+          PlanningElementType.create!(planning_element_type.merge(:project_type_id => project_type.id))
         end
       end
 
@@ -110,27 +110,27 @@ namespace :timelines do
         {:name => 'Phase', :color => 'pjGray'},
         {:name => 'Milestone', :color => 'pjGray', :is_milestone => true}
       ].each do |planning_element_type|
-        planning_element_type[:color] = Timelines::Color.find_by_name(planning_element_type[:color])
-        Timelines::PlanningElementType.create!(planning_element_type)
+        planning_element_type[:color] = Color.find_by_name(planning_element_type[:color])
+        PlanningElementType.create!(planning_element_type)
       end
     end
 
     task :reported_project_status => :environment do
       ['Alle Daten vorhanden', 'Unvollständig', 'Offen', 'Verzug'].each do |name|
-        Timelines::ReportedProjectStatus.create!(:name => name)
+        ReportedProjectStatus.create!(:name => name)
       end
     end
 
     task :planning_element_status => :environment do
       ['Keine Planung', 'Vorläufige Planung', 'Im Plan', 'Verzögerung', 'Eskalation'].each do |name|
-        Timelines::ReportedProjectStatus.create!(:name => name)
+        ReportedProjectStatus.create!(:name => name)
       end
     end
 
     task :available_project_status => :environment do
-      Timelines::ReportedProjectStatus.all.each do |status|
-        Timelines::ProjectType.all.each do |type|
-          s = Timelines::AvailableProjectStatus.new
+      ReportedProjectStatus.all.each do |status|
+        ProjectType.all.each do |type|
+          s = AvailableProjectStatus.new
           s.reported_project_status = status
           s.project_type = type
           s.save!

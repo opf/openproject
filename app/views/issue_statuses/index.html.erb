@@ -40,15 +40,15 @@ See doc/COPYRIGHT.rdoc for more details.
   <td align="center" style="width:15%;"><%= reorder_links('issue_status', {:action => 'update', :id => status}) %></td>
   <td class="buttons">
     <%= link_to(l(:button_delete), { :action => 'destroy', :id => status },
-    															 :method => :post,
-    															 :confirm => l(:text_are_you_sure),
-    															 :class => 'icon icon-del') %>
+                                   :method => :post,
+                                   :confirm => l(:text_are_you_sure),
+                                   :class => 'icon icon-del') %>
   </td>
   </tr>
 <% end %>
   </tbody>
 </table>
 
-<p class="pagination"><%= pagination_links_full @issue_status_pages %></p>
+<%= pagination_links_full @issue_statuses %>
 
 <% html_title(l(:label_issue_status_plural)) -%>

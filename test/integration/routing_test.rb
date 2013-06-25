@@ -450,15 +450,15 @@ class RoutingTest < ActionDispatch::IntegrationTest
                                                         :format => 'atom',
                                                         :project_id => '567' )
 
-      should route(:get, "/projects/567/news.xml").to( :controller => 'news',
-                                                       :action => 'index',
-                                                       :format => 'xml',
-                                                       :project_id => '567' )
+      should route(:get, "/api/v1/projects/567/news.xml").to( :controller => 'api/v1/news',
+                                                              :action => 'index',
+                                                              :format => 'xml',
+                                                              :project_id => '567' )
 
-      should route(:get, "/projects/567/news.json").to( :controller => 'news',
-                                                        :action => 'index',
-                                                        :format => 'json',
-                                                        :project_id => '567' )
+      should route(:get, "/api/v1/projects/567/news.json").to( :controller => 'api/v1/news',
+                                                               :action => 'index',
+                                                               :format => 'json',
+                                                               :project_id => '567' )
 
       should route(:get, "/projects/567/news/new").to( :controller => 'news',
                                                        :action => 'new',
@@ -481,13 +481,13 @@ class RoutingTest < ActionDispatch::IntegrationTest
                                          :action => 'index',
                                          :format => 'atom' )
 
-    should route(:get, "/news.xml").to( :controller => 'news',
-                                        :action => 'index',
-                                        :format => 'xml' )
+    should route(:get, "/api/v1/news.xml").to( :controller => 'api/v1/news',
+                                               :action => 'index',
+                                               :format => 'xml' )
 
-    should route(:get, "/news.json").to( :controller => 'news',
-                                         :action => 'index',
-                                         :format => 'json' )
+    should route(:get, "/api/v1/news.json").to( :controller => 'api/v1/news',
+                                                :action => 'index',
+                                                :format => 'json' )
 
     should route(:get, "/news/2").to( :controller => 'news',
                                       :action => 'show',

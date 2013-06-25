@@ -11,7 +11,7 @@
 #++
 
 class Principal < ActiveRecord::Base
-  extend Timelines::Pagination::Model
+  extend Pagination::Model
 
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 

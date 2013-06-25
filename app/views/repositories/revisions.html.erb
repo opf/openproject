@@ -21,7 +21,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render :partial => 'revisions', :locals => {:project => @project, :path => '', :revisions => @changesets, :entry => nil }%>
 
-<p class="pagination"><%= pagination_links_full @changeset_pages,@changeset_count %></p>
+<%= pagination_links_full @changesets %>
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
