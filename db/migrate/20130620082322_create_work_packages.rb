@@ -66,6 +66,10 @@ class CreateWorkPackages < ActiveRecord::Migration
 
     # Time Entry
     rename_column :time_entries, :issue_id, :work_package_id
+
+    # Rename legacy tables 'issues' and 'planning_elements'
+    rename_table :issues, :legacy_issues
+    rename_table :timelines_planning_elements, :legacy_timelines_planning_elements
   end
 
   def down
@@ -78,5 +82,9 @@ class CreateWorkPackages < ActiveRecord::Migration
     rename_column :time_entries, :work_package_id, :issue_id
 
     drop_table(:work_packages)
+
+    # Revert renaming of legacy tables 'issues' and 'planning_elements'
+    rename_table :legacy_issues, :issues
+    rename_table :legacy_timelines_planning_elements, :timelines_planning_elements
   end
 end
