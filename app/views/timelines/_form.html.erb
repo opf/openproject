@@ -1,0 +1,41 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for 'timeline' %>
+<% unless User.current.impaired? %>
+  <%# TODO: Require autocompleter inside select_boxes.js
+    For lack of a requiring policy (such as requirejs), just include the
+    autocompleter on its own.
+  %>
+  <%= javascript_include_tag "timelines_autocompleter.js" %>
+  <%= javascript_include_tag "timelines_select_boxes.js" %>
+<% end %>
+
+<div class="edit_form">
+
+  <%= render :partial => "timelines/general", :locals => {:timeline => @timeline, :f => f}%>
+
+  <%= render :partial => "timelines/comparison", :locals => {:timeline => @timeline}%>
+
+  <%= render :partial => "timelines/vertical_planning_elements", :locals => {:timeline => @timeline}%>
+
+  <%= render :partial => "timelines/filter/planning_elements", :locals => {:timeline => @timeline} %>
+
+  <%= render :partial => "timelines/filter/projects", :locals => {:timeline => @timeline} %>
+
+  <%= render :partial => "timelines/group/grouping", :locals => {:timeline => @timeline} %>
+
+</div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'timelines.css', :plugin => 'chiliproject_timelines', :media => "all" %>
+<% end %>

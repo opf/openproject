@@ -69,7 +69,7 @@ class CreateWorkPackages < ActiveRecord::Migration
 
     # Rename legacy tables 'issues' and 'planning_elements'
     rename_table :issues, :legacy_issues
-    rename_table :timelines_planning_elements, :legacy_timelines_planning_elements
+    rename_table :planning_elements, :legacy_planning_elements
   end
 
   def down
@@ -85,6 +85,6 @@ class CreateWorkPackages < ActiveRecord::Migration
 
     # Revert renaming of legacy tables 'issues' and 'planning_elements'
     rename_table :legacy_issues, :issues
-    rename_table :legacy_timelines_planning_elements, :timelines_planning_elements
+    rename_table :legacy_planning_elements, :planning_elements
   end
 end

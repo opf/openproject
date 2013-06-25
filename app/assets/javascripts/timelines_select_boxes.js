@@ -9,7 +9,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-//requires 'timelines_autocompleter'
+//requires 'autocompleter'
 
 jQuery(document).ready(function($) {
   [

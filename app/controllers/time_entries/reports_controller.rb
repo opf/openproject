@@ -214,4 +214,7 @@ class TimeEntries::ReportsController < ApplicationController
     sql
   end
 
+  def default_breadcrumb
+    I18n.t(:label_spent_time)
+  end
 end

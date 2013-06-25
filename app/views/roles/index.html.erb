@@ -20,7 +20,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <thead><tr>
     <th><%= Role.model_name.human %></th>
     <th><%=l(:button_sort)%></th>
-	<th></th>
+  <th></th>
   </tr></thead>
   <tbody>
 <% for role in @roles %>
@@ -33,16 +33,16 @@ See doc/COPYRIGHT.rdoc for more details.
   </td>
   <td class="buttons">
     <%= link_to(l(:button_delete), role_path(role),
-        													 :method => :delete,
-    															 :confirm => l(:text_are_you_sure),
-    															 :class => 'icon icon-del') unless role.builtin? %>
+                                   :method => :delete,
+                                   :confirm => l(:text_are_you_sure),
+                                   :class => 'icon icon-del') unless role.builtin? %>
   </td>
   </tr>
 <% end %>
   </tbody>
 </table>
 
-<p class="pagination"><%= pagination_links_full @role_pages %></p>
+<%= pagination_links_full @roles %>
 
 <p><%= link_to l(:label_permissions_report), :action => 'report' %></p>
 

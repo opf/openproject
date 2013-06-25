@@ -90,4 +90,8 @@ class JournalsController < ApplicationController
   def valid_field?(field)
     field.to_s.strip == "description"
   end
+
+  def default_breadcrumb
+    I18n.t(:label_journal_diff)
+  end
 end

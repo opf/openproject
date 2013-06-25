@@ -17,6 +17,8 @@ window.OpenProject = (function ($) {
     options = options || {};
     this.urlRoot = options.urlRoot || "";
 
+    this.loginUrl = options.loginUrl || "";
+
     if (!/\/$/.test(this.urlRoot)) {
       this.urlRoot += '/';
     }
@@ -65,7 +67,7 @@ window.OpenProject = (function ($) {
       }
 
       if (!url) {
-        url = this.getFullUrl("/projects/level_list.json");
+        url = this.getFullUrl("/api/v1/projects/level_list.json");
       }
 
       if (this.projects) {
@@ -114,6 +116,24 @@ window.OpenProject = (function ($) {
       // taken from http://stackoverflow.com/questions/280793/
       return (str+'').replace(REGEXP_ESCAPE, "\\$1");
     };
+
+    /**
+     * Use select2's escapeMarkup function for correctly escaping
+     * text and preventing XSS.
+     */
+    Helpers.markupEscape = (function(){
+      try {
+        var escapeMarkup = jQuery.fn.select2.defaults.escapeMarkup;
+        if(typeof escapeMarkup === "undefined") {
+          throw 'jQuery.fn.select2.defaults.escapeMarkup is undefined';
+        }
+        return escapeMarkup;
+      } catch (e){
+        console.log('Error: jQuery.fn.select2.defaults.escapeMarkup not found.\n' +
+                    'Exception: ' + e.toString());
+        throw e;
+      }
+    }());
 
     /**
      * replace wrong with right in text
@@ -231,12 +251,13 @@ window.OpenProject = (function ($) {
 
         // fallback to base behavior
         if (result.matches === undefined) {
-          return replaceSpecialChars(format(result.text, query.term));
+          return replaceSpecialChars(
+                  Helpers.markupEscape(format(result.text, query.term)));
         }
 
         // shortcut for empty searches
         if (query.sterm.length === 0) {
-          return result.text;
+          return Helpers.markupEscape(result.text);
         }
 
         var matches = result.matches.slice(),
@@ -248,7 +269,7 @@ window.OpenProject = (function ($) {
           text = Helpers.replace(text, match[0], format(match[0], match[1]));
         }
 
-        return replaceSpecialChars(text);
+        return replaceSpecialChars(Helpers.markupEscape(text));
       };
     })();
 

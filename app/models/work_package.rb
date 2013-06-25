@@ -15,6 +15,8 @@
 
 class WorkPackage < ActiveRecord::Base
 
+  include NestedAttributesForApi
+
   belongs_to :project
   belongs_to :tracker
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
@@ -23,6 +25,11 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
+
+  belongs_to :planning_element_type,   :class_name  => "PlanningElementType",
+                                       :foreign_key => 'planning_element_type_id'
+  belongs_to :planning_element_status, :class_name  => "PlanningElementStatus",
+                                       :foreign_key => 'planning_element_status_id'
 
   has_many :time_entries, :dependent => :delete_all
 

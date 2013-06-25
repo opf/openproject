@@ -1,0 +1,32 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= header_tags %>
+
+<%= form_for :project_association,
+            :url  => project_project_association_path(@project, @project_association),
+            :html => {:method => 'put'} do |f| %>
+
+  <%= f.hidden_field :project_a_id %>
+  <%= f.hidden_field :project_b_id %>
+
+  <% title = l('timelines.project_association_with_other',
+               :project_a => h(@project.name),
+               :project_b => h(@project_association.project(@project).try(:name))) %>
+
+  <h2><%= title.tap { |t| html_title t } %></h2>
+
+  <%= render :partial => 'form', :locals => {:f => f, :project => @project} %>
+
+  <%= f.submit l(:button_update), :name => nil %>
+  <%= link_to l(:button_cancel), project_project_associations_path(@project) %>
+<% end %>

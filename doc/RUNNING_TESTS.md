@@ -34,6 +34,22 @@ cucumber features:
     cuken() { bundle exec rake "cucumber:all[-n '$*']"; }
 
 
-## Spec
+## RSpec
 
-TBD
+You can run the specs with the following commands:
+
+* `bundle exec rake spec` Run all core specs with a random seed
+* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935
+
+TODO: how to run plugins specs.
+
+## For the fancy programmer
+
+* We are testing on travis-ci. Look there for your pull requests.<br />
+  https://travis-ci.org/opf/openproject
+* If you have enabled the terminal bell, add `; echo -e "\a"` to the end of your test command. The terminal bell will then tell you when your tests finished.
+
+## Manual acceptance tests
+
+* Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
+* Assuming you do not have all Internet Explorer version installed on your computer, you can grab a VM with preinstalled IE's directly from Mircrosoft: http://www.modern.ie/en-us/virtualization-tools#downloads

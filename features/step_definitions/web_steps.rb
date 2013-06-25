@@ -362,6 +362,10 @@ Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following op
   end
 end
 
+Then /^there should be the disabled "(.+)" element$/ do |element|
+  page.find(element)[:disabled].should == "true"
+end
+
 # This needs an active js driver to work properly
 Given /^I (accept|dismiss) the alert dialog$/ do |method|
   if Capybara.current_driver.to_s.include?("selenium")
@@ -415,4 +419,12 @@ See http://www.elabs.se/blog/53-why-wait_until-was-removed-from-capybara
 "
     end
   Timeout.timeout(seconds, &block)
+end
+
+When /^I confirm popups$/ do
+  page.driver.browser.switch_to.alert.accept    
+end
+
+Then(/^I should see a confirm dialog$/) do
+  page.should have_selector("#confirm_dialog")
 end

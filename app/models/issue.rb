@@ -22,6 +22,7 @@ class Issue < WorkPackage
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
+  ATTRIBS_WITH_VALUES_FROM_CHILDREN = %w(priority_id start_date due_date estimated_hours done_ratio)
 
   attr_protected :project_id, :author_id, :lft, :rgt
 

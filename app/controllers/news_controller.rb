@@ -11,8 +11,12 @@
 #++
 
 class NewsController < ApplicationController
+  include PaginationHelper
+
   default_search_scope :news
   model_object News
+
+  before_filter :disable_api
   before_filter :find_model_object, :except => [:new, :create, :index]
   before_filter :find_project_from_association, :except => [:new, :create, :index]
   before_filter :find_project, :only => [:new, :create]
@@ -22,28 +26,16 @@ class NewsController < ApplicationController
 
   menu_item :new_news, :only => [:new, :create]
 
-
   def index
-    case params[:format]
-    when 'xml', 'json'
-      @offset, @limit = api_offset_and_limit
-    else
-      @limit =  10
-    end
-
     scope = @project ? @project.news.visible : News.visible
 
-    @news_count = scope.count
-    @news_pages = Paginator.new self, @news_count, @limit, params['page']
-    @offset ||= @news_pages.current.offset
-    @newss = scope.all(:include => [:author, :project],
-                                       :order => "#{News.table_name}.created_on DESC",
-                                       :offset => @offset,
-                                       :limit => @limit)
+    @newss = scope.includes(:author, :project)
+                  .order("#{News.table_name}.created_on DESC")
+                  .page(params[:page])
+                  .per_page(per_page_param)
 
     respond_to do |format|
-      format.html { render :layout => false if request.xhr? }
-      format.api
+      format.html { render :layout => !request.xhr? }
       format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end

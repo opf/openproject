@@ -1,0 +1,95 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% timeline_div_id = "timeline_#{rand(10**75)}" %>
+<div id="<%= timeline_div_id %>"></div>
+
+<% unless User.current.impaired? %>
+  <%# TODO: Require autocompleter inside select_boxes.js
+    For lack of a requiring policy (such as requirejs), just include the
+    autocompleter on its own.
+  %>
+  <%= javascript_include_tag "timelines_autocompleter.js" %>
+  <%= javascript_include_tag "timelines_select_boxes.js" %>
+<% end %>
+
+<script type="text/javascript">
+  (function() {
+    var i18n = {
+    <%= props = ['label_no_data',
+                 'timelines.change',
+                 'timelines.errors.report_epicfail',
+                 'timelines.errors.report_timeout',
+                 'timelines.errors.not_implemented',
+                 'timelines.errors.report_comparison',
+                 'timelines.filter.column.end_date',
+                 'timelines.filter.column.name',
+                 'timelines.filter.column.planning_element_types',
+                 'timelines.filter.column.project_status',
+                 'timelines.filter.column.project_type',
+                 'timelines.filter.column.responsible',
+                 'timelines.filter.column.start_date',
+                 'timelines.filter.grouping_other',
+                 'timelines.outline',
+                 'timelines.outlines.aggregation',
+                 'timelines.outlines.level1',
+                 'timelines.outlines.level2',
+                 'timelines.outlines.level3',
+                 'timelines.outlines.level4',
+                 'timelines.outlines.level5',
+                 'timelines.outlines.all',
+                 'timelines.zoom.in',
+                 'timelines.zoom.out',
+                 'timelines.zoom.days',
+                 'timelines.zoom.weeks',
+                 'timelines.new_planning_element',
+                 'timelines.zoom.months',
+                 'timelines.zoom.quarters',
+                 'timelines.zoom.years']
+        props.map { |t| %-'#{t}': '#{l(t)}'- }.join(",\n").html_safe
+      %>
+    };
+    var config = jQuery.extend({
+      i18n: i18n,
+      project_id: '<%= timeline.project.identifier %>',
+      url_prefix: '<%= Redmine::Utils.relative_url_root %>',
+      ui_root: jQuery("#<%= timeline_div_id %>")
+    }, <%= timeline.json_options %>);
+    jQuery(function(jQuery) {
+      Timeline.startup(config);
+    });
+  })();
+</script>
+
+<% unless @timeline_header_included %>
+  <% content_for :header_tags do %>
+<!-- additional resources for timelines -->
+<%= stylesheet_link_tag 'timelines.css', :plugin => 'chiliproject_timelines', :media => "all" %>
+<%=
+  case I18n.locale
+  when :de
+    javascript_include_tag 'date-de-DE.js', :plugin => 'chiliproject_timelines'
+  else
+    javascript_include_tag 'date-en-US.js', :plugin => 'chiliproject_timelines'
+  end
+%>
+
+<%= include_calendar_headers_tags %>
+
+<%= javascript_include_tag 'raphael-min.js', :plugin => 'chiliproject_timelines' %>
+<%= javascript_include_tag 'Bitstream_Vera_Sans_400.font.js', :plugin => 'chiliproject_timelines' %>
+<%= javascript_include_tag 'timelines.js', :plugin => 'chiliproject_timelines' %>
+<%= javascript_include_tag 'modal.js', :plugin => 'chiliproject_timelines' %>
+<% @timeline_header_included = true %>
+  <% end %>
+<% end %>
+
