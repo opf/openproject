@@ -1,0 +1,87 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+api.project do
+  api.id(project.id)
+  api.name(project.name)
+  api.identifier(project.identifier)
+
+  api.permissions(
+      :view_planning_elements => User.current.allowed_to?(:view_planning_elements, project),
+      :edit_planning_elements => User.current.allowed_to?(:edit_planning_elements, project),
+      :move_planning_elements_to_trash => User.current.allowed_to?(:move_planning_elements_to_trash, project),
+      :delete_planning_elements => User.current.allowed_to?(:delete_planning_elements, project)
+    )
+
+  # TODO: Evaluate html formatting of description instead of passing the raw
+  # textile code - although this is also not done in the official API
+  api.description(project.description)
+
+  parent = visible_parent_project(project)
+  if parent
+    api.parent(:id => parent.id,
+               :name => parent.name,
+               :identifier => parent.identifier)
+  end
+
+  if project.responsible
+    api.responsible(:id => project.responsible.id, :name => project.responsible.name)
+  end
+
+  if project.project_type
+    api.project_type(:id   => project.project_type.id,
+                     :name => project.project_type.name)
+  end
+
+  planning_element_types = project.planning_element_types
+  if planning_element_types.present?
+    api.array :planning_element_types, :size => planning_element_types.size do
+      planning_element_types.each do |planning_element_type|
+        api.planning_element_type do
+          api.id planning_element_type.id
+          api.name planning_element_type.name
+
+          color = planning_element_type.color
+          if color.present?
+            api.color(:id => color.id, :name => color.name, :hexcode => color.hexcode)
+          end
+          api.is_milestone planning_element_type.is_milestone?
+        end
+      end
+    end
+  end
+
+  scenarios = project.scenarios
+  if scenarios.present?
+    api.array :scenarios, :size => scenarios.size do
+      scenarios.each do |scenario|
+        api.scenario(:id => scenario.id, :name => scenario.name)
+      end
+    end
+  end
+
+  project_associations = project.project_associations.visible
+  if project_associations.present?
+    api.array :project_associations, :size => project_associations.size do
+      project_associations.each do |project_association|
+        api.project_association(:id => project_association.id) do
+          other = project_association.project(project)
+          api.project(:id         => other.id,
+                      :identifier => other.identifier,
+                      :name       => other.name)
+        end
+      end
+    end
+  end
+
+  api.created_on(project.created_on.utc) if project.created_on
+  api.updated_on(project.updated_on.utc) if project.updated_on
+end

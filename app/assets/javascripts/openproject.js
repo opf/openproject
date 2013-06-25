@@ -67,7 +67,7 @@ window.OpenProject = (function ($) {
       }
 
       if (!url) {
-        url = this.getFullUrl("/projects/level_list.json");
+        url = this.getFullUrl("/api/v1/projects/level_list.json");
       }
 
       if (this.projects) {

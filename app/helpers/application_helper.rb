@@ -419,52 +419,6 @@ module ApplicationHelper
     path.to_s.split(%r{[/\\]}).select {|p| !p.blank?}
   end
 
-  def pagination_links_full(paginator, count=nil, options={})
-    page_param = options.delete(:page_param) || :page
-    per_page_links = options.delete(:per_page_links)
-
-    # options for the underlying classic pagination
-    ignored_options = [:window_size,
-                       :always_show_anchors,
-                       :link_to_current_page,
-                       :name,
-                       :prefix,
-                       :suffix]
-
-    url_param = options.reject{ |key, value| ignored_options.include?(key) }
-
-    # don't reuse query params if filters are present
-    url_param.merge!(:fields => nil, :values => nil, :operators => nil) if params.delete(:set_filter)
-
-    html = ''
-    if paginator.current.previous
-      html << link_to_content_update(l(:label_previous), url_param.merge(page_param => paginator.current.previous), :class => 'navigate-left') + ' '
-    end
-
-    html << (pagination_links_each(paginator, options) do |n|
-      link_to_content_update(n.to_s, url_param.merge(page_param => n))
-    end || '')
-
-    if paginator.current.next
-      html << ' ' + link_to_content_update((l(:label_next)), url_param.merge(page_param => paginator.current.next), :class => 'navigate-right')
-    end
-
-    unless count.nil?
-      html << " (#{paginator.current.first_item}-#{paginator.current.last_item}/#{count})"
-      if per_page_links != false && links = per_page_links(paginator.items_per_page)
-	      html << " | #{links}"
-      end
-    end
-
-    html.html_safe
-  end
-
-  def per_page_links(selected=nil)
-    links = Setting.per_page_options_array.collect do |n|
-      n == selected ? n : link_to_content_update(n, params.merge(:per_page => n))
-    end
-    links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
-  end
 
   def reorder_links(name, url, options = {})
     method = options[:method] || :post
@@ -1203,7 +1157,7 @@ module ApplicationHelper
     end
 
     link_to(h(text),
-            timelines_project_planning_element_path(planning_element.project, planning_element),
+            project_planning_element_path(planning_element.project, planning_element),
             :title => planning_element.name)
   end
 
@@ -1234,7 +1188,7 @@ module ApplicationHelper
     end
 
     link = link_to(h("*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.name} "),
-            timelines_project_planning_element_path(planning_element.project, planning_element),
+            project_planning_element_path(planning_element.project, planning_element),
            :title => h("#{truncate(planning_element.name, :length => 100)} #{planning_element.planning_element_status.nil? ? "" :
                         "(" + planning_element.planning_element_status.name + ")"}"))
     link += "#{planning_element.start_date.nil? ? "[?]" : planning_element.start_date.to_s}#{start_date_change} – #{planning_element.end_date.nil? ? "[?]" :
@@ -1263,7 +1217,7 @@ module ApplicationHelper
     parse_redmine_links_without_planning_element_links(text, project, obj, attr, only_path, options)
     text.gsub!(%r{(?:\W|^|\A)((\*+)(\d+))(?:\W|$|\z)}) do |match|
       text, stars, id = $1, $2, $3
-      planning_element = Timelines::PlanningElement.without_deleted.visible.find_by_id(id)
+      planning_element = PlanningElement.without_deleted.visible.find_by_id(id)
 
       if planning_element.present?
         if stars == "*"

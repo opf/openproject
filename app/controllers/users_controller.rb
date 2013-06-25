@@ -13,6 +13,7 @@
 class UsersController < ApplicationController
   layout 'admin'
 
+  before_filter :disable_api
   before_filter :require_admin, :except => [:show, :deletion_info, :destroy]
   before_filter :find_user, :only => [:show,
                                       :edit,
@@ -29,17 +30,11 @@ class UsersController < ApplicationController
 
   include SortHelper
   include CustomFieldsHelper
+  include PaginationHelper
 
   def index
     sort_init 'login', 'asc'
     sort_update %w(login firstname lastname mail admin created_on last_login_on)
-
-    case params[:format]
-    when 'xml', 'json'
-      @offset, @limit = api_offset_and_limit
-    else
-      @limit = per_page_option
-    end
 
     scope = User
     scope = scope.in_group(params[:group_id].to_i) if params[:group_id].present?
@@ -52,21 +47,16 @@ class UsersController < ApplicationController
       c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", name, name, name, name]
     end
 
-    @user_count = scope.count(:conditions => c.conditions)
-    @user_pages = Paginator.new self, @user_count, @limit, params['page']
-    @offset ||= @user_pages.current.offset
-    @users =  scope.find :all,
-                        :order => sort_clause,
-                        :conditions => c.conditions,
-                        :limit  =>  @limit,
-                        :offset =>  @offset
+    @users = scope.order(sort_clause)
+                  .where(c.conditions)
+                  .page(page_param)
+                  .per_page(per_page_param)
 
     respond_to do |format|
       format.html {
         @groups = Group.all.sort
         render :layout => !request.xhr?
       }
-      format.api
     end
   end
 
@@ -86,7 +76,6 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { render :layout => 'base' }
-      format.api
     end
   end
 
@@ -121,7 +110,6 @@ class UsersController < ApplicationController
             edit_user_path(@user)
           )
         }
-        format.api  { render :action => 'show', :status => :created, :location => user_url(@user) }
       end
     else
       @auth_sources = AuthSource.find(:all)
@@ -130,7 +118,6 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => 'new' }
-        format.api  { render_validation_errors(@user) }
       end
     end
   end
@@ -169,7 +156,6 @@ class UsersController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to :back
         }
-        format.api  { head :ok }
       end
     else
       @auth_sources = AuthSource.find(:all)
@@ -179,7 +165,6 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => :edit }
-        format.api  { render_validation_errors(@user) }
       end
     end
   rescue ::ActionController::RedirectBackError
@@ -230,9 +215,6 @@ class UsersController < ApplicationController
         else
           redirect_to users_path
         end
-      end
-      format.api  do
-        head :ok
       end
     end
   end

@@ -77,8 +77,8 @@ en:
         issues: "Issues"
         parent: "Subproject of"
         versions: "Versions"
-        timelines_project_type: "Project type"
-        timelines_responsible: "Responsible"
+        project_type: "Project type"
+        responsible: "Responsible"
       query:
         column_names: "Columns"
         group_by: "Group results by"
@@ -119,10 +119,10 @@ en:
       wiki_page:
         parent_title: "Parent page"
         redirect_existing_links: "Redirect existing links"
-      "timelines/color":
+      planning_element_type_color:
         name: Name
         hexcode: Hex code
-      "timelines/planning_element":
+      planning_element:
         alternate_dates:
           end_date: End date of alternate date
         description: Description
@@ -137,28 +137,28 @@ en:
         deleted_at: Deleted at
         planning_element_status: "Status"
         # parent: Subelement of
-      "timelines/planning_element_type":
+      planning_element_type:
         color: Color
         id: ID
         in_aggregation: In aggregation
         is_default: Default value
         is_milestone: Milestone
         name: Name
-      "timelines/project_association":
+      project_association:
         description: Cause
-      "timelines/project_type":
+      project_type:
         allows_association: Allows association
         name: Name
         planning_element_types: Standard planning element types
         reported_project_statuses: Reported project statuses
         position: Position
-      "timelines/scenario":
+      scenario:
         created_at: Created
         name: Name
         updated_at: Updated
-      "timelines/timeline":
+      timeline:
         name: Name
-      "timelines/reporting":
+      reporting:
         reported_project_status_comment: Status comment
         reporting_to_project: Reports to project
         reported_project_status: Project status
@@ -192,11 +192,11 @@ en:
         too_short: "is too short (minimum is %{count} characters)"
         wrong_length: "is the wrong length (should be %{count} characters)"
       models:
-        "timelines/alternate_date":
+        alternate_date:
           attributes:
             end_date:
               not_start_date: "is not on start date, although this is required for milestones"
-        "timelines/planning_element":
+        planning_element:
           attributes:
             end_date:
               not_start_date: "is not on start date, although this is required for milestones"
@@ -204,7 +204,8 @@ en:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
               cannot_be_in_recycle_bin : "cannot be in recycle bin."
-        "timelines/project_association":
+        project_association:
+          identical_projects: "can not be created from one project to itself"
           project_association_not_allowed: "does not allow associations"
         user:
           attributes:
@@ -237,10 +238,10 @@ en:
       query: "Custom query"
       role: "Role"
       tracker: "Tracker"
-      "timelines/planning_element": Planning element
-      "timelines/planning_element_type": Planning element type
-      "timelines/project_type": Project type
-      "timelines/scenario": Scenario
+      planning_element: Planning element
+      planning_element_type: Planning element type
+      project_type: Project type
+      scenario: Scenario
       user: "User"
       version: "Version"
       wiki: "Wiki"
@@ -867,7 +868,7 @@ en:
   label_this_year: "this year"
   label_time_entry_plural: "Spent time"
   label_time_tracking: "Time tracking"
-  label_timelines_planning_element_plural: "Planning elements"
+  label_planning_element_plural: "Planning elements"
   label_today: "today"
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"
@@ -1459,7 +1460,7 @@ en:
     start: "Start"
     timeline: "Timeline report"
     timelines: "Timeline reports"
-    timelines_settings: "Timelines"
+    settings: "Timelines"
     used_in_x_planning_elements:
       one:   "Used in %{count} planning element"
       other: "Used in %{count} planning elements"

@@ -1,0 +1,27 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<h2>
+  <%=l('timelines.new_timeline')%>
+</h2>
+
+<%= form_for(:timeline,
+             :url => project_timelines_path,
+             :html => {:class => "tabular", :method => 'post'}) do |f| %>
+
+  <%= render(:partial => "timelines/form",
+             :locals => {:f => f, :timeline => @timeline}) %>
+
+  <%= f.submit l(:button_create) %>
+  <%= link_to l(:button_cancel), project_path(@project) %>
+
+<% end %>
