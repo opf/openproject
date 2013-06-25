@@ -1,6 +1,6 @@
-class CreateWorkUnits < ActiveRecord::Migration
+class CreateWorkPackages < ActiveRecord::Migration
   def up
-    create_table "work_units" do |t|
+    create_table "work_packages" do |t|
       # Issue
       t.column :tracker_id, :integer, :default => 0, :null => false
       t.column :project_id, :integer
@@ -44,38 +44,39 @@ class CreateWorkUnits < ActiveRecord::Migration
     # Issue compatibility
     # Because of 't.belongs_to :project' (see above) column 'project_id'
     # becomes nullable. That breaks compatibility with issue behavior.
-    change_table "work_units" do |t|
+    change_table "work_packages" do |t|
       t.change :project_id, :integer, :default => 0, :null => false
     end
 
     # Planning Elements
-    add_index :work_units, :parent_id
-    add_index :work_units, :project_id
-    add_index :work_units, :responsible_id
-    add_index :work_units, :planning_element_type_id
-    add_index :work_units, :planning_element_status_id
+    add_index :work_packages, :parent_id
+    add_index :work_packages, :project_id
+    add_index :work_packages, :responsible_id
+    add_index :work_packages, :planning_element_type_id
+    add_index :work_packages, :planning_element_status_id
 
     # Nested Set
-    add_index :work_units, [:root_id, :lft, :rgt]
+    add_index :work_packages, [:root_id, :lft, :rgt]
 
     change_table(:projects) do |t|
-      t.belongs_to :work_units_responsible
+      t.belongs_to :work_packages_responsible
 
-      t.index :work_units_responsible_id
+      t.index :work_packages_responsible_id
     end
 
     # Time Entry
-    rename_column :time_entries, :issue_id, :work_unit_id
+    rename_column :time_entries, :issue_id, :work_package_id
   end
 
   def down
+    # Nested Set
     change_table(:projects) do |t|
-      t.remove_belongs_to :work_units_responsible
+      t.remove_belongs_to :work_packages_responsible
     end
 
     # Time Entry
-    rename_column :time_entries, :work_unit_id, :issue_id
+    rename_column :time_entries, :work_package_id, :issue_id
 
-    drop_table(:work_units)
+    drop_table(:work_packages)
   end
 end
