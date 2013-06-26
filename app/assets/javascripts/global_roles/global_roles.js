@@ -1,3 +1,5 @@
+//= require global_roles/principal_roles
+
 var global_roles = {
 	init: function(){
 		global_roles.toggle_forms_on_click();

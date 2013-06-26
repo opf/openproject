@@ -4,9 +4,9 @@ module OpenProject::GlobalRoles
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
 
-    #initializer 'global_roles.precompile_assets' do
-    #  Rails.application.config.assets.precompile += %w(costs.css costs.js)
-    #end
+    initializer 'global_roles.precompile_assets' do
+      Rails.application.config.assets.precompile += %w(global_roles.css global_roles.js)
+    end
 
     # adds our factories to factory girl's load path
     initializer "global_roles.register_factories", :after => "factory_girl.set_factory_paths" do |app|
