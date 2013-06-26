@@ -66,7 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
   </tbody>
 </table>
-<p class="pagination"><%= pagination_links_full @topic_pages, @topic_count %></p>
+<%= pagination_links_full @topics %>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>

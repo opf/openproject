@@ -73,7 +73,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= link_to_attachments message, :author => false %>
   </div>
 <% end %>
-<p class="pagination"><%= pagination_links_full @reply_pages, @reply_count, :per_page_links => false %></p>
+
+<%= pagination_links_full @replies, :per_page_links => false %>
+
 <% end %>
 
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>

@@ -16,6 +16,49 @@ OpenProject::Application.routes.draw do
   match '/login'  => 'account#login',  :as => 'signin'
   match '/logout' => 'account#logout', :as => 'signout'
 
+  namespace :api do
+
+    namespace :v1 do
+      resources :issues
+      resources :news
+      resources :projects do
+        collection do
+          get :level_list
+        end
+
+        resources :issues
+        resources :news
+      end
+      resources :time_entries, :controller => 'timelog'
+      resources :users
+    end
+
+    namespace :v2 do
+
+      resources :authentication
+      resources :planning_element_journals
+      resources :planning_element_statuses
+      resources :colors, :controller => 'planning_element_type_colors'
+      resources :planning_element_types
+      resources :planning_elements
+      resources :project_types
+      resources :reported_project_statuses
+      resources :scenarios
+      resources :timelines
+
+      resources :projects do
+        resources :planning_elements
+        resources :reportings do
+          get :available_projects, :on => :collection
+        end
+        resources :project_associations do
+          get :available_projects, :on => :collection
+        end
+      end
+
+    end
+  end
+
   match '/roles/workflow/:id/:role_id/:tracker_id' => 'roles#workflow'
   match '/help/:ctrl/:page' => 'help#index'
 
@@ -76,10 +119,6 @@ OpenProject::Application.routes.draw do
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, :as => 'confirm_destroy'
 
-    end
-
-    collection do
-      get :level_list
     end
 
     resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]
@@ -348,23 +387,44 @@ OpenProject::Application.routes.draw do
     match '/deletion_info' => 'users#deletion_info', :via => :get, :as => 'delete_my_account_info'
   end
 
-  namespace :timelines do
-    get 'authentication' => 'timelines_authentication#index'
+  get 'authentication' => 'authentication#index'
 
-    resources :colors, :controller => 'timelines_colors' do
-       member do
-         get :confirm_destroy
-         get :move
-         post :move
-       end
+  resources :colors, :controller => 'planning_element_type_colors' do
+     member do
+       get :confirm_destroy
+       get :move
+       post :move
+     end
+  end
+
+  resources :planning_element_statuses, :controller => 'planning_element_statuses'
+
+  resources :planning_element_types, :controller => 'planning_element_types' do
+    collection do
+      get :paginate_planning_element_types
+    end
+    member do
+      get :confirm_destroy
+      get :move
+      post :move
+    end
+  end
+
+  get 'planning_elements' => 'planning_elements', :action => 'list'
+
+  resources :project_types, :controller => 'project_types' do
+    member do
+      get :confirm_destroy
+      get :move
+      post :move
     end
 
-    resources :planning_element_statuses, :controller => 'timelines_planning_element_statuses'
-    resources :planning_element_types, :controller => 'timelines_planning_element_types' do
-      collection do
-        get :paginate_timelines_planning_element_types
-      end
+    resources :projects, :only => [:index, :show], :controller => 'projects'
+    resources :reported_project_statuses,          :controller => 'reported_project_statuses'
+  end
 
+  resources :projects, :only => [:index, :show], :controller => 'projects' do
+    resources :planning_element_types, :controller => 'planning_element_types' do
       member do
         get :confirm_destroy
         get :move
@@ -372,77 +432,51 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    get 'planning_elements' => 'timelines_planning_elements', :action => 'list'
-
-    resources :project_types, :controller => 'timelines_project_types' do
+    resources :planning_elements,      :controller => 'planning_elements' do
       collection do
-        get :paginate_timelines_project_types
+        get :all
+        delete :destroy_all
+        get :confirm_destroy_all
+        post :restore_all
+        get :confirm_restore_all
+        get :recycle_bin
       end
 
       member do
+        get :confirm_move_to_trash
         get :confirm_destroy
-        get :move
-        post :move
+        delete :move_to_trash
+        post :restore
       end
 
-      resources :projects, :only => [:index, :show], :controller => 'timelines_projects'
-      resources :reported_project_statuses,          :controller => 'timelines_reported_project_statuses'
+      resources :journals, :controller => 'planning_element_journals',
+                                           :only       => [:index, :create]
+    end
+    resources :project_associations,   :controller => 'project_associations' do
+      get :confirm_destroy, :on => :member
+      get :available_projects, :on => :collection
     end
 
-    resources :projects, :only => [:index, :show], :controller => 'timelines_projects' do
-      resources :planning_element_types, :controller => 'timelines_planning_element_types' do
-        get :confirm_destroy
-        get :move
-        post :move
-      end
-
-      resources :planning_elements,      :controller => 'timelines_planning_elements' do
-        collection do
-          get :all
-          delete :destroy_all
-          get :confirm_destroy_all
-          post :restore_all
-          get :confirm_restore_all
-          get :recycle_bin
-        end
-
-        member do
-          get :confirm_move_to_trash
-          get :confirm_destroy
-          delete :move_to_trash
-          post :restore
-        end
-
-        resources :journals, :controller => 'timelines_planning_element_journals',
-                                             :only       => [:index, :create]
-      end
-      resources :project_associations,   :controller => 'timelines_project_associations' do
-        get :confirm_destroy, :on => :member
-        get :available_projects, :on => :collection
-      end
-
-      resources :reportings,             :controller => 'timelines_reportings' do
-        get :confirm_destroy, :on => :member
-        get :available_projects, :on => :collection
-      end
-
-      resources :scenarios,              :controller => 'timelines_scenarios' do
-        get :confirm_destroy, :on => :member
-      end
-
-      resources :timelines,              :controller => 'timelines_timelines'
+    resources :reportings,             :controller => 'reportings' do
+      get :confirm_destroy, :on => :member
     end
+
+    resources :scenarios,              :controller => 'scenarios' do
+      get :confirm_destroy, :on => :member
+    end
+
+    resources :timelines,              :controller => 'timelines'
 
     resources :principals, :controller => 'timelines_principals' do
       collection do
         get :paginate_principals
       end
     end
+  end
 
-    resources :reported_project_statuses, :controller => 'timelines_reported_project_statuses' do
-      collection do
-        get :paginate_timelines_reported_project_statuses
-      end
+  resources :reported_project_statuses, :controller => 'reported_project_statuses' do
+    collection do
+      get :paginate_reported_project_statuses
     end
   end
 

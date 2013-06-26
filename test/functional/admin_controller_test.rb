@@ -60,12 +60,12 @@ class AdminControllerTest < ActionController::TestCase
   end
 
   def test_load_default_configuration_data
-    Setting.available_languages = [:fr]
+    Setting.available_languages = [:de]
     delete_configuration_data
-    post :default_configuration, :lang => 'fr'
+    post :default_configuration, :lang => 'de'
     assert_response :redirect
     assert_nil flash[:error]
-    assert IssueStatus.find_by_name('Nouveau')
+    assert IssueStatus.find_by_name('Neu')
   end
 
   def test_test_email

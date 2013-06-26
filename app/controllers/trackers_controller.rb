@@ -11,12 +11,17 @@
 #++
 
 class TrackersController < ApplicationController
+  include PaginationHelper
+
   layout 'admin'
 
   before_filter :require_admin
 
   def index
-    @tracker_pages, @trackers = paginate :trackers, :per_page => 10, :order => 'position'
+    @trackers = Tracker.order('position')
+                       .page(params[:page])
+                       .per_page(per_page_param)
+
     render :action => "index", :layout => false if request.xhr?
   end
 

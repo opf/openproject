@@ -28,9 +28,8 @@ class ProjectEnumerationsController < ApplicationController
   end
 
   def destroy
-    @project.time_entry_activities.each do |time_entry_activity|
-      time_entry_activity.destroy(time_entry_activity.parent)
-    end
+    TimeEntryActivity.bulk_destroy(@project.time_entry_activities)
+
     flash[:notice] = l(:notice_successful_update)
     redirect_to :controller => '/projects', :action => 'settings', :tab => 'activities', :id => @project
   end

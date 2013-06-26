@@ -331,7 +331,9 @@ class ProjectTest < ActiveSupport::TestCase
   def test_children
     c = Project.find(1).children
     assert c.first.is_a?(Project)
-    assert_equal [3, 4, 5], c.collect(&:id)
+    # ignore ordering, since it depends on database collation configuration
+    # and may order lowercase/uppercase chars in a different order
+    assert_equal [3, 4, 5], c.collect(&:id).sort!
   end
 
   def test_descendants

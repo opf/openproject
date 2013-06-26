@@ -80,7 +80,7 @@ module OpenProject
           EOF
 
           macro :timeline do |obj, args, options|
-            Timelines::WikiMacro.new.apply obj, args, options.merge(:view => self)
+            OpenProject::WikiFormatting::Macros::TimelinesWikiMacro.new.apply obj, args, options.merge(:view => self)
           end
         end
       end

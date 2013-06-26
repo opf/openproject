@@ -327,16 +327,16 @@ class UserMailerTest < ActionMailer::TestCase
       issue = FactoryGirl.create(:issue)
       user  = FactoryGirl.create(:user, :mail => 'foo@bar.de', :language => '') # (auto)
       ActionMailer::Base.deliveries.clear
-      with_settings :available_languages => ['en', 'de', 'fr'],
+      with_settings :available_languages => ['en', 'de'],
                     :default_language => 'de' do
-        I18n.locale = 'fr'
+        I18n.locale = 'de'
         assert UserMailer.issue_added(user, issue).deliver
         assert_equal 1, ActionMailer::Base.deliveries.size
         mail = last_email
         assert_equal ['foo@bar.de'], mail.to
         assert !mail.body.encoded.include?('reported')
         assert mail.body.encoded.include?('erstellt')
-        assert_equal :fr, I18n.locale
+        assert_equal :de, I18n.locale
       end
     end
   end
@@ -466,16 +466,16 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_mailer_should_not_change_locale
-    with_settings :available_languages => ['en', 'it', 'fr'],
+    with_settings :available_languages => ['en', 'de'],
                   :default_language    => 'en' do
-      # Set current language to italian
-      I18n.locale = :it
-      # Send an email to a french user
-      user = FactoryGirl.create(:user, :language => 'fr')
+      # Set current language to english
+      I18n.locale = :en
+      # Send an email to a german user
+      user = FactoryGirl.create(:user, :language => 'de')
       UserMailer.account_activated(user).deliver
       mail = ActionMailer::Base.deliveries.last
-      assert mail.body.encoded.include?('Votre compte')
-      assert_equal :it, I18n.locale
+      assert mail.body.encoded.include?('aktiviert')
+      assert_equal :en, I18n.locale
     end
   end
 
