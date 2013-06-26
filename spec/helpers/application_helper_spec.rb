@@ -32,4 +32,42 @@ describe ApplicationHelper do
       format_activity_description(text).include?("lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;").should be_true
     end
   end
+
+  describe "footer_content" do
+    context "no additional footer content" do
+      before do
+        OpenProject::Footer.content = nil
+      end
+
+      it { footer_content.should == I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) }
+    end
+
+    context "string as additional footer content" do
+      before do
+        OpenProject::Footer.content = nil
+        OpenProject::Footer.add_content("openproject","footer")
+      end
+
+      it { footer_content.include?(I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url))).should be_true  }
+      it { footer_content.include?("<span class=\"footer_openproject\">footer</span>").should be_true  }
+    end
+
+    context "proc as additional footer content" do
+      before do
+        OpenProject::Footer.content = nil
+        OpenProject::Footer.add_content("openproject",Proc.new{Date.parse(Time.now.to_s)})
+      end
+
+      it { footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>").should be_true  }
+    end
+
+    context "proc which returns nothing" do
+      before do
+        OpenProject::Footer.content = nil
+        OpenProject::Footer.add_content("openproject",Proc.new{"footer" if false})
+      end
+
+      it { footer_content.include?("<span class=\"footer_openproject\">").should be_false }
+    end
+  end
 end
