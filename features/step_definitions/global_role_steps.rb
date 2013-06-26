@@ -1,5 +1,3 @@
-require 'redmine_factory_girl'
-
 Given /^there is the global permission "(.+)?" of the module "(.+)?"$/ do |perm_name, perm_module|
   Redmine::AccessControl.map do |map|
     map.project_module perm_module.to_sym do |mod|
@@ -16,7 +14,7 @@ Given /^the global permission "(.+)?" of the module "(.+)?" is defined$/ do |per
 end
 
 Given /^there is a global [rR]ole "([^\"]*)"$/ do |name|
-  Factory.create(:global_role, :name => name) unless GlobalRole.find_by_name(name)
+  FactoryGirl.create(:global_role, :name => name) unless GlobalRole.find_by_name(name)
 end
 
 Given /^the global [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |role, table|
@@ -45,7 +43,7 @@ Given /^the [Uu]ser (.+) (?:is a|has the global role) (.+)$/ do |user, role|
   role = GlobalRole.find_by_name(role.gsub("\"", ""))
 
   as_admin do
-    Factory.create(:principal_role, :principal => user, :role => role)
+    FactoryGirl.create(:principal_role, :principal => user, :role => role)
   end
 end
 

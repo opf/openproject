@@ -1,7 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
-require 'redmine/access_control'
-
 describe Redmine::AccessControl::Permission do
   describe "WHEN setting global permission" do
     describe "creating with", :new do
@@ -29,5 +27,4 @@ describe Redmine::AccessControl::Permission do
       end
     end
   end
-
 end
