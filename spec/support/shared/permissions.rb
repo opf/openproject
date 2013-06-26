@@ -28,6 +28,8 @@ module PermissionSpecHelpers
           else
             response.should redirect_to(expect_redirect_to)
           end
+        elsif respond_to? :expect_no_content
+          response.response_code.should == 204
         else
           response.response_code.should == 200
         end

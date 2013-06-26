@@ -49,6 +49,14 @@ if (typeof []._reverse == 'undefined') {
     jQuery.fn.reverse = Array.prototype._reverse;
 }
 
+jQuery(document).ajaxError(function(event, request, settings) {
+  if (request.status === 401 && /Reason: login needed/.match(request.getAllResponseHeaders())) {
+    if (confirm(I18n.t("js.logoff") + "\r\n" + I18n.t("js.redirect_login"))) {
+      location.href = openProject.loginUrl + "?back_url=" + encodeURIComponent(location.href);
+    }
+  }
+});
+
 
 function checkAll (id, checked) {
 	var els = Element.descendants(id);
@@ -462,6 +470,7 @@ var WarnLeavingUnsaved = Class.create({
 document.observe("dom:loaded", function() {
   Ajax.Responders.register({
     onCreate: function(request){
+      debugger;
       var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
 
       if (csrf_meta_tag) {
@@ -547,8 +556,39 @@ jQuery.viewportHeight = function() {
         document.body.clientHeight;
 };
 
-/* TODO: integrate with existing code and/or refactor */
++
++  /*
++  * 1 - registers a callback which copies the csrf token into the
++  * X-CSRF-Token header with each ajax request.  Necessary to
++  * work with rails applications which have fixed
++  * CVE-2011-0447
++  * 2 - shows and hides ajax indicator
++  */
 jQuery(document).ready(function($) {
+  document.ajaxActive = false;
+  $(document).ajaxSend(function (event, request) {
+    document.ajaxActive = true;
+    var csrf_meta_tag = $('meta[name=csrf-token]');
+
+    if (csrf_meta_tag) {
+      var header = 'X-CSRF-Token',
+      token = csrf_meta_tag.attr('content');
+
+      request.setRequestHeader[header] = token;
+    }
+
+    if ($('#ajax-indicator')) {
+      $('#ajax-indicator').show();
+    }
+  });
+  // ajaxStop gets called when ALL Requests finish, so we won't need a counter as in PT
+  $(document).ajaxStop(function () {
+    document.ajaxActive = false;
+    if ($('#ajax-indicator')) {
+      $('#ajax-indicator').hide();
+    }
+    addClickEventToAllErrorMessages();
+  });
 
     var propagateOpenClose = function () {
       if ($(this).is(":visible")) {

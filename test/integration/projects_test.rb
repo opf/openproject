@@ -16,7 +16,7 @@ class ProjectsTest < ActionDispatch::IntegrationTest
 
   def test_archive_project
     subproject = Project.find(1).children.first
-    log_user("admin", "admin")
+    log_user("admin", "adminADMIN!")
     get "admin/projects"
     assert_response :success
     assert_template "admin/projects"

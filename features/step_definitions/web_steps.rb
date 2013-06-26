@@ -273,24 +273,27 @@ end
 
 When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: to finish)?)?$/ do |timeout|
   ajax_done = lambda do
-    page.evaluate_script(%Q{
-      (function (){
-        var done = true;
+    is_done = false
+    while (!is_done) do
+      is_done = page.evaluate_script(%Q{
+        (function (){
+          var done = true;
 
-        if (window.jQuery) {
-          if (!window.jQuery.isReady || window.jQuery.active != 0) {
-            done = false;
+          if (window.jQuery) {
+            if (document.ajaxActive) {
+              done = false;
+            }
           }
-        }
-        if (window.Prototype && window.Ajax) {
-          if (window.Ajax.activeRequestCount != 0) {
-            done = false;
+          if (window.Prototype && window.Ajax) {
+            if (window.Ajax.activeRequestCount != 0) {
+              done = false;
+            }
           }
-        }
 
-        return done;
-      }())
-    }.gsub("\n", ''))
+          return done;
+        }())
+      }.gsub("\n", ''))
+    end
   end
 
   timeout = timeout.present? ?
@@ -359,6 +362,10 @@ Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following op
   end
 end
 
+Then /^there should be the disabled "(.+)" element$/ do |element|
+  page.find(element)[:disabled].should == "true"
+end
+
 # This needs an active js driver to work properly
 Given /^I (accept|dismiss) the alert dialog$/ do |method|
   if Capybara.current_driver.to_s.include?("selenium")
@@ -412,4 +419,12 @@ See http://www.elabs.se/blog/53-why-wait_until-was-removed-from-capybara
 "
     end
   Timeout.timeout(seconds, &block)
+end
+
+When /^I confirm popups$/ do
+  page.driver.browser.switch_to.alert.accept    
+end
+
+Then(/^I should see a confirm dialog$/) do
+  page.should have_selector("#confirm_dialog")
 end

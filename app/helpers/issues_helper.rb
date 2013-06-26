@@ -288,4 +288,12 @@ module IssuesHelper
       ActiveSupport::Inflector.transliterate(el[0]).downcase
     end
   end
+
+  def value_overridden_by_children?(attrib)
+    Issue::ATTRIBS_WITH_VALUES_FROM_CHILDREN.include? attrib
+  end
+
+  def attrib_disabled?(issue, attrib)
+    value_overridden_by_children?(attrib) && !(issue.new_record? || issue.leaf?)
+  end
 end

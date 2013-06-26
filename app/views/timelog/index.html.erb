@@ -31,7 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% unless @entries.empty? %>
 <%= render :partial => 'list', :locals => { :entries => @entries }%>
-<p class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></p>
+
+<%= pagination_links_full @entries %>
 
 <%= other_formats_links do |f| %>
 	<%= f.link_to 'Atom', :url => params.merge({:issue_id => @issue, :key => User.current.rss_key}) %>

@@ -44,13 +44,13 @@ Timeline = {
     columns:                        [],
     exclude_own_planning_elements:  false,
     exclude_reporters:              false,
-    global_prefix:                  '/timelines/',
+    api_prefix:                     '/api/v2',
     hide_other_group:               false,
     hide_tree_root:                 false,
     i18n:                           {},  // undefined would be bad.
     initial_outline_expansion:      0,   // aggregations only
-    project_prefix:                 '/timelines/projects/',
-    planning_element_prefix:        '/timelines',
+    project_prefix:                 '/projects',
+    planning_element_prefix:        '',
     ui_root:                        jQuery('#timeline'),
     url_prefix:                     ''   // empty prefix so it is not undefined.
   },
@@ -267,8 +267,8 @@ Timeline = {
       this.modalHelper = new ModalHelper(
         this,
         {
+          api_prefix                : this.options.api_prefix,
           url_prefix                : this.options.url_prefix,
-          global_prefix             : this.options.global_prefix,
           project_prefix            : this.options.project_prefix
         }
       );
@@ -277,8 +277,8 @@ Timeline = {
       timelineLoader = new Timeline.TimelineLoader(
         this,
         {
+          api_prefix                : this.options.api_prefix,
           url_prefix                : this.options.url_prefix,
-          global_prefix             : this.options.global_prefix,
           project_prefix            : this.options.project_prefix,
           planning_element_prefix   : this.options.planning_element_prefix,
           project_id                : this.options.project_id,
@@ -320,8 +320,8 @@ Timeline = {
     var timelineLoader = new Timeline.TimelineLoader(
         this,
         {
+          api_prefix                : this.options.api_prefix,
           url_prefix                : this.options.url_prefix,
-          global_prefix             : this.options.global_prefix,
           project_prefix            : this.options.project_prefix,
           planning_element_prefix   : this.options.planning_element_prefix,
           project_id                : this.options.project_id,
@@ -880,7 +880,6 @@ Timeline = {
      *  The following list describes the required options
      *
      *    url_prefix     : timeline.options.url_prefix,
-     *    global_prefix  : timeline.options.global_prefix,
      *    project_prefix : timeline.options.project_prefix,
      *    project_id     : timeline.options.project_id,
      *
@@ -903,7 +902,7 @@ Timeline = {
       this.loader       = new QueueingLoader(options.ajax_defaults);
       this.dataEnhancer = new DataEnhancer(timeline);
 
-      this.globalPrefix = options.url_prefix + options.global_prefix,
+      this.globalPrefix = options.url_prefix + options.api_prefix;
 
       jQuery(this.loader).on('success', jQuery.proxy(this, 'onLoadSuccess'))
                          .on('error',   jQuery.proxy(this, 'onLoadError'))
@@ -942,7 +941,9 @@ Timeline = {
 
     TimelineLoader.prototype.registerProjectReportings = function () {
       var projectPrefix = this.options.url_prefix +
+                          this.options.api_prefix +
                           this.options.project_prefix +
+                          "/" +
                           this.options.project_id;
 
       var url = projectPrefix + '/reportings.json?only=via_target';
@@ -971,22 +972,21 @@ Timeline = {
         url += '&grouping_two=' + this.options.grouping_two.join();
       }
 
-      this.loader.register(
-          Timeline.Reporting.identifier,
-          { url : url });
+      this.loader.register(Timeline.Reporting.identifier,
+                           { url : url });
     },
 
     TimelineLoader.prototype.registerGlobalElements = function () {
 
       this.loader.register(
           Timeline.PlanningElementType.identifier,
-          { url : this.globalPrefix + 'planning_element_types.json' });
+          { url : this.globalPrefix + '/planning_element_types.json' });
       this.loader.register(
           Timeline.Color.identifier,
-          { url : this.globalPrefix + 'colors.json' });
+          { url : this.globalPrefix + '/colors.json' });
       this.loader.register(
           Timeline.ProjectType.identifier,
-          { url : this.globalPrefix + 'project_types.json' });
+          { url : this.globalPrefix + '/project_types.json' });
     };
 
     TimelineLoader.prototype.registerProjects = function (ids) {
@@ -996,7 +996,7 @@ Timeline = {
         this.loader.register(
             Timeline.Project.identifier + '_' + i,
             { url : this.globalPrefix +
-                    'projects.json?ids=' +
+                    '/projects.json?ids=' +
                     project_ids_of_packet.join(',')},
             { storeIn : Timeline.Project.identifier }
           );
@@ -1007,7 +1007,9 @@ Timeline = {
 
       this.inChunks(ids, function (projectIdsOfPacket, i) {
         var projectPrefix = this.options.url_prefix +
+                            this.options.api_prefix +
                             this.options.project_prefix +
+                            "/" +
                             projectIdsOfPacket.join(',');
 
         // load current planning elements.
@@ -1848,6 +1850,7 @@ Timeline = {
       var url = options.url_prefix;
 
       url += options.project_prefix;
+      url += "/"
       url += this.identifier;
       url += "/timelines";
 
@@ -2230,6 +2233,7 @@ Timeline = {
       var url = options.url_prefix;
 
       url += options.project_prefix;
+      url += "/";
       url += this.getProject().identifier;
       url += "/planning_elements/";
       url += this.id;

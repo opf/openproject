@@ -25,7 +25,7 @@ module ProjectsHelper
             {:name => 'repository', :action => :manage_repository, :partial => 'projects/settings/repository', :label => :label_repository},
             {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural},
             {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities},
-            {:name => 'timelines', :action => :manage_timelines_project_configuration, :partial => 'projects/settings/timelines', :label => :'timelines.timelines_settings'}
+            {:name => 'timelines', :action => :manage_project_configuration, :partial => 'projects/settings/timelines', :label => :'timelines.settings'}
             ]
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end

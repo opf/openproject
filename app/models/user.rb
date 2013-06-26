@@ -104,7 +104,7 @@ class User < Principal
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
 
-  validate :password_not_too_short
+  validate :password_meets_requirements
 
   before_save :encrypt_password
   before_create :sanitize_mail_notification_setting
@@ -293,11 +293,9 @@ class User < Principal
   end
 
   # Generate and set a random password.
-  def random_password
-    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-    password = chars.shuffle[0,40].join
-    self.password = password
-    self.password_confirmation = password
+  def random_password!
+    self.password = OpenProject::Passwords::Generator.random_password
+    self.password_confirmation = self.password
     self
   end
 
@@ -624,7 +622,7 @@ class User < Principal
         u.admin = false
         u.status = User::STATUS_LOCKED
         u.first_login = false
-        u.random_password
+        u.random_password!
       end).save
       raise 'Unable to create the automatic migration user.' if system_user.new_record?
     end
@@ -655,12 +653,15 @@ class User < Principal
 
   protected
 
-  # Password length validation based on setting
-  def password_not_too_short
-    minimum_length = Setting.password_min_length.to_i
-    if !password.nil? && password.size < minimum_length
-      errors.add(:password, :too_short, :count => minimum_length)
-    end
+  # Password requirement validation based on settings
+  def password_meets_requirements
+      # Passwords are stored hashed in self.hashed_password,
+      # self.password is only set when it was changed after the last
+      # save. Otherwise, password is nil.
+      unless self.password.nil? or anonymous?
+          password_errors = OpenProject::Passwords::Evaluator.errors_for_password(self.password)
+          password_errors.each { |error| errors.add(:password, error)}
+      end
   end
 
   private

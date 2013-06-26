@@ -1,0 +1,106 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset id="filter_comparison" class="header_collapsible collapsible collapsed">
+  <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.comparisons') %></a>
+  </legend>
+
+  <div style="display:none;">
+    <div>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_comparison_none',
+                      l('timelines.filter.comparison.none') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'none',
+                         :checked => (timeline.comparison == 'none')) %>
+
+      </p>
+      <p class="tl-form-overflow">
+
+        <%= label_tag 'timeline_options_comparison_relative',
+                      l('timelines.filter.comparison.relative') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'relative',
+                         :checked => (timeline.comparison == 'relative')) %>
+
+        <%  relative_text = text_field_tag "timeline[options][compare_to_relative]",
+                                           timeline.options["compare_to_relative"],
+                                           :size => 3
+
+            relative_select = select("timeline[options]",
+                                     :compare_to_relative_unit,
+                                     [ [l('timelines.filter.time_relative.days'), 0],
+                                       [l('timelines.filter.time_relative.weeks'), '1'],
+                                       [l('timelines.filter.time_relative.months'), '2']
+                                     ],
+                                     { :selected => timeline.options['compare_to_relative_unit'] },
+                                     { :multiple => false, :size => 1})
+        %>
+
+        <%= l('timelines.filter.comparison.compare_relative',
+              :timespan => relative_text + relative_select).html_safe %>
+
+      </p>
+      <p class="tl-form-overflow">
+
+        <%= label_tag 'timeline_options_comparison_absolute',
+                      l('timelines.filter.comparison.absolute') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'absolute',
+                         :checked => (timeline.comparison == 'absolute')) %>
+
+        <%  absolute_text = text_field_tag("timeline[options][compare_to_absolute]",
+                                           timeline.options["compare_to_absolute"],
+                                           :size => 10)
+            absolute_calendar = calendar_for('timeline_options_compare_to_absolute') %>
+
+        <%= l('timelines.filter.comparison.compare_absolute',
+              :date => absolute_text + absolute_calendar).html_safe %>
+
+      </p>
+      <p class="tl-form-overflow">
+
+        <%= label_tag 'timeline_options_comparison_historical',
+                      l('timelines.filter.comparison.historical') %>
+
+        <%= radio_button("timeline[options]",
+                         :comparison,
+                         'historical',
+                         :checked => (timeline.comparison == 'historical')) %>
+
+        <% historical_text1 = text_field_tag "timeline[options][compare_to_historical_one]",
+                                             timeline.options["compare_to_historical_one"],
+                                             :size => 10
+           historical_calendar1 = calendar_for('timeline_options_compare_to_historical_one')
+
+           historical_text2 = text_field_tag "timeline[options][compare_to_historical_two]",
+                                             timeline.options["compare_to_historical_two"],
+                                             :size => 10
+           historical_calendar2 = calendar_for('timeline_options_compare_to_historical_two')
+        %>
+
+        <%= l('timelines.filter.comparison.compare_historical',
+              :startdate => historical_text1 + historical_calendar1 ,
+              :enddate => historical_text2 + historical_calendar2).html_safe %>
+
+      </p>
+    </div>
+  </div>
+</fieldset>

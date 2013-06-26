@@ -26,6 +26,21 @@ Before do |scenario|
   end
 end
 
+Given /^I am logged in$/ do
+  @user = FactoryGirl.create :user
+  page.set_rack_session(:user_id => @user.id)
+end
+
+When(/^I log out in the background$/) do
+  page.execute_script("jQuery.ajax('/logout', {
+    success: function () {
+      jQuery(document.body).addClass('logout-ajax')
+    }
+  })")
+
+  page.should have_selector("body.logout-ajax")
+end
+
 Given /^(?:|I )am not logged in$/ do
   User.current = AnonymousUser.first
 end
@@ -33,7 +48,7 @@ end
 Given /^(?:|I )am [aA]dmin$/ do
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
-  login('admin', 'admin')
+  login('admin', 'adminADMIN!')
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
@@ -45,7 +60,7 @@ end
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
-  login(username, 'admin')
+  login(username, 'adminADMIN!')
 end
 
 Given /^there is 1 [pP]roject with(?: the following)?:$/ do |table|
@@ -386,7 +401,7 @@ end
 
 When /^(?:|I )login as (.+)(?: with password (.+))?$/ do |username, password|
   username = username.gsub("\"", "")
-  password = password.nil? ? "admin" : password.gsub("\"", "")
+  password = password.nil? ? "adminADMIN!" : password.gsub("\"", "")
   login(username, password)
 end
 

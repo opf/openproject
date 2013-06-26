@@ -26,14 +26,14 @@ class ApiTest::HttpBasicLoginWithApiTokenTest < ActionDispatch::IntegrationTest
   end
 
   # Using the NewsController because it's a simple API.
-  context "get /news" do
+  context "get /api/v1/news" do
 
     context "in :xml format" do
-      should_allow_http_basic_auth_with_key(:get, "/news.xml")
+      should_allow_http_basic_auth_with_key(:get, "/api/v1/news.xml")
     end
 
     context "in :json format" do
-      should_allow_http_basic_auth_with_key(:get, "/news.json")
+      should_allow_http_basic_auth_with_key(:get, "/api/v1/news.json")
     end
   end
 end
