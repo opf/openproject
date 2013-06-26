@@ -159,8 +159,8 @@ private
 end
 
 # Force load the subclasses in development mode
-require_dependency 'time_entry_activity'
-require_dependency 'document_category'
-require_dependency 'issue_priority'
-require_dependency 'timelines/reported_project_status'
-require_dependency 'timelines/planning_element_status'
+['time_entry_activity', 'document_category', 'issue_priority',
+ 'reported_project_status', 'planning_element_status'].each do |enum_subclass|
+
+  require_dependency enum_subclass
+end
