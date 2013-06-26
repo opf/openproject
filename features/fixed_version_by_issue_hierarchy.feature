@@ -20,8 +20,8 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
         | update_tasks            |
         | view_wiki_pages         |
         | edit_wiki_pages         |
-        | view_issues             |
-        | edit_issues             |
+        | view_work_packages      |
+        | edit_work_packages      |
         | manage_subtasks         |
         | create_tasks            |
         | add_issues              |

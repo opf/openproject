@@ -20,8 +20,8 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
         | update_tasks            |
         | view_wiki_pages         |
         | edit_wiki_pages         |
-        | view_issues             |
-        | edit_issues             |
+        | view_work_packages      |
+        | edit_work_packages      |
         | manage_subtasks         |
         | create_tasks            |
         | add_issues              |

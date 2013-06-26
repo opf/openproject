@@ -17,8 +17,8 @@ Feature: Edit issue via modal box
         | update_tasks            |
         | view_wiki_pages         |
         | edit_wiki_pages         |
-        | view_issues             |
-        | edit_issues             |
+        | view_work_packages      |
+        | edit_work_packages      |
         | manage_subtasks         |
     And the backlogs module is initialized
     And the following trackers are configured to track stories:

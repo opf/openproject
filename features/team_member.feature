@@ -28,8 +28,8 @@ Feature: Team Member
         | view_taskboards     |
         | create_tasks        |
         | update_tasks        |
-        | view_issues         |
-        | edit_issues         |
+        | view_work_packages  |
+        | edit_work_packages  |
         | manage_subtasks     |
     And the user "paul" is a "team member"
     And the project has the following sprints:

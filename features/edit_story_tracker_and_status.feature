@@ -27,8 +27,8 @@ Feature: Edit story tracker and status
         | view_master_backlog   |
         | create_stories        |
         | update_stories        |
-        | view_issues           |
-        | edit_issues           |
+        | view_work_packages    |
+        | edit_work_packages    |
         | manage_subtasks       |
     And the project has the following sprints:
         | name       | start_date | effective_date |
