@@ -37,7 +37,8 @@ class CreateDeliverables < ActiveRecord::Migration
     create_table :cost_entries do |t|
       t.column :user_id,                  :integer, :null => false
       t.column :project_id,               :integer, :null => false
-      t.column :issue_id,                 :integer, :null => false
+      t.column :issue_id,               :integer, :null => false
+
       t.column :cost_type_id,             :integer, :null => false
       t.column :units,                    :float,   :null => false
       t.column :cost,                     :decimal, :precission => 15, :scale => 2, :null => false

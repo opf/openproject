@@ -1,4 +1,10 @@
 class RefactorTerms < ActiveRecord::Migration
+
+  def initialize
+    super
+    @issues_table_exists = ActiveRecord::Base.connection.tables.include? 'issues'
+  end
+
   def self.up
     rename_table :deliverable_costs, :material_budget_items
     rename_column :material_budget_items, :deliverable_id, :cost_object_id
@@ -12,7 +18,9 @@ class RefactorTerms < ActiveRecord::Migration
     execute("UPDATE cost_objects SET type = 'VariableCostObject' WHERE cost_objects.type = 'CostBasedDeliverable'")
     execute("UPDATE cost_objects SET type = 'FixedCostObject' WHERE cost_objects.type = 'FixedDeliverable'")
     
-    rename_column :issues, :deliverable_id, :cost_object_id
+    if @issues_table_exists
+      rename_column :issues, :deliverable_id, :cost_object_id
+    end
     
     Role.find(:all).each do |role|
       rename_permission(role, :view_deliverables, :view_cost_objects)
