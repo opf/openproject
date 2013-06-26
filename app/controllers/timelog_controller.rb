@@ -48,13 +48,13 @@ class TimelogController < ApplicationController
       format.html {
         # Paginate results
         @entry_count = TimeEntry.visible.count(:include => [:project, :work_package], :conditions => cond.conditions)
-        @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-        @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:work_package => :tracker}],
-                                  :conditions => cond.conditions,
-                                  :order => sort_clause,
-                                  :limit  =>  @entry_pages.items_per_page,
-                                  :offset =>  @entry_pages.current.offset)
+
+        @entries = TimeEntry.visible.includes(:project, :activity, :user, {:work_package => :tracker})
+                                    .where(cond.conditions)
+                                    .order(sort_clause)
+                                    .page(params[:page])
+                                    .per_page(per_page_param)
+
         @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :work_package], :conditions => cond.conditions).to_f
 
         render :layout => !request.xhr?
