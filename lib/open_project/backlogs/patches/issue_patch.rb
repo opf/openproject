@@ -1,3 +1,4 @@
+require_dependency 'work_package'
 require_dependency 'issue'
 
 module OpenProject::Backlogs::Patches::IssuePatch
