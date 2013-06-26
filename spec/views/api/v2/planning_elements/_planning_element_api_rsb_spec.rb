@@ -303,7 +303,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
   end
 
   describe "a destroyed planning element" do
-    let(:planning_element) { FactoryGirl.build(:planning_element) }
+    let(:planning_element) { FactoryGirl.create(:planning_element) }
     before do
       planning_element.destroy!
     end
