@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
-describe GlobalRoles::PrincipalAllowanceEvaluator::Global do
+describe OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global do
 
-  let(:klass) { GlobalRoles::PrincipalAllowanceEvaluator::Global }
+  let(:klass) { OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global }
   let(:user) { FactoryGirl.build(:user) }
   let(:filter) { klass.new user }
   let(:member) { FactoryGirl.build(:member) }
