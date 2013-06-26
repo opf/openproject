@@ -28,3 +28,12 @@ dt.meeting-minutes {
 div#activity dl.meetings dt span {
   padding-left: 15px;
 }
+
+div.flash.notice a.link_to_profile {
+  cursor:pointer;
+  color: #008BD0;
+}
+
+div.flash.notice a.link_to_profile:hover {
+  text-decoration: underline;
+}

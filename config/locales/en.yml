@@ -39,3 +39,5 @@ en:
       meeting:
         location: "Location"
         duration: "Duration"
+
+  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.

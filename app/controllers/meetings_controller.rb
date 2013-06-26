@@ -47,7 +47,13 @@ class MeetingsController < ApplicationController
       @meeting.agenda.author = User.current
     end
     if @meeting.save
-      flash[:notice] = l(:notice_successful_create)
+      text = l(:notice_successful_create)
+      if User.current.time_zone.nil?
+        link = l(:notice_timezone_missing, :zone => Time.now.zone)
+        text += " #{view_context.link_to(link, {:controller => :my, :action => :account},:class => "link_to_profile")}"
+      end
+      flash[:notice] = text.html_safe
+
       redirect_to :action => 'show', :id => @meeting
     else
       render :action => 'new', :project_id => @project
@@ -101,9 +107,19 @@ class MeetingsController < ApplicationController
   end
 
   def convert_params
-    start_date, start_time_4i, start_time_5i = params[:meeting].delete(:start_date), params[:meeting].delete(:"start_time(4i)").to_i, params[:meeting].delete(:"start_time(5i)").to_i
+    start_date = params[:meeting].delete(:start_date)
+    start_time_4i = params[:meeting].delete(:"start_time(4i)")
+    start_time_5i = params[:meeting].delete(:"start_time(5i)")
     begin
-      params[:meeting][:start_time] = Date.parse(start_date) + start_time_4i.hours + start_time_5i.minutes
+      timestring = "#{start_date} #{start_time_4i}:#{start_time_5i}"
+      if(User.current.time_zone.nil?)
+        time = Time.parse(timestring) #using the system time zone
+      else
+        Time.use_zone(User.current.time_zone) do
+          time = Time.zone.parse(timestring) #using the user-set time zone
+        end
+      end
+      params[:meeting][:start_time] = time
     rescue ArgumentError
       params[:meeting][:start_time] = nil
     end

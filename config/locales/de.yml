@@ -39,3 +39,5 @@ de:
       meeting:
         location: "Ort/Raum"
         duration: "Dauer"
+
+  notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, clicken Sie bitte hier.
