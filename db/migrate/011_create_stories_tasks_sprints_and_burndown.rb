@@ -1,8 +1,10 @@
 class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
   def self.up
-    add_column :issues, :position, :integer
-    add_column :issues, :story_points, :integer
-    add_column :issues, :remaining_hours, :float
+    if ActiveRecord::Base.connection.table_exists? 'issues'
+      add_column :issues, :position, :integer
+      add_column :issues, :story_points, :integer
+      add_column :issues, :remaining_hours, :float
+    end
 
     add_column :versions, :sprint_start_date, :date, :null => true
 
@@ -20,9 +22,11 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :issues, :position
-    remove_column :issues, :story_points
-    remove_column :issues, :remaining_hours
+    if ActiveRecord::Base.connection.table_exists? 'issues'
+      remove_column :issues, :position
+      remove_column :issues, :story_points
+      remove_column :issues, :remaining_hours
+    end
 
     remove_column :versions, :sprint_start_date
 
