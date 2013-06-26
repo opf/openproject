@@ -111,7 +111,7 @@ class MeetingsController < ApplicationController
     start_time_4i = params[:meeting].delete(:"start_time(4i)")
     start_time_5i = params[:meeting].delete(:"start_time(5i)")
     begin
-      timestring = start_date + " " + start_time_4i + ":" + start_time_5i; # + " " + zone;
+      timestring = "#{start_date} #{start_time_4i}:#{start_time_5i}"
       if(User.current.time_zone.nil?)
         time = Time.parse(timestring) #using the system time zone
       else
