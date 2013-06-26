@@ -30,7 +30,7 @@ class Backlog
   end
 
   def updated_on
-    @stories.max_by(&:updated_on).try(:updated_on)
+    @stories.max_by(&:updated_at).try(:updated_at)
   end
 
   def owner_backlog?

@@ -145,7 +145,7 @@ module OpenProject::Backlogs::Burndown
       ((key == "story_points") && story_is_done?(story, date, details_by_prop, current_prop_index)) ||
       out_names.include?(key) ||
       collected_from_children?(key, story) ||
-      story.created_on.to_date > date
+      story.created_at.to_date > date
     end
 
     def not_in_project?(story, date, details_by_prop, current_prop_index)
