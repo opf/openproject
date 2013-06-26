@@ -114,7 +114,7 @@ Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should have the ID of 
 end
 
 Then /^all positions should be unique for each version$/ do
-  Story.find_by_sql("select project_id, fixed_version_id, position, count(*) as dups from issues where not position is NULL group by project_id, fixed_version_id, position having count(*) > 1").length.should == 0
+  Story.find_by_sql("select project_id, fixed_version_id, position, count(*) as dups from #{Issue.table_name} where not position is NULL group by project_id, fixed_version_id, position having count(*) > 1").length.should == 0
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, story_subject, task_subject|
