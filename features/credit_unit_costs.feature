@@ -5,9 +5,11 @@ Feature: Credit unit costs
     And the project "project1" has 1 issue with the following:
       | subject | issue1 |
     And the role "Manager" may have the following rights:
-      | view_issues |
-      | edit_issues |
-      | log_costs   |
+      | view_issues        |
+      | edit_issues        |
+      | view_work_packages |
+      | edit_work_packages |
+      | log_costs          |
     And there is 1 cost type with the following:
       | name        | cost_type_1 |
       | unit        | single_unit |

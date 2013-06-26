@@ -4,12 +4,13 @@ Feature: Permission View Own hourly and cost rates
   Scenario: Users that by set permission are only allowed to see their own rates, can not see the rates of others.
     Given there is a standard cost control project named "Standard Project"
     And the role "Supplier" may have the following rights:
-      | view_own_hourly_rate |
-      | view_issues |
+      | view_own_hourly_rate  |
+      | view_issues           |
+      | view_work_packages    |
       | view_own_time_entries |
       | view_own_cost_entries |
-      | view_cost_rates |
-      | log_costs |
+      | view_cost_rates       |
+      | log_costs             |
     And there is 1 User with:
       | Login 			  | testuser |
       | Firstname 		| Bob 		|
