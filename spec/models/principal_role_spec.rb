@@ -13,7 +13,7 @@ describe PrincipalRole do
 
   describe :valid? do
     before(:each) do
-      @principal_role = Factory.build(:principal_role)
+      @principal_role = FactoryGirl.build(:principal_role)
     end
 
     describe "role not assignable to user" do

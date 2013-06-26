@@ -12,11 +12,11 @@ describe Principal do
   end
 
   describe "WHEN deleting a principal" do
-    let(:principal) { Factory.build(:user) }
-    let(:role) { Factory.build(:global_role) }
+    let(:principal) { FactoryGirl.build(:user) }
+    let(:role) { FactoryGirl.build(:global_role) }
 
     before do
-      Factory.create(:principal_role, :role => role,
+      FactoryGirl.create(:principal_role, :role => role,
                                       :principal => principal)
 
       principal.destroy

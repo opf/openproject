@@ -1,4 +1,4 @@
-module GlobalRoles
+module OpenProject::GlobalRoles
   module PluginSpecHelper
     def mobile_tan_plugin_loaded?
       plugin_loaded?("redmine_mobile_otp_authentication")

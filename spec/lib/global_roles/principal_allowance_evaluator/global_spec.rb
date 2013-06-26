@@ -3,14 +3,14 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe GlobalRoles::PrincipalAllowanceEvaluator::Global do
 
   let(:klass) { GlobalRoles::PrincipalAllowanceEvaluator::Global }
-  let(:user) { Factory.build(:user) }
+  let(:user) { FactoryGirl.build(:user) }
   let(:filter) { klass.new user }
-  let(:member) { Factory.build(:member) }
-  let(:principal_role) { Factory.build(:principal_role,
+  let(:member) { FactoryGirl.build(:member) }
+  let(:principal_role) { FactoryGirl.build(:principal_role,
                                        :role => role) }
-  let(:principal_role2) { Factory.build(:principal_role) }
-  let(:role) { Factory.build(:global_role) }
-  let(:project) { Factory.build(:project) }
+  let(:principal_role2) { FactoryGirl.build(:principal_role) }
+  let(:role) { FactoryGirl.build(:global_role) }
+  let(:project) { FactoryGirl.build(:project) }
 
   describe :granted_for_project? do
     it { filter.granted_for_project?(member, :action, project).should be_false }

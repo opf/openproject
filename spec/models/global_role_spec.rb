@@ -152,8 +152,8 @@ describe GlobalRole do
 
     describe :assignable_to? do
       before(:each) do
-        @role = Factory.build(:global_role)
-        @user = Factory.build(:user)
+        @role = FactoryGirl.build(:global_role)
+        @user = FactoryGirl.build(:user)
       end
       it "always true global roles for now" do
         @role.assignable_to?(@user).should be_true
