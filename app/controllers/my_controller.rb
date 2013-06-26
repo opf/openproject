@@ -63,7 +63,7 @@ class MyController < ApplicationController
   # Manage user's password
   def password
     @user = User.current  # required by "my" layout
-    @username = params[:username]
+    @username = @user.login
     redirect_if_password_change_not_allowed_for(@user)
   end
 

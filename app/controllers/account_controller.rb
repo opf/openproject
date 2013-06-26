@@ -40,6 +40,7 @@ class AccountController < ApplicationController
       @user = @token.user
       if request.post?
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
+        @user.force_password_change = false
         if @user.save
           @token.destroy
           flash[:notice] = l(:notice_account_password_updated)
@@ -120,16 +121,12 @@ class AccountController < ApplicationController
     redirect_to :action => 'login'
   end
 
-  # Render and/or process a password change form, used when the user is forced
+  # Process a password change form, used when the user is forced
   # to change the password.
   # When making changes here, also check MyController.change_password
-  def force_password_change
-    @username = params[:username]
-    render 'my/password'
-  end
-
   def change_password
     @user = User.find_by_login(params[:username])
+    @username = @user.login
 
     # A JavaScript hides the force_password_change field for external
     # auth sources in the admin UI, so this shouldn't normally happen.
@@ -180,9 +177,7 @@ class AccountController < ApplicationController
           inactive_account
         elsif user.force_password_change
           return if redirect_if_password_change_not_allowed(user)
-          flash[:error] = l(:notice_account_new_password_forced)
-          redirect_to :action => 'force_password_change',
-                      :username => username
+          render_force_password_change
         else
           invalid_credentials
         end
@@ -295,6 +290,12 @@ class AccountController < ApplicationController
       return true
     end
     false
+  end
+
+  def render_force_password_change
+    flash[:error] = l(:notice_account_new_password_forced)
+    @username = params[:username]
+    render 'my/password'
   end
 
   # Register a user for email activation.
