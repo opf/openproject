@@ -357,7 +357,7 @@ Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the
     t = TimeEntry.generate
     t.project = i.project
     t.spent_on = DateTime.now
-    t.issue = i
+    t.work_package = i
     send_table_to_object(t, table,
       {:user => Proc.new do |o,v|
         o.user = User.find_by_login(v)
