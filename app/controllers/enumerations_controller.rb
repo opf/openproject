@@ -48,7 +48,7 @@ class EnumerationsController < ApplicationController
 
   def update
     @enumeration = Enumeration.find(params[:id])
-    @enumeration.type = params[:enumeration][:type] if params[:enumeration][:type]
+    @enumeration.type = params[:enumeration].delete(:type) if params[:enumeration][:type]
     if @enumeration.update_attributes(params[:enumeration])
       flash[:notice] = l(:notice_successful_update)
       redirect_to enumerations_path(:type => @enumeration.type)
