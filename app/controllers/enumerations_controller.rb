@@ -29,11 +29,14 @@ class EnumerationsController < ApplicationController
   end
 
   def create
-    @enumeration = Enumeration.new(params[:enumeration])
-    @enumeration.type = params[:enumeration][:type]
+    @enumeration = Enumeration.new do |e|
+      e.type = params[:enumeration].delete(:type)
+      e.attributes = params[:enumeration]
+    end
+
     if @enumeration.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'list', :type => @enumeration.type
+      redirect_to :action => 'index', :type => @enumeration.type
     else
       render :action => 'new'
     end
@@ -45,7 +48,7 @@ class EnumerationsController < ApplicationController
 
   def update
     @enumeration = Enumeration.find(params[:id])
-    @enumeration.type = params[:enumeration][:type] if params[:enumeration][:type]
+    @enumeration.type = params[:enumeration].delete(:type) if params[:enumeration][:type]
     if @enumeration.update_attributes(params[:enumeration])
       flash[:notice] = l(:notice_successful_update)
       redirect_to enumerations_path(:type => @enumeration.type)
