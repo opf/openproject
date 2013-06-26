@@ -6,10 +6,7 @@ module OpenProject::GlobalRoles::Patches
 
 
       base.class_eval do
-        scopes[:givable] = lambda do |parent_scope, *args|
-                   givable_options = { :conditions => "builtin = 0 AND type = 'Role'", :order => 'position'}
-                   ActiveRecord::NamedScope::Scope.new(parent_scope, givable_options)
-        end
+        scope :givable, where(:builtin => 0, :type => 'Role').order('position')
 
         class << self
           alias_method :find_all_givable_without_no_global_roles, :find_all_givable unless method_defined?(:find_all_givable_without_no_global_roles)
@@ -22,7 +19,7 @@ module OpenProject::GlobalRoles::Patches
 
     module ClassMethods
       def find_all_givable_with_no_global_roles
-        find(:all, :conditions => {:builtin => 0, :type => 'Role'}, :order => 'position')
+        givable.all
       end
     end
 
