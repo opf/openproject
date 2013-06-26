@@ -1,6 +1,8 @@
 class Impediment < Task
   unloadable
 
+  extend OpenProject::Backlogs::Mixins::PreventIssueSti
+
   after_save :update_blocks_list
 
   validate :validate_blocks_list

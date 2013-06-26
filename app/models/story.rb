@@ -1,6 +1,8 @@
 class Story < Issue
   unloadable
 
+  extend OpenProject::Backlogs::Mixins::PreventIssueSti
+
   def self.backlogs(project_id, sprint_ids, options = {})
 
     options.reverse_merge!({ :order => Story::ORDER,
