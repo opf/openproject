@@ -16,7 +16,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 :title => h(@reporting.reporting_to_project.name)) %>
 <h2>
   <%= l('timelines.reporting_for_project.show',
-        :title => link_to_project(@reporting.reporting_to_project)) %>
+        :title => link_to_project(@reporting.reporting_to_project)).html_safe %>
 </h2>
 
 <div class="contextual timelines-for_previous_heading">
