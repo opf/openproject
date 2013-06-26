@@ -37,19 +37,22 @@ module OpenProject::GlobalRoles
 
       # lib patches
       require_dependency 'open_project/global_roles/patches/access_control_patch'
-      require_dependency 'open_project/global_roles/patches/permission_patch_patch'
+      require_dependency 'open_project/global_roles/patches/permission_patch'
 
       # Model Patches
       require_dependency 'open_project/global_roles/patches/principal_patch'
       require_dependency 'open_project/global_roles/patches/role_patch'
+      require_dependency 'open_project/global_roles/patches/user_patch'
 
       # Controller Patches
       require_dependency 'open_project/global_roles/patches/roles_controller_patch'
-      require_dependency 'open_project/global_roles/patches/pusers_controller_patch'
+      require_dependency 'open_project/global_roles/patches/users_controller_patch'
 
       # Helper Patches
       require_dependency 'open_project/global_roles/patches/roles_helper_patch'
       require_dependency 'open_project/global_roles/patches/users_helper_patch'
+
+      spec = Bundler.environment.specs['openproject-global_roles'][0]
 
       unless Redmine::Plugin.registered_plugins.include?(:openproject_global_roles)
         Redmine::Plugin.register :openproject_global_roles do
@@ -63,8 +66,8 @@ module OpenProject::GlobalRoles
 
           requires_openproject ">= 3.0.0beta1"
 
-          if RAILS_ENV != "test"
-            require_or_load 'global_roles/permission_patch'
+          if ENV["RAILS_ENV"] != "test"
+            require_or_load 'open_project/global_roles/patches/permission_patch'
             Redmine::AccessControl.permission(:add_project).global = true
           else
             Redmine::AccessControl.permission(:add_project).instance_eval do

@@ -1,6 +1,3 @@
-require_dependency "project"
-require_dependency "principal"
-
 module OpenProject::GlobalRoles::Patches
   module PrincipalPatch
     def self.included(base) # :nodoc:
