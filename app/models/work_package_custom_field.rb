@@ -16,7 +16,9 @@ class WorkPackageCustomField < CustomField
   has_many :work_packages, :through => :work_package_custom_values
 
   def type_name
-    :label_work_package_plural
+    # TODO
+    # this needs to be renamed to label_work_package_plural
+    :label_issue_plural
   end
 end
 
