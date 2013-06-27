@@ -187,11 +187,12 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.any(:html, :atom) { redirect_to signin_path(:back_url => url) }
 
-        if request.headers["X-ACCEPT-AUTH"] == "Session"
-          format.any(:xml, :js, :json)  { head :unauthorized, "Reason" => "login needed", 'WWW-Authenticate' => 'Session realm="OpenProject API"' }
-        else
-          format.any(:xml, :js, :json) { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        authentication_scheme = if request.headers["X-ACCEPT-AUTH"] == "Session"
+          'Session' else 'Basic'
         end
+        format.any(:xml, :js, :json)  { head :unauthorized,
+          "Reason" => "login needed",
+          'WWW-Authenticate' => authentication_scheme + ' realm="OpenProject API"' }
       end
       return false
     end
