@@ -35,8 +35,8 @@ class CostReportsController < ApplicationController
   # last saw them, to rebuild the filters and group bys.
   # Called once per request.
   def check_cache(force_update=false)
-    custom_fields_updated_on = IssueCustomField.maximum(:updated_at)
-    custom_fields_id_sum = IssueCustomField.sum(:id) + IssueCustomField.count
+    custom_fields_updated_on = WorkPackageCustomField.maximum(:updated_at)
+    custom_fields_id_sum = WorkPackageCustomField.sum(:id) + WorkPackageCustomField.count
 
     if force_update or (custom_fields_updated_on && custom_fields_id_sum)
       if force_update or (
@@ -102,7 +102,7 @@ class CostReportsController < ApplicationController
   def default_group_parameters
     {:columns => [:week], :rows => []}.tap do |h|
       if @project
-        h[:rows] << :issue_id
+        h[:rows] << :work_package_id
       else
         h[:rows] << :project_id
       end

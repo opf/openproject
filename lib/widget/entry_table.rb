@@ -1,5 +1,5 @@
 class Widget::Table::EntryTable < Widget::Table
-  Fields = [:spent_on, :user_id, :activity_id, :issue_id, :comments, :project_id]
+  Fields = [:spent_on, :user_id, :activity_id, :work_package_id, :comments, :project_id]
 
   detailed_table self
 

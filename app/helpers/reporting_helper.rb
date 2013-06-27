@@ -78,7 +78,7 @@ module ReportingHelper
     when :category_id                           then IssueCategory.find(value.to_i).name
     when :cost_type_id                          then mapped value, CostType, l(:caption_labor)
     when :cost_object_id                        then cost_object_link value
-    when :issue_id                              then link_to_issue Issue.find(value.to_i)
+    when :work_package_id                       then link_to_issue Issue.find(value.to_i)
     when :spent_on                              then format_date(value.to_date)
     when :tracker_id                            then Tracker.find(value.to_i).name
     when :week                                  then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
@@ -93,8 +93,8 @@ module ReportingHelper
   def field_sort_map(key, value)
     return "" if value.blank?
     case key.to_sym
-    when :issue_id, :tweek, :tmonth, :week  then value.to_i
-    when :spent_on                          then value.to_date.mjd
+    when :work_package_id, :tweek, :tmonth, :week  then value.to_i
+    when :spent_on                                 then value.to_date.mjd
     else h(field_representation_map(key, value).gsub(/<\/?[^>]*>/, ""))
     end
   end

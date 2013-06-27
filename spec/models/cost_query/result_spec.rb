@@ -5,8 +5,8 @@ describe CostQuery, :reporting_query_helper => true do
     FactoryGirl.create(:admin)
     project = FactoryGirl.create(:project_with_trackers)
     issue = FactoryGirl.create(:issue, project: project)
-    FactoryGirl.create(:time_entry, issue: issue, project: project)
-    FactoryGirl.create(:cost_entry, issue: issue, project: project)
+    FactoryGirl.create(:time_entry, work_package: issue, project: project)
+    FactoryGirl.create(:cost_entry, work_package: issue, project: project)
   end
 
   minimal_query

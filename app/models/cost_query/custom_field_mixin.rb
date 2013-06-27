@@ -25,7 +25,7 @@ module CostQuery::CustomFieldMixin
   end
 
   def generate_subclasses
-    IssueCustomField.all.map do |field|
+    WorkPackageCustomField.all.map do |field|
       class_name = "CustomField#{field.id}"
       parent.send(:remove_const, class_name) if parent.const_defined? class_name
       parent.const_set class_name, Class.new(self)
@@ -68,9 +68,9 @@ module CostQuery::CustomFieldMixin
     \tFROM
     \t\t%1$s)
     AS %2$s
-    ON %2$s.customized_type = 'Issue'
+    ON %2$s.customized_type = 'WorkPackage'
     AND %2$s.custom_field_id = %3$d
-    AND %2$s.customized_id = entries.issue_id
+    AND %2$s.customized_id = entries.work_package_id
     -- END Custom Field Join: "%4$s"
     SQL
     instance_eval(&on_prepare)

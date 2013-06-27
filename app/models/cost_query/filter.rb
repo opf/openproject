@@ -11,7 +11,7 @@ class CostQuery::Filter < Report::Filter
        CostQuery::Filter::CreatedOn,
        CostQuery::Filter::DueDate,
        CostQuery::Filter::FixedVersionId,
-       CostQuery::Filter::IssueId,
+       CostQuery::Filter::WorkPackageId,
        CostQuery::Filter::OverriddenCosts,
        CostQuery::Filter::PriorityId,
        CostQuery::Filter::ProjectId,

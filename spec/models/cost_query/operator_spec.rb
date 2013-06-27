@@ -79,16 +79,16 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     it "does c (closed issue)" do
-      query('issues', 'status_id', 'c') { |s| s.join IssueStatus => [Issue, :status] }.size.should >= 0
+      query('work_packages', 'status_id', 'c') { |s| s.join IssueStatus => [Issue, :status] }.size.should >= 0
     end
 
     it "does o (open issue)" do
-      query('issues', 'status_id', 'o') { |s| s.join IssueStatus => [Issue, :status] }.size.should >= 0
+      query('work_packages', 'status_id', 'o') { |s| s.join IssueStatus => [Issue, :status] }.size.should >= 0
     end
 
     it "does give the correct number of results when counting closed and open issues" do
-      a = query('issues', 'status_id', 'o') { |s| s.join IssueStatus => [Issue, :status] }.size
-      b = query('issues', 'status_id', 'c') { |s| s.join IssueStatus => [Issue, :status] }.size
+      a = query('work_packages', 'status_id', 'o') { |s| s.join IssueStatus => [Issue, :status] }.size
+      b = query('work_packages', 'status_id', 'c') { |s| s.join IssueStatus => [Issue, :status] }.size
       Issue.count.should == a + b
     end
 
