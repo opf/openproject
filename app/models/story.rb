@@ -1,6 +1,8 @@
 class Story < Issue
   unloadable
 
+  extend OpenProject::Backlogs::Mixins::PreventIssueSti
+
   def self.backlogs(project_id, sprint_ids, options = {})
 
     options.reverse_merge!({ :order => Story::ORDER,
@@ -128,9 +130,9 @@ class Story < Issue
 
   def rank
     if self.position.blank?
-      extras = ['and ((issues.position is NULL and issues.id <= ?) or not issues.position is NULL)', self.id]
+      extras = ["and ((#{Issue.table_name}.position is NULL and #{Issue.table_name}.id <= ?) or not #{Issue.table_name}.position is NULL)", self.id]
     else
-      extras = ['and not issues.position is NULL and issues.position <= ?', self.position]
+      extras = ["and not #{Issue.table_name}.position is NULL and #{Issue.table_name}.position <= ?", self.position]
     end
 
     @rank ||= Issue.count(:conditions => Story.condition(self.project.id, self.fixed_version_id, extras), :joins => :status)
@@ -153,5 +155,5 @@ class Story < Issue
   end
 
   # This forces NULLS-LAST ordering
-  ORDER = 'CASE WHEN issues.position IS NULL THEN 1 ELSE 0 END ASC, CASE WHEN issues.position IS NULL THEN issues.id ELSE issues.position END ASC'
+  ORDER = "CASE WHEN #{Issue.table_name}.position IS NULL THEN 1 ELSE 0 END ASC, CASE WHEN #{Issue.table_name}.position IS NULL THEN #{Issue.table_name}.id ELSE #{Issue.table_name}.position END ASC"
 end

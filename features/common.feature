@@ -18,8 +18,8 @@ Feature: Common
         | view_taskboards     |
         | create_tasks        |
         | update_tasks        |
-        | view_issues         |
-        | edit_issues         |
+        | view_work_packages  |
+        | edit_work_packages  |
         | manage_subtasks     |
     And there are the following issue status:
         | name        | is_closed  | is_default  |

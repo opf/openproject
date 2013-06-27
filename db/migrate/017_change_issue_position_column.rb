@@ -1,9 +1,13 @@
 class ChangeIssuePositionColumn < ActiveRecord::Migration
   def self.up
-    change_column :issues, :position, :integer, :null => true, :default => nil
+    if ActiveRecord::Base.connection.table_exists? 'issues'
+      change_column :issues, :position, :integer, :null => true, :default => nil
+    end
   end
 
   def self.down
-    change_column :issues, :position, :integer, :null => false
+    if ActiveRecord::Base.connection.table_exists? 'issues'
+      change_column :issues, :position, :integer, :null => false
+    end
   end
 end

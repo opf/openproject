@@ -6,7 +6,7 @@ describe Burndown do
     story.instance_variable_set(:@current_journal, nil)
     story.init_journal(user)
     story.send(attribute, value)
-    story.current_journal.created_on = day
+    story.current_journal.created_at = day
     story.save!
 
     # with aaj created_on is called created_at and current_journal changed - so
@@ -74,8 +74,8 @@ describe Burndown do
                                            :tracker => tracker_feature,
                                            :status => issue_open,
                                            :priority => issue_priority,
-                                           :created_on => Date.today - 20.days,
-                                           :updated_on => Date.today - 20.days)
+                                           :created_at => Date.today - 20.days,
+                                           :updated_at => Date.today - 20.days)
           end
 
           describe "WITH the story having a time_remaining defined on creation" do
@@ -166,13 +166,13 @@ describe Burndown do
                                            :remaining_hours => 18,
                                            :parent_issue_id => @story.id,
                                            :priority => issue_priority,
-                                           :created_on => Date.today - 20.days,
-                                           :updated_on => Date.today - 20.days)
+                                           :created_at => Date.today - 20.days,
+                                           :updated_at => Date.today - 20.days)
             end
 
             describe "WITH the subticket being created within the sprint" do
               before(:each) do
-                @task.created_on = Time.now - 4.days
+                @task.created_at = Time.now - 4.days
                 @task.save!
 
                 @burndown = Burndown.new(sprint, project)
@@ -243,8 +243,8 @@ describe Burndown do
                                                    :tracker => tracker_feature,
                                                    :status => issue_open,
                                                    :priority => issue_priority,
-                                                   :created_on => Date.today - (20 - i).days,
-                                                   :updated_on => Date.today - (20 - i).days)
+                                                   :created_at => Date.today - (20 - i).days,
+                                                   :updated_at => Date.today - (20 - i).days)
             end
           end
 

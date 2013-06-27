@@ -25,8 +25,8 @@ Feature: Edit story on backlogs view
         | view_master_backlog   |
         | create_stories        |
         | update_stories        |
-        | view_issues           |
-        | edit_issues           |
+        | view_work_packages    |
+        | edit_work_packages    |
         | manage_subtasks       |
     And the user "mathias" is a "team member"
     And the project has the following sprints:

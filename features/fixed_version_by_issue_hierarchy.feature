@@ -20,8 +20,8 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
         | update_tasks            |
         | view_wiki_pages         |
         | edit_wiki_pages         |
-        | view_issues             |
-        | edit_issues             |
+        | view_work_packages      |
+        | edit_work_packages      |
         | manage_subtasks         |
         | create_tasks            |
         | add_issues              |
@@ -109,7 +109,6 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
-  @javascript
   Scenario: Creating a task, via new issue, as a subtask to a story set´s the new task´s fixed version to the parent´s fixed version
      When I go to the issues/new page of the project called "ecookbook"
       And I follow "New issue" within "#main-menu"
@@ -119,7 +118,6 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
-  @javascript
   Scenario: Creating a task, via new issue, as a subtask to a story and setting a fixed version is overriden by the parent´s fixed version (bug 8904)
      When I go to the issues/new page of the project called "ecookbook"
       And I follow "New issue" within "#main-menu"
@@ -130,19 +128,15 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
-
-  @javascript
   Scenario: Moving a task between stories via issue/edit (bug 9324)
     Given the project has the following tasks:
           | subject | parent  |
           | Task 1  | Story 1 |
     When I go to the edit page of the issue "Task 1"
-     And I follow "More" within "#issue-form"
      And I fill in the id of the issue "Story C" as the parent issue
      And I press "Submit"
     Then I should see "Sprint 002" within "td.fixed-version"
 
-  @javascript
   Scenario: Changing the fixed_version of a task with a non backlogs parent issue (bug 8354)
     Given the project has the following issues:
       | subject      | sprint     | tracker    |
@@ -155,7 +149,6 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
      And I press "Submit"
     Then I should see "Successful update." within "div.flash"
 
-  @javascript
   Scenario: Changing the fixed_version of an epic should not change the target version of the child (bug 8903)
     Given the project has the following issues:
       | subject      | sprint     | tracker    | parent |
@@ -167,7 +160,6 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
    Then I should see "Successful update." within "div.flash"
     And the task "Task 1" should have "Sprint 002" as its target version
 
-  @javascript
   Scenario: Modification of a backlogs story with tasks is still possible (bug 9711)
     Given the project has the following tasks:
       | subject | parent  |

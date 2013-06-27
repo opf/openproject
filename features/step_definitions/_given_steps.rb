@@ -128,7 +128,7 @@ end
 Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the following sprints:$/ do |project_name, table|
   project = get_project(project_name)
 
-  project.issues.delete_all
+  project.work_packages.delete_all
   prev_id = ''
 
   table.hashes.each do |story|
@@ -259,7 +259,7 @@ Given /^I have made (.+) the template page for sprint notes/ do |title|
 end
 
 Given /^there are no stories in the [pP]roject$/ do
-  @project.issues.delete_all
+  @project.work_packages.delete_all
 end
 
 Given /^the tracker "(.+?)" is configured to track tasks$/ do |tracker_name|

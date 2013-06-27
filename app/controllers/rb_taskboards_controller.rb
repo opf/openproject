@@ -10,7 +10,7 @@ class RbTaskboardsController < RbApplicationController
     @story_ids    = @sprint.stories(@project).map{|s| s.id}
     @last_updated = Task.find(:first,
                               :conditions => ["parent_id in (?)", @story_ids],
-                              :order      => "updated_on DESC")
+                              :order      => "updated_at DESC")
   end
 
   def default_breadcrumb

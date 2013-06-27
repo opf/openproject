@@ -3,6 +3,8 @@ require 'date'
 class Task < Issue
   unloadable
 
+  extend OpenProject::Backlogs::Mixins::PreventIssueSti
+
   def self.tracker
     task_tracker = Setting.plugin_openproject_backlogs["task_tracker"]
     task_tracker.blank? ? nil : task_tracker.to_i

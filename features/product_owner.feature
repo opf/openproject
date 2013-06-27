@@ -18,8 +18,8 @@ Feature: Product Owner
           | view_master_backlog   |
           | create_stories        |
           | update_stories        |
-          | view_issues           |
-          | edit_issues           |
+          | view_work_packages    |
+          | edit_work_packages    |
           | manage_subtasks       |
 
       And the tracker "Story" has the default workflow for the role "product owner"
