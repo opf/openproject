@@ -1,3 +1,8 @@
+2013-06-27 Christian Ratz <c.ratz@finn.de>
+
+	* new pagination
+	* fix time zones bug
+
 2013-06-21 Christian Ratz <c.ratz@finn.de>
 
 	* Use final plugin name schema
