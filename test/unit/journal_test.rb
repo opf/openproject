@@ -16,7 +16,7 @@ class JournalTest < ActiveSupport::TestCase
 
   def setup
     super
-    @journal = IssueJournal.find(1)
+    @journal = WorkPackageJournal.find(1)
   end
 
   def test_journalized_is_an_issue
@@ -83,7 +83,7 @@ class JournalTest < ActiveSupport::TestCase
     @user = User.generate!
     @project = Project.generate!
     @issue = Issue.generate_for_project!(@project).reload
-    start = @issue.updated_on
+    start = @issue.updated_at
     sleep(1) # TODO: massive hack to make sure the timestamps are different. switch to timecop later
 
     assert_difference("Journal.count") do
@@ -91,7 +91,7 @@ class JournalTest < ActiveSupport::TestCase
       @issue.save
     end
 
-    assert_not_equal start, @issue.reload.updated_on
+    assert_not_equal start, @issue.reload.updated_at
   end
 
   test "accessing #journaled on a Journal should not error (parent class)" do

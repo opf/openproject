@@ -14,8 +14,6 @@ class DefaultPlanningElementType < ActiveRecord::Base
 
   self.table_name = 'default_planning_element_types'
 
-  include TimestampsCompatibility
-
   belongs_to :project_type,          :class_name  => 'ProjectType',
                                      :foreign_key => 'project_type_id'
   belongs_to :planning_element_type, :class_name  => 'PlanningElementType',

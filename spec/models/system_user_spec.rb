@@ -39,7 +39,7 @@ describe SystemUser do
   describe '#run_given' do
     let(:project) { FactoryGirl.create(:project_with_trackers, :is_public => false) }
     let(:user) { FactoryGirl.build(:user) }
-    let(:role) { FactoryGirl.create(:role, :permissions => [:view_issues]) }
+    let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_packages]) }
     let(:member) { FactoryGirl.build(:member, :project => project,
                                               :roles => [role],
                                               :principal => user) }

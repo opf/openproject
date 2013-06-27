@@ -34,8 +34,8 @@ api.array :issues, api_meta(:total_count => @issues.total_entries,
 
       render_api_custom_values issue.custom_field_values, api
 
-      api.created_on issue.created_on
-      api.updated_on issue.updated_on
+      api.created_on issue.created_at
+      api.updated_on issue.updated_at
     end
   end
 end

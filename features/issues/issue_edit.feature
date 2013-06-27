@@ -23,8 +23,8 @@ Feature: Issue edit
     And there is a role "member"
     And the role "member" may have the following rights:
       | add_issues  |
-      | view_issues |
-      | edit_issues |
+      | view_work_packages |
+      | edit_work_packages |
       | manage_subtasks |
     And there is 1 user with the following:
       | login | bob|

@@ -105,7 +105,6 @@ de:
         planning_element_type: Typ
         responsible: Planungsverantwortlicher
         start_date: Startdatum
-        updated_at: Aktualisiert
       planning_element_type:
         color: Farbe
         id: ID
@@ -123,7 +122,6 @@ de:
       scenario:
         created_at: Angelegt
         name: Name
-        updated_at: Aktualisiert
       timeline:
         name: Name
       reporting:
@@ -131,7 +129,6 @@ de:
         reported_project_status_comment: Status-Kommentar
         reported_project_status_id: Projekt-Status
         reporting_to_project_id: Beziehung zu Projekt
-        updated_at: Aktualisert
       tracker:
         is_in_roadmap: "In der Roadmap anzeigen"
       user:
@@ -255,7 +252,7 @@ de:
     category: "Kategorie"
     comments: "Kommentar"
     content: "Inhalt"
-    created_on: "Angelegt"
+    created_at: "Angelegt"
     custom_values: "Benutzerdefinierte Felder"
     description: "Beschreibung"
     due_date: "Abgabedatum"
@@ -278,7 +275,7 @@ de:
     summary: "Zusammenfassung"
     title: "Titel"
     type: "Typ"
-    updated_on: "Aktualisiert"
+    updated_at: "Aktualisiert"
     user: "Benutzer"
     version: "Version"
 

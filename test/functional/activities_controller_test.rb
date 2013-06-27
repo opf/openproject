@@ -25,7 +25,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                :content => /#{1.day.ago.to_date.day}/,
                :sibling => { :tag => "dl",
                  :child => { :tag => "dt",
-                   :attributes => { :class => /issue/ },
+                   :attributes => { :class => /work_package/ },
                    :child => { :tag => "a",
                      :content => /#{ERB::Util.html_escape(IssueStatus.find(2).name)}/
                    }
@@ -43,7 +43,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                :content => /#{3.day.ago.to_date.day}/,
                :sibling => { :tag => "dl",
                  :child => { :tag => "dt",
-                   :attributes => { :class => /issue/ },
+                   :attributes => { :class => /work_package/ },
                    :child => { :tag => "a",
                      :content => /#{ERB::Util.html_escape(Issue.find(1).subject)}/
                    }
@@ -61,7 +61,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                :content => /#{3.day.ago.to_date.day}/,
                :sibling => { :tag => "dl",
                  :child => { :tag => "dt",
-                   :attributes => { :class => /issue/ },
+                   :attributes => { :class => /work_package/ },
                    :child => { :tag => "a",
                      :content => /#{ERB::Util.html_escape(Issue.find(1).subject)}/
                    }
@@ -79,7 +79,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                :content => /#{3.day.ago.to_date.day}/,
                :sibling => { :tag => "dl",
                  :child => { :tag => "dt",
-                   :attributes => { :class => /issue/ },
+                   :attributes => { :class => /work_package/ },
                    :child => { :tag => "a",
                      :content => /#{ERB::Util.html_escape(Issue.find(1).subject)}/
                    }
@@ -93,7 +93,7 @@ class ActivitiesControllerTest < ActionController::TestCase
     assert_template 'common/feed'
     assert_tag :tag => 'entry', :child => {
       :tag => 'link',
-      :attributes => {:href => 'http://test.host/issues/11'}}
+      :attributes => {:href => 'http://test.host/work_packages/show/11'}}
   end
 
 end

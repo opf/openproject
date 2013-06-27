@@ -14,7 +14,6 @@ class Scenario < ActiveRecord::Base
 
   self.table_name = 'scenarios'
 
-  include TimestampsCompatibility
   include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :project

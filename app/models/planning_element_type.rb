@@ -17,8 +17,6 @@ class PlanningElementType < ActiveRecord::Base
   acts_as_list
   default_scope :order => 'position ASC'
 
-  include TimestampsCompatibility
-
   extend Pagination::Model
 
   has_many :default_planning_element_types, :class_name  => 'DefaultPlanningElementType',

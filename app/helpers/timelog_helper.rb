@@ -15,8 +15,8 @@ module TimelogHelper
 
   def render_timelog_breadcrumb
     links = []
-    links << link_to(l(:label_project_all), {:project_id => nil, :issue_id => nil})
-    links << link_to(h(@project), {:project_id => @project, :issue_id => nil}) if @project
+    links << link_to(l(:label_project_all), {:project_id => nil, :work_package_id => nil})
+    links << link_to(h(@project), {:project_id => @project, :work_package_id => nil}) if @project
     if @issue
       if @issue.visible?
         links << link_to_issue(@issue, :subject => false)
@@ -103,9 +103,9 @@ module TimelogHelper
                   entry.user,
                   entry.activity,
                   entry.project,
-                  (entry.issue ? entry.issue.id : nil),
-                  (entry.issue ? entry.issue.tracker : nil),
-                  (entry.issue ? entry.issue.subject : nil),
+                  (entry.work_package ? entry.work_package.id : nil),
+                  (entry.work_package ? entry.work_package.tracker : nil),
+                  (entry.work_package ? entry.work_package.subject : nil),
                   entry.hours.to_s.gsub('.', decimal_separator),
                   entry.comments
                   ]

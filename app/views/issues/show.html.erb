@@ -25,9 +25,9 @@ See doc/COPYRIGHT.rdoc for more details.
   </h3>
 
   <p class="author">
-    <%= authoring @issue.created_on, @issue.author %>.
-    <% if @issue.created_on != @issue.updated_on %>
-      <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
+    <%= authoring @issue.created_at, @issue.author %>.
+    <% if @issue.created_at != @issue.updated_at %>
+      <%= l(:label_updated_time, time_tag(@issue.updated_at)).html_safe %>.
     <% end %>
   </p>
 

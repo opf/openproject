@@ -51,8 +51,8 @@ Redmine::CustomFieldFormat.map do |fields|
   fields.register Redmine::CustomFieldFormat.new('list', :label => :label_list, :order => 5)
   fields.register Redmine::CustomFieldFormat.new('date', :label => :label_date, :order => 6)
   fields.register Redmine::CustomFieldFormat.new('bool', :label => :label_boolean, :order => 7)
-  fields.register Redmine::CustomFieldFormat.new('user', :label => Proc.new { User.model_name.human }, :only => %w(Issue TimeEntry Version Project), :edit_as => 'list', :order => 8)
-  fields.register Redmine::CustomFieldFormat.new('version', :label => Proc.new { Version.model_name.human }, :only => %w(Issue TimeEntry Version Project), :edit_as => 'list', :order => 9)
+  fields.register Redmine::CustomFieldFormat.new('user', :label => Proc.new { User.model_name.human }, :only => %w(WorkPackage TimeEntry Version Project), :edit_as => 'list', :order => 8)
+  fields.register Redmine::CustomFieldFormat.new('version', :label => Proc.new { Version.model_name.human }, :only => %w(WorkPackage TimeEntry Version Project), :edit_as => 'list', :order => 9)
 end
 
 # Permissions
@@ -83,7 +83,7 @@ Redmine::AccessControl.map do |map|
     # Issue categories
     map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :create, :edit, :update, :destroy]}, :require => :member
     # Issues
-    map.permission :view_issues, {:'issues' => [:index, :all, :show],
+    map.permission :view_work_packages, {:'issues' => [:index, :all, :show],
                                   :auto_complete => [:issues],
                                   :context_menus => [:issues],
                                   :versions => [:index, :show, :status_by],
@@ -93,7 +93,7 @@ Redmine::AccessControl.map do |map|
     map.permission :export_issues, {:'issues' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
-    map.permission :edit_issues, {:issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
+    map.permission :edit_work_packages, {:issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
                                   :'issues/previews' => :create}
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
@@ -343,7 +343,7 @@ Redmine::MenuManager.map :project_menu do |menu|
 end
 
 Redmine::Activity.map do |activity|
-  activity.register :issues, :class_name => 'Issue'
+  activity.register :work_packages, :class_name => 'WorkPackage'
   activity.register :changesets
   activity.register :news
   activity.register :documents, :class_name => %w(Document Attachment)
@@ -354,7 +354,7 @@ Redmine::Activity.map do |activity|
 end
 
 Redmine::Search.map do |search|
-  search.register :issues
+  search.register :work_packages
   search.register :news
   search.register :documents
   search.register :changesets

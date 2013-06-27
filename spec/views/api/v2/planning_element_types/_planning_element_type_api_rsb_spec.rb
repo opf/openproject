@@ -85,16 +85,16 @@ describe 'api/v2/planning_element_types/_planning_element_type.api' do
         response.should_not have_selector('planning_element_type color')
       end
 
-      it 'contains a created_on element containing the planning element type created_on in UTC in ISO 8601' do
+      it 'contains a created_at element containing the planning element type created_at in UTC in ISO 8601' do
         render
 
-        response.should have_selector('planning_element_type created_on', :text => '2011-01-06T11:35:00Z')
+        response.should have_selector('planning_element_type created_at', :text => '2011-01-06T11:35:00Z')
       end
 
-      it 'contains an updated_on element containing the planning element type updated_on in UTC in ISO 8601' do
+      it 'contains an updated_at element containing the planning element type updated_at in UTC in ISO 8601' do
         render
 
-        response.should have_selector('planning_element_type updated_on', :text => '2011-01-07T11:35:00Z')
+        response.should have_selector('planning_element_type updated_at', :text => '2011-01-07T11:35:00Z')
       end
     end
   end

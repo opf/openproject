@@ -29,6 +29,6 @@ api.reporting do
     api.reported_project_status_comment(reporting.reported_project_status_comment)
   end
 
-  api.created_on(reporting.created_on.utc) if reporting.created_on
-  api.updated_on(reporting.updated_on.utc) if reporting.updated_on
+  api.created_at(reporting.created_at.utc) if reporting.created_at
+  api.updated_at(reporting.updated_at.utc) if reporting.updated_at
 end

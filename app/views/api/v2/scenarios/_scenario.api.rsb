@@ -20,6 +20,6 @@ api.scenario do
 
   api.description(scenario.description)
 
-  api.created_on(scenario.created_on.utc) if scenario.created_on
-  api.updated_on(scenario.updated_on.utc) if scenario.updated_on
+  api.created_at(scenario.created_at.utc) if scenario.created_at
+  api.updated_at(scenario.updated_at.utc) if scenario.updated_at
 end

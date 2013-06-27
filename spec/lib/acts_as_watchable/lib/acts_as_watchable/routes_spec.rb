@@ -33,13 +33,13 @@ describe OpenProject::Acts::Watchable::Routes do
       describe "for an invalid id string" do
         let(:id) { "schmu" }
 
-        it "should not be false" do
+        it "should be false" do
           OpenProject::Acts::Watchable::Routes.matches?(request).should be_false
         end
       end
     end
 
-    ['issues', 'news', 'news', 'boards', 'messages', 'wikis', 'wiki_pages'].each do |type|
+    ['work_packages', 'news', 'news', 'boards', 'messages', 'wikis', 'wiki_pages'].each do |type|
       describe "routing #{type} watches" do
         let(:type) { type }
 

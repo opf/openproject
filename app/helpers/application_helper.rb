@@ -1150,7 +1150,7 @@ module ApplicationHelper
       text = []
 
       text << "*#{planning_element.id}" if options["include_id"]
-      text << "#{planning_element.name}" if options["include_name"]
+      text << "#{planning_element.subject}" if options["include_name"]
 
       text = text.join(" ")
     else
@@ -1159,7 +1159,7 @@ module ApplicationHelper
 
     link_to(h(text),
             project_planning_element_path(planning_element.project, planning_element),
-            :title => planning_element.name)
+            :title => planning_element.subject)
   end
 
   def planning_element_quick_info(planning_element)
@@ -1188,10 +1188,10 @@ module ApplicationHelper
       end
     end
 
-    link = link_to(h("*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.name} "),
-            project_planning_element_path(planning_element.project, planning_element),
-           :title => h("#{truncate(planning_element.name, :length => 100)} #{planning_element.planning_element_status.nil? ? "" :
-                        "(" + planning_element.planning_element_status.name + ")"}"))
+    link = link_to(h("*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.subject} "),
+                   project_planning_element_path(planning_element.project, planning_element),
+                   :title => h("#{truncate(planning_element.subject, :length => 100)} #{planning_element.planning_element_status.nil? ? "" :
+                               "(" + planning_element.planning_element_status.name + ")"}"))
     link += "#{planning_element.start_date.nil? ? "[?]" : planning_element.start_date.to_s}#{start_date_change} – #{planning_element.end_date.nil? ? "[?]" :
       planning_element.end_date.to_s}#{end_date_change}"
     link += "#{planning_element.responsible.nil? ? "" : h(" (#{planning_element.responsible.to_s})")}"

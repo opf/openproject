@@ -19,8 +19,6 @@ class ProjectType < ActiveRecord::Base
   acts_as_list
   default_scope :order => 'position ASC'
 
-  include TimestampsCompatibility
-
   has_many :projects, :class_name  => 'Project',
                       :foreign_key => 'project_type_id'
 

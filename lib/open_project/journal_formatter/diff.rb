@@ -20,7 +20,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
 
   private
 
-  def label(key, no_html)
+  def label(key, no_html = false)
     label = super key
 
     no_html ?

@@ -134,7 +134,6 @@ en:
         planning_element_type: "Type"
         responsible: "Responsible"
         start_date: Start date
-        updated_at: Updated
         deleted_at: Deleted at
         planning_element_status: "Status"
         # parent: Subelement of
@@ -156,14 +155,12 @@ en:
       scenario:
         created_at: Created
         name: Name
-        updated_at: Updated
       timeline:
         name: Name
       reporting:
         reported_project_status_comment: Status comment
         reporting_to_project: Reports to project
         reported_project_status: Project status
-        updated_at: Updated
         created_at: Created
 
     errors:
@@ -259,7 +256,7 @@ en:
     category: "Category"
     comments: "Comment"
     content: "Content"
-    created_on: "Created on"
+    created_at: "Created on"
     custom_values: "Custom fields"
     description: "Description"
     due_date: "Due date"
@@ -282,7 +279,7 @@ en:
     summary: "Summary"
     title: "Title"
     type: "Type"
-    updated_on: "Updated on"
+    updated_at: "Updated on"
     user: "User"
     version: "Version"
 

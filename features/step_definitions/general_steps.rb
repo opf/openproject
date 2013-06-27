@@ -333,7 +333,7 @@ Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the
     t = TimeEntry.generate
     t.project = i.project
     t.spent_on = DateTime.now
-    t.issue = i
+    t.work_package = i
     send_table_to_object(t, table,
       {:user => Proc.new do |o,v|
         o.user = User.find_by_login(v)
@@ -472,12 +472,12 @@ end
 
 # Encapsule the logic to set a custom field on an issue
 def add_custom_value_to_issue(object, key, value)
-  if IssueCustomField.all.collect(&:name).include? key.to_s
+  if WorkPackageCustomField.all.collect(&:name).include? key.to_s
     cv = CustomValue.find(:first, :conditions => ["customized_id = '#{object.id}'"])
     cv ||= CustomValue.new
-    cv.customized_type = "Issue"
+    cv.customized_type = "WorkPackage"
     cv.customized_id = object.id
-    cv.custom_field_id = IssueCustomField.first(:joins => :translations, :conditions => ["custom_field_translations.name = ?", key]).id
+    cv.custom_field_id = WorkPackageCustomField.first(:joins => :translations, :conditions => ["custom_field_translations.name = ?", key]).id
     cv.value = value
     cv.save!
   end

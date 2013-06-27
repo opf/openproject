@@ -31,8 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <td class="activity"><%=h entry.activity %></td>
 <td class="project"><%= link_to_project(entry.project) %></td>
 <td class="subject">
-<% if entry.issue -%>
-<%= entry.issue.visible? ? link_to_issue(entry.issue, :truncate => 50) : "##{entry.issue.id}" -%>
+<% if entry.work_package -%>
+<%= entry.work_package.visible? ? link_to_issue(entry.work_package, :truncate => 50) : "##{entry.work_package.id}" -%>
 <% end -%>
 </td>
 <td class="comments"><%=h entry.comments %></td>

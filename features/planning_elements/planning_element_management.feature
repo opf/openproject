@@ -38,6 +38,7 @@ Feature: Planning Element Management
           | view_planning_elements   |
           | edit_planning_elements   |
           | delete_planning_elements |
+          | view_work_packages |
 
       And there is a project named "ecookbook" of type "Standard Project"
       And I am working in project "ecookbook"
@@ -61,7 +62,7 @@ Feature: Planning Element Management
       And I toggle the "Timelines" submenu
       And I follow "Planning elements"
       And I follow "New planning element"
-      And I fill in "February" for "Name"
+      And I fill in "February" for "Subject"
       And I fill in "2012-02-01" for "Start date"
       And I fill in "2012-02-29" for "End date"
       And I press "Save"
@@ -77,13 +78,13 @@ Feature: Planning Element Management
 
   Scenario: The project manager may edit planning elements
     Given there are the following planning elements:
-            | Name     | Start date | End date   |
+            | Subject  | Start date | End date   |
             | January  | 2012-01-01 | 2012-01-31 |
             | February | 2012-02-01 | 2012-02-29 |
             | March    | 2012-03-01 | 2012-03-31 |
      When I go to the page of the planning element "February" of the project called "ecookbook"
       And I follow "Update"
-      And I fill in "February 2012" for "Name"
+      And I fill in "February 2012" for "Subject"
       And I press "Save"
      Then I should see a notice flash stating "Successful update."
 
@@ -101,7 +102,7 @@ Feature: Planning Element Management
       And I toggle the "Timelines" submenu
       And I follow "Planning elements"
       And I follow "New planning element"
-      And I fill in "February" for "Name"
+      And I fill in "February" for "Subject"
       And I fill in "2012-02-01" for "Current planning Start date"
       And I fill in "2012-02-22" for "Current planning End date"
      When I fill in "2022-12-24" for "Scenario 1 Start date"
@@ -112,11 +113,11 @@ Feature: Planning Element Management
 
   Scenario: Editing a scenario
     Given there are the following planning elements:
-            | Name     | Start date | End date   |
+            | Subject  | Start date | End date   |
             | January  | 2012-01-01 | 2012-01-31 |
     Given there is a scenario "worst case" in project "ecookbook"
       And there are the following alternate dates for "worst case":
-            | Planning element name     | Start date | End date   |
+            | Planning element subject  | Start date | End date   |
             | January                   | 2013-01-01 | 2013-01-31 |
      When I go to the page of the planning element "January" of the project called "ecookbook"
       And I follow "Update"
@@ -128,11 +129,11 @@ Feature: Planning Element Management
 
   Scenario: Deleting a scenario that is associated to a planning element
     Given there are the following planning elements in project "ecookbook":
-            | Name     | Start date | End date   |
+            | Subject  | Start date | End date   |
             | January  | 2012-01-01 | 2012-01-31 |
     And there is a scenario "delete me" in project "ecookbook"
     And there are the following alternate dates for "delete me":
-            | Planning element name     | Start date | End date   |
+            | Planning element subject  | Start date | End date   |
             | January                   | 2013-01-01 | 2013-01-31 |
      When I go to the   page of the project called "ecookbook"
       And I toggle the "Timelines" submenu
