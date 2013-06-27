@@ -9,7 +9,7 @@ describe CostQuery, :reporting_query_helper => true do
   def create_issue_with_entry(entry_type, issue_params={}, entry_params = {})
       issue_params = {:project => project}.merge!(issue_params)
       issue = FactoryGirl.create(:issue, issue_params)
-      entry_params = {:issue => issue,
+      entry_params = {:work_package => issue,
                       :project => issue_params[:project],
                       :user => user}.merge!(entry_params)
       FactoryGirl.create(entry_type, entry_params)
@@ -38,12 +38,12 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     [
-      [CostQuery::Filter::ProjectId,  'project',    "project_id",   2],
-      [CostQuery::Filter::UserId,     'user',       "user_id",      2],
-      [CostQuery::Filter::AuthorId,   'author',     "author_id",    2],
-      [CostQuery::Filter::CostTypeId, 'cost_type',  "cost_type_id", 1],
-      [CostQuery::Filter::IssueId,    'issue',      "issue_id",     2],
-      [CostQuery::Filter::ActivityId, 'activity',   "activity_id",  1],
+      [CostQuery::Filter::ProjectId,        'project',    "project_id",      2],
+      [CostQuery::Filter::UserId,           'user',       "user_id",         2],
+      [CostQuery::Filter::AuthorId,         'author',     "author_id",       2],
+      [CostQuery::Filter::CostTypeId,       'cost_type',  "cost_type_id",    1],
+      [CostQuery::Filter::WorkPackageId,    'issue',      "work_package_id", 2],
+      [CostQuery::Filter::ActivityId, 'activity',   "activity_id",     1],
     ].each do |filter, object_name, field, expected_count|
       describe filter do
         let!(:non_matching_entry) { FactoryGirl.create(:cost_entry) }
@@ -52,12 +52,12 @@ describe CostQuery, :reporting_query_helper => true do
         let!(:issue) { FactoryGirl.create(:issue, :project => project,
                                                   :author => author) }
         let!(:cost_type) { FactoryGirl.create(:cost_type) }
-        let!(:cost_entry) { FactoryGirl.create(:cost_entry, :issue => issue,
+        let!(:cost_entry) { FactoryGirl.create(:cost_entry, :work_package => issue,
                                                             :user => user,
                                                             :project => project,
                                                             :cost_type => cost_type) }
         let!(:activity) { FactoryGirl.create(:time_entry_activity) }
-        let!(:time_entry) { FactoryGirl.create(:time_entry, :issue => issue,
+        let!(:time_entry) { FactoryGirl.create(:time_entry, :work_package => issue,
                                                             :user => user,
                                                             :project => project,
                                                             :activity => activity) }
@@ -213,7 +213,7 @@ describe CostQuery, :reporting_query_helper => true do
     [
       CostQuery::Filter::UserId,
       CostQuery::Filter::CostTypeId,
-      CostQuery::Filter::IssueId,
+      CostQuery::Filter::WorkPackageId,
       CostQuery::Filter::AuthorId,
       CostQuery::Filter::ActivityId,
       CostQuery::Filter::PriorityId,
@@ -266,19 +266,19 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       def delete_issue_custom_field(name)
-        IssueCustomField.find_by_name(name).destroy
+        WorkPackageCustomField.find_by_name(name).destroy
         clear_cache
       end
 
       def update_issue_custom_field(name, options)
-        fld = IssueCustomField.find_by_name(name)
+        fld = WorkPackageCustomField.find_by_name(name)
         options.each_pair {|k, v| fld.send(:"#{k}=", v) }
         fld.save!
         clear_cache
       end
 
       def class_name_for(name)
-        "CostQuery::Filter::CustomField#{IssueCustomField.find_by_name(name).id}"
+        "CostQuery::Filter::CustomField#{WorkPackageCustomField.find_by_name(name).id}"
       end
 
       it "should create classes for custom fields that get added after starting the server" do
@@ -352,14 +352,14 @@ describe CostQuery, :reporting_query_helper => true do
 
       it "is usable as filter" do
         create_searchable_fields_and_values
-        id = IssueCustomField.find_by_name("Searchable Field").id
+        id = WorkPackageCustomField.find_by_name("Searchable Field").id
         @query.filter "custom_field_#{id}".to_sym, :operator => '=', :value => "125"
         @query.result.count.should == 2
       end
 
       it "is usable as filter #2" do
         create_searchable_fields_and_values
-        id = IssueCustomField.find_by_name("Searchable Field").id
+        id = WorkPackageCustomField.find_by_name("Searchable Field").id
         @query.filter "custom_field_#{id}".to_sym, :operator => '=', :value => "finnlabs"
         @query.result.count.should == 0
       end

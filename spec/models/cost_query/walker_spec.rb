@@ -7,12 +7,12 @@ describe CostQuery, :reporting_query_helper => true do
     FactoryGirl.create(:admin)
     project = FactoryGirl.create(:project_with_trackers)
     issue = FactoryGirl.create(:issue, project: project)
-    FactoryGirl.create(:time_entry, issue: issue, project: project)
+    FactoryGirl.create(:time_entry, work_package: issue, project: project)
   end
 
   describe CostQuery::Transformer do
     it "should walk down row_first" do
-      @query.group_by :issue_id
+      @query.group_by :work_package_id
       @query.column :tweek
       @query.row :project_id
       @query.row :user_id
@@ -25,13 +25,13 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     it "should walk down column_first" do
-      @query.group_by :issue_id
+      @query.group_by :work_package_id
       @query.column :tweek
       @query.row :project_id
       @query.row :user_id
 
       result = @query.transformer.column_first.values.first
-      [:tweek, :issue_id].each do |field|
+      [:tweek, :work_package_id].each do |field|
         result.fields.should include(field)
         result = result.values.first
       end

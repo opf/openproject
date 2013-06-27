@@ -3,14 +3,14 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, :reporting_query_helper => true do
   let!(:project1){ FactoryGirl.create(:project_with_trackers) }
   let!(:issue1) { FactoryGirl.create(:issue, project: project1) }
-  let!(:time_entry1) { FactoryGirl.create(:time_entry, issue: issue1, project: project1, spent_on: Date.new(2012, 1, 1)) }
+  let!(:time_entry1) { FactoryGirl.create(:time_entry, work_package: issue1, project: project1, spent_on: Date.new(2012, 1, 1)) }
   let!(:time_entry2) do
     time_entry2 = time_entry1.dup
     time_entry2.save!
     time_entry2
   end
   let!(:cost_object1) { FactoryGirl.create(:cost_object, project: project1) }
-  let!(:cost_entry1) { FactoryGirl.create(:cost_entry, issue: issue1, project: project1, spent_on: Date.new(2013, 2, 3)) }
+  let!(:cost_entry1) { FactoryGirl.create(:cost_entry, work_package: issue1, project: project1, spent_on: Date.new(2013, 2, 3)) }
   let!(:cost_entry2) do
     cost_entry2 =  cost_entry1.dup
     cost_entry2.save!
@@ -19,14 +19,14 @@ describe CostQuery, :reporting_query_helper => true do
 
   let!(:project2) { FactoryGirl.create(:project_with_trackers) }
   let!(:issue2) { FactoryGirl.create(:issue, project: project2) }
-  let!(:time_entry3) { FactoryGirl.create(:time_entry, issue: issue2, project: project2, spent_on: Date.new(2013, 2, 3)) }
+  let!(:time_entry3) { FactoryGirl.create(:time_entry, work_package: issue2, project: project2, spent_on: Date.new(2013, 2, 3)) }
   let!(:time_entry4) do
     time_entry4 = time_entry3.dup
     time_entry4.save!
     time_entry4
   end
   let!(:cost_object2) { FactoryGirl.create(:cost_object, project: project2) }
-  let!(:cost_entry3) { FactoryGirl.create(:cost_entry, issue: issue2, project: project2, spent_on: Date.new(2012, 1, 1)) }
+  let!(:cost_entry3) { FactoryGirl.create(:cost_entry, work_package: issue2, project: project2, spent_on: Date.new(2012, 1, 1)) }
   let!(:cost_entry4) do
     cost_entry4 =  cost_entry3.dup
     cost_entry4.save!
@@ -43,15 +43,15 @@ describe CostQuery, :reporting_query_helper => true do
 
     it "should keep own and all parents' group fields in all_group_fields" do
       @query.group_by :project_id
-      @query.group_by :issue_id
+      @query.group_by :work_package_id
       @query.group_by :cost_type_id
       @query.all_group_fields.should == %w[entries.cost_type_id]
-      @query.child.all_group_fields.should == %w[entries.cost_type_id entries.issue_id]
-      @query.child.child.all_group_fields.should == %w[entries.cost_type_id entries.issue_id entries.project_id]
+      @query.child.all_group_fields.should == %w[entries.cost_type_id entries.work_package_id]
+      @query.child.child.all_group_fields.should == %w[entries.cost_type_id entries.work_package_id entries.project_id]
     end
 
     it "should compute group_by Issue" do
-      @query.group_by :issue_id
+      @query.group_by :work_package_id
       @query.result.size.should == 2
     end
 
@@ -138,7 +138,7 @@ describe CostQuery, :reporting_query_helper => true do
 
     it "compute count correct with lots of group_by" do
       @query.group_by :project_id
-      @query.group_by :issue_id
+      @query.group_by :work_package_id
       @query.group_by :cost_type_id
       @query.group_by :activity_id
       @query.group_by :spent_on
@@ -208,7 +208,7 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       def create_issue_custom_field(name)
-        IssueCustomField.create(:name => name,
+        WorkPackageCustomField.create(:name => name,
           :min_length => 1,
           :regexp => "",
           :is_for_all => true,
@@ -223,12 +223,12 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       def delete_issue_custom_field(name)
-        IssueCustomField.find_by_name(name).destroy
+        WorkPackageCustomField.find_by_name(name).destroy
         check_cache
       end
 
       def class_name_for(name)
-        "CostQuery::GroupBy::CustomField#{IssueCustomField.find_by_name(name).id}"
+        "CostQuery::GroupBy::CustomField#{WorkPackageCustomField.find_by_name(name).id}"
       end
 
       it "should create classes for custom fields" do
@@ -240,7 +240,7 @@ describe CostQuery, :reporting_query_helper => true do
         create_issue_custom_field("AFreshCustomField")
         # Would raise a name error
         expect { class_name_for('AFreshCustomField').constantize }.to_not raise_error
-        IssueCustomField.find_by_name("AFreshCustomField").destroy
+        WorkPackageCustomField.find_by_name("AFreshCustomField").destroy
       end
 
       it "should remove the custom field classes after it is deleted" do
@@ -262,7 +262,7 @@ describe CostQuery, :reporting_query_helper => true do
 
       it "is usable as filter" do
         create_issue_custom_field("Database")
-        id = IssueCustomField.find_by_name('Database').id
+        id = WorkPackageCustomField.find_by_name('Database').id
         @query.group_by "custom_field_#{id}".to_sym
         footprint = @query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
         footprint.should == [[8, 8]]

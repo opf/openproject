@@ -5,13 +5,13 @@ describe CostQuery, :reporting_query_helper => true do
 
   let!(:project1){ FactoryGirl.create(:project_with_trackers) }
   let!(:issue1) { FactoryGirl.create(:issue, project: project1) }
-  let!(:time_entry1) { FactoryGirl.create(:time_entry, issue: issue1, project: project1) }
-  let!(:time_entry2) { FactoryGirl.create(:time_entry, issue: issue1, project: project1) }
+  let!(:time_entry1) { FactoryGirl.create(:time_entry, work_package: issue1, project: project1) }
+  let!(:time_entry2) { FactoryGirl.create(:time_entry, work_package: issue1, project: project1) }
 
   let!(:project2) { FactoryGirl.create(:project_with_trackers) }
   let!(:issue2) { FactoryGirl.create(:issue, project: project2) }
-  let!(:time_entry3) { FactoryGirl.create(:time_entry, issue: issue2, project: project2) }
-  let!(:time_entry4) { FactoryGirl.create(:time_entry, issue: issue2, project: project2) }
+  let!(:time_entry3) { FactoryGirl.create(:time_entry, work_package: issue2, project: project2) }
+  let!(:time_entry4) { FactoryGirl.create(:time_entry, work_package: issue2, project: project2) }
 
   before do
     FactoryGirl.create(:admin)
@@ -74,7 +74,7 @@ describe CostQuery, :reporting_query_helper => true do
         end
       end
       # create a random query
-      @query.group_by :issue_id
+      @query.group_by :work_package_id
       @query.column :tweek
       @query.row :project_id
       @query.row :user_id

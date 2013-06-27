@@ -1,4 +1,4 @@
-class CostQuery::Filter::IssueId < Report::Filter::Base
+class CostQuery::Filter::WorkPackageId < Report::Filter::Base
 
   def self.label
     Issue.model_name.human

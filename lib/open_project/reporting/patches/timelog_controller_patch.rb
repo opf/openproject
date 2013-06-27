@@ -39,12 +39,13 @@ module OpenProject::Reporting::Patches::TimelogControllerPatch
           issue_ids = [@issue.id.to_s]
         end
 
-        filters[:operators][:issue_id] = "="
-        filters[:values][:issue_id] = [issue_ids]
+        filters[:operators][:work_package_id] = "="
+        filters[:values][:work_package_id] = [issue_ids]
       end
 
       filters[:operators][:project_id] = "="
       filters[:values][:project_id] = [@project.id.to_s]
+
       respond_to do |format|
         format.html {
           session[::CostQuery.name.underscore.to_sym] = { :filters => filters, :groups => {:rows => [], :columns => []} }

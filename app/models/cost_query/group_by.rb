@@ -7,7 +7,7 @@ class CostQuery::GroupBy < Report::GroupBy
       CostQuery::GroupBy::CostObjectId,
       CostQuery::GroupBy::CostTypeId,
       CostQuery::GroupBy::FixedVersionId,
-      CostQuery::GroupBy::IssueId,
+      CostQuery::GroupBy::WorkPackageId,
       CostQuery::GroupBy::PriorityId,
       CostQuery::GroupBy::ProjectId,
       CostQuery::GroupBy::SpentOn,

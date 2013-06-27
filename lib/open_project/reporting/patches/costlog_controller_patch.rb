@@ -39,8 +39,8 @@ module OpenProject::Reporting::Patches::CostlogControllerPatch
           issue_ids = [@issue.id]
         end
 
-        filters[:operators][:issue_id] = "="
-        filters[:values][:issue_id] = issue_ids
+        filters[:operators][:work_package_id] = "="
+        filters[:values][:work_package_id] = issue_ids
       end
 
       filters[:operators][:project_id] = "="
