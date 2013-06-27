@@ -34,7 +34,7 @@
       <th class="currency"><%= CostEntry.human_attribute_name(:costs) %></th>
     </tr></thead>
     <tbody>
-      <% @cost_object.cost_entries.visible(User.current, @project).all(:include => [:cost_type]).group_by(&:issue).each do |issue, cost_entries|
+      <% @cost_object.cost_entries.visible(User.current, @project).all(:include => [:cost_type]).group_by(&:work_package).each do |issue, cost_entries|
       entries = cost_entries.inject(Hash.new)  do |results, entry|
         result = results[entry.cost_type.id.to_s]
         unless result
@@ -109,7 +109,7 @@
       <th class="currency"><%= TimeEntry.human_attribute_name(:costs) %></th>
     </tr></thead>
     <tbody>
-    <% @cost_object.time_entries.visible(User.current, @project).all.group_by(&:issue).each do |issue, time_entries|
+    <% @cost_object.time_entries.visible(User.current, @project).all.group_by(&:work_package).each do |issue, time_entries|
       entries = time_entries.inject(Hash.new)  do |results, entry|
         result = results[entry.user.id.to_s]
         unless result
