@@ -221,7 +221,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
     t = TimeEntry.generate
     i = Issue.generate_for_project!(p)
     t.project = p
-    t.issue = i
+    t.work_package = i
     t.activity.project = p
     t.activity.save!
     send_table_to_object(t, table,
