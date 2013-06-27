@@ -574,8 +574,10 @@ jQuery(document).ready(function($) {
       var header = 'X-CSRF-Token',
       token = csrf_meta_tag.attr('content');
 
-      request.setRequestHeader[header] = token;
+      request.setRequestHeader(header, token);
     }
+
+    request.setRequestHeader('X-ACCEPT-AUTH', "Session");
   });
   // ajaxStop gets called when ALL Requests finish, so we won't need a counter as in PT
   $(document).ajaxStop(function () {
