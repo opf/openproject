@@ -1,3 +1,9 @@
+= 5.0.1.pre3 - 2013-06-21
+
+* Removes csv and atom export for costlog (where non working)
+* Add missing translations
+* Adapt to OpenProject core changes
+
 = 5.0.1.pre2 - 2013-06-21
 
 * Use final plugin name schema
