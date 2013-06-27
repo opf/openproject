@@ -190,6 +190,7 @@ class User < Principal
       else
         # authentication with local password
         return nil unless user.check_password?(password)
+        return nil if user.force_password_change
       end
     else
       # user is not yet registered, try to authenticate with available sources
@@ -540,7 +541,7 @@ class User < Principal
   safe_attributes 'firstname', 'lastname', 'mail', 'mail_notification', 'language',
                   'custom_field_values', 'custom_fields', 'identity_url'
 
-  safe_attributes 'status', 'auth_source_id',
+  safe_attributes 'auth_source_id', 'force_password_change', 'status',
     :if => lambda {|user, current_user| current_user.admin?}
 
   safe_attributes 'group_ids',

@@ -143,6 +143,7 @@ de:
         mail_notification: "Mailbenachrichtigung"
         new_password: "Neues Kennwort"
         password_confirmation: "Bestätigung"
+        force_password_change: "Erzwinge Passwortwechsel beim nächsten Login"
       user_preference:
         comments_sorting: "Kommentare anzeigen"
         hide_mail: "E-Mail-Adresse nicht anzeigen"
@@ -976,6 +977,7 @@ de:
   notice_account_inactive: "Ihr Konto ist nicht aktiviert. Zur Aktivierung folgen Sie dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde."
   notice_account_invalid_creditentials: "Benutzer oder Kennwort ist ungültig."
   notice_account_lost_email_sent: "Eine E-Mail mit Anweisungen, ein neues Kennwort zu wählen, wurde Ihnen geschickt."
+  notice_account_new_password_forced: "Ein neues Passwort muss gesetzt werden."
   notice_account_password_updated: "Kennwort wurde erfolgreich aktualisiert."
   notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
   notice_account_register_done: "Konto wurde erfolgreich angelegt. Zur Aktivierung folgen Sie dem Link, der Ihnen per E-Mail zugeschickt wurde."

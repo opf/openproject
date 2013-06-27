@@ -31,17 +31,6 @@ Then /^I should not see(?: (\d+))? ([^\" ]+)(?: within "([^\"]*)")?$/ do |number
   end
 end
 
-Around('@changes_environment') do |scenario, block|
-  saved_env = ENV["RAILS_ENV"]
-  block.call
-  ENV["RAILS_ENV"] = saved_env
-end
-
-
-Then /^I am in "([^\"]*)" mode$/ do |env|
-  ENV["RAILS_ENV"] = env
-end
-
 Given /^the [pP]roject(?: "([^\"]+?)")? uses the following trackers:$/ do |project, table|
   project = get_project(project)
 
