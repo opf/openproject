@@ -47,9 +47,7 @@ class AddDenormalizedCostsFields < ActiveRecord::Migration
     if @issues_table_exists
       remove_column :issues, :labor_costs
       remove_column :issues, :material_costs
-    elsif
-      remove_column :work_packages, :labor_costs
-      remove_column :work_packages, :material_costs
+      remove_column :issues, :overall_costs
     end
   end
 end
