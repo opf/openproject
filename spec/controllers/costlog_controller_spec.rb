@@ -61,7 +61,7 @@ describe CostlogController do
   end
 
   describe "GET new" do
-    let(:params) { { "issue_id" => issue.id.to_s } }
+    let(:params) { { "work_package_id" => issue.id.to_s } }
 
     let(:expected_project) { project }
     let(:expected_issue) { issue }
@@ -234,7 +234,7 @@ describe CostlogController do
   describe "POST create" do
     let (:params) { { "project_id" => project.id.to_s,
                       "cost_entry" => { "user_id" => user.id.to_s,
-                                        "issue_id" => (issue.present? ? issue.id.to_s : "") ,
+                                        "work_package_id" => (issue.present? ? issue.id.to_s : "") ,
                                         "units" => units.to_s,
                                         "cost_type_id" => (cost_type.present? ? cost_type.id.to_s : "" ),
                                         "comments" => "lorem",
@@ -428,7 +428,7 @@ describe CostlogController do
       before do
         grant_current_user_permissions user, [:log_costs]
 
-        params["cost_entry"]["issue_id"] = issue2.id
+        params["cost_entry"]["work_package_id"] = issue2.id
       end
 
       it_should_behave_like "invalid create"
@@ -442,7 +442,7 @@ describe CostlogController do
       before do
         grant_current_user_permissions user, [:log_costs]
 
-        params["cost_entry"].delete("issue_id")
+        params["cost_entry"].delete("work_package_id")
       end
 
       it_should_behave_like "invalid create"
@@ -474,7 +474,7 @@ describe CostlogController do
   describe "PUT update" do
     let(:params) { { "id" => cost_entry.id.to_s,
                      "cost_entry" => { "comments" => "lorem",
-                                       "issue_id" => cost_entry.work_package.id.to_s,
+                                       "work_package_id" => cost_entry.work_package.id.to_s,
                                        "units" => cost_entry.units.to_s,
                                        "spent_on" => cost_entry.spent_on.to_s,
                                        "user_id" => cost_entry.user.id.to_s,
@@ -542,7 +542,7 @@ describe CostlogController do
         grant_current_user_permissions expected_user, []
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        params["cost_entry"]["issue_id"] = expected_issue.id.to_s
+        params["cost_entry"]["work_package_id"] = expected_issue.id.to_s
         params["cost_entry"]["user_id"] = expected_user.id.to_s
         params["cost_entry"]["spent_on"] = expected_spent_on.to_s
         params["cost_entry"]["units"] = expected_units.to_s
@@ -604,7 +604,7 @@ describe CostlogController do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        params["cost_entry"]["issue_id"] = issue2.id.to_s
+        params["cost_entry"]["work_package_id"] = issue2.id.to_s
       end
 
       it_should_behave_like "invalid update"
@@ -619,7 +619,7 @@ describe CostlogController do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        params["cost_entry"]["issue_id"] = (issue.id + 1).to_s
+        params["cost_entry"]["work_package_id"] = (issue.id + 1).to_s
       end
 
       it_should_behave_like "invalid update"
