@@ -70,6 +70,7 @@ class MyController < ApplicationController
   # When making changes here, also check AccountController.change_password
   def change_password
     @user = User.current  # required by "my" layout
+    @username = @user.login
     return if redirect_if_password_change_not_allowed_for(@user)
     if @user.check_password?(params[:password])
       @user.password = params[:new_password]

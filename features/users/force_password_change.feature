@@ -25,12 +25,16 @@ Feature: Forced Password Change
     And I should see "Invalid user or password"
     And there should be a "New password" field
     And I should not see "Bob Bobbit"
+    # password change form should show login
+    And I should see "bob"
 
   Scenario: A user providing a new password failing validation
     When I try to log in with user "bob"
     And I fill out the change password form with a wrong password confirmation
     Then there should be an error message
     And I should not see "Bob Bobbit"
+    # password change form should show login
+    And I should see "bob"
 
   Scenario: Setting forced password change for a user forces him to change password on next login
     Given I am already logged in as "admin"
@@ -41,6 +45,8 @@ Feature: Forced Password Change
     Then there should be a flash error message
     And there should be a "New password" field
     And I should not see "Bob Bobbit"
+    # password change form should show login
+    And I should see "bob"
 
   Scenario: A user is forced to change the password on the first login, but not on the second
     When I try to log in with user "bob"
