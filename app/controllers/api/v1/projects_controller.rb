@@ -84,7 +84,7 @@ module Api
       end
 
       def create
-        @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+        @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
         @trackers = Tracker.all
         @project = Project.new
         @project.safe_attributes = params[:project]

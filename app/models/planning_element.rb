@@ -9,25 +9,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class PlanningElement < ActiveRecord::Base
+class PlanningElement < WorkPackage
   unloadable
 
-  self.table_name = 'planning_elements'
-
-  acts_as_tree
-
-  include TimestampsCompatibility
   include NestedAttributesForApi
   include ActiveModel::ForbiddenAttributesProtection
 
-  belongs_to :project,     :class_name => "Project"
   belongs_to :responsible, :class_name => "User",
                            :foreign_key => "responsible_id"
-
-  belongs_to :planning_element_type,   :class_name  => "PlanningElementType",
-                                       :foreign_key => 'planning_element_type_id'
-  belongs_to :planning_element_status, :class_name  => "PlanningElementStatus",
-                                       :foreign_key => 'planning_element_status_id'
 
   has_many :alternate_dates, :class_name  => "AlternateDate",
                              :foreign_key => 'planning_element_id',
@@ -39,15 +28,7 @@ class PlanningElement < ActiveRecord::Base
                                          :planning_element_type,
                                          :project
 
-  acts_as_watchable
-
-  acts_as_journalized :activity_type => 'planning_elements',
-                      :activity_permission => :view_planning_elements,
-                      :event_url   => Proc.new { |j| {:controller => '/planning_elements',
-                                                      :action     => 'show',
-                                                      :id         => j.journaled,
-                                                      :project_id => j.project,
-                                                      :anchor     => ("note-#{j.anchor}" unless j.initial?)} }
+  acts_as_tree
 
   # This SQL only works when there are no two updates in the same
   # millisecond. As soon as updates happen in rapid succession, multiple
@@ -55,7 +36,7 @@ class PlanningElement < ActiveRecord::Base
 
   SQL_FOR_AT = {
     :select => "#{PlanningElement.quoted_table_name}.id,
-                #{PlanningElement.quoted_table_name}.name,
+                #{PlanningElement.quoted_table_name}.subject,
                 #{PlanningElement.quoted_table_name}.description,
                 #{PlanningElement.quoted_table_name}.planning_element_status_comment,
                 #{AlternateDate.quoted_table_name  }.start_date,
@@ -86,8 +67,6 @@ class PlanningElement < ActiveRecord::Base
 
   }
 
-  scope :without_deleted, :conditions => "#{PlanningElement.quoted_table_name}.deleted_at IS NULL"
-  scope :deleted, :conditions => "#{PlanningElement.quoted_table_name}.deleted_at IS NOT NULL"
   scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => PlanningElement.visible_condition(args.first || User.current) } }
 
@@ -106,35 +85,16 @@ class PlanningElement < ActiveRecord::Base
     {:conditions => {:project_id => projects}}
   }
 
-  def self.visible_condition(user, options={})
-    Project.allowed_to_condition(user, :view_planning_elements, options)
-  end
-
-  # Used for journal entry / activities list
-  def activity_type
-    'planning_elements'
-  end
-
   # Used for activities list
   def title
     title = ''
-    title << name
+    title << subject
     title << ' ('
     title << planning_element_type.name << ' ' if planning_element_type
     title << '*'
     title << id.to_s
     title << ')'
   end
-
-  register_on_journal_formatter :plaintext,         :name, :description,
-                                                    :planning_element_status_comment
-  register_on_journal_formatter :named_association, :parent_id, :project_id,
-                                                    :planning_element_type_id,
-                                                    :planning_element_status_id,
-                                                    :responsible_id
-  register_on_journal_formatter :datetime,          :start_date, :end_date, :deleted_at
-
-  register_on_journal_formatter :scenario_date,     /^scenario_(\d+)_(start|end)_date$/
 
   # Overriding Journal Class to provide extended information in activity view
   journal_class.class_eval do
@@ -170,9 +130,9 @@ class PlanningElement < ActiveRecord::Base
   after_save :update_parent_attributes
   after_save :create_alternate_date
 
-  validates_presence_of :name, :start_date, :end_date, :project
+  validates_presence_of :subject, :start_date, :end_date, :project
 
-  validates_length_of :name, :maximum => 255, :unless => lambda { |e| e.name.blank? }
+  validates_length_of :subject, :maximum => 255, :unless => lambda { |e| e.subject.blank? }
 
   def duration
     if start_date >= end_date
@@ -274,9 +234,10 @@ class PlanningElement < ActiveRecord::Base
 
 
   def destroy
-    unless new_record?
+    unless new_record? or self.deleted_at
       self.children.each{|child| child.destroy}
 
+      self.reload
       self.deleted_at = Time.now
       self.save!
     end

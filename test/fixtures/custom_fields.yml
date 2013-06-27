@@ -4,7 +4,7 @@ custom_fields_001:
   regexp: ""
   is_for_all: true
   is_filter: true
-  type: IssueCustomField
+  type: WorkPackageCustomField
   max_length: 0
   id: 1
   is_required: false
@@ -14,7 +14,7 @@ custom_fields_002:
   min_length: 1
   regexp: ""
   is_for_all: true
-  type: IssueCustomField
+  type: WorkPackageCustomField
   max_length: 100
   id: 2
   is_required: false
@@ -56,7 +56,7 @@ custom_fields_006:
   min_length: 0
   regexp: ""
   is_for_all: true
-  type: IssueCustomField
+  type: WorkPackageCustomField
   max_length: 0
   id: 6
   is_required: false
@@ -78,7 +78,7 @@ custom_fields_008:
   regexp: ""
   is_for_all: true
   is_filter: false
-  type: IssueCustomField
+  type: WorkPackageCustomField
   max_length: 0
   id: 8
   is_required: false
@@ -89,7 +89,7 @@ custom_fields_009:
   regexp: ""
   is_for_all: false
   is_filter: true
-  type: IssueCustomField
+  type: WorkPackageCustomField
   max_length: 0
   id: 9
   is_required: false

@@ -16,7 +16,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                 :conditions => { :author_id => User.current.id },
                                 :limit => 10,
                                 :include => [ :status, :project, :tracker ],
-                                :order => "#{Issue.table_name}.updated_on DESC") %>
+                                :order => "#{Issue.table_name}.updated_at DESC") %>
 <%= render :partial => 'issues/list_simple', :locals => { :issues => reported_issues } %>
 <% if reported_issues.length > 0 %>
 <p class="small"><%= link_to l(:label_issue_view_all_reported_by_me), :controller => '/issues',
@@ -24,7 +24,7 @@ See doc/COPYRIGHT.rdoc for more details.
 																											 :set_filter => 1,
 																											 :status_id => '*',
 																											 :author_id => 'me',
-																											 :sort => 'updated_on:desc' %></p>
+																											 :sort => 'updated_at:desc' %></p>
 <% end %>
 
 <% content_for :header_tags do %>

@@ -27,8 +27,8 @@ Feature: Issue edit
     And there is a role "member"
     And the role "member" may have the following rights:
       | add_issues  |
-      | view_issues |
-      | edit_issues |
+      | view_work_packages |
+      | edit_work_packages |
     And there is 1 user with the following:
       | login | lrrr|
     And the user "lrrr" is a "member" in the project "omicronpersei8"

@@ -38,7 +38,7 @@ FactoryGirl.define do
       "Testspezifikation"
     ]
 
-    sequence(:name) { |n| "#{prepared_names.sample} No. #{n}" }
+    sequence(:subject) { |n| "#{prepared_names.sample} No. #{n}" }
     sequence(:description) { |n| "Planning Element No. #{n} is the most important part of the project." }
 
     sequence(:start_date) { |n| ((n - 1) * 7).days.since.to_date }

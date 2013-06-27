@@ -9,9 +9,9 @@ Feature: Doing Ajax when logged out
 
       And there is a role "manager"
       And the role "manager" may have the following rights:
-          | view_timelines           |
-          | edit_timelines           |
-          | view_planning_elements   |
+          | view_timelines         |
+          | edit_timelines         |
+          | view_planning_elements |
 
       And there is a project named "ecookbook" of type "Standard Project"
       And I am working in project "ecookbook"
@@ -24,7 +24,7 @@ Feature: Doing Ajax when logged out
       And I am logged in as "manager"
 
       And there are the following planning elements:
-              | Name     | Start date | End date   | description       | status_name    | responsible    |
+              | Subject  | Start date | End date   | description       | status_name    | responsible    |
               | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed         | manager        |
 
   @javascript

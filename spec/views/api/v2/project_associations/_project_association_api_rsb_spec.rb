@@ -77,14 +77,14 @@ describe 'api/v2/project_associations/_project_association.api' do
         response.should have_selector('project_association description', :text => 'Description of this project_association')
       end
 
-      it 'contains a created_on element containing the project_association created_on in UTC in ISO 8601' do
+      it 'contains a created_at element containing the project_association created_at in UTC in ISO 8601' do
         render
-        response.should have_selector('project_association created_on', :text => '2011-01-06T11:35:00Z')
+        response.should have_selector('project_association created_at', :text => '2011-01-06T11:35:00Z')
       end
 
-      it 'contains an updated_on element containing the project_association updated_on in UTC in ISO 8601' do
+      it 'contains an updated_at element containing the project_association updated_at in UTC in ISO 8601' do
         render
-        response.should have_selector('project_association updated_on', :text => '2011-01-07T11:35:00Z')
+        response.should have_selector('project_association updated_at', :text => '2011-01-07T11:35:00Z')
       end
     end
   end

@@ -14,7 +14,7 @@ Given /^there are no issues$/ do
 end
 
 Given /^the issue "(.*?)" is watched by:$/ do |issue_subject, watchers|
-  issue = Issue.find(:last, :conditions => {:subject => issue_subject}, :order => :created_on)
+  issue = Issue.find(:last, :conditions => {:subject => issue_subject}, :order => :created_at)
   watchers.raw.flatten.each {|w| issue.add_watcher User.find_by_login(w)}
   issue.save
 end
@@ -24,7 +24,7 @@ Then /^the issue "(.*?)" should have (\d+) watchers$/ do |issue_subject, watcher
 end
 
 Given(/^the issue "(.*?)" has an attachment "(.*?)"$/) do |issue_subject, file_name|
-  issue = Issue.find(:last, :conditions => {:subject => issue_subject}, :order => :created_on)
+  issue = Issue.find(:last, :conditions => {:subject => issue_subject}, :order => :created_at)
   attachment = FactoryGirl.create :attachment,
         :author => issue.author,
         :content_type => 'image/gif',

@@ -14,7 +14,7 @@ class Version < ActiveRecord::Base
   include Redmine::SafeAttributes
   after_update :update_issues_from_sharing_change
   belongs_to :project
-  has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id', :dependent => :nullify
+  has_many :fixed_issues, :class_name => 'WorkPackage', :foreign_key => 'fixed_version_id', :dependent => :nullify
   acts_as_customizable
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
@@ -35,7 +35,7 @@ class Version < ActiveRecord::Base
 
   scope :open, :conditions => {:status => 'open'}
   scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_work_packages) } }
 
   safe_attributes 'name',
     'description',
@@ -49,7 +49,7 @@ class Version < ActiveRecord::Base
 
   # Returns true if +user+ or current user is allowed to view the version
   def visible?(user=User.current)
-    user.allowed_to?(:view_issues, self.project)
+    user.allowed_to?(:view_work_packages, self.project)
   end
 
   # When a version started.
@@ -75,7 +75,7 @@ class Version < ActiveRecord::Base
 
   # Returns the total reported time for this version
   def spent_hours
-    @spent_hours ||= TimeEntry.sum(:hours, :include => :issue, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
+    @spent_hours ||= TimeEntry.sum(:hours, :include => :work_package, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
   end
 
   def closed?

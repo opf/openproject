@@ -14,8 +14,6 @@ class AvailableProjectStatus < ActiveRecord::Base
 
   self.table_name = 'available_project_statuses'
 
-  include TimestampsCompatibility
-
   belongs_to :project_type,            :class_name  => 'ProjectType',
                                        :foreign_key => 'project_type_id'
   belongs_to :reported_project_status, :class_name  => 'ReportedProjectStatus',

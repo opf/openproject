@@ -60,12 +60,12 @@ describe 'api/v2/planning_element_type_colors/_color.api' do
 
       it 'contains a created_on element containing the color created_on in UTC in ISO 8601' do
         render
-        response.should have_selector('color created_on', :text => '2011-01-06T11:35:00Z')
+        response.should have_selector('color created_at', :text => '2011-01-06T11:35:00Z')
       end
 
       it 'contains an updated_on element containing the color updated_on in UTC in ISO 8601' do
         render
-        response.should have_selector('color updated_on', :text => '2011-01-07T11:35:00Z')
+        response.should have_selector('color updated_at', :text => '2011-01-07T11:35:00Z')
       end
     end
   end

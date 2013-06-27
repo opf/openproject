@@ -414,7 +414,7 @@ class UserTest < ActiveSupport::TestCase
       should "return false if project is archived" do
         project = Project.find(1)
         Project.any_instance.stubs(:status).returns(Project::STATUS_ARCHIVED)
-        assert ! @admin.allowed_to?(:view_issues, Project.find(1))
+        assert ! @admin.allowed_to?(:view_work_packages, Project.find(1))
       end
 
       should "return false if related module is disabled" do
@@ -428,7 +428,7 @@ class UserTest < ActiveSupport::TestCase
         project = Project.find(1)
         project.enabled_module_names = ["issue_tracking", "news", "wiki", "repository"]
         assert ! @admin.member_of?(project)
-        %w(edit_issues delete_issues manage_news manage_repository manage_wiki).each do |p|
+        %w(edit_work_packages delete_issues manage_news manage_repository manage_wiki).each do |p|
           assert @admin.allowed_to?(p.to_sym, project)
         end
       end
@@ -461,7 +461,7 @@ class UserTest < ActiveSupport::TestCase
 
         assert @admin.allowed_to?(:view_project, Project.all)
         assert ! @dlopper.allowed_to?(:view_project, Project.all) #cannot see Project(2)
-        assert @jsmith.allowed_to?(:edit_issues, @jsmith.projects) #Manager or Developer everywhere
+        assert @jsmith.allowed_to?(:edit_work_packages, @jsmith.projects) #Manager or Developer everywhere
         assert ! @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects) #Dev cannot delete_issue_watchers
       end
 
@@ -478,7 +478,7 @@ class UserTest < ActiveSupport::TestCase
         assert ! @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
         assert @dlopper2.allowed_to?(:add_issues, nil, :global => true)
         assert ! @anonymous.allowed_to?(:add_issues, nil, :global => true)
-        assert @anonymous.allowed_to?(:view_issues, nil, :global => true)
+        assert @anonymous.allowed_to?(:view_work_packages, nil, :global => true)
       end
     end
   end

@@ -34,7 +34,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
     let(:planning_element) { FactoryGirl.build(:planning_element,
                                            :id => 1,
                                            :project_id => project.id,
-                                           :name => 'Awesometastic Planning Element',
+                                           :subject => 'Awesometastic Planning Element',
                                            :description => 'Description of this planning element',
 
                                            :start_date => Date.parse('2011-12-06'),
@@ -106,14 +106,14 @@ describe 'api/v2/planning_elements/_planning_element.api' do
         response.should have_selector('planning_element planning_element_status_comment', :text => 'All going well')
       end
 
-      it 'contains a created_on element containing the planning element created_on in UTC in ISO 8601' do
+      it 'contains a created_at element containing the planning element created_at in UTC in ISO 8601' do
         render
-        response.should have_selector('planning_element created_on', :text => '2011-01-06T11:35:00Z')
+        response.should have_selector('planning_element created_at', :text => '2011-01-06T11:35:00Z')
       end
 
-      it 'contains an updated_on element containing the planning element updated_on in UTC in ISO 8601' do
+      it 'contains an updated_at element containing the planning element updated_at in UTC in ISO 8601' do
         render
-        response.should have_selector('planning_element updated_on', :text => '2011-01-07T11:35:00Z')
+        response.should have_selector('planning_element updated_at', :text => '2011-01-07T11:35:00Z')
       end
     end
   end
@@ -123,7 +123,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
 
     let(:parent_element)   { FactoryGirl.create(:planning_element,
                                             :id         => 1337,
-                                            :name       => 'Parent Element',
+                                            :subject       => 'Parent Element',
                                             :project_id => project.id) }
     let(:planning_element) {  FactoryGirl.build(:planning_element,
                                             :parent_id  => parent_element.id,
@@ -138,19 +138,19 @@ describe 'api/v2/planning_elements/_planning_element.api' do
   describe 'with a planning element having children' do
     let(:project) { FactoryGirl.create(:project) }
     let(:planning_element) { FactoryGirl.create(:planning_element,
-                                            :project_id => project.id) }
-
+                                                :id => 1338,
+                                                :project_id => project.id) }
     before do
       FactoryGirl.create(:planning_element,
                      :project_id => project.id,
                      :parent_id  => planning_element.id,
                      :id         => 1339,
-                     :name       => 'Child #1')
+                     :subject    => 'Child #1')
       FactoryGirl.create(:planning_element,
                      :project_id => project.id,
                      :parent_id  => planning_element.id,
                      :id         => 1340,
-                     :name       => 'Child #2')
+                     :subject    => 'Child #2')
     end
 
     it 'renders a children node containing child nodes for each child planning element' do
@@ -303,7 +303,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
   end
 
   describe "a destroyed planning element" do
-    let(:planning_element) { FactoryGirl.build(:planning_element) }
+    let(:planning_element) { FactoryGirl.create(:planning_element) }
     before do
       planning_element.destroy!
     end

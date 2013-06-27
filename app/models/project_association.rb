@@ -14,8 +14,6 @@ class ProjectAssociation < ActiveRecord::Base
 
   self.table_name = 'project_associations'
 
-  include TimestampsCompatibility
-
   belongs_to :project_a, :class_name  => "Project",
                          :foreign_key => 'project_a_id'
   belongs_to :project_b, :class_name  => "Project",

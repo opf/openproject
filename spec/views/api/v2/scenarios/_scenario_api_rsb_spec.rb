@@ -61,14 +61,14 @@ describe 'api/v2/scenarios/_scenario.api' do
         response.should have_selector('scenario description', :text => 'Description of this scenario')
       end
 
-      it 'contains a created_on element containing the scenario created_on in UTC in ISO 8601' do
+      it 'contains a created_at element containing the scenario created_at in UTC in ISO 8601' do
         render
-        response.should have_selector('scenario created_on', :text => '2011-01-06T11:35:00Z')
+        response.should have_selector('scenario created_at', :text => '2011-01-06T11:35:00Z')
       end
 
-      it 'contains an updated_on element containing the scenario updated_on in UTC in ISO 8601' do
+      it 'contains an updated_at element containing the scenario updated_at in UTC in ISO 8601' do
         render
-        response.should have_selector('scenario updated_on', :text => '2011-01-07T11:35:00Z')
+        response.should have_selector('scenario updated_at', :text => '2011-01-07T11:35:00Z')
       end
     end
   end

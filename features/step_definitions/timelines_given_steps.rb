@@ -77,6 +77,8 @@ Given (/^there are the following planning elements(?: in project "([^"]*)")?:$/)
 
     factory = FactoryGirl.create(:planning_element, type_attributes.merge(:project_id => project.id))
 
+    factory.reload
+
     factory.planning_element_status = status unless status.nil?
     factory.responsible = responsible unless responsible.nil?
     factory.planning_element_type = planning_element_type unless planning_element_type.nil?
@@ -109,7 +111,7 @@ Given /^there are the following alternate dates for "([^"]*)":$/ do |scenario_na
 
   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each do |row|
-    planning_element = PlanningElement.find_by_name!(row["planning_element_name"])
+    planning_element = PlanningElement.find_by_subject!(row["planning_element_subject"])
     planning_element.scenarios = {scenario.id.to_s => {"id" => scenario.id.to_s, "start_date" => row["start_date"], "end_date" => row["end_date"]} }
     planning_element.save!
   end

@@ -81,7 +81,7 @@ class Issues::MovesControllerTest < ActionController::TestCase
   def test_bulk_copy_to_another_project
     @request.session[:user_id] = 2
     assert_difference 'Issue.count', 2 do
-      assert_no_difference 'Project.find(1).issues.count' do
+      assert_no_difference 'Project.find(1).work_packages.count' do
         post :create, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}
       end
     end
@@ -93,7 +93,7 @@ class Issues::MovesControllerTest < ActionController::TestCase
       @request.session[:user_id] = 2
       issue_before_move = Issue.find(1)
       assert_difference 'Issue.count', 1 do
-        assert_no_difference 'Project.find(1).issues.count' do
+        assert_no_difference 'Project.find(1).work_packages.count' do
           post :create, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
         end
       end
@@ -110,7 +110,7 @@ class Issues::MovesControllerTest < ActionController::TestCase
 
       @request.session[:user_id] = 2
       assert_difference 'Issue.count', 2 do
-        assert_no_difference 'Project.find(1).issues.count' do
+        assert_no_difference 'Project.find(1).work_packages.count' do
           post :create, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => 4, :status_id => 3, :start_date => '2009-12-01', :due_date => '2009-12-31'
         end
       end

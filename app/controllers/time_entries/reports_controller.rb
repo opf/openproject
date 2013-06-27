@@ -39,7 +39,7 @@ class TimeEntries::ReportsController < ApplicationController
       elsif @issue.nil?
         sql_condition = @project.project_condition(Setting.display_subprojects_issues?)
       else
-        sql_condition = "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
+        sql_condition = "#{WorkPackage.table_name}.root_id = #{@issue.root_id} AND #{WorkPackage.table_name}.lft >= #{@issue.lft} AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
       end
 
       sql = "SELECT #{sql_select}, tyear, tmonth, tweek, spent_on, SUM(hours) AS hours"
@@ -99,8 +99,8 @@ class TimeEntries::ReportsController < ApplicationController
 
   # TODO: duplicated in TimelogController
   def find_optional_project
-    if !params[:issue_id].blank?
-      @issue = Issue.find(params[:issue_id])
+    if !params[:work_package_id].blank?
+      @issue = WorkPackage.find(params[:work_package_id])
       @project = @issue.project
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])
@@ -159,30 +159,30 @@ class TimeEntries::ReportsController < ApplicationController
     @available_criterias = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
                                           :klass => Project,
                                           :label => Project.model_name.human},
-                             'version' => {:sql => "#{Issue.table_name}.fixed_version_id",
+                             'version' => {:sql => "#{WorkPackage.table_name}.fixed_version_id",
                                           :klass => Version,
                                           :label => Version.model_name.human},
-                             'category' => {:sql => "#{Issue.table_name}.category_id",
+                             'category' => {:sql => "#{WorkPackage.table_name}.category_id",
                                             :klass => IssueCategory,
                                             :label => IssueCategory.model_name.human},
                              'member' => {:sql => "#{TimeEntry.table_name}.user_id",
                                          :klass => User,
                                          :label => Member.model_name.human},
-                             'tracker' => {:sql => "#{Issue.table_name}.tracker_id",
+                             'tracker' => {:sql => "#{WorkPackage.table_name}.tracker_id",
                                           :klass => Tracker,
                                           :label => Tracker.model_name.human},
                              'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
                                            :klass => TimeEntryActivity,
                                            :label => :label_activity},
-                             'issue' => {:sql => "#{TimeEntry.table_name}.issue_id",
-                                         :klass => Issue,
-                                         :label => Issue.model_name.human}
+                             'work_package' => {:sql => "#{TimeEntry.table_name}.work_package_id",
+                                            :klass => WorkPackage,
+                                            :label => WorkPackage.model_name.human}
                            }
 
     # Add list and boolean custom fields as available criterias
-    custom_fields = (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
+    custom_fields = (@project.nil? ? WorkPackageCustomField.for_all : @project.all_work_package_custom_fields)
     custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = #{Issue.table_name}.id)",
+      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'WorkPackage' AND c.customized_id = #{WorkPackage.table_name}.id)",
                                              :format => cf.field_format,
                                              :label => cf.name}
     end if @project
@@ -207,7 +207,7 @@ class TimeEntries::ReportsController < ApplicationController
 
   def time_report_joins
     sql = ''
-    sql << " LEFT JOIN #{Issue.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
+    sql << " LEFT JOIN #{WorkPackage.table_name} ON #{TimeEntry.table_name}.work_package_id = #{WorkPackage.table_name}.id"
     sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
     # TODO: rename hook
     call_hook(:controller_timelog_time_report_joins, {:sql => sql} )

@@ -10,7 +10,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Issue < ActiveRecord::Base
+class Issue < WorkPackage
   generator_for :subject, :method => :next_subject
   generator_for :author, :method => :next_author
   generator_for :priority, :method => :fetch_priority

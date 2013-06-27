@@ -31,12 +31,12 @@ class TimelogController < ApplicationController
                 'user' => 'user_id',
                 'activity' => 'activity_id',
                 'project' => "#{Project.table_name}.name",
-                'issue' => 'issue_id',
+                'work_package' => 'work_package_id',
                 'hours' => 'hours'
 
     cond = ARCondition.new
     if @issue
-      cond << "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
+      cond << "#{WorkPackage.table_name}.root_id = #{@issue.root_id} AND #{WorkPackage.table_name}.lft >= #{@issue.lft} AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
     elsif @project
       cond << @project.project_condition(Setting.display_subprojects_issues?)
     end
@@ -47,21 +47,21 @@ class TimelogController < ApplicationController
     respond_to do |format|
       format.html {
         # Paginate results
-        @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
+        @entry_count = TimeEntry.visible.count(:include => [:project, :work_package], :conditions => cond.conditions)
 
-        @entries = TimeEntry.visible.includes(:project, :activity, :user, {:issue => :tracker})
+        @entries = TimeEntry.visible.includes(:project, :activity, :user, {:work_package => :tracker})
                                     .where(cond.conditions)
                                     .order(sort_clause)
                                     .page(params[:page])
                                     .per_page(per_page_param)
 
-        @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :issue], :conditions => cond.conditions).to_f
+        @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :work_package], :conditions => cond.conditions).to_f
 
         render :layout => !request.xhr?
       }
       format.atom {
         entries = TimeEntry.visible.find(:all,
-                                 :include => [:project, :activity, :user, {:issue => :tracker}],
+                                 :include => [:project, :activity, :user, {:work_package => :tracker}],
                                  :conditions => cond.conditions,
                                  :order => "#{TimeEntry.table_name}.created_on DESC",
                                  :limit => Setting.feeds_limit.to_i)
@@ -70,7 +70,7 @@ class TimelogController < ApplicationController
       format.csv {
         # Export all entries
         @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
+                                  :include => [:project, :activity, :user, {:work_package => [:tracker, :assigned_to, :priority]}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause)
         send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
@@ -86,7 +86,7 @@ class TimelogController < ApplicationController
   end
 
   def new
-    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(:project => @project, :work_package=> @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
@@ -94,7 +94,7 @@ class TimelogController < ApplicationController
   end
 
   def create
-    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(:project => @project, :work_package => @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
@@ -174,6 +174,9 @@ private
     if (issue_id = (params[:issue_id] || params[:time_entry] && params[:time_entry][:issue_id])).present?
       @issue = Issue.find(issue_id)
       @project = @issue.project
+    elsif (work_package_id = (params[:work_package_id] || params[:time_entry] && params[:time_entry][:work_package_id])).present?
+      @issue = WorkPackage.find(work_package_id)
+      @project = @issue.project
     elsif (project_id = (params[:project_id] || params[:time_entry] && params[:time_entry][:project_id])).present?
       @project = Project.find(project_id)
     else
@@ -187,6 +190,9 @@ private
   def find_optional_project
     if !params[:issue_id].blank?
       @issue = Issue.find(params[:issue_id])
+      @project = @issue.project
+    elsif !params[:work_package_id].blank?
+      @issue = WorkPackage.find(params[:work_package_id])
       @project = @issue.project
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])

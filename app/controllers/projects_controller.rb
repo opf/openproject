@@ -70,14 +70,14 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
 
   def create
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @project = Project.new
     @project.safe_attributes = params[:project]
@@ -100,7 +100,7 @@ class ProjectsController < ApplicationController
   end
 
   def copy
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @root_projects = Project.find(:all,
                                   :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
@@ -255,7 +255,7 @@ private
   end
 
   def load_project_settings
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
     @trackers = Tracker.all

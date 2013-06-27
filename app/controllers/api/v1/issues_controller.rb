@@ -66,7 +66,7 @@ module Api
                                                                    :project])
 
         @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
-        @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
+        @time_entry = TimeEntry.new(:work_package => @issue, :project => @issue.project)
         respond_to do |format|
           format.api
         end
@@ -113,7 +113,7 @@ module Api
       end
 
       def destroy
-        @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
+        @hours = TimeEntry.sum(:hours, :conditions => ['work_package_id IN (?)', @issues]).to_f
         if @hours > 0
           case params[:todo]
           when 'destroy'

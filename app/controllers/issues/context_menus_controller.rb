@@ -28,9 +28,9 @@ class Issues::ContextMenusController < ApplicationController
     @projects = @issues.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
 
-    @can = {:edit => User.current.allowed_to?(:edit_issues, @projects),
+    @can = {:edit => User.current.allowed_to?(:edit_work_packages, @projects),
             :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
-            :update => (User.current.allowed_to?(:edit_issues, @projects) || (User.current.allowed_to?(:change_status, @projects) && !@allowed_statuses.blank?)),
+            :update => (User.current.allowed_to?(:edit_work_packages, @projects) || (User.current.allowed_to?(:change_status, @projects) && !@allowed_statuses.blank?)),
             :move => (@project && User.current.allowed_to?(:move_issues, @project)),
             :copy => (@issue && @project.trackers.include?(@issue.tracker) && User.current.allowed_to?(:add_issues, @project)),
             :delete => User.current.allowed_to?(:delete_issues, @projects)

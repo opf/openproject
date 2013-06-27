@@ -18,7 +18,7 @@ class CustomFieldsController < ApplicationController
 
   def index
     @custom_fields_by_type = CustomField.find(:all).group_by {|f| f.class.name }
-    @tab = params[:tab] || 'IssueCustomField'
+    @tab = params[:tab] || 'WorkPackageCustomField'
   end
 
   def new
