@@ -140,6 +140,9 @@ private
     elsif params[:issue_id]
       @issue = Issue.find(params[:issue_id])
       @project = @issue.project
+    elsif params[:work_package_id]
+      @issue = WorkPackage.find(params[:work_package_id])
+      @project = @issue.project
     elsif params[:project_id]
       @project = Project.find(params[:project_id])
     else
@@ -151,8 +154,8 @@ private
   end
 
   def find_optional_project
-    if !params[:issue_id].blank?
-      @issue = Issue.find(params[:issue_id])
+    if !params[:work_package_id].blank?
+      @issue = Issue.find(params[:work_package_id])
       @project = @issue.project
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])
@@ -169,7 +172,7 @@ private
               @cost_entry.user :
               User.find_by_id(user_id)
 
-    issue_id = params[:cost_entry].delete(:issue_id)
+    issue_id = params[:cost_entry].delete(:work_package_id)
     @issue = @cost_entry.present? && @cost_entry.work_package_id == issue_id ?
                @cost_entry.work_package :
                Issue.find_by_id(issue_id)

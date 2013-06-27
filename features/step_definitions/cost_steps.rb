@@ -62,7 +62,7 @@ Given /^the issue "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the fo
     ce = FactoryGirl.build(:cost_entry, :spent_on => (table.rows_hash["date"] ? table.rows_hash["date"].to_date : Date.today),
                                     :units => table.rows_hash["units"],
                                     :project => i.project,
-                                    :issue => i,
+                                    :work_package => i,
                                     :user => User.find_by_login(table.rows_hash["user"]),
                                     :comments => "lorem")
 
