@@ -18,7 +18,7 @@ describe CostEntry do
     member
     FactoryGirl.build(:cost_entry, :cost_type => cost_type,
                                :project => project,
-                               :issue => issue,
+                               :work_package => issue,
                                :spent_on => date,
                                :units => units,
                                :user => user,
@@ -28,7 +28,7 @@ describe CostEntry do
   let(:cost_entry2) do
     FactoryGirl.build(:cost_entry, :cost_type => cost_type,
                                :project => project,
-                               :issue => issue,
+                               :work_package => issue,
                                :spent_on => date,
                                :units => units,
                                :user => user,
@@ -239,20 +239,20 @@ describe CostEntry do
           cost_entry.project = nil
           # unfortunately the project get's set to the issue's project if no project is provided
           # TODO: check if that is necessary
-          cost_entry.issue = nil
+          cost_entry.work_package = nil
         end
 
         it { cost_entry.should_not be_valid }
       end
 
       describe "WHEN no issue is provided" do
-        before { cost_entry.issue = nil }
+        before { cost_entry.work_package = nil }
 
         it { cost_entry.should_not be_valid }
       end
 
       describe "WHEN the issue is not in the project" do
-        before { cost_entry.issue = issue2 }
+        before { cost_entry.work_package = issue2 }
 
         it { cost_entry.should_not be_valid }
       end

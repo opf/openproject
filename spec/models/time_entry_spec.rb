@@ -23,7 +23,7 @@ describe TimeEntry do
   let(:hours) { 5.0 }
   let(:time_entry) do
     FactoryGirl.create(:time_entry, :project => project,
-                               :issue => issue,
+                               :work_package => issue,
                                :spent_on => date,
                                :hours => hours,
                                :user => user,
@@ -33,7 +33,7 @@ describe TimeEntry do
 
   let(:time_entry2) do
     FactoryGirl.create(:time_entry, :project => project,
-                               :issue => issue,
+                               :work_package => issue,
                                :spent_on => date,
                                :hours => hours,
                                :user => user,

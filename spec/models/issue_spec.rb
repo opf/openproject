@@ -13,7 +13,7 @@ describe Issue do
   let(:issue) { FactoryGirl.create(:issue, :project => project,
                                        :tracker => project.trackers.first,
                                        :author => user) }
-  let!(:cost_entry) { FactoryGirl.create(:cost_entry, issue: issue, project: project, units: 3, spent_on: Date.today, user: user, comments: "test entry") }
+  let!(:cost_entry) { FactoryGirl.create(:cost_entry, work_package: issue, project: project, units: 3, spent_on: Date.today, user: user, comments: "test entry") }
   let!(:cost_object) { FactoryGirl.create(:cost_object, project: project) }
 
   before(:each) do

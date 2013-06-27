@@ -170,8 +170,8 @@ private
               User.find_by_id(user_id)
 
     issue_id = params[:cost_entry].delete(:issue_id)
-    @issue = @cost_entry.present? && @cost_entry.issue_id == issue_id ?
-               @cost_entry.issue :
+    @issue = @cost_entry.present? && @cost_entry.work_package_id == issue_id ?
+               @cost_entry.work_package :
                Issue.find_by_id(issue_id)
 
     cost_type_id = params[:cost_entry].delete(:cost_type_id)
@@ -229,7 +229,7 @@ private
   def new_default_cost_entry
     @cost_entry = CostEntry.new.tap do |ce|
       ce.project  = @project
-      ce.issue = @issue
+      ce.work_package = @issue
       ce.user = User.current
       ce.spent_on = Date.today
       # notice that cost_type is set to default cost_type in the model
@@ -238,7 +238,7 @@ private
 
   def update_cost_entry_from_params
     @cost_entry.user = @user
-    @cost_entry.issue = @issue
+    @cost_entry.work_package = @issue
     @cost_entry.cost_type = @cost_type
 
     @cost_entry.attributes = permitted_params.cost_entry

@@ -10,7 +10,7 @@ describe CostlogController do
   let (:user2) { FactoryGirl.build(:user) }
   let (:controller) { FactoryGirl.build(:role, :permissions => [:log_costs, :edit_cost_entries]) }
   let (:cost_type) { FactoryGirl.build(:cost_type) }
-  let (:cost_entry) { FactoryGirl.build(:cost_entry, :issue => issue,
+  let (:cost_entry) { FactoryGirl.build(:cost_entry, :work_package => issue,
                                                  :project => project,
                                                  :spent_on => Date.today,
                                                  :overridden_costs => 400,
@@ -35,7 +35,7 @@ describe CostlogController do
 
   shared_examples_for "assigns" do
     it { assigns(:cost_entry).project.should == expected_project }
-    it { assigns(:cost_entry).issue.should == expected_issue }
+    it { assigns(:cost_entry).work_package.should == expected_issue }
     it { assigns(:cost_entry).user.should == expected_user }
     it { assigns(:cost_entry).spent_on.should == expected_spent_on }
     it { assigns(:cost_entry).cost_type.should == expected_cost_type }
@@ -208,7 +208,7 @@ describe CostlogController do
         grant_current_user_permissions user, [:edit_cost_entries]
 
         cost_entry.project = FactoryGirl.create(:project_with_trackers)
-        cost_entry.issue = FactoryGirl.create(:issue, :project => cost_entry.project,
+        cost_entry.work_package = FactoryGirl.create(:issue, :project => cost_entry.project,
                                                   :tracker => cost_entry.project.trackers.first,
                                                   :author => user)
         cost_entry.save!
@@ -474,7 +474,7 @@ describe CostlogController do
   describe "PUT update" do
     let(:params) { { "id" => cost_entry.id.to_s,
                      "cost_entry" => { "comments" => "lorem",
-                                       "issue_id" => cost_entry.issue.id.to_s,
+                                       "work_package_id" => cost_entry.work_package.id.to_s,
                                        "units" => cost_entry.units.to_s,
                                        "spent_on" => cost_entry.spent_on.to_s,
                                        "user_id" => cost_entry.user.id.to_s,
@@ -484,7 +484,7 @@ describe CostlogController do
       cost_entry.save(:validate => false)
     end
 
-    let(:expected_issue) { cost_entry.issue }
+    let(:expected_issue) { cost_entry.work_package }
     let(:expected_user) { cost_entry.user }
     let(:expected_project) { cost_entry.project }
     let(:expected_cost_type) { cost_entry.cost_type }
