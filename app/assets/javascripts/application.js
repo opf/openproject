@@ -568,7 +568,6 @@ jQuery(document).ready(function($) {
 
       request.setRequestHeader[header] = token;
     }
-    //we should not show the ajax indicator automatically, as this may be unwanted behaviour
   });
   // ajaxStop gets called when ALL Requests finish, so we won't need a counter as in PT
   $(document).ajaxStop(function () {
