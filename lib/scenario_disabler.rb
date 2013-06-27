@@ -12,8 +12,7 @@
 class ScenarioDisabler
   def self.empty_if_disabled(scenario)
     if self.disabled?(scenario)
-      scenario.instance_variable_set(:@steps,::Cucumber::Ast::StepCollection.new([]))
-
+      scenario.skip_invoke!
       true
     else
       false
@@ -27,7 +26,10 @@ class ScenarioDisabler
   end
 
   def self.disabled?(scenario)
-    @disabled_scenarios.present? && @disabled_scenarios.any? do |disabled_scenario|
+    #we have to check whether the scenario actually has a feature because there can also be scenario outlines
+    #as described in https://github.com/cucumber/cucumber/wiki/Scenario-Outlines and the variables definition is
+    #also matched as a scenario
+    @disabled_scenarios.present? && scenario.respond_to?(:feature) && @disabled_scenarios.any? do |disabled_scenario|
       disabled_scenario[:feature] == scenario.feature.name && disabled_scenario[:scenario] == scenario.name
     end
   end
