@@ -1,4 +1,10 @@
 class HigherPrecisionForCurrency < ActiveRecord::Migration
+
+  def initialize
+    super
+    @issues_table_exists = ActiveRecord::Base.connection.tables.include? 'issues'
+  end
+
   def self.up
     transaction do
       change_column :cost_entries, :costs, :decimal, :precision => 15, :scale => 4
@@ -7,9 +13,11 @@ class HigherPrecisionForCurrency < ActiveRecord::Migration
       change_column :time_entries, :costs, :decimal, :precision => 15, :scale => 4
       change_column :time_entries, :overridden_costs, :decimal, :precision => 15, :scale => 4
 
-      change_column :issues, :labor_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0000
-      change_column :issues, :material_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0000
-      change_column :issues, :overall_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0000
+      if @issues_table_exists
+        change_column :issues, :labor_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0000
+        change_column :issues, :material_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0000
+        change_column :issues, :overall_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0000
+      end
 
       change_column :labor_budget_items, :budget, :decimal, :precision => 15, :scale => 4
       change_column :material_budget_items, :budget, :decimal, :precision => 15, :scale => 4
@@ -40,9 +48,11 @@ class HigherPrecisionForCurrency < ActiveRecord::Migration
       change_column :time_entries, :costs, :decimal, :precision => 15, :scale => 2
       change_column :time_entries, :overridden_costs, :decimal, :precision => 15, :scale => 2
 
-      change_column :issues, :labor_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.00
-      change_column :issues, :material_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.00
-      change_column :issues, :overall_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.00
+      if @issues_table_exists
+        change_column :issues, :labor_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.00
+        change_column :issues, :material_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.00
+        change_column :issues, :overall_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.00
+      end
 
       change_column :labor_budget_items, :budget, :decimal, :precision => 15, :scale => 2
       change_column :material_budget_items, :budget, :decimal, :precision => 15, :scale => 2

@@ -1,4 +1,10 @@
 class AddDenormalizedCostsFields < ActiveRecord::Migration
+
+  def initialize
+    super
+    @issues_table_exists = ActiveRecord::Base.connection.tables.include? 'issues'
+  end
+
   def self.up
     add_column :time_entries, :overridden_costs, :decimal, :precision => 15, :scale => 2, :null => true
 
@@ -8,9 +14,11 @@ class AddDenormalizedCostsFields < ActiveRecord::Migration
     add_column :cost_entries, :costs, :decimal, :precision => 15, :scale => 2, :null => true
     add_column :cost_entries, :rate_id, :integer
 
-    add_column :issues, :labor_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.0
-    add_column :issues, :material_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.0
-    add_column :issues, :overall_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.0
+    if @issues_table_exists
+      add_column :issues, :labor_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.0
+      add_column :issues, :material_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.0
+      add_column :issues, :overall_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.0
+    end
 
     u = User.system
 
@@ -36,7 +44,10 @@ class AddDenormalizedCostsFields < ActiveRecord::Migration
     remove_column :cost_entries, :costs
     remove_column :cost_entries, :rate_id
 
-    remove_column :issues, :labor_costs
-    remove_column :issues, :material_costs
+    if @issues_table_exists
+      remove_column :issues, :labor_costs
+      remove_column :issues, :material_costs
+      remove_column :issues, :overall_costs
+    end
   end
 end

@@ -36,23 +36,23 @@ module OpenProject::Costs::Patches::IssuesControllerPatch
     end
 
     def destroy_with_entries
-      @entries = CostEntry.all(:conditions => ['issue_id IN (?)', @issues])
-      @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
+      @entries = CostEntry.all(:conditions => ['work_package_id IN (?)', @issues])
+      @hours = TimeEntry.sum(:hours, :conditions => ['work_package_id IN (?)', @issues]).to_f
       unless @entries.blank? && @hours == 0
         case params[:todo]
         when 'destroy'
           # nothing to do
         when 'nullify'
-          TimeEntry.update_all('issue_id = NULL', ['issue_id IN (?)', @issues])
-          CostEntry.update_all('issue_id = NULL', ['issue_id IN (?)', @issues])
+          TimeEntry.update_all('work_package_id = NULL', ['work_package_id IN (?)', @issues])
+          CostEntry.update_all('work_package_id = NULL', ['work_package_id IN (?)', @issues])
         when 'reassign'
-          reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
+          reassign_to = @project.work_packages.find_by_id(params[:reassign_to_id])
           if reassign_to.nil?
             flash.now[:error] = l(:error_issue_not_found_in_project)
             return
           else
-            TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
-            CostEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
+            TimeEntry.update_all("work_package_id = #{reassign_to.id}", ['work_package_id IN (?)', @issues])
+            CostEntry.update_all("work_package_id = #{reassign_to.id}", ['work_package_id IN (?)', @issues])
           end
         else
           # display the destroy form if it's a user request

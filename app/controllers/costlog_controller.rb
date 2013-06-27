@@ -16,6 +16,7 @@ class CostlogController < ApplicationController
   include SortHelper
   helper :issues
   include CostlogHelper
+  include PaginationHelper
 
   def index
     sort_init 'spent_on', 'desc'
@@ -47,15 +48,11 @@ class CostlogController < ApplicationController
 
     respond_to do |format|
       format.html {
-        # Paginate results
-        @entry_count = CostEntry.count(:include => [:project, :user, :issue], :conditions => cond.conditions)
-        @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-        @entries = CostEntry.find(:all,
-                                  :include => [:project, :cost_type, :user, {:issue => :tracker}],
-                                  :conditions => cond.conditions,
-                                  :order => sort_clause,
-                                  :limit  =>  @entry_pages.items_per_page,
-                                  :offset =>  @entry_pages.current.offset)
+        @entries = CostEntry.includes(:project, :cost_type, :user, {:work_package => :tracker})
+                            .where(cond.conditions)
+                            .order(sort_clause)
+                            .page(page_param)
+                            .per_page(per_page_param)
 
         render :layout => !request.xhr?
       }
@@ -140,6 +137,9 @@ private
     elsif params[:issue_id]
       @issue = Issue.find(params[:issue_id])
       @project = @issue.project
+    elsif params[:work_package_id]
+      @issue = WorkPackage.find(params[:work_package_id])
+      @project = @issue.project
     elsif params[:project_id]
       @project = Project.find(params[:project_id])
     else
@@ -153,6 +153,9 @@ private
   def find_optional_project
     if !params[:issue_id].blank?
       @issue = Issue.find(params[:issue_id])
+      @project = @issue.project
+    elsif !params[:work_package_id].blank?
+      @issue = WorkPackage.find(params[:work_package_id])
       @project = @issue.project
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])
@@ -169,9 +172,9 @@ private
               @cost_entry.user :
               User.find_by_id(user_id)
 
-    issue_id = params[:cost_entry].delete(:issue_id)
-    @issue = @cost_entry.present? && @cost_entry.issue_id == issue_id ?
-               @cost_entry.issue :
+    issue_id = params[:cost_entry].delete(:work_package_id)
+    @issue = @cost_entry.present? && @cost_entry.work_package_id == issue_id ?
+               @cost_entry.work_package :
                Issue.find_by_id(issue_id)
 
     cost_type_id = params[:cost_entry].delete(:cost_type_id)
@@ -229,7 +232,7 @@ private
   def new_default_cost_entry
     @cost_entry = CostEntry.new.tap do |ce|
       ce.project  = @project
-      ce.issue = @issue
+      ce.work_package = @issue
       ce.user = User.current
       ce.spent_on = Date.today
       # notice that cost_type is set to default cost_type in the model
@@ -238,7 +241,7 @@ private
 
   def update_cost_entry_from_params
     @cost_entry.user = @user
-    @cost_entry.issue = @issue
+    @cost_entry.work_package = @issue
     @cost_entry.cost_type = @cost_type
 
     @cost_entry.attributes = permitted_params.cost_entry

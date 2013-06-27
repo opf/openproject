@@ -7,7 +7,7 @@ class CostsIssueObserver < ActiveRecord::Observer
   def after_update(issue)
     if issue.project_id_changed?
       # TODO: This only works with the global cost_rates
-      CostEntry.update_all({:project_id => issue.project_id}, {:issue_id => issue.id})
+      CostEntry.update_all({:project_id => issue.project_id}, {:work_package_id => issue.id})
     end
   end
 

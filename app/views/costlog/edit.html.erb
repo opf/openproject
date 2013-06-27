@@ -14,7 +14,7 @@
     <%= back_url_hidden_field_tag %>
 
     <div class="box">
-    <p><%= f.text_field :issue_id, :size => 6, :required => true %> <em><%= h("#{@cost_entry.issue.tracker.name} ##{@cost_entry.issue.id}: #{@cost_entry.issue.subject}") if @cost_entry.issue %></em></p>
+    <p><%= f.text_field :work_package_id, :size => 6, :required => true %> <em><%= h("#{@cost_entry.work_package.tracker.name} ##{@cost_entry.work_package.id}: #{@cost_entry.work_package.subject}") if @cost_entry.work_package%></em></p>
     <p><%= f.text_field :spent_on, :size => 10, :required => true %><%= calendar_for('cost_entry_spent_on') %></p>
     <% if User.current.allowed_to? :log_costs, @project %>
       <p><%= f.select :user_id, user_collection_for_select_options, :required => true %></p>

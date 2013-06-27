@@ -125,7 +125,7 @@ describe User, "#destroy" do
                                              :project => issue.project,
                                              :units => 100.0,
                                              :spent_on => Date.today,
-                                             :issue => issue,
+                                             :work_package => issue,
                                              :comments => "") }
 
     before do

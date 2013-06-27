@@ -1,14 +1,24 @@
 class RemoveCostsFromIssues < ActiveRecord::Migration
+
+  def initialize
+    super
+    @issues_table_exists = ActiveRecord::Base.connection.tables.include? 'issues'
+  end
+
   def self.up
-    remove_column :issues, :labor_costs
-    remove_column :issues, :material_costs
-    remove_column :issues, :overall_costs
+    if @issues_table_exists
+      remove_column :issues, :labor_costs
+      remove_column :issues, :material_costs
+      remove_column :issues, :overall_costs
+    end
   end
 
   def self.down
-    add_column :issues, :labor_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0
-    add_column :issues, :material_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0
-    add_column :issues, :overall_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0
+    if @issues_table_exists
+      add_column :issues, :labor_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0
+      add_column :issues, :material_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0
+      add_column :issues, :overall_costs, :decimal, :precision => 15, :scale => 4, :null => false, :default => 0.0
+    end
 
     u = User.system
 

@@ -11,7 +11,7 @@ module OpenProject::Costs::Patches::IssuePatch
       unloadable
 
       belongs_to :cost_object
-      has_many :cost_entries, :dependent => :delete_all
+      has_many :cost_entries, :foreign_key => 'work_package_id', :dependent => :delete_all
 
       # disabled for now, implements part of ticket blocking
       validate :validate_cost_object

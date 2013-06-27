@@ -3,7 +3,7 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |pro
   as_admin count do
     ce = CostEntry.generate
     ce.project = p
-    ce.issue = Issue.generate_for_project!(p)
+    ce.work_package = Issue.generate_for_project!(p)
     ce.save!
   end
 end
@@ -39,7 +39,7 @@ Given /^the [Uu]ser "([^\"]*)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |use
     ce = FactoryGirl.create(:cost_entry)
     ce.user = u
     ce.project = p
-    ce.issue = i
+    ce.work_package = i
     ce.save!
   end
 end
@@ -50,7 +50,7 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the 
   as_admin count do
     ce = CostEntry.generate
     ce.project = p
-    ce.issue = i
+    ce.work_package = i
     send_table_to_object(ce, table)
     ce.save!
   end
@@ -62,7 +62,7 @@ Given /^the issue "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the fo
     ce = FactoryGirl.build(:cost_entry, :spent_on => (table.rows_hash["date"] ? table.rows_hash["date"].to_date : Date.today),
                                     :units => table.rows_hash["units"],
                                     :project => i.project,
-                                    :issue => i,
+                                    :work_package => i,
                                     :user => User.find_by_login(table.rows_hash["user"]),
                                     :comments => "lorem")
 
@@ -87,6 +87,7 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
     And the role "Manager" may have the following rights:
       | view_own_hourly_rate |
       | view_issues |
+      | view_work_packages |
       | view_own_time_entries |
       | view_own_cost_entries |
       | view_cost_rates |

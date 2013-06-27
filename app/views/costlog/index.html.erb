@@ -16,7 +16,7 @@
 
 <% unless @entries.empty? %>
 <%= render :partial => 'list', :locals => { :entries => @entries }%>
-<p class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></p>
+<%= pagination_links_full @entries %>
 <% end %>
 
 <% html_title Issue.human_attribute_name(:spent_costs), l(:label_details) %>

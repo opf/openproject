@@ -2,7 +2,7 @@ class CostEntry < ActiveRecord::Base
   unloadable
 
   belongs_to :project
-  belongs_to :issue
+  belongs_to :work_package, :class_name => 'Issue'
   belongs_to :user
   include ::OpenProject::Costs::DeletedUserFallback
   belongs_to :cost_type
@@ -11,7 +11,7 @@ class CostEntry < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  validates_presence_of :issue_id, :project_id, :user_id, :cost_type_id, :units, :spent_on
+  validates_presence_of :work_package_id, :project_id, :user_id, :cost_type_id, :units, :spent_on
   validates_numericality_of :units, :allow_nil => false, :message => :invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 
@@ -49,13 +49,13 @@ class CostEntry < ActiveRecord::Base
   end
 
   def before_validation
-    self.project = issue.project if issue && project.nil?
+    self.project = work_package.project if work_package && project.nil?
   end
 
   def validate
     errors.add :units, :invalid if units && (units < 0)
     errors.add :project_id, :invalid if project.nil?
-    errors.add :issue_id, :invalid if issue.nil? || (project != issue.project)
+    errors.add :work_package_id, :invalid if work_package.nil? || (project != work_package.project)
     errors.add :cost_type_id, :invalid if cost_type.present? && cost_type.deleted_at.present?
     errors.add :user_id, :invalid if project.present? && !project.users.include?(user) && user_id_changed?
 
