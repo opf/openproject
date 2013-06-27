@@ -15,14 +15,14 @@ module GravatarHelper
     # The URL of a default image to display if the given email address does
     # not have a gravatar.
     :default => nil,
-    
+
     # The default size in pixels for the gravatar image (they're square).
     :size => 50,
-    
-    # The maximum allowed MPAA rating for gravatars. This allows you to 
+
+    # The maximum allowed MPAA rating for gravatars. This allows you to
     # exclude gravatars that may be out of character for your site.
     :rating => 'PG',
-    
+
     # The alt text to use in the img tag for the gravatar.  Since it's a
     # decorational picture, the alt text should be empty according to the
     # XHTML specs.
@@ -30,18 +30,17 @@ module GravatarHelper
 
     # The title text to use for the img tag for the gravatar.
     :title => '',
-    
+
     # The class to assign to the img tag for the gravatar.
     :class => 'gravatar',
-    
+
     # Whether or not to display the gravatars using HTTPS instead of HTTP
     :ssl => false,
   }
-  
+
   # The methods that will be made available to your views.
   module PublicMethods
-  
-    # Return the HTML img tag for the given user's gravatar. Presumes that 
+    # Return the HTML img tag for the given user's gravatar. Presumes that
     # the given user object will respond_to "email", and return the user's
     # email address.
     def gravatar_for(user, options={})
@@ -53,11 +52,11 @@ module GravatarHelper
       src = h(gravatar_url(email, options))
       options = DEFAULT_OPTIONS.merge(options)
       [:class, :alt, :size, :title].each { |opt| options[opt] = h(options[opt]) }
-      "<img class=\"#{options[:class]}\" alt=\"#{options[:alt]}\" title=\"#{options[:title]}\" width=\"#{options[:size]}\" height=\"#{options[:size]}\" src=\"#{src}\" />"
+      image_tag src, options
     end
-    
+
     # Returns the base Gravatar URL for the given email hash. If ssl evaluates to true,
-    # a secure URL will be used instead. This is required when the gravatar is to be 
+    # a secure URL will be used instead. This is required when the gravatar is to be
     # displayed on a HTTPS site.
     def gravatar_api_url(hash, ssl=false)
       if ssl
@@ -85,5 +84,5 @@ module GravatarHelper
     end
 
   end
-  
+
 end

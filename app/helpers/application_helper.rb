@@ -1125,13 +1125,14 @@ module ApplicationHelper
     elements = []
     unless OpenProject::Footer.content.nil?
       OpenProject::Footer.content.each do |name, value|
-        elements << (content_tag :span, :class => "footer_#{name}" do
-          value.respond_to?(:call) ? value.call.strip : value.strip
-        end)
+        content = value.respond_to?(:call) ? value.call : value
+        if content
+          elements << content_tag(:span, content, :class => "footer_#{name}")
+        end
       end
     end
     elements << I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url))
-    result = elements.join(", ").html_safe
+    elements.join(", ").html_safe
   end
 
   # start timelines stuff

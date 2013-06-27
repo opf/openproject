@@ -224,7 +224,7 @@ module NavigationHelpers
       '/custom_fields'
 
     when /^the enumerations page$/
-      '/enumerations'
+      '/admin/enumerations'
 
     when /^the authentication modes page$/
       '/auth_sources'
