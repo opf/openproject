@@ -27,17 +27,16 @@ class CostObjectsController < ApplicationController
   helper :cost_objects
   include CostObjectsHelper
   include Redmine::Export::PDF
+  include PaginationHelper
 
   menu_item :new_budget, :only => [:new]
   menu_item :show_all, :only => [:index]
 
   def index
-    limit = per_page_option
     respond_to do |format|
       format.html { }
       format.csv  { limit = Setting.issues_export_limit.to_i }
     end
-
 
     sort_columns = {'id' => "#{CostObject.table_name}.id",
                     'subject' => "#{CostObject.table_name}.subject",
@@ -52,14 +51,11 @@ class CostObjectsController < ApplicationController
                                              :project => @project),
 
 
-    @cost_object_count = CostObject.count(:include => [:project],
-                                          :conditions => condition)
-    @cost_object_pages = Paginator.new self, @cost_object_count, limit, params[:page]
-    @cost_objects = CostObject.all( :order => sort_clause,
-                                    :include => [:project, :author],
-                                    :conditions => condition,
-                                    :limit => limit,
-                                    :offset => @cost_object_pages.current.offset)
+    @cost_objects = CostObject.order(sort_clause)
+                              .includes(:project, :author)
+                              .where(condition)
+                              .page(page_param)
+                              .per_page(per_page_param)
 
     respond_to do |format|
       format.html { render :action => 'index', :layout => !request.xhr? }
