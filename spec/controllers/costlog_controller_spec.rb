@@ -474,7 +474,7 @@ describe CostlogController do
   describe "PUT update" do
     let(:params) { { "id" => cost_entry.id.to_s,
                      "cost_entry" => { "comments" => "lorem",
-                                       "work_package_id" => cost_entry.work_package.id.to_s,
+                                       "issue_id" => cost_entry.work_package.id.to_s,
                                        "units" => cost_entry.units.to_s,
                                        "spent_on" => cost_entry.spent_on.to_s,
                                        "user_id" => cost_entry.user.id.to_s,
