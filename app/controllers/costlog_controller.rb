@@ -16,6 +16,7 @@ class CostlogController < ApplicationController
   include SortHelper
   helper :issues
   include CostlogHelper
+  include PaginationHelper
 
   def index
     sort_init 'spent_on', 'desc'
@@ -47,15 +48,11 @@ class CostlogController < ApplicationController
 
     respond_to do |format|
       format.html {
-        # Paginate results
-        @entry_count = CostEntry.count(:include => [:project, :user, :issue], :conditions => cond.conditions)
-        @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-        @entries = CostEntry.find(:all,
-                                  :include => [:project, :cost_type, :user, {:issue => :tracker}],
-                                  :conditions => cond.conditions,
-                                  :order => sort_clause,
-                                  :limit  =>  @entry_pages.items_per_page,
-                                  :offset =>  @entry_pages.current.offset)
+        @entries = CostEntry.includes(:project, :cost_type, :user, {:work_package => :tracker})
+                            .where(cond.conditions)
+                            .order(sort_clause)
+                            .page(page_param)
+                            .per_page(per_page_param)
 
         render :layout => !request.xhr?
       }
@@ -154,8 +151,11 @@ private
   end
 
   def find_optional_project
-    if !params[:work_package_id].blank?
-      @issue = Issue.find(params[:work_package_id])
+    if !params[:issue_id].blank?
+      @issue = Issue.find(params[:issue_id])
+      @project = @issue.project
+    elsif !params[:work_package_id].blank?
+      @issue = WorkPackage.find(params[:work_package_id])
       @project = @issue.project
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])
