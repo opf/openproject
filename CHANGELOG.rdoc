@@ -1,3 +1,7 @@
+= 3.0.4.pre4 - 2013-06-21
+
+* Adapt to OpenProject core changes
+
 = 3.0.4.pre3 - 2013-06-21
 
 == Minor Change
