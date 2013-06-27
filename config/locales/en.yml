@@ -257,6 +257,7 @@ en:
     comments: "Comment"
     content: "Content"
     created_at: "Created on"
+    created_on: "Created on"
     custom_values: "Custom fields"
     description: "Description"
     due_date: "Due date"
@@ -280,6 +281,7 @@ en:
     title: "Title"
     type: "Type"
     updated_at: "Updated on"
+    updated_on: "Updated on"
     user: "User"
     version: "Version"
 

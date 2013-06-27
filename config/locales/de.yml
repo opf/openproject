@@ -253,6 +253,7 @@ de:
     comments: "Kommentar"
     content: "Inhalt"
     created_at: "Angelegt"
+    created_on: "Angelegt"
     custom_values: "Benutzerdefinierte Felder"
     description: "Beschreibung"
     due_date: "Abgabedatum"
@@ -276,6 +277,7 @@ de:
     title: "Titel"
     type: "Typ"
     updated_at: "Aktualisiert"
+    updated_on: "Aktualisiert"
     user: "Benutzer"
     version: "Version"
 
