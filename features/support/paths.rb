@@ -245,10 +245,8 @@ module NavigationHelpers
 
     when /^the page of the planning element "([^\"]+)" of the project called "([^\"]+)"$/
       planning_element_name = $1
-      project_name = $2
-      project_identifier = Project.find_by_name(project_name).identifier.gsub(' ', '%20')
       planning_element = PlanningElement.find_by_subject(planning_element_name)
-      "/projects/#{project_identifier}/planning_elements/#{planning_element.id}"
+      "/work_packages/#{planning_element.id}"
 
     when /^the (.+) page (?:for|of) the project called "([^\"]+)"$/
       project_page = $1
