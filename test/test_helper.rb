@@ -292,14 +292,14 @@ class ActiveSupport::TestCase
   # @param [optional, Hash] options additional options
   # @option options [Symbol] :success_code Successful response code (:success)
   # @option options [Symbol] :failure_code Failure response code (:unauthorized)
-  def self.should_not_send_www_authenticate_when_header_accept_auth_is_session(http_method, url, options)
+  def self.should_not_send_www_authenticate_when_header_accept_auth_is_session(http_method, url, options = {})
     success_code = options[:success_code] || :success
     failure_code = options[:failure_code] || :unauthorized
 
     context "should not send www authenticate when header accept auth is session #{http_method} #{url}" do
       context "without credentials" do
         setup do
-          parameters = { "X-ACCEPT-AUTH" => "Session" }
+          parameters = { "X-Authentication-Scheme" => "Session" }
           send(http_method, url, parameters)
         end
 

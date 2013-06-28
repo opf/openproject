@@ -187,7 +187,7 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.any(:html, :atom) { redirect_to signin_path(:back_url => url) }
 
-        authentication_scheme = if request.headers["X-ACCEPT-AUTH"] == "Session"
+        authentication_scheme = if request.headers["X-Authentication-Scheme"] == "Session"
           'Session' else 'Basic'
         end
         format.any(:xml, :js, :json)  { head :unauthorized,
