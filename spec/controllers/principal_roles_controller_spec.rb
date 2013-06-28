@@ -61,6 +61,7 @@ describe PrincipalRolesController do
                                      :partial => "principal_roles/show_table_row",
                                      :locals => {:principal_role => anything()}
 
+              #post :create, { "format" => "js", "principal_role"=>{"principal_id"=>"3", "role_ids"=>["7"]}}
               xhr :post, :create, @params
             end
 

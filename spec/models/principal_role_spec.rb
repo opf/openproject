@@ -23,7 +23,7 @@ describe PrincipalRole do
 
       it { @principal_role.valid?.should be_false }
       it { @principal_role.valid?
-           @principal_role.errors.on_base.should eql I18n.t(:error_can_not_be_assigned)}
+           @principal_role.errors[:base].should include(I18n.t(:error_can_not_be_assigned))}
     end
 
     describe "role assignable to user" do

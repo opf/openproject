@@ -5,7 +5,7 @@
 <%= call_hook(:principal_roles_table_row, :user => @user, :principal_role => principal_role )%>
 <td class="buttons">
 <% buttons = {:edit => false} %>
-<% call_hook(:principal_roles_edit_button_needed, :buttons => buttons) %>
+<%= call_hook(:principal_roles_edit_button_needed, :buttons => buttons) %>
 <% if buttons[:edit]%>
     <%= link_to_function l(:button_edit), "return false;", :class => 'icon icon-edit' %>
 <%end%>

@@ -18,7 +18,6 @@ describe Principal do
     before do
       FactoryGirl.create(:principal_role, :role => role,
                                       :principal => principal)
-
       principal.destroy
     end
 

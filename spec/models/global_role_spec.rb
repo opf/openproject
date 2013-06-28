@@ -37,7 +37,7 @@ describe GlobalRole do
       @role = GlobalRole.new
 
       if costs_plugin_loaded?
-        @perm = mock_model(Redmine::AccessControl::Permission)
+        @perm = Object.new
         Redmine::AccessControl.stub!(:permission).and_return @perm
         @perm.stub!(:inherited_by).and_return([])
         @perm.stub!(:name).and_return(:perm)

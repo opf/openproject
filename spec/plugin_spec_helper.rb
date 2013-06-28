@@ -14,11 +14,7 @@ module OpenProject
       end
 
       def costs_plugin_loaded?
-        plugin_loaded?("redmine_costs")
-      end
-
-      def costs_plugin_loaded?
-        plugin_loaded?("redmine_costs")
+        plugin_loaded?("openproject_costs")
       end
 
       def plugin_loaded?(name)
@@ -64,6 +60,9 @@ module OpenProject
         @roles = [@role1, @global_role2, @role2, @global_role1]
         Role.stub!(:find).and_return(@roles)
         Role.stub!(:all).and_return(@roles)
+        Role.stub!(:order).and_return(@roles)
+        @roles.stub!(:page).and_return(@roles)
+        @roles.stub!(:per_page).and_return(@roles)
       end
 
       def mock_global_role_find
@@ -93,6 +92,8 @@ module OpenProject
         unless @page
           @page ||= mock("page")
           controller.should_receive(:render).with(:update).and_yield(@page)
+          #fix for implicit render without parameters being called in test
+          controller.should_receive(:render).with
         end
 
         @page.should_receive(method).with(*params)
@@ -111,7 +112,7 @@ module OpenProject
       end
 
       def mock_permissions(is_public, is_global)
-        permission = mock_model Redmine::AccessControl::Permission
+        permission = Object.new
         permission.stub!(:public?).and_return(is_public)
         permission.stub!(:global?).and_return(is_global)
         permission

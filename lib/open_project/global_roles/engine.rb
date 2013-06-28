@@ -52,6 +52,8 @@ module OpenProject::GlobalRoles
       require_dependency 'open_project/global_roles/patches/roles_helper_patch'
       require_dependency 'open_project/global_roles/patches/users_helper_patch'
 
+      User.register_allowance_evaluator OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global
+
       spec = Bundler.environment.specs['openproject-global_roles'][0]
 
       unless Redmine::Plugin.registered_plugins.include?(:openproject_global_roles)

@@ -38,7 +38,7 @@ Given /^the global [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |ro
   end
 end
 
-Given /^the [Uu]ser (.+) (?:is a|has the global role) (.+)$/ do |user, role|
+Given /^the [Uu]ser (.+) has the global role (.+)$/ do |user, role|
   user = User.find_by_login(user.gsub("\"", ""))
   role = GlobalRole.find_by_name(role.gsub("\"", ""))
 

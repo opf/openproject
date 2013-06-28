@@ -7,10 +7,13 @@ describe RolesController do
     disable_flash_sweep
   end
 
+  after (:each) do
+    User.current = nil
+  end
+
   shared_examples_for "index" do
     it {response.should be_success}
     it {assigns(:roles).should eql(@roles)}
-    it {assigns(:role_pages).should be_a ActionController::Pagination::Paginator}
     it {response.should render_template "roles/index"}
   end
 
@@ -27,7 +30,7 @@ describe RolesController do
 
   shared_examples_for "successful create" do
     it {response.should be_redirect}
-    it {response.should redirect_to "/roles"}
+    it {response.should redirect_to "/admin/roles"}
     it {flash[:notice].should eql I18n.t(:notice_successful_create)}
   end
 
@@ -214,7 +217,7 @@ describe RolesController do
           end
 
           it {response.should be_redirect}
-          it {response.should redirect_to "/roles"}
+          it {response.should redirect_to "/admin/roles"}
         end
       end
 
@@ -253,7 +256,7 @@ describe RolesController do
             end
 
             it {response.should be_redirect}
-            it {response.should redirect_to "/roles"}
+            it {response.should redirect_to "/admin/roles"}
             it {flash[:notice].should eql I18n.t(:notice_successful_update)}
           end
         end
