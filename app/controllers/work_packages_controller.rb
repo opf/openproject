@@ -39,6 +39,33 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  def work_package
+    @work_package ||= begin
+
+      wp = PlanningElement.includes(:project)
+                          .find_by_id(params[:id])
+
+      wp && wp.visible?(current_user) ?
+        wp :
+        nil
+    end
+  end
+
+  def project
+    work_package.project
+  end
+
+  [:journals, :changesets, :relations, :ancestors, :descendants].each do |method|
+    define_method method do
+      []
+    end
+  end
+
+  def edit_allowed?
+    false
+    #@edit_allowed ||= current_user.allowed_to?(:edit_work_packages, project)
+  end
+
   protected
 
   def assign_planning_elements
