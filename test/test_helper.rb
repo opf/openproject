@@ -292,7 +292,7 @@ class ActiveSupport::TestCase
   # @param [optional, Hash] options additional options
   # @option options [Symbol] :success_code Successful response code (:success)
   # @option options [Symbol] :failure_code Failure response code (:unauthorized)
-  def self.should_not_send_www_authenticate_when_header_accept_auth_is_session(http_method, url, options = {})
+  def self.should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(http_method, url, options = {})
     success_code = options[:success_code] || :success
     failure_code = options[:failure_code] || :unauthorized
 
@@ -305,15 +305,17 @@ class ActiveSupport::TestCase
 
         should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
-        should "not include_www_authenticate_header" do
+        should "include correct www_authenticate_header" do
           # the 3.0.9 implementation of head leads to Www as the method capitalizes each
           # word split by a hyphen.
           # this is fixed in 3.1.0 http://apidock.com/rails/v3.1.0/ActionController/Head/head
           # remove this switch once on 3.1.0
           if ::Rails::VERSION::MAJOR == 3 && ::Rails::VERSION::MINOR == 0
-            assert !@controller.response.headers.has_key?('Www-Authenticate')
+            assert @controller.response.headers.has_key?('Www-Authenticate')
+            assert_equal @controller.response.headers['Www-Authenticate'], 'Session realm="OpenProject API"'
           else
-            assert !@controller.response.headers.has_key?('WWW-Authenticate')
+            assert @controller.response.headers.has_key?('WWW-Authenticate')
+            assert_equal @controller.response.headers['WWW-Authenticate'], 'Session realm="OpenProject API"'
           end
         end
       end
