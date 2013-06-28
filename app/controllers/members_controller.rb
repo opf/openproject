@@ -151,16 +151,17 @@ JS
   end
 
   def transform_array_of_comma_seperated_ids(array)
+    return array unless array.present?
     each_comma_seperated(array) do |elem|
       elem.to_s.split(",").map(&:to_i)
     end
   end
 
   def possibly_seperated_ids_for_entity(array, entity = :user)
-    if array[:"#{entity}_ids"].present?
+    if !array[:"#{entity}_ids"].nil?
       transform_array_of_comma_seperated_ids(array.delete(:"#{entity}_ids"))
-    elsif array[:"#{entity}_id"].present?
-      [array.delete(:"#{entity}_id")]
+    elsif (!array[:"#{entity}_id"].nil?) && (id = array.delete(:"#{entity}_id").present?)
+      [id]
     else
       []
     end
