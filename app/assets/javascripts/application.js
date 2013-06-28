@@ -470,7 +470,6 @@ var WarnLeavingUnsaved = Class.create({
 document.observe("dom:loaded", function() {
   Ajax.Responders.register({
     onCreate: function(request){
-      debugger;
       var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
 
       if (csrf_meta_tag) {
