@@ -202,36 +202,49 @@ class User < Principal
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find_by_login(login)
-    if user
-      # user is already in local database
-      return nil if !user.active?
-      if user.auth_source
-        # user has an external authentication method
-        return nil unless user.auth_source.authenticate(login, password)
-      else
-        # authentication with local password
-        return nil unless user.check_password?(password)
-        return nil if user.force_password_change
-      end
+    result = if user
+      try_authentication_for_existing_user(user, password)
     else
-      # user is not yet registered, try to authenticate with available sources
-      attrs = AuthSource.authenticate(login, password)
-      if attrs
-        # login is both safe and protected in chilis core code
-        # in case it's intentional we keep it that way
-        user = new(attrs.except(:login))
-        user.login = login
-        user.language = Setting.default_language
-        if user.save
-          user.reload
-          logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
-        end
+      try_authentication_and_create_user(login, password)
+    end
+    unless prevent_brute_force_attack(result, login).nil?
+      user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
+      return user
+    end
+    nil
+  end
+
+  # Tries to authenticate a user in the database via external auth source
+  # or password stored in the database
+  def self.try_authentication_for_existing_user(user, password)
+    return nil if !user.active?
+    if user.auth_source
+      # user has an external authentication method
+      return nil unless user.auth_source.authenticate(login, password)
+    else
+      # authentication with local password
+      return nil unless user.check_password?(password)
+      return nil if user.force_password_change
+    end
+    user
+  end
+
+  # Tries to authenticate with available sources and creates user on success
+  def self.try_authentication_and_create_user(login, password)
+    user = nil
+    attrs = AuthSource.authenticate(login, password)
+    if attrs
+      # login is both safe and protected in chilis core code
+      # in case it's intentional we keep it that way
+      user = new(attrs.except(:login))
+      user.login = login
+      user.language = Setting.default_language
+      if user.save
+        user.reload
+        logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
       end
     end
-    user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
     user
-  rescue => text
-    raise text
   end
 
   # Returns the user who matches the given autologin +key+ or nil
@@ -318,6 +331,22 @@ class User < Principal
     self.password_confirmation = self.password
     self
   end
+
+  ##
+  # Brute force prevention - public instance methods
+  #
+  def failed_too_many_recent_login_attempts?
+    block_threshold = Setting.brute_force_block_after_failed_logins.to_i
+    return (last_failed_login_within_block_time? and
+            self.failed_login_count >= block_threshold)
+  end
+
+  def log_failed_login
+    log_failed_login_count
+    log_failed_login_timestamp
+    save
+  end
+
 
   def pref
     preference || build_preference
@@ -750,6 +779,58 @@ class User < Principal
 
   def delete_associated_public_queries
     ::Query.delete_all ['user_id = ? AND is_public = ?', id, false]
+  end
+
+  ##
+  # Brute force prevention - class methods
+  #
+  def self.prevent_brute_force_attack(user, login)
+    if user.nil?
+      register_failed_login_attempt_if_user_exists_for(login)
+    else
+      block_user_if_too_many_recent_attempts_failed(user)
+    end
+  end
+
+  def self.register_failed_login_attempt_if_user_exists_for(login)
+    user = User.find_by_login(login)
+    user.log_failed_login if user.present?
+    nil
+  end
+
+  def self.reset_failed_login_count_for(user)
+    user.update_attribute(:failed_login_count, 0) unless user.new_record?
+  end
+
+  def self.block_user_if_too_many_recent_attempts_failed(user)
+    if user.failed_too_many_recent_login_attempts?
+      user = nil
+    else
+      reset_failed_login_count_for user
+    end
+
+    user
+  end
+
+  ##
+  # Brute force prevention - instance methods
+  #
+  def last_failed_login_within_block_time?
+    block_duration = Setting.brute_force_block_minutes.to_i.minutes
+    self.last_failed_login_on and 
+      Time.now - self.last_failed_login_on < block_duration
+  end
+
+  def log_failed_login_count
+    if last_failed_login_within_block_time?
+      self.failed_login_count += 1
+    else
+      self.failed_login_count = 1
+    end
+  end
+
+  def log_failed_login_timestamp
+    self.last_failed_login_on = Time.now
   end
 end
 

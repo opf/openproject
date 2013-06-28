@@ -968,7 +968,7 @@ en:
 
   notice_account_activated: "Your account has been activated. You can now log in."
   notice_account_inactive: "Your account has not yet been activated. To activate your account, click on the link that was emailed to you."
-  notice_account_invalid_creditentials: "Invalid user or password"
+  notice_account_invalid_creditentials_or_blocked: "Invalid user or password. Or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
   notice_account_new_password_forced: "A new password is required."
   notice_account_password_updated: "Password was successfully updated."
