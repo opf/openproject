@@ -45,9 +45,8 @@ Feature: Group Memberships
 
      When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
-      And I check "A-Team"
-      And I check "Manager"
-      And I press "Add"
+      And I add the principal "A-Team" as a member with the roles:
+        | Manager |
      Then I should be on the settings page of the project called "Project1"
       And I should see "A-Team" within ".members"
       And I should see "Bob Bobbit" within ".members"
@@ -59,15 +58,13 @@ Feature: Group Memberships
 
      When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
-      And I check "Bob Bobbit"
-      And I check "Manager"
-      And I press "Add"
+      And I add the principal "Bob Bobbit" as a member with the roles:
+        | Manager |
       And I wait for the AJAX requests to finish
      Then I should see "Successful creation." within ".flash.notice"
 
-      And I check "A-Team"
-      And I check "Developer" within "#principals"
-      And I press "Add"
+      And I add the principal "A-Team" as a member with the roles:
+        | Developer |
       And I wait for the AJAX requests to finish
      Then I should see "Successful creation." within ".flash.notice"
 
@@ -86,9 +83,8 @@ Feature: Group Memberships
 
      When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
-      And I check "A-Team"
-      And I check "Manager"
-      And I press "Add"
+      And I add the principal "A-Team" as a member with the roles:
+        | Manager |
 
      Then I should be on the settings page of the project called "Project1"
       And I wait for the AJAX requests to finish
