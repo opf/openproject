@@ -15,6 +15,7 @@ module Api
     class ReportedProjectStatusesController < ReportedProjectStatusesController
 
       include ::Api::V2::ApiController
+      paginate_model ReportedProjectStatus
 
       def index
         @reported_project_statuses = @base.all
