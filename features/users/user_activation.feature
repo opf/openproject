@@ -5,8 +5,8 @@
 Scenario: An admin could activate the pending registration request
 Given I am on the registration page
 And I fill in "user_login" with "heidi"
-And I fill in "user_password" with "test12"
-And I fill in "user_password_confirmation" with "test12"
+And I fill in "user_password" with "test123456T?"
+And I fill in "user_password_confirmation" with "test123456T?"
 And I fill in "user_firstname" with "Heidi"
 And I fill in "user_lastname" with "Swiss"
 And I fill in "user_mail" with "heidi@heidiland.com"
@@ -21,8 +21,8 @@ Then I should see "heidi" within ".autoscroll"
 Scenario: An admin activates the pending registration request
 Given I am on the registration page
 And I fill in "user_login" with "heidi"
-And I fill in "user_password" with "test12"
-And I fill in "user_password_confirmation" with "test12"
+And I fill in "user_password" with "test123456T?"
+And I fill in "user_password_confirmation" with "test123456T?"
 And I fill in "user_firstname" with "Heidi"
 And I fill in "user_lastname" with "Swiss"
 And I fill in "user_mail" with "heidi@heidiland.com"

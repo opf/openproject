@@ -9,8 +9,8 @@ Then I should be on the registration page
 Scenario: A user can register successfully after filling in the registration form
 Given I am on the registration page
 And I fill in "user_login" with "heidi"
-And I fill in "user_password" with "test12"
-And I fill in "user_password_confirmation" with "test12"
+And I fill in "user_password" with "test123456T?"
+And I fill in "user_password_confirmation" with "test123456T?"
 And I fill in "user_firstname" with "Heidi"
 And I fill in "user_lastname" with "Swiss"
 And I fill in "user_mail" with "heidi@heidiland.com"
@@ -24,8 +24,8 @@ Then I should see "Your account was created and is now pending administrator app
 Scenario: A user is unable to register if one of the constraints left blank
 Given I am on the registration page
 And I fill in "user_login" with "heidi"
-And I fill in "user_password" with "test12"
-And I fill in "user_password_confirmation" with "test12"
+And I fill in "user_password" with "test123456T?"
+And I fill in "user_password_confirmation" with "test123456T?"
 And I fill in "user_firstname" with "Heidi"
 And I fill in "user_lastname" with "Swiss"
 And I click on "Submit"
@@ -35,7 +35,7 @@ Then I should see "Email can't be blank"
 Scenario: A user is unable to register if the password does not match the confirmation
 Given I am on the registration page
 And I fill in "user_login" with "heidi"
-And I fill in "user_password" with "test12"
+And I fill in "user_password" with "test123456T?"
 And I fill in "user_password_confirmation" with "test1"
 And I fill in "user_firstname" with "Heidi"
 And I fill in "user_lastname" with "Swiss"
