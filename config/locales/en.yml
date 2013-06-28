@@ -1126,6 +1126,8 @@ en:
   setting_autologin: "Autologin"
   setting_available_languages: "Available languages"
   setting_bcc_recipients: "Blind carbon copy recipients (bcc)"
+  setting_brute_force_block_after_failed_logins: "Block user after this number of failed login attempts (disable with 0)"
+  setting_brute_force_block_minutes: "Time the user is blocked for (minutes)"
   setting_cache_formatted_text: "Cache formatted text"
   setting_column_options: "Customize the appearance of the issue lists"
   setting_commit_fix_keywords: "Fixing keywords"
@@ -1195,6 +1197,7 @@ en:
     other: "Other"
     passwords: "Passwords"
     session: "Session"
+    brute_force_prevention: "Automated user blocking"
 
   show_hide_project_menu: "Hide/Show project menu"
 

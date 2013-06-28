@@ -1142,6 +1142,8 @@ de:
   setting_autologin: "Automatische Anmeldung"
   setting_available_languages: "Verfügbare Sprachen"
   setting_bcc_recipients: "E-Mails als Blindkopie (BCC) senden"
+  setting_brute_force_block_after_failed_logins: "Sperre Benutzer nach dieser Anzahl fehlgeschlagener Loginversuche (deaktivierten mit 0)"
+  setting_brute_force_block_minutes: "Sperre Benutzer für Dauer (Minuten)"
   setting_cache_formatted_text: "Formatierten Text im Cache speichern"
   setting_column_options: "Anpassen der Darstellung der Ticketlisten"
   setting_commit_fix_keywords: "Schlüsselwörter (Status)"
@@ -1211,6 +1213,7 @@ de:
     other: "Sonstiges"
     passwords: "Passwörter"
     session: "Sitzung"
+    brute_force_prevention: "Automatisches Sperren von Benutzern"
 
   show_hide_project_menu: "Projektnavigation aus/einblenden"
 

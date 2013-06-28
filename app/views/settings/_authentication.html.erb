@@ -36,6 +36,12 @@ See doc/COPYRIGHT.rdoc for more details.
     </fieldset>
 
     <fieldset>
+      <legend><%= I18n.t(:brute_force_prevention, :scope => [:settings]) %></legend>
+      <p><%= setting_text_field :brute_force_block_after_failed_logins %></p>
+      <p><%= setting_text_field :brute_force_block_minutes %></p>
+    </fieldset>
+
+    <fieldset>
       <legend><%= I18n.t(:session, :scope => [:settings]) %></legend>
       <p><%= setting_select :autologin,
                  ([[l(:label_disabled), 0]] +
