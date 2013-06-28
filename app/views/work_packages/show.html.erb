@@ -10,9 +10,147 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= header_tags %>
-<%= render :partial => 'planning_elements/breadcrumb', :locals => {:planning_element => @planning_element} %>
+<%= render :partial => 'work_packages/action_menu', :locals => { work_package: controller.work_package } %>
 
-<%= render :partial => 'planning_elements/actions', :locals => {:planning_element => @planning_element} %>
+<% breadcrumb_paths(*[link_to(l(:label_issue_plural), {:controller => '/issues', :action => 'index'})] << controller.ancestors.collect {|parent| link_to '#' + h(parent.id), {:controller => '/issues', :action => 'show', :id => parent}}) unless controller.ancestors.empty? %>
 
-<%= render :partial => 'planning_elements/planning_element', :object => @planning_element %>
+<%#= content_tag('h2', h(controller.work_package.tracker.name) + ' #' + controller.work_package.id.to_s) %>
+<%= content_tag('h2', controller.work_package.id.to_s) %>
+
+<!-- <div class="<%#= controller.work_package.css_classes %> details"> -->
+<div class = "details">
+  <div class="profile-wrap">
+    <%= avatar(controller.work_package.author, :size => "40") %>
+  </div>
+  <h3>
+    <%=h(controller.work_package.subject)  %>
+  </h3>
+
+  <p class="author">
+    <%= authoring controller.work_package.created_at, controller.work_package.author %>.
+    <% if controller.work_package.created_at != controller.work_package.updated_at %>
+      <%= l(:label_updated_time, time_tag(controller.work_package.updated_at)).html_safe %>.
+    <% end %>
+  </p>
+
+  <table class="attributes">
+    <tr>
+      <th class="status"><%= Issue.human_attribute_name(:status)%>:</th><td class="status"><%#= h(controller.work_package.status.name) %></td>
+      <th class="start-date"><%= Issue.human_attribute_name(:start_date)%>:</th><td class="start-date"><%= format_date(controller.work_package.start_date) %></td>
+    </tr>
+    <tr>
+      <th class="priority"><%= Issue.human_attribute_name(:priority)%>:</th><td class="priority"><%#= h(controller.work_package.priority.name) %></td>
+      <th class="due-date"><%= Issue.human_attribute_name(:due_date)%>:</th><td class="due-date"><%= format_date(controller.work_package.due_date) %></td>
+    </tr>
+    <tr>
+      <th class="assigned-to"><%= Issue.human_attribute_name(:assigned_to)%>:</th><td class="assigned-to"><%= avatar(controller.work_package.assigned_to, :size => "14") %><%= controller.work_package.assigned_to ? link_to_user(controller.work_package.assigned_to) : "-" %></td>
+      <th class="progress"><%= Issue.human_attribute_name(:done_ratio)%>:</th><td class="progress"><%= progress_bar controller.work_package.done_ratio, :width => '80px', :legend => "#{controller.work_package.done_ratio}%" %></td>
+    </tr>
+    <tr>
+      <th class="category"><%= Issue.human_attribute_name(:category)%>:</th><td class="category"><%=h(controller.work_package.category ? controller.work_package.category.name : "-") %></td>
+      <% if User.current.allowed_to?(:view_time_entries, controller.project) %>
+        <th class="spent-time"><%=l(:label_spent_time)%>:</th>
+        <td class="spent-time"><%#= controller.work_package.spent_hours > 0 ? (link_to l_hours(controller.work_package.spent_hours), issue_time_entries_path(controller.work_package)) : "-" %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <th class="fixed-version"><%= Issue.human_attribute_name(:fixed_version)%>:</th><td class="fixed-version"><%= controller.work_package.fixed_version ? link_to_version(controller.work_package.fixed_version) : "-" %></td>
+      <% if controller.work_package.estimated_hours %>
+        <th class="estimated-hours"><%= Issue.human_attribute_name(:estimated_hours)%>:</th><td class="estimated-hours"><%= l_hours(controller.work_package.estimated_hours) %></td>
+      <% end %>
+    </tr>
+    <%= render_custom_fields_rows(controller.work_package) %>
+    <%= call_hook(:view_issues_show_details_bottom, :issue => controller.work_package) %>
+  </table>
+
+  <% if controller.work_package.description? %>
+    <div class="description">
+      <hr />
+      <div class="contextual">
+        <%= link_to_if_authorized(l(:button_quote), { :controller => '/issues', :action => 'quoted', :id => controller.work_package }, :class => 'quote-link icon icon-comment') %>
+      </div>
+      <p><strong><%= Issue.human_attribute_name(:description)%></strong></p>
+      <div class="wiki wikicontent" data-user="<%= controller.work_package.author %>">
+        <%= textilizable controller.work_package, :description, :attachments => controller.work_package.attachments %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if controller.work_package.attachments.any? -%>
+    <%= link_to_attachments controller.work_package %>
+  <% end -%>
+
+  <%= call_hook(:view_issues_show_description_bottom, :issue => controller.work_package) %>
+
+  <hr />
+
+  <%#= render :partial => 'subissues_paragraph' %>
+
+  <% if authorize_for('issue_relations', 'create') || controller.relations.present? %>
+    <div id="relations">
+      <%#= render :partial => 'relations' %>
+    </div>
+  <% end %>
+
+  <% if User.current.allowed_to?(:add_issue_watchers, controller.project) ||
+    (controller.work_package.watchers.present? && User.current.allowed_to?(:view_issue_watchers, controller.project)) %>
+    <div id="watchers">
+      <%= render :partial => 'watchers/watchers', :locals => {:watched => controller.work_package} %>
+    </div>
+  <% end %>
+</div>
+<div style="clear: both;"></div>
+
+<% if controller.changesets.present? %>
+  <div id="issue-changesets">
+    <h3><%=l(:label_associated_revisions)%></h3>
+    <%= render :partial => 'changesets', :locals => { :changesets => controller.changesets} %>
+  </div>
+<% end %>
+
+<% if controller.journals.present? %>
+  <div id="history">
+    <h3><%=l(:label_history)%></h3>
+    <%= render :partial => 'history', :locals => { :issue => controller.work_package, :journals => controller.journals } %>
+  </div>
+<% end %>
+
+
+<div style="clear: both;"></div>
+
+<div class="title-bar" id="lower-title-bar">
+  <%= render :partial => 'layouts/action_menu' %>
+</div>
+
+<div style="clear: both;"></div>
+<% if authorize_for('issues', 'edit') %>
+  <div id="update">
+  </div>
+<% end %>
+
+<%= other_formats_links do |f| %>
+	<%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+	<%= f.link_to 'PDF' %>
+<% end %>
+
+<%# html_title h("#{controller.work_package.tracker.name} ##{controller.work_package.id}: #{controller.work_package.subject}") %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'issues/sidebar' %>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{controller.work_package.project} - #{controller.work_package.tracker} ##{controller.work_package.id}: #{controller.work_package.subject}") %>
+  <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
+<% end %>
+<div id="context-menu" style="display: none;"></div>
+<%= javascript_tag "new ContextMenu('#{issues_context_menu_path}')" %>
+
+<% #include calendar js files in case they are needed for edit
+  include_calendar_headers_tags -%>
+<%#= header_tags %>
+<%#= render :partial => 'planning_elements/breadcrumb', :locals => {:planning_element => @planning_element} %>
+
+<%#= render :partial => 'planning_elements/actions', :locals => {:planning_element => @planning_element} %>
+
+<%#= render :partial => 'planning_elements/planning_element', :object => @planning_element %>
