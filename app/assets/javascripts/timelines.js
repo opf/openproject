@@ -148,6 +148,18 @@ Timeline = {
   inTimeFilter: function (start, end) {
     this.calculateTimeFilter();
 
+    if (!start && !end) {
+      return false;
+    }
+
+    if (!start) {
+      start = end;
+    }
+
+    if (!end) {
+      end = start;
+    }
+
     if (this.frameStart) {
       if (start < this.frameStart && end < this.frameStart) {
         return false;
@@ -1709,6 +1721,14 @@ Timeline = {
             return -1;
           }
         }
+
+        if (!as) {
+          as = a.end();
+        }
+        if (!bs) {
+          bs = b.end();
+        }
+
         if (as) {
           if (bs) {
             dc = as.compareTo(bs);
@@ -1724,7 +1744,7 @@ Timeline = {
         }
 
         if (!b.nameLower) {
-          b.nameLower = b.name.toLowerCase()
+          b.nameLower = b.name.toLowerCase();
         }
 
         if (a.nameLower < b.nameLower) {
@@ -1857,7 +1877,7 @@ Timeline = {
       var url = options.url_prefix;
 
       url += options.project_prefix;
-      url += "/"
+      url += "/";
       url += this.identifier;
       url += "/timelines";
 
@@ -2157,12 +2177,22 @@ Timeline = {
       return this;
     },
     start: function() {
+      var pet = this.getPlanningElementType();
+      //if we have got a milestone w/o a start date but with an end date, just set them the same.
+      if (this.start_date === undefined && this.end_date !== undefined && pet && pet.is_milestone) {
+        this.start_date = this.end_date;
+      }
       if (this.start_date_object === undefined && this.start_date !== undefined) {
         this.start_date_object = Date.parse(this.start_date);
       }
       return this.start_date_object;
     },
     end: function() {
+      var pet = this.getPlanningElementType();
+      //if we have got a milestone w/o a start date but with an end date, just set them the same.
+      if (this.end_date === undefined && this.start_date !== undefined && pet && pet.is_milestone) {
+        this.end_date = this.start_date;
+      }
       if (this.end_date_object=== undefined && this.end_date !== undefined) {
         this.end_date_object = Date.parse(this.end_date);
       }
@@ -2254,7 +2284,7 @@ Timeline = {
           'end': function () {
             return this.x + this.w;
           }
-        }
+        };
       } else if (!end) {
         end = start.clone().addDays(70);
       } else if (!start) {
@@ -2293,7 +2323,34 @@ Timeline = {
 
       return url;
     },
-   render: function(node, in_aggregation, label_space) {
+    getColor: function () {
+      // if there is a color for this planning element type, use it.
+      // use it also for planning elements w/ children. if there are
+      // children but no planning element type, use the default color
+      // for planning element parents. if there is no planning element
+      // type and there are no children, use a default color.
+      var pet = this.getPlanningElementType();
+      var color;
+
+      if (pet && pet.color) {
+        color = pet.color.hexcode;
+      } else if (this.hasChildren()) {
+        color = Timeline.DEFAULT_PARENT_COLOR;
+      } else {
+        color = Timeline.DEFAULT_COLOR;
+      }
+
+      if (!this.hasBothDates()) {
+        if (this.hasStartDate()) {
+          color = "180-#ffffff-" + color;
+        } else {
+          color = "180-" + color + "-#ffffff";
+        }
+      }
+
+      return color;
+    },
+    render: function(node, in_aggregation, label_space) {
       var timeline = this.timeline;
       var paper = timeline.getPaper();
       var scale = timeline.getScale();
@@ -2334,27 +2391,10 @@ Timeline = {
       // only render planning elements that have
       // either a start or an end date.
       if (has_one_date) {
+        color = this.getColor();
 
-        // if there is a color for this planning element type, use it.
-        // use it also for planning elements w/ children. if there are
-        // children but no planning element type, use the default color
-        // for planning element parents. if there is no planning element
-        // type and there are no children, use a default color.
-
-        if (pet && pet.color) {
-          color = pet.color.hexcode;
-        } else if (this.hasChildren()) {
-          color = Timeline.DEFAULT_PARENT_COLOR;
-        } else {
-          color = Timeline.DEFAULT_COLOR;
-        }
 
         if (!has_both_dates) {
-          if (has_start_date) {
-            color = "180-#ffffff-" + color;
-          } else {
-            color = "180-" + color + "-#ffffff";
-          }
           strokeColor = 'none';
         }
 
@@ -2585,7 +2625,7 @@ Timeline = {
             }
 
             textColor = timeline.getLimunanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
-              Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;            
+              Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
           } else {
 
             // text inside planning element
@@ -2678,68 +2718,62 @@ Timeline = {
 
       var element = node.getDOMElement();
 
-      // if there is a color for this planning element type, use it.
-      // use it also for planning elements w/ children. if there are
-      // children but no planning element type, use the default color
-      // for planning element parents. if there is no planning element
-      // type and there are no children, use a default color.
+      var has_both_dates = this.hasBothDates();
+      var has_one_date = this.hasOneDate();
+      var has_start_date = this.hasStartDate();
 
-      if (pet && pet.color) {
-        color = pet.color.hexcode;
-      } else if (this.hasChildren()) {
-        color = Timeline.DEFAULT_PARENT_COLOR;
-      } else {
-        color = Timeline.DEFAULT_COLOR;
-      }
+      color = this.getColor();
 
-      if (!deleted && pet && pet.is_milestone) {
-        timeline.paper.path(
-          timeline.psub("M#{left} #{top}L#{left} #{height}", {
-            'left': left + scale.day / 2,
-            'top': timeline.decoHeight(),
-            'height': timeline.getMeasuredHeight()
-          })
-        ).attr({
-          'stroke': color,
-          'stroke-width': 2,
-          'stroke-dasharray': '- '
-        });
+      if (has_one_date) {
+        if (!deleted && pet && pet.is_milestone) {
+          timeline.paper.path(
+            timeline.psub("M#{left} #{top}L#{left} #{height}", {
+              'left': left + scale.day / 2,
+              'top': timeline.decoHeight(),
+              'height': timeline.getMeasuredHeight()
+            })
+          ).attr({
+            'stroke': color,
+            'stroke-width': 2,
+            'stroke-dasharray': '- '
+          });
 
-        var hoverElement = paper.rect(
-          left + scale.day / 2 - 2 * Timeline.HOVER_THRESHOLD,
-          timeline.decoHeight(), // 8px margin-top
-          4 * Timeline.HOVER_THRESHOLD,
-          timeline.getMeasuredHeight()           // 8px margin-bottom
-        ).attr({
-          'fill': '#ffffff',
-          'opacity': 0
-        });
+          var hoverElement = paper.rect(
+            left + scale.day / 2 - 2 * Timeline.HOVER_THRESHOLD,
+            timeline.decoHeight(), // 8px margin-top
+            4 * Timeline.HOVER_THRESHOLD,
+            timeline.getMeasuredHeight()           // 8px margin-bottom
+          ).attr({
+            'fill': '#ffffff',
+            'opacity': 0
+          });
 
-        timeline.addHoverHandler(node, hoverElement);
-      } else if (!deleted) {
-        paper.rect(
-          left,
-          timeline.decoHeight(),
-          width,
-          timeline.getMeasuredHeight()
-        ).attr({
-          'fill': color,
-          'stroke': Timeline.DEFAULT_STROKE_COLOR,
-          'opacity': 0.2
-        });
+          timeline.addHoverHandler(node, hoverElement);
+        } else if (!deleted) {
+          paper.rect(
+            left,
+            timeline.decoHeight(),
+            width,
+            timeline.getMeasuredHeight()
+          ).attr({
+            'fill': color,
+            'stroke': Timeline.DEFAULT_STROKE_COLOR,
+            'opacity': 0.2
+          });
 
-        var hoverElement = paper.rect(
-          left - Timeline.HOVER_THRESHOLD,
-          timeline.decoHeight(), // 8px margin-top
-          width + 2 * Timeline.HOVER_THRESHOLD,
-          timeline.getMeasuredHeight()           // 8px margin-bottom
-        ).attr({
-          'fill': '#ffffff',
-          'opacity': 0
-        });
+          var hoverElement = paper.rect(
+            left - Timeline.HOVER_THRESHOLD,
+            timeline.decoHeight(), // 8px margin-top
+            width + 2 * Timeline.HOVER_THRESHOLD,
+            timeline.getMeasuredHeight()           // 8px margin-bottom
+          ).attr({
+            'fill': '#ffffff',
+            'opacity': 0
+          });
 
-        timeline.addHoverHandler(node, hoverElement);
-        //self.addElement(hoverElement);
+          timeline.addHoverHandler(node, hoverElement);
+          //self.addElement(hoverElement);
+        }
       }
     },
     addElement: function(e) {
