@@ -89,6 +89,7 @@ Redmine::AccessControl.map do |map|
                                   :versions => [:index, :show, :status_by],
                                   :journals => [:index, :diff],
                                   :queries => :index,
+                                  :work_packages => [:show],
                                   :'issues/reports' => [:report, :report_details]}
     map.permission :export_issues, {:'issues' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
@@ -193,7 +194,8 @@ Redmine::AccessControl.map do |map|
                    {:require => :member}
 
     map.permission :view_planning_elements,
-                   {:planning_elements => [:index, :all, :show,
+                   {:work_packages => [:show],
+                    :planning_elements => [:index, :all, :show,
                                            :recycle_bin],
                     :planning_element_journals => [:index]}
     map.permission :edit_planning_elements,
