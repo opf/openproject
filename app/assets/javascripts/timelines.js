@@ -507,13 +507,6 @@ Timeline = {
           element.options,
           {
             success  : function(data, textStatus, jqXHR) {
-              if (data.planning_elements) {
-                //delete data.planning_elements[0].start_date;
-                delete data.planning_elements[0].end_date;
-
-                delete data.planning_elements[1].start_date;
-                //delete data.planning_elements[1].end_date;
-              }
               delete this.loading[identifier];
 
               jQuery(this).trigger('success', {identifier : identifier,
