@@ -15,9 +15,6 @@ class PlanningElement < WorkPackage
   include NestedAttributesForApi
   include ActiveModel::ForbiddenAttributesProtection
 
-  belongs_to :responsible, :class_name => "User",
-                           :foreign_key => "responsible_id"
-
   has_many :alternate_dates, :class_name  => "AlternateDate",
                              :foreign_key => 'planning_element_id',
                              :autosave    => true,
