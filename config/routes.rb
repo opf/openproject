@@ -294,6 +294,8 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  resources :work_packages, :only => [:show]
+
   resources :versions, :only => [:show, :edit, :update, :destroy] do
     member do
       get :status_by

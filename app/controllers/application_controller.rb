@@ -283,7 +283,7 @@ class ApplicationController < ActionController::Base
       model_object = self.class._model_object
       instance = model_object.find(params[:id])
       @project = instance.project
-      self.instance_variable_set('@' + model_object.to_s.downcase, instance)
+      self.instance_variable_set('@' + model_object.to_s.underscore, instance)
     else
       @project = Project.find(params[:project_id])
     end
