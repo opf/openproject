@@ -78,7 +78,7 @@ describe CustomField do
       end
 
       after do
-        I18n.locale = nil
+        I18n.locale = :en
       end
 
       it "should return english name when in locale en" do
@@ -194,17 +194,17 @@ describe CustomField do
         I18n.locale = :en
         field.possible_values = ["one", "two", "three"]
 
-        I18n.locale = :fr
-        field.possible_values = "un\ndeux\ntrois"
-
         I18n.locale = :de
         field.save!
         field.reload
       end
 
+      after do
+        I18n.locale = :en
+      end
+
       it { field.possible_values(:locale => :en).should == ["one", "two", "three"] }
       it { field.possible_values(:locale => :de).should == ["eins", "zwei", "drei"] }
-      it { field.possible_values(:locale => :fr).should == ["un", "deux", "trois"] }
     end
   end
 
