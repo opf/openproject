@@ -137,4 +137,12 @@ class WorkPackage < ActiveRecord::Base
   def activity_type
     "work_packages"
   end
+
+  def kind
+    if self.is_a? Issue
+      return tracker
+    elsif self.is_a? PlanningElement
+      return planning_element_type
+    end
+  end
 end
