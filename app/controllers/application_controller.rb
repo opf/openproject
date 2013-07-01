@@ -64,6 +64,7 @@ class ApplicationController < ActionController::Base
   end
 
   before_filter :user_setup, :check_if_login_required, :reset_i18n_fallbacks, :set_localization
+  around_filter :set_time_zone
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
 
@@ -596,5 +597,13 @@ class ApplicationController < ActionController::Base
 
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
+  end
+
+  def set_time_zone
+    old_time_zone = Time.zone
+    Time.zone = User.current.time_zone unless User.current.time_zone.nil?
+    yield
+  ensure
+    Time.zone = old_time_zone
   end
 end
