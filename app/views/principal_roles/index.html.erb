@@ -20,10 +20,10 @@
 
   </td>
   <td class="buttons">
-    <%= link_to(l(:button_delete), { :action => 'destroy', :id => role },
-    															:method => :post,
-    															:confirm => l(:text_are_you_sure),
-    															:class => 'icon icon-del')%>
+    <%= link_to(l(:button_delete), principal_role_path(role),
+                                   :method => :delete,
+                                   :confirm => l(:text_are_you_sure),
+                                   :class => 'icon icon-del')%>
   </td>
   </tr>
 <% end %>
