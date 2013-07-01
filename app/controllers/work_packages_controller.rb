@@ -23,11 +23,8 @@ class WorkPackagesController < ApplicationController
   before_filter :find_model_object_and_project,
                 :authorize,
                 :assign_planning_elements
-  before_filter :apply_at_timestamp, :only => [:show]
+  before_filter :apply_at_timestamp
 
-  # Attention: find_all_projects_by_project_id needs to mimic all of the above
-  #            before filters !!!
-  before_filter :find_all_projects_by_project_id, :only => :index
 
   helper :timelines
   helper :timelines_journals
@@ -88,11 +85,6 @@ class WorkPackagesController < ApplicationController
     define_method method do
       []
     end
-  end
-
-  def edit_allowed?
-    false
-    #@edit_allowed ||= current_user.allowed_to?(:edit_work_packages, project)
   end
 
   protected
