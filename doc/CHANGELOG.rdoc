@@ -12,3 +12,11 @@ https://www.openproject.org/projects/openproject/versions/81
 ==3.0.0pre3
 
 https://www.openproject.org/projects/openproject/versions/93
+
+==3.0.0pre4
+
+https://www.openproject.org/projects/openproject/versions/94
+
+==3.0.0pre5
+
+https://www.openproject.org/projects/openproject/versions/95
