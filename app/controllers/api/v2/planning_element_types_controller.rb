@@ -15,6 +15,7 @@ module Api
     class PlanningElementTypesController < PlanningElementTypesController
 
       include ::Api::V2::ApiController
+      paginate_model PlanningElementType
 
       def index
         @planning_element_types = @base.all
