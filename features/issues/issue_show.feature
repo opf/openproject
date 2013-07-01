@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Issue textile quickinfo links
+Feature: Watch issues
   Background:
     Given there are no issues
     And there is 1 project with the following:
