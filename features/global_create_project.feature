@@ -29,6 +29,7 @@ Feature: Global Create Project
     Given there is a global role "Global"
     And the global role "Global" may have the following rights:
       | add_project |
+    And there is a role "Manager"
     And there is 1 User with:
       | Login | bob |
       | Firstname | Bob |
