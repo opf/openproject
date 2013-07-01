@@ -5,7 +5,7 @@ end%>
 <div class="splitcontentright" id="available_principal_roles">
 <fieldset><legend><%= l(:label_role_plural) %></legend>
 <span id="additional_principal_roles">
-<%= form_for(:principal_roles, :remote => true, :url => principal_roles_url, :method => :post) do %>
+<%= remote_form_for(:principal_roles, :url => principal_roles_url, :method => :post) do %>
 	<%= hidden_field_tag 'principal_role[principal_id]', user.id %>
 <% available_additional_global_roles(global_roles, user).each do |role| %>
   <%= render :partial => 'users/available_global_role', :locals => {:role => role} %>
