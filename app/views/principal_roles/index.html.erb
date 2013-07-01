@@ -2,11 +2,11 @@
 <%= link_to l(:label_role_new), :action => 'new', :class => 'icon icon-add' %>
 </div>
 
-<h2><%=l(:label_role_plural)%></h2>
+<h2><%=Role.model_name.human(:count => 2)%></h2>
 
 <table class="list">
   <thead><tr>
-    <th><%=l(:label_role)%></th>
+    <th><%= Role.model_name.human %></th>
     <th><%=l(:button_sort)%></th>
 	<th></th>
   </tr></thead>
@@ -32,4 +32,4 @@
 
 <p><%= link_to l(:label_permissions_report), :action => 'report' %></p>
 
-<%= html_title(l(:label_role_plural)) -%>
+<%= html_title(Role.model_name.human(:count => 2)) -%>

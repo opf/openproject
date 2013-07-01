@@ -4,10 +4,10 @@
 <table id="table_principal_roles" class="list principal_roles">
 	<thead>
 		<tr>
-	  	<th><%= l(:label_role) %></th>
-	  	<%= call_hook(:view_users_global_roles_table_header, :user => @user )%>
-	  	<th style="width:15%"></th>
-		</tr>
+        <th><%= Role.model_name.human %></th>
+        <%= call_hook(:view_users_global_roles_table_header, :user => @user )%>
+        <th style="width:15%"></th>
+        </tr>
 	</thead>
 	<tbody id="table_principal_roles_body">
 	<% @user.principal_roles.each do |principal_role| %>
