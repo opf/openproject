@@ -11,7 +11,7 @@ rake tasks using the command `bundle exec rake <task>`.
 * `cucumber:custom[features]`: Run single features or folders of features
 
     Example: `cucumber:custom[features/issues/issue.feature]`
-    * When providing moultiple features, the task name and arguments must
+    * When providing multiple features, the task name and arguments must
       be enclosed in quotation marks.
 
       Example: `bundle exec rake "cucumber:custom[features/issues features/projects]"`

@@ -43,10 +43,22 @@ OpenProject::Application.routes.draw do
       resources :planning_element_journals
       resources :planning_element_statuses
       resources :colors, :controller => 'planning_element_type_colors'
-      resources :planning_element_types
+      resources :planning_element_types do
+        collection do
+          get :paginate_planning_element_types
+        end
+      end
       resources :planning_elements
-      resources :project_types
-      resources :reported_project_statuses
+      resources :project_types do
+        collection do
+          get :paginate_project_types
+        end
+      end
+      resources :reported_project_statuses do
+        collection do
+          get :paginate_reported_project_statuses
+        end
+      end
       resources :scenarios
       resources :timelines
 

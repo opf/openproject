@@ -470,7 +470,6 @@ var WarnLeavingUnsaved = Class.create({
 document.observe("dom:loaded", function() {
   Ajax.Responders.register({
     onCreate: function(request){
-      debugger;
       var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
 
       if (csrf_meta_tag) {
@@ -556,14 +555,14 @@ jQuery.viewportHeight = function() {
         document.body.clientHeight;
 };
 
-+
-+  /*
-+  * 1 - registers a callback which copies the csrf token into the
-+  * X-CSRF-Token header with each ajax request.  Necessary to
-+  * work with rails applications which have fixed
-+  * CVE-2011-0447
-+  * 2 - shows and hides ajax indicator
-+  */
+
+/*
+* 1 - registers a callback which copies the csrf token into the
+* X-CSRF-Token header with each ajax request.  Necessary to
+* work with rails applications which have fixed
+* CVE-2011-0447
+* 2 - shows and hides ajax indicator
+*/
 jQuery(document).ready(function($) {
   document.ajaxActive = false;
   $(document).ajaxSend(function (event, request) {
