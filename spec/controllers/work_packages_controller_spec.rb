@@ -103,10 +103,6 @@ describe WorkPackagesController do
           get 'show', :id => planning_element.id
         end
 
-        it 'assigns the planning_element' do
-          assigns(:planning_element).should == planning_element
-        end
-
         it 'renders the show builder template' do
           response.should render_template('work_packages/show', :formats => ["html"], :layout => :base)
         end

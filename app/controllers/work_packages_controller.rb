@@ -17,7 +17,7 @@ class WorkPackagesController < ApplicationController
   include ExtendedHTTP
 
   menu_item :planning_elements
-  model_object PlanningElement
+  model_object WorkPackage
 
   before_filter :disable_api
   before_filter :find_model_object_and_project,
@@ -42,8 +42,8 @@ class WorkPackagesController < ApplicationController
   def work_package
     @work_package ||= begin
 
-      wp = PlanningElement.includes(:project)
-                          .find_by_id(params[:id])
+      wp = WorkPackage.includes(:project)
+                      .find_by_id(params[:id])
 
       wp && wp.visible?(current_user) ?
         wp :
