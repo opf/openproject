@@ -33,7 +33,16 @@ module OpenProject
         private
 
         def self.watched?(object)
-          @watchregexp.present? && @watchregexp.match(object).present?
+          objects_base_klass = get_objects_base_class object
+
+          @watchregexp.present? && @watchregexp.match(objects_base_klass.table_name).present?
+        end
+
+        def self.get_objects_base_class(object)
+          klass = object.classify.constantize
+          ancestor = klass.ancestors.find_all { |i| i.is_a? Class and i != klass }[0]
+
+          (ancestor == ActiveRecord::Base) ? klass : ancestor
         end
       end
     end
