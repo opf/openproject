@@ -23,21 +23,12 @@ Feature: Issue textile quickinfo links
       | name   | Normal |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | add_issues  |
       | view_work_packages |
-      | edit_work_packages |
     And there is 1 user with the following:
       | login | bob|
     And the user "bob" is a "member" in the project "parent"
-    And there are the following issue status:
-      | name        | is_closed | is_default |
-      | New         | false     | true       |
-      | In Progress | false     | false      |
     Given the user "bob" has 1 issue with the following:
       | subject     | issue1              |
-      | due_date    | 2012-05-04          |
-      | start_date  | 2011-05-04          |
-      | description | Avocado Sali Grande |
     And I am logged in as "bob"
 
   @javascript
