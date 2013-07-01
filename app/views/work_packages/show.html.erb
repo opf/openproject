@@ -10,6 +10,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= header_tags %>
 <%= render :partial => 'work_packages/action_menu', :locals => { work_package: controller.work_package } %>
 
 <% work_package_breadcrumb %>
@@ -32,35 +33,43 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </p>
 
-  <table class="attributes">
-    <tr>
-      <th class="status"><%= Issue.human_attribute_name(:status)%>:</th><td class="status"><%#= h(controller.work_package.status.name) %></td>
-      <th class="start-date"><%= Issue.human_attribute_name(:start_date)%>:</th><td class="start-date"><%= format_date(controller.work_package.start_date) %></td>
-    </tr>
-    <tr>
-      <th class="priority"><%= Issue.human_attribute_name(:priority)%>:</th><td class="priority"><%#= h(controller.work_package.priority.name) %></td>
-      <th class="due-date"><%= Issue.human_attribute_name(:due_date)%>:</th><td class="due-date"><%= format_date(controller.work_package.due_date) %></td>
-    </tr>
-    <tr>
-      <th class="assigned-to"><%= Issue.human_attribute_name(:assigned_to)%>:</th><td class="assigned-to"><%= avatar(controller.work_package.assigned_to, :size => "14") %><%= controller.work_package.assigned_to ? link_to_user(controller.work_package.assigned_to) : "-" %></td>
-      <th class="progress"><%= Issue.human_attribute_name(:done_ratio)%>:</th><td class="progress"><%= progress_bar controller.work_package.done_ratio, :width => '80px', :legend => "#{controller.work_package.done_ratio}%" %></td>
-    </tr>
-    <tr>
-      <th class="category"><%= Issue.human_attribute_name(:category)%>:</th><td class="category"><%=h(controller.work_package.category ? controller.work_package.category.name : "-") %></td>
-      <% if User.current.allowed_to?(:view_time_entries, controller.project) %>
-        <th class="spent-time"><%=l(:label_spent_time)%>:</th>
-        <td class="spent-time"><%#= controller.work_package.spent_hours > 0 ? (link_to l_hours(controller.work_package.spent_hours), issue_time_entries_path(controller.work_package)) : "-" %></td>
-      <% end %>
-    </tr>
-    <tr>
-      <th class="fixed-version"><%= Issue.human_attribute_name(:fixed_version)%>:</th><td class="fixed-version"><%= controller.work_package.fixed_version ? link_to_version(controller.work_package.fixed_version) : "-" %></td>
-      <% if controller.work_package.estimated_hours %>
-        <th class="estimated-hours"><%= Issue.human_attribute_name(:estimated_hours)%>:</th><td class="estimated-hours"><%= l_hours(controller.work_package.estimated_hours) %></td>
-      <% end %>
-    </tr>
-    <%= render_custom_fields_rows(controller.work_package) %>
-    <%= call_hook(:view_issues_show_details_bottom, :issue => controller.work_package) %>
-  </table>
+  <div class="issue details">
+    <div class="meta">
+      <table class="attributes timelines-attributes">
+        <% controller.work_package_attributes.each_slice(2) do |attributes| %>
+          <tr>
+          <% attributes.each do |attribute| %>
+            <th class="<%= attribute.html_class %>"><%= Issue.human_attribute_name(attribute.attribute)%>:</th>
+
+            <% if attribute.is_a? ::WorkPackagesController::WorkPackageAttribute %>
+              <td class="<%= attribute.html_class %>"><%= h(attribute.value) %></td>
+
+            <% elsif attribute.is_a? ::WorkPackagesController::WorkPackageUserAttribute %>
+              <td class="<%= attribute.html_class %>">
+                <%= avatar(attribute.value, :size => "14") %>
+                <%= attribute.value ? link_to_user(attribute.value) : "-" %>
+              </td>
+
+            <% elsif attribute.is_a? ::WorkPackagesController::WorkPackageProgressAttribute %>
+              <td class="<%= attribute.html_class %>">
+                <%= progress_bar attribute.value, :width => '80px', :legend => "#{attribute.value}%" %>
+              </td>
+
+            <% elsif attribute.is_a? ::WorkPackagesController::WorkPackagePlanningElementTypeAttribute %>
+              <td class="<%= attribute.html_class %>">
+                <%= icon_for_planning_element_type(attribute.value) %>
+                <%= h attribute.value.try(:name) %>
+              </td>
+            <% end %>
+          <% end %>
+          </tr>
+        <% end %>
+
+        <%= render_custom_fields_rows(controller.work_package) %>
+        <%= call_hook(:view_issues_show_details_bottom, :issue => controller.work_package) %>
+      </table>
+    </div>
+  </div>
 
   <% if controller.work_package.description? %>
     <div class="description">
