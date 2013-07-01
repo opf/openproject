@@ -87,6 +87,60 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  WorkPackageAttribute = Struct.new(:attribute, :html_class, :value)
+
+  WorkPackageUserAttribute = Struct.new(:attribute, :html_class, :value)
+
+  WorkPackageProgressAttribute = Struct.new(:attribute, :html_class, :value)
+
+  WorkPackagePlanningElementTypeAttribute = Struct.new(:attribute, :html_class, :value)
+
+  def work_package_attributes
+    if work_package.is_a? Issue
+      return [
+        WorkPackageAttribute.new(:status, 'status', work_package.status.name),
+        WorkPackageAttribute.new(:start_date, 'start-date', format_date(work_package.start_date)),
+        WorkPackageAttribute.new(:priority, 'priority', work_package.priority),
+        WorkPackageAttribute.new(:due_date, 'due-date', format_date(work_package.due_date)),
+        WorkPackageUserAttribute.new(:assigned_to, 'assigned-to', work_package.assigned_to),
+        WorkPackageProgressAttribute.new(:done_ratio, 'progress', work_package.done_ratio),
+        WorkPackageAttribute.new(:category,
+                                 'category',
+                                 (work_package.category.nil?) ? '' : work_package.category.name),
+        WorkPackageAttribute.new(:spent_time,
+                                 'spent-time',
+                                 work_package.spent_hours > 0 ? (view_context.link_to l_hours(work_package.spent_hours),
+                                                                 issue_time_entries_path(work_package)) : "-"),
+        WorkPackageAttribute.new(:fixed_version,
+                                 'fixed-version',
+                                 work_package.fixed_version ? link_to_version(work_package.fixed_version) : "-"),
+        WorkPackageAttribute.new(:estimated_hours, 'estimated_hours', l_hours(work_package.estimated_hours))
+      ]
+    elsif work_package.is_a? PlanningElement
+      format_date_options = {}
+      unless work_package.leaf?
+        format_date_options[:title] = l("timelines.dates_are_calculated_based_on_sub_elements")
+      end
+
+      return [
+        WorkPackageUserAttribute.new(:responsible, 'responsible', work_package.responsible),
+        WorkPackageAttribute.new(:parent_id,
+                                 'planning-element-parent-id',
+                                 work_package.parent ? (view_context.link_to_planning_element(work_package.parent,
+                                                                                              :include_id => false)) : ''),
+        WorkPackageAttribute.new(:description,
+                                 'description',
+                                 (view_context.textilizable work_package, :description)),
+        WorkPackagePlanningElementTypeAttribute.new(:type,
+                                                    'planning-element-type',
+                                                    work_package.planning_element_type),
+        WorkPackageAttribute.new(:current_planning,
+                                 'current-planning',
+                                 "#{view_context.format_date work_package.start_date, format_date_options} - #{view_context.format_date work_package.end_date, format_date_options}")
+      ]
+    end
+  end
+
   protected
 
   def assign_planning_elements
