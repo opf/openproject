@@ -34,7 +34,8 @@ describe WorkPackagesController do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:view_planning_elements, :view_work_packages])
+      role   = FactoryGirl.create(:role, :permissions => [:view_planning_elements,
+                                                          :view_work_packages])
 
       projects = block ? instance_eval(&block) : [project]
 
@@ -145,7 +146,21 @@ describe WorkPackagesController do
   end
 
   describe :journals do
-    it "should be empty" do
+    it "should return all the work_package's journals except the first one" do
+      journal = FactoryGirl.create(:planning_element_journal, journaled: planning_element,
+                                                              changed_data: { description: [planning_element.description, "blubs"]},
+                                                              version: 2
+                                  )
+      planning_element.reload
+
+      controller.stub!(:work_package).and_return(planning_element)
+
+      controller.journals.should == [journal]
+    end
+
+    it "should be empty if the work_package has only one journal" do
+      controller.stub!(:work_package).and_return(planning_element)
+
       controller.journals.should be_empty
     end
   end
@@ -163,8 +178,31 @@ describe WorkPackagesController do
   end
 
   describe :ancestors do
-    it "should be empty" do
-      controller.ancestors.should be_empty
+    let(:project) { FactoryGirl.create(:project_with_trackers) }
+    let(:ancestor_issue) { FactoryGirl.create(:issue, :project => project) }
+    let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_issue_id => ancestor_issue.id) }
+
+    become_member_with_view_planning_element_permissions
+
+    describe "when work_package is an issue" do
+      let(:ancestor_issue) { FactoryGirl.create(:issue, :project => project) }
+      let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_issue_id => ancestor_issue.id) }
+
+      it "should return the work_packages ancestors" do
+        controller.stub!(:work_package).and_return(issue)
+
+        controller.ancestors.should == [ancestor_issue]
+      end
+    end
+
+    describe "when work_package is a planning element" do
+      let(:descendant_planning_element) { FactoryGirl.create(:planning_element, :project => project,
+                                                                                :parent => planning_element) }
+      it "should return the work_packages ancestors" do
+        controller.stub!(:work_package).and_return(descendant_planning_element)
+
+        controller.ancestors.should == [planning_element]
+      end
     end
   end
 
