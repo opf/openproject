@@ -25,8 +25,6 @@ def removed_task(name, message)
 end
 
 deprecated_task :load_default_data, "redmine:load_default_data"
-deprecated_task :migrate_from_mantis, "redmine:migrate_from_mantis"
-deprecated_task :migrate_from_trac, "redmine:migrate_from_trac"
 
 plugin_migrate_message = "<plugin>:install:migrations is used now to copy" +
                          " migrations to the rails application directory." +
