@@ -94,25 +94,11 @@ module ApplicationHelper
 
   #returns a class name based on the user's status
   def user_status_class(user)
-    case user.status
-      when User::STATUS_ACTIVE
-        "status_active"
-      when User::STATUS_REGISTERED
-        "status_registered"
-      when User::STATUS_LOCKED
-        "status_locked"
-    end
+    'status_' + user.status_name.to_s
   end
 
   def user_status_i18n(user)
-    case user.status
-      when User::STATUS_ACTIVE
-        l(:status_active)
-      when User::STATUS_REGISTERED
-        l(:status_registered)
-      when User::STATUS_LOCKED
-        l(:status_locked)
-    end
+    l(('status_' + user.status_name.to_s).to_sym)
   end
 
   # Displays a link to +issue+ with its subject.
