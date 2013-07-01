@@ -211,20 +211,4 @@ describe WorkPackagesController do
       controller.descendants.should be_empty
     end
   end
-
-  describe :edit_allowed? do
-    it "should be false" do
-      controller.edit_allowed?.should be_false
-    end
-  end
-
-#  describe :time_entry do
-#    it "should be a TimeEntry" do
-#      controller.time_entry.should be_a(TimeEntry)
-#    end
-#
-#    it "should be a new_record" do
-#      controller.time_entry.new_record?.should be_true
-#    end
-#  end
 end
