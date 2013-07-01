@@ -49,7 +49,7 @@ class MeetingsController < ApplicationController
     if @meeting.save
       text = l(:notice_successful_create)
       if User.current.time_zone.nil?
-        link = l(:notice_timezone_missing, :zone => Time.now.zone)
+        link = l(:notice_timezone_missing, :zone => Time.zone)
         text += " #{view_context.link_to(link, {:controller => :my, :action => :account},:class => "link_to_profile")}"
       end
       flash[:notice] = text.html_safe
@@ -112,13 +112,7 @@ class MeetingsController < ApplicationController
     start_time_5i = params[:meeting].delete(:"start_time(5i)")
     begin
       timestring = "#{start_date} #{start_time_4i}:#{start_time_5i}"
-      if(User.current.time_zone.nil?)
-        time = Time.parse(timestring) #using the system time zone
-      else
-        Time.use_zone(User.current.time_zone) do
-          time = Time.zone.parse(timestring) #using the user-set time zone
-        end
-      end
+      time = Time.zone.parse(timestring)
       params[:meeting][:start_time] = time
     rescue ArgumentError
       params[:meeting][:start_time] = nil
