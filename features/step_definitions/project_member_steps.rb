@@ -50,19 +50,64 @@ When /^I go to the project member settings of the project(?: called) "(.+?)"$/ d
   }
 end
 
+When /^I add( the)? principal "(.+)" as( a)? "(.+)"$/ do |_, principal, _, role|
+  found_principal = Principal.like(principal).first
+  raise "No Principal #{principal} found" unless found_principal
+
+  found_role = Role.like(role).first
+  raise "No Role #{role} found" unless found_role
+
+  select_principal(found_principal)
+  select_role(found_role)
+  steps %Q{
+    And I click on "Add" within "#tab-content-members"
+    And I wait for AJAX
+  }
+end
+
+def select_principal(principal)
+  if !User.current.impaired?
+    select_within_select2(principal.name, "#s2id_member_user_ids")
+  else
+    select_without_select2(principal.name, "form .principals")
+  end
+end
+
+def select_role(role)
+  if !User.current.impaired?
+    select_within_select2(role.name, "#s2id_member_role_ids")
+  else
+    select_without_select2(role.name, "form .roles")
+  end
+end
+
+def select_within_select2(to_select, scope)
+  tries = 3
+  begin
+    with_scope(scope) do
+      find(".select2-choices .select2-input").set(to_select)
+    end
+    steps %Q{And I wait 10 seconds for the AJAX requests to finish}
+    find(".select2-results .select2-result").click
+  rescue Capybara::ElementNotFound
+    tries -= 1
+    retry unless tries == 0
+  end
+end
+
+def select_without_select2(name, scope)
+  steps %Q{And I check "#{name}" within "#{scope}"}
+end
+
 When /^I add the principal "(.+)" as a member with the roles:$/ do |principal_name, roles_table|
-  steps %Q{ When I check "#{principal_name}" within "#tab-content-members" }
 
   roles_table.raw.flatten.each do |role_name|
-    steps %Q{ When I check "#{role_name}" within "#tab-content-members .splitcontentright" }
+    steps %Q{ When I add the principal "#{principal_name}" as a "#{role_name}" }
   end
-
-  steps %Q{ When I press "Add" within "#tab-content-members .splitcontentright" }
 end
 
 Then /^I should see the principal "(.+)" as a member with the roles:$/ do |principal_name, roles_table|
   principal = InstanceFinder.find(Principal, principal_name)
-
   steps %Q{ Then I should see "#{principal.name}" within "#tab-content-members .members" }
 
   found_roles = page.find(:xpath, "//tr[contains(concat(' ',normalize-space(@class),' '),' member ')][contains(.,'#{principal.name}')]").find(:css, "td.roles span").text.split(",").map(&:strip)
@@ -85,7 +130,7 @@ When /^I delete the "([^"]*)" membership$/ do |group_name|
   step %Q(I follow "Delete" within "#member-#{membership.id}")
 end
 
-def member_for_login principal_name
+def member_for_login(principal_name)
   principal = InstanceFinder.find(Principal, principal_name)
 
   sleep 1

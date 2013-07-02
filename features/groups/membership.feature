@@ -30,6 +30,7 @@ Feature: Group memberships
       | manage_members |
     And the user "bob" is a "alpha" in the project "project1"
 
+  @javascript
   Scenario: Adding a group with members to a project
     Given the group "group1" has the following members:
       | alice     |
