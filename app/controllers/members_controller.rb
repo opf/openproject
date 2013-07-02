@@ -160,7 +160,7 @@ JS
   def possibly_seperated_ids_for_entity(array, entity = :user)
     if !array[:"#{entity}_ids"].nil?
       transform_array_of_comma_seperated_ids(array.delete(:"#{entity}_ids"))
-    elsif (!array[:"#{entity}_id"].nil?) && (id = array.delete(:"#{entity}_id").present?)
+    elsif (!array[:"#{entity}_id"].nil?) && ((id = array.delete(:"#{entity}_id")).present?)
       [id]
     else
       []
