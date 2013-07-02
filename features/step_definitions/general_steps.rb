@@ -360,6 +360,7 @@ end
 
 Given /^I start debugging$/ do
   save_and_open_page
+  require 'pry'
   binding.pry
   true
 end
