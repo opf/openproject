@@ -96,7 +96,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% if authorize_for('issue_relations', 'create') || controller.relations.present? %>
     <div id="relations">
-      <%#= render :partial => 'relations' %>
+      <%= render :partial => 'relations' %>
     </div>
   <% end %>
 

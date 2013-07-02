@@ -1,0 +1,36 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<p>
+  <strong><%=l(:label_related_issues)%></strong>
+  <% if authorize_for('issue_relations', 'create') %>
+    (<%= toggle_link l(:label_add_related_issues), 'new-relation-form', {:focus => 'relation_issue_to_id'} %>)
+  <% end %>
+</p>
+
+<table style="width:100%">
+  <tbody>
+    <%= render :partial => 'work_packages/relation', :collection => controller.work_package.relations, :as => :relation -%>
+  </tbody>
+</table>
+
+<%= form_for(controller.work_package.new_relation,
+             :as => :relation,
+             :url => work_package_relations_path(controller.work_package),
+             :method => :post,
+             :remote => true,
+             :complete => "Form.Element.focus('relation_issue_to_id');",
+             :html => {:id => 'new-relation-form', :style => (@relation ? '' : 'display: none;')}) do |f| %>
+
+  <%= render :partial => 'work_package_relations/form', :locals => {:f => f}%>
+
+<% end %>
