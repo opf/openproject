@@ -80,6 +80,11 @@ When /^I filter for the user "(.+?)"$/ do |login|
   filter_user_by_login login
 end
 
+When /^I delete the "([^"]*)" membership$/ do |group_name|
+  membership = member_for_login(group_name)
+  step %Q(I follow "Delete" within "#member-#{membership.id}")
+end
+
 def member_for_login principal_name
   principal = InstanceFinder.find(Principal, principal_name)
 

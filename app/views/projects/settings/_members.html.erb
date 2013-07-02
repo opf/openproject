@@ -25,7 +25,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="splitcontentleft">
 <% if @members.any? %>
-  <% authorized = authorize_for('members', 'edit') %>
+  <% authorized = authorize_for('members', 'update') %>
 <table class="list members">
 	<thead><tr>
 	  <th><%= User.model_name.human %> / <%= Group.model_name.human %></th>
@@ -41,7 +41,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <td class="roles">
     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
     <% if authorized %>
-      <%= form_for(member, :url => {:controller => '/members', :action => 'edit', :id => member, :page => params[:page]},
+      <%= form_for(member, :url => {:controller => '/members',
+                                    :action => 'update',
+                                    :id => member,
+                                    :page => params[:page]},
                            :method => :put,
                            :remote => true,
                            :html => { :id => "member-#{member.id}-roles-form", :class => 'hol', :style => 'display:none' }) do |f| %>
@@ -53,15 +56,15 @@ See doc/COPYRIGHT.rdoc for more details.
         <p><%= submit_tag l(:button_change), :class => "small" %>
         <%= link_to_function l(:button_cancel), "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;" %></p>
       <% end %>
+      <td class="buttons">
+          <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
+          <%= link_to(l(:button_delete), {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
+                :method => :delete,
+                :remote => true,
+                :confirm => ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil),
+                :title => l(:button_delete), :class => 'icon icon-del') if member.deletable? %>
+      </td>
     <% end %>
-  </td>
-  <td class="buttons">
-      <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-      <%= link_to(l(:button_delete), {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
-            :method => :delete,
-            :remote => true,
-            :confirm => ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil),
-            :title => l(:button_delete), :class => 'icon icon-del') if member.deletable? %>
   </td>
   <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
 	</tr>
