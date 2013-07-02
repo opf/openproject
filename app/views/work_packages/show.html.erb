@@ -15,7 +15,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% work_package_breadcrumb %>
 
-<%= content_tag('h2', ((controller.work_package.kind.nil?) ? '' : h(controller.work_package.kind.name)) + ' #' + controller.work_package.id.to_s) %>
+<%= content_tag('h2', controller.work_package.to_s) %>
 
 <!-- <div class="<%#= controller.work_package.css_classes %> details"> -->
 <div class = "details">

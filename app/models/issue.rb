@@ -545,10 +545,6 @@ class Issue < WorkPackage
     end
   end
 
-  def to_s
-    "#{tracker} ##{id}: #{subject}"
-  end
-
   # The number of "items" this issue spans in it's nested set
   #
   # A parent issue would span all of it's children + 1 left + 1 right (3)
