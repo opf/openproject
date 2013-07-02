@@ -369,5 +369,3 @@ Redmine::WikiFormatting.map do |format|
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler
-
-OpenProject.preload_circular_dependencies

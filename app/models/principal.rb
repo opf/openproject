@@ -10,6 +10,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_dependency 'project'
+
 class Principal < ActiveRecord::Base
   extend Pagination::Model
 
