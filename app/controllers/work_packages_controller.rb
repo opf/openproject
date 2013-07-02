@@ -124,19 +124,18 @@ class WorkPackagesController < ApplicationController
 
       return [
         WorkPackageUserAttribute.new(:responsible, 'responsible', work_package.responsible),
+        WorkPackageAttribute.new(:start_date, 'start-date', format_date(work_package.start_date)),
         WorkPackageAttribute.new(:parent_id,
                                  'planning-element-parent-id',
                                  work_package.parent ? (view_context.link_to_planning_element(work_package.parent,
                                                                                               :include_id => false)) : ''),
+        WorkPackageAttribute.new(:due_date, 'due-date', format_date(work_package.end_date)),
         WorkPackageAttribute.new(:description,
                                  'description',
                                  (view_context.textilizable work_package, :description)),
         WorkPackagePlanningElementTypeAttribute.new(:type,
                                                     'planning-element-type',
                                                     work_package.planning_element_type),
-        WorkPackageAttribute.new(:current_planning,
-                                 'current-planning',
-                                 "#{view_context.format_date work_package.start_date, format_date_options} - #{view_context.format_date work_package.end_date, format_date_options}")
       ]
     end
   end
