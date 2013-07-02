@@ -11,6 +11,8 @@ Feature: Copy meetings
               | language  | en     |
               | firstname | Alice  |
               | lastname  | Alice  |
+          And the user "alice" has the following preferences
+              | time_zone | UTC    |
           And there is 1 user with:
               | login     | bob    |
           And there is 1 user with:
