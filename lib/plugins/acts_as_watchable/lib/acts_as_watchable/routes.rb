@@ -22,25 +22,28 @@ module OpenProject
           /\d+/.match(params[:object_id])
         end
 
-        def self.add_watched(watched)
-          self.models ||= []
+        def self.add_watched(watched, options = nil)
+          objects_base_klass = get_objects_base_class watched
 
-          self.models << watched.to_s unless self.models.include?(watched.to_s)
+          self.models ||= { }
 
-          @watchregexp = Regexp.new(self.models.join("|"))
+          self.models[objects_base_klass.to_s] = options || watched.to_s.underscore.pluralize
+
+          @watchregexp = Regexp.new(self.models.values.join("|"))
         end
 
         private
 
         def self.watched?(object)
           objects_base_klass = get_objects_base_class object
+          matcher = self.models[objects_base_klass.to_s]
 
-          @watchregexp.present? && @watchregexp.match(objects_base_klass.table_name).present?
+          @watchregexp.present? && @watchregexp.match(matcher).present?
         end
 
         def self.get_objects_base_class(object)
-          klass = object.classify.constantize
-          ancestor = klass.ancestors.find_all { |i| i.is_a? Class and i != klass }[0]
+          klass = (object.is_a? Class) ? object : object.classify.constantize
+          ancestor = klass.lookup_ancestors.last
 
           (ancestor == ActiveRecord::Base) ? klass : ancestor
         end
