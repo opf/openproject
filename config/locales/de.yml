@@ -1505,6 +1505,8 @@ de:
       quarters: "Quartale"
       years: "Jahre"
 
+  label_work_package_hierarchy: "Arbeitspakethierarchie"
+
   total_progress: "Gesamtfortschritt"
 
   user:
