@@ -36,16 +36,32 @@ module OpenProject
 
         def self.watched?(object)
           objects_base_klass = get_objects_base_class object
-          matcher = self.models[objects_base_klass.to_s]
 
-          @watchregexp.present? && @watchregexp.match(matcher).present?
+          if objects_base_klass.nil?
+            self.models.values.include? object
+          else
+            matcher = self.models[objects_base_klass.to_s]
+
+            @watchregexp.present? && @watchregexp.match(matcher).present?
+          end
         end
 
         def self.get_objects_base_class(object)
-          klass = (object.is_a? Class) ? object : object.classify.constantize
-          ancestor = klass.lookup_ancestors.last
+          klass = get_objects_class object
 
-          (ancestor == ActiveRecord::Base) ? klass : ancestor
+          if not klass.nil?
+            ancestor = klass.lookup_ancestors.last
+
+            (ancestor == ActiveRecord::Base) ? klass : ancestor
+          end
+        end
+
+        def self.get_objects_class(object)
+          if object.is_a? Class
+            object
+          elsif Object.const_defined? object.classify
+            object.classify.constantize
+          end
         end
       end
     end
