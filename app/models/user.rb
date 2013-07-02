@@ -10,6 +10,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_dependency 'principal'
 require "digest/sha1"
 
 class User < Principal
