@@ -25,25 +25,18 @@ module OpenProject
         def self.add_watched(watched, options = nil)
           objects_base_klass = get_objects_base_class watched
 
-          self.models ||= { }
+          self.models ||= []
 
-          self.models[objects_base_klass.to_s] = options || watched.to_s.underscore.pluralize
-
-          @watchregexp = Regexp.new(self.models.values.join("|"))
+          self.models << ((options.nil?) ? watched.to_s : options)
         end
 
         private
 
         def self.watched?(object)
-          objects_base_klass = get_objects_base_class object
+          objects_base_class = get_objects_base_class object
+          matcher = (objects_base_class.nil?) ? object : objects_base_class.to_s
 
-          if objects_base_klass.nil?
-            self.models.values.include? object
-          else
-            matcher = self.models[objects_base_klass.to_s]
-
-            @watchregexp.present? && @watchregexp.match(matcher).present?
-          end
+          self.models.include? matcher.to_s
         end
 
         def self.get_objects_base_class(object)
