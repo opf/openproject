@@ -22,10 +22,11 @@ module OpenProject::GlobalRoles::Patches
         if params['global_role']
           create_global_role
         else
-          create_without_global_roles
-
+          #we have to duplicate unpatched behaviour here in order to set the parameters for the overwritten views
+          @role = Role.new(params[:role] || { :permissions => Role.non_member.permissions })
           @member_permissions = (@role.setable_permissions || @permissions)
           @global_permissions = GlobalRole.setable_permissions
+          create_without_global_roles
         end
       end
 
