@@ -1494,6 +1494,8 @@ en:
       quarters: "Quarters"
       years: "Years"
 
+  label_work_package_hierarchy: "Work Package Hierarchy"
+
   total_progress: "Total progress"
 
   user:
