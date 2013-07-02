@@ -54,11 +54,9 @@ module Redmine
 
     def format_time(time, include_date = true)
       return nil unless time
-      time = time.to_time if time.is_a?(String)
-      zone = User.current.time_zone
-      local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
-      (include_date ? "#{format_date(local)} " : "") +
-        (Setting.time_format.blank? ? ::I18n.l(local, :format => :time) : local.strftime(Setting.time_format))
+      time = Time.zone.parse(time) if time.is_a?(String) #if no timezone is set, we read in the configured zone, otherwise in user zone
+      (include_date ? "#{format_date(time)} " : "") +
+        (Setting.time_format.blank? ? ::I18n.l(time, :format => :time) : time.strftime(Setting.time_format))
     end
 
     def day_name(day)
