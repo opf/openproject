@@ -24,6 +24,31 @@ module UsersHelper
     I18n.t(('status_' + status_name).to_sym)
   end
 
+  def full_user_status(user)
+    user_status = ''
+    unless [User::STATUSES[:active], User::STATUSES[:builtin]].include?(user.status)
+      user_status = translate_user_status(user.status_name)
+    end
+    brute_force_status = ''
+    if user.failed_too_many_recent_login_attempts?
+      brute_force_status = I18n.t(:blocked_num_failed_logins,
+                                  :count => user.failed_login_count,
+                                  :scope => [:user, :brute_force_status])
+    end
+
+    both_statuses = user_status + brute_force_status
+    if user_status.present? and brute_force_status.present?
+      I18n.t(:status_user_and_brute_force,
+             :user => user_status,
+             :brute_force => brute_force_status,
+             :scope => :user)
+    elsif not both_statuses.empty?
+      both_statuses
+    else
+      I18n.t(:status_active)
+    end
+  end
+
   # Options for the new membership projects combo-box
   def options_for_membership_project_select(user, projects)
     options = content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---")
