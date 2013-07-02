@@ -18,9 +18,6 @@ class Issue < WorkPackage
 
   has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
 
-  has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
-  has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
-
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
   ATTRIBS_WITH_VALUES_FROM_CHILDREN = %w(priority_id start_date due_date estimated_hours done_ratio)
 
@@ -124,11 +121,7 @@ class Issue < WorkPackage
     issue = options[:copy] ? self.class.new.copy_from(self) : self
 
     if new_project && issue.project_id != new_project.id
-      # delete issue relations
-      unless Setting.cross_project_issue_relations?
-        issue.relations_from.clear
-        issue.relations_to.clear
-      end
+      delete_relations(issue)
       # issue is moved to another project
       # reassign to the category with same name if any
       new_category = issue.category.nil? ? nil : new_project.issue_categories.find_by_name(issue.category.name)
@@ -361,11 +354,6 @@ class Issue < WorkPackage
     end
   end
 
-  # Return true if the issue is closed, otherwise false
-  def closed?
-    self.status.is_closed?
-  end
-
   # Return true if the issue is being reopened
   def reopened?
     if !new_record? && status_id_changed?
@@ -419,11 +407,6 @@ class Issue < WorkPackage
     @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
   end
 
-  # Returns true if this issue is blocked by another issue that is still open
-  def blocked?
-    !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
-  end
-
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user, include_default=false)
     statuses = status.find_new_statuses_allowed_to(
@@ -460,51 +443,6 @@ class Issue < WorkPackage
     @spent_hours ||= self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f || 0.0
   end
 
-  def relations(options = {})
-    options_to = options.clone
-    options_from = options.clone
-
-    if options[:include]
-      if options[:include].is_a?(Hash) && options[:include][:other_issue]
-        options_to[:include] = options_to[:include].dup
-        options_from[:include] = options_from[:include].dup
-        options_to[:include][:issue_from] = options_to[:include].delete(:other_issue)
-        options_from[:include][:issue_to] = options_from[:include].delete(:other_issue)
-      elsif options[:include].is_a?(Array) && options[:include].include?(:other_issue)
-        options_to[:include] = options[:include].dup - [:other_issue] + [:issue_from]
-        options_from[:include] = options[:include].dup - [:other_issue] + [:issue_to]
-      end
-    end
-
-
-    (relations_from.all(options_from) + relations_to.all(options_to)).sort
-  end
-
-  def relation(id)
-    IssueRelation.of_issue(self).find(id)
-  end
-
-  def new_relation
-    self.relations_from.build
-  end
-
-  def all_dependent_issues(except=[])
-    except << self
-    dependencies = []
-    relations_from.each do |relation|
-      if relation.issue_to && !except.include?(relation.issue_to)
-        dependencies << relation.issue_to
-        dependencies += relation.issue_to.all_dependent_issues(except)
-      end
-    end
-    dependencies
-  end
-
-  # Returns an array of issues that duplicate this one
-  def duplicates
-    relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
-  end
-
   # Returns the time scheduled for this issue.
   #
   # Example:
@@ -512,13 +450,6 @@ class Issue < WorkPackage
   #   duration => 6
   def duration
     (start_date && due_date) ? due_date - start_date : 0
-  end
-
-  def soonest_start
-    @soonest_start ||= (
-        relations_to.collect{|relation| relation.successor_soonest_start} +
-        ancestors.collect(&:soonest_start)
-      ).compact.max
   end
 
   def reschedule_after(date)
@@ -808,12 +739,7 @@ class Issue < WorkPackage
         end
       end
       reload
-      # delete invalid relations of all descendants
-      self_and_descendants.each do |issue|
-        issue.relations.each do |relation|
-          relation.destroy unless relation.valid?
-        end
-      end
+
       # update former parent
       recalculate_attributes_for(former_parent_id) if former_parent_id
     end
@@ -898,15 +824,6 @@ class Issue < WorkPackage
   def default_assign
     if assigned_to.nil? && category && category.assigned_to
       self.assigned_to = category.assigned_to
-    end
-  end
-
-  # Updates start/due dates of following issues
-  def reschedule_following_issues
-    if start_date_changed? || due_date_changed?
-      relations_from.each do |relation|
-        relation.set_issue_to_dates
-      end
     end
   end
 
