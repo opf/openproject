@@ -146,4 +146,8 @@ class WorkPackage < ActiveRecord::Base
       return planning_element_type
     end
   end
+
+  def to_s
+    "#{(kind.nil?) ? '' : kind.name} ##{id}: #{subject}"
+  end
 end
