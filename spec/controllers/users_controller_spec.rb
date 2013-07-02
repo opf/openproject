@@ -188,4 +188,55 @@ describe UsersController do
       it { response.response_code.should == 404 }
     end
   end
+
+  describe "index" do
+    describe "with session lifetime" do
+      # TODO move this section to a proper place because we test a
+      # before_filter from the application controller
+      context "disabled" do
+        before do
+          Setting.stub!(:session_ttl_enabled?).and_return(false)
+          @controller.send(:logged_user=, admin)
+          get :index
+        end
+
+        it "doesn't logout the user" do
+          User.current.should == admin
+          response.should render_template "index"
+        end
+      end
+
+      context "enabled " do
+        before do
+          Setting.stub!(:session_ttl_enabled?).and_return(true)
+          Setting.stub!(:session_ttl).and_return("120")
+          @controller.send(:logged_user=, admin)
+        end
+
+        context "before 120 min of inactivity" do
+          before do
+            session[:updated_at] = Time.now - 1.hours
+            get :index
+          end
+
+          it "doesn't logout the user" do
+            User.current.should == admin
+            response.should render_template "index"
+          end
+        end
+
+        context "after 120 min of inactivity" do
+          before do
+            session[:updated_at] = Time.now - 3.hours
+            get :index
+          end
+          it "logs out the user and redirects with a warning that he has been locked out" do
+            response.redirect_url.should == (signin_url + "?back_url=" + CGI::escape(@controller.url_for(:controller => "users", :action => "index")))
+            User.current.should_not == admin
+            flash[:warning].should == I18n.t(:notice_forced_logout, :ttl_time => Setting.session_ttl)
+          end
+        end
+      end
+    end
+  end
 end
