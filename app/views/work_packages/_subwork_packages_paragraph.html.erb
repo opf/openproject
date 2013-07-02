@@ -1,0 +1,39 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<strong><%= l(:label_work_package_hierarchy) %></strong>
+(<%= link_to(l(:label_add_subtask), {:controller => '/issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => @issue}}) if User.current.allowed_to?(:manage_subtasks, @project) %>)
+
+<% if !controller.work_package.leaf? || controller.work_package.parent %>
+  <% indent = 0 %>
+
+  <form action="#">
+    <table id="issue_tree" class="list">
+
+      <!-- render parent elements -->
+      <% controller.ancestors.each do |work_package| %>
+        <%= render_work_package_tree_row work_package, indent, "parent" %>
+        <% indent += 1 %>
+      <% end %>
+
+      <!-- render current element -->
+      <%= render_work_package_tree_row controller.work_package, indent, "root" %>
+      <% indent += 1 %>
+
+      <!-- render child elements -->
+      <% work_package_list(controller.descendants) do |work_package, level| %>
+        <%= render_work_package_tree_row work_package, indent + level, "child" %>
+      <% end %>
+
+    </table>
+  </form>
+<% end %>
