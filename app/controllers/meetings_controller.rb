@@ -1,6 +1,7 @@
 class MeetingsController < ApplicationController
   unloadable
 
+  around_filter :set_time_zone
   before_filter :find_project, :only => [:index, :new, :create]
   before_filter :find_meeting, :except => [:index, :new, :create]
   before_filter :convert_params, :only => [:create, :update]
@@ -91,6 +92,20 @@ class MeetingsController < ApplicationController
   end
 
   private
+
+  def set_time_zone
+    old_time_zone = Time.zone
+    zone = User.current.time_zone
+    if zone.nil?
+      localzone = Time.now.utc_offset
+      localzone-= 3600 if Time.now.dst?
+      zone = ::ActiveSupport::TimeZone[localzone]
+    end
+    Time.zone = zone
+    yield
+  ensure
+    Time.zone = old_time_zone
+  end
 
   def find_project
     @project = Project.find(params[:project_id])
