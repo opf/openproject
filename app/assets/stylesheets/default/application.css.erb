@@ -179,6 +179,25 @@ tr.issue.idnt td.subject a {background: url(<%= asset_path 'bullet_arrow_right.p
 #content tr.issue.idnt-8 td.subject {padding-left: 11em;}
 #content tr.issue.idnt-9 td.subject {padding-left: 12.5em;}
 
+/* Work Package hierarchy layout */
+tr.work-package{ text-align: center; white-space: nowrap; }
+tr.work-package.sum { font-weight: bold; }
+tr.work-package td.subject, tr.issue td.category, td.assigned_to { white-space: normal; }
+tr.work-package td.subject { text-align: left; }
+tr.work-package td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
+
+tr.work-package.idnt td.subject a {background: url(<%= asset_path 'bullet_arrow_right.png' %>) no-repeat 0 50%; padding-left: 16px;}
+#content tr.work-package.idnt-1 td.subject {padding-left: 0.5em;}
+#content tr.work-package.idnt-2 td.subject {padding-left: 2em;}
+#content tr.work-packge.idnt-3 td.subject {padding-left: 3.5em;}
+#content tr.work-packge.idnt-4 td.subject {padding-left: 5em;}
+#content tr.work-packge.idnt-5 td.subject {padding-left: 6.5em;}
+#content tr.work-packge.idnt-6 td.subject {padding-left: 8em;}
+#content tr.work-packge.idnt-7 td.subject {padding-left: 9.5em;}
+#content tr.work-packge.idnt-8 td.subject {padding-left: 11em;}
+#content tr.work-packge.idnt-9 td.subject {padding-left: 12.5em;}
+
+
 tr.entry { border: 1px solid #f8f8f8; }
 tr.entry td { white-space: nowrap; }
 tr.entry td.filename { width: 30%; }
