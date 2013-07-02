@@ -61,21 +61,28 @@ gem 'jquery-rails', '~> 2.0.3'
 gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
 
 group :test do
-  gem 'shoulda'
+  platforms :mri_19, :mingw_19 do
+    gem 'shoulda'
+  end
   gem 'object-daddy', :git => 'https://github.com/awebneck/object_daddy.git'
   gem 'mocha', '~> 0.13.1', :require => false
   gem "launchy", "~> 2.3.0"
-  gem "factory_girl_rails", "~> 4.0"
-  gem 'cucumber-rails', :require => false
+  platforms :mri_19, :mingw_19 do
+    gem "factory_girl_rails", "~> 4.0"
+    gem 'cucumber-rails', :require => false
+  end
   gem 'rack_session_access'
   gem 'database_cleaner'
-  gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
+  platforms :mri_19, :mingw_19 do
+    gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
+  end
   gem "rspec-rails", "~> 2.0", :group => :development
   gem 'rspec-example_disabler', :git => 'https://github.com/finnlabs/rspec-example_disabler.git'
-  gem 'capybara'
-  gem 'capybara-screenshot'
-  gem 'selenium-webdriver'
-
+  platforms :mri_19, :mingw_19 do
+    gem 'capybara'
+    gem 'capybara-screenshot'
+    gem 'selenium-webdriver'
+  end
   gem 'rb-readline' # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
@@ -100,11 +107,13 @@ group :development do
 end
 
 group :development, :test do
-  gem 'pry-rails'
-  gem 'pry-stack_explorer'
-  gem 'pry-rescue'
-  gem 'pry-debugger'
-  gem 'pry-doc'
+  platforms :mri_19, :mingw_19 do
+    gem 'pry-rails'
+    gem 'pry-stack_explorer'
+    gem 'pry-rescue'
+    gem 'pry-debugger'
+    gem 'pry-doc'
+  end
 end
 
 group :tools do
