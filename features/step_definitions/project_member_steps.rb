@@ -43,12 +43,6 @@ When /^I follow the delete link of the project member "(.+?)"$/ do |login_name|
   steps %Q{When I follow "Delete" within "#member-#{member.id}"}
 end
 
-When /^I go to the project member settings of the project(?: called) "(.+?)"$/ do |project_name|
-  steps %Q{
-    When I go to the settings page of the project called "#{project_name}"
-    And I click on "tab-members"
-  }
-end
 
 When /^I add( the)? principal "(.+)" as( a)? "(.+)"$/ do |_, principal, _, role|
   found_principal = Principal.like(principal).first
