@@ -294,7 +294,9 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :work_packages, :only => [:show]
+  resources :work_packages, :only => [:show] do
+    resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
+  end
 
   resources :versions, :only => [:show, :edit, :update, :destroy] do
     member do
