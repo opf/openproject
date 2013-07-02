@@ -13,10 +13,13 @@
 module UsersHelper
   def users_status_options_for_select(selected)
     user_count_by_status = User.count(:group => 'status').to_hash
-    options_for_select([[l(:label_all), ''],
-                        ["#{l(:status_active)} (#{user_count_by_status[1].to_i})", 1],
-                        ["#{l(:status_registered)} (#{user_count_by_status[2].to_i})", 2],
-                        ["#{l(:status_locked)} (#{user_count_by_status[3].to_i})", 3]], selected)
+    statuses = User::STATUSES.reject{|n,i| n == :builtin}.map do |name, index|
+      ["#{translate_user_status(name)} (#{user_count_by_status[index].to_i})"]
+    end
+  end
+
+  def translate_user_status(status_name)
+    I18n.t(('status_' + status_name.to_s).to_sym)
   end
 
   # Options for the new membership projects combo-box
