@@ -11,6 +11,9 @@ Feature: As an admin
     Then I should see "Global group"
     And I should see "Glob test"
     And I should not see "Issues can be assigned to this role"
+    When I fill in "Name" with "Manager"
+    And I click on "Create"
+    Then I should see "Successful creation."
 
   @javascript
   Scenario: Global Roles can not be assigned issues to
