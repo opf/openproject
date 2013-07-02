@@ -189,6 +189,10 @@ start_of_week:
   default: ''
 rest_api_enabled:
   default: 0
+session_ttl_enabled:
+  default: 0
+session_ttl:
+  default: 120
 default_notification_option:
   default: 'only_my_events'
 emails_header:

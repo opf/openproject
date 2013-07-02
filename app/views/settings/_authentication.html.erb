@@ -12,32 +12,34 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= form_tag({:action => 'edit', :tab => 'authentication'}) do %>
 
-<div class="box tabular settings">
-<p><%= setting_check_box :login_required %></p>
+  <div class="box tabular settings">
+    <p><%= setting_check_box :login_required %></p>
 
-<p><%= setting_select :autologin, [[l(:label_disabled), 0]] + [1, 7, 30, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]} %></p>
+    <p><%= setting_select :autologin, [[l(:label_disabled), 0]] + [1, 7, 30, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]} %></p>
 
-<p><%= setting_select :self_registration, [[l(:label_disabled), "0"],
-							                             [l(:label_registration_activation_by_email), "1"],
-							                             [l(:label_registration_manual_activation), "2"],
-							                             [l(:label_registration_automatic_activation), "3"]] %></p>
+    <p><%= setting_select :self_registration, [[l(:label_disabled), "0"],
+                                               [l(:label_registration_activation_by_email), "1"],
+                                               [l(:label_registration_manual_activation), "2"],
+                                               [l(:label_registration_automatic_activation), "3"]] %></p>
 
-<p><%= setting_text_field :password_min_length, :size => 6 %></p>
+    <p><%= setting_text_field :password_min_length, :size => 6 %></p>
 
-<p><%= setting_multiselect :password_active_rules, OpenProject::Passwords::Evaluator.known_rules.map {|r| [l("label_password_rule_#{r}"), r] } %></p>
+    <p><%= setting_multiselect :password_active_rules, OpenProject::Passwords::Evaluator.known_rules.map {|r| [l("label_password_rule_#{r}"), r] } %></p>
 
-<p><%= setting_text_field :password_min_adhered_rules, :size => 6 %></p>
+    <p><%= setting_text_field :password_min_adhered_rules, :size => 6 %></p>
 
-<p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
+    <p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
 
-<p><%= setting_check_box :openid, :disabled => !Object.const_defined?(:OpenID) %></p>
+    <p><%= setting_check_box :openid, :disabled => !Object.const_defined?(:OpenID) %></p>
 
-<p><%= setting_check_box :rest_api_enabled %></p>
-</div>
+    <p><%= setting_check_box :rest_api_enabled %></p>
+    <p><%= setting_check_box :session_ttl_enabled %></p>
+    <p id="settings_session_ttl_container" style="display:none;"><%= setting_text_field :session_ttl, :size => 6 %> min</p>
+  </div>
 
-<div style="float:right;">
-    <%= link_to l(:label_ldap_authentication), {:controller => '/ldap_auth_sources', :action => 'index'}, :class => 'icon icon-server-authentication' %>
-</div>
+  <div style="float:right;">
+      <%= link_to l(:label_ldap_authentication), {:controller => '/ldap_auth_sources', :action => 'index'}, :class => 'icon icon-server-authentication' %>
+  </div>
 
-<%= submit_tag l(:button_save) %>
+  <%= submit_tag l(:button_save) %>
 <% end %>
