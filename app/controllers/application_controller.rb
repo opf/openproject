@@ -15,7 +15,6 @@ require 'cgi'
 
 class ApplicationController < ActionController::Base
   # ensure the OpenProject models are required in the right order (as they have circular dependencies)
-  OpenProject.preload_circular_dependencies
 
   class_attribute :_model_object
   class_attribute :_model_scope

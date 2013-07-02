@@ -10,6 +10,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_dependency 'issue'
+
 class Project < ActiveRecord::Base
   include Redmine::SafeAttributes
 
