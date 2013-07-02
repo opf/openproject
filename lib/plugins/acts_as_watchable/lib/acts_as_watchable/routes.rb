@@ -22,12 +22,12 @@ module OpenProject
           /\d+/.match(params[:object_id])
         end
 
-        def self.add_watched(watched, options = nil)
+        def self.add_watched(watched)
           objects_base_klass = get_objects_base_class watched
 
           self.models ||= []
 
-          self.models << ((options.nil?) ? watched.to_s : options)
+          self.models << ((objects_base_klass.nil?) ? watched.to_s : objects_base_klass.to_s)
         end
 
         private
