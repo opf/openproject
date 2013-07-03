@@ -1,0 +1,71 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= call_hook(:view_issues_form_details_top, { :issue => work_package, :form => f }) %>
+
+<div id="issue_descr_fields"<% unless work_package.new_record? || work_package.errors.any? %> style="display:none;"<% end %>>
+  <% if work_package.is_a?(Issue) %>
+    <p><%= f.select :tracker_id, project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
+    <%= observe_field :issue_tracker_id, :url => { :action => :new, :project_id => project, :id => work_package },
+                                         :update => :attributes,
+                                         :method => :get,
+                                         :with => "Form.serialize('issue-form')" %>
+  <% end %>
+
+  <p><%= f.text_field :subject, :size => 80, :required => true %></p>
+
+  <% if User.current.allowed_to?(:manage_subtasks, project) %>
+    <% if work_package.is_a?(Issue) %>
+      <p id="parent_issue"><%= f.text_field :parent_issue_id, :size => 10, :title => l(:description_autocomplete) %></p>
+    <% else %>
+      <p id="parent_issue"><%= f.text_field :parent_id, :size => 10, :title => l(:description_autocomplete) %></p>
+    <% end %>
+    <div id="parent_issue_candidates" class="autocomplete"></div>
+    <%= javascript_tag "observeParentIssueField('#{issues_auto_complete_path(:id => work_package, :project_id => project, :escape => false) }')" %>
+  <% end %>
+
+  <p>
+    <%= f.text_area :description,
+                    :cols => 60,
+                    :rows => (work_package.description.blank? ? 10 : [[10, work_package.description.length / 50].max, 100].min),
+                    :accesskey => accesskey(:edit),
+                    :class => 'wiki-edit' %>
+  </p>
+</div>
+
+<div id="attributes" class="attributes">
+  <%= render :partial => 'attributes', :locals => { :work_package => work_package,
+                                                    :project => project,
+                                                    :allowed_statuses => allowed_statuses,
+                                                    :priorities => priorities
+                                                  } %>
+</div>
+
+<% if work_package.new_record? %>
+  <div class="handle_attachments">
+    <%= label_tag('attachments[1][file]', l(:label_attachment_plural))%>
+    <%= render :partial => 'attachments/form' %>
+  </div>
+<% end %>
+
+<% if work_package.new_record? && User.current.allowed_to?(:add_issue_watchers, project) -%>
+  <p id="watchers_form">
+    <label><%= l(:label_issue_watchers) %></label>
+    <% work_package.project.users.sort.each do |user| -%>
+      <label class="floating"><%= check_box_tag 'issue[watcher_user_ids][]', user.id, work_package.watched_by?(user) %> <%=h user %></label>
+    <% end -%>
+  </p>
+<% end %>
+
+<%= call_hook(:view_issues_form_details_bottom, { :issue => work_package, :form => f }) %>
+
+<%= wikitoolbar_for 'issue_description' %>

@@ -84,18 +84,19 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :create, :edit, :update, :destroy]}, :require => :member
     # Issues
     map.permission :view_work_packages, {:'issues' => [:index, :all, :show],
-                                  :auto_complete => [:issues],
-                                  :context_menus => [:issues],
-                                  :versions => [:index, :show, :status_by],
-                                  :journals => [:index, :diff],
-                                  :queries => :index,
-                                  :work_packages => [:show],
-                                  :'issues/reports' => [:report, :report_details]}
+                                         :auto_complete => [:issues],
+                                         :context_menus => [:issues],
+                                         :versions => [:index, :show, :status_by],
+                                         :journals => [:index, :diff],
+                                         :queries => :index,
+                                         :work_packages => [:show],
+                                         :'issues/reports' => [:report, :report_details]}
     map.permission :export_issues, {:'issues' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
-    map.permission :edit_work_packages, {:issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
-                                  :'issues/previews' => :create}
+    map.permission :add_work_packages, { :work_packages => [:new] }
+    map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
+                                          :'issues/previews' => :create}
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     map.permission :add_issue_notes, {:issues => [:edit, :update], :journals => [:new]}
@@ -286,7 +287,7 @@ Redmine::MenuManager.map :project_menu do |menu|
               :if => Proc.new { |p| p.shared_versions.any? }
 
   menu.push :issues, { :controller => '/issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
-  menu.push :new_issue, { :controller => '/issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
+  menu.push :new_issue, { :controller => '/work_packages', :action => 'new', :type => 'Issue' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
   menu.push :view_all_issues, { :controller => '/issues', :action => 'all' }, :param => :project_id, :caption => :label_issue_view_all, :parent => :issues
   menu.push :summary_field, {:controller => '/issues/reports', :action => 'report'}, :param => :project_id, :caption => :label_workflow_summary, :parent => :issues

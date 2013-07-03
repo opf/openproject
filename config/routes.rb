@@ -210,6 +210,8 @@ OpenProject::Application.routes.draw do
       end
     end
 
+    resources :work_packages, :only => [:new]
+
     resources :activity, :activities, :only => :index, :controller => 'activities'
 
     resources :boards

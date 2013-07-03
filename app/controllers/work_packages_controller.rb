@@ -20,10 +20,11 @@ class WorkPackagesController < ApplicationController
   model_object WorkPackage
 
   before_filter :disable_api
-  before_filter :find_model_object_and_project,
-                :authorize,
+  before_filter :find_model_object_and_project, :only => [:show]
+  before_filter :find_project_by_project_id, :only => [:new]
+  before_filter :authorize,
                 :assign_planning_elements
-  before_filter :apply_at_timestamp
+  before_filter :apply_at_timestamp, :only => [:show]
 
 
   helper :timelines
@@ -33,6 +34,12 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html
       format.js { render :partial => 'show'}
+    end
+  end
+
+  def new
+    respond_to do |format|
+      format.html
     end
   end
 
@@ -48,8 +55,25 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  def new_work_package
+    @new_work_package ||= begin
+      wp = case params[:type]
+           when PlanningElement.to_s
+             PlanningElement.new :project => project
+           when Issue.to_s
+             Issue.new :project => project
+           else
+             raise ArgumentError, "type #{params[:type]} is not supported"
+           end
+    end
+  end
+
   def project
-    work_package.project
+    @project ||= if params[:project_id]
+                   find_project_by_project_id
+                 else
+                   work_package.project
+                 end
   end
 
   def journals
@@ -105,7 +129,7 @@ class WorkPackagesController < ApplicationController
   end
 
 
-  [:changesets, :relations].each do |method|
+  [:changesets, :relations, :allowed_statuses, :priorities].each do |method|
     define_method method do
       []
     end
