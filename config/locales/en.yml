@@ -234,7 +234,9 @@ en:
       news: "News"
       project: "Project"
       query: "Custom query"
-      role: "Role"
+      role:
+        one : "Role"
+        other: "Roles"
       tracker: "Tracker"
       planning_element: Planning element
       planning_element_type: Planning element type
