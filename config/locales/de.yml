@@ -1513,6 +1513,7 @@ de:
       years: "Jahre"
 
   label_work_package_hierarchy: "Arbeitspakethierarchie"
+  description_sub_work_package: "Untergeordnetes Arbeitspaket"
 
   total_progress: "Gesamtfortschritt"
 
