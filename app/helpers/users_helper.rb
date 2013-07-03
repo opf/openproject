@@ -24,6 +24,7 @@ module UsersHelper
     I18n.t(('status_' + status_name).to_sym)
   end
 
+  # Format user status, including brute force prevention status
   def full_user_status(user)
     user_status = ''
     unless [User::STATUSES[:active], User::STATUSES[:builtin]].include?(user.status)
@@ -47,6 +48,29 @@ module UsersHelper
     else
       I18n.t(:status_active)
     end
+  end
+
+  # Create buttons to lock/unlock a user and reset failed logins
+  def change_user_status_buttons(user)
+    status = user.status_name
+    blocked = user.failed_too_many_recent_login_attempts?
+    result = ''.html_safe
+    if status == :active
+      if blocked
+        result << submit_tag(I18n.t(:reset_failed_logins, :scope => :user),
+                             :name => 'unlock')
+      end
+      result << submit_tag(I18n.t(:lock, :scope => :user), :name => 'lock')
+    else
+      if status == :locked
+        title = blocked ? :unlock_and_reset_failed_logins : :unlock
+        result << submit_tag(I18n.t(title, :scope => :user), :name => 'unlock')
+      elsif status == :registered
+        title = blocked ? :activate_and_reset_failed_logins : :activate
+        result << submit_tag(I18n.t(title, :scope => :user), :name => 'activate')
+      end
+    end
+    result
   end
 
   # Options for the new membership projects combo-box

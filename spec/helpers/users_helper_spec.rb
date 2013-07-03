@@ -14,16 +14,16 @@ require 'spec_helper'
 describe UsersHelper do
   include UsersHelper
 
-  describe 'full_user_status' do
-    def build_user(status, blocked)
-      user = FactoryGirl.build(:user)
-      user.stub!(:status).and_return(User::STATUSES[status])
-      user.stub!(:failed_too_many_recent_login_attempts?).and_return(blocked)
-      user.stub!(:failed_login_count).and_return(3)
-      user
-    end
+  def build_user(status, blocked)
+    user = FactoryGirl.build(:user)
+    user.stub!(:status).and_return(User::STATUSES[status])
+    user.stub!(:failed_too_many_recent_login_attempts?).and_return(blocked)
+    user.stub!(:failed_login_count).and_return(3)
+    user
+  end
 
-    TEST_CASES = {
+  describe 'full_user_status' do
+    test_cases = {
       [:active, false] => 'active',
       [:active, true] => 'blocked (3 failed login attempts)',
       [:locked, false] => 'locked',
@@ -32,7 +32,7 @@ describe UsersHelper do
       [:registered, true] => 'registered and blocked (3 failed login attempts)'
     }
 
-    TEST_CASES.each do |(status, blocked), expectation|
+    test_cases.each do |(status, blocked), expectation|
       describe "with status #{status} and blocked #{blocked}" do
         before do
           user = build_user(status, blocked)
@@ -42,6 +42,49 @@ describe UsersHelper do
         it "should return #{expectation}" do
           @status.should == expectation
         end
+      end
+    end
+  end
+
+  describe 'change_user_status_buttons' do
+    test_cases = {
+        [:active, false] => :lock,
+        [:locked, false] => :unlock,
+        [:locked, true] => :unlock_and_reset_failed_logins,
+        [:registered, false] => :activate,
+        [:registered, true] => :activate_and_reset_failed_logins
+    }
+
+    test_cases.each do |(status, blocked), expectation_symbol|
+      describe "with status #{status} and blocked #{blocked}" do
+        expectation = I18n.t(expectation_symbol, :scope => :user)
+        before do
+          user = build_user(status, blocked)
+          @buttons = change_user_status_buttons(user)
+        end
+        it "should contain '#{expectation}'" do
+          @buttons.should include(expectation)
+        end
+
+        it "should contain a single button" do
+          @buttons.scan('<input').count.should == 1
+        end
+      end
+    end
+
+    describe "with status active and blocked True" do
+      before do
+        user = build_user(:active, true)
+        @buttons = change_user_status_buttons(user)
+      end
+
+      it  "should return inputs (buttons)" do
+        @buttons.scan('<input').count.should == 2
+      end
+
+      it "should contain 'Lock' and 'Reset Failed logins'" do
+        @buttons.should include(I18n.t(:lock, :scope => :user))
+        @buttons.should include(I18n.t(:reset_failed_logins, :scope => :user))
       end
     end
   end
