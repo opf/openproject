@@ -71,7 +71,8 @@ group :test do
   gem 'database_cleaner'
   gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
   gem 'rspec', '~> 2.0'
-  gem "rspec-rails", "~> 2.0"
+  # also add to development group, so "spec" rake task gets loaded
+  gem "rspec-rails", "~> 2.0", :group => :development
   gem 'rspec-example_disabler', :git => 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'capybara'
   gem 'capybara-screenshot'
