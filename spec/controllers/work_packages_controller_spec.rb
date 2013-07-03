@@ -144,7 +144,7 @@ describe WorkPackagesController do
       end
 
       it 'renders the new builder template' do
-        response.should render_template('work_packages/new', :formats => ["html"], :lacout => :base)
+        response.should render_template('work_packages/new', :formats => ["html"])
       end
 
       it 'should respond with 200 OK' do
@@ -158,6 +158,58 @@ describe WorkPackagesController do
 
       before do
         get 'new', :project_id => project.id
+      end
+
+      it 'should return 403 Forbidden' do
+        response.response_code.should == 403
+      end
+    end
+  end
+
+  describe 'new.js' do
+    describe 'w/o specifying a project_id' do
+      before do
+        xhr :get, :new
+      end
+
+      it 'should return 403 Forbidden' do
+        response.response_code.should == 404
+      end
+    end
+
+    describe 'w/o being a member' do
+      before do
+        xhr :get, :new, :project_id => project.id
+      end
+
+      it 'should return 403 Forbidden' do
+        response.response_code.should == 403
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions' do
+      become_member_with_permissions [:add_work_packages]
+
+      before do
+        xhr :get, :new, :project_id => project.id, :type => 'Issue' #TODO: remove type once Issue == PlanningElement
+      end
+
+      it 'renders the new builder template' do
+        response.should render_template('work_packages/_attributes', :formats => ["html"])
+      end
+
+      it 'should respond with 200 OK' do
+        response.response_code.should == 200
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/o having the necessary permissions' do
+      become_member_with_permissions []
+
+      before do
+        xhr :get, :new, :project_id => project.id
       end
 
       it 'should return 403 Forbidden' do
