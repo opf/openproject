@@ -67,10 +67,14 @@ class WorkPackagesController < ApplicationController
              PlanningElement.new :project => project
            when Issue.to_s
              #TODO: generating a new work_package should probably be moved inside work_package
-             tracker = project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
+             tracker = project.trackers.find((params[:work_package] && params[:work_package][:tracker_id]) || params[:tracker_id] || :first)
 
-             Issue.new :project => project,
-                       :tracker => tracker
+             issue = Issue.new :project => project,
+                               :tracker => tracker
+
+             issue.safe_attributes = params[:work_package]
+
+             issue
            else
              raise ArgumentError, "type #{params[:type]} is not supported"
            end
