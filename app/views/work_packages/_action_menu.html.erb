@@ -11,11 +11,21 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% content_for :action_menu_main do %>
-  <%= li_unless_nil(link_to_if_authorized(l(:button_update), { :controller => '/issues',
-                                                               :action => 'edit',
-                                                               :id => work_package },
-                                                               :class => 'edit icon icon-edit',
-                                                               :accesskey => accesskey(:edit))) %>
+  <% if controller.work_package.is_a? Issue %>
+    <%= li_unless_nil(link_to_if_authorized(l(:button_update), { :controller => '/issues',
+                                                                 :action => 'edit',
+                                                                 :id => controller.work_package.id },
+                                                                 :class => 'edit icon icon-edit',
+                                                                 :accesskey => accesskey(:edit))) %>
+  <% elsif controller.work_package.is_a? PlanningElement %>
+    <%= li_unless_nil(link_to_if_authorized(l(:button_update), { :controller => '/planning_elements',
+                                                                 :action => 'edit',
+                                                                 :project_id => controller.work_package.project,
+                                                                 :id => controller.work_package },
+                                                                 :class => 'edit icon icon-edit',
+                                                                 :accesskey => accesskey(:edit))) %>
+  <% end %>
+
   <%= li_unless_nil(watcher_link(work_package,
                        User.current,
                        { :class => 'watcher_link',
