@@ -386,6 +386,20 @@ function observeParentIssueField(url) {
                            });
 }
 
+function observeWorkPackageParentField(url) {
+  new Ajax.Autocompleter('work_package_parent_id',
+                         'parent_issue_candidates',
+                         url,
+                         { minChars: 1,
+                           frequency: 0.5,
+                           paramName: 'q',
+                           updateElement: function(value) {
+                             document.getElementById('work_package_parent_issue_id').value = value.id;
+                           },
+                           parameters: 'scope=all'
+                           });
+}
+
 function observeRelatedIssueField(url) {
   new Ajax.Autocompleter('relation_issue_to_id',
                          'related_issue_candidates',
