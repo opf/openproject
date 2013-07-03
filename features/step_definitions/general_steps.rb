@@ -63,6 +63,11 @@ Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
   login(username, 'adminADMIN!')
 end
 
+Given /^(?:|I )am (not )?impaired$/ do |bool|
+  (user = User.current).impaired = !bool
+  user.save
+end
+
 Given /^there is 1 [pP]roject with(?: the following)?:$/ do |table|
   p = FactoryGirl.build(:project)
   send_table_to_object(p, table)

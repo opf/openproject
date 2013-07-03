@@ -12,6 +12,8 @@
 Feature: Group Memberships
 
   Background:
+    Given I am admin
+
     Given there is a role "Manager"
       And there is a role "Developer"
 
@@ -25,40 +27,32 @@ Feature: Group Memberships
         | Lastname  | Pan   |
 
       And there is 1 User with:
-        | Login     | bob    |
-        | Firstname | Bob    |
-        | Lastname  | Bobbit |
-
-      And there is 1 User with:
         | Login     | hannibal |
         | Firstname | Hannibal |
         | Lastname  | Smith    |
 
       And there is a group named "A-Team" with the following members:
-        | peter |
-        | bob   |
+        | peter    |
+        | hannibal |
 
 
   @javascript
   Scenario: Adding a group to a project on the project's page adds the group members as well
-    Given I am admin
-
      When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
       And I add the principal "A-Team" as a member with the roles:
         | Manager |
      Then I should be on the settings page of the project called "Project1"
       And I should see "A-Team" within ".members"
-      And I should see "Bob Bobbit" within ".members"
+      And I should see "Hannibal Smith" within ".members"
       And I should see "Peter Pan" within ".members"
 
   @javascript
   Scenario: Group-based memberships and individual memberships are handled separately
-    Given I am admin
-
      When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
-      And I add the principal "Bob Bobbit" as a member with the roles:
+      And I add the principal "Hannibal Smith" as "Manager"
+      And I add the principal "Hannibal Smith" as a member with the roles:
         | Manager |
       And I wait for the AJAX requests to finish
      Then I should see "Successful creation." within ".flash.notice"
@@ -71,16 +65,13 @@ Feature: Group Memberships
      When I delete the "A-Team" membership
       And I wait for the AJAX requests to finish
 
-     Then I should see "Bob Bobbit" within ".members"
+     Then I should see "Hannibal Smith" within ".members"
       And I should not see "A-Team" within ".members"
       And I should not see "Peter Pan" within ".members"
 
 
   @javascript
   Scenario: Removing a group from a project on the project's page removes all group members as well
-
-    Given I am admin
-
      When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
       And I add the principal "A-Team" as a member with the roles:
@@ -93,15 +84,17 @@ Feature: Group Memberships
       And I wait for the AJAX requests to finish
 
      Then I should see "No data to display"
-      And I should not see "A-Team" within ".splitcontentleft"
-      And I should not see "Bob Bobbit" within ".splitcontentleft"
-      And I should not see "Peter Pan" within ".splitcontentleft"
+      And I should not see "A-Team" within ".members"
+      And I should not see "Hannibal Smith" within ".members"
+      And I should not see "Peter Pan" within ".members"
 
   @javascript
   Scenario: Adding a user to a group adds the user to projects as well
-    Given I am admin
-
      When I go to the admin page of the group called "A-Team"
+      And I click on "tab-users"
+      And I delete "hannibal" from the group
+      And I wait for the AJAX requests to finish
+
       And I click on "tab-memberships"
       And I select "Project1" from "Projects"
       And I check "Manager"
@@ -117,15 +110,12 @@ Feature: Group Memberships
       And I click on "tab-members"
 
      Then I should see "A-Team" within ".members"
-      And I should see "Bob Bobbit" within ".members"
       And I should see "Peter Pan" within ".members"
       And I should see "Hannibal Smith" within ".members"
 
 
   @javascript
   Scenario: Removing a user from a group removes the user from projects as well
-    Given I am admin
-
      When I go to the admin page of the group called "A-Team"
       And I click on "tab-memberships"
       And I select "Project1" from "Projects"
@@ -134,20 +124,18 @@ Feature: Group Memberships
       And I wait for the AJAX requests to finish
 
      When I click on "tab-users"
-      And I delete "bob" from the group
+      And I delete "hannibal" from the group
       And I wait for the AJAX requests to finish
 
      When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
 
      Then I should see "A-Team" within ".members"
-      And I should not see "Bob Bobbit" within ".members"
+      And I should not see "Hannibal Smith" within ".members"
       And I should see "Peter Pan" within ".members"
 
   @javascript
   Scenario: Adding a group to project on the group's page adds the group members as well
-    Given I am admin
-
      When I go to the admin page of the group called "A-Team"
       And I click on "tab-memberships"
       And I select "Project1" from "Projects"
@@ -161,5 +149,5 @@ Feature: Group Memberships
       And I click on "tab-members"
 
      Then I should see "A-Team" within ".members"
-      And I should see "Bob Bobbit" within ".members"
+      And I should see "Hannibal Smith" within ".members"
       And I should see "Peter Pan" within ".members"
