@@ -62,3 +62,20 @@ When(/^I click the first delete attachment link$/) do
   delete_link = find :xpath, "//a[@title='Delete'][1]"
   delete_link.click
 end
+
+Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |project_name, table|
+  project = get_project(project_name)
+  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+
+  table.hashes.each do |type_attributes|
+    assignee = User.find_by_login(type_attributes.delete("assignee"))
+
+    factory = FactoryGirl.create(:issue, type_attributes.merge(:project_id => project.id))
+
+    factory.reload
+
+    factory.assignee = assignee unless assignee.nil?
+
+    factory.save! if factory.changed?
+  end
+end

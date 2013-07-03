@@ -95,6 +95,10 @@ module NavigationHelpers
        project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
        "/projects/#{project_identifier}/issues"
 
+    when /^the page (?:for|of) the work package "([^\"]+)"$/
+      work_package = WorkPackage.find_by_subject($1)
+      "/work_packages/#{work_package.id}"
+
     when /^the wiki index page(?: below the (.+) page)? (?:for|of) (?:the)? project(?: called)? (.+)$/
        parent_page_title, project_identifier = $1, $2
        project_identifier.gsub!("\"", "")
