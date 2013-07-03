@@ -311,7 +311,7 @@ describe WorkPackagesController do
         project.stub!(:trackers).and_return(trackers)
         trackers.stub!(:find).with('2').and_return(expected_tracker)
 
-        controller.params.merge!({ :issue => { :tracker_id => '2' } })
+        controller.params.merge!({ :work_package => { :tracker_id => '2' } })
         controller.stub!(:project).and_return(project)
 
         controller.new_work_package.tracker.should == expected_tracker
