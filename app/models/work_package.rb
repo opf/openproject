@@ -36,7 +36,7 @@ class WorkPackage < ActiveRecord::Base
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
 
-  scope :recently_updated, :order => "#{WorkPackage.table_name}.updated_at DESC" 
+  scope :recently_updated, :order => "#{WorkPackage.table_name}.updated_at DESC"
   scope :visible, lambda {|*args| { :include => :project,
                                     :conditions => WorkPackage.visible_condition(args.first || User.current) } }
   scope :without_deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NULL"
@@ -220,6 +220,14 @@ class WorkPackage < ActiveRecord::Base
         relation.set_issue_to_dates
       end
     end
+  end
+
+  # Users the work_package can be assigned to
+  delegate :assignable_users, :to => :project
+
+  # Versions that the issue can be assigned to
+  def assignable_versions
+    @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
   end
 
   def kind

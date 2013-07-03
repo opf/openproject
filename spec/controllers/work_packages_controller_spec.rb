@@ -30,21 +30,20 @@ describe WorkPackagesController do
     end
   end
 
-  def self.become_member_with_view_planning_element_permissions(&block)
+  def self.become_member_with_permissions(permissions)
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:view_planning_elements,
-                                                          :view_work_packages])
+      role = FactoryGirl.create(:role, :permissions => permissions)
 
-      projects = block ? instance_eval(&block) : [project]
-
-      projects.each do |p|
-        member = FactoryGirl.build(:member, :user => current_user, :project => p)
-        member.roles = [role]
-        member.save!
-      end
+      member = FactoryGirl.build(:member, :user => current_user, :project => project)
+      member.roles = [role]
+      member.save!
     end
+  end
+
+  def self.become_member_with_view_planning_element_permissions
+    become_member_with_permissions [:view_planning_elements, :view_work_packages]
   end
 
   before do
@@ -111,6 +110,58 @@ describe WorkPackagesController do
     end
   end
 
+  describe 'new.html' do
+    describe 'w/o specifying a project_id' do
+      before do
+        get 'new'
+      end
+
+      it 'should return 403 Forbidden' do
+        response.response_code.should == 404
+      end
+    end
+
+    describe 'w/o being a member' do
+      before do
+        get 'new', :project_id => project.id
+      end
+
+      it 'should return 403 Forbidden' do
+        response.response_code.should == 403
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions' do
+      become_member_with_permissions [:add_work_packages]
+
+      before do
+        get 'new', :project_id => project.id
+      end
+
+      it 'renders the new builder template' do
+        response.should render_template('work_packages/new', :formats => ["html"], :lacout => :base)
+      end
+
+      it 'should respond with 200 OK' do
+        response.response_code.should == 200
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/o having the necessary permissions' do
+      become_member_with_permissions []
+
+      before do
+        get 'new', :project_id => project.id
+      end
+
+      it 'should return 403 Forbidden' do
+        response.response_code.should == 403
+      end
+    end
+  end
+
   describe :work_package do
     describe 'when beeing allowed to see the work_package' do
       become_member_with_view_planning_element_permissions
@@ -133,6 +184,52 @@ describe WorkPackagesController do
         controller.params = { id: planning_element.id }
 
         controller.work_package.should be_nil
+      end
+    end
+  end
+
+  describe :new_work_package do
+    describe 'when the type is "PlanningElement"' do
+      before do
+        controller.params = { :project_id => project.id, :type => 'PlanningElement' }
+      end
+
+      it 'should return a work package' do
+        controller.new_work_package.should be_a(PlanningElement)
+      end
+
+      it 'the object should be a new record' do
+        controller.new_work_package.should be_new_record
+      end
+
+      it 'should have the project associated' do
+        controller.new_work_package.project.should == project
+      end
+    end
+
+    describe 'when the type is "Issue"' do
+      before do
+        controller.params = { :project_id => project.id, :type => 'Issue' }
+      end
+
+      it 'should return a work package' do
+        controller.new_work_package.should be_a(Issue)
+      end
+
+      it 'the object should be a new record' do
+        controller.new_work_package.should be_new_record
+      end
+
+      it 'should have the project associated' do
+        controller.new_work_package.project.should == project
+      end
+    end
+
+    describe 'when the type is "Project"' do
+      it "should raise not allowed" do
+        controller.params= { :type => 'Project' }
+
+        expect { controller.new_work_package }.to raise_error ArgumentError
       end
     end
   end

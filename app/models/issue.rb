@@ -39,7 +39,7 @@ class Issue < WorkPackage
 
   scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
-  scope :with_limit, lambda { |limit| { :limit => limit} } 
+  scope :with_limit, lambda { |limit| { :limit => limit} }
 
   scope :on_active_project, lambda { {
     :include => [:status, :project, :tracker],
@@ -391,17 +391,6 @@ class Issue < WorkPackage
     !leaf?
   end
 
-  # Users the issue can be assigned to
-  def assignable_users
-    users = project.assignable_users
-    users << author if author
-    users.uniq.sort
-  end
-
-  # Versions that the issue can be assigned to
-  def assignable_versions
-    @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
-  end
 
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user, include_default=false)
