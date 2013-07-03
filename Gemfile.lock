@@ -418,6 +418,7 @@ DEPENDENCIES
   rb-readline
   rdoc (>= 2.4.2)
   rmagick (>= 1.15.17)
+  rspec (~> 2.0)
   rspec-example_disabler!
   rspec-rails (~> 2.0)
   ruby-openid (~> 2.2.3)
