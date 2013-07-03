@@ -25,7 +25,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= render :partial => 'form', :locals => { :f => f,
                                                   :work_package => controller.new_work_package,
                                                   :project => controller.project,
-                                                  :allowed_statuses => controller.allowed_statuses,
                                                   :priorities => controller.priorities } %>
       <%= send_notification_option %>
     </div>

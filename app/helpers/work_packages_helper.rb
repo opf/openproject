@@ -141,13 +141,17 @@ module WorkPackagesHelper
   end
 
   def work_package_form_status_attribute(form, work_package, locals = {})
-    field = if locals[:allowed_statuses].any?
-              form.select(:status_id, (locals[:allowed_statuses].map {|p| [p.name, p.id]}), :required => true)
-            else
-              form.label(:status) + work_package.status.name
-            end
+    if work_package.is_a?(Issue)
+      allowed = work_package.new_statuses_allowed_to(User.current, true)
 
-    WorkPackageAttribute.new(:status, field)
+      field = if allowed.any?
+                form.select(:status_id, (allowed.map {|p| [p.name, p.id]}), :required => true)
+              else
+                form.label(:status) + work_package.status.name
+              end
+
+      WorkPackageAttribute.new(:status, field)
+    end
   end
 
   def work_package_form_priority_attribute(form, work_package, locals = {})

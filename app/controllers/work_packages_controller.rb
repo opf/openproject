@@ -61,7 +61,11 @@ class WorkPackagesController < ApplicationController
            when PlanningElement.to_s
              PlanningElement.new :project => project
            when Issue.to_s
-             Issue.new :project => project
+             #TODO: generating a new work_package should probably be moved inside work_package
+             tracker = project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
+
+             Issue.new :project => project,
+                       :tracker => tracker
            else
              raise ArgumentError, "type #{params[:type]} is not supported"
            end
@@ -128,8 +132,7 @@ class WorkPackagesController < ApplicationController
 
   end
 
-
-  [:changesets, :relations, :allowed_statuses, :priorities].each do |method|
+  [:changesets, :relations, :priorities].each do |method|
     define_method method do
       []
     end
