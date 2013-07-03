@@ -11,7 +11,13 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <strong><%= l(:label_work_package_hierarchy) %></strong>
-(<%= link_to(l(:label_add_subtask), {:controller => '/issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => @issue}}) if User.current.allowed_to?(:manage_subtasks, @project) %>)
+<% if User.current.allowed_to?(:manage_subtasks, @project) %>
+  <% if controller.work_package.is_a? Issue %>
+    (<%= link_to(l(:label_add_subtask), {:controller => '/issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => controller.work_package}}) %>)
+  <% elsif controller.work_package.is_a? PlanningElement %>
+    (<%= link_to(l(:label_add_subtask), {:controller => '/planning_elements', :action => 'new', :project_id => @project}) %>)
+  <% end %>
+<% end %>
 
 <% if !controller.work_package.leaf? || controller.work_package.parent %>
   <% indent = 0 %>
