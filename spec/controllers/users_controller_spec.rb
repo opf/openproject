@@ -188,4 +188,87 @@ describe UsersController do
       it { response.response_code.should == 404 }
     end
   end
+
+  describe "index" do
+    describe "with session lifetime" do
+      # TODO move this section to a proper place because we test a
+      # before_filter from the application controller
+
+      shared_examples_for "index action with disabled session lifetime or inactivity not exceeded" do
+        it "doesn't logout the user and renders the index action" do
+          User.current.should == admin
+          response.should render_template "index"
+        end
+      end
+
+      context "disabled" do
+        before do
+          Setting.stub!(:session_ttl_enabled?).and_return(false)
+          @controller.send(:logged_user=, admin)
+          get :index
+        end
+
+        it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+      end
+
+      context "enabled " do
+        before do
+          Setting.stub!(:session_ttl_enabled?).and_return(true)
+          Setting.stub!(:session_ttl).and_return("120")
+          @controller.send(:logged_user=, admin)
+        end
+
+        context "before 120 min of inactivity" do
+          before do
+            session[:updated_at] = Time.now - 1.hours
+            get :index
+          end
+
+          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+        end
+
+        context "after 120 min of inactivity" do
+          before do
+            session[:updated_at] = Time.now - 3.hours
+            get :index
+          end
+          it "logs out the user and redirects with a warning that he has been locked out" do
+            response.redirect_url.should == (signin_url + "?back_url=" + CGI::escape(@controller.url_for(:controller => "users", :action => "index")))
+            User.current.should_not == admin
+            flash[:warning].should == I18n.t(:notice_forced_logout, :ttl_time => Setting.session_ttl)
+          end
+        end
+
+        context "with ttl = 0" do
+          before do
+            Setting.stub!(:session_ttl).and_return("0")
+            session[:updated_at] = Time.now - 1.hours
+            get :index
+          end
+
+          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+        end
+
+        context "with ttl < 0" do
+          before do
+            Setting.stub!(:session_ttl).and_return("-60")
+            session[:updated_at] = Time.now - 1.hours
+            get :index
+          end
+
+          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+        end
+
+        context "with ttl < 5 > 0" do
+          before do
+            Setting.stub!(:session_ttl).and_return("4")
+            session[:updated_at] = Time.now - 1.hours
+            get :index
+          end
+
+          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+        end
+      end
+    end
+  end
 end

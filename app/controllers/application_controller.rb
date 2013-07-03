@@ -76,7 +76,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_filter :user_setup, :check_if_login_required, :reset_i18n_fallbacks, :set_localization
+  before_filter :user_setup, :check_if_login_required, :reset_i18n_fallbacks, :set_localization, :check_session_lifetime
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
 
@@ -604,6 +604,26 @@ class ApplicationController < ActionController::Base
     true
   end
   ActiveSupport.run_load_hooks(:application_controller, self)
+
+  def check_session_lifetime
+    session_ttl_value = Setting.session_ttl.to_i
+
+    if Setting.session_ttl_enabled? && session_ttl_value >= 5
+      if session[:updated_at] && User.current.logged? && ((session[:updated_at] + (session_ttl_value * 60)) < Time.now)
+        self.logged_user = nil
+        if request.get?
+          url = url_for(params)
+        else
+          url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
+        end
+
+        flash[:warning] = I18n.t('notice_forced_logout', :ttl_time => Setting.session_ttl)
+        redirect_to(:controller => "account", :action => "login", :back_url => url)
+      else
+        session[:updated_at] = Time.now
+      end
+    end
+  end
 
   private
 
