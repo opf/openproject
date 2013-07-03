@@ -60,4 +60,168 @@ module WorkPackagesHelper
       concat content_tag :td, link_to_version(work_package.fixed_version)
     end
   end
+
+  WorkPackageAttribute = Struct.new(:attribute, :field)
+
+  def work_package_form_two_column_attributes(form, work_package, locals = {})
+    [
+      work_package_form_status_attribute(form, work_package, locals),
+      work_package_form_priority_attribute(form, work_package, locals),
+      work_package_form_assignee_attribute(form, work_package, locals),
+      work_package_form_responsible_attribute(form, work_package, locals),
+      work_package_form_issue_category_attribute(form, work_package, locals),
+      work_package_form_assignable_versions_attribute(form, work_package, locals),
+      work_package_form_start_date_attribute(form, work_package, locals),
+      work_package_form_due_date_attribute(form, work_package, locals),
+      work_package_form_estimated_hours_attribute(form, work_package, locals),
+      work_package_form_done_ratio_attribute(form, work_package, locals),
+    ].compact
+  end
+
+  def work_package_form_top_attributes(form, work_package, locals = {})
+    [
+      work_package_form_tracker_attribute(form, work_package, locals),
+      work_package_form_type_attribute(form, work_package, locals),
+      work_package_form_subject_attribute(form, work_package, locals),
+      work_package_form_parent_attribute(form, work_package, locals),
+      work_package_form_description_attribute(form, work_package, locals)
+    ].compact
+  end
+
+  def work_package_form_tracker_attribute(form, work_package, locals = {})
+    if work_package.is_a?(Issue)
+      field = form.select :tracker_id, locals[:project].trackers.collect {|t| [t.name, t.id]}, :required => true
+
+      field += observe_field :issue_tracker_id, :url => new_project_work_package_path(locals[:project]),
+                                                :update => :attributes,
+                                                :method => :get,
+                                                :with => "Form.serialize('issue-form')"
+
+      WorkPackageAttribute.new(:tracker, field)
+    end
+  end
+
+  def work_package_form_type_attribute(form, work_package, locals = {})
+    if work_package.is_a?(PlanningElement)
+      field = form.select :planning_element_type_id,
+                          (locals[:project].planning_element_types.collect { |m| [m.name, m.id] }),
+                          :include_blank => true
+
+      WorkPackageAttribute.new(:type, field)
+    end
+  end
+
+  def work_package_form_subject_attribute(form, work_package, locals = {})
+    WorkPackageAttribute.new :subject, form.text_field(:subject, :size => 80, :required => true)
+  end
+
+  def work_package_form_parent_attribute(form, work_package, locals = {})
+    if User.current.allowed_to?(:manage_subtasks, locals[:project])
+      field = if work_package.is_a?(Issue)
+                form.text_field :parent_issue_id, :size => 10, :title => l(:description_autocomplete)
+              else
+                form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
+              end
+
+      field += '<div id="parent_issue_candidates" class="autocomplete"></div>'.html_safe
+      field += javascript_tag "observeParentIssueField('#{issues_auto_complete_path(:id => work_package, :project_id => locals[:project], :escape => false) }')"
+
+      WorkPackageAttribute.new(:parent_issue, field)
+    end
+  end
+
+  def work_package_form_description_attribute(form, work_package, locals = {})
+    field = form.text_area :description,
+                           :cols => 60,
+                           :rows => (work_package.description.blank? ? 10 : [[10, work_package.description.length / 50].max, 100].min),
+                           :accesskey => accesskey(:edit),
+                           :class => 'wiki-edit'
+
+    WorkPackageAttribute.new(:description, field)
+  end
+
+  def work_package_form_status_attribute(form, work_package, locals = {})
+    field = if locals[:allowed_statuses].any?
+              form.select(:status_id, (locals[:allowed_statuses].map {|p| [p.name, p.id]}), :required => true)
+            else
+              form.label(:status) + work_package.status.name
+            end
+
+    WorkPackageAttribute.new(:status, field)
+  end
+
+  def work_package_form_priority_attribute(form, work_package, locals = {})
+    WorkPackageAttribute.new(:priority,
+                             form.select(:priority_id, (locals[:priorities].map {|p| [p.name, p.id]}), {:required => true}, :disabled => attrib_disabled?(work_package, 'priority_id')))
+  end
+
+  def work_package_form_assignee_attribute(form, work_package, locals = {})
+    WorkPackageAttribute.new(:assignee,
+                             form.select(:assigned_to_id, (work_package.assignable_users.map {|m| [m.name, m.id]}), :include_blank => true))
+  end
+
+  def work_package_form_responsible_attribute(form, work_package, locals = {})
+    WorkPackageAttribute.new(:assignee,
+                             form.select(:responsible_id, options_for_responsible(locals[:project]), :include_blank => true))
+  end
+
+  def work_package_form_issue_category_attribute(form, work_package, locals = {})
+    unless locals[:project].issue_categories.empty?
+      field = form.select(:category_id, (locals[:project].issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true)
+      field += prompt_to_remote(image_tag('plus.png', :style => 'vertical-align: middle;'),
+                                         l(:label_issue_category_new),
+                                         'category[name]',
+                                         {:controller => '/issue_categories', :action => 'new', :project_id => project},
+                                         :title => l(:label_issue_category_new)) if authorize_for('issue_categories', 'new')
+
+      WorkPackageAttribute.new(:category, field)
+    end
+  end
+
+  def work_package_form_assignable_versions_attribute(form, work_package, locals = {})
+    unless work_package.assignable_versions.empty?
+      field = form.select(:fixed_version_id,
+                          version_options_for_select(work_package.assignable_versions, work_package.fixed_version),
+                          :include_blank => true)
+      field += prompt_to_remote(image_tag('plus.png', :style => 'vertical-align: middle;'),
+                             l(:label_version_new),
+                             'version[name]',
+                             new_project_version_path(locals[:project]),
+                             :title => l(:label_version_new)) if authorize_for('versions', 'new')
+
+      WorkPackageAttribute.new(:fixed_version, field)
+    end
+  end
+
+  def work_package_form_start_date_attribute(form, work_package, locals = {})
+    start_date_field = form.text_field :start_date, :size => 10, :disabled => attrib_disabled?(work_package, 'start_date')
+    start_date_field += calendar_for('issue_start_date') unless attrib_disabled?(work_package, 'start_date')
+
+    WorkPackageAttribute.new(:start_date, start_date_field)
+  end
+
+  def work_package_form_due_date_attribute(form, work_package, locals = {})
+    due_date_field = form.text_field :due_date, :size => 10, :disabled => attrib_disabled?(work_package, 'due_date')
+    due_date_field += calendar_for('issue_due_date') unless attrib_disabled?(work_package, 'due_date')
+
+    WorkPackageAttribute.new(:due_date, due_date_field)
+  end
+
+  def work_package_form_estimated_hours_attribute(form, work_package, locals = {})
+    estimated_hours_field = form.text_field :estimated_hours,
+                                            :size => 3,
+                                            :disabled => attrib_disabled?(work_package, 'estimated_hours')
+    estimated_hours_field += TimeEntry.human_attribute_name(:hours)
+
+    WorkPackageAttribute.new(:estimated_hours, estimated_hours_field)
+  end
+
+  def work_package_form_done_ratio_attribute(form, work_package, locals = {})
+    if !attrib_disabled?(work_package, 'done_ratio') && Issue.use_field_for_done_ratio?
+
+      field = form.select(:done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }))
+
+      WorkPackageAttribute.new(:done_ratio, field)
+    end
+  end
 end
