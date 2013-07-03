@@ -192,6 +192,7 @@ rest_api_enabled:
 session_ttl_enabled:
   default: 0
 session_ttl:
+  format: int
   default: 120
 default_notification_option:
   default: 'only_my_events'

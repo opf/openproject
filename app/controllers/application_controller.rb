@@ -592,9 +592,10 @@ class ApplicationController < ActionController::Base
   ActiveSupport.run_load_hooks(:application_controller, self)
 
   def check_session_lifetime
-    if Setting.session_ttl_enabled?
-      session_ttl_sec = Setting.session_ttl.to_i * 60
-      if session[:updated_at] && User.current.logged? && ((session[:updated_at] + session_ttl_sec) < Time.now)
+    session_ttl_value = Setting.session_ttl.to_i
+
+    if Setting.session_ttl_enabled? && session_ttl_value >= 5
+      if session[:updated_at] && User.current.logged? && ((session[:updated_at] + (session_ttl_value * 60)) < Time.now)
         self.logged_user = nil
         if request.get?
           url = url_for(params)

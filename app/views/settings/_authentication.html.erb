@@ -34,7 +34,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <p><%= setting_check_box :rest_api_enabled %></p>
     <p><%= setting_check_box :session_ttl_enabled %></p>
-    <p id="settings_session_ttl_container" style="display:none;"><%= setting_text_field :session_ttl, :size => 6 %> min</p>
+    <p id="settings_session_ttl_container" style="display:none;">
+      <%= setting_text_field :session_ttl, :size => 6 %> min<br />
+      <em><%= I18n.t('setting_session_ttl_hint') %></em>
+    </p>
   </div>
 
   <div style="float:right;">
