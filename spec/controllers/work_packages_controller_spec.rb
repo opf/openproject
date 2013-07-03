@@ -54,6 +54,10 @@ describe WorkPackagesController do
 
   let(:planning_element) { FactoryGirl.create(:planning_element, :project_id => project.id) }
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
+  let(:stub_planning_element) { FactoryGirl.build_stubbed(:planning_element, :project_id => stub_project.id) }
+  let(:stub_project) { FactoryGirl.build_stubbed(:project, :identifier => 'test_project', :is_public => false) }
+  let(:stub_issue) { FactoryGirl.build_stubbed(:issue, :project_id => stub_project.id) }
+
   let(:current_user) { FactoryGirl.create(:user) }
 
   describe 'show.html' do
@@ -222,6 +226,43 @@ describe WorkPackagesController do
 
       it 'should have the project associated' do
         controller.new_work_package.project.should == project
+      end
+
+      it "should have the project's first tracker assigned tracker is not specified" do
+        expected_tracker = FactoryGirl.build_stubbed(:tracker)
+        trackers = double('trackers')
+
+        project.stub!(:trackers).and_return(trackers)
+        trackers.stub!(:find).with(:first).and_return(expected_tracker)
+        controller.stub!(:project).and_return(project)
+
+        controller.new_work_package.tracker.should == expected_tracker
+      end
+
+      it "should have the project's tracker identified by tracker_id param if provided" do
+        expected_tracker = FactoryGirl.build_stubbed(:tracker)
+        trackers = double('trackers')
+
+        project.stub!(:trackers).and_return(trackers)
+        trackers.stub!(:find).with('2').and_return(expected_tracker)
+
+        controller.params.merge!({ :tracker_id => '2'  })
+        controller.stub!(:project).and_return(project)
+
+        controller.new_work_package.tracker.should == expected_tracker
+      end
+
+      it "should have the project's tracker identified by tracker_id param inside issue param if provided" do
+        expected_tracker = FactoryGirl.build_stubbed(:tracker)
+        trackers = double('trackers')
+
+        project.stub!(:trackers).and_return(trackers)
+        trackers.stub!(:find).with('2').and_return(expected_tracker)
+
+        controller.params.merge!({ :issue => { :tracker_id => '2' } })
+        controller.stub!(:project).and_return(project)
+
+        controller.new_work_package.tracker.should == expected_tracker
       end
     end
 

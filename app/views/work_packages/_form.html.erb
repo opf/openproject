@@ -15,7 +15,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <div id="issue_descr_fields"<% unless work_package.new_record? || work_package.errors.any? %> style="display:none;"<% end %>>
 
   <% work_package_form_top_attributes(f, work_package,
-                                         :allowed_statuses => allowed_statuses,
                                          :priorities => priorities,
                                          :project => project).each do |attribute| %>
     <p>
@@ -29,7 +28,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <div id="attributes" class="attributes">
   <%= render :partial => 'attributes', :locals => { :work_package => work_package,
                                                     :project => project,
-                                                    :allowed_statuses => allowed_statuses,
                                                     :priorities => priorities
                                                   } %>
 </div>

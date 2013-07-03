@@ -12,7 +12,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= fields_for :work_package, work_package, :builder => TabularFormBuilder do |f| %>
   <% attributes = work_package_form_two_column_attributes(f, work_package,
-                                                             :allowed_statuses => allowed_statuses,
                                                              :priorities => priorities,
                                                              :project => project) %>
 
