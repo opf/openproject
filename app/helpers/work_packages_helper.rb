@@ -199,14 +199,14 @@ module WorkPackagesHelper
 
   def work_package_form_start_date_attribute(form, work_package, locals = {})
     start_date_field = form.text_field :start_date, :size => 10, :disabled => attrib_disabled?(work_package, 'start_date')
-    start_date_field += calendar_for('issue_start_date') unless attrib_disabled?(work_package, 'start_date')
+    start_date_field += calendar_for("#{form.object_name}_start_date") unless attrib_disabled?(work_package, 'start_date')
 
     WorkPackageAttribute.new(:start_date, start_date_field)
   end
 
   def work_package_form_due_date_attribute(form, work_package, locals = {})
     due_date_field = form.text_field :due_date, :size => 10, :disabled => attrib_disabled?(work_package, 'due_date')
-    due_date_field += calendar_for('issue_due_date') unless attrib_disabled?(work_package, 'due_date')
+    due_date_field += calendar_for("#{form.object_name}_due_date") unless attrib_disabled?(work_package, 'due_date')
 
     WorkPackageAttribute.new(:due_date, due_date_field)
   end
