@@ -132,10 +132,14 @@ class WorkPackagesController < ApplicationController
 
   end
 
-  [:changesets, :relations, :priorities].each do |method|
+  [:changesets, :relations].each do |method|
     define_method method do
       []
     end
+  end
+
+  def priorities
+    IssuePriority.all
   end
 
   WorkPackageAttribute = Struct.new(:attribute, :html_class, :value)

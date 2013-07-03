@@ -349,4 +349,14 @@ describe WorkPackagesController do
       controller.descendants.should be_empty
     end
   end
+
+  describe :priorities do
+    it "should return all defined priorities" do
+      expected = double('priorities')
+
+      IssuePriority.stub!(:all).and_return(expected)
+
+      controller.priorities.should == expected
+    end
+  end
 end
