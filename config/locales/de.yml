@@ -1187,7 +1187,7 @@ de:
   setting_rest_api_enabled: "REST-Schnittstelle aktivieren"
   setting_self_registration: "Anmeldung ermöglicht"
   setting_sequential_project_identifiers: "Fortlaufende Projektkennungen generieren"
-  setting_session_ttl: "Session Ablaufzeit"
+  setting_session_ttl: "Session Ablaufzeit nach Inaktivität"
   setting_session_ttl_hint: "Wert kleiner 5 wirkt wie ausgeschaltet"
   setting_session_ttl_enabled: "Session läuft ab"
   setting_start_of_week: "Wochenanfang"

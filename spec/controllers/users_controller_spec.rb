@@ -194,7 +194,7 @@ describe UsersController do
       # TODO move this section to a proper place because we test a
       # before_filter from the application controller
 
-      shared_examples_for "index action with disabled lifetime or inactivity not exceeded" do
+      shared_examples_for "index action with disabled session lifetime or inactivity not exceeded" do
         it "doesn't logout the user and renders the index action" do
           User.current.should == admin
           response.should render_template "index"
@@ -208,7 +208,7 @@ describe UsersController do
           get :index
         end
 
-        it_should_behave_like 'index action with disabled lifetime or inactivity not exceeded'
+        it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
       end
 
       context "enabled " do
@@ -224,7 +224,7 @@ describe UsersController do
             get :index
           end
 
-          it_should_behave_like 'index action with disabled lifetime or inactivity not exceeded'
+          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
         end
 
         context "after 120 min of inactivity" do
@@ -246,7 +246,7 @@ describe UsersController do
             get :index
           end
 
-          it_should_behave_like 'index action with disabled lifetime or inactivity not exceeded'
+          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
         end
 
         context "with ttl < 0" do
@@ -256,7 +256,17 @@ describe UsersController do
             get :index
           end
 
-          it_should_behave_like 'index action with disabled lifetime or inactivity not exceeded'
+          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+        end
+
+        context "with ttl < 5 > 0" do
+          before do
+            Setting.stub!(:session_ttl).and_return("4")
+            session[:updated_at] = Time.now - 1.hours
+            get :index
+          end
+
+          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
         end
       end
     end

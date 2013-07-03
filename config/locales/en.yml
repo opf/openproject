@@ -1170,7 +1170,7 @@ en:
   setting_rest_api_enabled: "Enable REST web service"
   setting_self_registration: "Self-registration"
   setting_sequential_project_identifiers: "Generate sequential project identifiers"
-  setting_session_ttl: "Session expiry time"
+  setting_session_ttl: "Session expiry time after inactivity"
   setting_session_ttl_hint: "Value below 5 works like disabled"
   setting_session_ttl_enabled: "Session expires"
   setting_start_of_week: "Start calendars on"
