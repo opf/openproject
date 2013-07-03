@@ -17,14 +17,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= content_tag('h2', controller.work_package.to_s) %>
 
-<!-- <div class="<%#= controller.work_package.css_classes %> details"> -->
 <div class = "details">
   <div class="profile-wrap">
     <%= avatar(controller.work_package.author, :size => "40") %>
   </div>
-  <h3>
-    <%=h(controller.work_package.subject)  %>
-  </h3>
 
   <p class="author">
     <%= authoring controller.work_package.created_at, controller.work_package.author %>.
@@ -32,6 +28,8 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= l(:label_updated_time, time_tag(controller.work_package.updated_at)).html_safe %>.
     <% end %>
   </p>
+
+  <hr />
 
   <div class="issue details">
     <div class="meta">
@@ -81,6 +79,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="wiki wikicontent" data-user="<%= controller.work_package.author %>">
         <%= textilizable controller.work_package, :description, :attachments => controller.work_package.attachments %>
       </div>
+      <hr />
     </div>
   <% end %>
 
@@ -90,12 +89,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= call_hook(:view_issues_show_description_bottom, :issue => controller.work_package) %>
 
-  <hr />
-
   <%= render :partial => 'subwork_packages_paragraph' %>
 
   <% if authorize_for('issue_relations', 'create') || controller.relations.present? %>
     <div id="relations">
+    <hr />
       <%= render :partial => 'relations' %>
     </div>
   <% end %>
@@ -103,6 +101,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if User.current.allowed_to?(:add_issue_watchers, controller.project) ||
     (controller.work_package.watchers.present? && User.current.allowed_to?(:view_issue_watchers, controller.project)) %>
     <div id="watchers">
+      <hr />
       <%= render :partial => 'watchers/watchers', :locals => {:watched => controller.work_package} %>
     </div>
   <% end %>
