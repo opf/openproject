@@ -15,11 +15,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for controller.new_work_package,
                               :url => new_project_work_package_path(@project, @work_package),
+                              # TODO: remove once Issue == PlanningElement
+                              :as => 'work_package',
                               :html => { :multipart => true,
-                                         :id => 'issue-form',
-                                         :class => 'tabular new-issue-form' } do |f| %>
+                                         :id => 'work_package-form',
+                                         :class => 'tabular new-work_package-form' } do |f| %>
 
     <%= error_messages_for 'issue' %>
+
+    <%= f.hidden_field :type %>
 
     <div class="box">
       <%= render :partial => 'form', :locals => { :f => f,

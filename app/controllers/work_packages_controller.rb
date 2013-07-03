@@ -40,6 +40,9 @@ class WorkPackagesController < ApplicationController
   def new
     respond_to do |format|
       format.html
+      format.js { render :partial => 'attributes', :locals => { :work_package => new_work_package,
+                                                                :project => project,
+                                                                :priorities => priorities } }
     end
   end
 
@@ -57,7 +60,9 @@ class WorkPackagesController < ApplicationController
 
   def new_work_package
     @new_work_package ||= begin
-      wp = case params[:type]
+      type = params[:type] || (params[:work_package] && params[:work_package][:type])
+
+      wp = case type
            when PlanningElement.to_s
              PlanningElement.new :project => project
            when Issue.to_s

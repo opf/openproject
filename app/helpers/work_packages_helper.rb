@@ -92,10 +92,10 @@ module WorkPackagesHelper
     if work_package.is_a?(Issue)
       field = form.select :tracker_id, locals[:project].trackers.collect {|t| [t.name, t.id]}, :required => true
 
-      field += observe_field :issue_tracker_id, :url => new_project_work_package_path(locals[:project]),
-                                                :update => :attributes,
-                                                :method => :get,
-                                                :with => "Form.serialize('issue-form')"
+      field += observe_field :work_package_tracker_id, :url => new_project_work_package_path(locals[:project]),
+                                                       :update => :attributes,
+                                                       :method => :get,
+                                                       :with => "Form.serialize('work_package-form')"
 
       WorkPackageAttribute.new(:tracker, field)
     end
