@@ -66,7 +66,7 @@ module OpenProject::GlobalRoles
           version spec.version
           url 'https://www.openproject.org/projects/plugin-global-roles'
 
-          requires_openproject ">= 3.0.0beta1"
+          requires_openproject ">= 3.0.0pre6"
 
           if ENV["RAILS_ENV"] != "test"
             require_or_load 'open_project/global_roles/patches/permission_patch'
