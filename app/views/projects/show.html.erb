@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </ul>
 
-  <% if User.current.allowed_to?(:view_issues, @project) %>
+  <% if User.current.allowed_to?(:view_work_packages, @project) %>
   <div class="issues box">
     <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
