@@ -230,7 +230,9 @@ de:
       news: "News"
       project: "Projekt"
       query: "Benutzerdefinierte Abfrage"
-      role: "Rolle"
+      role:
+        one : "Rolle"
+        other: "Rollen"
       tracker: "Tracker"
       planning_element: Planungselement
       planning_element_type: Planungselement-Typ
