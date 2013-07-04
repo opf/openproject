@@ -15,9 +15,9 @@ Feature: Creating Projects
     And the user "bob" is a "CanViewCal" in the project "omicronpersei8"
     And I am logged in as "bob"
 
-  Scenario: Calendar link should work when calendar is activated
+  Scenario: Calendar link in the 'tickets box' should work when calendar is activated
     When I go to the overview page of the project "omicronpersei8"
-    Then I should see "Calendar" within "a.calendar[title=Calendar]"
-    When I click on "Calendar" within "div#menu-sidebar ul.menu_root"
+    Then I should see "Calendar" within "#content .issues.box"
+    When I click on "Calendar" within "#content .issues.box"
     Then I should see "Calendar" within "#content > h2"
     And I should see "Sunday" within "#content > table.cal"
