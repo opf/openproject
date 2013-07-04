@@ -36,7 +36,7 @@ Feature: Viewing a work package
 
     And there is a role "member"
     And the role "member" may have the following rights:
-      | manage_issue_relations |
+      | manage_work_package_relations |
       | view_work_packages |
       | edit_work_packages |
     And there is 1 user with the following:
@@ -72,12 +72,24 @@ Feature: Viewing a work package
 
   Scenario: Call the work package page for a planning element and view the planning element
     When I go to the page of the planning element "pe1" of the project called "omicronpersei8"
-    Then I should see "pe1"
-    Then I should see "pe2" within ".idnt-1"
+    Then I should see "#4: pe1"
+    Then I should see "#5: pe2" within ".idnt-1"
+
+  Scenario: View child work package of type issue
+    When I go to the page of the work package "issue1"
+    When I click on "Bug #2" within ".idnt-1"
+    Then I should see "Bug #2: issue2"
+    Then I should see "Bug #1: issue1" within ".work-package-1"
+
+  Scenario: View child work package of type planning element
+    When I go to the page of the work package "pe1"
+    When I click on "#5" within ".idnt-1"
+    Then I should see "#5: pe2"
+    Then I should see "#4: pe1" within ".work-package-4"
 
   @javascript
   Scenario: Adding a relation will add it to the list of related work packages through AJAX instantly
-    When I go to the page of the issue "issue1"
+    When I go to the page of the work package "issue1"
     And I click on "Add related issue"
     And I fill in "relation_issue_to_id" with "3"
     And I press "Add"
@@ -85,3 +97,12 @@ Feature: Viewing a work package
     Then I should be on the page of the issue "issue1"
     And I should see "related to Bug #3: issue3"
 
+  @javascript
+  Scenario: Removing an existing relation will remove it from the list of related work packages through AJAX instantly
+    Given a relation between "issue1" and "issue3"
+    When I go to the page of the work package "issue1"
+    Then I should see "Bug #3: issue3"
+    When I click "Delete relation"
+    And I wait for the AJAX requests to finish
+    Then I should be on the page of the work package "issue1"
+    Then I should not see "Bug #3: issue3"
