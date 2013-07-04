@@ -50,6 +50,22 @@ describe Project do
     end
   end
 
+  describe "add_planning_element" do
+    let(:project) { FactoryGirl.create(:project_with_trackers) }
+
+    it 'should return a work package' do
+      project.add_planning_element.should be_a(PlanningElement)
+    end
+
+    it 'the object should be a new record' do
+      project.add_planning_element.should be_new_record
+    end
+
+    it 'should have the project associated' do
+      project.add_planning_element.project.should == project
+    end
+  end
+
   describe "add_issue" do
     let(:project) { FactoryGirl.create(:project_with_trackers) }
 

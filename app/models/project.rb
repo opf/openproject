@@ -874,8 +874,15 @@ class Project < ActiveRecord::Base
     list
   end
 
-  # TODO: move into work_package once tracker or similar is defined there and safe_attributes is removed
-  def add_issue(attributes)
+  # TODO: merge with add_issue once tracker or similar is defined there and safe_attributes is removed
+  def add_planning_element(attributes = {})
+    attributes ||= {}
+
+    self.planning_elements.build
+  end
+
+  # TODO: merge with add_planning_elemement once tracker or similar is defined there and safe_attributes is removed
+  def add_issue(attributes = {})
     attributes ||= {}
 
     Issue.new do |i|
