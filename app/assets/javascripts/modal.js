@@ -12,35 +12,39 @@
 var ModalHelper = (function() {
 
   var ModalHelper = function() {
+    var modalHelper = this;
     var modalDiv;
-    var body = jQuery('body');
-    // whatever globals there are, they need to be added to the
-    // prototype, so that all ModalHelper instances can share them.
-    if (ModalHelper.prototype.done !== true) {
-      // one time initialization
-      modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
-      body.append(modalDiv);
-      // close when body is clicked
-      body.click(function(e) {
-        if (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
-          modalDiv.data('changed', false);
-          modalDiv.dialog('close');
-        } else {
+    jQuery(document).ready(function () {
+      var body = jQuery(document.body);
+      // whatever globals there are, they need to be added to the
+      // prototype, so that all ModalHelper instances can share them.
+      if (ModalHelper.prototype.done !== true) {
+        // one time initialization
+        modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
+        body.append(modalDiv);
+        // close when body is clicked
+        body.click(function(e) {
+          if (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
+            modalDiv.data('changed', false);
+            modalDiv.dialog('close');
+          } else {
+            e.stopPropagation();
+          }
+        });
+        // do not close when element is clicked
+        modalDiv.click(function(e) {
           e.stopPropagation();
-        }
-      });
-      // do not close when element is clicked
-      modalDiv.click(function(e) {
-        e.stopPropagation();
-      });
-      ModalHelper.prototype.done = true;
-    } else {
-      modalDiv = jQuery('#modalDiv');
-    }
+        });
+        ModalHelper.prototype.done = true;
+      } else {
+        modalDiv = jQuery('#modalDiv');
+      }
 
-    this.modalDiv = modalDiv;
+      modalHelper.modalDiv = modalDiv;      
+    });
+
     this.loadingModal = false;
-  }
+  };
 
   /** display the loading modal (spinner in a box)
    * also fix z-index so it is always on top.
@@ -113,10 +117,9 @@ var ModalHelper = (function() {
         },
         success: function(data) {
           try {
-            debugger;
+            var ta = modalHelper.modalDiv, fields;
             modalHelper.hideLoadingModal();
             currentURL = url;
-            var ta = modalHelper.modalDiv;
 
             // write html to div
             ta.html(data);
@@ -147,6 +150,13 @@ var ModalHelper = (function() {
             //TODO: we need a default close button somewhere
             ta.parent().prepend('<div id="ui-dialog-closer" />');
             jQuery('.ui-dialog-titlebar').hide();
+
+            ta.data('changed', false);
+
+            fields = ta.find(":input");
+            fields.change(function(e) {
+              ta.data('changed', true);
+            });
 
             if (typeof callback === 'function') {
               callback(ta);

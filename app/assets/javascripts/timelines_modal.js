@@ -48,8 +48,7 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
     var projects = timeline.projects;
     var project;
     var projectSelect;
-    var fields = ele.find(':input');
-    ele.data('changed', false);
+
     var submitFunction = function(e) {
       modalHelper.showLoadingModal();
       if (type === 'new') {
@@ -149,10 +148,8 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
         e.preventDefault();
         if (ele.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
           if (typeof elementId === "undefined") {
-            if (ele.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
-              ele.data('changed', false);
-              ele.dialog('close');
-            }
+            ele.data('changed', false);
+            ele.dialog('close');
           } else {
             modalHelper.createPlanningModal('show', projectId, elementId);
           }
@@ -245,9 +242,6 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
         e.preventDefault();
       });
     }
-    fields.change(function(e) {
-      ele.data('changed', true);
-    });
     // calendar click must be stopped so it does not close the modal.
     ele.find('.calendar-trigger').click(function() {
       jQuery('.calendar').click(function(e) {
