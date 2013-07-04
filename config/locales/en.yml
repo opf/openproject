@@ -1496,6 +1496,8 @@ en:
 
   label_work_package_hierarchy: "Work Package Hierarchy"
   description_sub_work_package: "Sub work package of current"
+  label_related_work_packages: "Related work packages"
+  label_add_related_work_packages: "Add related work packages"
 
   total_progress: "Total progress"
 
