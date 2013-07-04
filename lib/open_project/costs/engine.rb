@@ -77,6 +77,7 @@ module OpenProject::Costs
       # Controller Patchesopen_project/costs/patches/
       require_dependency 'open_project/costs/patches/application_controller_patch'
       require_dependency 'open_project/costs/patches/issues_controller_patch'
+      require_dependency 'open_project/costs/patches/work_packages_controller_patch'
       require_dependency 'open_project/costs/patches/projects_controller_patch'
 
       # Helper Patches
