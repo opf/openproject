@@ -33,11 +33,11 @@ class ApiTest::HttpAcceptAuthTest < ActionDispatch::IntegrationTest
     end
 
     context "in :xml format" do
-      should_not_send_www_authenticate_when_header_accept_auth_is_session(:get, "/api/v1/projects/onlinestore/news.xml")
+      should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(:get, "/api/v1/projects/onlinestore/news.xml")
     end
 
     context "in :json format" do
-      should_not_send_www_authenticate_when_header_accept_auth_is_session(:get, "/api/v1/projects/onlinestore/news.json")
+      should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(:get, "/api/v1/projects/onlinestore/news.json")
     end
   end
 end

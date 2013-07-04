@@ -292,15 +292,14 @@ class ActiveSupport::TestCase
   # @param [optional, Hash] options additional options
   # @option options [Symbol] :success_code Successful response code (:success)
   # @option options [Symbol] :failure_code Failure response code (:unauthorized)
-  def self.should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(http_method, url, options = {})
+  def self.should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(http_method, url, options = {}, parameters = {})
     success_code = options[:success_code] || :success
     failure_code = options[:failure_code] || :unauthorized
 
     context "should not send www authenticate when header accept auth is session #{http_method} #{url}" do
       context "without credentials" do
         setup do
-          parameters = { "X-Authentication-Scheme" => "Session" }
-          send(http_method, url, parameters)
+          send(http_method, url, parameters, { "X-Authentication-Scheme" => "Session" })
         end
 
         should respond_with failure_code
@@ -312,10 +311,10 @@ class ActiveSupport::TestCase
           # remove this switch once on 3.1.0
           if ::Rails::VERSION::MAJOR == 3 && ::Rails::VERSION::MINOR == 0
             assert @controller.response.headers.has_key?('Www-Authenticate')
-            assert_equal @controller.response.headers['Www-Authenticate'], 'Session realm="OpenProject API"'
+            assert_equal 'Session realm="OpenProject API"', @controller.response.headers['Www-Authenticate']
           else
             assert @controller.response.headers.has_key?('WWW-Authenticate')
-            assert_equal @controller.response.headers['WWW-Authenticate'], 'Session realm="OpenProject API"'
+            assert_equal 'Session realm="OpenProject API"', @controller.response.headers['WWW-Authenticate']
           end
         end
       end
