@@ -262,33 +262,9 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
   });
 };
 ModalHelper.prototype.setupTimeline = function(timeline, options) {
-  var body = jQuery('body');
   this.timeline = timeline;
   this.options = options;
-  var modalDiv;
-  // whatever globals there are, they need to be added to the
-  // prototype, so that all ModalHelper instances can share them.
-  if (ModalHelper.prototype.done !== true) {
-    // one time initialization
-    modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'planningElementDialog');
-    body.append(modalDiv);
-    // close when body is clicked
-    body.click(function(e) {
-      if (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
-        modalDiv.data('changed', false);
-        modalDiv.dialog('close');
-      } else {
-        e.stopPropagation();
-      }
-    });
-    // do not close when element is clicked
-    modalDiv.click(function(e) {
-      e.stopPropagation();
-    });
-    ModalHelper.prototype.done = true;
-  } else {
-    modalDiv = jQuery('#planningElementDialog');
-  }
+
   // every-time initialization
   jQuery(timeline).on('dataLoaded', function() {
     var projects = timeline.projects;
@@ -302,9 +278,4 @@ ModalHelper.prototype.setupTimeline = function(timeline, options) {
       }
     }
   });
-  var loadingModalDiv = jQuery('<div/>');
-  body.append(loadingModalDiv);
-  loadingModalDiv.css('hidden', true).attr('id', 'loadingModal');
-  this.loadingModal = false;
-  this.modalDiv = modalDiv;
 };

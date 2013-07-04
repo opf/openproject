@@ -11,7 +11,36 @@
 
 var ModalHelper = (function() {
 
-  var ModalHelper = function() {}
+  var ModalHelper = function() {
+    var modalDiv;
+    var body = jQuery('body');
+    // whatever globals there are, they need to be added to the
+    // prototype, so that all ModalHelper instances can share them.
+    if (ModalHelper.prototype.done !== true) {
+      // one time initialization
+      modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
+      body.append(modalDiv);
+      // close when body is clicked
+      body.click(function(e) {
+        if (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
+          modalDiv.data('changed', false);
+          modalDiv.dialog('close');
+        } else {
+          e.stopPropagation();
+        }
+      });
+      // do not close when element is clicked
+      modalDiv.click(function(e) {
+        e.stopPropagation();
+      });
+      ModalHelper.prototype.done = true;
+    } else {
+      modalDiv = jQuery('#modalDiv');
+    }
+
+    this.modalDiv = modalDiv;
+    this.loadingModal = false;
+  }
 
   /** display the loading modal (spinner in a box)
    * also fix z-index so it is always on top.
@@ -84,6 +113,7 @@ var ModalHelper = (function() {
         },
         success: function(data) {
           try {
+            debugger;
             modalHelper.hideLoadingModal();
             currentURL = url;
             var ta = modalHelper.modalDiv;
@@ -115,7 +145,7 @@ var ModalHelper = (function() {
 
             // hide dialog header
             //TODO: we need a default close button somewhere
-            jQuery('#planningElementDialog').parent().prepend('<div id="ui-dialog-closer" />');
+            ta.parent().prepend('<div id="ui-dialog-closer" />');
             jQuery('.ui-dialog-titlebar').hide();
 
             if (typeof callback === 'function') {
