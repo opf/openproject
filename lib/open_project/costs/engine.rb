@@ -65,6 +65,7 @@ module OpenProject::Costs
 
       # Model Patches
       require_dependency 'open_project/costs/patches/work_package_patch'
+      require_dependency 'open_project/costs/patches/issue_patch'
       require_dependency 'open_project/costs/patches/project_patch'
       require_dependency 'open_project/costs/patches/query_patch'
       require_dependency 'open_project/costs/patches/user_patch'

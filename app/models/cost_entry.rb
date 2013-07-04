@@ -2,7 +2,7 @@ class CostEntry < ActiveRecord::Base
   unloadable
 
   belongs_to :project
-  belongs_to :work_package, :class_name => 'Issue'
+  belongs_to :work_package
   belongs_to :user
   include ::OpenProject::Costs::DeletedUserFallback
   belongs_to :cost_type

@@ -1,4 +1,4 @@
-require_dependency 'issue'
+require 'work_package'
 
 module OpenProject::Costs::Patches::WorkPackagePatch
   def self.included(base) # :nodoc:
