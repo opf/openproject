@@ -42,6 +42,7 @@ Feature: Viewing a work package
       | edit_work_packages            |
       | add_issues                    |
       | edit_planning_elements        |
+      | log_time                      |
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "member" in the project "omicronpersei8"
@@ -151,3 +152,21 @@ Feature: Viewing a work package
     Then I should see "Unwatch" within "#content > .action_menu_main"
     When I click "Unwatch" within "#content > .action_menu_main"
     Then I should see "Watch" within "#content > .action_menu_main"
+
+  @javascript
+  Scenario: Log time leads to time entry creation page for issues
+    When I go to the page of the work package "issue1"
+    Then I should see "More functions" within "#content > .action_menu_main"
+    When I click "More functions" within "#content > .action_menu_main"
+    Then I should see "Log time" within "#content > .action_menu_main"
+    When I click "Log time" within "#content > .action_menu_main"
+    Then I should see "Spent time"
+
+  @javascript
+  Scenario: Log time leads to time entry creation page for planning element
+    When I go to the page of the work package "pe1"
+    Then I should see "More functions" within "#content > .action_menu_main"
+    When I click "More functions" within "#content > .action_menu_main"
+    Then I should see "Log time" within "#content > .action_menu_main"
+    When I click "Log time" within "#content > .action_menu_main"
+    Then I should see "Spent time"
