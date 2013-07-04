@@ -90,11 +90,11 @@ Feature: Viewing a work package
   @javascript
   Scenario: Adding a relation will add it to the list of related work packages through AJAX instantly
     When I go to the page of the work package "issue1"
-    And I click on "Add related issue"
+    And I click on "Add related work package"
     And I fill in "relation_issue_to_id" with "3"
     And I press "Add"
     And I wait for the AJAX requests to finish
-    Then I should be on the page of the issue "issue1"
+    Then I should be on the page of the work package "issue1"
     And I should see "related to Bug #3: issue3"
 
   @javascript
@@ -106,3 +106,33 @@ Feature: Viewing a work package
     And I wait for the AJAX requests to finish
     Then I should be on the page of the work package "issue1"
     Then I should not see "Bug #3: issue3"
+
+  @javascript
+  Scenario: User adds herself as watcher to an issue
+    When I go to the page of the work package "issue1"
+    Then I should see "Watch" within "#content > .action_menu_main"
+    When I click "Watch" within "#content > .action_menu_main"
+    Then I should see "Unwatch" within "#content > .action_menu_main"
+
+  @javascript
+  Scenario: User adds herself as watcher to a planning element
+    When I go to the page of the work package "pe1"
+    Then I should see "Watch" within "#content > .action_menu_main"
+    When I click "Watch" within "#content > .action_menu_main"
+    Then I should see "Unwatch" within "#content > .action_menu_main"
+
+  @javascript
+  Scenario: User removes herself as watcher from an issue
+    Given user is already watching "issue1"
+    When I go to the page of the work package "issue1"
+    Then I should see "Unwatch" within "#content > .action_menu_main"
+    When I click "Unwatch" within "#content > .action_menu_main"
+    Then I should see "Watch" within "#content > .action_menu_main"
+
+  @javascript
+  Scenario: User removes herself as watcher from a planning element
+    Given user is already watching "pe1"
+    When I go to the page of the work package "pe1"
+    Then I should see "Unwatch" within "#content > .action_menu_main"
+    When I click "Unwatch" within "#content > .action_menu_main"
+    Then I should see "Watch" within "#content > .action_menu_main"
