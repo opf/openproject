@@ -175,7 +175,7 @@ private
     issue_id = params[:cost_entry].delete(:work_package_id)
     @issue = @cost_entry.present? && @cost_entry.work_package_id == issue_id ?
                @cost_entry.work_package :
-               Issue.find_by_id(issue_id)
+               WorkPackage.find_by_id(issue_id)
 
     cost_type_id = params[:cost_entry].delete(:cost_type_id)
     @cost_type = @cost_entry.present? && @cost_entry.cost_type_id == cost_type_id ?
