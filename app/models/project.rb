@@ -896,9 +896,8 @@ class Project < ActiveRecord::Base
                     project.trackers.first
                   end
 
-      # TODO: replace with i.attributes = attributes
-      # once StrongParameters is in place
-      i.safe_attributes = attributes
+      # TODO: this should not be necessary once StrongParameters are in place
+      i.assign_attributes(attributes, :without_protection => true)
     end
   end
 

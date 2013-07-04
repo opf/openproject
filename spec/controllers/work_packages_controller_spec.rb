@@ -57,6 +57,7 @@ describe WorkPackagesController do
   let(:stub_planning_element) { FactoryGirl.build_stubbed(:planning_element, :project_id => stub_project.id) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project, :identifier => 'test_project', :is_public => false) }
   let(:stub_issue) { FactoryGirl.build_stubbed(:issue, :project_id => stub_project.id) }
+  let(:stub_user) { FactoryGirl.build_stubbed(:user) }
 
   let(:current_user) { FactoryGirl.create(:user) }
 
@@ -120,7 +121,7 @@ describe WorkPackagesController do
         get 'new'
       end
 
-      it 'should return 403 Forbidden' do
+      it 'should return 404 Not found' do
         response.response_code.should == 404
       end
     end
@@ -172,7 +173,7 @@ describe WorkPackagesController do
         xhr :get, :new
       end
 
-      it 'should return 403 Forbidden' do
+      it 'should return 404 Not found' do
         response.response_code.should == 404
       end
     end
@@ -218,6 +219,57 @@ describe WorkPackagesController do
     end
   end
 
+  describe 'create.html' do
+    describe 'w/o specifying a project_id' do
+      before do
+        post 'create'
+      end
+
+      it 'should return 404 Not found' do
+        response.response_code.should == 404
+      end
+    end
+
+    describe 'w/o being a member' do
+      before do
+        post 'create', :project_id => project.id
+      end
+
+      it 'should return 403 Forbidden' do
+        response.response_code.should == 403
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions' do
+      become_member_with_permissions [:add_work_packages]
+
+      before do
+        controller.should_receive(:new_work_package).and_return(stub_issue)
+        stub_issue.should_receive(:save)
+
+        post 'create', :project_id => project.id
+      end
+
+      it 'renders the new builder template' do
+        response.should redirect_to(work_package_path(stub_issue))
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/o having the necessary permissions' do
+      become_member_with_permissions []
+
+      before do
+        get 'new', :project_id => project.id
+      end
+
+      it 'should return 403 Forbidden' do
+        response.response_code.should == 403
+      end
+    end
+  end
+
   describe :work_package do
     describe 'when beeing allowed to see the work_package' do
       become_member_with_view_planning_element_permissions
@@ -247,10 +299,16 @@ describe WorkPackagesController do
   describe :new_work_package do
     describe 'when the type is "PlanningElement"' do
       before do
-        controller.params = { :type => 'PlanningElement' }
+        controller.params = { :type => 'PlanningElement',
+                              :work_package => {} }
         controller.stub!(:project).and_return(project)
+        controller.stub!(:current_user).and_return(stub_user)
 
-        project.should_receive(:add_planning_element).and_return(stub_planning_element)
+        project.should_receive(:add_planning_element) do |args|
+
+          expect(args[:author]).to eql stub_user
+
+        end.and_return(stub_planning_element)
       end
 
       it 'should return a new issue on the project' do
