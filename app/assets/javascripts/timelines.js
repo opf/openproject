@@ -274,7 +274,8 @@ Timeline = {
       // prerequisites (3rd party libs)
       this.checkPrerequisites();
 
-      this.modalHelper = new ModalHelper(
+      this.modalHelper = new ModalHelper();
+      this.modalHelper.setupTimeline(
         this,
         {
           api_prefix                : this.options.api_prefix,
@@ -282,7 +283,6 @@ Timeline = {
           project_prefix            : this.options.project_prefix
         }
       );
-      this.modalHelper.setup();
 
       timelineLoader = new Timeline.TimelineLoader(
         this,
