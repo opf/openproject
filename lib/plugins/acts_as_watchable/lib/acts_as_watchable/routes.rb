@@ -22,38 +22,19 @@ module OpenProject
           /\d+/.match(params[:object_id])
         end
 
-        def self.add_watched(watched)
-          objects_base_klass = get_objects_base_class watched
-
-          self.models ||= []
-
-          self.models << ((objects_base_klass.nil?) ? watched.to_s : objects_base_klass.to_s)
-        end
-
         private
 
         def self.watched?(object)
-          objects_base_class = get_objects_base_class object
-          matcher = (objects_base_class.nil?) ? object : objects_base_class.to_s
-
-          self.models.include? matcher.to_s
+          self.watchable_object? object
         end
 
-        def self.get_objects_base_class(object)
-          klass = get_objects_class object
+        def self.watchable_object?(object)
+          if Object.const_defined? object.to_s.classify
+            klass = object.to_s.classify.constantize
 
-          if not klass.nil?
-            ancestor = klass.lookup_ancestors.last
-
-            (ancestor == ActiveRecord::Base) ? klass : ancestor
-          end
-        end
-
-        def self.get_objects_class(object)
-          if object.is_a? Class
-            object
-          elsif Object.const_defined? object.classify
-            object.classify.constantize
+            klass.included_modules.include? Redmine::Acts::Watchable
+          else
+            false
           end
         end
       end
