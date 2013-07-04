@@ -758,49 +758,6 @@ class Issue < WorkPackage
     recalculate_attributes_for(parent_id) if parent_id
   end
 
-  def recalculate_attributes_for(issue_id)
-    if issue_id.is_a? Issue
-      p = issue_id
-    else
-      p = Issue.find_by_id(issue_id)
-    end
-
-    if p
-      # priority = highest priority of children
-      if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
-        p.priority = IssuePriority.find_by_position(priority_position)
-      end
-
-      # start/due dates = lowest/highest dates of children
-      p.start_date = p.children.minimum(:start_date)
-      p.due_date = p.children.maximum(:due_date)
-      if p.start_date && p.due_date && p.due_date < p.start_date
-        p.start_date, p.due_date = p.due_date, p.start_date
-      end
-
-      # done ratio = weighted average ratio of leaves
-      unless Issue.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
-        leaves_count = p.leaves.count
-        if leaves_count > 0
-          average = p.leaves.average(:estimated_hours).to_f
-          if average == 0
-            average = 1
-          end
-          done = p.leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
-          progress = done / (average * leaves_count)
-          p.done_ratio = progress.round
-        end
-      end
-
-      # estimate = sum of leaves estimates
-      p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
-      p.estimated_hours = nil if p.estimated_hours == 0.0
-
-      # ancestors will be recursively updated
-      p.save(:validate => false) if p.changed?
-    end
-  end
-
   # Update issues so their versions are not pointing to a
   # fixed_version that is not shared with the issue's project
   def self.update_versions(conditions=nil)
