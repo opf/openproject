@@ -265,56 +265,21 @@ describe WorkPackagesController do
 
     describe 'when the type is "Issue"' do
       before do
-        controller.params = { :project_id => project.id, :type => 'Issue' }
-      end
+        controller.params = { :type => 'Issue' }
 
-      it 'should return a work package' do
-        controller.new_work_package.should be_a(Issue)
-      end
-
-      it 'the object should be a new record' do
-        controller.new_work_package.should be_new_record
-      end
-
-      it 'should have the project associated' do
-        controller.new_work_package.project.should == project
-      end
-
-      it "should have the project's first tracker assigned tracker is not specified" do
-        expected_tracker = FactoryGirl.build_stubbed(:tracker)
-        trackers = double('trackers')
-
-        project.stub!(:trackers).and_return(trackers)
-        trackers.stub!(:find).with(:first).and_return(expected_tracker)
         controller.stub!(:project).and_return(project)
-
-        controller.new_work_package.tracker.should == expected_tracker
+        project.should_receive(:add_issue).and_return(stub_issue)
       end
 
-      it "should have the project's tracker identified by tracker_id param if provided" do
-        expected_tracker = FactoryGirl.build_stubbed(:tracker)
-        trackers = double('trackers')
-
-        project.stub!(:trackers).and_return(trackers)
-        trackers.stub!(:find).with('2').and_return(expected_tracker)
-
-        controller.params.merge!({ :tracker_id => '2'  })
-        controller.stub!(:project).and_return(project)
-
-        controller.new_work_package.tracker.should == expected_tracker
+      it 'should return a new issue on the project' do
+        controller.new_work_package.should == stub_issue
       end
 
-      it "should have the project's tracker identified by tracker_id param inside issue param if provided" do
-        expected_tracker = FactoryGirl.build_stubbed(:tracker)
-        trackers = double('trackers')
+      it 'should copy over attributes from another work_package provided as the source' do
+        controller.params[:copy_from] = 2
+        stub_issue.should_receive(:copy_from).with(2, :exclude => [:project_id])
 
-        project.stub!(:trackers).and_return(trackers)
-        trackers.stub!(:find).with('2').and_return(expected_tracker)
-
-        controller.params.merge!({ :work_package => { :tracker_id => '2' } })
-        controller.stub!(:project).and_return(project)
-
-        controller.new_work_package.tracker.should == expected_tracker
+        controller.new_work_package
       end
     end
 
