@@ -238,4 +238,47 @@ class WorkPackage < ActiveRecord::Base
   def closed?
     self.status.nil? || self.status.is_closed?
   end
+
+  def recalculate_attributes_for(work_package_id)
+    if work_package_id.is_a? WorkPackage
+      p = work_package_id
+    else
+      p = WorkPackage.find_by_id(work_package_id)
+    end
+
+    if p
+      # priority = highest priority of children
+      if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
+        p.priority = IssuePriority.find_by_position(priority_position)
+      end
+
+      # start/due dates = lowest/highest dates of children
+      p.start_date = p.children.minimum(:start_date)
+      p.due_date = p.children.maximum(:due_date)
+      if p.start_date && p.due_date && p.due_date < p.start_date
+        p.start_date, p.due_date = p.due_date, p.start_date
+      end
+
+      # done ratio = weighted average ratio of leaves
+      unless WorkPackage.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
+        leaves_count = p.leaves.count
+        if leaves_count > 0
+          average = p.leaves.average(:estimated_hours).to_f
+          if average == 0
+            average = 1
+          end
+          done = p.leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
+          progress = done / (average * leaves_count)
+          p.done_ratio = progress.round
+        end
+      end
+
+      # estimate = sum of leaves estimates
+      p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
+      p.estimated_hours = nil if p.estimated_hours == 0.0
+
+      # ancestors will be recursively updated
+      p.save(:validate => false) if p.changed?
+    end
+  end
 end
