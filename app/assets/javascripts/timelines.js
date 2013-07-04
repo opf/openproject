@@ -1715,10 +1715,10 @@ Timeline = {
           }
         }
 
-        if (!as) {
+        if (!as && typeof a.end === "function") {
           as = a.end();
         }
-        if (!bs) {
+        if (!bs && typeof b.end === "function") {
           bs = b.end();
         }
 
@@ -2279,9 +2279,9 @@ Timeline = {
           }
         };
       } else if (!end) {
-        end = start.clone().addDays(70);
+        end = start.clone().addDays(2);
       } else if (!start) {
-        start = end.clone().addDays(-70);
+        start = end.clone().addDays(-2);
       }
 
       // calculate graphical representation. the +1 makes sense when
