@@ -189,7 +189,7 @@ class WorkPackagesController < ApplicationController
                                                                  issue_time_entries_path(work_package)) : "-"),
         WorkPackageAttribute.new(:fixed_version,
                                  'fixed-version',
-                                 work_package.fixed_version ? link_to_version(work_package.fixed_version) : "-"),
+                                 work_package.fixed_version ? view_context.link_to_version(work_package.fixed_version) : "-"),
         WorkPackageAttribute.new(:estimated_hours, 'estimated_hours', l_hours(work_package.estimated_hours))
       ]
     elsif work_package.is_a? PlanningElement
