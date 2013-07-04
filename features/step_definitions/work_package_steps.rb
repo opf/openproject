@@ -13,3 +13,10 @@ Given /^the work package "(.*?)" has the following children:$/ do |work_package_
     child.save
   end
 end
+
+Given /^a relation between "(.*?)" and "(.*?)"$/ do |work_package_from, work_package_to|
+  from = WorkPackage.find_by_subject(work_package_from)
+  to = WorkPackage.find_by_subject(work_package_to)
+
+  FactoryGirl.create :issue_relation, issue_from: from, issue_to: to
+end
