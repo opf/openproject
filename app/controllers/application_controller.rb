@@ -188,11 +188,15 @@ class ApplicationController < ActionController::Base
         format.any(:html, :atom) { redirect_to signin_path(:back_url => url) }
 
         authentication_scheme = if request.headers["X-Authentication-Scheme"] == "Session"
-          'Session' else 'Basic'
+          'Session'
+        else
+          'Basic'
         end
-        format.any(:xml, :js, :json)  { head :unauthorized,
+        format.any(:xml, :js, :json)  {
+          head :unauthorized,
           "Reason" => "login needed",
-          'WWW-Authenticate' => authentication_scheme + ' realm="OpenProject API"' }
+          'WWW-Authenticate' => authentication_scheme + ' realm="OpenProject API"' 
+        }
       end
       return false
     end
