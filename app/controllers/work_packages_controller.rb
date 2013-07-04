@@ -62,17 +62,18 @@ class WorkPackagesController < ApplicationController
     @new_work_package ||= begin
       type = params[:type] || (params[:work_package] && params[:work_package][:type])
 
-      case type
-      when PlanningElement.to_s
-        PlanningElement.new :project => project
-      when Issue.to_s
-        issue = project.add_issue(params[:work_package])
-        issue.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
+      wp = case type
+           when PlanningElement.to_s
+             project.add_planning_element(params[:work_package]) #TODO: StrongParameters
+           when Issue.to_s
+             project.add_issue(params[:work_package]) #TODO: StrongParameters
+           else
+             raise ArgumentError, "type #{params[:type]} is not supported"
+           end
 
-        issue
-      else
-        raise ArgumentError, "type #{params[:type]} is not supported"
-      end
+       wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
+
+       wp
     end
   end
 

@@ -247,19 +247,21 @@ describe WorkPackagesController do
   describe :new_work_package do
     describe 'when the type is "PlanningElement"' do
       before do
-        controller.params = { :project_id => project.id, :type => 'PlanningElement' }
+        controller.params = { :type => 'PlanningElement' }
+        controller.stub!(:project).and_return(project)
+
+        project.should_receive(:add_planning_element).and_return(stub_planning_element)
       end
 
-      it 'should return a work package' do
-        controller.new_work_package.should be_a(PlanningElement)
+      it 'should return a new issue on the project' do
+        controller.new_work_package.should == stub_planning_element
       end
 
-      it 'the object should be a new record' do
-        controller.new_work_package.should be_new_record
-      end
+      it 'should copy over attributes from another work_package provided as the source' do
+        controller.params[:copy_from] = 2
+        stub_planning_element.should_receive(:copy_from).with(2, :exclude => [:project_id])
 
-      it 'should have the project associated' do
-        controller.new_work_package.project.should == project
+        controller.new_work_package
       end
     end
 
