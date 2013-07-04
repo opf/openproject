@@ -34,7 +34,7 @@ class WorkPackageRelationsController < ApplicationController
     @relation.destroy
 
     respond_to do |format|
-      format.html { redirect_to issue_path(@issue) }
+      format.html { redirect_to work_package_path(@work_package) }
       format.js {}
     end
   end
