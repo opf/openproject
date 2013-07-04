@@ -27,8 +27,8 @@ module Redmine
                                    :dependent => :delete_all,
                                    :validate => false
           before_validation { |customized| customized.custom_field_values if customized.new_record? }
-          # Trigger validation only if custom values were changed
-          validates_associated :custom_values, :if => Proc.new { |customized| customized.custom_field_values_changed? }
+          # always trigger validation
+          validates_associated :custom_values
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
           after_save :save_custom_field_values
