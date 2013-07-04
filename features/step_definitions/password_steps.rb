@@ -25,9 +25,12 @@ Given /^passwords have a minimum length of ([0-9]+) characters$/ do |minimum_len
   Setting.password_min_length = minimum_length
 end
 
+Given /^users are not allowed to reuse the last ([0-9]+) passwords$/ do |count|
+  Setting.password_count_former_banned = count
+end
 
 def fill_change_password(old_password, new_password, confirmation=new_password)
-  # use find and set with id to prevent ambigious match
+  # use find and set with id to prevent ambigious match I get with fill_in
   find('#password').set(old_password)
 
   fill_in('new_password', :with => new_password)
@@ -36,10 +39,18 @@ def fill_change_password(old_password, new_password, confirmation=new_password)
   @new_password = new_password
 end
 
+def change_password(old_password, new_password)
+  visit "/my/password"
+  fill_change_password(old_password, new_password)
+end
+
+Given /^I try to change my password from "([^\"]+)" to "([^\"]+)"$/ do |old, new|
+  change_password(old, new)
+end
+
 When /^I try to set my new password to "(.+)"$/ do |password|
   visit "/my/password"
-  fill_change_password('adminADMIN!', password)
-  @new_password = password
+  change_password('adminADMIN!', password)
 end
 
 When /^I fill out the change password form$/ do

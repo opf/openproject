@@ -1179,9 +1179,10 @@ de:
   setting_mail_handler_body_delimiters: "Schneide E-Mails nach einer dieser Zeilen ab"
   setting_new_project_user_role_id: "Rolle, die einem Nicht-Administrator zugeordnet wird, der ein Projekt erstellt"
   setting_openid: "Erlaube OpenID-Anmeldung und -Registrierung"
-  setting_password_active_rules: "Aktive Passwortregeln"
-  setting_password_min_length: "Mindestlänge des Kennworts"
-  setting_password_min_adhered_rules: "Mindestanzahl zu erfüllender Regeln"
+  setting_password_active_rules: "Aktive Zeichenklassen"
+  setting_password_count_former_banned: "Anzahl zuletzt benutzter Passwörter, die nicht wiederverwendet werden dürfen"
+  setting_password_min_length: "Mindestlänge"
+  setting_password_min_adhered_rules: "Mindestanzahl zu verwendender Zeichenklassen"
   setting_per_page_options: "Objekte pro Seite"
   setting_plain_text_mail: "Nur reinen Text (kein HTML) senden"
   setting_protocol: "Protokoll"
@@ -1203,6 +1204,12 @@ de:
   setting_users_deletable_by_self: "Nutzer können ihren Account löschen"
   setting_welcome_text: "Willkommenstext"
   setting_wiki_compression: "Wiki-Historie komprimieren"
+
+  settings:
+    general: "Allgemein"
+    other: "Sonstiges"
+    passwords: "Passwörter"
+    session: "Sitzung"
 
   show_hide_project_menu: "Projektnavigation aus/einblenden"
 

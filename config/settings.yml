@@ -26,6 +26,9 @@ password_active_rules:
 password_min_adhered_rules:
   format: int
   default: 0
+password_count_former_banned:
+  format: int
+  default: 0
 password_days_valid:
   format: int
   default: 0
