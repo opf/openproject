@@ -1,6 +1,4 @@
-Feature: Project access
-
-
+Feature: Project accession for a user with a valid membership
 
 @javascript
 Scenario: User is able to see the project so long he has a valid membership.

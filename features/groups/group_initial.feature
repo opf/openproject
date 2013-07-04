@@ -1,4 +1,4 @@
-Feature: Creatign and editing a group
+Feature: Creating or editing a group
 
 @javascript
 Scenario: Admin is able to create a group without members
