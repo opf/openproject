@@ -98,8 +98,8 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   <% end %>
 
-  <% if User.current.allowed_to?(:add_issue_watchers, controller.project) ||
-    (controller.work_package.watchers.present? && User.current.allowed_to?(:view_issue_watchers, controller.project)) %>
+  <% if User.current.allowed_to?(:add_work_package_watchers, controller.project) ||
+    (controller.work_package.watchers.present? && User.current.allowed_to?(:view_work_package_watchers, controller.project)) %>
     <div id="watchers">
       <hr />
       <%= render :partial => 'watchers/watchers', :locals => {:watched => controller.work_package} %>
