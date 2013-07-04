@@ -12,6 +12,7 @@ module OpenProject::Costs
       require 'open_project/costs/hooks'
       require 'open_project/costs/hooks/issue_hook'
       require 'open_project/costs/hooks/project_hook'
+      require 'open_project/costs/hooks/work_package_action_menu'
     end
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
