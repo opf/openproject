@@ -1,3 +1,7 @@
+2013-07-04 Christian Ratz <c.ratz@finn.de>
+
+	* fix time zones bug
+
 2013-06-27 Christian Ratz <c.ratz@finn.de>
 
 	* new pagination

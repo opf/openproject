@@ -1,5 +1,5 @@
 module OpenProject
   module Meeting
-    VERSION = "2.5.1.pre4"
+    VERSION = "2.5.1.pre5"
   end
 end
