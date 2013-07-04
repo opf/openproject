@@ -80,7 +80,6 @@ class Principal < ActiveRecord::Base
   # Make sure we don't try to insert NULL values (see #4632)
   def set_default_empty_values
     self.login ||= ''
-    self.hashed_password ||= ''
     self.firstname ||= ''
     self.lastname ||= ''
     self.mail ||= ''

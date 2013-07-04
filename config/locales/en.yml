@@ -1162,9 +1162,10 @@ en:
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_new_project_user_role_id: "Role given to a non-admin user who creates a project"
   setting_openid: "Allow OpenID login and registration"
-  setting_password_active_rules: "Active password rules"
-  setting_password_min_length: "Minimum password length"
-  setting_password_min_adhered_rules: "Minimum number of rules to adhere to"
+  setting_password_active_rules: "Active character classes"
+  setting_password_count_former_banned: "Number of most recently used passwords banned for reuse"
+  setting_password_min_length: "Minimum length"
+  setting_password_min_adhered_rules: "Minimum number of required classes"
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
@@ -1186,6 +1187,12 @@ en:
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
   setting_welcome_text: "Welcome text"
   setting_wiki_compression: "Wiki history compression"
+
+  settings:
+    general: "General"
+    other: "Other"
+    passwords: "Passwords"
+    session: "Session"
 
   show_hide_project_menu: "Hide/Show project menu"
 
