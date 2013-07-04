@@ -71,12 +71,11 @@ var ModalHelper = (function() {
    * @param callback: called with results
    */
   //TODO fix this inconsistency w/ optional url.
-  ModalHelper.prototype.submitBackground = function(form, url, callback) {
-    var data = form.serialize();
+  ModalHelper.prototype.submitBackground = function(form, options, callback) {
+    var data = form.serialize(), url;
 
-    if (typeof url === 'function') {
-      callback = url;
-      url = undefined;
+    if (options.url) {
+      url = options.url;
     }
 
     if (typeof url === 'undefined') {
@@ -88,11 +87,52 @@ var ModalHelper = (function() {
       url: url,
       data: data,
       error: function(obj, error) {
-        callback(obj.status, obj.responseText);
+        if (typeof callback === "function") {
+          callback(obj.status, obj.responseText);
+        }
       },
       success: function(response) {
-        callback(null, response);
+        if (typeof callback === "function") {
+          callback(null, response);
+        }
+
+        if (options.autoReplace === true) {
+          modalHelper.setModalHTML(response);
+        }
       }
+    });
+  };
+
+  ModalHelper.prototype.setModalHTML = function(data) {
+    var modalHelper = this;
+    var ta = modalHelper.modalDiv, fields;
+
+    ta.data('changed', false);
+
+    // write html to div
+    ta.html(data);
+
+    // show dialog.
+    ta.dialog({
+      modal: true,
+      resizable: false,
+      draggable: false,
+      width: '900px',
+      height: jQuery(window).height() * 0.8,
+      position: {
+        my: 'center',
+        at: 'center'
+      }
+    });
+
+    // hide dialog header
+    //TODO: we need a default close button somewhere
+    ta.parent().prepend('<div id="ui-dialog-closer" />');
+    jQuery('.ui-dialog-titlebar').hide();
+
+    fields = ta.find(":input");
+    fields.change(function(e) {
+      ta.data('changed', true);
     });
   };
 
@@ -110,7 +150,6 @@ var ModalHelper = (function() {
     modalHelper.loadingModal = true;
 
     try {
-
       modalHelper.showLoadingModal();
 
       // get html for url.
@@ -124,42 +163,12 @@ var ModalHelper = (function() {
         },
         success: function(data) {
           try {
-            var ta = modalHelper.modalDiv, fields;
+            modalHelper.setModalHTML(data);
             modalHelper.hideLoadingModal();
-            currentURL = url;
-
-            // write html to div
-            ta.html(data);
-
-            // show dialog.
-            ta.dialog({
-              modal: true,
-              resizable: false,
-              draggable: false,
-              width: '900px',
-              height: jQuery(window).height() * 0.8,
-              position: {
-                my: 'center',
-                at: 'center'
-              }
-            });
-
-            // hide dialog header
-            //TODO: we need a default close button somewhere
-            ta.parent().prepend('<div id="ui-dialog-closer" />');
-            jQuery('.ui-dialog-titlebar').hide();
-
-            ta.data('changed', false);
-
-            fields = ta.find(":input");
-            fields.change(function(e) {
-              ta.data('changed', true);
-            });
 
             if (typeof callback === 'function') {
-              callback(ta);
+              callback(modalHelper.modalDiv);
             }
-
           } catch (e) {
             console.log(e);
           } finally {

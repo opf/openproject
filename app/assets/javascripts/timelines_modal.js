@@ -59,12 +59,11 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
                   projectSelect.val() +
                   '/planning_elements.json';
       }
-      modalHelper.submitBackground(jQuery(this), api_url, function(err, res) {
+      modalHelper.submitBackground(jQuery(this), {url: api_url}, function(err, res) {
         var element;
         modalHelper.hideLoadingModal();
         // display errors correctly.
         if (!err) {
-          currentURL = '';
           timeline.reload();
           if (elementId === undefined) {
             try {
@@ -195,7 +194,7 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
       });
       ele.find('.icon-cancel').click(function(e) {
         modalHelper.showLoadingModal();
-        modalHelper.submitBackground(jQuery(ele.find('.icon-cancel').parent()[0]),
+        modalHelper.submitBackground(jQuery(ele.find('.icon-cancel').parent()[0]), {},
           function(err, res) {
             modalHelper.hideLoadingModal();
             // display errors correctly.
