@@ -1505,8 +1505,11 @@ de:
       quarters: "Quartale"
       years: "Jahre"
 
-  label_work_package_hierarchy: "Arbeitspakethierarchie"
   description_sub_work_package: "Untergeordnetes Arbeitspaket"
+
+  label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
+  label_related_work_packages: "Zugehörige Arbeitspakete"
+  label_work_package_hierarchy: "Arbeitspakethierarchie"
 
   total_progress: "Gesamtfortschritt"
 
