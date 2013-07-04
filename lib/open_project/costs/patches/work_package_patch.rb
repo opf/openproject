@@ -1,6 +1,6 @@
 require_dependency 'issue'
 
-module OpenProject::Costs::Patches::IssuePatch
+module OpenProject::Costs::Patches::WorkPackagePatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
 
@@ -31,7 +31,7 @@ module OpenProject::Costs::Patches::IssuePatch
         @spent_hours ||= self.time_entries.visible(User.current).sum(:hours) || 0
       end
 
-      safe_attributes "cost_object_id"
+      #safe_attributes "cost_object_id"
     end
   end
 
@@ -83,5 +83,5 @@ module OpenProject::Costs::Patches::IssuePatch
   end
 end
 
-Issue::SAFE_ATTRIBUTES << "cost_object_id" if Issue.const_defined? "SAFE_ATTRIBUTES"
-Issue.send(:include, OpenProject::Costs::Patches::IssuePatch)
+WorkPackage::SAFE_ATTRIBUTES << "cost_object_id" if WorkPackage.const_defined? "SAFE_ATTRIBUTES"
+WorkPackage.send(:include, OpenProject::Costs::Patches::WorkPackagePatch)
