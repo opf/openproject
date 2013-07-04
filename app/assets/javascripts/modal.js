@@ -33,6 +33,13 @@ var ModalHelper = (function() {
         });
         // do not close when element is clicked
         modalDiv.click(function(e) {
+          jQuery(e.target).trigger('click.rails');
+
+          if (e.target.className.indexOf("watcher_link") > -1) {
+            e.preventDefault();
+          }
+
+
           e.stopPropagation();
         });
         ModalHelper.prototype.done = true;
