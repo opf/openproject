@@ -36,13 +36,13 @@ See doc/COPYRIGHT.rdoc for more details.
     </fieldset>
 
     <fieldset>
-      <legend><%= I18n.t(:session, :scope => [:settings])</legend>
+      <legend><%= I18n.t(:session, :scope => [:settings]) %></legend>
       <p><%= setting_select :autologin,
-                [[l(:label_disabled), 0]] +
+                 ([[l(:label_disabled), 0]] +
                   [1, 7, 30, 365].collect do |days|
                     [l('datetime.distance_in_words.x_days', :count => days),
-                     days.to_s]
-                  end %>
+                    days.to_s]
+                  end) %>
       </p>
       <p><%= setting_check_box :session_ttl_enabled %></p>
       <p id="settings_session_ttl_container" style="display:none;">
