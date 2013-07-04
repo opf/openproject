@@ -21,23 +21,23 @@ See doc/COPYRIGHT.rdoc for more details.
                                          :id => 'work_package-form',
                                          :class => 'tabular new-work_package-form' } do |f| %>
 
-    <%= error_messages_for 'issue' %>
+  <%= error_messages_for :object => controller.new_work_package %>
 
-    <%= f.hidden_field :type %>
+  <%= f.hidden_field :type %>
 
-    <div class="box">
-      <%= render :partial => 'form', :locals => { :f => f,
-                                                  :work_package => controller.new_work_package,
-                                                  :project => controller.project,
-                                                  :priorities => controller.priorities } %>
-      <%= send_notification_option %>
-    </div>
+  <div class="box">
+    <%= render :partial => 'form', :locals => { :f => f,
+                                                :work_package => controller.new_work_package,
+                                                :project => controller.project,
+                                                :priorities => controller.priorities } %>
+    <%= send_notification_option %>
+  </div>
 
-    <%= submit_tag l(:button_create) %>
-    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
-    <%= link_to_issue_preview(@project) %>
+  <%= submit_tag l(:button_create) %>
+  <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+  <%= link_to_issue_preview(controller.project) %>
 
-		<%= javascript_tag "Form.Element.focus('issue_subject');" %>
+  <%= javascript_tag "Form.Element.focus('#{f.object_name}_subject');" %>
 <% end %>
 
 <div id="preview" class="wiki"></div>

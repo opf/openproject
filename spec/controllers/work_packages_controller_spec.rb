@@ -241,18 +241,36 @@ describe WorkPackagesController do
     end
 
     describe 'w/ beeing a member
-              w/ having the necessary permissions' do
+              w/ having the necessary permissions
+              w/ having an successful save' do
       become_member_with_permissions [:add_work_packages]
 
       before do
         controller.should_receive(:new_work_package).and_return(stub_issue)
-        stub_issue.should_receive(:save)
+        stub_issue.should_receive(:save).and_return(true)
 
         post 'create', :project_id => project.id
       end
 
-      it 'renders the new builder template' do
+      it 'redirect to show' do
         response.should redirect_to(work_package_path(stub_issue))
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions
+              w/ having an unsuccessful save' do
+      become_member_with_permissions [:add_work_packages]
+
+      before do
+        controller.should_receive(:new_work_package).and_return(stub_issue)
+        stub_issue.should_receive(:save).and_return(false)
+
+        post 'create', :project_id => project.id
+      end
+
+      it 'renders the new template' do
+        response.should render_template('work_packages/new', :formats => ["html"])
       end
     end
 
@@ -325,10 +343,17 @@ describe WorkPackagesController do
 
     describe 'when the type is "Issue"' do
       before do
-        controller.params = { :type => 'Issue' }
+        controller.params = { :type => 'Issue',
+                              :work_package => {} }
 
         controller.stub!(:project).and_return(project)
-        project.should_receive(:add_issue).and_return(stub_issue)
+        controller.stub!(:current_user).and_return(stub_user)
+
+        project.should_receive(:add_issue) do |args|
+
+          expect(args[:author]).to eql stub_user
+
+        end.and_return(stub_issue)
       end
 
       it 'should return a new issue on the project' do

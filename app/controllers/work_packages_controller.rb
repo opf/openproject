@@ -49,9 +49,13 @@ class WorkPackagesController < ApplicationController
   def create
     wp = new_work_package
 
-    wp.save
-
-    redirect_to(work_package_path(wp))
+    if wp.save
+      redirect_to(work_package_path(wp))
+    else
+      respond_to do |format|
+        format.html { render :action => 'new' }
+      end
+    end
   end
 
   def work_package
