@@ -2,13 +2,12 @@
   <%= link_to l(:label_role_new), {:action => 'new'}, :class => 'icon icon-add' %>
 </div>
 
-<% html_title(l(:label_role_plural)) -%>
-<h2><%=l(:label_role_plural)%></h2>
+<h2><%= Role.model_name.human(:count => 2) %></h2>
 
 <table class="list">
   <thead>
     <tr>
-      <th><%=l(:label_role)%></th>
+      <th><%= Role.model_name.human %></th>
       <th><%=l(:label_global)%></th>
       <th><%=l(:button_sort)%></th>
       <th></th>
@@ -25,7 +24,7 @@
         </td>
         <td align="center" style="width:15%;">
           <% unless role.builtin? %>
-            <%= reorder_links('role', {:action => 'edit', :id => role}) %>
+            <%= reorder_links('role', {:action => 'update', :id => role}, :method => :put) %>
           <% end %>
         </td>
         <td class="buttons">
@@ -39,6 +38,8 @@
   </tbody>
 </table>
 
-<p class="pagination"><%= pagination_links_full @roles %></p>
+<%= pagination_links_full @roles %>
 
 <p><%= link_to l(:label_permissions_report), :action => 'report' %></p>
+
+<% html_title(Role.model_name.human(:count => 2)) -%>

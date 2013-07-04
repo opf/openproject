@@ -1,8 +1,8 @@
-<h2><%= link_to l(:label_role_plural), :controller => 'roles', :action => 'index' %> &#187; <%=h @role.name%></h2>
+<h2><%= link_to Role.model_name.human(:count => 2), roles_path %> &#187; <%=h @role.name %></h2>
 
 <%= labelled_tabular_form_for @role, :url => { :action => 'update' }, :html => {:id => 'role_form'}, :as => :role do |f| %>
 <%= hidden_field_tag :id, @role.id %>
 <%= render :partial => 'form', :locals => { :f => f , :role => @role, :member_permissions => (@role.is_a?(GlobalRole) ? nil : @permissions),
 :global_permissions => (@role.is_a?(GlobalRole) ? @permissions : nil)} %>
-<%= submit_tag l(:button_update) %>
+<%= submit_tag l(:button_save) %>
 <% end %>
