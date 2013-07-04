@@ -80,6 +80,7 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
           }
         } else if (err !== '500') {
           ele.find('.errorExplanation').remove();
+
           var error = jQuery('<div>').attr('class', 'errorExplanation').attr('id', 'errorExplanation');
           var json = jQuery.parseJSON(res);
           var i, errorSpan, errorFormEle;
@@ -109,6 +110,16 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
         e.preventDefault();
       }
     };
+
+    // close when cancel is clicked.
+    ele.find('[name=cancelButton]').click(function(e) {
+      e.preventDefault();
+      if (ele.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
+        ele.data('changed', false);
+        ele.dialog('close');
+      }
+    });
+
     //if we want to create a new element, the project must be selectable.
     if (type === 'new') {
       ele.find('tbody').first().prepend(

@@ -144,15 +144,6 @@ var ModalHelper = (function() {
               }
             });
 
-            // close when cancel is clicked.
-            ta.find('[name=cancelButton]').click(function(e) {
-              e.preventDefault();
-              if (ta.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
-                ta.data('changed', false);
-                ta.dialog('close');
-              }
-            });
-
             // hide dialog header
             //TODO: we need a default close button somewhere
             ta.parent().prepend('<div id="ui-dialog-closer" />');
