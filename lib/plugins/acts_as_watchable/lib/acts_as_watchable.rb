@@ -48,8 +48,6 @@ module Redmine
           end
           send :include, Redmine::Acts::Watchable::InstanceMethods
           alias_method_chain :watcher_user_ids=, :uniq_ids
-
-          OpenProject::Acts::Watchable::Routes.add_watched(options[:route_prefix] || self.to_s.underscore.pluralize)
         end
       end
 

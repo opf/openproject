@@ -22,18 +22,20 @@ module OpenProject
           /\d+/.match(params[:object_id])
         end
 
-        def self.add_watched(watched)
-          self.models ||= []
-
-          self.models << watched.to_s unless self.models.include?(watched.to_s)
-
-          @watchregexp = Regexp.new(self.models.join("|"))
-        end
-
         private
 
         def self.watched?(object)
-          @watchregexp.present? && @watchregexp.match(object).present?
+          self.watchable_object? object
+        end
+
+        def self.watchable_object?(object)
+          if Object.const_defined? object.to_s.classify
+            klass = object.to_s.classify.constantize
+
+            klass.included_modules.include? Redmine::Acts::Watchable
+          else
+            false
+          end
         end
       end
     end
