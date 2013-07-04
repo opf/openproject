@@ -14,7 +14,7 @@ require 'spec_helper'
 describe User do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.create(:project_with_trackers) }
-  let(:role) { FactoryGirl.create(:role, :permissions => [:view_issues]) }
+  let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_packages]) }
   let(:member) { FactoryGirl.build(:member, :project => project,
                                         :roles => [role],
                                         :principal => user) }
@@ -130,7 +130,7 @@ describe User do
       @u = User.new
       @u.password.should be_nil
       @u.password_confirmation.should be_nil
-      @u.random_password
+      @u.random_password!
     end
 
     it { @u.password.should_not be_blank }

@@ -33,11 +33,11 @@ class ApiTest::HttpBasicLoginTest < ActionDispatch::IntegrationTest
     end
 
     context "in :xml format" do
-      should_allow_http_basic_auth_with_username_and_password(:get, "/projects/onlinestore/news.xml")
+      should_allow_http_basic_auth_with_username_and_password(:get, "/api/v1/projects/onlinestore/news.xml")
     end
 
     context "in :json format" do
-      should_allow_http_basic_auth_with_username_and_password(:get, "/projects/onlinestore/news.json")
+      should_allow_http_basic_auth_with_username_and_password(:get, "/api/v1/projects/onlinestore/news.json")
     end
   end
 end

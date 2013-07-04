@@ -20,8 +20,8 @@ FactoryGirl.define do
     lastname 'Bobbit'
     sequence(:login) { |n| "bob#{n}" }
     sequence(:mail) {|n| "bob#{n}.bobbit@bob.com" }
-    password 'admin'
-    password_confirmation 'admin'
+    password 'adminADMIN!'
+    password_confirmation 'adminADMIN!'
 
     mail_notification(Redmine::VERSION::MAJOR > 0 ? 'all' : true)
 
@@ -34,7 +34,7 @@ FactoryGirl.define do
       (projects = evaluator.member_in_projects || [])
       projects << evaluator.member_in_project if evaluator.member_in_project
       if !projects.empty?
-        role = evaluator.member_through_role || FactoryGirl.build(:role, :permissions => [:view_issues, :edit_issues])
+        role = evaluator.member_through_role || FactoryGirl.build(:role, :permissions => [:view_work_packages, :edit_work_packages])
         projects.each do |project|
           project.add_member! user, role if project
         end
@@ -45,8 +45,6 @@ FactoryGirl.define do
       firstname 'Openproject'
       lastname 'Admin'
       login 'admin'
-      password 'admin'
-      password_confirmation 'admin'
       mail 'admin@example.com'
       admin true
       first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'

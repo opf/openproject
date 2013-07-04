@@ -18,10 +18,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><%= f.text_field :name, :required => true %></p>
 <p><%= f.check_box :is_in_roadmap %></p>
 
-<% if IssueCustomField.all.any? %>
+<% if WorkPackageCustomField.all.any? %>
 <p>
 	<label><%= l(:label_custom_field_plural) %></label>
-	<% IssueCustomField.all.each do |field| %>
+	<% WorkPackageCustomField.all.each do |field| %>
 		<label class="block">
 			<%= check_box_tag 'tracker[custom_field_ids][]',field.id, @tracker.custom_fields.include?(field) %>
 			<%= field.name %>

@@ -11,6 +11,8 @@
 #++
 
 class IssueStatusesController < ApplicationController
+  include PaginationHelper
+
   layout 'admin'
 
   before_filter :require_admin
@@ -19,7 +21,10 @@ class IssueStatusesController < ApplicationController
          :redirect_to => { :action => :index }
 
   def index
-    @issue_status_pages, @issue_statuses = paginate :issue_statuses, :per_page => 25, :order => "position"
+    @issue_statuses = IssueStatus.order('position')
+                                 .page(params[:page])
+                                 .per_page(per_page_param)
+
     render :action => "index", :layout => false if request.xhr?
   end
 

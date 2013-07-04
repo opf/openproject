@@ -77,8 +77,8 @@ en:
         issues: "Issues"
         parent: "Subproject of"
         versions: "Versions"
-        timelines_project_type: "Project type"
-        timelines_responsible: "Responsible"
+        project_type: "Project type"
+        responsible: "Responsible"
       query:
         column_names: "Columns"
         group_by: "Group results by"
@@ -103,6 +103,7 @@ en:
         mail_notification: "Email notifications"
         new_password: "New password"
         password_confirmation: "Confirmation"
+        force_password_change: "Enforce password change on next login"
       user_preference:
         comments_sorting: "Display comments"
         hide_mail: "Hide my email address"
@@ -119,10 +120,10 @@ en:
       wiki_page:
         parent_title: "Parent page"
         redirect_existing_links: "Redirect existing links"
-      "timelines/color":
+      planning_element_type_color:
         name: Name
         hexcode: Hex code
-      "timelines/planning_element":
+      planning_element:
         alternate_dates:
           end_date: End date of alternate date
         description: Description
@@ -133,36 +134,33 @@ en:
         planning_element_type: "Type"
         responsible: "Responsible"
         start_date: Start date
-        updated_at: Updated
         deleted_at: Deleted at
         planning_element_status: "Status"
         # parent: Subelement of
-      "timelines/planning_element_type":
+      planning_element_type:
         color: Color
         id: ID
         in_aggregation: In aggregation
         is_default: Default value
         is_milestone: Milestone
         name: Name
-      "timelines/project_association":
+      project_association:
         description: Cause
-      "timelines/project_type":
+      project_type:
         allows_association: Allows association
         name: Name
         planning_element_types: Standard planning element types
         reported_project_statuses: Reported project statuses
         position: Position
-      "timelines/scenario":
+      scenario:
         created_at: Created
         name: Name
-        updated_at: Updated
-      "timelines/timeline":
+      timeline:
         name: Name
-      "timelines/reporting":
+      reporting:
         reported_project_status_comment: Status comment
         reporting_to_project: Reports to project
         reported_project_status: Project status
-        updated_at: Updated
         created_at: Created
 
     errors:
@@ -192,11 +190,11 @@ en:
         too_short: "is too short (minimum is %{count} characters)"
         wrong_length: "is the wrong length (should be %{count} characters)"
       models:
-        "timelines/alternate_date":
+        alternate_date:
           attributes:
             end_date:
               not_start_date: "is not on start date, although this is required for milestones"
-        "timelines/planning_element":
+        planning_element:
           attributes:
             end_date:
               not_start_date: "is not on start date, although this is required for milestones"
@@ -204,8 +202,18 @@ en:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
               cannot_be_in_recycle_bin : "cannot be in recycle bin."
-        "timelines/project_association":
+        project_association:
+          identical_projects: "can not be created from one project to itself"
           project_association_not_allowed: "does not allow associations"
+        user:
+          attributes:
+            password:
+              weak: "must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
+              lowercase: "lowercase (e.g. 'a')"
+              uppercase: "uppercase (e.g. 'A')"
+              numeric: "numeric (e.g. '1')"
+              special: "special (e.g. '%')"
+              reused: "must not be one of the last %{count} used"
       template:
         body: "Please check the following fields:"
         header:
@@ -226,12 +234,14 @@ en:
       news: "News"
       project: "Project"
       query: "Custom query"
-      role: "Role"
+      role:
+        one : "Role"
+        other: "Roles"
       tracker: "Tracker"
-      "timelines/planning_element": Planning element
-      "timelines/planning_element_type": Planning element type
-      "timelines/project_type": Project type
-      "timelines/scenario": Scenario
+      planning_element: Planning element
+      planning_element_type: Planning element type
+      project_type: Project type
+      scenario: Scenario
       user: "User"
       version: "Version"
       wiki: "Wiki"
@@ -248,6 +258,7 @@ en:
     category: "Category"
     comments: "Comment"
     content: "Content"
+    created_at: "Created on"
     created_on: "Created on"
     custom_values: "Custom fields"
     description: "Description"
@@ -271,6 +282,7 @@ en:
     summary: "Summary"
     title: "Title"
     type: "Type"
+    updated_at: "Updated on"
     updated_on: "Updated on"
     user: "User"
     version: "Version"
@@ -489,6 +501,8 @@ en:
   gui_validation_error_plural: "%{count} errors"
 
   js:
+    logoff: You have been logged off
+    redirect_login: Do you want to be redirected to the login page?  
     ajax:
       hide: "Hide"
       loading: "Loading ..."
@@ -598,6 +612,7 @@ en:
   label_copy_source: "Source"
   label_copy_target: "Target"
   label_copy_workflow_from: "Copy workflow from"
+  label_core_version: "Core version"
   label_current_status: "Current status"
   label_current_version: "Current version"
   label_custom_field_new: "New custom field"
@@ -688,6 +703,7 @@ en:
   label_issue_view_all_watched: "View all watched issues"
   label_issue_watchers: "Watchers"
   label_issues_by: "Issues by %{value}"
+  label_journal_diff: "Description Comparison"
   label_jump_to_a_project: "Jump to a project..."
   label_language_based: "Based on user's language"
   label_last_changes: "last %{count} changes"
@@ -760,6 +776,10 @@ en:
   label_overall_spent_time: "Overall spent time"
   label_overview: "Overview"
   label_password_lost: "Lost password"
+  label_password_rule_lowercase: "Lowercase"
+  label_password_rule_numeric: "Numeric Characters"
+  label_password_rule_special: "Special Characters"
+  label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
   label_per_page: "Per page"
   label_permissions: "Permissions"
@@ -773,7 +793,7 @@ en:
   label_preview: "Preview"
   label_previous: "Previous"
   label_previous_week: "Previous week"
-  label_principal_search: "Search for user or group:"
+  label_principal_search: "Search for users or groups:"
   label_profile: "Profile"
   label_project_all: "All Projects"
   label_project_copy_notifications: "Send email notifications during the project copy"
@@ -815,6 +835,7 @@ en:
   label_role_and_permissions: "Roles and permissions"
   label_role_new: "New role"
   label_role_plural: "Roles"
+  label_role_search: "Search for roles:"
   label_scenario_end_date: "Scenario %{title}: End date"
   label_scenario_start_date: "Scenario %{title}: Start date"
   label_scenario_deleted: '(deleted scenario)'
@@ -842,6 +863,7 @@ en:
   label_subtask_plural: "Subtasks"
   label_sum_for: "Sum for %{value}"
   label_summary: "Summary"
+  label_system: "System"
   label_table_of_contents: "Table of Contents"
   label_tag: "Tag"
   label_text: "Long text"
@@ -851,7 +873,7 @@ en:
   label_this_year: "this year"
   label_time_entry_plural: "Spent time"
   label_time_tracking: "Time tracking"
-  label_timelines_planning_element_plural: "Planning elements"
+  label_planning_element_plural: "Planning elements"
   label_today: "today"
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"
@@ -900,6 +922,7 @@ en:
   label_wiki_show_menu_item: "Show as menu item in project navigation"
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
+  label_workflow: "Workflow"
   label_workflow_summary: "Summary"
   label_x_closed_issues_abbr:
     one: "1 closed"
@@ -945,6 +968,7 @@ en:
   notice_account_inactive: "Your account has not yet been activated. To activate your account, click on the link that was emailed to you."
   notice_account_invalid_creditentials: "Invalid user or password"
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
+  notice_account_new_password_forced: "A new password is required."
   notice_account_password_updated: "Password was successfully updated."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_account_register_done: "Account was successfully created. To activate your account, click on the link that was emailed to you."
@@ -961,6 +985,7 @@ en:
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   notice_feeds_access_key_reseted: "Your RSS access key was reset."
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
+  notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
   notice_issue_done_ratios_updated: "Issue done ratios updated."
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
@@ -1057,6 +1082,7 @@ en:
   permission_rename_wiki_pages: "Rename wiki pages"
   permission_save_queries: "Save queries"
   permission_select_project_modules: "Select project modules"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "View changesets"
   permission_view_documents: "View documents"
   permission_view_files: "View files"
@@ -1086,6 +1112,7 @@ en:
   query_fields:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
+    subproject_id: "Subproject"
 
   search_input_placeholder: "search ..."
 
@@ -1135,7 +1162,9 @@ en:
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_new_project_user_role_id: "Role given to a non-admin user who creates a project"
   setting_openid: "Allow OpenID login and registration"
+  setting_password_active_rules: "Active password rules"
   setting_password_min_length: "Minimum password length"
+  setting_password_min_adhered_rules: "Minimum number of rules to adhere to"
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
@@ -1144,6 +1173,9 @@ en:
   setting_rest_api_enabled: "Enable REST web service"
   setting_self_registration: "Self-registration"
   setting_sequential_project_identifiers: "Generate sequential project identifiers"
+  setting_session_ttl: "Session expiry time after inactivity"
+  setting_session_ttl_hint: "Value below 5 works like disabled"
+  setting_session_ttl_enabled: "Session expires"
   setting_start_of_week: "Start calendars on"
   setting_sys_api_enabled: "Enable WS for repository management"
   setting_text_formatting: "Text formatting"
@@ -1438,7 +1470,7 @@ en:
     start: "Start"
     timeline: "Timeline report"
     timelines: "Timeline reports"
-    timelines_settings: "Timelines"
+    settings: "Timelines"
     used_in_x_planning_elements:
       one:   "Used in %{count} planning element"
       other: "Used in %{count} planning elements"

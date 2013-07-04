@@ -16,12 +16,16 @@ class MembersController < ApplicationController
   before_filter :find_project, :only => [:autocomplete_for_member]
   before_filter :authorize
 
+  TAB_SCRIPTS = <<JS
+    hideOnLoad();
+    init_members_cb();
+JS
+
   def create
     if params[:member]
       members = new_members_from_params
       @project.members << members
     end
-
     respond_to do |format|
       if members.present? && members.all? {|m| m.valid? }
         flash.now.notice = l(:notice_successful_create)
@@ -32,7 +36,8 @@ class MembersController < ApplicationController
           render(:update) {|page|
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
             page.insert_html :top, "tab-content-members", render_flash_messages
-            page << 'hideOnLoad()'
+
+            page << TAB_SCRIPTS
           }
         }
       else
@@ -63,7 +68,7 @@ class MembersController < ApplicationController
             else
               page.replace_html "tab-content-members", :partial => 'projects/settings/members'
             end
-            page << 'hideOnLoad()'
+            page << TAB_SCRIPTS
             page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by_id(@member.id).nil?
           }
         }
@@ -79,17 +84,41 @@ class MembersController < ApplicationController
       format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project }
       format.js { render(:update) {|page|
           page.replace_html "tab-content-members", :partial => 'projects/settings/members'
-          page << 'hideOnLoad()'
+          page << TAB_SCRIPTS
         }
       }
     end
   end
 
   def autocomplete_for_member
-    roles = Role.find_all_givable
-    available_principals = @project.possible_members(params[:q], 100)
+    size = params[:page_limit].to_i || 10
+    page = params[:page]
 
-    render :partial => 'members/autocomplete_for_member', :locals => { :available_principals => available_principals, :roles => roles }
+    if page
+      page = page.to_i
+      @principals = Principal.paginate_scope!(Principal.search_scope_without_project(@project, params[:q]),
+                        { :page => page, :page_limit => size })
+      # we always get all the items on a page, so just check if we just got the last
+      @more = @principals.total_pages > page
+      @total = @principals.total_entries
+    else
+      @principals = Principal.possible_members(params[:q], 100) - @project.principals
+    end
+
+    respond_to do |format|
+      format.json 
+      format.html {
+        if request.xhr?
+          partial = "members/autocomplete_for_member"
+        else
+          partial = "members/member_form"
+        end
+        render :partial => partial,
+               :locals => { :project => @project,
+                            :principals => @principals,
+                            :roles => Role.find_all_givable }
+      }
+    end
   end
 
   private
@@ -98,14 +127,8 @@ class MembersController < ApplicationController
     members = []
 
     attrs = params[:member].dup
-    user_ids = if attrs[:user_ids].present?
-                 attrs.delete(:user_ids)
-               elsif attrs[:user_id].present?
-                 [attrs.delete(:user_id)]
-               else
-                 []
-               end
-    roles = Role.find_all_by_id(attrs.delete(:role_ids))
+    user_ids = possibly_seperated_ids_for_entity(attrs, :user)
+    roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(attrs, :role))
 
     user_ids.each do |user_id|
       member = Member.new attrs
@@ -117,6 +140,33 @@ class MembersController < ApplicationController
 
     members
   end
+
+  def each_comma_seperated(array, &block)
+    array.each do |elem|
+      if elem.to_s.match /\d(,\d)*/
+        array += block.call(array.delete(elem))
+      end
+    end
+    return array
+  end
+
+  def transform_array_of_comma_seperated_ids(array)
+    return array unless array.present?
+    each_comma_seperated(array) do |elem|
+      elem.to_s.split(",").map(&:to_i)
+    end
+  end
+
+  def possibly_seperated_ids_for_entity(array, entity = :user)
+    if !array[:"#{entity}_ids"].nil?
+      transform_array_of_comma_seperated_ids(array.delete(:"#{entity}_ids"))
+    elsif (!array[:"#{entity}_id"].nil?) && ((id = array.delete(:"#{entity}_id")).present?)
+      [id]
+    else
+      []
+    end
+  end
+
 
   def update_member_from_params
     # this way, mass assignment is considered and all updates happen in one transaction (autosave)

@@ -18,9 +18,9 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
     Setting.rest_api_enabled = '1'
   end
 
-  context "GET /time_entries.xml" do
+  context "GET /api/v1/time_entries.xml" do
     should "return time entries" do
-      get '/time_entries.xml', {}, credentials('jsmith')
+      get '/api/v1/time_entries.xml', {}, credentials('jsmith')
       assert_response :success
       assert_equal 'application/xml', @response.content_type
       assert_tag :tag => 'time_entries',
@@ -28,9 +28,9 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
     end
   end
 
-  context "GET /time_entries/2.xml" do
+  context "GET /api/v1/time_entries/2.xml" do
     should "return requested time entry" do
-      get '/time_entries/2.xml', {}, credentials('jsmith')
+      get '/api/v1/time_entries/2.xml', {}, credentials('jsmith')
       assert_response :success
       assert_equal 'application/xml', @response.content_type
       assert_tag :tag => 'time_entry',
@@ -38,18 +38,18 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
     end
   end
 
-  context "POST /time_entries.xml" do
-    context "with issue_id" do
+  context "POST /api/v1/time_entries.xml" do
+    context "with work_package_id" do
       should "return create time entry" do
         assert_difference 'TimeEntry.count' do
-          post '/time_entries.xml', {:time_entry => {:issue_id => '1', :spent_on => '2010-12-02', :hours => '3.5', :activity_id => '11'}}, credentials('jsmith')
+          post '/api/v1/time_entries.xml', {:time_entry => {:work_package_id => '1', :spent_on => '2010-12-02', :hours => '3.5', :activity_id => '11'}}, credentials('jsmith')
         end
         assert_response :created
         assert_equal 'application/xml', @response.content_type
 
         entry = TimeEntry.first(:order => 'id DESC')
         assert_equal 'jsmith', entry.user.login
-        assert_equal Issue.find(1), entry.issue
+        assert_equal WorkPackage.find(1), entry.work_package
         assert_equal Project.find(1), entry.project
         assert_equal Date.parse('2010-12-02'), entry.spent_on
         assert_equal 3.5, entry.hours
@@ -60,14 +60,14 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
     context "with project_id" do
       should "return create time entry" do
         assert_difference 'TimeEntry.count' do
-          post '/time_entries.xml', {:time_entry => {:project_id => '1', :spent_on => '2010-12-02', :hours => '3.5', :activity_id => '11'}}, credentials('jsmith')
+          post '/api/v1/time_entries.xml', {:time_entry => {:project_id => '1', :spent_on => '2010-12-02', :hours => '3.5', :activity_id => '11'}}, credentials('jsmith')
         end
         assert_response :created
         assert_equal 'application/xml', @response.content_type
 
         entry = TimeEntry.first(:order => 'id DESC')
         assert_equal 'jsmith', entry.user.login
-        assert_nil entry.issue
+        assert_nil entry.work_package
         assert_equal Project.find(1), entry.project
         assert_equal Date.parse('2010-12-02'), entry.spent_on
         assert_equal 3.5, entry.hours
@@ -78,7 +78,7 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
     context "with invalid parameters" do
       should "return errors" do
         assert_no_difference 'TimeEntry.count' do
-          post '/time_entries.xml', {:time_entry => {:project_id => '1', :spent_on => '2010-12-02', :activity_id => '11'}}, credentials('jsmith')
+          post '/api/v1/time_entries.xml', {:time_entry => {:project_id => '1', :spent_on => '2010-12-02', :activity_id => '11'}}, credentials('jsmith')
         end
         assert_response :unprocessable_entity
         assert_equal 'application/xml', @response.content_type
@@ -88,11 +88,11 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
     end
   end
 
-  context "PUT /time_entries/2.xml" do
+  context "PUT /api/v1/time_entries/2.xml" do
     context "with valid parameters" do
       should "update time entry" do
         assert_no_difference 'TimeEntry.count' do
-          put '/time_entries/2.xml', {:time_entry => {:comments => 'API Update'}}, credentials('jsmith')
+          put '/api/v1/time_entries/2.xml', {:time_entry => {:comments => 'API Update'}}, credentials('jsmith')
         end
         assert_response :ok
         assert_equal 'API Update', TimeEntry.find(2).comments
@@ -102,7 +102,7 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
     context "with invalid parameters" do
       should "return errors" do
         assert_no_difference 'TimeEntry.count' do
-          put '/time_entries/2.xml', {:time_entry => {:hours => '', :comments => 'API Update'}}, credentials('jsmith')
+          put '/api/v1/time_entries/2.xml', {:time_entry => {:hours => '', :comments => 'API Update'}}, credentials('jsmith')
         end
         assert_response :unprocessable_entity
         assert_equal 'application/xml', @response.content_type
@@ -112,10 +112,10 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
     end
   end
 
-  context "DELETE /time_entries/2.xml" do
+  context "DELETE /api/v1/time_entries/2.xml" do
     should "destroy time entry" do
       assert_difference 'TimeEntry.count', -1 do
-        delete '/time_entries/2.xml', {}, credentials('jsmith')
+        delete '/api/v1/time_entries/2.xml', {}, credentials('jsmith')
       end
       assert_response :ok
       assert_nil TimeEntry.find_by_id(2)

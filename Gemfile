@@ -46,6 +46,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
   gem 'jquery-ui-rails'
+  gem 'select2-rails', '~> 3.3.2'
 end
 
 gem "prototype-rails"
@@ -69,9 +70,12 @@ group :test do
   gem 'rack_session_access'
   gem 'database_cleaner'
   gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
+  gem 'rspec', '~> 2.0'
+  # also add to development group, so "spec" rake task gets loaded
   gem "rspec-rails", "~> 2.0", :group => :development
   gem 'rspec-example_disabler', :git => 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'selenium-webdriver'
 
   gem 'rb-readline' # ruby on CI needs this
@@ -89,20 +93,17 @@ group :development do
   gem 'rails-footnotes', '>= 3.7.5.rc4'
   gem 'bullet'
   gem 'letter_opener', '~> 1.0.0'
+  gem 'pry-rails'
+  gem 'pry-stack_explorer'
+  gem 'pry-rescue'
+  gem 'pry-debugger'
+  gem 'pry-doc'
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'rb-fsevent', :group => :test
   gem 'rack-mini-profiler'
   gem 'thin'
-end
-
-group :development, :test do
-  gem 'pry-rails'
-  gem 'pry-stack_explorer'
-  gem 'pry-rescue'
-  gem 'pry-debugger'
-  gem 'pry-doc'
 end
 
 group :tools do

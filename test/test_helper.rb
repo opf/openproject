@@ -227,7 +227,7 @@ class ActiveSupport::TestCase
       end
 
       should "use the new value's name" do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkPackageJournal.create! do |j|
           j.changed_data = {prop_key => [@old_value.id, @new_value.id]}
           j.journaled = Issue.last
         end
@@ -235,7 +235,7 @@ class ActiveSupport::TestCase
       end
 
       should "use the old value's name" do
-        @journal = IssueJournal.create! do |j|
+        @journal = WorkPackageJournal.create! do |j|
           j.changed_data = {prop_key => [@old_value.id, @new_value.id]}
           j.journaled = Issue.last
         end
@@ -260,7 +260,10 @@ class ActiveSupport::TestCase
   end
 
   def credentials(login, password = nil)
-    { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(login, password || login) }
+    if password.nil?
+      password = (login == 'admin' ? 'adminADMIN!' : login)
+    end
+    { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(login, password) }
   end
 
 
@@ -297,9 +300,9 @@ class ActiveSupport::TestCase
     context "should allow http basic auth using a username and password for #{http_method} #{url}" do
       context "with a valid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password', :admin => true) # Admin so they can access the project
+          @user = User.generate_with_protected!(:password => 'adminADMIN!', :password_confirmation => 'adminADMIN!', :admin => true) # Admin so they can access the project
 
-          send(http_method, url, parameters, credentials(@user.login, 'my_password'))
+          send(http_method, url, parameters, credentials(@user.login, 'adminADMIN!'))
         end
 
         should respond_with success_code
@@ -330,17 +333,6 @@ class ActiveSupport::TestCase
 
         should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
-        should "include_www_authenticate_header" do
-          # the 3.0.9 implementation of head leads to Www as the method capitalizes each
-          # word split by a hyphen.
-          # this is fixed in 3.1.0 http://apidock.com/rails/v3.1.0/ActionController/Head/head
-          # remove this switch once on 3.1.0
-          if ::Rails::VERSION::MAJOR == 3 && ::Rails::VERSION::MINOR == 0
-            assert @controller.response.headers.has_key?('Www-Authenticate')
-          else
-            assert @controller.response.headers.has_key?('WWW-Authenticate')
-          end
-        end
       end
     end
 

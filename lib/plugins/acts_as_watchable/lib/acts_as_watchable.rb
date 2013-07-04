@@ -48,8 +48,6 @@ module Redmine
           end
           send :include, Redmine::Acts::Watchable::InstanceMethods
           alias_method_chain :watcher_user_ids=, :uniq_ids
-
-          OpenProject::Acts::Watchable::Routes.add_watched(options[:route_prefix] || self.to_s.underscore.pluralize)
         end
       end
 
@@ -82,7 +80,9 @@ module Redmine
         # Removes user from the watchers list
         def remove_watcher(user)
           return nil unless user && user.is_a?(User)
-          Watcher.delete_all "watchable_type = '#{self.class}' AND watchable_id = #{self.id} AND user_id = #{user.id}"
+          watchers_to_delete = self.watchers.find_all{|watcher| watcher.user == user}
+          watchers_to_delete.each{|watcher| watcher.delete}
+          watchers_to_delete.count
         end
 
         # Adds/removes watcher

@@ -90,7 +90,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
   end
 
   def test_report_at_issue_level
-    get :show, :project_id => 1, :issue_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criterias => ["member", "activity"]
+    get :show, :project_id => 1, :work_package_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criterias => ["member", "activity"]
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:total_hours)

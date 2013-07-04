@@ -26,6 +26,21 @@ Before do |scenario|
   end
 end
 
+Given /^I am logged in$/ do
+  @user = FactoryGirl.create :user
+  page.set_rack_session(:user_id => @user.id)
+end
+
+When(/^I log out in the background$/) do
+  page.execute_script("jQuery.ajax('/logout', {
+    success: function () {
+      jQuery(document.body).addClass('logout-ajax')
+    }
+  })")
+
+  page.should have_selector("body.logout-ajax")
+end
+
 Given /^(?:|I )am not logged in$/ do
   User.current = AnonymousUser.first
 end
@@ -33,7 +48,7 @@ end
 Given /^(?:|I )am [aA]dmin$/ do
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
-  login('admin', 'admin')
+  login('admin', 'adminADMIN!')
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
@@ -45,7 +60,12 @@ end
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
-  login(username, 'admin')
+  login(username, 'adminADMIN!')
+end
+
+Given /^(?:|I )am (not )?impaired$/ do |bool|
+  (user = User.current).impaired = !bool
+  user.save
 end
 
 When(/^I log me in as "(.*?)" with password "(.*?)"$/) do |username, password|
@@ -74,32 +94,6 @@ Given /^the [Pp]roject "([^\"]*)" has 1 [wW]iki(?: )?[pP]age with the following:
   content = FactoryGirl.create(:wiki_content, :page => page)
 
   send_table_to_object(page, table)
-end
-
-Given /^there is 1 [Uu]ser with(?: the following)?:$/ do |table|
-  login = table.rows_hash[:Login].to_s + table.rows_hash[:login].to_s
-  user = User.find_by_login(login) unless login.blank?
-
-  if user
-    table = table.reject_key(/(L|l)ogin/)
-  else
-    user = FactoryGirl.create(:user)
-    user.password = user.password_confirmation = nil
-  end
-
-  modify_user(user, table)
-end
-
-Given /^the [Uu]ser "([^\"]*)" has:$/ do |user, table|
-  u = User.find_by_login(user)
-  raise "No such user: #{user}" unless u
-  modify_user(u, table)
-end
-
-Given /^there are the following users:$/ do |table|
-  table.raw.flatten.each do |login|
-    FactoryGirl.create(:user, :login => login)
-  end
 end
 
 Given /^the plugin (.+) is loaded$/ do |plugin_name|
@@ -239,7 +233,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
     t = TimeEntry.generate
     i = Issue.generate_for_project!(p)
     t.project = p
-    t.issue = i
+    t.work_package = i
     t.activity.project = p
     t.activity.save!
     send_table_to_object(t, table,
@@ -351,7 +345,7 @@ Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the
     t = TimeEntry.generate
     t.project = i.project
     t.spent_on = DateTime.now
-    t.issue = i
+    t.work_package = i
     send_table_to_object(t, table,
       {:user => Proc.new do |o,v|
         o.user = User.find_by_login(v)
@@ -378,6 +372,7 @@ end
 
 Given /^I start debugging$/ do
   save_and_open_page
+  require 'pry'
   binding.pry
   true
 end
@@ -393,9 +388,9 @@ Given /^I (?:stop|pause) (?:step )?execution$/ do
   end
 end
 
-When /^(?:|I )login as (.+)? with password (.+)?$/ do |username, password|
+When /^(?:|I )login as (.+)(?: with password (.+))?$/ do |username, password|
   username = username.gsub("\"", "")
-  password = password.gsub("\"", "")
+  password = password.nil? ? "adminADMIN!" : password.gsub("\"", "")
   login(username, password)
 end
 
@@ -404,12 +399,6 @@ Then /^I should be logged in as "([^\"]*)"?$/ do |username|
   page.should have_xpath("//div[contains(., 'Logged in as #{username}')] | //a[contains(.,'#{user.name}')]")
 
   User.current = user
-end
-
-When /^(?:|I )login as (.+)?$/ do |username|
-  steps %Q{
-    When I login as #{username} with password admin
-  }
 end
 
 When /^I satisfy the "(.+)" plugin to (.+)$/ do |plugin_name, action|
@@ -441,8 +430,10 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following trackers:$/ do |project
     tracker.position = t['position'] ? t['position'] : i
     tracker.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
     tracker.save!
-    p.trackers << tracker
-    p.save!
+    if !p.trackers.include?(tracker)
+      p.trackers << tracker
+      p.save!
+    end
   end
 end
 
@@ -494,12 +485,12 @@ end
 
 # Encapsule the logic to set a custom field on an issue
 def add_custom_value_to_issue(object, key, value)
-  if IssueCustomField.all.collect(&:name).include? key.to_s
+  if WorkPackageCustomField.all.collect(&:name).include? key.to_s
     cv = CustomValue.find(:first, :conditions => ["customized_id = '#{object.id}'"])
     cv ||= CustomValue.new
-    cv.customized_type = "Issue"
+    cv.customized_type = "WorkPackage"
     cv.customized_id = object.id
-    cv.custom_field_id = IssueCustomField.first(:joins => :translations, :conditions => ["custom_field_translations.name = ?", key]).id
+    cv.custom_field_id = WorkPackageCustomField.first(:joins => :translations, :conditions => ["custom_field_translations.name = ?", key]).id
     cv.value = value
     cv.save!
   end

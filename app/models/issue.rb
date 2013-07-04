@@ -13,57 +13,16 @@
 # While loading the Issue class below, we lazy load the Project class. Which itself need Issue.
 # So we create an 'emtpy' Issue class first, to make Project happy.
 
-class Issue < ActiveRecord::Base
+class Issue < WorkPackage
   include Redmine::SafeAttributes
 
-  belongs_to :project
-  belongs_to :tracker
-  belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
-  belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
-  belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
-  belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
-
-  has_many :time_entries, :dependent => :delete_all
   has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
 
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
 
-  acts_as_nested_set :scope => 'root_id', :dependent => :destroy
-  acts_as_attachable :after_remove => :attachment_removed
-  acts_as_customizable
-  acts_as_watchable
-
-  acts_as_journalized :event_title => Proc.new {|o| "#{o.tracker.name} ##{o.journaled_id} (#{o.status}): #{o.subject}"},
-                      :event_type => Proc.new {|o|
-                                                t = 'issue'
-                                                if o.changed_data.empty?
-                                                  t << '-note' unless o.initial?
-                                                else
-                                                  t << (IssueStatus.find_by_id(o.new_value_for(:status_id)).try(:is_closed?) ? '-closed' : '-edit')
-                                                end
-                                                t },
-                      :except => ["root_id"]
-
-  register_on_journal_formatter(:id, 'parent_id')
-  register_on_journal_formatter(:named_association, 'project_id', 'status_id', 'tracker_id', 'assigned_to_id',
-      'priority_id', 'category_id', 'fixed_version_id')
-  register_on_journal_formatter(:fraction, 'estimated_hours')
-  register_on_journal_formatter(:decimal, 'done_ratio')
-  register_on_journal_formatter(:datetime, 'due_date', 'start_date')
-  register_on_journal_formatter(:plaintext, 'subject')
-  register_on_journal_formatter(:diff, 'description')
-  register_on_journal_formatter(:attachment, /attachments_?\d+/)
-  register_on_journal_formatter(:custom_field, /custom_values\d+/)
-
-  acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
-                     :include => [:project, :journals],
-                     # sort by id so that limited eager loading doesn't break with postgresql
-                     :order_column => "#{table_name}.id"
-
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
+  ATTRIBS_WITH_VALUES_FROM_CHILDREN = %w(priority_id start_date due_date estimated_hours done_ratio)
 
   attr_protected :project_id, :author_id, :lft, :rgt
 
@@ -81,13 +40,9 @@ class Issue < ActiveRecord::Base
   validate :validate_enabled_tracker
   validate :validate_correct_parent
 
-  scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => Issue.visible_condition(args.first || User.current) } }
-
   scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
-  scope :recently_updated, :order => "#{Issue.table_name}.updated_on DESC"
-  scope :with_limit, lambda { |limit| { :limit => limit} }
+  scope :with_limit, lambda { |limit| { :limit => limit} } 
 
   scope :on_active_project, lambda { {
     :include => [:status, :project, :tracker],
@@ -104,6 +59,17 @@ class Issue < ActiveRecord::Base
       :conditions => ::Query.merge_conditions(query.statement)
     }
   }
+  #
+  # Used for activities list
+  def title
+    title = ''
+    title << subject
+    title << ' ('
+    title << status.name << ' ' if status
+    title << '*'
+    title << id.to_s
+    title << ')'
+  end
 
   # find all issues
   # * having set a parent_id where the root_id
@@ -117,13 +83,13 @@ class Issue < ActiveRecord::Base
   # | 2   | 1         | 2       |
   # | 3   | 2         | 2       |
   # This would only be possible using recursive statements
-  scope :invalid_root_ids, { :conditions => "(issues.parent_id IS NOT NULL AND " +
-                                                    "(issues.root_id = issues.id OR " +
-                                                    "(issues.root_id = parent_issues.id AND parent_issues.parent_id IS NOT NULL) OR " +
-                                                    "(issues.root_id != parent_issues.root_id))" +
-                                                  ") OR " +
-                                                  "(issues.parent_id IS NULL AND issues.root_id != issues.id)",
-                                   :joins => "LEFT OUTER JOIN issues parent_issues ON parent_issues.id = issues.parent_id" }
+  #scope :invalid_root_ids, { :conditions => "(issues.parent_id IS NOT NULL AND " +
+  #                                                  "(issues.root_id = issues.id OR " +
+  #                                                  "(issues.root_id = parent_issues.id AND parent_issues.parent_id IS NOT NULL) OR " +
+  #                                                  "(issues.root_id != parent_issues.root_id))" +
+  #                                                ") OR " +
+  #                                                "(issues.parent_id IS NULL AND issues.root_id != issues.id)",
+  #                                 :joins => "LEFT OUTER JOIN issues parent_issues ON parent_issues.id = issues.parent_id" }
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status
@@ -132,16 +98,6 @@ class Issue < ActiveRecord::Base
   before_destroy :remove_attachments
 
   after_initialize :set_default_values
-
-  # Returns a SQL conditions string used to find all issues visible by the specified user
-  def self.visible_condition(user, options={})
-    Project.allowed_to_condition(user, :view_issues, options)
-  end
-
-  # Returns true if usr or current user is allowed to view the issue
-  def visible?(usr=nil)
-    (usr || User.current).allowed_to?(:view_issues, self.project)
-  end
 
   def set_default_values
     if new_record? # set default values for new records only
@@ -152,17 +108,7 @@ class Issue < ActiveRecord::Base
 
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
-    (project && tracker) ? (project.all_issue_custom_fields & tracker.custom_fields.all) : []
-  end
-
-  def copy_from(arg)
-    issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
-    # attributes don't come from form, so it's save to force assign
-    self.force_attributes = issue.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_on", "updated_on")
-    self.parent_issue_id = issue.parent_id if issue.parent_id
-    self.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
-    self.status = issue.status
-    self
+    (project && tracker) ? (project.all_work_package_custom_fields & tracker.custom_fields.all) : []
   end
 
   # Moves/copies an issue to a new project and tracker
@@ -218,7 +164,7 @@ class Issue < ActiveRecord::Base
     if issue.save
       unless options[:copy]
         # Manually update project_id on related time entries
-        TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
+        TimeEntry.update_all("project_id = #{new_project.id}", {:work_package_id => id})
 
         issue.children.each do |child|
           unless child.move_to_project_without_transaction(new_project)
@@ -283,7 +229,7 @@ class Issue < ActiveRecord::Base
     'custom_field_values',
     'custom_fields',
     'lock_version',
-    :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_issues, issue.project) }
+    :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_work_packages, issue.project) }
 
   safe_attributes 'status_id',
     'assigned_to_id',
@@ -413,13 +359,6 @@ class Issue < ActiveRecord::Base
     if Issue.use_status_for_done_ratio? && status && status.default_done_ratio
       self.done_ratio = status.default_done_ratio
     end
-  end
-
-  # Callback on attachment deletion
-  def attachment_removed(obj)
-    init_journal(User.current)
-    create_journal
-    last_journal.update_attribute(:changed_data, { "attachments_#{obj.id}" => [obj.filename, nil] })
   end
 
   # Return true if the issue is closed, otherwise false
@@ -643,7 +582,7 @@ class Issue < ActiveRecord::Base
       if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, project)
         @time_entry = existing_time_entry || TimeEntry.new
         @time_entry.project = project
-        @time_entry.issue = self
+        @time_entry.work_package = self
         @time_entry.user = User.current
         @time_entry.spent_on = Date.today
         @time_entry.attributes = params[:time_entry]
@@ -1018,15 +957,4 @@ class Issue < ActiveRecord::Base
                                                 and i.project_id=#{project.id}
                                               group by s.id, s.is_closed, j.id")
   end
-
-
-  IssueJournal.class_eval do
-    # Shortcut
-    def new_status
-      if details.keys.include? 'status_id'
-        (newval = details['status_id'].last) ? IssueStatus.find_by_id(newval.to_i) : nil
-      end
-    end
-  end
-
 end

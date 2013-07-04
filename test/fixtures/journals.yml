@@ -1,8 +1,8 @@
 ---
 journals_001:
   id: 1
-  type: "IssueJournal"
-  activity_type: "issues"
+  type: "WorkPackageJournal"
+  activity_type: "work_packages"
   created_at: <%= 3.days.ago.to_date.to_s(:db) %>
   version: 1
   user_id: 1
@@ -18,8 +18,8 @@ journals_001:
     - 30
 journals_002:
   id: 2
-  type: "IssueJournal"
-  activity_type: "issues"
+  type: "WorkPackageJournal"
+  activity_type: "work_packages"
   created_at: <%= 1.days.ago.to_date.to_s(:db) %>
   version: 2
   user_id: 2
@@ -28,8 +28,8 @@ journals_002:
   changed_data: "--- {}"
 journals_003:
   id: 3
-  type: "IssueJournal"
-  activity_type: "issues"
+  type: "WorkPackageJournal"
+  activity_type: "work_packages"
   created_at: <%= 2.days.ago.to_date.to_s(:db) %>
   version: 1
   user_id: 2
@@ -42,8 +42,8 @@ journals_003:
     - 'New value'
 journals_004:
   id: 4
-  type: "IssueJournal"
-  activity_type: "issues"
+  type: "WorkPackageJournal"
+  activity_type: "work_packages"
   created_at: <%= 1.days.ago.to_date.to_s(:db) %>
   version: 1
   user_id: 2
@@ -56,8 +56,8 @@ journals_004:
     - 6
 journals_005:
   id: 5
-  type: "IssueJournal"
-  activity_type: "issues"
+  type: "WorkPackageJournal"
+  activity_type: "work_packages"
   created_at: <%= 2.days.ago.to_date.to_s(:db) %>
   version: 0
   user_id: 1
@@ -211,8 +211,8 @@ journals_017:
   journaled_id: 3
 journals_018:
   id: 18
-  type: "IssueJournal"
-  activity_type: "issues"
+  type: "WorkPackageJournal"
+  activity_type: "work_packages"
   created_at: <%= 3.days.ago.to_date.to_s(:db) %>
   version: 0
   user_id: 2

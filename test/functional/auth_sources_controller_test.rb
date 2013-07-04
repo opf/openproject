@@ -26,7 +26,6 @@ class AuthSourcesControllerTest < ActionController::TestCase
     end
 
     should_assign_to :auth_sources
-    should_assign_to :auth_source_pages
     should respond_with :success
     should render_template :index
   end

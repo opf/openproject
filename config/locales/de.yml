@@ -91,10 +91,10 @@ de:
         issue: "Ticket"
         spent_on: "Datum"
         tracker: "Tracker"
-      "timelines/color":
+      planning_element_type_color:
         name: Name
         hexcode: Hex-Code
-      "timelines/planning_element":
+      planning_element:
         alternate_dates:
           end_date: Abschlussdatum des alternativen Datums
         description: Beschreibung
@@ -105,33 +105,30 @@ de:
         planning_element_type: Typ
         responsible: Planungsverantwortlicher
         start_date: Startdatum
-        updated_at: Aktualisiert
-      "timelines/planning_element_type":
+      planning_element_type:
         color: Farbe
         id: ID
         in_aggregation: In Aggregration
         is_default: Standardwert
         is_milestone: Meilenstein
         name: Name
-      "timelines/project_association":
+      project_association:
         description: Begründung
-      "timelines/project_type":
+      project_type:
         allows_association: Erlaubt Projekt-Abhängigkeiten
         name: Name
         planning_element_types: Standard-Planungselement-Typen
         reported_project_statuses: Gemeldeter Projekt-Status
-      "timelines/scenario":
+      scenario:
         created_at: Angelegt
         name: Name
-        updated_at: Aktualisiert
-      "timelines/timeline":
+      timeline:
         name: Name
-      "timelines/reporting":
+      reporting:
         created_at: Angelegt
         reported_project_status_comment: Status-Kommentar
         reported_project_status_id: Projekt-Status
         reporting_to_project_id: Beziehung zu Projekt
-        updated_at: Aktualisert
       tracker:
         is_in_roadmap: "In der Roadmap anzeigen"
       user:
@@ -143,6 +140,7 @@ de:
         mail_notification: "Mailbenachrichtigung"
         new_password: "Neues Kennwort"
         password_confirmation: "Bestätigung"
+        force_password_change: "Erzwinge Passwortwechsel beim nächsten Login"
       user_preference:
         comments_sorting: "Kommentare anzeigen"
         hide_mail: "E-Mail-Adresse nicht anzeigen"
@@ -188,11 +186,11 @@ de:
         too_short: "ist zu kurz (nicht weniger als %{count} Zeichen)"
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
       models:
-        "timelines/alternate_date":
+        alternate_date:
           attributes:
             end_date:
               not_start_date: "ist nicht identisch mit dem Startdatum, obwohl dies bei Meilensteinen Pflicht ist"
-        "timelines/planning_element":
+        planning_element:
           attributes:
             end_date:
               not_start_date: "ist nicht am Startdatum, obwohl die bei Meilensteinen Pflicht ist"
@@ -200,8 +198,18 @@ de:
               cannot_be_milestone: "darf kein Meilenstein sein"
               cannot_be_in_another_project: "darf nicht in einem anderen Projekt sein"
               cannot_be_in_recycle_bin : "darf nicht im Papierkorb liegen"
-        "timelines/project_association":
+        project_association:
+          identical_projects: "kann nicht von einem Projekt auf sich selbst erstellt werden"
           project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"
+        user:
+          attributes:
+            password:
+              weak: "muss Zeichen aus folgenden Klassen beinhalten (mindestens %{min_count} von %{all_count}): %{rules}"
+              lowercase: "Kleinbuchstaben (z.B. 'a')"
+              uppercase: "Großbuchstaben (z.B. 'A')"
+              numeric: "Ziffern (z.B. '1')"
+              special: "Sonderzeichen (z.B. '%')"
+              reused: "darf nicht eines der %{count} zuletzt genutzten sein."
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:
@@ -222,12 +230,14 @@ de:
       news: "News"
       project: "Projekt"
       query: "Benutzerdefinierte Abfrage"
-      role: "Rolle"
+      role:
+        one : "Rolle"
+        other: "Rollen"
       tracker: "Tracker"
-      "timelines/planning_element": Planungselement
-      "timelines/planning_element_type": Planungselement-Typ
-      "timelines/project_type": Projekt-Typ
-      "timelines/scenario": Szenario
+      planning_element: Planungselement
+      planning_element_type: Planungselement-Typ
+      project_type: Projekt-Typ
+      scenario: Szenario
       user: "Benutzer"
       version: "Version"
       wiki: "Wiki"
@@ -244,6 +254,7 @@ de:
     category: "Kategorie"
     comments: "Kommentar"
     content: "Inhalt"
+    created_at: "Angelegt"
     created_on: "Angelegt"
     custom_values: "Benutzerdefinierte Felder"
     description: "Beschreibung"
@@ -267,6 +278,7 @@ de:
     summary: "Zusammenfassung"
     title: "Titel"
     type: "Typ"
+    updated_at: "Aktualisiert"
     updated_on: "Aktualisiert"
     user: "Benutzer"
     version: "Version"
@@ -485,8 +497,8 @@ de:
 
 # cannot get rid of these, since I do not want to change the way the project
 # model is internationalized
-  field_timelines_project_type: "Projekttyp"
-  field_timelines_responsible: "Planungsverantwortlicher"
+  field_project_type: "Projekttyp"
+  field_responsible: "Planungsverantwortlicher"
 
   general_csv_decimal_separator: ","
   general_csv_encoding: "ISO-8859-1"
@@ -503,6 +515,8 @@ de:
   gui_validation_error_plural: "%{count} Fehler"
 
   js:
+    logoff: Sie wurden ausgeloggt.
+    redirect_login: Wollen sie auf die Loginseite weitergeleitet werden?
     ajax:
       hide: "Verbergen"
       loading: "Lädt ..."
@@ -612,6 +626,7 @@ de:
   label_copy_source: "Quelle"
   label_copy_target: "Ziel"
   label_copy_workflow_from: "Workflow kopieren von"
+  label_core_version: "Core Version"
   label_current_status: "Gegenwärtiger Status"
   label_current_version: "Gegenwärtige Version"
   label_custom_field_new: "Neues Feld"
@@ -702,6 +717,7 @@ de:
   label_issue_view_all_watched: "Alle beobachteten Tickets anzeigen"
   label_issue_watchers: "Beobachter"
   label_issues_by: "Tickets von %{value}"
+  label_journal_diff: "Beschreibungsvergleich"
   label_jump_to_a_project: "Zu einem Projekt springen..."
   label_language_based: "Sprachabhängig"
   label_last_changes: "%{count} letzte Änderungen"
@@ -774,6 +790,10 @@ de:
   label_overall_spent_time: "Aufgewendete Zeit aller Projekte anzeigen"
   label_overview: "Übersicht"
   label_password_lost: "Kennwort vergessen"
+  label_password_rule_lowercase: "Kleinbuchstaben"
+  label_password_rule_numeric: "Ziffern"
+  label_password_rule_special: "Sonderzeichen"
+  label_password_rule_uppercase: "Großbuchstaben"
   label_path_encoding: "Path encoding"
   label_per_page: "Pro Seite"
   label_permissions: "Berechtigungen"
@@ -787,7 +807,7 @@ de:
   label_preview: "Vorschau"
   label_previous: "Zurück"
   label_previous_week: "Woche zurück"
-  label_principal_search: "Nach Benutzer oder Gruppe suchen:"
+  label_principal_search: "Nach Benutzern oder Gruppen suchen:"
   label_profile: "Profil"
   label_project_all: "Alle Projekte"
   label_project_copy_notifications: "Sende Mailbenachrichtigungen beim Kopieren des Projekts."
@@ -829,6 +849,7 @@ de:
   label_role_and_permissions: "Rollen und Rechte"
   label_role_new: "Neue Rolle"
   label_role_plural: "Rollen"
+  label_role_search: "Nach Rollen suchen:"
   label_scm: "Versionskontrollsystem"
   label_search: "Suche"
   label_search_titles_only: "Nur Titel durchsuchen"
@@ -853,6 +874,7 @@ de:
   label_subtask_plural: "Unteraufgaben"
   label_sum_for: "Summe für %{value}"
   label_summary: "Zusammenfassung"
+  label_system: "System"
   label_table_of_contents: "Inhaltsverzeichnis"
   label_tag: "Markierung"
   label_text: "Langer Text"
@@ -862,7 +884,7 @@ de:
   label_this_year: "aktuelles Jahr"
   label_time_entry_plural: "Benötigte Zeit"
   label_time_tracking: "Zeiterfassung"
-  label_timelines_planning_element_plural: "Plannungselemente"
+  label_planning_element_plural: "Plannungselemente"
   label_today: "heute"
   label_top_menu: "Hauptmenu"
   label_topic_plural: "Themen"
@@ -911,6 +933,7 @@ de:
   label_wiki_show_menu_item: "als Menüpunkt in der Projektnavigation anzeigen"
   label_wiki_show_new_page_link: "'Neue Unterseite anlegen' Link als Untermenüpunkt anzeigen"
   label_wiki_show_submenu_item: "als Untermenüpunkt anzeigen von "
+  label_workflow: "Workflow"
   label_workflow_summary: "Zusammenfassung"
   label_x_closed_issues_abbr:
     one: "1 geschlossen"
@@ -956,6 +979,7 @@ de:
   notice_account_inactive: "Ihr Konto ist nicht aktiviert. Zur Aktivierung folgen Sie dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde."
   notice_account_invalid_creditentials: "Benutzer oder Kennwort ist ungültig."
   notice_account_lost_email_sent: "Eine E-Mail mit Anweisungen, ein neues Kennwort zu wählen, wurde Ihnen geschickt."
+  notice_account_new_password_forced: "Ein neues Passwort muss gesetzt werden."
   notice_account_password_updated: "Kennwort wurde erfolgreich aktualisiert."
   notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
   notice_account_register_done: "Konto wurde erfolgreich angelegt. Zur Aktivierung folgen Sie dem Link, der Ihnen per E-Mail zugeschickt wurde."
@@ -972,6 +996,7 @@ de:
   notice_failed_to_save_members: "Benutzer konnte nicht gespeichert werden: %{errors}."
   notice_feeds_access_key_reseted: "Ihr Atom-Zugriffsschlüssel wurde zurückgesetzt."
   notice_file_not_found: "Anhang existiert nicht oder ist gelöscht worden."
+  notice_forced_logout: "Nach %{ttl_time} Minuten Inaktivität wurden Sie automatisch ausgeloggt."
   notice_internal_server_error: "Auf der von Ihnen aufgerufenen Seite ist ein Fehler aufgetreten. Kontaktieren Sie bitte ihren %{app_title} Administrator wenn sie wiederholt Probleme mit dem Aufrufen der Seite haben."
   notice_issue_done_ratios_updated: "Der Ticket-Fortschritt wurde aktualisiert."
   notice_locking_conflict: "Die Informationen wurde zwischenzeitlich von einem anderen Benutzer geändert."
@@ -1074,6 +1099,7 @@ de:
   permission_rename_wiki_pages: "Wiki-Seiten umbenennen"
   permission_save_queries: "Filter speichern"
   permission_select_project_modules: "Projektmodule auswählen"
+  permission_view_calendar: "Kalender ansehen"
   permission_view_changesets: "Changesets ansehen"
   permission_view_documents: "Dokumente ansehen"
   permission_view_files: "Dateien ansehen"
@@ -1103,6 +1129,7 @@ de:
   query_fields:
     assigned_to_role: "Zuständigkeitsrolle"
     member_of_group: "Zuständigkeitsgruppe"
+    subproject_id: "Teilprojekt"
 
   search_input_placeholder: "Suche ..."
 
@@ -1152,7 +1179,9 @@ de:
   setting_mail_handler_body_delimiters: "Schneide E-Mails nach einer dieser Zeilen ab"
   setting_new_project_user_role_id: "Rolle, die einem Nicht-Administrator zugeordnet wird, der ein Projekt erstellt"
   setting_openid: "Erlaube OpenID-Anmeldung und -Registrierung"
+  setting_password_active_rules: "Aktive Passwortregeln"
   setting_password_min_length: "Mindestlänge des Kennworts"
+  setting_password_min_adhered_rules: "Mindestanzahl zu erfüllender Regeln"
   setting_per_page_options: "Objekte pro Seite"
   setting_plain_text_mail: "Nur reinen Text (kein HTML) senden"
   setting_protocol: "Protokoll"
@@ -1161,6 +1190,9 @@ de:
   setting_rest_api_enabled: "REST-Schnittstelle aktivieren"
   setting_self_registration: "Anmeldung ermöglicht"
   setting_sequential_project_identifiers: "Fortlaufende Projektkennungen generieren"
+  setting_session_ttl: "Session Ablaufzeit nach Inaktivität"
+  setting_session_ttl_hint: "Wert kleiner 5 wirkt wie ausgeschaltet"
+  setting_session_ttl_enabled: "Session läuft ab"
   setting_start_of_week: "Wochenanfang"
   setting_sys_api_enabled: "Webservice zur Verwaltung der Projektarchive benutzen"
   setting_text_formatting: "Textformatierung"
@@ -1456,7 +1488,7 @@ de:
     start: "Beginn"
     timeline: "Zeitplan-Report"
     timelines: "Zeitplan-Reporte"
-    timelines_settings: "Timelines"
+    settings: "Timelines"
     used_in_x_planning_elements:
       one:   "Wird in %{count} Planungselement verwendet"
       other: "Wird in %{count} Planungselementen verwendet"

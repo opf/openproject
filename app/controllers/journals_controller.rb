@@ -28,8 +28,8 @@ class JournalsController < ApplicationController
     sort_update(@query.sortable_columns)
 
     if @query.valid?
-      @journals = @query.issue_journals(:order => "#{Journal.table_name}.created_at DESC",
-                                        :limit => 25)
+      @journals = @query.work_package_journals(:order => "#{Journal.table_name}.created_at DESC",
+                                            :limit => 25)
     end
     @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
     respond_to do |format|
@@ -89,5 +89,9 @@ class JournalsController < ApplicationController
   # Is this a valid field for diff'ing?
   def valid_field?(field)
     field.to_s.strip == "description"
+  end
+
+  def default_breadcrumb
+    I18n.t(:label_journal_diff)
   end
 end

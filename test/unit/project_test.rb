@@ -32,8 +32,8 @@ class ProjectTest < ActiveSupport::TestCase
     should have_many :member_principals
     should have_many(:principals).through(:member_principals)
     should have_many :enabled_modules
-    should have_many :issues
-    should have_many(:issue_changes).through(:issues)
+    should have_many :work_packages
+    should have_many(:work_package_changes).through(:work_packages)
     should have_many :versions
     should have_many :time_entries
     should have_many :queries
@@ -47,7 +47,7 @@ class ProjectTest < ActiveSupport::TestCase
     should have_one :wiki
 
     should have_and_belong_to_many :trackers
-    should have_and_belong_to_many :issue_custom_fields
+    should have_and_belong_to_many :work_package_custom_fields
   end
 
   def test_truth
@@ -188,9 +188,9 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Project.count, "Projects were not deleted: #{Project.all.inspect}"
     assert_equal 0, Member.count, "Members were not deleted: #{Member.all.inspect}"
     assert_equal 0, MemberRole.count
-    assert_equal 0, Issue.count
-    assert_equal 0, IssueJournal.count
-    assert_equal 0, Attachment.count
+    assert_equal 0, WorkPackage.count
+    assert_equal 0, WorkPackageJournal.count, "Journals were not deleted: #{Journal.all.inspect}"
+    assert_equal 0, Attachment.count, "Attachments were not deleted: #{Attachment.all.inspect}"
     assert_equal 0, EnabledModule.count
     assert_equal 0, IssueCategory.count
     assert_equal 0, IssueRelation.count
@@ -331,7 +331,9 @@ class ProjectTest < ActiveSupport::TestCase
   def test_children
     c = Project.find(1).children
     assert c.first.is_a?(Project)
-    assert_equal [3, 4, 5], c.collect(&:id)
+    # ignore ordering, since it depends on database collation configuration
+    # and may order lowercase/uppercase chars in a different order
+    assert_equal [3, 4, 5], c.collect(&:id).sort!
   end
 
   def test_descendants
@@ -747,24 +749,24 @@ class ProjectTest < ActiveSupport::TestCase
       @project.enabled_module_names = @source_project.enabled_modules.collect(&:name)
     end
 
-    should "copy issues" do
-      @source_project.issues << Issue.generate!(:status => IssueStatus.find_by_name('Closed'),
-                                                :subject => "copy issue status",
-                                                :tracker_id => 1,
-                                                :assigned_to_id => 2,
-                                                :project_id => @source_project.id)
+    should "copy work units" do
+      @source_project.work_packages << Issue.generate!(:status => IssueStatus.find_by_name('Closed'),
+                                                    :subject => "copy issue status",
+                                                    :tracker_id => 1,
+                                                    :assigned_to_id => 2,
+                                                    :project_id => @source_project.id)
       assert @project.valid?
-      assert @project.issues.empty?
+      assert @project.work_packages.empty?
       assert @project.copy(@source_project)
 
-      assert_equal @source_project.issues.size, @project.issues.size
-      @project.issues.each do |issue|
+      assert_equal @source_project.work_packages.size, @project.work_packages.size
+      @project.work_packages.each do |issue|
         assert issue.valid?
         assert ! issue.assigned_to.blank?
         assert_equal @project, issue.project
       end
 
-      copied_issue = @project.issues.first(:conditions => {:subject => "copy issue status"})
+      copied_issue = @project.work_packages.first(:conditions => {:subject => "copy issue status"})
       assert copied_issue
       assert copied_issue.status
       assert_equal "Closed", copied_issue.status.name
@@ -783,7 +785,7 @@ class ProjectTest < ActiveSupport::TestCase
 
       assert @project.copy(@source_project)
       @project.reload
-      copied_issue = @project.issues.first(:conditions => {:subject => "change the new issues to use the copied version"})
+      copied_issue = @project.work_packages.first(:conditions => {:subject => "change the new issues to use the copied version"})
 
       assert copied_issue
       assert copied_issue.fixed_version
@@ -807,9 +809,9 @@ class ProjectTest < ActiveSupport::TestCase
                                                               :relation_type => "duplicates")
 
       assert @project.copy(@source_project)
-      assert_equal @source_project.issues.count, @project.issues.count
-      copied_issue = @project.issues.find_by_subject("Issue on project 2") # Was #4
-      copied_second_issue = @project.issues.find_by_subject("copy issue relation")
+      assert_equal @source_project.work_packages.count, @project.work_packages.count
+      copied_issue = @project.work_packages.find_by_subject("Issue on project 2") # Was #4
+      copied_second_issue = @project.work_packages.find_by_subject("copy issue relation")
 
       # First issue with a relation on project
       assert_equal 1, copied_issue.relations.size, "Relation not copied"
@@ -941,7 +943,7 @@ class ProjectTest < ActiveSupport::TestCase
 
       assert @project.copy(@source_project)
 
-      @project.issues.each do |issue|
+      @project.work_packages.each do |issue|
         assert issue.category
         assert_equal "Stock management", issue.category.name # Same name
         assert_not_equal IssueCategory.find(3), issue.category # Different record
@@ -951,13 +953,13 @@ class ProjectTest < ActiveSupport::TestCase
     should "limit copy with :only option" do
       assert @project.members.empty?
       assert @project.issue_categories.empty?
-      assert @source_project.issues.any?
+      assert @source_project.work_packages.any?
 
       assert @project.copy(@source_project, :only => ['members', 'issue_categories'])
 
       assert @project.members.any?
       assert @project.issue_categories.any?
-      assert @project.issues.empty?
+      assert @project.work_packages.empty?
     end
 
   end

@@ -41,6 +41,7 @@
 //= require calendar
 //= require ajaxappender
 //= require issues
+//= require settings
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
@@ -48,6 +49,14 @@ if (typeof []._reverse == 'undefined') {
 } else {
     jQuery.fn.reverse = Array.prototype._reverse;
 }
+
+jQuery(document).ajaxError(function(event, request, settings) {
+  if (request.status === 401 && /Reason: login needed/.match(request.getAllResponseHeaders())) {
+    if (confirm(I18n.t("js.logoff") + "\r\n" + I18n.t("js.redirect_login"))) {
+      location.href = openProject.loginUrl + "?back_url=" + encodeURIComponent(location.href);
+    }
+  }
+});
 
 
 function checkAll (id, checked) {
@@ -459,30 +468,32 @@ var WarnLeavingUnsaved = Class.create({
  * CVE-2011-0447
  * 2 - shows and hides ajax indicator
  */
-Ajax.Responders.register({
+document.observe("dom:loaded", function() {
+  Ajax.Responders.register({
     onCreate: function(request){
-        var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
+      var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
 
-        if (csrf_meta_tag) {
-            var header = 'X-CSRF-Token',
-                token = csrf_meta_tag.readAttribute('content');
+      if (csrf_meta_tag) {
+        var header = 'X-CSRF-Token',
+        token = csrf_meta_tag.readAttribute('content');
 
-            if (!request.options.requestHeaders) {
-              request.options.requestHeaders = {};
-            }
-            request.options.requestHeaders[header] = token;
-          }
-
-        if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
-            Element.show('ajax-indicator');
+        if (!request.options.requestHeaders) {
+          request.options.requestHeaders = {};
         }
+        request.options.requestHeaders[header] = token;
+      }
+
+      if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
+        Element.show('ajax-indicator');
+      }
     },
     onComplete: function(){
-        if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
-            Element.hide('ajax-indicator');
-        }
-        addClickEventToAllErrorMessages();
+      if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
+        Element.hide('ajax-indicator');
+      }
+      addClickEventToAllErrorMessages();
     }
+  });
 });
 
 function hideOnLoad() {
@@ -545,8 +556,35 @@ jQuery.viewportHeight = function() {
         document.body.clientHeight;
 };
 
-/* TODO: integrate with existing code and/or refactor */
+
+/*
+* 1 - registers a callback which copies the csrf token into the
+* X-CSRF-Token header with each ajax request.  Necessary to
+* work with rails applications which have fixed
+* CVE-2011-0447
+* 2 - shows and hides ajax indicator
+*/
 jQuery(document).ready(function($) {
+  document.ajaxActive = false;
+  $(document).ajaxSend(function (event, request) {
+    document.ajaxActive = true;
+    var csrf_meta_tag = $('meta[name=csrf-token]');
+
+    if (csrf_meta_tag) {
+      var header = 'X-CSRF-Token',
+      token = csrf_meta_tag.attr('content');
+
+      request.setRequestHeader[header] = token;
+    }
+  });
+  // ajaxStop gets called when ALL Requests finish, so we won't need a counter as in PT
+  $(document).ajaxStop(function () {
+    document.ajaxActive = false;
+    if ($('#ajax-indicator')) {
+      $('#ajax-indicator').hide();
+    }
+    addClickEventToAllErrorMessages();
+  });
 
     var propagateOpenClose = function () {
       if ($(this).is(":visible")) {

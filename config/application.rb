@@ -87,13 +87,4 @@ module OpenProject
     # initialize variable for register plugin tests
     config.plugins_to_test_paths = []
   end
-
-  def self.preload_circular_dependencies
-    # preload circular dependencies. this should be used to ensure the correct load
-    # order when loading core classes from plugins.
-    require_dependency 'issue'
-    require_dependency 'project'
-    require_dependency 'user'
-    require_dependency 'principal'
-  end
 end

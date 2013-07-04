@@ -167,7 +167,7 @@ class MailHandler < ActionMailer::Base
     return unless issue
     # check permission
     unless @@handler_options[:no_permission_check]
-      raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
+      raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_work_packages, issue.project)
     end
     # ignore CLI-supplied defaults for new issues
     @@handler_options[:issue].clear
@@ -342,7 +342,7 @@ class MailHandler < ActionMailer::Base
     user = User.new
     user.mail = email_address
     user.login = user.mail
-    user.password = SecureRandom.hex [Setting.password_min_length.to_i, 10].max
+    user.random_password!
     user.language = Setting.default_language
 
     names = fullname.blank? ? email_address.gsub(/@.*$/, '').split('.') : fullname.split

@@ -94,13 +94,4 @@ class MembersControllerTest < ActionController::TestCase
     assert_redirected_to '/projects/ecookbook/settings/members'
     assert !User.find(3).member_of?(Project.find(1))
   end
-
-  def test_autocomplete
-    get :autocomplete_for_member, :id => 1, :q => 'mis'
-    assert_response :success
-    assert_template 'autocomplete'
-
-    assert_tag :label, :content => /User Misc/,
-                       :after => { :tag => 'input', :attributes => { :name => 'member[user_ids][]', :value => '8' } }
-  end
 end

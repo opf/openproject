@@ -46,9 +46,6 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:results).include?(Issue.find(2))
     assert assigns(:results).include?(Issue.find(5))
     assert assigns(:results).include?(Changeset.find(101))
-    assert_select "dt.issue-edit" do
-      assert_select "a", :text => /Add ingredients categories/
-    end
 
     assert assigns(:results_by_type).is_a?(Hash)
     assert_equal 5, assigns(:results_by_type)['changesets']
@@ -62,7 +59,7 @@ class SearchControllerTest < ActionController::TestCase
 
     assert assigns(:results).include?(Issue.find(8))
     assert assigns(:results).include?(Issue.find(5))
-    assert_select "dt.issue" do
+    assert_select "dt.work_package" do
       assert_select "a", :text => /Closed/
     end
   end

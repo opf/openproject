@@ -63,21 +63,21 @@ class Query < ActiveRecord::Base
   @@available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
     QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position", :groupable => true),
-    QueryColumn.new(:parent, :sortable => ["#{Issue.table_name}.root_id", "#{Issue.table_name}.lft ASC"], :default_order => 'desc', :caption => :parent_issue),
+    QueryColumn.new(:parent, :sortable => ["#{WorkPackage.table_name}.root_id", "#{WorkPackage.table_name}.lft ASC"], :default_order => 'desc', :caption => :parent_issue),
     QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position", :groupable => true),
     QueryColumn.new(:priority, :sortable => "#{IssuePriority.table_name}.position", :default_order => 'desc', :groupable => true),
-    QueryColumn.new(:subject, :sortable => "#{Issue.table_name}.subject"),
+    QueryColumn.new(:subject, :sortable => "#{WorkPackage.table_name}.subject"),
     QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
-    QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
+    QueryColumn.new(:updated_at, :sortable => "#{WorkPackage.table_name}.updated_at", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
     # Put empty start_dates and due_dates in the far future rather than in the far past
-    QueryColumn.new(:start_date, :sortable => ["CASE WHEN #{Issue.table_name}.start_date IS NULL THEN 1 ELSE 0 END", "#{Issue.table_name}.start_date"]),
-    QueryColumn.new(:due_date, :sortable => ["CASE WHEN #{Issue.table_name}.due_date IS NULL THEN 1 ELSE 0 END", "#{Issue.table_name}.due_date"]),
-    QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
-    QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
-    QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
+    QueryColumn.new(:start_date, :sortable => ["CASE WHEN #{WorkPackage.table_name}.start_date IS NULL THEN 1 ELSE 0 END", "#{WorkPackage.table_name}.start_date"]),
+    QueryColumn.new(:due_date, :sortable => ["CASE WHEN #{WorkPackage.table_name}.due_date IS NULL THEN 1 ELSE 0 END", "#{WorkPackage.table_name}.due_date"]),
+    QueryColumn.new(:estimated_hours, :sortable => "#{WorkPackage.table_name}.estimated_hours"),
+    QueryColumn.new(:done_ratio, :sortable => "#{WorkPackage.table_name}.done_ratio", :groupable => true),
+    QueryColumn.new(:created_at, :sortable => "#{WorkPackage.table_name}.created_at", :default_order => 'desc'),
   ]
   cattr_reader :available_columns
 
@@ -120,8 +120,8 @@ class Query < ActiveRecord::Base
                            "tracker_id" => { :type => :list, :order => 2, :values => trackers.collect{|s| [s.name, s.id.to_s] } },
                            "priority_id" => { :type => :list, :order => 3, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s] } },
                            "subject" => { :type => :text, :order => 8 },
-                           "created_on" => { :type => :date_past, :order => 9 },
-                           "updated_on" => { :type => :date_past, :order => 10 },
+                           "created_at" => { :type => :date_past, :order => 9 },
+                           "updated_at" => { :type => :date_past, :order => 10 },
                            "start_date" => { :type => :date, :order => 11 },
                            "due_date" => { :type => :date, :order => 12 },
                            "estimated_hours" => { :type => :integer, :order => 13 },
@@ -178,14 +178,14 @@ class Query < ActiveRecord::Base
           @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => subprojects.collect{|s| [s.name, s.id.to_s] }, :name => I18n.t('query_fields.subproject_id') }
         end
       end
-      add_custom_fields_filters(project.all_issue_custom_fields)
+      add_custom_fields_filters(project.all_work_package_custom_fields)
     else
       # global filters for cross project issue list
       system_shared_versions = Version.visible.find_all_by_sharing('system')
       unless system_shared_versions.empty?
         @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => system_shared_versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] } }
       end
-      add_custom_fields_filters(IssueCustomField.find(:all, :conditions => {:is_filter => true, :is_for_all => true}))
+      add_custom_fields_filters(WorkPackageCustomField.find(:all, :conditions => {:is_filter => true, :is_for_all => true}))
     end
     @available_filters
   end
@@ -241,8 +241,8 @@ class Query < ActiveRecord::Base
     return @available_columns if @available_columns
     @available_columns = ::Query.available_columns
     @available_columns += (project ?
-                            project.all_issue_custom_fields :
-                            IssueCustomField.find(:all)
+                            project.all_work_package_custom_fields :
+                            WorkPackageCustomField.find(:all)
                            ).collect {|cf| ::QueryCustomFieldColumn.new(cf) }
   end
 
@@ -261,7 +261,7 @@ class Query < ActiveRecord::Base
 
   # Returns a Hash of columns and the key for sorting
   def sortable_columns
-    {'id' => "#{Issue.table_name}.id"}.merge(available_columns.inject({}) {|h, column|
+    {'id' => "#{WorkPackage.table_name}.id"}.merge(available_columns.inject({}) {|h, column|
                                                h[column.name.to_s] = column.sortable
                                                h
                                              })
@@ -365,7 +365,7 @@ class Query < ActiveRecord::Base
     elsif project
       project_clauses << "#{Project.table_name}.id = %d" % project.id
     end
-    project_clauses <<  Issue.visible_condition(User.current)
+    project_clauses <<  WorkPackage.visible_condition(User.current)
     project_clauses.join(' AND ')
   end
 
@@ -389,23 +389,23 @@ class Query < ActiveRecord::Base
         db_table = CustomValue.table_name
         db_field = 'value'
         is_custom_filter = true
-        sql << "#{Issue.table_name}.id IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
+        sql << "#{WorkPackage.table_name}.id IN (SELECT #{WorkPackage.table_name}.id FROM #{WorkPackage.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='WorkPackage' AND #{db_table}.customized_id=#{WorkPackage.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
         sql << sql_for_field(field, operator, v, db_table, db_field, true) + ')'
       elsif field == 'watcher_id'
         db_table = Watcher.table_name
         db_field = 'user_id'
         if User.current.admin?
           # Admins can always see all watchers
-          sql << "#{Issue.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='Issue' AND #{sql_for_field field, '=', v, db_table, db_field})"
+          sql << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', v, db_table, db_field})"
         else
           sql_parts = []
           if User.current.logged? && user_id = v.delete(User.current.id.to_s)
             # a user can always see his own watched issues
-            sql_parts << "#{Issue.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='Issue' AND #{sql_for_field field, '=', [user_id], db_table, db_field})"
+            sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', [user_id], db_table, db_field})"
           end
           # filter watchers only in projects the user has the permission to view watchers in
           project_ids = User.current.projects_by_role.collect {|r,p| p if r.permissions.include? :view_issue_watchers}.flatten.compact.collect(&:id).uniq
-          sql_parts << "#{Issue.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='Issue' AND #{sql_for_field field, '=', v, db_table, db_field})"\
+          sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', v, db_table, db_field})"\
                        " AND #{Project.table_name}.id IN (#{project_ids.join(',')})" unless project_ids.empty?
           sql << "(#{sql_parts.join(' OR ')})"
         end
@@ -428,7 +428,7 @@ class Query < ActiveRecord::Base
           user_ids.flatten.uniq.compact
         }.sort.collect(&:to_s)
 
-        sql << '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
+        sql << '(' + sql_for_field("assigned_to_id", operator, members_of_groups, WorkPackage.table_name, "assigned_to_id", false) + ')'
 
       elsif field == "assigned_to_role" # named field
         if operator == "*" # Any Role
@@ -449,10 +449,10 @@ class Query < ActiveRecord::Base
           user_ids.flatten.uniq.compact
         }.sort.collect(&:to_s)
 
-        sql << '(' + sql_for_field("assigned_to_id", operator, members_of_roles, Issue.table_name, "assigned_to_id", false) + ')'
+        sql << '(' + sql_for_field("assigned_to_id", operator, members_of_roles, WorkPackage.table_name, "assigned_to_id", false) + ')'
       else
         # regular field
-        db_table = Issue.table_name
+        db_table = WorkPackage.table_name
         db_field = field
         sql << '(' + sql_for_field(field, operator, v, db_table, db_field) + ')'
       end
@@ -465,7 +465,7 @@ class Query < ActiveRecord::Base
 
   # Returns the issue count
   def issue_count
-    Issue.count(:include => [:status, :project], :conditions => statement)
+    WorkPackage.count(:include => [:status, :project], :conditions => statement)
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end
@@ -476,7 +476,7 @@ class Query < ActiveRecord::Base
     if grouped?
       begin
         # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
-        r = Issue.count(:group => group_by_statement, :include => [:status, :project], :conditions => statement)
+        r = WorkPackage.count(:group => group_by_statement, :include => [:status, :project], :conditions => statement)
       rescue ActiveRecord::RecordNotFound
         r = {nil => issue_count}
       end
@@ -491,24 +491,20 @@ class Query < ActiveRecord::Base
   end
 
   # Returns the issues
-  # Valid options are :order, :offset, :limit, :include, :conditions
+  # Valid options are :order, :include, :conditions
   def issues(options={})
     order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
     order_option = nil if order_option.blank?
 
-    Issue.find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
-                     :conditions => ::Query.merge_conditions(statement, options[:conditions]),
-                     :order => order_option,
-                     :limit  => options[:limit],
-                     :offset => options[:offset]
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise ::Query::StatementInvalid.new(e.message)
+    WorkPackage.where(::Query.merge_conditions(statement, options[:conditions]))
+               .includes([:status, :project] + (options[:include] || []).uniq)
+               .order(order_option)
   end
 
   # Returns the journals
   # Valid options are :order, :offset, :limit
-  def issue_journals(options={})
-    IssueJournal.find :all, :joins => [:user, {:issue => [:project, :author, :tracker, :status]}],
+  def work_package_journals(options={})
+    WorkPackageJournal.find :all, :joins => [:user, {:work_package => [:project, :author, :tracker, :status]}],
                        :conditions => statement,
                        :order => options[:order],
                        :limit => options[:limit],

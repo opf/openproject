@@ -222,7 +222,7 @@ class UserMailer < ActionMailer::Base
     @activation_url = url_for(:controller => '/users',
                               :action     => :index,
                               :status     => User::STATUS_REGISTERED,
-                              :sort       => 'created_on:desc')
+                              :sort       => 'created_at:desc')
 
     open_project_headers 'Type' => 'Account'
 
@@ -289,7 +289,12 @@ class UserMailer < ActionMailer::Base
   def self.generate_message_id(object)
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
-    timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
+    if object.is_a? WorkPackage
+      timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
+    else
+      timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
+    end
+
     hash = "openproject.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
     host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
     host = "#{::Socket.gethostname}.openproject" if host.empty?

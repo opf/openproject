@@ -33,7 +33,7 @@ module TimelinesJournalsHelper
   def timelines_time_tag(time)
     text = format_time(time)
     if @project
-      link_to(text, {:controller => 'activities', :action => 'index', :id => @project, :from => time.to_date}, :title => format_time(time))
+      link_to(text, {:controller => '/activities', :action => 'index', :id => @project, :from => time.to_date}, :title => format_time(time))
     else
       content_tag('label', text, :title => format_time(time), :class => "timestamp")
     end
@@ -89,7 +89,7 @@ module TimelinesJournalsHelper
         end
         if editable
           l << link_to_in_place_notes_editor(image_tag('edit.png', :alt => l(:button_edit), :title => l(:button_edit)), "journal-#{journal.id}-notes",
-                { :controller => 'journals', :action => 'edit', :id => journal },
+                { :controller => '/journals', :action => 'edit', :id => journal },
                   :title => l(:button_edit))
         end
       end

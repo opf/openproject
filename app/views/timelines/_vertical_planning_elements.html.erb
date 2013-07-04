@@ -1,0 +1,29 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset id="filter_comparison" class="header_collapsible collapsible collapsed">
+  <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.vertical_planning_elements') %></a>
+  </legend>
+
+  <div style="display:none;">
+    <div>
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_vertical_planning_elements,
+                      l('timelines.vertical_planning_elements') %>
+        <%= text_field_tag "timeline[options][vertical_planning_elements]",
+                           timeline.options["vertical_planning_elements"],
+                           :size => 60, :class => "twoBlocks" %>
+      </p>
+    </div>
+  </div>
+</fieldset>

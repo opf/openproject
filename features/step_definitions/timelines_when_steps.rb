@@ -9,8 +9,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-When /^I click on the Planning Element with name "(.*?)"$/ do |planning_element_name|
-  click_link(planning_element_name);
+When /^I click on the Planning Element with name "(.*?)"$/ do |planning_element_subject|
+  click_link(planning_element_subject);
 end
 When /^I click on the Edit Link$/ do
   click_link("Update")
@@ -31,11 +31,11 @@ When(/^I hide empty projects for the timeline "([^"]*?)" of the project called "
   page.execute_script("jQuery('#timeline_options_exclude_empty').prop('checked', true)")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |planning_element_name, timeline_name, project_name|
+When(/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |planning_element_subject, timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
-  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+  planning_element = PlanningElement.find_by_subject(planning_element_subject)
 
   page.should have_selector("#timeline_options_vertical_planning_elements")
 
@@ -49,7 +49,7 @@ When(/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?
   grouping_project = Project.find_by_name(grouping_project_name)
 
   page.should have_selector("#timeline_options_grouping_one_enabled")
-  
+
   page.execute_script("jQuery('#timeline_options_grouping_one_enabled').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{grouping_project.id}')")
   page.execute_script("jQuery('#content form').submit()")
@@ -63,7 +63,7 @@ When(/^I show only projects which have a planning element which lies between "(.
 
   page.should have_selector("#timeline_options_planning_element_time_types")
 
-  planning_element_type = Timelines::PlanningElementType.find_by_name(type)
+  planning_element_type = PlanningElementType.find_by_name(type)
   page.execute_script("jQuery('#timeline_options_planning_element_time_types').val('#{planning_element_type.id}')")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_one').val('#{start_date}')")
@@ -74,8 +74,8 @@ When(/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
-  project_type = Timelines::ProjectType.find_by_name(project_type_name)
-  
+  project_type = ProjectType.find_by_name(project_type_name)
+
   page.should have_selector("#timeline_options_grouping_two_enabled")
 
   page.execute_script("jQuery('#timeline_options_grouping_two_enabled').prop('checked', true)")
@@ -113,29 +113,29 @@ When(/^I set the sortation of the first level grouping criteria to explicit orde
   }
 
   page.should have_selector("#timeline_options_grouping_one_sort")
-  
+
   page.execute_script("jQuery('#timeline_options_grouping_one_sort').val('1')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When (/^I trash the planning element with name "([^"]*?)"$/) do |planning_element_name|
+When (/^I trash the planning element with name "([^"]*?)"$/) do |planning_element_subject|
   steps %Q{
-    When I click on the Planning Element with name "#{planning_element_name}"
+    When I click on the Planning Element with name "#{planning_element_subject}"
       And I wait for the modal to show
       And I click on the Trash Link
       And I wait for the modal to close
   }
 end
-When(/^I restore the planning element with name "(.*?)" of project "(.*?)"$/) do |planning_element_name, project|
+When(/^I restore the planning element with name "(.*?)" of project "(.*?)"$/) do |planning_element_subject, project|
   steps %Q{
-    When I open a modal for planning element "#{planning_element_name}" of project "#{project}"
+    When I open a modal for planning element "#{planning_element_subject}" of project "#{project}"
       And I wait for the modal to show
       And I click on the Restore Link
       And I wait for the modal to close
   }
 end
-When (/^I trash the planning element with name "([^"]*?)" of project "([^"]*?)"$/) do |planning_element_name, project|
+When (/^I trash the planning element with name "([^"]*?)" of project "([^"]*?)"$/) do |planning_element_subject, project|
   steps %Q{
-    When I open a modal for planning element "#{planning_element_name}" of project "#{project}"
+    When I open a modal for planning element "#{planning_element_subject}" of project "#{project}"
       And I wait for the modal to show
       And I click on the Trash Link
       And I wait for the modal to close
@@ -159,8 +159,8 @@ end
 When /^I wait for timeline to load table$/ do
   page.should have_selector('.tl-left-main', visible: true)
 end
-When (/^I open a modal for planning element "([^"]*)" of project "([^"]*)"$/) do |planning_name, project_name|
-  planning_element = Timelines::PlanningElement.find_by_name(planning_name)
+When (/^I open a modal for planning element "([^"]*)" of project "([^"]*)"$/) do |planning_element_subject, project_name|
+  planning_element = PlanningElement.find_by_subject(planning_element_subject)
   project = Project.find_by_name(project_name)
   page.execute_script <<-JS
     Timeline.get().modalHelper.createPlanningModal(
@@ -199,19 +199,19 @@ When (/^I move "([^"]*)" down by one$/) do |name|
   link.click
 end
 
-When (/^I fill in the planning element ID of "([^"]*)" with (\d+) star for "([^"]*)"$/) do |planning_element_name, number_hash_keys, container|
-  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+When (/^I fill in the planning element ID of "([^"]*)" with (\d+) star for "([^"]*)"$/) do |planning_element_subject, number_hash_keys, container|
+  planning_element = PlanningElement.find_by_subject(planning_element_subject)
   text = "#{('*' * number_hash_keys.to_i)}#{planning_element.id}"
 
   step %Q{I fill in "#{text}" for "#{container}"}
 end
 
-When (/^I follow the planning element link with (\d+) star for "([^"]*)"$/) do |star_count, planning_element_name|
-  planning_element = Timelines::PlanningElement.find_by_name(planning_element_name)
+When (/^I follow the planning element link with (\d+) star for "([^"]*)"$/) do |star_count, planning_element_subject|
+  planning_element = PlanningElement.find_by_subject(planning_element_subject)
 
   text = ""
   if star_count.to_i > 1
-    text = "*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.name}"
+    text = "*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.subject}"
   elsif star_count.to_i == 1
     text = "*#{planning_element.id}"
   end
@@ -220,14 +220,14 @@ When (/^I follow the planning element link with (\d+) star for "([^"]*)"$/) do |
 end
 
 When (/^I fill in a wiki macro for timeline "([^"]*)" for "([^"]*)"$/) do |timeline_name, container|
-  timeline = Timelines::Timeline.find_by_name(timeline_name)
+  timeline = Timeline.find_by_name(timeline_name)
 
   text = "{{timeline(#{timeline.id})}}"
   step %Q{I fill in "#{text}" for "#{container}"}
 end
 
 When (/^(.*) for the color "([^"]*)"$/) do |step_name, color_name|
-  color = Timelines::Color.find_by_name(color_name)
+  color = PlanningElementTypeColor.find_by_name(color_name)
 
   step %Q{#{step_name} within "#color-#{color.id} td:first-child"}
 end

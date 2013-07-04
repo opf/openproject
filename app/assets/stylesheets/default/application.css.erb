@@ -95,6 +95,7 @@ h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; bord
   padding: 0;
   right: 2px;
   clear: both;
+  padding-right: 15px;
 }
 
 #login-form table {margin-top:5em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
@@ -544,17 +545,31 @@ p.other-formats { font-size:0.9em; color: #666; }
 .other-formats span + span:before { content: "| "; }
 
 /* Project members tab */
-div#tab-content-members .splitcontentleft, div#tab-content-memberships .splitcontentleft, div#tab-content-users .splitcontentleft { width: 64% }
-div#tab-content-members .splitcontentright, div#tab-content-memberships .splitcontentright, div#tab-content-users .splitcontentright { width: 34% }
-div#tab-content-members fieldset, div#tab-content-memberships fieldset, div#tab-content-users fieldset { padding:1em; margin-bottom: 1em; }
-div#tab-content-info fieldset legend, div#tab-content-members fieldset legend, div#tab-content-memberships fieldset legend, div#tab-content-users fieldset legend, fieldset#wiki_menu_item_setting { font-weight: bold; }
-div#tab-content-members fieldset label, div#tab-content-memberships fieldset label, div#tab-content-users fieldset label { display: block; }
-div#tab-content-members fieldset div, div#tab-content-users fieldset div { max-height: 400px; overflow:auto; }
+div#tab-content-members .splitcontentleft,
+div#tab-content-memberships .splitcontentleft,
+div#tab-content-users .splitcontentleft { margin-right:1em; }
+div#tab-content-members .splitcontentleft,
+div#tab-content-memberships .splitcontentleft,
+div#tab-content-users .splitcontentleft,
+div#tab-content-members .splitcontentright,
+div#tab-content-memberships .splitcontentright,
+div#tab-content-users .splitcontentright { margin-bottom:1em; }
+div#tab-content-members fieldset,
+div#tab-content-memberships fieldset,
+div#tab-content-users fieldset { padding:1em; }
+div#tab-content-members fieldset,
+div#tab-content-memberships fieldset,
+div#tab-content-users fieldset,
+div#tab-content-members fieldset p { margin-bottom: 1em; }
+div#tab-content-info fieldset legend,
+div#tab-content-members fieldset legend,
+div#tab-content-memberships fieldset legend,
+div#tab-content-users fieldset legend { font-weight: bold; }
 div#tab-content-members .user.status_registered, div#tab-content-members label.status_registered { filter: alpha(opacity=80); -khtml-opacity: 0.8; opacity: 0.8; -moz-opacity: 0.8; }
 
 table.members td.group { padding-left: 20px; background: url(<%= asset_path 'group.png' %>) no-repeat 0% 50%; }
 
-input#principal_search, input#user_search {width:100%}
+input#user_search {width:100%}
 
 * html div#tab-content-members fieldset div { height: 450px; }
 
@@ -2782,18 +2797,36 @@ ul.action_menu_more {
   background-position:-39px -200px;
   background-repeat:no-repeat;
 }
-.pagination .navigate-left {
+
+.pagination .previous_page {
   background: url(<%= asset_path 'double_arrow_left.png' %>) 0 1px no-repeat;
   width:100%;
   height:15px;
   padding-left: 18px;
 }
-.pagination .navigate-right {
+
+.pagination .next_page {
   background: url(<%= asset_path 'double_arrow_right.png' %>) right 1px no-repeat;
   width:100%;
   height:15px;
   padding-right: 18px;
 }
+
+.pagination .next_page.disabled,
+.pagination .previous_page.disabled {
+  display: none;
+}
+
+.pagination .range,
+.pagination .per_page_options {
+  padding-left: 0.5em;
+}
+
+.pagination .per_page_options {
+  border-left: 1px solid #4B4B4B;
+  margin-left: 0.5em;
+}
+
 #menu-sidebar.hidden {
   display:none;
 }

@@ -41,13 +41,13 @@ module IssuesHelper
     @cached_label_priority ||= Issue.human_attribute_name(:priority)
     @cached_label_project ||= Issue.human_attribute_name(:project)
 
-    (link_to_issue(issue) + "<br /><br />" +
-      "<strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />" +
-      "<strong>#{@cached_label_status}</strong>: #{h(issue.status.name)}<br />" +
-      "<strong>#{@cached_label_start_date}</strong>: #{format_date(issue.start_date)}<br />" +
-      "<strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />" +
-      "<strong>#{@cached_label_assigned_to}</strong>: #{h(issue.assigned_to)}<br />" +
-      "<strong>#{@cached_label_priority}</strong>: #{h(issue.priority.name)}").html_safe
+    (link_to_issue(issue) + "<br /><br />
+      <strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />
+      <strong>#{@cached_label_status}</strong>: #{h(issue.status.name)}<br />
+      <strong>#{@cached_label_start_date}</strong>: #{format_date(issue.start_date)}<br />
+      <strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />
+      <strong>#{@cached_label_assigned_to}</strong>: #{h(issue.assigned_to)}<br />
+      <strong>#{@cached_label_priority}</strong>: #{h(issue.priority.name)}".html_safe)
   end
 
   # TODO: deprecate and/or remove
@@ -209,12 +209,12 @@ module IssuesHelper
                   Issue.human_attribute_name(:done_ratio),
                   Issue.human_attribute_name(:estimated_hours),
                   Issue.human_attribute_name(:parent_issue),
-                  Issue.human_attribute_name(:created_on),
-                  Issue.human_attribute_name(:updated_on)
+                  Issue.human_attribute_name(:created_at),
+                  Issue.human_attribute_name(:updated_at)
                   ]
       # Export project custom fields if project is given
       # otherwise export custom fields marked as "For all projects"
-      custom_fields = project.nil? ? IssueCustomField.for_all : project.all_issue_custom_fields
+      custom_fields = project.nil? ? WorkPackageCustomField.for_all : project.all_work_package_custom_fields
       custom_fields.each {|f| headers << f.name}
       # Description in the last column
       headers << CustomField.human_attribute_name(:description)
@@ -236,8 +236,8 @@ module IssuesHelper
                   issue.done_ratio,
                   issue.estimated_hours.to_s.gsub('.', decimal_separator),
                   issue.parent_id,
-                  format_time(issue.created_on),
-                  format_time(issue.updated_on)
+                  format_time(issue.created_at),
+                  format_time(issue.updated_at)
                   ]
         custom_fields.each {|f| fields << show_value(issue.custom_value_for(f)) }
         fields << issue.description
@@ -287,5 +287,13 @@ module IssuesHelper
     [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || Issue.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
       ActiveSupport::Inflector.transliterate(el[0]).downcase
     end
+  end
+
+  def value_overridden_by_children?(attrib)
+    Issue::ATTRIBS_WITH_VALUES_FROM_CHILDREN.include? attrib
+  end
+
+  def attrib_disabled?(issue, attrib)
+    value_overridden_by_children?(attrib) && !(issue.new_record? || issue.leaf?)
   end
 end

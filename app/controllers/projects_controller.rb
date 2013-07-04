@@ -11,16 +11,25 @@
 #++
 
 class ProjectsController < ApplicationController
+  extend Pagination::Controller
+
+  paginate_model Project
+
   menu_item :overview
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
 
+  helper :timelines
+
+  before_filter :disable_api
   before_filter :find_project, :except => [ :index, :level_list, :new, :create, :copy ]
   before_filter :authorize, :only => [ :show, :settings, :edit, :update, :modules ]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   before_filter :jump_to_project_menu_item, :only => :show
   before_filter :load_project_settings, :only => :settings
+  before_filter :determine_base
+
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
   after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
@@ -36,8 +45,8 @@ class ProjectsController < ApplicationController
   include ProjectsHelper
 
   # for timelines
-  def timelines_planning_element_types
-    params[:project].assert_valid_keys("timelines_planning_element_type_ids")
+  def planning_element_types
+    params[:project].assert_valid_keys("planning_element_type_ids")
     if @project.update_attributes(params[:project])
       flash[:notice] = l('notice_successful_update')
     else
@@ -52,11 +61,6 @@ class ProjectsController < ApplicationController
       format.html {
         @projects = Project.visible.find(:all, :order => 'lft')
       }
-      format.api  {
-        @offset, @limit = api_offset_and_limit
-        @project_count = Project.visible.count
-        @projects = Project.visible.all(:offset => @offset, :limit => @limit, :order => 'lft')
-      }
       format.atom {
         projects = Project.visible.find(:all, :order => 'created_on DESC',
                                               :limit => Setting.feeds_limit.to_i)
@@ -65,24 +69,15 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def level_list
-    respond_to do |format|
-      format.html { render_404 }
-      format.api {
-        @elements = Project.project_level_list(Project.visible)
-      }
-    end
-  end
-
   def new
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
 
   def create
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @project = Project.new
     @project.safe_attributes = params[:project]
@@ -95,19 +90,17 @@ class ProjectsController < ApplicationController
           flash[:notice] = l(:notice_successful_create)
           redirect_to :controller => '/projects', :action => 'settings', :id => @project
         }
-        format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => '/projects', :action => 'show', :id => @project.id) }
       end
     else
       respond_to do |format|
         format.html { render :action => 'new' }
-        format.api  { render_validation_errors(@project) }
       end
     end
 
   end
 
   def copy
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @root_projects = Project.find(:all,
                                   :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
@@ -164,7 +157,6 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.api
     end
   end
 
@@ -183,7 +175,6 @@ class ProjectsController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to :action => 'settings', :id => @project
         }
-        format.api  { head :ok }
       end
     else
       respond_to do |format|
@@ -191,7 +182,6 @@ class ProjectsController < ApplicationController
           load_project_settings
           render :action => 'settings'
         }
-        format.api  { render_validation_errors(@project) }
       end
     end
   end
@@ -216,11 +206,10 @@ class ProjectsController < ApplicationController
   def destroy
     @project_to_destroy = @project
 
-    if api_request? || params[:confirm]
+    if params[:confirm]
       @project_to_destroy.destroy
       respond_to do |format|
         format.html { redirect_to :controller => '/admin', :action => 'projects' }
-        format.api  { head :ok }
       end
     end
 
@@ -266,7 +255,7 @@ private
   end
 
   def load_project_settings
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
     @trackers = Tracker.all
@@ -286,6 +275,16 @@ private
         member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works
       end
       project.members << m
+    end
+  end
+
+  protected
+
+  def determine_base
+    if params[:project_type_id]
+      @base = ProjectType.find(params[:project_type_id]).projects
+    else
+      @base = Project
     end
   end
 

@@ -315,8 +315,8 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_invalid_query_should_raise_query_statement_invalid_error
     q = Query.new
-    assert_raise Query::StatementInvalid do
-      q.issues(:conditions => "foo = 1")
+    assert_raise ActiveRecord::StatementInvalid do
+      q.issues(:conditions => "foo = 1").all
     end
   end
 

@@ -121,8 +121,8 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   def test_issue_with_user_custom_field
-    @field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true, :trackers => Tracker.all)
-    Role.anonymous.add_permission! :add_issues, :edit_issues
+    @field = WorkPackageCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true, :trackers => Tracker.all)
+    Role.anonymous.add_permission! :add_issues, :edit_work_packages
     users = Project.find(1).users
     tester = users.first
 
