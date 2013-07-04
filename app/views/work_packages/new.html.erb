@@ -14,7 +14,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <%= labelled_tabular_form_for controller.new_work_package,
-                              :url => new_project_work_package_path(@project, @work_package),
+                              :url => project_work_packages_path(@project),
                               # TODO: remove once Issue == PlanningElement
                               :as => 'work_package',
                               :html => { :multipart => true,

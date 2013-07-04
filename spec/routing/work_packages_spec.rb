@@ -25,4 +25,10 @@ describe WorkPackagesController do
                                                           :project_id => '1' )
   end
 
+  it "should connect POST /projects/:project_id/work_packages to work_packages#new" do
+    post("/projects/1/work_packages").should route_to( :controller => 'work_packages',
+                                                       :action => 'create',
+                                                       :project_id => '1' )
+  end
+
 end

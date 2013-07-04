@@ -21,7 +21,7 @@ class WorkPackagesController < ApplicationController
 
   before_filter :disable_api
   before_filter :find_model_object_and_project, :only => [:show]
-  before_filter :find_project_by_project_id, :only => [:new]
+  before_filter :find_project_by_project_id, :only => [:new, :create]
   before_filter :authorize,
                 :assign_planning_elements
   before_filter :apply_at_timestamp, :only => [:show]
@@ -46,6 +46,14 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  def create
+    wp = new_work_package
+
+    wp.save
+
+    redirect_to(work_package_path(wp))
+  end
+
   def work_package
     @work_package ||= begin
 
@@ -61,6 +69,10 @@ class WorkPackagesController < ApplicationController
   def new_work_package
     @new_work_package ||= begin
       type = params[:type] || (params[:work_package] && params[:work_package][:type])
+
+      if params[:work_package]
+        params[:work_package][:author] = current_user
+      end
 
       wp = case type
            when PlanningElement.to_s
