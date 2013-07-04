@@ -118,10 +118,19 @@ class WorkPackage < ActiveRecord::Base
     (usr || User.current).allowed_to?(:view_work_packages, self.project)
   end
 
-  def copy_from(arg)
+  def copy_from(arg, options = {})
+
+    merged_options = { :exclude => ["id",
+                                    "root_id",
+                                    "parent_id",
+                                    "lft",
+                                    "rgt",
+                                    "created_at",
+                                    "updated_at"] + (options[:exclude]|| []).map(&:to_s) }
+
     work_package = arg.is_a?(WorkPackage) ? arg : WorkPackage.visible.find(arg)
     # attributes don't come from form, so it's save to force assign
-    self.force_attributes = work_package.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_at", "updated_at")
+    self.force_attributes = work_package.attributes.dup.except(*merged_options[:exclude])
     self.parent_issue_id = work_package.parent_id if work_package.parent_id
     self.custom_field_values = work_package.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = work_package.status

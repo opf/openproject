@@ -874,6 +874,26 @@ class Project < ActiveRecord::Base
     list
   end
 
+  # TODO: move into work_package once tracker or similar is defined there and safe_attributes is removed
+  def add_issue(attributes)
+    attributes ||= {}
+
+    Issue.new do |i|
+      i.project = self
+
+      tracker_attribute = attributes.delete(:tracker) || attributes.delete(:tracker_id)
+
+      i.tracker = if tracker_attribute
+                    project.trackers.find(tracker_attribute)
+                  else
+                    project.trackers.first
+                  end
+
+      # TODO: replace with i.attributes = attributes
+      # once StrongParameters is in place
+      i.safe_attributes = attributes
+    end
+  end
 
   private
 
