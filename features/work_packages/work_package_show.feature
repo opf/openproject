@@ -36,9 +36,12 @@ Feature: Viewing a work package
 
     And there is a role "member"
     And the role "member" may have the following rights:
+      | manage_subtasks               |
       | manage_work_package_relations |
-      | view_work_packages |
-      | edit_work_packages |
+      | view_work_packages            |
+      | edit_work_packages            |
+      | add_issues                    |
+      | edit_planning_elements        |
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "member" in the project "omicronpersei8"
@@ -86,6 +89,18 @@ Feature: Viewing a work package
     When I click on "#5" within ".idnt-1"
     Then I should see "#5: pe2"
     Then I should see "#4: pe1" within ".work-package-4"
+
+  Scenario: Add subtask leads to issue creation page for a parent issue
+    When I go to the page of the work package "issue1"
+    Then I should see "Add subtask"
+    When I click on "Add subtask"
+    Then I should see "New issue" within ".new-issue"
+
+  Scenario: Add subtask leads to planning element creation page for a parent planning element
+    When I go to the page of the work package "pe1"
+    Then I should see "Add subtask"
+    When I click on "Add subtask"
+    Then I should see "New planning element"
 
   @javascript
   Scenario: Adding a relation will add it to the list of related work packages through AJAX instantly
