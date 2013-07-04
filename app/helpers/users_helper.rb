@@ -14,12 +14,14 @@ module UsersHelper
   def users_status_options_for_select(selected)
     user_count_by_status = User.count(:group => 'status').to_hash
     statuses = User::STATUSES.reject{|n,i| n == :builtin}.map do |name, index|
-      ["#{translate_user_status(name)} (#{user_count_by_status[index].to_i})"]
+      ["#{translate_user_status(name.to_s)} (#{user_count_by_status[index].to_i})",
+       index]
     end
+    options_for_select([[I18n.t(:label_all), '']] + statuses, selected)
   end
 
   def translate_user_status(status_name)
-    I18n.t(('status_' + status_name.to_s).to_sym)
+    I18n.t(('status_' + status_name).to_sym)
   end
 
   # Options for the new membership projects combo-box

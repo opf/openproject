@@ -94,11 +94,11 @@ module ApplicationHelper
 
   #returns a class name based on the user's status
   def user_status_class(user)
-    'status_' + user.status_name.to_s
+    'status_' + user.status_name
   end
 
   def user_status_i18n(user)
-    l(('status_' + user.status_name.to_s).to_sym)
+    l(('status_' + user.status_name).to_sym)
   end
 
   # Displays a link to +issue+ with its subject.

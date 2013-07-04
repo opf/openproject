@@ -257,7 +257,7 @@ class User < Principal
   end
 
   def status_name
-    STATUSES.keys[self.status]
+    STATUSES.keys[self.status].to_s
   end
 
   def active?
