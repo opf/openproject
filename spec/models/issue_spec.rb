@@ -131,7 +131,7 @@ describe Issue do
       cf2 = FactoryGirl.create(:issue_custom_field, :is_required => true)
 
       issue = FactoryGirl.create :issue
-      issue.project.issue_custom_fields << cf1
+      issue.project.work_package_custom_fields << cf1
       issue.tracker.custom_fields << cf1
 
       # allow active record to run validations
@@ -142,7 +142,7 @@ describe Issue do
 
       expect(issue).to be_valid
 
-      issue.project.issue_custom_fields << cf2
+      issue.project.work_package_custom_fields << cf2
       issue.tracker.custom_fields << cf2
       issue.custom_field_values # custom_field_values needs to be touched
 
