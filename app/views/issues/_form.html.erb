@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 <% end %>
 
-<% if @issue.new_record? && User.current.allowed_to?(:add_issue_watchers, @project) -%>
+<% if @issue.new_record? && User.current.allowed_to?(:add_work_package_watchers, @project) -%>
   <p id="watchers_form">
     <label><%= l(:label_issue_watchers) %></label>
     <% @issue.project.users.sort.each do |user| -%>
