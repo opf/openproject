@@ -27,6 +27,10 @@ Given /^the [Uu]ser "([^\"]*)" has:$/ do |user, table|
   modify_user(u, table)
 end
 
+Given /^the user "([^\"]*)" is locked$/ do |user|
+  User.find_by_login(user).lock!
+end
+
 Given /^there are the following users:$/ do |table|
   table.raw.flatten.each do |login|
     FactoryGirl.create(:user, :login => login)
@@ -50,4 +54,12 @@ Then /^there should be a user with the following:$/ do |table|
   expected.each do |key, value|
     user.send(key).should == value
   end
+end
+
+##
+# admin users list
+#
+When /^I filter the users list by status "([^\"]+)"$/ do |status|
+  visit('/users')
+  select(status, :from => 'Status:')
 end

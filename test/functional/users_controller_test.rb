@@ -231,12 +231,12 @@ class UsersControllerTest < ActionController::TestCase
     Setting.available_languages = [:en, :fr]
     u = User.new(:firstname => 'Foo', :lastname => 'Bar', :mail => 'foo.bar@somenet.foo', :language => 'fr')
     u.login = 'foo'
-    u.status = User::STATUS_REGISTERED
+    u.status = User::STATUSES[:registered]
     u.save!
     ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'
 
-    put :update, :id => u.id, :user => {:status => User::STATUS_ACTIVE}
+    put :update, :id => u.id, :user => {:status => User::STATUSES[:active]}
     assert u.reload.active?
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail

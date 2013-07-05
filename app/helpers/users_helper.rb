@@ -13,10 +13,15 @@
 module UsersHelper
   def users_status_options_for_select(selected)
     user_count_by_status = User.count(:group => 'status').to_hash
-    options_for_select([[l(:label_all), ''],
-                        ["#{l(:status_active)} (#{user_count_by_status[1].to_i})", 1],
-                        ["#{l(:status_registered)} (#{user_count_by_status[2].to_i})", 2],
-                        ["#{l(:status_locked)} (#{user_count_by_status[3].to_i})", 3]], selected)
+    statuses = User::STATUSES.reject{|n,i| n == :builtin}.map do |name, index|
+      ["#{translate_user_status(name.to_s)} (#{user_count_by_status[index].to_i})",
+       index]
+    end
+    options_for_select([[I18n.t(:label_all), '']] + statuses, selected)
+  end
+
+  def translate_user_status(status_name)
+    I18n.t(('status_' + status_name).to_sym)
   end
 
   # Options for the new membership projects combo-box
@@ -36,11 +41,11 @@ module UsersHelper
     url = {:controller => '/users', :action => 'update', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
 
     if user.locked?
-      link_to l(:button_unlock), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
+      link_to l(:button_unlock), url.merge(:user => {:status => User::STATUSES[:active]}), :method => :put, :class => 'icon icon-unlock'
     elsif user.registered?
-      link_to l(:button_activate), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
+      link_to l(:button_activate), url.merge(:user => {:status => User::STATUSES[:active]}), :method => :put, :class => 'icon icon-unlock'
     elsif user != User.current
-      link_to l(:button_lock), url.merge(:user => {:status => User::STATUS_LOCKED}), :method => :put, :class => 'icon icon-lock'
+      link_to l(:button_lock), url.merge(:user => {:status => User::STATUSES[:locked]}), :method => :put, :class => 'icon icon-lock'
     end
   end
 

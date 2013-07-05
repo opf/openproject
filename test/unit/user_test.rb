@@ -168,7 +168,7 @@ class UserTest < ActiveSupport::TestCase
     user = User.try_to_login("jsmith", "jsmith")
     assert_equal @jsmith, user
 
-    @jsmith.status = User::STATUS_LOCKED
+    @jsmith.status = User::STATUSES[:locked]
     assert @jsmith.save
 
     user = User.try_to_login("jsmith", "jsmith")
@@ -287,7 +287,7 @@ class UserTest < ActiveSupport::TestCase
     end
 
     should "return nil if the key is found for an inactive user" do
-      user = User.generate_with_protected!(:status => User::STATUS_LOCKED)
+      user = User.generate_with_protected!(:status => User::STATUSES[:locked])
       token = Token.generate!(:action => 'api')
       user.api_token = token
       user.save
@@ -296,7 +296,7 @@ class UserTest < ActiveSupport::TestCase
     end
 
     should "return the user if the key is found for an active user" do
-      user = User.generate_with_protected!(:status => User::STATUS_ACTIVE)
+      user = User.generate_with_protected!(:status => User::STATUSES[:active])
       token = Token.generate!(:action => 'api')
       user.api_token = token
       user.save
