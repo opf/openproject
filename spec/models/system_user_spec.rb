@@ -6,7 +6,7 @@ describe SystemUser do
   describe '#grant_privileges' do
     before do
       system_user.admin.should be_false
-      system_user.status.should == User::STATUS_LOCKED
+      system_user.status.should == User::STATUSES[:locked]
       system_user.grant_privileges
     end
 
@@ -15,14 +15,14 @@ describe SystemUser do
     end
 
     it 'unlocks the user' do
-      system_user.status.should == User::STATUS_BUILTIN
+      system_user.status.should == User::STATUSES[:builtin]
     end
   end
 
   describe '#remove_privileges' do
     before do
       system_user.admin = true
-      system_user.status = User::STATUS_ACTIVE
+      system_user.status = User::STATUSES[:active]
       system_user.save
       system_user.remove_privileges
     end
@@ -32,7 +32,7 @@ describe SystemUser do
     end
 
     it 'locks the user' do
-      system_user.status.should == User::STATUS_LOCKED
+      system_user.status.should == User::STATUSES[:locked]
     end
   end
 

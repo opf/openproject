@@ -66,6 +66,15 @@ class Principal < ActiveRecord::Base
     active_or_registered.like(query)
   end
 
+  def status_name
+    # Only Users should have another status than active.
+    # User defines the status values and other classes like Principal
+    # shouldn't know anything about them. Nevertheless, some functions
+    # want to know the status for other Principals than User.
+    raise "Principal has status other than active" unless self.status == 1
+    'active'
+  end
+
   def <=>(principal)
     if self.class.name == principal.class.name
       self.to_s.downcase <=> principal.to_s.downcase

@@ -16,10 +16,13 @@ class User < Principal
   include Redmine::SafeAttributes
 
   # Account statuses
-  STATUS_BUILTIN    = 0
-  STATUS_ACTIVE     = 1
-  STATUS_REGISTERED = 2
-  STATUS_LOCKED     = 3
+  # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
+  STATUSES = {
+    :builtin => 0,
+    :active => 1,
+    :registered => 2,
+    :locked => 3
+  }
 
   USER_FORMATS_STRUCTURE = {
     :firstname_lastname => [:firstname, :lastname],
@@ -82,8 +85,10 @@ class User < Principal
   has_many :projects, :through => :memberships
 
   # Active non-anonymous users scope
-  scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
-  scope :active_or_registered, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE} or #{User.table_name}.status = #{STATUS_REGISTERED}"
+  scope :active, :conditions => "#{User.table_name}.status = #{STATUSES[:active]}"
+  scope :active_or_registered, :conditions =>
+          "#{User.table_name}.status = #{STATUSES[:active]} or " + 
+          "#{User.table_name}.status = #{STATUSES[:registered]}"
 
   acts_as_customizable
 
@@ -251,40 +256,44 @@ class User < Principal
     end
   end
 
+  def status_name
+    STATUSES.keys[self.status].to_s
+  end
+
   def active?
-    self.status == STATUS_ACTIVE
+    self.status == STATUSES[:active]
   end
 
   def registered?
-    self.status == STATUS_REGISTERED
+    self.status == STATUSES[:registered]
   end
 
   def locked?
-    self.status == STATUS_LOCKED
+    self.status == STATUSES[:locked]
   end
 
   def activate
-    self.status = STATUS_ACTIVE
+    self.status = STATUSES[:active]
   end
 
   def register
-    self.status = STATUS_REGISTERED
+    self.status = STATUSES[:registered]
   end
 
   def lock
-    self.status = STATUS_LOCKED
+    self.status = STATUSES[:locked]
   end
 
   def activate!
-    update_attribute(:status, STATUS_ACTIVE)
+    update_attribute(:status, STATUSES[:active])
   end
 
   def register!
-    update_attribute(:status, STATUS_REGISTERED)
+    update_attribute(:status, STATUSES[:registered])
   end
 
   def lock!
-    update_attribute(:status, STATUS_LOCKED)
+    update_attribute(:status, STATUSES[:locked])
   end
 
   # Returns true if +clear_password+ is the correct user's password, otherwise false
@@ -631,7 +640,7 @@ class User < Principal
         u.firstname = ''
         u.mail = ''
         u.admin = false
-        u.status = User::STATUS_LOCKED
+        u.status = User::STATUSES[:locked]
         u.first_login = false
         u.random_password!
       end).save
@@ -777,7 +786,7 @@ class DeletedUser < User
   end
 
   def self.first
-    find_or_create_by_type_and_status(self.to_s, User::STATUS_BUILTIN)
+    find_or_create_by_type_and_status(self.to_s, STATUSES[:builtin])
   end
 
   # Overrides a few properties
