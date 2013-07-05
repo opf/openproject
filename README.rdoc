@@ -17,7 +17,7 @@ More information can be found on our website[https://www.openproject.org] and so
 
 == Installation
 
-You will find an {installation guide}[https://www.openproject.org/projects/support/wiki/Installation] online.
+You will find an {installation guide}[https://www.openproject.org/projects/openproject/wiki/Installation] online.
 
 == Get in Contact
 
