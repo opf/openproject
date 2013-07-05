@@ -1502,18 +1502,20 @@ en:
   total_progress: "Total progress"
 
   user:
-    lock: "Lock"
-    reset_failed_logins: "Reset failed logins"
-    unlock: "Unlock"
-    unlock_and_reset_failed_logins: "Unlock and reset failed logins"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
+    deleted: "Deleted user"
+    error_status_change_failed: "Changing the user status failed due to the following errors: %{errors}"
+    lock: "Lock"
+    lock_permanently: "Lock permanently"
+    reset_failed_logins: "Reset failed logins"
     status_user_and_brute_force: "%{user} and %{brute_force}"
+    unlock: "Unlock"
+    unlock_and_reset_failed_logins: "Unlock and reset failed logins"
     brute_force_status:
       blocked: "blocked (too many login failures)"
       blocked_num_failed_logins: "blocked (%{count} failed login attempts)"
 
-    deleted: "Deleted user"
 
   version_status_closed: "closed"
   version_status_locked: "locked"

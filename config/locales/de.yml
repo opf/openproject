@@ -1520,7 +1520,21 @@ de:
   total_progress: "Gesamtfortschritt"
 
   user:
+    activate: "Aktivieren"
+    activate_and_reset_failed_logins: "Aktivieren und fehlgeschlagene Logins zurücksetzen"
     deleted: "Gelöschter Nutzer"
+    error_status_change_failed: >
+      Der Nutzerstatus konnte nicht geändert werden aufgrund folgender Fehler:
+      %{errors}
+    lock: "Sperren"
+    lock_permanently: "Dauerhaft sperren"
+    reset_failed_logins: "Fehlgeschlagene Logins zurücksetzen"
+    status_user_and_brute_force: "%{user} und %{brute_force}"
+    unlock: "Entsperren"
+    unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
+    brute_force_status:
+      blocked: "blockiert (zu viele fehlgeschlagene Loginversuche)"
+      blocked_num_failed_logins: "blockiert (%{count} fehlgeschlagene Loginversuche)"
 
   version_status_closed: "abgeschlossen"
   version_status_locked: "gesperrt"

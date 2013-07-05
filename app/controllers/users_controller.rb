@@ -18,6 +18,7 @@ class UsersController < ApplicationController
   before_filter :find_user, :only => [:show,
                                       :edit,
                                       :update,
+                                      :change_status,
                                       :edit_membership,
                                       :destroy_membership,
                                       :destroy,
@@ -135,9 +136,7 @@ class UsersController < ApplicationController
     if params[:user][:password].present? && @user.change_password_allowed?
       @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
     end
-    # Was the account actived ? (do it before User#save clears the change)
-    was_activated = (@user.status_change == [User::STATUSES[:registered],
-                                             User::STATUSES[:active]])
+
     if @user.save
       # TODO: Similar to My#account
       @user.pref.attributes = params[:pref]
@@ -146,9 +145,7 @@ class UsersController < ApplicationController
 
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      if was_activated
-        UserMailer.account_activated(@user).deliver
-      elsif @user.active? && params[:send_information] && !params[:user][:password].blank? && @user.change_password_allowed?
+      if @user.active? && params[:send_information] && !params[:user][:password].blank? && @user.change_password_allowed?
         UserMailer.account_information(@user, params[:user][:password]).deliver
       end
 
@@ -170,6 +167,31 @@ class UsersController < ApplicationController
     end
   rescue ::ActionController::RedirectBackError
     redirect_to :controller => '/users', :action => 'edit', :id => @user
+  end
+
+  def change_status
+    if params[:unlock]
+      @user.failed_login_count = 0
+      @user.activate
+    elsif params[:lock]
+      @user.lock
+    elsif params[:activate]
+      @user.activate
+    end
+    # Was the account activated? (do it before User#save clears the change)
+    was_activated = (@user.status_change == [User::STATUSES[:registered],
+                                             User::STATUSES[:active]])
+    if @user.save
+      flash[:notice] = I18n.t(:notice_successful_update)
+      if was_activated
+        UserMailer.account_activated(@user).deliver
+      end
+    else
+      flash[:error] = I18n.t(:error_status_change_failed,
+                             :errors => @user.errors.full_messages.join(', '),
+                             :scope => :user)
+    end
+    redirect_to :action => 'edit', :id => @user
   end
 
   def edit_membership
