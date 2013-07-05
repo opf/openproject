@@ -126,15 +126,15 @@ class PlanningElement < WorkPackage
   after_save :update_parent_attributes
   after_save :create_alternate_date
 
-  validates_presence_of :subject, :start_date, :end_date, :project
+  validates_presence_of :subject, :start_date, :due_date, :project
 
   validates_length_of :subject, :maximum => 255, :unless => lambda { |e| e.subject.blank? }
 
   def duration
-    if start_date >= end_date
+    if start_date >= due_date
       1
     else
-      end_date - start_date + 1
+      due_date - start_date + 1
     end
   end
 
@@ -143,13 +143,13 @@ class PlanningElement < WorkPackage
   end
 
   validate do
-    if self.end_date and self.start_date and self.end_date < self.start_date
-      errors.add :end_date, :greater_than_start_date
+    if self.due_date and self.start_date and self.due_date < self.start_date
+      errors.add :due_date, :greater_than_start_date
     end
 
     if self.is_milestone?
-      if self.end_date and self.start_date and self.start_date != self.end_date
-        errors.add :end_date, :not_start_date
+      if self.due_date and self.start_date and self.start_date != self.due_date
+        errors.add :due_date, :not_start_date
       end
     end
 
@@ -269,7 +269,7 @@ class PlanningElement < WorkPackage
 
       unless parent.children.without_deleted.empty?
         parent.start_date = parent.children.without_deleted.minimum(:start_date)
-        parent.end_date   = parent.children.without_deleted.maximum(:end_date)
+        parent.due_date   = parent.children.without_deleted.maximum(:end_date)
 
         if parent.changes.present?
           parent.note = I18n.t('timelines.planning_element_updated_automatically_by_child_changes', :child => "*#{id}")
@@ -282,8 +282,8 @@ class PlanningElement < WorkPackage
   end
 
   def create_alternate_date
-    if start_date_changed? or end_date_changed?
-      alternate_dates.create(:start_date => start_date, :end_date => end_date)
+    if start_date_changed? or due_date_changed?
+      alternate_dates.create(:start_date => start_date, :end_date => due_date)
     end
   end
 end
