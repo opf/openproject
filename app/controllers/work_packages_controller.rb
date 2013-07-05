@@ -72,7 +72,7 @@ class WorkPackagesController < ApplicationController
 
   def new_work_package
     @new_work_package ||= begin
-      type = params[:type] || (params[:work_package] && params[:work_package][:type])
+      type = params.delete(:type) || (params[:work_package] && params[:work_package].delete(:type)) || 'Issue'
 
       if params[:work_package]
         params[:work_package][:author] = current_user
@@ -80,7 +80,7 @@ class WorkPackagesController < ApplicationController
 
       wp = case type
            when PlanningElement.to_s
-             project.add_planning_element(params[:work_package]) #TODO: StrongParameters
+             project.add_planning_element(params[:work_package].permit!) #TODO: StrongParameters
            when Issue.to_s
              project.add_issue(params[:work_package]) #TODO: StrongParameters
            else

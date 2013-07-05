@@ -64,6 +64,18 @@ describe Project do
     it 'should have the project associated' do
       project.add_planning_element.project.should == project
     end
+
+    it 'should assign the attributes' do
+      attributes = { :blubs => double('blubs') }
+
+      new_pe = FactoryGirl.build_stubbed(:planning_element)
+
+      project.planning_elements.should_receive(:build).and_yield(new_pe)
+
+      new_pe.should_receive(:attributes=).with(attributes)
+
+      project.add_planning_element(attributes)
+    end
   end
 
   describe "add_issue" do
@@ -112,7 +124,7 @@ describe Project do
       attributes = { :blubs => double('blubs') }
 
       new_issue = FactoryGirl.build_stubbed(:issue)
-      new_issue.should_receive(:safe_attributes=).with(attributes)
+      new_issue.should_receive(:assign_attributes).with(attributes, :without_protection => true)
 
       Issue.stub!(:new).and_yield(new_issue)
 

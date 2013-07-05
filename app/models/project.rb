@@ -878,7 +878,9 @@ class Project < ActiveRecord::Base
   def add_planning_element(attributes = {})
     attributes ||= {}
 
-    self.planning_elements.build
+    self.planning_elements.build do |pe|
+      pe.attributes = attributes
+    end
   end
 
   # TODO: merge with add_planning_elemement once tracker or similar is defined there and safe_attributes is removed
