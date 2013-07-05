@@ -51,7 +51,6 @@ Feature: Group Memberships
   Scenario: Group-based memberships and individual memberships are handled separately
      When I go to the settings page of the project called "Project1"
       And I click on "tab-members"
-      And I add the principal "Hannibal Smith" as "Manager"
       And I add the principal "Hannibal Smith" as a member with the roles:
         | Manager |
       And I wait for the AJAX requests to finish
