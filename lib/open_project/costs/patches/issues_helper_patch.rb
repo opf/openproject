@@ -32,7 +32,7 @@ module OpenProject::Costs::Patches::IssuesHelperPatch
             str_array << link_to(txt, { :controller => '/costlog',
                                         :action => 'index',
                                         :project_id => @work_package.project,
-                                        :issue_id => @work_package,
+                                        :work_package_id => @work_package,
                                         :cost_type_id => k },
                                        { :title => k.name })
           else
