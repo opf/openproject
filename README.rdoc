@@ -22,7 +22,7 @@ You will find an {installation guide}[https://www.openproject.org/projects/openp
 == Get in Contact
 
 OpenProject is supported by its community members, both companies as well as individuals. There are different possibilities of getting help:
-* OpenProject Support Project - https://www.openproject.org/projects/support
+* OpenProject {support page}[https://www.openproject.org/projects/openproject/wiki/Support]
 * E-Mail Support - info@openproject.org
 
 == Start Collaborating
