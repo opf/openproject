@@ -89,6 +89,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= call_hook(:view_issues_show_description_bottom, :issue => controller.work_package) %>
 
+  <hr />
+
   <%= render :partial => 'subwork_packages_paragraph' %>
 
   <% if authorize_for('work_package_relations', 'create') || controller.relations.present? %>
