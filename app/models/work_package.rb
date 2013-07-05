@@ -281,4 +281,9 @@ class WorkPackage < ActiveRecord::Base
       p.save(:validate => false) if p.changed?
     end
   end
+
+  def self.use_status_for_done_ratio?
+    Setting.issue_done_ratio == 'issue_status'
+  end
+
 end
