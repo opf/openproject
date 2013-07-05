@@ -283,10 +283,6 @@ class Issue < WorkPackage
     end
   end
 
-  def self.use_status_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_status'
-  end
-
   def self.use_field_for_done_ratio?
     Setting.issue_done_ratio == 'issue_field'
   end
