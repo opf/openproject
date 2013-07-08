@@ -243,17 +243,36 @@ describe WorkPackagesController do
     describe 'w/ beeing a member
               w/ having the necessary permissions
               w/ having an successful save' do
+      let(:params) { { :project_id => project.id, :work_package => { } } }
+
       become_member_with_permissions [:add_work_packages]
 
       before do
         controller.should_receive(:new_work_package).and_return(stub_issue)
         stub_issue.should_receive(:save).and_return(true)
-
-        post 'create', :project_id => project.id
       end
 
       it 'redirect to show' do
+        post 'create', params
+
         response.should redirect_to(work_package_path(stub_issue))
+      end
+
+      it 'should show a flash message' do
+        disable_flash_sweep
+
+        post 'create', params
+
+        flash[:notice].should == I18n.t(:notice_successful_create)
+      end
+
+      it 'should attach attachments if those are provided' do
+        params[:attachments] = 'attachment-blubs-data'
+
+        Attachment.should_receive(:attach_files).with(stub_issue, params[:attachments])
+        controller.stub!(:render_attachment_warning_if_needed)
+
+        post 'create', params
       end
     end
 

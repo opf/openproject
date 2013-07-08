@@ -60,6 +60,11 @@ class WorkPackagesController < ApplicationController
     wp = new_work_package
 
     if wp.save
+      flash[:notice] = I18n.t(:notice_successful_create)
+
+      Attachment.attach_files(wp, params[:attachments])
+      render_attachment_warning_if_needed(wp)
+
       redirect_to(work_package_path(wp))
     else
       respond_to do |format|
