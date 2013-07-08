@@ -42,7 +42,7 @@ FactoryGirl.define do
     sequence(:description) { |n| "Planning Element No. #{n} is the most important part of the project." }
 
     sequence(:start_date) { |n| ((n - 1) * 7).days.since.to_date }
-    sequence(:end_date)   { |n| (n * 7).days.since.to_date }
+    sequence(:due_date)   { |n| (n * 7).days.since.to_date }
 
     association :project
   end
