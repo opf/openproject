@@ -16,7 +16,17 @@ class WorkPackagesController < ApplicationController
 
   include ExtendedHTTP
 
-  menu_item :planning_elements
+  current_menu_item do |controller|
+    wp = controller.new_work_package || controller.work_package
+
+    case wp
+    when PlanningElement
+      :planning_elements
+    when Issue
+      :issues
+    end
+  end
+
   model_object WorkPackage
 
   before_filter :disable_api
