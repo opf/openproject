@@ -387,7 +387,7 @@ function observeParentIssueField(url) {
 }
 
 function observeWorkPackageParentField(url) {
-  new Ajax.Autocompleter('work_package_parent_id',
+  new Ajax.Autocompleter('work_package_parent_issue_id',
                          'parent_issue_candidates',
                          url,
                          { minChars: 1,
