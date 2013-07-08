@@ -113,6 +113,14 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
+  def self.use_status_for_done_ratio?
+    Setting.issue_done_ratio == 'issue_status'
+  end
+
+  def self.use_field_for_done_ratio?
+    Setting.issue_done_ratio == 'issue_field'
+  end
+
   # Returns true if usr or current user is allowed to view the issue
   def visible?(usr=nil)
     (usr || User.current).allowed_to?(:view_work_packages, self.project)
