@@ -90,7 +90,7 @@ class WorkPackagesController < ApplicationController
 
       wp = case type
            when PlanningElement.to_s
-             project.add_planning_element(params[:work_package].permit!) #TODO: StrongParameters
+             project.add_planning_element(params.permit![:work_package]) #TODO: StrongParameters
            when Issue.to_s
              project.add_issue(params[:work_package]) #TODO: StrongParameters
            else
