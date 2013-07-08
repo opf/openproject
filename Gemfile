@@ -143,6 +143,10 @@ platforms :mri, :mingw do
   group :postgres do
     gem 'pg'
   end
+
+  group :sqlite do
+    gem "sqlite3"
+  end
 end
 
 platforms :mri_18, :mingw_18 do
@@ -150,17 +154,9 @@ platforms :mri_18, :mingw_18 do
     gem "mysql"
     #   gem "ruby-mysql"
   end
-
-  group :sqlite do
-    gem "sqlite3-ruby", "< 1.3", :require => "sqlite3"
-  end
 end
 
 platforms :mri_19, :mingw_19 do
-  group :sqlite do
-    gem "sqlite3"
-  end
-
   group :mysql2 do
     gem "mysql2", "~> 0.3.11"
   end
