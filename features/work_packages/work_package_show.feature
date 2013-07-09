@@ -96,13 +96,13 @@ Feature: Viewing a work package
     When I go to the page of the work package "issue1"
     Then I should see "Add subtask"
     When I click on "Add subtask"
-    Then I should see "New issue" within ".new-issue"
+    Then I should be on the new work_package page of the project called "omicronpersei8"
 
   Scenario: Add subtask leads to planning element creation page for a parent planning element
     When I go to the page of the work package "pe1"
     Then I should see "Add subtask"
     When I click on "Add subtask"
-    Then I should see "New planning element"
+    Then I should be on the new work_package page of the project called "omicronpersei8"
 
   @javascript
   Scenario: Adding a relation will add it to the list of related work packages through AJAX instantly
