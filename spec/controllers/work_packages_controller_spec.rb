@@ -432,8 +432,26 @@ describe WorkPackagesController do
   end
 
   describe :relations do
-    it "should be empty" do
-      controller.relations.should be_empty
+    let(:relation) { FactoryGirl.build_stubbed(:issue_relation, :issue_from => stub_issue,
+                                                                :issue_to => stub_planning_element) }
+    let(:relations) { [relation] }
+
+    before do
+      controller.stub!(:work_package).and_return(stub_issue)
+      stub_issue.stub(:relations).and_return(relations)
+      relations.stub!(:includes).and_return(relations)
+    end
+
+    it "should return all the work_packages's relations visible to the user" do
+      stub_planning_element.stub!(:visible?).and_return(true)
+
+      controller.relations.should == relations
+    end
+
+    it "should not return relations invisible to the user" do
+      stub_planning_element.stub!(:visible?).and_return(false)
+
+      controller.relations.should == []
     end
   end
 

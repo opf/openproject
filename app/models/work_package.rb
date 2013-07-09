@@ -179,23 +179,8 @@ class WorkPackage < ActiveRecord::Base
     !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
   end
 
-  def relations(options = {})
-    options_to = options.clone
-    options_from = options.clone
-
-    if options[:include]
-      if options[:include].is_a?(Hash) && options[:include][:other_issue]
-        options_to[:include] = options_to[:include].dup
-        options_from[:include] = options_from[:include].dup
-        options_to[:include][:issue_from] = options_to[:include].delete(:other_issue)
-        options_from[:include][:issue_to] = options_from[:include].delete(:other_issue)
-      elsif options[:include].is_a?(Array) && options[:include].include?(:other_issue)
-        options_to[:include] = options[:include].dup - [:other_issue] + [:issue_from]
-        options_from[:include] = options[:include].dup - [:other_issue] + [:issue_to]
-      end
-    end
-
-    (relations_from.all(options_from) + relations_to.all(options_to)).sort
+  def relations
+    IssueRelation.of_issue(self)
   end
 
   def relation(id)
