@@ -17,12 +17,16 @@ class WorkPackagesController < ApplicationController
   include ExtendedHTTP
 
   current_menu_item do |controller|
-    wp = controller.new_work_package || controller.work_package
+    begin
+      wp = controller.new_work_package || controller.work_package
 
-    case wp
-    when PlanningElement
-      :planning_elements
-    when Issue
+      case wp
+      when PlanningElement
+        :planning_elements
+      when Issue
+        :issues
+      end
+    rescue
       :issues
     end
   end
