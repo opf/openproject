@@ -96,16 +96,21 @@ class PermittedParams < Struct.new(:params, :user)
                                              :responsible_id)
   end
 
-  def work_package
-    params.require(:work_package).permit(:subject,
+  def new_work_package
+    params[:work_package].permit(:subject,
                                          :description,
                                          :start_date,
-                                         :end_date,
-                                         :note,
+                                         :due_date,
                                          :planning_element_type_id,
-                                         :planning_element_status_comment,
-                                         :planning_element_status_id,
                                          :parent_id,
-                                         :responsible_id)
+                                         :assigned_to_id,
+                                         :responsible_id,
+                                         :tracker_id,
+                                         :fixed_version_id,
+                                         :estimated_hours,
+                                         :done_ratio,
+                                         :priority_id,
+                                         :category_id,
+                                         :status_id)
   end
 end

@@ -92,19 +92,20 @@ class WorkPackagesController < ApplicationController
 
   def new_work_package
     @new_work_package ||= begin
-      type = params.delete(:type) || (params[:work_package] && params[:work_package].delete(:type)) || 'Issue'
+      params[:work_package] ||= {}
+      type = params[:type] || params[:work_package][:type] || 'Issue'
 
-      if params[:work_package]
-        params[:work_package][:author] = current_user
-      end
+      permitted = permitted_params.new_work_package
+
+      permitted[:author] = current_user
 
       wp = case type
            when PlanningElement.to_s
-             project.add_planning_element(params.permit![:work_package]) #TODO: StrongParameters
+             project.add_planning_element(permitted)
            when Issue.to_s
-             project.add_issue(params[:work_package]) #TODO: StrongParameters
+             project.add_issue(permitted)
            else
-             raise ArgumentError, "type #{params[:type]} is not supported"
+             raise ArgumentError, "type #{ type } is not supported"
            end
 
        wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
