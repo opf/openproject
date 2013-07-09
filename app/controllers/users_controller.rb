@@ -180,6 +180,11 @@ class UsersController < ApplicationController
   end
 
   def change_status
+    if @user.id == current_user.id
+      # user is not allowed to change own status
+      redirect_back_or_default(:action => 'edit', :id => @user)
+      return
+    end
     if params[:unlock]
       @user.failed_login_count = 0
       @user.activate

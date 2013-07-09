@@ -16,7 +16,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <p>
       <label><%= I18n.t(:status, :scope => [:attributes]) %></label>
       <%= full_user_status(@user, true) %>
-      <%= change_user_status_buttons(@user) %>
+      <%= change_user_status_buttons(@user) unless @user.id == current_user.id %>
     </p>
   </div>
 <% end %>
