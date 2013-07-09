@@ -1202,8 +1202,6 @@ en:
   show_hide_project_menu: "Hide/Show project menu"
 
   status_active: "active"
-  status_locked: "locked"
-  status_registered: "registered"
 
   # Used in array.to_sentence.
   support:
@@ -1502,19 +1500,23 @@ en:
   total_progress: "Total progress"
 
   user:
+    all: "all"
+    active: "active"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
+    blocked: "locked temporarily"
+    blocked_num_failed_logins:
+      one: "locked temporarily (one failed login attempt)"
+      other: "locked temporarily (%{count} failed login attempts)"
     deleted: "Deleted user"
     error_status_change_failed: "Changing the user status failed due to the following errors: %{errors}"
-    lock: "Lock"
-    lock_permanently: "Lock permanently"
+    lock: "Lock permanently"
+    locked: "locked permanently"
+    registered: "registered"
     reset_failed_logins: "Reset failed logins"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
-    brute_force_status:
-      blocked: "blocked (too many login failures)"
-      blocked_num_failed_logins: "blocked (%{count} failed login attempts)"
 
 
   version_status_closed: "closed"

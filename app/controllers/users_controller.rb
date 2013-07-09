@@ -39,9 +39,19 @@ class UsersController < ApplicationController
 
     scope = User
     scope = scope.in_group(params[:group_id].to_i) if params[:group_id].present?
+    c = ARCondition.new
 
-    @status = params[:status] ? params[:status].to_i : 1
-    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
+    if params[:status] == 'blocked'
+      @status = :blocked
+      scope = scope.blocked
+    elsif params[:status] == 'all'
+      @status = :all
+      scope = scope.not_builtin
+    else
+      @status = params[:status] ? params[:status].to_i : 1
+      scope = scope.not_blocked
+      c << ["status = ?", @status]
+    end
 
     unless params[:name].blank?
       name = "%#{params[:name].strip.downcase}%"

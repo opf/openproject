@@ -12,29 +12,38 @@
 
 module UsersHelper
   def users_status_options_for_select(selected)
-    user_count_by_status = User.count(:group => 'status').to_hash
-    statuses = User::STATUSES.reject{|n,i| n == :builtin}.map do |name, index|
+    user_count_by_status = User.not_blocked.count(:group => 'status').to_hash
+    user_count_by_status.merge! :blocked => User.blocked.count,
+                                :all => User.not_builtin.count
+    # use non-numerical values as index to prevent clash with normal user
+    # statuses
+    status_symbols = {:all => :all}
+    status_symbols.merge!(User::STATUSES.reject{|n,i| n == :builtin})
+    status_symbols[:blocked] = :blocked
+
+    statuses = status_symbols.map do |name, index|
       ["#{translate_user_status(name.to_s)} (#{user_count_by_status[index].to_i})",
        index]
     end
-    options_for_select([[I18n.t(:label_all), '']] + statuses, selected)
+    options_for_select(statuses, selected)
   end
 
   def translate_user_status(status_name)
-    I18n.t(('status_' + status_name).to_sym)
+    I18n.t(status_name.to_sym, :scope => :user)
   end
 
   # Format user status, including brute force prevention status
-  def full_user_status(user)
+  def full_user_status(user, include_num_failed_logins=false)
     user_status = ''
     unless [User::STATUSES[:active], User::STATUSES[:builtin]].include?(user.status)
       user_status = translate_user_status(user.status_name)
     end
     brute_force_status = ''
     if user.failed_too_many_recent_login_attempts?
-      brute_force_status = I18n.t(:blocked_num_failed_logins,
+      format = include_num_failed_logins ? :blocked_num_failed_logins : :blocked
+      brute_force_status = I18n.t(format,
                                   :count => user.failed_login_count,
-                                  :scope => [:user, :brute_force_status])
+                                  :scope => :user)
     end
 
     both_statuses = user_status + brute_force_status
@@ -58,7 +67,7 @@ module UsersHelper
       # status, blocked    => [[button_title, button_name], ...]
       [:active, false]     => [[:lock, 'lock']],
       [:active, true]      => [[:reset_failed_logins, 'unlock'],
-                               [:lock_permanently, 'lock']],
+                               [:lock, 'lock']],
       [:locked, false]     => [[:unlock, 'unlock']],
       [:locked, true]      => [[:unlock_and_reset_failed_logins, 'unlock']],
       [:registered, false] => [[:activate, 'activate']],

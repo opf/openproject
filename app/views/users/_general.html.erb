@@ -15,7 +15,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="box tabular">
     <p>
       <label><%= I18n.t(:status, :scope => [:attributes]) %></label>
-      <%= full_user_status(@user) %>
+      <%= full_user_status(@user, true) %>
       <%= change_user_status_buttons(@user) %>
     </p>
   </div>
