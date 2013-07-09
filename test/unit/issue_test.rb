@@ -710,14 +710,6 @@ class IssueTest < ActiveSupport::TestCase
       assert_kind_of User, Issue.find(1).assignable_users.first
     end
 
-    should "include the issue author" do
-      project = Project.find(1)
-      non_project_member = User.generate!
-      issue = Issue.generate_for_project!(project, :author => non_project_member)
-
-      assert issue.assignable_users.include?(non_project_member)
-    end
-
     should "not show the issue author twice" do
       assignable_user_ids = Issue.find(1).assignable_users.collect(&:id)
       assert_equal 2, assignable_user_ids.length
