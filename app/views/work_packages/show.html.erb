@@ -145,7 +145,7 @@ See doc/COPYRIGHT.rdoc for more details.
 	<%= f.link_to 'PDF' %>
 <% end %>
 
-<%# html_title h("#{controller.work_package.tracker.name} ##{controller.work_package.id}: #{controller.work_package.subject}") %>
+<% html_title h(controller.work_package.to_s) %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'issues/sidebar' %>
