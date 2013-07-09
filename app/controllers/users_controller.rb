@@ -27,6 +27,7 @@ class UsersController < ApplicationController
   before_filter :authorize_for_user, :only => [:destroy]
   before_filter :check_if_deletion_allowed, :only => [:deletion_info,
                                                       :destroy]
+  before_filter :set_random_password, :only => [:create, :update]
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
@@ -317,5 +318,17 @@ class UsersController < ApplicationController
     else
       'admin'
     end
+  end
+
+  def set_random_password
+    if params[:set_random_password]
+      set_random_password_params_version_sensitive
+    end
+  end
+
+  private
+
+  def set_random_password_params_version_sensitive
+    params[:user][:password] = params[:user][:password_confirmation] = OpenProject::Passwords::Generator.random_password
   end
 end
