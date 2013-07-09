@@ -25,6 +25,12 @@ describe WorkPackagesController do
                                                           :project_id => '1' )
   end
 
+  it "should connect GET /projects/:project_id/work_packages/new_tracker to work_packages#new_tracker" do
+    get("/projects/1/work_packages/new_tracker").should route_to( :controller => 'work_packages',
+                                                                  :action => 'new_tracker',
+                                                                  :project_id => '1' )
+  end
+
   it "should connect POST /projects/:project_id/work_packages to work_packages#new" do
     post("/projects/1/work_packages").should route_to( :controller => 'work_packages',
                                                        :action => 'create',

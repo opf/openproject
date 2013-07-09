@@ -210,7 +210,9 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :work_packages, :only => [:new, :create]
+    resources :work_packages, :only => [:new, :create] do
+      get :new_tracker, :on => :collection
+    end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
 

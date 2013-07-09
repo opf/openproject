@@ -94,7 +94,7 @@ Redmine::AccessControl.map do |map|
     map.permission :export_issues, {:'issues' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
-    map.permission :add_work_packages, { :work_packages => [:new, :create] }
+    map.permission :add_work_packages, { :work_packages => [:new, :new_tracker, :create] }
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
                                           :'issues/previews' => :create}
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}

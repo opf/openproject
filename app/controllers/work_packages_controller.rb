@@ -31,7 +31,7 @@ class WorkPackagesController < ApplicationController
 
   before_filter :disable_api
   before_filter :find_model_object_and_project, :only => [:show]
-  before_filter :find_project_by_project_id, :only => [:new, :create]
+  before_filter :find_project_by_project_id, :only => [:new, :new_tracker, :create]
   before_filter :authorize,
                 :assign_planning_elements
   before_filter :apply_at_timestamp, :only => [:show]
@@ -50,6 +50,11 @@ class WorkPackagesController < ApplicationController
   def new
     respond_to do |format|
       format.html
+    end
+  end
+
+  def new_tracker
+    respond_to do |format|
       format.js { render :partial => 'attributes', :locals => { :work_package => new_work_package,
                                                                 :project => project,
                                                                 :priorities => priorities } }

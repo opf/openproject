@@ -167,10 +167,10 @@ describe WorkPackagesController do
     end
   end
 
-  describe 'new.js' do
+  describe 'new_tracker.js' do
     describe 'w/o specifying a project_id' do
       before do
-        xhr :get, :new
+        xhr :get, :new_tracker
       end
 
       it 'should return 404 Not found' do
@@ -180,7 +180,7 @@ describe WorkPackagesController do
 
     describe 'w/o being a member' do
       before do
-        xhr :get, :new, :project_id => project.id
+        xhr :get, :new_tracker, :project_id => project.id
       end
 
       it 'should return 403 Forbidden' do
@@ -193,7 +193,8 @@ describe WorkPackagesController do
       become_member_with_permissions [:add_work_packages]
 
       before do
-        xhr :get, :new, :project_id => project.id, :type => 'Issue' #TODO: remove type once Issue == PlanningElement
+        xhr :get, :new_tracker, :project_id => project.id,
+                                :type => 'Issue' #TODO: remove type once Issue == PlanningElement
       end
 
       it 'renders the new builder template' do
@@ -210,7 +211,7 @@ describe WorkPackagesController do
       become_member_with_permissions []
 
       before do
-        xhr :get, :new, :project_id => project.id
+        xhr :get, :new_tracker, :project_id => project.id
       end
 
       it 'should return 403 Forbidden' do
@@ -248,7 +249,7 @@ describe WorkPackagesController do
       become_member_with_permissions [:add_work_packages]
 
       before do
-        controller.should_receive(:new_work_package).and_return(stub_issue)
+        controller.stub!(:new_work_package).and_return(stub_issue)
         stub_issue.should_receive(:save).and_return(true)
       end
 
@@ -282,7 +283,7 @@ describe WorkPackagesController do
       become_member_with_permissions [:add_work_packages]
 
       before do
-        controller.should_receive(:new_work_package).and_return(stub_issue)
+        controller.stub!(:new_work_package).and_return(stub_issue)
         stub_issue.should_receive(:save).and_return(false)
 
         post 'create', :project_id => project.id
@@ -348,7 +349,7 @@ describe WorkPackagesController do
         end.and_return(stub_planning_element)
       end
 
-      it 'should return a new issue on the project' do
+      it 'should return a new planning element on the project' do
         controller.new_work_package.should == stub_planning_element
       end
 
