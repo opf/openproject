@@ -157,17 +157,13 @@ Feature: Viewing a work package
   @javascript
   Scenario: Log time leads to time entry creation page for issues
     When I go to the page of the work package "issue1"
-    Then I should see "More functions" within "#content > .action_menu_main"
-    When I click "More functions" within "#content > .action_menu_main"
-    Then I should see "Log time" within "#content > .action_menu_main"
-    When I click "Log time" within "#content > .action_menu_main"
+    When I select "Log time" from the action menu
+
     Then I should see "Spent time"
 
   @javascript
   Scenario: Log time leads to time entry creation page for planning element
     When I go to the page of the work package "pe1"
-    Then I should see "More functions" within "#content > .action_menu_main"
-    When I click "More functions" within "#content > .action_menu_main"
-    Then I should see "Log time" within "#content > .action_menu_main"
-    When I click "Log time" within "#content > .action_menu_main"
+    When I select "Log time" from the action menu
+
     Then I should see "Spent time"
