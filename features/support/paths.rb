@@ -99,6 +99,10 @@ module NavigationHelpers
       work_package = WorkPackage.find_by_subject($1)
       "/work_packages/#{work_package.id}"
 
+    when /^the new work_package page (?:for|of) the project called "([^\"]+)"$/
+      # Assuming issue for now
+      "/projects/#{$1}/work_packages/new?type=Issue"
+
     when /^the wiki index page(?: below the (.+) page)? (?:for|of) (?:the)? project(?: called)? (.+)$/
        parent_page_title, project_identifier = $1, $2
        project_identifier.gsub!("\"", "")
