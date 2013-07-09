@@ -225,7 +225,9 @@ class User < Principal
     end
     unless prevent_brute_force_attack(result, login).nil?
       user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
-      return user
+      # don't let brute force prevention allow a user access that was
+      # denied earlier
+      return user if result
     end
     nil
   end
@@ -353,6 +355,7 @@ class User < Principal
   #
   def failed_too_many_recent_login_attempts?
     block_threshold = Setting.brute_force_block_after_failed_logins.to_i
+    return false if block_threshold == 0  # disabled
     return (last_failed_login_within_block_time? and
             self.failed_login_count >= block_threshold)
   end

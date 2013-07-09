@@ -33,3 +33,9 @@ Feature: Prevent brute force attacks
     And I try to log in with user "bob"
     Then I should see "Bob Bobbit"
 
+  Scenario: Brute force prevention is disabled
+    Given users are blocked for 5 minutes after 0 failed login attempts
+    When I try to log in with user "bob" and a wrong password
+    Then I should not see "Bob Bobbit"
+    When I try to log in with user "bob"
+    Then I should see "Bob Bobbit"
