@@ -28,6 +28,15 @@ Feature: User Status
     And I should see "admin"
     And I should not see "Anonymous"
 
+  @javascript
+  Scenario: User can be unlocked on the index page
+    Given the user "bobby" is locked
+    When I filter the users list by status "locked permanently (1)"
+    And I click "Unlock"
+    Then I should not see "bobby"
+    And I try to log in with user "bobby"
+    Then I should see "Bob Bobbit"
+
   Scenario: A locked and blocked user gets unlocked and unblocked
     Given the user "bobby" is locked
     And the user "bobby" had too many recently failed logins
