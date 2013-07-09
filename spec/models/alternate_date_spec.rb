@@ -77,10 +77,10 @@ describe AlternateDate do
     let(:attributes) {
       {:planning_element_id => 1,
        :start_date => Date.today,
-       :end_date   => Date.today + 2.weeks}
+       :due_date   => Date.today + 2.weeks}
     }
 
-    before { 
+    before {
       FactoryGirl.create(:planning_element, :id => 1)
 
       ApplicationHelper.set_language_if_valid 'en'
@@ -100,39 +100,39 @@ describe AlternateDate do
       end
     end
 
-    describe 'end_date' do
-      it 'is invalid w/o a end_date' do
-        attributes[:end_date] = nil
+    describe 'due_date' do
+      it 'is invalid w/o a due_date' do
+        attributes[:due_date] = nil
         alternate_date = AlternateDate.new.tap { |ad| ad.send(:assign_attributes, attributes, :without_protection => true) }
 
         alternate_date.should_not be_valid
 
-        alternate_date.errors[:end_date].should be_present
-        alternate_date.errors[:end_date].should == ["can't be blank"]
+        alternate_date.errors[:due_date].should be_present
+        alternate_date.errors[:due_date].should == ["can't be blank"]
       end
 
-      it 'is invalid if start_date is after end_date' do
+      it 'is invalid if start_date is after due_date' do
         attributes[:start_date] = Date.today
-        attributes[:end_date]   = Date.today - 1.week
+        attributes[:due_date]   = Date.today - 1.week
         alternate_date = AlternateDate.new.tap { |ad| ad.send(:assign_attributes, attributes, :without_protection => true) }
 
         alternate_date.should_not be_valid
 
-        alternate_date.errors[:end_date].should be_present
-        alternate_date.errors[:end_date].should == ["must be greater than start date"]
+        alternate_date.errors[:due_date].should be_present
+        alternate_date.errors[:due_date].should == ["must be greater than start date"]
       end
 
-      it 'is invalid if planning_element is milestone and end_date is not on start_date' do
+      it 'is invalid if planning_element is milestone and due_date is not on start_date' do
         planning_element_type         = FactoryGirl.build(:planning_element_type, :is_milestone => true)
         attributes[:start_date]       = Date.today
-        attributes[:end_date]         = Date.today + 1.week
+        attributes[:due_date]         = Date.today + 1.week
         attributes[:planning_element] = FactoryGirl.build(:planning_element, :planning_element_type => planning_element_type)
         alternate_date = AlternateDate.new.tap { |ad| ad.send(:assign_attributes, attributes, :without_protection => true) }
 
         alternate_date.should_not be_valid
 
-        alternate_date.errors[:end_date].should be_present
-        alternate_date.errors[:end_date].should == ["is not on start date, although this is required for milestones"]
+        alternate_date.errors[:due_date].should be_present
+        alternate_date.errors[:due_date].should == ["is not on start date, although this is required for milestones"]
       end
     end
 

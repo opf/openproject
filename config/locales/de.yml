@@ -96,9 +96,9 @@ de:
         hexcode: Hex-Code
       planning_element:
         alternate_dates:
-          end_date: Abschlussdatum des alternativen Datums
+          due_date: Abschlussdatum des alternativen Datums
         description: Beschreibung
-        end_date: Abschlussdatum
+        due_date: Abschlussdatum
         id: ID
         name: Name
         parent: Eltern-Element
@@ -188,11 +188,11 @@ de:
       models:
         alternate_date:
           attributes:
-            end_date:
+            due_date:
               not_start_date: "ist nicht identisch mit dem Startdatum, obwohl dies bei Meilensteinen Pflicht ist"
         planning_element:
           attributes:
-            end_date:
+            due_date:
               not_start_date: "ist nicht am Startdatum, obwohl die bei Meilensteinen Pflicht ist"
             parent:
               cannot_be_milestone: "darf kein Meilenstein sein"

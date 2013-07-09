@@ -125,9 +125,9 @@ en:
         hexcode: Hex code
       planning_element:
         alternate_dates:
-          end_date: End date of alternate date
+          due_date: End date of alternate date
         description: Description
-        end_date: "End date"
+        due_date: "End date"
         id: ID
         name: Name
         parent: Parent element
@@ -192,11 +192,11 @@ en:
       models:
         alternate_date:
           attributes:
-            end_date:
+            due_date:
               not_start_date: "is not on start date, although this is required for milestones"
         planning_element:
           attributes:
-            end_date:
+            due_date:
               not_start_date: "is not on start date, although this is required for milestones"
             parent:
               cannot_be_milestone: "cannot be a milestone"

@@ -165,8 +165,8 @@ describe PermittedParams do
       PermittedParams.new(params, user).planning_element.should == hash
     end
 
-    it "should permit end_date" do
-      hash = { "end_date" => "2012-12-12" }
+    it "should permit due_date" do
+      hash = { "due_date" => "2012-12-12" }
 
       params = ActionController::Parameters.new(:planning_element => hash)
 
@@ -174,7 +174,7 @@ describe PermittedParams do
     end
 
     it "should permit scenarios" do
-      hash = { "scenarios" => {'id' => "1", 'start_date' => '2012-01-01', 'end_date' => '2012-01-03' } }
+      hash = { "scenarios" => {'id' => "1", 'start_date' => '2012-01-01', 'due_date' => '2012-01-03' } }
 
       params = ActionController::Parameters.new(:planning_element => hash)
 

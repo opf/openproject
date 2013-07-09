@@ -36,7 +36,7 @@ class PlanningElement < WorkPackage
                 #{PlanningElement.quoted_table_name}.description,
                 #{PlanningElement.quoted_table_name}.planning_element_status_comment,
                 #{AlternateDate.quoted_table_name  }.start_date,
-                #{AlternateDate.quoted_table_name  }.end_date,
+                #{AlternateDate.quoted_table_name  }.due_date,
                 #{PlanningElement.quoted_table_name}.parent_id,
                 #{PlanningElement.quoted_table_name}.project_id,
                 #{PlanningElement.quoted_table_name}.responsible_id,
@@ -107,7 +107,7 @@ class PlanningElement < WorkPackage
     changes = {}
     alternate_dates.each do |d|
       if d.scenario.present? && (!(alternate_date_changes = d.changes).empty? || d.marked_for_destruction?)
-        ["start_date", "end_date"].each do |field|
+        ["start_date", "due_date"].each do |field|
           old_value = if (scenario_changes = alternate_date_changes["scenario_id"])
             scenario_changes.first.nil? ? nil : d.send(field)
           else
@@ -186,7 +186,7 @@ class PlanningElement < WorkPackage
   #   {
   #     'id' => 1,
   #     'start_date => '2012-01-01',
-  #     'end_date' => '2012-01-03'
+  #     'due_date' => '2012-01-03'
   #   }
   #
   # The id attribute is required. If both date fields are empty or missing, the
@@ -210,12 +210,12 @@ class PlanningElement < WorkPackage
         end
       end
 
-      if (pe_scenario['start_date'].blank? and pe_scenario['end_date'].blank?) or
+      if (pe_scenario['start_date'].blank? and pe_scenario['due_date'].blank?) or
           pe_scenario['_destroy'] == '1'
         alternate_date.mark_for_destruction
       else
         alternate_date.attributes = {'start_date' => pe_scenario['start_date'],
-                                     'end_date'   => pe_scenario['end_date']}
+                                     'due_date'   => pe_scenario['due_date']}
       end
     end
   end
@@ -269,7 +269,7 @@ class PlanningElement < WorkPackage
 
       unless parent.children.without_deleted.empty?
         parent.start_date = parent.children.without_deleted.minimum(:start_date)
-        parent.due_date   = parent.children.without_deleted.maximum(:end_date)
+        parent.due_date   = parent.children.without_deleted.maximum(:due_date)
 
         if parent.changes.present?
           parent.note = I18n.t('timelines.planning_element_updated_automatically_by_child_changes', :child => "*#{id}")
@@ -283,7 +283,7 @@ class PlanningElement < WorkPackage
 
   def create_alternate_date
     if start_date_changed? or due_date_changed?
-      alternate_dates.create(:start_date => start_date, :end_date => due_date)
+      alternate_dates.create(:start_date => start_date, :due_date => due_date)
     end
   end
 end

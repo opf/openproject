@@ -65,7 +65,7 @@ class WorkPackage < ActiveRecord::Base
   ###################################################
   acts_as_attachable :after_remove => :attachment_removed
 
-  acts_as_journalized :event_title => Proc.new {|o| "#{o.tracker.name} ##{o.journaled_id} (#{o.status}): #{o.subject}"},
+  acts_as_journalized :event_title => Proc.new {|o| "#{ o.to_s }"},
                       :event_type => Proc.new {|o|
                                                 t = 'work_package'
                                                 if o.changed_data.empty?
@@ -90,14 +90,14 @@ class WorkPackage < ActiveRecord::Base
                                                     :category_id, :fixed_version_id,
                                                     :planning_element_type_id,
                                                     :planning_element_status_id,
-                                                    :responsible_id
-  register_on_journal_formatter :datetime,          :start_date, :end_date, :due_date, :deleted_at
+                                                    :author_id, :responsible_id
+  register_on_journal_formatter :datetime,          :start_date, :due_date, :deleted_at
 
   # By planning element
   register_on_journal_formatter :plaintext,         :subject,
                                                     :planning_element_status_comment
                                                     :responsible_id
-  register_on_journal_formatter :scenario_date,     /^scenario_(\d+)_(start|end)_date$/
+  register_on_journal_formatter :scenario_date,     /^scenario_(\d+)_(start|due)_date$/
 
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
