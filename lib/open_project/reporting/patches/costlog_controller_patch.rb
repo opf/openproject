@@ -64,12 +64,7 @@ module OpenProject::Reporting::Patches::CostlogControllerPatch
     end
 
     def find_optional_project_with_own
-      if !params[:issue_id].blank?
-        @issue = Issue.find(params[:issue_id])
-        @project = @issue.project
-      elsif !params[:project_id].blank?
-        @project = Project.find(params[:project_id])
-      end
+      find_optional_project_without_own
       deny_access unless User.current.allowed_to?(:view_cost_entries, @project, :global => true) ||
                          User.current.allowed_to?(:view_own_cost_entries, @project, :global => true)
     end
