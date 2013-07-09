@@ -221,6 +221,14 @@ describe PermittedParams do
       PermittedParams.new(params, user).planning_element.should == hash
     end
 
+    it "should permit parent_issue_id" do
+      hash = { "parent_issue_id" => "1" }
+
+      params = ActionController::Parameters.new(:planning_element => hash)
+
+      PermittedParams.new(params, user).planning_element.should == hash
+    end
+
     it "should permit responsible_id" do
       hash = { "responsible_id" => "1" }
 

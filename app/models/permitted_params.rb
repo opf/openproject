@@ -103,6 +103,7 @@ class PermittedParams < Struct.new(:params, :user)
                                          :due_date,
                                          :planning_element_type_id,
                                          :parent_id,
+                                         :parent_issue_id,
                                          :assigned_to_id,
                                          :responsible_id,
                                          :tracker_id,
