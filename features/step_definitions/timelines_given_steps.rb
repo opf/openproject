@@ -91,7 +91,8 @@ Given /^there are the following alternate dates for "([^"]*)":$/ do |scenario_na
   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each do |row|
     planning_element = PlanningElement.find_by_subject!(row["planning_element_subject"])
-    planning_element.scenarios = {scenario.id.to_s => {"id" => scenario.id.to_s, "start_date" => row["start_date"], "end_date" => row["end_date"]} }
+    planning_element.scenarios = {scenario.id.to_s => {"id" => scenario.id.to_s, "start_date" => row["start_date"], "due_date" => row["due_date"]} }
+
     planning_element.save!
   end
 end

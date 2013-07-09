@@ -536,7 +536,7 @@ de:
       tooManyProjects: "Mehr als %{count} Projekte. Bitte genauer filtern!"
       cancel: "Abbrechen"
       create_planning_select_project: "Projekt:"
-      end_date: "Abschlussdatum"
+      due_date: "Abschlussdatum"
       error: "Ein Fehler ist aufgetreten."
       filter:
         none: "(keines)"
@@ -849,6 +849,9 @@ de:
   label_role_and_permissions: "Rollen und Rechte"
   label_role_new: "Neue Rolle"
   label_role_plural: "Rollen"
+  label_scenario_due_date: "Scenario %{title}: Abgabedatum"
+  label_scenario_start_date: "Scenario %{title}: Startdatum"
+  label_scenario_deleted: '(gelöschtes Scenario)'
   label_scm: "Versionskontrollsystem"
   label_search: "Suche"
   label_search_titles_only: "Nur Titel durchsuchen"

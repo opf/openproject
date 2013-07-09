@@ -528,7 +528,7 @@ en:
       really_delete_planning_element: >
         Are you sure, you want to permanently delete the following planning element and all
         its child elements?
-      end_date: "End date"
+      due_date: "Due date"
       name: "Name"
       planning_element_types: "Planning element type"
       project_status: "Project status"
@@ -836,7 +836,7 @@ en:
   label_role_new: "New role"
   label_role_plural: "Roles"
   label_role_search: "Search for roles:"
-  label_scenario_end_date: "Scenario %{title}: End date"
+  label_scenario_due_date: "Scenario %{title}: Due date"
   label_scenario_start_date: "Scenario %{title}: Start date"
   label_scenario_deleted: '(deleted scenario)'
   label_scm: "SCM"
