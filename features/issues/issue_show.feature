@@ -25,7 +25,10 @@ Feature: Watch issues
     And the role "member" may have the following rights:
       | view_work_packages |
     And there is 1 user with the following:
-      | login | bob|
+      | login     | bob    |
+      | firstname | Bob    |
+      | lastname  | Bobbit |
+      | admin     | true   |
     And the user "bob" is a "member" in the project "parent"
     Given the user "bob" has 1 issue with the following:
       | subject     | issue1              |
@@ -47,4 +50,24 @@ Feature: Watch issues
     Then I should see "Unwatch" within "#content > .action_menu_main"
     When I click on "Unwatch" within "#content > .action_menu_main"
     Then I should see "Watch" within "#content > .action_menu_main"
+    Then the issue "issue1" should have 0 watchers
+
+  @javascript
+  Scenario: Add a watcher to an issue
+    When I go to the page of the issue "issue1"
+    Then I should see "Add watcher" within "#content > .issue > #watchers"
+    When I click on "Add watcher" within "#content > .issue > #watchers"
+    And I select "Bob Bobbit" from "watcher_user_id" within "#content > .issue > #watchers"
+    And I press "Add" within "#content > .issue > #watchers"
+    Then I should see "Bob Bobbit" within "#content > .issue > #watchers > ul"
+    Then the issue "issue1" should have 1 watchers
+
+  @javascript
+  Scenario: Remove a watcher from an issue
+    Given the issue "issue1" is watched by:
+      | bob |
+    When I go to the page of the issue "issue1"
+    Then I should see "Bob Bobbit" within "#content > .issue > #watchers > ul"
+    When I click on "Delete" within "#content > .issue > #watchers > ul"
+    Then I should not see "Bob Bobbit" within "#content > .issue > #watchers"
     Then the issue "issue1" should have 0 watchers
