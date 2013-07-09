@@ -174,10 +174,19 @@ class WorkPackagesController < ApplicationController
 
   end
 
-  [:changesets, :relations].each do |method|
+  [:changesets].each do |method|
     define_method method do
       []
     end
+  end
+
+  def relations
+    @relations ||= work_package.relations(:include => { :other_issue => [:status,
+                                                                         :priority,
+                                                                         :tracker,
+                                                                         { :project => :enabled_modules }] })
+                                         .select{ |r| r.other_issue(work_package) && r.other_issue(work_package).visible? }
+
   end
 
   def priorities

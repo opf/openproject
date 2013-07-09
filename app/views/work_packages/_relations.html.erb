@@ -19,13 +19,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <table style="width:100%">
   <tbody>
-    <%= render :partial => 'work_packages/relation', :collection => controller.work_package.relations, :as => :relation -%>
+    <%= render :partial => 'relation', :collection => relations,
+                                                     :as => :relation,
+                                                     :locals => { :work_package => work_package } -%>
   </tbody>
 </table>
 
 <%= form_for(controller.work_package.new_relation,
              :as => :relation,
-             :url => work_package_relations_path(controller.work_package),
+             :url => work_package_relations_path(work_package),
              :method => :post,
              :remote => true,
              :complete => "Form.Element.focus('relation_issue_to_id');",

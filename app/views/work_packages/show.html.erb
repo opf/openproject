@@ -96,7 +96,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if authorize_for('work_package_relations', 'create') || controller.relations.present? %>
     <div id="relations">
     <hr />
-      <%= render :partial => 'relations' %>
+    <%= render :partial => 'relations', :locals => { :work_package => controller.work_package,
+                                                     :relations => controller.relations } %>
     </div>
   <% end %>
 
