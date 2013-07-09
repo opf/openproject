@@ -12,9 +12,10 @@
 
 module UsersHelper
   def users_status_options_for_select(selected)
-    user_count_by_status = User.not_blocked.count(:group => 'status').to_hash
+    user_count_by_status = User.count(:group => 'status').to_hash
     user_count_by_status.merge! :blocked => User.blocked.count,
-                                :all => User.not_builtin.count
+                                :all => User.not_builtin.count,
+                                :active => User.not_blocked.count
     # use non-numerical values as index to prevent clash with normal user
     # statuses
     status_symbols = {:all => :all}
@@ -62,7 +63,7 @@ module UsersHelper
   # Create buttons to lock/unlock a user and reset failed logins
   def change_user_status_buttons(user)
     status = user.status_name.to_sym
-    blocked = user.failed_too_many_recent_login_attempts?
+    blocked = !!user.failed_too_many_recent_login_attempts?
     button_cases = {
       # status, blocked    => [[button_title, button_name], ...]
       [:active, false]     => [[:lock, 'lock']],
@@ -74,6 +75,7 @@ module UsersHelper
       [:registered, true]  => [[:activate_and_reset_failed_logins, 'activate']],
     }
     result = ''.html_safe
+
     (button_cases[[status, blocked]] || []).each do |title, name|
       result << submit_tag(I18n.t(title, :scope => :user), :name => name)
     end

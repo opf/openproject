@@ -48,8 +48,8 @@ class UsersController < ApplicationController
       @status = :all
       scope = scope.not_builtin
     else
-      @status = params[:status] ? params[:status].to_i : 1
-      scope = scope.not_blocked
+      @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
+      scope = scope.not_blocked if status == User::STATUSES[:active]
       c << ["status = ?", @status]
     end
 
