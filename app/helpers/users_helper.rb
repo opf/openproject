@@ -15,7 +15,8 @@ module UsersHelper
     user_count_by_status = User.count(:group => 'status').to_hash
     user_count_by_status.merge! :blocked => User.blocked.count,
                                 :all => User.not_builtin.count,
-                                :active => User.not_blocked.count
+                                User::STATUSES[:active] =>
+                                  User.active.not_blocked.count
     # use non-numerical values as index to prevent clash with normal user
     # statuses
     status_symbols = {:all => :all}
@@ -60,11 +61,7 @@ module UsersHelper
     end
   end
 
-  # Create buttons to lock/unlock a user and reset failed logins
-  def change_user_status_buttons(user)
-    status = user.status_name.to_sym
-    blocked = !!user.failed_too_many_recent_login_attempts?
-    button_cases = {
+  STATUS_CHANGE_ACTIONS = {
       # status, blocked    => [[button_title, button_name], ...]
       [:active, false]     => [[:lock, 'lock']],
       [:active, true]      => [[:reset_failed_logins, 'unlock'],
@@ -74,12 +71,39 @@ module UsersHelper
       [:registered, false] => [[:activate, 'activate']],
       [:registered, true]  => [[:activate_and_reset_failed_logins, 'activate']],
     }
-    result = ''.html_safe
 
-    (button_cases[[status, blocked]] || []).each do |title, name|
-      result << submit_tag(I18n.t(title, :scope => :user), :name => name)
+  # Create buttons to lock/unlock a user and reset failed logins
+  def build_change_user_status_action(user)
+    status = user.status_name.to_sym
+    blocked = !!user.failed_too_many_recent_login_attempts?
+
+    result = ''.html_safe
+    (STATUS_CHANGE_ACTIONS[[status, blocked]] || []).each do |title, name|
+      result << (yield I18n.t(title, :scope => :user), name) + ' '.html_safe
     end
     result
+  end
+
+  def change_user_status_buttons(user)
+    build_change_user_status_action(user) do |title, name|
+      submit_tag(title, :name => name)
+    end
+  end
+
+  def change_user_status_links(user)
+    icons = {
+      'unlock' => 'unlock',
+      'activate' => 'unlock',
+      'lock' => 'lock'
+    }
+    build_change_user_status_action(user) do |title, name|
+      link_to title,
+              change_status_user_path(user,
+                                      name.to_sym => '1',
+                                      :back_url => request.fullpath),
+              :method => :post,
+              :class => "icon icon-#{icons[name]}"
+    end
   end
 
   # Options for the new membership projects combo-box
@@ -93,18 +117,6 @@ module UsersHelper
 
   def user_mail_notification_options(user)
     user.valid_notification_options.collect {|o| [l(o.last), o.first]}
-  end
-
-  def change_status_link(user)
-    url = {:controller => '/users', :action => 'update', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
-
-    if user.locked?
-      link_to l(:button_unlock), url.merge(:user => {:status => User::STATUSES[:active]}), :method => :put, :class => 'icon icon-unlock'
-    elsif user.registered?
-      link_to l(:button_activate), url.merge(:user => {:status => User::STATUSES[:active]}), :method => :put, :class => 'icon icon-unlock'
-    elsif user != User.current
-      link_to l(:button_lock), url.merge(:user => {:status => User::STATUSES[:locked]}), :method => :put, :class => 'icon icon-lock'
-    end
   end
 
   def user_settings_tabs

@@ -285,7 +285,6 @@ de:
     user: "Benutzer"
     version: "Version"
 
-  button_activate: "Aktivieren"
   button_add: "Hinzufügen"
   button_add_watcher: "Beobachter hinzufügen"
   button_annotate: "Annotieren"

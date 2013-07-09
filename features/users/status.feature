@@ -5,9 +5,16 @@ Feature: User Status
 
   @javascript
   Scenario: Users can be filtered by status
-    And the user "bobby" is locked
-    And the user "bobby" had too many recently failed logins
+    Given the user "bobby" had too many recently failed logins
+    And I filter the users list by status "active (1)"
     Then I should not see "bobby"
+    And I should see "admin"
+    And I should not see "Anonymous"
+    And I filter the users list by status "locked temporarily (1)"
+    Then I should see "bobby"
+    And I should not see "admin"
+    And I should not see "Anonymous"
+    When the user "bobby" is locked
     And I filter the users list by status "locked permanently (1)"
     Then I should see "bobby"
     And I should not see "admin"

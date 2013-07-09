@@ -289,7 +289,6 @@ en:
     user: "User"
     version: "Version"
 
-  button_activate: "Activate"
   button_add: "Add"
   button_add_watcher: "Add watcher"
   button_annotate: "Annotate"

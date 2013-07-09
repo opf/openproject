@@ -49,7 +49,7 @@ class UsersController < ApplicationController
       scope = scope.not_builtin
     else
       @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
-      scope = scope.not_blocked if status == User::STATUSES[:active]
+      scope = scope.not_blocked if @status == User::STATUSES[:active]
       c << ["status = ?", @status]
     end
 
@@ -201,7 +201,7 @@ class UsersController < ApplicationController
                              :errors => @user.errors.full_messages.join(', '),
                              :scope => :user)
     end
-    redirect_to :action => 'edit', :id => @user
+    redirect_back_or_default(:action => 'edit', :id => @user)
   end
 
   def edit_membership
