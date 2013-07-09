@@ -15,6 +15,10 @@ require 'open_project/themes/theme'
 module OpenProject
   module Themes
     class DefaultTheme < OpenProject::Themes::Theme
+      def name
+        'OpenProject'
+      end
+
       def assets_path
         @assets_path ||= Rails.root.join('app/assets').to_s
       end

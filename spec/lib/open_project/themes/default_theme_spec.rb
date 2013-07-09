@@ -16,8 +16,14 @@ module OpenProject
     describe DefaultTheme do
       let(:theme) { DefaultTheme.instance }
 
+      describe '#name' do
+        it 'is called OpenProject' do
+          expect(theme.name).to eq 'OpenProject'
+        end
+      end
+
       describe '#stylesheet_manifest' do
-        it 'it is default with a css extension' do
+        it 'is default with a css extension' do
           expect(theme.stylesheet_manifest).to eq 'default.css'
         end
       end
