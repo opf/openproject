@@ -24,7 +24,8 @@ class WorkPackageRelationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to work_package_path(@work_package) }
-      format.js {}
+      format.js { render :action => 'create', :locals => { :work_package => work_package,
+                                                            :relation => @relation } }
     end
   end
 

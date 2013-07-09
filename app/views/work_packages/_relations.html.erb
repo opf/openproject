@@ -20,12 +20,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <table style="width:100%">
   <tbody>
     <%= render :partial => 'relation', :collection => relations,
-                                                     :as => :relation,
-                                                     :locals => { :work_package => work_package } -%>
+                                       :as => :relation,
+                                       :locals => { :work_package => work_package } -%>
   </tbody>
 </table>
 
-<%= form_for(controller.work_package.new_relation,
+<%= form_for(work_package.new_relation,
              :as => :relation,
              :url => work_package_relations_path(work_package),
              :method => :post,

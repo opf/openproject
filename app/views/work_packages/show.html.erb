@@ -91,7 +91,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <hr />
 
-  <%= render :partial => 'subwork_packages_paragraph' %>
+  <%= render :partial => 'subwork_packages_paragraph', :locals => { :work_package => controller.work_package,
+                                                                    :ancestors => controller.ancestors,
+                                                                    :descendants => controller.descendants } %>
 
   <% if authorize_for('work_package_relations', 'create') || controller.relations.present? %>
     <div id="relations">

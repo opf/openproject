@@ -41,6 +41,7 @@ Feature: Viewing a work package
       | view_work_packages            |
       | edit_work_packages            |
       | add_issues                    |
+      | add_work_package              |
       | edit_planning_elements        |
       | log_time                      |
     And there is 1 user with the following:

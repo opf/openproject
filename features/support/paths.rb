@@ -100,8 +100,7 @@ module NavigationHelpers
       "/work_packages/#{work_package.id}"
 
     when /^the new work_package page (?:for|of) the project called "([^\"]+)"$/
-      # Assuming issue for now
-      "/projects/#{$1}/work_packages/new?type=Issue"
+      "/projects/#{$1}/work_packages/new"
 
     when /^the wiki index page(?: below the (.+) page)? (?:for|of) (?:the)? project(?: called)? (.+)$/
        parent_page_title, project_identifier = $1, $2
