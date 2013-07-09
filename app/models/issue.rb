@@ -727,6 +727,13 @@ class Issue < WorkPackage
       end
       reload
 
+      # delete invalid relations of all descendants
+      self_and_descendants.each do |issue|
+        issue.relations.each do |relation|
+          relation.destroy unless relation.valid?
+        end
+      end
+
       # update former parent
       recalculate_attributes_for(former_parent_id) if former_parent_id
     end
