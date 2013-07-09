@@ -4,6 +4,7 @@ en:
     attributes:
       cost_entry:
         issue: "Issue"
+        work_package: "Issue"
         overridden_costs: "Overridden costs"
         spent: "Spent"
         spent_on: "Date"

@@ -4,6 +4,7 @@ de:
     attributes:
       cost_entry:
         issue: "Ticket"
+        work_package: "Ticket"
         overridden_costs: "Überschriebene Kosten"
         spent: "Gebucht"
         spent_on: "Datum"
