@@ -555,6 +555,7 @@ describe PlanningElement do
 
     let(:pe) { FactoryGirl.create(:planning_element,
                                   :subject                         => "Plan A",
+                                  :author                          => responsible,
                                   :description                     => "This won't work out",
                                   :start_date                      => Date.new(2012, 1, 24),
                                   :end_date                        => Date.new(2012, 1, 31),
@@ -570,9 +571,10 @@ describe PlanningElement do
 
       changes = pe.journals.first.changed_data.to_hash
 
-      changes.size.should == 9
+      changes.size.should == 10
 
       changes.should include("subject")
+      changes.should include("author_id")
       changes.should include("description")
       changes.should include("start_date")
       changes.should include("end_date")

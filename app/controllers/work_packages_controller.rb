@@ -62,11 +62,17 @@ class WorkPackagesController < ApplicationController
   end
 
   def create
+    call_hook(:controller_work_package_new_before_save, { :params => params, :work_package => new_work_package })
+
+    WorkPackageObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
+
     if new_work_package.save
       flash[:notice] = I18n.t(:notice_successful_create)
 
       Attachment.attach_files(new_work_package, params[:attachments])
       render_attachment_warning_if_needed(new_work_package)
+
+      call_hook(:controller_work_pacakge_new_after_save, { :params => params, :work_package => new_work_package })
 
       redirect_to(work_package_path(new_work_package))
     else

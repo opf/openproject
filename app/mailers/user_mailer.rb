@@ -38,7 +38,9 @@ class UserMailer < ActionMailer::Base
     message_id @issue
 
     with_locale_for(user) do
-      subject = "[#{@issue.project.name} - #{@issue.tracker.name} ##{@issue.id}] (#{@issue.status.name}) #{@issue.subject}"
+      subject = "[#{@issue.project.name} - #{ @issue.to_s }]"
+      subject << " (#{@issue.status.name})" if @issue.status
+      subject << " #{@issue.subject}"
       mail :to => user.mail, :subject => subject
     end
   end
