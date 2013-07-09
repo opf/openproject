@@ -14,8 +14,11 @@ When /^I edit the user "([^\"]*)"$/ do |user|
   visit "/users/#{user_id}/edit"
 end
 
-When /^I unlock the user "([^\"]*)"$/ do |user|
-  click_button('Unlock and reset failed logins')
+When /^I (activate_and_reset_failed_logins|lock|unlock) the user "([^\"]*)"$/ do |action, user|
+  button_title = {
+    'activate' => 'Unlock and reset failed logins'
+  }
+  click_button()
 end
 
 Given /^there is 1 [Uu]ser with(?: the following)?:$/ do |table|
@@ -38,6 +41,10 @@ end
 
 Given /^the user "([^\"]*)" is locked$/ do |user|
   User.find_by_login(user).lock!
+end
+
+Given /^the user "([^\"]*)" is registered and not activated$/ do |user|
+  User.find_by_login(user).register!
 end
 
 Given /^the user "([^\"]*)" had too many recently failed logins$/ do |user|
