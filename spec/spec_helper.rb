@@ -86,8 +86,8 @@ module OpenProject::RSpecLazinessWarn
   def self.warn_if_user_current_set(example)
     # Using the hacky way of getting current_user to avoid under the hood creation of AnonymousUser
     # which might break other tests and at least leaves this user in the db after the test is run.
-    unless User.instance_variable_get(:@current_user).nil?
-
+    user = User.instance_variable_get(:@current_user)
+    unless user.nil? or user.is_a? AnonymousUser
       # we only want an abbreviated_stacktrace because the logfiles
       # might otherwise not be capable to show all the warnings.
       # Thus we only take the callers that are part of the user code.
