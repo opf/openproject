@@ -26,7 +26,7 @@ FactoryGirl.define do
     mail_notification(Redmine::VERSION::MAJOR > 0 ? 'all' : true)
 
     language 'en'
-    status User::STATUS_ACTIVE
+    status User::STATUSES[:active]
     admin false
     first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
 
@@ -51,12 +51,12 @@ FactoryGirl.define do
     end
 
     factory :anonymous, :class => AnonymousUser do
-      status User::STATUS_BUILTIN
+      status User::STATUSES[:builtin]
       initialize_with { User.anonymous }
     end
 
     factory :deleted_user, :class => DeletedUser do
-      status User::STATUS_BUILTIN
+      status User::STATUSES[:builtin]
     end
   end
 end

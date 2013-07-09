@@ -25,18 +25,21 @@ class Project < ActiveRecord::Base
 
   # Specific overidden Activities
   has_many :time_entry_activities
-  has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUSES[:active]}"
   has_many :assignable_members,
            :class_name => 'Member',
            :include => [:user, :roles],
            :conditions => ["#{User.table_name}.type=? AND #{User.table_name}.status=? AND roles.assignable = ?",
                            'User',
-                           User::STATUS_ACTIVE,
+                           User::STATUSES[:active],
                            true]
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
-                               :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND (#{Principal.table_name}.status=#{User::STATUS_ACTIVE} OR #{Principal.table_name}.status=#{User::STATUS_REGISTERED}))"
+                               :conditions => "#{Principal.table_name}.type='Group' OR " +
+                                              "(#{Principal.table_name}.type='User' AND " +
+                                              "(#{Principal.table_name}.status=#{User::STATUSES[:active]} OR " +
+                                              "#{Principal.table_name}.status=#{User::STATUSES[:registered]}))"
   has_many :users, :through => :members
   has_many :principals, :through => :member_principals, :source => :principal
 
