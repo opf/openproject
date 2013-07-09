@@ -53,21 +53,25 @@ module WatchersHelper
     link_to(label, path, html_options.merge(:remote => true, :method => method))
   end
 
-  # Returns a comma separated list of users watching the given object
+  # Returns HTML for a list of users watching the given object
   def watchers_list(object)
     remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
-    lis = object.watchers.collect do |watch|
-      s = avatar(watch.user, :size => "16").to_s + link_to_user(watch.user, :class => 'user').to_s
-      if remove_allowed
-        s += ' ' + link_to(image_tag('red_x.png', :alt => l(:button_delete), :title => l(:button_delete)),
-                           watcher_path(watch),
-                           :method => :delete,
-                           :remote => true,
-                           :style => "vertical-align: middle",
-                           :class => "delete")
+    lis = object.watchers(true).collect do |watch|
+      content_tag :li do
+        avatar(watch.user, :size => "16") +
+          link_to_user(watch.user, :class => 'user') +
+          if remove_allowed
+            ' '.html_safe + link_to(image_tag('red_x.png', :alt => l(:button_delete), :title => l(:button_delete)),
+                             watcher_path(watch),
+                             :method => :delete,
+                             :remote => true,
+                             :style => "vertical-align: middle",
+                             :class => "delete")
+          else
+            ''.html_safe
+          end
       end
-      "<li>#{ s }</li>"
     end
-    lis.empty? ? "" : "<ul>#{ lis.join("\n") }</ul>".html_safe
+    lis.empty? ? ''.html_safe : content_tag(:ul, lis.reduce(:+))
   end
 end
