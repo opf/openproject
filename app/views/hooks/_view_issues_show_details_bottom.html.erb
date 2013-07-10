@@ -4,7 +4,13 @@
     <%# disables core's spent-time as it is not displayed if the user has just the view_own_time_entries permission %>
     .spent-time { display: none }
   </style>
-  <% attributes_array = cost_issues_attributes(controller.work_package) %>
+
+  <%# this hack is necessary as long as both work_packages and issues controller render this %>
+  <% work_package = controller.respond_to?(:work_package) ?
+                      controller.work_package :
+                      @issue %>
+
+  <% attributes_array = cost_issues_attributes(work_package) %>
   <% (0..(attributes_array.size - 1)).step(2) do |i| %>
     <tr>
       <th>
