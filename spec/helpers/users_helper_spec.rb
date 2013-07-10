@@ -24,19 +24,31 @@ describe UsersHelper do
 
   describe 'full_user_status' do
     test_cases = {
-      [:active, false] => 'active',
-      [:active, true] => 'blocked (3 failed login attempts)',
-      [:locked, false] => 'locked',
-      [:locked, true] => 'locked and blocked (3 failed login attempts)',
-      [:registered, false] => 'registered',
-      [:registered, true] => 'registered and blocked (3 failed login attempts)'
+      [:active, false] => I18n.t(:active, :scope => :user),
+      [:active, true] => I18n.t(:blocked_num_failed_logins,
+                                :count => 3,
+                                :scope => :user),
+      [:locked, false] => I18n.t(:locked, :scope => :user),
+      [:locked, true] => I18n.t(:status_user_and_brute_force,
+                            :user => I18n.t(:locked, :scope => :user),
+                            :brute_force => I18n.t(:blocked_num_failed_logins,
+                                                   :count => 3,
+                                                   :scope => :user),
+                            :scope => :user),
+      [:registered, false] => I18n.t(:registered, :scope => :user),
+      [:registered, true] => I18n.t(:status_user_and_brute_force,
+                              :user => I18n.t(:registered, :scope => :user),
+                              :brute_force => I18n.t(:blocked_num_failed_logins,
+                                                     :count => 3,
+                                                     :scope => :user),
+                              :scope => :user)
     }
 
     test_cases.each do |(status, blocked), expectation|
       describe "with status #{status} and blocked #{blocked}" do
         before do
           user = build_user(status, blocked)
-          @status = full_user_status(user)
+          @status = full_user_status(user, true)
         end
 
         it "should return #{expectation}" do
