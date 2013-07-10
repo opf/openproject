@@ -22,10 +22,11 @@ Feature: Issue edit
       | name   | Normal |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | add_issues  |
+      | add_issues         |
+      | add_work_packages  |
       | view_work_packages |
       | edit_work_packages |
-      | manage_subtasks |
+      | manage_subtasks    |
     And there is 1 user with the following:
       | login | bob|
     And the user "bob" is a "member" in the project "omicronpersei8"

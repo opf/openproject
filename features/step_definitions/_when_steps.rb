@@ -21,7 +21,7 @@ When /^I follow the issue link with (\d+) hash for "([^"]*)"$/ do |hash_count, i
 
   text = ""
   if hash_count.to_i > 1
-    text = "##{issue.id} #{issue.status}: #{issue.subject}"
+    text = issue.to_s
   elsif hash_count.to_i == 1
     text = "##{issue.id}"
   end

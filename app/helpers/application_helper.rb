@@ -1149,12 +1149,12 @@ module ApplicationHelper
 
   def planning_element_quick_info(planning_element)
     start_date_change = ""
-    end_date_change = ""
+    due_date_change = ""
 
     journals = planning_element.journals.find(:all, :conditions => ["created_at >= ?", Date.today.to_time - 7.day], :order => "created_at desc")
 
     journals.each do |journal|
-      break if !start_date_change.empty? and !end_date_change.empty?
+      break if !start_date_change.empty? and !due_date_change.empty?
 
       if start_date_change.empty?
         unless journal.changes["start_date"].nil?
@@ -1164,10 +1164,10 @@ module ApplicationHelper
         end
       end
 
-      if end_date_change.empty?
-        unless journal.changes["end_date"].nil?
-          unless journal.changes["end_date"].first.nil?
-            end_date_change = " (<del>#{journal.changes["end_date"].first}</del>)"
+      if due_date_change.empty?
+        unless journal.changes["due_date"].nil?
+          unless journal.changes["due_date"].first.nil?
+            due_date_change = " (<del>#{journal.changes["due_date"].first}</del>)"
           end
         end
       end
@@ -1177,8 +1177,8 @@ module ApplicationHelper
                    work_package_path(planning_element),
                    :title => h("#{truncate(planning_element.subject, :length => 100)} #{planning_element.planning_element_status.nil? ? "" :
                                "(" + planning_element.planning_element_status.name + ")"}"))
-    link += "#{planning_element.start_date.nil? ? "[?]" : planning_element.start_date.to_s}#{start_date_change} – #{planning_element.end_date.nil? ? "[?]" :
-      planning_element.end_date.to_s}#{end_date_change}"
+    link += "#{planning_element.start_date.nil? ? "[?]" : planning_element.start_date.to_s}#{start_date_change} – #{planning_element.due_date.nil? ? "[?]" :
+      planning_element.due_date.to_s}#{due_date_change}"
     link += "#{planning_element.responsible.nil? ? "" : h(" (#{planning_element.responsible.to_s})")}"
 
     return link
