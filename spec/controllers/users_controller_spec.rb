@@ -229,6 +229,11 @@ describe UsersController do
       # TODO move this section to a proper place because we test a
       # before_filter from the application controller
 
+      after(:each) do
+        # reset, so following tests are not affected by the change
+        User.current = nil
+      end
+
       shared_examples_for "index action with disabled session lifetime or inactivity not exceeded" do
         it "doesn't logout the user and renders the index action" do
           User.current.should == admin
