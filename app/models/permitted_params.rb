@@ -96,6 +96,23 @@ class PermittedParams < Struct.new(:params, :user)
                                              :responsible_id)
   end
 
+  def user_update_as_admin
+    if user.admin?
+      permitted = [:firstname,
+                   :lastname,
+                   :mail,
+                   :mail_notification,
+                   :language,
+                   :custom_field_values,
+                   :custom_fields,
+                   :identity_url,
+                   :auth_source_id,
+                   :force_password_change,
+                   :group_ids]
+    end
+    params.require(:user).permit(*(permitted || []))
+  end
+
   def work_package
     params.require(:work_package).permit(:subject,
                                          :description,
