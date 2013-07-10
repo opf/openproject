@@ -155,7 +155,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       if work_package_id.is_a? WorkPackage
         p = work_package_id
       else
-        p = WorkPackage.find_by_id(issue_id)
+        p = WorkPackage.find_by_id(work_package_id)
       end
 
       if p.present?
