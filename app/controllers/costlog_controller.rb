@@ -23,7 +23,7 @@ class CostlogController < ApplicationController
     sort_update 'spent_on' => 'spent_on',
                 'user' => 'user_id',
                 'project' => "#{Project.table_name}.name",
-                'issue' => 'issue_id',
+                'issue' => 'work_package_id',
                 'cost_type' => 'cost_type_id',
                 'units' => 'units',
                 'costs' => 'costs'

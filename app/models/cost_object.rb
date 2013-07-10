@@ -7,8 +7,8 @@ class CostObject < ActiveRecord::Base
   belongs_to :project
   has_many :work_packages, :dependent => :nullify
 
-  has_many :cost_entries, :through => :issues
-  has_many :time_entries, :through => :issues
+  has_many :cost_entries, :through => :work_packages
+  has_many :time_entries, :through => :work_packages
 
   include ActiveModel::ForbiddenAttributesProtection
 

@@ -10,7 +10,7 @@ module OpenProject::Costs::Patches::IssuePatch
     base.class_eval do
       unloadable
 
-      belongs_to :cost_object
+      belongs_to :cost_object, :inverse_of => :work_packages
       has_many :cost_entries, :foreign_key => :work_package_id, :dependent => :delete_all
     end
   end

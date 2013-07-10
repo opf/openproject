@@ -10,7 +10,7 @@ module OpenProject::Costs::Patches::WorkPackagePatch
     base.class_eval do
       unloadable
 
-      belongs_to :cost_object
+      belongs_to :cost_object, :inverse_of => :work_packages
       has_many :cost_entries, :dependent => :delete_all
 
       # disabled for now, implements part of ticket blocking

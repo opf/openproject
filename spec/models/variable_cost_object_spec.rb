@@ -35,7 +35,7 @@ describe VariableCostObject do
 
     before do
       cost_object.author = user
-      cost_object.issues = [issue]
+      cost_object.work_packages = [issue]
       cost_object.save!
 
       cost_object.destroy
