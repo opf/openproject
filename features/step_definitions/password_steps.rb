@@ -76,7 +76,7 @@ end
 
 Given /^I try to log in with user "([^"]*)"$/ do |login|
   step 'I go to the logout page'
-  login(login, @password || 'adminADMIN!')
+  login(login, @new_password || 'adminADMIN!')
 end
 
 Given /^I try to log in with user "([^"]*)" and a wrong password$/ do |login|
