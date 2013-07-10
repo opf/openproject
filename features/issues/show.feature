@@ -40,4 +40,4 @@ Feature: Viewing an issue
 
   Scenario: Calling the issue page and view the issue
     When I go to the page of the issue "issue1"
-    Then I should see "Bug #1 issue1"
+    Then I should see "Bug #1: issue1"

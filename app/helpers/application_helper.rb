@@ -713,7 +713,7 @@ module ApplicationHelper
           case prefix
           when nil
             if issue = Issue.visible.find_by_id(oid, :include => :status)
-              link = link_to("##{oid}", {:only_path => only_path, :controller => '/issues', :action => 'show', :id => oid},
+              link = link_to("##{oid}", work_package_path(:id => oid, :only_path => only_path),
                                         :class => issue.css_classes,
                                         :title => "#{truncate(issue.subject, :length => 100)} (#{issue.status.name})")
             end

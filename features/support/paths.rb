@@ -79,7 +79,7 @@ module NavigationHelpers
 
     when /^the page (?:for|of) the issue "([^\"]+)"$/
       issue = Issue.find_by_subject($1)
-      "/issues/#{issue.id}"
+      "/work_packages/#{issue.id}"
 
     when /^the edit page (?:for|of) the issue "([^\"]+)"$/
       issue = Issue.find_by_subject($1)
