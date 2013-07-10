@@ -4,7 +4,7 @@
     <%# disables core's spent-time as it is not displayed if the user has just the view_own_time_entries permission %>
     .spent-time { display: none }
   </style>
-  <% attributes_array = cost_issues_attributes %>
+  <% attributes_array = cost_issues_attributes(controller.work_package) %>
   <% (0..(attributes_array.size - 1)).step(2) do |i| %>
     <tr>
       <th>

@@ -42,13 +42,13 @@ module OpenProject::Costs::Patches::IssuesHelperPatch
         str_array.join(", ").html_safe
       end
 
-      def cost_issues_attributes
+      def cost_issues_attributes(work_package)
         attributes = []
 
-        object_value = if @work_package.cost_object.nil?
+        object_value = if work_package.cost_object.nil?
                          "-"
                        else
-                         link_to_cost_object(@work_package.cost_object)
+                         link_to_cost_object(work_package.cost_object)
                        end
 
         attributes << [CostObject.model_name.human, object_value]
@@ -56,8 +56,11 @@ module OpenProject::Costs::Patches::IssuesHelperPatch
         if User.current.allowed_to?(:view_time_entries, @project) ||
            User.current.allowed_to?(:view_own_time_entries, @project)
 
-           value = @work_package.spent_hours > 0 ?
-                     link_to(l_hours(@work_package.spent_hours), issue_time_entries_path(@work_package)) : "-"
+          #TODO: put inside controller or model
+           summed_hours = @time_entries.sum(&:hours)
+
+           value = summed_hours > 0 ?
+                     link_to(l_hours(summed_hours), issue_time_entries_path(work_package)) : "-"
 
            attributes << [Issue.human_attribute_name(:spent_hours), value]
         end
