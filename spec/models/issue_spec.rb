@@ -17,7 +17,7 @@ describe Issue do
   let!(:cost_object) { FactoryGirl.create(:cost_object, project: project) }
 
   before(:each) do
-    User.current = user
+    User.stub!(:current).and_return(user)
   end
 
   it "should update cost entries on move" do
