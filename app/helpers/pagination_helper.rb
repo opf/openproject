@@ -15,7 +15,7 @@ require 'will_paginate'
 module PaginationHelper
   def pagination_links_full(paginator, options = {})
     merged_options = { next_label: I18n.t(:label_next),
-                       previous_label: I18n.t(:label_next),
+                       previous_label: I18n.t(:label_previous),
                        container: true }.merge(options)
 
     html = ''.html_safe
