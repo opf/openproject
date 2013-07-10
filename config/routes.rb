@@ -461,6 +461,9 @@ OpenProject::Application.routes.draw do
       end
     end
 
+    resources :work_packages,          :controller => 'work_packages' do
+    end
+
     resources :planning_elements,      :controller => 'planning_elements' do
       collection do
         get :all
