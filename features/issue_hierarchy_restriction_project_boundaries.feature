@@ -5,7 +5,8 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
 
   Background:
     Given there is 1 project with:
-        | name  | parent_project |
+        | name       | parent_project |
+        | identifier | parent_project |
     And I am working in project "parent_project"
     And the project uses the following modules:
         | backlogs |
@@ -25,6 +26,7 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
         | manage_subtasks         |
         | create_tasks            |
         | add_issues              |
+        | add_work_packages       |
     And the backlogs module is initialized
     And the following trackers are configured to track stories:
         | Story |
