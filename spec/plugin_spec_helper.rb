@@ -2,15 +2,11 @@ module OpenProject
   module GlobalRoles
     module PluginSpecHelper
       def mobile_tan_plugin_loaded?
-        plugin_loaded?("redmine_mobile_otp_authentication")
-      end
-
-      def strong_passwords_plugin_loaded?
-        plugin_loaded?("redmine_strong_passwords")
+        plugin_loaded?("openproject_mobile_otp_authentication")
       end
 
       def privacy_plugin_loaded?
-        plugin_loaded?("redmine_dtag_privacy")
+        plugin_loaded?("openproject_dtag_privacy")
       end
 
       def costs_plugin_loaded?
