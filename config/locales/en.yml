@@ -132,7 +132,6 @@ en:
         name: Name
         parent: Parent element
         planning_element_type: "Type"
-        responsible: "Responsible"
         start_date: Start date
         deleted_at: Deleted at
         planning_element_status: "Status"
@@ -162,6 +161,9 @@ en:
         reporting_to_project: Reports to project
         reported_project_status: Project status
         created_at: Created
+      work_package:
+        responsible: "Responsible"
+        spent_time: "Spent time"
 
     errors:
       messages:

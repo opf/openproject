@@ -103,7 +103,6 @@ de:
         name: "Name"
         parent: "Eltern-Element"
         planning_element_type: "Typ"
-        responsible: "Planungsverantwortlicher"
         start_date: "Startdatum"
       planning_element_type:
         color: "Farbe"
@@ -157,6 +156,9 @@ de:
       wiki_page:
         parent_title: "Übergeordnete Seite"
         redirect_existing_links: "Existierende Links umleiten"
+      work_package:
+        responsible: "Planungsverantwortlicher"
+        spent_time: "Aufgewendete Zeit"
 
     errors:
       messages:
