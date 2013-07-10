@@ -62,6 +62,9 @@ module OpenProject::Reporting::Patches::TimelogControllerPatch
       if !params[:issue_id].blank?
         @issue = Issue.find(params[:issue_id])
         @project = @issue.project
+      elsif !params[:work_package_id].blank?
+        @issue = WorkPackage.find(params[:work_package_id])
+        @project = @issue.project
       elsif !params[:project_id].blank?
         @project = Project.find(params[:project_id])
       end
