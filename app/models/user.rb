@@ -218,16 +218,14 @@ class User < Principal
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find_by_login(login)
-    result = if user
+    user = if user
       try_authentication_for_existing_user(user, password)
     else
       try_authentication_and_create_user(login, password)
     end
-    unless prevent_brute_force_attack(result, login).nil?
+    unless prevent_brute_force_attack(user, login).nil?
       user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
-      # don't let brute force prevention allow a user access that was
-      # denied earlier
-      return user if result
+      return user
     end
     nil
   end
