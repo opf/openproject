@@ -179,7 +179,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def in_backlogs_tracker?
-      backlogs_enabled? && WorkPackage.backlogs_trackers.include?(self.tracker.id)
+      backlogs_enabled? && WorkPackage.backlogs_trackers.include?(self.tracker.try(:id))
     end
 
     # ancestors array similar to Module#ancestors
