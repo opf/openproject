@@ -241,14 +241,12 @@ describe PermittedParams do
                          'custom_fields',
                          'identity_url',
                          'auth_source_id',
-                         'force_password_change',
-                         'group_ids'
-                        ]
-
-    # Hash with {'key' => 'key'} for all admin_permissions
-    field_sample = { :user => Hash[admin_permissions.zip(admin_permissions)] }
+                         'force_password_change']
 
     it 'should permit nothing for a non-admin user' do
+      # Hash with {'key' => 'key'} for all admin_permissions
+      field_sample = { :user => Hash[admin_permissions.zip(admin_permissions)] }
+
       params = ActionController::Parameters.new(field_sample)
       PermittedParams.new(params, user).user_update_as_admin.should == {}
     end
@@ -257,9 +255,17 @@ describe PermittedParams do
       it "should permit #{field}" do
         hash = { field => 'test' }
         params = ActionController::Parameters.new(:user => hash)
+
         PermittedParams.new(params, admin).user_update_as_admin.should == 
           { field => 'test' }
       end
+    end
+
+    it 'should permit a group_ids list' do
+      hash = { 'group_ids' => ['1', '2'] }
+      params = ActionController::Parameters.new(:user => hash)
+
+      PermittedParams.new(params, admin).user_update_as_admin.should == hash
     end
   end
 end
