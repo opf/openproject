@@ -43,7 +43,11 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
   module ClassMethods
     def backlogs_trackers
-      @backlogs_trackers ||= Story.trackers << Task.tracker
+      # Unfortunately, this is not cachable so the following line would be wrong
+      # @backlogs_trackers ||= Story.trackers << Task.tracker
+      # Caching like in the line above would prevent the trackers selected
+      # for backlogs to be changed without restarting all app server.
+      (Story.trackers << Task.tracker).compact
     end
 
     def take_child_update_semaphore

@@ -111,9 +111,6 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
                                "card_spec"             => "Sattleford VM-5040",
                                "story_trackers"        => [tracker_feature.id],
                                "task_tracker"          => tracker_task.id.to_s}
-
-    # otherwise the tracker id's from the previous test are still active
-    Issue.instance_variable_set(:@backlogs_trackers, nil)
   end
 
   if project_boundaries_spanning_issue_hierarchy_allowed?
