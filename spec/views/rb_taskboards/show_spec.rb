@@ -111,7 +111,7 @@ describe 'rb_taskboards/show' do
   describe 'create buttons' do
 
     it 'renders clickable + buttons for all stories with the right permissions' do
-      User.current = user1
+      User.stub!(:current).and_return(user1)
 
       render
 
@@ -124,7 +124,7 @@ describe 'rb_taskboards/show' do
     end
 
     it 'does not render a clickable + buttons for all stories without the right permissions' do
-      User.current = user2
+      User.stub!(:current).and_return(user2)
 
       render
 
@@ -137,7 +137,7 @@ describe 'rb_taskboards/show' do
     end
 
     it 'renders clickable + buttons for impediments with the right permissions' do
-      User.current = user1
+      User.stub!(:current).and_return(user1)
 
       render
 
@@ -150,7 +150,7 @@ describe 'rb_taskboards/show' do
     end
 
     it 'does not render a clickable + buttons for impediments without the right permissions' do
-      User.current = user2
+      User.stub!(:current).and_return(user2)
 
       render
 
@@ -167,7 +167,7 @@ describe 'rb_taskboards/show' do
   describe 'update tasks or impediments' do
 
     it 'allows edit and drag for all tasks with the right permissions' do
-      User.current = user1
+      User.stub!(:current).and_return(user1)
       task
       impediment
       render
@@ -178,7 +178,7 @@ describe 'rb_taskboards/show' do
     end
 
     it 'does not allow to edit and drag for all tasks without the right permissions' do
-      User.current = user2
+      User.stub!(:current).and_return(user2)
       task
       impediment
 
@@ -190,7 +190,7 @@ describe 'rb_taskboards/show' do
     end
 
     it 'allows edit and drag for all impediments with the right permissions' do
-      User.current = user1
+      User.stub!(:current).and_return(user1)
       task
       impediment
 
@@ -202,7 +202,7 @@ describe 'rb_taskboards/show' do
     end
 
     it 'does not allow to edit and drag for all impediments without the right permissions' do
-      User.current = user2
+      User.stub!(:current).and_return(user2)
       task
       impediment
 
@@ -212,7 +212,5 @@ describe 'rb_taskboards/show' do
         impediment.should have_css '.impediment.prevent_edit'
       end
     end
-
   end
-
 end
