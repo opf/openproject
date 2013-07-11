@@ -25,29 +25,29 @@ class AlternateDate < ActiveRecord::Base
   # scenario-related = scenaric
   scope :scenaric, :conditions => "#{self.table_name}.scenario_id IS NOT NULL"
 
-  validates_presence_of :start_date, :end_date, :planning_element
+  validates_presence_of :start_date, :due_date, :planning_element
 
   delegate :planning_element_type, :planning_element_type_id, :is_milestone?, :to => :planning_element
 
-  attr_accessible :start_date, :end_date
+  attr_accessible :start_date, :due_date
 
   validate do
-    if self.end_date and self.start_date and self.end_date < self.start_date
-      errors.add :end_date, :greater_than_start_date
+    if self.due_date and self.start_date and self.due_date < self.start_date
+      errors.add :due_date, :greater_than_start_date
     end
 
     if self.planning_element.present? and self.is_milestone?
-      if self.end_date and self.start_date and self.start_date != self.end_date
-        errors.add :end_date, :not_start_date
+      if self.due_date and self.start_date and self.start_date != self.due_date
+        errors.add :due_date, :not_start_date
       end
     end
   end
 
   def duration
-    if start_date >= end_date
+    if start_date >= due_date
       1
     else
-      end_date - start_date + 1
+      due_date - start_date + 1
     end
   end
 

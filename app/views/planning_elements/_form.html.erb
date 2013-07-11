@@ -95,11 +95,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
            -
 
-          <label for="planning_element_end_date" class="hidden-for-sighted">
+          <label for="planning_element_due_date" class="hidden-for-sighted">
             <%= l('timelines.current_planning') %>
-            <%= PlanningElement.human_attribute_name(:end_date) %>
+            <%= PlanningElement.human_attribute_name(:due_date) %>
           </label>
-          <%= f.text_field :end_date, date_input_options %><%= calendar_for('planning_element_end_date') if planning_element.leaf? %>
+          <%= f.text_field :due_date, date_input_options %><%= calendar_for('planning_element_due_date') if planning_element.leaf? %>
         </td>
         <td>&nbsp;</td>
       </tr>
@@ -121,11 +121,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
                -
 
-              <label class="hidden-for-sighted" for="<%= id_base %>_end_date">
+              <label class="hidden-for-sighted" for="<%= id_base %>_due_date">
                 <%=h scenario_fields.object.name %>
-                <%= PlanningElement.human_attribute_name(:end_date) %>
+                <%= PlanningElement.human_attribute_name(:due_date) %>
               </label>
-              <%= scenario_fields.text_field :end_date, date_input_options %><%= calendar_for("#{id_base}_end_date") if planning_element.leaf? %>
+              <%= scenario_fields.text_field :due_date, date_input_options %><%= calendar_for("#{id_base}_due_date") if planning_element.leaf? %>
 
               <%= scenario_fields.check_box :_destroy %>
               <label for="<%= id_base %>__destroy">

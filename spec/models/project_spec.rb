@@ -49,4 +49,86 @@ describe Project do
       project.associated_project_candidates(admin).should be_empty
     end
   end
+
+  describe "add_planning_element" do
+    let(:project) { FactoryGirl.create(:project_with_trackers) }
+
+    it 'should return a work package' do
+      project.add_planning_element.should be_a(PlanningElement)
+    end
+
+    it 'the object should be a new record' do
+      project.add_planning_element.should be_new_record
+    end
+
+    it 'should have the project associated' do
+      project.add_planning_element.project.should == project
+    end
+
+    it 'should assign the attributes' do
+      attributes = { :blubs => double('blubs') }
+
+      new_pe = FactoryGirl.build_stubbed(:planning_element)
+
+      project.planning_elements.should_receive(:build).and_yield(new_pe)
+
+      new_pe.should_receive(:attributes=).with(attributes)
+
+      project.add_planning_element(attributes)
+    end
+  end
+
+  describe "add_issue" do
+    let(:project) { FactoryGirl.create(:project_with_trackers) }
+
+    it "should return a new issue" do
+      project.add_issue.should be_a(Issue)
+    end
+
+    it "should not be saved" do
+      project.add_issue.should be_new_record
+    end
+
+    it "returned issue should have project set to self" do
+      project.add_issue.project.should == project
+    end
+
+    it "returned issue should have tracker set to project's first tracker" do
+      project.add_issue.tracker.should == project.trackers.first
+    end
+
+    it "returned issue should have tracker set to provided tracker" do
+      specific_tracker = FactoryGirl.build(:tracker)
+      project.trackers << specific_tracker
+
+      project.add_issue(:tracker => specific_tracker).tracker.should == specific_tracker
+    end
+
+    it "should raise an error if the provided tracker is not one of the project's trackers" do
+      # Load project first so that the new tracker is not automatically included
+      project
+      specific_tracker = FactoryGirl.create(:tracker)
+
+      expect { project.add_issue(:tracker => specific_tracker) }.to raise_error ActiveRecord::RecordNotFound
+    end
+
+    it "returned issue should have tracker set to provided tracker_id" do
+      specific_tracker = FactoryGirl.build(:tracker)
+      project.trackers << specific_tracker
+
+      project.add_issue(:tracker_id => specific_tracker.id).tracker.should == specific_tracker
+    end
+
+    it "should call safe_attributes to override all the other attributes" do
+      # TODO: replace once StrongParameters is in place
+      attributes = { :blubs => double('blubs') }
+
+      new_issue = FactoryGirl.build_stubbed(:issue)
+      new_issue.should_receive(:assign_attributes).with(attributes, :without_protection => true)
+
+      Issue.stub!(:new).and_yield(new_issue)
+
+      project.add_issue(attributes)
+    end
+  end
 end

@@ -10,7 +10,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h1><%= link_to "#{issue.tracker.name} ##{issue.id}: #{issue.subject}", issue_url(issue) %></h1>
+<h1><%= link_to issue.to_s, issue_url(issue) %></h1>
 
 <ul>
   <li><%= Issue.human_attribute_name(:author)        %>: <%= issue.author        %></li>

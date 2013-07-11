@@ -44,13 +44,15 @@ module Api
         @journals.reverse! if User.current.wants_comments_in_reverse_order?
         @changesets = @issue.changesets.visible.all(:include => [{ :repository => {:project => :enabled_modules} }, :user])
         @changesets.reverse! if User.current.wants_comments_in_reverse_order?
-
-        @relations = @issue.relations(:include => { :other_issue => [:status,
-                                                                     :priority,
-                                                                     :tracker,
-                                                                     { :project => :enabled_modules }]
-                                                  }
-                                     ).select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
+        @relations = @issue.relations.includes(:issue_from => [:status,
+                                                               :priority,
+                                                               :tracker,
+                                                               { :project => :enabled_modules }],
+                                               :issue_to => [:status,
+                                                             :priority,
+                                                             :tracker,
+                                                             { :project => :enabled_modules }])
+                                     .select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
 
         @ancestors = @issue.ancestors.visible.all(:include => [:tracker,
                                                                :assigned_to,

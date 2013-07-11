@@ -229,7 +229,7 @@ RAW
     identifier = @project.identifier
     @project.reload
 
-    issue_link = link_to("##{@issue.id}", {:controller => 'issues', :action => 'show', :id => @issue},
+    issue_link = link_to("##{@issue.id}", work_package_path(@issue),
                                :class => 'issue status-3 priority-1 created-by-me', :title => "#{@issue.subject} (#{@issue.status})")
 
     changeset_link = link_to("r#{changeset1.revision}", {:controller => 'repositories', :action => 'revision', :id => identifier, :rev => changeset1.revision},
@@ -498,7 +498,7 @@ RAW
 
     expected = <<-EXPECTED
 <p><a href="/projects/#{@project.identifier}/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
-<p><a href="/issues/#{@issue.id}" class="issue status-3 priority-1 created-by-me" title="#{@issue.subject} (#{@issue.status})">##{@issue.id}</a></p>
+<p><a href="/work_packages/#{@issue.id}" class="issue status-3 priority-1 created-by-me" title="#{@issue.subject} (#{@issue.status})">##{@issue.id}</a></p>
 <pre>
 [[CookBook documentation]]
 

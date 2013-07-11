@@ -1,0 +1,48 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% content_for :action_menu_main do %>
+  <% if controller.work_package.is_a? Issue %>
+    <%= li_unless_nil(link_to_if_authorized(l(:button_update), { :controller => '/issues',
+                                                                 :action => 'edit',
+                                                                 :id => controller.work_package.id },
+                                                                 :class => 'edit icon icon-edit',
+                                                                 :accesskey => accesskey(:edit))) %>
+  <% elsif controller.work_package.is_a? PlanningElement %>
+    <%= li_unless_nil(link_to_if_authorized(l(:button_update), { :controller => '/planning_elements',
+                                                                 :action => 'edit',
+                                                                 :project_id => controller.work_package.project,
+                                                                 :id => controller.work_package },
+                                                                 :class => 'edit icon icon-edit',
+                                                                 :accesskey => accesskey(:edit))) %>
+  <% end %>
+
+  <%= li_unless_nil(watcher_link(work_package,
+                                 User.current,
+                                 { :class => 'watcher_link',
+                                   :replace => User.current.allowed_to?(:view_work_package_watchers, @project) ? ['#watchers', '.watcher_link'] : ['.watcher_link'] })) %>
+<% end %>
+<% content_for :action_menu_more do %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_log_time), {:controller => '/timelog', :action => 'new', :work_package_id => controller.work_package}, :class => 'icon icon-time-add') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_duplicate), {:controller => '/issues', :action => 'new', :project_id => @project, :copy_from => work_package }, :class => 'icon icon-duplicate') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_copy), {:controller => '/issue_moves', :action => 'new', :id => controller.work_package, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_move), {:controller => '/issue_moves', :action => 'new', :id => controller.work_package}, :class => 'icon icon-move') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_delete), { :controller => '/issues',
+                                                               :action => 'destroy',
+                                                               :id => controller.work_package },
+                                                               :confirm => (controller.work_package.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)),
+                                                               :remote => true,
+                                                               :method => :delete ,
+                                                               :class => 'icon icon-del' ) %>
+
+  <%= call_hook(:view_work_package_show_action_menu, :work_package => controller.work_package) %>
+<% end %>

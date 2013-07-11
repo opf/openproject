@@ -688,7 +688,7 @@ class IssueTest < ActiveSupport::TestCase
       assert !Issue.new(:start_date => nil, :due_date => 1.day.from_now.to_date, :done_ratio => 0).behind_schedule?
     end
 
-    should "be false if the issue has no end_date" do
+    should "be false if the issue has no due_date" do
       assert !Issue.new(:start_date => 1.day.from_now.to_date, :due_date => nil, :done_ratio => 0).behind_schedule?
     end
 
@@ -708,14 +708,6 @@ class IssueTest < ActiveSupport::TestCase
   context "#assignable_users" do
     should "be Users" do
       assert_kind_of User, Issue.find(1).assignable_users.first
-    end
-
-    should "include the issue author" do
-      project = Project.find(1)
-      non_project_member = User.generate!
-      issue = Issue.generate_for_project!(project, :author => non_project_member)
-
-      assert issue.assignable_users.include?(non_project_member)
     end
 
     should "not show the issue author twice" do

@@ -210,6 +210,10 @@ OpenProject::Application.routes.draw do
       end
     end
 
+    resources :work_packages, :only => [:new, :create] do
+      get :new_tracker, :on => :collection
+    end
+
     resources :activity, :activities, :only => :index, :controller => 'activities'
 
     resources :boards
@@ -292,6 +296,10 @@ OpenProject::Application.routes.draw do
 
       delete :destroy
     end
+  end
+
+  resources :work_packages, :only => [:show] do
+    resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
   end
 
   resources :versions, :only => [:show, :edit, :update, :destroy] do
@@ -452,6 +460,9 @@ OpenProject::Application.routes.draw do
         get :move
         post :move
       end
+    end
+
+    resources :work_packages,          :controller => 'work_packages' do
     end
 
     resources :planning_elements,      :controller => 'planning_elements' do

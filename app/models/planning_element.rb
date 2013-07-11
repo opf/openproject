@@ -12,7 +12,6 @@
 class PlanningElement < WorkPackage
   unloadable
 
-  include NestedAttributesForApi
   include ActiveModel::ForbiddenAttributesProtection
 
   has_many :alternate_dates, :class_name  => "AlternateDate",
@@ -37,7 +36,7 @@ class PlanningElement < WorkPackage
                 #{PlanningElement.quoted_table_name}.description,
                 #{PlanningElement.quoted_table_name}.planning_element_status_comment,
                 #{AlternateDate.quoted_table_name  }.start_date,
-                #{AlternateDate.quoted_table_name  }.end_date,
+                #{AlternateDate.quoted_table_name  }.due_date,
                 #{PlanningElement.quoted_table_name}.parent_id,
                 #{PlanningElement.quoted_table_name}.project_id,
                 #{PlanningElement.quoted_table_name}.responsible_id,
@@ -108,7 +107,7 @@ class PlanningElement < WorkPackage
     changes = {}
     alternate_dates.each do |d|
       if d.scenario.present? && (!(alternate_date_changes = d.changes).empty? || d.marked_for_destruction?)
-        ["start_date", "end_date"].each do |field|
+        ["start_date", "due_date"].each do |field|
           old_value = if (scenario_changes = alternate_date_changes["scenario_id"])
             scenario_changes.first.nil? ? nil : d.send(field)
           else
@@ -127,15 +126,15 @@ class PlanningElement < WorkPackage
   after_save :update_parent_attributes
   after_save :create_alternate_date
 
-  validates_presence_of :subject, :start_date, :end_date, :project
+  validates_presence_of :subject, :start_date, :due_date, :project
 
   validates_length_of :subject, :maximum => 255, :unless => lambda { |e| e.subject.blank? }
 
   def duration
-    if start_date >= end_date
+    if start_date >= due_date
       1
     else
-      end_date - start_date + 1
+      due_date - start_date + 1
     end
   end
 
@@ -144,13 +143,13 @@ class PlanningElement < WorkPackage
   end
 
   validate do
-    if self.end_date and self.start_date and self.end_date < self.start_date
-      errors.add :end_date, :greater_than_start_date
+    if self.due_date and self.start_date and self.due_date < self.start_date
+      errors.add :due_date, :greater_than_start_date
     end
 
     if self.is_milestone?
-      if self.end_date and self.start_date and self.start_date != self.end_date
-        errors.add :end_date, :not_start_date
+      if self.due_date and self.start_date and self.start_date != self.due_date
+        errors.add :due_date, :not_start_date
       end
     end
 
@@ -187,7 +186,7 @@ class PlanningElement < WorkPackage
   #   {
   #     'id' => 1,
   #     'start_date => '2012-01-01',
-  #     'end_date' => '2012-01-03'
+  #     'due_date' => '2012-01-03'
   #   }
   #
   # The id attribute is required. If both date fields are empty or missing, the
@@ -211,12 +210,12 @@ class PlanningElement < WorkPackage
         end
       end
 
-      if (pe_scenario['start_date'].blank? and pe_scenario['end_date'].blank?) or
+      if (pe_scenario['start_date'].blank? and pe_scenario['due_date'].blank?) or
           pe_scenario['_destroy'] == '1'
         alternate_date.mark_for_destruction
       else
         alternate_date.attributes = {'start_date' => pe_scenario['start_date'],
-                                     'end_date'   => pe_scenario['end_date']}
+                                     'due_date'   => pe_scenario['due_date']}
       end
     end
   end
@@ -261,6 +260,16 @@ class PlanningElement < WorkPackage
     !!read_attribute(:deleted_at)
   end
 
+  # Aliasing the parent_issue_id methods here in order
+  # to improve compatibility between
+  # planning elments and issues
+  alias_method :parent_issue_id, :parent_id
+
+  # I am not sure why it is not possible to
+  # alias_method :parent_issue_id=, :parent_id=
+  def parent_issue_id=(arg)
+    parent_id = arg
+  end
 
   protected
 
@@ -270,7 +279,7 @@ class PlanningElement < WorkPackage
 
       unless parent.children.without_deleted.empty?
         parent.start_date = parent.children.without_deleted.minimum(:start_date)
-        parent.end_date   = parent.children.without_deleted.maximum(:end_date)
+        parent.due_date   = parent.children.without_deleted.maximum(:due_date)
 
         if parent.changes.present?
           parent.note = I18n.t('timelines.planning_element_updated_automatically_by_child_changes', :child => "*#{id}")
@@ -283,8 +292,8 @@ class PlanningElement < WorkPackage
   end
 
   def create_alternate_date
-    if start_date_changed? or end_date_changed?
-      alternate_dates.create(:start_date => start_date, :end_date => end_date)
+    if start_date_changed? or due_date_changed?
+      alternate_dates.create(:start_date => start_date, :due_date => due_date)
     end
   end
 end

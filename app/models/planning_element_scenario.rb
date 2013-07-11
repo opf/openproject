@@ -20,7 +20,7 @@ class PlanningElementScenario
     @alternate_date = alternate_date
   end
 
-  delegate :start_date, :start_date=, :end_date, :end_date=,
+  delegate :start_date, :start_date=, :due_date, :due_date=,
            :scenario, :scenario_id,
            :duration, :planning_element,
            :valid?, :errors,

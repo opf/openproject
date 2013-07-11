@@ -1,0 +1,39 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<tr id="issue_relation_<%= relation.id %>">
+  <td>
+    <%= l(relation.label_for(work_package)) %> <%= "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)})" if relation.delay && relation.delay != 0 %>
+    <%= h(relation.other_issue(work_package).project) + ' - ' if Setting.cross_project_issue_relations? %>
+    <%= link_to_issue(relation.other_issue(work_package), :truncate => 60) %>
+  </td>
+  <% if not relation.other_issue(work_package).kind.nil? %>
+    <td>
+      <%= h(relation.other_issue(work_package).kind.name) %>
+    </td>
+  <% else %>
+    <td></td>
+  <% end %>
+  <td>
+    <%= format_date(relation.other_issue(work_package).start_date) %>
+  </td>
+  <td>
+    <%= format_date(relation.other_issue(work_package).due_date) %>
+  </td>
+  <td>
+    <%= link_to(image_tag('delete.png'), work_package_relation_path(work_package, relation),
+                                         :method => :delete,
+                                         :remote => true,
+                                         :title => l(:label_relation_delete),
+                                         :alt   => l(:label_relation_delete)) if authorize_for('work_package_relations', 'destroy') %>
+  </td>
+</tr>
