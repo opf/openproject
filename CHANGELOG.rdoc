@@ -1,3 +1,5 @@
+= 3.0.4.pre5 - 2013-07-11
+
 * Adapt to OpenProject core changes
 
 = 3.0.4.pre4 - 2013-06-21
