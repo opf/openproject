@@ -291,6 +291,7 @@ en:
     updated_on: "Updated on"
     user: "User"
     version: "Version"
+    work_package: "Work package"
 
   button_activate: "Activate"
   button_add: "Add"
