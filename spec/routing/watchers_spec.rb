@@ -18,7 +18,7 @@ describe WatchersController do
     end
 
 
-    it "should connect GET /:object_type/:object_id/watch to watchers#watch" do
+    it "should connect POST /:object_type/:object_id/watch to watchers#watch" do
       post("/#{type}/1/watch").should route_to( :controller => 'watchers',
                                                 :action => 'watch',
                                                 :object_type => type,

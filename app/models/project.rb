@@ -877,6 +877,34 @@ class Project < ActiveRecord::Base
     list
   end
 
+  # TODO: merge with add_issue once tracker or similar is defined there and safe_attributes is removed
+  def add_planning_element(attributes = {})
+    attributes ||= {}
+
+    self.planning_elements.build do |pe|
+      pe.attributes = attributes
+    end
+  end
+
+  # TODO: merge with add_planning_elemement once tracker or similar is defined there and safe_attributes is removed
+  def add_issue(attributes = {})
+    attributes ||= {}
+
+    Issue.new do |i|
+      i.project = self
+
+      tracker_attribute = attributes.delete(:tracker) || attributes.delete(:tracker_id)
+
+      i.tracker = if tracker_attribute
+                    project.trackers.find(tracker_attribute)
+                  else
+                    project.trackers.first
+                  end
+
+      # TODO: this should not be necessary once StrongParameters are in place
+      i.assign_attributes(attributes, :without_protection => true)
+    end
+  end
 
   private
 

@@ -69,15 +69,15 @@ FactoryGirl.define do
     after_create do |project|
 
       start_date = rand(18.months).ago
-      end_date = start_date
+      due_date = start_date
 
       (5 + rand(20)).times do
 
-        end_date = start_date + (rand(30) + 10).days
+        due_date = start_date + (rand(30) + 10).days
         FactoryGirl.create(:planning_element, :project => project,
-                                                    :start_date => start_date,
-                                                    :end_date => end_date)
-        start_date = end_date
+                                              :start_date => start_date,
+                                              :due_date => due_date)
+        start_date = due_date
 
       end
     end

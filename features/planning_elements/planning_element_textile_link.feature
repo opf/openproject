@@ -46,7 +46,7 @@ Feature: Planning elements textile quickinfo links
               | Name     |
               | closed   |
       Given there are the following planning elements:
-              | Subject | Start date | End date   | description                | status_name | responsible |
+              | Subject | Start date | Due date   | description                | status_name | responsible |
               | January | 2012-01-01 | 2012-01-31 | Avocado Sali Grande Grande | closed      | manager     |
 
   Scenario: Adding a planning element link

@@ -17,15 +17,15 @@ Feature: Copying an issue should copy the watchers
     And I am working in project "omicronpersei8"
     And there is a role "CanCopyIssues"
     And the role "CanCopyIssues" may have the following rights:
-      | add_issues          |
-      | view_work_packages     |
-      | view_issue_watchers |
+      | add_issues                 |
+      | view_work_packages         |
+      | view_view_package_watchers |
     And there is a role "CanAddWatchers"
     And the role "CanAddWatchers" may have the following rights:
-      | add_issues          |
-      | view_work_packages     |
-      | view_issue_watchers |
-      | add_issue_watchers  |
+      | add_issues                 |
+      | view_work_packages         |
+      | view_view_package_watchers |
+      | add_work_package_watchers  |
     And there is 1 user with the following:
       | login | ndnd |
     And the user "ndnd" is a "CanCopyIssues" in the project "omicronpersei8"

@@ -94,12 +94,15 @@ class IssuesController < ApplicationController
     @changesets = @issue.changesets.visible.all(:include => [{ :repository => {:project => :enabled_modules} }, :user])
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
 
-    @relations = @issue.relations(:include => { :other_issue => [:status,
-                                                                 :priority,
-                                                                 :tracker,
-                                                                 { :project => :enabled_modules }]
-                                              }
-                                 ).select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
+    @relations = @issue.relations.includes(:issue_from => [:status,
+                                                           :priority,
+                                                           :tracker,
+                                                           { :project => :enabled_modules }],
+                                           :issue_to => [:status,
+                                                         :priority,
+                                                         :tracker,
+                                                         { :project => :enabled_modules }])
+                                 .select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
 
     @ancestors = @issue.ancestors.visible.all(:include => [:tracker,
                                                            :assigned_to,
@@ -200,7 +203,7 @@ class IssuesController < ApplicationController
       flash[:notice] = l(:notice_successful_update) unless @issue.current_journal == @journal
 
       respond_to do |format|
-        format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
+        format.html { redirect_back_or_default(work_package_path(@issue)) }
       end
     else
       render_attachment_warning_if_needed(@issue)
@@ -335,13 +338,13 @@ private
     if params[:issue].is_a?(Hash)
       @issue.safe_attributes = params[:issue]
       @issue.priority_id = params[:issue][:priority_id] unless params[:issue][:priority_id].nil?
-      if User.current.allowed_to?(:add_issue_watchers, @project) && @issue.new_record?
+      if User.current.allowed_to?(:add_work_package_watchers, @project) && @issue.new_record?
         @issue.watcher_user_ids = params[:issue]['watcher_user_ids']
       end
     end
 
     # Copy watchers if we're copying an issue
-    if params[:copy_from] && User.current.allowed_to?(:add_issue_watchers, @project)
+    if params[:copy_from] && User.current.allowed_to?(:add_work_package_watchers, @project)
       @issue.watcher_user_ids = Issue.visible.find(params[:copy_from]).watcher_user_ids
     end
 

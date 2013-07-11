@@ -318,7 +318,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1, :format => 'atom'
     assert_response :success
     assert_template 'journals/index'
-    assert_select 'content', :text => Regexp.new(Regexp.quote('http://test.host/issues/2'))
+    assert_select 'content', :text => Regexp.new(Regexp.quote('http://test.host/work_packages/2'))
   end
 
   def test_show_export_to_pdf
@@ -807,7 +807,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert issue.current_journal.changed_data.has_key? "priority_id"
     assert !issue.current_journal.changed_data.has_key?("category_id")
 
-    assert_redirected_to :action => 'show', :id => '1'
+    assert_redirected_to work_package_path(1)
     issue.reload
     assert_equal new_subject, issue.subject
     # Make sure custom fields were not cleared
@@ -838,7 +838,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert !issue.current_journal.changed_data.has_key?("category_id")
     assert issue.current_journal.changed_data.has_key? "custom_values2"
 
-    assert_redirected_to :action => 'show', :id => '1'
+    assert_redirected_to work_package_path(1)
     issue.reload
     assert_equal 'New custom value', issue.custom_value_for(2).value
 
@@ -858,7 +858,7 @@ class IssuesControllerTest < ActionController::TestCase
            :notes => 'Assigned to dlopper',
            :time_entry => { :hours => '', :comments => '', :activity_id => TimeEntryActivity.first }
     end
-    assert_redirected_to :action => 'show', :id => '1'
+    assert_redirected_to work_package_path(1)
     issue.reload
     assert_equal 2, issue.status_id
     j = WorkPackageJournal.find(:first, :order => 'id DESC')
@@ -877,7 +877,7 @@ class IssuesControllerTest < ActionController::TestCase
     put :update,
          :id => 1,
          :notes => notes
-    assert_redirected_to :action => 'show', :id => '1'
+    assert_redirected_to work_package_path(1)
     j = WorkPackageJournal.find(:first, :order => 'id DESC')
     assert_equal notes, j.notes
     assert_equal 0, j.details.size
@@ -896,7 +896,7 @@ class IssuesControllerTest < ActionController::TestCase
            :notes => '2.5 hours added',
            :time_entry => { :hours => '2.5', :comments => 'test_put_update_with_note_and_spent_time', :activity_id => TimeEntryActivity.first.id }
     end
-    assert_redirected_to :action => 'show', :id => '1'
+    assert_redirected_to work_package_path(1)
 
     issue = Issue.find(1)
 
@@ -921,7 +921,7 @@ class IssuesControllerTest < ActionController::TestCase
          :id => 1,
          :notes => '',
          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
-    assert_redirected_to :action => 'show', :id => '1'
+    assert_redirected_to work_package_path(1)
     j = Issue.find(1).last_journal
     assert j.notes.blank?
     assert_equal 1, j.details.size
@@ -948,7 +948,7 @@ class IssuesControllerTest < ActionController::TestCase
          :id => 1,
          :notes => '',
          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
-    assert_redirected_to :action => 'show', :id => '1'
+    assert_redirected_to work_package_path(1)
     assert_equal '1 file(s) could not be saved.', flash[:warning]
 
   end if Object.const_defined?(:Mocha)
@@ -962,7 +962,7 @@ class IssuesControllerTest < ActionController::TestCase
            :id => 1,
            :notes => ''
     end
-    assert_redirected_to :action => 'show', :id => '1'
+    assert_redirected_to work_package_path(1)
 
     issue.reload
     # No email should be sent
@@ -1067,7 +1067,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to '/issues'
   end
 
-  def test_put_update_should_not_redirect_back_using_the_back_url_parameter_off_the_host
+  def test_put_update_should_redirect_back_using_the_back_url_parameter_off_the_host
     issue = Issue.find(2)
     @request.session[:user_id] = 2
 
@@ -1079,7 +1079,7 @@ class IssuesControllerTest < ActionController::TestCase
          :back_url => 'http://google.com'
 
     assert_response :redirect
-    assert_redirected_to :controller => 'issues', :action => 'show', :id => issue.id
+    assert_redirected_to work_package_path(issue.id)
   end
 
   def test_get_bulk_edit

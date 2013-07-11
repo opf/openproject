@@ -1,4 +1,4 @@
-<%= "#{issue.tracker.name} ##{issue.id}: #{issue.subject}" %>
+<%= issue.to_s %>
 <%= issue_url(issue) %>
 
 <%= Issue.human_attribute_name(:author)        %>: <%= issue.author        %>

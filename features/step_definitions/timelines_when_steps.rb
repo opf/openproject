@@ -54,7 +54,7 @@ When(/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?
   page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{grouping_project.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, end_date, type|
+When(/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
   timeline_name = @timeline_name
   project_name = @project.name
   steps %Q{
@@ -67,7 +67,7 @@ When(/^I show only projects which have a planning element which lies between "(.
   page.execute_script("jQuery('#timeline_options_planning_element_time_types').val('#{planning_element_type.id}')")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_one').val('#{start_date}')")
-  page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_two').val('#{end_date}')")
+  page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_two').val('#{due_date}')")
   page.execute_script("jQuery('#content form').submit()")
 end
 When(/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |project_type_name, timeline_name, project_name|
@@ -153,8 +153,8 @@ end
 When /^I wait for the modal to close$/ do
   page.should have_no_selector('#planningElementDialog', visible: true)
 end
-When (/^I set enddate to "([^"]*)"$/) do |value|
-  fill_in 'planning_element_end_date', :with => value
+When (/^I set duedate to "([^"]*)"$/) do |value|
+  fill_in 'planning_element_due_date', :with => value
 end
 When /^I wait for timeline to load table$/ do
   page.should have_selector('.tl-left-main', visible: true)

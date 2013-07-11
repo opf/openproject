@@ -54,7 +54,7 @@ Feature: Timeline View Tests
       And I am logged in as "manager"
 
       And there are the following planning elements:
-              | Subject  | Start date | End date   | description       | status_name    | responsible    |
+              | Subject  | Start date | Due date   | description       | status_name    | responsible    |
               | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed         | manager        |
               | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed         | manager        |
               | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed         | manager        |
@@ -76,7 +76,7 @@ Feature: Timeline View Tests
      Then I should see "New timeline report"
       And I should see "Testline"
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"
- 
+
    @javascript
   Scenario: planning element click should show modal window
     When there is a timeline "Testline" for project "ecookbook"
@@ -89,7 +89,7 @@ Feature: Timeline View Tests
       And I should see "01/01/2012 - 01/31/2012"
       And I should see "New timeline report"
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"
- 
+
   @javascript
   Scenario: edit should open edit
     When there is a timeline "Testline" for project "ecookbook"
@@ -109,7 +109,7 @@ Feature: Timeline View Tests
       And I wait for timeline to load table
       And I click on the Planning Element with name "January"
       And I click on the Edit Link
-      And I set enddate to "2012-01-30"
+      And I set duedate to "2012-01-30"
       And I click on the Save Link
 
      Then I should be on the page of the timeline "Testline" of the project called "ecookbook"
@@ -122,11 +122,11 @@ Feature: Timeline View Tests
       And I wait for timeline to load table
       And I click on the Planning Element with name "January"
       And I click on the Edit Link
-      And I set enddate to "2011-01-30"
+      And I set duedate to "2011-01-30"
       And I click on the Save Link
 
      Then I should be on the page of the timeline "Testline" of the project called "ecookbook"
-      And I should see "End date must be greater than start date"
+      And I should see "Due date must be greater than start date"
 
   @javascript
   Scenario: trash element

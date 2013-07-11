@@ -54,8 +54,8 @@ en:
       issue:
         done_ratio: "% Done"
         fixed_version: "Target version"
-        parent: "Parent issue"
-        parent_issue: "Parent issue"
+        parent: "Parent"
+        parent_issue: "Parent"
         priority: "Priority"
         subproject: "Subproject"
         time_entries: "Log time"
@@ -125,14 +125,13 @@ en:
         hexcode: Hex code
       planning_element:
         alternate_dates:
-          end_date: End date of alternate date
+          due_date: End date of alternate date
         description: Description
-        end_date: "End date"
+        due_date: "End date"
         id: ID
         name: Name
         parent: Parent element
         planning_element_type: "Type"
-        responsible: "Responsible"
         start_date: Start date
         deleted_at: Deleted at
         planning_element_status: "Status"
@@ -162,6 +161,10 @@ en:
         reporting_to_project: Reports to project
         reported_project_status: Project status
         created_at: Created
+      work_package:
+        progress: "% done"
+        responsible: "Responsible"
+        spent_time: "Spent time"
 
     errors:
       messages:
@@ -192,11 +195,11 @@ en:
       models:
         alternate_date:
           attributes:
-            end_date:
+            due_date:
               not_start_date: "is not on start date, although this is required for milestones"
         planning_element:
           attributes:
-            end_date:
+            due_date:
               not_start_date: "is not on start date, although this is required for milestones"
             parent:
               cannot_be_milestone: "cannot be a milestone"
@@ -288,6 +291,7 @@ en:
     updated_on: "Updated on"
     user: "User"
     version: "Version"
+    work_package: "Work package"
 
   button_add: "Add"
   button_add_watcher: "Add watcher"
@@ -503,7 +507,7 @@ en:
 
   js:
     logoff: You have been logged off
-    redirect_login: Do you want to be redirected to the login page?  
+    redirect_login: Do you want to be redirected to the login page?
     ajax:
       hide: "Hide"
       loading: "Loading ..."
@@ -529,7 +533,7 @@ en:
       really_delete_planning_element: >
         Are you sure, you want to permanently delete the following planning element and all
         its child elements?
-      end_date: "End date"
+      due_date: "Due date"
       name: "Name"
       planning_element_types: "Planning element type"
       project_status: "Project status"
@@ -837,7 +841,7 @@ en:
   label_role_new: "New role"
   label_role_plural: "Roles"
   label_role_search: "Search for roles:"
-  label_scenario_end_date: "Scenario %{title}: End date"
+  label_scenario_due_date: "Scenario %{title}: Due date"
   label_scenario_start_date: "Scenario %{title}: Start date"
   label_scenario_deleted: '(deleted scenario)'
   label_scm: "SCM"
@@ -923,6 +927,8 @@ en:
   label_wiki_show_menu_item: "Show as menu item in project navigation"
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
+  label_work_package: "Work package"
+  label_work_package_new: "New work package"
   label_workflow: "Workflow"
   label_workflow_summary: "Summary"
   label_x_closed_issues_abbr:
@@ -1031,11 +1037,11 @@ en:
           tb: "TB"
 
   permission_add_issue_notes: "Add notes"
-  permission_add_issue_watchers: "Add watchers"
   permission_add_issues: "Add issues"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
   permission_add_subprojects: "Create subprojects"
+  permission_add_work_package_watchers: "Add watchers"
   permission_browse_repository: "Browse repository"
   permission_comment_news: "Comment news"
   permission_commit_access: "Commit access"
@@ -1496,6 +1502,11 @@ en:
       months: "Months"
       quarters: "Quarters"
       years: "Years"
+
+  label_work_package_hierarchy: "Work Package Hierarchy"
+  description_sub_work_package: "Sub work package of current"
+  label_related_work_packages: "Related work packages"
+  label_add_related_work_packages: "Add related work packages"
 
   total_progress: "Total progress"
 

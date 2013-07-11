@@ -12,7 +12,7 @@
 FactoryGirl.define do
   factory(:alternate_date, :class => AlternateDate) do
     sequence(:start_date) { |n| ((n - 1) * 7).days.since.to_date }
-    sequence(:end_date)   { |n| (n * 7).days.since.to_date }
+    sequence(:due_date)   { |n| (n * 7).days.since.to_date }
 
     planning_element { |e| e.association(:planning_element) }
   end

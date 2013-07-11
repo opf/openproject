@@ -23,7 +23,7 @@ module PlanningElementsHelper
       api.description(planning_element.description)
 
       api.start_date(planning_element.start_date.to_formatted_s(:db))
-      api.end_date(planning_element.end_date.to_formatted_s(:db))
+      api.end_date(planning_element.due_date.to_formatted_s(:db))
 
       api.in_trash(!!planning_element.deleted_at)
 
@@ -60,7 +60,7 @@ module PlanningElementsHelper
             scenarios.each do |pe_scenario|
               api.scenario(:id => pe_scenario.id, :name => pe_scenario.name) do
                 api.start_date(pe_scenario.start_date.to_formatted_s(:db))
-                api.end_date(pe_scenario.end_date.to_formatted_s(:db))
+                api.end_date(pe_scenario.due_date.to_formatted_s(:db))
               end
             end
           end

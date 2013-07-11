@@ -102,7 +102,7 @@ module TimelinesJournalsHelper
     css_classes = "wiki"
     css_classes << " editable" if editable
 
-    content_tag('div', content, :id => "journal-#{journal.id}-notes", :class => css_classes)
+    content_tag('div', content.html_safe, :id => "journal-#{journal.id}-notes", :class => css_classes)
   end
 
 end
