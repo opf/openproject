@@ -167,7 +167,10 @@ end
 When /^I fill in the id of the issue "(.+?)" as the parent issue$/ do |issue_name|
   issue = Issue.find_by_subject(issue_name)
 
-  step %Q{I fill in "#{issue.id}" for "issue_parent_issue_id"}
+  # simplify once the work_package#edit/update action is implemented
+  find('#work_package_parent_issue_id, #issue_parent_issue_id').set(issue.id)
+
+  #step %Q{I fill in "#{issue.id}" for "work_package_parent_issue_id"}
 end
 
 When /^the request on task "(.+?)" is finished$/ do |task_name|

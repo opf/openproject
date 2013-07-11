@@ -1,7 +1,6 @@
 require_dependency 'work_package'
-require_dependency 'issue'
 
-module OpenProject::Backlogs::Patches::IssuePatch
+module OpenProject::Backlogs::Patches::WorkPackagePatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -44,7 +43,11 @@ module OpenProject::Backlogs::Patches::IssuePatch
 
   module ClassMethods
     def backlogs_trackers
-      @backlogs_trackers ||= Story.trackers << Task.tracker
+      # Unfortunately, this is not cachable so the following line would be wrong
+      # @backlogs_trackers ||= Story.trackers << Task.tracker
+      # Caching like in the line above would prevent the trackers selected
+      # for backlogs to be changed without restarting all app server.
+      (Story.trackers << Task.tracker).compact
     end
 
     def take_child_update_semaphore
@@ -62,7 +65,7 @@ module OpenProject::Backlogs::Patches::IssuePatch
     private
 
     def validate_parent_issue_relation(issue, parent_attr, value)
-      parent = Issue.find_by_id(value)
+      parent = WorkPackage.find_by_id(value)
       if parent_issue_relationship_spanning_projects?(parent, issue)
         issue.errors.add(parent_attr,
                          :parent_child_relationship_across_projects,
@@ -148,11 +151,11 @@ module OpenProject::Backlogs::Patches::IssuePatch
       relations_to.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed? ? ir.issue_from : nil}.compact
     end
 
-    def recalculate_attributes_for_with_remaining_hours(issue_id)
-      if issue_id.is_a? Issue
-        p = issue_id
+    def recalculate_attributes_for_with_remaining_hours(work_package_id)
+      if work_package_id.is_a? WorkPackage
+        p = work_package_id
       else
-        p = Issue.find_by_id(issue_id)
+        p = WorkPackage.find_by_id(work_package_id)
       end
 
       if p.present?
@@ -176,7 +179,7 @@ module OpenProject::Backlogs::Patches::IssuePatch
     end
 
     def in_backlogs_tracker?
-      backlogs_enabled? && Issue.backlogs_trackers.include?(self.tracker.id)
+      backlogs_enabled? && WorkPackage.backlogs_trackers.include?(self.tracker.try(:id))
     end
 
     # ancestors array similar to Module#ancestors
@@ -188,7 +191,7 @@ module OpenProject::Backlogs::Patches::IssuePatch
         # Unfortunately the nested set is only build on save hence, the #parent
         # method is not always correct. Therefore we go to the parent the hard
         # way and use nested set from there
-        real_parent = Issue.find_by_id(self.parent_issue_id)
+        real_parent = WorkPackage.find_by_id(self.parent_issue_id)
 
         # Sort immediate ancestors first
         ancestors = ([real_parent] + real_parent.ancestors.all(:include => { :project => :enabled_modules })).sort_by(&:right)
@@ -226,9 +229,9 @@ module OpenProject::Backlogs::Patches::IssuePatch
     end
 
     def inherit_version_to_descendants
-      if !Issue.child_update_semaphore_taken?
+      if !WorkPackage.child_update_semaphore_taken?
         begin
-          Issue.take_child_update_semaphore
+          WorkPackage.take_child_update_semaphore
 
           descendant_tasks, stop_descendants = self.descendants.all(:include => { :project => :enabled_modules }).partition { |d| d.is_task? }
           descendant_tasks.reject!{ |t| stop_descendants.any? { |s| s.left < t.left && s.right > t.right } }
@@ -238,11 +241,11 @@ module OpenProject::Backlogs::Patches::IssuePatch
             task.save if task.changed?
           end
         ensure
-          Issue.place_child_update_semaphore
+          WorkPackage.place_child_update_semaphore
         end
       end
     end
   end
 end
 
-Issue.send(:include, OpenProject::Backlogs::Patches::IssuePatch)
+WorkPackage.send(:include, OpenProject::Backlogs::Patches::WorkPackagePatch)

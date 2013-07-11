@@ -51,7 +51,7 @@ describe Impediment do
                                "story_trackers"        => [tracker_feature.id.to_s],
                                "task_tracker"          => tracker_task.id.to_s }
 
-    User.current = user
+    User.stub!(:current).and_return(user)
     issue_priority.save
     issue_status1.save
     project.save

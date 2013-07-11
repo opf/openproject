@@ -249,9 +249,6 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
                                "card_spec"             => "Sattleford VM-5040",
                                "story_trackers"        => [tracker_feature.id],
                                "task_tracker"          => tracker_task.id.to_s}
-
-    # otherwise the tracker id's from the previous test are still active
-    Issue.instance_variable_set(:@backlogs_trackers, nil)
   end
 
   describe "WITH a story" do

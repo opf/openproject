@@ -149,9 +149,6 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                                 "card_spec"             => "Sattleford VM-5040",
                                 "story_trackers"        => [tracker_feature.id],
                                 "task_tracker"          => tracker_task.id.to_s}
-
-    # otherwise the tracker id's from the previous test are still active
-    Issue.instance_variable_set(:@backlogs_trackers, nil)
   end
 
   def standard_child_layout

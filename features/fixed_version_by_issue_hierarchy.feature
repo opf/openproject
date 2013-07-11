@@ -5,7 +5,8 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
 
   Background:
     Given there is 1 project with:
-        | name  | ecookbook |
+        | name       | ecookbook |
+        | identifier | ecookbook |
     And I am working in project "ecookbook"
     And the project uses the following modules:
         | backlogs |
@@ -25,6 +26,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
         | manage_subtasks         |
         | create_tasks            |
         | add_issues              |
+        | add_work_packages       |
     And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
@@ -109,22 +111,20 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
-  Scenario: Creating a task, via new issue, as a subtask to a story set´s the new task´s fixed version to the parent´s fixed version
-     When I go to the issues/new page of the project called "ecookbook"
-      And I follow "New issue" within "#main-menu"
-      And I select "Task" from "issue_tracker_id"
-      And I fill in "Task 0815" for "issue_subject"
+  Scenario: Creating a task, via new work_package, as a subtask to a story set´s the new task´s fixed version to the parent´s fixed version
+     When I go to the new work_package page of the project called "ecookbook"
+      And I select "Task" from "work_package_tracker_id"
+      And I fill in "Task 0815" for "work_package_subject"
       And I fill in the id of the issue "Story A" as the parent issue
       And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
-  Scenario: Creating a task, via new issue, as a subtask to a story and setting a fixed version is overriden by the parent´s fixed version (bug 8904)
-     When I go to the issues/new page of the project called "ecookbook"
-      And I follow "New issue" within "#main-menu"
-      And I select "Task" from "issue_tracker_id"
-      And I fill in "Task 0815" for "issue_subject"
+  Scenario: Creating a task, via new work_package, as a subtask to a story and setting a fixed version is overriden by the parent´s fixed version (bug 8904)
+     When I go to the new work_package page of the project called "ecookbook"
+      And I select "Task" from "work_package_tracker_id"
+      And I fill in "Task 0815" for "work_package_subject"
       And I fill in the id of the issue "Story A" as the parent issue
-      And I select "Sprint 003" from "issue_fixed_version_id"
+      And I select "Sprint 003" from "work_package_fixed_version_id"
       And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
