@@ -246,7 +246,7 @@ class WorkPackagesController < ApplicationController
                                  'planning-element-parent-id',
                                  work_package.parent ? (view_context.link_to_planning_element(work_package.parent,
                                                                                               :include_id => false)) : ''),
-        WorkPackageAttribute.new(:due_date, 'due-date', format_date(work_package.end_date)),
+        WorkPackageAttribute.new(:due_date, 'due-date', format_date(work_package.due_date)),
         WorkPackagePlanningElementTypeAttribute.new(:type,
                                                     'planning-element-type',
                                                     work_package.planning_element_type),
