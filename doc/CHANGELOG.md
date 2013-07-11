@@ -1,3 +1,6 @@
+
+* `#1119` Creates a unified view for work_package show, new and create
+
 # Changelog
 
 * `#1315` Correct spelling mistakes in German translation
