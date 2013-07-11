@@ -40,13 +40,11 @@ module OpenProject
           }
         end
 
-        # TODO: remove stylesheet_manifest from Rails' precompile list
         def forget_theme(theme)
           themes.delete(theme)
           clear_cache
         end
 
-        # TODO: remove stylesheet_manifest from Rails' precompile list
         def clear_themes
           themes.clear
           clear_cache
