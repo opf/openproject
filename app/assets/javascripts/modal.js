@@ -485,7 +485,7 @@ var ModalHelper = (function() {
 
       // close when body is clicked
       body.click(function(e) {
-        if (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
+        if (modalDiv.data('changed') !== undefined && (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog')))) {
           modalDiv.data('changed', false);
           modalDiv.dialog('close');
         } else {
