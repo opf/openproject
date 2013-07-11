@@ -213,7 +213,9 @@ en:
               uppercase: "uppercase (e.g. 'A')"
               numeric: "numeric (e.g. '1')"
               special: "special (e.g. '%')"
-              reused: "must not be one of the last %{count} used"
+              reused:
+                one: "has been used before. Please choose one that is different from your last one."
+                other: "has been used before. Please choose one that is different from your last %{count}."
       template:
         body: "Please check the following fields:"
         header:
