@@ -43,3 +43,8 @@ end
 Given /^I save the settings$/ do
   click_button('Save', :visible => true)
 end
+
+Given /^users are blocked for ([0-9]+) minutes after ([0-9]+) failed login attempts$/ do |duration, attempts|
+  Setting.brute_force_block_minutes = duration
+  Setting.brute_force_block_after_failed_logins = attempts
+end

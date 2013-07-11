@@ -9,6 +9,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+When /^I edit the user "([^\"]*)"$/ do |user|
+  user_id = User.find_by_login(user).id
+  visit "/users/#{user_id}/edit"
+end
+
+When /^I (activate_and_reset_failed_logins|lock|unlock) the user "([^\"]*)"$/ do |action, user|
+  button_title = {
+    'activate' => 'Unlock and reset failed logins'
+  }
+  click_button()
+end
+
 Given /^there is 1 [Uu]ser with(?: the following)?:$/ do |table|
   login = table.rows_hash[:Login].to_s + table.rows_hash[:login].to_s
   user = User.find_by_login(login) unless login.blank?
@@ -29,6 +41,17 @@ end
 
 Given /^the user "([^\"]*)" is locked$/ do |user|
   User.find_by_login(user).lock!
+end
+
+Given /^the user "([^\"]*)" is registered and not activated$/ do |user|
+  User.find_by_login(user).register!
+end
+
+Given /^the user "([^\"]*)" had too many recently failed logins$/ do |user|
+  user = User.find_by_login(user)
+  user.failed_login_count = 100
+  user.last_failed_login_on = Time.now
+  user.save
 end
 
 Given /^there are the following users:$/ do |table|

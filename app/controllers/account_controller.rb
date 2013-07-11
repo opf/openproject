@@ -274,7 +274,11 @@ class AccountController < ApplicationController
 
   def invalid_credentials
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} at #{Time.now.utc}"
-    flash.now[:error] = l(:notice_account_invalid_creditentials)
+    if Setting.brute_force_block_after_failed_logins.to_i == 0
+      flash.now[:error] = I18n.t(:notice_account_invalid_credentials)
+    else
+      flash.now[:error] = I18n.t(:notice_account_invalid_credentials_or_blocked)
+    end
   end
 
   def inactive_account

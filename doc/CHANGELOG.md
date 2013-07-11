@@ -1,5 +1,6 @@
 # Changelog
 
+* `#780` Add password brute force prevention
 * `#1214` Fix pagination label and 'entries_per_page' setting
 * `#1303` Watcherlist contains unescaped HTML
 * `#1315` Correct spelling mistakes in German translation

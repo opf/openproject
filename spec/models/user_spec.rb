@@ -86,6 +86,25 @@ describe User do
     end
   end
 
+  describe :blocked do
+    let!(:blocked_user) do
+      FactoryGirl.create(:user,
+                         :failed_login_count => 3,
+                         :last_failed_login_on => Time.now)
+    end
+
+    before do
+      user.save!
+      Setting.stub!(:brute_force_block_after_failed_logins).and_return(3)
+      Setting.stub!(:brute_force_block_minutes).and_return(30)
+    end
+
+    it 'should return the single blocked user' do
+      User.blocked.length.should == 1
+      User.blocked.first.id.should == blocked_user.id
+    end
+  end
+
   describe :watches do
     before do
       user.save!

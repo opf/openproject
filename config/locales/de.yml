@@ -285,7 +285,6 @@ de:
     user: "Benutzer"
     version: "Version"
 
-  button_activate: "Aktivieren"
   button_add: "Hinzufügen"
   button_add_watcher: "Beobachter hinzufügen"
   button_annotate: "Annotieren"
@@ -978,7 +977,8 @@ de:
 
   notice_account_activated: "Ihr Konto ist aktiviert. Sie können sich jetzt anmelden."
   notice_account_inactive: "Ihr Konto ist nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde."
-  notice_account_invalid_creditentials: "Benutzer oder Kennwort ist ungültig."
+  notice_account_invalid_credentials: "Benutzer oder Kennwort ist ungültig."
+  notice_account_invalid_credentials_or_blocked: "Benutzer oder Kennwort ist ungültig oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet."
   notice_account_lost_email_sent: "Eine E-Mail mit Anweisungen, wie ein neues Kennwort gewählt wird, wurde Ihnen zugeschickt."
   notice_account_new_password_forced: "Ein neues Passwort muss gesetzt werden."
   notice_account_password_updated: "Kennwort wurde erfolgreich aktualisiert."
@@ -1142,6 +1142,8 @@ de:
   setting_autologin: "Automatische Anmeldung"
   setting_available_languages: "Verfügbare Sprachen"
   setting_bcc_recipients: "E-Mails als Blindkopie (BCC) senden"
+  setting_brute_force_block_after_failed_logins: "Sperre Benutzer nach dieser Anzahl fehlgeschlagener Loginversuche (deaktivieren mit 0)"
+  setting_brute_force_block_minutes: "Sperre Benutzer für Dauer (Minuten)"
   setting_cache_formatted_text: "Formatierten Text im Cache speichern"
   setting_column_options: "Anpassen der Darstellung der Ticketlisten"
   setting_commit_fix_keywords: "Schlüsselwörter (Status)"
@@ -1211,12 +1213,11 @@ de:
     other: "Sonstiges"
     passwords: "Passwörter"
     session: "Sitzung"
+    brute_force_prevention: "Automatisches Sperren von Benutzern"
 
   show_hide_project_menu: "Projektnavigation aus/einblenden"
 
   status_active: "aktiv"
-  status_locked: "gesperrt"
-  status_registered: "angemeldet"
 
   # Used in array.to_sentence.
   support:
@@ -1516,7 +1517,25 @@ de:
   total_progress: "Gesamtfortschritt"
 
   user:
+    all: alle
+    active: "aktiv"
+    activate: "Aktivieren"
+    activate_and_reset_failed_logins: "Aktivieren und fehlgeschlagene Logins zurücksetzen"
+    blocked: "temporär gesperrt"
+    blocked_num_failed_logins:
+      one: "temporär gesperrt (ein fehlgeschlagener Loginversuch)"
+      other: "temporär gesperrt (%{count} fehlgeschlagene Loginversuche)"
     deleted: "Gelöschter Nutzer"
+    error_status_change_failed: >
+      Der Nutzerstatus konnte nicht geändert werden aufgrund folgender Fehler:
+      %{errors}
+    lock: "Dauerhaft sperren"
+    locked: "dauerhaft gesperrt"
+    registered: "angemeldet"
+    reset_failed_logins: "Fehlgeschlagene Logins zurücksetzen"
+    status_user_and_brute_force: "%{user} und %{brute_force}"
+    unlock: "Entsperren"
+    unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
 
   version_status_closed: "abgeschlossen"
   version_status_locked: "gesperrt"
