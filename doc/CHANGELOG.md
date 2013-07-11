@@ -1,8 +1,8 @@
-
-* `#1119` Creates a unified view for work_package show, new and create
-
 # Changelog
 
+## 3.0.0pre7
+
+* `#1119` Creates a unified view for work_package show, new and create
 * `#780` Add password brute force prevention
 * `#1214` Fix pagination label and 'entries_per_page' setting
 * `#1303` Watcherlist contains unescaped HTML
