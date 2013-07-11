@@ -14,6 +14,31 @@ require File.expand_path('../../spec_helper', __FILE__)
 describe PermittedParams do
   let(:user) { FactoryGirl.build(:user) }
 
+  describe :permit do
+    it "adds an attribute to be permitted later" do
+      # just taking project_type here as an example, could be anything
+
+      # taking the originally whitelisted params to be restored later
+      original_whitelisted = PermittedParams.instance_variable_get(:@whitelisted_params)
+
+
+      params = ActionController::Parameters.new(:project_type => { "blubs1" => "blubs" } )
+
+      PermittedParams.new(params, user).project_type.should == {}
+
+      PermittedParams.permit(:project_type, :blubs1)
+
+      PermittedParams.new(params, user).project_type.should == { "blubs1" => "blubs" }
+
+
+      PermittedParams.instance_variable_set(:@whitelisted_params, original_whitelisted)
+    end
+
+    it "raises an argument error if key does not exist" do
+      expect{ PermittedParams.permit(:bogus_key) }.to raise_error ArgumentError
+    end
+  end
+
   describe :project_type do
     it "should return name" do
       params = ActionController::Parameters.new(:project_type => { "name" => "blubs" } )
@@ -221,13 +246,6 @@ describe PermittedParams do
       PermittedParams.new(params, user).planning_element.should == hash
     end
 
-    it "should permit parent_issue_id" do
-      hash = { "parent_issue_id" => "1" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
 
     it "should permit responsible_id" do
       hash = { "responsible_id" => "1" }
@@ -305,6 +323,22 @@ describe PermittedParams do
 
     it "should permit prioritiy_id" do
       hash = { "priority_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).new_work_package.should == hash
+    end
+
+    it "should permit parent_issue_id" do
+      hash = { "parent_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).new_work_package.should == hash
+    end
+
+    it "should permit parent_issue_id" do
+      hash = { "parent_issue_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
 
