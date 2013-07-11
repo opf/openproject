@@ -34,31 +34,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="issue details">
     <div class="meta">
       <table class="attributes">
-        <% controller.work_package_attributes.each_slice(2) do |attributes| %>
+        <% work_package_show_attributes(controller.work_package).each_slice(2) do |attributes| %>
           <tr>
           <% attributes.each do |attribute| %>
-            <th class="<%= attribute.html_class %>"><%= Issue.human_attribute_name(attribute.attribute)%>:</th>
 
-            <% if attribute.is_a? ::WorkPackagesController::WorkPackageAttribute %>
-              <td class="<%= attribute.html_class %>"><%= h(attribute.value) %></td>
+              <%= attribute.field %>
 
-            <% elsif attribute.is_a? ::WorkPackagesController::WorkPackageUserAttribute %>
-              <td class="<%= attribute.html_class %>">
-                <%= avatar(attribute.value, :size => "14") %>
-                <%= attribute.value ? link_to_user(attribute.value) : "-" %>
-              </td>
-
-            <% elsif attribute.is_a? ::WorkPackagesController::WorkPackageProgressAttribute %>
-              <td class="<%= attribute.html_class %>">
-                <%= progress_bar attribute.value, :width => '80px', :legend => "#{attribute.value}%" %>
-              </td>
-
-            <% elsif attribute.is_a? ::WorkPackagesController::WorkPackagePlanningElementTypeAttribute %>
-              <td class="<%= attribute.html_class %>">
-                <%= icon_for_planning_element_type(attribute.value) %>
-                <%= h attribute.value.try(:name) %>
-              </td>
-            <% end %>
           <% end %>
           </tr>
         <% end %>
