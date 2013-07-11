@@ -89,6 +89,7 @@ Redmine::AccessControl.map do |map|
                                   :versions => [:index, :show, :status_by],
                                   :journals => [:index, :diff],
                                   :queries => :index,
+                                  :work_packages => [:show],
                                   :'issues/reports' => [:report, :report_details]}
     map.permission :export_issues, {:'issues' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
@@ -96,6 +97,7 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_work_packages, {:issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
                                   :'issues/previews' => :create}
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
+    map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     map.permission :add_issue_notes, {:issues => [:edit, :update], :journals => [:new]}
     map.permission :edit_issue_notes, {:journals => [:edit, :update]}, :require => :loggedin
@@ -107,7 +109,8 @@ Redmine::AccessControl.map do |map|
     map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
     # Watchers
     map.permission :view_issue_watchers, {}
-    map.permission :add_issue_watchers, {:watchers => [:new, :create]}
+    map.permission :view_work_package_watchers, {}
+    map.permission :add_work_package_watchers, {:watchers => [:new, :create]}
     map.permission :delete_issue_watchers, {:watchers => :destroy}
   end
 
@@ -193,7 +196,8 @@ Redmine::AccessControl.map do |map|
                    {:require => :member}
 
     map.permission :view_planning_elements,
-                   {:planning_elements => [:index, :all, :show,
+                   {:work_packages => [:show],
+                    :planning_elements => [:index, :all, :show,
                                            :recycle_bin],
                     :planning_element_journals => [:index]}
     map.permission :edit_planning_elements,

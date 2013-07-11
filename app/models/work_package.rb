@@ -33,6 +33,8 @@ class WorkPackage < ActiveRecord::Base
                                        :foreign_key => 'planning_element_status_id'
 
   has_many :time_entries, :dependent => :delete_all
+  has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
+  has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
 
   scope :recently_updated, :order => "#{WorkPackage.table_name}.updated_at DESC" 
   scope :visible, lambda {|*args| { :include => :project,
@@ -138,4 +140,150 @@ class WorkPackage < ActiveRecord::Base
   def activity_type
     "work_packages"
   end
+
+  # RELATIONS
+  def delete_relations(work_package)
+    unless Setting.cross_project_issue_relations?
+      work_package.relations_from.clear
+      work_package.relations_to.clear
+    end
+  end
+
+  def delete_invalid_relations(invalid_work_packages)
+    invalid_work_package.each do |work_package|
+      work_package.relations.each do |relation|
+        relation.destroy unless relation.valid?
+      end
+    end
+  end
+
+  # Returns true if this work package is blocked by another work package that is still open
+  def blocked?
+    !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
+  end
+
+  def relations(options = {})
+    options_to = options.clone
+    options_from = options.clone
+
+    if options[:include]
+      if options[:include].is_a?(Hash) && options[:include][:other_issue]
+        options_to[:include] = options_to[:include].dup
+        options_from[:include] = options_from[:include].dup
+        options_to[:include][:issue_from] = options_to[:include].delete(:other_issue)
+        options_from[:include][:issue_to] = options_from[:include].delete(:other_issue)
+      elsif options[:include].is_a?(Array) && options[:include].include?(:other_issue)
+        options_to[:include] = options[:include].dup - [:other_issue] + [:issue_from]
+        options_from[:include] = options[:include].dup - [:other_issue] + [:issue_to]
+      end
+    end
+
+    (relations_from.all(options_from) + relations_to.all(options_to)).sort
+  end
+
+  def relation(id)
+    IssueRelation.of_issue(self).find(id)
+  end
+
+  def new_relation
+    self.relations_from.build
+  end
+
+  def all_dependent_issues(except=[])
+    except << self
+    dependencies = []
+    relations_from.each do |relation|
+      if relation.issue_to && !except.include?(relation.issue_to)
+        dependencies << relation.issue_to
+        dependencies += relation.issue_to.all_dependent_issues(except)
+      end
+    end
+    dependencies
+  end
+
+  # Returns an array of issues that duplicate this one
+  def duplicates
+    relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
+  end
+
+  def soonest_start
+    @soonest_start ||= (
+        relations_to.collect{|relation| relation.successor_soonest_start} +
+        ancestors.collect(&:soonest_start)
+      ).compact.max
+  end
+
+  # Updates start/due dates of following issues
+  def reschedule_following_issues
+    if start_date_changed? || due_date_changed?
+      relations_from.each do |relation|
+        relation.set_issue_to_dates
+      end
+    end
+  end
+
+  def kind
+    if self.is_a? Issue
+      return tracker
+    elsif self.is_a? PlanningElement
+      return planning_element_type
+    end
+  end
+
+  def to_s
+    "#{(kind.nil?) ? '' : "#{kind.name} "}##{id}: #{subject}"
+  end
+
+  # Return true if the work_package is closed, otherwise false
+  def closed?
+    self.status.nil? || self.status.is_closed?
+  end
+
+  def recalculate_attributes_for(work_package_id)
+    if work_package_id.is_a? WorkPackage
+      p = work_package_id
+    else
+      p = WorkPackage.find_by_id(work_package_id)
+    end
+
+    if p
+      # priority = highest priority of children
+      if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
+        p.priority = IssuePriority.find_by_position(priority_position)
+      end
+
+      # start/due dates = lowest/highest dates of children
+      p.start_date = p.children.minimum(:start_date)
+      p.due_date = p.children.maximum(:due_date)
+      if p.start_date && p.due_date && p.due_date < p.start_date
+        p.start_date, p.due_date = p.due_date, p.start_date
+      end
+
+      # done ratio = weighted average ratio of leaves
+      unless WorkPackage.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
+        leaves_count = p.leaves.count
+        if leaves_count > 0
+          average = p.leaves.average(:estimated_hours).to_f
+          if average == 0
+            average = 1
+          end
+          done = p.leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
+          progress = done / (average * leaves_count)
+          p.done_ratio = progress.round
+        end
+      end
+
+      # estimate = sum of leaves estimates
+      p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
+      p.estimated_hours = nil if p.estimated_hours == 0.0
+
+      # ancestors will be recursively updated
+      p.save(:validate => false) if p.changed?
+    end
+  end
+
+  def self.use_status_for_done_ratio?
+    Setting.issue_done_ratio == 'issue_status'
+  end
+
 end

@@ -12,7 +12,6 @@
 class PlanningElement < WorkPackage
   unloadable
 
-  include NestedAttributesForApi
   include ActiveModel::ForbiddenAttributesProtection
 
   has_many :alternate_dates, :class_name  => "AlternateDate",

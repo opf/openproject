@@ -123,9 +123,8 @@ module ApplicationHelper
     closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
     s = ActiveSupport::SafeBuffer.new
     s << "#{issue.project} - " if options[:project]
-    s << link_to("#{closed}#{h(options[:before_text].to_s)}#{h(issue.tracker)} ##{issue.id}".html_safe,
-                issue,
-                :class => issue.css_classes,
+    s << link_to("#{closed}#{h(options[:before_text].to_s)}#{(issue.kind.nil?) ? '' : h(issue.kind.name)} ##{issue.id}".html_safe,
+                work_package_path(issue),
                 :title => h(title))
     s << ": #{subject}" if subject
     s
@@ -1144,7 +1143,7 @@ module ApplicationHelper
     end
 
     link_to(h(text),
-            project_planning_element_path(planning_element.project, planning_element),
+            work_package_path(planning_element),
             :title => planning_element.subject)
   end
 
@@ -1175,7 +1174,7 @@ module ApplicationHelper
     end
 
     link = link_to(h("*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.subject} "),
-                   project_planning_element_path(planning_element.project, planning_element),
+                   work_package_path(planning_element),
                    :title => h("#{truncate(planning_element.subject, :length => 100)} #{planning_element.planning_element_status.nil? ? "" :
                                "(" + planning_element.planning_element_status.name + ")"}"))
     link += "#{planning_element.start_date.nil? ? "[?]" : planning_element.start_date.to_s}#{start_date_change} – #{planning_element.end_date.nil? ? "[?]" :

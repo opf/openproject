@@ -17,7 +17,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= back_url_hidden_field_tag %>
 
 <div class="box">
-<p><%= f.text_field :work_package_id, :size => 6 %> <em><%= h("#{@time_entry.work_package.tracker.name} ##{@time_entry.work_package.id}: #{@time_entry.work_package.subject}") if @time_entry.work_package%></em></p>
+<p><%= f.text_field :work_package_id, :size => 6 %> <em><%= h("#{(@time_entry.work_package.kind.nil?) ? '' : @time_entry.work_package.kind.name} ##{@time_entry.work_package.id}: #{@time_entry.work_package.subject}") if @time_entry.work_package%></em></p>
 <p><%= f.text_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
 <p><%= f.text_field :hours, :size => 6, :required => true %></p>
 <p><%= f.text_field :comments, :size => 100 %></p>

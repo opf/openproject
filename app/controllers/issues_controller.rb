@@ -335,13 +335,13 @@ private
     if params[:issue].is_a?(Hash)
       @issue.safe_attributes = params[:issue]
       @issue.priority_id = params[:issue][:priority_id] unless params[:issue][:priority_id].nil?
-      if User.current.allowed_to?(:add_issue_watchers, @project) && @issue.new_record?
+      if User.current.allowed_to?(:add_work_package_watchers, @project) && @issue.new_record?
         @issue.watcher_user_ids = params[:issue]['watcher_user_ids']
       end
     end
 
     # Copy watchers if we're copying an issue
-    if params[:copy_from] && User.current.allowed_to?(:add_issue_watchers, @project)
+    if params[:copy_from] && User.current.allowed_to?(:add_work_package_watchers, @project)
       @issue.watcher_user_ids = Issue.visible.find(params[:copy_from]).watcher_user_ids
     end
 
