@@ -1,6 +1,8 @@
 # Changelog
 
+* `#1350` Generalize Modal Creation
 * `#1755` Migrate helper-tests for issues into specs for work package
+* `#1896` Moved visibility-tests for issues into specs for workpackages
 * `#1766` Fixed bug: Viewing diff of Work Package description results in error 500
 * `#1767` Fixed bug: Viewing changesets results in "page not found"
 * `#1789` Move validation to Work Package

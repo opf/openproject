@@ -121,10 +121,10 @@ When /^I wait (\d+) seconds?$/ do |seconds|
   sleep seconds.to_i
 end
 When /^I wait for the modal to show$/ do
-  page.should have_selector('#planningElementDialog')
+  page.should have_selector('#modalDiv', visible: true)
 end
 When /^I wait for the modal to close$/ do
-  page.should have_no_selector('#planningElementDialog')
+  page.should have_no_selector('#modalDiv', visible: true)
 end
 When (/^I set duedate to "([^"]*)"$/) do |value|
   fill_in 'planning_element_due_date', :with => value

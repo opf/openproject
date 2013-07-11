@@ -11,7 +11,7 @@
 #++
 
 Then /^I should see the planning element edit modal$/ do
- steps 'Then I should see a modal window with selector "#planningElementDialog"'
+ steps 'Then I should see a modal window with selector "#modalDiv"'
 end
 Then /^I should see a modal window with selector "(.*?)"$/ do |selector|
   page.should have_selector(selector)
