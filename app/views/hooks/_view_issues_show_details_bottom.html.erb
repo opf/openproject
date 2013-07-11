@@ -1,10 +1,11 @@
-<% if @project.module_enabled? :costs_module %>
+<% if @project.module_enabled? :costs_module && @issue%>
   <%# Only render this partial, if the plugin is enabled for the current project %>
   <style>
     <%# disables core's spent-time as it is not displayed if the user has just the view_own_time_entries permission %>
     .spent-time { display: none }
   </style>
-  <% attributes_array = cost_issues_attributes %>
+
+  <% attributes_array = cost_issues_attributes(@issue) %>
   <% (0..(attributes_array.size - 1)).step(2) do |i| %>
     <tr>
       <th>

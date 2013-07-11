@@ -43,7 +43,7 @@ describe TimeEntry do
 
 
   it "should always prefer overridden_costs" do
-    User.current = user
+    User.stub!(:current).and_return(user)
 
     value = rand(500)
     time_entry.overridden_costs = value
@@ -54,7 +54,7 @@ describe TimeEntry do
 
   describe "given rate" do
     before(:each) do
-      User.current = user
+      User.stub!(:current).and_return(user)
       @default_example = time_entry2
     end
 
@@ -136,7 +136,7 @@ describe TimeEntry do
 
   describe "default rate" do
     before(:each) do
-      User.current = user
+      User.stub!(:current).and_return(user)
       @default_example = time_entry2
     end
 

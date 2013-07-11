@@ -12,6 +12,7 @@ module OpenProject::Costs
       require 'open_project/costs/hooks'
       require 'open_project/costs/hooks/issue_hook'
       require 'open_project/costs/hooks/project_hook'
+      require 'open_project/costs/hooks/work_package_action_menu'
     end
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
@@ -64,6 +65,7 @@ module OpenProject::Costs
       require 'open_project/costs/patches'
 
       # Model Patches
+      require_dependency 'open_project/costs/patches/work_package_patch'
       require_dependency 'open_project/costs/patches/issue_patch'
       require_dependency 'open_project/costs/patches/project_patch'
       require_dependency 'open_project/costs/patches/query_patch'
@@ -75,17 +77,23 @@ module OpenProject::Costs
       # Controller Patchesopen_project/costs/patches/
       require_dependency 'open_project/costs/patches/application_controller_patch'
       require_dependency 'open_project/costs/patches/issues_controller_patch'
+      require_dependency 'open_project/costs/patches/work_packages_controller_patch'
       require_dependency 'open_project/costs/patches/projects_controller_patch'
 
       # Helper Patches
       require_dependency 'open_project/costs/patches/application_helper_patch'
       require_dependency 'open_project/costs/patches/users_helper_patch'
       require_dependency 'open_project/costs/patches/issues_helper_patch'
+      require_dependency 'open_project/costs/patches/work_packages_helper_patch'
 
       require_dependency 'open_project/costs/patches/issue_observer'
 
       # loading the class so that acts_as_journalized gets registered
       VariableCostObject
+
+      # TODO: this recreates the original behaviour
+      # however, it might not be desirable to allow assigning of cost_object regardless of the permissions
+      PermittedParams.permit(:new_work_package, :cost_object_id)
 
       unless Redmine::Plugin.registered_plugins.include?(:openproject_costs)
         Redmine::Plugin.register :openproject_costs do

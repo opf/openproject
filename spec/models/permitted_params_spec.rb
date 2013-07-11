@@ -123,4 +123,14 @@ describe PermittedParams do
     end
 
   end
+
+  describe :new_work_package do
+    it "should permit cost_object_id" do
+      hash = { "cost_object_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).new_work_package.should == hash
+    end
+  end
 end

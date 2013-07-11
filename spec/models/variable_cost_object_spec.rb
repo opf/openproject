@@ -8,7 +8,7 @@ describe VariableCostObject do
 
   describe 'recreate initial journal' do
     before do
-      User.current = user
+      User.stub!(:current).and_return(user)
 
       @variable_cost_object = FactoryGirl.create(:variable_cost_object , :project => project,
                                                                      :author => user)
@@ -24,7 +24,7 @@ describe VariableCostObject do
     let(:cost_object) { VariableCostObject.new }
 
     before do
-      User.current = user
+      User.stub!(:current).and_return(user)
     end
 
     it { cost_object.author.should == user }
@@ -35,7 +35,7 @@ describe VariableCostObject do
 
     before do
       cost_object.author = user
-      cost_object.issues = [issue]
+      cost_object.work_packages = [issue]
       cost_object.save!
 
       cost_object.destroy

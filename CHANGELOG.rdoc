@@ -1,3 +1,6 @@
+* Allows for assigning budgets to work_packages
+* Allows for assigning cost entries to work_packages
+
 = 5.0.1.pre3 - 2013-06-21
 
 * Removes csv and atom export for costlog (where non working)

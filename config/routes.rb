@@ -14,7 +14,7 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  scope 'issues/:issue_id', :as => 'issues' do
+  scope 'work_packages/:work_package_id', :as => 'work_packages' do
     resources :cost_entries, :controller => 'costlog', :only => [:new, :index]
   end
 
