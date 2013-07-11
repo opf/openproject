@@ -978,7 +978,7 @@ de:
   notice_account_activated: "Ihr Konto ist aktiviert. Sie können sich jetzt anmelden."
   notice_account_inactive: "Ihr Konto ist nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde."
   notice_account_invalid_credentials: "Benutzer oder Kennwort ist ungültig."
-  notice_account_invalid_credentials_or_blocked: "Benutzer oder Kennwort ist ungültig. Oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet."
+  notice_account_invalid_credentials_or_blocked: "Benutzer oder Kennwort ist ungültig oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet."
   notice_account_lost_email_sent: "Eine E-Mail mit Anweisungen, wie ein neues Kennwort gewählt wird, wurde Ihnen zugeschickt."
   notice_account_new_password_forced: "Ein neues Passwort muss gesetzt werden."
   notice_account_password_updated: "Kennwort wurde erfolgreich aktualisiert."
