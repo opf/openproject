@@ -17,7 +17,7 @@ a journal as the cache could then not be used between all of an issue's journals
 <% @journal_cache = Acts::Journalized::JournalObjectCache.new %>
 
 <% for journal in journals %>
-  <%= render_journal issue,
+  <%= render_journal work_package,
                      journal,
                      :edit_permission => :edit_issue_notes,
                      :edit_own_permission => :edit_own_issue_notes,
@@ -25,4 +25,4 @@ a journal as the cache could then not be used between all of an issue's journals
   <%= call_hook(:view_issues_history_journal_bottom, { :journal => journal }) %>
 <% end %>
 
-<% heads_for_wiki_formatter if User.current.allowed_to?(:edit_issue_notes, issue.project) || User.current.allowed_to?(:edit_own_issue_notes, issue.project) %>
+<% heads_for_wiki_formatter if User.current.allowed_to?(:edit_issue_notes, work_package.project) || User.current.allowed_to?(:edit_own_issue_notes, work_package.project) %>

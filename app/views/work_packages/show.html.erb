@@ -104,7 +104,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if controller.journals.present? %>
   <div id="history">
     <h3><%=l(:label_history)%></h3>
-    <%= render :partial => 'history', :locals => { :issue => controller.work_package, :journals => controller.journals } %>
+    <%= render :partial => 'history', :locals => { :work_package => controller.work_package, :journals => controller.journals } %>
   </div>
 <% end %>
 
