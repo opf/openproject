@@ -384,5 +384,29 @@ describe PermittedParams do
 
       PermittedParams.new(params, user).new_work_package.should == hash
     end
+
+    it "should permit watcher_user_ids when the user is allowed to add watchers" do
+      project = double('project')
+
+      user.stub!(:allowed_to?).with(:add_work_package_watchers, project).and_return(true)
+
+      hash = { "watcher_user_ids" => ["1", "2"] }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).new_work_package(:project => project).should == hash
+    end
+
+    it "should not return watcher_user_ids when the user is not allowed to add watchers" do
+      project = double('project')
+
+      user.stub!(:allowed_to?).with(:add_work_package_watchers, project).and_return(false)
+
+      hash = { "watcher_user_ids" => ["1", "2"] }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).new_work_package(:project => project).should == {}
+    end
   end
 end

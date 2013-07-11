@@ -103,7 +103,7 @@ class WorkPackagesController < ApplicationController
       params[:work_package] ||= {}
       type = params[:type] || params[:work_package][:type] || 'Issue'
 
-      permitted = permitted_params.new_work_package
+      permitted = permitted_params.new_work_package(:project => project)
 
       permitted[:author] = current_user
 

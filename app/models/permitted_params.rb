@@ -81,8 +81,22 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
   end
 
-  def new_work_package
-    params[:work_package].permit(*self.class.permitted_attributes[:new_work_package])
+  def new_work_package(args = {})
+    permitted = permitted_attributes(args)
+
+    params[:work_package].permit(*permitted)
+  end
+
+  def permitted_attributes(args)
+    merged_args = { :user => user }.merge(args)
+
+    self.class.permitted_attributes[:new_work_package].map do |permission|
+      if permission.respond_to?(:call)
+        permission.call(merged_args)
+      else
+        permission
+      end
+    end.compact
   end
 
   protected
@@ -105,7 +119,12 @@ class PermittedParams < Struct.new(:params, :user)
                                                      :done_ratio,
                                                      :priority_id,
                                                      :category_id,
-                                                     :status_id
+                                                     :status_id,
+                                                     Proc.new do |args|
+                                                       args[:user].allowed_to?(:add_work_package_watchers, args[:project]) ?
+                                                         { :watcher_user_ids => [] } :
+                                                         nil
+                                                     end
                                                    ],
                                :color_move => [:move_to],
                                :color => [
