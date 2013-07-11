@@ -15,7 +15,7 @@ require 'will_paginate'
 module PaginationHelper
   def pagination_links_full(paginator, options = {})
     merged_options = { next_label: I18n.t(:label_next),
-                       previous_label: I18n.t(:label_next),
+                       previous_label: I18n.t(:label_previous),
                        container: true }.merge(options)
 
     html = ''.html_safe
@@ -90,7 +90,7 @@ module PaginationHelper
   #  Return smallest possible setting if all else fails.
 
   def per_page_param(options = params)
-    per_page_candidates = [session[:per_page].to_i, options[:per_page].to_i, options[:limit].to_i]
+    per_page_candidates = [options[:per_page].to_i, session[:per_page].to_i, options[:limit].to_i]
 
     unless (union = per_page_candidates & Setting.per_page_options_array).empty?
       session[:per_page] = union.first
