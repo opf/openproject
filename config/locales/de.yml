@@ -209,7 +209,9 @@ de:
               uppercase: "Großbuchstaben (z.B. 'A')"
               numeric: "Ziffern (z.B. '1')"
               special: "Sonderzeichen (z.B. '%')"
-              reused: "darf nicht eines der %{count} zuletzt genutzten sein."
+              reused:
+                one: "wurde bereits verwendet. Bitte wählen Sie eines, das sich vom letzten unterscheidet."
+                other: "wurde bereits verwendet. Bitte wählen Sie eines, das sich von den letzten %{count} unterscheidet."
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:
