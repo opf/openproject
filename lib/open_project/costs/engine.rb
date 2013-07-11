@@ -91,6 +91,10 @@ module OpenProject::Costs
       # loading the class so that acts_as_journalized gets registered
       VariableCostObject
 
+      # TODO: this recreates the original behaviour
+      # however, it might not be desirable to allow assigning of cost_object regardless of the permissions
+      PermittedParams.permit(:new_work_package, :cost_object_id)
+
       unless Redmine::Plugin.registered_plugins.include?(:openproject_costs)
         Redmine::Plugin.register :openproject_costs do
 
