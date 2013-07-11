@@ -688,7 +688,7 @@ class IssueTest < ActiveSupport::TestCase
       assert !Issue.new(:start_date => nil, :due_date => 1.day.from_now.to_date, :done_ratio => 0).behind_schedule?
     end
 
-    should "be false if the issue has no end_date" do
+    should "be false if the issue has no due_date" do
       assert !Issue.new(:start_date => 1.day.from_now.to_date, :due_date => nil, :done_ratio => 0).behind_schedule?
     end
 

@@ -11,7 +11,7 @@
 
 shared_examples_for "a model with non-negative duration" do
   # it is assumed, that planning elements start on start_date 00:01 and end
-  # on end_date 23:59. Therefore, if start_date and end_date are on the very
+  # on due_date 23:59. Therefore, if start_date and due_date are on the very
   # same day, the duration should be 1.
   describe 'duration' do
     describe 'when start date == end date' do
