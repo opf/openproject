@@ -52,6 +52,11 @@ describe WorkPackagesController do
 
   #=======================================================================
 
+  before do
+    # disables sending mails
+    UserMailer.stub!(:new).and_return(double('mailer').as_null_object)
+  end
+
   let(:planning_element) { FactoryGirl.create(:planning_element, :project_id => project.id) }
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
   let(:stub_planning_element) { FactoryGirl.build_stubbed(:planning_element, :project_id => stub_project.id) }
@@ -390,7 +395,7 @@ describe WorkPackagesController do
 
     describe 'when the type is "Project"' do
       it "should raise not allowed" do
-        controller.params= { :type => 'Project' }
+        controller.params = { :type => 'Project' }
 
         expect { controller.new_work_package }.to raise_error ArgumentError
       end

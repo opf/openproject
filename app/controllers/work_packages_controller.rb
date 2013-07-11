@@ -125,7 +125,7 @@ class WorkPackagesController < ApplicationController
   def project
     @project ||= if params[:project_id]
                    find_project_by_project_id
-                 else
+                 elsif work_package
                    work_package.project
                  end
   end
