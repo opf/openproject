@@ -157,6 +157,7 @@ de:
         parent_title: "Übergeordnete Seite"
         redirect_existing_links: "Existierende Links umleiten"
       work_package:
+        progress: "% erledigt"
         responsible: "Planungsverantwortlicher"
         spent_time: "Aufgewendete Zeit"
 
