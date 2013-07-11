@@ -241,6 +241,14 @@ describe UsersController do
         end
       end
 
+      shared_examples_for 'index action with enabled session lifetime and inactivity exceeded' do
+        it "logs out the user and redirects with a warning that he has been locked out" do
+          response.redirect_url.should == (signin_url + "?back_url=" + CGI::escape(@controller.url_for(:controller => "users", :action => "index")))
+          User.current.should_not == admin
+          flash[:warning].should == I18n.t(:notice_forced_logout, :ttl_time => Setting.session_ttl)
+        end
+      end
+
       context "disabled" do
         before do
           Setting.stub!(:session_ttl_enabled?).and_return(false)
@@ -272,11 +280,16 @@ describe UsersController do
             session[:updated_at] = Time.now - 3.hours
             get :index
           end
-          it "logs out the user and redirects with a warning that he has been locked out" do
-            response.redirect_url.should == (signin_url + "?back_url=" + CGI::escape(@controller.url_for(:controller => "users", :action => "index")))
-            User.current.should_not == admin
-            flash[:warning].should == I18n.t(:notice_forced_logout, :ttl_time => Setting.session_ttl)
+          it_should_behave_like 'index action with enabled session lifetime and inactivity exceeded'
+        end
+
+        context "without last activity time in the session" do
+          before do
+            Setting.stub!(:session_ttl).and_return("60")
+            session[:updated_at] = nil
+            get :index
           end
+          it_should_behave_like 'index action with enabled session lifetime and inactivity exceeded'
         end
 
         context "with ttl = 0" do
