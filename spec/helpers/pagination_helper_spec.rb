@@ -189,11 +189,13 @@ describe PaginationHelper do
       end
     end
 
-    it "should save per_page in the settings if per_page" do
+    it "should return per_page if provided and store it in the session" do
       with_settings :per_page_options => '1,2,3' do
+        session[:per_page] = 3
         per_page = 2
 
         per_page_param( { :per_page => per_page } ).should == per_page
+        session[:per_page].should == 2
       end
     end
 

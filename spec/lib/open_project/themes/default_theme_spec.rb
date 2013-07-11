@@ -11,13 +11,19 @@
 
 require 'spec_helper'
 
-module Redmine
+module OpenProject
   module Themes
     describe DefaultTheme do
       let(:theme) { DefaultTheme.instance }
 
+      describe '#name' do
+        it 'is called OpenProject' do
+          expect(theme.name).to eq 'OpenProject'
+        end
+      end
+
       describe '#stylesheet_manifest' do
-        it 'it is default with a css extension' do
+        it 'is default with a css extension' do
           expect(theme.stylesheet_manifest).to eq 'default.css'
         end
       end
@@ -79,12 +85,6 @@ module Redmine
 
         it 'is false' do
           expect(theme.image_overridden?('theme_spec.rb')).to be_false
-        end
-      end
-
-      describe '#default?' do
-        it "returns true" do
-          expect(DefaultTheme.instance).to be_default
         end
       end
     end

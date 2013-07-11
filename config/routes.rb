@@ -330,6 +330,7 @@ OpenProject::Application.routes.draw do
       match '/memberships/:membership_id/destroy' => 'users#destroy_membership', :via => :post
       match '/memberships/:membership_id' => 'users#edit_membership', :via => :post
       match '/memberships' => 'users#edit_membership', :via => :post
+      post :change_status
       post :edit_membership
       post :destroy_membership
       get :deletion_info

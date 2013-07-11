@@ -189,10 +189,50 @@ describe UsersController do
     end
   end
 
+  describe :change_status do
+    describe 'WHEN activating a registered user' do
+      let!(:registered_user) do
+        FactoryGirl.create(:user, :status => User::STATUSES[:registered],
+                                  :language => 'de')
+      end
+
+      before do
+        ActionMailer::Base.deliveries.clear
+        with_settings(:available_languages => [:en, :de],
+                      :bcc_recipients => '1') do
+          as_logged_in_user admin do
+            post :change_status, :id => registered_user.id,
+                                 :user => {:status => User::STATUSES[:active]},
+                                 :activate => '1'
+          end
+        end
+      end
+
+      it 'should activate the user' do
+        assert registered_user.reload.active?
+      end
+
+      it 'should send an email to the correct user in the correct language' do
+        mail = ActionMailer::Base.deliveries.last
+        assert_not_nil mail
+        assert_equal [registered_user.mail], mail.to
+        mail.parts.each do |part|
+          assert part.body.encoded.include?(I18n.t(:notice_account_activated,
+                                                   :locale => 'de'))
+        end
+      end
+    end
+  end
+
   describe "index" do
     describe "with session lifetime" do
       # TODO move this section to a proper place because we test a
       # before_filter from the application controller
+
+      after(:each) do
+        # reset, so following tests are not affected by the change
+        User.current = nil
+      end
 
       shared_examples_for "index action with disabled session lifetime or inactivity not exceeded" do
         it "doesn't logout the user and renders the index action" do

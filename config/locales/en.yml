@@ -293,7 +293,6 @@ en:
     version: "Version"
     work_package: "Work package"
 
-  button_activate: "Activate"
   button_add: "Add"
   button_add_watcher: "Add watcher"
   button_annotate: "Annotate"
@@ -974,7 +973,8 @@ en:
 
   notice_account_activated: "Your account has been activated. You can now log in."
   notice_account_inactive: "Your account has not yet been activated. To activate your account, click on the link that was emailed to you."
-  notice_account_invalid_creditentials: "Invalid user or password"
+  notice_account_invalid_credentials: "Invalid user or password"
+  notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
   notice_account_new_password_forced: "A new password is required."
   notice_account_password_updated: "Password was successfully updated."
@@ -1132,6 +1132,8 @@ en:
   setting_autologin: "Autologin"
   setting_available_languages: "Available languages"
   setting_bcc_recipients: "Blind carbon copy recipients (bcc)"
+  setting_brute_force_block_after_failed_logins: "Block user after this number of failed login attempts (disable with 0)"
+  setting_brute_force_block_minutes: "Time the user is blocked for (minutes)"
   setting_cache_formatted_text: "Cache formatted text"
   setting_column_options: "Customize the appearance of the issue lists"
   setting_commit_fix_keywords: "Fixing keywords"
@@ -1201,12 +1203,11 @@ en:
     other: "Other"
     passwords: "Passwords"
     session: "Session"
+    brute_force_prevention: "Automated user blocking"
 
   show_hide_project_menu: "Hide/Show project menu"
 
   status_active: "active"
-  status_locked: "locked"
-  status_registered: "registered"
 
   # Used in array.to_sentence.
   support:
@@ -1510,7 +1511,24 @@ en:
   total_progress: "Total progress"
 
   user:
+    all: "all"
+    active: "active"
+    activate: "Activate"
+    activate_and_reset_failed_logins: "Activate and reset failed logins"
+    blocked: "locked temporarily"
+    blocked_num_failed_logins:
+      one: "locked temporarily (one failed login attempt)"
+      other: "locked temporarily (%{count} failed login attempts)"
     deleted: "Deleted user"
+    error_status_change_failed: "Changing the user status failed due to the following errors: %{errors}"
+    lock: "Lock permanently"
+    locked: "locked permanently"
+    registered: "registered"
+    reset_failed_logins: "Reset failed logins"
+    status_user_and_brute_force: "%{user} and %{brute_force}"
+    unlock: "Unlock"
+    unlock_and_reset_failed_logins: "Unlock and reset failed logins"
+
 
   version_status_closed: "closed"
   version_status_locked: "locked"

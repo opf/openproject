@@ -10,16 +10,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/themes'
+require 'open_project/themes'
 
-module Redmine
+module OpenProject
   module Themes
     module ViewHelpers
       # returns the theme currently configured by the settings
       # if none is configured or one cannot be found it returns the default theme
-      # which means this helper always returns a Redmine::Themes::Theme subclass
+      # which means this helper always returns a OpenProject::Themes::Theme subclass
       def current_theme
-        Redmine::Themes.current_theme
+        OpenProject::Themes.current_theme
       end
 
       # overrides image_tag defined in ActionView::Helpers::AssetTagHelpers (Rails 4)
@@ -43,5 +43,5 @@ end
 module ApplicationHelper
   # including a module is way better than defining methods directly in the application helper's module
   # it plays nicely with inheritence and it will show up in ApplicationHelper.ancestors list
-  include Redmine::Themes::ViewHelpers
+  include OpenProject::Themes::ViewHelpers
 end

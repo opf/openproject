@@ -87,6 +87,39 @@ class PermittedParams < Struct.new(:params, :user)
     params[:work_package].permit(*permitted)
   end
 
+  def user_update_as_admin
+    if user.admin?
+      params.require(:user).permit(:firstname,
+                                   :lastname,
+                                   :mail,
+                                   :mail_notification,
+                                   :language,
+                                   :custom_field_values,
+                                   :custom_fields,
+                                   :identity_url,
+                                   :auth_source_id,
+                                   :force_password_change,
+                                   :group_ids => [])
+    else
+      params.require(:user).permit()
+    end
+  end
+
+  def work_package
+    params.require(:work_package).permit(:subject,
+                                         :description,
+                                         :start_date,
+                                         :end_date,
+                                         :note,
+                                         :planning_element_type_id,
+                                         :planning_element_status_comment,
+                                         :planning_element_status_id,
+                                         :parent_id,
+                                         :responsible_id)
+  end
+
+  protected
+
   def permitted_attributes(args)
     merged_args = { :user => user }.merge(args)
 
@@ -98,8 +131,6 @@ class PermittedParams < Struct.new(:params, :user)
       end
     end.compact
   end
-
-  protected
 
   def self.permitted_attributes
     @whitelisted_params ||= {

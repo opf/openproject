@@ -17,7 +17,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def setup
-    @theme = Redmine::Themes.default_theme
+    @theme = OpenProject::Themes.default_theme
     Setting.ui_theme = @theme.identifier
   end
 
