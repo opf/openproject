@@ -103,6 +103,9 @@ class UsersController < ApplicationController
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
     @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] if @user.change_password_allowed?
+    # Do random password assignment after setting the other password attributes,
+    # this ensures that the forced password change can't be disabled
+    @user.random_password! if params[:user][:assign_random_password]
 
     if @user.save
       # TODO: Similar to My#account
@@ -112,7 +115,7 @@ class UsersController < ApplicationController
 
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      UserMailer.account_information(@user, params[:user][:password]).deliver if params[:send_information]
+      UserMailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|
         format.html {
@@ -147,6 +150,9 @@ class UsersController < ApplicationController
     if params[:user][:password].present? && @user.change_password_allowed?
       @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
     end
+    # Do random password assignment after setting the other password attributes,
+    # this ensures that the forced password change can't be disabled
+    @user.random_password! if params[:user][:assign_random_password]
 
     if @user.save
       # TODO: Similar to My#account
@@ -156,8 +162,8 @@ class UsersController < ApplicationController
 
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      if @user.active? && params[:send_information] && !params[:user][:password].blank? && @user.change_password_allowed?
-        UserMailer.account_information(@user, params[:user][:password]).deliver
+      if @user.active? && params[:send_information] && !@user.password.blank? && @user.change_password_allowed?
+        UserMailer.account_information(@user, @user.password).deliver
       end
 
       respond_to do |format|

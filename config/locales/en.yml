@@ -1515,6 +1515,7 @@ en:
     active: "active"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
+    assign_random_password: "Assign random password (sent to user via e-mail)"
     blocked: "locked temporarily"
     blocked_num_failed_logins:
       one: "locked temporarily (one failed login attempt)"

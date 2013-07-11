@@ -44,24 +44,28 @@ See doc/COPYRIGHT.rdoc for more details.
     <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "" %></p>
   <% end %>
   <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
+    <% assign_random_password_enabled = params[:user] && 
+                                        params[:user][:assign_random_password] %>
     <p>
-      <label for="set_random_password">
-        <%= I18n.t(:field_random_password) %>
+      <label for="user_assign_random_password">
+        <%= I18n.t(:assign_random_password, :scope => :user) %>
       </label>
-      <%= check_box_tag("set_random_password", 1, (params[:user] && params[:set_random_password])) %>
+      <%= check_box_tag("user_assign_random_password",
+                        "1",
+                        assign_random_password_enabled) %>
     </p>
     <p>
-      <% password_disabled = !!params[:set_random_password] %>
-      <%= f.password_field :password, :required => true,
-                                      :size => 25,
-                                      :disabled => password_disabled %><br />
+      <%= f.password_field :password,
+                           :required => true,
+                           :size => 25,
+                           :disabled => assign_random_password_enabled %><br />
       <%= password_complexity_requirements %>
     </p>
     <p>
       <%= f.password_field :password_confirmation,
                            :required => true,
                            :size => 25,
-                           :disabled => password_disabled %>
+                           :disabled => assign_random_password_enabled %>
     </p>
     <p>
       <%= f.check_box :force_password_change %>
