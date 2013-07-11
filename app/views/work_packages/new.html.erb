@@ -34,7 +34,8 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 
   <%= submit_tag l(:button_create) %>
-  <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+  <!-- not supported by controller for now -->
+  <%#= submit_tag l(:button_create_and_continue), :name => 'continue' %>
   <%= link_to_issue_preview(controller.project) %>
 
   <%= javascript_tag "Form.Element.focus('#{f.object_name}_subject');" %>
