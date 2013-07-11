@@ -10,25 +10,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/themes/theme'
+require 'open_project/themes/theme'
 
-module Redmine
+module OpenProject
   module Themes
-    class DefaultTheme < Redmine::Themes::Theme
-      def identifier
-        :default
-      end
-
+    class DefaultTheme < OpenProject::Themes::Theme
       def name
-        'Default'
+        'OpenProject'
       end
 
       def assets_path
         @assets_path ||= Rails.root.join('app/assets').to_s
-      end
-
-      def stylesheet_manifest
-        'default.css'
       end
 
       def assets_prefix
@@ -37,10 +29,6 @@ module Redmine
 
       def overridden_images
         []
-      end
-
-      def default?
-        true
       end
 
       def image_overridden?(source)
