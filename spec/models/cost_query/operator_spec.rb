@@ -3,8 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, :reporting_query_helper => true do
   minimal_query
 
-  let!(:project1) { FactoryGirl.create(:project, name: "project1", created_on: Time.now - 1) }
-  let!(:project2) { FactoryGirl.create(:project, name: "project2", created_on: Time.now - 2) }
+  let!(:project1) { FactoryGirl.create(:project, name: "project1", created_on: 5.minutes.ago) }
+  let!(:project2) { FactoryGirl.create(:project, name: "project2", created_on: 6.minutes.ago) }
 
   describe CostQuery::Operator do
     def query(table, field, operator, *values)
@@ -223,7 +223,7 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     it "does =d" do
-      #assuming that there aren't more than one project created at the same time (which actually is not true, but works for the first project in our fixtures)
+      #assuming that there aren't more than one project created at the same time
       query('projects', 'created_on', '=d', Project.first(:order => "id ASC").created_on).size.should == 1
     end
 
