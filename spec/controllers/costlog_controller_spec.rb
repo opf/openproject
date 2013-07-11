@@ -2,12 +2,12 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
 describe CostlogController do
   include Cost::PluginSpecHelper
-  let (:project) { FactoryGirl.build(:project_with_trackers) }
-  let (:issue) { FactoryGirl.build(:issue, :project => project,
+  let (:project) { FactoryGirl.create(:project_with_trackers) }
+  let (:issue) { FactoryGirl.create(:issue, :project => project,
                                        :author => user,
                                        :tracker => project.trackers.first) }
-  let (:user) { FactoryGirl.build(:user) }
-  let (:user2) { FactoryGirl.build(:user) }
+  let (:user) { FactoryGirl.create(:user) }
+  let (:user2) { FactoryGirl.create(:user) }
   let (:controller) { FactoryGirl.build(:role, :permissions => [:log_costs, :edit_cost_entries]) }
   let (:cost_type) { FactoryGirl.build(:cost_type) }
   let (:cost_entry) { FactoryGirl.build(:cost_entry, :work_package => issue,
@@ -44,20 +44,12 @@ describe CostlogController do
   end
 
   before do
-    # removing db entries added by fixtures
-    # TODO: remove fixtures
-    CostType.destroy_all
-    CostEntry.destroy_all
-    Project.destroy_all
-    User.destroy_all
-    Rate.destroy_all
-
-    user.save!
-    project.save!
-    #issue_status
-    issue.save! if issue
     disable_flash_sweep
     @controller.stub!(:check_if_login_required)
+  end
+
+  after do
+    User.current = nil
   end
 
   describe "GET new" do
