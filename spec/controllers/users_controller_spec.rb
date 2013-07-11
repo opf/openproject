@@ -193,12 +193,12 @@ describe UsersController do
     describe 'WHEN activating a registered user' do
       let!(:registered_user) do
         FactoryGirl.create(:user, :status => User::STATUSES[:registered],
-                                  :language => 'fr')
+                                  :language => 'de')
       end
 
       before do
         ActionMailer::Base.deliveries.clear
-        with_settings(:available_languages => [:en, :fr],
+        with_settings(:available_languages => [:en, :de],
                       :bcc_recipients => '1') do
           as_logged_in_user admin do
             post :change_status, :id => registered_user.id,
@@ -218,7 +218,7 @@ describe UsersController do
         assert_equal [registered_user.mail], mail.to
         mail.parts.each do |part|
           assert part.body.encoded.include?(I18n.t(:notice_account_activated,
-                                                   :locale => 'fr'))
+                                                   :locale => 'de'))
         end
       end
     end
