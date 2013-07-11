@@ -58,7 +58,7 @@ Feature: Viewing a work package
       | issue3  |
 
     And there are the following planning elements in project "omicronpersei8":
-      | subject | start_date | end_date   |
+      | subject | start_date | due_date   |
       | pe1     | 2013-01-01 | 2013-12-31 |
       | pe2     | 2013-01-01 | 2013-12-31 |
 
