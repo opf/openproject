@@ -84,6 +84,7 @@ module OpenProject::Costs
       require_dependency 'open_project/costs/patches/application_helper_patch'
       require_dependency 'open_project/costs/patches/users_helper_patch'
       require_dependency 'open_project/costs/patches/issues_helper_patch'
+      require_dependency 'open_project/costs/patches/work_packages_helper_patch'
 
       require_dependency 'open_project/costs/patches/issue_observer'
 

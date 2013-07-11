@@ -1,16 +1,11 @@
-<% if @project.module_enabled? :costs_module %>
+<% if @project.module_enabled? :costs_module && @issue%>
   <%# Only render this partial, if the plugin is enabled for the current project %>
   <style>
     <%# disables core's spent-time as it is not displayed if the user has just the view_own_time_entries permission %>
     .spent-time { display: none }
   </style>
 
-  <%# this hack is necessary as long as both work_packages and issues controller render this %>
-  <% work_package = controller.respond_to?(:work_package) ?
-                      controller.work_package :
-                      @issue %>
-
-  <% attributes_array = cost_issues_attributes(work_package) %>
+  <% attributes_array = cost_issues_attributes(@issue) %>
   <% (0..(attributes_array.size - 1)).step(2) do |i| %>
     <tr>
       <th>
