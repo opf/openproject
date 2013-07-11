@@ -9,16 +9,19 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'redmine/themes/theme'
-require 'redmine/themes/default_theme' # always load the default theme
 
-module Redmine
+require 'open_project/themes/theme'
+require 'open_project/themes/theme_finder'
+require 'open_project/themes/default_theme' # always load the default theme
+
+module OpenProject
   module Themes
     class << self
-      delegate :new_theme, :themes, :all, to: Theme
+      delegate :new_theme, to: Theme
+      delegate :all, :themes, :clear_themes, to: ThemeFinder
 
       def theme(identifier)
-        Theme.fetch(identifier) { default_theme }
+        ThemeFinder.fetch(identifier) { default_theme }
       end
 
       def default_theme
@@ -33,10 +36,6 @@ module Redmine
         Setting.ui_theme.to_s.to_sym.presence
       end
 
-      def clear_themes
-        Theme.clear
-      end
-
       include Enumerable
       delegate :each, to: :themes
     end
@@ -44,6 +43,6 @@ module Redmine
 end
 
 # add view helpers to application
-require 'redmine/themes/view_helpers'
+require 'open_project/themes/view_helpers'
 
 ActiveSupport.run_load_hooks(:themes)
