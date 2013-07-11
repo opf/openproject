@@ -13,6 +13,7 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe PermittedParams do
   let(:user) { FactoryGirl.build(:user) }
+  let(:admin) { FactoryGirl.build(:admin) }
 
   describe :project_type do
     it "should return name" do
@@ -227,6 +228,44 @@ describe PermittedParams do
       params = ActionController::Parameters.new(:planning_element => hash)
 
       PermittedParams.new(params, user).planning_element.should == hash
+    end
+  end
+
+  describe :user do
+    admin_permissions = ['firstname',
+                         'lastname',
+                         'mail',
+                         'mail_notification',
+                         'language',
+                         'custom_field_values',
+                         'custom_fields',
+                         'identity_url',
+                         'auth_source_id',
+                         'force_password_change']
+
+    it 'should permit nothing for a non-admin user' do
+      # Hash with {'key' => 'key'} for all admin_permissions
+      field_sample = { :user => Hash[admin_permissions.zip(admin_permissions)] }
+
+      params = ActionController::Parameters.new(field_sample)
+      PermittedParams.new(params, user).user_update_as_admin.should == {}
+    end
+
+    admin_permissions.each do |field|
+      it "should permit #{field}" do
+        hash = { field => 'test' }
+        params = ActionController::Parameters.new(:user => hash)
+
+        PermittedParams.new(params, admin).user_update_as_admin.should == 
+          { field => 'test' }
+      end
+    end
+
+    it 'should permit a group_ids list' do
+      hash = { 'group_ids' => ['1', '2'] }
+      params = ActionController::Parameters.new(:user => hash)
+
+      PermittedParams.new(params, admin).user_update_as_admin.should == hash
     end
   end
 end

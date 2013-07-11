@@ -76,12 +76,12 @@ end
 
 Given /^I try to log in with user "([^"]*)"$/ do |login|
   step 'I go to the logout page'
-  step 'I go to the login page'
-  with_scope('#main') do
-    fill_in('Login', :with => login)
-    fill_in('Password', :with => (@new_password || 'adminADMIN!'))
-    click_link_or_button('Login')
-  end
+  login(login, @new_password || 'adminADMIN!')
+end
+
+Given /^I try to log in with user "([^"]*)" and a wrong password$/ do |login|
+  step 'I go to the logout page'
+  login(login, 'Wrong password')
 end
 
 When /^I activate the ([a-z, ]+) password rules$/ do |rules|
