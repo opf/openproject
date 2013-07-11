@@ -84,7 +84,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "Details"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
-                    "https://mydomain.foo/issues/#{related_issue.id}",
+                    "https://mydomain.foo/work_packages/#{related_issue.id}",
                     "My related Ticket (#{related_issue.status})",
                     :text => "##{related_issue.id}"
       # link to a changeset
@@ -122,7 +122,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "Details"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/issues/#{related_issue.id}",
+                    "http://mydomain.foo/rdm/work_packages/#{related_issue.id}",
                     "My related Ticket (#{related_issue.status})",
                     :text => "##{related_issue.id}"
       # link to a changeset
@@ -163,7 +163,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "Details"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/issues/#{related_issue.id}",
+                    "http://mydomain.foo/rdm/work_packages/#{related_issue.id}",
                     "My related Ticket (#{related_issue.status})",
                     :text => "##{related_issue.id}"
       # link to a changeset

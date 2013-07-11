@@ -68,7 +68,7 @@ Feature: Issue edit
   Scenario: On an issue with children a User should not be able to change attributes which are overridden by children
     When I go to the page of the issue "issue1"
     And I click on "Add subtask"
-    Then I should see "New work package" within "#content"
+    Then I should be on the new work_package page of the project called "omicronpersei8"
     When I fill in "find the popplers" for "Subject"
     And I click on the first button matching "Create"
     Then I should see "Successful creation."

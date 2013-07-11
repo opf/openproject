@@ -88,6 +88,118 @@ module WorkPackagesHelper
     ].compact
   end
 
+  def work_package_show_attributes(work_package)
+    [
+      work_package_show_status_attribute(work_package),
+      work_package_show_start_date_attribute(work_package),
+      work_package_show_priority_attribute(work_package),
+      work_package_show_due_date_attribute(work_package),
+      work_package_show_assigned_to_attribute(work_package),
+      work_package_show_progress_attribute(work_package),
+      work_package_show_responsible_attribute(work_package),
+      work_package_show_category_attribute(work_package),
+      work_package_show_spent_time_attribute(work_package),
+      work_package_show_fixed_version_attribute(work_package),
+      work_package_show_estimated_hours_attribute(work_package)
+    ].compact
+  end
+
+  def work_package_show_table_row(attribute, klass = nil, &block)
+    klass = attribute.to_s.dasherize if klass.nil?
+
+    content = content_tag(:th, :class => klass) { "#{Issue.human_attribute_name(attribute)}:" }
+    content << content_tag(:td, :class => klass, &block)
+
+    WorkPackageAttribute.new(attribute, content)
+  end
+
+  def work_package_show_status_attribute(work_package)
+    work_package_show_table_row(:status) do
+      work_package.status ?
+        work_package.status.name :
+        "-"
+    end
+  end
+
+  def work_package_show_start_date_attribute(work_package)
+    work_package_show_table_row(:start_date, 'start-date') do
+      work_package.start_date ?
+        format_date(work_package.start_date) :
+        "-"
+    end
+  end
+
+  def work_package_show_priority_attribute(work_package)
+    work_package_show_table_row(:priority) do
+      work_package.priority ?
+        work_package.priority.name :
+        "-"
+    end
+  end
+
+  def work_package_show_due_date_attribute(work_package)
+    work_package_show_table_row(:due_date) do
+      work_package.due_date ?
+        format_date(work_package.due_date) :
+        "-"
+    end
+  end
+
+  def work_package_show_assigned_to_attribute(work_package)
+    work_package_show_table_row(:assigned_to) do
+      content = avatar(work_package.assigned_to, :size => "14").html_safe
+      content << (work_package.assigned_to ? link_to_user(work_package.assigned_to) : "-")
+      content
+    end
+  end
+
+  def work_package_show_responsible_attribute(work_package)
+    work_package_show_table_row(:responsible) do
+      content = avatar(work_package.responsible, :size => "14").html_safe
+      content << (work_package.responsible ? link_to_user(work_package.responsible) : "-")
+      content
+    end
+  end
+
+  def work_package_show_progress_attribute(work_package)
+    work_package_show_table_row(:progress, 'done-ratio') do
+      progress_bar work_package.done_ratio, :width => '80px', :legend => work_package.done_ratio.to_s
+    end
+  end
+
+  def work_package_show_category_attribute(work_package)
+    work_package_show_table_row(:category) do
+      work_package.category ?
+        work_package.category.name :
+        '-'
+    end
+  end
+
+  def work_package_show_spent_time_attribute(work_package)
+    work_package_show_table_row(:spent_time) do
+      #This check can be removed as soon as spent_hours is part of work_package and not Issue
+      work_package.respond_to?(:spent_hours) && work_package.spent_hours > 0 ?
+        link_to(l_hours(work_package.spent_hours), issue_time_entries_path(work_package)) :
+        "-"
+    end
+  end
+
+  def work_package_show_fixed_version_attribute(work_package)
+    work_package_show_table_row(:fixed_version) do
+      work_package.fixed_version ?
+        link_to_version(work_package.fixed_version) :
+        "-"
+    end
+  end
+
+  def work_package_show_estimated_hours_attribute(work_package)
+    work_package_show_table_row(:estimated_hours) do
+      work_package.estimated_hours ?
+        l_hours(work_package.estimated_hours) :
+        "-"
+    end
+  end
+
   def work_package_form_tracker_attribute(form, work_package, locals = {})
     if work_package.is_a?(Issue)
       field = form.select :tracker_id, locals[:project].trackers.collect {|t| [t.name, t.id]}, :required => true

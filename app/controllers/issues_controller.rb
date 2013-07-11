@@ -203,7 +203,7 @@ class IssuesController < ApplicationController
       flash[:notice] = l(:notice_successful_update) unless @issue.current_journal == @journal
 
       respond_to do |format|
-        format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
+        format.html { redirect_back_or_default(work_package_path(@issue)) }
       end
     else
       render_attachment_warning_if_needed(@issue)

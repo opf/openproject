@@ -162,6 +162,7 @@ en:
         reported_project_status: Project status
         created_at: Created
       work_package:
+        progress: "% done"
         responsible: "Responsible"
         spent_time: "Spent time"
 
@@ -215,7 +216,9 @@ en:
               uppercase: "uppercase (e.g. 'A')"
               numeric: "numeric (e.g. '1')"
               special: "special (e.g. '%')"
-              reused: "must not be one of the last %{count} used"
+              reused:
+                one: "has been used before. Please choose one that is different from your last one."
+                other: "has been used before. Please choose one that is different from your last %{count}."
       template:
         body: "Please check the following fields:"
         header:

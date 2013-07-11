@@ -1025,7 +1025,7 @@ module ApplicationHelper
       end
       return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
     else
-      ''
+      ''.html_safe
     end
   end
 

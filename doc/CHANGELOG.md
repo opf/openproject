@@ -1,5 +1,9 @@
+
+* `#1119` Creates a unified view for work_package show, new and create
+
 # Changelog
 
+* `#1303` Watcherlist contains unescaped HTML
 * `#1315` Correct spelling mistakes in German translation
 * `#1299` Refactor user status
 * `#1301` Ajax call when logged out should open a popup window
