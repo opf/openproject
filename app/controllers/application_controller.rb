@@ -404,6 +404,10 @@ class ApplicationController < ActionController::Base
     false
   end
 
+  def layout_parameter_given?
+    params[:layout].nil?
+  end
+
   def render_403(options={})
     @project = nil
     render_error({:message => :notice_not_authorized, :status => 403}.merge(options))

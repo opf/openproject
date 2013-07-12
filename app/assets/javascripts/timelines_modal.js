@@ -27,20 +27,7 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
   //TODO: escape projectId and elementId.
   if (type === 'new') {
     non_api_url += 'new.js';
-  } else if (type === 'edit') {
-    if (typeof elementId === 'string' || typeof elementId === 'number') {
-      non_api_url += elementId + '/edit.js';
-      api_url += elementId + '.json';
-    } else {
-      throw new Error('need an element id for editing.');
-    }
-  } else if (type === 'show') {
-    if (typeof elementId === 'string' || typeof elementId === 'number') {
-      non_api_url += elementId + '.js';
-    } else {
-      throw new Error('need an element id for showing.');
-    }
-  } else {
+  }  else {
     throw new Error('invalid action. allowed: new, show, edit');
   }
   //create the modal by using the html the url gives us.
@@ -153,7 +140,7 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
       projectSelect.val(projectId);
     }
     //create cancel and save button
-    if (type === 'new' || type === 'edit') {
+    if (type === 'new') {
       var cancel = jQuery("<a>").addClass("icon").addClass("icon-cancel").text(I18n.t("js.timelines.cancel")).attr("href", "#").click(function (e) {
         e.preventDefault();
         if (ele.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
@@ -185,72 +172,6 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
       } else if (ele.height() > 600) {
         ele.find('textarea').attr("rows", 8);
       }
-    }
-    //overwrite the action for the edit button.
-    if (type === 'show') {
-      ele.find('.icon-edit').click(function(e) {
-        modalHelper.createPlanningModal('edit', projectId, elementId);
-        e.preventDefault();
-      });
-      ele.find('.icon-cancel').click(function(e) {
-        modalHelper.showLoadingModal();
-        modalHelper.submitBackground(jQuery(ele.find('.icon-cancel').parent()[0]), {},
-          function(err, res) {
-            modalHelper.hideLoadingModal();
-            // display errors correctly.
-            if (!err) {
-              ele.dialog('close');
-              timeline.reload();
-            }
-          }
-        );
-        e.preventDefault();
-      });
-      ele.find('.icon-del').click(function(e) {
-        var tokenName, token, action, data = {};
-        var url = modalHelper.options.url_prefix +
-                  modalHelper.options.project_prefix +
-                  "/" +
-                  projectId +
-                  '/planning_elements/';
-        tokenName = jQuery('meta[name=csrf-param]').attr('content');
-        token = jQuery('meta[name=csrf-token]').attr('content');
-        if (jQuery(this).attr('href').indexOf("destroy") == -1) {
-          modalHelper.showLoadingModal();
-          action = 'delete';
-          data['_method'] = 'delete';
-          data[tokenName] = token;
-          jQuery.post(url + elementId + '/move_to_trash',
-            data,
-            function() {
-              modalHelper.hideLoadingModal();
-              ele.dialog('close');
-              timeline.reload();
-            }).error(function() {
-              modalHelper.hideLoadingModal();
-              alert(I18n.t('js.timelines.error'));
-            });
-          //move to bin
-        } else if (confirm(I18n.t('js.timelines.really_delete_planning_element'))) {
-          modalHelper.showLoadingModal();
-          action = 'delete';
-          data['_method'] = 'delete';
-          data[tokenName] = token;
-          data.commit = 'delete';
-          jQuery.post(url + elementId,
-            data,
-            function() {
-              modalHelper.hideLoadingModal();
-              ele.dialog('close');
-              timeline.reload();
-            }).error(function() {
-              modalHelper.hideLoadingModal();
-              alert(I18n.t('js.timelines.error'));
-            });
-          //move to bin
-        }
-        e.preventDefault();
-      });
     }
     // calendar click must be stopped so it does not close the modal.
     ele.find('.calendar-trigger').click(function() {

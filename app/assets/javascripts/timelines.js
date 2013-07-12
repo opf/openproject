@@ -4175,7 +4175,7 @@ Timeline = {
 
       text = timeline.escape(data.name);
       if (data.getUrl instanceof Function) {
-        text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank"/>').append(text).attr("title", text);
+        text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank" data-modal/>').append(text).attr("title", text);
         text.click(function(event) {
           if (Timeline.USE_MODALS && !event.ctrlKey && !event.metaKey && data.is(Timeline.PlanningElement)) {
             timeline.modalHelper.createPlanningModal(
@@ -4868,11 +4868,7 @@ Timeline = {
     e.click(function(e) {
       if (Timeline.USE_MODALS) {
         var payload = node.getData();
-        timeline.modalHelper.createPlanningModal(
-          'show',
-          payload.project.identifier,
-          payload.id
-        );
+        timeline.modalHelper.createModal(timeline.modalHelper.setLayoutParameter(payload.getUrl()));
         e.stopPropagation();
       }
     });

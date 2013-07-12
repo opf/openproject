@@ -14,6 +14,42 @@ var ModalHelper = (function() {
   var ModalHelper = function() {
     var modalHelper = this;
     var modalDiv;
+
+    function formReplacer(form) {
+      var submitting = false;
+      console.log(pform);
+      form = jQuery(form);
+
+      form.submit(function (e) {
+        console.log("Form submit!");
+        if (!submitting) {
+          submitting = true;
+          modalHelper.showLoadingModal();
+          modalHelper.submitBackground(form, {autoReplace: true});
+        }
+
+        return false;
+      });
+    }
+
+    function modalFunction(e) {
+      if (!event.ctrlKey && !event.metaKey) {
+        if (jQuery(e.target).attr("href")) {
+          url = jQuery(e.target).attr("href");
+        }
+
+        if (url) {
+          e.preventDefault();
+
+          modalHelper.createModal(modalHelper.setLayoutParameter(url), function (modalDiv) {
+            modalDiv.find("form").each(function () {
+              formReplacer(this);
+            });
+          });
+        }
+      }
+    }
+
     jQuery(document).ready(function () {
       var body = jQuery(document.body);
       // whatever globals there are, they need to be added to the
@@ -22,6 +58,11 @@ var ModalHelper = (function() {
         // one time initialization
         modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
         body.append(modalDiv);
+
+        /** replace all data-modal links and all inside modal links */
+        body.on("click", "[data-modal]", modalFunction);
+        modalDiv.on("click", "a", modalFunction);
+
         // close when body is clicked
         body.click(function(e) {
           if (modalDiv.data('changed') !== undefined && (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog')))) {
@@ -31,6 +72,7 @@ var ModalHelper = (function() {
             e.stopPropagation();
           }
         });
+
         // do not close when element is clicked
         modalDiv.click(function(e) {
           jQuery(e.target).trigger('click.rails');
@@ -38,7 +80,6 @@ var ModalHelper = (function() {
           if (e.target.className.indexOf("watcher_link") > -1) {
             e.preventDefault();
           }
-
 
           e.stopPropagation();
         });
@@ -65,13 +106,19 @@ var ModalHelper = (function() {
     jQuery('#ajax-indicator').hide();
   };
 
+  ModalHelper.prototype.setLayoutParameter = function (url) {
+    if (url) {
+      return url + (url.indexOf('?') != -1 ? "&layout=false" : "?layout=false");
+    }
+  };
+
   /** submit a form in the background.
    * @param form: form element
    * @param url: url to submit to. can be undefined if so, url is taken from form.
    * @param callback: called with results
    */
-  //TODO fix this inconsistency w/ optional url.
   ModalHelper.prototype.submitBackground = function(form, options, callback) {
+    var modalHelper = this;
     var data = form.serialize(), url;
 
     if (options.url) {
@@ -79,7 +126,7 @@ var ModalHelper = (function() {
     }
 
     if (typeof url === 'undefined') {
-      url = form.attr('action');
+      url = modalHelper.setLayoutParameter(form.attr('action'));
     }
 
     jQuery.ajax({
