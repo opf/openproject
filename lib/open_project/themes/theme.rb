@@ -16,9 +16,6 @@ require 'open_project/themes/theme_finder'
 module OpenProject
   module Themes
     class Theme
-      class SubclassResponsibility < StandardError
-      end
-
       class << self
         def inherited(subclass)
           # make all theme classes singletons
@@ -69,7 +66,7 @@ module OpenProject
       end
 
       def assets_path
-        raise SubclassResponsibility, "override this method to point to your theme's assets folder"
+        @assets_path ||= Rails.root.join('app/assets').to_s
       end
 
       def overridden_images_path

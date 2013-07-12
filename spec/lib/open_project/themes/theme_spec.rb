@@ -71,9 +71,11 @@ module OpenProject
       # instance methods
 
       describe '#assets_path' do
-        it "should raise exception telling it is sublass responsibility" do
-          theme = Theme.new_theme(:new_theme)
-          expect { theme.assets_path }.to raise_error Theme::SubclassResponsibility
+        it "defaults to the main app's asset path" do
+          rails_root = File.expand_path('../../../../..', __FILE__)
+
+          theme = Theme.new_theme
+          expect(theme.assets_path).to eq File.join(rails_root, 'app/assets')
         end
       end
 
