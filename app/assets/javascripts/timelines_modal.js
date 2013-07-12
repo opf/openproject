@@ -26,7 +26,7 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
   // also we create the url we submit the data to for the edit action.
   //TODO: escape projectId and elementId.
   if (type === 'new') {
-    non_api_url += 'new.js';
+    non_api_url += 'new';
   }  else {
     throw new Error('invalid action. allowed: new, show, edit');
   }

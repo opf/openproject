@@ -13,24 +13,7 @@ var ModalHelper = (function() {
 
   var ModalHelper = function() {
     var modalHelper = this;
-    var modalDiv;
-
-    function formReplacer(form) {
-      var submitting = false;
-      console.log(pform);
-      form = jQuery(form);
-
-      form.submit(function (e) {
-        console.log("Form submit!");
-        if (!submitting) {
-          submitting = true;
-          modalHelper.showLoadingModal();
-          modalHelper.submitBackground(form, {autoReplace: true});
-        }
-
-        return false;
-      });
-    }
+    var modalDiv, modalIframe;
 
     function modalFunction(e) {
       if (!event.ctrlKey && !event.metaKey) {
@@ -41,11 +24,7 @@ var ModalHelper = (function() {
         if (url) {
           e.preventDefault();
 
-          modalHelper.createModal(modalHelper.setLayoutParameter(url), function (modalDiv) {
-            modalDiv.find("form").each(function () {
-              formReplacer(this);
-            });
-          });
+          modalHelper.createModal(url, function (modalDiv) {});
         }
       }
     }
@@ -57,6 +36,8 @@ var ModalHelper = (function() {
       if (ModalHelper.prototype.done !== true) {
         // one time initialization
         modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
+        modalIframe = jQuery('<iframe/>').attr('id', 'modalIframe').attr('width', '100%').attr('height', '100%');
+        modalDiv.append(modalIframe);
         body.append(modalDiv);
 
         /** replace all data-modal links and all inside modal links */
@@ -64,34 +45,71 @@ var ModalHelper = (function() {
         modalDiv.on("click", "a", modalFunction);
 
         // close when body is clicked
-        body.click(function(e) {
-          if (modalDiv.data('changed') !== undefined && (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog')))) {
-            modalDiv.data('changed', false);
-            modalDiv.dialog('close');
-          } else {
-            e.stopPropagation();
-          }
-        });
+        body.on("click", ".ui-widget-overlay", jQuery.proxy(modalHelper.close, modalHelper));
 
-        // do not close when element is clicked
-        modalDiv.click(function(e) {
-          jQuery(e.target).trigger('click.rails');
+        modalIframe.bind("load", jQuery.proxy(modalHelper.iframeLoadHandler, modalHelper));
 
-          if (e.target.className.indexOf("watcher_link") > -1) {
-            e.preventDefault();
-          }
-
-          e.stopPropagation();
-        });
         ModalHelper.prototype.done = true;
       } else {
         modalDiv = jQuery('#modalDiv');
+        modalIframe = jQuery('#modalIframe');
       }
 
+      modalHelper.modalIframe = modalIframe;
       modalHelper.modalDiv = modalDiv;      
     });
 
     this.loadingModal = false;
+  };
+
+  ModalHelper.prototype.iframeLoadHandler = function () {
+    try {
+      var modalDiv = this.modalDiv, modalIframe = this.modalIframe, modalHelper = this;
+      var content = modalIframe.contents();
+      var body = content.find("body");
+
+      if (body.html() !== "") {
+        this.hideLoadingModal();
+        this.loadingModal = false;
+
+        //add closer
+        modalDiv.parent().prepend('<div id="ui-dialog-closer" />').click(jQuery.proxy(this.close, this));
+        jQuery('.ui-dialog-titlebar').hide();
+
+        modalDiv.data('changed', false);
+
+        //tweak body.
+        body.find("#top-menu").hide();
+        body.find("#main-menu").hide();
+        body.find("#footnotes_debug").hide();
+        body.find("#footer").hide();
+        body.find("#content").css("margin", "0px").css("padding", "0px");
+        body.find("#main").css("padding-bottom", "0px");
+        body.css("min-width", "0px");
+
+        body.find(":input").change(function () {
+          modalDiv.data('changed', true);
+        });
+
+        jQuery(this).trigger("loaded");
+
+        modalDiv.parent().show();
+
+        /*modalIframe.attr("height", "0px");
+        //tweak height
+        var height = Math.max(content.height() + 20, modalDiv.height());
+        modalDiv.attr("height", height);
+        modalIframe.attr("height", height);*/
+
+        modalIframe.attr("height", modalDiv.height());
+      } else {
+        this.showLoadingModal();
+      }
+    } catch (e) {
+      this.loadingModal = false;
+      this.hideLoadingModal();
+      this.close();
+    }
   };
 
   /** display the loading modal (spinner in a box)
@@ -106,81 +124,23 @@ var ModalHelper = (function() {
     jQuery('#ajax-indicator').hide();
   };
 
-  ModalHelper.prototype.setLayoutParameter = function (url) {
-    if (url) {
-      return url + (url.indexOf('?') != -1 ? "&layout=false" : "?layout=false");
+  ModalHelper.prototype.close = function(e) {
+    var modalDiv = this.modalDiv;
+    if (!this.loadingModal) {
+      if (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
+        modalDiv.data('changed', false);
+        modalDiv.dialog('close');
+
+        jQuery(this).trigger("closed");
+      }
     }
   };
 
-  /** submit a form in the background.
-   * @param form: form element
-   * @param url: url to submit to. can be undefined if so, url is taken from form.
-   * @param callback: called with results
-   */
-  ModalHelper.prototype.submitBackground = function(form, options, callback) {
-    var modalHelper = this;
-    var data = form.serialize(), url;
+  ModalHelper.prototype.loading = function() {
+    this.modalDiv.parent().hide();
 
-    if (options.url) {
-      url = options.url;
-    }
-
-    if (typeof url === 'undefined') {
-      url = modalHelper.setLayoutParameter(form.attr('action'));
-    }
-
-    jQuery.ajax({
-      type: 'POST',
-      url: url,
-      data: data,
-      error: function(obj, error) {
-        if (typeof callback === "function") {
-          callback(obj.status, obj.responseText);
-        }
-      },
-      success: function(response) {
-        if (typeof callback === "function") {
-          callback(null, response);
-        }
-
-        if (options.autoReplace === true) {
-          modalHelper.setModalHTML(response);
-        }
-      }
-    });
-  };
-
-  ModalHelper.prototype.setModalHTML = function(data) {
-    var modalHelper = this;
-    var ta = modalHelper.modalDiv, fields;
-
-    ta.data('changed', false);
-
-    // write html to div
-    ta.html(data);
-
-    // show dialog.
-    ta.dialog({
-      modal: true,
-      resizable: false,
-      draggable: false,
-      width: '900px',
-      height: jQuery(window).height() * 0.8,
-      position: {
-        my: 'center',
-        at: 'center'
-      }
-    });
-
-    // hide dialog header
-    //TODO: we need a default close button somewhere
-    ta.parent().prepend('<div id="ui-dialog-closer" />');
-    jQuery('.ui-dialog-titlebar').hide();
-
-    fields = ta.find(":input");
-    fields.change(function(e) {
-      ta.data('changed', true);
-    });
+    this.loadingModal = true;
+    this.showLoadingModal();
   };
 
   /** create a modal dialog from url html data
@@ -188,46 +148,32 @@ var ModalHelper = (function() {
    * @param callback called when done. called with modal div.
    */
   ModalHelper.prototype.createModal = function(url, callback) {
-    var modalHelper = this;
+    var modalHelper = this, modalIframe = this.modalIframe, modalDiv = this.modalDiv, counter = 0;
 
     if (modalHelper.loadingModal) {
       return;
     }
 
-    modalHelper.loadingModal = true;
+    var calculatedHeight = jQuery(window).height() * 0.8;
 
-    try {
-      modalHelper.showLoadingModal();
+    modalDiv.attr("height", calculatedHeight);
+    modalIframe.attr("height", calculatedHeight);
 
-      // get html for url.
-      jQuery.ajax({
-        type: 'GET',
-        url: url,
-        dataType: 'html',
-        error: function(obj, error) {
-          modalHelper.hideLoadingModal();
-          modalHelper.loadingModal = false;
-        },
-        success: function(data) {
-          try {
-            modalHelper.setModalHTML(data);
-            modalHelper.hideLoadingModal();
+    modalDiv.dialog({
+      modal: true,
+      resizable: false,
+      draggable: false,
+      width: '900px',
+      height: calculatedHeight,
+      position: {
+        my: 'center',
+        at: 'center'
+      }
+    });
 
-            if (typeof callback === 'function') {
-              callback(modalHelper.modalDiv);
-            }
-          } catch (e) {
-            console.log(e);
-          } finally {
-            modalHelper.loadingModal = false;
-          }
-        }
-      });
+    this.loading();
 
-    } catch (e) {
-      console.log(e);
-      modalHelper.loadingModal = false;
-    }
+    modalIframe.attr("src", url);
   };
 
   return ModalHelper;
