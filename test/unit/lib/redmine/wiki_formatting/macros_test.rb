@@ -31,6 +31,7 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
   def setup
     super
     @project = nil
+    User.current = User.find_by_login('admin')
   end
 
   def teardown
