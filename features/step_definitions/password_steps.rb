@@ -74,6 +74,24 @@ Then /^I should be able to login using the new password$/ do
   login(@user.login, @new_password)
 end
 
+Then /^the password and confirmation fields should be empty$/ do
+  find('#user_password').value.should be_empty
+  find('#user_password_confirmation').value.should be_empty
+end
+
+Then /^the password and confirmation fields should be disabled$/ do
+  find('#user_password').should be_disabled
+  find('#user_password_confirmation').should be_disabled
+end
+
+Then /^the force password change field should be checked$/ do
+  find('#user_force_password_change').should be_checked
+end
+
+Then /^the force password change field should be disabled$/ do
+  find('#user_force_password_change').should be_disabled
+end
+
 Given /^I try to log in with user "([^"]*)"$/ do |login|
   step 'I go to the logout page'
   login(login, @new_password || 'adminADMIN!')
@@ -82,6 +100,11 @@ end
 Given /^I try to log in with user "([^"]*)" and a wrong password$/ do |login|
   step 'I go to the logout page'
   login(login, 'Wrong password')
+end
+
+Given /^I try to log in with user "([^"]*)" and the password sent via email$/ do |login|
+  step 'I go to the logout page'
+  login(login, assigned_password_from_last_email)
 end
 
 When /^I activate the ([a-z, ]+) password rules$/ do |rules|
