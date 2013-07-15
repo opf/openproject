@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <label for="user_assign_random_password">
         <%= I18n.t(:assign_random_password, :scope => :user) %>
       </label>
-      <%= check_box_tag("user_assign_random_password",
+      <%= check_box_tag("user[assign_random_password]",
                         "1",
                         assign_random_password_enabled) %>
     </p>
@@ -68,7 +68,8 @@ See doc/COPYRIGHT.rdoc for more details.
                            :disabled => assign_random_password_enabled %>
     </p>
     <p>
-      <%= f.check_box :force_password_change %>
+      <%= f.check_box :force_password_change,
+                      :disabled => assign_random_password_enabled %>
     </p>
   </div>
 </div>
