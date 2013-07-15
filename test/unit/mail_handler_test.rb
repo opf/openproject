@@ -222,7 +222,11 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert email.subject.include?('account activation')
       login = email.body.encoded.match(/\* Login: (\S+)\s?$/)[1]
       password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
-      assert_equal issue.author, User.try_to_login(login, password)
+
+      # Can't log in here since randomly assigned password must be changed
+      found_user = User.find_by_login(login)
+      assert_equal issue.author, found_user
+      assert found_user.check_password?(password)
     end
   end
 
