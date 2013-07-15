@@ -101,7 +101,14 @@ class UsersController < ApplicationController
     @user.safe_attributes = params[:user]
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
-    @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] if @user.change_password_allowed?
+    if @user.change_password_allowed?
+      if params[:user][:assign_random_password]
+        @user.random_password!
+      else 
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
+      end
+    end
 
     if @user.save
       # TODO: Similar to My#account
@@ -111,7 +118,7 @@ class UsersController < ApplicationController
 
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      UserMailer.account_information(@user, params[:user][:password]).deliver if params[:send_information]
+      UserMailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|
         format.html {
@@ -143,8 +150,13 @@ class UsersController < ApplicationController
     @user.admin = params[:user][:admin] if params[:user][:admin]
     @user.login = params[:user][:login] if params[:user][:login]
     @user.attributes = permitted_params.user_update_as_admin
-    if params[:user][:password].present? && @user.change_password_allowed?
-      @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
+    if @user.change_password_allowed?
+      if params[:user][:assign_random_password]
+        @user.random_password!
+      elsif params[:user][:password].present?
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
+      end
     end
 
     if @user.save
@@ -155,8 +167,8 @@ class UsersController < ApplicationController
 
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      if @user.active? && params[:send_information] && !params[:user][:password].blank? && @user.change_password_allowed?
-        UserMailer.account_information(@user, params[:user][:password]).deliver
+      if @user.active? && params[:send_information] && !@user.password.blank? && @user.change_password_allowed?
+        UserMailer.account_information(@user, @user.password).deliver
       end
 
       respond_to do |format|

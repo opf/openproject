@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1024` Add 'assign random password' option to user settings
+
 ## 3.0.0pre7
 
 * `#1119` Creates a unified view for work_package show, new and create

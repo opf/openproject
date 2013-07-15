@@ -341,10 +341,17 @@ class User < Principal
     return auth_source.allow_password_changes?
   end
 
+  #
   # Generate and set a random password.
+  #
+  # Also force a password change on the next login, since random passwords
+  # are at some point given to the user, we do this via email. These passwords
+  # are stored unencrypted in mail accounts, so they must only be valid for
+  # a short time.
   def random_password!
     self.password = OpenProject::Passwords::Generator.random_password
     self.password_confirmation = self.password
+    self.force_password_change = true
     self
   end
 

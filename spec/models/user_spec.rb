@@ -154,6 +154,7 @@ describe User do
 
     it { @u.password.should_not be_blank }
     it { @u.password_confirmation.should_not be_blank }
+    it { @u.force_password_change.should be_true}
   end
 
   describe '.system' do
