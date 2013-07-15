@@ -27,7 +27,6 @@ class UsersController < ApplicationController
   before_filter :authorize_for_user, :only => [:destroy]
   before_filter :check_if_deletion_allowed, :only => [:deletion_info,
                                                       :destroy]
-  before_filter :set_random_password, :only => [:create, :update]
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
@@ -102,10 +101,14 @@ class UsersController < ApplicationController
     @user.safe_attributes = params[:user]
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
-    @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] if @user.change_password_allowed?
-    # Do random password assignment after setting the other password attributes,
-    # this ensures that the forced password change can't be disabled
-    @user.random_password! if params[:user][:assign_random_password]
+    if @user.change_password_allowed?
+      if params[:user][:assign_random_password]
+        @user.random_password!
+      else 
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
+      end
+    end
 
     if @user.save
       # TODO: Similar to My#account
@@ -147,12 +150,14 @@ class UsersController < ApplicationController
     @user.admin = params[:user][:admin] if params[:user][:admin]
     @user.login = params[:user][:login] if params[:user][:login]
     @user.attributes = permitted_params.user_update_as_admin
-    if params[:user][:password].present? && @user.change_password_allowed?
-      @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
+    if @user.change_password_allowed?
+      if params[:user][:assign_random_password]
+        @user.random_password!
+      elsif params[:user][:password].present?
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
+      end
     end
-    # Do random password assignment after setting the other password attributes,
-    # this ensures that the forced password change can't be disabled
-    @user.random_password! if params[:user][:assign_random_password]
 
     if @user.save
       # TODO: Similar to My#account
@@ -324,17 +329,5 @@ class UsersController < ApplicationController
     else
       'admin'
     end
-  end
-
-  def set_random_password
-    if params[:set_random_password]
-      set_random_password_params_version_sensitive
-    end
-  end
-
-  private
-
-  def set_random_password_params_version_sensitive
-    params[:user][:password] = params[:user][:password_confirmation] = OpenProject::Passwords::Generator.random_password
   end
 end
