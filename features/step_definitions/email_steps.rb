@@ -8,6 +8,7 @@ def assigned_password_from_last_email
 end
 
 Then /^an e-mail should be sent containing "([^\"]*)"$/ do |content|
+  # An e-mail should always have a text representation, so check
+  # whether it contains the expected content
   last_email.text_part.body.should include(content)
-  last_email.html_part.body.should include(content)
 end
