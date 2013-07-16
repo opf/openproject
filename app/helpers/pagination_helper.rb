@@ -39,7 +39,7 @@ module PaginationHelper
     links = Setting.per_page_options_array.collect do |n|
       n == selected ?
               content_tag(:span, n, :class => 'current') :
-              link_to_content_update(n, params.merge(:per_page => n))
+              link_to_content_update(n, params.merge(:page => 1, :per_page => n))
     end
     content_tag :span, :class => 'per_page_options' do
       links.size > 1 ? l(:label_display_per_page, links.join(', ')).html_safe : nil
