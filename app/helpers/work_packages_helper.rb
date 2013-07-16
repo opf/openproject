@@ -283,12 +283,15 @@ module WorkPackagesHelper
 
   def work_package_form_issue_category_attribute(form, work_package, locals = {})
     unless locals[:project].issue_categories.empty?
-      field = form.select(:category_id, (locals[:project].issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true)
+      field = form.select(:category_id,
+                          (locals[:project].issue_categories.collect {|c| [c.name, c.id]}),
+                          :include_blank => true)
+
       field += prompt_to_remote(image_tag('plus.png', :style => 'vertical-align: middle;'),
-                                         l(:label_issue_category_new),
+                                         t(:label_issue_category_new),
                                          'category[name]',
-                                         {:controller => '/issue_categories', :action => 'new', :project_id => project},
-                                         :title => l(:label_issue_category_new)) if authorize_for('issue_categories', 'new')
+                                         project_issue_categories_path(locals[:project]),
+                                         :title => t(:label_issue_category_new)) if authorize_for('issue_categories', 'new')
 
       WorkPackageAttribute.new(:category, field)
     end
