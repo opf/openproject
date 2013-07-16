@@ -697,20 +697,6 @@ RAW
     end
   end
 
-  def test_avatar
-    # turn on avatars
-    Setting.gravatar_enabled = '1'
-    mail = @admin.mail
-    assert avatar(@admin).include?(Digest::MD5.hexdigest(mail))
-    assert avatar("admin <#{mail}>").include?(Digest::MD5.hexdigest(mail))
-    assert_nil avatar('admin')
-    assert_nil avatar(nil)
-
-    # turn off avatars
-    Setting.gravatar_enabled = '0'
-    assert_equal '', avatar(@admin)
-  end
-
   def test_link_to_user
     t = link_to_user(@admin)
     assert_equal "<a href=\"/users/#{ @admin.id }\">#{ @admin.name }</a>", t
