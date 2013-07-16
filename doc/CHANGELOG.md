@@ -1,5 +1,6 @@
 # Changelog
 
+* `#1063` Added helper to format the time as a date in the current user or the system time zone
 * `#1024` Add 'assign random password' option to user settings
 
 ## 3.0.0pre7
