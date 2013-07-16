@@ -616,14 +616,14 @@ class ApplicationController < ActionController::Base
   ActiveSupport.run_load_hooks(:application_controller, self)
 
   def check_session_lifetime
-    if Setting.session_ttl_enabled? && Setting.session_ttl.to_i >= 5 && (session[:updated_at].nil? || session_expired?)
+    if session_expired?
       self.logged_user = nil
       if request.get?
         url = url_for(params)
       else
-        url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
+        url = url_for(:controller => params[:controller], :action => params[:action],
+                      :id => params[:id], :project_id => params[:project_id])
       end
-
       flash[:warning] = I18n.t('notice_forced_logout', :ttl_time => Setting.session_ttl)
       redirect_to(:controller => "account", :action => "login", :back_url => url)
     end
@@ -633,7 +633,13 @@ class ApplicationController < ActionController::Base
   private
 
   def session_expired?
-    session[:updated_at] && User.current.logged? && ((session[:updated_at] + (Setting.session_ttl.to_i * 60)) < Time.now)
+    current_user.logged? &&
+    (session_ttl_enabled? && (session[:updated_at].nil? ||
+                             (session[:updated_at] + Setting.session_ttl.to_i.minutes) < Time.now))
+  end
+
+  def session_ttl_enabled?
+    Setting.session_ttl_enabled? && Setting.session_ttl.to_i >= 5
   end
 
   def permitted_params
