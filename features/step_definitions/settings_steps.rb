@@ -48,3 +48,7 @@ Given /^users are blocked for ([0-9]+) minutes after ([0-9]+) failed login attem
   Setting.brute_force_block_minutes = duration
   Setting.brute_force_block_after_failed_logins = attempts
 end
+
+Given /^we paginate after (\d+) items$/ do |per_page_param|
+  Setting.per_page_options = "#{per_page_param}, 50, 100"
+end
