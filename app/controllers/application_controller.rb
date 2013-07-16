@@ -144,6 +144,7 @@ class ApplicationController < ActionController::Base
     else
       User.current = User.anonymous
     end
+    session[:updated_at] = Time.now
   end
 
   # check if login is globally required to access the application
