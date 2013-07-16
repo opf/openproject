@@ -1,44 +1,20 @@
 language: ruby
 rvm:
-  - 1.8.7
-  - 1.9.2
   - 1.9.3
-  - rbx-18mode
+  - rbx-19mode
 env:
-  - "TEST_SUITE=units       RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-  - "TEST_SUITE=units       RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
-  - "TEST_SUITE=units       RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
-  - "TEST_SUITE=units       RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql:mysql2:postgres"
-  - "TEST_SUITE=functionals RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-  - "TEST_SUITE=functionals RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
-  - "TEST_SUITE=functionals RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
-  - "TEST_SUITE=functionals RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql:mysql2:postgres"
-  - "TEST_SUITE=integration RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-  - "TEST_SUITE=integration RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
-  - "TEST_SUITE=integration RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
-  - "TEST_SUITE=integration RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql:mysql2:postgres"
+  - "TEST_SUITE=units       RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:postgres:sqlite"
+  - "TEST_SUITE=units       RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql2:sqlite"
+  - "TEST_SUITE=units       RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql2:postgres"
+  - "TEST_SUITE=functionals RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:postgres:sqlite"
+  - "TEST_SUITE=functionals RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql2:sqlite"
+  - "TEST_SUITE=functionals RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql2:postgres"
+  - "TEST_SUITE=integration RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:postgres:sqlite"
+  - "TEST_SUITE=integration RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql2:sqlite"
+  - "TEST_SUITE=integration RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql2:postgres"
 matrix:
-  exclude:
-    - rvm: 1.9.2
-      env: "TEST_SUITE=units       RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-    - rvm: 1.9.2
-      env: "TEST_SUITE=functionals RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-    - rvm: 1.9.2
-      env: "TEST_SUITE=integration RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-    - rvm: 1.9.3
-      env: "TEST_SUITE=units       RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-    - rvm: 1.9.3
-      env: "TEST_SUITE=functionals RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-    - rvm: 1.9.3
-      env: "TEST_SUITE=integration RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-    - rvm: rbx-18mode
-      env: "TEST_SUITE=units       RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-    - rvm: rbx-18mode
-      env: "TEST_SUITE=functionals RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
-    - rvm: rbx-18mode
-      env: "TEST_SUITE=integration RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
   allow_failures:
-    - rvm: rbx-18mode
+    - rvm: rbx-19mode
 before_install:
   - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"

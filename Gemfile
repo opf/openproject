@@ -11,8 +11,6 @@ gem "rdoc", ">= 2.4.2"
 gem "liquid", "~> 2.3.0"
 gem "acts-as-taggable-on", "= 2.1.0"
 gem 'gravatarify', '~> 3.0.0'
-# Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
-gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 gem "tzinfo", "~> 0.3.31" # Fixes #903. Not required for Rails >= 3.2
 
 group :test do
@@ -21,10 +19,8 @@ group :test do
   gem 'test-unit', :platforms => [:mri_19]
   gem 'edavis10-object_daddy', :require => 'object_daddy'
   gem 'mocha', '0.12.1'
-  # capybara 2 drops ruby 1.8.7 compatibility
-  gem 'capybara', '< 2.0.0'
-  # nokogiri 1.6 requires ruby 1.9.2 or higher
-  gem 'nokogiri', '< 1.6.0'
+  gem 'capybara'
+  gem 'nokogiri'
   gem 'coveralls', :require => false
 end
 
@@ -61,7 +57,8 @@ end
 # warned.
 
 platforms :mri, :mingw, :rbx do
-  group :mysql2 do
+  # keep mysql group as backwards compat
+  group :mysql2, :mysql do
     gem "mysql2", "~> 0.2.7"
   end
 
@@ -69,20 +66,7 @@ platforms :mri, :mingw, :rbx do
     gem "pg"
     #   gem "postgres-pr"
   end
-end
 
-platforms :mri_18, :mingw_18 do
-  group :mysql do
-    gem "mysql"
-    #   gem "ruby-mysql"
-  end
-
-  group :sqlite do
-    gem "sqlite3-ruby", "< 1.3", :require => "sqlite3"
-  end
-end
-
-platforms :mri_19, :mingw_19, :rbx do
   group :sqlite do
     gem "sqlite3"
   end
