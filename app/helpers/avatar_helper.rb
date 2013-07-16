@@ -16,17 +16,24 @@ module AvatarHelper
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
-    if Setting.gravatar_enabled?
-      options.merge!({:ssl => (defined?(request) && request.ssl?), :default => Setting.gravatar_default})
-      email = nil
-      if user.respond_to?(:mail)
-        email = user.mail
-      elsif user.to_s =~ %r{<(.+?)>}
-        email = $1
-      end
-      return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
-    else
-      ''.html_safe
+    avatar = if Setting.gravatar_enabled? && (email = extract_email_address(user)).present?
+               options.merge!({ :ssl => (defined?(request) && request.ssl?),
+                                :default => Setting.gravatar_default })
+
+               gravatar(email.to_s.downcase, options)
+             end
+  ensure
+    # return is actually needed here
+    return (avatar || ''.html_safe)
+  end
+
+  private
+
+  def extract_email_address(object)
+    if object.respond_to?(:mail)
+      object.mail
+    elsif object.to_s =~ %r{<(.+?)>}
+      $1
     end
   end
 end
