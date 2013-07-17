@@ -33,6 +33,17 @@ cucumber features:
     # Example: cuken Adding an issue link
     cuken() { bundle exec rake "cucumber:all[-n '$*']"; }
 
+To activate selenium as test driver to test javascript on web pages, you can add
+@javascript above the scenario like the following example shows:
+
+    @javascript
+    Scenario: Testing something with Javascript
+      When I ...
+
+You can always start a debugger using the step "And I start debugging".
+If you need Firebug and Firepath while debugging a scenario, just replace
+@javascript with @firebug.
+
 
 ## RSpec
 
