@@ -153,7 +153,6 @@ class PlanningElement < WorkPackage
       errors.add :parent, :cannot_be_milestone if parent.is_milestone?
       errors.add :parent, :cannot_be_in_another_project if parent.project != project
       errors.add :parent, :cannot_be_in_recycle_bin if parent.deleted?
-      errors.add :parent, :circular_dependency if ancestors.include?(self)
     end
 
   end
