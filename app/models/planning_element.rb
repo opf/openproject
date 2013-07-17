@@ -234,13 +234,6 @@ class PlanningElement < WorkPackage
     freeze
   end
 
-  def has_many_dependent_for_children
-    # Overwrites :dependent => :destroy - before_destroy callback
-    # since we need to call the destroy! method instead of the destroy
-    # method which just moves the element to the recycle bin
-    children.each {|child| child.destroy!}
-  end
-
   def restore!
     unless parent && parent.deleted?
       self.deleted_at = nil
