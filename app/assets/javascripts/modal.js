@@ -12,6 +12,7 @@
 var ModalHelper = (function() {
 
   var ModalHelper = function() {
+    this._firstLoad = true;
     var modalHelper = this;
     var modalDiv, modalIframe;
 
@@ -33,7 +34,7 @@ var ModalHelper = (function() {
       var body = jQuery(document.body);
       // whatever globals there are, they need to be added to the
       // prototype, so that all ModalHelper instances can share them.
-      if (ModalHelper.prototype.done !== true) {
+      if (ModalHelper._done !== true) {
         // one time initialization
         modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
         modalIframe = modalHelper.writeIframe(modalDiv);
@@ -46,7 +47,7 @@ var ModalHelper = (function() {
         // close when body is clicked
         body.on("click", ".ui-widget-overlay", jQuery.proxy(modalHelper.close, modalHelper));
 
-        ModalHelper.prototype.done = true;
+        ModalHelper._done = true;
       } else {
         modalDiv = jQuery('#modalDiv');
         modalIframe = jQuery('#modalIframe');
@@ -68,10 +69,6 @@ var ModalHelper = (function() {
       if (body.html() !== "") {
         this.hideLoadingModal();
         this.loadingModal = false;
-
-        //add closer
-        modalDiv.parent().prepend('<div id="ui-dialog-closer" />').click(jQuery.proxy(this.close, this));
-        jQuery('.ui-dialog-titlebar').hide();
 
         modalDiv.data('changed', false);
 
@@ -183,6 +180,14 @@ var ModalHelper = (function() {
         at: 'center'
       }
     });
+
+    if (this._firstLoad) {
+      //add closer
+      modalDiv.parent().prepend('<div id="ui-dialog-closer" />').click(jQuery.proxy(this.close, this));
+      jQuery('.ui-dialog-titlebar').hide();
+
+      this._firstLoad = false;
+    }
 
     this.loading();
 
