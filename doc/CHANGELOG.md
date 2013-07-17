@@ -1,5 +1,6 @@
 # Changelog
 
+* `#377`  Some usability fixes for members selection with select2
 * `#1406` Creating a work package w/o responsible or assignee results in 500
 * `#1391` Opening the new issue form in a project with an issue category defined produces 500 response
 * `#1063` Added helper to format the time as a date in the current user or the system time zone
