@@ -14,9 +14,12 @@ require 'rubygems'
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 
-require 'coveralls'
-require 'simplecov_openproject_profile'
-Coveralls.wear_merged!('openproject')
+# Run coverage reporting only on Travis
+if ENV['TRAVIS']
+  require 'coveralls'
+  require 'simplecov_openproject_profile'
+  Coveralls.wear_merged!('openproject')
+end
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'

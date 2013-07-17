@@ -12,9 +12,12 @@
 
 ENV["RAILS_ENV"] = "test"
 
-require 'coveralls'
-require 'simplecov_openproject_profile'
-Coveralls.wear_merged!('openproject')
+# Run coverage reporting only on Travis
+if ENV['TRAVIS']
+  require 'coveralls'
+  require 'simplecov_openproject_profile'
+  Coveralls.wear_merged!('openproject')
+end
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'

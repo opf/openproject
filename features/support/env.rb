@@ -15,9 +15,13 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
-require 'coveralls'
-require 'simplecov_openproject_profile'
-Coveralls.wear_merged!('openproject')
+# Run coverage reporting only on Travis
+if ENV['TRAVIS']
+  require 'coveralls'
+  require 'simplecov_openproject_profile'
+  Coveralls.wear_merged!('openproject')
+end
+
 require 'cucumber/rails'
 require 'capybara-screenshot/cucumber'
 
