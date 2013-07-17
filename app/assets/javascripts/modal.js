@@ -36,8 +36,7 @@ var ModalHelper = (function() {
       if (ModalHelper.prototype.done !== true) {
         // one time initialization
         modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
-        modalIframe = jQuery('<iframe/>').attr("frameBorder", "0px").attr('id', 'modalIframe').attr('width', '100%').attr('height', '100%');
-        modalDiv.append(modalIframe);
+        modalIframe = modalHelper.writeIframe(modalDiv);
         body.append(modalDiv);
 
         /** replace all data-modal links and all inside modal links */
@@ -47,16 +46,14 @@ var ModalHelper = (function() {
         // close when body is clicked
         body.on("click", ".ui-widget-overlay", jQuery.proxy(modalHelper.close, modalHelper));
 
-        modalIframe.bind("load", jQuery.proxy(modalHelper.iframeLoadHandler, modalHelper));
-
         ModalHelper.prototype.done = true;
       } else {
         modalDiv = jQuery('#modalDiv');
         modalIframe = jQuery('#modalIframe');
       }
 
+      modalHelper.modalDiv = modalDiv;
       modalHelper.modalIframe = modalIframe;
-      modalHelper.modalDiv = modalDiv;      
     });
 
     this.loadingModal = false;
@@ -124,12 +121,28 @@ var ModalHelper = (function() {
     jQuery('#ajax-indicator').hide();
   };
 
+  ModalHelper.prototype.rewriteIframe = function () {
+    this.modalIframe.remove();
+    this.modalIframe = this.writeIframe(this.modalDiv);
+  };
+
+  ModalHelper.prototype.writeIframe = function (div) {
+    modalIframe = jQuery('<iframe/>').attr("frameBorder", "0px").attr('id', 'modalIframe').attr('width', '100%').attr('height', '100%');
+    div.append(modalIframe);
+
+    modalIframe.bind("load", jQuery.proxy(this.iframeLoadHandler, this));
+
+    return modalIframe;
+  };
+
   ModalHelper.prototype.close = function(e) {
     var modalDiv = this.modalDiv;
     if (!this.loadingModal) {
-      if (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog'))) {
+      if (modalDiv && (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog')))) {
         modalDiv.data('changed', false);
         modalDiv.dialog('close');
+
+        this.rewriteIframe();
 
         jQuery(this).trigger("closed");
       }
