@@ -8,19 +8,19 @@
     <legend><%= l(:label_member_new) %></legend>
       <div class="select-boxes">
         <label>
+          <%= l(:label_principal_search) %>
           <%= select_tag "member[user_ids]", options_for_select([]),
                          :title => l(:label_principal_search),
                          :multiple => true,
-                         :'data-placeholder' => l(:label_principal_search),
                          :'data-ajaxURL' => url_for(:controller => "/members", :action => "autocomplete_for_member"),
                          :'data-projectId' => project.id,
                          :class => "select2-select remote" %>
         </label>
         <label>
+          <%= l(:label_role_search) %>
           <% options = roles.collect { |obj| [obj.name, obj.id] } %>
           <%= select_tag 'member[role_ids]', options_for_select(options),
                          :title => l(:label_role_search),
-                         :'data-placeholder' => l(:label_role_search),
                          :multiple => true,
                          :class => "select2-select" %>
         </label>

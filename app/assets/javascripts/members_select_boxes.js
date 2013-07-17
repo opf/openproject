@@ -71,7 +71,7 @@ jQuery(document).ready(function($) {
               formatResult: formatItems,
               formatSelection: formatItemSelection
             });
-            $(elem).hide();
+            $(elem).remove();
           }, 0);
         }
       } else {
