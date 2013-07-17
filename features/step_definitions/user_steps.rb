@@ -36,7 +36,7 @@ When /^I check the assign random password to user field$/ do
 end
 
 Given /^I save the user$/ do
-  click_button('Save', :visible => true)
+  click_button('Save')
 end
 
 Given /^I save the new user$/ do

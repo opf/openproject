@@ -14,7 +14,7 @@ Then /^I should see the planning element edit modal$/ do
  steps 'Then I should see a modal window with selector "#planningElementDialog"'
 end
 Then /^I should see a modal window with selector "(.*?)"$/ do |selector|
-  page.should have_selector(selector, visible: true)
+  page.should have_selector(selector)
   dialog = find(selector)
 
   dialog["class"].include?("ui-dialog-content").should be_true

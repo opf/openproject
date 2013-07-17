@@ -36,7 +36,7 @@ Capybara.configure do |config|
     config.default_selector = :css
     config.default_wait_time = 10
     config.exact_options = true
-    config.ignore_hidden_elements = false
+    config.ignore_hidden_elements = true
     config.match = :one
     config.visible_text_only = true
 end

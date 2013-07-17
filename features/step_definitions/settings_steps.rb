@@ -41,7 +41,7 @@ Then /^the "(.+?)" setting should be (true|false)$/ do |name, trueish|
 end
 
 Given /^I save the settings$/ do
-  click_button('Save', :visible => true)
+  click_button('Save')
 end
 
 Given /^users are blocked for ([0-9]+) minutes after ([0-9]+) failed login attempts$/ do |duration, attempts|
