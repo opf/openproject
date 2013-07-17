@@ -89,12 +89,6 @@ var ModalHelper = (function() {
 
         modalDiv.parent().show();
 
-        /*modalIframe.attr("height", "0px");
-        //tweak height
-        var height = Math.max(content.height() + 20, modalDiv.height());
-        modalDiv.attr("height", height);
-        modalIframe.attr("height", height);*/
-
         modalIframe.attr("height", modalDiv.height());
       } else {
         this.showLoadingModal();

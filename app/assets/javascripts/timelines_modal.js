@@ -12,23 +12,17 @@ ModalHelper.prototype.createPlanningModal = function(type, projectId, elementId,
                     "/" +
                     projectId +
                     '/planning_elements/';
-  var api_url = modalHelper.options.url_prefix +
-                modalHelper.options.api_prefix +
-                modalHelper.options.project_prefix +
-                "/" +
-                projectId +
-                '/planning_elements/';
+
   if (typeof elementId === 'function') {
     callback = elementId;
     elementId = undefined;
   }
   // in the following lines we create the url to get the data from
   // also we create the url we submit the data to for the edit action.
-  //TODO: escape projectId and elementId.
   if (type === 'new') {
     non_api_url += 'new';
   }  else {
-    throw new Error('invalid action. allowed: new, show, edit');
+    throw new Error('invalid action. allowed: new');
   }
   //create the modal by using the html the url gives us.
   modalHelper.createModal(non_api_url);

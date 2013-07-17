@@ -103,6 +103,10 @@ When /^(?:|I )fill in the following:$/ do |fields|
   end
 end
 
+When (/^I do some ajax$/) do
+  click_link("Apply")
+end
+
 When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
   begin
     select(value, :from => field)
