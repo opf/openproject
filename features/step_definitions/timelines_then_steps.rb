@@ -10,9 +10,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Then /^I should see the planning element edit modal$/ do
- steps 'Then I should see a modal window with selector "#modalDiv"'
-end
 Then /^I should see a modal window with selector "(.*?)"$/ do |selector|
   page.should have_selector(selector)
   dialog = find(selector)
@@ -20,8 +17,19 @@ Then /^I should see a modal window with selector "(.*?)"$/ do |selector|
   dialog["class"].include?("ui-dialog-content").should be_true
 end
 Then /^I should see a modal window$/ do
-  steps 'Then I should see a modal window with selector ".ui-dialog-content"'
+  steps 'Then I should see a modal window with selector "#modalDiv"'
 end
+
+Then /^(.*) in the modal$/ do |step|
+  step(step + ' in the iframe "modalIframe"')
+end
+
+Then(/^I should not see the planning element "(.*?)"$/) do |planning_element_name|
+  steps %Q{
+    Then I should not see "#{planning_element_name}" within ".tl-left-main"
+  }
+end
+
 Then(/^the project "(.*?)" should have an indent of (\d+)$/) do |project_name, indent|
   find(".tl-indent-#{indent}", :text => project_name).should_not be_nil
 end

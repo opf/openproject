@@ -367,6 +367,13 @@ Given /^I (accept|dismiss) the alert dialog$/ do |method|
   end
 end
 
+Then /^(.*) in the iframe "([^\"]+)"$/ do |step, iframe_name|
+  browser = page.driver.browser
+  browser.switch_to.frame(iframe_name)
+  step(step)
+  browser.switch_to.default_content
+end
+
 # that's capybara's old behaviour: clicking the first button that matches
 When /^(?:|I )click on the first button matching "([^"]*)"$/ do |button|
   first(:button, button).click

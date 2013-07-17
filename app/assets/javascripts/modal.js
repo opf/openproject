@@ -17,7 +17,7 @@ var ModalHelper = (function() {
     var modalDiv, modalIframe;
 
     function modalFunction(e) {
-      if (!event.ctrlKey && !event.metaKey) {
+      if (!e.ctrlKey && !e.metaKey) {
         if (jQuery(e.target).attr("href")) {
           url = jQuery(e.target).attr("href");
         }
@@ -124,7 +124,7 @@ var ModalHelper = (function() {
   };
 
   ModalHelper.prototype.writeIframe = function (div) {
-    modalIframe = jQuery('<iframe/>').attr("frameBorder", "0px").attr('id', 'modalIframe').attr('width', '100%').attr('height', '100%');
+    modalIframe = jQuery('<iframe/>').attr("frameBorder", "0px").attr('id', 'modalIframe').attr('width', '100%').attr('height', '100%').attr('name', 'modalIframe');
     div.append(modalIframe);
 
     modalIframe.bind("load", jQuery.proxy(this.iframeLoadHandler, this));

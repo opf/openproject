@@ -40,3 +40,24 @@ Feature: Timeline View Tests
       And I should see "Testline"
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"
 
+   @javascript
+  Scenario: planning element click should show modal window
+    When there is a timeline "Testline" for project "ecookbook"
+      And I go to the page of the timeline "Testline" of the project called "ecookbook"
+      And I wait for timeline to load table
+      And I click on the Planning Element with name "January"
+     Then I should see a modal window
+      And I should see "#1: January" in the modal
+      And I should see "Aioli Grande" in the modal
+      And I should see "01/01/2012" in the modal
+      And I should see "01/31/2012" in the modal
+      And I should see "New timeline report"
+      And I should be on the page of the timeline "Testline" of the project called "ecookbook"
+
+  @javascript
+  Scenario: name column width
+     When there is a timeline "Testline" for project "ecookbook"
+      And I go to the page of the timeline "Testline" of the project called "ecookbook"
+      And I wait for timeline to load table
+
+     Then the first table column should not take more than 25% of the space
