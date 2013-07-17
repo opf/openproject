@@ -99,7 +99,7 @@ class WorkPackage < ActiveRecord::Base
 
   # By planning element
   register_on_journal_formatter :plaintext,         :subject,
-                                                    :planning_element_status_comment
+                                                    :planning_element_status_comment,
                                                     :responsible_id
   register_on_journal_formatter :scenario_date,     /^scenario_(\d+)_(start|due)_date$/
 
