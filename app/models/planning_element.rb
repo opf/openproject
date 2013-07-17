@@ -24,8 +24,6 @@ class PlanningElement < WorkPackage
                                          :planning_element_type,
                                          :project
 
-  acts_as_tree
-
   # This SQL only works when there are no two updates in the same
   # millisecond. As soon as updates happen in rapid succession, multiple
   # instances of one planning element are returned.
