@@ -38,7 +38,8 @@ class WorkPackage < ActiveRecord::Base
 
   scope :recently_updated, :order => "#{WorkPackage.table_name}.updated_at DESC"
   scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => WorkPackage.visible_condition(args.first || User.current) } }
+                                    :conditions => WorkPackage.visible_condition(args.first ||
+                                                                                 User.current) } }
   scope :without_deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NULL"
   scope :deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NOT NULL"
 
@@ -66,14 +67,17 @@ class WorkPackage < ActiveRecord::Base
   acts_as_attachable :after_remove => :attachment_removed
 
   acts_as_journalized :event_title => Proc.new {|o| "#{ o.to_s }"},
-                      :event_type => Proc.new {|o|
-                                                t = 'work_package'
-                                                if o.changed_data.empty?
-                                                  t << '-note' unless o.initial?
-                                                else
-                                                  t << (IssueStatus.find_by_id(o.new_value_for(:status_id)).try(:is_closed?) ? '-closed' : '-edit')
-                                                end
-                                                t },
+                      :event_type => (Proc.new do |o|
+                        t = 'work_package'
+                        if o.changed_data.empty?
+                          t << '-note' unless o.initial?
+                        else
+                          t << (IssueStatus.find_by_id(
+                            o.new_value_for(:status_id)).try(:is_closed?) ? '-closed' : '-edit'
+                          )
+                        end
+                        t
+                      end),
                       :except => ["root_id"]
 
   register_on_journal_formatter(:id, 'parent_id')
