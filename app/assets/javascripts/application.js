@@ -488,21 +488,29 @@ document.observe("dom:loaded", function() {
     onCreate: function(request){
       var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
 
+      if (!request.options.requestHeaders) {
+        request.options.requestHeaders = {};
+      }
+
       if (csrf_meta_tag) {
         var header = 'X-CSRF-Token',
         token = csrf_meta_tag.readAttribute('content');
 
-        if (!request.options.requestHeaders) {
-          request.options.requestHeaders = {};
-        }
         request.options.requestHeaders[header] = token;
       }
+
+      request.options.requestHeaders['X-Authentication-Scheme'] = "Session";
 
       if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
         Element.show('ajax-indicator');
       }
     },
-    onComplete: function(){
+    onComplete: function(request, result){
+      if (result.status === 401 && /Reason: login needed/.match(result.getAllResponseHeaders())) {
+        if (confirm(I18n.t("js.logoff") + "\r\n" + I18n.t("js.redirect_login"))) {
+          location.href = openProject.loginUrl + "?back_url=" + encodeURIComponent(location.href);
+        }
+      }
       if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
         Element.hide('ajax-indicator');
       }
