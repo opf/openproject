@@ -64,8 +64,6 @@ class PlanningElement < WorkPackage
   scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => PlanningElement.visible_condition(args.first || User.current) } }
 
-  alias_method :destroy!, :destroy
-
   scope :at_time, lambda { |time|
     {:select     => SQL_FOR_AT[:select],
      :conditions => ["(#{PlanningElement.quoted_table_name}.deleted_at IS NULL
@@ -226,10 +224,9 @@ class PlanningElement < WorkPackage
     @journal_notes = text
   end
 
-
-  def destroy
+  def trash
     unless new_record? or self.deleted_at
-      self.children.each{|child| child.destroy}
+      self.children.each{|child| child.trash}
 
       self.reload
       self.deleted_at = Time.now
