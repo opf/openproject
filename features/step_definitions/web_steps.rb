@@ -309,20 +309,20 @@ Then /^there should be a( disabled)? "(.+)" field( visible| invisible)?(?: withi
   if plugin_name.nil? || Redmine::Plugin.installed?(plugin_name)
     with_scope(selector) do
       if defined?(Spec::Rails::Matchers)
-        find_field(fieldname).should_not be_nil
+        find_field(fieldname, :visible => false).should_not be_nil
         if visible && visible == " visible"
-          find_field(fieldname).should be_visible
+          find_field(fieldname, :visible => false).should be_visible
         elsif visible && visible == " invisible"
-          find_field(fieldname).should_not be_visible
+          find_field(fieldname, :visible => false).should_not be_visible
         end
 
         if disabled
-          find_field(fieldname)[:disabled].should == "disabled"
+          find_field(fieldname, :visible => false)[:disabled].should == "disabled"
         else
-          find_field(fieldname)[:disabled].should == nil
+          find_field(fieldname, :visible => false)[:disabled].should == nil
         end
       else
-        assert_not_nil find_field(fieldname)
+        assert_not_nil find_field(fieldname, :visible => false)
       end
     end
   end
