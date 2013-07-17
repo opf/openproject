@@ -2,7 +2,6 @@
 
 {<img src="https://travis-ci.org/opf/openproject.png?branch=feature/rails3" alt="Build Status" />}[https://travis-ci.org/opf/openproject]
 {<img src="https://gemnasium.com/opf/openproject.png" alt="Dependency Status" />}[https://gemnasium.com/opf/openproject]
-{<img src="https://coveralls.io/repos/opf/openproject/badge.png?branch=feature%2Frails3" alt="Coverage Status" />}[https://coveralls.io/r/opf/openproject?branch=feature%2Frails3]
 
 == This is a beta-Release Branch
 
