@@ -16,7 +16,6 @@ require 'cgi'
 module ApplicationHelper
   include Redmine::WikiFormatting::Macros::Definitions
   include Redmine::I18n
-  include GravatarHelper::PublicMethods
   include ERB::Util # for h()
 
   extend Forwardable
@@ -1009,23 +1008,6 @@ module ApplicationHelper
         javascript_include_tag("calendar/lang/calendar-#{current_language.to_s.downcase}.js") +
         javascript_tag(start_of_week)
       end
-    end
-  end
-
-  # Returns the avatar image tag for the given +user+ if avatars are enabled
-  # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-  def avatar(user, options = { })
-    if Setting.gravatar_enabled?
-      options.merge!({:ssl => (defined?(request) && request.ssl?), :default => Setting.gravatar_default})
-      email = nil
-      if user.respond_to?(:mail)
-        email = user.mail
-      elsif user.to_s =~ %r{<(.+?)>}
-        email = $1
-      end
-      return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
-    else
-      ''.html_safe
     end
   end
 
