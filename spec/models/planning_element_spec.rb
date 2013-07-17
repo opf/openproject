@@ -641,14 +641,11 @@ describe PlanningElement do
         child_pe # trigger creation of child and parent
 
         # create a circular structure
-        pe.parent_id = child_pe.id
+        pe.parent = child_pe
 
-        # ensure it is not valid
-        pe.should_not be_valid
-
-        pe.errors[:parent].should be_present
-        pe.errors[:parent].should == ["This relation would create a circular dependency"]
-
+        expect {
+          pe.save
+        }.to raise_error(ActiveRecord::StaleObjectError)
       end
 
     end
