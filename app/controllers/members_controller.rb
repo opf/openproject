@@ -137,7 +137,10 @@ JS
       member.user_id = user_id
       members << member
     end
-
+    # most likely wrong user input, use a dummy member for error handling
+    if !members.present? && roles.present?
+      members = [Member.new(attrs.merge({ :member_roles => roles.collect {|r| MemberRole.new :role => r } }))]
+    end
     members
   end
 
