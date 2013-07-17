@@ -36,7 +36,7 @@ var ModalHelper = (function() {
       if (ModalHelper.prototype.done !== true) {
         // one time initialization
         modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
-        modalIframe = jQuery('<iframe/>').attr('id', 'modalIframe').attr('width', '100%').attr('height', '100%');
+        modalIframe = jQuery('<iframe/>').attr("frameBorder", "0px").attr('id', 'modalIframe').attr('width', '100%').attr('height', '100%');
         modalDiv.append(modalIframe);
         body.append(modalDiv);
 
