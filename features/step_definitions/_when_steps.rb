@@ -168,7 +168,7 @@ When /^I fill in the id of the issue "(.+?)" as the parent issue$/ do |issue_nam
   issue = Issue.find_by_subject(issue_name)
 
   # simplify once the work_package#edit/update action is implemented
-  find('#work_package_parent_issue_id, #issue_parent_issue_id').set(issue.id)
+  find('#work_package_parent_issue_id, #issue_parent_issue_id', visible: false).set(issue.id)
 
   #step %Q{I fill in "#{issue.id}" for "work_package_parent_issue_id"}
 end
