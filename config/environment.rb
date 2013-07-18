@@ -12,5 +12,7 @@
 # Load the rails application
 require File.expand_path('../application', __FILE__)
 
-# Initialize the rails application
-OpenProject::Application.initialize!
+SimpleBenchmark.bench 'Application.initialize!' do
+  # Initialize the rails application
+  OpenProject::Application.initialize!
+end
