@@ -785,8 +785,8 @@ describe PlanningElement do
       pe11  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
                              :parent_id  => @pe1.id,
-                             :start_date => Date.new(2011, 1, 1),
-                             :due_date   => Date.new(2011, 2, 1))
+                             :start_date => nil,
+                             :due_date => Date.new(2011, 1, 1))
       pe12  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
                              :parent_id  => @pe1.id,
@@ -795,13 +795,13 @@ describe PlanningElement do
       pe13  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
                              :parent_id  => @pe1.id,
-                             :start_date => Date.new(2013, 1, 1),
-                             :due_date   => Date.new(2013, 2, 1))
+                             :start_date   => Date.new(2013, 2, 1),
+                             :due_date => nil)
 
       @pe1.reload
 
-      @pe1.start_date.should == pe11.start_date
-      @pe1.due_date.should == pe13.due_date
+      @pe1.start_date.should == pe11.due_date
+      @pe1.due_date.should == pe13.start_date
 
       pe11.reload
       pe11.destroy
