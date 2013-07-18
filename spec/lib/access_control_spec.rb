@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 describe Redmine::AccessControl do
   before(:each) do
-    clear_access_control_permissions
+    stash_access_control_permissions
 
     Redmine::AccessControl.map do |map|
       map.permission :proj0, {:dont => :care}, :require => :member
@@ -22,6 +22,10 @@ describe Redmine::AccessControl do
         mod.permission :global2, {:dont => :care}, :global => true
       end
     end
+  end
+
+  after(:each) do
+    restore_access_control_permissions
   end
 
   describe "class methods" do

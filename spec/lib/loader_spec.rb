@@ -4,10 +4,14 @@ describe Redmine::DefaultData::Loader do
 
   describe :load do
     before :each do
-      clear_access_control_permissions
+      stash_access_control_permissions
       create_non_member_role
       create_anonymous_role
       Redmine::DefaultData::Loader.load
+    end
+
+    after(:each) do
+      restore_access_control_permissions
     end
 
     #describes only the results of load in the db
