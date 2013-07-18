@@ -91,26 +91,24 @@ describe PlanningElement do
     end
 
     describe 'start_date' do
-      it 'is invalid w/o a start_date' do
+      it 'is valid w/o a start_date' do
         attributes[:start_date] = nil
         planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should_not be_valid
+        planning_element.should be_valid
 
-        planning_element.errors[:start_date].should be_present
-        planning_element.errors[:start_date].should == ["can't be blank"]
+        planning_element.errors[:start_date].should_not be_present
       end
     end
 
     describe 'due_date' do
-      it 'is invalid w/o a due_date' do
+      it 'is valid w/o a due_date' do
         attributes[:due_date] = nil
         planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should_not be_valid
+        planning_element.should be_valid
 
-        planning_element.errors[:due_date].should be_present
-        planning_element.errors[:due_date].should == ["can't be blank"]
+        planning_element.errors[:due_date].should_not be_present
       end
 
       it 'is invalid if start_date is after due_date' do

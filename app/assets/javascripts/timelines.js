@@ -2376,6 +2376,10 @@ Timeline = {
         hover_width = label_space.w - 2 * Timeline.HOVER_THRESHOLD;
       }
 
+      if (in_aggregation && !has_both_dates) {
+        return;
+      }
+
       var has_alternative = this.hasAlternateDates();
       var could_have_been_milestone = (this.alternate_start === this.alternate_end);
 
