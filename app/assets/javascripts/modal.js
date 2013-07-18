@@ -146,7 +146,7 @@ var ModalHelper = (function() {
     return modalIframe;
   };
 
-  ModalHelper.prototype.close = function(e) {
+  ModalHelper.prototype.close = function() {
     var modalDiv = this.modalDiv;
     if (!this.loadingModal) {
       if (modalDiv && (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog')))) {
@@ -194,7 +194,8 @@ var ModalHelper = (function() {
       position: {
         my: 'center',
         at: 'center'
-      }
+      },
+      closeOnEscape: false
     });
 
     if (this._firstLoad) {

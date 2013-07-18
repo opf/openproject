@@ -21,6 +21,26 @@ module ApplicationHelper
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
 
+  def url_for(options={})
+    options = case options
+              when String
+                uri = Addressable::URI.new
+                uri.query_values = {:layout => params["layout"]}
+
+                if (options.index('?' + uri.query).nil? && options.index('&' + uri.query).nil?)
+                  options + (options.index('?').nil? ? '?' : '&') + uri.query
+                else
+                  options
+                end
+              when Hash
+               options.reverse_merge({:layout => params["layout"]})
+              else
+                options
+              end
+
+    super
+  end
+
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
     User.current.allowed_to?({:controller => controller, :action => action}, @project)

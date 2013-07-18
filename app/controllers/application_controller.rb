@@ -82,6 +82,26 @@ class ApplicationController < ActionController::Base
     require "repository/#{scm.underscore}"
   end
 
+  def redirect_to(options = {}, response_status = {})
+    options = case options
+              when String
+                uri = Addressable::URI.new
+                uri.query_values = {:layout => params["layout"]}
+
+                if (options.index('?' + uri.query).nil? && options.index('&' + uri.query).nil?)
+                  options + (options.index('?').nil? ? '?' : '&') + uri.query
+                else
+                  options
+                end
+              when Hash
+               options.reverse_merge({:layout => params["layout"]})
+              else
+                options
+              end
+
+    super
+  end
+
   # the current user is a per-session kind of thing and session stuff is controller responsibility.
   # a globally accessible User.current is a big code smell. when used incorrectly it allows getting
   # the current user outside of a session scope, i.e. in the model layer, from mailers or in the console
