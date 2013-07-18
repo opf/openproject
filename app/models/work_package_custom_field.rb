@@ -12,7 +12,7 @@
 
 class WorkPackageCustomField < CustomField
   has_and_belongs_to_many :projects, :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}", :foreign_key => "custom_field_id"
-  has_and_belongs_to_many :trackers, :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :foreign_key => "custom_field_id"
+  has_and_belongs_to_many :types, :join_table => "#{table_name_prefix}custom_fields_types#{table_name_suffix}", :foreign_key => "custom_field_id"
   has_many :work_packages, :through => :work_package_custom_values
 
   def type_name

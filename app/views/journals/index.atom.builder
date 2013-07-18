@@ -9,7 +9,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   @journals.each do |change|
     issue = change.journaled
     xml.entry do
-      xml.title   "#{issue.project.name} - #{issue.tracker.name} ##{issue.id}: #{issue.subject}"
+      xml.title   "#{issue.project.name} - #{issue.type.name} ##{issue.id}: #{issue.subject}"
       xml.link    "rel" => "alternate", "href" => url_for(:controller => '/issues' , :action => 'show', :id => issue, :only_path => false)
       xml.id      url_for(:controller => '/issues' , :action => 'show', :id => issue, :journal_id => change, :only_path => false)
       xml.updated change.created_on.xmlschema

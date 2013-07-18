@@ -62,7 +62,7 @@ class Query < ActiveRecord::Base
 
   @@available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
-    QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position", :groupable => true),
+    QueryColumn.new(:type, :sortable => "#{Type.table_name}.position", :groupable => true),
     QueryColumn.new(:parent, :sortable => ["#{WorkPackage.table_name}.root_id", "#{WorkPackage.table_name}.lft ASC"], :default_order => 'desc', :caption => :parent_issue),
     QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position", :groupable => true),
     QueryColumn.new(:priority, :sortable => "#{IssuePriority.table_name}.position", :default_order => 'desc', :groupable => true),
@@ -114,10 +114,10 @@ class Query < ActiveRecord::Base
   def available_filters
     return @available_filters if @available_filters
 
-    trackers = project.nil? ? Tracker.find(:all, :order => 'position') : project.rolled_up_trackers
+    types = project.nil? ? Type.find(:all, :order => 'position') : project.rolled_up_types
 
     @available_filters = { "status_id" => { :type => :list_status, :order => 1, :values => IssueStatus.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] } },
-                           "tracker_id" => { :type => :list, :order => 2, :values => trackers.collect{|s| [s.name, s.id.to_s] } },
+                           "type_id" => { :type => :list, :order => 2, :values => types.collect{|s| [s.name, s.id.to_s] } },
                            "priority_id" => { :type => :list, :order => 3, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s] } },
                            "subject" => { :type => :text, :order => 8 },
                            "created_at" => { :type => :date_past, :order => 9 },
@@ -504,7 +504,7 @@ class Query < ActiveRecord::Base
   # Returns the journals
   # Valid options are :order, :offset, :limit
   def work_package_journals(options={})
-    WorkPackageJournal.find :all, :joins => [:user, {:work_package => [:project, :author, :tracker, :status]}],
+    WorkPackageJournal.find :all, :joins => [:user, {:work_package => [:project, :author, :type, :status]}],
                        :conditions => statement,
                        :order => options[:order],
                        :limit => options[:limit],

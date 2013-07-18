@@ -10,5 +10,5 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module TrackersHelper
+module TypesHelper
 end

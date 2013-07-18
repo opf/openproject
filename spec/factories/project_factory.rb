@@ -20,17 +20,17 @@ FactoryGirl.define do
       is_public true
     end
 
-    factory :project_with_trackers do
+    factory :project_with_types do
       after :build do |project|
-        project.trackers << FactoryGirl.build(:tracker)
+        project.types << FactoryGirl.build(:type)
       end
       after :create do |project|
-        project.trackers.each { |tracker| tracker.save! }
+        project.types.each { |type| type.save! }
       end
 
       factory :valid_project do
         after :build do |project|
-          project.trackers << FactoryGirl.build(:tracker_with_workflow)
+          project.types << FactoryGirl.build(:type_with_workflow)
         end
       end
     end

@@ -144,7 +144,7 @@ class PermittedParams < Struct.new(:params, :user)
                                                      :parent_issue_id,
                                                      :assigned_to_id,
                                                      :responsible_id,
-                                                     :tracker_id,
+                                                     :type_id,
                                                      :fixed_version_id,
                                                      :estimated_hours,
                                                      :done_ratio,

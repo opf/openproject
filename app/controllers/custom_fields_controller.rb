@@ -35,7 +35,7 @@ class CustomFieldsController < ApplicationController
       call_hook(:controller_custom_fields_new_after_save, :params => params, :custom_field => @custom_field)
       redirect_to :action => 'index', :tab => @custom_field.class.name
     else
-      @trackers = Tracker.find(:all, :order => 'position')
+      @types = Type.find(:all, :order => 'position')
     end
   end
 
@@ -46,7 +46,7 @@ class CustomFieldsController < ApplicationController
       call_hook(:controller_custom_fields_edit_after_save, :params => params, :custom_field => @custom_field)
       redirect_to :action => 'index', :tab => @custom_field.class.name
     else
-      @trackers = Tracker.find(:all, :order => 'position')
+      @types = Type.find(:all, :order => 'position')
     end
   end
 

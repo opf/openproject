@@ -12,18 +12,18 @@
 require 'spec_helper'
 
 describe User, 'deletion' do
-  let(:project) { FactoryGirl.create(:project_with_trackers) }
+  let(:project) { FactoryGirl.create(:project_with_types) }
   let(:user) { FactoryGirl.build(:user, :member_in_project => project) }
   let(:user2) { FactoryGirl.build(:user) }
   let(:member) { project.members.first }
   let(:role) { member.roles.first }
   let(:issue_status) { FactoryGirl.create(:issue_status) }
-  let(:issue) { FactoryGirl.create(:issue, :tracker => project.trackers.first,
+  let(:issue) { FactoryGirl.create(:issue, :type => project.types.first,
                                        :author => user,
                                        :project => project,
                                        :status => issue_status,
                                        :assigned_to => user) }
-  let(:issue2) { FactoryGirl.create(:issue, :tracker => project.trackers.first,
+  let(:issue2) { FactoryGirl.create(:issue, :type => project.types.first,
                                         :author => user2,
                                         :project => project,
                                         :status => issue_status,
@@ -161,7 +161,7 @@ describe User, 'deletion' do
   end
 
   describe "WHEN the user has an issue created and assigned" do
-    let(:associated_instance) { FactoryGirl.build(:issue, :tracker => project.trackers.first,
+    let(:associated_instance) { FactoryGirl.build(:issue, :type => project.types.first,
                                                       :project => project,
                                                       :status => issue_status) }
     let(:associated_class) { Issue }
@@ -171,7 +171,7 @@ describe User, 'deletion' do
   end
 
   describe "WHEN the user has an issue updated and assigned" do
-    let(:associated_instance) { FactoryGirl.build(:issue, :tracker => project.trackers.first,
+    let(:associated_instance) { FactoryGirl.build(:issue, :type => project.types.first,
                                                       :project => project,
                                                       :status => issue_status) }
     let(:associated_class) { Issue }

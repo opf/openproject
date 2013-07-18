@@ -14,7 +14,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <ul>
 <% @issues.each do |issue| -%>
-  <li><%= issue.project %> - <%= link_to "#{issue.tracker} ##{issue.id}", issue_url(issue) %>: <%= issue.subject %></li>
+  <li><%= issue.project %> - <%= link_to "#{issue.type} ##{issue.id}", issue_url(issue) %>: <%= issue.subject %></li>
 <% end -%>
 </ul>
 

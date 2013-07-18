@@ -18,11 +18,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="tabular box">
 <p>
 	<label><%= l(:label_copy_source) %></label>
-	<%= Tracker.model_name.human %><br />
-	<%= select_tag('source_tracker_id',
+	<%= Type.model_name.human %><br />
+	<%= select_tag('source_type_id',
 									"<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" +
 									"<option value=\"any\">--- #{ l(:label_copy_same_as_target) } ---</option>" +
-									options_from_collection_for_select(@trackers, 'id', 'name', @source_tracker && @source_tracker.id)) %><br />
+									options_from_collection_for_select(@types, 'id', 'name', @source_type && @source_type.id)) %><br />
 	<%= Role.model_name.human %><br />
 	<%= select_tag('source_role_id',
 									"<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" +
@@ -31,10 +31,10 @@ See doc/COPYRIGHT.rdoc for more details.
 </p>
 <p>
 	<label><%= l(:label_copy_target) %></label>
-	<%= Tracker.model_name.human %><br />
-	<%= select_tag 'target_tracker_ids',
+	<%= Type.model_name.human %><br />
+	<%= select_tag 'target_type_ids',
 									"<option value=\"\" disabled=\"disabled\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" +
-									options_from_collection_for_select(@trackers, 'id', 'name', @target_trackers && @target_trackers.map(&:id)), :multiple => true %><br />
+									options_from_collection_for_select(@types, 'id', 'name', @target_types && @target_types.map(&:id)), :multiple => true %><br />
 	<%= Role.model_name.human %><br />
 	<%= select_tag 'target_role_ids',
 									"<option value=\"\" disabled=\"disabled\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" +

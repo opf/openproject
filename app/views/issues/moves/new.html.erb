@@ -34,8 +34,8 @@ See doc/COPYRIGHT.rdoc for more details.
                                             :update => 'content',
                                             :with => "Form.serialize('move_form')") %></p>
 
-<p><label for="new_tracker_id"><%= Issue.human_attribute_name(:tracker) %>:</label>
-<%= select_tag "new_tracker_id", "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@trackers, "id", "name") %></p>
+<p><label for="new_type_id"><%= Issue.human_attribute_name(:type) %>:</label>
+<%= select_tag "new_type_id", "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@types, "id", "name") %></p>
 
 <p>
   <label for='status_id'><%= Issue.human_attribute_name(:status) %></label>

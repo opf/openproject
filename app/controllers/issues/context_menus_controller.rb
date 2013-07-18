@@ -32,17 +32,17 @@ class Issues::ContextMenusController < ApplicationController
             :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
             :update => (User.current.allowed_to?(:edit_work_packages, @projects) || (User.current.allowed_to?(:change_status, @projects) && !@allowed_statuses.blank?)),
             :move => (@project && User.current.allowed_to?(:move_issues, @project)),
-            :copy => (@issue && @project.trackers.include?(@issue.tracker) && User.current.allowed_to?(:add_issues, @project)),
+            :copy => (@issue && @project.types.include?(@issue.type) && User.current.allowed_to?(:add_issues, @project)),
             :delete => User.current.allowed_to?(:delete_issues, @projects)
             }
     if @project
       @assignables = @project.assignable_users
       @assignables << @issue.assigned_to if @issue && @issue.assigned_to && !@assignables.include?(@issue.assigned_to)
-      @trackers = @project.trackers
+      @types = @project.types
     else
       #when multiple projects, we only keep the intersection of each set
       @assignables = @projects.map(&:assignable_users).inject{|memo,a| memo & a}
-      @trackers = @projects.map(&:trackers).inject{|memo,t| memo & t}
+      @types = @projects.map(&:types).inject{|memo,t| memo & t}
     end
 
     @priorities = IssuePriority.all.reverse

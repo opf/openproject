@@ -18,7 +18,7 @@ class WorkPackage < ActiveRecord::Base
   include NestedAttributesForApi
 
   belongs_to :project
-  belongs_to :tracker
+  belongs_to :type
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
@@ -85,7 +85,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Joined
   register_on_journal_formatter :named_association, :parent_id, :project_id,
-                                                    :status_id, :tracker_id,
+                                                    :status_id, :type_id,
                                                     :assigned_to_id, :priority_id,
                                                     :category_id, :fixed_version_id,
                                                     :planning_element_type_id,
@@ -234,7 +234,7 @@ class WorkPackage < ActiveRecord::Base
 
   def kind
     if self.is_a? Issue
-      return tracker
+      return type
     elsif self.is_a? PlanningElement
       return planning_element_type
     end

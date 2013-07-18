@@ -13,8 +13,8 @@ require 'spec_helper'
 
 describe "Journalized Objects" do
   before(:each) do
-    @tracker ||= FactoryGirl.create(:tracker_feature)
-    @project ||= FactoryGirl.create(:project_with_trackers)
+    @type ||= FactoryGirl.create(:type_feature)
+    @project ||= FactoryGirl.create(:project_with_types)
     @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
     User.stub!(:current).and_return(@current)
   end
@@ -22,7 +22,7 @@ describe "Journalized Objects" do
 
   it 'should work with issues' do
     @status_open ||= FactoryGirl.create(:issue_status, :name => "Open", :is_default => true)
-    @issue ||= FactoryGirl.create(:issue, :project => @project, :status => @status_open, :tracker => @tracker, :author => @current)
+    @issue ||= FactoryGirl.create(:issue, :project => @project, :status => @status_open, :type => @type, :author => @current)
 
 
     initial_journal = @issue.journals.first
@@ -61,7 +61,7 @@ describe "Journalized Objects" do
 
   it 'should work with time entries' do
     @status_open ||= FactoryGirl.create(:issue_status, :name => "Open", :is_default => true)
-    @issue ||= FactoryGirl.create(:issue, :project => @project, :status => @status_open, :tracker => @tracker, :author => @current)
+    @issue ||= FactoryGirl.create(:issue, :project => @project, :status => @status_open, :type => @type, :author => @current)
 
     @time_entry ||= FactoryGirl.create(:time_entry, :work_package => @issue, :project => @project, :spent_on => Time.now, :hours => 5, :user => @current, :activity => FactoryGirl.create(:time_entry_activity))
 

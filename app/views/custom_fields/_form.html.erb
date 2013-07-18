@@ -164,12 +164,12 @@ function toggle_custom_field_format() {
   <% case @custom_field.class.name
      when "WorkPackageCustomField" %>
       <fieldset>
-        <legend><%=l(:label_tracker_plural)%></legend>
-        <% for tracker in @trackers %>
-          <%= check_box_tag "custom_field[tracker_ids][]", tracker.id, (@custom_field.trackers.include? tracker), :id => "custom_field_tracker_ids_#{tracker.id}" %>
-        <%= content_tag :label, h(tracker.name), :class => "no-css", :for => "custom_field_tracker_ids_#{tracker.id}" %>
+        <legend><%=l(:label_type_plural)%></legend>
+        <% for type in @types %>
+          <%= check_box_tag "custom_field[type_ids][]", type.id, (@custom_field.types.include? type), :id => "custom_field_type_ids_#{type.id}" %>
+        <%= content_tag :label, h(type.name), :class => "no-css", :for => "custom_field_type_ids_#{type.id}" %>
         <% end %>
-		  <%= hidden_field_tag "custom_field[tracker_ids][]", '' %>
+		  <%= hidden_field_tag "custom_field[type_ids][]", '' %>
     </fieldset>
     &nbsp;
     <p><%= f.check_box :is_required %></p>

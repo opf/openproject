@@ -44,12 +44,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="issues box">
     <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
-      <% for tracker in @trackers %>
-        <li><%= link_to h(tracker.name), :controller => '/issues', :action => 'index', :project_id => @project,
+      <% for type in @types %>
+        <li><%= link_to h(type.name), :controller => '/issues', :action => 'index', :project_id => @project,
                                          :set_filter => 1,
-                                         "tracker_id" => tracker.id %>:
-            <%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
-                                                      :total => @total_issues_by_tracker[tracker].to_i) %>
+                                         "type_id" => type.id %>:
+            <%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_type[type].to_i,
+                                                      :total => @total_issues_by_type[type].to_i) %>
         </li>
       <% end %>
     </ul>

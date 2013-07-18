@@ -17,4 +17,4 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p><%= link_to(l(:button_back), issue_path(@issue)) %></p>
 
-<% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
+<% html_title "#{@issue.type.name} ##{@issue.id}: #{@issue.subject}" %>

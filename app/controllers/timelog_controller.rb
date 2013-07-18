@@ -49,7 +49,7 @@ class TimelogController < ApplicationController
         # Paginate results
         @entry_count = TimeEntry.visible.count(:include => [:project, :work_package], :conditions => cond.conditions)
 
-        @entries = TimeEntry.visible.includes(:project, :activity, :user, {:work_package => :tracker})
+        @entries = TimeEntry.visible.includes(:project, :activity, :user, {:work_package => :type})
                                     .where(cond.conditions)
                                     .order(sort_clause)
                                     .page(params[:page])
@@ -61,7 +61,7 @@ class TimelogController < ApplicationController
       }
       format.atom {
         entries = TimeEntry.visible.find(:all,
-                                 :include => [:project, :activity, :user, {:work_package => :tracker}],
+                                 :include => [:project, :activity, :user, {:work_package => :type}],
                                  :conditions => cond.conditions,
                                  :order => "#{TimeEntry.table_name}.created_on DESC",
                                  :limit => Setting.feeds_limit.to_i)
@@ -70,7 +70,7 @@ class TimelogController < ApplicationController
       format.csv {
         # Export all entries
         @entries = TimeEntry.visible.find(:all,
-                                  :include => [:project, :activity, :user, {:work_package => [:tracker, :assigned_to, :priority]}],
+                                  :include => [:project, :activity, :user, {:work_package => [:type, :assigned_to, :priority]}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause)
         send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')

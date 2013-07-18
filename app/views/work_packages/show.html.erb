@@ -133,7 +133,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{controller.work_package.project} - #{controller.work_package.tracker} ##{controller.work_package.id}: #{controller.work_package.subject}") %>
+  <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{controller.work_package.project} - #{controller.work_package.type} ##{controller.work_package.id}: #{controller.work_package.subject}") %>
   <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
 <% end %>
 <div id="context-menu" style="display: none;"></div>

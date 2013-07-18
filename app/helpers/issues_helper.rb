@@ -147,7 +147,7 @@ module IssuesHelper
     api.array :children do
       issue.children.each do |child|
         api.issue(:id => child.id) do
-          api.tracker(:id => child.tracker_id, :name => child.tracker.name) unless child.tracker.nil?
+          api.type(:id => child.type_id, :name => child.type.name) unless child.type.nil?
           api.subject child.subject
           render_api_issue_children(child, api)
         end
@@ -161,7 +161,7 @@ module IssuesHelper
     css_classes << "idnt" << "idnt-#{level}" if level > 0
 
     if relation == "root"
-      issue_text = link_to("#{h(issue.tracker.name)} ##{issue.id}",
+      issue_text = link_to("#{h(issue.type.name)} ##{issue.id}",
                              'javascript:void(0)',
                              :style => "color:inherit; font-weight: bold; text-decoration:none; cursor:default;",
                              :class => issue.css_classes)
@@ -173,7 +173,7 @@ module IssuesHelper
       elsif relation == "child"
         title << content_tag(:span, l(:description_sub_issue), :class => "hidden-for-sighted")
       end
-      title << h(issue.tracker.name)
+      title << h(issue.type.name)
       title << "##{issue.id}"
 
       issue_text = link_to(title.join(' ').html_safe, issue_path(issue), :class => issue.css_classes)
@@ -197,7 +197,7 @@ module IssuesHelper
       headers = [ "#",
                   Issue.human_attribute_name(:status),
                   Issue.human_attribute_name(:project),
-                  Issue.human_attribute_name(:tracker),
+                  Issue.human_attribute_name(:type),
                   Issue.human_attribute_name(:priority),
                   Issue.human_attribute_name(:subject),
                   Issue.human_attribute_name(:assigned_to),
@@ -224,7 +224,7 @@ module IssuesHelper
         fields = [issue.id,
                   issue.status.name,
                   issue.project.name,
-                  issue.tracker.name,
+                  issue.type.name,
                   issue.priority.name,
                   issue.subject,
                   issue.assigned_to,

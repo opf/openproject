@@ -306,8 +306,8 @@ describe PermittedParams do
       PermittedParams.new(params, user).new_work_package.should == hash
     end
 
-    it "should permit tracker_id" do
-      hash = { "tracker_id" => "1" }
+    it "should permit type_id" do
+      hash = { "type_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
 

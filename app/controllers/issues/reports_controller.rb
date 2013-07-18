@@ -15,7 +15,7 @@ class Issues::ReportsController < ApplicationController
   before_filter :find_project_by_project_id, :authorize, :find_issue_statuses
 
   def report
-    @trackers = @project.trackers
+    @types = @project.types
     @versions = @project.shared_versions.sort
     @priorities = IssuePriority.all
     @categories = @project.issue_categories
@@ -23,7 +23,7 @@ class Issues::ReportsController < ApplicationController
     @authors = @project.members.collect { |m| m.user }.sort
     @subprojects = @project.descendants.visible
 
-    @issues_by_tracker = Issue.by_tracker(@project)
+    @issues_by_type = Issue.by_type(@project)
     @issues_by_version = Issue.by_version(@project)
     @issues_by_priority = Issue.by_priority(@project)
     @issues_by_category = Issue.by_category(@project)
@@ -34,11 +34,11 @@ class Issues::ReportsController < ApplicationController
 
   def report_details
     case params[:detail]
-    when "tracker"
-      @field = "tracker_id"
-      @rows = @project.trackers
-      @data = Issue.by_tracker(@project)
-      @report_title = Issue.human_attribute_name(:tracker)
+    when "type"
+      @field = "type_id"
+      @rows = @project.types
+      @data = Issue.by_type(@project)
+      @report_title = Issue.human_attribute_name(:type)
     when "version"
       @field = "fixed_version_id"
       @rows = @project.shared_versions.sort

@@ -172,10 +172,10 @@ describe WorkPackagesController do
     end
   end
 
-  describe 'new_tracker.js' do
+  describe 'new_type.js' do
     describe 'w/o specifying a project_id' do
       before do
-        xhr :get, :new_tracker
+        xhr :get, :new_type
       end
 
       it 'should return 404 Not found' do
@@ -185,7 +185,7 @@ describe WorkPackagesController do
 
     describe 'w/o being a member' do
       before do
-        xhr :get, :new_tracker, :project_id => project.id
+        xhr :get, :new_type, :project_id => project.id
       end
 
       it 'should return 403 Forbidden' do
@@ -198,7 +198,7 @@ describe WorkPackagesController do
       become_member_with_permissions [:add_work_packages]
 
       before do
-        xhr :get, :new_tracker, :project_id => project.id,
+        xhr :get, :new_type, :project_id => project.id,
                                 :type => 'Issue' #TODO: remove type once Issue == PlanningElement
       end
 
@@ -216,7 +216,7 @@ describe WorkPackagesController do
       become_member_with_permissions []
 
       before do
-        xhr :get, :new_tracker, :project_id => project.id
+        xhr :get, :new_type, :project_id => project.id
       end
 
       it 'should return 403 Forbidden' do
@@ -461,7 +461,7 @@ describe WorkPackagesController do
   end
 
   describe :ancestors do
-    let(:project) { FactoryGirl.create(:project_with_trackers) }
+    let(:project) { FactoryGirl.create(:project_with_types) }
     let(:ancestor_issue) { FactoryGirl.create(:issue, :project => project) }
     let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_issue_id => ancestor_issue.id) }
 

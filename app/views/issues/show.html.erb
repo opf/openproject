@@ -14,7 +14,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% breadcrumb_paths(*[link_to(l(:label_issue_plural), {:controller => '/issues', :action => 'index'})] << @ancestors.collect {|parent| link_to '#' + h(parent.id), {:controller => '/issues', :action => 'show', :id => parent}}) unless @ancestors.empty? %>
 
-<%= content_tag('h2', h(@issue.tracker.name) + ' #' +@issue.id.to_s) %>
+<%= content_tag('h2', h(@issue.type.name) + ' #' +@issue.id.to_s) %>
 
 <div class="<%= @issue.css_classes %> details">
   <div class="profile-wrap">
@@ -131,14 +131,14 @@ See doc/COPYRIGHT.rdoc for more details.
 	<%= f.link_to 'PDF' %>
 <% end %>
 
-<% html_title h("#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}") %>
+<% html_title h("#{@issue.type.name} ##{@issue.id}: #{@issue.subject}") %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'issues/sidebar' %>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>
+  <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.type} ##{@issue.id}: #{@issue.subject}") %>
   <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
 <% end %>
 <div id="context-menu" style="display: none;"></div>

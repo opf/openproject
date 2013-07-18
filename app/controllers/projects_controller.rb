@@ -71,14 +71,14 @@ class ProjectsController < ApplicationController
 
   def new
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @trackers = Tracker.all
+    @types = Type.all
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
 
   def create
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @trackers = Tracker.all
+    @types = Type.all
     @project = Project.new
     @project.safe_attributes = params[:project]
 
@@ -101,7 +101,7 @@ class ProjectsController < ApplicationController
 
   def copy
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @trackers = Tracker.all
+    @types = Type.all
     @root_projects = Project.find(:all,
                                   :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
                                   :order => 'name')
@@ -125,7 +125,7 @@ class ProjectsController < ApplicationController
         elsif !@project.new_record?
           # Project was created
           # But some objects were not copied due to validation failures
-          # (eg. issues from disabled trackers)
+          # (eg. issues from disabled types)
           # TODO: inform about that
           redirect_to :controller => '/projects', :action => 'settings', :id => @project
         end
@@ -140,15 +140,15 @@ class ProjectsController < ApplicationController
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
-    @trackers = @project.rolled_up_trackers
+    @types = @project.rolled_up_types
 
     cond = @project.project_condition(Setting.display_subprojects_issues?)
 
-    @open_issues_by_tracker = Issue.visible.count(:group => :tracker,
-                                            :include => [:project, :status, :tracker],
+    @open_issues_by_type = Issue.visible.count(:group => :type,
+                                            :include => [:project, :status, :type],
                                             :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
-    @total_issues_by_tracker = Issue.visible.count(:group => :tracker,
-                                            :include => [:project, :status, :tracker],
+    @total_issues_by_type = Issue.visible.count(:group => :type,
+                                            :include => [:project, :status, :type],
                                             :conditions => cond)
 
     if User.current.allowed_to?(:view_time_entries, @project)
@@ -258,7 +258,7 @@ private
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
-    @trackers = Tracker.all
+    @types = Type.all
     @repository ||= @project.repository
     @wiki ||= @project.wiki
   end

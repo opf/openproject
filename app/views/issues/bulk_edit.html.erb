@@ -12,7 +12,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= l(:label_bulk_edit_selected_issues) %></h2>
 
-<ul><%= @issues.collect {|i| content_tag('li', link_to(h("#{i.tracker} ##{i.id}"), { :action => 'show', :id => i }) + h(": #{i.subject}")) }.join("\n") %></ul>
+<ul><%= @issues.collect {|i| content_tag('li', link_to(h("#{i.type} ##{i.id}"), { :action => 'show', :id => i }) + h(": #{i.subject}")) }.join("\n") %></ul>
 
 <%= form_tag(:action => 'bulk_update') do %>
 <%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
@@ -22,8 +22,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="splitcontentleft">
 <p>
-	<label for="issue_tracker_id"><%= Issue.human_attribute_name(:tracker) %></label>
-	<%= select_tag('issue[tracker_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@trackers, :id, :name)) %>
+	<label for="issue_type_id"><%= Issue.human_attribute_name(:type) %></label>
+	<%= select_tag('issue[type_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@types, :id, :name)) %>
 </p>
 <% if @available_statuses.any? %>
 <p>

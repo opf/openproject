@@ -10,17 +10,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Tracker < ActiveRecord::Base
+class Type < ActiveRecord::Base
   before_destroy :check_integrity
   has_many :issues
   has_many :workflows, :dependent => :delete_all do
-    def copy(source_tracker)
-      Workflow.copy(source_tracker, nil, proxy_association.owner, nil)
+    def copy(source_type)
+      Workflow.copy(source_type, nil, proxy_association.owner, nil)
     end
   end
 
   has_and_belongs_to_many :projects
-  has_and_belongs_to_many :custom_fields, :class_name => 'WorkPackageCustomField', :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
+  has_and_belongs_to_many :custom_fields, :class_name => 'WorkPackageCustomField', :join_table => "#{table_name_prefix}custom_fields_types#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
   acts_as_list
 
   validates_presence_of :name
@@ -29,8 +29,8 @@ class Tracker < ActiveRecord::Base
 
   def to_s; name end
 
-  def <=>(tracker)
-    name <=> tracker.name
+  def <=>(type)
+    name <=> type.name
   end
 
   def self.all
@@ -38,7 +38,7 @@ class Tracker < ActiveRecord::Base
   end
 
   # Returns an array of IssueStatus that are used
-  # in the tracker's workflows
+  # in the type's workflows
   def issue_statuses
     if @issue_statuses
       return @issue_statuses
@@ -47,7 +47,7 @@ class Tracker < ActiveRecord::Base
     end
 
     ids = Workflow.
-            connection.select_rows("SELECT DISTINCT old_status_id, new_status_id FROM #{Workflow.table_name} WHERE tracker_id = #{id}").
+            connection.select_rows("SELECT DISTINCT old_status_id, new_status_id FROM #{Workflow.table_name} WHERE type_id = #{id}").
             flatten.
             uniq
 
@@ -56,6 +56,6 @@ class Tracker < ActiveRecord::Base
 
 private
   def check_integrity
-    raise "Can't delete tracker" if Issue.find(:first, :conditions => ["tracker_id=?", self.id])
+    raise "Can't delete type" if Issue.find(:first, :conditions => ["type_id=?", self.id])
   end
 end

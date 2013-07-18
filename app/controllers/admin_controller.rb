@@ -47,7 +47,7 @@ class AdminController < ApplicationController
   end
 
   # Loads the default configuration
-  # (roles, trackers, statuses, workflow, enumerations)
+  # (roles, types, statuses, workflow, enumerations)
   def default_configuration
     if request.post?
       begin

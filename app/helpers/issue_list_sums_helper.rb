@@ -14,7 +14,7 @@ module IssueListSumsHelper
 
   # Duplicate code from IssueController#index action, retrieves all issues for a query
   def all_issues
-    @all_issues ||= @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
+    @all_issues ||= @query.issues(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
                                   :order   => sort_clause)
   end
 

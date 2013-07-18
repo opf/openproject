@@ -24,14 +24,14 @@ class Issues::MovesController < ApplicationController
     prepare_for_issue_move
 
     if request.post?
-      new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
+      new_type = params[:new_type_id].blank? ? nil : @target_project.types.find_by_id(params[:new_type_id])
       unsaved_issue_ids = []
       moved_issues = []
       @issues.each do |issue|
         issue.reload
         issue.init_journal(User.current, @notes || "")
         call_hook(:controller_issues_move_before_save, { :params => params, :issue => issue, :target_project => @target_project, :copy => !!@copy })
-        if r = issue.move_to_project(@target_project, new_tracker, {:copy => @copy, :attributes => extract_changed_attributes_for_move(params)})
+        if r = issue.move_to_project(@target_project, new_type, {:copy => @copy, :attributes => extract_changed_attributes_for_move(params)})
           moved_issues << r
         else
           unsaved_issue_ids << issue.id
@@ -64,7 +64,7 @@ class Issues::MovesController < ApplicationController
     @allowed_projects = Issue.allowed_target_projects_on_move
     @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id].to_s} if params[:new_project_id]
     @target_project ||= @project
-    @trackers = @target_project.trackers
+    @types = @target_project.types
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes]
     @notes ||= ''

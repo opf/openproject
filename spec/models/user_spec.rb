@@ -13,13 +13,13 @@ require 'spec_helper'
 
 describe User do
   let(:user) { FactoryGirl.build(:user) }
-  let(:project) { FactoryGirl.create(:project_with_trackers) }
+  let(:project) { FactoryGirl.create(:project_with_types) }
   let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_packages]) }
   let(:member) { FactoryGirl.build(:member, :project => project,
                                         :roles => [role],
                                         :principal => user) }
   let(:issue_status) { FactoryGirl.create(:issue_status) }
-  let(:issue) { FactoryGirl.build(:issue, :tracker => project.trackers.first,
+  let(:issue) { FactoryGirl.build(:issue, :type => project.types.first,
                                       :author => user,
                                       :project => project,
                                       :status => issue_status) }

@@ -38,7 +38,7 @@ module Api
         respond_to do |format|
           format.api  {
             @entry_count = TimeEntry.visible.count(:include => [:project, :work_package], :conditions => cond.conditions)
-            @entries = TimeEntry.visible.includes(:project, :activity, :user, {:work_package => :tracker})
+            @entries = TimeEntry.visible.includes(:project, :activity, :user, {:work_package => :type})
                                         .where(cond.conditions)
                                         .order(sort_clause)
                                         .page(page_param)

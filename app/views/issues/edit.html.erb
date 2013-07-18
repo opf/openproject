@@ -10,7 +10,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%=h "#{@issue.tracker.name} ##{@issue.id}" %></h2>
+<h2><%=h "#{@issue.type.name} ##{@issue.id}" %></h2>
 
 <%= render :partial => 'edit' %>
 <% content_for :header_tags do %>
