@@ -1,0 +1,32 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+var WorkPackage = WorkPackage || {};
+
+WorkPackage.Show = (function($) {
+  var init;
+
+  init = function () {
+    $.ajaxAppend({
+      trigger: '.description-details',
+      indicator_class: 'ajax-indicator',
+      loading_class: 'text-diff',
+      hide_text: I18n.t("js.ajax.hide")
+    } );
+  };
+
+  $('document').ready(function () {
+    if ($('body.controller-work_packages.action-show').size() > 0) {
+     init();
+    }
+  });
+})(jQuery);

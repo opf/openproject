@@ -67,7 +67,9 @@ module JournalFormatter
     hash[klass] = {}
   end
 
-  def render_detail(detail, options = { :no_html => false })
+  def render_detail(detail, options = { })
+    merge_options = { :no_html => false, :only_path => true }.merge(options)
+
     if detail.respond_to? :to_ary
       key = detail.first
       values = detail.last
@@ -80,7 +82,7 @@ module JournalFormatter
 
     return nil if formatter.nil?
 
-    formatter.render(key, values, options).html_safe
+    formatter.render(key, values, merge_options).html_safe
   end
 
   def formatter_instance(formatter_key)
