@@ -1,6 +1,7 @@
 # Changelog
 
 * `#1414` Remove start & due date requirement from planning elements
+* `#1493` Exporting work packages to pdf returns 406
 
 ## 3.0.0pre8
 
