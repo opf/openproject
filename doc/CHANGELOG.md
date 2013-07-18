@@ -1,5 +1,6 @@
 # Changelog
 
+* `#1414` Remove start & due date requirement from planning elements
 * `#1488` Fixes multiple and missing error messages on project settings' member tab
 * `#377`  Some usability fixes for members selection with select2
 * `#1406` Creating a work package w/o responsible or assignee results in 500
