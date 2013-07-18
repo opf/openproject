@@ -60,6 +60,16 @@ var ModalHelper = (function() {
     this.loadingModal = false;
   };
 
+  ModalHelper.prototype.tweakLink = function (url) {
+    if (url) {
+      if (url.indexOf("?layout=false") == -1 && url.indexOf("&layout=false") == -1) {
+        return url + (url.indexOf('?') != -1 ? "&layout=false" : "?layout=false");
+      } else {
+        return url;
+      }
+    }
+  };
+
   ModalHelper.prototype.iframeLoadHandler = function () {
     try {
       var modalDiv = this.modalDiv, modalIframe = this.modalIframe, modalHelper = this;
@@ -72,13 +82,23 @@ var ModalHelper = (function() {
 
         modalDiv.data('changed', false);
 
+        body.on("click", "a", function (e) {
+          var url = jQuery(e.target).attr("href");
+          if (url) {
+            jQuery(e.target).attr("href", modalHelper.tweakLink(url));
+          }
+        });
+
+        body.on("submit", "form", function (e) {
+          var url = jQuery(e.target).attr("action");
+
+          if (url) {
+            jQuery(e.target).attr("action", modalHelper.tweakLink(url));
+          }
+        });
+
         //tweak body.
-        body.find("#top-menu").hide();
-        body.find("#main-menu").hide();
         body.find("#footnotes_debug").hide();
-        body.find("#footer").hide();
-        body.find("#content").css("margin", "0px").css("padding", "0px");
-        body.find("#main").css("padding-bottom", "0px");
         body.css("min-width", "0px");
 
         body.find(":input").change(function () {
@@ -153,6 +173,8 @@ var ModalHelper = (function() {
    */
   ModalHelper.prototype.createModal = function(url, callback) {
     var modalHelper = this, modalIframe = this.modalIframe, modalDiv = this.modalDiv, counter = 0;
+
+    url = this.tweakLink(url);
 
     if (modalHelper.loadingModal) {
       return;

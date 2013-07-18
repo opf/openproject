@@ -30,43 +30,46 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= content_for(:header_tags) if content_for?(:header_tags) %>
 </head>
 <noscript><%=l(:description_noscript)%></noscript>
+<% show_menu = params["layout"].nil? %>
 <body class="<%= body_css_classes %>">
 <div id="wrapper">
-  <div id="top-menu">
-    <div id="header">
-      <div id="logo"></div>
-      <div id="top-menu-items">
-        <div id="search">
-          <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
-          <%= form_tag({:controller => '/search', :action => 'index', :project_id => @project}, :method => :get) do %>
-            <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-            <div id='search_wrap'>
-              <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
-            </div>
-          <% end %>
+  <% if show_menu %>
+    <div id="top-menu">
+      <div id="header">
+        <div id="logo"></div>
+        <div id="top-menu-items">
+          <div id="search">
+            <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
+            <%= form_tag({:controller => '/search', :action => 'index', :project_id => @project}, :method => :get) do %>
+              <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+              <div id='search_wrap'>
+                <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
+              </div>
+            <% end %>
+          </div>
+
+          <h1 class="hidden-for-sighted">
+            <%= l(:label_top_menu) %>
+          </h1>
+
+          <%= render_top_menu %>
         </div>
-
-        <h1 class="hidden-for-sighted">
-          <%= l(:label_top_menu) %>
-        </h1>
-
-        <%= render_top_menu %>
       </div>
-    </div>
 
-    <div id="breadcrumb">
-      <h1>
-        <%= you_are_here_info %>
-        <%= full_breadcrumb %>
-      </h1>
+      <div id="breadcrumb">
+        <h1>
+          <%= you_are_here_info %>
+          <%= full_breadcrumb %>
+        </h1>
+      </div>
+      <%= javascript_tag('jQuery(function($) { $("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize(); });') %>
     </div>
-    <%= javascript_tag('jQuery(function($) { $("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize(); });') %>
-  </div>
+  <% end %>
 
   <% main_menu = render_main_menu(@project) %>
   <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
-  <div id="main" class="<%= side_displayed ? '' : "nosidebar" %>">
-    <% if (side_displayed) %>
+  <div id="main" class="<%= side_displayed ? '' : "nosidebar" %><%= (show_menu) ? '' : 'nomenus' %>">
+    <% if (side_displayed && show_menu) %>
       <div id="main-menu">
         <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
         <div id="toggle-project-menu">
@@ -85,7 +88,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <%= expand_current_menu %>
     <% end %>
-    <div class="<%= side_displayed ? '' : "nosidebar" %>" id="content">
+    <div class="<%= (side_displayed) ? '' : "nosidebar" %>" id="content">
       <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
       <%= render_flash_messages %>
 
@@ -98,9 +101,11 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
 
-  <div id="footer">
-    <%= footer_content %>
-  </div>
+  <% if (show_menu) %>
+    <div id="footer">
+      <%= footer_content %>
+    </div>
+  <% end %>
 
   <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
 
