@@ -637,17 +637,6 @@ describe PlanningElement do
         changes.should include("start_date")
       end
 
-      it 'disallows circular structures' do
-        child_pe # trigger creation of child and parent
-
-        # create a circular structure
-        pe.parent = child_pe
-
-        expect {
-          pe.save
-        }.to raise_error(ActiveRecord::StaleObjectError)
-      end
-
     end
 
     describe "a planning elements' journals includes changes to associated alternate dates start/due date" do
