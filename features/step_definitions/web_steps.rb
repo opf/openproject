@@ -35,8 +35,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "pat
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
 
 module WithinHelpers
-  def with_scope(locator)
-    locator ? within(*selector_for(locator)) { yield } : yield
+  def with_scope(locator, options={})
+    locator ? within(*selector_for(locator), options) { yield } : yield
   end
 end
 World(WithinHelpers)
@@ -44,6 +44,11 @@ World(WithinHelpers)
 # Single-line step scoper
 When /^(.*) within (.*[^:])$/ do |step_name, parent|
   with_scope(parent) { step step_name }
+end
+
+# Single-line step scoper
+When /^(.*) within_hidden (.*[^:])$/ do |step_name, parent|
+  with_scope(parent, visible: false) { step step_name }
 end
 
 # Multi-line step scoper
@@ -422,7 +427,7 @@ See http://www.elabs.se/blog/53-why-wait_until-was-removed-from-capybara
 end
 
 When /^I confirm popups$/ do
-  page.driver.browser.switch_to.alert.accept    
+  page.driver.browser.switch_to.alert.accept
 end
 
 Then(/^I should see a confirm dialog$/) do
