@@ -158,7 +158,7 @@ class PlanningElementsController < ApplicationController
 
   def destroy
     @planning_element = @project.planning_elements.find(params[:id])
-    @planning_element.destroy!
+    @planning_element.destroy
 
     respond_to do |format|
       format.html do
@@ -178,7 +178,7 @@ class PlanningElementsController < ApplicationController
 
   def destroy_all
     @project.planning_elements.deleted.each do |element|
-      element.destroy!
+      element.destroy
     end
 
     flash[:notice] = l("timelines.notice_successful_deleted_all_elements")
@@ -187,7 +187,7 @@ class PlanningElementsController < ApplicationController
 
   def move_to_trash
     @planning_element = @planning_elements.find(params[:id])
-    @planning_element.destroy
+    @planning_element.trash
 
     respond_to do |format|
       format.html do

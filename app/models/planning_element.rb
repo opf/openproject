@@ -24,8 +24,6 @@ class PlanningElement < WorkPackage
                                          :planning_element_type,
                                          :project
 
-  acts_as_tree
-
   # This SQL only works when there are no two updates in the same
   # millisecond. As soon as updates happen in rapid succession, multiple
   # instances of one planning element are returned.
@@ -65,8 +63,6 @@ class PlanningElement < WorkPackage
 
   scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => PlanningElement.visible_condition(args.first || User.current) } }
-
-  alias_method :destroy!, :destroy
 
   scope :at_time, lambda { |time|
     {:select     => SQL_FOR_AT[:select],
@@ -157,7 +153,6 @@ class PlanningElement < WorkPackage
       errors.add :parent, :cannot_be_milestone if parent.is_milestone?
       errors.add :parent, :cannot_be_in_another_project if parent.project != project
       errors.add :parent, :cannot_be_in_recycle_bin if parent.deleted?
-      errors.add :parent, :circular_dependency if ancestors.include?(self)
     end
 
   end
@@ -228,23 +223,15 @@ class PlanningElement < WorkPackage
     @journal_notes = text
   end
 
-
-  def destroy
+  def trash
     unless new_record? or self.deleted_at
-      self.children.each{|child| child.destroy}
+      self.children.each{|child| child.trash}
 
       self.reload
       self.deleted_at = Time.now
       self.save!
     end
     freeze
-  end
-
-  def has_many_dependent_for_children
-    # Overwrites :dependent => :destroy - before_destroy callback
-    # since we need to call the destroy! method instead of the destroy
-    # method which just moves the element to the recycle bin
-    children.each {|child| child.destroy!}
   end
 
   def restore!

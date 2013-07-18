@@ -305,7 +305,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
   describe "a destroyed planning element" do
     let(:planning_element) { FactoryGirl.create(:planning_element) }
     before do
-      planning_element.destroy!
+      planning_element.destroy
     end
 
     it 'renders a planning_element node having destroyed=true' do

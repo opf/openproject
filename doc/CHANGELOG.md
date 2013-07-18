@@ -9,6 +9,7 @@
 
 ## 3.0.0pre7
 
+* `#820` Implement awesome nested set on work packages
 * `#1119` Creates a unified view for work_package show, new and create
 * `#780` Add password brute force prevention
 * `#1214` Fix pagination label and 'entries_per_page' setting
