@@ -23,8 +23,7 @@ See doc/COPYRIGHT.rdoc for more details.
 %>
 <div>
   <% if roles.any? && available_principals.any? %>
-    <% partial = (User.current.impaired? ? "members/member_form_impaired" : "members/member_form") %>
-    <%= render :partial => partial,
+    <%= render :partial => "members/member_form",
               :locals => { :project => @project,
                            :members => members,
                            :roles => roles,

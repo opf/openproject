@@ -1,5 +1,6 @@
 # Changelog
 
+* `#1488` Fixes multiple and missing error messages on project settings' member tab
 * `#377`  Some usability fixes for members selection with select2
 * `#1406` Creating a work package w/o responsible or assignee results in 500
 * `#1391` Opening the new issue form in a project with an issue category defined produces 500 response

@@ -1,3 +1,5 @@
+<%= javascript_include_tag "members_form.js" %>
+
 <% if User.current.impaired? %>
   <% partial = "members/member_form_impaired" %>
   <% locals = { :members => @project.member_principals.find(:all, :include => [:roles, :principal, :member_roles]) }%>
