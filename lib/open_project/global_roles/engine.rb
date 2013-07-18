@@ -4,6 +4,30 @@ module OpenProject::GlobalRoles
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
 
+    spec = Bundler.environment.specs['openproject-global_roles'][0]
+    initializer 'global_roles.register_plugin' do
+      Redmine::Plugin.register :openproject_global_roles do
+
+        name 'OpenProject Global Roles'
+        author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
+        author_url spec.homepage
+        description spec.description
+        version spec.version
+        url 'https://www.openproject.org/projects/plugin-global-roles'
+
+        requires_openproject ">= 3.0.0pre6"
+
+        if ENV["RAILS_ENV"] != "test"
+          require_or_load 'open_project/global_roles/patches/permission_patch'
+          Redmine::AccessControl.permission(:add_project).global = true
+        else
+          Redmine::AccessControl.permission(:add_project).instance_eval do
+            @global = true
+          end
+        end
+      end
+    end
+
     initializer 'global_roles.precompile_assets' do
       Rails.application.config.assets.precompile += %w(global_roles.css global_roles.js)
     end
@@ -53,31 +77,6 @@ module OpenProject::GlobalRoles
       require_dependency 'open_project/global_roles/patches/users_helper_patch'
 
       User.register_allowance_evaluator OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global
-
-      spec = Bundler.environment.specs['openproject-global_roles'][0]
-
-      unless Redmine::Plugin.registered_plugins.include?(:openproject_global_roles)
-        Redmine::Plugin.register :openproject_global_roles do
-
-          name 'OpenProject Global Roles'
-          author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
-          author_url spec.homepage
-          description spec.description
-          version spec.version
-          url 'https://www.openproject.org/projects/plugin-global-roles'
-
-          requires_openproject ">= 3.0.0pre6"
-
-          if ENV["RAILS_ENV"] != "test"
-            require_or_load 'open_project/global_roles/patches/permission_patch'
-            Redmine::AccessControl.permission(:add_project).global = true
-          else
-            Redmine::AccessControl.permission(:add_project).instance_eval do
-              @global = true
-            end
-          end
-        end
-      end
     end
 
     config.after_initialize do

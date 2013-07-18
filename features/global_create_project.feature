@@ -25,6 +25,15 @@ Feature: Global Create Project
     And I go to the overall projects page
     Then I should see "New project"
 
+  Scenario: Create Project not displayed to user without global role
+    Given there is 1 User with:
+      | Login | bob |
+      | Firstname | Bob |
+      | Lastname | Bobbit |
+    When I am already logged in as "bob"
+    And I go to the overall projects page
+    Then I should not see "New project"
+
   Scenario: Create Project displayed to user
     Given there is a global role "Global"
     And the global role "Global" may have the following rights:
