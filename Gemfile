@@ -102,7 +102,6 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'rb-fsevent', :group => :test
-  gem 'rack-mini-profiler'
   gem 'thin'
 end
 

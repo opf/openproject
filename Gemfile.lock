@@ -238,8 +238,6 @@ GEM
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
-    rack-mini-profiler (0.1.26)
-      rack (>= 1.1.3)
     rack-ssl (1.3.3)
       rack
     rack-test (0.6.2)
@@ -398,7 +396,6 @@ DEPENDENCIES
   pry-rails
   pry-rescue
   pry-stack_explorer
-  rack-mini-profiler
   rack_session_access
   rails!
   rails-dev-tweaks (~> 0.6.1)
