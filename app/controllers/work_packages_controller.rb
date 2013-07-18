@@ -15,6 +15,7 @@ class WorkPackagesController < ApplicationController
   helper :timelines, :planning_elements
 
   include ExtendedHTTP
+  include Redmine::Export::PDF
 
   current_menu_item do |controller|
     begin
@@ -48,6 +49,13 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html
       format.js { render :partial => 'show'}
+      format.pdf do
+        pdf = issue_to_pdf(work_package)
+
+        send_data(pdf,
+                  :type => 'application/pdf',
+                  :filename => "#{project.identifier}-#{work_package.id}.pdf")
+      end
     end
   end
 
@@ -182,9 +190,15 @@ class WorkPackagesController < ApplicationController
 
   end
 
-  [:changesets].each do |method|
-    define_method method do
-      []
+  def changesets
+    @changesets ||= begin
+      changes = work_package.changesets.visible
+                                       .includes({ :repository => {:project => :enabled_modules} }, :user)
+                                       .all
+
+      changes.reverse! if current_user.wants_comments_in_reverse_order?
+
+      changes
     end
   end
 

@@ -12,6 +12,8 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class ApplicationHelperTest < ActionView::TestCase
+  include WorkPackagesHelper
+
   def setup
     super
     # @project variable is used by helper
@@ -230,7 +232,7 @@ RAW
     @project.reload
 
     issue_link = link_to("##{@issue.id}", work_package_path(@issue),
-                               :class => 'issue status-3 priority-1 created-by-me', :title => "#{@issue.subject} (#{@issue.status})")
+                               :class => 'issue work_package status-3 priority-1 created-by-me', :title => "#{@issue.subject} (#{@issue.status})")
 
     changeset_link = link_to("r#{changeset1.revision}", {:controller => 'repositories', :action => 'revision', :id => identifier, :rev => changeset1.revision},
                                    :class => 'changeset', :title => 'My very first commit')
@@ -498,7 +500,7 @@ RAW
 
     expected = <<-EXPECTED
 <p><a href="/projects/#{@project.identifier}/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
-<p><a href="/work_packages/#{@issue.id}" class="issue status-3 priority-1 created-by-me" title="#{@issue.subject} (#{@issue.status})">##{@issue.id}</a></p>
+<p><a href="/work_packages/#{@issue.id}" class="issue work_package status-3 priority-1 created-by-me" title="#{@issue.subject} (#{@issue.status})">##{@issue.id}</a></p>
 <pre>
 [[CookBook documentation]]
 

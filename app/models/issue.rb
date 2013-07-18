@@ -470,6 +470,9 @@ class Issue < WorkPackage
     rgt - lft
   end
 
+  # TODO: remove. This is left here to avoid regression
+  # but the code was duplicated to work_packages_helper
+  # and thus should be removed as soon as possible.
   # Returns a string of css classes that apply to the issue
   def css_classes
     s = "issue status-#{status.position} priority-#{priority.position}"

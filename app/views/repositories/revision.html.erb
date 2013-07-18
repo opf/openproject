@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= textilizable @changeset.comments %>
 
-<% if @changeset.issues.visible.any? %>
+<% if @changeset.work_packages.visible.any? %>
 <h3><%= l(:label_related_issues) %></h3>
 <ul>
 <% @changeset.issues.visible.each do |issue| %>
