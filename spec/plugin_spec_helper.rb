@@ -128,12 +128,13 @@ module OpenProject
         end
       end
 
-      def clear_access_control_permissions
-        Redmine::AccessControl.permissions.clear #this line is required although it should not be
-        # otherwise permissions from previous tests are kept
-        Redmine::AccessControl.class_eval do
-          @global_permissions = nil
-        end
+      def stash_access_control_permissions
+        @stashed_permissions = Redmine::AccessControl.permissions.dup
+        Redmine::AccessControl.permissions.clear
+      end
+
+      def restore_access_control_permissions
+        Redmine::AccessControl.instance_variable_set(:@permissions, @stashed_permissions)
       end
     end
   end

@@ -6,8 +6,9 @@ module OpenProject::GlobalRoles
 
     spec = Bundler.environment.specs['openproject-global_roles'][0]
     initializer 'global_roles.register_plugin' do
-      Redmine::Plugin.register :openproject_global_roles do
+      require_dependency 'open_project/global_roles/patches/permission_patch'
 
+      Redmine::Plugin.register :openproject_global_roles do
         name 'OpenProject Global Roles'
         author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
         author_url spec.homepage
@@ -17,14 +18,7 @@ module OpenProject::GlobalRoles
 
         requires_openproject ">= 3.0.0pre6"
 
-        if ENV["RAILS_ENV"] != "test"
-          require_or_load 'open_project/global_roles/patches/permission_patch'
-          Redmine::AccessControl.permission(:add_project).global = true
-        else
-          Redmine::AccessControl.permission(:add_project).instance_eval do
-            @global = true
-          end
-        end
+        Redmine::AccessControl.permission(:add_project).global = true
       end
     end
 
