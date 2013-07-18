@@ -27,3 +27,9 @@ Then /^there should be a flash notice message$/ do
   should have_selector('.flash.notice')
 end
 
+Then /^I should( not)? see (\d+) flash error message(s)?$/ do |negative, count, _|
+  negative = !negative
+  equal = page.all('.errorExplanation').count == count.to_i
+  negative ? (equal.should be_true) : (equal.should_not be_true)
+end
+
