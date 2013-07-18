@@ -41,6 +41,7 @@
 //= require calendar
 //= require ajaxappender
 //= require issues
+//= require work_packages
 //= require settings
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
