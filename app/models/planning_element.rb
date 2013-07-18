@@ -126,7 +126,7 @@ class PlanningElement < WorkPackage
   after_save :update_parent_attributes
   after_save :create_alternate_date
 
-  validates_presence_of :subject, :start_date, :due_date, :project
+  validates_presence_of :subject, :project
 
   validates_length_of :subject, :maximum => 255, :unless => lambda { |e| e.subject.blank? }
 
@@ -278,8 +278,10 @@ class PlanningElement < WorkPackage
       parent.reload
 
       unless parent.children.without_deleted.empty?
-        parent.start_date = parent.children.without_deleted.minimum(:start_date)
-        parent.due_date   = parent.children.without_deleted.maximum(:due_date)
+        children = parent.children.without_deleted
+
+        parent.start_date = [children.minimum(:start_date), children.minimum(:due_date)].reject(&:nil?).min
+        parent.due_date   = [children.maximum(:start_date), children.maximum(:due_date)].reject(&:nil?).max
 
         if parent.changes.present?
           parent.note = I18n.t('timelines.planning_element_updated_automatically_by_child_changes', :child => "*#{id}")
