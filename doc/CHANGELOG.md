@@ -1,5 +1,8 @@
 # Changelog
 
+
+## 3.0.0pre8
+
 * `#1420` Allow for seeing work package description changes inside of the page
 * `#1488` Fixes multiple and missing error messages on project settings' member tab
 * `#377`  Some usability fixes for members selection with select2
