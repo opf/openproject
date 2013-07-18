@@ -77,7 +77,7 @@ describe PaginationHelper do
     end
 
     it "should have different urls if the params are specified as options" do
-      params = { :tab => 'lorem' }
+      params = { :controller => 'issues', :action => 'index' }
 
       pagination = helper.pagination_links_full(paginator, { :params => params })
 
