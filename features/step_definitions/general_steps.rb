@@ -366,11 +366,19 @@ When /^(?:|I )login as (.+)(?: with password (.+))?$/ do |username, password|
   login(username, password)
 end
 
+When "I logout" do
+  visit "/logout"
+end
+
 Then /^I should be logged in as "([^\"]*)"?$/ do |username|
   user = User.find_by_login(username) || User.anonymous
   page.should have_xpath("//div[contains(., 'Logged in as #{username}')] | //a[contains(.,'#{user.name}')]")
 
   User.current = user
+end
+
+Then "I should be logged out" do
+  page.should have_css("a.login")
 end
 
 When /^I satisfy the "(.+)" plugin to (.+)$/ do |plugin_name, action|
@@ -407,6 +415,10 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following trackers:$/ do |project
       p.save!
     end
   end
+end
+
+When(/^I wait for "(.*?)" minutes$/) do |number_of_minutes|
+ page.set_rack_session(updated_at: Time.now - number_of_minutes.to_i.minutes)
 end
 
 def get_project(project_name = nil)
