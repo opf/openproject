@@ -83,21 +83,23 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_to(options = {}, response_status = {})
-    options = case options
-              when String
-                uri = Addressable::URI.new
-                uri.query_values = {:layout => params["layout"]}
+    if self.respond_to?(:params) && !params["layout"].nil?
+      options = case options
+                when String
+                  uri = Addressable::URI.new
+                  uri.query_values = {:layout => params["layout"]}
 
-                if (options.index('?' + uri.query).nil? && options.index('&' + uri.query).nil?)
-                  options + (options.index('?').nil? ? '?' : '&') + uri.query
+                  if (options.index('?' + uri.query).nil? && options.index('&' + uri.query).nil?)
+                    options + (options.index('?').nil? ? '?' : '&') + uri.query
+                  else
+                    options
+                  end
+                when Hash
+                 options.reverse_merge({:layout => params["layout"]})
                 else
                   options
                 end
-              when Hash
-               options.reverse_merge({:layout => params["layout"]})
-              else
-                options
-              end
+    end
 
     super
   end
