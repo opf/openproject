@@ -15,7 +15,7 @@ Send reminders about issues due in the next days.
 
 Available options:
   * days     => number of days to remind about (defaults to 7)
-  * tracker  => id of tracker (defaults to all trackers)
+  * type     => id of type (defaults to all type)
   * project  => id or identifier of project (defaults to all projects)
   * users    => comma separated list of user ids who should be reminded
 
@@ -25,7 +25,7 @@ END_DESC
 
 namespace :redmine do
   task :send_reminders => :environment do
-    reminder = DueIssuesReminder.new(ENV['days'], ENV['project'], ENV['tracker'], ENV['users'].to_s.split(',').map(&:to_i))
+    reminder = DueIssuesReminder.new(ENV['days'], ENV['project'], ENV['type'], ENV['users'].to_s.split(',').map(&:to_i))
     reminder.remind_users
   end
 end

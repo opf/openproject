@@ -317,13 +317,13 @@ module Redmine
         else
           pdf = ITCPDF.new(current_language)
         end
-        pdf.SetTitle("#{issue.project} - ##{issue.tracker} #{issue.id}")
+        pdf.SetTitle("#{issue.project} - ##{issue.type} #{issue.id}")
         pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage
 
         pdf.SetFontStyle('B',11)
-        pdf.RDMMultiCell(190,5, "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
+        pdf.RDMMultiCell(190,5, "#{issue.project} - #{issue.type} # #{issue.id}: #{issue.subject}")
         pdf.Ln
 
         y0 = pdf.GetY
