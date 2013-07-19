@@ -313,6 +313,60 @@ describe WorkPackagesController do
     end
   end
 
+  describe 'edit.html' do
+
+    become_admin
+
+    describe 'w/o a valid work_package id' do
+
+      describe 'w/o being a member or administrator' do
+        become_non_member
+
+        it 'renders a 404 page' do
+          get 'edit', :id => '1337'
+
+          response.response_code.should === 404
+        end
+      end
+
+      describe 'w/ the current user being a member' do
+        become_member_with_view_planning_element_permissions
+
+        it 'raises ActiveRecord::RecordNotFound errors' do
+          get 'edit', :id => '1337'
+
+          response.response_code.should === 404
+        end
+      end
+    end
+
+    describe 'w/ a valid work package id' do
+      become_admin
+
+      describe 'w/o being a member or administrator' do
+        become_non_member
+
+        it 'renders a 403 Forbidden page' do
+          get 'edit', :id => planning_element.id
+
+          response.response_code.should == 403
+        end
+      end
+
+      describe 'w/ the current user being a member' do
+        become_member_with_permissions [:edit_work_packages]
+
+        before do
+          get 'edit', :id => planning_element.id
+        end
+
+        it 'renders the show builder template' do
+          response.should render_template('work_packages/edit', :formats => ["html"], :layout => :base)
+        end
+      end
+    end
+  end
+
   describe :work_package do
     describe 'when beeing allowed to see the work_package' do
       become_member_with_view_planning_element_permissions
