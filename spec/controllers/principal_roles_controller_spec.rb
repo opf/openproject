@@ -40,6 +40,7 @@ describe PrincipalRolesController do
             PrincipalRole.stub!(:new).and_return(@principal_role)
             @user = mock_model User
             @user.stub!(:valid?).and_return(true)
+            @user.stub!(:logged?).and_return(true)
             Principal.stub!(:find).and_return(@user)
             @principal_role.stub!(:role=)
             @principal_role.stub!(:role).and_return(@global_role)
@@ -120,7 +121,9 @@ describe PrincipalRolesController do
   describe :delete do
     before :each do
       @principal_role.stub!(:principal_id).and_return(1)
-      Principal.stub(:find).and_return(mock_model User)
+      @user = mock_model User
+      @user.stub!(:logged?).and_return(true)
+      Principal.stub(:find).and_return(@user)
       @principal_role.stub!(:destroy)
       @params = {"id" => "1"}
     end
