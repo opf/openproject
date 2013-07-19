@@ -37,7 +37,6 @@ var ModalHelper = (function() {
       if (ModalHelper._done !== true) {
         // one time initialization
         modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
-        modalIframe = modalHelper.writeIframe(modalDiv);
         body.append(modalDiv);
 
         /** replace all data-modal links and all inside modal links */
@@ -73,6 +72,7 @@ var ModalHelper = (function() {
   ModalHelper.prototype.iframeLoadHandler = function () {
     try {
       var modalDiv = this.modalDiv, modalIframe = this.modalIframe, modalHelper = this;
+
       var content = modalIframe.contents();
       var body = content.find("body");
 
@@ -133,8 +133,14 @@ var ModalHelper = (function() {
   };
 
   ModalHelper.prototype.rewriteIframe = function () {
-    this.modalIframe.remove();
+    this.destroyIframe();
     this.modalIframe = this.writeIframe(this.modalDiv);
+  };
+
+  ModalHelper.prototype.destroyIframe = function () {
+    if (this.modalIframe) {
+      this.modalIframe.remove();
+    }
   };
 
   ModalHelper.prototype.writeIframe = function (div) {
@@ -153,7 +159,7 @@ var ModalHelper = (function() {
         modalDiv.data('changed', false);
         modalDiv.dialog('close');
 
-        this.rewriteIframe();
+        this.destroyIframe();
 
         jQuery(this).trigger("closed");
       }
@@ -172,7 +178,7 @@ var ModalHelper = (function() {
    * @param callback called when done. called with modal div.
    */
   ModalHelper.prototype.createModal = function(url, callback) {
-    var modalHelper = this, modalIframe = this.modalIframe, modalDiv = this.modalDiv, counter = 0;
+    var modalHelper = this, modalDiv = this.modalDiv, counter = 0;
 
     url = this.tweakLink(url);
 
@@ -181,9 +187,10 @@ var ModalHelper = (function() {
     }
 
     var calculatedHeight = jQuery(window).height() * 0.8;
+    this.modalIframe = modalHelper.writeIframe(modalDiv);
 
     modalDiv.attr("height", calculatedHeight);
-    modalIframe.attr("height", calculatedHeight);
+    this.modalIframe.attr("height", calculatedHeight);
 
     modalDiv.dialog({
       modal: true,
@@ -208,7 +215,7 @@ var ModalHelper = (function() {
 
     this.loading();
 
-    modalIframe.attr("src", url);
+    this.modalIframe.attr("src", url);
   };
 
   return ModalHelper;

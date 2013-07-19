@@ -22,25 +22,17 @@ module ApplicationHelper
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
 
   def url_for(options={})
-    if self.respond_to?(:params) && !params["layout"].nil?
-      options = case options
-                when String
-                  uri = Addressable::URI.new
-                  uri.query_values = {:layout => params["layout"]}
+    url = super
 
-                  if (options.index('?' + uri.query).nil? && options.index('&' + uri.query).nil?)
-                    options + (options.index('?').nil? ? '?' : '&') + uri.query
-                  else
-                    options
-                  end
-                when Hash
-                 options.reverse_merge({:layout => params["layout"]})
-                else
-                  options
-                end
+    if respond_to?(:params) && !params["layout"].nil?
+      uri = "layout=" + params["layout"]
+
+      if url.index(uri).nil?
+        url += (url.index('?').nil? ? '?' : '&') + uri
+      end
     end
 
-    super
+    url
   end
 
   # Return true if user is authorized for controller/action, otherwise false
