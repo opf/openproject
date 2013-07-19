@@ -40,7 +40,7 @@ class ApplicationHelperTest < ActionView::TestCase
         :filesize => 280,
         :description => 'This is a logo'
 
-    User.current = @project_member
+    User.stubs(:current).returns(@project_member)
   end
 
   def request
@@ -49,7 +49,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   context "#link_to_if_authorized" do
     should "create a link for an authorized user" do
-      User.current = @project_member
+      User.stubs(:current).returns(@project_member)
       response = link_to_if_authorized('link_content', {
           :controller => 'issues',
           :action => 'show',
@@ -60,7 +60,7 @@ class ApplicationHelperTest < ActionView::TestCase
     end
 
     should "shouldn't create a link for an unauthorized user" do
-      User.current = @non_member
+      User.stubs(:current).returns(@non_member)
       response = link_to_if_authorized 'link_content', {
           :controller => 'issues',
           :action => 'show',
@@ -70,7 +70,7 @@ class ApplicationHelperTest < ActionView::TestCase
     end
 
     should "allow using the :controller and :action for the target link" do
-      User.current = @admin
+      User.stubs(:current).returns(@admin)
       response = link_to_if_authorized("By controller/action",
                                        {:controller => 'issues', :action => 'edit', :id => @issue.id})
       assert_match(/href/, response)
@@ -353,7 +353,7 @@ RAW
   end
 
   def test_redmine_links_git_commit
-    User.current = @admin
+    User.stubs(:current).returns(@admin)
     changeset_link = link_to('abcd',
                                {
                                  :controller => 'repositories',
@@ -386,7 +386,7 @@ RAW
   end
 
   def test_wiki_links
-    User.current = @admin
+    User.stubs(:current).returns(@admin)
     @project.wiki.start_page = "CookBook documentation"
     @project.wiki.save!
     FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "CookBook_documentation"
