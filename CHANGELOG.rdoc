@@ -1,4 +1,4 @@
-* Update the version check to enforce the correct patch level for MySQL.
+* `#967` Update the version check to enforce the correct patch level for MySQL.
 
 = 0.0.1.pre3 - 2013-06-27
 
