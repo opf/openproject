@@ -42,10 +42,10 @@ FactoryGirl.define do
     end
 
     factory :admin do
-      firstname 'Redmine'
-      lastname 'Admin'
-      login 'admin'
-      mail 'admin@example.com'
+      firstname 'OpenProject'
+      sequence(:lastname) { |n| "Admin#{n}" }
+      sequence(:login) { |n| "admin#{n}" }
+      sequence(:mail) { |n| "admin#{n}@example.com" }
       admin true
       first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
     end
