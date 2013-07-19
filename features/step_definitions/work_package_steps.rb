@@ -15,7 +15,7 @@ require "rack_session_access/capybara"
 
 Given /^the work package "(.*?)" has the following children:$/ do |work_package_subject, table|
   parent = WorkPackage.find_by_subject(work_package_subject)
-  
+
   table.raw.flatten.each do |child_subject|
     child = WorkPackage.find_by_subject(child_subject)
 
@@ -41,4 +41,10 @@ Given /^user is already watching "(.*?)"$/  do |work_package_subject|
   user = User.find(page.get_rack_session["user_id"])
 
   work_package.add_watcher user
+end
+
+Given(/^the work_package "(.+?)" is updated with the following:$/) do |subject, table|
+  work_package = WorkPackage.find_by_subject(subject)
+
+  send_table_to_object(work_package, table)
 end

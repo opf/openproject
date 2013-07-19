@@ -635,20 +635,6 @@ describe PlanningElement do
         changes.should include("start_date")
       end
 
-      it 'disallows circular structures' do
-        child_pe # trigger creation of child and parent
-
-        # create a circular structure
-        pe.parent_id = child_pe.id
-
-        # ensure it is not valid
-        pe.should_not be_valid
-
-        pe.errors[:parent].should be_present
-        pe.errors[:parent].should == ["This relation would create a circular dependency"]
-
-      end
-
     end
 
     describe "a planning elements' journals includes changes to associated alternate dates start/due date" do
@@ -727,11 +713,11 @@ describe PlanningElement do
   describe ' - Instance Methods' do
     it_should_behave_like "a model with non-negative duration"
 
-    describe 'destroy' do
+    describe 'trash' do
     end
   end
 
-  describe 'acts as paranoid destroy' do
+  describe 'acts as paranoid trash' do
     before(:each) do
       @pe1 = FactoryGirl.create(:planning_element,
                             :project_id => project.id,
@@ -740,9 +726,9 @@ describe PlanningElement do
                             :subject    => "Numero Uno")
     end
 
-    it 'should set deleted_at on destroy' do
+    it 'should set deleted_at on trash' do
       @pe1.reload
-      @pe1.destroy
+      @pe1.trash
 
       @pe1.deleted_at.should_not be_nil
       expect { PlanningElement.without_deleted.find(@pe1.id) }.to raise_error(ActiveRecord::RecordNotFound)
@@ -763,7 +749,7 @@ describe PlanningElement do
       update_journal = @pe1.journals.last
 
       @pe1.reload
-      @pe1.destroy
+      @pe1.trash
 
       pe11.should_not be_nil
       update_journal.should_not be_nil
@@ -771,7 +757,7 @@ describe PlanningElement do
 
     it 'should create a journal when marked as deleted' do
       @pe1.reload
-      @pe1.destroy
+      @pe1.trash
 
       @pe1.journals.reload
       @pe1.journals.last.changed_data.should be_has_key("deleted_at")
@@ -804,9 +790,9 @@ describe PlanningElement do
       @pe1.due_date.should == pe13.start_date
 
       pe11.reload
-      pe11.destroy
+      pe11.trash
       pe13.reload
-      pe13.destroy
+      pe13.trash
 
       @pe1.reload
 
@@ -830,7 +816,7 @@ describe PlanningElement do
       @pe1.due_date.should == due_date
 
       pe11.reload
-      pe11.destroy
+      pe11.trash
 
       @pe1.reload
 
@@ -845,7 +831,7 @@ describe PlanningElement do
                              :start_date => Date.new(2011, 1, 1),
                              :due_date   => Date.new(2011, 2, 1))
       @pe1.reload
-      @pe1.destroy
+      @pe1.trash
 
       pe11.reload
 
@@ -860,7 +846,7 @@ describe PlanningElement do
                              :due_date   => Date.new(2011, 2, 1))
 
       @pe1.reload
-      @pe1.destroy
+      @pe1.trash
 
       @pe1 = PlanningElement.find(@pe1.id)
       @pe1.restore!
@@ -879,7 +865,7 @@ describe PlanningElement do
       pe2   = FactoryGirl.create(:planning_element, :project_id => project.id)
 
       pe1.reload
-      pe1.destroy
+      pe1.trash
 
       pe1.children.reload
 
@@ -891,8 +877,8 @@ describe PlanningElement do
       PlanningElement.without_deleted.find_by_id(pe2.id).should == pe2
     end
 
-    it 'should delete the object permanantly when using destroy!' do
-      @pe1.destroy!
+    it 'should delete the object permanantly when using destroy' do
+      @pe1.destroy
 
       PlanningElement.without_deleted.find_by_id(@pe1.id).should be_nil
       PlanningElement.find_by_id(@pe1.id).should be_nil
@@ -905,7 +891,7 @@ describe PlanningElement do
       pe121 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => pe12.id)
       pe2   = FactoryGirl.create(:planning_element, :project_id => project.id)
 
-      pe1.destroy!
+      pe1.destroy
 
       [pe1, pe11, pe12, pe121].each do |pe|
         PlanningElement.without_deleted.find_by_id(pe.id).should be_nil
