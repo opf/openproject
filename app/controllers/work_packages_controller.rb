@@ -86,6 +86,10 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  def edit
+
+  end
+
   def work_package
     @work_package ||= begin
 
