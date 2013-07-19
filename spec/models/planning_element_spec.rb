@@ -91,26 +91,24 @@ describe PlanningElement do
     end
 
     describe 'start_date' do
-      it 'is invalid w/o a start_date' do
+      it 'is valid w/o a start_date' do
         attributes[:start_date] = nil
         planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should_not be_valid
+        planning_element.should be_valid
 
-        planning_element.errors[:start_date].should be_present
-        planning_element.errors[:start_date].should == ["can't be blank"]
+        planning_element.errors[:start_date].should_not be_present
       end
     end
 
     describe 'due_date' do
-      it 'is invalid w/o a due_date' do
+      it 'is valid w/o a due_date' do
         attributes[:due_date] = nil
         planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should_not be_valid
+        planning_element.should be_valid
 
-        planning_element.errors[:due_date].should be_present
-        planning_element.errors[:due_date].should == ["can't be blank"]
+        planning_element.errors[:due_date].should_not be_present
       end
 
       it 'is invalid if start_date is after due_date' do
@@ -773,8 +771,8 @@ describe PlanningElement do
       pe11  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
                              :parent_id  => @pe1.id,
-                             :start_date => Date.new(2011, 1, 1),
-                             :due_date   => Date.new(2011, 2, 1))
+                             :start_date => nil,
+                             :due_date => Date.new(2011, 1, 1))
       pe12  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
                              :parent_id  => @pe1.id,
@@ -783,13 +781,13 @@ describe PlanningElement do
       pe13  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
                              :parent_id  => @pe1.id,
-                             :start_date => Date.new(2013, 1, 1),
-                             :due_date   => Date.new(2013, 2, 1))
+                             :start_date   => Date.new(2013, 2, 1),
+                             :due_date => nil)
 
       @pe1.reload
 
-      @pe1.start_date.should == pe11.start_date
-      @pe1.due_date.should == pe13.due_date
+      @pe1.start_date.should == pe11.due_date
+      @pe1.due_date.should == pe13.start_date
 
       pe11.reload
       pe11.trash

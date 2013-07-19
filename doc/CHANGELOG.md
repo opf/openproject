@@ -1,5 +1,6 @@
 # Changelog
 
+* `#1414` Remove start & due date requirement from planning elements
 
 ## 3.0.0pre8
 
