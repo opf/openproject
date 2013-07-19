@@ -301,15 +301,6 @@ module Report::Controller
   end
 
   ##
-  # Fallback: @current_user needs to be set for the engine
-  def current_user
-    if @current_user.nil?
-      raise NotImplementedError, "The #{self.class} should have set @current_user before this request"
-    end
-    @current_user
-  end
-
-  ##
   # Abstract: Implementation required in application
   def allowed_to?(action, subject, user = current_user)
     raise NotImplementedError, "The #{self.class} should have implemented #allowed_to?(action, subject, user)"
