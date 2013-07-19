@@ -1174,6 +1174,7 @@ en:
   setting_openid: "Allow OpenID login and registration"
   setting_password_active_rules: "Active character classes"
   setting_password_count_former_banned: "Number of most recently used passwords banned for reuse"
+  setting_password_days_valid: "Number of days, after which to enforce a password change (disable with 0)"
   setting_password_min_length: "Minimum length"
   setting_password_min_adhered_rules: "Minimum number of required classes"
   setting_per_page_options: "Objects per page options"
