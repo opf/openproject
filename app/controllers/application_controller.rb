@@ -141,10 +141,10 @@ class ApplicationController < ActionController::Base
     if user && user.is_a?(User)
       User.current = user
       session[:user_id] = user.id
+      session[:updated_at] = Time.now
     else
       User.current = User.anonymous
     end
-    session[:updated_at] = Time.now
   end
 
   # check if login is globally required to access the application
