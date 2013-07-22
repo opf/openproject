@@ -15,6 +15,11 @@
 
 class WorkPackage < ActiveRecord::Base
 
+  #TODO Remove alternate inheritance column name once single table
+  # inheritance is no longer needed. The need for a different column name
+  # comes from Trackers becoming Types.
+  self.inheritance_column = :sti_type
+
   include NestedAttributesForApi
 
   belongs_to :project
