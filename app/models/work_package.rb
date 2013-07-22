@@ -133,10 +133,12 @@ class WorkPackage < ActiveRecord::Base
                                     "parent_id",
                                     "lft",
                                     "rgt",
+                                    "type", # type_id is in options, type is for STI.
                                     "created_at",
                                     "updated_at"] + (options[:exclude]|| []).map(&:to_s) }
 
     work_package = arg.is_a?(WorkPackage) ? arg : WorkPackage.visible.find(arg)
+
     # attributes don't come from form, so it's save to force assign
     self.force_attributes = work_package.attributes.dup.except(*merged_options[:exclude])
     self.parent_issue_id = work_package.parent_id if work_package.parent_id
