@@ -14,8 +14,8 @@
   RouteMap.register(const, "/custom_fields")
 end
 
-Given /^the following (user|issue) custom fields are defined:$/ do |type, table|
-  type = (type + "_custom_field").to_sym
+Given /^the following (user|issue|work package) custom fields are defined:$/ do |type, table|
+  type = (type.gsub(" ", "_") + "_custom_field").to_sym
 
   as_admin do
     table.hashes.each_with_index do |r, i|
@@ -41,6 +41,14 @@ Given /^the user "(.+?)" has the user custom field "(.+?)" set to "(.+?)"$/ do |
 
   user.custom_values.build(:custom_field => custom_field, :value => value)
   user.save!
+end
+
+Given /^the work package "(.+?)" has the custom field "(.+?)" set to "(.+?)"$/ do |wp_name, field_name, value|
+  wp = InstanceFinder.find(WorkPackage, wp_name)
+  custom_field = InstanceFinder.find(WorkPackageCustomField, field_name)
+
+  wp.custom_values.build(:custom_field => custom_field, :value => value)
+  wp.save!
 end
 
 Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|

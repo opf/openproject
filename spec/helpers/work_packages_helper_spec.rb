@@ -12,6 +12,9 @@
 require 'spec_helper'
 
 describe WorkPackagesHelper do
+  let(:stub_work_package) { FactoryGirl.build_stubbed(:planning_element) }
+  let(:form) { double('form', :select => "").as_null_object }
+
   def inside_form &block
     ret = ''
 
@@ -60,9 +63,7 @@ describe WorkPackagesHelper do
 
   describe :work_package_form_issue_category_attribute do
     let(:stub_project) { FactoryGirl.build_stubbed(:project) }
-    let(:stub_work_package) { FactoryGirl.build_stubbed(:planning_element) }
     let(:stub_category) { FactoryGirl.build_stubbed(:issue_category) }
-    let(:form) { double('form', :select => "").as_null_object }
 
     before do
       # set sensible defaults
@@ -110,6 +111,25 @@ describe WorkPackagesHelper do
       end
 
       attribute.field.should have_selector('input#work_package_estimated_hours[@value="3.00"]')
+    end
+  end
+
+  describe :work_package_form_custom_values_attribute do
+    let(:stub_custom_value) { FactoryGirl.build_stubbed(:work_package_custom_value) }
+    let(:expected) { "field contents" }
+
+    before do
+      stub_work_package.stub!(:custom_field_values).and_return([stub_custom_value])
+
+      helper.should_receive(:custom_field_tag_with_label).with(:work_package, stub_custom_value).and_return(expected)
+    end
+
+    it "should return an array for an element for every value" do
+      helper.work_package_form_custom_values_attribute(form, stub_work_package, {}).size.should == 1
+    end
+
+    it "should return the result inside the field" do
+      helper.work_package_form_custom_values_attribute(form, stub_work_package, {}).first.field.should == expected
     end
   end
 end
