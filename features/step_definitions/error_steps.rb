@@ -11,8 +11,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Then /^there should be an error message$/ do
-  should have_selector('#errorExplanation')
+Then /^there should( not)? be an(?:y) error message$/ do |no_message|
+  if no_message
+    should_not have_selector('#errorExplanation')
+  else
+    should have_selector('#errorExplanation')
+  end
 end
 
 Then /^I should see an error explanation stating "([^"]*)"$/ do |message|
