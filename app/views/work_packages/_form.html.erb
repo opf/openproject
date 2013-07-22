@@ -26,7 +26,8 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <div id="attributes" class="attributes">
-  <%= render :partial => 'attributes', :locals => { :work_package => work_package,
+  <%= render :partial => 'attributes', :locals => { :f => f,
+                                                    :work_package => work_package,
                                                     :project => project,
                                                     :priorities => priorities
                                                   } %>
