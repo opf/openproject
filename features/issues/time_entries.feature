@@ -16,7 +16,7 @@ Feature: Tracking Time
       | name        | project1      |
       | identifier  | project1      |
     And I am working in project "parent"
-    And the project "project1" has the following trackers:
+    And the project "project1" has the following types:
       | name | position |
       | Bug  |     1    |
     And there is a role "member"

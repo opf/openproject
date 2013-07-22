@@ -20,7 +20,7 @@ Feature: Exporting issues
     And there is 1 project with the following:
       | name       | project1 |
       | identifier | project1 |
-    And the project "project1" has the following trackers:
+    And the project "project1" has the following types:
       | name | position |
       | Bug  |     1    |
     And the user "bob" is a "member" in the project "project1"

@@ -15,14 +15,14 @@ Feature: Issue Sum Calculations for Currency
     Given there is 1 project with the following:
       | name       | project1 |
       | identifier | project1 |
-    And the project "project1" has the following trackers:
+    And the project "project1" has the following types:
       | name | position |
       | Bug  |     1    |
     And the following issue custom fields are defined:
       | name | type   |
       | cf1  | float  |
     And the custom field "cf1" is summable
-    And the custom field "cf1" is activated for tracker "Bug"
+    And the custom field "cf1" is activated for type "Bug"
     And there is a role "Manager"
     And there is 1 user with:
       | Login        | manager   |
@@ -34,11 +34,11 @@ Feature: Issue Sum Calculations for Currency
     Given the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 100        |
-      | tracker | Bug        |
+      | type | Bug        |
     And the user "manager" has 1 issue with the following:
       | subject | Some other issue |
       | cf1     | 50               |
-      | tracker | Bug              |
+      | type | Bug              |
     When I go to the issues index page for the project called "project1"
     And I select to see columns
       | cf1 |
@@ -53,11 +53,11 @@ Feature: Issue Sum Calculations for Currency
     Given the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 100        |
-      | tracker | Bug        |
+      | type | Bug        |
     And the user "manager" has 1 issue with the following:
       | subject | Some other issue |
       | cf1     | 50               |
-      | tracker | Bug              |
+      | type | Bug              |
     And the custom field "cf1" is not summable
     When I go to the issues index page for the project called "project1"
     And I select to see columns
@@ -73,11 +73,11 @@ Feature: Issue Sum Calculations for Currency
     Given the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 100        |
-      | tracker | Bug        |
+      | type | Bug        |
     And the user "manager" has 1 issue with the following:
       | subject | Some other issue |
       | cf1     | 50               |
-      | tracker | Bug              |
+      | type | Bug              |
     When I go to the issues index page for the project called "project1"
     And I select to see columns
       | cf1 |
@@ -101,11 +101,11 @@ Feature: Issue Sum Calculations for Currency
     Given the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 100        |
-      | tracker | Bug        |
+      | type | Bug        |
     And the user "manager" has 1 issue with the following:
       | subject | Some other issue |
       | cf1     | 50               |
-      | tracker | Bug              |
+      | type | Bug              |
     When I go to the issues index page for the project called "project1"
     And I select to see columns
       | cf1 |
@@ -134,23 +134,23 @@ Feature: Issue Sum Calculations for Currency
     And the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 100        |
-      | tracker | Bug        |
+      | type | Bug        |
     And the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 50         |
-      | tracker | Bug        |
+      | type | Bug        |
     And the user "alice" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 300        |
-      | tracker | Bug        |
+      | type | Bug        |
     And the user "bob" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 200        |
-      | tracker | Bug        |
+      | type | Bug        |
     And the user "bob" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 250        |
-      | tracker | Bug        |
+      | type | Bug        |
     When I go to the issues index page for the project called "project1"
     And I select to see columns
       | cf1 |
@@ -169,11 +169,11 @@ Feature: Issue Sum Calculations for Currency
     Given the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 100        |
-      | tracker | Bug        |
+      | type | Bug        |
     And the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 50         |
-      | tracker | Bug        |
+      | type | Bug        |
     When I go to the issues index page for the project called "project1"
     And I select to see columns
       | cf1 |
@@ -190,11 +190,11 @@ Feature: Issue Sum Calculations for Currency
     Given the user "manager" has 1 issue with the following:
       | subject | Some issue  |
       | cf1     | 100.0000001 |
-      | tracker | Bug         |
+      | type | Bug         |
     And the user "manager" has 1 issue with the following:
       | subject | Some issue  |
       | cf1     | 50.09       |
-      | tracker | Bug         |
+      | type | Bug         |
     When I go to the issues index page for the project called "project1"
     And I select to see columns
       | cf1 |

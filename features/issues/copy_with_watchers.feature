@@ -37,7 +37,7 @@ Feature: Copying an issue should copy the watchers
       | New  | true       |
     And there is a default issuepriority with:
       | name   | Normal |
-    And the project "omicronpersei8" has the following trackers:
+    And the project "omicronpersei8" has the following types:
       | name | position |
       | Bug  |     1    |
     And the user "lrrr" has 1 issue with the following:

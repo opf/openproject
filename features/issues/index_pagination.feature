@@ -16,7 +16,7 @@ Feature: Paginated issue index list
     And there is 1 project with the following:
       | identifier | project1 |
       | name       | project1 |
-    And the project "project1" has the following trackers:
+    And the project "project1" has the following types:
       | name | position |
       | Bug  |     1    |
     And there is 1 user with the following:
