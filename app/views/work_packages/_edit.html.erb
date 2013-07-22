@@ -1,0 +1,90 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% edit_allowed = current_user.allowed_to?(:edit_work_packages, project) %>
+<%# this is only temporary until work_package#update exists %>
+<% update_path = work_package.is_a?(Issue) ? issue_path(work_package) : project_planning_element_path(work_package, project) %>
+
+<%= labelled_tabular_form_for work_package,
+                              :url => update_path,
+                              # TODO: remove once Issue == PlanningElement
+                              :as => 'work_package',
+                              :html => {
+                                        :id => 'work-package-form',
+                                        :multipart => true
+                                       } do |f| %>
+
+  <%= error_messages_for 'issue', 'time_entry' %>
+
+  <div class="box">
+
+    <% if edit_allowed || !allowed_statuses.empty? %>
+      <fieldset class="tabular">
+        <legend>
+          <%= l(:label_change_properties) %>
+          <% if !work_package.new_record? && !work_package.errors.any? && edit_allowed %>
+            <small>
+              (<%= link_to l(:label_more), {}, :onclick => 'Effect.toggle("work_package_descr_fields", "appear", {duration:0.3}); return false;' %>)
+            </small>
+          <% end %>
+        </legend>
+
+        <% edit_form = (edit_allowed ? 'form' : 'form_update') %>
+        <%= render :partial => edit_form,
+                   :locals => { :f => f,
+                                :work_package => work_package,
+                                :priorities => priorities,
+                                :project => project,
+                                :time_entry => time_entry } %>
+      </fieldset>
+    <% end %>
+
+    <% if authorize_for('timelog', 'edit') %>
+      <fieldset class="tabular">
+        <legend>
+          <%= l(:button_log_time) %>
+        </legend>
+
+        <%= render :partial => 'time_entry',
+                   :locals => { :time_entry => time_entry } %>
+      </fieldset>
+    <% end %>
+
+    <fieldset>
+      <legend>
+        <%= Journal.human_attribute_name(:notes) %>
+      </legend>
+      <%= label_tag 'notes', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
+      <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+      <%= wikitoolbar_for 'notes' %>
+      <%= call_hook(:view_issues_edit_notes_bottom, { :issue => work_package, :notes => @notes, :form => f }) %>
+    </fieldset>
+
+    <fieldset id="attachments" class="header_collapsible collapsible collapsed">
+      <legend title="<%=l(:description_attachment_toggle)%>", onclick="toggleFieldset(this);">
+        <a href="javascript:"><%=l(:label_attachment_plural)%></a>
+      </legend>
+      <div style="display: none;">
+      <%= render :partial => 'attachments/form' %>
+      </div>
+    </fieldset>
+
+    <%= send_notification_option %>
+  </div>
+
+  <%= f.hidden_field :lock_version %>
+  <%= submit_tag l(:button_submit) %>
+  <%= link_to_issue_preview(work_package) %>
+<% end %>
+
+<div id="preview" class="wiki">
+</div>

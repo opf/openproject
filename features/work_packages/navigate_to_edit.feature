@@ -4,6 +4,8 @@ Feature: Navigating to the work package edit page
         | login | manager |
 
     And there is a role "manager"
+    And the role "manager" may have the following rights:
+      | edit_work_packages |
 
     And there is 1 project with the following:
       | identifier | ecookbook |

@@ -52,11 +52,7 @@ en:
       enumeration:
         active: "Active"
       issue:
-        done_ratio: "% Done"
-        fixed_version: "Target version"
-        parent: "Parent"
         parent_issue: "Parent"
-        priority: "Priority"
         subproject: "Subproject"
         time_entries: "Log time"
         type: "Type"
@@ -130,7 +126,6 @@ en:
         due_date: "End date"
         id: ID
         name: Name
-        parent: Parent element
         planning_element_type: "Type"
         start_date: Start date
         deleted_at: Deleted at
@@ -162,6 +157,10 @@ en:
         reported_project_status: Project status
         created_at: Created
       work_package:
+        done_ratio: "% done"
+        fixed_version: "Target version"
+        parent: Parent
+        priority: "Priority"
         progress: "% done"
         responsible: "Responsible"
         spent_time: "Spent time"

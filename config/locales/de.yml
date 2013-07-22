@@ -53,11 +53,7 @@ de:
       enumeration:
         active: "Aktiv"
       issue:
-        done_ratio: "% erledigt"
-        fixed_version: "Zielversion"
-        parent: "Übergeordnete Aufgabe"
         parent_issue: "Übergeordnete Aufgabe"
-        priority: "Priorität"
         subproject: "Unterprojekt von"
         time_entries: "Logzeit"
         type: "Typ"
@@ -101,7 +97,6 @@ de:
         due_date: "Abschlussdatum"
         id: "ID"
         name: "Name"
-        parent: "Eltern-Element"
         planning_element_type: "Typ"
         start_date: "Startdatum"
       planning_element_type:
@@ -157,6 +152,10 @@ de:
         parent_title: "Übergeordnete Seite"
         redirect_existing_links: "Existierende Links umleiten"
       work_package:
+        done_ratio: "% erledigt"
+        fixed_version: "Zielversion"
+        parent: "Übergeordnete Aufgabe"
+        priority: "Priorität"
         progress: "% erledigt"
         responsible: "Planungsverantwortlicher"
         spent_time: "Aufgewendete Zeit"
