@@ -44,7 +44,7 @@ Feature: Paginated issue index list
     Then I should be on the global index page of issues
     And I should see 1 issue
 
-  Scenario: Chaning issues per page
+  Scenario: Changing issues per page
     When I go to the issues index page of the project "project1"
     Then I follow "2" within ".pagination"
     Then I should see 1 issue
