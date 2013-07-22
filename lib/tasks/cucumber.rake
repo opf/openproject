@@ -39,7 +39,7 @@ begin
       Rails.application.config.plugins_to_test_paths.each do |dir|
         if File.directory?( dir )
           feature_dir = Shellwords.escape(File.join(dir, 'features'))
-          features << prefix + feature_dir
+          features += [prefix, feature_dir]
         end
       end
       features
@@ -66,10 +66,14 @@ begin
           opts += args[:options].split(/\s+/) if args[:options]
 
           # load feature support files from Rails root
-          support_files = ['-r ' + Shellwords.escape(File.join(Rails.root, 'features'))]
-          support_files += get_plugin_features(prefix=' -r ')
+          support_files = ['-r', Shellwords.escape(File.join(Rails.root, 'features'))]
+          support_files += get_plugin_features(prefix='-r')
 
           t.cucumber_opts = opts + support_files + features
+
+          # If we are not in the test environment, the test gems are not loaded
+          # by Bundler.require in application.rb, so we need to fork.
+          t.fork = Rails.env != 'test'
         end
         Rake::Task['cucumber_run'].invoke
       end
