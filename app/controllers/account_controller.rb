@@ -174,7 +174,8 @@ class AccountController < ApplicationController
       user = User.find_by_login(username)
       if user and user.check_password?(password)
         if not user.active?
-          inactive_account
+          return inactive_account if user.registered?
+          invalid_credentials
         elsif user.force_password_change
           return if redirect_if_password_change_not_allowed(user)
           render_force_password_change
