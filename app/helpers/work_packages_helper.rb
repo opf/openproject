@@ -63,7 +63,7 @@ module WorkPackagesHelper
 
   WorkPackageAttribute = Struct.new(:attribute, :field)
 
-  def work_package_form_two_column_attributes(form, work_package, locals = {})
+  def work_package_form_all_middle_attributes(form, work_package, locals = {})
     [
       work_package_form_status_attribute(form, work_package, locals),
       work_package_form_priority_attribute(form, work_package, locals),
@@ -76,6 +76,15 @@ module WorkPackagesHelper
       work_package_form_estimated_hours_attribute(form, work_package, locals),
       work_package_form_done_ratio_attribute(form, work_package, locals),
       work_package_form_custom_values_attribute(form, work_package, locals)
+    ].flatten.compact
+  end
+
+  def work_package_form_minimal_middle_attributes(form, work_package, locals = {})
+    [
+      work_package_form_status_attribute(form, work_package, locals),
+      work_package_form_assignee_attribute(form, work_package, locals),
+      work_package_form_assignable_versions_attribute(form, work_package, locals),
+      work_package_form_done_ratio_attribute(form, work_package, locals),
     ].flatten.compact
   end
 

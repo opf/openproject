@@ -59,9 +59,9 @@ class WorkPackagesController < ApplicationController
 
   def new_type
     respond_to do |format|
-      format.js { render :partial => 'attributes', :locals => { :work_package => new_work_package,
-                                                                :project => project,
-                                                                :priorities => priorities } }
+      format.js { render :locals => { :work_package => new_work_package,
+                                      :project => project,
+                                      :priorities => priorities } }
     end
   end
 

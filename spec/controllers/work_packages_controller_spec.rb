@@ -203,7 +203,7 @@ describe WorkPackagesController do
       end
 
       it 'renders the new builder template' do
-        response.should render_template('work_packages/_attributes', :formats => ["html"])
+        response.should render_template('work_packages/new_type', :formats => ["html"])
       end
 
       it 'should respond with 200 OK' do
