@@ -360,7 +360,7 @@ Given /^I (?:stop|pause) (?:step )?execution$/ do
   end
 end
 
-When /^(?:|I )login as (.+)(?: with password (.+))?$/ do |username, password|
+When /^(?:|I )login as (.+?)(?: with password (.+))?$/ do |username, password|
   username = username.gsub("\"", "")
   password = password.nil? ? "adminADMIN!" : password.gsub("\"", "")
   login(username, password)
