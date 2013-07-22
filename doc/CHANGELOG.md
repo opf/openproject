@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1409` Changing pagination limit on members view looses members tab
+* `#1371` Changing pagination per_page_param does not change page
 * `#1314` Always set last activity timestamp and check session expiry if ttl-setting is enabled
 * `#1414` Remove start & due date requirement from planning elements
 

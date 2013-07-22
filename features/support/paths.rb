@@ -211,7 +211,7 @@ module NavigationHelpers
         "/settings/edit?tab=#{$1}"
       end
 
-    when /^the(?: (.+?) tab of the) settings page (?:of|for) the project "(.+?)"$/
+    when /^the(?: (.+?) tab of the)? settings page (?:of|for) the project "(.+?)"$/
       if $1.nil?
         "/projects/#{$2}/settings"
       else

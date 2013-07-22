@@ -25,7 +25,7 @@ module PaginationHelper
 
       html << content_tag(:span, "(#{paginator.offset + 1} - #{paginator.offset + paginator.length}/#{paginator.total_entries})", :class => 'range')
 
-      if per_page_links && links = per_page_links(paginator.per_page)
+      if per_page_links && links = per_page_links(paginator.per_page, merged_options[:params] || params)
         html << links
       end
     end
@@ -35,11 +35,11 @@ module PaginationHelper
       html
   end
 
-  def per_page_links(selected=nil)
+  def per_page_links(selected=nil, options = params)
     links = Setting.per_page_options_array.collect do |n|
       n == selected ?
               content_tag(:span, n, :class => 'current') :
-              link_to_content_update(n, params.merge(:per_page => n))
+              link_to_content_update(n, options.merge(:page => 1, :per_page => n))
     end
     content_tag :span, :class => 'per_page_options' do
       links.size > 1 ? l(:label_display_per_page, links.join(', ')).html_safe : nil
