@@ -12,6 +12,16 @@
 require 'spec_helper'
 
 describe WorkPackagesHelper do
+  def inside_form &block
+    ret = ''
+
+    form_for(stub_work_package, :as => 'work_package', :url => work_package_path(stub_work_package)) do |f|
+      ret = yield f
+    end
+
+    ret
+  end
+
   describe :work_package_breadcrumb do
     it 'should provide a link to index as the first element and all ancestors as links' do
       index_link = double('work_package_index_link')
@@ -88,6 +98,18 @@ describe WorkPackagesHelper do
       should_receive(:prompt_to_remote).with(*([anything()] * 3), project_issue_categories_path(stub_project), anything()).and_return(remote)
 
       work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).field.should include(remote)
+    end
+  end
+
+  describe :work_package_form_estimated_hours_attribute do
+    it "should output the estimated hours value with a precision of 2" do
+      stub_work_package.estimated_hours = 3
+
+      attribute = inside_form do |f|
+        helper.work_package_form_estimated_hours_attribute(f, stub_work_package, {})
+      end
+
+      attribute.field.should have_selector('input#work_package_estimated_hours[@value="3.00"]')
     end
   end
 end

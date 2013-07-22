@@ -53,3 +53,9 @@ Given(/^the work_package "(.+?)" is updated with the following:$/) do |subject, 
 
   send_table_to_object(work_package, table)
 end
+
+Then /^the "(.+?)" field should contain the id of work package "(.+?)"$/ do |field_name, wp_name|
+  work_package = InstanceFinder.find(WorkPackage, wp_name)
+
+  should have_field(field_name, :with => work_package.id.to_s)
+end

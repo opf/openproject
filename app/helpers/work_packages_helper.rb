@@ -327,12 +327,14 @@ module WorkPackagesHelper
   end
 
   def work_package_form_estimated_hours_attribute(form, work_package, locals = {})
-    estimated_hours_field = form.text_field :estimated_hours,
-                                            :size => 3,
-                                            :disabled => attrib_disabled?(work_package, 'estimated_hours')
-    estimated_hours_field += TimeEntry.human_attribute_name(:hours)
+    field = form.text_field :estimated_hours,
+                            :size => 3,
+                            :disabled => attrib_disabled?(work_package, 'estimated_hours'),
+                            :value => number_with_precision(work_package.estimated_hours, :precision => 2)
 
-    WorkPackageAttribute.new(:estimated_hours, estimated_hours_field)
+    field += TimeEntry.human_attribute_name(:hours)
+
+    WorkPackageAttribute.new(:estimated_hours, field)
   end
 
   def work_package_form_done_ratio_attribute(form, work_package, locals = {})

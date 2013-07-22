@@ -1,0 +1,42 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div class="attributes">
+  <% fields = work_package_form_two_column_attributes(f, work_package,
+                                                         :priorities => priorities,
+                                                         :project => project) %>
+
+  <% desired_fields = fields.select { |f| [:status, :assigned_to, :done_ratio, :fixed_version].include?(f.attribute) } %>
+
+  <% left_attributes, right_attributes = desired_fields.in_groups(2, false) %>
+
+  <div class="splitcontentleft">
+     <% left_attributes.each do |attribute| %>
+
+      <p>
+        <%= attribute.field %>
+      </p>
+
+    <% end %>
+  </div>
+
+  <div class="splitcontentright">
+     <% right_attributes.each do |attribute| %>
+
+      <p>
+        <%= attribute.field %>
+      </p>
+
+    <% end %>
+  </div>
+</div>
+

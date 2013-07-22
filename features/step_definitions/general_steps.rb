@@ -134,17 +134,6 @@ Given /^there is a(?:n)? (default )?(?:issue)?status with:$/ do |default, table|
   IssueStatus.find_by_name(name) || IssueStatus.create(:name => name.to_s, :is_default => !!default)
 end
 
-Given /^there is a(?:n)? (default )?issuepriority with:$/ do |default, table|
-  name = table.raw.select { |ary| ary.include? "name" }.first[table.raw.first.index("name") + 1].to_s
-  project = get_project
-  IssuePriority.new.tap do |prio|
-    prio.name = name
-    prio.is_default = !!default
-    prio.project = project
-    prio.save!
-  end
-end
-
 Given /^there is a [rR]ole "([^\"]*)"$/ do |name|
   Role.spawn.tap { |r| r.name = name }.save! unless Role.find_by_name(name)
 end
@@ -248,18 +237,6 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [Dd]ocument with(?: the following)?:
     d.category = DocumentCategory.first
     d.save!
     send_table_to_object(d, table)
-  end
-end
-
-Given /^the [Pp]roject (.+) has 1 version with(?: the following)?:$/ do |project, table|
-  project.gsub!("\"", "")
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
-  table.rows_hash["effective_date"] = eval(table.rows_hash["effective_date"]).to_date if table.rows_hash["effective_date"]
-
-  as_admin do
-    v = Version.generate
-    send_table_to_object(v, table)
-    p.versions << v
   end
 end
 

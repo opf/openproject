@@ -15,6 +15,7 @@ describe WorkPackage do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
   let(:stub_version) { FactoryGirl.build_stubbed(:version) }
+  let(:stub_project) { FactoryGirl.build_stubbed(:project) }
 
   describe :assignable_users do
     it 'should return all users the project deems to be assignable' do
@@ -73,6 +74,37 @@ describe WorkPackage do
       sink.copy_from(source, :exclude => [:project_id])
 
       sink.project_id.should == orig_project_id
+    end
+  end
+
+  describe :new_statuses_allowed_to do
+    it "should return all status" do
+      # Dummy implementation as long as trackers/types are not merged
+      expected = double('expect')
+
+      IssueStatus.stub(:all).and_return(expected)
+
+      stub_work_package.new_statuses_allowed_to(stub_user).should == expected
+    end
+  end
+
+  describe :add_time_entry do
+    it "should return a new time entry" do
+      stub_work_package.add_time_entry.should be_a TimeEntry
+    end
+
+    it "should already have the project assigned" do
+      stub_work_package.project = stub_project
+
+      stub_work_package.add_time_entry.project.should == stub_project
+    end
+
+    it "should already have the work_package assigned" do
+      stub_work_package.add_time_entry.work_package.should == stub_work_package
+    end
+
+    it "should return an usaved entry" do
+      stub_work_package.add_time_entry.should be_new_record
     end
   end
 end

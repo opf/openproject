@@ -558,4 +558,30 @@ describe WorkPackagesController do
       controller.priorities.should == expected
     end
   end
+
+  describe :allowed_statuses do
+    it "should return all statuses allowed by the issue" do
+      expected = double('statuses')
+
+      controller.stub!(:work_package).and_return(stub_issue)
+
+      stub_issue.stub!(:new_statuses_allowed_to).with(current_user).and_return(expected)
+
+      controller.allowed_statuses.should == expected
+    end
+  end
+
+  describe :time_entry do
+    before do
+      controller.stub!(:work_package).and_return(stub_planning_element)
+    end
+
+    it "should return a time entry" do
+      expected = double('time_entry')
+
+      stub_planning_element.stub!(:add_time_entry).and_return(expected)
+
+      controller.time_entry.should == expected
+    end
+  end
 end
