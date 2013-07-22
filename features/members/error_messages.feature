@@ -21,10 +21,10 @@ Feature: Error Messages
       And I select the principal "Peter Pan"
       And I click on "Add" within "#tab-content-members"
       And I wait for AJAX
-      Then I should see 1 flash error message
+      Then I should see 1 error message
       And I click on "Add" within "#tab-content-members"
       And I wait for AJAX
-      Then I should not see 2 flash error messages
+      Then I should not see 2 error messages
 
   @javascript
   Scenario: Adding a Role, non impaired
@@ -33,10 +33,10 @@ Feature: Error Messages
       And I select the role "Manager"
       And I click on "Add" within "#tab-content-members"
       And I wait for AJAX
-      Then I should see 1 flash error message
+      Then I should see 1 error message
       And I click on "Add" within "#tab-content-members"
       And I wait for AJAX
-      Then I should not see 2 flash error messages
+      Then I should not see 2 error messages
 
   @javascript
   Scenario: Adding a Principal, impaired
@@ -46,10 +46,10 @@ Feature: Error Messages
       And I select the principal "Peter Pan"
       And I click on "Add" within "#tab-content-members"
       And I wait for AJAX
-      Then I should see 1 flash error message
+      Then I should see 1 error message
       And I click on "Add" within "#tab-content-members"
       And I wait for AJAX
-      Then I should not see 2 flash error messages
+      Then I should not see 2 error messages
 
   @javascript
   Scenario: Adding a Role, impaired
@@ -59,7 +59,8 @@ Feature: Error Messages
       And I select the role "Manager"
       And I click on "Add" within "#tab-content-members"
       And I wait for AJAX
-      Then I should see 1 flash error message
+      Then I should see 1 error message
       And I click on "Add" within "#tab-content-members"
       And I wait for AJAX
-      Then I should not see 2 flash error messages
+      Then I should not see 2 error messages
+
