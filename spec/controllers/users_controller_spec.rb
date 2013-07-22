@@ -7,8 +7,10 @@ describe UsersController do
     @controller.stub!(:set_localization)
     @global_roles = [mock_model(GlobalRole), mock_model(GlobalRole)]
     GlobalRole.stub!(:all).and_return(@global_roles)
-    User.stub!(:find).with("1").and_return(mock_model User)
-    
+    user_mock = mock_model User
+    user_mock.stub!(:logged?).and_return(true)
+    User.stub!(:find).with(any_args()).and_return(user_mock)
+
     disable_log_requesting_user
   end
 
