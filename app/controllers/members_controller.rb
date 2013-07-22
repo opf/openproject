@@ -106,7 +106,7 @@ JS
     end
 
     respond_to do |format|
-      format.json 
+      format.json
       format.html {
         if request.xhr?
           partial = "members/autocomplete_for_member"
