@@ -66,25 +66,25 @@ class IssueStatusTest < ActiveSupport::TestCase
   def test_new_statuses_allowed_to
     Workflow.delete_all
 
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3, :author => true, :assignee => false)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4, :author => false, :assignee => true)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5, :author => true, :assignee => true)
+    Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false)
+    Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 3, :author => true, :assignee => false)
+    Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 4, :author => false, :assignee => true)
+    Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 5, :author => true, :assignee => true)
     status = IssueStatus.find(1)
     role = Role.find(1)
-    tracker = Tracker.find(1)
+    type = Type.find(1)
 
-    assert_equal [2], status.new_statuses_allowed_to([role], tracker, false, false).map(&:id)
-    assert_equal [2], status.find_new_statuses_allowed_to([role], tracker, false, false).map(&:id)
+    assert_equal [2], status.new_statuses_allowed_to([role], type, false, false).map(&:id)
+    assert_equal [2], status.find_new_statuses_allowed_to([role], type, false, false).map(&:id)
 
-    assert_equal [2, 3], status.new_statuses_allowed_to([role], tracker, true, false).map(&:id)
-    assert_equal [2, 3], status.find_new_statuses_allowed_to([role], tracker, true, false).map(&:id)
+    assert_equal [2, 3], status.new_statuses_allowed_to([role], type, true, false).map(&:id)
+    assert_equal [2, 3], status.find_new_statuses_allowed_to([role], type, true, false).map(&:id)
 
-    assert_equal [2, 4], status.new_statuses_allowed_to([role], tracker, false, true).map(&:id)
-    assert_equal [2, 4], status.find_new_statuses_allowed_to([role], tracker, false, true).map(&:id)
+    assert_equal [2, 4], status.new_statuses_allowed_to([role], type, false, true).map(&:id)
+    assert_equal [2, 4], status.find_new_statuses_allowed_to([role], type, false, true).map(&:id)
 
-    assert_equal [2, 3, 4, 5], status.new_statuses_allowed_to([role], tracker, true, true).map(&:id)
-    assert_equal [2, 3, 4, 5], status.find_new_statuses_allowed_to([role], tracker, true, true).map(&:id)
+    assert_equal [2, 3, 4, 5], status.new_statuses_allowed_to([role], type, true, true).map(&:id)
+    assert_equal [2, 3, 4, 5], status.find_new_statuses_allowed_to([role], type, true, true).map(&:id)
   end
 
   context "#update_done_ratios" do

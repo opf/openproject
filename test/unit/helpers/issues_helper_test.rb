@@ -149,8 +149,8 @@ class IssuesHelperTest < HelperTestCase
       should_show_the_old_and_new_values_for('status_id', IssueStatus)
     end
 
-    context "with a tracker attribute" do
-      should_show_the_old_and_new_values_for('tracker_id', Tracker)
+    context "with a type attribute" do
+      should_show_the_old_and_new_values_for('type_id', Type)
     end
 
     context "with a assigned to attribute" do

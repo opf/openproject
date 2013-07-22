@@ -22,7 +22,7 @@ class Issues::MovesControllerTest < ActionController::TestCase
 
   def test_create_one_issue_to_another_project
     @request.session[:user_id] = 2
-    post :create, :id => 1, :new_project_id => 2, :tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
+    post :create, :id => 1, :new_project_id => 2, :type_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
     assert_redirected_to project_issues_path(:project_id => 'ecookbook')
     assert_equal 2, Issue.find(1).project_id
   end
@@ -40,17 +40,17 @@ class Issues::MovesControllerTest < ActionController::TestCase
     # Issues moved to project 2
     assert_equal 2, Issue.find(1).project_id
     assert_equal 2, Issue.find(2).project_id
-    # No tracker change
-    assert_equal 1, Issue.find(1).tracker_id
-    assert_equal 2, Issue.find(2).tracker_id
+    # No type change
+    assert_equal 1, Issue.find(1).type_id
+    assert_equal 2, Issue.find(2).type_id
   end
 
-  def test_bulk_create_to_another_tracker
+  def test_bulk_create_to_another_type
     @request.session[:user_id] = 2
-    post :create, :ids => [1, 2], :new_tracker_id => 2
+    post :create, :ids => [1, 2], :new_type_id => 2
     assert_redirected_to project_issues_path(:project_id => 'ecookbook')
-    assert_equal 2, Issue.find(1).tracker_id
-    assert_equal 2, Issue.find(2).tracker_id
+    assert_equal 2, Issue.find(1).type_id
+    assert_equal 2, Issue.find(2).type_id
   end
 
   context "#create via bulk move" do
@@ -94,11 +94,11 @@ class Issues::MovesControllerTest < ActionController::TestCase
       issue_before_move = Issue.find(1)
       assert_difference 'Issue.count', 1 do
         assert_no_difference 'Project.find(1).work_packages.count' do
-          post :create, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
+          post :create, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_type_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
         end
       end
       issue_after_move = Issue.first(:order => 'id desc', :conditions => {:project_id => 2})
-      assert_equal issue_before_move.tracker_id, issue_after_move.tracker_id
+      assert_equal issue_before_move.type_id, issue_after_move.type_id
       assert_equal issue_before_move.status_id, issue_after_move.status_id
       assert_equal issue_before_move.assigned_to_id, issue_after_move.assigned_to_id
     end
@@ -111,7 +111,7 @@ class Issues::MovesControllerTest < ActionController::TestCase
       @request.session[:user_id] = 2
       assert_difference 'Issue.count', 2 do
         assert_no_difference 'Project.find(1).work_packages.count' do
-          post :create, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => 4, :status_id => 3, :start_date => '2009-12-01', :due_date => '2009-12-31'
+          post :create, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_type_id => '', :assigned_to_id => 4, :status_id => 3, :start_date => '2009-12-01', :due_date => '2009-12-31'
         end
       end
 

@@ -10,11 +10,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Tracker < ActiveRecord::Base
+class Type < ActiveRecord::Base
   generator_for :name, :method => :next_name
 
   def self.next_name
-    @last_name ||= 'Tracker 0'
+    @last_name ||= 'Type 0'
     @last_name.succ!
     @last_name
   end

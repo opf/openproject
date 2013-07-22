@@ -30,7 +30,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.new_record?
     issue.reload
     assert_equal Project.find(2), issue.project
-    assert_equal issue.project.trackers.first, issue.tracker
+    assert_equal issue.project.types.first, issue.type
     assert_equal 'New ticket on a given project', issue.subject
     assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal IssueStatus.find_by_name('Resolved'), issue.status
@@ -53,13 +53,13 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert mail.subject.include?('New ticket on a given project')
   end
 
-  def test_add_issue_with_default_tracker
+  def test_add_issue_with_default_type
     # This email contains: 'Project: onlinestore'
-    issue = submit_email('ticket_on_given_project.eml', :issue => {:tracker => 'Support request'})
+    issue = submit_email('ticket_on_given_project.eml', :issue => {:type => 'Support request'})
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
-    assert_equal 'Support request', issue.tracker.name
+    assert_equal 'Support request', issue.type.name
   end
 
   def test_add_issue_with_status
@@ -73,42 +73,42 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_attributes_override
-    issue = submit_email('ticket_with_attributes.eml', :allow_override => 'tracker,category,priority')
+    issue = submit_email('ticket_with_attributes.eml', :allow_override => 'type,category,priority')
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
     assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.tracker.to_s
+    assert_equal 'Feature request', issue.type.to_s
     assert_equal 'Stock management', issue.category.to_s
     assert_equal 'Urgent', issue.priority.to_s
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
   def test_add_issue_with_partial_attributes_override
-    issue = submit_email('ticket_with_attributes.eml', :issue => {:priority => 'High'}, :allow_override => ['tracker'])
+    issue = submit_email('ticket_with_attributes.eml', :issue => {:priority => 'High'}, :allow_override => ['type'])
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
     assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.tracker.to_s
+    assert_equal 'Feature request', issue.type.to_s
     assert_nil issue.category
     assert_equal 'High', issue.priority.to_s
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
   def test_add_issue_with_spaces_between_attribute_and_separator
-    issue = submit_email('ticket_with_spaces_between_attribute_and_separator.eml', :allow_override => 'tracker,category,priority')
+    issue = submit_email('ticket_with_spaces_between_attribute_and_separator.eml', :allow_override => 'type,category,priority')
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
     assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.tracker.to_s
+    assert_equal 'Feature request', issue.type.to_s
     assert_equal 'Stock management', issue.category.to_s
     assert_equal 'Urgent', issue.priority.to_s
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
@@ -236,7 +236,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_invalid_attributes
-    issue = submit_email('ticket_with_invalid_attributes.eml', :allow_override => 'tracker,category,priority')
+    issue = submit_email('ticket_with_invalid_attributes.eml', :allow_override => 'type,category,priority')
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
@@ -250,25 +250,25 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_with_localized_attributes
     User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'de'
-    issue = submit_email('ticket_with_localized_attributes.eml', :allow_override => 'tracker,category,priority')
+    issue = submit_email('ticket_with_localized_attributes.eml', :allow_override => 'type,category,priority')
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
     assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.tracker.to_s
+    assert_equal 'Feature request', issue.type.to_s
     assert_equal 'Stock management', issue.category.to_s
     assert_equal 'Urgent', issue.priority.to_s
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
   def test_add_issue_with_japanese_keywords
-    tracker = Tracker.create!(:name => '開発')
-    Project.find(1).trackers << tracker
-    issue = submit_email('japanese_keywords_iso_2022_jp.eml', :issue => {:project => 'ecookbook'}, :allow_override => 'tracker')
+    type = Type.create!(:name => '開発')
+    Project.find(1).types << type
+    issue = submit_email('japanese_keywords_iso_2022_jp.eml', :issue => {:project => 'ecookbook'}, :allow_override => 'type')
     assert_kind_of Issue, issue
-    assert_equal tracker, issue.tracker
+    assert_equal type, issue.type
   end
 
   def test_add_issue_from_apple_mail
@@ -344,7 +344,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journaled
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.work_package.tracker.name
+    assert_equal 'Feature request', journal.work_package.type.name
   end
 
   test "reply to issue update (Journal) by message_id" do
@@ -353,7 +353,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journaled
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.work_package.tracker.name
+    assert_equal 'Feature request', journal.work_package.type.name
   end
 
   def test_add_issue_note_with_attribute_changes
@@ -364,7 +364,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journaled
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.work_package.tracker.name
+    assert_equal 'Feature request', journal.work_package.type.name
     assert_equal IssueStatus.find_by_name("Resolved"), issue.status
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
@@ -383,10 +383,10 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_note_should_not_set_defaults
-    journal = submit_email('ticket_reply.eml', :issue => {:tracker => 'Support request', :priority => 'High'})
+    journal = submit_email('ticket_reply.eml', :issue => {:type => 'Support request', :priority => 'High'})
     assert journal.is_a?(Journal)
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.work_package.tracker.name
+    assert_equal 'Feature request', journal.work_package.type.name
     assert_equal 'Normal', journal.work_package.priority.name
   end
 

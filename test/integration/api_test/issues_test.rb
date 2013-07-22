@@ -179,9 +179,9 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
 
     context "with subtasks" do
       setup do
-        @c1 = Issue.generate!(:status_id => 1, :subject => "child c1", :tracker_id => 1, :project_id => 1, :parent_issue_id => 1)
-        @c2 = Issue.generate!(:status_id => 1, :subject => "child c2", :tracker_id => 1, :project_id => 1, :parent_issue_id => 1)
-        @c3 = Issue.generate!(:status_id => 1, :subject => "child c3", :tracker_id => 1, :project_id => 1, :parent_issue_id => @c1.id)
+        @c1 = Issue.generate!(:status_id => 1, :subject => "child c1", :type_id => 1, :project_id => 1, :parent_issue_id => 1)
+        @c2 = Issue.generate!(:status_id => 1, :subject => "child c2", :type_id => 1, :project_id => 1, :parent_issue_id => 1)
+        @c3 = Issue.generate!(:status_id => 1, :subject => "child c3", :type_id => 1, :project_id => 1, :parent_issue_id => @c1.id)
       end
 
       context ".xml" do
@@ -218,10 +218,10 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
             json = ActiveSupport::JSON.decode(response.body)
             assert_equal([
               {
-                'id' => @c1.id, 'subject' => 'child c1', 'tracker' => {'id' => 1, 'name' => 'Bug'},
-                'children' => [{ 'id' => @c3.id, 'subject' => 'child c3', 'tracker' => {'id' => 1, 'name' => 'Bug'} }]
+                'id' => @c1.id, 'subject' => 'child c1', 'type' => {'id' => 1, 'name' => 'Bug'},
+                'children' => [{ 'id' => @c3.id, 'subject' => 'child c3', 'type' => {'id' => 1, 'name' => 'Bug'} }]
               },
-              { 'id' => @c2.id, 'subject' => 'child c2', 'tracker' => {'id' => 1, 'name' => 'Bug'} }
+              { 'id' => @c2.id, 'subject' => 'child c2', 'type' => {'id' => 1, 'name' => 'Bug'} }
               ],
               json['issue']['children'])
           end
@@ -233,17 +233,17 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
   context "POST /api/v1/issues.xml" do
     should_allow_api_authentication(:post,
                                     '/api/v1/issues.xml',
-                                    {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}},
+                                    {:issue => {:project_id => 1, :subject => 'API test', :type_id => 2, :status_id => 3}},
                                     {:success_code => :created})
 
     should "create an issue with the attributes" do
       assert_difference('Issue.count') do
-        post '/api/v1/issues.xml', {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}}, credentials('jsmith')
+        post '/api/v1/issues.xml', {:issue => {:project_id => 1, :subject => 'API test', :type_id => 2, :status_id => 3}}, credentials('jsmith')
       end
 
       issue = Issue.first(:order => 'id DESC')
       assert_equal 1, issue.project_id
-      assert_equal 2, issue.tracker_id
+      assert_equal 2, issue.type_id
       assert_equal 3, issue.status_id
       assert_equal 'API test', issue.subject
 
@@ -271,17 +271,17 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
   context "POST /api/v1/issues.json" do
     should_allow_api_authentication(:post,
                                     '/api/v1/issues.json',
-                                    {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}},
+                                    {:issue => {:project_id => 1, :subject => 'API test', :type_id => 2, :status_id => 3}},
                                     {:success_code => :created})
 
     should "create an issue with the attributes" do
       assert_difference('Issue.count') do
-        post '/api/v1/issues.json', {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}}, credentials('jsmith')
+        post '/api/v1/issues.json', {:issue => {:project_id => 1, :subject => 'API test', :type_id => 2, :status_id => 3}}, credentials('jsmith')
       end
 
       issue = Issue.first(:order => 'id DESC')
       assert_equal 1, issue.project_id
-      assert_equal 2, issue.tracker_id
+      assert_equal 2, issue.type_id
       assert_equal 3, issue.status_id
       assert_equal 'API test', issue.subject
     end

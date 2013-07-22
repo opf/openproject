@@ -115,7 +115,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
           assert_equal 'API test', project.name
           assert_equal 'api-test', project.identifier
           assert_equal ['issue_tracking', 'repository'], project.enabled_module_names.sort
-          assert_equal Tracker.all.size, project.trackers.size
+          assert_equal Type.all.size, project.types.size
 
           assert_response :created
           assert_equal 'application/xml', @response.content_type
@@ -133,15 +133,15 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
           assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
         end
 
-        should "accept tracker_ids attribute" do
-          @parameters[:project].merge!({:tracker_ids => [1, 3]})
+        should "accept type_ids attribute" do
+          @parameters[:project].merge!({:type_ids => [1, 3]})
 
           assert_difference('Project.count') do
             post '/api/v1/projects.xml', @parameters, credentials('admin')
           end
 
           project = Project.first(:order => 'id DESC')
-          assert_equal [1, 3], project.trackers.map(&:id).sort
+          assert_equal [1, 3], project.types.map(&:id).sort
         end
       end
     end
@@ -198,15 +198,15 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
           assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
         end
 
-        should "accept tracker_ids attribute" do
-          @parameters[:project].merge!({:tracker_ids => [1, 3]})
+        should "accept type_ids attribute" do
+          @parameters[:project].merge!({:type_ids => [1, 3]})
 
           assert_no_difference 'Project.count' do
             put '/api/v1/projects/2.xml', @parameters, credentials('admin')
           end
           assert_response :ok
           project = Project.find(2)
-          assert_equal [1, 3], project.trackers.map(&:id).sort
+          assert_equal [1, 3], project.types.map(&:id).sort
         end
       end
     end

@@ -16,7 +16,7 @@ class MemberTest < ActiveSupport::TestCase
     super
     Role.non_member.add_permission! :view_work_packages # non_member users may be watchers of work units
     Role.non_member.add_permission! :view_wiki_pages # non_member users may be watchers of wikis
-    @project = FactoryGirl.create :project_with_trackers
+    @project = FactoryGirl.create :project_with_types
     @user = FactoryGirl.create :user, :member_in_project => @project
     @member = @project.members.first
     @role = @member.roles.first
@@ -88,7 +88,7 @@ class MemberTest < ActiveSupport::TestCase
 
   context "removing permissions" do
     setup do
-      @private_project = FactoryGirl.create :project_with_trackers,
+      @private_project = FactoryGirl.create :project_with_types,
         :is_public => true # has to be public first to successfully create things. Will be set to private later
       @watcher_user = FactoryGirl.create(:user)
 

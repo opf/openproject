@@ -21,7 +21,7 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
     @issue = FactoryGirl.create :issue,
         :project => @project,
         :author => @users.first,
-        :tracker => @project.trackers.first
+        :type => @project.types.first
     @field = WorkPackageCustomField.create!(:name => 'Tester', :field_format => 'user')
   end
 

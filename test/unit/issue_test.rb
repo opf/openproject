@@ -19,7 +19,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_create
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 3,
                              :status_id => 1,
                              :priority => IssuePriority.all.first,
@@ -35,7 +35,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_create_minimal
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 3,
                              :status_id => 1,
                              :priority => IssuePriority.all.first,
@@ -51,7 +51,7 @@ class IssueTest < ActiveSupport::TestCase
 
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :status_id => 1,
                              :subject => 'test_create',
@@ -124,7 +124,7 @@ class IssueTest < ActiveSupport::TestCase
 
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :status_id => 1,
                              :subject => 'test_create',
@@ -185,15 +185,15 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal custom_value.id, issue.custom_value_for(field).id
   end
 
-  def test_should_not_update_custom_fields_on_changing_tracker_with_different_custom_fields
+  def test_should_not_update_custom_fields_on_changing_type_with_different_custom_fields
     issue = Issue.new(:project => Project.find(1))
-    issue.force_attributes = {:tracker_id => 1, :author_id => 1, :status_id => 1, :subject => 'Test', :custom_field_values => {'2' => 'Test'}}
+    issue.force_attributes = {:type_id => 1, :author_id => 1, :status_id => 1, :subject => 'Test', :custom_field_values => {'2' => 'Test'}}
     issue.save!
 
-    assert !Tracker.find(2).custom_field_ids.include?(2)
+    assert !Type.find(2).custom_field_ids.include?(2)
 
     issue = Issue.find(issue.id)
-    issue.attributes = {:tracker_id => 2, :custom_field_values => {'1' => ''}}
+    issue.attributes = {:type_id => 2, :custom_field_values => {'1' => ''}}
 
     issue = Issue.find(issue.id)
     custom_value = issue.custom_value_for(2)
@@ -201,19 +201,19 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 'Test', custom_value.value
   end
 
-  def test_assigning_tracker_id_should_reload_custom_fields_values
+  def test_assigning_type_id_should_reload_custom_fields_values
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project => Project.find(1) }
     end
     assert issue.custom_field_values.empty?
-    issue.tracker_id = 1
+    issue.type_id = 1
     assert issue.custom_field_values.any?
   end
 
-  def test_assigning_attributes_should_assign_tracker_id_first
+  def test_assigning_attributes_should_assign_type_id_first
     attributes = ActiveSupport::OrderedHash.new
     attributes['custom_field_values'] = { '1' => 'MySQL' }
-    attributes['tracker_id'] = '1'
+    attributes['type_id'] = '1'
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project => Project.find(1) }
     end
@@ -222,33 +222,33 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 'MySQL', issue.custom_value_for(1).value
   end
 
-  def test_should_update_issue_with_disabled_tracker
+  def test_should_update_issue_with_disabled_type
     p = Project.find(1)
     issue = Issue.find(1)
 
-    p.trackers.delete(issue.tracker)
-    assert !p.trackers.include?(issue.tracker)
+    p.types.delete(issue.type)
+    assert !p.types.include?(issue.type)
 
     issue.reload
     issue.subject = 'New subject'
     assert issue.save
   end
 
-  def test_should_not_set_a_disabled_tracker
+  def test_should_not_set_a_disabled_type
     p = Project.find(1)
-    p.trackers.delete(Tracker.find(2))
+    p.types.delete(Type.find(2))
 
     issue = Issue.find(1)
-    issue.tracker_id = 2
+    issue.type_id = 2
     issue.subject = 'New subject'
     assert !issue.save
-    refute_empty issue.errors[:tracker_id]
+    refute_empty issue.errors[:type_id]
   end
 
   def test_category_based_assignment
     (issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 3,
                              :status_id => 1,
                              :priority => IssuePriority.all.first,
@@ -264,25 +264,25 @@ class IssueTest < ActiveSupport::TestCase
   def test_new_statuses_allowed_to
     Workflow.delete_all
 
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3, :author => true, :assignee => false)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4, :author => false, :assignee => true)
-    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5, :author => true, :assignee => true)
+    Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false)
+    Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 3, :author => true, :assignee => false)
+    Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 4, :author => false, :assignee => true)
+    Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 5, :author => true, :assignee => true)
     status = IssueStatus.find(1)
     role = Role.find(1)
-    tracker = Tracker.find(1)
+    type = Type.find(1)
     user = User.find(2)
 
-    issue = Issue.generate!(:tracker => tracker, :status => status, :project_id => 1)
+    issue = Issue.generate!(:type => type, :status => status, :project_id => 1)
     assert_equal [1, 2], issue.new_statuses_allowed_to(user).map(&:id)
 
-    issue = Issue.generate!(:tracker => tracker, :status => status, :project_id => 1, :author => user)
+    issue = Issue.generate!(:type => type, :status => status, :project_id => 1, :author => user)
     assert_equal [1, 2, 3], issue.new_statuses_allowed_to(user).map(&:id)
 
-    issue = Issue.generate!(:tracker => tracker, :status => status, :project_id => 1, :assigned_to => user)
+    issue = Issue.generate!(:type => type, :status => status, :project_id => 1, :assigned_to => user)
     assert_equal [1, 2, 4], issue.new_statuses_allowed_to(user).map(&:id)
 
-    issue = Issue.generate!(:tracker => tracker, :status => status, :project_id => 1, :author => user, :assigned_to => user)
+    issue = Issue.generate!(:type => type, :status => status, :project_id => 1, :author => user, :assigned_to => user)
     assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
   end
 
@@ -292,7 +292,7 @@ class IssueTest < ActiveSupport::TestCase
     issue.reload
     orig = Issue.find(1)
     assert_equal orig.subject, issue.subject
-    assert_equal orig.tracker, issue.tracker
+    assert_equal orig.type, issue.type
     assert_equal "125", issue.custom_value_for(2).value
   end
 
@@ -310,7 +310,7 @@ class IssueTest < ActiveSupport::TestCase
     # Create 3 issues
     issue1 = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :status_id => 1,
                              :priority => IssuePriority.all.first,
@@ -357,7 +357,7 @@ class IssueTest < ActiveSupport::TestCase
     # Create 3 issues
     issue1 = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :status_id => 1,
                              :priority => IssuePriority.all.first,
@@ -385,7 +385,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_assignable_versions
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :status_id => 1,
                              :fixed_version_id => 1,
@@ -397,7 +397,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_should_not_be_able_to_assign_a_new_issue_to_a_closed_version
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :status_id => 1,
                              :fixed_version_id => 1,
@@ -411,7 +411,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_should_not_be_able_to_assign_a_new_issue_to_a_locked_version
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :status_id => 1,
                              :fixed_version_id => 2,
@@ -424,7 +424,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_should_be_able_to_assign_a_new_issue_to_an_open_version
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :status_id => 1,
                              :fixed_version_id => 3,
@@ -525,10 +525,10 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 7, issue.fixed_version_id
   end
 
-  def test_move_to_another_project_with_disabled_tracker
+  def test_move_to_another_project_with_disabled_type
     issue = Issue.find(1)
     target = Project.find(2)
-    target.tracker_ids = [3]
+    target.type_ids = [3]
     target.save
     assert_equal false, issue.move_to_project(target)
     issue.reload
@@ -546,17 +546,17 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal "125", copy.custom_value_for(2).value
   end
 
-  def test_copy_to_another_project_and_tracker
+  def test_copy_to_another_project_and_type
     issue = Issue.find(1)
     copy = nil
     assert_difference 'Issue.count' do
-      copy = issue.move_to_project(Project.find(3), Tracker.find(2), :copy => true)
+      copy = issue.move_to_project(Project.find(3), Type.find(2), :copy => true)
     end
     copy.reload
     assert_kind_of Issue, copy
     assert_equal Project.find(3), copy.project
-    assert_equal Tracker.find(2), copy.tracker
-    # Custom field #2 is not associated with target tracker
+    assert_equal Type.find(2), copy.type
+    # Custom field #2 is not associated with target type
     assert_nil copy.custom_value_for(2)
   end
 
@@ -568,24 +568,24 @@ class IssueTest < ActiveSupport::TestCase
       end
 
       should "allow assigned_to changes" do
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:assigned_to_id => 3}})
+        @copy = @issue.move_to_project(Project.find(3), Type.find(2), {:copy => true, :attributes => {:assigned_to_id => 3}})
         assert_equal 3, @copy.assigned_to_id
       end
 
       should "allow status changes" do
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:status_id => 2}})
+        @copy = @issue.move_to_project(Project.find(3), Type.find(2), {:copy => true, :attributes => {:status_id => 2}})
         assert_equal 2, @copy.status_id
       end
 
       should "allow start date changes" do
         date = Date.today
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:start_date => date}})
+        @copy = @issue.move_to_project(Project.find(3), Type.find(2), {:copy => true, :attributes => {:start_date => date}})
         assert_equal date, @copy.start_date
       end
 
       should "allow due date changes" do
         date = Date.today
-        @copy = @issue.move_to_project(Project.find(3), Tracker.find(2), {:copy => true, :attributes => {:due_date => date}})
+        @copy = @issue.move_to_project(Project.find(3), Type.find(2), {:copy => true, :attributes => {:due_date => date}})
 
         assert_equal date, @copy.due_date
       end
@@ -597,7 +597,7 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.recipients.include?(issue.author.mail)
     User.current = issue.author
     # move the issue to a private project
-    copy  = issue.move_to_project(Project.find(5), Tracker.find(2), :copy => true)
+    copy  = issue.move_to_project(Project.find(5), Type.find(2), :copy => true)
     # the author of the original issue is no user of the project and thus not informed
     assert !copy.recipients.include?(copy.author.mail)
   end
@@ -647,7 +647,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_rescheduling_an_issue_should_reschedule_following_issue
     (issue1 = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :status_id => 1,
                              :subject => '-',
@@ -656,7 +656,7 @@ class IssueTest < ActiveSupport::TestCase
     end).save!
     (issue2 = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :status_id => 1,
                              :subject => '-',
@@ -724,7 +724,7 @@ class IssueTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 3,
                              :status_id => 1,
                              :priority => IssuePriority.all.first,
@@ -941,8 +941,8 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
-  test "#by_tracker" do
-    groups = Issue.by_tracker(Project.find(1))
+  test "#by_type" do
+    groups = Issue.by_type(Project.find(1))
     assert_equal 3, groups.size
     assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
@@ -1011,7 +1011,7 @@ class IssueTest < ActiveSupport::TestCase
 
     before = Issue.on_active_project.length
     # test inclusion to results
-    issue = Issue.generate_for_project!(Project.find(1), :tracker => Project.find(2).trackers.first)
+    issue = Issue.generate_for_project!(Project.find(1), :type => Project.find(2).types.first)
     assert_equal before + 1, Issue.on_active_project.length
 
     # Move to an archived project
@@ -1069,7 +1069,7 @@ class IssueTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 3,
                              :status_id => 1,
                              :priority => IssuePriority.first,

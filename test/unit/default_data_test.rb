@@ -46,7 +46,7 @@ private
 
   def delete_loaded_data!
     Role.delete_all("builtin = 0")
-    Tracker.delete_all
+    Type.delete_all
     IssueStatus.delete_all
     Enumeration.delete_all
   end

@@ -66,12 +66,12 @@ class CustomFieldsControllerTest < ActionController::TestCase
                                    :is_filter => "0",
                                    :is_required =>"0",
                                    :field_format => "list",
-                                   :tracker_ids => ["1", ""]}
+                                   :type_ids => ["1", ""]}
     end
     assert_redirected_to '/custom_fields?tab=WorkPackageCustomField'
     field = WorkPackageCustomField.find_by_name('test_post_new_list')
     assert_not_nil field
     assert_equal ["0.1", "0.2"], field.possible_values
-    assert_equal 1, field.trackers.size
+    assert_equal 1, field.types.size
   end
 end

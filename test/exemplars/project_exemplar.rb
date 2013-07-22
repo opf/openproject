@@ -14,7 +14,7 @@ class Project < ActiveRecord::Base
   generator_for :name, :method => :next_name
   generator_for :identifier, :method => :next_identifier_from_object_daddy
   generator_for :enabled_modules, :method => :all_modules
-  generator_for :trackers, :method => :next_tracker
+  generator_for :types, :method => :next_type
 
   def self.next_name
     @last_name ||= 'Project 0'
@@ -37,7 +37,7 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def self.next_tracker
-    [Tracker.generate!]
+  def self.next_type
+    [Type.generate!]
   end
 end
