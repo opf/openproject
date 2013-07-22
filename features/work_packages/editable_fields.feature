@@ -75,3 +75,21 @@ Feature: Fields editable on work package edit
       | Activity   |
       | Comment    |
 
+  Scenario: Going to the page and viewing custom field fields
+    Given the role "manager" may have the following rights:
+      | edit_work_packages |
+
+    Given the following work package custom fields are defined:
+      | name | type  |
+      | cf1  | int   |
+
+    And there are the following planning elements in project "ecookbook":
+      | subject |
+      | pe1     |
+
+    And the work package "pe1" has the custom field "cf1" set to "4"
+
+    When I go to the edit page of the work package called "pe1"
+
+    Then I should see the following fields:
+      | cf1 | 4 |

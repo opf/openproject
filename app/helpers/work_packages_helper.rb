@@ -75,7 +75,8 @@ module WorkPackagesHelper
       work_package_form_due_date_attribute(form, work_package, locals),
       work_package_form_estimated_hours_attribute(form, work_package, locals),
       work_package_form_done_ratio_attribute(form, work_package, locals),
-    ].compact
+      work_package_form_custom_values_attribute(form, work_package, locals)
+    ].flatten.compact
   end
 
   def work_package_form_top_attributes(form, work_package, locals = {})
@@ -343,6 +344,14 @@ module WorkPackagesHelper
       field = form.select(:done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }))
 
       WorkPackageAttribute.new(:done_ratio, field)
+    end
+  end
+
+  def work_package_form_custom_values_attribute(form, work_package, locals = {})
+    work_package.custom_field_values.map do |value|
+      field = custom_field_tag_with_label :work_package, value
+
+      WorkPackageAttribute.new(:"work_package_#{value.id}", field)
     end
   end
 end
