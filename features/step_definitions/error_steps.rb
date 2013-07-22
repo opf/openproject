@@ -23,12 +23,12 @@ Then /^I should see an error explanation stating "([^"]*)"$/ do |message|
   page.all(:css, ".errorExplanation li, .errorExplanation li *", :text => message).should_not be_empty
 end
 
-Then /^there should be a flash error message$/ do
-  should have_selector('.flash.error')
-end
-
-Then /^there should be a flash notice message$/ do
-  should have_selector('.flash.notice')
+Then /^there should( not)? be a flash (error|notice) message$/ do |no_message, kind_of_message|
+  if no_message
+    should_not have_selector(".flash.#{kind_of_message}")
+  else
+    should have_selector(".flash.#{kind_of_message}")
+  end
 end
 
 Then /^the flash message should contain "([^"]*)"$/ do |message|
