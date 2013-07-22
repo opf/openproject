@@ -1,0 +1,44 @@
+---
+projects_types_001:
+  project_id: 4
+  type_id: 3
+projects_types_002:
+  project_id: 1
+  type_id: 1
+projects_types_003:
+  project_id: 5
+  type_id: 1
+projects_types_004:
+  project_id: 1
+  type_id: 2
+projects_types_005:
+  project_id: 5
+  type_id: 2
+projects_types_006:
+  project_id: 5
+  type_id: 3
+projects_types_007:
+  project_id: 2
+  type_id: 1
+projects_types_008:
+  project_id: 2
+  type_id: 2
+projects_types_009:
+  project_id: 2
+  type_id: 3
+projects_types_010:
+  project_id: 3
+  type_id: 2
+projects_types_011:
+  project_id: 3
+  type_id: 3
+projects_types_012:
+  project_id: 4
+  type_id: 1
+projects_types_013:
+  project_id: 4
+  type_id: 2
+projects_types_014:
+  project_id: 1
+  type_id: 3
+

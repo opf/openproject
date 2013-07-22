@@ -26,7 +26,7 @@ characters in them it appears to work apart from the pattern matching.
 
 For example if I send an email with the following keywords.
 
-Tracker: =1B$B3+H/=1B(B
+Type: =1B$B3+H/=1B(B
 
 ------=_NextPart_000_000E_01CA976A.8AF5E9E0
 Content-Type: text/html;
@@ -53,7 +53,7 @@ problem lies with this.</P>
 characters in=20
 them it appears to work apart from the pattern matching.</P>
 <P>For example if I send an email with the following keywords.</P>
-<P>Tracker: =
+<P>Type: =
 =1B$B3+H/=1B(B</P></FONT></DIV></BODY></HTML>
 
 ------=_NextPart_000_000E_01CA976A.8AF5E9E0--
