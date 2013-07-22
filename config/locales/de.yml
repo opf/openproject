@@ -1194,6 +1194,7 @@ de:
   setting_openid: "Erlaube OpenID-Anmeldung und -Registrierung"
   setting_password_active_rules: "Aktive Zeichenklassen"
   setting_password_count_former_banned: "Anzahl zuletzt benutzter Passwörter, die nicht wiederverwendet werden dürfen"
+  setting_password_days_valid: "Anzahl von Tagen, nach denen ein Passwortwechsel erwzwungen wird (deaktivieren mit 0)"
   setting_password_min_length: "Mindestlänge"
   setting_password_min_adhered_rules: "Mindestanzahl zu verwendender Zeichenklassen"
   setting_per_page_options: "Objekte pro Seite"
