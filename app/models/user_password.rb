@@ -24,6 +24,12 @@ class UserPassword < ActiveRecord::Base
                                 self.hashed_password)
   end
 
+  def expired?
+    days_valid = Setting.password_days_valid.to_i.days
+    return false if days_valid == 0
+    self.created_at < (Time.now - days_valid)
+  end
+
   # Returns a 128bits random salt as a hex string (32 chars long)
   def self.generate_salt
     SecureRandom.hex(16)

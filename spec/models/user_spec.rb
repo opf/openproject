@@ -157,6 +157,37 @@ describe User do
     it { @u.force_password_change.should be_true}
   end
 
+  describe :try_authentication_for_existing_user do
+    def build_user_double_with_expired_password(expired)
+      user_double = double('User')
+      user_double.stub(:check_password?) {true }
+      user_double.stub(:active?) { true }
+      user_double.stub(:auth_source) { nil }
+      user_double.stub(:force_password_change) { false }
+      user_double.stub(:check_password?) { true }
+
+      # check for expired password should always happen
+      user_double.should_receive(:password_expired?) { expired }
+
+      user_double
+    end
+
+    it 'should not allow login with an expired password' do
+      user_double = build_user_double_with_expired_password(true)
+
+      # use !! to ensure value is boolean
+      (!!User.try_authentication_for_existing_user(user_double, 'anypassword')).should \
+        == false
+    end
+    it 'should allow login with a not expired password' do
+      user_double = build_user_double_with_expired_password(false)
+
+      # use !! to ensure value is boolean
+      (!!User.try_authentication_for_existing_user(user_double, 'anypassword')).should \
+        == true
+    end
+  end
+
   describe '.system' do
     context 'no SystemUser exists' do
       before do
