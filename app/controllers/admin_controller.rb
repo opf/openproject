@@ -26,7 +26,7 @@ class AdminController < ApplicationController
   end
 
   def projects
-    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
+    @no_configuration_data = !Redmine::DefaultData::Loader.data_already_loaded?
 
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])

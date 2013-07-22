@@ -18,23 +18,45 @@ module Redmine
       include Redmine::I18n
 
       class << self
-        # Returns true if no data is already loaded in the database
-        # otherwise false
+        # Returns true if data is already loaded in the database
+        def data_already_loaded?
+          User.any? || Role.any? || Tracker.any? || IssueStatus.any? || Enumeration.any?
+        end
+
         def no_data?
-          !Role.find(:first, :conditions => {:builtin => 0}) &&
-            !Tracker.find(:first) &&
-            !IssueStatus.find(:first) &&
-            !Enumeration.find(:first)
+          !data_already_loaded?
         end
 
         # Loads the default data
         # Raises a RecordNotSaved exception if something goes wrong
         def load(lang=nil)
-          raise DataAlreadyLoaded.new("Some configuration data is already loaded.") unless no_data?
+          raise DataAlreadyLoaded.new("Some configuration data is already loaded. Use rake db:setup to recreate the vanilla database contents.") if data_already_loaded?
           set_language_if_valid(lang)
 
           Role.transaction do
+            # create default administrator account
+            User.create! do |admin|
+              admin.login = "admin"
+              admin.password = "adminadmin"
+              admin.password_confirmation = "adminadmin"
+              admin.admin = true
+              admin.firstname = "OpenProject"
+              admin.lastname = "Admin"
+              admin.mail = "admin@example.net"
+              admin.mail_notification = 'all'
+              admin.language = lang
+              admin.status = 1
+            end
+
             # Roles
+            nonmember = Role.new(:name => 'Non member', :position => 1)
+            nonmember.builtin = Role::BUILTIN_NON_MEMBER
+            nonmember.save!
+
+            anonymous = Role.new(:name => 'Anonymous', :position => 2)
+            anonymous.builtin = Role::BUILTIN_ANONYMOUS
+            anonymous.save!
+
             manager = Role.create! :name => l(:default_role_manager),
                                    :position => 1
             manager.permissions = manager.setable_permissions.collect {|p| p.name}

@@ -8,3 +8,5 @@ OpenProject::Application.load_tasks
 
 Rake::Task[:default].clear
 task :default => 'test:suite:run'
+
+Rake::Task['db:seed'].enhance ['redmine:load_default_data']

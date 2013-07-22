@@ -17,15 +17,23 @@ class DefaultDataTest < ActiveSupport::TestCase
   def setup
     super
     delete_loaded_data!
-    assert Redmine::DefaultData::Loader::no_data?
+    refute Redmine::DefaultData::Loader.data_already_loaded?
+  end
+
+  def test_data_already_loaded
+    Redmine::DefaultData::Loader.load
+    assert Redmine::DefaultData::Loader.data_already_loaded?
+
+    delete_loaded_data!
+    refute Redmine::DefaultData::Loader.data_already_loaded?
   end
 
   def test_no_data
-    Redmine::DefaultData::Loader::load
-    assert !Redmine::DefaultData::Loader::no_data?
+    Redmine::DefaultData::Loader.load
+    refute Redmine::DefaultData::Loader.no_data?
 
     delete_loaded_data!
-    assert Redmine::DefaultData::Loader::no_data?
+    assert Redmine::DefaultData::Loader.no_data?
   end
 
   def test_load
@@ -33,9 +41,9 @@ class DefaultDataTest < ActiveSupport::TestCase
       begin
         delete_loaded_data!
         assert Redmine::DefaultData::Loader::load(lang)
-        assert_not_nil DocumentCategory.first
-        assert_not_nil IssuePriority.first
-        assert_not_nil TimeEntryActivity.first
+        klasses.each do |klass|
+          assert klass.any?
+        end
       rescue ActiveRecord::RecordInvalid => e
         assert false, ":#{lang} default data is invalid (#{e.message})."
       end
@@ -45,9 +53,14 @@ class DefaultDataTest < ActiveSupport::TestCase
 private
 
   def delete_loaded_data!
-    Role.delete_all("builtin = 0")
-    Tracker.delete_all
-    IssueStatus.delete_all
-    Enumeration.delete_all
+    klasses.each(&:delete_all)
+  end
+
+  def klasses
+    [
+      User, Role, Tracker, IssueStatus,
+      Enumeration, Workflow, DocumentCategory,
+      IssuePriority, TimeEntryActivity
+    ]
   end
 end
