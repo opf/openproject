@@ -1,6 +1,7 @@
 # Changelog
 
 * `#1405` Incorrect message when trying to login with a permanently blocked account
+* `#1488` Fixes multiple and missing error messages on project settings' member tab (now with support for success messages)
 * `#1409` Changing pagination limit on members view looses members tab
 * `#1371` Changing pagination per_page_param does not change page
 * `#1314` Always set last activity timestamp and check session expiry if ttl-setting is enabled
