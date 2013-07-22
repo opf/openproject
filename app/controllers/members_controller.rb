@@ -55,24 +55,23 @@ JS
   end
 
   def update
-    if member = update_member_from_params and
-      member.save
+    member = update_member_from_params
+    member.save
 
-  	 respond_to do |format|
-        format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project, :page => params[:page] }
-        format.js {
-          render(:update) { |page|
-            if params[:membership]
-              @user = member.user
-              page.replace_html "tab-content-memberships", :partial => 'users/memberships'
-            else
-              page.replace_html "tab-content-members", :partial => 'projects/settings/members'
-            end
-            page << TAB_SCRIPTS
-            page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by_id(@member.id).nil?
-          }
+    respond_to do |format|
+      format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project, :page => params[:page] }
+      format.js {
+        render(:update) { |page|
+          if params[:membership]
+            @user = member.user
+            page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+          else
+            page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+          end
+          page << TAB_SCRIPTS
+          page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by_id(@member.id).nil?
         }
-      end
+      }
     end
   end
 
@@ -106,7 +105,7 @@ JS
     end
 
     respond_to do |format|
-      format.json 
+      format.json
       format.html {
         if request.xhr?
           partial = "members/autocomplete_for_member"
