@@ -48,11 +48,18 @@ end
 Given /^(?:|I )am [aA]dmin$/ do
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
-  login('admin', 'adminADMIN!')
+
+  admin = User.find{|u| u.admin}
+
+  login(admin.login, 'adminADMIN!')
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
-  user = User.find_by_login(login)
+  if login == 'admin'
+    user = User.find{|u| u.admin}
+  else
+    user = User.find_by_login(login)
+  end
   # see https://github.com/railsware/rack_session_access
   page.set_rack_session(:user_id => user.id)
 end
@@ -60,6 +67,11 @@ end
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
+
+  if username == 'admin'
+    username = User.find{|u| u.admin}.login
+  end
+
   login(username, 'adminADMIN!')
 end
 
