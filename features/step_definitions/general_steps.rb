@@ -360,10 +360,14 @@ Given /^I (?:stop|pause) (?:step )?execution$/ do
   end
 end
 
-When /^(?:|I )login as (.+)(?: with password (.+))?$/ do |username, password|
+When /^(?:|I )login as (.+?)(?: with password (.+))?$/ do |username, password|
   username = username.gsub("\"", "")
   password = password.nil? ? "adminADMIN!" : password.gsub("\"", "")
   login(username, password)
+end
+
+When "I logout" do
+  visit "/logout"
 end
 
 Then /^I should be logged in as "([^\"]*)"?$/ do |username|
@@ -371,6 +375,10 @@ Then /^I should be logged in as "([^\"]*)"?$/ do |username|
   page.should have_xpath("//div[contains(., 'Logged in as #{username}')] | //a[contains(.,'#{user.name}')]")
 
   User.current = user
+end
+
+Then "I should be logged out" do
+  page.should have_css("a.login")
 end
 
 When /^I satisfy the "(.+)" plugin to (.+)$/ do |plugin_name, action|
@@ -407,6 +415,10 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_na
       p.save!
     end
   end
+end
+
+When(/^I wait for "(.*?)" minutes$/) do |number_of_minutes|
+ page.set_rack_session(updated_at: Time.now - number_of_minutes.to_i.minutes)
 end
 
 def get_project(project_name = nil)

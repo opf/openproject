@@ -1,5 +1,14 @@
 # Changelog
 
+* `#1405` Incorrect message when trying to login with a permanently blocked account
+* `#1409` Changing pagination limit on members view looses members tab
+* `#1371` Changing pagination per_page_param does not change page
+* `#1314` Always set last activity timestamp and check session expiry if ttl-setting is enabled
+* `#1414` Remove start & due date requirement from planning elements
+
+## 3.0.0pre8
+
+* `#1420` Allow for seeing work package description changes inside of the page
 * `#1488` Fixes multiple and missing error messages on project settings' member tab
 * `#377`  Some usability fixes for members selection with select2
 * `#1406` Creating a work package w/o responsible or assignee results in 500
@@ -9,6 +18,7 @@
 
 ## 3.0.0pre7
 
+* `#820` Implement awesome nested set on work packages
 * `#1119` Creates a unified view for work_package show, new and create
 * `#780` Add password brute force prevention
 * `#1214` Fix pagination label and 'entries_per_page' setting

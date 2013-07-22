@@ -14,8 +14,11 @@ require_dependency 'journal_formatter/base'
 class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   # unloadable
 
-  def render(key, values, options = { :no_html => false })
-    render_ternary_detail_text(key, values.last, values.first, options[:no_html])
+  def render(key, values, options = { })
+    merge_options = { :only_path => true,
+                      :no_html => false }.merge(options)
+
+    render_ternary_detail_text(key, values.last, values.first, merge_options)
   end
 
   private
@@ -28,10 +31,10 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
       content_tag('strong', label)
   end
 
-  def render_ternary_detail_text(key, value, old_value, no_html)
-    link = link(key, no_html)
+  def render_ternary_detail_text(key, value, old_value, options)
+    link = link(key, options)
 
-    label = label(key, no_html)
+    label = label(key, options[:no_html])
 
     if value.blank?
       l(:text_journal_deleted_with_diff, :label => label, :link => link)
@@ -48,12 +51,12 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   # see: http://stackoverflow.com/questions/3659455/is-there-a-new-syntax-for-url-for-in-rails-3
   def controller; @controller; end
 
-  def link(key, no_html)
+  def link(key, options)
     url_attr = { :controller => '/journals',
                  :action => 'diff',
                  :id => @journal.id,
                  :field => key.downcase,
-                 :only_path => false,
+                 :only_path => options[:only_path],
                  :protocol => Setting.protocol,
     # the link params should better be defined with the
     # skip_relative_url_root => true
@@ -61,7 +64,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     # revise when on 3.2
                  :host => Setting.host_name.gsub(Redmine::Utils.relative_url_root.to_s, "") }
 
-    if no_html
+    if options[:no_html]
       url_for url_attr
     else
       link_to(l(:label_details),

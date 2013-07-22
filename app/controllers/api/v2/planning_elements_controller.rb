@@ -92,7 +92,7 @@ module Api
 
       def destroy
         @planning_element = @project.planning_elements.find(params[:id])
-        @planning_element.destroy!
+        @planning_element.destroy
 
         respond_to do |format|
           format.api
@@ -101,7 +101,7 @@ module Api
 
       def move_to_trash
         @planning_element = @planning_elements.find(params[:id])
-        @planning_element.destroy
+        @planning_element.trash
 
         respond_to do |format|
           format.api
