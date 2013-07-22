@@ -27,6 +27,10 @@ Then /^there should be a flash notice message$/ do
   should have_selector('.flash.notice')
 end
 
+Then /^the flash message should contain "([^"]*)"$/ do |message|
+  page.find(:css, '.flash > a').text.should include(message)
+end
+
 Then /^I should( not)? see (\d+) flash error message(s)?$/ do |negative, count, _|
   negative = !negative
   equal = page.all('.errorExplanation').count == count.to_i
