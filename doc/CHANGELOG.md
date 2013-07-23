@@ -1,5 +1,6 @@
 # Changelog
 
+* `#1517` Journal changed_data cannot contain the changes of a wiki_content content
 * `#779`  Integrate password expiration
 * `#1505` Removing all roles from a membership removes the project membership
 * `#1405` Incorrect message when trying to login with a permanently blocked account
