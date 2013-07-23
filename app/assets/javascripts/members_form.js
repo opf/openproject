@@ -1,7 +1,6 @@
 jQuery(document).ready(function($) {
-
-  $("#members_add_form").on("submit", function () {
-    var error = $('.errorExplanation');
+  $("#tab-content-members").submit('#members_add_form', function () {
+    var error = $('.errorExplanation, .flash');
     if (error) {
       error.remove();
     }
