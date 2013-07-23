@@ -368,3 +368,5 @@ Redmine::WikiFormatting.map do |format|
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler
+
+Redmine::AccessControl.available_project_modules << :activity
