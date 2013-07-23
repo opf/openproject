@@ -9,6 +9,7 @@ modify it under the terms of the GNU General Public License version 3.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<%= javascript_include_tag "members_form.js" %>
 
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
