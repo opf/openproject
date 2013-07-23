@@ -192,7 +192,7 @@ module IssuesHelper
 
   def issues_to_csv(issues, project = nil)
     decimal_separator = l(:general_csv_decimal_separator)
-    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [ "#",
                   Issue.human_attribute_name(:status),
