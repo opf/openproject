@@ -158,16 +158,15 @@ describe User do
   end
 
   describe :try_authentication_for_existing_user do
-    def build_user_double_with_expired_password(expired)
+    def build_user_double_with_expired_password(is_expired)
       user_double = double('User')
-      user_double.stub(:check_password?) {true }
+      user_double.stub(:check_password?) { true }
       user_double.stub(:active?) { true }
       user_double.stub(:auth_source) { nil }
       user_double.stub(:force_password_change) { false }
-      user_double.stub(:check_password?) { true }
 
       # check for expired password should always happen
-      user_double.should_receive(:password_expired?) { expired }
+      user_double.should_receive(:password_expired?) { is_expired }
 
       user_double
     end
