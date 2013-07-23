@@ -13,8 +13,11 @@
 class IssueCategory < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
-  belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
-  has_many :work_packages, :foreign_key => 'category_id', :dependent => :nullify
+  belongs_to :assigned_to, :class_name => 'User',
+                           :foreign_key => 'assigned_to_id'
+  has_many :work_packages, :class_name => 'WorkPackageData',
+                           :foreign_key => 'category_id',
+                           :dependent => :nullify
 
   attr_protected :project_id
 

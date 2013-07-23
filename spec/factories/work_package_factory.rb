@@ -10,7 +10,7 @@
 #++
 
 FactoryGirl.define do
-  factory :work_package do
+  factory :work_package, :class => 'WorkPackageData' do
     priority
     project :factory => :project_with_trackers
     sequence(:subject) { |n| "Issue No. #{n}" }

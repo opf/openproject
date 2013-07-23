@@ -19,18 +19,22 @@ module Redmine
       module ClassMethods
         def acts_as_customizable(options = {})
           return if self.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
-          cattr_accessor :customizable_options
-          self.customizable_options = options
+
           has_many :custom_values, :as => :customized,
                                    :include => :custom_field,
                                    :order => "#{CustomField.table_name}.position",
                                    :dependent => :delete_all
           before_validation { |customized| customized.custom_field_values if customized.new_record? }
           # Trigger validation only if custom values were changed
-          validates_associated :custom_values, :on => :update, :if => Proc.new { |customized| customized.custom_field_values_changed? }
+          validates_associated :custom_values, :on => :update,
+                                               :if => Proc.new { |customized| customized.custom_field_values_changed? }
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
           after_save :save_custom_field_values
+
+          self.class_eval("def self.custom_field_class_name
+                             '#{ options[:class_name] || "#{self.name}CustomField" }'
+                           end")
         end
       end
 
@@ -40,7 +44,7 @@ module Redmine
         end
 
         def available_custom_fields
-          CustomField.find(:all, :conditions => "type = '#{self.class.name}CustomField'",
+          CustomField.find(:all, :conditions => "type = '#{self.class.custom_field_class_name}'",
                                  :order => 'position')
         end
 

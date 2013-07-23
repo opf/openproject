@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class PlanningElement < WorkPackage
+class PlanningElement < WorkPackageData
   unloadable
 
   include ActiveModel::ForbiddenAttributesProtection

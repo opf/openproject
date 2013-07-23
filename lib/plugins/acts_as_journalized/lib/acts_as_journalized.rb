@@ -44,6 +44,8 @@ module Redmine
       end
 
       module ClassMethods
+        attr_reader :journalized_options
+
         attr_writer :journal_class_name
         def journal_class_name
           defined?(@journal_class_name) ? @journal_class_name : superclass.journal_class_name
@@ -71,6 +73,7 @@ module Redmine
         def acts_as_journalized(options = {}, &block)
           activity_hash, event_hash, journal_hash = split_option_hashes(options)
 
+          @journalized_options = journal_hash.dup
           self.journal_class_name = journal_hash.delete(:class_name) || "#{name.gsub("::", "_")}Journal"
 
           acts_as_activity(activity_hash)
@@ -98,7 +101,7 @@ module Redmine
 
           prepare_journaled_options(journal_hash)
 
-          has_many :journals, journal_hash, &block
+          has_many :journals, journals_association_options, &block
         end
 
         def journal_class
@@ -125,13 +128,23 @@ module Redmine
                 include_option = ", :include => :#{project_assoc.to_s}"
               end
               c.class_eval("belongs_to :journaled, :class_name => '#{name}' #{include_option}")
-              c.class_eval("belongs_to :#{name.gsub("::", "_").underscore},
-                  :foreign_key => 'journaled_id' #{include_option}")
+              c.class_eval("belongs_to :#{ journal_class_association_name },
+                                       :foreign_key => 'journaled_id' #{include_option}")
               c.class_eval("def self.journaled_class
                               #{self}
                             end")
             end
           end
+        end
+
+        def journal_class_association_name
+          @journalized_options[:journal_class_association_name] || name.gsub("::", "_").underscore
+        end
+
+        def journals_association_options
+          options = { :foreign_key => 'journaled_id' }
+          options.merge(@journalized_options)
+          options.reject{ |o| [:journal_class_association_name, :except].include?(o) }
         end
 
         private

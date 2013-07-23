@@ -79,7 +79,7 @@ module Redmine
             if !options[:titles_only] && searchable_options[:search_custom_fields]
               searchable_custom_field_ids = CustomField.find(:all,
                                                              :select => 'id',
-                                                             :conditions => { :type => "#{self.name}CustomField",
+                                                             :conditions => { :type => custom_field_class_name,
                                                                               :searchable => true }).collect(&:id)
               if searchable_custom_field_ids.any?
                 custom_field_sql = "#{table_name}.id IN (SELECT customized_id FROM #{CustomValue.table_name}" +

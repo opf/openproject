@@ -48,13 +48,13 @@ describe User, 'deletion' do
 
   shared_examples_for "updated journalized associated object" do
     before do
-      User.current = user2
+      User.stub!(:current).and_return(user2)
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user2)
       end
       associated_instance.save!
 
-      User.current = user # in order to have the content journal created by the user
+      User.stub!(:current).and_return(user) # in order to have the content journal created by the user
       associated_instance.reload
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user)
@@ -106,13 +106,13 @@ describe User, 'deletion' do
 
   shared_examples_for "created journalized associated object" do
     before do
-      User.current = user # in order to have the content journal created by the user
+      User.stub!(:current).and_return(user) # in order to have the content journal created by the user
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user)
       end
       associated_instance.save!
 
-      User.current = user2
+      User.stub!(:current).and_return(user2)
       associated_instance.reload
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user2)
@@ -178,12 +178,12 @@ describe User, 'deletion' do
     let(:associations) { [:author, :assigned_to] }
 
     before do
-      User.current = user2
+      User.stub!(:current).and_return(user2)
       associated_instance.author = user2
       associated_instance.assigned_to = user2
       associated_instance.save!
 
-      User.current = user # in order to have the content journal created by the user
+      User.stub!(:current).and_return(user) # in order to have the content journal created by the user
       associated_instance.reload
       associated_instance.author = user
       associated_instance.assigned_to = user
@@ -379,11 +379,11 @@ describe User, 'deletion' do
 
     before do
       Setting.enabled_scm = Setting.enabled_scm << "Filesystem"
-      User.current = user2
+      User.stub!(:current).and_return(user2)
       associated_instance.user = user2
       associated_instance.save!
 
-      User.current = user # in order to have the content journal created by the user
+      User.stub!(:current).and_return(user) # in order to have the content journal created by the user
       associated_instance.reload
       associated_instance.user = user
       associated_instance.save!

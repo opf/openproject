@@ -68,7 +68,7 @@ class WorkPackagesController < ApplicationController
   def create
     call_hook(:controller_work_package_new_before_save, { :params => params, :work_package => new_work_package })
 
-    WorkPackageObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
+    WorkPackageDataObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
 
     if new_work_package.save
       flash[:notice] = I18n.t(:notice_successful_create)

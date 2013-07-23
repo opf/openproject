@@ -348,7 +348,7 @@ Redmine::MenuManager.map :project_menu do |menu|
 end
 
 Redmine::Activity.map do |activity|
-  activity.register :work_packages, :class_name => 'WorkPackage'
+  activity.register :work_packages, :class_name => 'WorkPackageData'
   activity.register :changesets
   activity.register :news
   activity.register :documents, :class_name => %w(Document Attachment)

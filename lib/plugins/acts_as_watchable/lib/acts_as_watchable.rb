@@ -28,11 +28,6 @@ module Redmine
         #   DELETE:   issues/1/unwatch
         #   GET/POST: issues/1/watchers/new
         #   DELETE:   issues/1/watchers/1
-        # Use the :route_prefix option to change the model prefix, e.g. from issues to tickets
-        #
-        # params:
-        #   options:
-        #     route_prefix: overrides the route calculation which would normally use the models name.
 
         def acts_as_watchable(options = {})
           return if self.included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)

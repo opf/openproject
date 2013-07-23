@@ -45,7 +45,10 @@ class Project < ActiveRecord::Base
 
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
-  has_many :work_packages, :dependent => :destroy, :order => "#{WorkPackage.table_name}.created_at DESC", :include => [:status, :tracker]
+  has_many :work_packages, :class_name => 'WorkPackageData',
+                           :dependent => :destroy,
+                           :order => "#{WorkPackage.table_name}.created_at DESC",
+                           :include => [:status, :tracker]
   has_many :work_package_changes, :through => :work_packages, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
   has_many :time_entries, :dependent => :delete_all

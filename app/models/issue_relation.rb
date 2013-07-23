@@ -11,8 +11,8 @@
 #++
 
 class IssueRelation < ActiveRecord::Base
-  belongs_to :issue_from, :class_name => 'WorkPackage', :foreign_key => 'issue_from_id'
-  belongs_to :issue_to, :class_name => 'WorkPackage', :foreign_key => 'issue_to_id'
+  belongs_to :issue_from, :class_name => 'WorkPackageData', :foreign_key => 'issue_from_id'
+  belongs_to :issue_to, :class_name => 'WorkPackageData', :foreign_key => 'issue_to_id'
 
   scope :of_issue, ->(issue) { where('issue_from_id = ? OR issue_to_id = ?', issue, issue) }
 

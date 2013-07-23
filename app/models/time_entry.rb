@@ -15,7 +15,7 @@ class TimeEntry < ActiveRecord::Base
   # could have used polymorphic association
   # project association here allows easy loading of time entries at project level with one database trip
   belongs_to :project
-  belongs_to :work_package
+  belongs_to :work_package, :class_name => 'WorkPackageData'
   belongs_to :user
   belongs_to :activity, :class_name => 'TimeEntryActivity', :foreign_key => 'activity_id'
 

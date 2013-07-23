@@ -10,7 +10,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackageObserver < ActiveRecord::Observer
+class WorkPackageDataObserver < ActiveRecord::Observer
   attr_accessor :send_notification
 
   def after_create(issue)

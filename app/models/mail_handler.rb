@@ -403,7 +403,7 @@ class MailHandler < ActionMailer::Base
                  }
     if assignee.nil? && keyword.match(/ /)
       firstname, lastname = *(keyword.split) # "First Last Throwaway"
-      assignee ||= assignable.detect {|a| 
+      assignee ||= assignable.detect {|a|
                      a.is_a?(User) && a.firstname.to_s.downcase == firstname &&
                        a.lastname.to_s.downcase == lastname
                    }

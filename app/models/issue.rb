@@ -13,7 +13,7 @@
 # While loading the Issue class below, we lazy load the Project class. Which itself need Issue.
 # So we create an 'emtpy' Issue class first, to make Project happy.
 
-class Issue < WorkPackage
+class Issue < WorkPackageData
   include Redmine::SafeAttributes
 
   has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
