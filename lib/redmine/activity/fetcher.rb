@@ -40,7 +40,7 @@ module Redmine
                 p.activity_provider_options[o].try(:[], :permission)
               end.compact
               return @user.allowed_to?("view_#{o}".to_sym, @project) if permissions.blank?
-              permissions.all? {|p| @user.allowed_to?(p, @project) } if @project
+              permissions.all? {|p| @user.allowed_to?(p, @project) }
             end
           end
         end
