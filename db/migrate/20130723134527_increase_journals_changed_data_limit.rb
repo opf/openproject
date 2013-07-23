@@ -6,7 +6,7 @@ class IncreaseJournalsChangedDataLimit < ActiveRecord::Migration
     # previously resulted in journal changed_data having stricter
     # limitations than wiki contents.
 
-    max_size = 4294967295
+    max_size = 16.megabytes
 
     change_column :journals,
                   :changed_data,
