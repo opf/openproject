@@ -171,18 +171,25 @@ class AccountController < ApplicationController
   def password_authentication(username, password)
     user = User.try_to_login(username, password)
     if user.nil?
+      # login failed, now try to find out why and do the appropriate thing
       user = User.find_by_login(username)
       if user and user.check_password?(password)
+        # correct password
         if not user.active?
           return inactive_account if user.registered?
           invalid_credentials
         elsif user.force_password_change
           return if redirect_if_password_change_not_allowed(user)
-          render_force_password_change
+          render_password_change(I18n.t(:notice_account_new_password_forced))
+        elsif user.password_expired?
+          return if redirect_if_password_change_not_allowed(user)
+          render_password_change(I18n.t(:notice_account_password_expired,
+                                        :days => Setting.password_days_valid.to_i))
         else
           invalid_credentials
         end
       else
+        # incorrect password
         invalid_credentials
       end
     elsif user.new_record?
@@ -297,8 +304,8 @@ class AccountController < ApplicationController
     false
   end
 
-  def render_force_password_change
-    flash[:error] = l(:notice_account_new_password_forced)
+  def render_password_change(message)
+    flash[:error] = message
     @username = params[:username]
     render 'my/password'
   end
