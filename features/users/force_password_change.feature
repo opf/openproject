@@ -37,7 +37,7 @@ Feature: Forced Password Change
     And I should see "bob"
 
   Scenario: Setting forced password change for a user forces him to change password on next login
-    Given I am already logged in as "admin"
+    Given I am admin
     And I go to the edit page for the user called "bob"
     And I check "Enforce password change on next login"
     And I press "Save"

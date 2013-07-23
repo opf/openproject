@@ -18,7 +18,7 @@ Feature: Project Settings
 
   @javascript
   Scenario: Adding a Role to a Member
-    Given I am logged in as "admin"
+    Given I am admin
     When I go to the members tab of the settings page of the project "project1"
     When I click on "Edit" within "#member-1"
     And I check "beta" within "#member-1-roles-form"
@@ -28,7 +28,7 @@ Feature: Project Settings
 
 @javascript
   Scenario: Removing one Role from while adding another Role to a Member
-    Given I am logged in as "admin"
+    Given I am admin
     When I go to the members tab of the settings page of the project "project1"
     When I click on "Edit" within "#member-1"
     And I uncheck "alpha" within "#member-1-roles-form"
@@ -39,7 +39,7 @@ Feature: Project Settings
 
 @javascript
   Scenario: Removing the last Role of a Member
-    Given I am logged in as "admin"
+    Given I am admin
     When I go to the members tab of the settings page of the project "project1"
     When I click on "Edit" within "#member-1"
     And I uncheck "alpha" within "#member-1-roles-form"

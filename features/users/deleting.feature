@@ -54,7 +54,7 @@ Feature: User deletion
     Then there should not be a "Delete" entry in the action menu
 
   Scenario: Deletablilty settings can be set in the users tab of the settings
-    Given I am already logged in as "admin"
+    Given I am admin
     And the "users_deletable_by_admins" setting is set to false
     And the "users_deletable_by_self" setting is set to false
     And I go to the users tab of the settings page
