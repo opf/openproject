@@ -101,19 +101,19 @@ class WorkPackagesController < ApplicationController
   def new_work_package
     @new_work_package ||= begin
       params[:work_package] ||= {}
-      type = params[:type] || params[:work_package][:type] || 'Issue'
+      sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
 
       permitted = permitted_params.new_work_package(:project => project)
 
       permitted[:author] = current_user
 
-      wp = case type
+      wp = case sti_type
            when PlanningElement.to_s
              project.add_planning_element(permitted)
            when Issue.to_s
              project.add_issue(permitted)
            else
-             raise ArgumentError, "type #{ type } is not supported"
+             raise ArgumentError, "sti_type #{ sti_type } is not supported"
            end
 
        wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
