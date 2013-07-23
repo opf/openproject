@@ -342,7 +342,7 @@ describe WorkPackagesController do
   describe :new_work_package do
     describe 'when the type is "PlanningElement"' do
       before do
-        controller.params = { :type => 'PlanningElement',
+        controller.params = { :sti_type => 'PlanningElement',
                               :work_package => {} }
         controller.stub!(:project).and_return(project)
         controller.stub!(:current_user).and_return(stub_user)
@@ -368,7 +368,7 @@ describe WorkPackagesController do
 
     describe 'when the type is "Issue"' do
       before do
-        controller.params = { :type => 'Issue',
+        controller.params = { :sti_type => 'Issue',
                               :work_package => {} }
 
         controller.stub!(:project).and_return(project)
@@ -395,7 +395,7 @@ describe WorkPackagesController do
 
     describe 'when the type is "Project"' do
       it "should raise not allowed" do
-        controller.params = { :type => 'Project' }
+        controller.params = { :sti_type => 'Project' }
 
         expect { controller.new_work_package }.to raise_error ArgumentError
       end
