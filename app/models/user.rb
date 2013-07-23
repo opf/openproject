@@ -156,6 +156,10 @@ class User < Principal
     self.passwords.first
   end
 
+  def password_expired?
+    current_password.expired?
+  end
+
   # create new password if password was set
   def update_password
     if password && auth_source_id.blank?
@@ -241,6 +245,7 @@ class User < Principal
       # authentication with local password
       return nil unless user.check_password?(password)
       return nil if user.force_password_change
+      return nil if user.password_expired?
     end
     user
   end

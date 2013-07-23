@@ -977,6 +977,7 @@ en:
   notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
   notice_account_new_password_forced: "A new password is required."
+  notice_account_password_expired: "Your password expired after %{days} days. Please set a new one."
   notice_account_password_updated: "Password was successfully updated."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_account_register_done: "Account was successfully created. To activate your account, click on the link that was emailed to you."

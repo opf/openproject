@@ -1,5 +1,6 @@
 # Changelog
 
+* `#779`  Integrate password expiration
 * `#1505` Removing all roles from a membership removes the project membership
 * `#1405` Incorrect message when trying to login with a permanently blocked account
 * `#1488` Fixes multiple and missing error messages on project settings' member tab (now with support for success messages)
