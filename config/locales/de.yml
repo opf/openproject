@@ -424,7 +424,12 @@ de:
 
   description_active: "Aktiv?"
   description_attachment_toggle: "Dateien aus/einblenden"
-  description_autocomplete: "Für dieses Feld werden Sie mit einer Autovervollständigung unterstützt. Sie können einen Teil des Tickettitels schreiben und bekommen eine Liste von möglichen Tickets angezeigt. Wählen Sie mit den Pfeiltasten den gewünschten Eintrag und bestätigen Sie mit Tab oder Enter. Sie können aber auch die Ticketnummer direkt eintragen."
+  description_autocomplete: >
+    Für dieses Feld werden Sie mit einer Autovervollständigung
+    unterstützt. Sie können einen Teil des Tickettitels schreiben und
+    bekommen eine Liste von möglichen Tickets angezeigt. Wählen Sie mit
+    den Pfeiltasten den gewünschten Eintrag und bestätigen Sie mit Tab
+    oder Enter. Sie können aber auch die Ticketnummer direkt eintragen."
   description_available_columns: "Verfügbare Spalten"
   description_choose_project: "Projekte"
   description_compare_from: "Vergleiche von Version"
@@ -1274,7 +1279,10 @@ de:
   text_line_separated: "Mehrere Werte sind erlaubt (eine Zeile pro Wert)."
   text_load_default_configuration: "Standard-Konfiguration laden"
   text_min_max_length_info: "0 heißt keine Beschränkung"
-  text_no_configuration_data: "Rollen, Typ, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie sie abändern."
+  text_no_configuration_data: >
+    Rollen, Typ, Ticket-Status und Workflows wurden noch nicht
+    konfiguriert. Es ist sehr zu empfehlen, die Standard-Konfiguration
+    zu laden. Sobald sie geladen ist, können Sie sie abändern.
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
   text_plugin_assets_writable: "Verzeichnis für Plugin-Assets beschreibbar"
   text_powered_by: "Powered by %{link}"
