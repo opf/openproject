@@ -46,14 +46,33 @@ class WorkPackagesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html
-      format.js { render :partial => 'show'}
+      format.html { render :locals => { :work_package => work_package,
+                                        :project => project,
+                                        :priorities => priorities,
+                                        :user => current_user,
+                                        :ancestors => ancestors,
+                                        :descendants => descendants,
+                                        :changesets => changesets,
+                                        :relations => relations,
+                                        :journals => journals } }
+      format.js { render :partial => 'show', :locals => { :work_package => work_package,
+                                                          :project => project,
+                                                          :priorities => priorities,
+                                                          :user => current_user,
+                                                          :ancestors => ancestors,
+                                                          :descendants => descendants,
+                                                          :changesets => changesets,
+                                                          :relations => relations,
+                                                          :journals => journals } }
     end
   end
 
   def new
     respond_to do |format|
-      format.html
+      format.html { render :locals => { :work_package => new_work_package,
+                                        :project => project,
+                                        :priorities => priorities,
+                                        :user => current_user } }
     end
   end
 
@@ -61,7 +80,8 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.js { render :locals => { :work_package => new_work_package,
                                       :project => project,
-                                      :priorities => priorities } }
+                                      :priorities => priorities,
+                                      :user => current_user } }
     end
   end
 
