@@ -82,7 +82,13 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def new_work_package(args = {})
-    permitted = permitted_attributes(args)
+    permitted = permitted_attributes(:new_work_package, args)
+
+    params[:work_package].permit(*permitted)
+  end
+
+  def update_work_package
+    permitted = permitted_attributes(:new_work_package)
 
     params[:work_package].permit(*permitted)
   end
@@ -120,8 +126,8 @@ class PermittedParams < Struct.new(:params, :user)
 
   protected
 
-  def permitted_attributes(args)
-    merged_args = { :user => user }.merge(args)
+  def permitted_attributes(key, additions = {})
+    merged_args = { :user => user }.merge(additions)
 
     self.class.permitted_attributes[:new_work_package].map do |permission|
       if permission.respond_to?(:call)

@@ -411,6 +411,136 @@ describe PermittedParams do
     end
   end
 
+  describe :update_work_package do
+    it "should permit subject" do
+      hash = { "subject" => "blubs" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit description" do
+      hash = { "description" => "blubs" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit start_date" do
+      hash = { "start_date" => "2013-07-08" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit due_date" do
+      hash = { "due_date" => "2013-07-08" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit assigned_to_id" do
+      hash = { "assigned_to_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit responsible_id" do
+      hash = { "responsible_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit type_id" do
+      hash = { "type_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit planning_element_type_id" do
+      hash = { "planning_element_type_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit prioritiy_id" do
+      hash = { "priority_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit parent_issue_id" do
+      hash = { "parent_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit parent_issue_id" do
+      hash = { "parent_issue_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit fixed_version_id" do
+      hash = { "fixed_version_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit estimated_hours" do
+      hash = { "estimated_hours" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit done_ratio" do
+      hash = { "done_ratio" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit status_id" do
+      hash = { "status_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit category_id" do
+      hash = { "category_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+  end
+
   describe :user do
     admin_permissions = ['firstname',
                          'lastname',
