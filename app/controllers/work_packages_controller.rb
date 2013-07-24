@@ -93,7 +93,8 @@ class WorkPackagesController < ApplicationController
                             :allowed_statuses => allowed_statuses,
                             :project => project,
                             :priorities => priorities,
-                            :time_entry => time_entry }
+                            :time_entry => time_entry,
+                            :user => current_user }
       end
     end
   end

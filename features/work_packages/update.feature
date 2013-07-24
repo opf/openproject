@@ -36,6 +36,7 @@ Feature: Updating work packages
       | Estimated time | 5.00        |
       | % done         | 30 %        |
       | Priority       | prio2       |
+      | Status         | status2     |
     And I submit the form by the "Submit" button
 
     Then I should be on the page of the work package "pe1"
@@ -47,3 +48,4 @@ Feature: Updating work packages
       | Estimated time | 5.00        |
       | % done         | 30          |
       | Priority       | prio2       |
+      | Status         | status2     |

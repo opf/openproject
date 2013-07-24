@@ -14,6 +14,7 @@ require 'spec_helper'
 describe WorkPackagesHelper do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:planning_element) }
   let(:form) { double('form', :select => "").as_null_object }
+  let(:stub_user) { FactoryGirl.build_stubbed(:user) }
 
   def inside_form &block
     ret = ''
@@ -130,6 +131,57 @@ describe WorkPackagesHelper do
 
     it "should return the result inside the field" do
       helper.work_package_form_custom_values_attribute(form, stub_work_package, {}).first.field.should == expected
+    end
+  end
+
+  describe :work_package_form_status_attribute do
+    let(:status1) { FactoryGirl.build_stubbed(:issue_status) }
+    let(:status2) { FactoryGirl.build_stubbed(:issue_status) }
+
+    it "should return a select with every available status as an option" do
+      stub_work_package.stub!(:new_statuses_allowed_to)
+                       .with(stub_user, true)
+                       .and_return([status1, status2])
+
+      stub_work_package.status = status1
+
+      attribute = inside_form do |f|
+        helper.work_package_form_status_attribute(f, stub_work_package, :user => stub_user)
+      end
+
+      status1_selector = "select#work_package_status_id option[@value='#{status1.id}'][@selected='selected']"
+      status2_selector = "select#work_package_status_id option[@value='#{status1.id}']"
+
+      attribute.field.should have_selector(status1_selector)
+      attribute.field.should have_selector(status2_selector)
+    end
+
+    it "should return a label and the name of the current status if no new status is available" do
+      stub_work_package.stub!(:new_statuses_allowed_to)
+                       .with(stub_user, true)
+                       .and_return([])
+
+      stub_work_package.status = status1
+
+      attribute = inside_form do |f|
+        helper.work_package_form_status_attribute(f, stub_work_package, :user => stub_user)
+      end
+
+      attribute.field.should have_text(WorkPackage.human_attribute_name(:status))
+      attribute.field.should have_text(status1.name)
+    end
+
+    it "should return a label and a '-' if the work_package has no status" do
+      stub_work_package.stub!(:new_statuses_allowed_to)
+                       .with(stub_user, true)
+                       .and_return([])
+
+      attribute = inside_form do |f|
+        helper.work_package_form_status_attribute(f, stub_work_package, :user => stub_user)
+      end
+
+      attribute.field.should have_text(WorkPackage.human_attribute_name(:status))
+      attribute.field.should have_text("-")
     end
   end
 end
