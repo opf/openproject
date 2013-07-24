@@ -265,6 +265,12 @@ class WorkPackage < ActiveRecord::Base
     self.status.nil? || self.status.is_closed?
   end
 
+  # TODO: move into Business Object and rename to update
+  # update for now is a private method defined by AR
+  def update_with(attributes)
+    update_attributes(attributes)
+  end
+
   def recalculate_attributes_for(work_package_id)
     if work_package_id.is_a? WorkPackage
       p = work_package_id

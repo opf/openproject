@@ -16,6 +16,8 @@ describe WorkPackage do
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
   let(:stub_version) { FactoryGirl.build_stubbed(:version) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
+  let(:issue) { FactoryGirl.create(:issue) }
+  let(:planning_element) { FactoryGirl.create(:planning_element).reload }
 
   describe :assignable_users do
     it 'should return all users the project deems to be assignable' do
@@ -105,6 +107,26 @@ describe WorkPackage do
 
     it "should return an usaved entry" do
       stub_work_package.add_time_entry.should be_new_record
+    end
+  end
+
+  describe :update_with do
+    #TODO remove once only WP exists
+    [:issue, :planning_element].each do |subclass|
+
+      describe "for #{subclass}" do
+        let(:instance) { send(subclass) }
+
+        it "should return true" do
+          instance.update_with({}).should be_true
+        end
+
+        it "should set the values" do
+          instance.update_with({ :subject => "New subject" })
+
+          instance.subject.should == "New subject"
+        end
+      end
     end
   end
 end
