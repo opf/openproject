@@ -31,16 +31,16 @@ Then /^I should not see(?: (\d+))? ([^\" ]+)(?: within "([^\"]*)")?$/ do |number
   end
 end
 
-Given /^the [pP]roject(?: "([^\"]+?)")? uses the following trackers:$/ do |project, table|
+Given /^the [pP]roject(?: "([^\"]+?)")? uses the following types:$/ do |project, table|
   project = get_project(project)
 
-  trackers = table.raw.map do |line|
+  types = table.raw.map do |line|
     name = line.first
-    tracker = Tracker.find_by_name(name)
+    type = Type.find_by_name(name)
 
-    tracker = FactoryGirl.create(:tracker, :name => name) if tracker.blank?
-    tracker
+    type = FactoryGirl.create(:type, :name => name) if type.blank?
+    type
   end
 
-  project.update_attributes :tracker_ids => trackers.map(&:id).map(&:to_s)
+  project.update_attributes :type_ids => types.map(&:id).map(&:to_s)
 end

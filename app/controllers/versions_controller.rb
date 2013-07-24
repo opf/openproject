@@ -20,8 +20,8 @@ class VersionsController < ApplicationController
 
 
   def index
-    @trackers = @project.trackers.find(:all, :order => 'position')
-    retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
+    @types = @project.types.find(:all, :order => 'position')
+    retrieve_selected_type_ids(@types, @types.select {|t| t.is_in_roadmap?})
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects].to_i == 1)
     project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
 
@@ -31,12 +31,12 @@ class VersionsController < ApplicationController
     @versions.reject! {|version| version.closed? || version.completed? } unless params[:completed]
 
     @issues_by_version = {}
-    unless @selected_tracker_ids.empty?
+    unless @selected_type_ids.empty?
       @versions.each do |version|
         issues = version.fixed_issues.visible.find(:all,
-                                                   :include => [:project, :status, :tracker, :priority],
-                                                   :conditions => {:tracker_id => @selected_tracker_ids, :project_id => project_ids},
-                                                   :order => "#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id")
+                                                   :include => [:project, :status, :type, :priority],
+                                                   :conditions => {:type_id => @selected_type_ids, :project_id => project_ids},
+                                                   :order => "#{Project.table_name}.lft, #{Type.table_name}.position, #{Issue.table_name}.id")
         @issues_by_version[version] = issues
       end
     end
@@ -45,8 +45,8 @@ class VersionsController < ApplicationController
 
   def show
     @issues = @version.fixed_issues.visible.find(:all,
-      :include => [:status, :tracker, :priority],
-      :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id")
+      :include => [:status, :type, :priority],
+      :order => "#{Type.table_name}.position, #{Issue.table_name}.id")
   end
 
   def new
@@ -142,11 +142,11 @@ private
     render_404
   end
 
-  def retrieve_selected_tracker_ids(selectable_trackers, default_trackers=nil)
-    if ids = params[:tracker_ids]
-      @selected_tracker_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
+  def retrieve_selected_type_ids(selectable_types, default_types=nil)
+    if ids = params[:type_ids]
+      @selected_type_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
     else
-      @selected_tracker_ids = (default_trackers || selectable_trackers).collect {|t| t.id.to_s }
+      @selected_type_ids = (default_types || selectable_types).collect {|t| t.id.to_s }
     end
   end
 

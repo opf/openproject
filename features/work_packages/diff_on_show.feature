@@ -16,7 +16,7 @@ Feature: Having an inline diff view for work package description changes
       | name        | parent      |
       | identifier  | parent      |
     And I am working in project "parent"
-    And the project "parent" has the following trackers:
+    And the project "parent" has the following types:
       | name | position |
       | Bug  |     1    |
     And there is a default issuepriority with:

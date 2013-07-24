@@ -14,14 +14,14 @@ Feature: Activities
   Background:
     Given there is 1 project with the following:
       | Name | project1 |
-    And the project "project1" has the following trackers:
+    And the project "project1" has the following types:
       | name | position |
       | Bug  |     1    |
     And the project "project1" has 1 issue with the following:
       |  subject | issue1 |
     And there is 1 project with the following:
       | Name | project2 |
-    And the project "project2" has the following trackers:
+    And the project "project2" has the following types:
       | name | position |
       | Bug  |     1    |
     And the project "project2" does not use the following modules:

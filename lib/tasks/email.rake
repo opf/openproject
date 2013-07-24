@@ -29,7 +29,7 @@ General options:
 Issue attributes control options:
   project=PROJECT          identifier of the target project
   status=STATUS            name of the target status
-  tracker=TRACKER          name of the target tracker
+  type=TYPE                name of the target type
   category=CATEGORY        name of the target category
   priority=PRIORITY        name of the target priority
   allow_override=ATTRS     allow email content to override attributes
@@ -49,18 +49,18 @@ Examples:
   # No project specified. Emails MUST contain the 'Project' keyword:
   rake redmine:email:read RAILS_ENV="production" < raw_email
 
-  # Fixed project and default tracker specified, but emails can override
-  # both tracker and priority attributes:
+  # Fixed project and default type specified, but emails can override
+  # both type and priority attributes:
   rake redmine:email:read RAILS_ENV="production" \\
                   project=foo \\
-                  tracker=bug \\
-                  allow_override=tracker,priority < raw_email
+                  type=bug \\
+                  allow_override=type,priority < raw_email
 END_DESC
 
     task :read => :environment do
       options = { :issue => {} }
       default_fields = (ENV['default_fields'] || "").split
-      default_fields |= %w[project status tracker category priority fixed_version]
+      default_fields |= %w[project status type category priority fixed_version]
       default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
@@ -93,7 +93,7 @@ Available IMAP options:
 Issue attributes control options:
   project=PROJECT          identifier of the target project
   status=STATUS            name of the target status
-  tracker=TRACKER          name of the target tracker
+  type=TYPE                name of the target type
   category=CATEGORY        name of the target category
   priority=PRIORITY        name of the target priority
   allow_override=ATTRS     allow email content to override attributes
@@ -121,14 +121,14 @@ Examples:
     host=imap.foo.bar username=redmine@example.net password=xxx
 
 
-  # Fixed project and default tracker specified, but emails can override
-  # both tracker and priority attributes:
+  # Fixed project and default type specified, but emails can override
+  # both type and priority attributes:
 
   rake redmine:email:receive_iamp RAILS_ENV="production" \\
     host=imap.foo.bar username=redmine@example.net password=xxx ssl=1 \\
     project=foo \\
-    tracker=bug \\
-    allow_override=tracker,priority
+    type=bug \\
+    allow_override=type,priority
 END_DESC
 
     task :receive_imap => :environment do
@@ -143,7 +143,7 @@ END_DESC
 
       options = { :issue => {} }
       default_fields = (ENV['default_fields'] || "").split
-      default_fields |= %w[project status tracker category priority fixed_version]
+      default_fields |= %w[project status type category priority fixed_version]
       default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
@@ -179,7 +179,7 @@ END_DESC
 
       options = { :issue => {} }
       default_fields = (ENV['default_fields'] || "").split
-      default_fields |= %w[project status tracker category priority fixed_version]
+      default_fields |= %w[project status type category priority fixed_version]
       default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']

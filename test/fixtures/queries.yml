@@ -28,7 +28,7 @@ queries_002:
   name: Private query for cookbook
   filters: |
     ---
-    tracker_id:
+    type_id:
       :values:
       - "3"
       :operator: "="
@@ -46,7 +46,7 @@ queries_003:
   name: Private query for all projects
   filters: |
     ---
-    tracker_id:
+    type_id:
       :values:
       - "3"
       :operator: "="
@@ -60,7 +60,7 @@ queries_004:
   name: Public query for all projects
   filters: |
     ---
-    tracker_id:
+    type_id:
       :values:
       - "3"
       :operator: "="
@@ -71,7 +71,7 @@ queries_005:
   id: 5
   project_id:
   is_public: true
-  name: Open issues by priority and tracker
+  name: Open issues by priority and type
   filters: |
     ---
     status_id:
@@ -85,13 +85,13 @@ queries_005:
     ---
     - - priority
       - desc
-    - - tracker
+    - - type
       - asc
 queries_006:
   id: 6
   project_id:
   is_public: true
-  name: Open issues grouped by tracker
+  name: Open issues grouped by type
   filters: |
     ---
     status_id:
@@ -101,7 +101,7 @@ queries_006:
 
   user_id: 1
   column_names:
-  group_by: tracker
+  group_by: type
   sort_criteria: |
     ---
     - - priority
@@ -113,7 +113,7 @@ queries_007:
   name: Public query for project 2
   filters: |
     ---
-    tracker_id:
+    type_id:
       :values:
       - "3"
       :operator: "="
@@ -127,7 +127,7 @@ queries_008:
   name: Private query for project 2
   filters: |
     ---
-    tracker_id:
+    type_id:
       :values:
       - "3"
       :operator: "="

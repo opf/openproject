@@ -97,13 +97,13 @@ class QueriesControllerTest < ActionController::TestCase
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["me"], "status_id" => ["1"]},
          :query => {"name" => "test_new_global_private_query", "is_public" => "1"},
-         :c => ["", "tracker", "subject", "priority", "category"]
+         :c => ["", "type", "subject", "priority", "category"]
 
     q = Query.find_by_name('test_new_global_private_query')
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => nil, :query_id => q
     assert !q.is_public?
     assert !q.has_default_columns?
-    assert_equal [:tracker, :subject, :priority, :category], q.columns.collect {|c| c.name}
+    assert_equal [:type, :subject, :priority, :category], q.columns.collect {|c| c.name}
     assert q.valid?
   end
 
@@ -116,11 +116,11 @@ class QueriesControllerTest < ActionController::TestCase
          :values => {"status_id" => ["1"]},
          :query => {:name => "test_new_with_sort",
                     :is_public => "1",
-                    :sort_criteria => {"0" => ["due_date", "desc"], "1" => ["tracker", ""]}}
+                    :sort_criteria => {"0" => ["due_date", "desc"], "1" => ["type", ""]}}
 
     query = Query.find_by_name("test_new_with_sort")
     assert_not_nil query
-    assert_equal [['due_date', 'desc'], ['tracker', 'asc']], query.sort_criteria
+    assert_equal [['due_date', 'desc'], ['type', 'asc']], query.sort_criteria
   end
 
   def test_get_edit_global_public_query

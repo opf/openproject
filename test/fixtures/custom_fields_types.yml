@@ -1,0 +1,19 @@
+---
+custom_fields_types_001:
+  custom_field_id: 1
+  type_id: 1
+custom_fields_types_002:
+  custom_field_id: 2
+  type_id: 1
+custom_fields_types_003:
+  custom_field_id: 2
+  type_id: 3
+custom_fields_types_004:
+  custom_field_id: 6
+  type_id: 1
+custom_fields_types_005:
+  custom_field_id: 6
+  type_id: 2
+custom_fields_types_006:
+  custom_field_id: 6
+  type_id: 3
