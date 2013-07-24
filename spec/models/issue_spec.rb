@@ -124,4 +124,35 @@ describe Issue do
       sink.project_id.should == orig_project_id
     end
   end
+
+  describe 'custom fields' do
+    it 'should not duplicate error messages when invalid' do
+      cf1 = FactoryGirl.create(:issue_custom_field, :is_required => true)
+      cf2 = FactoryGirl.create(:issue_custom_field, :is_required => true)
+
+      # create issue with one required custom field
+      issue = FactoryGirl.create :issue
+      issue.project.work_package_custom_fields << cf1
+      issue.tracker.custom_fields << cf1
+
+      # set that custom field with a value, should be fine
+      issue.custom_field_values = {cf1.id => 'test'}
+      issue.save!; issue.reload
+
+      # is it fine?
+      expect(issue).to be_valid
+
+      # now give the issue another required custom field, but don't assign a value
+      issue.project.work_package_custom_fields << cf2
+      issue.tracker.custom_fields << cf2
+      issue.custom_field_values # #custom_field_values needs to be touched
+
+      # that should not be valid
+      expect(issue).to_not be_valid
+
+      # assert that there is only one error
+      expect(issue.errors.size).to eq 1
+      expect(issue.errors_on(:custom_values).size).to eq 1
+    end
+  end
 end

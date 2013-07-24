@@ -22,7 +22,7 @@ FactoryGirl.define do
     visible true
     field_format "bool"
 
-    factory :user_custom_field do
+    factory :user_custom_field, :class => UserCustomField do
       sequence(:name) { |n| "User Custom Field #{n}" }
       type "UserCustomField"
 
@@ -63,7 +63,7 @@ FactoryGirl.define do
       end
     end
 
-    factory :issue_custom_field do
+    factory :issue_custom_field, :class => WorkPackageCustomField do
       sequence(:name) { |n| "Issue Custom Field #{n}" }
       type "WorkPackageCustomField"
 

@@ -263,7 +263,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_rebuild_should_sort_children_alphabetically
-    ProjectCustomField.delete_all
+    CustomField.destroy_all
     parent = Project.create!(:name => 'Parent', :identifier => 'parent')
     Project.create!(:name => 'Project C', :identifier => 'project-c').move_to_child_of(parent)
     Project.create!(:name => 'Project B', :identifier => 'project-b').move_to_child_of(parent)

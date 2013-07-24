@@ -758,8 +758,6 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_journalized_description
-    WorkPackageCustomField.delete_all
-
     i = Issue.first
     old_description = i.description
     new_description = "This is the new description"
