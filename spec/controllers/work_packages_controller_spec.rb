@@ -367,6 +367,48 @@ describe WorkPackagesController do
     end
   end
 
+  describe 'update.html' do
+    describe 'w/o being a member' do
+      before do
+        put 'update'
+      end
+
+      it 'should return 404 Not Found' do
+        response.response_code.should == 404
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions
+              w/ a valid wp id
+              w/ having an successful save' do
+      let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+      let(:params) { { :id => planning_element.id, :work_package => wp_params } }
+
+      become_member_with_permissions [:edit_work_packages]
+
+      before do
+        controller.stub!(:work_package).and_return(planning_element)
+        controller.send(:permitted_params).should_receive(:update_work_package).and_return(wp_params)
+        planning_element.should_receive(:update_with).with(wp_params).and_return(true)
+      end
+
+      it 'redirect to show' do
+        put 'update', params
+
+        response.should redirect_to(work_package_path(planning_element))
+      end
+
+      it 'should show a flash message' do
+        disable_flash_sweep
+
+        put 'update', params
+
+        flash[:notice].should == I18n.t(:notice_successful_update)
+      end
+    end
+  end
+
   describe :work_package do
     describe 'when beeing allowed to see the work_package' do
       become_member_with_view_planning_element_permissions

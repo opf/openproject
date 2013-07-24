@@ -11,11 +11,9 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% edit_allowed = current_user.allowed_to?(:edit_work_packages, project) %>
-<%# this is only temporary until work_package#update exists %>
-<% update_path = work_package.is_a?(Issue) ? issue_path(work_package) : project_planning_element_path(work_package, project) %>
 
 <%= labelled_tabular_form_for work_package,
-                              :url => update_path,
+                              :url => work_package_path(work_package),
                               # TODO: remove once Issue == PlanningElement
                               :as => 'work_package',
                               :html => {

@@ -34,7 +34,7 @@ class WorkPackagesController < ApplicationController
   model_object WorkPackage
 
   before_filter :disable_api
-  before_filter :find_model_object_and_project, :only => [:show, :edit]
+  before_filter :find_model_object_and_project, :only => [:show, :edit, :update]
   before_filter :find_project_by_project_id, :only => [:new, :new_type, :create]
   before_filter :authorize,
                 :assign_planning_elements
@@ -96,6 +96,13 @@ class WorkPackagesController < ApplicationController
                             :time_entry => time_entry }
       end
     end
+  end
+
+  def update
+    work_package.update_with(permitted_params.update_work_package)
+    flash[:notice] = l(:notice_successful_update)
+
+    redirect_to :action => 'show'
   end
 
   def work_package
