@@ -22,3 +22,15 @@ Given /^there is a(?:n)? (default )?issuepriority with:$/ do |default, table|
     prio.project = project
   end.save!
 end
+
+Given /^there are the following priorities:$/ do |table|
+  table.hashes.each do |row|
+    project = get_project
+
+    FactoryGirl.build(:priority).tap do |prio|
+      prio.name = row[:name]
+      prio.is_default = row[:default] == "true"
+      prio.project = project
+    end.save!
+  end
+end
