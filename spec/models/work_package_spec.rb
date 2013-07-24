@@ -133,6 +133,17 @@ describe WorkPackage do
 
           instance.journals.last.notes.should == "blubs"
         end
+
+        it "should attach an attachment" do
+          raw_attachments = [double('attachment')]
+          attachment = FactoryGirl.build(:attachment)
+
+          Attachment.should_receive(:attach_files)
+                    .with(instance, raw_attachments)
+                    .and_return(attachment)
+
+          instance.update_by(user, { :attachments => raw_attachments })
+        end
       end
     end
   end

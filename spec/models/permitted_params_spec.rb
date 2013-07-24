@@ -547,6 +547,14 @@ describe PermittedParams do
 
       PermittedParams.new(params, user).update_work_package.should == hash
     end
+
+    it "should permit attachments" do
+      hash = { "attachments" => [{ "file" => "djskfj", "description" => "desc" }] }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
   end
 
   describe :user do

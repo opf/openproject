@@ -80,7 +80,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <a href="javascript:"><%=l(:label_attachment_plural)%></a>
       </legend>
       <div style="display: none;">
-      <%= render :partial => 'attachments/form' %>
+        <%= render :partial => 'attachments/nested_form',
+                   :locals => { :f => f } %>
       </div>
     </fieldset>
 

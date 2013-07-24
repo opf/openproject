@@ -270,7 +270,11 @@ class WorkPackage < ActiveRecord::Base
   def update_by(user, attributes)
     init_journal(user, attributes.delete(:notes)) if attributes[:notes]
 
-    update_attributes(attributes)
+    raw_attachments = attributes.delete(:attachments)
+
+    if update_attributes(attributes)
+      attachments = Attachment.attach_files(self, raw_attachments)
+    end
   end
 
   def recalculate_attributes_for(work_package_id)
