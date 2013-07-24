@@ -281,14 +281,14 @@ Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject with the following:$/ do |
   p.save!
 end
 
-Given /^there are the following trackers:$/ do |table|
+Given /^there are the following types:$/ do |table|
 
   table.hashes.each_with_index do |t, i|
-    tracker = Tracker.find_by_name(t['name'])
-    tracker = Tracker.new :name => t['name'] if tracker.nil?
-    tracker.position = t['position'] ? t['position'] : i
-    tracker.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
-    tracker.save!
+    type = Type.find_by_name(t['name'])
+    type = Type.new :name => t['name'] if type.nil?
+    type.position = t['position'] ? t['position'] : i
+    type.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
+    type.save!
   end
 end
 
@@ -305,15 +305,15 @@ Given /^there are the following issue status:$/ do |table|
   end
 end
 
-Given /^the tracker "(.+?)" has the default workflow for the role "(.+?)"$/ do |tracker_name, role_name|
+Given /^the type "(.+?)" has the default workflow for the role "(.+?)"$/ do |type_name, role_name|
   role = Role.find_by_name(role_name)
-  tracker = Tracker.find_by_name(tracker_name)
-  tracker.workflows = []
+  type = Type.find_by_name(type_name)
+  type.workflows = []
 
   IssueStatus.all(:order => "id ASC").collect(&:id).combination(2).each do |c|
-    tracker.workflows.build(:old_status_id => c[0], :new_status_id => c[1], :role => role)
+    type.workflows.build(:old_status_id => c[0], :new_status_id => c[1], :role => role)
   end
-  tracker.save!
+  type.save!
 end
 
 
@@ -409,16 +409,16 @@ Given /^the user "(.*?)" is a "([^\"]*?)"$/ do |user, role|
   step %Q{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
 end
 
-Given /^the [pP]roject(?: "([^\"]*)")? has the following trackers:$/ do |project_name, table|
+Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_name, table|
   p = get_project(project_name)
   table.hashes.each_with_index do |t, i|
-    tracker = Tracker.find_by_name(t['name'])
-    tracker = Tracker.new :name => t['name'] if tracker.nil?
-    tracker.position = t['position'] ? t['position'] : i
-    tracker.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
-    tracker.save!
-    if !p.trackers.include?(tracker)
-      p.trackers << tracker
+    type = Type.find_by_name(t['name'])
+    type = Type.new :name => t['name'] if type.nil?
+    type.position = t['position'] ? t['position'] : i
+    type.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
+    type.save!
+    if !p.types.include?(type)
+      p.types << type
       p.save!
     end
   end

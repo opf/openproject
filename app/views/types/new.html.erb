@@ -10,8 +10,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= link_to t(:label_tracker_plural), trackers_path %> &#187; <%= t(:label_tracker_new) %></h2>
+<h2><%= link_to t(:label_type_plural), types_path %> &#187; <%= t(:label_type_new) %></h2>
 
-<%= form_for @tracker, :builder => TabularFormBuilder do |f| %>
+<%= form_for @type, :builder => TabularFormBuilder do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
 <% end %>

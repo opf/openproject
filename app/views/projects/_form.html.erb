@@ -64,15 +64,15 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% if @project.new_record? || @project.module_enabled?('issue_tracking') %>
-<% unless @trackers.empty? %>
-<fieldset class="box" id="project_trackers"><legend><%=l(:label_tracker_plural)%> <span style="font-size:0.9em">(<%= check_all_links 'project_trackers' %>)</span></legend>
-<% @trackers.each do |tracker| %>
+<% unless @types.empty? %>
+<fieldset class="box" id="project_types"><legend><%=l(:label_type_plural)%> <span style="font-size:0.9em">(<%= check_all_links 'project_types' %>)</span></legend>
+<% @types.each do |type| %>
     <label class="floating">
-    <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.include?(tracker) %>
-    <%= h(tracker) %>
+    <%= check_box_tag 'project[type_ids][]', type.id, @project.types.include?(type) %>
+    <%= h(type) %>
     </label>
 <% end %>
-<%= hidden_field_tag 'project[tracker_ids][]', '' %>
+<%= hidden_field_tag 'project[type_ids][]', '' %>
 </fieldset>
 <% end %>
 

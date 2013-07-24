@@ -15,7 +15,7 @@ Feature: Viewing an issue
       | identifier | omicronpersei8 |
       | name       | omicronpersei8 |
     And I am working in project "omicronpersei8"
-    And the project "omicronpersei8" has the following trackers:
+    And the project "omicronpersei8" has the following types:
       | name | position |
       | Bug  |     1    |
     And there is a default issuepriority with:

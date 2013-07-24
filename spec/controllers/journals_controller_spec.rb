@@ -13,12 +13,12 @@ require 'spec_helper'
 
 describe JournalsController do
   let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project_with_trackers) }
+  let(:project) { FactoryGirl.create(:project_with_types) }
   let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_package]) }
   let(:member) { FactoryGirl.build(:member, :project => project,
                                         :roles => [role],
                                         :principal => user) }
-  let(:issue) { FactoryGirl.build(:issue, :tracker => project.trackers.first,
+  let(:issue) { FactoryGirl.build(:issue, :type => project.types.first,
                                       :author => user,
                                       :project => project,
                                       :description => '') }

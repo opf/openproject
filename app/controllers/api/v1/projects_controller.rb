@@ -32,15 +32,15 @@ module Api
         @users_by_role = @project.users_by_role
         @subprojects = @project.children.visible.all
         @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
-        @trackers = @project.rolled_up_trackers
+        @types = @project.rolled_up_types
 
         cond = @project.project_condition(Setting.display_subprojects_issues?)
 
-        @open_issues_by_tracker = Issue.visible.count(:group => :tracker,
-                                                :include => [:project, :status, :tracker],
+        @open_issues_by_type = Issue.visible.count(:group => :type,
+                                                :include => [:project, :status, :type],
                                                 :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
-        @total_issues_by_tracker = Issue.visible.count(:group => :tracker,
-                                                :include => [:project, :status, :tracker],
+        @total_issues_by_type = Issue.visible.count(:group => :type,
+                                                :include => [:project, :status, :type],
                                                 :conditions => cond)
 
         if User.current.allowed_to?(:view_time_entries, @project)
@@ -85,7 +85,7 @@ module Api
 
       def create
         @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-        @trackers = Tracker.all
+        @types = Type.all
         @project = Project.new
         @project.safe_attributes = params[:project]
 

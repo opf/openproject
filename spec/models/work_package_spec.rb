@@ -53,4 +53,26 @@ describe WorkPackage do
       stub_work_package.assignable_versions.should == [stub_version]
     end
   end
+
+  describe :copy_from do
+    let(:source) { FactoryGirl.build(:work_package) }
+    let(:sink) { FactoryGirl.build(:work_package) }
+
+    it "should copy project" do
+      source.project_id = 1
+
+      sink.copy_from(source)
+
+      sink.project_id.should == source.project_id
+    end
+
+    it "should not copy project if explicitly excluded" do
+      source.project_id = 1
+      orig_project_id = sink.project_id
+
+      sink.copy_from(source, :exclude => [:project_id])
+
+      sink.project_id.should == orig_project_id
+    end
+  end
 end

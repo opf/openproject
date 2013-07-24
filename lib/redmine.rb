@@ -88,7 +88,7 @@ Redmine::AccessControl.map do |map|
     map.permission :export_issues, {:'issues' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
-    map.permission :add_work_packages, { :work_packages => [:new, :new_tracker, :create] }
+    map.permission :add_work_packages, { :work_packages => [:new, :new_type, :create] }
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
                                           :'issues/previews' => :create}
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
@@ -253,7 +253,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :users, {:controller => '/users'}, :caption => :label_user_plural
   menu.push :groups, {:controller => '/groups'}, :caption => :label_group_plural
   menu.push :roles, {:controller => '/roles'}, :caption => :label_role_and_permissions
-  menu.push :trackers, {:controller => '/trackers'}, :caption => :label_tracker_plural
+  menu.push :types, {:controller => '/types'}, :caption => :label_type_plural
   menu.push :issue_statuses, {:controller => '/issue_statuses'}, :caption => :label_issue_status_plural,
             :html => {:class => 'issue_statuses'}
   menu.push :workflows, {:controller => '/workflows', :action => 'edit'}, :caption => Proc.new { Workflow.model_name.human }

@@ -44,8 +44,8 @@ class Project < ActiveRecord::Base
   has_many :principals, :through => :member_principals, :source => :principal
 
   has_many :enabled_modules, :dependent => :delete_all
-  has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
-  has_many :work_packages, :dependent => :destroy, :order => "#{WorkPackage.table_name}.created_at DESC", :include => [:status, :tracker]
+  has_and_belongs_to_many :types, :order => "#{Type.table_name}.position"
+  has_many :work_packages, :dependent => :destroy, :order => "#{WorkPackage.table_name}.created_at DESC", :include => [:status, :type]
   has_many :work_package_changes, :through => :work_packages, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
   has_many :time_entries, :dependent => :delete_all
@@ -251,8 +251,8 @@ class Project < ActiveRecord::Base
     if !initialized.key?('enabled_module_names')
       self.enabled_module_names = Setting.default_projects_modules
     end
-    if !initialized.key?('trackers') && !initialized.key?('tracker_ids')
-      self.trackers = Tracker.all
+    if !initialized.key?('types') && !initialized.key?('type_ids')
+      self.types = Type.all
     end
   end
 
@@ -537,13 +537,13 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # Returns an array of the trackers used by the project and its active sub projects
-  def rolled_up_trackers
-    @rolled_up_trackers ||=
-      Tracker.find(:all, :joins => :projects,
-                         :select => "DISTINCT #{Tracker.table_name}.*",
+  # Returns an array of the types used by the project and its active sub projects
+  def rolled_up_types
+    @rolled_up_types ||=
+      Type.find(:all, :joins => :projects,
+                         :select => "DISTINCT #{Type.table_name}.*",
                          :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
-                         :order => "#{Tracker.table_name}.position")
+                         :order => "#{Type.table_name}.position")
   end
 
   # Closes open and locked project versions that are completed
@@ -730,7 +730,7 @@ class Project < ActiveRecord::Base
     'identifier',
     'custom_field_values',
     'custom_fields',
-    'tracker_ids',
+    'type_ids',
     'work_package_custom_field_ids'
 
   safe_attributes 'enabled_module_names',
@@ -795,7 +795,7 @@ class Project < ActiveRecord::Base
         attributes = project.attributes.dup.except('id', 'name', 'identifier', 'status', 'parent_id', 'lft', 'rgt')
         copy = Project.new(attributes)
         copy.enabled_modules = project.enabled_modules
-        copy.trackers = project.trackers
+        copy.types = project.types
         copy.custom_values = project.custom_values.collect {|v| v.clone}
         copy.work_package_custom_fields = project.work_package_custom_fields
         return copy
@@ -877,7 +877,7 @@ class Project < ActiveRecord::Base
     list
   end
 
-  # TODO: merge with add_issue once tracker or similar is defined there and safe_attributes is removed
+  # TODO: merge with add_issue once type or similar is defined there and safe_attributes is removed
   def add_planning_element(attributes = {})
     attributes ||= {}
 
@@ -886,19 +886,19 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # TODO: merge with add_planning_elemement once tracker or similar is defined there and safe_attributes is removed
+  # TODO: merge with add_planning_elemement once type or similar is defined there and safe_attributes is removed
   def add_issue(attributes = {})
     attributes ||= {}
 
     Issue.new do |i|
       i.project = self
 
-      tracker_attribute = attributes.delete(:tracker) || attributes.delete(:tracker_id)
+      type_attribute = attributes.delete(:type) || attributes.delete(:type_id)
 
-      i.tracker = if tracker_attribute
-                    project.trackers.find(tracker_attribute)
+      i.type = if type_attribute
+                    project.types.find(type_attribute)
                   else
-                    project.trackers.first
+                    project.types.first
                   end
 
       # TODO: this should not be necessary once StrongParameters are in place

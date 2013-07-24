@@ -88,7 +88,7 @@ module TimelogHelper
                  TimeEntry.human_attribute_name(:activity),
                  TimeEntry.human_attribute_name(:project),
                  TimeEntry.human_attribute_name(:issue),
-                 TimeEntry.human_attribute_name(:tracker),
+                 TimeEntry.human_attribute_name(:type),
                  TimeEntry.human_attribute_name(:subject),
                  TimeEntry.human_attribute_name(:hours),
                  TimeEntry.human_attribute_name(:comments)
@@ -104,7 +104,7 @@ module TimelogHelper
                   entry.activity,
                   entry.project,
                   (entry.work_package ? entry.work_package.id : nil),
-                  (entry.work_package ? entry.work_package.tracker : nil),
+                  (entry.work_package ? entry.work_package.type : nil),
                   (entry.work_package ? entry.work_package.subject : nil),
                   entry.hours.to_s.gsub('.', decimal_separator),
                   entry.comments
@@ -123,7 +123,7 @@ module TimelogHelper
     elsif k = @available_criterias[criteria][:klass]
       obj = k.find_by_id(value.to_i)
       if obj.is_a?(Issue)
-        obj.visible? ? h("#{obj.tracker} ##{obj.id}: #{obj.subject}") : h("##{obj.id}")
+        obj.visible? ? h("#{obj.type} ##{obj.id}: #{obj.subject}") : h("##{obj.id}")
       else
         obj
       end

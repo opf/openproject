@@ -59,7 +59,7 @@ en:
         priority: "Priority"
         subproject: "Subproject"
         time_entries: "Log time"
-        tracker: "Tracker"
+        type: "Type"
         watcher: "Watcher"
       issue_relation:
         delay: "Delay"
@@ -91,8 +91,8 @@ en:
         hours: "Hours"
         issue: "Issue"
         spent_on: "Date"
-        tracker: "Tracker"
-      tracker:
+        type: "Type"
+      type:
         is_in_roadmap: "Issues displayed in roadmap"
       user:
         admin: "Administrator"
@@ -242,7 +242,7 @@ en:
       role:
         one : "Role"
         other: "Roles"
-      tracker: "Tracker"
+      type: "Type"
       planning_element: Planning element
       planning_element_type: Planning element type
       project_type: Project type
@@ -422,9 +422,9 @@ en:
   default_role_manager: "Manager"
   default_role_non_member: "Non member"
   default_role_reporter: "Reporter"
-  default_tracker_bug: "Bug"
-  default_tracker_feature: "Feature"
-  default_tracker_support: "Support"
+  default_type_bug: "Bug"
+  default_type_feature: "Feature"
+  default_type_support: "Support"
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
@@ -473,7 +473,7 @@ en:
 
   error_can_not_archive_project: "This project cannot be archived"
   error_can_not_delete_custom_field: "Unable to delete custom field"
-  error_can_not_delete_tracker: "This tracker contains issues and cannot be deleted."
+  error_can_not_delete_type: "This type contains issues and cannot be deleted."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_reopen_issue_on_closed_version: "An issue assigned to a closed version cannot be reopened"
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
@@ -482,14 +482,14 @@ en:
   error_issue_not_found_in_project: "The issue was not found or does not belong to this project"
   error_must_be_project_member: "must be project member"
   error_no_default_issue_status: "No default issue status is defined. Please check your configuration (Go to \"Administration -> Issue statuses\")."
-  error_no_tracker_in_project: "No tracker is associated to this project. Please check the Project settings."
+  error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_unable_delete_issue_status: "Unable to delete issue status"
   error_unable_to_connect: "Unable to connect (%{value})"
-  error_workflow_copy_source: "Please select a source tracker or role"
-  error_workflow_copy_target: "Please select target tracker(s) and role(s)"
+  error_workflow_copy_source: "Please select a source type or role"
+  error_workflow_copy_target: "Please select target type(s) and role(s)"
 
   general_csv_decimal_separator: "."
   general_csv_encoding: "ISO-8859-1"
@@ -641,7 +641,7 @@ en:
   label_display: "Display"
   label_display_per_page: "Per page: %{value}"
   label_display_sums: "Display Sums"
-  label_display_used_statuses_only: "Only display statuses that are used by this tracker"
+  label_display_used_statuses_only: "Only display statuses that are used by this type"
   label_document_added: "Document added"
   label_document_new: "New document"
   label_document_plural: "Documents"
@@ -883,8 +883,8 @@ en:
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"
   label_total: "Total"
-  label_tracker_new: "New tracker"
-  label_tracker_plural: "Trackers"
+  label_type_new: "New type"
+  label_type_plural: "Types"
   label_ui: "User Interface"
   label_update_issue_done_ratios: "Update issue done ratios"
   label_updated_time: "Updated %{value} ago"
@@ -1254,7 +1254,7 @@ en:
   text_line_separated: "Multiple values allowed (one line for each value)."
   text_load_default_configuration: "Load the default configuration"
   text_min_max_length_info: "0 means no restriction"
-  text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_no_configuration_data: "Roles, types, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
   text_plugin_assets_writable: "Plugin assets directory writable"
   text_powered_by: "Powered by %{link}"
@@ -1272,7 +1272,7 @@ en:
   text_tip_issue_begin_day: "issue beginning this day"
   text_tip_issue_begin_end_day: "issue beginning and ending this day"
   text_tip_issue_end_day: "issue ending this day"
-  text_tracker_no_workflow: "No workflow defined for this tracker"
+  text_type_no_workflow: "No workflow defined for this type"
   text_unallowed_characters: "Unallowed characters"
   text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
   text_user_wrote: "%{value} wrote:"
@@ -1282,7 +1282,7 @@ en:
   text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
   text_wiki_page_nullify_children: "Keep child pages as root pages"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
-  text_workflow_edit: "Select a role and a tracker to edit the workflow"
+  text_workflow_edit: "Select a role and a type to edit the workflow"
   text_zoom_in: "Zoom in"
   text_zoom_out: "Zoom out"
 

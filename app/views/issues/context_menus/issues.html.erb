@@ -39,11 +39,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= context_menu_entry(params) %>
 <% end %>
 
-<% unless @trackers.nil? %>
-  <% params = default_params.merge(:collection => @trackers,
-                                   :attribute => 'tracker',
-                                   :selected => lambda { |tracker| (@issue && tracker == @issue.tracker) },
-                                   :disabled => lambda { |tracker| !@can[:edit] }) %>
+<% unless @types.nil? %>
+  <% params = default_params.merge(:collection => @types,
+                                   :attribute => 'type',
+                                   :selected => lambda { |type| (@issue && type == @issue.type) },
+                                   :disabled => lambda { |type| !@can[:edit] }) %>
   <%= context_menu_entry(params) %>
 <% end %>
 

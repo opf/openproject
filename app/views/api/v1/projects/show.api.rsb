@@ -21,9 +21,9 @@ api.project do
   api.created_on @project.created_on
   api.updated_on @project.updated_on
 
-  api.array :trackers do
-    @project.trackers.each do |tracker|
-      api.tracker(:id => tracker.id, :name => tracker.name)
+  api.array :types do
+    @project.types.each do |type|
+      api.type(:id => type.id, :name => type.name)
     end
-  end if include_in_api_response?('trackers')
+  end if include_in_api_response?('types')
 end
