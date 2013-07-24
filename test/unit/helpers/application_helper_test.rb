@@ -250,47 +250,6 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => [@attachment]), "#{text} failed" }
   end
 
-  def test_wiki_links
-    User.stubs(:current).returns(@admin)
-    @project.wiki.start_page = "CookBook documentation"
-    @project.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "CookBook_documentation"
-    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Another page"
-
-    project2 = FactoryGirl.create :valid_project, :identifier => 'onlinestore'
-    project2.reload # reload indirectly created references (esp. the wiki)
-    project2.wiki.start_page = "Start page"
-    project2.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, :wiki => project2.wiki, :title => "Start_page"
-
-    to_test = {
-      '[[CookBook documentation]]' => "<a href=\"/projects/#{@project.identifier}/wiki/CookBook_documentation\" class=\"wiki-page\">CookBook documentation</a>",
-      '[[Another page|Page]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a>",
-      # link with anchor
-      '[[CookBook documentation#One-section]]' => "<a href=\"/projects/#{@project.identifier}/wiki/CookBook_documentation#One-section\" class=\"wiki-page\">CookBook documentation</a>",
-      '[[Another page#anchor|Page]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Another_page#anchor\" class=\"wiki-page\">Page</a>",
-      # page that doesn't exist
-      '[[Unknown page]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a>",
-      '[[Unknown page|404]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">404</a>",
-      # link to another project wiki
-      '[[onlinestore:]]' => "<a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">onlinestore</a>",
-      '[[onlinestore:|Wiki]]' => "<a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">Wiki</a>",
-      '[[onlinestore:Start page]]' => "<a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Start page</a>",
-      '[[onlinestore:Start page|Text]]' => "<a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Text</a>",
-      '[[onlinestore:Unknown page]]' => "<a href=\"/projects/onlinestore/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a>",
-      # striked through link
-      '-[[Another page|Page]]-' => "<del><a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></del>",
-      '-[[Another page|Page]] link-' => "<del><a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a> link</del>",
-      # escaping
-      '![[Another page|Page]]' => '[[Another page|Page]]',
-      # project does not exist
-      '[[unknowproject:Start]]' => '[[unknowproject:Start]]',
-      '[[unknowproject:Start|Page title]]' => '[[unknowproject:Start|Page title]]',
-    }
-
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
-  end
-
   def test_html_tags
     to_test = {
       "<div>content</div>" => "<p>&lt;div&gt;content&lt;/div&gt;</p>",

@@ -364,6 +364,133 @@ describe ApplicationHelper do
       it { should eq('<p><a class="external" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
     end
 
+    context "Wiki links" do
+      let(:project_2) { FactoryGirl.create :valid_project,
+                                           :identifier => 'onlinestore' }
+      let(:wiki_1) { FactoryGirl.create :wiki,
+                                        :start_page => "CookBook documentation",
+                                        :project => project }
+      let(:wiki_page_1_1) { FactoryGirl.create :wiki_page_with_content,
+                                               :wiki => wiki_1,
+                                               :title => "CookBook_documentation" }
+      let(:wiki_page_1_2) { FactoryGirl.create :wiki_page_with_content,
+                                               :wiki => wiki_1,
+                                               :title => "Another page" }
+
+      before do
+        project_2.reload
+
+        wiki_page_2_1 = FactoryGirl.create :wiki_page_with_content,
+                                           :wiki => project_2.wiki,
+                                           :title => "Start_page"
+
+        project_2.wiki.pages << wiki_page_2_1
+        project_2.wiki.start_page = "Start Page"
+        project_2.wiki.save!
+
+        project.wiki = wiki_1
+
+        wiki_1.pages << wiki_page_1_1
+        wiki_1.pages << wiki_page_1_2
+      end
+
+      context "Plain wiki link" do
+        subject { textilizable('[[CookBook documentation]]') }
+
+        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/CookBook_documentation\" class=\"wiki-page\">CookBook documentation</a></p>") }
+      end
+
+      context "Plain wiki page link" do
+        subject { textilizable('[[Another page|Page]]') }
+
+        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></p>") }
+      end
+
+      context "Wiki link with anchor" do
+        subject { textilizable('[[CookBook documentation#One-section]]') }
+
+        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/CookBook_documentation#One-section\" class=\"wiki-page\">CookBook documentation</a></p>") }
+      end
+
+      context "Wiki page link with anchor" do
+        subject { textilizable('[[Another page#anchor|Page]]') }
+
+        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Another_page#anchor\" class=\"wiki-page\">Page</a></p>") }
+      end
+
+      context "Wiki link to an unknown page" do
+        subject { textilizable('[[Unknown page]]') }
+
+        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
+      end
+
+      context "Wiki page link to an unknown page" do
+        subject { textilizable('[[Unknown page|404]]') }
+
+        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">404</a></p>") }
+      end
+
+      context "Link to another project's wiki" do
+        subject { textilizable('[[onlinestore:]]') }
+
+        it { should eq("<p><a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">onlinestore</a></p>") }
+      end
+
+      context "Link to another project's wiki with label" do
+        subject { textilizable('[[onlinestore:|Wiki]]') }
+
+        it { should eq("<p><a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">Wiki</a></p>") }
+      end
+
+      context "Link to another project's wiki page" do
+        subject { textilizable('[[onlinestore:Start page]]') }
+
+        it { should eq("<p><a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Start page</a></p>") }
+      end
+
+      context "Link to another project's wiki page with label" do
+        subject { textilizable('[[onlinestore:Start page|Text]]') }
+
+        it { should eq("<p><a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Text</a></p>") }
+      end
+
+      context "Link to an unknown wiki page in another project" do
+        subject { textilizable('[[onlinestore:Unknown page]]') }
+
+        it { should eq("<p><a href=\"/projects/onlinestore/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
+      end
+
+      context "Striked through link to wiki page" do
+        subject { textilizable('-[[Another page|Page]]-') }
+
+        it { should eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></del></p>") }
+      end
+
+      context "Named striked through link to wiki page" do
+        subject { textilizable('-[[Another page|Page]] link-') }
+
+        it { should eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a> link</del></p>") }
+      end
+
+      context "Escaped link to wiki page" do
+        subject { textilizable('![[Another page|Page]]') }
+
+        it { should eql('<p>[[Another page|Page]]</p>') }
+      end
+
+      context "Link to wiki of non-existing project" do
+        subject { textilizable('[[unknowproject:Start]]') }
+
+        it { should eql('<p>[[unknowproject:Start]]</p>') }
+      end
+
+      context "Link to wiki page of non-existing project" do
+        subject { textilizable('[[unknowproject:Start|Page title]]') }
+
+        it { should eql('<p>[[unknowproject:Start|Page title]]</p>') }
+      end
+    end
+
     context "Redmine links" do
       let(:repository) { FactoryGirl.create :repository, :project => project }
       let(:source_url) { {:controller => 'repositories', :action => 'entry', :id => identifier, :path => ['some', 'file']} }
@@ -435,7 +562,6 @@ EXPECTED
         project.wiki = wiki
         wiki.pages << wiki_page
       end
-
 
       subject { textilizable(raw).gsub(%r{[\r\n\t]}, '')}
 
