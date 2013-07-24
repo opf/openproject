@@ -61,8 +61,22 @@ Then /^the "(.+?)" field should contain the id of work package "(.+?)"$/ do |fie
 end
 
 Then /^the work package should be shown with the following values:$/ do |table|
-  table.raw.each do |key, value|
+  table_attributes = table.raw.select do |k, v|
+    !["Subject", "Type", "Description"].include?(k)
+  end
+
+  table_attributes.each do |key, value|
     label = find('th', :text => key)
     should have_css("td.#{label[:class]}", :text => value)
+  end
+
+  if table.rows_hash["Type"] || table.rows_hash["Subject"]
+    expected_header = Regexp.new("#{table.rows_hash["Type"]}\\s?#\\d+: #{table.rows_hash["Subject"]}")
+
+    should have_css("h2", :text => expected_header)
+  end
+
+  if table.rows_hash["Description"]
+    should have_css(".description", :text => table.rows_hash["Description"])
   end
 end
