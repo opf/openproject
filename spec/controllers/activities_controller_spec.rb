@@ -13,10 +13,10 @@ require 'spec_helper'
 
 describe ActivitiesController do
   before :each do
-    @controller.stub!(:set_localization)
+    @controller.stub(:set_localization)
 
     admin = FactoryGirl.create(:admin)
-    User.stub!(:current).and_return admin
+    User.stub(:current).and_return admin
 
     @params = {}
   end

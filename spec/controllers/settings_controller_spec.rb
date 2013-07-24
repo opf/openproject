@@ -13,11 +13,11 @@ require 'spec_helper'
 
 describe SettingsController do
   before :each do
-    @controller.stub!(:set_localization)
+    @controller.stub(:set_localization)
     @params = {}
 
     @user = FactoryGirl.create(:admin)
-    User.stub!(:current).and_return @user
+    User.stub(:current).and_return @user
   end
 
   describe 'edit' do
