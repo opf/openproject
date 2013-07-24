@@ -101,6 +101,13 @@ Given /^(?:the )?[pP]roject "([^\"]*)" uses the following [mM]odules:$/ do |proj
   p.reload
 end
 
+Given /^(?:the )?[pP]roject "([^\"]*)" does not use the following [mM]odules:$/ do |project, table|
+  p = Project.find_by_name(project)
+
+  p.enabled_module_names -= table.raw.map { |row| row.first }
+  p.reload
+end
+
 Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*)"$/ do |user, role, project|
   u = User.find_by_login(user)
   r = Role.find_by_name(role)
