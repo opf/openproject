@@ -12,7 +12,7 @@
 
 class ActivitiesController < ApplicationController
   menu_item :activity
-  before_filter :find_optional_project
+  before_filter :find_optional_project, :verify_activities_module_activated
   accept_key_auth :index
 
   def index
@@ -34,6 +34,7 @@ class ActivitiesController < ApplicationController
     @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
 
     events = @activity.events(@date_from, @date_to)
+    censor_events_from_projects_with_disabled_activity!(events) unless @project
 
     if events.empty? || stale?(:etag => [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
       respond_to do |format|
@@ -69,4 +70,29 @@ class ActivitiesController < ApplicationController
     render_404
   end
 
+  def verify_activities_module_activated
+    render_403 if @project && !@project.module_enabled?("activity")
+  end
+
+  # Do not show events, which are associated with projects where activities are disabled.
+  # In a better world this would be implemented (with better performance) in SQL.
+  # TODO: make the world a better place.
+  def censor_events_from_projects_with_disabled_activity!(events)
+    allowed_project_ids = EnabledModule.where(:name => 'activity').map(&:project_id)
+    events.select! do |event|
+      project_ids = []
+      if event.respond_to?(:changed_data) and event.changed_data['project_id']
+        project_ids = event.changed_data['project_id']
+      elsif event.respond_to?(:project_id)
+        project_ids = [ event.project_id ]
+      end
+      if project_ids.empty?
+        # show this event if it is not associated with a project
+        true
+      else
+        # show this event if the activity module is enabled in any of the associated projects
+        project_ids.any? { |id| allowed_project_ids.include? id }
+      end
+    end
+  end
 end
