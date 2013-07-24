@@ -54,10 +54,22 @@ Given(/^the work_package "(.+?)" is updated with the following:$/) do |subject, 
   send_table_to_object(work_package, table)
 end
 
+When /^I fill in the id of work package "(.+?)" into "(.+?)"$/ do |wp_name, field_name|
+  work_package = InstanceFinder.find(WorkPackage, wp_name)
+
+  fill_in(field_name, :with => wp_name)
+end
+
 Then /^the "(.+?)" field should contain the id of work package "(.+?)"$/ do |field_name, wp_name|
   work_package = InstanceFinder.find(WorkPackage, wp_name)
 
   should have_field(field_name, :with => work_package.id.to_s)
+end
+
+Then /^the work package "(.+?)" should be shown as the parent$/ do |wp_name|
+  work_package = InstanceFinder.find(WorkPackage, wp_name)
+
+  should have_css("tr.work-package", :text => work_package.to_s)
 end
 
 Then /^the work package should be shown with the following values:$/ do |table|
