@@ -991,6 +991,7 @@ de:
   notice_account_invalid_credentials_or_blocked: "Benutzer oder Kennwort ist ungültig oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet."
   notice_account_lost_email_sent: "Eine E-Mail mit Anweisungen, wie ein neues Kennwort gewählt wird, wurde Ihnen zugeschickt."
   notice_account_new_password_forced: "Ein neues Passwort muss gesetzt werden."
+  notice_account_password_expired: "Ihr Passwort ist nach %{days} Tagen abgelaufen. Bitte setzen Sie ein neues."
   notice_account_password_updated: "Kennwort wurde erfolgreich aktualisiert."
   notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung durch den Administrator."
   notice_account_register_done: "Konto wurde erfolgreich angelegt. Zur Aktivierung folgen Sie dem Link, der Ihnen per E-Mail zugeschickt wurde."

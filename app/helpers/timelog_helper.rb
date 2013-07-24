@@ -81,7 +81,7 @@ module TimelogHelper
   def entries_to_csv(entries)
     decimal_separator = l(:general_csv_decimal_separator)
     custom_fields = TimeEntryCustomField.find(:all)
-    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [TimeEntry.human_attribute_name(:spent_on),
                  TimeEntry.human_attribute_name(:user),
@@ -133,7 +133,7 @@ module TimelogHelper
   end
 
   def report_to_csv(criterias, periods, hours)
-    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # Column headers
       headers = criterias.collect do |criteria|
         label = @available_criterias[criteria][:label]

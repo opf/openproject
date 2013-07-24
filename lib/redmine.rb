@@ -30,13 +30,7 @@ rescue LoadError
   # RMagick is not available
 end
 
-if RUBY_VERSION < '1.9'
-  require 'fastercsv'
-else
-  require 'csv'
-  FCSV = CSV
-end
-
+require 'csv'
 require 'globalize'
 
 Redmine::Scm::Base.add "Subversion"
