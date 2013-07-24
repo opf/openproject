@@ -2,6 +2,7 @@
 
 * `#1517` Journal changed_data cannot contain the changes of a wiki_content content
 * `#779`  Integrate password expiration
+* `#1461` Integration Activity Plugin
 * `#1505` Removing all roles from a membership removes the project membership
 * `#1405` Incorrect message when trying to login with a permanently blocked account
 * `#1488` Fixes multiple and missing error messages on project settings' member tab (now with support for success messages)
