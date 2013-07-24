@@ -13,6 +13,7 @@ require 'spec_helper'
 
 describe ApplicationHelper do
   include ApplicationHelper
+  include WorkPackagesHelper
 
   describe "format_activity_description" do
     it "truncates given text" do
@@ -128,6 +129,58 @@ describe ApplicationHelper do
       subject { @response }
 
       it { should match /href/ }
+    end
+  end
+
+  describe ".textilizable" do
+    let(:project) { FactoryGirl.create :valid_project }
+    let(:project_member) { FactoryGirl.create :user,
+                                              :member_in_project => project,
+                                              :member_through_role => FactoryGirl.create(:role,
+                                                                                         :permissions => [:view_work_packages, :edit_work_packages, :view_documents,
+                                                                                         :browse_repository, :view_changesets, :view_wiki_pages]) }
+    let(:issue) { FactoryGirl.create :issue,
+                                     :project => project,
+                                     :author => project_member,
+                                     :tracker => project.trackers.first }
+
+    before do
+      project.reload
+      project.wiki.start_page = "CookBook documentation"
+      project.wiki.save!
+      FactoryGirl.create :wiki_page_with_content, :wiki => project.wiki, :title => "CookBook_documentation"
+
+      User.stubs(:current).returns(project_member)
+    end
+
+    context "Pre content should not parse wiki and redmine links" do
+      let(:raw) { <<-RAW
+[[CookBook documentation]]
+
+##{issue.id}
+
+<pre>
+[[CookBook documentation]]
+
+##{issue.id}
+</pre>
+RAW
+    }
+
+      let(:expected) { <<-EXPECTED
+<p><a href="/projects/#{project.identifier}/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
+<p><a href="/work_packages/#{issue.id}" class="issue work_package status-3 priority-1 created-by-me" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
+<pre>
+[[CookBook documentation]]
+
+##{issue.id}
+</pre>
+EXPECTED
+    }
+
+      subject { textilizable(raw).gsub(%r{[\r\n\t]}, '')}
+
+      it { should eql(expected.gsub(%r{[\r\n\t]}, ''))}
     end
   end
 end

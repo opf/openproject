@@ -450,49 +450,6 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
 
-  def test_pre_content_should_not_parse_wiki_and_redmine_links
-    @project.wiki.start_page = "CookBook documentation"
-    @project.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "CookBook_documentation"
-
-    raw = <<-RAW
-[[CookBook documentation]]
-
-##{@issue.id}
-
-<pre>
-[[CookBook documentation]]
-
-##{@issue.id}
-</pre>
-RAW
-
-    expected = <<-EXPECTED
-<p><a href="/projects/#{@project.identifier}/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
-<p><a href="/work_packages/#{@issue.id}" class="issue work_package status-3 priority-1 created-by-me" title="#{@issue.subject} (#{@issue.status})">##{@issue.id}</a></p>
-<pre>
-[[CookBook documentation]]
-
-##{@issue.id}
-</pre>
-EXPECTED
-
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
-  end
-
-  def test_non_closing_pre_blocks_should_be_closed
-    raw = <<-RAW
-<pre><code>
-RAW
-
-    expected = <<-EXPECTED
-<pre><code>
-</code></pre>
-EXPECTED
-
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
-  end
-
   def test_syntax_highlight
     raw = <<-RAW
 <pre><code class="ruby">
