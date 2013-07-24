@@ -120,7 +120,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def update
-    work_package.update_by(current_user, permitted_params.update_work_package)
+    work_package.update_by(current_user, permitted_params.update_work_package(:project => project))
 
     flash[:notice] = l(:notice_successful_update)
 

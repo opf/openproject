@@ -272,6 +272,12 @@ class WorkPackage < ActiveRecord::Base
 
     raw_attachments = attributes.delete(:attachments)
 
+    if log_attributes = attributes.delete(:time_entry)
+      log_attributes = { :user => user,
+                         :spent_on => Date.today }.merge(log_attributes)
+      time_entries.build(log_attributes)
+    end
+
     if update_attributes(attributes)
       attachments = Attachment.attach_files(self, raw_attachments)
     end
@@ -331,4 +337,13 @@ class WorkPackage < ActiveRecord::Base
     Setting.issue_done_ratio == 'issue_status'
   end
 
+  # Returns the total number of hours spent on this issue and its descendants
+  #
+  # Example:
+  #   spent_hours => 0.0
+  #   spent_hours => 50.2
+  def spent_hours
+    @spent_hours ||= self_and_descendants.joins(:time_entries)
+                                         .sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+  end
 end

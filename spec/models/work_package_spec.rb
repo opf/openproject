@@ -144,6 +144,48 @@ describe WorkPackage do
 
           instance.update_by(user, { :attachments => raw_attachments })
         end
+
+        it "should only attach the attachment when saving was successful" do
+          raw_attachments = [double('attachment')]
+          attachment = FactoryGirl.build(:attachment)
+
+          Attachment.should_not_receive(:attach_files)
+
+          instance.update_by(user, { :subject => "", :attachments => raw_attachments })
+        end
+
+        it "should add a time entry" do
+          activity = FactoryGirl.create(:time_entry_activity)
+
+          instance.update_by(user, { :time_entry => { "hours" => "5",
+                                                      "activity_id" => activity.id.to_s,
+                                                      "comments" => "blubs" } } )
+
+          instance.should have(1).time_entries
+
+          entry = instance.time_entries.first
+
+          entry.should be_persisted
+          entry.work_package.should == instance
+          entry.user.should == user
+          entry.project.should == instance.project
+          entry.spent_on.should == Date.today
+        end
+
+        it "should not persist the time entry if the #{subclass}'s update fails" do
+          activity = FactoryGirl.create(:time_entry_activity)
+
+          instance.update_by(user, { :subject => '',
+                                     :time_entry => { "hours" => "5",
+                                                      "activity_id" => activity.id.to_s,
+                                                      "comments" => "blubs" } } )
+
+          instance.should have(1).time_entries
+
+          entry = instance.time_entries.first
+
+          entry.should_not be_persisted
+        end
       end
     end
   end

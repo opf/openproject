@@ -555,6 +555,28 @@ describe PermittedParams do
 
       PermittedParams.new(params, user).update_work_package.should == hash
     end
+
+    it "should permit time_entry if the user has the log_time permission" do
+      hash = { "time_entry" => { "hours" => "5", "activity_id" => "1", "comments" => "lorem" } }
+
+      project = double('project')
+      user.stub(:allowed_to?).with(:log_time, project).and_return(true)
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package(:project => project).should == hash
+    end
+
+    it "should not permit time_entry if the user lacks the log_time permission" do
+      hash = { "time_entry" => { "hours" => "5", "activity_id" => "1", "comments" => "lorem" } }
+
+      project = double('project')
+      user.stub(:allowed_to?).with(:log_time, project).and_return(false)
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package(:project => project).should == {}
+    end
   end
 
   describe :user do

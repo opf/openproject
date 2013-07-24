@@ -10,15 +10,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= fields_for :time_entry,
-               time_entry,
-               { :builder => TabularFormBuilder,
+<%= f.fields_for :time_entry,
+                 time_entry,
+                 { :builder => TabularFormBuilder,
                  :lang => current_language} do |fields| %>
 
   <div class="splitcontentleft">
     <p>
       <%= fields.text_field :hours,
-                            :size => 6,
                             :label => :label_spent_time %>
       <%= TimeEntry.human_attribute_name(:hours) %>
     </p>
@@ -31,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 
   <p>
-    <%= fields.text_field :comments, :size => 60 %>
+    <%= fields.text_field :comments %>
   </p>
   <% time_entry.custom_field_values.each do |value| %>
     <p>

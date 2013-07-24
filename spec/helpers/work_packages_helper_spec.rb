@@ -62,6 +62,26 @@ describe WorkPackagesHelper do
     end
   end
 
+  describe :work_package_show_spent_time_attribute do
+    it "should show a spent time link pointing to the time entries of the work package" do
+      stub_work_package.stub(:spent_hours).and_return(5.0)
+
+      field = helper.work_package_show_spent_time_attribute(stub_work_package).field
+
+      expected_href = issue_time_entries_path(stub_work_package)
+
+      field.should have_css(".spent-time a[@href='#{ expected_href }']", :text => '5.0')
+    end
+
+    it "should show a '-' if spent time is 0" do
+      stub_work_package.stub(:spent_hours).and_return(0.0)
+
+      field = helper.work_package_show_spent_time_attribute(stub_work_package).field
+
+      field.should have_css(".spent-time", :text => '-')
+    end
+  end
+
   describe :work_package_form_issue_category_attribute do
     let(:stub_project) { FactoryGirl.build_stubbed(:project) }
     let(:stub_category) { FactoryGirl.build_stubbed(:issue_category) }

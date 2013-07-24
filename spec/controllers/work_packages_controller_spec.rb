@@ -389,7 +389,9 @@ describe WorkPackagesController do
 
       before do
         controller.stub!(:work_package).and_return(planning_element)
-        controller.send(:permitted_params).should_receive(:update_work_package).and_return(wp_params)
+        controller.send(:permitted_params).should_receive(:update_work_package)
+                                          .with(:project => planning_element.project)
+                                          .and_return(wp_params)
         planning_element.should_receive(:update_by).with(current_user, wp_params).and_return(true)
       end
 

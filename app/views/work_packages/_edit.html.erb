@@ -54,7 +54,8 @@ See doc/COPYRIGHT.rdoc for more details.
         </legend>
 
         <%= render :partial => 'time_entry',
-                   :locals => { :time_entry => time_entry } %>
+                   :locals => { :time_entry => time_entry,
+                                :f => f } %>
       </fieldset>
     <% end %>
 

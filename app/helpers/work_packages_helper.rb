@@ -187,8 +187,7 @@ module WorkPackagesHelper
 
   def work_package_show_spent_time_attribute(work_package)
     work_package_show_table_row(:spent_time) do
-      #This check can be removed as soon as spent_hours is part of work_package and not Issue
-      work_package.respond_to?(:spent_hours) && work_package.spent_hours > 0 ?
+      work_package.spent_hours > 0 ?
         link_to(l_hours(work_package.spent_hours), issue_time_entries_path(work_package)) :
         "-"
     end
