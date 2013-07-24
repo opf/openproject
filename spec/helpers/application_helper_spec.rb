@@ -70,4 +70,64 @@ describe ApplicationHelper do
       it { footer_content.include?("<span class=\"footer_openproject\">").should be_false }
     end
   end
+
+  describe ".link_to_if_authorized" do
+    let(:project) { FactoryGirl.create :valid_project }
+    let(:project_member) { FactoryGirl.create :user,
+                                              :member_in_project => project,
+                                              :member_through_role => FactoryGirl.create(:role,
+                                                                                         :permissions => [:view_work_packages, :edit_work_packages, :view_documents,
+                                                                                         :browse_repository, :view_changesets, :view_wiki_pages]) }
+    let(:issue) { FactoryGirl.create :issue,
+                                     :project => project,
+                                     :author => project_member,
+                                     :tracker => project.trackers.first }
+
+
+    context "if user is authorized" do
+      before do
+        self.should_receive(:authorize_for).and_return(true)
+        @response = link_to_if_authorized('link_content', {
+                                          :controller => 'issues',
+                                          :action => 'show',
+                                          :id => issue },
+                                        :class => 'fancy_css_class')
+      end
+
+      subject { @response }
+
+      it { should match /href/ }
+
+      it { should match /fancy_css_class/ }
+    end
+
+    context "if user is unauthorized" do
+      before do
+        self.should_receive(:authorize_for).and_return(false)
+        @response = link_to_if_authorized('link_content', {
+                                          :controller => 'issues',
+                                          :action => 'show',
+                                          :id => issue },
+                                        :class => 'fancy_css_class')
+      end
+
+      subject { @response }
+
+      it { should be_nil }
+    end
+
+    context "allow using the :controller and :action for the target link" do
+      before do
+        self.should_receive(:authorize_for).and_return(true)
+        @response = link_to_if_authorized("By controller/action",
+                                         { :controller => 'issues',
+                                           :action => 'edit',
+                                           :id => issue.id })
+      end
+
+      subject { @response }
+
+      it { should match /href/ }
+    end
+  end
 end

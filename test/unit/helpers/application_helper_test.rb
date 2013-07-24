@@ -46,38 +46,7 @@ class ApplicationHelperTest < ActionView::TestCase
   def request
     @request ||= ActionController::TestRequest.new
   end
-
-  context "#link_to_if_authorized" do
-    should "create a link for an authorized user" do
-      User.stubs(:current).returns(@project_member)
-      response = link_to_if_authorized('link_content', {
-          :controller => 'issues',
-          :action => 'show',
-          :id => @issue },
-        :class => 'fancy_css_class')
-      assert_match(/href/, response)
-      assert_match(/fancy_css_class/, response)
-    end
-
-    should "shouldn't create a link for an unauthorized user" do
-      User.stubs(:current).returns(@non_member)
-      response = link_to_if_authorized 'link_content', {
-          :controller => 'issues',
-          :action => 'show',
-          :id => @issue },
-        :class => 'fancy_css_class'
-      assert_nil response
-    end
-
-    should "allow using the :controller and :action for the target link" do
-      User.stubs(:current).returns(@admin)
-      response = link_to_if_authorized("By controller/action",
-                                       {:controller => 'issues', :action => 'edit', :id => @issue.id})
-      assert_match(/href/, response)
-    end
-
-  end
-
+  
   def test_auto_links
     to_test = {
       'http://foo.bar' => '<a class="external" href="http://foo.bar">http://foo.bar</a>',
