@@ -298,7 +298,7 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :work_packages, :only => [:show, :edit] do
+  resources :work_packages, :only => [:show, :edit, :update] do
     resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
   end
 
@@ -460,9 +460,6 @@ OpenProject::Application.routes.draw do
         get :move
         post :move
       end
-    end
-
-    resources :work_packages,          :controller => 'work_packages' do
     end
 
     resources :planning_elements,      :controller => 'planning_elements' do

@@ -43,4 +43,10 @@ describe WorkPackagesController do
                                                        :project_id => '1' )
   end
 
+  it "should connect PUT /work_packages/1 to work_packages#update" do
+    put("/work_packages/1").should route_to( :controller => 'work_packages',
+                                             :action => 'update',
+                                             :id => '1' )
+  end
+
 end
