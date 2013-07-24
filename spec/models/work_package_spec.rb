@@ -18,6 +18,7 @@ describe WorkPackage do
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:issue) { FactoryGirl.create(:issue) }
   let(:planning_element) { FactoryGirl.create(:planning_element).reload }
+  let(:user) { FactoryGirl.create(:user) }
 
   describe :assignable_users do
     it 'should return all users the project deems to be assignable' do
@@ -118,13 +119,19 @@ describe WorkPackage do
         let(:instance) { send(subclass) }
 
         it "should return true" do
-          instance.update_with({}).should be_true
+          instance.update_by(user, {}).should be_true
         end
 
         it "should set the values" do
-          instance.update_with({ :subject => "New subject" })
+          instance.update_by(user, { :subject => "New subject" })
 
           instance.subject.should == "New subject"
+        end
+
+        it "should create a journal with the journal's 'notes' attribute set to the supplied" do
+          instance.update_by(user, { :notes => "blubs" })
+
+          instance.journals.last.notes.should == "blubs"
         end
       end
     end

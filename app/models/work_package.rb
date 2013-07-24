@@ -267,7 +267,9 @@ class WorkPackage < ActiveRecord::Base
 
   # TODO: move into Business Object and rename to update
   # update for now is a private method defined by AR
-  def update_with(attributes)
+  def update_by(user, attributes)
+    init_journal(user, attributes.delete(:notes)) if attributes[:notes]
+
     update_attributes(attributes)
   end
 

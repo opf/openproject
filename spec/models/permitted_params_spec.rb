@@ -539,6 +539,14 @@ describe PermittedParams do
 
       PermittedParams.new(params, user).update_work_package.should == hash
     end
+
+    it "should permit notes" do
+      hash = { "notes" => "blubs" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
   end
 
   describe :user do

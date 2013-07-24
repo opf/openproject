@@ -73,3 +73,11 @@ Feature: Updating work packages
       | Type           | Phase2      |
       | Description    | Desc2       |
     #And the work package "pe2" should be shown as the parent
+
+  Scenario: Adding a note
+    When I go to the edit page of the work package called "pe1"
+     And I fill in "Notes" with "Note message"
+     And I submit the form by the "Submit" button
+    Then I should be on the page of the work package "pe1"
+     And I should see a journal with the following:
+      | Notes | Note message |

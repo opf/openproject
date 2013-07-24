@@ -157,6 +157,7 @@ class PermittedParams < Struct.new(:params, :user)
                                                      :priority_id,
                                                      :category_id,
                                                      :status_id,
+                                                     :notes,
                                                      Proc.new do |args|
                                                        args[:user].allowed_to?(:add_work_package_watchers, args[:project]) ?
                                                          { :watcher_user_ids => [] } :

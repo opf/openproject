@@ -120,7 +120,8 @@ class WorkPackagesController < ApplicationController
   end
 
   def update
-    work_package.update_with(permitted_params.update_work_package)
+    work_package.update_by(current_user, permitted_params.update_work_package)
+
     flash[:notice] = l(:notice_successful_update)
 
     redirect_to :action => 'show'
