@@ -47,7 +47,7 @@ Feature: Fields editable on work package edit
       | Responsible     | the manager      |
       | Target version  | version1         |
       | Start date      | 2013-01-01       |
-      | End date        | 2013-12-31       |
+      | Due date        | 2013-12-31       |
       | Estimated time  | 5.00             |
       | % done          | 30 %             |
       | Notes           |                  |

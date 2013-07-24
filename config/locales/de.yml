@@ -94,7 +94,6 @@ de:
         alternate_dates:
           due_date: "Abschlussdatum des alternativen Datums"
         description: "Beschreibung"
-        due_date: "Abschlussdatum"
         id: "ID"
         name: "Name"
         planning_element_type: "Typ"
