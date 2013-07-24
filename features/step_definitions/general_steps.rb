@@ -128,12 +128,6 @@ Given /^the [Uu]ser "([^\"]*)" has the following preferences$/ do |user, table|
   send_table_to_object(u.pref, table)
 end
 
-
-Given /^there is a(?:n)? (default )?(?:issue)?status with:$/ do |default, table|
-  name = table.raw.select { |ary| ary.include? "name" }.first[table.raw.first.index("name") + 1].to_s
-  IssueStatus.find_by_name(name) || IssueStatus.create(:name => name.to_s, :is_default => !!default)
-end
-
 Given /^there is a [rR]ole "([^\"]*)"$/ do |name|
   Role.spawn.tap { |r| r.name = name }.save! unless Role.find_by_name(name)
 end
