@@ -1,5 +1,14 @@
 # Changelog
 
+* `#1517` Journal changed_data cannot contain the changes of a wiki_content content
+* `#779`  Integrate password expiration
+* `#1461` Integration Activity Plugin
+* `#1505` Removing all roles from a membership removes the project membership
+* `#1405` Incorrect message when trying to login with a permanently blocked account
+* `#1488` Fixes multiple and missing error messages on project settings' member tab (now with support for success messages)
+* `#1409` Changing pagination limit on members view looses members tab
+* `#1371` Changing pagination per_page_param does not change page
+* `#1314` Always set last activity timestamp and check session expiry if ttl-setting is enabled
 * `#1414` Remove start & due date requirement from planning elements
 * `#1493` Exporting work packages to pdf returns 406
 

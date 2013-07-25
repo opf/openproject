@@ -29,7 +29,7 @@ class ApplicationHelperTest < ActionView::TestCase
           :permissions => [:view_work_packages, :edit_work_packages, :view_documents,
                            :browse_repository, :view_changesets, :view_wiki_pages])
 
-    @issue = FactoryGirl.create :issue, :project => @project, :author => @project_member, :tracker => @project.trackers.first
+    @issue = FactoryGirl.create :issue, :project => @project, :author => @project_member, :type => @project.types.first
     @attachment = FactoryGirl.create :attachment,
         :author => @project_member,
         :content_type => 'image/gif',

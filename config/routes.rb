@@ -75,10 +75,10 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  match '/roles/workflow/:id/:role_id/:tracker_id' => 'roles#workflow'
+  match '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
   match '/help/:ctrl/:page' => 'help#index'
 
-  resources :trackers
+  resources :types
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes
@@ -211,7 +211,7 @@ OpenProject::Application.routes.draw do
     end
 
     resources :work_packages, :only => [:new, :create] do
-      get :new_tracker, :on => :collection
+      get :new_type, :on => :collection
     end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'

@@ -30,13 +30,7 @@ rescue LoadError
   # RMagick is not available
 end
 
-if RUBY_VERSION < '1.9'
-  require 'fastercsv'
-else
-  require 'csv'
-  FCSV = CSV
-end
-
+require 'csv'
 require 'globalize'
 
 Redmine::Scm::Base.add "Subversion"
@@ -94,7 +88,7 @@ Redmine::AccessControl.map do |map|
     map.permission :export_issues, {:'issues' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
-    map.permission :add_work_packages, { :work_packages => [:new, :new_tracker, :create] }
+    map.permission :add_work_packages, { :work_packages => [:new, :new_type, :create] }
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
                                           :'issues/previews' => :create}
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
@@ -259,7 +253,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :users, {:controller => '/users'}, :caption => :label_user_plural
   menu.push :groups, {:controller => '/groups'}, :caption => :label_group_plural
   menu.push :roles, {:controller => '/roles'}, :caption => :label_role_and_permissions
-  menu.push :trackers, {:controller => '/trackers'}, :caption => :label_tracker_plural
+  menu.push :types, {:controller => '/types'}, :caption => :label_type_plural
   menu.push :issue_statuses, {:controller => '/issue_statuses'}, :caption => :label_issue_status_plural,
             :html => {:class => 'issue_statuses'}
   menu.push :workflows, {:controller => '/workflows', :action => 'edit'}, :caption => Proc.new { Workflow.model_name.human }
@@ -284,7 +278,8 @@ end
 
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => '/projects', :action => 'show' }
-  menu.push :activity, { :controller => '/activities', :action => 'index' }, :param => :project_id
+  menu.push :activity, { :controller => '/activities', :action => 'index' }, :param => :project_id,
+              :if => Proc.new { |p| p.module_enabled?("activity") }
   menu.push :roadmap, { :controller => '/versions', :action => 'index' }, :param => :project_id,
               :if => Proc.new { |p| p.shared_versions.any? }
 
@@ -374,3 +369,5 @@ Redmine::WikiFormatting.map do |format|
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler
+
+Redmine::AccessControl.available_project_modules << :activity

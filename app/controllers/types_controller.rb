@@ -10,7 +10,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class TrackersController < ApplicationController
+class TypesController < ApplicationController
   include PaginationHelper
 
   layout 'admin'
@@ -18,7 +18,7 @@ class TrackersController < ApplicationController
   before_filter :require_admin
 
   def index
-    @trackers = Tracker.order('position')
+    @types = Type.order('position')
                        .page(params[:page])
                        .per_page(per_page_param)
 
@@ -26,22 +26,22 @@ class TrackersController < ApplicationController
   end
 
   def new
-    @tracker = Tracker.new(params[:tracker])
-    @trackers = Tracker.find(:all, :order => 'position')
+    @type = Type.new(params[:type])
+    @types = Type.find(:all, :order => 'position')
     @projects = Project.find(:all)
   end
 
   def create
-    @tracker = Tracker.new(params[:tracker])
-    if @tracker.save
+    @type = Type.new(params[:type])
+    if @type.save
       # workflow copy
-      if !params[:copy_workflow_from].blank? && (copy_from = Tracker.find_by_id(params[:copy_workflow_from]))
-        @tracker.workflows.copy(copy_from)
+      if !params[:copy_workflow_from].blank? && (copy_from = Type.find_by_id(params[:copy_workflow_from]))
+        @type.workflows.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
     else
-      @trackers = Tracker.find(:all, :order => 'position')
+      @types = Type.find(:all, :order => 'position')
       @projects = Project.find(:all)
       render :action => 'new'
     end
@@ -49,13 +49,13 @@ class TrackersController < ApplicationController
 
   def edit
     @projects = Project.all
-    @tracker  = Tracker.find(params[:id])
+    @type  = Type.find(params[:id])
   end
 
   def update
-    @tracker = Tracker.find(params[:id])
-    if @tracker.update_attributes(params[:tracker])
-      redirect_to trackers_path, :notice => t(:notice_successful_update)
+    @type = Type.find(params[:id])
+    if @type.update_attributes(params[:type])
+      redirect_to types_path, :notice => t(:notice_successful_update)
     else
       @projects = Project.all
       render :action => 'edit'
@@ -63,13 +63,13 @@ class TrackersController < ApplicationController
   end
 
   def destroy
-    @tracker = Tracker.find(params[:id])
-    # trackers cannot be deleted when they have issue
-    # put that into the model and do a `if @tracker.destroy`
-    if @tracker.issues.empty?
-      @tracker.destroy
+    @type = Type.find(params[:id])
+    # types cannot be deleted when they have issue
+    # put that into the model and do a `if @type.destroy`
+    if @type.issues.empty?
+      @type.destroy
     else
-      flash[:error] = t(:error_can_not_delete_tracker)
+      flash[:error] = t(:error_can_not_delete_type)
     end
     redirect_to :action => 'index'
   end

@@ -21,7 +21,7 @@ class Issue < WorkPackage
 
   attr_protected :project_id, :author_id, :lft, :rgt
 
-  validates_presence_of :subject, :priority, :project, :tracker, :author, :status
+  validates_presence_of :subject, :priority, :project, :type, :author, :status
 
   validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
@@ -32,7 +32,7 @@ class Issue < WorkPackage
   validate :validate_start_date_before_soonest_start_date
   validate :validate_fixed_version_is_assignable
   validate :validate_fixed_version_is_still_open
-  validate :validate_enabled_tracker
+  validate :validate_enabled_type
   validate :validate_correct_parent
 
   scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
@@ -40,7 +40,7 @@ class Issue < WorkPackage
   scope :with_limit, lambda { |limit| { :limit => limit} }
 
   scope :on_active_project, lambda { {
-    :include => [:status, :project, :tracker],
+    :include => [:status, :project, :type],
     :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" }}
 
   scope :without_version, lambda {
@@ -103,10 +103,10 @@ class Issue < WorkPackage
 
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
-    (project && tracker) ? (project.all_work_package_custom_fields & tracker.custom_fields.all) : []
+    (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []
   end
 
-  # Moves/copies an issue to a new project and tracker
+  # Moves/copies an issue to a new project and type
   # Returns the moved/copied issue on success, false on failure
   def move_to_project(*args)
     ret = Issue.transaction do
@@ -114,7 +114,7 @@ class Issue < WorkPackage
     end || false
   end
 
-  def move_to_project_without_transaction(new_project, new_tracker = nil, options = {})
+  def move_to_project_without_transaction(new_project, new_type = nil, options = {})
     options ||= {}
     issue = options[:copy] ? self.class.new.copy_from(self) : self
 
@@ -135,8 +135,8 @@ class Issue < WorkPackage
         self.parent_issue_id = nil
       end
     end
-    if new_tracker
-      issue.tracker = new_tracker
+    if new_type
+      issue.type = new_type
       issue.reset_custom_values!
     end
     if options[:copy]
@@ -180,31 +180,31 @@ class Issue < WorkPackage
     write_attribute(:priority_id, pid)
   end
 
-  def tracker_id=(tid)
-    self.tracker = nil
-    result = write_attribute(:tracker_id, tid)
+  def type_id=(tid)
+    self.type = nil
+    result = write_attribute(:type_id, tid)
     @custom_field_values = nil
     result
   end
 
-  # Overrides attributes= so that tracker_id gets assigned first
-  def attributes_with_tracker_first=(new_attributes)
+  # Overrides attributes= so that type_id gets assigned first
+  def attributes_with_type_first=(new_attributes)
     return if new_attributes.nil?
-    new_tracker_id = new_attributes['tracker_id'] || new_attributes[:tracker_id]
-    if new_tracker_id
-      self.tracker_id = new_tracker_id
+    new_type_id = new_attributes['type_id'] || new_attributes[:type_id]
+    if new_type_id
+      self.type_id = new_type_id
     end
-    send :attributes_without_tracker_first=, new_attributes
+    send :attributes_without_type_first=, new_attributes
   end
   # Do not redefine alias chain on reload (see #4838)
-  alias_method_chain(:attributes=, :tracker_first) unless method_defined?(:attributes_without_tracker_first=)
+  alias_method_chain(:attributes=, :type_first) unless method_defined?(:attributes_without_type_first=)
 
   def estimated_hours=(h)
     converted_hours = (h.is_a?(String) ? h.to_hours : h)
     write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
   end
 
-  safe_attributes 'tracker_id',
+  safe_attributes 'type_id',
     'status_id',
     'parent_issue_id',
     'category_id',
@@ -240,9 +240,9 @@ class Issue < WorkPackage
     attrs = delete_unsafe_attributes(attrs, user)
     return if attrs.empty?
 
-    # Tracker must be set before since new_statuses_allowed_to depends on it.
-    if t = attrs.delete('tracker_id')
-      self.tracker_id = t
+    # Type must be set before since new_statuses_allowed_to depends on it.
+    if t = attrs.delete('type_id')
+      self.type_id = t
     end
 
     if attrs['status_id']
@@ -315,10 +315,10 @@ class Issue < WorkPackage
     end
   end
 
-  def validate_enabled_tracker
-    # Checks that the issue can not be added/moved to a disabled tracker
-    if project && (tracker_id_changed? || project_id_changed?)
-      errors.add :tracker_id, :inclusion unless project.trackers.include?(tracker)
+  def validate_enabled_type
+    # Checks that the issue can not be added/moved to a disabled type
+    if project && (type_id_changed? || project_id_changed?)
+      errors.add :type_id, :inclusion unless project.types.include?(type)
     end
   end
 
@@ -391,7 +391,7 @@ class Issue < WorkPackage
 
     statuses = status.find_new_statuses_allowed_to(
       user.roles_for_project(project),
-      tracker,
+      type,
       author == user,
       assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
       )
@@ -566,10 +566,10 @@ class Issue < WorkPackage
   end
 
   # Extracted from the ReportsController.
-  def self.by_tracker(project)
+  def self.by_type(project)
     count_and_group_by(:project => project,
-                       :field => 'tracker_id',
-                       :joins => Tracker.table_name)
+                       :field => 'type_id',
+                       :joins => Type.table_name)
   end
 
   def self.by_version(project)

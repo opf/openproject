@@ -85,7 +85,7 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal 5, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.first
     assert_kind_of Mail::Message, mail
-    assert mail.subject.starts_with?("[#{fixed_work_package.project.name} - #{fixed_work_package.tracker.name} ##{fixed_work_package.id}]")
+    assert mail.subject.starts_with?("[#{fixed_work_package.project.name} - #{fixed_work_package.type.name} ##{fixed_work_package.id}]")
     assert mail.body.encoded.include?("Status changed from #{old_status} to #{fixed_work_package.status}")
 
     # ignoring commits referencing an issue of another project

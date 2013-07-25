@@ -7,8 +7,10 @@ app_subtitle:
   default: Project management
 brute_force_block_minutes:
   default: 30
+  format: int
 brute_force_block_after_failed_logins:
   default: 20
+  format: int
 welcome_text:
   default:
 login_required:
@@ -134,7 +136,7 @@ mail_handler_api_key:
 issue_list_default_columns:
   serialized: true
   default:
-  - tracker
+  - type
   - status
   - priority
   - subject

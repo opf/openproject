@@ -36,7 +36,7 @@ class WorkPackagesController < ApplicationController
 
   before_filter :disable_api
   before_filter :find_model_object_and_project, :only => [:show]
-  before_filter :find_project_by_project_id, :only => [:new, :new_tracker, :create]
+  before_filter :find_project_by_project_id, :only => [:new, :new_type, :create]
   before_filter :authorize,
                 :assign_planning_elements
   before_filter :apply_at_timestamp, :only => [:show]
@@ -65,7 +65,7 @@ class WorkPackagesController < ApplicationController
     end
   end
 
-  def new_tracker
+  def new_type
     respond_to do |format|
       format.js { render :partial => 'attributes', :locals => { :work_package => new_work_package,
                                                                 :project => project,
@@ -109,19 +109,19 @@ class WorkPackagesController < ApplicationController
   def new_work_package
     @new_work_package ||= begin
       params[:work_package] ||= {}
-      type = params[:type] || params[:work_package][:type] || 'Issue'
+      sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
 
       permitted = permitted_params.new_work_package(:project => project)
 
       permitted[:author] = current_user
 
-      wp = case type
+      wp = case sti_type
            when PlanningElement.to_s
              project.add_planning_element(permitted)
            when Issue.to_s
              project.add_issue(permitted)
            else
-             raise ArgumentError, "type #{ type } is not supported"
+             raise ArgumentError, "sti_type #{ sti_type } is not supported"
            end
 
        wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
@@ -154,7 +154,7 @@ class WorkPackagesController < ApplicationController
                        # currently need no extra check for the ancestors/descendants
                        work_package.ancestors
                      when Issue
-                       work_package.ancestors.visible.includes(:tracker,
+                       work_package.ancestors.visible.includes(:type,
                                                                :assigned_to,
                                                                :status,
                                                                :priority,
@@ -177,7 +177,7 @@ class WorkPackagesController < ApplicationController
                          # currently need no extra check for the ancestors/descendants
                          work_package.descendants
                        when Issue
-                         work_package.descendants.visible.includes(:tracker,
+                         work_package.descendants.visible.includes(:type,
                                                                    :assigned_to,
                                                                    :status,
                                                                    :priority,
@@ -205,11 +205,11 @@ class WorkPackagesController < ApplicationController
   def relations
     @relations ||= work_package.relations.includes(:issue_from => [:status,
                                                                    :priority,
-                                                                   :tracker,
+                                                                   :type,
                                                                    { :project => :enabled_modules }],
                                                    :issue_to => [:status,
                                                                  :priority,
-                                                                 :tracker,
+                                                                 :type,
                                                                  { :project => :enabled_modules }])
                                          .select{ |r| r.other_issue(work_package) && r.other_issue(work_package).visible? }
   end

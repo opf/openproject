@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 #
@@ -10,5 +9,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module TrackersHelper
+FactoryGirl.define do
+  factory :user_password do
+    association :user
+    plain_password 'adminADMIN!'
+
+    factory :old_user_password do
+      created_at 1.year.ago
+      updated_at 1.year.ago
+    end
+  end
 end

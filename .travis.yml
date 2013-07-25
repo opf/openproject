@@ -22,8 +22,5 @@ before_install:
   - "sh -e /etc/init.d/xvfb start"
 before_script:
   - "RAILS_ENV=production bundle exec rake ci:travis:prepare"
-branches:
-  only:
-    - feature/rails3
 notifications:
   email: false

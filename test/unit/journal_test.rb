@@ -64,7 +64,7 @@ class JournalTest < ActiveSupport::TestCase
     issue = Issue.new do |i|
       i.project = @project
       i.subject = "Test initial journal"
-      i.tracker = @project.trackers.first
+      i.type = @project.types.first
       i.author = User.generate!
       i.description = "Some content"
     end

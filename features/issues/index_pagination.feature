@@ -16,7 +16,7 @@ Feature: Paginated issue index list
     And there is 1 project with the following:
       | identifier | project1 |
       | name       | project1 |
-    And the project "project1" has the following trackers:
+    And the project "project1" has the following types:
       | name | position |
       | Bug  |     1    |
     And there is 1 user with the following:
@@ -43,3 +43,10 @@ Feature: Paginated issue index list
     When I follow "2" within ".pagination"
     Then I should be on the global index page of issues
     And I should see 1 issue
+
+  Scenario: Changing issues per page
+    When I go to the issues index page of the project "project1"
+    Then I follow "2" within ".pagination"
+    Then I should see 1 issue
+    Then I follow "50" within ".per_page_options"
+    Then I should see 26 issues

@@ -422,9 +422,9 @@ function setVisible(id, visible) {
 
 function observeProjectModules() {
   var f = function() {
-    /* Hides trackers and issues custom fields on the new project form when issue_tracking module is disabled */
+    /* Hides types and issues custom fields on the new project form when issue_tracking module is disabled */
     var c = ($('project_enabled_module_names_issue_tracking').checked == true);
-    setVisible('project_trackers', c);
+    setVisible('project_types', c);
     setVisible('project_issue_custom_fields', c);
   };
 

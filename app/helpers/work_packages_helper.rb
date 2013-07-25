@@ -95,7 +95,7 @@ module WorkPackagesHelper
 
   def work_package_form_top_attributes(form, work_package, locals = {})
     [
-      work_package_form_tracker_attribute(form, work_package, locals),
+      work_package_form_type_attribute(form, work_package, locals),
       work_package_form_type_attribute(form, work_package, locals),
       work_package_form_subject_attribute(form, work_package, locals),
       work_package_form_parent_attribute(form, work_package, locals),
@@ -215,16 +215,16 @@ module WorkPackagesHelper
     end
   end
 
-  def work_package_form_tracker_attribute(form, work_package, locals = {})
+  def work_package_form_type_attribute(form, work_package, locals = {})
     if work_package.is_a?(Issue)
-      field = form.select :tracker_id, locals[:project].trackers.collect {|t| [t.name, t.id]}, :required => true
+      field = form.select :type_id, locals[:project].types.collect {|t| [t.name, t.id]}, :required => true
 
-      field += observe_field :work_package_tracker_id, :url => new_tracker_project_work_packages_path(locals[:project]),
+      field += observe_field :work_package_type_id, :url => new_type_project_work_packages_path(locals[:project]),
                                                        :update => :attributes,
                                                        :method => :get,
                                                        :with => "Form.serialize('work_package-form')"
 
-      WorkPackageAttribute.new(:tracker, field)
+      WorkPackageAttribute.new(:type, field)
     end
   end
 

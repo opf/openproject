@@ -82,7 +82,11 @@ class Member < ActiveRecord::Base
   protected
 
   def validate_presence_of_role
-    errors.add_on_empty :roles if member_roles.empty? && roles.empty? || !member_roles.empty? && member_roles.all?(&:marked_for_destruction?)
+    if member_roles.empty?
+      errors.add :roles, :empty if roles.empty?
+    else
+      errors.add :roles, :empty if member_roles.all?(&:marked_for_destruction?)
+    end
   end
 
   private

@@ -22,7 +22,7 @@ module Redmine
         # otherwise false
         def no_data?
           !Role.find(:first, :conditions => {:builtin => 0}) &&
-            !Tracker.find(:first) &&
+            !Type.find(:first) &&
             !IssueStatus.find(:first) &&
             !Enumeration.find(:first)
         end
@@ -114,10 +114,10 @@ module Redmine
                                                            :browse_repository,
                                                            :view_changesets]
 
-            # Trackers
-            Tracker.create!(:name => l(:default_tracker_bug),     :is_in_chlog => true,  :is_in_roadmap => false, :position => 1)
-            Tracker.create!(:name => l(:default_tracker_feature), :is_in_chlog => true,  :is_in_roadmap => true,  :position => 2)
-            Tracker.create!(:name => l(:default_tracker_support), :is_in_chlog => false, :is_in_roadmap => false, :position => 3)
+            # Types
+            Type.create!(:name => l(:default_type_bug),     :is_in_chlog => true,  :is_in_roadmap => false, :position => 1)
+            Type.create!(:name => l(:default_type_feature), :is_in_chlog => true,  :is_in_roadmap => true,  :position => 2)
+            Type.create!(:name => l(:default_type_support), :is_in_chlog => false, :is_in_roadmap => false, :position => 3)
 
             # Issue statuses
             new       = IssueStatus.create!(:name => l(:default_issue_status_new), :is_closed => false, :is_default => true, :position => 1)
@@ -128,29 +128,29 @@ module Redmine
             rejected  = IssueStatus.create!(:name => l(:default_issue_status_rejected), :is_closed => true, :is_default => false, :position => 6)
 
             # Workflow
-            Tracker.find(:all).each { |t|
+            Type.find(:all).each { |t|
               IssueStatus.find(:all).each { |os|
                 IssueStatus.find(:all).each { |ns|
-                  Workflow.create!(:tracker_id => t.id, :role_id => manager.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+                  Workflow.create!(:type_id => t.id, :role_id => manager.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }
               }
             }
 
-            Tracker.find(:all).each { |t|
+            Type.find(:all).each { |t|
               [new, in_progress, resolved, feedback].each { |os|
                 [in_progress, resolved, feedback, closed].each { |ns|
-                  Workflow.create!(:tracker_id => t.id, :role_id => developer.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+                  Workflow.create!(:type_id => t.id, :role_id => developer.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }
               }
             }
 
-            Tracker.find(:all).each { |t|
+            Type.find(:all).each { |t|
               [new, in_progress, resolved, feedback].each { |os|
                 [closed].each { |ns|
-                  Workflow.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+                  Workflow.create!(:type_id => t.id, :role_id => reporter.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }
               }
-              Workflow.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => resolved.id, :new_status_id => feedback.id)
+              Workflow.create!(:type_id => t.id, :role_id => reporter.id, :old_status_id => resolved.id, :new_status_id => feedback.id)
             }
 
             # Enumerations

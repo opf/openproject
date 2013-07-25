@@ -17,11 +17,11 @@ class IssuesTest < ActionDispatch::IntegrationTest
   # create an issue
   def test_add_issue
     log_user('jsmith', 'jsmith')
-    get 'projects/1/issues/new', :tracker_id => '1'
+    get 'projects/1/issues/new', :type_id => '1'
     assert_response :success
     assert_template 'issues/new'
 
-    post 'projects/1/issues', :tracker_id => "1",
+    post 'projects/1/issues', :type_id => "1",
                                  :issue => { :start_date => "2006-12-26",
                                              :priority_id => "4",
                                              :subject => "new test issue",
@@ -121,7 +121,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   def test_issue_with_user_custom_field
-    @field = WorkPackageCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true, :trackers => Tracker.all)
+    @field = WorkPackageCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true, :types => Type.all)
     Role.anonymous.add_permission! :add_issues, :edit_work_packages
     users = Project.find(1).users
     tester = users.first
@@ -142,7 +142,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert_difference 'Issue.count' do
       post '/projects/ecookbook/issues',
         :issue => {
-          :tracker_id => '1',
+          :type_id => '1',
           :priority_id => '4',
           :subject => 'Issue with user custom field',
           :custom_field_values => {@field.id.to_s => users.first.id.to_s}

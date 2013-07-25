@@ -77,6 +77,9 @@ module NavigationHelpers
       project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/activity"
 
+    when /^the overall activity page$/
+      "/activity"
+
     when /^the page (?:for|of) the issue "([^\"]+)"$/
       issue = Issue.find_by_subject($1)
       "/work_packages/#{issue.id}"
@@ -211,7 +214,7 @@ module NavigationHelpers
         "/settings/edit?tab=#{$1}"
       end
 
-    when /^the(?: (.+?) tab of the) settings page (?:of|for) the project "(.+?)"$/
+    when /^the(?: (.+?) tab of the)? settings page (?:of|for) the project "(.+?)"$/
       if $1.nil?
         "/projects/#{$2}/settings"
       else

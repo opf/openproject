@@ -13,8 +13,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= call_hook(:view_issues_form_details_top, { :issue => @issue, :form => f }) %>
 
 <div id="issue_descr_fields"<% unless @issue.new_record? || @issue.errors.any? %> style="display:none;"<% end %>>
-  <p><%= f.select :tracker_id, @project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
-  <%= observe_field :issue_tracker_id, :url => { :action => :new, :project_id => @project, :id => @issue },
+  <p><%= f.select :type_id, @project.types.collect {|t| [t.name, t.id]}, :required => true %></p>
+  <%= observe_field :issue_type_id, :url => { :action => :new, :project_id => @project, :id => @issue },
                                        :update => :attributes,
                                        :method => :get,
                                        :with => "Form.serialize('issue-form')" %>

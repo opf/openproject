@@ -15,6 +15,11 @@ Given /^the time is ([0-9]+) minutes later$/ do |duration|
   Timecop.travel(Time.now + duration.to_i.minutes)
 end
 
+Given /^the time is ([0-9]+) days later$/ do |duration|
+  Timecop.travel(Time.now + duration.to_i.days)
+end
+
+# Ensure timecop returns after each scenario
 After do
   Timecop.return
 end

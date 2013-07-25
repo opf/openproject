@@ -60,7 +60,7 @@ class UserMailer < ActionMailer::Base
     references @issue
 
     with_locale_for(user) do
-      subject =  "[#{@issue.project.name} - #{@issue.tracker.name} ##{@issue.id}] "
+      subject =  "[#{@issue.project.name} - #{@issue.type.name} ##{@issue.id}] "
       subject << "(#{@issue.status.name}) " if @journal.details['status_id']
       subject << @issue.subject
 
@@ -391,10 +391,10 @@ UserMailer.register_interceptor(DoNotSendMailsWithoutReceiverInterceptor.new)
 # helper object for `rake redmine:send_reminders`
 
 class DueIssuesReminder
-  def initialize(days = nil, project_id = nil, tracker_id = nil, user_ids = [])
+  def initialize(days = nil, project_id = nil, type_id = nil, user_ids = [])
     @days     = days ? days.to_i : 7
     @project  = Project.find_by_id(project_id)
-    @tracker  = Tracker.find_by_id(tracker_id)
+    @type  = Type.find_by_id(type_id)
     @user_ids = user_ids
   end
 
@@ -404,9 +404,9 @@ class DueIssuesReminder
     s << ["#{Issue.table_name}.assigned_to_id IN (?)", @user_ids] if @user_ids.any?
     s << "#{Project.table_name}.status = #{Project::STATUS_ACTIVE}"
     s << "#{Issue.table_name}.project_id = #{@project.id}" if @project
-    s << "#{Issue.table_name}.tracker_id = #{@tracker.id}" if @tracker
+    s << "#{Issue.table_name}.type_id = #{@type.id}" if @type
 
-    issues_by_assignee = Issue.find(:all, :include => [:status, :assigned_to, :project, :tracker],
+    issues_by_assignee = Issue.find(:all, :include => [:status, :assigned_to, :project, :type],
                                           :conditions => s.conditions
                                    ).group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|

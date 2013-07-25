@@ -33,7 +33,7 @@ describe 'my/page' do
     render
 
     assert_select 'tr.time-entry td.subject' do |td|
-      td.should have_link("#{issue.tracker.name} ##{issue.id}", :href => work_package_path(issue))
+      td.should have_link("#{issue.type.name} ##{issue.id}", :href => work_package_path(issue))
     end
   end
 end

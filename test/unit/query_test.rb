@@ -38,7 +38,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def find_issues_with_query(query)
     Issue.find :all,
-      :include => [ :assigned_to, :status, :tracker, :project, :priority ],
+      :include => [ :assigned_to, :status, :type, :project, :priority ],
       :conditions => query.statement
   end
 
@@ -219,8 +219,8 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_set_column_names
     q = Query.new
-    q.column_names = ['tracker', :subject, '', 'unknonw_column']
-    assert_equal [:tracker, :subject], q.columns.collect {|c| c.name}
+    q.column_names = ['type', :subject, '', 'unknonw_column']
+    assert_equal [:type, :subject], q.columns.collect {|c| c.name}
     c = q.columns.first
     assert q.has_column?(c)
   end
@@ -253,22 +253,22 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_set_sort_criteria_with_hash
     q = Query.new
-    q.sort_criteria = {'0' => ['priority', 'desc'], '2' => ['tracker']}
-    assert_equal [['priority', 'desc'], ['tracker', 'asc']], q.sort_criteria
+    q.sort_criteria = {'0' => ['priority', 'desc'], '2' => ['type']}
+    assert_equal [['priority', 'desc'], ['type', 'asc']], q.sort_criteria
   end
 
   def test_set_sort_criteria_with_array
     q = Query.new
-    q.sort_criteria = [['priority', 'desc'], 'tracker']
-    assert_equal [['priority', 'desc'], ['tracker', 'asc']], q.sort_criteria
+    q.sort_criteria = [['priority', 'desc'], 'type']
+    assert_equal [['priority', 'desc'], ['type', 'asc']], q.sort_criteria
   end
 
   def test_create_query_with_sort
     q = Query.new(:name => 'Sorted')
-    q.sort_criteria = [['priority', 'desc'], 'tracker']
+    q.sort_criteria = [['priority', 'desc'], 'type']
     assert q.save
     q.reload
-    assert_equal [['priority', 'desc'], ['tracker', 'asc']], q.sort_criteria
+    assert_equal [['priority', 'desc'], ['type', 'asc']], q.sort_criteria
   end
 
   def test_sort_by_string_custom_field_asc
@@ -277,7 +277,7 @@ class QueryTest < ActiveSupport::TestCase
     assert c
     assert c.sortable
     issues = Issue.find :all,
-                        :include => [ :assigned_to, :status, :tracker, :project, :priority ],
+                        :include => [ :assigned_to, :status, :type, :project, :priority ],
                         :conditions => q.statement,
                         :order => "#{c.sortable} ASC"
     values = issues.collect {|i| i.custom_value_for(c.custom_field).to_s}
@@ -291,7 +291,7 @@ class QueryTest < ActiveSupport::TestCase
     assert c
     assert c.sortable
     issues = Issue.find :all,
-                        :include => [ :assigned_to, :status, :tracker, :project, :priority ],
+                        :include => [ :assigned_to, :status, :type, :project, :priority ],
                         :conditions => q.statement,
                         :order => "#{c.sortable} DESC"
     values = issues.collect {|i| i.custom_value_for(c.custom_field).to_s}
@@ -305,7 +305,7 @@ class QueryTest < ActiveSupport::TestCase
     assert c
     assert c.sortable
     issues = Issue.find :all,
-                        :include => [ :assigned_to, :status, :tracker, :project, :priority ],
+                        :include => [ :assigned_to, :status, :type, :project, :priority ],
                         :conditions => q.statement,
                         :order => "#{c.sortable} ASC"
     values = issues.collect {|i| begin; Kernel.Float(i.custom_value_for(c.custom_field).to_s); rescue; nil; end}.compact
