@@ -5,12 +5,12 @@
   <p><%= f.text_field :location, :size => 60 %></p>
   <p><%= f.text_field :start_date, :required => true, :size => 10 %><%= calendar_for('meeting_start_date') %> <%= time_select "meeting", "start_time", :ignore_date => true, :minute_step => 5 %> <%= Time.zone %></p>
   <p><%= f.text_field :duration, :required => true, :size => 5 %><em>(<%=l :text_in_hours %>)</em>
-  <div><label><%=l :field_participants %></label>
+  <div><label><%=Meeting.human_attribute_name(:participants) %></label>
     <table class="list">
       <thead><tr>
-        <th><%=l :field_name %></th>
-        <th><%=l :field_participants_invited %></th>
-        <th><%=l :field_participants_attended %></th>
+        <th><%=Meeting.human_attribute_name(:name) %></th>
+        <th><%=Meeting.human_attribute_name(:participants_invited) %></th>
+        <th><%=Meeting.human_attribute_name(:participants_attended) %></th>
       </tr></thead>
       <tbody>
         <% @meeting.all_possible_participants.sort.each do |user| -%>

@@ -3,9 +3,9 @@
 
 <ul>
 <li><%=t :label_meeting_date_time %>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %></li>
-<li><%=t :field_location %>: <%= @meeting.location %></li>
-<li><%=t :field_participants_invited %>: <%= @meeting.participants.invited.sort.join("; ") %></li>
-<li><%=t :field_participants_attended %>: <%= @meeting.participants.attended.sort.join("; ") %></li>
+<li><%=Meeting.human_attribute_name(:location) %>: <%= @meeting.location %></li>
+<li><%=Meeting.human_attribute_name(:participants_invited) %>: <%= @meeting.participants.invited.sort.join("; ") %></li>
+<li><%=Meeting.human_attribute_name(:participants_attended) %>: <%= @meeting.participants.attended.sort.join("; ") %></li>
 </ul>
 
 <p><%=raw t(:"text_review_#{@content_type}", :author => h(User.current), :link => link_to(@meeting.title, @meeting_url)) %></p>

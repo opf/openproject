@@ -18,9 +18,9 @@
         <%= link_to h(meeting.title), :controller => 'meetings', :action => 'show', :id => meeting %>
       </dt>
       <dd class="meeting" id="meeting-<%= meeting.id %>">
-        <p><strong><%= l(:field_location) %></strong>: <%=h meeting.location %></p>
-        <p><strong><%= l(:field_participants_invited) %></strong> (<%= meeting.participants.select(&:invited).count %>): <%= format_participant_list meeting.participants.select(&:invited) %></p>
-        <p><strong><%= l(:field_participants_attended) %></strong> (<%= meeting.participants.select(&:attended).count %>): <%= format_participant_list meeting.participants.select(&:attended) %></p>
+        <p><strong><%= Meeting.human_attribute_name(:location) %></strong>: <%=h meeting.location %></p>
+        <p><strong><%= Meeting.human_attribute_name(:participants_invited) %></strong> (<%= meeting.participants.select(&:invited).count %>): <%= format_participant_list meeting.participants.select(&:invited) %></p>
+        <p><strong><%= Meeting.human_attribute_name(:participants_attended) %></strong> (<%= meeting.participants.select(&:attended).count %>): <%= format_participant_list meeting.participants.select(&:attended) %></p>
       </dd>
     <% end -%>
     </dl>
