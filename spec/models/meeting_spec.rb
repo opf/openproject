@@ -48,7 +48,7 @@ describe Meeting do
 
   describe "Journalized Objects" do
     before(:each) do
-      @project ||= FactoryGirl.create(:project_with_trackers)
+      @project ||= FactoryGirl.create(:project_with_types)
       @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
       User.stub!(:current).and_return(@current)
     end
