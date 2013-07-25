@@ -82,7 +82,7 @@ describe ApplicationHelper do
     let(:issue) { FactoryGirl.create :issue,
                                      :project => project,
                                      :author => project_member,
-                                     :tracker => project.trackers.first }
+                                     :type => project.types.first }
 
 
     context "if user is authorized" do
@@ -143,7 +143,7 @@ describe ApplicationHelper do
     let(:issue) { FactoryGirl.create :issue,
                                      :project => project,
                                      :author => project_member,
-                                     :tracker => project.trackers.first }
+                                     :type => project.types.first }
 
     before do
       @project = project
