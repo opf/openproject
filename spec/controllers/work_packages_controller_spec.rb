@@ -173,13 +173,13 @@ describe WorkPackagesController do
   end
 
   describe 'new_type.js' do
-    describe 'w/o specifying a project_id' do
+    describe 'w/o specifying a project_id or an id' do
       before do
         xhr :get, :new_type
       end
 
-      it 'should return 404 Not found' do
-        response.response_code.should == 404
+      it 'should return 403 Not found' do
+        response.response_code.should == 403
       end
     end
 
@@ -194,12 +194,31 @@ describe WorkPackagesController do
     end
 
     describe 'w/ beeing a member
-              w/ having the necessary permissions' do
+              w/ having the necessary permissions
+              w/ specifying a project_id' do
       become_member_with_permissions [:add_work_packages]
 
       before do
-        xhr :get, :new_type, :project_id => project.id,
-                                :type => 'Issue' #TODO: remove type once Issue == PlanningElement
+        xhr :get, :new_type, :project_id => project.id
+      end
+
+      it 'renders the new builder template' do
+        response.should render_template('work_packages/new_type', :formats => ["html"])
+      end
+
+      it 'should respond with 200 OK' do
+        response.response_code.should == 200
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions
+              w/ specifying an id' do
+      become_member_with_permissions [:view_work_packages,
+                                      :edit_work_packages]
+
+      before do
+        xhr :get, :new_type, :id => planning_element.id
       end
 
       it 'renders the new builder template' do

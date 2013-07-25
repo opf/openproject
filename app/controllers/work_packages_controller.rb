@@ -35,7 +35,8 @@ class WorkPackagesController < ApplicationController
 
   before_filter :disable_api
   before_filter :find_model_object_and_project, :only => [:show, :edit, :update]
-  before_filter :find_project_by_project_id, :only => [:new, :new_type, :create]
+  before_filter :find_project_by_project_id, :only => [:new, :create]
+  before_filter :project, :only => [:new_type]
   before_filter :authorize,
                 :assign_planning_elements
   before_filter :apply_at_timestamp, :only => [:show]
@@ -78,7 +79,7 @@ class WorkPackagesController < ApplicationController
 
   def new_type
     respond_to do |format|
-      format.js { render :locals => { :work_package => new_work_package,
+      format.js { render :locals => { :work_package => work_package || new_work_package,
                                       :project => project,
                                       :priorities => priorities,
                                       :user => current_user } }

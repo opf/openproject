@@ -213,7 +213,11 @@ module WorkPackagesHelper
     if work_package.is_a?(Issue)
       field = form.select :type_id, locals[:project].types.collect {|t| [t.name, t.id]}, :required => true
 
-      field += observe_field :work_package_type_id, :url => new_type_project_work_packages_path(locals[:project]),
+      url = work_package.new_record? ?
+             new_type_project_work_packages_path(locals[:project]) :
+             new_type_work_package_path(work_package)
+
+      field += observe_field :work_package_type_id, :url => url,
                                                     :update => :attributes,
                                                     :method => :get,
                                                     :with => "Form.serialize('work_package-form')"
