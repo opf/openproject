@@ -17,6 +17,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <!--[form:type]-->
 <p><%= f.text_field :name, :required => true %></p>
 <p><%= f.check_box :is_in_roadmap %></p>
+<p><%= f.select :color_id, options_for_colors(controller.type) %></p>
+<p><%= f.check_box :in_aggregation %></p>
+<p><%= f.check_box :is_default %></p>
+<p><%= f.check_box :is_milestone %></p>
 
 <% if WorkPackageCustomField.all.any? %>
 <p>
