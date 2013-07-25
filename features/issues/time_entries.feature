@@ -35,7 +35,7 @@ Feature: Tracking Time
       |  start_date   | 2011-05-04         |
       |  description  | Aioli Sali Grande  |
     And there is a time entry for "issue1" with 4 hours
-    And I am logged in as "admin"
+    And I am admin
     And I am on the time entry page of issue "issue1"
 
   Scenario: Adding a time entry

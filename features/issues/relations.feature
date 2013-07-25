@@ -28,7 +28,7 @@ Feature: Relating issues to each other
       | subject | Some Issue |
     And the user "bob" has 1 issue with the following:
       | subject | Another Issue |
-    And I am logged in as "admin"
+    And I am admin
 
   @javascript
   Scenario: Adding a relation will add it to the list of related issues through AJAX instantly

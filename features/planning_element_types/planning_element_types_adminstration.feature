@@ -24,7 +24,7 @@ Feature: Planning Element Type Adminstration
           | Minor Phase     | false        | false          |
           | Minor Milestone | true         | false          |
 
-      And I am logged in as "admin"
+      And I am admin
 
   Scenario: The admin may see all planning element types within the admin UI
      When I go to the admin page

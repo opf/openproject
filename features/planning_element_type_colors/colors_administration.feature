@@ -22,7 +22,7 @@ Feature: Color Adminstration
           | Grey   | #999999 |
           | Yellow | #FFCC33 |
 
-      And I am logged in as "admin"
+      And I am admin
 
   Scenario: The admin may see all colors within the admin UI
      When I go to the admin page
