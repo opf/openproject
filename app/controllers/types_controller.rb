@@ -25,6 +25,10 @@ class TypesController < ApplicationController
     render :action => "index", :layout => false if request.xhr?
   end
 
+  def type
+    @type
+  end
+
   def new
     @type = Type.new(params[:type])
     @types = Type.find(:all, :order => 'position')
@@ -32,7 +36,7 @@ class TypesController < ApplicationController
   end
 
   def create
-    @type = Type.new(params[:type])
+    @type = Type.new(permitted_params.type)
     if @type.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Type.find_by_id(params[:copy_workflow_from]))
