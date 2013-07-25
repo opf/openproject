@@ -47,24 +47,24 @@ class WorkPackagesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html { render :locals => { :work_package => work_package,
-                                        :project => project,
-                                        :priorities => priorities,
-                                        :user => current_user,
-                                        :ancestors => ancestors,
-                                        :descendants => descendants,
-                                        :changesets => changesets,
-                                        :relations => relations,
-                                        :journals => journals } }
-      format.js { render :partial => 'show', :locals => { :work_package => work_package,
-                                                          :project => project,
-                                                          :priorities => priorities,
-                                                          :user => current_user,
-                                                          :ancestors => ancestors,
-                                                          :descendants => descendants,
-                                                          :changesets => changesets,
-                                                          :relations => relations,
-                                                          :journals => journals } }
+      format.html { render :show, :locals => { :work_package => work_package,
+                                               :project => project,
+                                               :priorities => priorities,
+                                               :user => current_user,
+                                               :ancestors => ancestors,
+                                               :descendants => descendants,
+                                               :changesets => changesets,
+                                               :relations => relations,
+                                               :journals => journals } }
+      format.js { render :show, :partial => 'show', :locals => { :work_package => work_package,
+                                                                 :project => project,
+                                                                 :priorities => priorities,
+                                                                 :user => current_user,
+                                                                 :ancestors => ancestors,
+                                                                 :descendants => descendants,
+                                                                 :changesets => changesets,
+                                                                 :relations => relations,
+                                                                 :journals => journals } }
     end
   end
 
@@ -132,7 +132,7 @@ class WorkPackagesController < ApplicationController
 
       flash[:notice] = l(:notice_successful_update)
 
-      redirect_to :action => 'show'
+      show
     else
       edit
     end
