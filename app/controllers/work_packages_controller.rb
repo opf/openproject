@@ -89,7 +89,7 @@ class WorkPackagesController < ApplicationController
   def create
     call_hook(:controller_work_package_new_before_save, { :params => params, :work_package => new_work_package })
 
-    WorkPackageObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
+    WorkPackageObserver.instance.send_notification = send_notifications?
 
     if new_work_package.save
       flash[:notice] = I18n.t(:notice_successful_create)
@@ -121,6 +121,8 @@ class WorkPackagesController < ApplicationController
   end
 
   def update
+    configure_update_notification(send_notifications?)
+
     safe_params = permitted_params.update_work_package(:project => project)
     updated = work_package.update_by(current_user, safe_params)
 
@@ -263,6 +265,14 @@ class WorkPackagesController < ApplicationController
   end
 
   protected
+
+  def configure_update_notification(state = true)
+    JournalObserver.instance.send_notification = state
+  end
+
+  def send_notifications?
+    params[:send_notification] == '0' ? false : true
+  end
 
   def assign_planning_elements
     @planning_elements = @project.planning_elements.without_deleted
