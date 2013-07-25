@@ -400,7 +400,7 @@ describe WorkPackagesController do
     describe 'w/ beeing a member
               w/ having the necessary permissions
               w/ a valid wp id
-              w/ having an successful save' do
+              w/ having a successful save' do
       let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
       let(:params) { { :id => planning_element.id, :work_package => wp_params } }
 
@@ -426,6 +426,40 @@ describe WorkPackagesController do
         put 'update', params
 
         flash[:notice].should == I18n.t(:notice_successful_update)
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions
+              w/ a valid wp id
+              w/ having a successful save
+              w/ having a faulty attachment' do
+      let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+      let(:params) { { :id => planning_element.id, :work_package => wp_params } }
+
+      become_member_with_permissions [:edit_work_packages]
+
+      before do
+        controller.stub!(:work_package).and_return(planning_element)
+        controller.send(:permitted_params).should_receive(:update_work_package)
+                                          .with(:project => planning_element.project)
+                                          .and_return(wp_params)
+        planning_element.should_receive(:update_by).with(current_user, wp_params).and_return(true)
+        planning_element.stub(:unsaved_attachments).and_return([double('unsaved_attachment')])
+      end
+
+      it 'render the edit action' do
+        put 'update', params
+
+        response.should redirect_to redirect_to(work_package_path(planning_element))
+      end
+
+      it 'should show a flash message' do
+        disable_flash_sweep
+
+        put 'update', params
+
+        flash[:warning].should == I18n.t(:warning_attachments_not_saved, :count => 1)
       end
     end
   end

@@ -274,6 +274,10 @@ class WorkPackage < ActiveRecord::Base
     add_time_entry_for(user, attributes.delete(:time_entry))
 
     if update_attributes(attributes)
+      # as attach_files always saves an attachment right away
+      # it is not possible to stage attaching and check for
+      # valid. If this would be possible, we could check
+      # for this along with update_attributes
       attachments = Attachment.attach_files(self, raw_attachments)
     end
   end

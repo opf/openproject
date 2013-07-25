@@ -121,7 +121,10 @@ class WorkPackagesController < ApplicationController
   end
 
   def update
-    work_package.update_by(current_user, permitted_params.update_work_package(:project => project))
+    safe_params = permitted_params.update_work_package(:project => project)
+    work_package.update_by(current_user, safe_params)
+
+    render_attachment_warning_if_needed(work_package)
 
     flash[:notice] = l(:notice_successful_update)
 
