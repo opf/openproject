@@ -54,7 +54,7 @@ module OpenProject::Meeting
           version spec.version
           url 'https://www.openproject.org/projects/plugin-meetings'
 
-          requires_openproject ">= 3.0.0pre5"
+          requires_openproject ">= 3.0.0pre9"
 
           project_module :meetings do
             permission :create_meetings, {:meetings => [:new, :create, :copy]}, :require => :member
