@@ -432,6 +432,30 @@ describe WorkPackagesController do
     describe 'w/ beeing a member
               w/ having the necessary permissions
               w/ a valid wp id
+              w/ having an unsuccessful save' do
+      let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+      let(:params) { { :id => planning_element.id, :work_package => wp_params } }
+
+      become_member_with_permissions [:edit_work_packages]
+
+      before do
+        controller.stub!(:work_package).and_return(planning_element)
+        controller.send(:permitted_params).should_receive(:update_work_package)
+                                          .with(:project => planning_element.project)
+                                          .and_return(wp_params)
+        planning_element.should_receive(:update_by).with(current_user, wp_params).and_return(false)
+      end
+
+      it 'render the edit action' do
+        put 'update', params
+
+        response.should render_template('work_packages/edit', :formats => ["html"], :layout => :base)
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions
+              w/ a valid wp id
               w/ having a successful save
               w/ having a faulty attachment' do
       let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
@@ -448,7 +472,7 @@ describe WorkPackagesController do
         planning_element.stub(:unsaved_attachments).and_return([double('unsaved_attachment')])
       end
 
-      it 'render the edit action' do
+      it 'redirect to show' do
         put 'update', params
 
         response.should redirect_to redirect_to(work_package_path(planning_element))

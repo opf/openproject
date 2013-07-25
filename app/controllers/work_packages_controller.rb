@@ -110,25 +110,30 @@ class WorkPackagesController < ApplicationController
   def edit
     respond_to do |format|
       format.html do
-        render :locals => { :work_package => work_package,
-                            :allowed_statuses => allowed_statuses,
-                            :project => project,
-                            :priorities => priorities,
-                            :time_entry => time_entry,
-                            :user => current_user }
+        render :edit, :locals => { :work_package => work_package,
+                                   :allowed_statuses => allowed_statuses,
+                                   :project => project,
+                                   :priorities => priorities,
+                                   :time_entry => time_entry,
+                                   :user => current_user }
       end
     end
   end
 
   def update
     safe_params = permitted_params.update_work_package(:project => project)
-    work_package.update_by(current_user, safe_params)
+    updated = work_package.update_by(current_user, safe_params)
 
     render_attachment_warning_if_needed(work_package)
 
-    flash[:notice] = l(:notice_successful_update)
+    if updated
 
-    redirect_to :action => 'show'
+      flash[:notice] = l(:notice_successful_update)
+
+      redirect_to :action => 'show'
+    else
+      edit
+    end
   end
 
   def work_package
