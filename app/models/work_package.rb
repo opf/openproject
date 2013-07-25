@@ -271,12 +271,7 @@ class WorkPackage < ActiveRecord::Base
     init_journal(user, attributes.delete(:notes)) if attributes[:notes]
 
     raw_attachments = attributes.delete(:attachments)
-
-    if log_attributes = attributes.delete(:time_entry)
-      log_attributes = { :user => user,
-                         :spent_on => Date.today }.merge(log_attributes)
-      time_entries.build(log_attributes)
-    end
+    add_time_entry_for(user, attributes.delete(:time_entry))
 
     if update_attributes(attributes)
       attachments = Attachment.attach_files(self, raw_attachments)
@@ -345,5 +340,16 @@ class WorkPackage < ActiveRecord::Base
   def spent_hours
     @spent_hours ||= self_and_descendants.joins(:time_entries)
                                          .sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+  end
+
+  private
+
+  def add_time_entry_for(user, attributes)
+    return if attributes.nil? || attributes.values.all?(&:blank?)
+
+    attributes.reverse_merge!({ :user => user,
+                                :spent_on => Date.today })
+
+    time_entries.build(attributes)
   end
 end

@@ -186,6 +186,16 @@ describe WorkPackage do
 
           entry.should_not be_persisted
         end
+
+        it "should not add a time entry if the time entry attributes are empty" do
+          time_attributes = { "hours" => "",
+                              "activity_id" => "",
+                              "comments" => "" }
+
+          instance.update_by(user, :time_entry => time_attributes)
+
+          instance.should have(0).time_entries
+        end
       end
     end
   end
