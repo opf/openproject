@@ -114,6 +114,13 @@ module Redmine
                                                            :browse_repository,
                                                            :view_changesets]
 
+            # Colors
+            colors = PlanningElementTypeColor.ms_project_colors
+            color_map = Hash[*(colors.map do |color|
+              color.save
+              [color.name, color.id]
+            end).flatten]
+
             # Types
             Type.create! :name           => l(:default_type_bug),
                          :is_in_chlog    => true,
