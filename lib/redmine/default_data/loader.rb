@@ -115,9 +115,40 @@ module Redmine
                                                            :view_changesets]
 
             # Types
-            Type.create!(:name => l(:default_type_bug),     :is_in_chlog => true,  :is_in_roadmap => false, :position => 1)
-            Type.create!(:name => l(:default_type_feature), :is_in_chlog => true,  :is_in_roadmap => true,  :position => 2)
-            Type.create!(:name => l(:default_type_support), :is_in_chlog => false, :is_in_roadmap => false, :position => 3)
+            Type.create! :name           => l(:default_type_bug),
+                         :is_in_chlog    => true,
+                         :is_in_roadmap  => false,
+                         :in_aggregation => true,
+                         :is_milestone   => false,
+                         :position       => 1
+
+            Type.create! :name           => l(:default_type_feature),
+                         :is_in_chlog    => true,
+                         :is_in_roadmap  => true,
+                         :in_aggregation => true,
+                         :is_milestone   => false,
+                         :position       => 2
+
+            Type.create! :name           => l(:default_type_support),
+                         :is_in_chlog    => false,
+                         :is_in_roadmap  => false,
+                         :in_aggregation => true,
+                         :is_milestone   => false,
+                         :position       => 3
+
+            Type.create! :name           => l(:default_type_phase),
+                         :is_in_chlog    => false,
+                         :is_in_roadmap  => false,
+                         :in_aggregation => true,
+                         :is_milestone   => false,
+                         :position       => 4
+
+            Type.create! :name           => l(:default_type_milestone),
+                         :is_in_chlog    => false,
+                         :is_in_roadmap  => true,
+                         :in_aggregation => true,
+                         :is_milestone   => true,
+                         :position       => 5
 
             # Issue statuses
             new       = IssueStatus.create!(:name => l(:default_issue_status_new), :is_closed => false, :is_default => true, :position => 1)
