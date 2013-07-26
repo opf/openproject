@@ -20,3 +20,5 @@ module OpenProject::Meeting
     end
   end
 end
+
+Project.send(:include, OpenProject::Meeting::Patches::ProjectPatch)
