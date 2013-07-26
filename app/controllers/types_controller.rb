@@ -66,6 +66,18 @@ class TypesController < ApplicationController
     end
   end
 
+  def move
+    @type = Type.find(params[:id])
+
+    if @type.update_attributes(permitted_params.type_move)
+      flash[:notice] = l(:notice_successful_update)
+    else
+      flash.now[:error] = l('type_could_not_be_saved')
+      render :action => 'edit'
+    end
+    redirect_to types_path
+  end
+
   def destroy
     @type = Type.find(params[:id])
     # types cannot be deleted when they have issue
