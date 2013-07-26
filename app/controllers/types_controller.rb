@@ -58,7 +58,8 @@ class TypesController < ApplicationController
 
   def update
     @type = Type.find(params[:id])
-    if @type.update_attributes(params[:type])
+
+    if @type.update_attributes(permitted_params.type)
       redirect_to types_path, :notice => t(:notice_successful_update)
     else
       @projects = Project.all
@@ -84,6 +85,7 @@ class TypesController < ApplicationController
     # put that into the model and do a `if @type.destroy`
     if @type.issues.empty?
       @type.destroy
+      flash[:notice] = l(:notice_successful_delete)
     else
       flash[:error] = t(:error_can_not_delete_type)
     end
