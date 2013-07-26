@@ -22,7 +22,7 @@ describe WorkPackage do
   let(:planning_element2) { FactoryGirl.build(:planning_element, :project => project) }
   let(:planning_element3) { FactoryGirl.build(:planning_element, :project => project) }
 
-  [:issue].each do |subclass|
+  [:issue, :planning_element].each do |subclass|
 
     describe "(#{subclass})" do
       let(:instance) { send(subclass) }

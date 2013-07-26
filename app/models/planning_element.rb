@@ -249,17 +249,6 @@ class PlanningElement < WorkPackage
     !!read_attribute(:deleted_at)
   end
 
-  # Aliasing the parent_issue_id methods here in order
-  # to improve compatibility between
-  # planning elments and issues
-  alias_method :parent_issue_id, :parent_id
-
-  # I am not sure why it is not possible to
-  # alias_method :parent_issue_id=, :parent_id=
-  def parent_issue_id=(arg)
-    parent_id = arg
-  end
-
   protected
 
   def update_parent_attributes

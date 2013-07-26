@@ -35,7 +35,6 @@ class Issue < WorkPackage
   validate :validate_fixed_version_is_assignable
   validate :validate_fixed_version_is_still_open
   validate :validate_enabled_type
-  validate :validate_correct_parent
 
   scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
@@ -90,7 +89,7 @@ class Issue < WorkPackage
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status
-  after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes
+  after_save :reschedule_following_issues, :update_parent_attributes
   after_destroy :update_parent_attributes
   before_destroy :remove_attachments
 
@@ -111,7 +110,7 @@ class Issue < WorkPackage
   # Moves/copies an issue to a new project and type
   # Returns the moved/copied issue on success, false on failure
   def move_to_project(*args)
-    ret = Issue.transaction do
+    Issue.transaction do
       move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
     end || false
   end
@@ -324,24 +323,6 @@ class Issue < WorkPackage
     end
   end
 
-  def validate_correct_parent
-    # Checks parent issue assignment
-    if @parent_issue
-      if !Setting.cross_project_issue_relations? && @parent_issue.project_id != self.project_id
-        errors.add :parent_issue_id, :not_a_valid_parent
-      elsif !new_record?
-        # moving an existing issue
-        if @parent_issue.root_id != root_id
-          # we can always move to another tree
-        elsif move_possible?(@parent_issue)
-          # move accepted inside tree
-        else
-          errors.add :parent_issue_id, :not_a_valid_parent
-        end
-      end
-    end
-  end
-
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
   def update_done_ratio_from_issue_status
@@ -385,12 +366,6 @@ class Issue < WorkPackage
     done_date = start_date + ((due_date - start_date+1)* done_ratio/100).floor
     return done_date <= Date.today
   end
-
-  # Does this issue have children?
-  def children?
-    !leaf?
-  end
-
 
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user, include_default=false)
@@ -452,20 +427,6 @@ class Issue < WorkPackage
     else
       (lft || 0) <=> (issue.lft || 0)
     end
-  end
-
-  # The number of "items" this issue spans in it's nested set
-  #
-  # A parent issue would span all of it's children + 1 left + 1 right (3)
-  #
-  #   |  parent |
-  #   || child ||
-  #
-  # A child would span only itself (1)
-  #
-  #   |child|
-  def nested_set_span
-    rgt - lft
   end
 
   # Returns a string of css classes that apply to the issue
@@ -538,26 +499,6 @@ class Issue < WorkPackage
     moved_project_ids = project.self_and_descendants.reload.collect(&:id)
     # Update issues of the moved projects and issues assigned to a version of a moved project
     Issue.update_versions(["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
-  end
-
-  def parent_issue_id=(arg)
-    parent_issue_id = arg.blank? ? nil : arg.to_i
-    if parent_issue_id && @parent_issue = Issue.find_by_id(parent_issue_id)
-      journal_changes["parent_id"] = [self.parent_id, @parent_issue.id]
-      @parent_issue.id
-    else
-      @parent_issue = nil
-      journal_changes["parent_id"] = [self.parent_id, nil]
-      nil
-    end
-  end
-
-  def parent_issue_id
-    if instance_variable_defined? :@parent_issue
-      @parent_issue.nil? ? nil : @parent_issue.id
-    else
-      parent_id
-    end
   end
 
   # Extracted from the ReportsController.
@@ -681,55 +622,6 @@ class Issue < WorkPackage
   end
 
   private
-
-  def update_nested_set_attributes
-    if root_id.nil?
-      # issue was just created
-      self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id)
-      set_default_left_and_right
-      Issue.update_all("root_id = #{root_id}, lft = #{lft}, rgt = #{rgt}", ["id = ?", id])
-      if @parent_issue
-        move_to_child_of(@parent_issue)
-      end
-      reload
-    elsif parent_issue_id != parent_id
-      former_parent_id = parent_id
-      # moving an existing issue
-      if @parent_issue && @parent_issue.root_id == root_id
-        # inside the same tree
-        move_to_child_of(@parent_issue)
-      else
-        # to another tree
-        unless root?
-          move_to_right_of(root)
-          reload
-        end
-        old_root_id = root_id
-        self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id )
-        target_maxright = nested_set_scope.maximum(right_column_name) || 0
-        offset = target_maxright + 1 - lft
-        Issue.update_all("root_id = #{root_id}, lft = lft + #{offset}, rgt = rgt + #{offset}",
-                          ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt])
-        self[left_column_name] = lft + offset
-        self[right_column_name] = rgt + offset
-        if @parent_issue
-          move_to_child_of(@parent_issue)
-        end
-      end
-      reload
-
-      # delete invalid relations of all descendants
-      self_and_descendants.each do |issue|
-        issue.relations.each do |relation|
-          relation.destroy unless relation.valid?
-        end
-      end
-
-      # update former parent
-      recalculate_attributes_for(former_parent_id) if former_parent_id
-    end
-    remove_instance_variable(:@parent_issue) if instance_variable_defined?(:@parent_issue)
-  end
 
   # this removes all attachments separately before destroying the issue
   # avoids getting a ActiveRecord::StaleObjectError when deleting an issue

@@ -50,7 +50,8 @@ class WorkPackage < ActiveRecord::Base
 
   acts_as_watchable
 
-  acts_as_nested_set :scope => 'root_id', :dependent => :destroy
+  include OpenProject::NestedSet::WithRootIdScope
+
   acts_as_customizable
 
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
