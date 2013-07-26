@@ -17,7 +17,7 @@ module OpenProject::Meeting
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
 
-	spec = Bundler.environment.specs['openproject-meeting'][0]
+    spec = Bundler.environment.specs['openproject-meeting'][0]
     initializer 'meeting.register_plugin' do
       Redmine::Plugin.register :openproject_meeting do
 
