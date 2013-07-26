@@ -37,6 +37,4 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= javascript_tag(show_meeting_content_editor?(content, content_type) ? "$$('.show-#{content_type}').invoke('hide');" : "$$('.edit-#{content_type}').invoke('hide');") %>
 </div>
 
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'openproject_meeting', :plugin => 'openproject_meeting' %>
-<% end %>
+<%= render :partial => 'shared/meeting_header' %>

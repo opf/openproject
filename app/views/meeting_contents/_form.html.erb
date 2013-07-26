@@ -30,6 +30,4 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div id="<%= content_type %>_preview" class="wiki"></div>
 
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'openproject_meeting' %>
-<% end %>
+<%= render :partial => 'shared/meeting_header' %>

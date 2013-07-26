@@ -1,0 +1,39 @@
+.meetings div.meeting {padding-bottom: 1em;}
+div.meeting_content {padding-bottom: 2em;}
+div.meetings_by_date {padding: 1em 0 1em 2em;}
+dl.meetings p, div#activity dl.meetings dd, div#activity dl.meetings dt {padding: 0;}
+dl.meetings {margin-bottom: 2em;}
+
+div.tabular > div { margin: 0;
+  padding: 5px 0 8px 0;
+  padding-left: 180px; /*width of left column containing the label elements*/
+  height: 1%;
+  clear:left;
+}
+
+#meeting_agenda_preview fieldset {margin-top: 1em; background: url(<%= asset_path 'draft.png' %>);}
+#meeting_minutes_preview fieldset {margin-top: 1em; background: url(<%= asset_path 'draft.png' %>);}
+
+dt.meeting {
+  background-image: url(<%= asset_path 'meeting/meeting.png' %>);
+}
+
+dt.meeting-agenda {
+  background-image: url(<%= asset_path 'meeting/agenda.png' %>);
+}
+
+dt.meeting-minutes {
+  background-image: url(<%= asset_path 'meeting/minutes.png' %>);
+}
+div#activity dl.meetings dt span {
+  padding-left: 15px;
+}
+
+div.flash.notice a.link_to_profile {
+  cursor:pointer;
+  color: #008BD0;
+}
+
+div.flash.notice a.link_to_profile:hover {
+  text-decoration: underline;
+}

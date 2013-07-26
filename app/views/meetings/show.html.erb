@@ -45,6 +45,4 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 <% end %>
 
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'openproject_meeting', :plugin => 'openproject_meeting' %>
-<% end %>
+<%= render :partial => 'shared/meeting_header' %>

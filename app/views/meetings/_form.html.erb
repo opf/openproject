@@ -58,6 +58,4 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= hidden_field_tag "copied_meeting_agenda_text", params[:copied_meeting_agenda_text] if params[:copied_meeting_agenda_text].present? %>
 </div>
 
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'openproject_meeting', :plugin => 'openproject_meeting' %>
-<% end %>
+<%= render :partial => 'shared/meeting_header' %>

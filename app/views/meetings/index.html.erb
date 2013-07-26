@@ -48,6 +48,4 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= pagination_links_full @meetings, :container => false %>
 </p>
 
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'openproject_meeting' %>
-<% end %>
+<%= render :partial => 'shared/meeting_header' %>
