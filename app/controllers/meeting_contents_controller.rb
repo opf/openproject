@@ -10,7 +10,6 @@
 #++
 
 class MeetingContentsController < ApplicationController
-  unloadable
 
   include PaginationHelper
 

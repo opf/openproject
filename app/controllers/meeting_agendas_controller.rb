@@ -10,7 +10,6 @@
 #++
 
 class MeetingAgendasController < MeetingContentsController
-  unloadable
 
   menu_item :meetings
 
