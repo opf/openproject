@@ -1131,6 +1131,7 @@ de:
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"
   permission_view_wiki_pages: "Wiki ansehen"
 
+  project_module_activity: "Aktivität"
   project_module_boards: "Foren"
   project_module_calendar: "Kalender"
   project_module_documents: "Dokumente"
