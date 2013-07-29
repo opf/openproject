@@ -100,51 +100,49 @@ module OpenProject::NestedSet
         if @parent_issue
           move_to_child_of(@parent_issue)
         end
-        reload
-      end
-
-      def move_in_tree(new_parent)
-        if new_parent && new_parent.root_id == root_id
-          # inside the same tree
-          move_to_child_of(new_parent)
-        else
-          # to another tree
-          unless root?
-            move_to_right_of(root)
-            reload
-          end
-          old_root_id = root_id
-          self.root_id = (new_parent.nil? ? id : new_parent.root_id )
-          target_maxright = nested_set_scope.maximum(right_column_name) || 0
-          offset = target_maxright + 1 - lft
-
-          self.class.update_all("root_id = #{root_id}, lft = lft + #{offset}, rgt = rgt + #{offset}",
-                           ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt])
-          self[left_column_name] = lft + offset
-          self[right_column_name] = rgt + offset
-          if new_parent
-            move_to_child_of(new_parent)
-          end
-        end
-
-        reload
       end
 
       def update_existing_tree_node_attributes
         former_parent_id = parent_id
-        # moving an existing issue
+        # moving an existing instance
 
-        move_in_tree(@parent_issue)
+        move_to_new_parent_node(@parent_issue)
 
-        # delete invalid relations of all descendants
-        self_and_descendants.each do |issue|
-          issue.relations.each do |relation|
-            relation.destroy unless relation.valid?
-          end
+        after_update_of_existing_tree_node(former_parent_id)
+      end
+
+      def move_to_new_parent_node(new_parent)
+        if new_parent && new_parent.root_id == root_id
+          move_within_set(new_parent)
+        else
+          move_to_different_set(new_parent)
         end
+      end
 
-        # update former parent
-        recalculate_attributes_for(former_parent_id) if former_parent_id
+      def move_within_set(new_parent)
+        inside the same tree
+        move_to_child_of(new_parent)
+      end
+
+      def move_to_different_set(new_parent)
+        unless root?
+          move_to_right_of(root)
+        end
+        old_root_id = root_id
+
+        self.root_id = (new_parent.nil? ? id : new_parent.root_id )
+
+        target_maxright = nested_set_scope.maximum(right_column_name) || 0
+        offset = target_maxright + 1 - lft
+
+        self.class.update_all("root_id = #{root_id}, lft = lft + #{offset}, rgt = rgt + #{offset}",
+                              ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt])
+        self[left_column_name] = lft + offset
+        self[right_column_name] = rgt + offset
+
+        if new_parent
+          move_to_child_of(new_parent)
+        end
       end
     end
   end
