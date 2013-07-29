@@ -323,30 +323,13 @@ class WorkPackage < ActiveRecord::Base
 
     return unless p
 
-    # priority = highest priority of children
-    if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
-      p.priority = IssuePriority.find_by_position(priority_position)
-    end
+    p.inherit_priority_from_children
 
     p.inherit_dates_from_children
 
-    # done ratio = weighted average ratio of leaves
-    unless WorkPackage.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
-      leaves_count = p.leaves.count
-      if leaves_count > 0
-        average = p.leaves.average(:estimated_hours).to_f
-        if average == 0
-          average = 1
-        end
-        done = p.leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
-        progress = done / (average * leaves_count)
-        p.done_ratio = progress.round
-      end
-    end
+    p.inherit_done_ratio_from_leaves
 
-    # estimate = sum of leaves estimates
-    p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
-    p.estimated_hours = nil if p.estimated_hours == 0.0
+    p.inherit_estimated_hours_from_leaves
 
     # ancestors will be recursively updated
     if p.changed?
@@ -361,6 +344,13 @@ class WorkPackage < ActiveRecord::Base
     recalculate_attributes_for(parent_id) if parent_id.present?
   end
 
+  def inherit_priority_from_children
+    # priority = highest priority of children
+    if priority_position = children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
+      self.priority = IssuePriority.find_by_position(priority_position)
+    end
+  end
+
   def inherit_dates_from_children
     active_children = children.without_deleted
 
@@ -368,6 +358,29 @@ class WorkPackage < ActiveRecord::Base
       self.start_date = [active_children.minimum(:start_date), active_children.minimum(:due_date)].compact.min
       self.due_date   = [active_children.maximum(:start_date), active_children.maximum(:due_date)].compact.max
     end
+  end
+
+  def inherit_done_ratio_from_leaves
+    # done ratio = weighted average ratio of leaves
+    unless WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
+      leaves_count = leaves.count
+      if leaves_count > 0
+        average = leaves.average(:estimated_hours).to_f
+        if average == 0
+          average = 1
+        end
+        done = leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
+        progress = done / (average * leaves_count)
+
+        self.done_ratio = progress.round
+      end
+    end
+  end
+
+  def inherit_estimated_hours_from_leaves
+    # estimate = sum of leaves estimates
+    self.estimated_hours = leaves.sum(:estimated_hours).to_f
+    self.estimated_hours = nil if estimated_hours == 0.0
   end
 
   def create_alternate_date
