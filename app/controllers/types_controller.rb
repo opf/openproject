@@ -15,12 +15,12 @@ class TypesController < ApplicationController
 
   layout 'admin'
 
-  before_filter :require_admin
+  before_filter :require_admin, :except => [:index, :paginate_planning_element_types]
 
   def index
     @types = Type.order('position')
-                       .page(params[:page])
-                       .per_page(per_page_param)
+                 .page(params[:page])
+                 .per_page(per_page_param)
 
     render :action => "index", :layout => false if request.xhr?
   end
