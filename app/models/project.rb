@@ -740,7 +740,7 @@ class Project < ActiveRecord::Base
   def hierarchy
     parents = project.self_and_ancestors || []
     descendants = project.descendants || []
-    project_hierarchy = parents | descendants # Set union
+    parents | descendants # Set union
   end
 
   # Returns an auto-generated project identifier based on the last identifier used
