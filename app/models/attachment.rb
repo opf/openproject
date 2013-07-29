@@ -144,7 +144,8 @@ class Attachment < ActiveRecord::Base
   end
 
   def project
-    container.project
+    #not every container has a project (example: LandingPage)
+    container.respond_to?(:project)? container.project : nil
   end
 
   def visible?(user=User.current)
