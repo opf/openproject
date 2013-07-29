@@ -262,7 +262,7 @@ class PlanningElementsController < ApplicationController
       @projects = @projects.select do |project|
         User.current.allowed_to?({:controller => params[:controller],
                                   :action     => params[:action]},
-                                 project)
+                                  project)
       end
 
       if @projects.blank?
