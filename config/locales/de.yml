@@ -421,6 +421,8 @@ de:
   default_type_bug: "Fehler"
   default_type_feature: "Feature"
   default_type_support: "Unterstützung"
+  default_type_phase: "Phase"
+  default_type_milestone: "Meilenstein"
 
   description_active: "Aktiv?"
   description_attachment_toggle: "Dateien aus/einblenden"

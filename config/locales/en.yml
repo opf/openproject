@@ -425,6 +425,8 @@ en:
   default_type_bug: "Bug"
   default_type_feature: "Feature"
   default_type_support: "Support"
+  default_type_phase: "Phase"
+  default_type_milestone: "Milestone"
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
