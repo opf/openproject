@@ -16,11 +16,12 @@ describe Member do
   let(:role) { FactoryGirl.create(:role) }
   let(:member) { FactoryGirl.build(:member, :user => user) }
 
-  it "fails to save members without roles" do
-    member.role_ids = [role.id]
+  it "fails to save members with all roles marked for destruction" do
+    member.roles = [role]
     member.save!
     member.member_roles.each(&:mark_for_destruction)
     member.should_not be_valid
     member.errors[:roles].should include "can't be empty"
+    member.role_ids.should == [role.id]
   end
 end

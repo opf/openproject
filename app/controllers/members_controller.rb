@@ -178,7 +178,7 @@ JS
 
     role_ids = attrs.delete(:role_ids).map(&:to_i).select{ |i| i > 0 }
 
-    @member.role_ids = role_ids
+    @member.update_roles(role_ids)
 
     @member.attributes = attrs
     @member
