@@ -102,9 +102,9 @@ class Type < ActiveRecord::Base
   def enabled_in?(object)
     case object
     when ProjectType
-      object.planning_element_types.include?(self)
+      object.types.include?(self)
     when Project
-      object.planning_element_types.include?(self)
+      object.types.include?(self)
     else
       false
     end

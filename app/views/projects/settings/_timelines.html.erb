@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class='center'>
             <%= check_box_tag "project[planning_element_type_ids][]",
                               type.id,
-                              @project.planning_element_types.include?(type),
+                              @project.types.include?(type),
                               :id => "project_planning_element_type_ids_#{type.id}" %>
             <label class='hidden-for-sighted' for="project_planning_element_type_ids_<%= type.id %>">
               <%= l('timelines.enable_planning_element_in_project', :type => type.name) %>
