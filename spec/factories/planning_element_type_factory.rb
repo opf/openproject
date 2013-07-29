@@ -10,7 +10,7 @@
 #++
 
 FactoryGirl.define do
-  factory(:planning_element_type, :class => PlanningElementType) do
+  factory(:planning_element_type, :class => Type) do
     sequence(:name) { |n| "Planning Element Type No. #{n}" }
 
     in_aggregation true

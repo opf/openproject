@@ -20,7 +20,7 @@ Feature: Viewing a planning_element
           | Name                  |
           | Standard Project      |
 
-      And the following planning element types are default for projects of type "Standard Project"
+      And the following types are default for projects of type "Standard Project"
           | Phase     |
 
       And there is 1 user with:

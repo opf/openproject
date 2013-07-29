@@ -25,7 +25,7 @@ Feature: Planning Element Management
           | Standard Project      |
           | Extraordinary Project |
 
-      And the following planning element types are default for projects of type "Standard Project"
+      And the following types are default for projects of type "Standard Project"
           | Phase     |
           | Milestone |
 

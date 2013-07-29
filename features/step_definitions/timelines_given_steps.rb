@@ -66,17 +66,6 @@ Given /^there are the following project types:$/ do |table|
   end
 end
 
-Given /^the following planning element types are default for projects of type "([^"]*)"$/ do |project_type_name, pe_type_names|
-  project_type = ProjectType.find_by_name!(project_type_name)
-
-  pe_type_names = pe_type_names.raw.flatten
-  pe_type_names.each do |pe_type_name|
-    FactoryGirl.create(:default_planning_element_type,
-                   :project_type_id          => project_type.id,
-                   :planning_element_type_id => PlanningElementType.find_by_name!(pe_type_name).id)
-  end
-end
-
 Given /^there is a scenario "([^"]*)" in project "([^"]*)"$/ do |scenario_name, project_name|
   FactoryGirl.create(:scenario, :name => scenario_name, :project_id => Project.find_by_name!(project_name).id)
 end
@@ -107,8 +96,8 @@ end
 #
 Given /^there is a project named "([^"]*)" of type "([^"]*)"$/ do |name, project_type_name|
   FactoryGirl.create(:project,
-                 :name                      => name,
-                 :project_type_id => ProjectType.find_by_name!(project_type_name).id)
+                     :name => name,
+                     :project_type_id => ProjectType.find_by_name!(project_type_name).id)
 end
 
 Given /^there are the following projects of type "([^"]*)":$/ do |project_type_name, table|

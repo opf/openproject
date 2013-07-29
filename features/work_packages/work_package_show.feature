@@ -31,7 +31,7 @@ Feature: Viewing a work package
     And there are the following project types:
       | Name             |
       | Standard Project |
-    And the following planning element types are default for projects of type "Standard Project"
+    And the following types are default for projects of type "Standard Project"
       | Phase |
 
     And there is a role "member"

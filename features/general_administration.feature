@@ -27,10 +27,3 @@ Feature: General Timelines adminstration
       And I follow "Project types"
      Then I should see "No data to display"
       And I should see "New project type"
-
-  Scenario: The admin gets 'No data to display' when there are no planning element types defined
-    Given I am logged in as "admin"
-     When I go to the admin page
-      And I follow "Planning element types"
-     Then I should see "No data to display"
-      And I should see "New planning element type"

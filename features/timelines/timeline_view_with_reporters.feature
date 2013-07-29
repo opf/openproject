@@ -15,7 +15,7 @@ Feature: Timeline View Tests with reporters
   Filter the projects on given criteria
 
   Background:
-    Given there are the following planning element types:
+    Given there are the following types:
           | Name      | Is Milestone | In aggregation |
           | Phase1    | false        | true           |
           | Phase2    | false        | true           |
@@ -28,14 +28,14 @@ Feature: Timeline View Tests with reporters
           | Standard Project      |
           | Extraordinary Project |
 
-      And the following planning element types are default for projects of type "Standard Project"
+      And the following types are default for projects of type "Standard Project"
           | Phase1    |
           | Phase2    |
           | Phase3    |
           | Phase4    |
           | Milestone |
 
-      And the following planning element types are default for projects of type "Extraordinary Project"
+      And the following types are default for projects of type "Extraordinary Project"
           | Phase1    |
           | Phase2    |
           | Phase3    |

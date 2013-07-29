@@ -63,7 +63,7 @@ When(/^I show only projects which have a planning element which lies between "(.
 
   page.should have_selector("#timeline_options_planning_element_time_types", :visible => false)
 
-  planning_element_type = PlanningElementType.find_by_name(type)
+  planning_element_type = Type.find_by_name(type)
   page.execute_script("jQuery('#timeline_options_planning_element_time_types').val('#{planning_element_type.id}')")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_one').val('#{start_date}')")

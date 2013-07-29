@@ -21,7 +21,7 @@ Feature: Planning elements textile quickinfo links
           | Standard Project      |
           | Extraordinary Project |
 
-      And the following planning element types are default for projects of type "Standard Project"
+      And the following types are default for projects of type "Standard Project"
           | Phase     |
           | Milestone |
 

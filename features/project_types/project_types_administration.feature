@@ -20,7 +20,7 @@ Feature:
         | Name                  |
         | Standard Project      |
         | Extraordinary Project |
-      And there are the following planning element types:
+      And there are the following types:
         | Name           |
         | Phase          |
         | Milestone      |
@@ -41,7 +41,7 @@ Feature:
       And I follow "Project types"
       And I follow the edit link of the project type "Standard Project"
      Then I should see "Standard Project"
-      And I should see "Standard planning element types"
+      And I should see "Types"
       And I should see "Reported project statuses"
       And I should see "Phase"
       And I should see "Milestone"

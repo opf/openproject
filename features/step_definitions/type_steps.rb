@@ -18,3 +18,14 @@ RouteMap.register(Type, "/types")
 Then /^I should not see the "([^"]*)" type$/ do |name|
   page.all(:css, '.timelines-pet-name', :text => name).should be_empty
 end
+
+Given /^the following types are default for projects of type "([^"]*)"$/ do |project_type_name, pe_type_names|
+  project_type = ProjectType.find_by_name!(project_type_name)
+
+  pe_type_names = pe_type_names.raw.flatten
+  pe_type_names.each do |pe_type_name|
+    FactoryGirl.create(:default_planning_element_type,
+                       :project_type_id          => project_type.id,
+                       :planning_element_type_id => Type.find_by_name!(pe_type_name).id)
+  end
+end
