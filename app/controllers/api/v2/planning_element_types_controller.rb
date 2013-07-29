@@ -12,10 +12,12 @@
 module Api
   module V2
 
-    class PlanningElementTypesController < PlanningElementTypesController
+    class PlanningElementTypesController < TypesController
 
       include ::Api::V2::ApiController
-      paginate_model PlanningElementType
+
+      extend Pagination::Controller
+      paginate_model ::Api::V2::PlanningElementType
 
       def index
         @planning_element_types = @base.all

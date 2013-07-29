@@ -9,6 +9,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class PlanningElementType < Type
-  self.table_name = 'planning_element_types'
+module Api
+  module V2
+    class PlanningElementType < Type
+      self.table_name = 'types'
+    end
+  end
 end
