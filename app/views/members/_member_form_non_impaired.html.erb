@@ -6,27 +6,23 @@
                      :html => {:id => "members_add_form"}) do |f| %>
   <fieldset>
     <legend><%= l(:label_member_new) %></legend>
-      <div class="splitcontentleft">
+      <div class="select-boxes">
         <label>
+          <%= l(:label_principal_search) %>
           <%= select_tag "member[user_ids]", options_for_select([]),
                          :title => l(:label_principal_search),
                          :multiple => true,
-                         :'data-placeholder' => l(:label_principal_search),
-                         :'data-minimumInputLength' => 1,
                          :'data-ajaxURL' => url_for(:controller => "/members", :action => "autocomplete_for_member"),
                          :'data-projectId' => project.id,
-                         :class => "select2-select" %>
+                         :class => "select2-select remote" %>
         </label>
-      </div>
-      <div class="splitcontentright">
         <label>
-          <%= select_tag 'member[role_ids]', options_for_select([]),
-                         :title => l(:label_role_plural),
+          <%= l(:label_role_search) %>
+          <% options = roles.collect { |obj| [obj.name, obj.id] } %>
+          <%= select_tag 'member[role_ids]', options_for_select(options),
+                         :title => l(:label_role_search),
                          :multiple => true,
-                         :'data-placeholder' => l(:label_role_search),
-                         :'data-minimumInputLength' => 0,
-                         :'data-ajaxURL' => url_for(:controller => "/roles", :action => "autocomplete_for_role"),
-                         :'data-projectId' => project.id,
+                         :tabIndex => 0,
                          :class => "select2-select" %>
         </label>
       </div>

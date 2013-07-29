@@ -17,8 +17,8 @@ class PlanningElementsController < ApplicationController
 
   menu_item :planning_elements
   menu_item :recycle_bin, :only => [:move_to_trash, :confirm_move_to_trash,
-                                              :recycle_bin, :destroy_all, :confirm_destroy_all,
-                                              :restore_all, :confirm_restore_all]
+                                    :recycle_bin, :destroy_all, :confirm_destroy_all,
+                                    :restore_all, :confirm_restore_all]
 
   before_filter :disable_api
   before_filter :find_project_by_project_id,
@@ -29,8 +29,6 @@ class PlanningElementsController < ApplicationController
   # Attention: find_all_projects_by_project_id needs to mimic all of the above
   #            before filters !!!
   before_filter :find_all_projects_by_project_id, :only => :index
-
-
 
   helper :timelines
   helper :timelines_journals
@@ -160,7 +158,7 @@ class PlanningElementsController < ApplicationController
 
   def destroy
     @planning_element = @project.planning_elements.find(params[:id])
-    @planning_element.destroy!
+    @planning_element.destroy
 
     respond_to do |format|
       format.html do
@@ -180,7 +178,7 @@ class PlanningElementsController < ApplicationController
 
   def destroy_all
     @project.planning_elements.deleted.each do |element|
-      element.destroy!
+      element.destroy
     end
 
     flash[:notice] = l("timelines.notice_successful_deleted_all_elements")
@@ -189,7 +187,7 @@ class PlanningElementsController < ApplicationController
 
   def move_to_trash
     @planning_element = @planning_elements.find(params[:id])
-    @planning_element.destroy
+    @planning_element.trash
 
     respond_to do |format|
       format.html do

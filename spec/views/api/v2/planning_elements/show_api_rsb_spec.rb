@@ -60,12 +60,12 @@ describe 'api/v2/planning_elements/show.api.rsb' do
     let(:journal) { FactoryGirl.build(:planning_element_journal) }
     let(:changes) { { "name" => ["old_name", "new_name"],
                       "project_id" => ["1", "2"],
-                      "scenario_1_end_date" => ["2012-01-01", "2013-01-01"] } }
+                      "scenario_1_due_date" => ["2012-01-01", "2013-01-01"] } }
     let(:user) { FactoryGirl.create(:user) }
 
     it 'countains an array of journals' do
       # prevents problems related to the journal not having a user associated
-      User.current = user
+      User.stub!(:current).and_return(user)
 
       assign(:planning_element, journal.journaled)
       journal.changed_data = changes

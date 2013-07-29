@@ -9,6 +9,7 @@ modify it under the terms of the GNU General Public License version 3.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<%= javascript_include_tag "members_form.js" %>
 
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
@@ -23,8 +24,7 @@ See doc/COPYRIGHT.rdoc for more details.
 %>
 <div>
   <% if roles.any? && available_principals.any? %>
-    <% partial = (User.current.impaired? ? "members/member_form_impaired" : "members/member_form") %>
-    <%= render :partial => partial,
+    <%= render :partial => "members/member_form",
               :locals => { :project => @project,
                            :members => members,
                            :roles => roles,

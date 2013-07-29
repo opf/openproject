@@ -41,5 +41,31 @@ Then /^the "(.+?)" setting should be (true|false)$/ do |name, trueish|
 end
 
 Given /^I save the settings$/ do
-  click_button('Save', :visible => true)
+  click_button('Save')
 end
+
+##
+# Setting-specific steps
+#
+
+#
+# Directly write to Settings
+#
+Given /^users are blocked for ([0-9]+) minutes after ([0-9]+) failed login attempts$/ do |duration, attempts|
+  Setting.brute_force_block_minutes = duration
+  Setting.brute_force_block_after_failed_logins = attempts
+end
+
+Given /^we paginate after (\d+) items$/ do |per_page_param|
+  Setting.per_page_options = "#{per_page_param}, 50, 100"
+end
+
+#
+# Fill out settings forms
+#
+Given /^I set passwords to expire after ([0-9]+) days$/ do |days|
+  visit '/settings?tab=authentication'
+  fill_in('settings_password_days_valid', :with => days.to_s)
+  step 'I save the settings'
+end
+

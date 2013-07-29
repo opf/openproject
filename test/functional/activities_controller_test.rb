@@ -93,7 +93,7 @@ class ActivitiesControllerTest < ActionController::TestCase
     assert_template 'common/feed'
     assert_tag :tag => 'entry', :child => {
       :tag => 'link',
-      :attributes => {:href => 'http://test.host/work_packages/show/11'}}
+      :attributes => {:href => 'http://test.host/work_packages/11'}}
   end
 
 end

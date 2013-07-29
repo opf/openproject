@@ -46,11 +46,11 @@ describe OpenProject::JournalFormatter::ScenarioDate do
       it { instance.render(key, [nil, new_date]).should == expected }
     end
 
-    describe "WITH rendering the end date
+    describe "WITH rendering the due date
               WITH the first value beeing nil, and the second a date
               WITH the scenario existing" do
       let(:new_date) { Date.today }
-      let(:date_type) { "end" }
+      let(:date_type) { "due" }
       let(:expected) { I18n.t(:text_journal_set_to,
                               :label => "<strong>#{ I18n.t(:"label_scenario_#{date_type}_date", :title => scenario.name) }</strong>",
                               :value => "<i>#{format_date(new_date)}</i>") }

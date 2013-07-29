@@ -1,0 +1,48 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<h2><%=l(:label_work_package_new)%></h2>
+
+
+<%= labelled_tabular_form_for controller.new_work_package,
+                              :url => project_work_packages_path(@project),
+                              # TODO: remove once Issue == PlanningElement
+                              :as => 'work_package',
+                              :html => { :multipart => true,
+                                         :id => 'work_package-form',
+                                         :class => 'tabular new-work_package-form' } do |f| %>
+
+  <%= error_messages_for :object => controller.new_work_package %>
+
+  <%= f.hidden_field :sti_type %>
+
+  <div class="box">
+    <%= render :partial => 'form', :locals => { :f => f,
+                                                :work_package => controller.new_work_package,
+                                                :project => controller.project,
+                                                :priorities => controller.priorities } %>
+    <%= send_notification_option %>
+  </div>
+
+  <%= submit_tag l(:button_create) %>
+  <!-- not supported by controller for now -->
+  <%#= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+  <%= link_to_issue_preview(controller.project) %>
+
+  <%= javascript_tag "Form.Element.focus('#{f.object_name}_subject');" %>
+<% end %>
+
+<div id="preview" class="wiki"></div>
+
+<% content_for :header_tags do %>
+  <%= robot_exclusion_tag %>
+<% end %>

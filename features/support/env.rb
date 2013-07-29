@@ -15,9 +15,6 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
-require 'coveralls'
-require 'simplecov_openproject_profile'
-Coveralls.wear_merged!('openproject')
 require 'cucumber/rails'
 require 'capybara-screenshot/cucumber'
 
@@ -36,7 +33,7 @@ Capybara.configure do |config|
     config.default_selector = :css
     config.default_wait_time = 10
     config.exact_options = true
-    config.ignore_hidden_elements = false
+    config.ignore_hidden_elements = true
     config.match = :one
     config.visible_text_only = true
 end

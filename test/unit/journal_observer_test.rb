@@ -16,7 +16,7 @@ class JournalObserverTest < ActiveSupport::TestCase
     super
     @project = FactoryGirl.create :valid_project
     @user = FactoryGirl.create :user, :mail_notification => 'all', :member_in_project => @project
-    @issue = FactoryGirl.create :issue, :project => @project, :author => @user, :tracker => @project.trackers.first
+    @issue = FactoryGirl.create :issue, :project => @project, :author => @user, :type => @project.types.first
     ActionMailer::Base.deliveries.clear
   end
 

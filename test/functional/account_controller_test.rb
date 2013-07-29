@@ -94,7 +94,7 @@ class AccountControllerTest < ActionController::TestCase
                              :lastname => 'User',
                              :mail => 'user@somedomain.com',
                              :identity_url => 'http://openid.example.com/good_user',
-                             :status => User::STATUS_REGISTERED)
+                             :status => User::STATUSES[:registered])
     existing_user.login = 'cool_user'
     assert existing_user.save!
 
@@ -141,7 +141,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_redirected_to '/login'
     user = User.find_by_login('cool_user')
     assert user
-    assert_equal User::STATUS_REGISTERED, user.status
+    assert_equal User::STATUSES[:registered], user.status
   end
 
   def test_login_with_openid_with_new_user_with_conflict_should_register
@@ -228,7 +228,7 @@ class AccountControllerTest < ActionController::TestCase
       should 'set the user status to active' do
         user = User.last(:conditions => {:login => 'register'})
         assert user
-        assert_equal User::STATUS_ACTIVE, user.status
+        assert_equal User::STATUSES[:active], user.status
       end
     end
 

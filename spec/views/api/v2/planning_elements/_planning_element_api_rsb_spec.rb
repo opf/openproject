@@ -38,7 +38,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
                                            :description => 'Description of this planning element',
 
                                            :start_date => Date.parse('2011-12-06'),
-                                           :end_date   => Date.parse('2011-12-13'),
+                                           :due_date   => Date.parse('2011-12-13'),
 
                                            :planning_element_status_comment => 'All going well',
 
@@ -76,7 +76,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
         response.should have_selector('planning_element start_date', :text => '2011-12-06')
       end
 
-      it 'contains an end_date element containing the planning element end_date in YYYY-MM-DD' do
+      it 'contains an due_date element containing the planning element due_date in YYYY-MM-DD' do
         render
         response.should have_selector('planning_element end_date', :text => '2011-12-13')
       end
@@ -235,21 +235,21 @@ describe 'api/v2/planning_elements/_planning_element.api' do
                        :scenario_id => scenario_a.id,
 
                        :start_date => Date.new(2011, 01, 01),
-                       :end_date   => Date.new(2011, 01, 31)),
+                       :due_date   => Date.new(2011, 01, 31)),
 
         FactoryGirl.create(:alternate_scenaric_date,
                        :planning_element_id => planning_element.id,
                        :scenario_id => scenario_b.id,
 
                        :start_date => Date.new(2011, 02, 01),
-                       :end_date   => Date.new(2011, 02, 28)),
+                       :due_date   => Date.new(2011, 02, 28)),
 
         FactoryGirl.create(:alternate_scenaric_date,
                        :planning_element_id => planning_element.id,
                        :scenario_id => scenario_c.id,
 
                        :start_date => Date.new(2011, 03, 01),
-                       :end_date   => Date.new(2011, 03, 31))
+                       :due_date   => Date.new(2011, 03, 31))
       ]
 
       # This is just created to make sure, that it is ok, that there are
@@ -280,7 +280,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
           end
         end
 
-        it 'scenario nodes contain start_date and end_date nodes containing the alternate dates' do
+        it 'scenario nodes contain start_date and due_date nodes containing the alternate dates' do
           render
 
           response.should have_selector('planning_element scenarios scenario[name="Scenario A"]') do
@@ -305,7 +305,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
   describe "a destroyed planning element" do
     let(:planning_element) { FactoryGirl.create(:planning_element) }
     before do
-      planning_element.destroy!
+      planning_element.destroy
     end
 
     it 'renders a planning_element node having destroyed=true' do

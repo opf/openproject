@@ -32,8 +32,8 @@ module TimelinesJournalsHelper
 
   def timelines_time_tag(time)
     text = format_time(time)
-    if @project
-      link_to(text, {:controller => '/activities', :action => 'index', :id => @project, :from => time.to_date}, :title => format_time(time))
+    if @project and @project.module_enabled?("activity")
+      link_to(text, {:controller => '/activities', :action => 'index', :project_id => @project, :from => time.to_date}, :title => format_time(time))
     else
       content_tag('label', text, :title => format_time(time), :class => "timestamp")
     end
@@ -102,7 +102,7 @@ module TimelinesJournalsHelper
     css_classes = "wiki"
     css_classes << " editable" if editable
 
-    content_tag('div', content, :id => "journal-#{journal.id}-notes", :class => css_classes)
+    content_tag('div', content.html_safe, :id => "journal-#{journal.id}-notes", :class => css_classes)
   end
 
 end

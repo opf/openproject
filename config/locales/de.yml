@@ -1,19 +1,19 @@
 de:
   account:
     delete: "Account löschen"
-    delete_confirmation: "Sind sie sicher, dass die den Account löschen wollen?"
+    delete_confirmation: "Sind Sie sicher, dass Sie den Account löschen wollen?"
     deleted: "Account erfolgreich gelöscht"
     deletion_info:
       data_consequences:
-        other: "Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden ist es unmöglich die von Nutzer erstellten Daten auf seine Person zurückzuführen."
-        self: "Von den von Ihnen im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden ist es unmöglich die von ihnen erstellten Daten auf Ihre Person zurückzuführen."
-      heading: "Lösche account %{name}"
+        other: "Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die vom Nutzer erstellten Daten diesem Nutzer zuzuordnen."
+        self: "Von den von Ihnen im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Tickets, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Tickets und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschter Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die von Ihnen erstellten Daten auf Ihre Person zurückzuführen."
+      heading: "Lösche Account %{name}"
       info:
         other: "Das Löschen des Accounts kann nicht rückgängig gemacht werden."
-        self: "Das Löschen ihres Accounts kann nicht rückgängig gemacht werden."
+        self: "Das Löschen Ihres Accounts kann nicht rückgängig gemacht werden."
       login_consequences:
         other: "Der Account wird aus dem System entfernt. Der Nutzer wird daher nicht mehr in der Lage sein, sich mit seinem derzeitigen Nutzernamen und Passwort anzumelden. Sofern der Nutzer es wünscht, kann er sich über die von der Anwendung zur Verfügung gestellten Mechanismen einen neuen Account zulegen."
-        self: "Ihr Account wird aus dem System entfernt. Sie werden daher nicht mehr in der Lage, sein sich mit ihrem derzeitigen Nutzernamen und Passwort anzumelden. Sofern Sie es wünschen, können sie sich über die von der Anwendung zur Verfügung gestellten Mechanismen einen neuen Account zulegen."
+        self: "Ihr Account wird aus dem System entfernt. Sie werden daher nicht mehr in der Lage sein, sich mit Ihrem derzeitigen Nutzernamen und Passwort anzumelden. Sofern Sie es wünschen, können Sie sich über die von der Anwendung zur Verfügung gestellten Mechanismen einen neuen Account zulegen."
 
   actionview_instancetag_blank_option: "Bitte auswählen"
 
@@ -60,7 +60,7 @@ de:
         priority: "Priorität"
         subproject: "Unterprojekt von"
         time_entries: "Logzeit"
-        tracker: "Tracker"
+        type: "Typ"
         watcher: "Beobachter"
       issue_relation:
         delay: "Pufferzeit"
@@ -90,46 +90,45 @@ de:
         hours: "Stunden"
         issue: "Ticket"
         spent_on: "Datum"
-        tracker: "Tracker"
+        type: "Typ"
       planning_element_type_color:
-        name: Name
-        hexcode: Hex-Code
+        name: "Name"
+        hexcode: "Hex-Code"
       planning_element:
         alternate_dates:
-          end_date: Abschlussdatum des alternativen Datums
-        description: Beschreibung
-        end_date: Abschlussdatum
-        id: ID
-        name: Name
-        parent: Eltern-Element
-        planning_element_type: Typ
-        responsible: Planungsverantwortlicher
-        start_date: Startdatum
+          due_date: "Abschlussdatum des alternativen Datums"
+        description: "Beschreibung"
+        due_date: "Abschlussdatum"
+        id: "ID"
+        name: "Name"
+        parent: "Eltern-Element"
+        planning_element_type: "Typ"
+        start_date: "Startdatum"
       planning_element_type:
-        color: Farbe
-        id: ID
-        in_aggregation: In Aggregration
-        is_default: Standardwert
-        is_milestone: Meilenstein
-        name: Name
+        color: "Farbe"
+        id: "ID"
+        in_aggregation: "In Aggregration"
+        is_default: "Standardwert"
+        is_milestone: "Meilenstein"
+        name: "Name"
       project_association:
-        description: Begründung
+        description: "Begründung"
       project_type:
-        allows_association: Erlaubt Projekt-Abhängigkeiten
-        name: Name
-        planning_element_types: Standard-Planungselement-Typen
-        reported_project_statuses: Gemeldeter Projekt-Status
+        allows_association: "Erlaubt Projekt-Abhängigkeiten"
+        name: "Name"
+        planning_element_types: "Standard-Planungselement-Typen"
+        reported_project_statuses: "Gemeldeter Projekt-Status"
       scenario:
-        created_at: Angelegt
-        name: Name
+        created_at: "Angelegt"
+        name: "Name"
       timeline:
-        name: Name
+        name: "Name"
       reporting:
-        created_at: Angelegt
-        reported_project_status_comment: Status-Kommentar
-        reported_project_status_id: Projekt-Status
-        reporting_to_project_id: Beziehung zu Projekt
-      tracker:
+        created_at: "Angelegt"
+        reported_project_status_comment: "Status-Kommentar"
+        reported_project_status_id: "Projekt-Status"
+        reporting_to_project_id: "Beziehung zu Projekt"
+      type:
         is_in_roadmap: "In der Roadmap anzeigen"
       user:
         admin: "Administrator"
@@ -157,6 +156,10 @@ de:
       wiki_page:
         parent_title: "Übergeordnete Seite"
         redirect_existing_links: "Existierende Links umleiten"
+      work_package:
+        progress: "% erledigt"
+        responsible: "Planungsverantwortlicher"
+        spent_time: "Aufgewendete Zeit"
 
     errors:
       messages:
@@ -176,7 +179,7 @@ de:
         invalid: "ist nicht gültig"
         less_than: "muss kleiner als %{count} sein"
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein"
-        not_a_date: "is kein gültiges Datum"
+        not_a_date: "ist kein gültiges Datum"
         not_a_number: "ist keine Zahl"
         not_same_project: "gehört nicht zum selben Projekt"
         odd: "muss ungerade sein"
@@ -188,11 +191,11 @@ de:
       models:
         alternate_date:
           attributes:
-            end_date:
+            due_date:
               not_start_date: "ist nicht identisch mit dem Startdatum, obwohl dies bei Meilensteinen Pflicht ist"
         planning_element:
           attributes:
-            end_date:
+            due_date:
               not_start_date: "ist nicht am Startdatum, obwohl die bei Meilensteinen Pflicht ist"
             parent:
               cannot_be_milestone: "darf kein Meilenstein sein"
@@ -209,7 +212,9 @@ de:
               uppercase: "Großbuchstaben (z.B. 'A')"
               numeric: "Ziffern (z.B. '1')"
               special: "Sonderzeichen (z.B. '%')"
-              reused: "darf nicht eines der %{count} zuletzt genutzten sein."
+              reused:
+                one: "wurde bereits verwendet. Bitte wählen Sie eines, das sich vom letzten unterscheidet."
+                other: "wurde bereits verwendet. Bitte wählen Sie eines, das sich von den letzten %{count} unterscheidet."
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:
@@ -233,11 +238,11 @@ de:
       role:
         one : "Rolle"
         other: "Rollen"
-      tracker: "Tracker"
-      planning_element: Planungselement
-      planning_element_type: Planungselement-Typ
-      project_type: Projekt-Typ
-      scenario: Szenario
+      type: "Typ"
+      planning_element: "Planungselement"
+      planning_element_type: "Planungselement-Typ"
+      project_type: "Projekt-Typ"
+      scenario: "Szenario"
       user: "Benutzer"
       version: "Version"
       wiki: "Wiki"
@@ -282,8 +287,8 @@ de:
     updated_on: "Aktualisiert"
     user: "Benutzer"
     version: "Version"
+    work_package: "Arbeitspacket"
 
-  button_activate: "Aktivieren"
   button_add: "Hinzufügen"
   button_add_watcher: "Beobachter hinzufügen"
   button_annotate: "Annotieren"
@@ -408,18 +413,23 @@ de:
   default_priority_low: "Niedrig"
   default_priority_normal: "Normal"
   default_priority_urgent: "Dringend"
-  default_role_anonymous: "Anonymous"
+  default_role_anonymous: "Anonymus"
   default_role_developer: "Entwickler"
   default_role_manager: "Manager"
-  default_role_non_member: "Non member"
+  default_role_non_member: "Nichtmitglied"
   default_role_reporter: "Reporter"
-  default_tracker_bug: "Fehler"
-  default_tracker_feature: "Feature"
-  default_tracker_support: "Unterstützung"
+  default_type_bug: "Fehler"
+  default_type_feature: "Feature"
+  default_type_support: "Unterstützung"
 
   description_active: "Aktiv?"
   description_attachment_toggle: "Dateien aus/einblenden"
-  description_autocomplete: "Für dieses Feld werden sie mit einer Autovervollständigung unterstützt. Sie können einen Teil des Tickettitels schreiben und bekommen eine Liste von möglichen Tickets angezeigt. Wählen Sie mit den Pfeiltasten den gewünschten Eintrag und bestätigen Sie mit Tab oder Enter. Sie können aber auch die Ticketnummer direkt eintragen."
+  description_autocomplete: >
+    Für dieses Feld werden Sie mit einer Autovervollständigung
+    unterstützt. Sie können einen Teil des Tickettitels schreiben und
+    bekommen eine Liste von möglichen Tickets angezeigt. Wählen Sie mit
+    den Pfeiltasten den gewünschten Eintrag und bestätigen Sie mit Tab
+    oder Enter. Sie können aber auch die Ticketnummer direkt eintragen."
   description_available_columns: "Verfügbare Spalten"
   description_choose_project: "Projekte"
   description_compare_from: "Vergleiche von Version"
@@ -453,7 +463,7 @@ de:
   description_wiki_subpages_reassign: "Neue Elternseite wählen"
 
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
-  direction: ltr
+  direction: "ltr"
 
   enumeration_activities: "Aktivitäten (Zeiterfassung)"
   enumeration_doc_categories: "Dokumentenkategorien"
@@ -464,7 +474,7 @@ de:
 
   error_can_not_archive_project: "Dieses Projekt kann nicht archiviert werden."
   error_can_not_delete_custom_field: "Kann das benutzerdefinierte Feld nicht löschen."
-  error_can_not_delete_tracker: "Dieser Tracker enthält Tickets und kann nicht gelöscht werden."
+  error_can_not_delete_type: "Dieser Typ enthält Tickets und kann nicht gelöscht werden."
   error_can_not_remove_role: "Diese Rolle wird verwendet und kann nicht gelöscht werden."
   error_can_not_reopen_issue_on_closed_version: "Das Ticket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden."
   error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %{value}"
@@ -473,14 +483,14 @@ de:
   error_issue_not_found_in_project: "Das Ticket wurde nicht gefunden oder gehört nicht zu diesem Projekt."
   error_must_be_project_member: "muss Mitglied des Projekts sein"
   error_no_default_issue_status: "Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter \"Administration -> Ticket-Status\")."
-  error_no_tracker_in_project: "Diesem Projekt ist kein Tracker zugeordnet. Bitte überprüfen Sie die Projekteinstellungen."
+  error_no_type_in_project: "Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen Sie die Projekteinstellungen."
   error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: "Eintrag und/oder Revision existiert nicht im Projektarchiv."
   error_unable_delete_issue_status: "Der Ticket-Status konnte nicht gelöscht werden."
   error_unable_to_connect: "Fehler beim Verbinden (%{value})"
-  error_workflow_copy_source: "Bitte wählen Sie einen Quell-Tracker und eine Quell-Rolle."
-  error_workflow_copy_target: "Bitte wählen Sie die Ziel-Tracker und -Rollen."
+  error_workflow_copy_source: "Bitte wählen Sie einen Quell-Typ und eine Quell-Rolle."
+  error_workflow_copy_target: "Bitte wählen Sie die Ziel-Typ und -Rollen."
 
   field_responsible: "Planungsverantwortlicher"
   field_end_date: "Abschlussdatum"
@@ -515,8 +525,8 @@ de:
   gui_validation_error_plural: "%{count} Fehler"
 
   js:
-    logoff: Sie wurden ausgeloggt.
-    redirect_login: Wollen sie auf die Loginseite weitergeleitet werden?
+    logoff: "Sie wurden ausgeloggt."
+    redirect_login: "Wollen Sie auf die Login-Seite weitergeleitet werden?"
     ajax:
       hide: "Verbergen"
       loading: "Lädt ..."
@@ -534,10 +544,10 @@ de:
         zero: "Sie dürfen keine Elemente auswählen"
     timelines:
       tooManyProjects: "Mehr als %{count} Projekte. Bitte genauer filtern!"
-      cancel: Abbrechen
+      cancel: "Abbrechen"
       create_planning_select_project: "Projekt:"
-      end_date: "Abschlussdatum"
-      error: "Ein Fehler ist aufgetretten."
+      due_date: "Abschlussdatum"
+      error: "Ein Fehler ist aufgetreten."
       filter:
         none: "(keines)"
       name: "Name"
@@ -545,7 +555,7 @@ de:
       project_status: "Projekt-Status"
       project_type: "Projekt-Typ"
       responsible: "Planungsverantwortlicher"
-      save: Speichern
+      save: "Speichern"
       start_date: "Startdatum"
       really_move_planning_element_to_trash: >
         Möchten Sie dieses Planungselement und all seine Kind-Elemente wirklich in
@@ -650,7 +660,7 @@ de:
   label_display: "Anzeige"
   label_display_per_page: "Pro Seite: %{value}"
   label_display_sums: "Summen anzeigen"
-  label_display_used_statuses_only: "Zeige nur Status an, die von diesem Tracker verwendet werden"
+  label_display_used_statuses_only: "Zeige nur Status an, die von diesem Typ verwendet werden"
   label_document_added: "Dokument hinzugefügt"
   label_document_new: "Neues Dokument"
   label_document_plural: "Dokumente"
@@ -680,10 +690,10 @@ de:
   label_filter_plural: "Filter"
   label_float: "Fließkommazahl"
   label_follows: "folgt"
-  label_force_user_language_to_default: "Setze Sprache für Nutzer die eine nicht erlaubte Sprache gewählt haben auf die Default-Sprache"
+  label_force_user_language_to_default: "Setze Sprache für Nutzer, die eine nicht erlaubte Sprache gewählt haben, auf die Default-Sprache"
   label_general: "Allgemein"
   label_generate_key: "Generieren"
-  label_git_path: "Path to .git directory"
+  label_git_path: "Pfad zum .git-Verzeichnis"
   label_greater_or_equal: ">="
   label_group_new: "Neue Gruppe"
   label_group_plural: "Gruppen"
@@ -807,7 +817,7 @@ de:
   label_preview: "Vorschau"
   label_previous: "Zurück"
   label_previous_week: "Woche zurück"
-  label_principal_search: "Nach Benutzern oder Gruppen suchen:"
+  label_principal_search: "Nach Benutzer oder Gruppe suchen"
   label_profile: "Profil"
   label_project_all: "Alle Projekte"
   label_project_copy_notifications: "Sende Mailbenachrichtigungen beim Kopieren des Projekts."
@@ -819,7 +829,7 @@ de:
   label_public_projects: "Öffentliche Projekte"
   label_query_new: "Neuer Bericht"
   label_query_plural: "Benutzerdefinierte Berichte"
-  label_read: "Lesen..."
+  label_read: "Lesen ..."
   label_register: "Registrieren"
   label_registered_on: "Angemeldet am"
   label_registration_activation_by_email: "Kontoaktivierung durch E-Mail"
@@ -849,7 +859,10 @@ de:
   label_role_and_permissions: "Rollen und Rechte"
   label_role_new: "Neue Rolle"
   label_role_plural: "Rollen"
-  label_role_search: "Nach Rollen suchen:"
+  label_role_search: "Nach Rollen suchen"
+  label_scenario_due_date: "Scenario %{title}: Abgabedatum"
+  label_scenario_start_date: "Scenario %{title}: Startdatum"
+  label_scenario_deleted: '(gelöschtes Scenario)'
   label_scm: "Versionskontrollsystem"
   label_search: "Suche"
   label_search_titles_only: "Nur Titel durchsuchen"
@@ -864,8 +877,8 @@ de:
   label_sort_lower: "Eins tiefer"
   label_sort_lowest: "Ans Ende"
   label_spent_time: "Aufgewendete Zeit"
-  label_start_to_end: "Anfang - Ende"
-  label_start_to_start: "Anfang - Anfang"
+  label_start_to_end: "Anfang bis Ende"
+  label_start_to_start: "Anfang bis Anfang"
   label_statistics: "Statistiken"
   label_stay_logged_in: "Angemeldet bleiben"
   label_string: "Text"
@@ -884,13 +897,13 @@ de:
   label_this_year: "aktuelles Jahr"
   label_time_entry_plural: "Benötigte Zeit"
   label_time_tracking: "Zeiterfassung"
-  label_planning_element_plural: "Plannungselemente"
+  label_planning_element_plural: "Planungselemente"
   label_today: "heute"
   label_top_menu: "Hauptmenu"
   label_topic_plural: "Themen"
   label_total: "Gesamtzahl"
-  label_tracker_new: "Neuer Tracker"
-  label_tracker_plural: "Tracker"
+  label_type_new: "Neuer Typ"
+  label_type_plural: "Typen"
   label_ui: "Nutzeroberfläche"
   label_update_issue_done_ratios: "Ticket-Fortschritt aktualisieren"
   label_updated_time: "Vor %{value} aktualisiert"
@@ -902,13 +915,13 @@ de:
   label_user_mail_no_self_notified: "Ich möchte nicht über Änderungen benachrichtigt werden, die ich selbst durchführe."
   label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
   label_user_mail_option_none: "keine Ereignisse"
-  label_user_mail_option_only_assigned: "Nur für Aufgaben für die ich zuständig bin."
-  label_user_mail_option_only_my_events: "Nur für Aufgaben die ich beobachte oder an welchen ich mitarbeite"
-  label_user_mail_option_only_owner: "Nur für Aufgaben die ich angelegt habe"
+  label_user_mail_option_only_assigned: "Nur für Aufgaben, für die ich zuständig bin."
+  label_user_mail_option_only_my_events: "Nur für Aufgaben, die ich beobachte oder an welchen ich mitarbeite"
+  label_user_mail_option_only_owner: "Nur für Aufgaben, die ich angelegt habe"
   label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten..."
   label_user_new: "Neuer Benutzer"
   label_user_plural: "Benutzer"
-  label_user_search: "Nach Benutzer suchen:"
+  label_user_search: "Nach Benutzer suchen"
   label_version_new: "Neue Version"
   label_version_plural: "Versionen"
   label_version_sharing_descendants: "Mit Unterprojekten"
@@ -933,6 +946,8 @@ de:
   label_wiki_show_menu_item: "als Menüpunkt in der Projektnavigation anzeigen"
   label_wiki_show_new_page_link: "'Neue Unterseite anlegen' Link als Untermenüpunkt anzeigen"
   label_wiki_show_submenu_item: "als Untermenüpunkt anzeigen von "
+  label_work_package: "Arbeitspaket"
+  label_work_package_new: "Neues Arbeitspaket"
   label_workflow: "Workflow"
   label_workflow_summary: "Zusammenfassung"
   label_x_closed_issues_abbr:
@@ -960,7 +975,7 @@ de:
 
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: "Ihre Konto-Informationen"
-  mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} an anmelden."
+  mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
   mail_body_register: "Um Ihr Konto zu aktivieren, benutzen Sie folgenden Link:"
   mail_body_reminder: "%{count} Tickets, die Ihnen zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"
@@ -976,19 +991,21 @@ de:
   more_actions: "Weitere Funktionen"
 
   notice_account_activated: "Ihr Konto ist aktiviert. Sie können sich jetzt anmelden."
-  notice_account_inactive: "Ihr Konto ist nicht aktiviert. Zur Aktivierung folgen Sie dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde."
-  notice_account_invalid_creditentials: "Benutzer oder Kennwort ist ungültig."
-  notice_account_lost_email_sent: "Eine E-Mail mit Anweisungen, ein neues Kennwort zu wählen, wurde Ihnen geschickt."
+  notice_account_inactive: "Ihr Konto ist nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde."
+  notice_account_invalid_credentials: "Benutzer oder Kennwort ist ungültig."
+  notice_account_invalid_credentials_or_blocked: "Benutzer oder Kennwort ist ungültig oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet."
+  notice_account_lost_email_sent: "Eine E-Mail mit Anweisungen, wie ein neues Kennwort gewählt wird, wurde Ihnen zugeschickt."
   notice_account_new_password_forced: "Ein neues Passwort muss gesetzt werden."
+  notice_account_password_expired: "Ihr Passwort ist nach %{days} Tagen abgelaufen. Bitte setzen Sie ein neues."
   notice_account_password_updated: "Kennwort wurde erfolgreich aktualisiert."
-  notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
+  notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung durch den Administrator."
   notice_account_register_done: "Konto wurde erfolgreich angelegt. Zur Aktivierung folgen Sie dem Link, der Ihnen per E-Mail zugeschickt wurde."
   notice_account_unknown_email: "Unbekannter Benutzer."
   notice_account_update_failed: "Konto konnte nicht aktualisiert werden. Bitte besuchen Sie ihre Profilseite und überprüfen Sie die Einstellungen."
   notice_account_updated: "Konto wurde erfolgreich aktualisiert."
   notice_account_wrong_password: "Falsches Kennwort."
   notice_api_access_key_reseted: "Ihr API-Zugriffsschlüssel wurde zurückgesetzt."
-  notice_can_t_change_password: "Dieses Konto verwendet eine externe Authentifizierungs-Quelle. Unmöglich, das Kennwort zu ändern."
+  notice_can_t_change_password: "Dieses Konto verwendet eine externe Authentifizierungs-Quelle; das Kennwort kann nicht geändert werden."
   notice_default_data_loaded: "Die Standard-Konfiguration wurde erfolgreich geladen."
   notice_email_error: "Beim Senden einer E-Mail ist ein Fehler aufgetreten (%{value})."
   notice_email_sent: "Eine E-Mail wurde an %{value} gesendet."
@@ -997,7 +1014,7 @@ de:
   notice_feeds_access_key_reseted: "Ihr Atom-Zugriffsschlüssel wurde zurückgesetzt."
   notice_file_not_found: "Anhang existiert nicht oder ist gelöscht worden."
   notice_forced_logout: "Nach %{ttl_time} Minuten Inaktivität wurden Sie automatisch ausgeloggt."
-  notice_internal_server_error: "Auf der von Ihnen aufgerufenen Seite ist ein Fehler aufgetreten. Kontaktieren Sie bitte ihren %{app_title} Administrator wenn sie wiederholt Probleme mit dem Aufrufen der Seite haben."
+  notice_internal_server_error: "Auf der von Ihnen aufgerufenen Seite ist ein Fehler aufgetreten. Kontaktieren Sie bitte Ihren %{app_title} Administrator, wenn Sie wiederholt Probleme mit dem Aufrufen der Seite haben."
   notice_issue_done_ratios_updated: "Der Ticket-Fortschritt wurde aktualisiert."
   notice_locking_conflict: "Die Informationen wurde zwischenzeitlich von einem anderen Benutzer geändert."
   notice_locking_conflict_additional_information: "Die Änderungen wurden durchgeführt von %{users}."
@@ -1046,11 +1063,11 @@ de:
         delimiter: ""
 
   permission_add_issue_notes: "Kommentare hinzufügen"
-  permission_add_issue_watchers: "Beobachter hinzufügen"
   permission_add_issues: "Tickets hinzufügen"
   permission_add_messages: "Forenbeiträge hinzufügen"
   permission_add_project: "Projekt erstellen"
   permission_add_subprojects: "Unterprojekte erstellen"
+  permission_add_work_package_watchers: "Beobachter hinzufügen"
   permission_browse_repository: "Projektarchiv ansehen"
   permission_comment_news: "News kommentieren"
   permission_commit_access: "Commit-Zugriff (über WebDAV)"
@@ -1069,7 +1086,7 @@ de:
   permission_edit_messages: "Forenbeiträge bearbeiten"
   permission_edit_own_issue_notes: "Eigene Kommentare bearbeiten"
   permission_edit_own_messages: "Eigene Forenbeiträge bearbeiten"
-  permission_edit_own_time_entries: "Selbst gebuchte Aufwände bearbeiten"
+  permission_edit_own_time_entries: "Selbstgebuchte Aufwände bearbeiten"
   permission_edit_planning_elements: "Planungselemente bearbeiten"
   permission_edit_project: "Projekt bearbeiten"
   permission_edit_project_associations: "Projektabhängigkeiten bearbeiten"
@@ -1141,6 +1158,8 @@ de:
   setting_autologin: "Automatische Anmeldung"
   setting_available_languages: "Verfügbare Sprachen"
   setting_bcc_recipients: "E-Mails als Blindkopie (BCC) senden"
+  setting_brute_force_block_after_failed_logins: "Sperre Benutzer nach dieser Anzahl fehlgeschlagener Loginversuche (deaktivieren mit 0)"
+  setting_brute_force_block_minutes: "Sperre Benutzer für Dauer (Minuten)"
   setting_cache_formatted_text: "Formatierten Text im Cache speichern"
   setting_column_options: "Anpassen der Darstellung der Ticketlisten"
   setting_commit_fix_keywords: "Schlüsselwörter (Status)"
@@ -1179,9 +1198,11 @@ de:
   setting_mail_handler_body_delimiters: "Schneide E-Mails nach einer dieser Zeilen ab"
   setting_new_project_user_role_id: "Rolle, die einem Nicht-Administrator zugeordnet wird, der ein Projekt erstellt"
   setting_openid: "Erlaube OpenID-Anmeldung und -Registrierung"
-  setting_password_active_rules: "Aktive Passwortregeln"
-  setting_password_min_length: "Mindestlänge des Kennworts"
-  setting_password_min_adhered_rules: "Mindestanzahl zu erfüllender Regeln"
+  setting_password_active_rules: "Aktive Zeichenklassen"
+  setting_password_count_former_banned: "Anzahl zuletzt benutzter Passwörter, die nicht wiederverwendet werden dürfen"
+  setting_password_days_valid: "Anzahl von Tagen, nach denen ein Passwortwechsel erwzwungen wird (deaktivieren mit 0)"
+  setting_password_min_length: "Mindestlänge"
+  setting_password_min_adhered_rules: "Mindestanzahl zu verwendender Zeichenklassen"
   setting_per_page_options: "Objekte pro Seite"
   setting_plain_text_mail: "Nur reinen Text (kein HTML) senden"
   setting_protocol: "Protokoll"
@@ -1204,11 +1225,16 @@ de:
   setting_welcome_text: "Willkommenstext"
   setting_wiki_compression: "Wiki-Historie komprimieren"
 
+  settings:
+    general: "Allgemein"
+    other: "Sonstiges"
+    passwords: "Passwörter"
+    session: "Sitzung"
+    brute_force_prevention: "Automatisches Sperren von Benutzern"
+
   show_hide_project_menu: "Projektnavigation aus/einblenden"
 
   status_active: "aktiv"
-  status_locked: "gesperrt"
-  status_registered: "angemeldet"
 
   # Used in array.to_sentence.
   support:
@@ -1229,14 +1255,14 @@ de:
   text_destroy_time_entries: "Gebuchte Aufwände löschen"
   text_destroy_time_entries_question: "Es wurden bereits %{hours} Stunden auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?"
   text_diff_truncated: "... Dieser Diff wurde abgeschnitten, weil er die maximale Anzahl anzuzeigender Zeilen überschreitet."
-  text_email_delivery_not_configured: "Der SMTP-Server ist nicht konfiguriert und Mailbenachrichtigungen sind ausgeschaltet.\nNehmen Sie die Einstellungen für Ihren SMTP-Server in config/configuration.yml vor und starten Sie die Applikation neu."
-  text_enumeration_category_reassign_to: "Die Objekte stattdessen diesem Wert zuordnen:"
+  text_email_delivery_not_configured: "Der SMTP-Server ist nicht konfiguriert, und Mailbenachrichtigungen sind ausgeschaltet.\nNehmen Sie die Einstellungen für Ihren SMTP-Server in config/configuration.yml vor und starten Sie die Applikation neu."
+  text_enumeration_category_reassign_to: "Die Objekte statt dessen diesem Wert zuordnen:"
   text_enumeration_destroy_question: "%{count} Objekt(e) sind diesem Wert zugeordnet."
   text_file_repository_writable: "Verzeichnis für Dateien beschreibbar"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
   text_issue_added: "Ticket %{id} wurde erstellt von %{author}."
   text_issue_category_destroy_assignments: "Kategorie-Zuordnung entfernen"
-  text_issue_category_destroy_question: "Einige Tickets (%{count}) sind dieser Kategorie zugeodnet. Was möchten Sie tun?"
+  text_issue_category_destroy_question: "Einige Tickets (%{count}) sind dieser Kategorie zugeordnet. Was möchten Sie tun?"
   text_issue_category_reassign_to: "Tickets dieser Kategorie zuordnen"
   text_issue_updated: "Ticket %{id} wurde aktualisiert von %{author}."
   text_issues_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Tickets löschen möchten?"
@@ -1253,7 +1279,10 @@ de:
   text_line_separated: "Mehrere Werte sind erlaubt (eine Zeile pro Wert)."
   text_load_default_configuration: "Standard-Konfiguration laden"
   text_min_max_length_info: "0 heißt keine Beschränkung"
-  text_no_configuration_data: "Rollen, Tracker, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie sie abändern."
+  text_no_configuration_data: >
+    Rollen, Typ, Ticket-Status und Workflows wurden noch nicht
+    konfiguriert. Es ist sehr zu empfehlen, die Standard-Konfiguration
+    zu laden. Sobald sie geladen ist, können Sie sie abändern.
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
   text_plugin_assets_writable: "Verzeichnis für Plugin-Assets beschreibbar"
   text_powered_by: "Powered by %{link}"
@@ -1271,11 +1300,11 @@ de:
   text_tip_issue_begin_day: "Aufgabe, die an diesem Tag beginnt"
   text_tip_issue_begin_end_day: "Aufgabe, die an diesem Tag beginnt und endet"
   text_tip_issue_end_day: "Aufgabe, die an diesem Tag endet"
-  text_tracker_no_workflow: "Kein Workflow für diesen Tracker definiert."
+  text_type_no_workflow: "Kein Workflow für diesen Typ definiert."
   text_unallowed_characters: "Nicht erlaubte Zeichen"
   text_user_mail_option: "Für nicht ausgewählte Projekte werden Sie nur Benachrichtigungen für Dinge erhalten, die Sie beobachten oder an denen Sie beteiligt sind (z. B. Tickets, deren Autor Sie sind oder die Ihnen zugewiesen sind)."
   text_user_wrote: "%{value} schrieb:"
-  text_warn_on_leaving_unsaved: "Der eingegebene Text wird nicht gespeichert, wenn sie die Seite jetzt verlassen."
+  text_warn_on_leaving_unsaved: "Der eingegebene Text wird nicht gespeichert, wenn Sie die Seite jetzt verlassen."
   text_wiki_destroy_confirmation: "Sind Sie sicher, dass Sie dieses Wiki mit sämtlichem Inhalt löschen möchten?"
   text_wiki_page_destroy_children: "Lösche alle Unterseiten"
   text_wiki_page_destroy_question: "Diese Seite hat %{descendants} Unterseite(n). Was möchten Sie tun?"
@@ -1327,8 +1356,8 @@ de:
     end: "Abschluss"
     errors:
       not_implemented: "Der Zeitplan-Report konnte nicht gezeichnet werden, da eine noch nicht implementierte Funktionalität benutzt wird."
-      report_comparison: "Der Zeitplan-Report konnte nicht gezeichnet werden weil es ein Problem mit den konfigurierten Planungsvergleichen gibt. Ein Zurücksetzen der Vergleichsoptionen kann dieses Problem beheben."
-      report_epicfail: "Der Zeitplan-Report konnte auf Grund eines unerwarteten Fehlers nicht geladen werden."
+      report_comparison: "Der Zeitplan-Report konnte nicht gezeichnet werden, weil es ein Problem mit den konfigurierten Planungsvergleichen gibt. Ein Zurücksetzen der Vergleichsoptionen kann dieses Problem beheben."
+      report_epicfail: "Der Zeitplan-Report konnte wegen eines unerwarteten Fehlers nicht geladen werden."
       report_timeout: "Der Zeitplan-Report konnte nicht innerhalb einer gewissen Zeit geladen werden."
     filter:
       sort:
@@ -1377,7 +1406,7 @@ de:
       parent: "Zeige Unterprojekte von"
       planning_element_filters: "Planungselemente filtern"
       planning_element_responsible: "Planungselemente von diesem Planungsverantwortlichen anzeigen"
-      planning_element_types: "Planungselement-Type anzeigen"
+      planning_element_types: "Planungselement-Typ anzeigen"
 
 
       project_time_filter: "Projekte mit Planungselementen eines Typs in einem Zeitfenster"
@@ -1402,8 +1431,8 @@ de:
     new_scenario: "Neues Szenario"
     new_timeline: "Neuer Zeitplan-Report"
     no_projects_for_reporting_available: "Es gibt keine Projekte, zu denen ein Statusbericht erstellt werden könnte."
-    no_right_to_view_timeline: "Sie haben nicht das Recht den ausgewählten Zeitplan zu sehen."
-    no_timeline_for_id: "Es konnte keine Timeline mit der ID %{id} gefunden werden."
+    no_right_to_view_timeline: "Sie haben nicht das Recht, den ausgewählten Zeitplan zu sehen."
+    no_timeline_for_id: "Es konnte keine Timeline, mit der ID %{id} gefunden werden."
     notice_successful_deleted_all_elements: "Alle Elemente erfolgreich gelöscht"
     notice_successful_moved_to_trash: "Erfolgreich in den Papierkorb verschoben"
     notice_successful_restored: "Erfolgreich wiederhergestellt"
@@ -1451,20 +1480,20 @@ de:
       show: "Statusbericht: %{comment}"
     really_delete_color: >
       Möchten Sie die folgende Farbe wirklich löschen?
-      Planungselement-Typen, die diese Farbe verwenden bleiben erhalten.
+      Planungselement-Typen, die diese Farbe verwenden, bleiben erhalten.
     really_delete_all_planning_elements: >
       Möchten Sie wirklich alle folgenden Planungselemente und ihre
       Kind-Elemente permanent löschen? Diese Operation kann nicht rückgängig
       gemacht werden.
     really_delete_planning_element: >
       Möchten Sie wirklich das folgende Planungselement und seine Kind-Elemente
-      permanent löschen? Diese Operation kann nicht rückgängig gemacht werden.
+      dauerhaft löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.
     really_delete_planning_element_type: >
       Möchten Sie den folgenden Planungselement-Typ wirklich löschen?
       Planungselemente dieses Typs bleiben erhalten.
     really_delete_project_association_between_project_a_and_project_b: >
-      Möchten Sie die Projekt-Abhängigkeit zwischen “%{project_a}” und
-      “%{project_b}” wirklich löschen?
+      Möchten Sie die Projekt-Abhängigkeit zwischen „%{project_a}“ und
+      „%{project_b}“ wirklich löschen?
     really_delete_project_type: >
       Möchten Sie den folgenden Projekt-Typ wirklich löschen?
       Projekte dieses Typs bleiben erhalten.
@@ -1505,10 +1534,35 @@ de:
       quarters: "Quartale"
       years: "Jahre"
 
+  description_sub_work_package: "Untergeordnetes Arbeitspaket"
+
+  label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
+  label_related_work_packages: "Zugehörige Arbeitspakete"
+  label_work_package_hierarchy: "Arbeitspakethierarchie"
+
   total_progress: "Gesamtfortschritt"
 
   user:
+    all: alle
+    active: "aktiv"
+    activate: "Aktivieren"
+    activate_and_reset_failed_logins: "Aktivieren und fehlgeschlagene Logins zurücksetzen"
+    assign_random_password: "Zufälliges Passwort zuweisen (wird dem Nutzer per E-Mail geschickt)"
+    blocked: "temporär gesperrt"
+    blocked_num_failed_logins:
+      one: "temporär gesperrt (ein fehlgeschlagener Loginversuch)"
+      other: "temporär gesperrt (%{count} fehlgeschlagene Loginversuche)"
     deleted: "Gelöschter Nutzer"
+    error_status_change_failed: >
+      Der Nutzerstatus konnte nicht geändert werden aufgrund folgender Fehler:
+      %{errors}
+    lock: "Dauerhaft sperren"
+    locked: "dauerhaft gesperrt"
+    registered: "angemeldet"
+    reset_failed_logins: "Fehlgeschlagene Logins zurücksetzen"
+    status_user_and_brute_force: "%{user} und %{brute_force}"
+    unlock: "Entsperren"
+    unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
 
   version_status_closed: "abgeschlossen"
   version_status_locked: "gesperrt"

@@ -42,58 +42,67 @@ class PermittedParams < Struct.new(:params, :user)
   #
   # include ActiveModel::ForbiddenAttributesProtection
 
+
+  def self.permit(key, *params)
+    raise(ArgumentError, "no permitted params are configured for #{key}") unless permitted_attributes.has_key?(key)
+
+    permitted_attributes[key].concat(params)
+  end
+
   def project_type
-    params.require(:project_type).permit(:name,
-                                         :allows_association,
-                                         # have to check whether this is correct
-                                         # just copying over from model for now
-                                         :planning_element_type_ids => [],
-                                         :reported_project_status_ids => [])
+    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type])
   end
 
   def project_type_move
-    params.require(:project_type).permit(:move_to)
+    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type_move])
   end
 
   def color
-    params.require(:color).permit(:name,
-                                  :hexcode,
-                                  :move_to)
+    params.require(:color).permit(*self.class.permitted_attributes[:color])
   end
 
   def color_move
-    params.require(:color).permit(:move_to)
+    params.require(:color).permit(*self.class.permitted_attributes[:color_move])
   end
 
   def planning_element_type
-    params.require(:planning_element_type).permit(:name,
-                                                  :in_aggregation,
-                                                  :is_milestone,
-                                                  :is_default,
-                                                  :color_id)
+    params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type])
   end
 
   def planning_element_type_move
-    params.require(:planning_element_type).permit(:move_to)
+    params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type_move])
   end
 
   def scenario
-    params.require(:scenario).permit(:name,
-                                     :description)
+    params.require(:scenario).permit(*self.class.permitted_attributes[:scenario])
   end
 
   def planning_element
-    params.require(:planning_element).permit(:subject,
-                                             :description,
-                                             :start_date,
-                                             :end_date,
-                                             { scenarios: [:id, :start_date, :end_date] },
-                                             :note,
-                                             :planning_element_type_id,
-                                             :planning_element_status_comment,
-                                             :planning_element_status_id,
-                                             :parent_id,
-                                             :responsible_id)
+    params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
+  end
+
+  def new_work_package(args = {})
+    permitted = permitted_attributes(args)
+
+    params[:work_package].permit(*permitted)
+  end
+
+  def user_update_as_admin
+    if user.admin?
+      params.require(:user).permit(:firstname,
+                                   :lastname,
+                                   :mail,
+                                   :mail_notification,
+                                   :language,
+                                   :custom_field_values,
+                                   :custom_fields,
+                                   :identity_url,
+                                   :auth_source_id,
+                                   :force_password_change,
+                                   :group_ids => [])
+    else
+      params.require(:user).permit()
+    end
   end
 
   def work_package
@@ -107,5 +116,88 @@ class PermittedParams < Struct.new(:params, :user)
                                          :planning_element_status_id,
                                          :parent_id,
                                          :responsible_id)
+  end
+
+  protected
+
+  def permitted_attributes(args)
+    merged_args = { :user => user }.merge(args)
+
+    self.class.permitted_attributes[:new_work_package].map do |permission|
+      if permission.respond_to?(:call)
+        permission.call(merged_args)
+      else
+        permission
+      end
+    end.compact
+  end
+
+  def self.permitted_attributes
+    @whitelisted_params ||= {
+                              :new_work_package => [
+                                                     :subject,
+                                                     :description,
+                                                     :start_date,
+                                                     :due_date,
+                                                     :planning_element_type_id,
+                                                     :parent_id,
+                                                     :parent_issue_id,
+                                                     :assigned_to_id,
+                                                     :responsible_id,
+                                                     :type_id,
+                                                     :fixed_version_id,
+                                                     :estimated_hours,
+                                                     :done_ratio,
+                                                     :priority_id,
+                                                     :category_id,
+                                                     :status_id,
+                                                     Proc.new do |args|
+                                                       args[:user].allowed_to?(:add_work_package_watchers, args[:project]) ?
+                                                         { :watcher_user_ids => [] } :
+                                                         nil
+                                                     end
+                                                   ],
+                               :color_move => [:move_to],
+                               :color => [
+                                           :name,
+                                           :hexcode,
+                                           :move_to
+                                         ],
+                               :planning_element => [
+                                                      :subject,
+                                                      :description,
+                                                      :start_date,
+                                                      :due_date,
+                                                      { scenarios: [:id, :start_date, :due_date] },
+                                                      :note,
+                                                      :planning_element_type_id,
+                                                      :planning_element_status_comment,
+                                                      :planning_element_status_id,
+                                                      :parent_id,
+                                                      :responsible_id
+                                                    ],
+                               :planning_element_type => [
+                                                           :name,
+                                                           :in_aggregation,
+                                                           :is_milestone,
+                                                           :is_default,
+                                                           :color_id
+                                                         ],
+                               :planning_element_type_move => [:move_to],
+                               :project_type_move => [:move_to],
+                               :project_type => [
+                                                  :name,
+                                                  :allows_association,
+                                                  # have to check whether this is correct
+                                                  # just copying over from model for now
+                                                  :planning_element_type_ids => [],
+                                                  :reported_project_status_ids => []
+                                                ],
+                               :scenario => [
+                                              :name,
+                                              :description
+                                            ]
+
+                            }
   end
 end

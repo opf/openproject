@@ -20,7 +20,7 @@ Feature: Relating issues to each other
     And there is 1 project with the following:
       | name       | project1 |
       | identifier | project1 |
-    And the project "project1" has the following trackers:
+    And the project "project1" has the following types:
       | name | position |
       | Bug  |     1    |
     And the user "bob" is a "member" in the project "project1"
@@ -33,7 +33,7 @@ Feature: Relating issues to each other
   @javascript
   Scenario: Adding a relation will add it to the list of related issues through AJAX instantly
     When I go to the page of the issue "Some Issue"
-    And I click on "Add related issue"
+    And I click on "Add related work package"
     And I fill in "relation_issue_to_id" with "2"
     And I press "Add"
     And I wait for the AJAX requests to finish
@@ -45,7 +45,7 @@ Feature: Relating issues to each other
     Given the user "bob" has 1 issue with the following:
       | subject | Anothe'r & Issue |
     When I go to the page of the issue "Some Issue"
-    And I click on "Add related issue"
+    And I click on "Add related work package"
     And I fill in "relation_issue_to_id" with "3"
     And I press "Add"
     And I wait for the AJAX requests to finish

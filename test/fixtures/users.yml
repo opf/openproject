@@ -4,9 +4,6 @@ users_004:
   status: 1
   last_login_on:
   language: en
-  # password = foo
-  salt: 3126f764c3c5ac61cbfc103f25f934cf
-  hashed_password: 9e4dd7eeb172c12a0691a6d9d3a269f7e9fe671b
   updated_on: 2006-07-19 19:34:07 +02:00
   admin: false
   mail: rhill@somenet.foo
@@ -23,9 +20,6 @@ users_001:
   status: 1
   last_login_on: 2006-07-19 22:57:52 +02:00
   language: en
-  # password = adminADMIN!
-  salt: a19f9743f4b7b043a2fd07b8eb13a1df
-  hashed_password: b4596ce83c0e154e5ce9d3dd5636fde4d6f38b75
   updated_on: 2006-07-19 22:57:52 +02:00
   admin: true
   mail: admin@somenet.foo
@@ -42,9 +36,6 @@ users_002:
   status: 1
   last_login_on: 2006-07-19 22:42:15 +02:00
   language: en
-  # password = jsmith
-  salt: 67eb4732624d5a7753dcea7ce0bb7d7d
-  hashed_password: bfbe06043353a677d0215b26a5800d128d5413bc
   updated_on: 2006-07-19 22:42:15 +02:00
   admin: false
   mail: jsmith@somenet.foo
@@ -61,9 +52,6 @@ users_003:
   status: 1
   last_login_on:
   language: en
-  # password = foo
-  salt: 7599f9963ec07b5a3b55b354407120c0
-  hashed_password: 8f659c8d7c072f189374edacfa90d6abbc26d8ed
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: dlopper@somenet.foo
@@ -82,7 +70,6 @@ users_005:
   status: 3
   last_login_on:
   language: en
-  hashed_password: 1
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: dlopper2@somenet.foo
@@ -99,7 +86,6 @@ users_006:
   status: 0
   last_login_on:
   language: ''
-  hashed_password: 1
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: ''
@@ -116,7 +102,6 @@ users_007:
   status: 1
   last_login_on:
   language: ''
-  hashed_password: 1
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: someone@foo.bar
@@ -133,7 +118,6 @@ users_008:
   status: 1
   last_login_on:
   language: 'it'
-  hashed_password: 1
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: miscuser8@foo.bar
@@ -150,7 +134,6 @@ users_009:
   status: 1
   last_login_on:
   language: 'it'
-  hashed_password: 1
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: miscuser9@foo.bar

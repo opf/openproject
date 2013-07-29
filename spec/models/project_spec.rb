@@ -49,4 +49,86 @@ describe Project do
       project.associated_project_candidates(admin).should be_empty
     end
   end
+
+  describe "add_planning_element" do
+    let(:project) { FactoryGirl.create(:project_with_types) }
+
+    it 'should return a work package' do
+      project.add_planning_element.should be_a(PlanningElement)
+    end
+
+    it 'the object should be a new record' do
+      project.add_planning_element.should be_new_record
+    end
+
+    it 'should have the project associated' do
+      project.add_planning_element.project.should == project
+    end
+
+    it 'should assign the attributes' do
+      attributes = { :blubs => double('blubs') }
+
+      new_pe = FactoryGirl.build_stubbed(:planning_element)
+
+      project.planning_elements.should_receive(:build).and_yield(new_pe)
+
+      new_pe.should_receive(:attributes=).with(attributes)
+
+      project.add_planning_element(attributes)
+    end
+  end
+
+  describe "add_issue" do
+    let(:project) { FactoryGirl.create(:project_with_types) }
+
+    it "should return a new issue" do
+      project.add_issue.should be_a(Issue)
+    end
+
+    it "should not be saved" do
+      project.add_issue.should be_new_record
+    end
+
+    it "returned issue should have project set to self" do
+      project.add_issue.project.should == project
+    end
+
+    it "returned issue should have type set to project's first type" do
+      project.add_issue.type.should == project.types.first
+    end
+
+    it "returned issue should have type set to provided type" do
+      specific_type = FactoryGirl.build(:type)
+      project.types << specific_type
+
+      project.add_issue(:type => specific_type).type.should == specific_type
+    end
+
+    it "should raise an error if the provided type is not one of the project's types" do
+      # Load project first so that the new type is not automatically included
+      project
+      specific_type = FactoryGirl.create(:type)
+
+      expect { project.add_issue(:type => specific_type) }.to raise_error ActiveRecord::RecordNotFound
+    end
+
+    it "returned issue should have type set to provided type_id" do
+      specific_type = FactoryGirl.build(:type)
+      project.types << specific_type
+
+      project.add_issue(:type_id => specific_type.id).type.should == specific_type
+    end
+
+    it "should call safe_attributes to override all the other attributes" do
+      # TODO: replace once StrongParameters is in place
+      attributes = { :blubs => double('blubs') }
+
+      new_issue = FactoryGirl.build_stubbed(:issue)
+      new_issue.should_receive(:assign_attributes).with(attributes, :without_protection => true)
+
+      Issue.stub!(:new).and_yield(new_issue)
+
+      project.add_issue(attributes)
+    end
+  end
 end

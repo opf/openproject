@@ -227,25 +227,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal [10], user.group_ids
   end
 
-  def test_update_with_activation_should_send_a_notification
-    Setting.available_languages = [:en, :fr]
-    u = User.new(:firstname => 'Foo', :lastname => 'Bar', :mail => 'foo.bar@somenet.foo', :language => 'fr')
-    u.login = 'foo'
-    u.status = User::STATUS_REGISTERED
-    u.save!
-    ActionMailer::Base.deliveries.clear
-    Setting.bcc_recipients = '1'
-
-    put :update, :id => u.id, :user => {:status => User::STATUS_ACTIVE}
-    assert u.reload.active?
-    mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
-    assert_equal ['foo.bar@somenet.foo'], mail.to
-    mail.parts.each do |part|
-      assert part.body.encoded.include?(ll('fr', :notice_account_activated))
-    end
-  end
-
   def test_update_with_password_change_should_send_a_notification
     ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'

@@ -183,7 +183,7 @@ class AccountTest < ActionDispatch::IntegrationTest
     user = User.find_by_login('foo')
     assert user.is_a?(User)
     assert_equal 66, user.auth_source_id
-    assert user.hashed_password.blank?
+    assert user.current_password.nil?
   end
 
   def test_onthefly_registration_with_invalid_attributes
@@ -205,7 +205,7 @@ class AccountTest < ActionDispatch::IntegrationTest
     user = User.find_by_login('foo')
     assert user.is_a?(User)
     assert_equal 66, user.auth_source_id
-    assert user.hashed_password.blank?
+    assert user.current_password.nil?
   end
 
   else

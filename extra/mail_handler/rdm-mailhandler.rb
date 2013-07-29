@@ -41,7 +41,7 @@
 # Issue attributes control options:
 #   -p, --project=PROJECT          identifier of the target project
 #   -s, --status=STATUS            name of the target status
-#   -t, --tracker=TRACKER          name of the target tracker
+#   -t, --type=TYPE                name of the target type
 #       --category=CATEGORY        name of the target category
 #       --priority=PRIORITY        name of the target priority
 #   -o, --allow-override=ATTRS     allow email content to override attributes
@@ -53,13 +53,13 @@
 #
 #   rdm-mailhandler --url http://redmine.domain.foo --key secret
 #
-# Fixed project and default tracker specified, but emails can override
-# both tracker and priority attributes using keywords:
+# Fixed project and default type specified, but emails can override
+# both type and priority attributes using keywords:
 #
 #   rdm-mailhandler --url https://domain.foo/redmine --key secret \\
 #                   --project foo \\
-#                   --tracker bug \\
-#                   --allow-override tracker,priority
+#                   --type bug \\
+#                   --allow-override type,priority
 
 require 'net/http'
 require 'net/https'
@@ -97,7 +97,7 @@ class RedmineMailHandler
       [ '--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
       [ '--project',        '-p', GetoptLong::REQUIRED_ARGUMENT ],
       [ '--status',         '-s', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--tracker',        '-t', GetoptLong::REQUIRED_ARGUMENT],
+      [ '--type',           '-t', GetoptLong::REQUIRED_ARGUMENT],
       [ '--category',             GetoptLong::REQUIRED_ARGUMENT],
       [ '--priority',             GetoptLong::REQUIRED_ARGUMENT],
       [ '--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
@@ -117,7 +117,7 @@ class RedmineMailHandler
         self.verbose = true
       when '--version'
         puts VERSION; exit
-      when '--project', '--status', '--tracker', '--category', '--priority'
+      when '--project', '--status', '--type', '--category', '--priority'
         self.issue_attributes[opt.gsub(%r{^\-\-}, '')] = arg.dup
       when '--allow-override'
         self.allow_override = arg.dup

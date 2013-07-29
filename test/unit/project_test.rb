@@ -46,7 +46,7 @@ class ProjectTest < ActiveSupport::TestCase
     should have_one :repository
     should have_one :wiki
 
-    should have_and_belong_to_many :trackers
+    should have_and_belong_to_many :types
     should have_and_belong_to_many :work_package_custom_fields
   end
 
@@ -80,8 +80,8 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal ['issue_tracking', 'repository'], Project.new.enabled_module_names
     end
 
-    assert_equal Tracker.all, Project.new.trackers
-    assert_equal Tracker.find(1, 3), Project.new(:tracker_ids => [1, 3]).trackers
+    assert_equal Type.all, Project.new.types
+    assert_equal Type.find(1, 3), Project.new(:type_ids => [1, 3]).types
   end
 
   def test_update
@@ -209,7 +209,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, WikiPage.count
     assert_equal 0, WikiContent.count
     assert_equal 0, WikiContentJournal.count
-    assert_equal 0, Project.connection.select_all("SELECT * FROM projects_trackers").size
+    assert_equal 0, Project.connection.select_all("SELECT * FROM projects_types").size
     assert_equal 0, Project.connection.select_all("SELECT * FROM custom_fields_projects").size
     assert_equal 0, CustomValue.count(:conditions => {:customized_type => ['Project', 'Issue', 'TimeEntry', 'Version']})
   end
@@ -400,29 +400,29 @@ class ProjectTest < ActiveSupport::TestCase
     assert users_by_role[role].include?(User.find(2))
   end
 
-  def test_rolled_up_trackers
+  def test_rolled_up_types
     parent = Project.find(1)
-    parent.trackers = Tracker.find([1,2])
+    parent.types = Type.find([1,2])
     child = parent.children.find(3)
 
-    assert_equal [1, 2], parent.tracker_ids
-    assert_equal [2, 3], child.trackers.collect(&:id)
+    assert_equal [1, 2], parent.type_ids
+    assert_equal [2, 3], child.types.collect(&:id)
 
-    assert_kind_of Tracker, parent.rolled_up_trackers.first
-    assert_equal Tracker.find(1), parent.rolled_up_trackers.first
+    assert_kind_of Type, parent.rolled_up_types.first
+    assert_equal Type.find(1), parent.rolled_up_types.first
 
-    assert_equal [1, 2, 3], parent.rolled_up_trackers.collect(&:id)
-    assert_equal [2, 3], child.rolled_up_trackers.collect(&:id)
+    assert_equal [1, 2, 3], parent.rolled_up_types.collect(&:id)
+    assert_equal [2, 3], child.rolled_up_types.collect(&:id)
   end
 
-  def test_rolled_up_trackers_should_ignore_archived_subprojects
+  def test_rolled_up_types_should_ignore_archived_subprojects
     parent = Project.find(1)
-    parent.trackers = Tracker.find([1,2])
+    parent.types = Type.find([1,2])
     child = parent.children.find(3)
-    child.trackers = Tracker.find([1,3])
+    child.types = Type.find([1,3])
     parent.children.each(&:archive)
 
-    assert_equal [1,2], parent.rolled_up_trackers.collect(&:id)
+    assert_equal [1,2], parent.rolled_up_types.collect(&:id)
   end
 
   context "description" do
@@ -644,7 +644,7 @@ class ProjectTest < ActiveSupport::TestCase
     # Duplicated attributes
     assert_equal source_project.description, copied_project.description
     assert_equal source_project.enabled_modules, copied_project.enabled_modules
-    assert_equal source_project.trackers, copied_project.trackers
+    assert_equal source_project.types, copied_project.types
 
     # Default attributes
     assert_equal 1, copied_project.status
@@ -745,14 +745,14 @@ class ProjectTest < ActiveSupport::TestCase
       Project.destroy_all :identifier => "copy-test"
       @source_project = Project.find(2)
       @project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
-      @project.trackers = @source_project.trackers
+      @project.types = @source_project.types
       @project.enabled_module_names = @source_project.enabled_modules.collect(&:name)
     end
 
     should "copy work units" do
       @source_project.work_packages << Issue.generate!(:status => IssueStatus.find_by_name('Closed'),
                                                     :subject => "copy issue status",
-                                                    :tracker_id => 1,
+                                                    :type_id => 1,
                                                     :assigned_to_id => 2,
                                                     :project_id => @source_project.id)
       assert @project.valid?
@@ -780,7 +780,7 @@ class ProjectTest < ActiveSupport::TestCase
       Issue.generate_for_project!(@source_project,
                                   :fixed_version_id => assigned_version.id,
                                   :subject => "change the new issues to use the copied version",
-                                  :tracker_id => 1,
+                                  :type_id => 1,
                                   :project_id => @source_project.id)
 
       assert @project.copy(@source_project)
@@ -798,7 +798,7 @@ class ProjectTest < ActiveSupport::TestCase
 
       second_issue = Issue.generate!(:status_id => 5,
                                      :subject => "copy issue relation",
-                                     :tracker_id => 1,
+                                     :type_id => 1,
                                      :assigned_to_id => 2,
                                      :project_id => @source_project.id)
       source_relation = IssueRelation.generate!(:issue_from => Issue.find(4),
@@ -968,7 +968,7 @@ class ProjectTest < ActiveSupport::TestCase
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(:identifier => 'test0')
-      @project.trackers << Tracker.generate!
+      @project.types << Type.generate!
     end
 
     should "be nil if there are no issues on the project" do
@@ -991,7 +991,7 @@ class ProjectTest < ActiveSupport::TestCase
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(:identifier => 'test0')
-      @project.trackers << Tracker.generate!
+      @project.types << Type.generate!
     end
 
     should "be nil if there are no issues on the project" do
@@ -1033,7 +1033,7 @@ class ProjectTest < ActiveSupport::TestCase
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(:identifier => 'test0')
-      @project.trackers << Tracker.generate!
+      @project.types << Type.generate!
     end
 
     context "no versions" do

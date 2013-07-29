@@ -99,7 +99,7 @@ module Api
           @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
         end
         # Was the account actived ? (do it before User#save clears the change)
-        was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
+        was_activated = (@user.status_change == [User::STATUSES[:registered], User::STATUSES[:active]])
         if @user.save
           # TODO: Similar to My#account
           @user.pref.attributes = params[:pref]
@@ -134,7 +134,7 @@ module Api
       def destroy
         # as destroying users is a lengthy process we handle it in the background
         # and lock the account now so that no action can be performed with it
-        @user.status = User::STATUS_LOCKED
+        @user.status = User::STATUSES[:locked]
         @user.save
 
         # TODO: use Delayed::Worker.delay_jobs = false in test environment as soon as

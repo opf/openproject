@@ -5,6 +5,12 @@ app_title:
   default: OpenProject
 app_subtitle:
   default: Project management
+brute_force_block_minutes:
+  default: 30
+  format: int
+brute_force_block_after_failed_logins:
+  default: 20
+  format: int
 welcome_text:
   default:
 login_required:
@@ -24,6 +30,9 @@ password_active_rules:
     - numeric
     - special
 password_min_adhered_rules:
+  format: int
+  default: 0
+password_count_former_banned:
   format: int
   default: 0
 password_days_valid:
@@ -127,7 +136,7 @@ mail_handler_api_key:
 issue_list_default_columns:
   serialized: true
   default:
-  - tracker
+  - type
   - status
   - priority
   - subject

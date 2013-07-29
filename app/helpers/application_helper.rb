@@ -16,7 +16,6 @@ require 'cgi'
 module ApplicationHelper
   include Redmine::WikiFormatting::Macros::Definitions
   include Redmine::I18n
-  include GravatarHelper::PublicMethods
   include ERB::Util # for h()
 
   extend Forwardable
@@ -94,25 +93,11 @@ module ApplicationHelper
 
   #returns a class name based on the user's status
   def user_status_class(user)
-    case user.status
-      when User::STATUS_ACTIVE
-        "status_active"
-      when User::STATUS_REGISTERED
-        "status_registered"
-      when User::STATUS_LOCKED
-        "status_locked"
-    end
+    'status_' + user.status_name
   end
 
   def user_status_i18n(user)
-    case user.status
-      when User::STATUS_ACTIVE
-        l(:status_active)
-      when User::STATUS_REGISTERED
-        l(:status_registered)
-      when User::STATUS_LOCKED
-        l(:status_locked)
-    end
+    l(('status_' + user.status_name).to_sym)
   end
 
   # Displays a link to +issue+ with its subject.
@@ -137,9 +122,8 @@ module ApplicationHelper
     closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
     s = ActiveSupport::SafeBuffer.new
     s << "#{issue.project} - " if options[:project]
-    s << link_to("#{closed}#{h(options[:before_text].to_s)}#{h(issue.tracker)} ##{issue.id}".html_safe,
-                issue,
-                :class => issue.css_classes,
+    s << link_to("#{closed}#{h(options[:before_text].to_s)}#{(issue.kind.nil?) ? '' : h(issue.kind.name)} ##{issue.id}".html_safe,
+                work_package_path(issue),
                 :title => h(title))
     s << ": #{subject}" if subject
     s
@@ -404,8 +388,8 @@ module ApplicationHelper
 
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)
-    if @project
-      link_to(text, {:controller => '/activities', :action => 'index', :id => @project, :from => time.to_date}, :title => format_time(time))
+    if @project and @project.module_enabled?("activity")
+      link_to(text, {:controller => '/activities', :action => 'index', :project_id => @project, :from => time.to_date}, :title => format_time(time))
     else
       content_tag('label', text, :title => format_time(time), :class => "timestamp")
     end
@@ -482,9 +466,9 @@ module ApplicationHelper
   # Returns the theme, controller name, and action as css classes for the
   # HTML body.
   def body_css_classes
-    theme = Redmine::Themes.theme(Setting.ui_theme)
+    theme = OpenProject::Themes.theme(Setting.ui_theme)
 
-    css = ['theme-' + theme.name.to_s]
+    css = ['theme-' + theme.identifier.to_s]
 
     if params[:controller] && params[:action]
       css << 'controller-' + params[:controller]
@@ -728,7 +712,7 @@ module ApplicationHelper
           case prefix
           when nil
             if issue = Issue.visible.find_by_id(oid, :include => :status)
-              link = link_to("##{oid}", {:only_path => only_path, :controller => '/issues', :action => 'show', :id => oid},
+              link = link_to("##{oid}", work_package_path(:id => oid, :only_path => only_path),
                                         :class => issue.css_classes,
                                         :title => "#{truncate(issue.subject, :length => 100)} (#{issue.status.name})")
             end
@@ -1027,23 +1011,6 @@ module ApplicationHelper
     end
   end
 
-  # Returns the avatar image tag for the given +user+ if avatars are enabled
-  # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-  def avatar(user, options = { })
-    if Setting.gravatar_enabled?
-      options.merge!({:ssl => (defined?(request) && request.ssl?), :default => Setting.gravatar_default})
-      email = nil
-      if user.respond_to?(:mail)
-        email = user.mail
-      elsif user.to_s =~ %r{<(.+?)>}
-        email = $1
-      end
-      return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
-    else
-      ''
-    end
-  end
-
   # Returns the javascript tags that are included in the html layout head
   def user_specific_javascript_includes
     tags = ''
@@ -1158,18 +1125,18 @@ module ApplicationHelper
     end
 
     link_to(h(text),
-            project_planning_element_path(planning_element.project, planning_element),
+            work_package_path(planning_element),
             :title => planning_element.subject)
   end
 
   def planning_element_quick_info(planning_element)
     start_date_change = ""
-    end_date_change = ""
+    due_date_change = ""
 
     journals = planning_element.journals.find(:all, :conditions => ["created_at >= ?", Date.today.to_time - 7.day], :order => "created_at desc")
 
     journals.each do |journal|
-      break if !start_date_change.empty? and !end_date_change.empty?
+      break if !start_date_change.empty? and !due_date_change.empty?
 
       if start_date_change.empty?
         unless journal.changes["start_date"].nil?
@@ -1179,21 +1146,21 @@ module ApplicationHelper
         end
       end
 
-      if end_date_change.empty?
-        unless journal.changes["end_date"].nil?
-          unless journal.changes["end_date"].first.nil?
-            end_date_change = " (<del>#{journal.changes["end_date"].first}</del>)"
+      if due_date_change.empty?
+        unless journal.changes["due_date"].nil?
+          unless journal.changes["due_date"].first.nil?
+            due_date_change = " (<del>#{journal.changes["due_date"].first}</del>)"
           end
         end
       end
     end
 
     link = link_to(h("*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.subject} "),
-                   project_planning_element_path(planning_element.project, planning_element),
+                   work_package_path(planning_element),
                    :title => h("#{truncate(planning_element.subject, :length => 100)} #{planning_element.planning_element_status.nil? ? "" :
                                "(" + planning_element.planning_element_status.name + ")"}"))
-    link += "#{planning_element.start_date.nil? ? "[?]" : planning_element.start_date.to_s}#{start_date_change} – #{planning_element.end_date.nil? ? "[?]" :
-      planning_element.end_date.to_s}#{end_date_change}"
+    link += "#{planning_element.start_date.nil? ? "[?]" : planning_element.start_date.to_s}#{start_date_change} – #{planning_element.due_date.nil? ? "[?]" :
+      planning_element.due_date.to_s}#{due_date_change}"
     link += "#{planning_element.responsible.nil? ? "" : h(" (#{planning_element.responsible.to_s})")}"
 
     return link

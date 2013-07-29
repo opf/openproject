@@ -2,7 +2,6 @@
 
 {<img src="https://travis-ci.org/opf/openproject.png?branch=feature/rails3" alt="Build Status" />}[https://travis-ci.org/opf/openproject]
 {<img src="https://gemnasium.com/opf/openproject.png" alt="Dependency Status" />}[https://gemnasium.com/opf/openproject]
-{<img src="https://coveralls.io/repos/opf/openproject/badge.png?branch=feature%2Frails3" alt="Coverage Status" />}[https://coveralls.io/r/opf/openproject?branch=feature%2Frails3]
 
 == This is a beta-Release Branch
 
@@ -17,12 +16,12 @@ More information can be found on our website[https://www.openproject.org] and so
 
 == Installation
 
-You will find an {installation guide}[https://www.openproject.org/projects/support/wiki/Installation] online.
+You will find an {installation guide}[https://www.openproject.org/projects/openproject/wiki/Installation] online.
 
 == Get in Contact
 
 OpenProject is supported by its community members, both companies as well as individuals. There are different possibilities of getting help:
-* OpenProject Support Project - https://www.openproject.org/projects/support
+* OpenProject {support page}[https://www.openproject.org/projects/openproject/wiki/Support]
 * E-Mail Support - info@openproject.org
 
 == Start Collaborating

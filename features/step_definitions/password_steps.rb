@@ -25,9 +25,12 @@ Given /^passwords have a minimum length of ([0-9]+) characters$/ do |minimum_len
   Setting.password_min_length = minimum_length
 end
 
+Given /^users are not allowed to reuse the last ([0-9]+) passwords$/ do |count|
+  Setting.password_count_former_banned = count
+end
 
 def fill_change_password(old_password, new_password, confirmation=new_password)
-  # use find and set with id to prevent ambigious match
+  # use find and set with id to prevent ambigious match I get with fill_in
   find('#password').set(old_password)
 
   fill_in('new_password', :with => new_password)
@@ -36,10 +39,18 @@ def fill_change_password(old_password, new_password, confirmation=new_password)
   @new_password = new_password
 end
 
+def change_password(old_password, new_password)
+  visit "/my/password"
+  fill_change_password(old_password, new_password)
+end
+
+Given /^I try to change my password from "([^\"]+)" to "([^\"]+)"$/ do |old, new|
+  change_password(old, new)
+end
+
 When /^I try to set my new password to "(.+)"$/ do |password|
   visit "/my/password"
-  fill_change_password('adminADMIN!', password)
-  @new_password = password
+  change_password('adminADMIN!', password)
 end
 
 When /^I fill out the change password form$/ do
@@ -63,14 +74,37 @@ Then /^I should be able to login using the new password$/ do
   login(@user.login, @new_password)
 end
 
+Then /^the password and confirmation fields should be empty$/ do
+  find('#user_password').value.should be_empty
+  find('#user_password_confirmation').value.should be_empty
+end
+
+Then /^the password and confirmation fields should be disabled$/ do
+  find('#user_password').should be_disabled
+  find('#user_password_confirmation').should be_disabled
+end
+
+Then /^the force password change field should be checked$/ do
+  find('#user_force_password_change').should be_checked
+end
+
+Then /^the force password change field should be disabled$/ do
+  find('#user_force_password_change').should be_disabled
+end
+
 Given /^I try to log in with user "([^"]*)"$/ do |login|
   step 'I go to the logout page'
-  step 'I go to the login page'
-  with_scope('#main') do
-    fill_in('Login', :with => login)
-    fill_in('Password', :with => (@new_password || 'adminADMIN!'))
-    click_link_or_button('Login')
-  end
+  login(login, @new_password || 'adminADMIN!')
+end
+
+Given /^I try to log in with user "([^"]*)" and a wrong password$/ do |login|
+  step 'I go to the logout page'
+  login(login, 'Wrong password')
+end
+
+Given /^I try to log in with user "([^"]*)" and the password sent via email$/ do |login|
+  step 'I go to the logout page'
+  login(login, assigned_password_from_last_email)
 end
 
 When /^I activate the ([a-z, ]+) password rules$/ do |rules|

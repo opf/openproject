@@ -21,7 +21,7 @@ module Api
         sort_update(@query.sortable_columns)
 
         if @query.valid?
-          @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
+          @issues = @query.issues(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
                                   :order => sort_clause)
                                  .page(page_param)
                                  .per_page(per_page_param)
@@ -44,21 +44,23 @@ module Api
         @journals.reverse! if User.current.wants_comments_in_reverse_order?
         @changesets = @issue.changesets.visible.all(:include => [{ :repository => {:project => :enabled_modules} }, :user])
         @changesets.reverse! if User.current.wants_comments_in_reverse_order?
+        @relations = @issue.relations.includes(:issue_from => [:status,
+                                                               :priority,
+                                                               :type,
+                                                               { :project => :enabled_modules }],
+                                               :issue_to => [:status,
+                                                             :priority,
+                                                             :type,
+                                                             { :project => :enabled_modules }])
+                                     .select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
 
-        @relations = @issue.relations(:include => { :other_issue => [:status,
-                                                                     :priority,
-                                                                     :tracker,
-                                                                     { :project => :enabled_modules }]
-                                                  }
-                                     ).select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
-
-        @ancestors = @issue.ancestors.visible.all(:include => [:tracker,
+        @ancestors = @issue.ancestors.visible.all(:include => [:type,
                                                                :assigned_to,
                                                                :status,
                                                                :priority,
                                                                :fixed_version,
                                                                :project])
-        @descendants = @issue.descendants.visible.all(:include => [:tracker,
+        @descendants = @issue.descendants.visible.all(:include => [:type,
                                                                    :assigned_to,
                                                                    :status,
                                                                    :priority,

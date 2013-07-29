@@ -77,7 +77,7 @@ describe PaginationHelper do
     end
 
     it "should have different urls if the params are specified as options" do
-      params = { :tab => 'lorem' }
+      params = { :controller => 'issues', :action => 'index' }
 
       pagination = helper.pagination_links_full(paginator, { :params => params })
 
@@ -96,7 +96,7 @@ describe PaginationHelper do
       pagination.should have_selector("span.per_page_options")
 
       pagination.should have_selector(".per_page_options span.current", :text => per_page)
-      pagination.should have_selector(".per_page_options a[href='#{issues_path(:per_page => Setting.per_page_options_array.last)}']")
+      pagination.should have_selector(".per_page_options a[href='#{issues_path(:page => current_page, :per_page => Setting.per_page_options_array.last)}']")
 
       Setting.per_page_options = ar
     end
@@ -189,11 +189,13 @@ describe PaginationHelper do
       end
     end
 
-    it "should save per_page in the settings if per_page" do
+    it "should return per_page if provided and store it in the session" do
       with_settings :per_page_options => '1,2,3' do
+        session[:per_page] = 3
         per_page = 2
 
         per_page_param( { :per_page => per_page } ).should == per_page
+        session[:per_page].should == 2
       end
     end
 

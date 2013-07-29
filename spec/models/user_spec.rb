@@ -13,13 +13,13 @@ require 'spec_helper'
 
 describe User do
   let(:user) { FactoryGirl.build(:user) }
-  let(:project) { FactoryGirl.create(:project_with_trackers) }
+  let(:project) { FactoryGirl.create(:project_with_types) }
   let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_packages]) }
   let(:member) { FactoryGirl.build(:member, :project => project,
                                         :roles => [role],
                                         :principal => user) }
   let(:issue_status) { FactoryGirl.create(:issue_status) }
-  let(:issue) { FactoryGirl.build(:issue, :tracker => project.trackers.first,
+  let(:issue) { FactoryGirl.build(:issue, :type => project.types.first,
                                       :author => user,
                                       :project => project,
                                       :status => issue_status) }
@@ -86,6 +86,25 @@ describe User do
     end
   end
 
+  describe :blocked do
+    let!(:blocked_user) do
+      FactoryGirl.create(:user,
+                         :failed_login_count => 3,
+                         :last_failed_login_on => Time.now)
+    end
+
+    before do
+      user.save!
+      Setting.stub!(:brute_force_block_after_failed_logins).and_return(3)
+      Setting.stub!(:brute_force_block_minutes).and_return(30)
+    end
+
+    it 'should return the single blocked user' do
+      User.blocked.length.should == 1
+      User.blocked.first.id.should == blocked_user.id
+    end
+  end
+
   describe :watches do
     before do
       user.save!
@@ -135,6 +154,37 @@ describe User do
 
     it { @u.password.should_not be_blank }
     it { @u.password_confirmation.should_not be_blank }
+    it { @u.force_password_change.should be_true}
+  end
+
+  describe :try_authentication_for_existing_user do
+    def build_user_double_with_expired_password(is_expired)
+      user_double = double('User')
+      user_double.stub(:check_password?) { true }
+      user_double.stub(:active?) { true }
+      user_double.stub(:auth_source) { nil }
+      user_double.stub(:force_password_change) { false }
+
+      # check for expired password should always happen
+      user_double.should_receive(:password_expired?) { is_expired }
+
+      user_double
+    end
+
+    it 'should not allow login with an expired password' do
+      user_double = build_user_double_with_expired_password(true)
+
+      # use !! to ensure value is boolean
+      (!!User.try_authentication_for_existing_user(user_double, 'anypassword')).should \
+        == false
+    end
+    it 'should allow login with a not expired password' do
+      user_double = build_user_double_with_expired_password(false)
+
+      # use !! to ensure value is boolean
+      (!!User.try_authentication_for_existing_user(user_double, 'anypassword')).should \
+        == true
+    end
   end
 
   describe '.system' do

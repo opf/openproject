@@ -15,17 +15,18 @@ Feature: Issue edit
       | identifier | omicronpersei8 |
       | name       | omicronpersei8 |
     And I am working in project "omicronpersei8"
-    And the project "omicronpersei8" has the following trackers:
+    And the project "omicronpersei8" has the following types:
       | name | position |
       | Bug  |     1    |
     And there is a default issuepriority with:
       | name   | Normal |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | add_issues  |
+      | add_issues         |
+      | add_work_packages  |
       | view_work_packages |
       | edit_work_packages |
-      | manage_subtasks |
+      | manage_subtasks    |
     And there is 1 user with the following:
       | login | bob|
     And the user "bob" is a "member" in the project "omicronpersei8"
@@ -67,7 +68,7 @@ Feature: Issue edit
   Scenario: On an issue with children a User should not be able to change attributes which are overridden by children
     When I go to the page of the issue "issue1"
     And I click on "Add subtask"
-    Then I should see "New issue" within "#content"
+    Then I should be on the new work_package page of the project called "omicronpersei8"
     When I fill in "find the popplers" for "Subject"
     And I click on the first button matching "Create"
     Then I should see "Successful creation."

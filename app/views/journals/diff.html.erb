@@ -15,6 +15,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render :partial => 'diff',
            :locals => { :diff => @diff } %>
 
-<p><%= link_to(l(:button_back), issue_path(@issue)) %></p>
+<p><%= link_to(l(:button_back), polymorphic_path(@journaled)) %></p>
 
-<% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
+<% html_title "#{ @journaled.to_s }" %>

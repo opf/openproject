@@ -44,4 +44,13 @@ Feature: Project Settings
     When I click on "Edit" within "#member-1"
     And I uncheck "alpha" within "#member-1-roles-form"
     And I click "Change" within "#member-1-roles-form"
-    Then I should not see "Bob Bobbit" within ".list.members"
+    Then there should be an error message
+    And I should see "Bob Bobbit" within ".list.members"
+
+@javascript
+  Scenario: Changing members per page keeps us on the members tab
+    Given I am logged in as "admin"
+    When I go to the settings page of the project "project1"
+    And I follow "Members" within ".tabs"
+    And I follow "50" within ".per_page_options" within "#tab-content-members"
+    Then I should be on the members tab of the settings page of the project "project1"

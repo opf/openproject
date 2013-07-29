@@ -27,7 +27,7 @@ class ApplicationHelperTest < ActionView::TestCase
           :permissions => [:view_work_packages, :edit_work_packages, :view_documents,
                            :browse_repository, :view_changesets, :view_wiki_pages])
 
-    @issue = FactoryGirl.create :issue, :project => @project, :author => @project_member, :tracker => @project.trackers.first
+    @issue = FactoryGirl.create :issue, :project => @project, :author => @project_member, :type => @project.types.first
     @attachment = FactoryGirl.create :attachment,
         :author => @project_member,
         :content_type => 'image/gif',
@@ -229,7 +229,7 @@ RAW
     identifier = @project.identifier
     @project.reload
 
-    issue_link = link_to("##{@issue.id}", {:controller => 'issues', :action => 'show', :id => @issue},
+    issue_link = link_to("##{@issue.id}", work_package_path(@issue),
                                :class => 'issue status-3 priority-1 created-by-me', :title => "#{@issue.subject} (#{@issue.status})")
 
     changeset_link = link_to("r#{changeset1.revision}", {:controller => 'repositories', :action => 'revision', :id => identifier, :rev => changeset1.revision},
@@ -498,7 +498,7 @@ RAW
 
     expected = <<-EXPECTED
 <p><a href="/projects/#{@project.identifier}/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
-<p><a href="/issues/#{@issue.id}" class="issue status-3 priority-1 created-by-me" title="#{@issue.subject} (#{@issue.status})">##{@issue.id}</a></p>
+<p><a href="/work_packages/#{@issue.id}" class="issue status-3 priority-1 created-by-me" title="#{@issue.subject} (#{@issue.status})">##{@issue.id}</a></p>
 <pre>
 [[CookBook documentation]]
 
@@ -695,20 +695,6 @@ RAW
     to_test.each do |date, expected|
       assert_equal expected, due_date_distance_in_words(date)
     end
-  end
-
-  def test_avatar
-    # turn on avatars
-    Setting.gravatar_enabled = '1'
-    mail = @admin.mail
-    assert avatar(@admin).include?(Digest::MD5.hexdigest(mail))
-    assert avatar("admin <#{mail}>").include?(Digest::MD5.hexdigest(mail))
-    assert_nil avatar('admin')
-    assert_nil avatar(nil)
-
-    # turn off avatars
-    Setting.gravatar_enabled = '0'
-    assert_equal '', avatar(@admin)
   end
 
   def test_link_to_user

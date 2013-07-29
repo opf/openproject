@@ -11,13 +11,31 @@
 
 require File.expand_path('../boot', __FILE__)
 
-require 'rails/all'
+require 'benchmark'
+module SimpleBenchmark
+  #
+  # Measure execution of block and display result
+  #
+  # Time is measured by Benchmark module, displayed time is total
+  # (user cpu time + system cpu time + user and system cpu time of children)
+  # This is not wallclock time.
+  def self.bench(title)
+    print "#{title}... "
+    result = Benchmark.measure do
+      yield
+    end
+    print "%.03fs\n" % result.total
+  end
+end
+
+SimpleBenchmark.bench "require 'rails/all'" do
+  require 'rails/all'
+end
 
 if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  #Bundler.require(*Rails.groups(:assets => %w(development test)))
-  # If you want your assets lazily compiled in production, use this line
-  Bundler.require(:default, :assets, :opf_plugins, Rails.env)
+  SimpleBenchmark.bench 'Bundler.require' do
+    Bundler.require(:default, :assets, :opf_plugins, Rails.env)
+  end
 end
 
 module OpenProject

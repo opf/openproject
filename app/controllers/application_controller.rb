@@ -141,6 +141,7 @@ class ApplicationController < ActionController::Base
     if user && user.is_a?(User)
       User.current = user
       session[:user_id] = user.id
+      session[:updated_at] = Time.now
     else
       User.current = User.anonymous
     end
@@ -186,7 +187,17 @@ class ApplicationController < ActionController::Base
       end
       respond_to do |format|
         format.any(:html, :atom) { redirect_to signin_path(:back_url => url) }
-        format.any(:xml, :js, :json)  { head :unauthorized, "Reason" => "login needed" }
+
+        authentication_scheme = if request.headers["X-Authentication-Scheme"] == "Session"
+          'Session'
+        else
+          'Basic'
+        end
+        format.any(:xml, :js, :json)  {
+          head :unauthorized,
+          "Reason" => "login needed",
+          'WWW-Authenticate' => authentication_scheme + ' realm="OpenProject API"'
+        }
       end
       return false
     end
@@ -273,7 +284,7 @@ class ApplicationController < ActionController::Base
       model_object = self.class._model_object
       instance = model_object.find(params[:id])
       @project = instance.project
-      self.instance_variable_set('@' + model_object.to_s.downcase, instance)
+      self.instance_variable_set('@' + model_object.to_s.underscore, instance)
     else
       @project = Project.find(params[:project_id])
     end
@@ -606,26 +617,31 @@ class ApplicationController < ActionController::Base
   ActiveSupport.run_load_hooks(:application_controller, self)
 
   def check_session_lifetime
-    session_ttl_value = Setting.session_ttl.to_i
-
-    if Setting.session_ttl_enabled? && session_ttl_value >= 5
-      if session[:updated_at] && User.current.logged? && ((session[:updated_at] + (session_ttl_value * 60)) < Time.now)
-        self.logged_user = nil
-        if request.get?
-          url = url_for(params)
-        else
-          url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
-        end
-
-        flash[:warning] = I18n.t('notice_forced_logout', :ttl_time => Setting.session_ttl)
-        redirect_to(:controller => "account", :action => "login", :back_url => url)
+    if session_expired?
+      self.logged_user = nil
+      if request.get?
+        url = url_for(params)
       else
-        session[:updated_at] = Time.now
+        url = url_for(:controller => params[:controller], :action => params[:action],
+                      :id => params[:id], :project_id => params[:project_id])
       end
+      flash[:warning] = I18n.t('notice_forced_logout', :ttl_time => Setting.session_ttl)
+      redirect_to(:controller => "account", :action => "login", :back_url => url)
     end
+    session[:updated_at] = Time.now
   end
 
   private
+
+  def session_expired?
+    current_user.logged? &&
+    (session_ttl_enabled? && (session[:updated_at].nil? ||
+                             (session[:updated_at] + Setting.session_ttl.to_i.minutes) < Time.now))
+  end
+
+  def session_ttl_enabled?
+    Setting.session_ttl_enabled? && Setting.session_ttl.to_i >= 5
+  end
 
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)

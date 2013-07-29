@@ -30,7 +30,7 @@ class AdminTest < ActionDispatch::IntegrationTest
     assert_kind_of User, logged_user
     assert_equal "Paul", logged_user.firstname
 
-    put user_path(user), :id => user.id, :user => { :status => User::STATUS_LOCKED }
+    post change_status_user_path(user.id), :lock => '1'
     assert_redirected_to edit_user_path(user)
     locked_user = User.try_to_login("psmith", "psmithPSMITH09")
     assert_equal nil, locked_user

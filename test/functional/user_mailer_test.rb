@@ -25,7 +25,7 @@ class UserMailerTest < ActionMailer::TestCase
     User.delete_all
     Issue.delete_all
     Project.delete_all
-    Tracker.delete_all
+    Type.delete_all
     ActionMailer::Base.deliveries.clear
   end
 
@@ -76,7 +76,7 @@ class UserMailerTest < ActionMailer::TestCase
       # link to the main ticket
       assert_select 'a[href=?]',
                     "https://mydomain.foo/issues/#{issue.id}",
-                    :text => "My Tracker ##{issue.id}: My awesome Ticket"
+                    :text => "My Type ##{issue.id}: My awesome Ticket"
       # link to a description diff
       assert_select 'li', :text => /Description changed/
       assert_select 'li>a[href=?]',
@@ -84,7 +84,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "Details"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
-                    "https://mydomain.foo/issues/#{related_issue.id}",
+                    "https://mydomain.foo/work_packages/#{related_issue.id}",
                     "My related Ticket (#{related_issue.status})",
                     :text => "##{related_issue.id}"
       # link to a changeset
@@ -114,7 +114,7 @@ class UserMailerTest < ActionMailer::TestCase
       # link to the main ticket
       assert_select 'a[href=?]',
                     "http://mydomain.foo/rdm/issues/#{issue.id}",
-                    :text => "My Tracker ##{issue.id}: My awesome Ticket"
+                    :text => "My Type ##{issue.id}: My awesome Ticket"
       # link to a description diff
       assert_select 'li', :text => /Description changed/
       assert_select 'li>a[href=?]',
@@ -122,7 +122,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "Details"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/issues/#{related_issue.id}",
+                    "http://mydomain.foo/rdm/work_packages/#{related_issue.id}",
                     "My related Ticket (#{related_issue.status})",
                     :text => "##{related_issue.id}"
       # link to a changeset
@@ -155,7 +155,7 @@ class UserMailerTest < ActionMailer::TestCase
       # link to the main ticket
       assert_select 'a[href=?]',
                     "http://mydomain.foo/rdm/issues/#{issue.id}",
-                    :text => "My Tracker ##{issue.id}: My awesome Ticket"
+                    :text => "My Type ##{issue.id}: My awesome Ticket"
       # link to a description diff
       assert_select 'li', :text => /Description changed/
       assert_select 'li>a[href=?]',
@@ -163,7 +163,7 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "Details"
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/issues/#{related_issue.id}",
+                    "http://mydomain.foo/rdm/work_packages/#{related_issue.id}",
                     "My related Ticket (#{related_issue.status})",
                     :text => "##{related_issue.id}"
       # link to a changeset
@@ -443,7 +443,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.last
     assert mail.to.include?('foo@bar.de')
-    assert mail.body.encoded.include?("#{issue.project.name} - #{issue.tracker.name} ##{issue.id}: some issue")
+    assert mail.body.encoded.include?("#{issue.project.name} - #{issue.type.name} ##{issue.id}: some issue")
     assert_equal '1 issue(s) due in the next 42 days', mail.subject
   end
 
@@ -461,7 +461,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     mail = ActionMailer::Base.deliveries.last
     assert mail.to.include?('foo1@bar.de')
-    assert mail.body.encoded.include?("#{issue.project.name} - #{issue.tracker.name} ##{issue.id}: some issue")
+    assert mail.body.encoded.include?("#{issue.project.name} - #{issue.type.name} ##{issue.id}: some issue")
     assert_equal '1 issue(s) due in the next 42 days', mail.subject
   end
 
@@ -517,18 +517,18 @@ private
   def setup_complex_issue_update
     project = FactoryGirl.create(:valid_project)
     user    = FactoryGirl.create(:user, :member_in_project => project)
-    tracker = FactoryGirl.create(:tracker, :name => 'My Tracker')
-    project.trackers << tracker
+    type = FactoryGirl.create(:type, :name => 'My Type')
+    project.types << type
     project.save
 
     related_issue = FactoryGirl.create(:issue,
         :subject => 'My related Ticket',
-        :tracker => tracker,
+        :type => type,
         :project => project)
 
     issue   = FactoryGirl.create(:issue,
         :subject => 'My awesome Ticket',
-        :tracker => tracker,
+        :type => type,
         :project => project,
         :description => "nothing here yet")
 

@@ -1,4 +1,5 @@
 #-- copyright
+#
 # OpenProject is a project management system.
 #
 # Copyright (C) 2012-2013 the OpenProject Team
@@ -16,7 +17,7 @@ Feature: Watch issues
       | name        | parent      |
       | identifier  | parent      |
     And I am working in project "parent"
-    And the project "parent" has the following trackers:
+    And the project "parent" has the following types:
       | name | position |
       | Bug  |     1    |
     And there is a default issuepriority with:
@@ -25,7 +26,10 @@ Feature: Watch issues
     And the role "member" may have the following rights:
       | view_work_packages |
     And there is 1 user with the following:
-      | login | bob|
+      | login     | bob    |
+      | firstname | Bob    |
+      | lastname  | Bobbit |
+      | admin     | true   |
     And the user "bob" is a "member" in the project "parent"
     Given the user "bob" has 1 issue with the following:
       | subject     | issue1              |
@@ -47,4 +51,24 @@ Feature: Watch issues
     Then I should see "Unwatch" within "#content > .action_menu_main"
     When I click on "Unwatch" within "#content > .action_menu_main"
     Then I should see "Watch" within "#content > .action_menu_main"
+    Then the issue "issue1" should have 0 watchers
+
+  @javascript
+  Scenario: Add a watcher to an issue
+    When I go to the page of the issue "issue1"
+    Then I should see "Add watcher" within "#watchers"
+    When I click on "Add watcher" within "#watchers"
+    And I select "Bob Bobbit" from "watcher_user_id" within "#watchers"
+    And I press "Add" within "#watchers"
+    Then I should see "Bob Bobbit" within "#watchers > ul"
+    Then the issue "issue1" should have 1 watchers
+
+  @javascript
+  Scenario: Remove a watcher from an issue
+    Given the issue "issue1" is watched by:
+      | bob |
+    When I go to the page of the issue "issue1"
+    Then I should see "Bob Bobbit" within "#watchers > ul"
+    When I click on "Delete" within "#watchers > ul"
+    Then I should not see "Bob Bobbit" within "#watchers"
     Then the issue "issue1" should have 0 watchers

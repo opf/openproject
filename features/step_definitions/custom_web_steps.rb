@@ -16,7 +16,7 @@ Then /^I should (not )?see "([^"]*)"\s*\#.*$/ do |negative, name|
 end
 
 When /^I click(?:| on) "([^"]*)"$/ do |name|
-  click_link_or_button(name, {:visible => true })
+  click_link_or_button(name)
 end
 
 When /^(?:|I )jump to [Pp]roject "([^\"]*)"$/ do |project|

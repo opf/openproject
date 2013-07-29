@@ -45,9 +45,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :sidebar do %>
 <%= form_tag({}, :method => :get) do %>
 <h3><%= l(:description_filter) %></h3>
-<% @trackers.each do |tracker| %>
-  <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s), :id => nil %>
-  <%=h tracker.name %></label><br />
+<% @types.each do |type| %>
+  <label><%= check_box_tag "type_ids[]", type.id, (@selected_type_ids.include? type.id.to_s), :id => nil %>
+  <%=h type.name %></label><br />
 <% end %>
 <br />
 <label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>

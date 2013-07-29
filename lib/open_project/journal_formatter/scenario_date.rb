@@ -15,7 +15,7 @@ class OpenProject::JournalFormatter::ScenarioDate < JournalFormatter::Datetime
   private
 
   def label(key)
-    key_match = /^scenario_(\d+)_(start|end)_date$/.match(key)
+    key_match = /^scenario_(\d+)_(start|due)_date$/.match(key)
 
     scenario = Scenario.find_by_id(key_match[1])
 

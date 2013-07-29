@@ -83,9 +83,12 @@ module NavigationHelpers
       project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/activity"
 
+    when /^the overall activity page$/
+      "/activity"
+
     when /^the page (?:for|of) the issue "([^\"]+)"$/
       issue = Issue.find_by_subject($1)
-      "/issues/#{issue.id}"
+      "/work_packages/#{issue.id}"
 
     when /^the edit page (?:for|of) the issue "([^\"]+)"$/
       issue = Issue.find_by_subject($1)
@@ -100,6 +103,13 @@ module NavigationHelpers
        project_identifier = $2.gsub("\"", "")
        project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
        "/projects/#{project_identifier}/issues"
+
+    when /^the page (?:for|of) the work package "([^\"]+)"$/
+      work_package = WorkPackage.find_by_subject($1)
+      "/work_packages/#{work_package.id}"
+
+    when /^the new work_package page (?:for|of) the project called "([^\"]+)"$/
+      "/projects/#{$1}/work_packages/new"
 
     when /^the wiki index page(?: below the (.+) page)? (?:for|of) (?:the)? project(?: called)? (.+)$/
        parent_page_title, project_identifier = $1, $2
@@ -210,7 +220,7 @@ module NavigationHelpers
         "/settings/edit?tab=#{$1}"
       end
 
-    when /^the(?: (.+?) tab of the) settings page (?:of|for) the project "(.+?)"$/
+    when /^the(?: (.+?) tab of the)? settings page (?:of|for) the project "(.+?)"$/
       if $1.nil?
         "/projects/#{$2}/settings"
       else
@@ -251,10 +261,8 @@ module NavigationHelpers
 
     when /^the page of the planning element "([^\"]+)" of the project called "([^\"]+)"$/
       planning_element_name = $1
-      project_name = $2
-      project_identifier = Project.find_by_name(project_name).identifier.gsub(' ', '%20')
       planning_element = PlanningElement.find_by_subject(planning_element_name)
-      "/projects/#{project_identifier}/planning_elements/#{planning_element.id}"
+      "/work_packages/#{planning_element.id}"
 
     when /^the (.+) page (?:for|of) the project called "([^\"]+)"$/
       project_page = $1

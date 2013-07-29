@@ -18,6 +18,7 @@ class UsersController < ApplicationController
   before_filter :find_user, :only => [:show,
                                       :edit,
                                       :update,
+                                      :change_status,
                                       :edit_membership,
                                       :destroy_membership,
                                       :destroy,
@@ -38,9 +39,19 @@ class UsersController < ApplicationController
 
     scope = User
     scope = scope.in_group(params[:group_id].to_i) if params[:group_id].present?
+    c = ARCondition.new
 
-    @status = params[:status] ? params[:status].to_i : 1
-    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
+    if params[:status] == 'blocked'
+      @status = :blocked
+      scope = scope.blocked
+    elsif params[:status] == 'all'
+      @status = :all
+      scope = scope.not_builtin
+    else
+      @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
+      scope = scope.not_blocked if @status == User::STATUSES[:active]
+      c << ["status = ?", @status]
+    end
 
     unless params[:name].blank?
       name = "%#{params[:name].strip.downcase}%"
@@ -90,7 +101,14 @@ class UsersController < ApplicationController
     @user.safe_attributes = params[:user]
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
-    @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] if @user.change_password_allowed?
+    if @user.change_password_allowed?
+      if params[:user][:assign_random_password]
+        @user.random_password!
+      else 
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
+      end
+    end
 
     if @user.save
       # TODO: Similar to My#account
@@ -100,7 +118,7 @@ class UsersController < ApplicationController
 
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      UserMailer.account_information(@user, params[:user][:password]).deliver if params[:send_information]
+      UserMailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|
         format.html {
@@ -131,12 +149,16 @@ class UsersController < ApplicationController
   def update
     @user.admin = params[:user][:admin] if params[:user][:admin]
     @user.login = params[:user][:login] if params[:user][:login]
-    @user.safe_attributes = params[:user].except(:login) # :login is protected
-    if params[:user][:password].present? && @user.change_password_allowed?
-      @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
+    @user.attributes = permitted_params.user_update_as_admin
+    if @user.change_password_allowed?
+      if params[:user][:assign_random_password]
+        @user.random_password!
+      elsif params[:user][:password].present?
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
+      end
     end
-    # Was the account actived ? (do it before User#save clears the change)
-    was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
+
     if @user.save
       # TODO: Similar to My#account
       @user.pref.attributes = params[:pref]
@@ -145,10 +167,8 @@ class UsersController < ApplicationController
 
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      if was_activated
-        UserMailer.account_activated(@user).deliver
-      elsif @user.active? && params[:send_information] && !params[:user][:password].blank? && @user.change_password_allowed?
-        UserMailer.account_information(@user, params[:user][:password]).deliver
+      if @user.active? && params[:send_information] && !@user.password.blank? && @user.change_password_allowed?
+        UserMailer.account_information(@user, @user.password).deliver
       end
 
       respond_to do |format|
@@ -169,6 +189,36 @@ class UsersController < ApplicationController
     end
   rescue ::ActionController::RedirectBackError
     redirect_to :controller => '/users', :action => 'edit', :id => @user
+  end
+
+  def change_status
+    if @user.id == current_user.id
+      # user is not allowed to change own status
+      redirect_back_or_default(:action => 'edit', :id => @user)
+      return
+    end
+    if params[:unlock]
+      @user.failed_login_count = 0
+      @user.activate
+    elsif params[:lock]
+      @user.lock
+    elsif params[:activate]
+      @user.activate
+    end
+    # Was the account activated? (do it before User#save clears the change)
+    was_activated = (@user.status_change == [User::STATUSES[:registered],
+                                             User::STATUSES[:active]])
+    if @user.save
+      flash[:notice] = I18n.t(:notice_successful_update)
+      if was_activated
+        UserMailer.account_activated(@user).deliver
+      end
+    else
+      flash[:error] = I18n.t(:error_status_change_failed,
+                             :errors => @user.errors.full_messages.join(', '),
+                             :scope => :user)
+    end
+    redirect_back_or_default(:action => 'edit', :id => @user)
   end
 
   def edit_membership
@@ -196,7 +246,7 @@ class UsersController < ApplicationController
   def destroy
     # as destroying users is a lengthy process we handle it in the background
     # and lock the account now so that no action can be performed with it
-    @user.status = User::STATUS_LOCKED
+    @user.status = User::STATUSES[:locked]
     @user.save
 
     # TODO: use Delayed::Worker.delay_jobs = false in test environment as soon as

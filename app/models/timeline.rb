@@ -179,7 +179,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_planning_element_time_types
     resolve_with_none_element(:planning_element_time_types) do |ary|
-      Timelines::PlanningElementType.find(ary)
+      PlanningElementType.find(ary)
     end
   end
 

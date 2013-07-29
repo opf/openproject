@@ -16,7 +16,7 @@ Feature: Localized boolean custom fields can be created
     And the following languages are active:
       | en |
       | de |
-    And there are the following trackers:
+    And there are the following types:
       | name    | position |  is_in_chlog |
       | Bug     |    1     |  true        |
       | Feature |    2     |  true        |
@@ -30,11 +30,11 @@ Feature: Localized boolean custom fields can be created
     Then there should be the following localizations:
       | locale  | name    | default_value | possible_values |
       | en      |         | 0             |                 |
-    And there should be a "custom_field_tracker_ids_1" field visible
+    And there should be a "custom_field_type_ids_1" field visible
     And I should see "Bug"
-    And there should be a "custom_field_tracker_ids_2" field visible
+    And there should be a "custom_field_type_ids_2" field visible
     And I should see "Feature"
-    And there should be a "custom_field_tracker_ids_3" field visible
+    And there should be a "custom_field_type_ids_3" field visible
     And I should see "Support"
     And there should be a "custom_field_is_required" field visible
     And there should be a "custom_field_is_for_all" field visible

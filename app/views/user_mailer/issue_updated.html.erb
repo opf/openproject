@@ -14,7 +14,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <ul>
 <% @journal.details.each do |detail| %>
-  <li><%= @journal.render_detail(detail) %></li>
+  <li><%= @journal.render_detail(detail, :only_path => false) %></li>
 <% end %>
 </ul>
 

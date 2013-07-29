@@ -24,10 +24,16 @@ class MergeWikiVersionsWithJournals < ActiveRecord::Migration
       end
     }
 
+    # reload the user table schema is needed since
+    # the mail_notification type was changed from bool to string
+    User.connection.schema_cache.clear!
+    User.reset_column_information
+    ano_user = User.anonymous
+
     # assign all wiki_contents w/o author to the anonymous user - they used to
     # work w/o author but don't any more.
-    WikiContent.update_all({:author_id => User.anonymous.id}, :author_id => nil)
-    WikiContent::Version.update_all({:author_id => User.anonymous.id}, :author_id => nil)
+    WikiContent.update_all({:author_id => ano_user.id}, :author_id => nil)
+    WikiContent::Version.update_all({:author_id => ano_user.id}, :author_id => nil)
 
     WikiContent::Version.find_by_sql("SELECT * FROM wiki_content_versions").each do |wv|
       journal = WikiContentJournal.create!(:journaled_id => wv.wiki_content_id, :user_id => wv.author_id,

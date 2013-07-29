@@ -33,10 +33,7 @@ class IssueCategoriesController < ApplicationController
           redirect_to :controller => '/projects', :action => 'settings', :tab => 'categories', :id => @project
         end
         format.js do
-          # IE doesn't support the replace_html rjs method for select box options
-          render(:update) {|page| page.replace "issue_category_id",
-            content_tag('select', '<option></option>' + options_from_collection_for_select(@project.issue_categories, 'id', 'name', @category.id), :id => 'issue_category_id', :name => 'issue[category_id]')
-          }
+          render :locals => { :project => @project, :category => @category }
         end
       end
     else

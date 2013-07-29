@@ -23,8 +23,8 @@ describe Issue do
 
       @priority_low ||= FactoryGirl.create(:priority_low, :is_default => true)
       @priority_high ||= FactoryGirl.create(:priority_high)
-      @tracker ||= FactoryGirl.create(:tracker_feature)
-      @project ||= FactoryGirl.create(:project_with_trackers)
+      @type ||= FactoryGirl.create(:type_feature)
+      @project ||= FactoryGirl.create(:project_with_types)
 
       @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
       User.stub!(:current).and_return(@current)
@@ -32,7 +32,7 @@ describe Issue do
       @user2 = FactoryGirl.create(:user, :login => "user2", :mail => "user2@users.com")
 
 
-      @issue ||= FactoryGirl.create(:issue, :project => @project, :status => @status_open, :tracker => @tracker, :author => @current)
+      @issue ||= FactoryGirl.create(:issue, :project => @project, :status => @status_open, :type => @type, :author => @current)
     end
 
     describe 'ignore blank to blank transitions' do
@@ -101,4 +101,5 @@ describe Issue do
       end
     end
   end
+
 end

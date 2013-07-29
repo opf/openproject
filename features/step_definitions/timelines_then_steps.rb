@@ -14,7 +14,7 @@ Then /^I should see the planning element edit modal$/ do
  steps 'Then I should see a modal window with selector "#planningElementDialog"'
 end
 Then /^I should see a modal window with selector "(.*?)"$/ do |selector|
-  page.should have_selector(selector, visible: true)
+  page.should have_selector(selector)
   dialog = find(selector)
 
   dialog["class"].include?("ui-dialog-content").should be_true
@@ -165,7 +165,7 @@ Then /^I should (not )?see a planning element quickinfo link for "([^"]*)"$/ do 
   planning_element = PlanningElement.find_by_subject(planning_element_subject)
 
 
-  text = "*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.subject} #{planning_element.start_date.to_s} – #{planning_element.end_date.to_s} (#{planning_element.responsible.to_s})"
+  text = "*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.subject} #{planning_element.start_date.to_s} – #{planning_element.due_date.to_s} (#{planning_element.responsible.to_s})"
   step %Q{I should #{negate}see "#{text}"}
 end
 

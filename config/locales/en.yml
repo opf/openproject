@@ -54,12 +54,12 @@ en:
       issue:
         done_ratio: "% Done"
         fixed_version: "Target version"
-        parent: "Parent issue"
-        parent_issue: "Parent issue"
+        parent: "Parent"
+        parent_issue: "Parent"
         priority: "Priority"
         subproject: "Subproject"
         time_entries: "Log time"
-        tracker: "Tracker"
+        type: "Type"
         watcher: "Watcher"
       issue_relation:
         delay: "Delay"
@@ -91,8 +91,8 @@ en:
         hours: "Hours"
         issue: "Issue"
         spent_on: "Date"
-        tracker: "Tracker"
-      tracker:
+        type: "Type"
+      type:
         is_in_roadmap: "Issues displayed in roadmap"
       user:
         admin: "Administrator"
@@ -125,14 +125,13 @@ en:
         hexcode: Hex code
       planning_element:
         alternate_dates:
-          end_date: End date of alternate date
+          due_date: End date of alternate date
         description: Description
-        end_date: "End date"
+        due_date: "End date"
         id: ID
         name: Name
         parent: Parent element
         planning_element_type: "Type"
-        responsible: "Responsible"
         start_date: Start date
         deleted_at: Deleted at
         planning_element_status: "Status"
@@ -162,6 +161,10 @@ en:
         reporting_to_project: Reports to project
         reported_project_status: Project status
         created_at: Created
+      work_package:
+        progress: "% done"
+        responsible: "Responsible"
+        spent_time: "Spent time"
 
     errors:
       messages:
@@ -192,11 +195,11 @@ en:
       models:
         alternate_date:
           attributes:
-            end_date:
+            due_date:
               not_start_date: "is not on start date, although this is required for milestones"
         planning_element:
           attributes:
-            end_date:
+            due_date:
               not_start_date: "is not on start date, although this is required for milestones"
             parent:
               cannot_be_milestone: "cannot be a milestone"
@@ -213,7 +216,9 @@ en:
               uppercase: "uppercase (e.g. 'A')"
               numeric: "numeric (e.g. '1')"
               special: "special (e.g. '%')"
-              reused: "must not be one of the last %{count} used"
+              reused:
+                one: "has been used before. Please choose one that is different from your last one."
+                other: "has been used before. Please choose one that is different from your last %{count}."
       template:
         body: "Please check the following fields:"
         header:
@@ -237,7 +242,7 @@ en:
       role:
         one : "Role"
         other: "Roles"
-      tracker: "Tracker"
+      type: "Type"
       planning_element: Planning element
       planning_element_type: Planning element type
       project_type: Project type
@@ -286,8 +291,8 @@ en:
     updated_on: "Updated on"
     user: "User"
     version: "Version"
+    work_package: "Work package"
 
-  button_activate: "Activate"
   button_add: "Add"
   button_add_watcher: "Add watcher"
   button_annotate: "Annotate"
@@ -417,9 +422,9 @@ en:
   default_role_manager: "Manager"
   default_role_non_member: "Non member"
   default_role_reporter: "Reporter"
-  default_tracker_bug: "Bug"
-  default_tracker_feature: "Feature"
-  default_tracker_support: "Support"
+  default_type_bug: "Bug"
+  default_type_feature: "Feature"
+  default_type_support: "Support"
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
@@ -468,7 +473,7 @@ en:
 
   error_can_not_archive_project: "This project cannot be archived"
   error_can_not_delete_custom_field: "Unable to delete custom field"
-  error_can_not_delete_tracker: "This tracker contains issues and cannot be deleted."
+  error_can_not_delete_type: "This type contains issues and cannot be deleted."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_reopen_issue_on_closed_version: "An issue assigned to a closed version cannot be reopened"
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
@@ -477,14 +482,14 @@ en:
   error_issue_not_found_in_project: "The issue was not found or does not belong to this project"
   error_must_be_project_member: "must be project member"
   error_no_default_issue_status: "No default issue status is defined. Please check your configuration (Go to \"Administration -> Issue statuses\")."
-  error_no_tracker_in_project: "No tracker is associated to this project. Please check the Project settings."
+  error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_unable_delete_issue_status: "Unable to delete issue status"
   error_unable_to_connect: "Unable to connect (%{value})"
-  error_workflow_copy_source: "Please select a source tracker or role"
-  error_workflow_copy_target: "Please select target tracker(s) and role(s)"
+  error_workflow_copy_source: "Please select a source type or role"
+  error_workflow_copy_target: "Please select target type(s) and role(s)"
 
   general_csv_decimal_separator: "."
   general_csv_encoding: "ISO-8859-1"
@@ -502,7 +507,7 @@ en:
 
   js:
     logoff: You have been logged off
-    redirect_login: Do you want to be redirected to the login page?  
+    redirect_login: Do you want to be redirected to the login page?
     ajax:
       hide: "Hide"
       loading: "Loading ..."
@@ -528,7 +533,7 @@ en:
       really_delete_planning_element: >
         Are you sure, you want to permanently delete the following planning element and all
         its child elements?
-      end_date: "End date"
+      due_date: "Due date"
       name: "Name"
       planning_element_types: "Planning element type"
       project_status: "Project status"
@@ -636,7 +641,7 @@ en:
   label_display: "Display"
   label_display_per_page: "Per page: %{value}"
   label_display_sums: "Display Sums"
-  label_display_used_statuses_only: "Only display statuses that are used by this tracker"
+  label_display_used_statuses_only: "Only display statuses that are used by this type"
   label_document_added: "Document added"
   label_document_new: "New document"
   label_document_plural: "Documents"
@@ -793,7 +798,7 @@ en:
   label_preview: "Preview"
   label_previous: "Previous"
   label_previous_week: "Previous week"
-  label_principal_search: "Search for users or groups:"
+  label_principal_search: "Search for users or groups"
   label_profile: "Profile"
   label_project_all: "All Projects"
   label_project_copy_notifications: "Send email notifications during the project copy"
@@ -835,8 +840,8 @@ en:
   label_role_and_permissions: "Roles and permissions"
   label_role_new: "New role"
   label_role_plural: "Roles"
-  label_role_search: "Search for roles:"
-  label_scenario_end_date: "Scenario %{title}: End date"
+  label_role_search: "Search for roles"
+  label_scenario_due_date: "Scenario %{title}: Due date"
   label_scenario_start_date: "Scenario %{title}: Start date"
   label_scenario_deleted: '(deleted scenario)'
   label_scm: "SCM"
@@ -878,8 +883,8 @@ en:
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"
   label_total: "Total"
-  label_tracker_new: "New tracker"
-  label_tracker_plural: "Trackers"
+  label_type_new: "New type"
+  label_type_plural: "Types"
   label_ui: "User Interface"
   label_update_issue_done_ratios: "Update issue done ratios"
   label_updated_time: "Updated %{value} ago"
@@ -897,7 +902,7 @@ en:
   label_user_mail_option_selected: "For any event on the selected projects only..."
   label_user_new: "New user"
   label_user_plural: "Users"
-  label_user_search: "Search for user:"
+  label_user_search: "Search for user"
   label_version_new: "New version"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "With subprojects"
@@ -922,6 +927,8 @@ en:
   label_wiki_show_menu_item: "Show as menu item in project navigation"
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
+  label_work_package: "Work package"
+  label_work_package_new: "New work package"
   label_workflow: "Workflow"
   label_workflow_summary: "Summary"
   label_x_closed_issues_abbr:
@@ -966,9 +973,11 @@ en:
 
   notice_account_activated: "Your account has been activated. You can now log in."
   notice_account_inactive: "Your account has not yet been activated. To activate your account, click on the link that was emailed to you."
-  notice_account_invalid_creditentials: "Invalid user or password"
+  notice_account_invalid_credentials: "Invalid user or password"
+  notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
   notice_account_new_password_forced: "A new password is required."
+  notice_account_password_expired: "Your password expired after %{days} days. Please set a new one."
   notice_account_password_updated: "Password was successfully updated."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_account_register_done: "Account was successfully created. To activate your account, click on the link that was emailed to you."
@@ -1029,11 +1038,11 @@ en:
           tb: "TB"
 
   permission_add_issue_notes: "Add notes"
-  permission_add_issue_watchers: "Add watchers"
   permission_add_issues: "Add issues"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
   permission_add_subprojects: "Create subprojects"
+  permission_add_work_package_watchers: "Add watchers"
   permission_browse_repository: "Browse repository"
   permission_comment_news: "Comment news"
   permission_commit_access: "Commit access"
@@ -1124,6 +1133,8 @@ en:
   setting_autologin: "Autologin"
   setting_available_languages: "Available languages"
   setting_bcc_recipients: "Blind carbon copy recipients (bcc)"
+  setting_brute_force_block_after_failed_logins: "Block user after this number of failed login attempts (disable with 0)"
+  setting_brute_force_block_minutes: "Time the user is blocked for (minutes)"
   setting_cache_formatted_text: "Cache formatted text"
   setting_column_options: "Customize the appearance of the issue lists"
   setting_commit_fix_keywords: "Fixing keywords"
@@ -1162,9 +1173,11 @@ en:
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_new_project_user_role_id: "Role given to a non-admin user who creates a project"
   setting_openid: "Allow OpenID login and registration"
-  setting_password_active_rules: "Active password rules"
-  setting_password_min_length: "Minimum password length"
-  setting_password_min_adhered_rules: "Minimum number of rules to adhere to"
+  setting_password_active_rules: "Active character classes"
+  setting_password_count_former_banned: "Number of most recently used passwords banned for reuse"
+  setting_password_days_valid: "Number of days, after which to enforce a password change (disable with 0)"
+  setting_password_min_length: "Minimum length"
+  setting_password_min_adhered_rules: "Minimum number of required classes"
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
@@ -1187,11 +1200,16 @@ en:
   setting_welcome_text: "Welcome text"
   setting_wiki_compression: "Wiki history compression"
 
+  settings:
+    general: "General"
+    other: "Other"
+    passwords: "Passwords"
+    session: "Session"
+    brute_force_prevention: "Automated user blocking"
+
   show_hide_project_menu: "Hide/Show project menu"
 
   status_active: "active"
-  status_locked: "locked"
-  status_registered: "registered"
 
   # Used in array.to_sentence.
   support:
@@ -1236,7 +1254,7 @@ en:
   text_line_separated: "Multiple values allowed (one line for each value)."
   text_load_default_configuration: "Load the default configuration"
   text_min_max_length_info: "0 means no restriction"
-  text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_no_configuration_data: "Roles, types, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
   text_plugin_assets_writable: "Plugin assets directory writable"
   text_powered_by: "Powered by %{link}"
@@ -1254,7 +1272,7 @@ en:
   text_tip_issue_begin_day: "issue beginning this day"
   text_tip_issue_begin_end_day: "issue beginning and ending this day"
   text_tip_issue_end_day: "issue ending this day"
-  text_tracker_no_workflow: "No workflow defined for this tracker"
+  text_type_no_workflow: "No workflow defined for this type"
   text_unallowed_characters: "Unallowed characters"
   text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
   text_user_wrote: "%{value} wrote:"
@@ -1264,7 +1282,7 @@ en:
   text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
   text_wiki_page_nullify_children: "Keep child pages as root pages"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
-  text_workflow_edit: "Select a role and a tracker to edit the workflow"
+  text_workflow_edit: "Select a role and a type to edit the workflow"
   text_zoom_in: "Zoom in"
   text_zoom_out: "Zoom out"
 
@@ -1487,10 +1505,33 @@ en:
       quarters: "Quarters"
       years: "Years"
 
+  label_work_package_hierarchy: "Work Package Hierarchy"
+  description_sub_work_package: "Sub work package of current"
+  label_related_work_packages: "Related work packages"
+  label_add_related_work_packages: "Add related work packages"
+
   total_progress: "Total progress"
 
   user:
+    all: "all"
+    active: "active"
+    activate: "Activate"
+    activate_and_reset_failed_logins: "Activate and reset failed logins"
+    assign_random_password: "Assign random password (sent to user via e-mail)"
+    blocked: "locked temporarily"
+    blocked_num_failed_logins:
+      one: "locked temporarily (one failed login attempt)"
+      other: "locked temporarily (%{count} failed login attempts)"
     deleted: "Deleted user"
+    error_status_change_failed: "Changing the user status failed due to the following errors: %{errors}"
+    lock: "Lock permanently"
+    locked: "locked permanently"
+    registered: "registered"
+    reset_failed_logins: "Reset failed logins"
+    status_user_and_brute_force: "%{user} and %{brute_force}"
+    unlock: "Unlock"
+    unlock_and_reset_failed_logins: "Unlock and reset failed logins"
+
 
   version_status_closed: "closed"
   version_status_locked: "locked"

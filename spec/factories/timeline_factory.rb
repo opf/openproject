@@ -47,7 +47,7 @@ FactoryGirl.define do
           # delay all planning elements by a few days.
 
           pe.start_date = pe.start_date + delay
-          pe.end_date = pe.end_date + delay
+          pe.due_date = pe.due_date + delay
           pe.save
 
           # predate all journals and alternate dates by one week.

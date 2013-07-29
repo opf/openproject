@@ -1,0 +1,42 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div class="contextual">
+<%= link_to l(:label_type_new), {:action => 'new'}, :class => 'icon icon-add' %>
+</div>
+
+<h2><%=l(:label_type_plural)%></h2>
+
+<table class="list">
+  <thead><tr>
+  <th><%= Type.model_name.human %></th>
+  <th></th>
+  <th><%=l(:button_sort)%></th>
+  <th></th>
+  </tr></thead>
+  <tbody>
+<% for type in @types %>
+  <tr class="<%= cycle("odd", "even") %>">
+  <td><%= link_to type.name, edit_type_path(type) %></td>
+  <td align="center"><% if type.workflows.empty? %><span class="icon icon-warning"><%= l(:text_type_no_workflow) %> (<%= link_to l(:button_edit), {:controller => '/workflows', :action => 'edit', :type_id => type} %>)</span><% end %></td>
+  <td align="center" style="width:15%;"><%= reorder_links('type', {:action => 'update', :id => type}, :method => :put) %></td>
+  <td class="buttons">
+    <%= link_to t(:button_delete), type, :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon icon-del' %>
+  </td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= pagination_links_full @types %>
+
+<% html_title(l(:label_type_plural)) -%>

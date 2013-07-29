@@ -77,12 +77,12 @@ group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'
+  gem 'timecop', "~> 0.6.1"
 
   gem 'rb-readline' # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', ">= 0.8.pre"
-  gem 'coveralls', :require => false
 end
 
 group :openid do
@@ -102,7 +102,6 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'rb-fsevent', :group => :test
-  gem 'rack-mini-profiler'
   gem 'thin'
 end
 
@@ -143,6 +142,10 @@ platforms :mri, :mingw do
   group :postgres do
     gem 'pg'
   end
+
+  group :sqlite do
+    gem "sqlite3"
+  end
 end
 
 platforms :mri_18, :mingw_18 do
@@ -150,17 +153,9 @@ platforms :mri_18, :mingw_18 do
     gem "mysql"
     #   gem "ruby-mysql"
   end
-
-  group :sqlite do
-    gem "sqlite3-ruby", "< 1.3", :require => "sqlite3"
-  end
 end
 
 platforms :mri_19, :mingw_19 do
-  group :sqlite do
-    gem "sqlite3"
-  end
-
   group :mysql2 do
     gem "mysql2", "~> 0.3.11"
   end

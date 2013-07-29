@@ -20,7 +20,7 @@ roles_001:
     - :move_issues
     - :delete_issues
     - :view_issue_watchers
-    - :add_issue_watchers
+    - :add_work_package_watchers
     - :delete_issue_watchers
     - :manage_public_queries
     - :save_queries

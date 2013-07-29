@@ -26,7 +26,7 @@ When(/^I hide empty projects for the timeline "([^"]*?)" of the project called "
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
 
-  page.should have_selector("#timeline_options_exclude_empty")
+  page.should have_selector("#timeline_options_exclude_empty", :visible => false)
 
   page.execute_script("jQuery('#timeline_options_exclude_empty').prop('checked', true)")
   page.execute_script("jQuery('#content form').submit()")
@@ -37,7 +37,7 @@ When(/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?
   }
   planning_element = PlanningElement.find_by_subject(planning_element_subject)
 
-  page.should have_selector("#timeline_options_vertical_planning_elements")
+  page.should have_selector("#timeline_options_vertical_planning_elements", :visible => false)
 
   page.execute_script("jQuery('#timeline_options_vertical_planning_elements').val('#{planning_element.id}')")
   page.execute_script("jQuery('#content form').submit()")
@@ -48,26 +48,26 @@ When(/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?
   }
   grouping_project = Project.find_by_name(grouping_project_name)
 
-  page.should have_selector("#timeline_options_grouping_one_enabled")
+  page.should have_selector("#timeline_options_grouping_one_enabled", :visible => false)
 
   page.execute_script("jQuery('#timeline_options_grouping_one_enabled').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{grouping_project.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, end_date, type|
+When(/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
   timeline_name = @timeline_name
   project_name = @project.name
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
 
-  page.should have_selector("#timeline_options_planning_element_time_types")
+  page.should have_selector("#timeline_options_planning_element_time_types", :visible => false)
 
   planning_element_type = PlanningElementType.find_by_name(type)
   page.execute_script("jQuery('#timeline_options_planning_element_time_types').val('#{planning_element_type.id}')")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_one').val('#{start_date}')")
-  page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_two').val('#{end_date}')")
+  page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_two').val('#{due_date}')")
   page.execute_script("jQuery('#content form').submit()")
 end
 When(/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |project_type_name, timeline_name, project_name|
@@ -76,7 +76,7 @@ When(/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*
   }
   project_type = ProjectType.find_by_name(project_type_name)
 
-  page.should have_selector("#timeline_options_grouping_two_enabled")
+  page.should have_selector("#timeline_options_grouping_two_enabled", :visible => false)
 
   page.execute_script("jQuery('#timeline_options_grouping_two_enabled').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_grouping_two_selection').val('#{project_type.id}')")
@@ -98,7 +98,7 @@ When(/^I set the first level grouping criteria to:$/) do |table|
   results = result.join(",");
 
   #we need to wait for our submit form to load ...
-  page.should have_selector("#timeline_options_grouping_one_enabled")
+  page.should have_selector("#timeline_options_grouping_one_enabled", :visible => false)
 
   page.execute_script("jQuery('#timeline_options_grouping_one_enabled').prop('checked', true)")
   page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{results}')")
@@ -112,7 +112,7 @@ When(/^I set the sortation of the first level grouping criteria to explicit orde
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
 
-  page.should have_selector("#timeline_options_grouping_one_sort")
+  page.should have_selector("#timeline_options_grouping_one_sort", :visible => false)
 
   page.execute_script("jQuery('#timeline_options_grouping_one_sort').val('1')")
   page.execute_script("jQuery('#content form').submit()")
@@ -148,16 +148,16 @@ When /^I wait (\d+) seconds?$/ do |seconds|
   sleep seconds.to_i
 end
 When /^I wait for the modal to show$/ do
-  page.should have_selector('#planningElementDialog', visible: true)
+  page.should have_selector('#planningElementDialog')
 end
 When /^I wait for the modal to close$/ do
-  page.should have_no_selector('#planningElementDialog', visible: true)
+  page.should have_no_selector('#planningElementDialog')
 end
-When (/^I set enddate to "([^"]*)"$/) do |value|
-  fill_in 'planning_element_end_date', :with => value
+When (/^I set duedate to "([^"]*)"$/) do |value|
+  fill_in 'planning_element_due_date', :with => value
 end
 When /^I wait for timeline to load table$/ do
-  page.should have_selector('.tl-left-main', visible: true)
+  page.should have_selector('.tl-left-main')
 end
 When (/^I open a modal for planning element "([^"]*)" of project "([^"]*)"$/) do |planning_element_subject, project_name|
   planning_element = PlanningElement.find_by_subject(planning_element_subject)

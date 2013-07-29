@@ -1,0 +1,21 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+jQuery('#relations #errorExplanation').remove();
+
+<% if relation.errors.empty? %>
+  jQuery('#relations tbody').append("<%= escape_javascript(render :partial => 'work_packages/relation', :locals => { :relation => relation, :work_package => work_package }) %>");
+
+  jQuery('#relation_issue_to_id').val('');
+<% else %>
+  jQuery('#relations table').after("<%= escape_javascript(error_messages_for(relation)) %>");
+<% end %>

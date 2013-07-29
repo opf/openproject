@@ -50,7 +50,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue = create_issue!
     child = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 2,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :subject => 'child',
                              :parent_issue_id => issue.id }
@@ -64,7 +64,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue = create_issue!
     child = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 2,
-                             :tracker_id => 1,
+                             :type_id => 1,
                              :author_id => 1,
                              :subject => 'child',
                              :parent_issue_id => issue.id }
@@ -170,13 +170,13 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   def test_invalid_move_to_another_project
     parent1 = create_issue!
     child =   create_issue!(:parent_issue_id => parent1.id)
-    grandchild = create_issue!(:parent_issue_id => child.id, :tracker_id => 2)
-    Project.find(2).tracker_ids = [1]
+    grandchild = create_issue!(:parent_issue_id => child.id, :type_id => 2)
+    Project.find(2).type_ids = [1]
 
     parent1.reload
     assert_equal [1, parent1.id, 5], [parent1.project_id, parent1.root_id, parent1.nested_set_span]
 
-    # child can not be moved to Project 2 because its child is on a disabled tracker
+    # child can not be moved to Project 2 because its child is on a disabled type
     assert_equal false, Issue.find(child.id).move_to_project(Project.find(2))
     child.reload
     grandchild.reload
@@ -263,9 +263,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_destroy_child_issue_with_children
-    root = create_issue!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'root').reload
-    child = create_issue!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => root.id).reload
-    leaf = create_issue!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'leaf', :parent_issue_id => child.id).reload
+    root = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'root').reload
+    child = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'child', :parent_issue_id => root.id).reload
+    leaf = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'leaf', :parent_issue_id => child.id).reload
     leaf.init_journal(User.find(2))
     leaf.subject = 'leaf with journal'
     leaf.save!
@@ -383,13 +383,13 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   def test_project_copy_should_copy_issue_tree
     Project.delete_all # make sure unqiue identifiers
-    p = Project.create!(:name => 'Tree copy', :identifier => 'tree-copy', :tracker_ids => [1, 2])
+    p = Project.create!(:name => 'Tree copy', :identifier => 'tree-copy', :type_ids => [1, 2])
     i1 = create_issue!(:project_id => p.id, :subject => 'i1')
     i2 = create_issue!(:project_id => p.id, :subject => 'i2', :parent_issue_id => i1.id)
     i3 = create_issue!(:project_id => p.id, :subject => 'i3', :parent_issue_id => i1.id)
     i4 = create_issue!(:project_id => p.id, :subject => 'i4', :parent_issue_id => i2.id)
     i5 = create_issue!(:project_id => p.id, :subject => 'i5')
-    c = Project.new(:name => 'Copy', :identifier => 'copy', :tracker_ids => [1, 2])
+    c = Project.new(:name => 'Copy', :identifier => 'copy', :type_ids => [1, 2])
     c.copy(p, :only => 'work_packages')
     c.reload
 
@@ -405,7 +405,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   # Helper that creates an issue with default attributes
   def create_issue!(attributes={})
     (i = Issue.new.tap do |i|
-      attr = { :project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'test' }.merge(attributes)
+      attr = { :project_id => 1, :type_id => 1, :author_id => 1, :subject => 'test' }.merge(attributes)
       i.force_attributes = attr
     end).save!
     i

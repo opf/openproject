@@ -52,6 +52,16 @@ module Redmine
       Setting.date_format.blank? ? ::I18n.l(date.to_date) : date.strftime(Setting.date_format)
     end
 
+    # format the time in the user time zone if one is set
+    # if none is set and the time is in utc time zone (meaning it came from active record), format the date in the system timezone
+    # otherwise just use the date in the time zone attached to the time
+    def format_time_as_date(time, format)
+      return nil unless time
+      zone = User.current.time_zone
+      local_date = (zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)).to_date
+      return local_date.strftime(format)
+    end
+
     def format_time(time, include_date = true)
       return nil unless time
       time = time.to_time if time.is_a?(String)

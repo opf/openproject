@@ -30,14 +30,14 @@ describe PlanningElementScenario do
     alternate_date.start_date.should == d
   end
 
-  it 'delegates end_date to the alternate date' do
-    subject.end_date.should == alternate_date.end_date
+  it 'delegates due_date to the alternate date' do
+    subject.due_date.should == alternate_date.due_date
   end
 
-  it 'delegates end_date= to the alternate date' do
+  it 'delegates due_date= to the alternate date' do
     d = Date.new(1982, 01, 31)
-    subject.end_date = d
-    alternate_date.end_date.should == d
+    subject.due_date = d
+    alternate_date.due_date.should == d
   end
 
   it 'delegates duration to the alternate date' do

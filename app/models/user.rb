@@ -16,10 +16,13 @@ class User < Principal
   include Redmine::SafeAttributes
 
   # Account statuses
-  STATUS_BUILTIN    = 0
-  STATUS_ACTIVE     = 1
-  STATUS_REGISTERED = 2
-  STATUS_LOCKED     = 3
+  # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
+  STATUSES = {
+    :builtin => 0,
+    :active => 1,
+    :registered => 2,
+    :locked => 3
+  }
 
   USER_FORMATS_STRUCTURE = {
     :firstname_lastname => [:firstname, :lastname],
@@ -64,6 +67,11 @@ class User < Principal
   has_many :watches, :class_name => 'Watcher',
                      :dependent => :delete_all
   has_many :changesets, :dependent => :nullify
+  has_many :passwords, :class_name => 'UserPassword',
+                       :order => 'id DESC',
+                       :readonly => true,
+                       :dependent => :destroy,
+                       :inverse_of => :user
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   has_one :api_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='api'"
@@ -77,15 +85,33 @@ class User < Principal
   has_many :projects, :through => :memberships
 
   # Active non-anonymous users scope
-  scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
-  scope :active_or_registered, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE} or #{User.table_name}.status = #{STATUS_REGISTERED}"
+  scope :active, :conditions => "#{User.table_name}.status = #{STATUSES[:active]}"
+  scope :active_or_registered, :conditions =>
+          "#{User.table_name}.status = #{STATUSES[:active]} or " + 
+          "#{User.table_name}.status = #{STATUSES[:registered]}"
+  scope :not_builtin,
+        :conditions => "#{User.table_name}.status <> #{STATUSES[:builtin]}"
+
+  # Users blocked via brute force prevention
+  # use lambda here, so time is evaluated on each query
+  scope :blocked, lambda { create_blocked_scope(true) }
+  scope :not_blocked, lambda { create_blocked_scope(false) }
+
+  def self.create_blocked_scope(blocked)
+    block_duration = Setting.brute_force_block_minutes.to_i.minutes
+    blocked_if_login_since = Time.now - block_duration
+    negation = blocked ? '' : 'NOT' 
+    where("#{negation} (failed_login_count >= ? AND last_failed_login_on > ?)",
+          Setting.brute_force_block_after_failed_logins.to_i,
+          blocked_if_login_since)
+  end
 
   acts_as_customizable
 
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
   # Prevents unauthorized assignments
-  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
+  attr_protected :login, :admin, :password, :password_confirmation
 
   validates_presence_of :login,
                         :firstname,
@@ -106,7 +132,7 @@ class User < Principal
 
   validate :password_meets_requirements
 
-  before_save :encrypt_password
+  after_save :update_password
   before_create :sanitize_mail_notification_setting
   before_destroy :delete_associated_public_queries
   before_destroy :reassign_associated
@@ -126,10 +152,25 @@ class User < Principal
     true
   end
 
-  # update hashed_password if password was set
-  def encrypt_password
-    if self.password && self.auth_source_id.blank?
-      salt_password(password)
+  def current_password
+    self.passwords.first
+  end
+
+  def password_expired?
+    current_password.expired?
+  end
+
+  # create new password if password was set
+  def update_password
+    if password && auth_source_id.blank?
+      new_password = passwords.build()
+      new_password.plain_password = password
+      new_password.save
+
+      # force reload of passwords, so the new password is sorted to the top
+      passwords(true)
+
+      clean_up_former_passwords
     end
   end
 
@@ -181,36 +222,50 @@ class User < Principal
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find_by_login(login)
-    if user
-      # user is already in local database
-      return nil if !user.active?
-      if user.auth_source
-        # user has an external authentication method
-        return nil unless user.auth_source.authenticate(login, password)
-      else
-        # authentication with local password
-        return nil unless user.check_password?(password)
-        return nil if user.force_password_change
-      end
+    user = if user
+      try_authentication_for_existing_user(user, password)
     else
-      # user is not yet registered, try to authenticate with available sources
-      attrs = AuthSource.authenticate(login, password)
-      if attrs
-        # login is both safe and protected in chilis core code
-        # in case it's intentional we keep it that way
-        user = new(attrs.except(:login))
-        user.login = login
-        user.language = Setting.default_language
-        if user.save
-          user.reload
-          logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
-        end
+      try_authentication_and_create_user(login, password)
+    end
+    unless prevent_brute_force_attack(user, login).nil?
+      user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
+      return user
+    end
+    nil
+  end
+
+  # Tries to authenticate a user in the database via external auth source
+  # or password stored in the database
+  def self.try_authentication_for_existing_user(user, password)
+    return nil if !user.active?
+    if user.auth_source
+      # user has an external authentication method
+      return nil unless user.auth_source.authenticate(login, password)
+    else
+      # authentication with local password
+      return nil unless user.check_password?(password)
+      return nil if user.force_password_change
+      return nil if user.password_expired?
+    end
+    user
+  end
+
+  # Tries to authenticate with available sources and creates user on success
+  def self.try_authentication_and_create_user(login, password)
+    user = nil
+    attrs = AuthSource.authenticate(login, password)
+    if attrs
+      # login is both safe and protected in chilis core code
+      # in case it's intentional we keep it that way
+      user = new(attrs.except(:login))
+      user.login = login
+      user.language = Setting.default_language
+      if user.save
+        user.reload
+        logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
       end
     end
-    user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
     user
-  rescue => text
-    raise text
   end
 
   # Returns the user who matches the given autologin +key+ or nil
@@ -235,40 +290,44 @@ class User < Principal
     end
   end
 
+  def status_name
+    STATUSES.keys[self.status].to_s
+  end
+
   def active?
-    self.status == STATUS_ACTIVE
+    self.status == STATUSES[:active]
   end
 
   def registered?
-    self.status == STATUS_REGISTERED
+    self.status == STATUSES[:registered]
   end
 
   def locked?
-    self.status == STATUS_LOCKED
+    self.status == STATUSES[:locked]
   end
 
   def activate
-    self.status = STATUS_ACTIVE
+    self.status = STATUSES[:active]
   end
 
   def register
-    self.status = STATUS_REGISTERED
+    self.status = STATUSES[:registered]
   end
 
   def lock
-    self.status = STATUS_LOCKED
+    self.status = STATUSES[:locked]
   end
 
   def activate!
-    update_attribute(:status, STATUS_ACTIVE)
+    update_attribute(:status, STATUSES[:active])
   end
 
   def register!
-    update_attribute(:status, STATUS_REGISTERED)
+    update_attribute(:status, STATUSES[:registered])
   end
 
   def lock!
-    update_attribute(:status, STATUS_LOCKED)
+    update_attribute(:status, STATUSES[:locked])
   end
 
   # Returns true if +clear_password+ is the correct user's password, otherwise false
@@ -276,15 +335,9 @@ class User < Principal
     if auth_source_id.present?
       auth_source.authenticate(self.login, clear_password)
     else
-      User.hash_password("#{salt}#{User.hash_password clear_password}") == hashed_password
+      return false if current_password.nil?
+      current_password.same_as_plain_password?(clear_password)
     end
-  end
-
-  # Generates a random salt and computes hashed_password for +clear_password+
-  # The hashed password is stored in the following form: SHA1(salt + SHA1(password))
-  def salt_password(clear_password)
-    self.salt = User.generate_salt
-    self.hashed_password = User.hash_password("#{salt}#{User.hash_password clear_password}")
   end
 
   # Does the backend storage allow this user to change their password?
@@ -293,12 +346,36 @@ class User < Principal
     return auth_source.allow_password_changes?
   end
 
+  #
   # Generate and set a random password.
+  #
+  # Also force a password change on the next login, since random passwords
+  # are at some point given to the user, we do this via email. These passwords
+  # are stored unencrypted in mail accounts, so they must only be valid for
+  # a short time.
   def random_password!
     self.password = OpenProject::Passwords::Generator.random_password
     self.password_confirmation = self.password
+    self.force_password_change = true
     self
   end
+
+  ##
+  # Brute force prevention - public instance methods
+  #
+  def failed_too_many_recent_login_attempts?
+    block_threshold = Setting.brute_force_block_after_failed_logins.to_i
+    return false if block_threshold == 0  # disabled
+    return (last_failed_login_within_block_time? and
+            self.failed_login_count >= block_threshold)
+  end
+
+  def log_failed_login
+    log_failed_login_count
+    log_failed_login_timestamp
+    save
+  end
+
 
   def pref
     preference || build_preference
@@ -538,10 +615,13 @@ class User < Principal
     end
   end
 
+  # These are also implemented as strong_parameters, so also see
+  # app/modles/permitted_params.rb
+  # Delete these if everything in the UsersController uses strong_parameters.
   safe_attributes 'firstname', 'lastname', 'mail', 'mail_notification', 'language',
                   'custom_field_values', 'custom_fields', 'identity_url'
 
-  safe_attributes 'auth_source_id', 'force_password_change', 'status',
+  safe_attributes 'auth_source_id', 'force_password_change',
     :if => lambda {|user, current_user| current_user.admin?}
 
   safe_attributes 'group_ids',
@@ -621,27 +701,13 @@ class User < Principal
         u.firstname = ''
         u.mail = ''
         u.admin = false
-        u.status = User::STATUS_LOCKED
+        u.status = User::STATUSES[:locked]
         u.first_login = false
         u.random_password!
       end).save
       raise 'Unable to create the automatic migration user.' if system_user.new_record?
     end
     system_user
-  end
-
-  # Salts all existing unsalted passwords
-  # It changes password storage scheme from SHA1(password) to SHA1(salt + SHA1(password))
-  # This method is used in the SaltPasswords migration and is to be kept as is
-  def self.salt_unsalted_passwords!
-    transaction do
-      User.find_each(:conditions => "salt IS NULL OR salt = ''") do |user|
-        next if user.hashed_password.blank?
-        salt = User.generate_salt
-        hashed_password = User.hash_password("#{salt}#{user.hashed_password}")
-        User.update_all("salt = '#{salt}', hashed_password = '#{hashed_password}'", ["id = ?", user.id] )
-      end
-    end
   end
 
   def latest_news(options = {})
@@ -656,26 +722,28 @@ class User < Principal
 
   # Password requirement validation based on settings
   def password_meets_requirements
-      # Passwords are stored hashed in self.hashed_password,
+      # Passwords are stored hashed as UserPasswords,
       # self.password is only set when it was changed after the last
       # save. Otherwise, password is nil.
-      unless self.password.nil? or anonymous?
-          password_errors = OpenProject::Passwords::Evaluator.errors_for_password(self.password)
-          password_errors.each { |error| errors.add(:password, error)}
+      unless password.nil? or anonymous?
+        password_errors = OpenProject::Passwords::Evaluator.errors_for_password(self.password)
+        password_errors.each { |error| errors.add(:password, error)}
+
+        if former_passwords_include?(self.password)
+          errors.add(:password,
+                     I18n.t(:reused,
+                            :count => Setting[:password_count_former_banned].to_i,
+                            :scope => [:activerecord,
+                                       :errors,
+                                       :models,
+                                       :user,
+                                       :attributes,
+                                       :password]))
+        end
       end
   end
 
   private
-
-  # Return password digest
-  def self.hash_password(clear_password)
-    Digest::SHA1.hexdigest(clear_password || "")
-  end
-
-  # Returns a 128bits random salt as a hex string (32 chars long)
-  def self.generate_salt
-    SecureRandom.hex(16)
-  end
 
   def initialize_allowance_evaluators
     @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.collect do |evaluator|
@@ -689,6 +757,20 @@ class User < Principal
 
   def candidates_for_project_allowance project
     @registered_allowance_evaluators.map{ |f| f.project_granting_candidates(project) }.flatten.uniq
+  end
+
+  def former_passwords_include?(password)
+    return false if Setting[:password_count_former_banned].to_i == 0
+    ban_count = Setting[:password_count_former_banned].to_i
+    # make reducing the number of banned former passwords immediately effective
+    # by only checking this number of former passwords
+    passwords[0, ban_count].any?{ |f| f.same_as_plain_password?(password) }
+  end
+
+  def clean_up_former_passwords
+    # minimum 1 to keep the actual user password
+    keep_count = [1, Setting[:password_count_former_banned].to_i].max
+    (passwords[keep_count..-1] || []).each { |p| p.destroy }
   end
 
   def reassign_associated
@@ -730,6 +812,58 @@ class User < Principal
   def delete_associated_public_queries
     ::Query.delete_all ['user_id = ? AND is_public = ?', id, false]
   end
+
+  ##
+  # Brute force prevention - class methods
+  #
+  def self.prevent_brute_force_attack(user, login)
+    if user.nil?
+      register_failed_login_attempt_if_user_exists_for(login)
+    else
+      block_user_if_too_many_recent_attempts_failed(user)
+    end
+  end
+
+  def self.register_failed_login_attempt_if_user_exists_for(login)
+    user = User.find_by_login(login)
+    user.log_failed_login if user.present?
+    nil
+  end
+
+  def self.reset_failed_login_count_for(user)
+    user.update_attribute(:failed_login_count, 0) unless user.new_record?
+  end
+
+  def self.block_user_if_too_many_recent_attempts_failed(user)
+    if user.failed_too_many_recent_login_attempts?
+      user = nil
+    else
+      reset_failed_login_count_for user
+    end
+
+    user
+  end
+
+  ##
+  # Brute force prevention - instance methods
+  #
+  def last_failed_login_within_block_time?
+    block_duration = Setting.brute_force_block_minutes.to_i.minutes
+    self.last_failed_login_on and 
+      Time.now - self.last_failed_login_on < block_duration
+  end
+
+  def log_failed_login_count
+    if last_failed_login_within_block_time?
+      self.failed_login_count += 1
+    else
+      self.failed_login_count = 1
+    end
+  end
+
+  def log_failed_login_timestamp
+    self.last_failed_login_on = Time.now
+  end
 end
 
 class AnonymousUser < User
@@ -765,7 +899,7 @@ class DeletedUser < User
   end
 
   def self.first
-    find_or_create_by_type_and_status(self.to_s, User::STATUS_BUILTIN)
+    find_or_create_by_type_and_status(self.to_s, STATUSES[:builtin])
   end
 
   # Overrides a few properties

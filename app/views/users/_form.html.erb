@@ -12,6 +12,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'user' %>
 
+<%= javascript_include_tag 'admin_users' %>
+
 <!--[form:user]-->
 <div class="box tabular">
   <p><%= f.text_field :login, :required => true, :size => 25  %></p>
@@ -39,16 +41,35 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="box tabular">
   <h3><%=l(:label_authentication)%></h3>
   <% unless @auth_sources.empty? %>
-    <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {Element.show('password_fields');} else {Element.hide('password_fields');}" %></p>
+    <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %></p>
   <% end %>
   <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
+    <% assign_random_password_enabled = params[:user] && 
+                                        params[:user][:assign_random_password] %>
     <p>
-      <%= f.password_field :password, :required => true, :size => 25 %><br />
+      <label for="user_assign_random_password">
+        <%= I18n.t(:assign_random_password, :scope => :user) %>
+      </label>
+      <%= check_box_tag("user[assign_random_password]",
+                        "1",
+                        assign_random_password_enabled) %>
+    </p>
+    <p>
+      <%= f.password_field :password,
+                           :required => true,
+                           :size => 25,
+                           :disabled => assign_random_password_enabled %><br />
       <%= password_complexity_requirements %>
     </p>
-    <p><%= f.password_field :password_confirmation, :required => true, :size => 25 %></p>
     <p>
-      <%= f.check_box :force_password_change %>
+      <%= f.password_field :password_confirmation,
+                           :required => true,
+                           :size => 25,
+                           :disabled => assign_random_password_enabled %>
+    </p>
+    <p>
+      <%= f.check_box :force_password_change,
+                      :disabled => assign_random_password_enabled %>
     </p>
   </div>
 </div>

@@ -61,7 +61,7 @@ class IssuesController < ApplicationController
                    per_page_param
                  end
 
-      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
+      @issues = @query.issues(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
                               :order => sort_clause)
                              .page(page_param)
                              .per_page(per_page)
@@ -94,20 +94,23 @@ class IssuesController < ApplicationController
     @changesets = @issue.changesets.visible.all(:include => [{ :repository => {:project => :enabled_modules} }, :user])
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
 
-    @relations = @issue.relations(:include => { :other_issue => [:status,
-                                                                 :priority,
-                                                                 :tracker,
-                                                                 { :project => :enabled_modules }]
-                                              }
-                                 ).select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
+    @relations = @issue.relations.includes(:issue_from => [:status,
+                                                           :priority,
+                                                           :type,
+                                                           { :project => :enabled_modules }],
+                                           :issue_to => [:status,
+                                                         :priority,
+                                                         :type,
+                                                         { :project => :enabled_modules }])
+                                 .select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
 
-    @ancestors = @issue.ancestors.visible.all(:include => [:tracker,
+    @ancestors = @issue.ancestors.visible.all(:include => [:type,
                                                            :assigned_to,
                                                            :status,
                                                            :priority,
                                                            :fixed_version,
                                                            :project])
-    @descendants = @issue.descendants.visible.all(:include => [:tracker,
+    @descendants = @issue.descendants.visible.all(:include => [:type,
                                                                :assigned_to,
                                                                :status,
                                                                :priority,
@@ -142,7 +145,7 @@ class IssuesController < ApplicationController
       call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
       respond_to do |format|
         format.html {
-          redirect_to(params[:continue] ?  { :action => 'new', :project_id => @project, :issue => {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
+          redirect_to(params[:continue] ?  { :action => 'new', :project_id => @project, :issue => {:type_id => @issue.type, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
                       { :action => 'show', :id => @issue })
         }
       end
@@ -200,7 +203,7 @@ class IssuesController < ApplicationController
       flash[:notice] = l(:notice_successful_update) unless @issue.current_journal == @journal
 
       respond_to do |format|
-        format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
+        format.html { redirect_back_or_default(work_package_path(@issue)) }
       end
     else
       render_attachment_warning_if_needed(@issue)
@@ -219,7 +222,7 @@ class IssuesController < ApplicationController
     @available_statuses = @projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
     @custom_fields = @projects.map{|p|p.all_work_package_custom_fields}.inject{|memo,c|memo & c}
     @assignables = @projects.map(&:assignable_users).inject{|memo,a| memo & a}
-    @trackers = @projects.map(&:trackers).inject{|memo,t| memo & t}
+    @types = @projects.map(&:types).inject{|memo,t| memo & t}
   end
 
   def bulk_update
@@ -278,7 +281,7 @@ class IssuesController < ApplicationController
 private
   def find_issue
     @issue = Issue.find(params[:id], :include => [{ :project => :enabled_modules },
-                                                  { :tracker => :custom_fields },
+                                                  { :type => :custom_fields },
                                                   :status,
                                                   :author,
                                                   :priority,
@@ -314,7 +317,7 @@ private
   end
 
   # TODO: Refactor, lots of extra code in here
-  # TODO: Changing tracker on an existing issue should not trigger this
+  # TODO: Changing type on an existing issue should not trigger this
   def build_new_issue_from_params
     if params[:id].blank?
       @issue = Issue.new
@@ -325,23 +328,23 @@ private
     end
 
     @issue.project = @project
-    # Tracker must be set before custom field values
-    @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
-    if @issue.tracker.nil?
-      render_error l(:error_no_tracker_in_project)
+    # Type must be set before custom field values
+    @issue.type ||= @project.types.find((params[:issue] && params[:issue][:type_id]) || params[:type_id] || :first)
+    if @issue.type.nil?
+      render_error l(:error_no_type_in_project)
       return false
     end
     @issue.start_date ||= User.current.today if Setting.issue_startdate_is_adddate?
     if params[:issue].is_a?(Hash)
       @issue.safe_attributes = params[:issue]
       @issue.priority_id = params[:issue][:priority_id] unless params[:issue][:priority_id].nil?
-      if User.current.allowed_to?(:add_issue_watchers, @project) && @issue.new_record?
+      if User.current.allowed_to?(:add_work_package_watchers, @project) && @issue.new_record?
         @issue.watcher_user_ids = params[:issue]['watcher_user_ids']
       end
     end
 
     # Copy watchers if we're copying an issue
-    if params[:copy_from] && User.current.allowed_to?(:add_issue_watchers, @project)
+    if params[:copy_from] && User.current.allowed_to?(:add_work_package_watchers, @project)
       @issue.watcher_user_ids = Issue.visible.find(params[:copy_from]).watcher_user_ids
     end
 

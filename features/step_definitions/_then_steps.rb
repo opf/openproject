@@ -22,7 +22,7 @@ end
 Then /^I should see a quickinfo link for "([^"]*)"$/ do |issue_name|
   issue = Issue.find_by_subject(issue_name)
 
-  text = "##{issue.id} #{issue.status}: #{issue.subject} #{issue.start_date.to_s} – #{issue.due_date.to_s} (#{issue.assigned_to.to_s})"
+  text = "#{issue.to_s} #{issue.start_date.to_s} – #{issue.due_date.to_s} (#{issue.assigned_to.to_s})"
   step %Q{I should see "#{text}"}
 end
 

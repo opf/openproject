@@ -46,13 +46,13 @@ class SystemUser < User
 
   def grant_privileges
     self.admin = true
-    self.status = STATUS_BUILTIN
+    self.status = STATUSES[:builtin]
     self.save
   end
 
   def remove_privileges
     self.admin = false
-    self.status = User::STATUS_LOCKED
+    self.status = STATUSES[:locked]
     self.save
   end
 

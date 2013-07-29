@@ -15,7 +15,7 @@ Feature: Issue edit
       | identifier | omicronpersei8 |
       | name       | omicronpersei8 |
     And I am working in project "omicronpersei8"
-    And the project "omicronpersei8" has the following trackers:
+    And the project "omicronpersei8" has the following types:
       | name | position |
       | Bug  |     1    |
     And there is a default issuepriority with:
@@ -26,7 +26,8 @@ Feature: Issue edit
       | name   | Immediate |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | add_issues  |
+      | add_issues         |
+      | add_work_packages  |
       | view_work_packages |
       | edit_work_packages |
     And there is 1 user with the following:
@@ -37,18 +38,14 @@ Feature: Issue edit
       | New         | false      | true        |
     And I am logged in as "lrrr"
 
-  Scenario: Wile creating an issue user can change attributes which are overriden by children
-    When I go to the overview page of the project "omicronpersei8"
-    And I click on "Issues" within "#menu-sidebar"
-    Then I should see "New issue" within ".new-issue"
-    When I click on "New issue" within "#menu-sidebar"
-    Then I should see "New issue" within "#content"
-    When I fill in "find the popplers" for "Subject"
+  Scenario: While creating an issue the user can change attributes which are overriden by children
+    When I go to the new work_package page of the project called "omicronpersei8"
+    And I fill in "find the popplers" for "Subject"
     And I select "High" from "Priority"
     And I fill in "2013-06-18" for "Start date"
     And I fill in "2013-07-18" for "Due date"
     And I fill in "7" for "Estimated time"
     And I select "50 %" from "% Done"
-    And I click on the first button matching "Create"
+    And I submit the form by the "Create" button
     Then I should see "Successful creation."
 

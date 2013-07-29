@@ -14,9 +14,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="contextual">
   <%= link_to_if_authorized(l("timelines.new_planning_element"),
-                            {:controller => "/planning_elements", :action => "new", :project_id => @project},
-                            :title => l("timelines.new_planning_element"),
-                            :class => "icon icon-add") %>
+                            { :controller => "/work_packages",
+                              :action => "new",
+                              :project_id => @project,
+                              :sti_type => PlanningElement.to_s},
+                              :title => l("timelines.new_planning_element"),
+                              :class => "icon icon-add") %>
 </div>
 
 <% html_title l("timelines.project_menu.planning_elements") %>

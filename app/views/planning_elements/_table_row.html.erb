@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </td>
   <td class="timelines-pe-start_date"><%=h planning_element.start_date %></td>
-  <td class="timelines-pe-end_date"><%=h planning_element.end_date %></td>
+  <td class="timelines-pe-end_date"><%=h planning_element.due_date %></td>
   <td class="timelines-pe-update_at"><%= timelines_time_tag(planning_element.updated_at) %></td>
   <% if show_deleted %>
     <td class="timelines-pe-actions">

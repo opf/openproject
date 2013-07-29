@@ -22,16 +22,36 @@ executing scenarios by name, e.g. `"cucumber:all[-n 'Adding an issue link']"`.
 Like with spaces in `cucumber:custom` arguments, task name and arguments
 have to be enclosed in quotation marks.
 
+### Shortcuts
+
 Here are two bash functions which allow using shorter commands for running
 cucumber features:
 
     # Run OpenProject cucumber features (like arguments to the cucumber command)
     # Example: cuke features/issues/issue.feature
-    cuke() { bundle exec rake "cucumber:custom[$*]"; }
+    cuke() { RAILS_ENV=test bundle exec rake "cucumber:custom[$*]"; }
 
     # Run OpenProject cucumber scenarios by name
     # Example: cuken Adding an issue link
-    cuken() { bundle exec rake "cucumber:all[-n '$*']"; }
+    cuken() { RAILS_ENV=test bundle exec rake "cucumber:all[-n '$*']"; }
+
+Setting `RAILS_ENV=test` allows the cucumber rake tasks to run the features
+directly in the same process, so this reduces the time until the features are
+running a bit (5-10 seconds) due to the Rails environment only being loaded
+once.
+
+### JavaScript and Firebug
+
+To activate selenium as test driver to test javascript on web pages, you can add
+@javascript above the scenario like the following example shows:
+
+    @javascript
+    Scenario: Testing something with Javascript
+      When I ...
+
+You can always start a debugger using the step "And I start debugging".
+If you need Firebug and Firepath while debugging a scenario, just replace
+@javascript with @firebug.
 
 
 ## RSpec

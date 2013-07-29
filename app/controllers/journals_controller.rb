@@ -67,7 +67,7 @@ class JournalsController < ApplicationController
       to = @journal.changed_data[params[:field]][1]
 
       @diff = Redmine::Helpers::Diff.new(to, from)
-      @issue = @journal.journaled
+      @journaled = @journal.journaled
       respond_to do |format|
         format.html { }
         format.js { render :partial => 'diff', :locals => { :diff => @diff } }

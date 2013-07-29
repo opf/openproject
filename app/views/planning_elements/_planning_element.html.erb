@@ -92,7 +92,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= l('timelines.current_planning') %>:
         </th>
         <td>
-          <%= format_date planning_element.start_date, format_date_options %> - <%= format_date planning_element.end_date, format_date_options %>
+          <%= format_date planning_element.start_date, format_date_options %> - <%= format_date planning_element.due_date, format_date_options %>
         </td>
       </tr>
 
@@ -102,7 +102,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%=h pe_scenario.name %>:
           </th>
           <td>
-            <%= format_date pe_scenario.start_date, format_date_options %> - <%= format_date pe_scenario.end_date, format_date_options %>
+            <%= format_date pe_scenario.start_date, format_date_options %> - <%= format_date pe_scenario.due_date, format_date_options %>
           </td>
         </tr>
       <% end %>

@@ -75,10 +75,10 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  match '/roles/workflow/:id/:role_id/:tracker_id' => 'roles#workflow'
+  match '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
   match '/help/:ctrl/:page' => 'help#index'
 
-  resources :trackers
+  resources :types
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes
@@ -210,6 +210,10 @@ OpenProject::Application.routes.draw do
       end
     end
 
+    resources :work_packages, :only => [:new, :create] do
+      get :new_type, :on => :collection
+    end
+
     resources :activity, :activities, :only => :index, :controller => 'activities'
 
     resources :boards
@@ -294,6 +298,10 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  resources :work_packages, :only => [:show] do
+    resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
+  end
+
   resources :versions, :only => [:show, :edit, :update, :destroy] do
     member do
       get :status_by
@@ -322,6 +330,7 @@ OpenProject::Application.routes.draw do
       match '/memberships/:membership_id/destroy' => 'users#destroy_membership', :via => :post
       match '/memberships/:membership_id' => 'users#edit_membership', :via => :post
       match '/memberships' => 'users#edit_membership', :via => :post
+      post :change_status
       post :edit_membership
       post :destroy_membership
       get :deletion_info
@@ -451,6 +460,9 @@ OpenProject::Application.routes.draw do
         get :move
         post :move
       end
+    end
+
+    resources :work_packages,          :controller => 'work_packages' do
     end
 
     resources :planning_elements,      :controller => 'planning_elements' do

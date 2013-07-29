@@ -26,7 +26,7 @@ Feature: Password Complexity Checks
         Given I am admin
         When I go to the authentication tab of the settings page
         And I activate the lowercase, uppercase, and special password rules
-        And I fill in "Minimum number of rules to adhere to" with "3"
+        And I fill in "Minimum number of required classes" with "3"
         And I save the settings
         And I try to set my new password to "adminADMIN"
         Then there should be an error message

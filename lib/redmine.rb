@@ -17,7 +17,7 @@ require 'redmine/search'
 require 'redmine/custom_field_format'
 require 'redmine/mime_type'
 require 'redmine/core_ext'
-require 'redmine/themes'
+require 'open_project/themes'
 require 'redmine/hook'
 require 'redmine/plugin'
 require 'redmine/notifiable'
@@ -30,13 +30,7 @@ rescue LoadError
   # RMagick is not available
 end
 
-if RUBY_VERSION < '1.9'
-  require 'fastercsv'
-else
-  require 'csv'
-  FCSV = CSV
-end
-
+require 'csv'
 require 'globalize'
 
 Redmine::Scm::Base.add "Subversion"
@@ -84,18 +78,21 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :create, :edit, :update, :destroy]}, :require => :member
     # Issues
     map.permission :view_work_packages, {:'issues' => [:index, :all, :show],
-                                  :auto_complete => [:issues],
-                                  :context_menus => [:issues],
-                                  :versions => [:index, :show, :status_by],
-                                  :journals => [:index, :diff],
-                                  :queries => :index,
-                                  :'issues/reports' => [:report, :report_details]}
+                                         :auto_complete => [:issues],
+                                         :context_menus => [:issues],
+                                         :versions => [:index, :show, :status_by],
+                                         :journals => [:index, :diff],
+                                         :queries => :index,
+                                         :work_packages => [:show],
+                                         :'issues/reports' => [:report, :report_details]}
     map.permission :export_issues, {:'issues' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
-    map.permission :edit_work_packages, {:issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
-                                  :'issues/previews' => :create}
+    map.permission :add_work_packages, { :work_packages => [:new, :new_type, :create] }
+    map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
+                                          :'issues/previews' => :create}
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
+    map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     map.permission :add_issue_notes, {:issues => [:edit, :update], :journals => [:new]}
     map.permission :edit_issue_notes, {:journals => [:edit, :update]}, :require => :loggedin
@@ -107,7 +104,8 @@ Redmine::AccessControl.map do |map|
     map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
     # Watchers
     map.permission :view_issue_watchers, {}
-    map.permission :add_issue_watchers, {:watchers => [:new, :create]}
+    map.permission :view_work_package_watchers, {}
+    map.permission :add_work_package_watchers, {:watchers => [:new, :create]}
     map.permission :delete_issue_watchers, {:watchers => :destroy}
   end
 
@@ -193,7 +191,8 @@ Redmine::AccessControl.map do |map|
                    {:require => :member}
 
     map.permission :view_planning_elements,
-                   {:planning_elements => [:index, :all, :show,
+                   {:work_packages => [:show],
+                    :planning_elements => [:index, :all, :show,
                                            :recycle_bin],
                     :planning_element_journals => [:index]}
     map.permission :edit_planning_elements,
@@ -254,7 +253,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :users, {:controller => '/users'}, :caption => :label_user_plural
   menu.push :groups, {:controller => '/groups'}, :caption => :label_group_plural
   menu.push :roles, {:controller => '/roles'}, :caption => :label_role_and_permissions
-  menu.push :trackers, {:controller => '/trackers'}, :caption => :label_tracker_plural
+  menu.push :types, {:controller => '/types'}, :caption => :label_type_plural
   menu.push :issue_statuses, {:controller => '/issue_statuses'}, :caption => :label_issue_status_plural,
             :html => {:class => 'issue_statuses'}
   menu.push :workflows, {:controller => '/workflows', :action => 'edit'}, :caption => Proc.new { Workflow.model_name.human }
@@ -279,12 +278,13 @@ end
 
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => '/projects', :action => 'show' }
-  menu.push :activity, { :controller => '/activities', :action => 'index' }, :param => :project_id
+  menu.push :activity, { :controller => '/activities', :action => 'index' }, :param => :project_id,
+              :if => Proc.new { |p| p.module_enabled?("activity") }
   menu.push :roadmap, { :controller => '/versions', :action => 'index' }, :param => :project_id,
               :if => Proc.new { |p| p.shared_versions.any? }
 
   menu.push :issues, { :controller => '/issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
-  menu.push :new_issue, { :controller => '/issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
+  menu.push :new_issue, { :controller => '/work_packages', :action => 'new', :sti_type => 'Issue' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
   menu.push :view_all_issues, { :controller => '/issues', :action => 'all' }, :param => :project_id, :caption => :label_issue_view_all, :parent => :issues
   menu.push :summary_field, {:controller => '/issues/reports', :action => 'report'}, :param => :project_id, :caption => :label_workflow_summary, :parent => :issues
@@ -369,3 +369,5 @@ Redmine::WikiFormatting.map do |format|
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler
+
+Redmine::AccessControl.available_project_modules << :activity
