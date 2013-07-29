@@ -115,14 +115,16 @@ module Redmine
                                                            :view_changesets]
 
             # Colors
-            colors = PlanningElementTypeColor.ms_project_colors
-            color_map = Hash[*(colors.map do |color|
+            colors_list = PlanningElementTypeColor.ms_project_colors
+            colors = Hash[*(colors_list.map do |color|
               color.save
-              [color.name, color.id]
+              color.reload
+              [color.name.to_sym, color.id]
             end).flatten]
 
             # Types
             Type.create! :name           => l(:default_type_bug),
+                         :color_id       => colors[:pjRed],
                          :is_in_chlog    => true,
                          :is_in_roadmap  => false,
                          :in_aggregation => true,
@@ -130,6 +132,7 @@ module Redmine
                          :position       => 1
 
             Type.create! :name           => l(:default_type_feature),
+                         :color_id       => colors[:pjLime],
                          :is_in_chlog    => true,
                          :is_in_roadmap  => true,
                          :in_aggregation => true,
@@ -137,6 +140,7 @@ module Redmine
                          :position       => 2
 
             Type.create! :name           => l(:default_type_support),
+                         :color_id       => colors[:pjBlue],
                          :is_in_chlog    => false,
                          :is_in_roadmap  => false,
                          :in_aggregation => true,
@@ -144,6 +148,7 @@ module Redmine
                          :position       => 3
 
             Type.create! :name           => l(:default_type_phase),
+                         :color_id       => colors[:pjSilver],
                          :is_in_chlog    => false,
                          :is_in_roadmap  => false,
                          :in_aggregation => true,
@@ -151,6 +156,7 @@ module Redmine
                          :position       => 4
 
             Type.create! :name           => l(:default_type_milestone),
+                         :color_id       => colors[:pjPurple],
                          :is_in_chlog    => false,
                          :is_in_roadmap  => true,
                          :in_aggregation => true,
@@ -158,8 +164,8 @@ module Redmine
                          :position       => 5
 
             # Issue statuses
-            new       = IssueStatus.create!(:name => l(:default_issue_status_new), :is_closed => false, :is_default => true, :position => 1)
-            in_progress  = IssueStatus.create!(:name => l(:default_issue_status_in_progress), :is_closed => false, :is_default => false, :position => 2)
+            new      = IssueStatus.create!(:name => l(:default_issue_status_new), :is_closed => false, :is_default => true, :position => 1)
+            in_progress  = IssueStatus.create!(:name => l(:default_issue_status_in_progress), :is_closed => false, :is_default => false, :position => 3)
             resolved  = IssueStatus.create!(:name => l(:default_issue_status_resolved), :is_closed => false, :is_default => false, :position => 3)
             feedback  = IssueStatus.create!(:name => l(:default_issue_status_feedback), :is_closed => false, :is_default => false, :position => 4)
             closed    = IssueStatus.create!(:name => l(:default_issue_status_closed), :is_closed => true, :is_default => false, :position => 5)
