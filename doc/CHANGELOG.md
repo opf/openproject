@@ -1,5 +1,7 @@
 # Changelog
 
+## 3.0.0pre9
+
 * `#1517` Journal changed_data cannot contain the changes of a wiki_content content
 * `#779`  Integrate password expiration
 * `#1461` Integration Activity Plugin
