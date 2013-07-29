@@ -64,12 +64,12 @@ See doc/COPYRIGHT.rdoc for more details.
       </tr>
       <tr>
         <th class="planning-element-type">
-          <label for="planning_element_planning_element_type_id">
-            <%= PlanningElement.human_attribute_name(:planning_element_type) %>:
+          <label for="planning_element_type_id">
+            <%= PlanningElement.human_attribute_name(:type) %>:
           </label>
         </th>
         <td class="planning-element-type">
-          <%= f.select :planning_element_type_id, (project.planning_element_types.collect { |m| [m.name, m.id] }), :include_blank => true %>
+          <%= f.select :planning_element_type_id, (project.types.collect { |m| [m.name, m.id] }), :include_blank => true %>
         </td>
       </tr>
       <tr>
