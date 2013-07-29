@@ -51,10 +51,3 @@ end
 When /^I stop hovering over "([^"]*)"$/ do |selector|
   page.execute_script "jQuery(#{selector.inspect}).removeClass('hover');"
 end
-
-When /^(?:|I )continue with "([^"]*)" in "([^"]*)"$/ do |link, css_class|
-  # makes the capybara click on the first link within css class of multiple occurences with same name 
-  # use it only if you want to use the first occurence  
-  first(css_class).click_link(link)
-  
-end

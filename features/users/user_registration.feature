@@ -2,7 +2,7 @@ Feature: User Registration
 Background: 
 Given I am on the homepage
 And I open the "Sign in" menu
-And I follow "Register" within ".menu_root"
+And I follow "Register" within "#top-menu-items"
 Then I should be on the registration page
 
 @javascript

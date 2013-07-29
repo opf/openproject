@@ -17,7 +17,7 @@ When /^I toggle the "([^"]+)" submenu$/ do |menu_name|
   nodes.first.click if nodes.present?
 end
 
-# opens a drop-down menu.
+# opens a menu item in the main menu
 When /^I open the "([^"]+)" (?:sub)?menu$/ do |menu_name|
   
   nodes = all(:css, ".menu_root a[title=\"#{menu_name}\"]")
