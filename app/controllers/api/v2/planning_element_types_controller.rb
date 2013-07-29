@@ -20,14 +20,14 @@ module Api
       paginate_model ::Api::V2::PlanningElementType
 
       def index
-        @planning_element_types = @base.all
+        @types = Type.all
         respond_to do |format|
           format.api
         end
       end
 
       def show
-        @planning_element_type = @base.find(params[:id])
+        @type = Type.find(params[:id])
         respond_to do |format|
           format.api
         end
