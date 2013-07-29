@@ -32,17 +32,17 @@ class Type < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
 
-  has_many :default_planning_element_types, :class_name  => 'DefaultPlanningElementType',
-                                            :foreign_key => 'planning_element_type_id',
-                                            :dependent   => :delete_all
+  has_many :default_types, :class_name  => 'DefaultPlanningElementType',
+                           :foreign_key => 'planning_element_type_id',
+                           :dependent   => :delete_all
 
   has_many :project_types, :through => :default_planning_element_types
 
-  has_many :enabled_planning_element_types, :class_name  => 'EnabledPlanningElementType',
-                                            :foreign_key => 'planning_element_type_id',
-                                            :dependent   => :delete_all
+  has_many :enabled_types, :class_name  => 'EnabledPlanningElementType',
+                           :foreign_key => 'planning_element_type_id',
+                           :dependent   => :delete_all
 
-  has_many :projects, :through => :enabled_planning_element_types
+  has_many :projects, :through => :enabled_types
 
   belongs_to :color, :class_name  => 'PlanningElementTypeColor',
                      :foreign_key => 'color_id'
