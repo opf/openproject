@@ -14,8 +14,10 @@ module OpenProject::NestedSet
   module WithRootIdScope
     def self.included(base)
       base.class_eval do
+        skip_callback :create, :before, :set_default_left_and_right
+        before_save :set_parent_id_to_parent_issue_id
+        after_save :manage_root_id
         acts_as_nested_set :scope => 'root_id', :dependent => :destroy
-        after_save :update_nested_set_attributes
 
         validate :validate_correct_parent
 
@@ -84,69 +86,100 @@ module OpenProject::NestedSet
 
       private
 
-      # just here to be overwritten
-      def after_update_of_existing_tree_node(former_parent_id) end;
-
-      def update_nested_set_attributes
-        if root_id.nil?
-          set_initial_root_id
-        elsif parent_issue_id != parent_id
-          update_existing_tree_node_attributes
+      def manage_root_id
+        if root_id.nil? # new node
+          initial_root_id
+        elsif parent_id_changed?
+          update_root_id
         end
+
         remove_instance_variable(:@parent_issue) if instance_variable_defined?(:@parent_issue)
       end
 
-      def set_initial_root_id
-        self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id)
-        set_default_left_and_right
-        self.class.update_all("root_id = #{root_id}, lft = #{lft}, rgt = #{rgt}", ["id = ?", id])
+      def initial_root_id
         if @parent_issue
-          move_to_child_of(@parent_issue)
-        end
-      end
-
-      def update_existing_tree_node_attributes
-        former_parent_id = parent_id
-        # moving an existing instance
-
-        move_to_new_parent_node(@parent_issue)
-
-        after_update_of_existing_tree_node(former_parent_id)
-      end
-
-      def move_to_new_parent_node(new_parent)
-        if new_parent && new_parent.root_id == root_id
-          move_within_set(new_parent)
+          self.root_id = @parent_issue.root_id
         else
-          move_to_different_set(new_parent)
+          self.root_id = id
+        end
+
+        set_default_left_and_right
+        persist_nested_set_attributes
+      end
+
+      def update_root_id
+        if !@parent_issue || @parent_issue.root_id != root_id
+          # as the following actions depend on the
+          # node having current values, we reload them here
+          self.reload_nested_set
+
+          # and save them in order to be save between removing the node from
+          # the set and fixing the former set's attributes
+          old_root_id = root_id
+          old_rgt = rgt
+
+          new_root_id = @parent_issue.nil? ? id : @parent_issue.root_id
+          moved_span = nested_set_span + 1
+
+          move_subtree_to_new_set(new_root_id, old_root_id)
+          correct_former_set_attributes(old_root_id, moved_span, old_rgt)
         end
       end
 
-      def move_within_set(new_parent)
-        inside the same tree
-        move_to_child_of(new_parent)
+      def persist_nested_set_attributes
+        self.class.update_all("root_id = #{root_id}, lft = #{lft}, rgt = #{rgt}", ["id = ?", id])
       end
 
-      def move_to_different_set(new_parent)
-        unless root?
-          move_to_right_of(root)
-        end
-        old_root_id = root_id
-
-        self.root_id = (new_parent.nil? ? id : new_parent.root_id )
+      def move_subtree_to_new_set(new_root_id, old_root_id)
+        self.root_id = new_root_id
 
         target_maxright = nested_set_scope.maximum(right_column_name) || 0
         offset = target_maxright + 1 - lft
 
         self.class.update_all("root_id = #{root_id}, lft = lft + #{offset}, rgt = rgt + #{offset}",
                               ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt])
+
         self[left_column_name] = lft + offset
         self[right_column_name] = rgt + offset
-
-        if new_parent
-          move_to_child_of(new_parent)
-        end
       end
+
+      # Update all nodes left and right values in the former set having a right
+      # value larger than self's former right value.
+      #
+      # It calculates what will have to be subtracted from the left and right
+      # values of the nodes in question.  Then it will always subtract this
+      # value from the right value of every node.  It will only subtract the
+      # value from the left value if the left value is larger than the removed
+      # node's right value.
+      #
+      # Given a set:
+      #       1*6
+      #       / \
+      #    2*3  4*5
+      # for wich the node with lft = 2 and rgt = 3 is self and was removed, the
+      # resulting set will be:
+      #       1*4
+      #        |
+      #       2*3
+
+      def correct_former_set_attributes(old_root_id, removed_span, rgt_offset)
+        # As every node takes two integers we can multiply the amount of
+        # removed_nodes by 2 to calculate the value by which right and left
+        # will have to be reduced.
+        #removed_span = removed_nodes * 2
+
+        self.class.update_all("#{quoted_right_column_name} = #{quoted_right_column_name} - #{removed_span}, " +
+                              "#{quoted_left_column_name} = CASE " +
+                                "WHEN #{quoted_left_column_name} > #{rgt_offset} " +
+                                  "THEN #{quoted_left_column_name} - #{removed_span} " +
+                                "ELSE #{quoted_left_column_name} END",
+                              ["root_id = ? AND #{quoted_right_column_name} > ?", old_root_id, rgt_offset])
+      end
+
+      def set_parent_id_to_parent_issue_id
+        self.parent_id = parent_issue_id
+      end
+
     end
   end
 end

@@ -101,6 +101,10 @@ describe WorkPackage do
         end
 
         it_should_behave_like "root"
+
+        it "should set parent_id to nil" do
+          instance.parent_id.should == nil
+        end
       end
 
       describe "an existant instance receives a new parent (new tree)" do
@@ -116,6 +120,57 @@ describe WorkPackage do
         end
 
         it_should_behave_like "first child"
+
+        it "should set parent_id to new parent" do
+          instance.parent_id.should == parent.id
+        end
+      end
+
+      describe "an existant instance
+                with a right sibling receives a new parent" do
+
+        let(:other_child) { send(:"#{subclass}3") }
+
+        before do
+          parent.save!
+          instance.parent_issue_id = parent.id
+          instance.save!
+          other_child.parent_issue_id = parent.id
+          other_child.save!
+
+          instance.parent_issue_id = nil
+          instance.save!
+        end
+
+        it "former roots's root_id should be unchanged" do
+          parent.reload
+          parent.root_id.should == parent.id
+        end
+
+        it "former roots's lft should be 1" do
+          parent.reload
+          parent.lft.should == 1
+        end
+
+        it "former roots's rgt should be 4" do
+          parent.reload
+          parent.rgt.should == 4
+        end
+
+        it "former right siblings's root_id should be unchanged" do
+          other_child.reload
+          other_child.root_id.should == parent.id
+        end
+
+        it "former right siblings's left should be 2" do
+          other_child.reload
+          other_child.lft.should == 2
+        end
+
+        it "former right siblings's rgt should be 3" do
+          other_child.reload
+          other_child.rgt.should == 3
+        end
       end
 
       describe "an existant instance receives a new parent (same tree)" do
@@ -143,20 +198,40 @@ describe WorkPackage do
           child.parent_issue_id = instance.id
           child.save!
 
+          # reloading as instance's nested set attributes (lft, rgt) where
+          # updated by adding child to the set
+          instance.reload
           instance.parent_issue_id = nil
           instance.save!
-          child.reload
         end
 
-        it "the child should have the root_id of the #{subclass}" do
+        it "former parent's root_id should be unchanged" do
+          parent.reload
+          parent.root_id.should == parent.id
+        end
+
+        it "former parent's left should be 1" do
+          parent.reload
+          parent.lft.should == 1
+        end
+
+        it "former parent's right should be 2" do
+          parent.reload
+          parent.rgt.should == 2
+        end
+
+        it "the child should have the root_id of the parent #{subclass}" do
+          child.reload
           child.root_id.should == instance.id
         end
 
         it "the child should have a lft of 2" do
+          child.reload
           child.lft.should == 2
         end
 
         it "the child should have a rgt of 3" do
+          child.reload
           child.rgt.should == 3
         end
       end
