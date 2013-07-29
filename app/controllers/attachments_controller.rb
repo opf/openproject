@@ -44,7 +44,12 @@ class AttachmentsController < ApplicationController
     @attachment.container.attachments.delete(@attachment)
     redirect_to :back
   rescue ::ActionController::RedirectBackError
-    redirect_to :controller => '/projects', :action => 'show', :id => @project
+    # we cannot be sure the container actually has a project (example: LandingPage)
+    if @project
+      redirect_to :controller => '/projects', :action => 'show', :id => @project
+    else
+      redirect_to home_url
+    end
   end
 
 private
