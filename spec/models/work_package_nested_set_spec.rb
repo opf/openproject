@@ -66,7 +66,7 @@ describe WorkPackage do
         it_should_behave_like "root"
       end
 
-      describe "creating a new instance without a parent" do
+      describe "creating a new instance with a parent" do
 
         before do
           parent.save!

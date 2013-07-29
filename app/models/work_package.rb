@@ -51,6 +51,10 @@ class WorkPackage < ActiveRecord::Base
   acts_as_watchable
 
   include OpenProject::NestedSet::WithRootIdScope
+  after_save :reschedule_following_issues,
+             :update_parent_attributes,
+             :create_alternate_date
+  after_destroy :update_parent_attributes
 
   acts_as_customizable
 
@@ -283,47 +287,8 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
-  def recalculate_attributes_for(work_package_id)
-    if work_package_id.is_a? WorkPackage
-      p = work_package_id
-    else
-      p = WorkPackage.find_by_id(work_package_id)
-    end
-
-    if p
-      # priority = highest priority of children
-      if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
-        p.priority = IssuePriority.find_by_position(priority_position)
-      end
-
-      # start/due dates = lowest/highest dates of children
-      p.start_date = p.children.minimum(:start_date)
-      p.due_date = p.children.maximum(:due_date)
-      if p.start_date && p.due_date && p.due_date < p.start_date
-        p.start_date, p.due_date = p.due_date, p.start_date
-      end
-
-      # done ratio = weighted average ratio of leaves
-      unless WorkPackage.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
-        leaves_count = p.leaves.count
-        if leaves_count > 0
-          average = p.leaves.average(:estimated_hours).to_f
-          if average == 0
-            average = 1
-          end
-          done = p.leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
-          progress = done / (average * leaves_count)
-          p.done_ratio = progress.round
-        end
-      end
-
-      # estimate = sum of leaves estimates
-      p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
-      p.estimated_hours = nil if p.estimated_hours == 0.0
-
-      # ancestors will be recursively updated
-      p.save(:validate => false) if p.changed?
-    end
+  def is_milestone?
+    planning_element_type && planning_element_type.is_milestone?
   end
 
   # This is a dummy implementation that is currently overwritten
@@ -345,6 +310,82 @@ class WorkPackage < ActiveRecord::Base
   def spent_hours
     @spent_hours ||= self_and_descendants.joins(:time_entries)
                                          .sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+  end
+
+  protected
+
+  def recalculate_attributes_for(work_package_id)
+    p = if work_package_id.is_a? WorkPackage
+          work_package_id
+        else
+          WorkPackage.find_by_id(work_package_id)
+        end
+
+    return unless p
+
+    # priority = highest priority of children
+    if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
+      p.priority = IssuePriority.find_by_position(priority_position)
+    end
+
+    p.inherit_dates_from_children
+
+    # done ratio = weighted average ratio of leaves
+    unless WorkPackage.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
+      leaves_count = p.leaves.count
+      if leaves_count > 0
+        average = p.leaves.average(:estimated_hours).to_f
+        if average == 0
+          average = 1
+        end
+        done = p.leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
+        progress = done / (average * leaves_count)
+        p.done_ratio = progress.round
+      end
+    end
+
+    # estimate = sum of leaves estimates
+    p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
+    p.estimated_hours = nil if p.estimated_hours == 0.0
+
+    # ancestors will be recursively updated
+    if p.changed?
+      p.journal_notes = I18n.t('timelines.planning_element_updated_automatically_by_child_changes', :child => "*#{id}")
+
+      # Ancestors will be updated by parent's after_save hook.
+      p.save(:validate => false)
+    end
+  end
+
+  def update_parent_attributes
+    recalculate_attributes_for(parent_id) if parent_id.present?
+  end
+
+  def inherit_dates_from_children
+    active_children = children.without_deleted
+
+    unless active_children.empty?
+      self.start_date = [active_children.minimum(:start_date), active_children.minimum(:due_date)].compact.min
+      self.due_date   = [active_children.maximum(:start_date), active_children.maximum(:due_date)].compact.max
+    end
+  end
+
+  def create_alternate_date
+    if start_date_changed? or due_date_changed?
+      alternate_dates.create(:start_date => start_date, :due_date => due_date)
+    end
+  end
+
+  def after_update_of_existing_tree_node(former_parent_id)
+    # delete invalid relations of all descendants
+    self_and_descendants.each do |issue|
+      issue.relations.each do |relation|
+        relation.destroy unless relation.valid?
+      end
+    end
+
+    # update former parent
+    recalculate_attributes_for(former_parent_id) if former_parent_id
   end
 
   private

@@ -84,6 +84,9 @@ module OpenProject::NestedSet
 
       private
 
+      # just here to be overwritten
+      def after_update_of_existing_tree_node(former_parent_id) end;
+
       def update_nested_set_attributes
         if root_id.nil?
           set_initial_root_id

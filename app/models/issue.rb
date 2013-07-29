@@ -89,8 +89,6 @@ class Issue < WorkPackage
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status
-  after_save :reschedule_following_issues, :update_parent_attributes
-  after_destroy :update_parent_attributes
   before_destroy :remove_attachments
 
   after_initialize :set_default_values
@@ -631,9 +629,6 @@ class Issue < WorkPackage
     reload # important
   end
 
-  def update_parent_attributes
-    recalculate_attributes_for(parent_id) if parent_id
-  end
 
   # Update issues so their versions are not pointing to a
   # fixed_version that is not shared with the issue's project

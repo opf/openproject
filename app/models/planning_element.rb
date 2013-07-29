@@ -119,9 +119,6 @@ class PlanningElement < WorkPackage
 
   before_save :append_scenario_dates_to_journal
 
-  after_save :update_parent_attributes
-  after_save :create_alternate_date
-
   validates_presence_of :subject, :project
 
   validates_length_of :subject, :maximum => 255, :unless => lambda { |e| e.subject.blank? }
@@ -217,14 +214,6 @@ class PlanningElement < WorkPackage
     end
   end
 
-  def note
-    @journal_notes
-  end
-
-  def note=(text)
-    @journal_notes = text
-  end
-
   def trash
     unless new_record? or self.deleted_at
       self.children.each{|child| child.trash}
@@ -247,33 +236,5 @@ class PlanningElement < WorkPackage
 
   def deleted?
     !!read_attribute(:deleted_at)
-  end
-
-  protected
-
-  def update_parent_attributes
-    if parent.present?
-      parent.reload
-
-      unless parent.children.without_deleted.empty?
-        children = parent.children.without_deleted
-
-        parent.start_date = [children.minimum(:start_date), children.minimum(:due_date)].reject(&:nil?).min
-        parent.due_date   = [children.maximum(:start_date), children.maximum(:due_date)].reject(&:nil?).max
-
-        if parent.changes.present?
-          parent.note = I18n.t('timelines.planning_element_updated_automatically_by_child_changes', :child => "*#{id}")
-
-          # Ancestors will be updated by parent's after_save hook.
-          parent.save(:validate => false)
-        end
-      end
-    end
-  end
-
-  def create_alternate_date
-    if start_date_changed? or due_date_changed?
-      alternate_dates.create(:start_date => start_date, :due_date => due_date)
-    end
   end
 end
