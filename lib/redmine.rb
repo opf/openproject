@@ -268,9 +268,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :colors,
             {:controller => '/planning_element_type_colors', :action => 'index'},
             {:caption    => :'timelines.admin_menu.colors' }
-  menu.push :planning_element_types,
-            {:controller => '/planning_element_types', :action => 'index'},
-            {:caption    => :'timelines.admin_menu.planning_element_types' }
   menu.push :project_types,
             {:controller => '/project_types', :action => 'index'},
             {:caption    => :'timelines.admin_menu.project_types' }
