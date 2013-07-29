@@ -196,9 +196,7 @@ class PermittedParams < Struct.new(:params, :user)
                                :project_type => [
                                                   :name,
                                                   :allows_association,
-                                                  # have to check whether this is correct
-                                                  # just copying over from model for now
-                                                  :planning_element_type_ids => [],
+                                                  :type_ids => [],
                                                   :reported_project_status_ids => []
                                                 ],
                                :scenario => [

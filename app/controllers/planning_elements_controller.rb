@@ -335,7 +335,7 @@ class PlanningElementsController < ApplicationController
     return if @planning_elements.class == Array
 
     # triggering full load to avoid separate queries for count or related models
-    @planning_elements = @planning_elements.all(:include => [:planning_element_type, :project])
+    @planning_elements = @planning_elements.all(:include => [:type, :project])
 
     # Replacing association proxies with already loaded instances to avoid
     # further db calls.
@@ -347,7 +347,6 @@ class PlanningElementsController < ApplicationController
     # so it might break in later versions of Rails.
     #
     # See association_instance_get/_set in ActiveRecord::Associations
-
 
     ids_hash      = @planning_elements.inject({}) { |h, pe| h[pe.id] = pe; h }
     children_hash = Hash.new { |h,k| h[k] = [] }

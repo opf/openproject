@@ -36,12 +36,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <p>
       <label>
-        <%= ProjectType.human_attribute_name(:planning_element_types) %>
+        <%= ProjectType.human_attribute_name(:types) %>
       </label>
 
       <span class="timelines-value">
-        <% if @project_type.planning_element_types.present? %>
-          <%=h @project_type.planning_element_types.map(&:name).join(', ') %>
+        <% if @project_type.types.present? %>
+          <%=h @project_type.types.map(&:name).join(', ') %>
         <% else %>
           -
         <% end %>

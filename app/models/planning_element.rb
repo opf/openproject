@@ -21,7 +21,7 @@ class PlanningElement < WorkPackage
 
   accepts_nested_attributes_for_apis_for :parent,
                                          :planning_element_status,
-                                         :planning_element_type,
+                                         :type,
                                          :project
 
   # This SQL only works when there are no two updates in the same
@@ -82,7 +82,7 @@ class PlanningElement < WorkPackage
     title = ''
     title << subject
     title << ' ('
-    title << planning_element_type.name << ' ' if planning_element_type
+    title << type.name << ' ' if type
     title << '*'
     title << id.to_s
     title << ')'
@@ -135,7 +135,7 @@ class PlanningElement < WorkPackage
   end
 
   def is_milestone?
-    planning_element_type && planning_element_type.is_milestone?
+    type && type.is_milestone?
   end
 
   validate do

@@ -216,7 +216,7 @@ module WorkPackagesHelper
   def work_package_form_planning_element_type_attribute(form, work_package, locals = {})
     if work_package.is_a?(PlanningElement)
       field = form.select :planning_element_type_id,
-                          (locals[:project].planning_element_types.collect { |m| [m.name, m.id] }),
+                          (locals[:project].types.collect { |m| [m.name, m.id] }),
                           :include_blank => true
 
       WorkPackageAttribute.new(:type, field)

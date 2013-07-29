@@ -13,21 +13,21 @@ See doc/COPYRIGHT.rdoc for more details.
 <% extend TimelinesHelper %>
 <%= header_tags %>
 
-<h3><%= PlanningElementType.model_name.human %></h3>
+<h3><%= Type.model_name.human %></h3>
 
-<%= form_tag(:controller => "/projects", :action => "planning_element_types", :id => @project) do %>
+<%= form_tag(:controller => "/projects", :action => "types", :id => @project) do %>
   <table class='list'>
     <thead>
       <tr>
-        <th><%= PlanningElementType.human_attribute_name(:is_default) %></th>
-        <th><%= PlanningElementType.human_attribute_name(:active) %></th>
-        <th><%= PlanningElementType.human_attribute_name(:name) %></th>
-        <th><%= PlanningElementType.human_attribute_name(:in_aggregation) %></th>
+        <th><%= Type.human_attribute_name(:is_default) %></th>
+        <th><%= Type.human_attribute_name(:active) %></th>
+        <th><%= Type.human_attribute_name(:name) %></th>
+        <th><%= Type.human_attribute_name(:in_aggregation) %></th>
       </tr>
     </thead>
 
     <tbody>
-      <% PlanningElementType.all.each do |type| %>
+      <% Type.all.each do |type| %>
         <tr class="<%= cycle('odd', 'even', :name => "pet_table") %>">
           <td class='center'>
             <%= checked_image(type.enabled_in?(@project.project_type)) %>

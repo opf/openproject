@@ -32,8 +32,6 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
-  belongs_to :planning_element_type,   :class_name  => "PlanningElementType",
-                                       :foreign_key => 'planning_element_type_id'
   belongs_to :planning_element_status, :class_name  => "PlanningElementStatus",
                                        :foreign_key => 'planning_element_status_id'
 
@@ -244,11 +242,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def kind
-    if self.is_a? Issue
-      return type
-    elsif self.is_a? PlanningElement
-      return planning_element_type
-    end
+    return type
   end
 
   def to_s

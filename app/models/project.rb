@@ -142,36 +142,32 @@ class Project < ActiveRecord::Base
 
 
   has_many :enabled_planning_element_types, :class_name  => "::EnabledPlanningElementType",
-                                                      :dependent => :delete_all
-
-  has_many :planning_element_types, :through => :enabled_planning_element_types,
-                                              :source  => :planning_element_type
-
+                                            :dependent => :delete_all
 
   include TimelinesCollectionProxy
 
   collection_proxy :project_associations, :for => [:project_a_associations,
-                                                             :project_b_associations] do
+                                                   :project_b_associations] do
     def visible(user = User.current)
       all.select { |assoc| assoc.visible?(user) }
     end
   end
 
   collection_proxy :associated_projects, :for => [:associated_a_projects,
-                                                            :associated_b_projects] do
+                                                  :associated_b_projects] do
     def visible(user = User.current)
       all.select { |other| other.visible?(user) }
     end
   end
 
   collection_proxy :reportings, :for => [:reportings_via_source,
-                                                   :reportings_via_target],
-                                          :leave_public => true
+                                         :reportings_via_target],
+                                         :leave_public => true
 
   after_save :assign_default_planning_element_types_as_enabled_planning_element_types
 
   safe_attributes 'project_type_id',
-                  'planning_element_type_ids',
+                  'type_ids',
                   'responsible_id'
 
   def associated_project_candidates(user = User.current)
@@ -218,7 +214,7 @@ class Project < ActiveRecord::Base
     return if enabled_planning_element_types.present?
     return if project_type.blank?
 
-    self.planning_element_types = project_type.planning_element_types
+    self.types = project_type.types
   end
 
   def has_many_dependent_for_planning_elements

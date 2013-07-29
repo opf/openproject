@@ -40,12 +40,12 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= f.check_box :allows_association %>
   </p>
   <p>
-    <label><%= ProjectType.human_attribute_name(:planning_element_types) %></label>
+    <label><%= ProjectType.human_attribute_name(:types) %></label>
     <%= render :partial => "checkbox_list",
                :locals  => {:model          => project_type,
-                            :attribute_name => :planning_element_type_ids,
-                            :active_list    => project_type.planning_element_types,
-                            :available_list => PlanningElementType.all} %>
+                            :attribute_name => :type_ids,
+                            :active_list    => project_type.types,
+                            :available_list => Type.all} %>
   </p>
   <p>
     <label><%= ProjectType.human_attribute_name(:reported_project_statuses) %></label>

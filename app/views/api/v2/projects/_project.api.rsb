@@ -41,7 +41,7 @@ api.project do
                      :name => project.project_type.name)
   end
 
-  planning_element_types = project.planning_element_types
+  planning_element_types = project.types
   if planning_element_types.present?
     api.array :planning_element_types, :size => planning_element_types.size do
       planning_element_types.each do |planning_element_type|
