@@ -50,10 +50,13 @@ class WorkPackage < ActiveRecord::Base
 
   acts_as_watchable
 
+  before_save :store_former_parent_id
   include OpenProject::NestedSet::WithRootIdScope
   after_save :reschedule_following_issues,
              :update_parent_attributes,
              :create_alternate_date
+  after_move :remove_invalid_relations,
+             :recalculate_attributes_for_former_parent
   after_destroy :update_parent_attributes
 
   acts_as_customizable
@@ -112,6 +115,17 @@ class WorkPackage < ActiveRecord::Base
                                                     :planning_element_status_comment,
                                                     :responsible_id
   register_on_journal_formatter :scenario_date,     /^scenario_(\d+)_(start|due)_date$/
+
+  # acts_as_journalized will create an initial journal on wp creation
+  # and touch the journaled object:
+  # journal.rb:47
+  #
+  # This will result in optimistic locking increasing the lock_version attribute to 1.
+  # In order to avoid stale object errors we reload the attributes in question
+  # after the wp is created.
+  # As after_create is run before after_save, and journal creation is triggered by an
+  # after_save hook, we rely on after_save and a specific version, here.
+  after_save :reload_lock_and_timestamps, :if => Proc.new { |wp| wp.lock_version == 0 }
 
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
@@ -383,22 +397,26 @@ class WorkPackage < ActiveRecord::Base
     self.estimated_hours = nil if estimated_hours == 0.0
   end
 
-  def create_alternate_date
-    if start_date_changed? or due_date_changed?
-      alternate_dates.create(:start_date => start_date, :due_date => due_date)
-    end
+  def store_former_parent_id
+    @former_parent_id = (parent_issue_id != parent_id) ? parent_id : false
+    true # force callback to return true
   end
 
-  def after_update_of_existing_tree_node(former_parent_id)
+  def remove_invalid_relations
     # delete invalid relations of all descendants
     self_and_descendants.each do |issue|
       issue.relations.each do |relation|
         relation.destroy unless relation.valid?
       end
     end
+  end
 
-    # update former parent
-    recalculate_attributes_for(former_parent_id) if former_parent_id
+  def recalculate_attributes_for_former_parent
+    recalculate_attributes_for(@former_parent_id) if @former_parent_id
+  end
+
+  def reload_lock_and_timestamps
+    reload(:select => [:lock_version, :created_at, :updated_at])
   end
 
   private
@@ -410,5 +428,17 @@ class WorkPackage < ActiveRecord::Base
                                 :spent_on => Date.today })
 
     time_entries.build(attributes)
+  end
+
+  def create_alternate_date
+    # This is a hack.
+    # It is required as long as alternate dates exist/are not moved up to work_packages.
+    # Its purpose is to allow for setting the after_save filter in the correct order
+    # before acts as journalized and the cleanup method reload_lock_and_timestamps.
+    return true unless respond_to?(:alternate_dates)
+
+    if start_date_changed? or due_date_changed?
+      alternate_dates.create(:start_date => start_date, :due_date => due_date)
+    end
   end
 end
