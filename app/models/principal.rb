@@ -27,13 +27,15 @@ class Principal < ActiveRecord::Base
   scope :not_in_project, lambda { |project| {:conditions => "id NOT IN (select m.user_id FROM members as m where m.project_id = #{project.id})"}}
 
   scope :like, lambda {|q|
-    concatenation = "((firstname || ' ') || lastname)"
+    firstnamelastname = "((firstname || ' ') || lastname)"
+    lastnamefirstname = "((lastname || ' ') || firstname)"
     # special concat for mysql
     if ChiliProject::Database.mysql?
-      concatenation = "CONCAT(CONCAT(firstname, ' '), lastname)"
+      firstnamelastname = "CONCAT(CONCAT(firstname, ' '), lastname)"
+      lastnamefirstname = "CONCAT(CONCAT(lastname, ' '), firstname)"
     end
-    s = "%#{q.to_s.strip.downcase}%"
-    {:conditions => ["LOWER(login) LIKE :s OR LOWER(firstname) LIKE :s OR LOWER(lastname) LIKE :s OR LOWER(#{concatenation}) LIKE :s OR LOWER(mail) LIKE :s", {:s => s}],
+    s = "%#{q.to_s.downcase.strip.tr(',','')}%"
+    {:conditions => ["LOWER(login) LIKE :s OR LOWER(firstname) LIKE :s OR LOWER(lastname) LIKE :s OR LOWER(#{firstnamelastname}) LIKE :s OR LOWER(#{lastnamefirstname}) LIKE :s OR LOWER(mail) LIKE :s", {:s => s}],
      :order => 'type, login, lastname, firstname, mail'
     }
   }
