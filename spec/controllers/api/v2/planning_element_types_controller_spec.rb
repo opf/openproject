@@ -55,9 +55,9 @@ describe Api::V2::PlanningElementTypesController do
       describe 'with 3 planning element types available' do
         before do
           @created_planning_element_types = [
-            FactoryGirl.create(:planning_element_type),
-            FactoryGirl.create(:planning_element_type),
-            FactoryGirl.create(:planning_element_type)
+            FactoryGirl.create(:type),
+            FactoryGirl.create(:type),
+            FactoryGirl.create(:type)
           ]
 
           @created_planning_element_types.each do |type|
@@ -67,7 +67,7 @@ describe Api::V2::PlanningElementTypesController do
           # Creating one PlanningElemenType which is not assigned to any
           # Project and should therefore not show up in projects with a project
           # type
-          FactoryGirl.create(:planning_element_type)
+          FactoryGirl.create(:type)
         end
 
         it 'assigns an array with all planning element types' do
@@ -84,7 +84,7 @@ describe Api::V2::PlanningElementTypesController do
 
     describe 'show.xml' do
       def fetch
-        @available_type = FactoryGirl.create(:planning_element_type, :id => '1337')
+        @available_type = FactoryGirl.create(:type, :id => '1337')
         enable_type(project, @available_type)
 
         get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
@@ -109,7 +109,7 @@ describe Api::V2::PlanningElementTypesController do
 
       describe 'with an planning element type, which is not enabled in the project' do
         before do
-          FactoryGirl.create(:planning_element_type, :id => '1337')
+          FactoryGirl.create(:type, :id => '1337')
         end
 
         it 'raises ActiveRecord::RecordNotFound errors' do
@@ -121,7 +121,7 @@ describe Api::V2::PlanningElementTypesController do
 
       describe 'with an available planning element type' do
         before do
-          @available_planning_element_type = FactoryGirl.create(:planning_element_type,
+          @available_planning_element_type = FactoryGirl.create(:type,
                                                                 :id => '1337')
 
           enable_type(project, @available_planning_element_type)
@@ -162,9 +162,9 @@ describe Api::V2::PlanningElementTypesController do
       describe 'with 3 planning element types available' do
         before do
           @created_planning_element_types = [
-            FactoryGirl.create(:planning_element_type),
-            FactoryGirl.create(:planning_element_type),
-            FactoryGirl.create(:planning_element_type)
+            FactoryGirl.create(:type),
+            FactoryGirl.create(:type),
+            FactoryGirl.create(:type)
           ]
         end
 
@@ -206,7 +206,7 @@ describe Api::V2::PlanningElementTypesController do
 
       describe 'with an available planning element type' do
         before do
-          @available_planning_element_type = FactoryGirl.create(:planning_element_type, :id => '1337')
+          @available_planning_element_type = FactoryGirl.create(:type, :id => '1337')
         end
 
         def fetch
