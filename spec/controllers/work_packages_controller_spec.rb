@@ -414,10 +414,10 @@ describe WorkPackagesController do
         planning_element.should_receive(:update_by).with(current_user, wp_params).and_return(true)
       end
 
-      it 'redirect to show' do
+      it 'should respond with 200 OK' do
         put 'update', params
 
-        response.should redirect_to(work_package_path(planning_element))
+        response.response_code.should == 200
       end
 
       it 'should show a flash message' do
@@ -472,10 +472,10 @@ describe WorkPackagesController do
         planning_element.stub(:unsaved_attachments).and_return([double('unsaved_attachment')])
       end
 
-      it 'redirect to show' do
+      it 'should respond with 200 OK' do
         put 'update', params
 
-        response.should redirect_to redirect_to(work_package_path(planning_element))
+        response.response_code.should == 200
       end
 
       it 'should show a flash message' do
