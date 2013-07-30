@@ -202,6 +202,11 @@ class WorkPackage < ActiveRecord::Base
     self.relations_from.build
   end
 
+  def add_time_entry
+    time_entries.build(:project => project,
+                       :work_package => self)
+  end
+
   def all_dependent_issues(except=[])
     except << self
     dependencies = []
@@ -301,6 +306,13 @@ class WorkPackage < ActiveRecord::Base
       # ancestors will be recursively updated
       p.save(:validate => false) if p.changed?
     end
+  end
+
+  # This is a dummy implementation that is currently overwritten
+  # by issue
+  # Adapt once tracker/type is migrated
+  def new_statuses_allowed_to(user, include_default = false)
+    IssueStatus.all
   end
 
   def self.use_status_for_done_ratio?

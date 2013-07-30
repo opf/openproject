@@ -13,6 +13,11 @@
 
 require "rack_session_access/capybara"
 
+InstanceFinder.register(WorkPackage, Proc.new { |name| WorkPackage.find_by_subject(name) })
+RouteMap.register(WorkPackage, "/work_packages")
+RouteMap.register(PlanningElement, "/work_packages")
+RouteMap.register(Issue, "/work_packages")
+
 Given /^the work package "(.*?)" has the following children:$/ do |work_package_subject, table|
   parent = WorkPackage.find_by_subject(work_package_subject)
 
@@ -47,4 +52,10 @@ Given(/^the work_package "(.+?)" is updated with the following:$/) do |subject, 
   work_package = WorkPackage.find_by_subject(subject)
 
   send_table_to_object(work_package, table)
+end
+
+Then /^the "(.+?)" field should contain the id of work package "(.+?)"$/ do |field_name, wp_name|
+  work_package = InstanceFinder.find(WorkPackage, wp_name)
+
+  should have_field(field_name, :with => work_package.id.to_s)
 end

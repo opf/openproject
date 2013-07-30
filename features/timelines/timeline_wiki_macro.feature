@@ -63,11 +63,11 @@ Feature: Timeline Wiki Macro
               | Name     |
               | closed   |
       And there are the following planning elements:
-              | Subject  | Start date | Due date   | description         | status_name | responsible |
-              | January  | 2012-01-01 | 2012-01-31 | Avocado Grande      | closed      | manager     |
-              | February | 2012-02-01 | 2012-02-24 | Avocado Sali        | closed      | manager     |
-              | March    | 2012-03-01 | 2012-03-30 | Sali Grande         | closed      | manager     |
-              | April    | 2012-04-01 | 2012-04-30 | Avocado Sali Grande | closed      | manager     |
+        | Subject  | Start date | Due date   | description         | planning_element_status | responsible |
+        | January  | 2012-01-01 | 2012-01-31 | Avocado Grande      | closed                  | manager     |
+        | February | 2012-02-01 | 2012-02-24 | Avocado Sali        | closed                  | manager     |
+        | March    | 2012-03-01 | 2012-03-30 | Sali Grande         | closed                  | manager     |
+        | April    | 2012-04-01 | 2012-04-30 | Avocado Sali Grande | closed                  | manager     |
       And there is a timeline "Testline" for project "ecookbook"
 
   @javascript

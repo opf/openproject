@@ -74,11 +74,11 @@ Feature: Timeline View Tests with reporters
           | timelines |
 
       And there are the following planning elements:
-              | Subject  | Start date | Due date   | description       | status_name    | responsible    | planning element type |
-              | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed         | manager        | Phase1                |
-              | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed         | manager        | Phase2                |
-              | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed         | manager        | Phase3                |
-              | April    | 2012-04-01 | 2012-04-30 | Aioli Sali Grande | closed         | manager        | Phase4                |
+        | Subject  | Start date | Due date   | description       | planning_element_status | responsible    | planning element type |
+        | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed                  | manager        | Phase1                |
+        | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed                  | manager        | Phase2                |
+        | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed                  | manager        | Phase3                |
+        | April    | 2012-04-01 | 2012-04-30 | Aioli Sali Grande | closed                  | manager        | Phase4                |
 
 
       And there is a project named "ecookbook13" of type "Standard Project"
@@ -89,11 +89,11 @@ Feature: Timeline View Tests with reporters
           | timelines |
 
       And there are the following planning elements:
-              | Subject    | Start date | Due date   | description       | status_name    | responsible    |
-              | January13  | 2013-01-01 | 2013-01-31 | Aioli Grande      | closed         | manager        |
-              | February13 | 2013-02-01 | 2013-02-24 | Aioli Sali        | closed         | manager        |
-              | March13    | 2013-03-01 | 2013-03-30 | Sali Grande       | closed         | manager        |
-              | April13    | 2013-04-01 | 2013-04-30 | Aioli Sali Grande | closed         | manager        |
+       | Subject    | Start date | Due date   | description       | planning_element_status | responsible    |
+       | January13  | 2013-01-01 | 2013-01-31 | Aioli Grande      | closed                  | manager        |
+       | February13 | 2013-02-01 | 2013-02-24 | Aioli Sali        | closed                  | manager        |
+       | March13    | 2013-03-01 | 2013-03-30 | Sali Grande       | closed                  | manager        |
+       | April13    | 2013-04-01 | 2013-04-30 | Aioli Sali Grande | closed                  | manager        |
 
       And there is a project named "ecookbookQ3" of type "Extraordinary Project"
       And the project "ecookbookQ3" has the parent "ecookbook13"
@@ -104,10 +104,10 @@ Feature: Timeline View Tests with reporters
           | timelines |
 
       And there are the following planning elements:
-              | Subject   | Start date | Due date   | description       | status_name    | responsible    |
-              | July      | 2012-07-01 | 2013-07-31 | Aioli Grande      | closed         | manager        |
-              | August    | 2012-08-01 | 2013-08-31 | Aioli Sali        | closed         | manager        |
-              | Septembre | 2012-09-01 | 2013-09-30 | Sali Grande       | closed         | manager        |
+        | Subject   | Start date | Due date   | description       | planning_element_status | responsible    |
+        | July      | 2012-07-01 | 2013-07-31 | Aioli Grande      | closed                  | manager        |
+        | August    | 2012-08-01 | 2013-08-31 | Aioli Sali        | closed                  | manager        |
+        | Septembre | 2012-09-01 | 2013-09-30 | Sali Grande       | closed                  | manager        |
 
 
 

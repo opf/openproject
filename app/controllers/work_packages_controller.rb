@@ -34,7 +34,7 @@ class WorkPackagesController < ApplicationController
   model_object WorkPackage
 
   before_filter :disable_api
-  before_filter :find_model_object_and_project, :only => [:show]
+  before_filter :find_model_object_and_project, :only => [:show, :edit]
   before_filter :find_project_by_project_id, :only => [:new, :new_type, :create]
   before_filter :authorize,
                 :assign_planning_elements
@@ -59,9 +59,9 @@ class WorkPackagesController < ApplicationController
 
   def new_type
     respond_to do |format|
-      format.js { render :partial => 'attributes', :locals => { :work_package => new_work_package,
-                                                                :project => project,
-                                                                :priorities => priorities } }
+      format.js { render :locals => { :work_package => new_work_package,
+                                      :project => project,
+                                      :priorities => priorities } }
     end
   end
 
@@ -82,6 +82,18 @@ class WorkPackagesController < ApplicationController
     else
       respond_to do |format|
         format.html { render :action => 'new' }
+      end
+    end
+  end
+
+  def edit
+    respond_to do |format|
+      format.html do
+        render :locals => { :work_package => work_package,
+                            :allowed_statuses => allowed_statuses,
+                            :project => project,
+                            :priorities => priorities,
+                            :time_entry => time_entry }
       end
     end
   end
@@ -202,6 +214,14 @@ class WorkPackagesController < ApplicationController
 
   def priorities
     IssuePriority.all
+  end
+
+  def allowed_statuses
+    work_package.new_statuses_allowed_to(current_user)
+  end
+
+  def time_entry
+    work_package.add_time_entry
   end
 
   protected

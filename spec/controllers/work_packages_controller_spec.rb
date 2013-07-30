@@ -203,7 +203,7 @@ describe WorkPackagesController do
       end
 
       it 'renders the new builder template' do
-        response.should render_template('work_packages/_attributes', :formats => ["html"])
+        response.should render_template('work_packages/new_type', :formats => ["html"])
       end
 
       it 'should respond with 200 OK' do
@@ -309,6 +309,60 @@ describe WorkPackagesController do
 
       it 'should return 403 Forbidden' do
         response.response_code.should == 403
+      end
+    end
+  end
+
+  describe 'edit.html' do
+
+    become_admin
+
+    describe 'w/o a valid work_package id' do
+
+      describe 'w/o being a member or administrator' do
+        become_non_member
+
+        it 'renders a 404 page' do
+          get 'edit', :id => '1337'
+
+          response.response_code.should === 404
+        end
+      end
+
+      describe 'w/ the current user being a member' do
+        become_member_with_view_planning_element_permissions
+
+        it 'raises ActiveRecord::RecordNotFound errors' do
+          get 'edit', :id => '1337'
+
+          response.response_code.should === 404
+        end
+      end
+    end
+
+    describe 'w/ a valid work package id' do
+      become_admin
+
+      describe 'w/o being a member or administrator' do
+        become_non_member
+
+        it 'renders a 403 Forbidden page' do
+          get 'edit', :id => planning_element.id
+
+          response.response_code.should == 403
+        end
+      end
+
+      describe 'w/ the current user being a member' do
+        become_member_with_permissions [:edit_work_packages]
+
+        before do
+          get 'edit', :id => planning_element.id
+        end
+
+        it 'renders the show builder template' do
+          response.should render_template('work_packages/edit', :formats => ["html"], :layout => :base)
+        end
       end
     end
   end
@@ -502,6 +556,32 @@ describe WorkPackagesController do
       IssuePriority.stub!(:all).and_return(expected)
 
       controller.priorities.should == expected
+    end
+  end
+
+  describe :allowed_statuses do
+    it "should return all statuses allowed by the issue" do
+      expected = double('statuses')
+
+      controller.stub!(:work_package).and_return(stub_issue)
+
+      stub_issue.stub!(:new_statuses_allowed_to).with(current_user).and_return(expected)
+
+      controller.allowed_statuses.should == expected
+    end
+  end
+
+  describe :time_entry do
+    before do
+      controller.stub!(:work_package).and_return(stub_planning_element)
+    end
+
+    it "should return a time entry" do
+      expected = double('time_entry')
+
+      stub_planning_element.stub!(:add_time_entry).and_return(expected)
+
+      controller.time_entry.should == expected
     end
   end
 end
