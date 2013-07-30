@@ -30,17 +30,17 @@ Given /^I am working in the [tT]imeline "([^"]*)" of the project called "([^"]*)
   @timeline_name = timeline_name
 end
 
-Given /^there are the following planning element types:$/ do |table|
-  # Color is not handled in a sensible way. We need some extra logic to match
-  # a color name to an id, so that it is possible to assign a certain color to
-  # planning element types. This should be added once it is needed.
-  #
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
-
-  table.hashes.each do |type_attributes|
-    FactoryGirl.create(:planning_element_type, type_attributes)
-  end
-end
+# Given /^there are the following types:$/ do |table|
+#   # Color is not handled in a sensible way. We need some extra logic
+#   # to match a color name to an id, so that it is possible to assign a
+#   # certain color to types. This should be added once it is needed.
+#
+#   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+#
+#   table.hashes.each do |type_attributes|
+#     FactoryGirl.create(:type, type_attributes)
+#   end
+# end
 
 Given /^there are the following planning element statuses:$/ do |table|
   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
@@ -89,6 +89,10 @@ end
 Given /^I delete the scenario "([^"]*)"$/ do |scenario_name|
   scenario = Scenario.find_by_name!(scenario_name)
   scenario.destroy
+end
+
+Given /^there is a project named "(.*?)"$/ do |name|
+  FactoryGirl.create(:project, :name => name)
 end
 
 # Using our own project creation step to make sure, that we may initially assign
