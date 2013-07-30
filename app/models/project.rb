@@ -246,7 +246,7 @@ class Project < ActiveRecord::Base
       self.enabled_module_names = Setting.default_projects_modules
     end
     if !initialized.key?('types') && !initialized.key?('type_ids')
-      self.types = []
+      self.types = Type.where(is_default: true)
     end
   end
 
