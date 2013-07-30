@@ -23,28 +23,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     Issue.delete_all
   end
 
-  def test_create_root_issue
-    issue1 = create_issue!
-    issue2 = create_issue!
-    issue1.reload
-    issue2.reload
-
-    assert_equal issue1.id, issue1.root_id
-    assert issue1.leaf?
-    assert_equal issue2.id, issue2.root_id
-    assert issue2.leaf?
-  end
-
-  def test_create_child_issue
-    parent = create_issue!
-    child =  create_issue!(:parent_id => parent.id)
-    parent.reload
-    child.reload
-
-    assert_equal [parent.id, nil, 3], [parent.root_id, parent.parent_id, parent.rgt - parent.lft]
-    assert_equal [parent.id, parent.id, 1], [child.root_id, child.parent_id, child.rgt - child.lft]
-  end
-
   def test_creating_a_child_in_different_project_should_not_validate_unless_allowed
     Setting.cross_project_issue_relations = "0"
     issue = create_issue!
@@ -73,82 +51,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_empty child.errors[:parent_id]
   end
 
-  def test_move_a_root_to_child
-    parent1 = create_issue!
-    parent2 = create_issue!
-    child = create_issue!(:parent_id => parent1.id)
-
-    parent2.parent_id = parent1.id
-    parent2.save!
-    child.reload
-    parent1.reload
-    parent2.reload
-
-    assert_equal [parent1.id, 5], [parent1.root_id, parent1.nested_set_span]
-    assert_equal [parent1.id, 1], [parent2.root_id, parent2.nested_set_span]
-    assert_equal [parent1.id, 1], [child.root_id, child.nested_set_span]
-  end
-
-  def test_move_a_child_to_root
-    parent1 = create_issue!
-    parent2 = create_issue!
-    child =   create_issue!(:parent_id => parent1.id)
-
-    child.parent_id = nil
-    child.save!
-    child.reload
-    parent1.reload
-    parent2.reload
-
-    assert_equal [parent1.id, 1], [parent1.root_id, parent1.nested_set_span]
-    assert_equal [parent2.id, 1], [parent2.root_id, parent2.nested_set_span]
-    assert_equal [child.id, 1], [child.root_id, child.nested_set_span]
-  end
-
-  def test_move_a_child_to_another_issue
-    parent1 = create_issue!
-    parent2 = create_issue!
-    child =   create_issue!(:parent_id => parent1.id)
-
-    child.parent_id = parent2.id
-    child.save!
-    child.reload
-    parent1.reload
-    parent2.reload
-
-    assert_equal [parent1.id, 1], [parent1.root_id, parent1.nested_set_span]
-    assert_equal [parent2.id, 3], [parent2.root_id, parent2.nested_set_span]
-    assert_equal [parent2.id, 1], [child.root_id, child.nested_set_span]
-  end
-
-  def test_move_a_child_with_descendants_to_another_issue
-    parent1 = create_issue!
-    parent2 = create_issue!
-    child =   create_issue!(:parent_id => parent1.id)
-    grandchild = create_issue!(:parent_id => child.id)
-
-    parent1.reload
-    parent2.reload
-    child.reload
-    grandchild.reload
-
-    assert_equal [parent1.id, 5], [parent1.root_id, parent1.nested_set_span]
-    assert_equal [parent2.id, 1], [parent2.root_id, parent2.nested_set_span]
-    assert_equal [parent1.id, 3], [child.root_id, child.nested_set_span]
-    assert_equal [parent1.id, 1], [grandchild.root_id, grandchild.nested_set_span]
-
-    child.reload.parent_id = parent2.id
-    child.save!
-    child.reload
-    grandchild.reload
-    parent1.reload
-    parent2.reload
-
-    assert_equal [parent1.id, 1], [parent1.root_id, parent1.nested_set_span]
-    assert_equal [parent2.id, 5], [parent2.root_id, parent2.nested_set_span]
-    assert_equal [parent2.id, 3], [child.root_id, child.nested_set_span]
-    assert_equal [parent2.id, 1], [grandchild.root_id, grandchild.nested_set_span]
-  end
 
   def test_move_a_child_with_descendants_to_another_project
     Setting.cross_project_issue_relations = "0"
@@ -360,9 +262,11 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   def test_move_parent_updates_old_parent_attributes
     first_parent = create_issue!
     second_parent = create_issue!
-    child = create_issue!(:estimated_hours => 5, :parent_id => first_parent.id)
+    child = create_issue!(:estimated_hours => 5,
+                          :parent_id => first_parent.id)
     assert_equal 5, first_parent.reload.estimated_hours
-    child.update_attributes(:estimated_hours => 7, :parent_id => second_parent.id)
+    child.update_attributes(:estimated_hours => 7,
+                            :parent_id => second_parent.id)
     assert_equal 7, second_parent.reload.estimated_hours
     assert_nil first_parent.reload.estimated_hours
   end
