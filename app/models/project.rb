@@ -535,9 +535,9 @@ class Project < ActiveRecord::Base
   def rolled_up_types
     @rolled_up_types ||=
       Type.find(:all, :joins => :projects,
-                         :select => "DISTINCT #{Type.table_name}.*",
-                         :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
-                         :order => "#{Type.table_name}.position")
+                      :select => "DISTINCT #{Type.table_name}.*",
+                      :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
+                      :order => "#{Type.table_name}.position")
   end
 
   # Closes open and locked project versions that are completed

@@ -35,43 +35,31 @@ describe Project do
       end
     end
 
-    describe '#enabled_planning_element_types' do
-      it 'can read enabled_planning_element_types w/ the help of the has_many association' do
-        project                       = FactoryGirl.create(:project)
-        enabled_planning_element_type = FactoryGirl.create(:enabled_planning_element_type,
-                                                       :project_id => project.id)
+    describe '#types' do
+      it 'can read types w/ the help of the has_many association' do
+        project = FactoryGirl.create(:project)
+        type    = FactoryGirl.create(:type)
+
+        project.types = [type]
+        project.save
 
         project.reload
 
-        project.enabled_planning_element_types.size.should == 1
-        project.enabled_planning_element_types.first.should == enabled_planning_element_type
+        project.types.size.should == 1
+        project.types.first.should == type
       end
 
-      it 'deletes associated enabled_planning_element_types' do
-        project                       = FactoryGirl.create(:project)
-        enabled_planning_element_type = FactoryGirl.create(:enabled_planning_element_type,
-                                                       :project_id => project.id)
-        project.reload
-
-        project.destroy
-
-        expect { enabled_planning_element_type.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
-
-    describe '#planning_element_types' do
-      it 'can read planning_element_types w/ the help of the has_many-through association' do
-        planning_element_type = FactoryGirl.create(:planning_element_type)
+      it 'can read types w/ the help of the has_many-through association' do
         project               = FactoryGirl.create(:project)
+        type                  = FactoryGirl.create(:type)
 
-        enabled_planning_element_type = FactoryGirl.create(:enabled_planning_element_type,
-                                                       :project_id => project.id,
-                                                       :planning_element_type_id => planning_element_type.id)
+        project.types = [type]
+        project.save
 
         project.reload
 
-        project.planning_element_types.size.should == 1
-        project.planning_element_types.first.should == planning_element_type
+        project.types.size.should == 1
+        project.types.first.should == type
       end
     end
 
@@ -286,62 +274,43 @@ describe Project do
   describe '- Creation' do
     describe 'enabled planning elements' do
       describe 'when a new project w/ a project type is created' do
-        it 'gets all default planning element types assigned as enabled planning element types' do
-          planning_element_type_a = FactoryGirl.create(:planning_element_type)
-          planning_element_type_b = FactoryGirl.create(:planning_element_type)
-          planning_element_type_c = FactoryGirl.create(:planning_element_type)
-          planning_element_type_x = FactoryGirl.create(:planning_element_type)
+        it 'gets all types' do
+          type_a = FactoryGirl.create(:type)
+          type_b = FactoryGirl.create(:type)
+          type_c = FactoryGirl.create(:type)
 
-          pe_types = [planning_element_type_a, planning_element_type_b, planning_element_type_c]
+          types = [type_a, type_b, type_c]
 
-          project_type = FactoryGirl.create(:project_type)
-
-          pe_types.each do |type|
-            FactoryGirl.create(:default_planning_element_type,
-                           :project_type_id          => project_type.id,
-                           :planning_element_type_id => type.id)
-          end
-
-          # using build & save instead of create to make sure all callbacks and
-          # validations are triggered
-          project = FactoryGirl.build(:project, :project_type_id => project_type.id)
+          project = FactoryGirl.create(:project)
           project.save
 
           project.reload
 
-          project.planning_element_types.size.should == 3
-          pe_types.each do |type|
-            project.planning_element_types.should be_include(type)
+          project.types.size.should == 3
+          types.each do |type|
+            project.types.should be_include(type)
           end
         end
 
-        it 'gets no extra planning element types assigned if there are already some' do
-          planning_element_type_a = FactoryGirl.create(:planning_element_type)
-          planning_element_type_b = FactoryGirl.create(:planning_element_type)
-          planning_element_type_c = FactoryGirl.create(:planning_element_type)
-          planning_element_type_x = FactoryGirl.create(:planning_element_type)
+        it 'gets no extra types assigned if there are already some' do
+          type_a = FactoryGirl.create(:type)
+          type_b = FactoryGirl.create(:type)
+          type_c = FactoryGirl.create(:type)
+          type_x = FactoryGirl.create(:type)
 
-          pe_types = [planning_element_type_a, planning_element_type_b, planning_element_type_c]
+          types = [type_a, type_b, type_c]
 
           project_type = FactoryGirl.create(:project_type)
 
-          pe_types.each do |type|
-            FactoryGirl.create(:default_planning_element_type,
-                           :project_type_id          => project_type.id,
-                           :planning_element_type_id => type.id)
-          end
-
-
           # using build & save instead of create to make sure all callbacks and
           # validations are triggered
-          project = FactoryGirl.build(:project, :project_type_id => project_type.id,
-                                            :planning_element_types => [planning_element_type_x])
+          project = FactoryGirl.build(:project, :types => [type_x])
           project.save
 
           project.reload
 
-          project.planning_element_types.size.should == 1
-          project.planning_element_types.first.should == planning_element_type_x
+          project.types.size.should == 1
+          project.types.first.should == type_x
         end
       end
     end

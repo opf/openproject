@@ -38,7 +38,7 @@ class PlanningElement < WorkPackage
                 #{PlanningElement.quoted_table_name}.parent_id,
                 #{PlanningElement.quoted_table_name}.project_id,
                 #{PlanningElement.quoted_table_name}.responsible_id,
-                #{PlanningElement.quoted_table_name}.planning_element_type_id,
+                #{PlanningElement.quoted_table_name}.type_id,
                 #{PlanningElement.quoted_table_name}.planning_element_status_id,
                 #{PlanningElement.quoted_table_name}.created_at,
                 #{PlanningElement.quoted_table_name}.deleted_at,
@@ -255,7 +255,7 @@ class PlanningElement < WorkPackage
   # I am not sure why it is not possible to
   # alias_method :parent_issue_id=, :parent_id=
   def parent_issue_id=(arg)
-    parent_id = arg
+    self.parent_id = arg
   end
 
   protected
