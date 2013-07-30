@@ -19,6 +19,8 @@ module Redmine
         yield mapper
         @permissions ||= []
         @permissions += mapper.mapped_permissions
+        @project_modules_without_permissions ||= []
+        @project_modules_without_permissions += mapper.project_modules_without_permissions
       end
 
       def permissions
@@ -50,7 +52,9 @@ module Redmine
       end
 
       def available_project_modules
-        @available_project_modules ||= @permissions.collect(&:project_module).uniq.compact
+        @available_project_modules ||= (
+            @permissions.collect(&:project_module) + @project_modules_without_permissions
+          ).uniq.compact
       end
 
       def modules_permissions(modules)
@@ -61,6 +65,7 @@ module Redmine
     class Mapper
       def initialize
         @project_module = nil
+        @project_modules_without_permissions = []
       end
 
       def permission(name, hash, options={})
@@ -70,13 +75,21 @@ module Redmine
       end
 
       def project_module(name, options={})
-        @project_module = name
-        yield self
-        @project_module = nil
+        if block_given?
+          @project_module = name
+          yield self
+          @project_module = nil
+        else
+          @project_modules_without_permissions << name
+        end
       end
 
       def mapped_permissions
         @permissions
+      end
+
+      def project_modules_without_permissions
+        @project_modules_without_permissions
       end
     end
 

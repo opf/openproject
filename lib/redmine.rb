@@ -168,6 +168,8 @@ Redmine::AccessControl.map do |map|
     map.permission :view_calendar, :'issues/calendars' => [:index]
   end
 
+  map.project_module :activity
+
   map.project_module :timelines do |map|
     map.permission :manage_project_configuration,
                    :require => :member
@@ -369,5 +371,3 @@ Redmine::WikiFormatting.map do |format|
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler
-
-Redmine::AccessControl.available_project_modules << :activity
