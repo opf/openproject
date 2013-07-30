@@ -143,12 +143,12 @@ describe 'api/v2/planning_elements/_planning_element.api' do
     before do
       FactoryGirl.create(:planning_element,
                      :project_id => project.id,
-                     :parent_id  => planning_element.id,
+                     :parent_issue_id  => planning_element.id,
                      :id         => 1339,
                      :subject    => 'Child #1')
       FactoryGirl.create(:planning_element,
                      :project_id => project.id,
-                     :parent_id  => planning_element.id,
+                     :parent_issue_id  => planning_element.id,
                      :id         => 1340,
                      :subject    => 'Child #2')
     end
