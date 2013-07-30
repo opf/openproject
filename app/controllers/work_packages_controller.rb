@@ -39,7 +39,7 @@ class WorkPackagesController < ApplicationController
   before_filter :authorize,
                 :assign_planning_elements
   before_filter :apply_at_timestamp, :only => [:show]
-
+  before_filter :build_new_work_package_from_params, :only => [:new]
 
   helper :timelines
   helper :timelines_journals
@@ -219,5 +219,44 @@ class WorkPackagesController < ApplicationController
 
   rescue ArgumentError
     render_errors(:at => 'unknown format')
+  end
+
+  private
+
+  def build_new_work_package_from_params
+    if params[:id].blank?
+      @work_package = WorkPackage.new
+      @work_package.copy_from(params[:copy_from]) if params[:copy_from]
+    else
+      @work_package = @project.work_packages.visible.find(params[:id])
+    end
+
+    @work_package.project = @project
+    # Type must be set before custom field values
+    @work_package.type ||= @project.types.find((params[:issue] && params[:issue][:type_id]) || params[:type_id] || :first)
+
+    #if @work_package.type.nil?
+    #  render_error l(:error_no_type_in_project)
+    #  return false
+    #end
+
+    @work_package.start_date ||= User.current.today if Setting.issue_startdate_is_adddate?
+
+    if params[:issue].is_a?(Hash)
+      @work_package.safe_attributes = params[:issue]
+      @work_package.priority_id = params[:issue][:priority_id] unless params[:issue][:priority_id].nil?
+      if User.current.allowed_to?(:add_work_package_watchers, @project) && @issue.new_record?
+        @work_package.watcher_user_ids = params[:issue]['watcher_user_ids']
+      end
+    end
+
+    # Copy watchers if we're copying a work package
+    if params[:copy_from] && User.current.allowed_to?(:add_work_package_watchers, @project)
+      @work_package.watcher_user_ids = WorkPackage.visible.find(params[:copy_from]).watcher_user_ids
+    end
+
+    @work_package.author = User.current
+    @priorities = IssuePriority.all
+    @allowed_statuses = @work_package.new_statuses_allowed_to(User.current, true)
   end
 end

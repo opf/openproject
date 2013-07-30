@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 <% content_for :action_menu_more do %>
   <%= li_unless_nil(link_to_if_authorized l(:button_log_time), {:controller => '/timelog', :action => 'new', :work_package_id => controller.work_package}, :class => 'icon icon-time-add') %>
-  <%= li_unless_nil(link_to_if_authorized l(:button_duplicate), {:controller => '/issues', :action => 'new', :project_id => @project, :copy_from => work_package }, :class => 'icon icon-duplicate') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_duplicate), {:controller => '/work_packages', :action => 'new', :project_id => @project, :copy_from => work_package }, :class => 'icon icon-duplicate') %>
   <%= li_unless_nil(link_to_if_authorized l(:button_copy), {:controller => '/issue_moves', :action => 'new', :id => controller.work_package, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy') %>
   <%= li_unless_nil(link_to_if_authorized l(:button_move), {:controller => '/issue_moves', :action => 'new', :id => controller.work_package}, :class => 'icon icon-move') %>
   <%= li_unless_nil(link_to_if_authorized l(:button_delete), { :controller => '/issues',
