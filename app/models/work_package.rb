@@ -134,7 +134,6 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def copy_from(arg, options = {})
-
     merged_options = { :exclude => ["id",
                                     "root_id",
                                     "parent_id",
@@ -148,10 +147,43 @@ class WorkPackage < ActiveRecord::Base
 
     # attributes don't come from form, so it's save to force assign
     self.force_attributes = work_package.attributes.dup.except(*merged_options[:exclude])
-    self.parent_issue_id = work_package.parent_id if work_package.parent_id
+    self.parent_id = work_package.parent_id if work_package.parent_id
     self.custom_field_values = work_package.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = work_package.status
     self
+  end
+
+  # Returns an array of status that user is able to apply
+  def new_statuses_allowed_to(user, include_default=false)
+    return [] if status.nil?
+
+    statuses = status.find_new_statuses_allowed_to(
+      user.roles_for_project(project),
+      type,
+      author == user,
+      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
+      )
+    statuses << status unless statuses.empty?
+    statuses << IssueStatus.default if include_default
+    statuses = statuses.uniq.sort
+    blocked? ? statuses.reject {|s| s.is_closed?} : statuses
+  end
+
+  # Returns a string of css classes that apply to the issue
+  def css_classes
+    s = "issue status-#{status.position} priority-#{priority.position}"
+    s << ' closed' if closed?
+    s << ' overdue' if overdue?
+    s << ' child' if child?
+    s << ' parent' unless leaf?
+    s << ' created-by-me' if User.current.logged? && author_id == User.current.id
+    s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
+    s
+  end
+
+  # Returns true if the issue is overdue
+  def overdue?
+    !due_date.nil? && (due_date < Date.today) && !status.is_closed?
   end
 
   # ACTS AS ATTACHABLE

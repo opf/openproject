@@ -374,11 +374,6 @@ class Issue < WorkPackage
     false
   end
 
-  # Returns true if the issue is overdue
-  def overdue?
-    !due_date.nil? && (due_date < Date.today) && !status.is_closed?
-  end
-
   # Is the amount of work done less than it should for the due date
   def behind_schedule?
     return false if start_date.nil? || due_date.nil?
@@ -389,23 +384,6 @@ class Issue < WorkPackage
   # Does this issue have children?
   def children?
     !leaf?
-  end
-
-
-  # Returns an array of status that user is able to apply
-  def new_statuses_allowed_to(user, include_default=false)
-    return [] if status.nil?
-
-    statuses = status.find_new_statuses_allowed_to(
-      user.roles_for_project(project),
-      type,
-      author == user,
-      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
-      )
-    statuses << status unless statuses.empty?
-    statuses << IssueStatus.default if include_default
-    statuses = statuses.uniq.sort
-    blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
 
   # Returns the mail adresses of users that should be notified
@@ -475,18 +453,6 @@ class Issue < WorkPackage
   #   |child|
   def nested_set_span
     rgt - lft
-  end
-
-  # Returns a string of css classes that apply to the issue
-  def css_classes
-    s = "issue status-#{status.position} priority-#{priority.position}"
-    s << ' closed' if closed?
-    s << ' overdue' if overdue?
-    s << ' child' if child?
-    s << ' parent' unless leaf?
-    s << ' created-by-me' if User.current.logged? && author_id == User.current.id
-    s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
-    s
   end
 
   # Saves an issue, time_entry, attachments, and a journal from the parameters
