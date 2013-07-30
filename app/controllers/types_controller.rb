@@ -15,7 +15,7 @@ class TypesController < ApplicationController
 
   layout 'admin'
 
-  before_filter :require_admin, :except => [:index, :paginate_planning_element_types]
+  before_filter :require_admin, :except => [:index, :show, :paginate_planning_element_types]
 
   def index
     @types = Type.order('position')
