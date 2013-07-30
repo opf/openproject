@@ -123,10 +123,11 @@ describe AlternateDate do
       end
 
       it 'is invalid if planning_element is milestone and due_date is not on start_date' do
-        planning_element_type         = FactoryGirl.build(:planning_element_type, :is_milestone => true)
+        type                          = FactoryGirl.build(:type, :is_milestone => true)
         attributes[:start_date]       = Date.today
         attributes[:due_date]         = Date.today + 1.week
-        attributes[:planning_element] = FactoryGirl.build(:planning_element, :planning_element_type => planning_element_type)
+        attributes[:planning_element] = FactoryGirl.build(:planning_element, :type => type)
+
         alternate_date = AlternateDate.new.tap { |ad| ad.send(:assign_attributes, attributes, :without_protection => true) }
 
         alternate_date.should_not be_valid
