@@ -62,6 +62,20 @@ Feature: Membership
      Then I should see "No data to display"
 
   @javascript
+  Scenario: Entering a Username as Member in firstname, lastname order, non impaired
+     When I go to the settings page of the project called "Project1"
+      And I click on "tab-members"
+      And I enter the principal name "Hannibal S"
+      Then I should see "Hannibal Smith"
+
+  @javascript
+  Scenario: Entering a Username as Member in lastname, firstname order, non impaired
+     When I go to the settings page of the project called "Project1"
+      And I click on "tab-members"
+      And I enter the principal name "Smith, H"
+      Then I should see "Hannibal Smith"
+
+  @javascript
   Scenario: Adding and Removing a Group as Member, impaired
      When I am impaired
       And I go to the settings page of the project called "Project1"
@@ -75,6 +89,23 @@ Feature: Membership
       And I wait for the AJAX requests to finish
      Then I should see "No data to display"
 
+@firebug
+@javascript
+  Scenario: Entering a Username as Member in firstname, lastname order, impaired
+     When I am impaired
+      And I go to the settings page of the project called "Project1"
+      And I click on "tab-members"
+      And I enter the principal name "Hannibal S"
+      Then I should see "Hannibal Smith"
+
+  @javascript
+  Scenario: Entering a Username as Member in lastname, firstname order, impaired
+     When I am impaired
+      And I go to the settings page of the project called "Project1"
+      And I click on "tab-members"
+      And I enter the principal name "Smith, H"
+      Then I should see "Hannibal Smith"
+
   @javascript
   Scenario: Adding and removing a User as Member, impaired
      When I am impaired
@@ -87,4 +118,3 @@ Feature: Membership
      When I delete the "Hannibal Smith" membership
       And I wait for the AJAX requests to finish
      Then I should see "No data to display"
-
