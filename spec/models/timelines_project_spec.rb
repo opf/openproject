@@ -274,10 +274,11 @@ describe Project do
   describe '- Creation' do
     describe 'enabled planning elements' do
       describe 'when a new project w/ a project type is created' do
-        it 'gets all types' do
-          type_a = FactoryGirl.create(:type)
-          type_b = FactoryGirl.create(:type)
-          type_c = FactoryGirl.create(:type)
+        it 'gets all default types' do
+          type_a = FactoryGirl.create(:type, is_default: true)
+          type_b = FactoryGirl.create(:type, is_default: true)
+          type_c = FactoryGirl.create(:type, is_default: true)
+          type_x = FactoryGirl.create(:type)
 
           types = [type_a, type_b, type_c]
 
