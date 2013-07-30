@@ -105,6 +105,14 @@ class PermittedParams < Struct.new(:params, :user)
     end
   end
 
+  def type
+    params.require(:type).permit(*self.class.permitted_attributes[:type])
+  end
+
+  def type_move
+    params.require(:type).permit(*self.class.permitted_attributes[:type_move])
+  end
+
   def work_package
     params.require(:work_package).permit(:subject,
                                          :description,
@@ -196,8 +204,16 @@ class PermittedParams < Struct.new(:params, :user)
                                :scenario => [
                                               :name,
                                               :description
-                                            ]
-
+                                            ],
+                               :type => [
+                                          :name,
+                                          :is_in_roadmap,
+                                          :in_aggregation,
+                                          :is_milestone,
+                                          :is_default,
+                                          :color_id
+                                        ],
+                               :type_move => [:move_to]
                             }
   end
 end

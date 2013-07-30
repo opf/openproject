@@ -11,6 +11,10 @@
 
 # change from symbol to constant once namespace is removed
 
-InstanceFinder.register(:planning_element_type, Proc.new { |name| PlanningElementType.find_by_name(name) })
+InstanceFinder.register(:type, Proc.new { |name| Type.find_by_name(name) })
 
-RouteMap.register(PlanningElementType, "/planning_element_types")
+RouteMap.register(Type, "/types")
+
+Then /^I should not see the "([^"]*)" type$/ do |name|
+  page.all(:css, '.timelines-pet-name', :text => name).should be_empty
+end

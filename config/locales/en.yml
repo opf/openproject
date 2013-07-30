@@ -425,6 +425,8 @@ en:
   default_type_bug: "Bug"
   default_type_feature: "Feature"
   default_type_support: "Support"
+  default_type_phase: "Phase"
+  default_type_milestone: "Milestone"
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
@@ -1447,6 +1449,7 @@ en:
     project_association_with_other: "Project dependency between “%{project_a}” and “%{project_b}”"
     project_association_of_type: "Dependency to project of type “%{type}”"
     project_type_could_not_be_saved: "Project type could not be saved"
+    type_could_not_be_saved: "Type could not be saved"
     reporting_could_not_be_saved: "Reporting could not be saved"
     properties: "Properties"
     really_delete_color: >
