@@ -15,7 +15,6 @@ module OpenProject::NestedSet
     def self.included(base)
       base.class_eval do
         skip_callback :create, :before, :set_default_left_and_right
-        before_save :set_parent_id_to_parent_issue_id
         after_save :manage_root_id
         acts_as_nested_set :scope => 'root_id', :dependent => :destroy
 
@@ -48,40 +47,32 @@ module OpenProject::NestedSet
 
       def validate_correct_parent
         # Checks parent issue assignment
-        if @parent_issue
-          if !Setting.cross_project_issue_relations? && @parent_issue.project_id != self.project_id
-            errors.add :parent_issue_id, :not_a_valid_parent
+        if parent
+          if !Setting.cross_project_issue_relations? && parent.project_id != self.project_id
+            errors.add :parent_id, :not_a_valid_parent
           elsif !new_record?
             # moving an existing issue
-            if @parent_issue.root_id != root_id
+            if parent.root_id != root_id
               # we can always move to another tree
-            elsif move_possible?(@parent_issue)
+            elsif move_possible?(parent)
               # move accepted inside tree
             else
-              errors.add :parent_issue_id, :not_a_valid_parent
+              errors.add :parent_id, :not_a_valid_parent
             end
           end
         end
       end
 
       def parent_issue_id=(arg)
-        parent_issue_id = arg.blank? ? nil : arg.to_i
-        if parent_issue_id && @parent_issue = self.class.find_by_id(parent_issue_id)
-          journal_changes["parent_id"] = [self.parent_id, @parent_issue.id]
-          @parent_issue.id
-        else
-          @parent_issue = nil
-          journal_changes["parent_id"] = [self.parent_id, nil]
-          nil
-        end
+        warn "[DEPRECATION] No longer use parent_issue_id= - Use parent_id= instead."
+
+        self.parent_id = arg
       end
 
       def parent_issue_id
-        if instance_variable_defined? :@parent_issue
-          @parent_issue.nil? ? nil : @parent_issue.id
-        else
-          parent_id
-        end
+        warn "[DEPRECATION] No longer use parent_issue_id - Use parent_id instead."
+
+        parent_id
       end
 
       private
@@ -92,13 +83,11 @@ module OpenProject::NestedSet
         elsif parent_id_changed?
           update_root_id
         end
-
-        remove_instance_variable(:@parent_issue) if instance_variable_defined?(:@parent_issue)
       end
 
       def initial_root_id
-        if @parent_issue
-          self.root_id = @parent_issue.root_id
+        if parent_id
+          self.root_id = parent.root_id
         else
           self.root_id = id
         end
@@ -108,7 +97,9 @@ module OpenProject::NestedSet
       end
 
       def update_root_id
-        if !@parent_issue || @parent_issue.root_id != root_id
+        new_root_id = parent_id.nil? ? id : parent.root_id
+
+        if new_root_id != root_id
           # as the following actions depend on the
           # node having current values, we reload them here
           self.reload_nested_set
@@ -118,7 +109,6 @@ module OpenProject::NestedSet
           old_root_id = root_id
           old_rgt = rgt
 
-          new_root_id = @parent_issue.nil? ? id : @parent_issue.root_id
           moved_span = nested_set_span + 1
 
           move_subtree_to_new_set(new_root_id, old_root_id)
@@ -175,11 +165,6 @@ module OpenProject::NestedSet
                                 "ELSE #{quoted_left_column_name} END",
                               ["root_id = ? AND #{quoted_right_column_name} > ?", old_root_id, rgt_offset])
       end
-
-      def set_parent_id_to_parent_issue_id
-        self.parent_id = parent_issue_id
-      end
-
     end
   end
 end

@@ -70,7 +70,7 @@ describe WorkPackage do
 
         before do
           parent.save!
-          instance.parent_issue_id = parent.id
+          instance.parent = parent
 
           instance.save!
         end
@@ -83,7 +83,7 @@ describe WorkPackage do
         before do
           parent.save!
           instance.save!
-          instance.parent_issue_id = parent.id
+          instance.parent = parent
           instance.save!
         end
 
@@ -94,9 +94,9 @@ describe WorkPackage do
 
         before do
           parent.save!
-          instance.parent_issue_id = parent.id
+          instance.parent = parent
           instance.save!
-          instance.parent_issue_id = nil
+          instance.parent_id = nil
           instance.save!
         end
 
@@ -112,10 +112,10 @@ describe WorkPackage do
         before do
           parent.save!
           parent2.save!
-          instance.parent_issue_id = parent2.id
+          instance.parent_id = parent2.id
           instance.save!
 
-          instance.parent_issue_id = parent.id
+          instance.parent = parent
           instance.save!
         end
 
@@ -133,12 +133,12 @@ describe WorkPackage do
 
         before do
           parent.save!
-          instance.parent_issue_id = parent.id
+          instance.parent = parent
           instance.save!
-          other_child.parent_issue_id = parent.id
+          other_child.parent = parent
           other_child.save!
 
-          instance.parent_issue_id = nil
+          instance.parent_id = nil
           instance.save!
         end
 
@@ -178,10 +178,10 @@ describe WorkPackage do
         before do
           parent.save!
           parent2.save!
-          instance.parent_issue_id = parent2.id
+          instance.parent_id = parent2.id
           instance.save!
 
-          instance.parent_issue_id = parent.id
+          instance.parent = parent
           instance.save!
         end
 
@@ -193,15 +193,15 @@ describe WorkPackage do
 
         before do
           parent.save!
-          instance.parent_issue_id = parent.id
+          instance.parent = parent
           instance.save!
-          child.parent_issue_id = instance.id
+          child.parent_id = instance.id
           child.save!
 
           # reloading as instance's nested set attributes (lft, rgt) where
           # updated by adding child to the set
           instance.reload
-          instance.parent_issue_id = nil
+          instance.parent_id = nil
           instance.save!
         end
 
