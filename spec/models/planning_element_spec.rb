@@ -181,8 +181,8 @@ describe PlanningElement do
   describe 'derived attributes' do
     before do
       @pe1  = FactoryGirl.create(:planning_element, :project_id => project.id)
-      @pe11 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_issue_id => @pe1.id)
-      @pe12 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_issue_id => @pe1.id)
+      @pe11 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => @pe1.id)
+      @pe12 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => @pe1.id)
     end
 
     describe 'start_date' do
@@ -603,7 +603,7 @@ describe PlanningElement do
 
     describe 'planning element hierarchies' do
       let(:child_pe) { FactoryGirl.create(:planning_element,
-                                      :parent_issue_id                       => pe.id,
+                                      :parent_id                       => pe.id,
                                       :subject                         => "Plan B",
                                       :description                     => "This will work out",
                                       # interval is the same as parent, so that
@@ -743,7 +743,7 @@ describe PlanningElement do
 
       pe11  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
-                             :parent_issue_id  => @pe1.id,
+                             :parent_id  => @pe1.id,
                              :start_date => Date.new(2011, 1, 1),
                              :due_date   => Date.new(2011, 2, 1))
       update_journal = @pe1.journals.last
@@ -770,17 +770,17 @@ describe PlanningElement do
 
       pe11  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
-                             :parent_issue_id  => @pe1.id,
+                             :parent_id  => @pe1.id,
                              :start_date => nil,
                              :due_date => Date.new(2011, 1, 1))
       pe12  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
-                             :parent_issue_id  => @pe1.id,
+                             :parent_id  => @pe1.id,
                              :start_date => Date.new(2012, 2, 1),
                              :due_date   => Date.new(2012, 6, 1))
       pe13  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
-                             :parent_issue_id  => @pe1.id,
+                             :parent_id  => @pe1.id,
                              :start_date   => Date.new(2013, 2, 1),
                              :due_date => nil)
 
@@ -808,7 +808,7 @@ describe PlanningElement do
                              :project_id => project.id,
                              :start_date => start_date,
                              :due_date   => due_date,
-                             :parent_issue_id  => @pe1.id)
+                             :parent_id  => @pe1.id)
 
       @pe1.reload
 
@@ -827,7 +827,7 @@ describe PlanningElement do
     it 'should not restore child elements whose parent is deleted' do
       pe11  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
-                             :parent_issue_id  => @pe1.id,
+                             :parent_id  => @pe1.id,
                              :start_date => Date.new(2011, 1, 1),
                              :due_date   => Date.new(2011, 2, 1))
       @pe1.reload
@@ -841,7 +841,7 @@ describe PlanningElement do
     it 'should restore elements without touching the children' do
       pe11  = FactoryGirl.create(:planning_element,
                              :project_id => project.id,
-                             :parent_issue_id  => @pe1.id,
+                             :parent_id  => @pe1.id,
                              :start_date => Date.new(2011, 1, 1),
                              :due_date   => Date.new(2011, 2, 1))
 
@@ -859,9 +859,9 @@ describe PlanningElement do
 
     it 'moves all child elements to trash' do
       pe1   = FactoryGirl.create(:planning_element, :project_id => project.id)
-      pe11  = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_issue_id => pe1.id)
-      pe12  = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_issue_id => pe1.id)
-      pe121 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_issue_id => pe12.id)
+      pe11  = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => pe1.id)
+      pe12  = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => pe1.id)
+      pe121 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => pe12.id)
       pe2   = FactoryGirl.create(:planning_element, :project_id => project.id)
 
       pe1.reload
@@ -886,9 +886,9 @@ describe PlanningElement do
 
     it 'destroys all child elements' do
       pe1   = FactoryGirl.create(:planning_element, :project_id => project.id)
-      pe11  = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_issue_id => pe1.id)
-      pe12  = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_issue_id => pe1.id)
-      pe121 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_issue_id => pe12.id)
+      pe11  = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => pe1.id)
+      pe12  = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => pe1.id)
+      pe121 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => pe12.id)
       pe2   = FactoryGirl.create(:planning_element, :project_id => project.id)
 
       pe1.destroy

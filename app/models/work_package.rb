@@ -55,8 +55,10 @@ class WorkPackage < ActiveRecord::Base
   after_save :reschedule_following_issues,
              :update_parent_attributes,
              :create_alternate_date
+
   after_move :remove_invalid_relations,
              :recalculate_attributes_for_former_parent
+
   after_destroy :update_parent_attributes
 
   acts_as_customizable
@@ -169,7 +171,7 @@ class WorkPackage < ActiveRecord::Base
 
     # attributes don't come from form, so it's save to force assign
     self.force_attributes = work_package.attributes.dup.except(*merged_options[:exclude])
-    self.parent_issue_id = work_package.parent_id if work_package.parent_id
+    self.parent_id = work_package.parent_id if work_package.parent_id
     self.custom_field_values = work_package.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = work_package.status
     self
@@ -398,7 +400,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def store_former_parent_id
-    @former_parent_id = (parent_issue_id != parent_id) ? parent_id : false
+    @former_parent_id = parent_id_changed? ? parent_id_was : false
     true # force callback to return true
   end
 

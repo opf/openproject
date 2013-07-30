@@ -131,7 +131,7 @@ class Issue < WorkPackage
 
       if !Setting.cross_project_issue_relations? &&
          parent && parent.project_id != project_id
-        self.parent_issue_id = nil
+        self.parent_id = nil
       end
     end
     if new_type
@@ -205,7 +205,7 @@ class Issue < WorkPackage
 
   safe_attributes 'type_id',
     'status_id',
-    'parent_issue_id',
+    'parent_id',
     'category_id',
     'assigned_to_id',
     'priority_id',
@@ -250,15 +250,15 @@ class Issue < WorkPackage
       end
     end
 
-    if @parent_issue.present?
+    if parent.present?
       attrs.reject! {|k,v| %w(priority_id done_ratio start_date due_date estimated_hours).include?(k)}
     end
 
-    if attrs.has_key?('parent_issue_id')
+    if attrs.has_key?('parent_id')
       if !user.allowed_to?(:manage_subtasks, project)
-        attrs.delete('parent_issue_id')
-      elsif !attrs['parent_issue_id'].blank?
-        attrs.delete('parent_issue_id') unless Issue.visible(user).exists?(attrs['parent_issue_id'].to_i)
+        attrs.delete('parent_id')
+      elsif !attrs['parent_id'].blank?
+        attrs.delete('parent_id') unless Issue.visible(user).exists?(attrs['parent_id'].to_i)
       end
     end
 
@@ -596,11 +596,11 @@ class Issue < WorkPackage
 
       issues.each do |issue|
         # At this point we can not trust nested set methods as the root_id is invalid.
-        # Therefore we trust the parent_issue_id to fetch all ancestors until we find the root
+        # Therefore we trust the parent_id to fetch all ancestors until we find the root
         ancestor = issue
 
-        while ancestor.parent_issue_id do
-          ancestor = known_issue_parents[ancestor.parent_issue_id]
+        while ancestor.parent_id do
+          ancestor = known_issue_parents[ancestor.parent_id]
         end
 
         issues_roots << ancestor

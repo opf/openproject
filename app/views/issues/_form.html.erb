@@ -22,7 +22,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <p><%= f.text_field :subject, :size => 80, :required => true %></p>
 
   <% if User.current.allowed_to?(:manage_subtasks, @project) %>
-    <p id="parent_issue"><%= f.text_field :parent_issue_id, :size => 10, :title => l(:description_autocomplete) %></p>
+    <p id="parent_issue"><%= f.text_field :parent_id, :size => 10, :title => l(:description_autocomplete) %></p>
     <div id="parent_issue_candidates" class="autocomplete"></div>
     <%= javascript_tag "observeParentIssueField('#{issues_auto_complete_path(:id => @issue, :project_id => @project, :escape => false) }')" %>
   <% end %>

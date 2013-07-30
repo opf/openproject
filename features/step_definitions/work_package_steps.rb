@@ -24,7 +24,7 @@ Given /^the work package "(.*?)" has the following children:$/ do |work_package_
   table.raw.flatten.each do |child_subject|
     child = WorkPackage.find_by_subject(child_subject)
 
-    child.parent_issue_id = parent.id
+    child.parent_id = parent.id
 
     child.save
   end
