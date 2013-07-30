@@ -131,10 +131,6 @@ class PlanningElement < WorkPackage
     end
   end
 
-  def is_milestone?
-    planning_element_type && planning_element_type.is_milestone?
-  end
-
   validate do
     if self.due_date and self.start_date and self.due_date < self.start_date
       errors.add :due_date, :greater_than_start_date
@@ -208,29 +204,5 @@ class PlanningElement < WorkPackage
                                      'due_date'   => pe_scenario['due_date']}
       end
     end
-  end
-
-  def trash
-    unless new_record? or self.deleted_at
-      self.children.each{|child| child.trash}
-
-      self.reload
-      self.deleted_at = Time.now
-      self.save!
-    end
-    freeze
-  end
-
-  def restore!
-    unless parent && parent.deleted?
-      self.deleted_at = nil
-      self.save
-    else
-      raise "You cannot restore an element whose parent is deleted. Restore the parent first!"
-    end
-  end
-
-  def deleted?
-    !!read_attribute(:deleted_at)
   end
 end

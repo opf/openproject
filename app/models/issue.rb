@@ -258,7 +258,7 @@ class Issue < WorkPackage
       if !user.allowed_to?(:manage_subtasks, project)
         attrs.delete('parent_id')
       elsif !attrs['parent_id'].blank?
-        attrs.delete('parent_id') unless Issue.visible(user).exists?(attrs['parent_id'].to_i)
+        attrs.delete('parent_id') unless WorkPackage.visible(user).exists?(attrs['parent_id'].to_i)
       end
     end
 
