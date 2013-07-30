@@ -901,7 +901,8 @@ class Project < ActiveRecord::Base
                     project.types.first
                   end
 
-      i.attributes = attributes
+      # TODO: this should not be necessary once StrongParameters are in place
+      i.assign_attributes(attributes, :without_protection => true)
     end
   end
 
