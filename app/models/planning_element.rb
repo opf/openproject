@@ -156,10 +156,6 @@ class PlanningElement < WorkPackage
 
   end
 
-  def leaf?
-    self.children.count == 0
-  end
-
   def all_scenarios
     project.scenarios.sort_by(&:id).map do |scenario|
       alternate_date = alternate_dates.to_a.find { |a| a.scenario_id.to_s == scenario.id.to_s }
