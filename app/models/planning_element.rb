@@ -61,9 +61,6 @@ class PlanningElement < WorkPackage
 
   }
 
-  scope :visible, lambda {|*args| { :include => :project,
-                                          :conditions => PlanningElement.visible_condition(args.first || User.current) } }
-
   scope :at_time, lambda { |time|
     {:select     => SQL_FOR_AT[:select],
      :conditions => ["(#{PlanningElement.quoted_table_name}.deleted_at IS NULL
