@@ -10,13 +10,35 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+
+# When included it adds the nested_set behaviour scoped by the attribute
+# 'root_id'
+#
+# AwesomeNestedSet offers beeing scoped but does not handle inserting and
+# updating with the scoped beeing set right. This module adds this.
+#
+# When beeing scoped, we no longer have one big set over the the entire table
+# but a forest of sets instead.
+#
+# The idea of this extension is to always place the node in the correct set
+# before standard awesome_nested_set does something. This is necessary as all
+# awesome_nested_set methods check for the scope. Operations crossing the
+# border of a set are not supported.
+#
+# One goal of this implementation is to avoid using move_to of
+# awesome_nested_set so that the callbacks defined for move_to (:before_move,
+# :after_move and :around_move) can safely be used.
+
 module OpenProject::NestedSet
   module WithRootIdScope
     def self.included(base)
       base.class_eval do
-        skip_callback :create, :before, :set_default_left_and_right
         after_save :manage_root_id
         acts_as_nested_set :scope => 'root_id', :dependent => :destroy
+
+        # callback from awesome_nested_set
+        # we call it by hand as we have to set the scope first
+        skip_callback :create, :before, :set_default_left_and_right
 
         validate :validate_correct_parent
 
@@ -85,6 +107,11 @@ module OpenProject::NestedSet
         end
       end
 
+      # Places the node in the correct set upon creation.
+      #
+      # If a parent is provided on creation, the new node is placed in the set
+      # of the parent. If no parent is provided, the new node defines it's own
+      # set.
       def initial_root_id
         if parent_id
           self.root_id = parent.root_id
@@ -96,6 +123,12 @@ module OpenProject::NestedSet
         persist_nested_set_attributes
       end
 
+      # Places the node in a new set when necessary, so that it can be assigned
+      # to a different parent.
+      #
+      # This method does nothing if the new parent is within the same set. The
+      # method puts the node and all it's descendants in the set of the
+      # designated parent if the designated parent is within another set.
       def update_root_id
         new_root_id = parent_id.nil? ? id : parent.root_id
 
@@ -111,23 +144,42 @@ module OpenProject::NestedSet
 
           moved_span = nested_set_span + 1
 
-          move_subtree_to_new_set(new_root_id, old_root_id)
+          move_subtree_to_new_set(new_root_id)
           correct_former_set_attributes(old_root_id, moved_span, old_rgt)
         end
       end
 
       def persist_nested_set_attributes
-        self.class.update_all("root_id = #{root_id}, lft = #{lft}, rgt = #{rgt}", ["id = ?", id])
+        self.class.update_all("root_id = #{root_id}, " +
+                              "#{quoted_left_column_name} = #{lft}, " +
+                              "#{quoted_right_column_name} = #{rgt}",
+                              ["id = ?", id])
       end
 
-      def move_subtree_to_new_set(new_root_id, old_root_id)
+      # Moves the node and all it's descendants to the set with the provided
+      # root_id. It does not change the parent/child relationships.
+      #
+      # The subtree is placed to the right of the existing tree. All the
+      # subtree's nodes receive new lft/rgt values that are higher than the
+      # maximum rgt value of the set.
+      #
+      # The set than has two roots. As such this method should only be used
+      # internally and the results should only be persisted for a short time.
+      def move_subtree_to_new_set(new_root_id)
+        old_root_id = self.root_id
         self.root_id = new_root_id
 
         target_maxright = nested_set_scope.maximum(right_column_name) || 0
         offset = target_maxright + 1 - lft
 
-        self.class.update_all("root_id = #{root_id}, lft = lft + #{offset}, rgt = rgt + #{offset}",
-                              ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt])
+        # update all the sutree's nodes. The lft and right values are incremented
+        # by the maximum of the set's right value.
+        self.class.update_all("root_id = #{root_id}, " +
+                              "#{quoted_left_column_name} = lft + #{offset}, " +
+                              "#{quoted_right_column_name} = rgt + #{offset}",
+                              ["root_id = ? AND " +
+                               "#{quoted_left_column_name} >= ? AND " +
+                               "#{quoted_right_column_name} <= ? ", old_root_id, lft, rgt])
 
         self[left_column_name] = lft + offset
         self[right_column_name] = rgt + offset
