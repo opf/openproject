@@ -19,17 +19,31 @@ module Api
       extend Pagination::Controller
       paginate_model ::Api::V2::PlanningElementType
 
+      before_filter :find_optional_project_and_raise_error
+      before_filter :check_project_exists
+
       def index
-        @types = Type.all
+        @types = (@project.nil?) ? Type.all : @project.types
+
         respond_to do |format|
           format.api
         end
       end
 
       def show
-        @type = Type.find(params[:id])
+        @type = (@project.nil?) ? Type.find(params[:id])
+                                : @project.types.find(params[:id])
+
         respond_to do |format|
           format.api
+        end
+      end
+
+      private
+
+      def check_project_exists
+        if params.has_key? :project_id && @project.nil?
+          raise ActiveRecord::RecordNotFound
         end
       end
     end

@@ -140,9 +140,6 @@ class Project < ActiveRecord::Base
   has_many :associated_b_projects, :through => :project_b_associations,
                                              :source  => :project_a
 
-  # has_many :enabled_planning_element_types, :class_name  => "::EnabledPlanningElementType",
-  #                                           :dependent => :delete_all
-
   include TimelinesCollectionProxy
 
   collection_proxy :project_associations, :for => [:project_a_associations,
@@ -249,7 +246,7 @@ class Project < ActiveRecord::Base
       self.enabled_module_names = Setting.default_projects_modules
     end
     if !initialized.key?('types') && !initialized.key?('type_ids')
-      self.types = Type.all
+      self.types = []
     end
   end
 
