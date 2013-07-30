@@ -1106,6 +1106,7 @@ en:
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
 
+  project_module_activity: "Activity"
   project_module_boards: "Forums"
   project_module_calendar: "Calendar"
   project_module_documents: "Documents"
