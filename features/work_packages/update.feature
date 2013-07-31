@@ -56,6 +56,7 @@ Feature: Updating work packages
     When I go to the edit page of the work package called "pe1"
     And I follow "More"
     And I fill in the following:
+      | Type           | Phase2      |
       | Responsible    | the manager |
       | Assignee       | the manager |
       | Start date     | 2013-03-04  |
@@ -65,7 +66,6 @@ Feature: Updating work packages
       | Priority       | prio2       |
       | Status         | status2     |
       | Subject        | New subject |
-      | Type           | Phase2      |
       | Description    | Desc2       |
     And I fill in the id of work package "pe2" into "Parent"
     And I submit the form by the "Submit" button

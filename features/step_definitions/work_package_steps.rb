@@ -53,7 +53,7 @@ end
 When /^I fill in the id of work package "(.+?)" into "(.+?)"$/ do |wp_name, field_name|
   work_package = InstanceFinder.find(WorkPackage, wp_name)
 
-  fill_in(field_name, :with => wp_name)
+  fill_in(field_name, :with => work_package.id)
 end
 
 Then /^the "(.+?)" field should contain the id of work package "(.+?)"$/ do |field_name, wp_name|
