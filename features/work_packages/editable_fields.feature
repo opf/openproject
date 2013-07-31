@@ -21,8 +21,6 @@ Feature: Fields editable on work package edit
       | Name                  |
       | Standard Project      |
     And the project named "ecookbook" is of the type "Standard Project"
-    And the following types are default for projects of type "Standard Project"
-      | Phase |
     And there is an issuepriority with:
       | name | prio1 |
     And the role "manager" may have the following rights:
@@ -30,10 +28,12 @@ Feature: Fields editable on work package edit
       | manage_subtasks    |
     And the project "ecookbook" has 1 version with:
       | name | version1 |
+    And the following types are enabled for projects of type "Standard Project"
+      | Phase |
     And there are the following planning elements in project "ecookbook":
-      | subject  | description     | start_date | due_date   | done_ratio | planning_element_type | responsible | assigned_to | priority | parent   | estimated_hours | fixed_version |
-      | parentpe |                 |            |            | 0          | Phase                 |             |             | prio1    |          |                 |               |
-      | pe1      | pe1 description | 2013-01-01 | 2013-12-31 | 30         | Phase                 | manager     | manager     | prio1    | parentpe | 5               | version1      |
+      | subject  | description     | start_date | due_date   | done_ratio | type  | responsible | assigned_to | priority | parent   | estimated_hours | fixed_version |
+      | parentpe |                 |            |            | 0          | Phase |             |             | prio1    |          |                 |               |
+      | pe1      | pe1 description | 2013-01-01 | 2013-12-31 | 30         | Phase | manager     | manager     | prio1    | parentpe | 5               | version1      |
 
     When I go to the edit page of the work package called "pe1"
     And I follow "More"
