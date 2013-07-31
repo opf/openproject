@@ -37,18 +37,29 @@ class WorkPackages::MovesController < ApplicationController
           unsaved_work_package_ids << work_package.id
         end
       end
-      set_flash_from_bulk_issue_save(@work_packages, unsaved_work_package_ids)
+      set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_package_ids)
 
       if params[:follow]
         if @work_packages.size == 1 && moved_work_packages.size == 1
           redirect_to work_package_path(moved_work_packages.first)
         else
-          redirect_to project_work_packages_path(@target_project || @project)
+          redirect_to project_issues_path(@target_project || @project)
         end
       else
-        redirect_to project_work_packages_path(@project)
+        redirect_to project_issues_path(@project)
       end
       return
+    end
+  end
+
+  def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_package_ids)
+    if unsaved_work_package_ids.empty? and not work_packages.empty?
+      flash[:notice] = (@copy) ? l(:notice_successful_create) : l(:notice_successful_update)
+    else
+      flash[:error] = l(:notice_failed_to_save_issues,
+                        :count => unsaved_work_package_ids.size,
+                        :total => work_packages.size,
+                        :ids => '#' + unsaved_work_package_ids.join(', #'))
     end
   end
 
