@@ -16,20 +16,20 @@ Feature: Updating work packages
       | login     | manager |
       | firstname | the     |
       | lastname  | manager |
-    And there are the following planning element types:
+    And there are the following types:
       | Name      |
       | Phase1    |
       | Phase2    |
     And there are the following project types:
       | Name                  |
       | Standard Project      |
-    And the following planning element types are default for projects of type "Standard Project"
-      | Phase1 |
-      | Phase2 |
     And there is 1 project with the following:
       | identifier | ecookbook |
       | name       | ecookbook |
     And the project named "ecookbook" is of the type "Standard Project"
+    And the following types are enabledfor projects of type "Standard Project"
+      | Phase1 |
+      | Phase2 |
     And there is a role "manager"
     And the role "manager" may have the following rights:
       | edit_work_packages |
@@ -67,8 +67,7 @@ Feature: Updating work packages
       | Subject        | New subject |
       | Type           | Phase2      |
       | Description    | Desc2       |
-    # Nested set is broken right now for planning elements
-    #And I fill in the id of work package "pe2" into "Parent"
+    And I fill in the id of work package "pe2" into "Parent"
     And I submit the form by the "Submit" button
 
     Then I should be on the page of the work package "New subject"
@@ -84,7 +83,7 @@ Feature: Updating work packages
       | Subject        | New subject |
       | Type           | Phase2      |
       | Description    | Desc2       |
-    #And the work package "pe2" should be shown as the parent
+    And the work package "pe2" should be shown as the parent
 
   Scenario: Adding a note
     When I go to the edit page of the work package called "pe1"

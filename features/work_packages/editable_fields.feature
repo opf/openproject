@@ -14,15 +14,15 @@ Feature: Fields editable on work package edit
 
   @javascript
   Scenario: Going to the page and viewing all the fields
-    Given there are the following planning element types:
+    Given there are the following types:
       | Name      | Is Milestone | In aggregation |
       | Phase     | false        | true           |
     And there are the following project types:
       | Name                  |
       | Standard Project      |
-    And the following planning element types are default for projects of type "Standard Project"
-      | Phase |
     And the project named "ecookbook" is of the type "Standard Project"
+    And the following types are default for projects of type "Standard Project"
+      | Phase |
     And there is an issuepriority with:
       | name | prio1 |
     And the role "manager" may have the following rights:

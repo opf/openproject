@@ -11,7 +11,7 @@
 
 # change from symbol to constant once namespace is removed
 
-InstanceFinder.register(:type, Proc.new { |name| Type.find_by_name(name) })
+InstanceFinder.register(Type, Proc.new { |name| Type.find_by_name(name) })
 
 RouteMap.register(Type, "/types")
 

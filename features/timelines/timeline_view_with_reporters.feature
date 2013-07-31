@@ -68,11 +68,11 @@ Feature: Timeline View Tests with reporters
           | timelines |
 
       And there are the following planning elements:
-        | Subject  | Start date | Due date   | description       | planning_element_status | responsible    | planning element type |
-        | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed                  | manager        | Phase1                |
-        | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed                  | manager        | Phase2                |
-        | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed                  | manager        | Phase3                |
-        | April    | 2012-04-01 | 2012-04-30 | Aioli Sali Grande | closed                  | manager        | Phase4                |
+        | Subject  | Start date | Due date   | description       | planning_element_status | responsible | type   |
+        | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed                  | manager     | Phase1 |
+        | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed                  | manager     | Phase2 |
+        | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed                  | manager     | Phase3 |
+        | April    | 2012-04-01 | 2012-04-30 | Aioli Sali Grande | closed                  | manager     | Phase4 |
 
 
       And there is a project named "ecookbook13" of type "Standard Project"
@@ -170,7 +170,7 @@ Feature: Timeline View Tests with reporters
       And the project "ecookbookQ3" should follow after "ecookbook0"
 
   @javascript
-  Scenario: Filter projects by planning element type and timeframe
+  Scenario: Filter projects by type and timeframe
      Given I am working in the timeline "Testline" of the project called "ürm"
      When there is a timeline "Testline" for project "ürm"
       And I show only projects which have a planning element which lies between "2012-02-01" and "2012-02-31" and has the type "Phase2"
