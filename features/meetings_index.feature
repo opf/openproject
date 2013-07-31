@@ -48,8 +48,6 @@ Feature: Show existing meetings
         And I click on "Meetings"
        Then I should see "Meetings" within "#content"
         But I should not see "No data to display" within "#content"
-        # Die Reihenfolge der Meetings muss überprüft werden
-        # jedes meeting generiert 2 Tags mit der Klasse meeting
         And I should see 4 meetings
 
   Scenario: Lots of Meetings are split into pages

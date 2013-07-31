@@ -35,7 +35,7 @@ en:
   permission_close_meeting_agendas: "Close agendas"
   permission_send_meeting_agendas_notification: "Send review notification for agendas"
   permission_create_meeting_minutes: "Manage minutes"
-  permission_send_meeting_minutess_notification: "Send review notification for minutes"
+  permission_send_meeting_minutes_notification: "Send review notification for minutes"
 
   project_module_meetings: "Meetings"
 
