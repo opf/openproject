@@ -57,4 +57,8 @@ When /^I delete "([^"]*)" from the group$/ do |login|
   step %Q(I follow "Delete" within "#user-#{user.id}")
 end
 
+Given /^We have the group "(.*?)"/ do |name|
+  group = FactoryGirl.create(:group, :lastname => name)
+end
+
 InstanceFinder.register(Group, Proc.new{ |name| Group.find_by_lastname(name) })
