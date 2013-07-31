@@ -302,6 +302,9 @@ OpenProject::Application.routes.draw do
     get :new_type, :on => :member
 
     resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
+
+    resources :time_entries, :controller => 'timelog',
+                             :only => [:new]
   end
 
   resources :versions, :only => [:show, :edit, :update, :destroy] do
