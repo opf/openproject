@@ -129,7 +129,7 @@ class Setting < ActiveRecord::Base
   def self.[]=(name, v)
     setting = find_or_default(name)
     setting.value = (v ? v : "")
-    Rails.cache.delete_matched(Regexp.compile(base_cache_key(name, '.+')))
+    Rails.cache.delete(cache_key(name))
     setting.save
     setting.value
   end
