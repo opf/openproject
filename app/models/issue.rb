@@ -586,22 +586,6 @@ class Issue < WorkPackage
   end
   # End ReportsController extraction
 
-  # Returns an array of projects that current user can move issues to
-  def self.allowed_target_projects_on_move
-    projects = []
-    if User.current.admin?
-      # admin is allowed to move issues to any active (visible) project
-      projects = Project.visible.all
-    elsif User.current.logged?
-      if Role.non_member.allowed_to?(:move_issues)
-        projects = Project.visible.all
-      else
-        User.current.memberships.each {|m| projects << m.project if m.roles.detect {|r| r.allowed_to?(:move_issues)}}
-      end
-    end
-    projects
-  end
-
   # method from acts_as_nested_set
   def self.valid?
     super && invalid_root_ids.empty?

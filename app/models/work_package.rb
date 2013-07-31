@@ -333,4 +333,20 @@ class WorkPackage < ActiveRecord::Base
     Setting.issue_done_ratio == 'issue_status'
   end
 
+  # Returns an array of projects that current user can move issues to
+  def self.allowed_target_projects_on_move
+    projects = []
+    if User.current.admin?
+      # admin is allowed to move issues to any active (visible) project
+      projects = Project.visible.all
+    elsif User.current.logged?
+      if Role.non_member.allowed_to?(:move_work_packages)
+        projects = Project.visible.all
+      else
+        User.current.memberships.each {|m| projects << m.project if m.roles.detect {|r| r.allowed_to?(:move_work_packages)}}
+      end
+    end
+    projects
+  end
+
 end
