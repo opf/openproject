@@ -114,37 +114,38 @@ module ApplicationHelper
     l(('status_' + user.status_name).to_sym)
   end
 
-  # Displays a link to +issue+ with its subject.
+  # Displays a link to +work_package+ with its subject.
   # Examples:
   #
-  #   link_to_issue(issue)                        # => Defect #6: This is the subject
-  #   link_to_issue(issue, :truncate => 6)        # => Defect #6: This i...
-  #   link_to_issue(issue, :subject => false)     # => Defect #6
-  #   link_to_issue(issue, :project => true)      # => Foo - Defect #6
-  #
-  def link_to_issue(issue, options={})
+  #   link_to_work_package(package)                        # => Defect #6: This is the subject
+  #   link_to_work_package(package, :truncate => 6)        # => Defect #6: This i...
+  #   link_to_work_package(package, :subject => false)     # => Defect #6
+  #   link_to_work_package(package, :project => true)      # => Foo - Defect #6
+  def link_to_work_package(package, options = {})
     title = nil
     subject = nil
     if options[:subject] == false
-      title = truncate(issue.subject, :length => 60)
+      title = truncate(package.subject, :length => 60)
     else
-      subject = issue.subject
+      subject = package.subject
       if options[:truncate]
         subject = truncate(subject, :length => options[:truncate])
       end
     end
-    closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
+    closed = package.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
     s = ActiveSupport::SafeBuffer.new
-    s << "#{issue.project} - " if options[:project]
-    s << link_to("#{closed}#{h(options[:before_text].to_s)}#{(issue.kind.nil?) ? '' : h(issue.kind.name)} ##{issue.id}".html_safe,
-                work_package_path(issue),
+    s << "#{package.project} - " if options[:project]
+    s << link_to("#{closed}#{h(options[:before_text].to_s)}#{(package.kind.nil?) ? '' : h(package.kind.name)} ##{package.id}".html_safe,
+                work_package_path(package),
                 :title => h(title))
     s << ": #{subject}" if subject
     s
   end
 
-  def link_to_work_package(work_package)
-    link_to_issue work_package
+  def link_to_issue(issue, options={})
+    warn "[DEPRECATION] link_to_issue will be removed - use link_to_work_package instead.\n" +
+         "Called from: #{caller[0]}"
+    link_to_work_package(issue, options)
   end
 
   # Generates a link to an attachment.
