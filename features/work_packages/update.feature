@@ -17,9 +17,9 @@ Feature: Updating work packages
       | firstname | the     |
       | lastname  | manager |
     And there are the following types:
-      | Name      |
-      | Phase1    |
-      | Phase2    |
+      | Name   | Is milestone |
+      | Phase1 | false        |
+      | Phase2 | false        |
     And there are the following project types:
       | Name                  |
       | Standard Project      |
