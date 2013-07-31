@@ -10,33 +10,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= fields_for :work_package, work_package, :builder => TabularFormBuilder do |f| %>
-  <% attributes = work_package_form_two_column_attributes(f, work_package,
-                                                             :priorities => priorities,
-                                                             :project => project) %>
+<% attributes = work_package_form_all_middle_attributes(f, work_package,
+                                                           :priorities => priorities,
+                                                           :project => project,
+                                                           :user => user) %>
 
-  <% left_attributes, right_attributes = attributes.in_groups(2, false) %>
-
-  <div class="splitcontentleft">
-     <% left_attributes.each do |attribute| %>
-
-      <p>
-        <%= attribute.field %>
-      </p>
-
-    <% end %>
-  </div>
-
-  <div class="splitcontentright">
-     <% right_attributes.each do |attribute| %>
-
-      <p>
-        <%= attribute.field %>
-      </p>
-
-    <% end %>
-  </div>
-
-  <div style="clear:both;"> </div>
-  <%= render :partial => 'form_custom_fields', :locals => { :work_package => work_package } %>
-<% end %>
+<%= render :partial => "two_column_attributes", :locals => { :attributes => attributes } %>

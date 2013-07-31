@@ -74,7 +74,7 @@ module WorkPackagesHelper
 
   WorkPackageAttribute = Struct.new(:attribute, :field)
 
-  def work_package_form_two_column_attributes(form, work_package, locals = {})
+  def work_package_form_all_middle_attributes(form, work_package, locals = {})
     [
       work_package_form_status_attribute(form, work_package, locals),
       work_package_form_priority_attribute(form, work_package, locals),
@@ -86,7 +86,17 @@ module WorkPackagesHelper
       work_package_form_due_date_attribute(form, work_package, locals),
       work_package_form_estimated_hours_attribute(form, work_package, locals),
       work_package_form_done_ratio_attribute(form, work_package, locals),
-    ].compact
+      work_package_form_custom_values_attribute(form, work_package, locals)
+    ].flatten.compact
+  end
+
+  def work_package_form_minimal_middle_attributes(form, work_package, locals = {})
+    [
+      work_package_form_status_attribute(form, work_package, locals),
+      work_package_form_assignee_attribute(form, work_package, locals),
+      work_package_form_assignable_versions_attribute(form, work_package, locals),
+      work_package_form_done_ratio_attribute(form, work_package, locals),
+    ].flatten.compact
   end
 
   def work_package_form_top_attributes(form, work_package, locals = {})
@@ -188,8 +198,7 @@ module WorkPackagesHelper
 
   def work_package_show_spent_time_attribute(work_package)
     work_package_show_table_row(:spent_time) do
-      #This check can be removed as soon as spent_hours is part of work_package and not Issue
-      work_package.respond_to?(:spent_hours) && work_package.spent_hours > 0 ?
+      work_package.spent_hours > 0 ?
         link_to(l_hours(work_package.spent_hours), issue_time_entries_path(work_package)) :
         "-"
     end
@@ -215,7 +224,11 @@ module WorkPackagesHelper
     if work_package.is_a?(Issue)
       field = form.select :type_id, locals[:project].types.collect {|t| [t.name, t.id]}, :required => true
 
-      field += observe_field :work_package_type_id, :url => new_type_project_work_packages_path(locals[:project]),
+      url = work_package.new_record? ?
+             new_type_project_work_packages_path(locals[:project]) :
+             new_type_work_package_path(work_package)
+
+      field += observe_field :work_package_type_id, :url => url,
                                                     :update => :attributes,
                                                     :method => :get,
                                                     :with => "Form.serialize('work_package-form')"
@@ -241,7 +254,7 @@ module WorkPackagesHelper
   def work_package_form_parent_attribute(form, work_package, locals = {})
     if User.current.allowed_to?(:manage_subtasks, locals[:project])
       field = if work_package.is_a?(Issue)
-                form.text_field :parent_issue_id, :size => 10, :title => l(:description_autocomplete)
+                form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
               else
                 form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
               end
@@ -264,17 +277,17 @@ module WorkPackagesHelper
   end
 
   def work_package_form_status_attribute(form, work_package, locals = {})
-    if work_package.is_a?(Issue)
-      allowed = work_package.new_statuses_allowed_to(User.current, true)
+    new_statuses = work_package.new_statuses_allowed_to(locals[:user], true)
 
-      field = if allowed.any?
-                form.select(:status_id, (allowed.map {|p| [p.name, p.id]}), :required => true)
-              else
-                form.label(:status) + work_package.status.name
-              end
+    field = if new_statuses.any?
+              form.select(:status_id, (new_statuses.map {|p| [p.name, p.id]}), :required => true)
+            elsif work_package.status
+              form.label(:status) + work_package.status.name
+            else
+              form.label(:status) + "-"
+            end
 
-      WorkPackageAttribute.new(:status, field)
-    end
+    WorkPackageAttribute.new(:status, field)
   end
 
   def work_package_form_priority_attribute(form, work_package, locals = {})
@@ -338,12 +351,14 @@ module WorkPackagesHelper
   end
 
   def work_package_form_estimated_hours_attribute(form, work_package, locals = {})
-    estimated_hours_field = form.text_field :estimated_hours,
-                                            :size => 3,
-                                            :disabled => attrib_disabled?(work_package, 'estimated_hours')
-    estimated_hours_field += TimeEntry.human_attribute_name(:hours)
+    field = form.text_field :estimated_hours,
+                            :size => 3,
+                            :disabled => attrib_disabled?(work_package, 'estimated_hours'),
+                            :value => number_with_precision(work_package.estimated_hours, :precision => 2)
 
-    WorkPackageAttribute.new(:estimated_hours, estimated_hours_field)
+    field += TimeEntry.human_attribute_name(:hours)
+
+    WorkPackageAttribute.new(:estimated_hours, field)
   end
 
   def work_package_form_done_ratio_attribute(form, work_package, locals = {})
@@ -352,6 +367,14 @@ module WorkPackagesHelper
       field = form.select(:done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }))
 
       WorkPackageAttribute.new(:done_ratio, field)
+    end
+  end
+
+  def work_package_form_custom_values_attribute(form, work_package, locals = {})
+    work_package.custom_field_values.map do |value|
+      field = custom_field_tag_with_label :work_package, value
+
+      WorkPackageAttribute.new(:"work_package_#{value.id}", field)
     end
   end
 end

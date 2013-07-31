@@ -72,8 +72,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="splitcontentright">
 <% if @project && User.current.allowed_to?(:manage_subtasks, @project) %>
 <p>
-	<label for='issue_parent_issue_id'><%= Issue.human_attribute_name(:parent_issue) %></label>
-	<%= text_field_tag 'issue[parent_issue_id]', '', :size => 10 %>
+	<label for='issue_parent_id'><%= Issue.human_attribute_name(:parent_issue) %></label>
+	<%= text_field_tag 'issue[parent_id]', '', :size => 10 %>
 </p>
 <div id="parent_issue_candidates" class="autocomplete"></div>
 <%= javascript_tag "observeParentIssueField('#{issues_auto_complete_path }')" %>

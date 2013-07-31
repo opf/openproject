@@ -110,10 +110,6 @@ module Redmine::Acts::Journalized
 
         fill_object = self.class.new
 
-        # The parent id is set via awesome_nested set
-        # we need to use the correct accessor which is 'parent_issue_id' for issues
-        initial_changes["parent_issue_id"] = initial_changes.delete("parent_id") if self.class == Issue and initial_changes.has_key?("parent_id")
-
         # Force the gathered attributes onto the fill object
         # FIX ME: why not just call the method directly on fill_object?
         attributes_setter = ActiveRecord::Base.instance_method(:assign_attributes)

@@ -88,12 +88,18 @@ end
 #     | Note           | Nice guy   |
 #     | Wants Email?   |            |
 #
-# TODO: Add support for checkbox, select or option
+# TODO: Add support for checkbox and option
 # based on naming conventions.
 #
 When /^(?:|I )fill in the following:$/ do |fields|
   fields.rows_hash.each do |name, value|
-    step(%{I fill in "#{name}" with "#{value}"})
+    field = find_field(name)
+
+    if field.tag_name == "select"
+      step(%{I select "#{value}" from "#{name}"})
+    else
+      step(%{I fill in "#{name}" with "#{value}"})
+    end
   end
 end
 

@@ -877,7 +877,7 @@ class Project < ActiveRecord::Base
     list
   end
 
-  # TODO: merge with add_issue once type or similar is defined there and safe_attributes is removed
+  # TODO: merge with add_issue once type or similar is defined there
   def add_planning_element(attributes = {})
     attributes ||= {}
 
@@ -886,7 +886,7 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # TODO: merge with add_planning_elemement once type or similar is defined there and safe_attributes is removed
+  # TODO: merge with add_planning_elemement once type or similar is defined there
   def add_issue(attributes = {})
     attributes ||= {}
 
@@ -901,8 +901,7 @@ class Project < ActiveRecord::Base
                     project.types.first
                   end
 
-      # TODO: this should not be necessary once StrongParameters are in place
-      i.assign_attributes(attributes, :without_protection => true)
+      i.attributes = attributes
     end
   end
 
@@ -977,7 +976,7 @@ class Project < ActiveRecord::Base
       # Parent issue
       if issue.parent_id
         if copied_parent = work_packages_map[issue.parent_id]
-          new_issue.parent_issue_id = copied_parent.id
+          new_issue.parent_id = copied_parent.id
         end
       end
 
