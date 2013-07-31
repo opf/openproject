@@ -1,5 +1,18 @@
 # German strings go here for Rails i18n
 de:
+  activerecord:
+    attributes:
+      meeting:
+        duration: "Dauer"
+        location: "Ort/Raum"
+        participants: "Teilnehmer"
+        participants_attended: "Anwesend"
+        participants_invited: "Eingeladen"
+        start_time: "Anfangszeit"
+
+  description_attended: "teilgenommen"
+  description_invite: "eingeladen"
+
   label_meeting: "Besprechung"
   label_meeting_plural: "Besprechungen"
   label_meeting_new: "Neue Besprechung"
@@ -8,13 +21,12 @@ de:
   label_meeting_close: "Schließen"
   label_meeting_open: "Öffnen"
   label_meeting_agenda_close: "Agenda schließen um mit dem Protokoll zu beginnen"
-  label_notify: "Zur Einsicht verschicken"
   label_meeting_date_time: "Datum/Uhrzeit"
-  field_participants: "Teilnehmer"
-  field_participants_invited: "Eingeladen"
-  field_participants_attended: "Anwesend"
-  field_start_time: "Anfangszeit"
-  project_module_meetings: "Besprechungen"
+  label_notify: "Zur Einsicht verschicken"
+
+  notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
+  notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, clicken Sie bitte hier.
+
   permission_create_meetings: "Besprechungen erstellen"
   permission_edit_meetings: "Besprechungen bearbeiten"
   permission_delete_meetings: "Besprechungen löschen"
@@ -24,20 +36,12 @@ de:
   permission_send_meeting_agendas_notification: "Benachrichtigungen für Agenden verschicken"
   permission_create_meeting_minutes: "Protokolle anlegen/bearbeiten"
   permission_send_meeting_minutess_notification: "Benachrichtigungen für Protokolle verschicken"
+
+  project_module_meetings: "Besprechungen"
+
+  text_agenda_for_meeting: 'Agenda für die Besprechung "%{meeting}"'
   text_in_hours: "in Stunden"
   text_meeting_agenda_open_are_you_sure: "Nicht-gespeicherte Inhalte des Protokolls werden durch diese Aktion verworfen! Weitermachen?"
-  text_review_meeting_agenda: "%{author} hat die %{link} zur Einsicht freigegeben:"
-  text_agenda_for_meeting: 'Agenda für die Besprechung "%{meeting}"'
-  text_review_meeting_minutes: "%{author} hat das %{link} zur Einsicht freigegeben:"
   text_minutes_for_meeting: 'Protokoll für die Besprechungen "%{meeting}"'
-  notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
-  description_invite: eingeladen
-  description_attended: teilgenommen
-
-  activerecord:
-    attributes:
-      meeting:
-        location: "Ort/Raum"
-        duration: "Dauer"
-
-  notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, clicken Sie bitte hier.
+  text_review_meeting_agenda: "%{author} hat die %{link} zur Einsicht freigegeben:"
+  text_review_meeting_minutes: "%{author} hat das %{link} zur Einsicht freigegeben:"

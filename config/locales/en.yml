@@ -1,5 +1,18 @@
 # English strings go here for Rails i18n
 en:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Location"
+        duration: "Duration"
+        participants: "Participants"
+        participants_attended: "Attendants"
+        participants_invited: "Invitees"
+        start_time: "Time"
+
+  description_attended: "attended"
+  description_invite: "invited"
+
   label_meeting: "Meeting"
   label_meeting_plural: "Meetings"
   label_meeting_new: "New Meeting"
@@ -8,13 +21,12 @@ en:
   label_meeting_close: "Close"
   label_meeting_open: "Open"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
-  label_notify: "Send for review"
   label_meeting_date_time: "Date/Time"
-  field_participants: "Participants"
-  field_participants_invited: "Invitees"
-  field_participants_attended: "Attendants"
-  field_start_time: "Time"
-  project_module_meetings: "Meetings"
+  label_notify: "Send for review"
+
+  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
+  notice_successful_notification: "Notification sent successfully"
+
   permission_create_meetings: "Create meetings"
   permission_edit_meetings: "Edit meetings"
   permission_delete_meetings: "Delete meetings"
@@ -24,20 +36,12 @@ en:
   permission_send_meeting_agendas_notification: "Send review notification for agendas"
   permission_create_meeting_minutes: "Manage minutes"
   permission_send_meeting_minutess_notification: "Send review notification for minutes"
+
+  project_module_meetings: "Meetings"
+
+  text_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
   text_in_hours: "in hours"
   text_meeting_agenda_open_are_you_sure: "Unsaved content in the minutes will be lost! Continue?"
-  text_review_meeting_agenda: "%{author} has put the %{link} up for review:"
-  text_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
-  text_review_meeting_minutes: "%{author} has put the %{link} up for review:"
   text_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
-  notice_successful_notification: "Notification sent successfully"
-  description_invite: invited
-  description_attended: attended
-
-  activerecord:
-    attributes:
-      meeting:
-        location: "Location"
-        duration: "Duration"
-
-  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
+  text_review_meeting_agenda: "%{author} has put the %{link} up for review:"
+  text_review_meeting_minutes: "%{author} has put the %{link} up for review:"

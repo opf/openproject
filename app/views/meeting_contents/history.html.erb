@@ -20,9 +20,9 @@ See doc/COPYRIGHT.rdoc for more details.
     <th>#</th>
     <th></th>
     <th></th>
-    <th><%= l(:field_updated_on) %></th>
-    <th><%= l(:field_author) %></th>
-    <th><%= l(:field_comments) %></th>
+    <th><%= Meeting.human_attribute_name(:updated_on) %></th>
+    <th><%= Meeting.human_attribute_name(:author) %></th>
+    <th><%= Meeting.human_attribute_name(:comments) %></th>
 </tr></thead>
 <tbody>
 <% show_diff = @content_versions.size > 1 %>
