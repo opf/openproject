@@ -43,11 +43,11 @@ module ObjectDaddyHelpers
     query
   end
 
-  # Generate an issue for a project, using it's trackers
+  # Generate an issue for a project, using it's types
   def Issue.generate_for_project!(project, attributes={})
     issue = Issue.spawn(attributes) do |issue|
       issue.project = project
-      issue.tracker = project.trackers.first unless project.trackers.empty?
+      issue.type = project.types.first unless project.types.empty?
       yield issue if block_given?
     end
     issue.save!

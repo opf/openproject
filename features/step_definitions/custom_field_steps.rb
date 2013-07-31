@@ -14,8 +14,8 @@
   RouteMap.register(const, "/custom_fields")
 end
 
-Given /^the following (user|issue) custom fields are defined:$/ do |type, table|
-  type = (type + "_custom_field").to_sym
+Given /^the following (user|issue|work package) custom fields are defined:$/ do |type, table|
+  type = (type.gsub(" ", "_") + "_custom_field").to_sym
 
   as_admin do
     table.hashes.each_with_index do |r, i|
@@ -43,6 +43,14 @@ Given /^the user "(.+?)" has the user custom field "(.+?)" set to "(.+?)"$/ do |
   user.save!
 end
 
+Given /^the work package "(.+?)" has the custom field "(.+?)" set to "(.+?)"$/ do |wp_name, field_name, value|
+  wp = InstanceFinder.find(WorkPackage, wp_name)
+  custom_field = InstanceFinder.find(WorkPackageCustomField, field_name)
+
+  wp.custom_values.build(:custom_field => custom_field, :value => value)
+  wp.save!
+end
+
 Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|
   custom_field = WorkPackageCustomField.find_by_name(field_name)
 
@@ -51,10 +59,10 @@ Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|
                                           Setting.issue_list_summable_columns << "cf_#{custom_field.id}"
 end
 
-Given /^the custom field "(.*?)" is activated for tracker "(.*?)"$/ do |field_name, tracker_name|
+Given /^the custom field "(.*?)" is activated for type "(.*?)"$/ do |field_name, type_name|
   custom_field = WorkPackageCustomField.find_by_name(field_name)
-  tracker = Tracker.find_by_name(tracker_name)
-  custom_field.trackers << tracker
+  type = Type.find_by_name(type_name)
+  custom_field.types << type
 end
 
 Given /^there are no custom fields$/ do

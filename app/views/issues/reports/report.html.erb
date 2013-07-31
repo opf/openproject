@@ -14,7 +14,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="splitcontentleft">
 <%
-{ 'tracker' => { :rows => @trackers, :data => @issues_by_tracker, :name => "tracker_id" },
+{ 'type' => { :rows => @types, :data => @issues_by_type, :name => "type_id" },
   'priority' => { :rows => @priorities, :data => @issues_by_priority, :name => "priority_id" },
   'assigned_to' => { :rows => @assignees, :data => @issues_by_assigned_to, :name => "assigned_to_id" },
   'author' => { :rows => @authors, :data => @issues_by_author, :name => "author_id" }

@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require 'spec_helper'
 
 describe SystemUser do
@@ -37,14 +48,14 @@ describe SystemUser do
   end
 
   describe '#run_given' do
-    let(:project) { FactoryGirl.create(:project_with_trackers, :is_public => false) }
+    let(:project) { FactoryGirl.create(:project_with_types, :is_public => false) }
     let(:user) { FactoryGirl.build(:user) }
     let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_packages]) }
     let(:member) { FactoryGirl.build(:member, :project => project,
                                               :roles => [role],
                                               :principal => user) }
     let(:issue_status) { FactoryGirl.create(:issue_status) }
-    let(:issue) { FactoryGirl.build(:issue, :tracker => project.trackers.first,
+    let(:issue) { FactoryGirl.build(:issue, :type => project.types.first,
                                             :author => user,
                                             :project => project,
                                             :status => issue_status) }

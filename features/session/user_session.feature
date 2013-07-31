@@ -47,3 +47,13 @@ Feature: User session
     And I wait for "4" minutes
     And I go to the home page
     Then I should be logged in as "bob"
+
+  Scenario: A blocked user cannot log in
+    Given there is 1 user with the following:
+      | login                 | blocked_user |
+      | password              | iamblocked   |
+      | password_confirmation | iamblocked   |
+    And the user "blocked_user" is locked
+    When I login as blocked_user with password iamblocked
+    Then there should be a flash error message
+    And the flash message should contain "Invalid user or password"

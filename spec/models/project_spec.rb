@@ -51,7 +51,7 @@ describe Project do
   end
 
   describe "add_planning_element" do
-    let(:project) { FactoryGirl.create(:project_with_trackers) }
+    let(:project) { FactoryGirl.create(:project_with_types) }
 
     it 'should return a work package' do
       project.add_planning_element.should be_a(PlanningElement)
@@ -79,7 +79,7 @@ describe Project do
   end
 
   describe "add_issue" do
-    let(:project) { FactoryGirl.create(:project_with_trackers) }
+    let(:project) { FactoryGirl.create(:project_with_types) }
 
     it "should return a new issue" do
       project.add_issue.should be_a(Issue)
@@ -93,38 +93,37 @@ describe Project do
       project.add_issue.project.should == project
     end
 
-    it "returned issue should have tracker set to project's first tracker" do
-      project.add_issue.tracker.should == project.trackers.first
+    it "returned issue should have type set to project's first type" do
+      project.add_issue.type.should == project.types.first
     end
 
-    it "returned issue should have tracker set to provided tracker" do
-      specific_tracker = FactoryGirl.build(:tracker)
-      project.trackers << specific_tracker
+    it "returned issue should have type set to provided type" do
+      specific_type = FactoryGirl.build(:type)
+      project.types << specific_type
 
-      project.add_issue(:tracker => specific_tracker).tracker.should == specific_tracker
+      project.add_issue(:type => specific_type).type.should == specific_type
     end
 
-    it "should raise an error if the provided tracker is not one of the project's trackers" do
-      # Load project first so that the new tracker is not automatically included
+    it "should raise an error if the provided type is not one of the project's types" do
+      # Load project first so that the new type is not automatically included
       project
-      specific_tracker = FactoryGirl.create(:tracker)
+      specific_type = FactoryGirl.create(:type)
 
-      expect { project.add_issue(:tracker => specific_tracker) }.to raise_error ActiveRecord::RecordNotFound
+      expect { project.add_issue(:type => specific_type) }.to raise_error ActiveRecord::RecordNotFound
     end
 
-    it "returned issue should have tracker set to provided tracker_id" do
-      specific_tracker = FactoryGirl.build(:tracker)
-      project.trackers << specific_tracker
+    it "returned issue should have type set to provided type_id" do
+      specific_type = FactoryGirl.build(:type)
+      project.types << specific_type
 
-      project.add_issue(:tracker_id => specific_tracker.id).tracker.should == specific_tracker
+      project.add_issue(:type_id => specific_type.id).type.should == specific_type
     end
 
-    it "should call safe_attributes to override all the other attributes" do
-      # TODO: replace once StrongParameters is in place
+    it "should set all the other attributes" do
       attributes = { :blubs => double('blubs') }
 
       new_issue = FactoryGirl.build_stubbed(:issue)
-      new_issue.should_receive(:assign_attributes).with(attributes, :without_protection => true)
+      new_issue.should_receive(:attributes=).with(attributes)
 
       Issue.stub!(:new).and_yield(new_issue)
 

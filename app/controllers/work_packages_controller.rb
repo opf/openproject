@@ -34,8 +34,9 @@ class WorkPackagesController < ApplicationController
   model_object WorkPackage
 
   before_filter :disable_api
-  before_filter :find_model_object_and_project, :only => [:show]
-  before_filter :find_project_by_project_id, :only => [:new, :new_tracker, :create]
+  before_filter :find_model_object_and_project, :only => [:show, :edit, :update]
+  before_filter :find_project_by_project_id, :only => [:new, :create]
+  before_filter :project, :only => [:new_type]
   before_filter :authorize,
                 :assign_planning_elements
   before_filter :apply_at_timestamp, :only => [:show]
@@ -46,29 +47,49 @@ class WorkPackagesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html
-      format.js { render :partial => 'show'}
+      format.html { render :show, :locals => { :work_package => work_package,
+                                               :project => project,
+                                               :priorities => priorities,
+                                               :user => current_user,
+                                               :ancestors => ancestors,
+                                               :descendants => descendants,
+                                               :changesets => changesets,
+                                               :relations => relations,
+                                               :journals => journals } }
+      format.js { render :show, :partial => 'show', :locals => { :work_package => work_package,
+                                                                 :project => project,
+                                                                 :priorities => priorities,
+                                                                 :user => current_user,
+                                                                 :ancestors => ancestors,
+                                                                 :descendants => descendants,
+                                                                 :changesets => changesets,
+                                                                 :relations => relations,
+                                                                 :journals => journals } }
     end
   end
 
   def new
     respond_to do |format|
-      format.html
+      format.html { render :locals => { :work_package => new_work_package,
+                                        :project => project,
+                                        :priorities => priorities,
+                                        :user => current_user } }
     end
   end
 
-  def new_tracker
+  def new_type
     respond_to do |format|
-      format.js { render :partial => 'attributes', :locals => { :work_package => new_work_package,
-                                                                :project => project,
-                                                                :priorities => priorities } }
+      format.js { render :locals => { :work_package => work_package || new_work_package,
+                                      :project => project,
+                                      :priorities => priorities,
+                                      :user => current_user } }
     end
   end
 
   def create
     call_hook(:controller_work_package_new_before_save, { :params => params, :work_package => new_work_package })
 
-    WorkPackageObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
+    WorkPackageObserver.instance.send_notification = send_notifications?
 
     if new_work_package.save
       flash[:notice] = I18n.t(:notice_successful_create)
@@ -83,6 +104,37 @@ class WorkPackagesController < ApplicationController
       respond_to do |format|
         format.html { render :action => 'new' }
       end
+    end
+  end
+
+  def edit
+    respond_to do |format|
+      format.html do
+        render :edit, :locals => { :work_package => work_package,
+                                   :allowed_statuses => allowed_statuses,
+                                   :project => project,
+                                   :priorities => priorities,
+                                   :time_entry => time_entry,
+                                   :user => current_user }
+      end
+    end
+  end
+
+  def update
+    configure_update_notification(send_notifications?)
+
+    safe_params = permitted_params.update_work_package(:project => project)
+    updated = work_package.update_by(current_user, safe_params)
+
+    render_attachment_warning_if_needed(work_package)
+
+    if updated
+
+      flash[:notice] = l(:notice_successful_update)
+
+      show
+    else
+      edit
     end
   end
 
@@ -101,19 +153,19 @@ class WorkPackagesController < ApplicationController
   def new_work_package
     @new_work_package ||= begin
       params[:work_package] ||= {}
-      type = params[:type] || params[:work_package][:type] || 'Issue'
+      sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
 
       permitted = permitted_params.new_work_package(:project => project)
 
       permitted[:author] = current_user
 
-      wp = case type
+      wp = case sti_type
            when PlanningElement.to_s
              project.add_planning_element(permitted)
            when Issue.to_s
              project.add_issue(permitted)
            else
-             raise ArgumentError, "type #{ type } is not supported"
+             raise ArgumentError, "sti_type #{ sti_type } is not supported"
            end
 
        wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
@@ -146,7 +198,7 @@ class WorkPackagesController < ApplicationController
                        # currently need no extra check for the ancestors/descendants
                        work_package.ancestors
                      when Issue
-                       work_package.ancestors.visible.includes(:tracker,
+                       work_package.ancestors.visible.includes(:type,
                                                                :assigned_to,
                                                                :status,
                                                                :priority,
@@ -169,7 +221,7 @@ class WorkPackagesController < ApplicationController
                          # currently need no extra check for the ancestors/descendants
                          work_package.descendants
                        when Issue
-                         work_package.descendants.visible.includes(:tracker,
+                         work_package.descendants.visible.includes(:type,
                                                                    :assigned_to,
                                                                    :status,
                                                                    :priority,
@@ -191,11 +243,11 @@ class WorkPackagesController < ApplicationController
   def relations
     @relations ||= work_package.relations.includes(:issue_from => [:status,
                                                                    :priority,
-                                                                   :tracker,
+                                                                   :type,
                                                                    { :project => :enabled_modules }],
                                                    :issue_to => [:status,
                                                                  :priority,
-                                                                 :tracker,
+                                                                 :type,
                                                                  { :project => :enabled_modules }])
                                          .select{ |r| r.other_issue(work_package) && r.other_issue(work_package).visible? }
   end
@@ -204,7 +256,23 @@ class WorkPackagesController < ApplicationController
     IssuePriority.all
   end
 
+  def allowed_statuses
+    work_package.new_statuses_allowed_to(current_user)
+  end
+
+  def time_entry
+    work_package.add_time_entry
+  end
+
   protected
+
+  def configure_update_notification(state = true)
+    JournalObserver.instance.send_notification = state
+  end
+
+  def send_notifications?
+    params[:send_notification] == '0' ? false : true
+  end
 
   def assign_planning_elements
     @planning_elements = @project.planning_elements.without_deleted

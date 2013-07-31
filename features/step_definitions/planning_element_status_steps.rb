@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 #
@@ -10,5 +9,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module TrackersHelper
-end
+InstanceFinder.register(PlanningElementStatus, Proc.new { |name| PlanningElementStatus.find_by_name(name) })

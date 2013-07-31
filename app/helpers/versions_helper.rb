@@ -12,7 +12,7 @@
 
 module VersionsHelper
 
-  STATUS_BY_CRITERIAS = %w(category tracker status priority author assigned_to)
+  STATUS_BY_CRITERIAS = %w(category type status priority author assigned_to)
 
   def render_issue_status_by(version, criteria)
     criteria = 'category' unless STATUS_BY_CRITERIAS.include?(criteria)

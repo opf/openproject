@@ -15,10 +15,15 @@
 
 class WorkPackage < ActiveRecord::Base
 
+  #TODO Remove alternate inheritance column name once single table
+  # inheritance is no longer needed. The need for a different column name
+  # comes from Trackers becoming Types.
+  self.inheritance_column = :sti_type
+
   include NestedAttributesForApi
 
   belongs_to :project
-  belongs_to :tracker
+  belongs_to :type
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
@@ -89,7 +94,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Joined
   register_on_journal_formatter :named_association, :parent_id, :project_id,
-                                                    :status_id, :tracker_id,
+                                                    :status_id, :type_id,
                                                     :assigned_to_id, :priority_id,
                                                     :category_id, :fixed_version_id,
                                                     :planning_element_type_id,
@@ -137,10 +142,12 @@ class WorkPackage < ActiveRecord::Base
                                     "parent_id",
                                     "lft",
                                     "rgt",
+                                    "type", # type_id is in options, type is for STI.
                                     "created_at",
                                     "updated_at"] + (options[:exclude]|| []).map(&:to_s) }
 
     work_package = arg.is_a?(WorkPackage) ? arg : WorkPackage.visible.find(arg)
+
     # attributes don't come from form, so it's save to force assign
     self.force_attributes = work_package.attributes.dup.except(*merged_options[:exclude])
     self.parent_issue_id = work_package.parent_id if work_package.parent_id
@@ -195,6 +202,11 @@ class WorkPackage < ActiveRecord::Base
     self.relations_from.build
   end
 
+  def add_time_entry
+    time_entries.build(:project => project,
+                       :work_package => self)
+  end
+
   def all_dependent_issues(except=[])
     except << self
     dependencies = []
@@ -238,7 +250,7 @@ class WorkPackage < ActiveRecord::Base
 
   def kind
     if self.is_a? Issue
-      return tracker
+      return type
     elsif self.is_a? PlanningElement
       return planning_element_type
     end
@@ -251,6 +263,23 @@ class WorkPackage < ActiveRecord::Base
   # Return true if the work_package is closed, otherwise false
   def closed?
     self.status.nil? || self.status.is_closed?
+  end
+
+  # TODO: move into Business Object and rename to update
+  # update for now is a private method defined by AR
+  def update_by(user, attributes)
+    init_journal(user, attributes.delete(:notes)) if attributes[:notes]
+
+    raw_attachments = attributes.delete(:attachments)
+    add_time_entry_for(user, attributes.delete(:time_entry))
+
+    if update_attributes(attributes)
+      # as attach_files always saves an attachment right away
+      # it is not possible to stage attaching and check for
+      # valid. If this would be possible, we could check
+      # for this along with update_attributes
+      attachments = Attachment.attach_files(self, raw_attachments)
+    end
   end
 
   def recalculate_attributes_for(work_package_id)
@@ -296,8 +325,35 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
+  # This is a dummy implementation that is currently overwritten
+  # by issue
+  # Adapt once tracker/type is migrated
+  def new_statuses_allowed_to(user, include_default = false)
+    IssueStatus.all
+  end
+
   def self.use_status_for_done_ratio?
     Setting.issue_done_ratio == 'issue_status'
   end
 
+  # Returns the total number of hours spent on this issue and its descendants
+  #
+  # Example:
+  #   spent_hours => 0.0
+  #   spent_hours => 50.2
+  def spent_hours
+    @spent_hours ||= self_and_descendants.joins(:time_entries)
+                                         .sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+  end
+
+  private
+
+  def add_time_entry_for(user, attributes)
+    return if attributes.nil? || attributes.values.all?(&:blank?)
+
+    attributes.reverse_merge!({ :user => user,
+                                :spent_on => Date.today })
+
+    time_entries.build(attributes)
+  end
 end

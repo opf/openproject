@@ -31,16 +31,41 @@ Then /^I should not see(?: (\d+))? ([^\" ]+)(?: within "([^\"]*)")?$/ do |number
   end
 end
 
-Given /^the [pP]roject(?: "([^\"]+?)")? uses the following trackers:$/ do |project, table|
+Given /^the [pP]roject(?: "([^\"]+?)")? uses the following types:$/ do |project, table|
   project = get_project(project)
 
-  trackers = table.raw.map do |line|
+  types = table.raw.map do |line|
     name = line.first
-    tracker = Tracker.find_by_name(name)
+    type = Type.find_by_name(name)
 
-    tracker = FactoryGirl.create(:tracker, :name => name) if tracker.blank?
-    tracker
+    type = FactoryGirl.create(:type, :name => name) if type.blank?
+    type
   end
 
-  project.update_attributes :tracker_ids => trackers.map(&:id).map(&:to_s)
+  project.update_attributes :type_ids => types.map(&:id).map(&:to_s)
 end
+
+Then(/^I should see the following fields:$/) do |table|
+  table.rows.each do |field, value|
+    # enforce matches including the value only if it is provided
+    # i.e. the column in the table is created
+
+    if value
+
+      begin
+        found = find_field(field)
+      rescue Capybara::ElementNotFound
+        raise Capybara::ExpectationNotMet, "expected to find field \"#{field}\" but there were no matches."
+      end
+
+      if found.tag_name == "select" && value.present?
+        should have_select(field, :selected => value)
+      else
+        found.value.should == value
+      end
+    else
+      should have_field(field)
+    end
+  end
+end
+

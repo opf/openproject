@@ -15,7 +15,7 @@ Feature: Issue edit
       | identifier | omicronpersei8 |
       | name       | omicronpersei8 |
     And I am working in project "omicronpersei8"
-    And the project "omicronpersei8" has the following trackers:
+    And the project "omicronpersei8" has the following types:
       | name | position |
       | Bug  |     1    |
     And there is a default issuepriority with:
@@ -45,7 +45,7 @@ Feature: Issue edit
     And I fill in "2013-06-18" for "Start date"
     And I fill in "2013-07-18" for "Due date"
     And I fill in "7" for "Estimated time"
-    And I select "50 %" from "% Done"
+    And I select "50 %" from "% done"
     And I submit the form by the "Create" button
     Then I should see "Successful creation."
 

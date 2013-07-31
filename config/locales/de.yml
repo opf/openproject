@@ -53,14 +53,10 @@ de:
       enumeration:
         active: "Aktiv"
       issue:
-        done_ratio: "% erledigt"
-        fixed_version: "Zielversion"
-        parent: "Übergeordnete Aufgabe"
         parent_issue: "Übergeordnete Aufgabe"
-        priority: "Priorität"
         subproject: "Unterprojekt von"
         time_entries: "Logzeit"
-        tracker: "Tracker"
+        type: "Typ"
         watcher: "Beobachter"
       issue_relation:
         delay: "Pufferzeit"
@@ -90,7 +86,7 @@ de:
         hours: "Stunden"
         issue: "Ticket"
         spent_on: "Datum"
-        tracker: "Tracker"
+        type: "Typ"
       planning_element_type_color:
         name: "Name"
         hexcode: "Hex-Code"
@@ -98,10 +94,8 @@ de:
         alternate_dates:
           due_date: "Abschlussdatum des alternativen Datums"
         description: "Beschreibung"
-        due_date: "Abschlussdatum"
         id: "ID"
         name: "Name"
-        parent: "Eltern-Element"
         planning_element_type: "Typ"
         start_date: "Startdatum"
       planning_element_type:
@@ -128,7 +122,7 @@ de:
         reported_project_status_comment: "Status-Kommentar"
         reported_project_status_id: "Projekt-Status"
         reporting_to_project_id: "Beziehung zu Projekt"
-      tracker:
+      type:
         is_in_roadmap: "In der Roadmap anzeigen"
       user:
         admin: "Administrator"
@@ -157,6 +151,10 @@ de:
         parent_title: "Übergeordnete Seite"
         redirect_existing_links: "Existierende Links umleiten"
       work_package:
+        done_ratio: "% erledigt"
+        fixed_version: "Zielversion"
+        parent: "Übergeordnete Aufgabe"
+        priority: "Priorität"
         progress: "% erledigt"
         responsible: "Planungsverantwortlicher"
         spent_time: "Aufgewendete Zeit"
@@ -238,7 +236,7 @@ de:
       role:
         one : "Rolle"
         other: "Rollen"
-      tracker: "Tracker"
+      type: "Typ"
       planning_element: "Planungselement"
       planning_element_type: "Planungselement-Typ"
       project_type: "Projekt-Typ"
@@ -418,13 +416,18 @@ de:
   default_role_manager: "Manager"
   default_role_non_member: "Nichtmitglied"
   default_role_reporter: "Reporter"
-  default_tracker_bug: "Fehler"
-  default_tracker_feature: "Feature"
-  default_tracker_support: "Unterstützung"
+  default_type_bug: "Fehler"
+  default_type_feature: "Feature"
+  default_type_support: "Unterstützung"
 
   description_active: "Aktiv?"
   description_attachment_toggle: "Dateien aus/einblenden"
-  description_autocomplete: "Für dieses Feld werden Sie mit einer Autovervollständigung unterstützt. Sie können einen Teil des Tickettitels schreiben und bekommen eine Liste von möglichen Tickets angezeigt. Wählen Sie mit den Pfeiltasten den gewünschten Eintrag und bestätigen Sie mit Tab oder Enter. Sie können aber auch die Ticketnummer direkt eintragen."
+  description_autocomplete: >
+    Für dieses Feld werden Sie mit einer Autovervollständigung
+    unterstützt. Sie können einen Teil des Tickettitels schreiben und
+    bekommen eine Liste von möglichen Tickets angezeigt. Wählen Sie mit
+    den Pfeiltasten den gewünschten Eintrag und bestätigen Sie mit Tab
+    oder Enter. Sie können aber auch die Ticketnummer direkt eintragen."
   description_available_columns: "Verfügbare Spalten"
   description_choose_project: "Projekte"
   description_compare_from: "Vergleiche von Version"
@@ -469,7 +472,7 @@ de:
 
   error_can_not_archive_project: "Dieses Projekt kann nicht archiviert werden."
   error_can_not_delete_custom_field: "Kann das benutzerdefinierte Feld nicht löschen."
-  error_can_not_delete_tracker: "Dieser Tracker enthält Tickets und kann nicht gelöscht werden."
+  error_can_not_delete_type: "Dieser Typ enthält Tickets und kann nicht gelöscht werden."
   error_can_not_remove_role: "Diese Rolle wird verwendet und kann nicht gelöscht werden."
   error_can_not_reopen_issue_on_closed_version: "Das Ticket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden."
   error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %{value}"
@@ -478,14 +481,14 @@ de:
   error_issue_not_found_in_project: "Das Ticket wurde nicht gefunden oder gehört nicht zu diesem Projekt."
   error_must_be_project_member: "muss Mitglied des Projekts sein"
   error_no_default_issue_status: "Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter \"Administration -> Ticket-Status\")."
-  error_no_tracker_in_project: "Diesem Projekt ist kein Tracker zugeordnet. Bitte überprüfen Sie die Projekteinstellungen."
+  error_no_type_in_project: "Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen Sie die Projekteinstellungen."
   error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: "Eintrag und/oder Revision existiert nicht im Projektarchiv."
   error_unable_delete_issue_status: "Der Ticket-Status konnte nicht gelöscht werden."
   error_unable_to_connect: "Fehler beim Verbinden (%{value})"
-  error_workflow_copy_source: "Bitte wählen Sie einen Quell-Tracker und eine Quell-Rolle."
-  error_workflow_copy_target: "Bitte wählen Sie die Ziel-Tracker und -Rollen."
+  error_workflow_copy_source: "Bitte wählen Sie einen Quell-Typ und eine Quell-Rolle."
+  error_workflow_copy_target: "Bitte wählen Sie die Ziel-Typ und -Rollen."
 
   field_responsible: "Planungsverantwortlicher"
   field_end_date: "Abschlussdatum"
@@ -655,7 +658,7 @@ de:
   label_display: "Anzeige"
   label_display_per_page: "Pro Seite: %{value}"
   label_display_sums: "Summen anzeigen"
-  label_display_used_statuses_only: "Zeige nur Status an, die von diesem Tracker verwendet werden"
+  label_display_used_statuses_only: "Zeige nur Status an, die von diesem Typ verwendet werden"
   label_document_added: "Dokument hinzugefügt"
   label_document_new: "Neues Dokument"
   label_document_plural: "Dokumente"
@@ -897,8 +900,8 @@ de:
   label_top_menu: "Hauptmenu"
   label_topic_plural: "Themen"
   label_total: "Gesamtzahl"
-  label_tracker_new: "Neuer Tracker"
-  label_tracker_plural: "Tracker"
+  label_type_new: "Neuer Typ"
+  label_type_plural: "Typen"
   label_ui: "Nutzeroberfläche"
   label_update_issue_done_ratios: "Ticket-Fortschritt aktualisieren"
   label_updated_time: "Vor %{value} aktualisiert"
@@ -991,6 +994,7 @@ de:
   notice_account_invalid_credentials_or_blocked: "Benutzer oder Kennwort ist ungültig oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet."
   notice_account_lost_email_sent: "Eine E-Mail mit Anweisungen, wie ein neues Kennwort gewählt wird, wurde Ihnen zugeschickt."
   notice_account_new_password_forced: "Ein neues Passwort muss gesetzt werden."
+  notice_account_password_expired: "Ihr Passwort ist nach %{days} Tagen abgelaufen. Bitte setzen Sie ein neues."
   notice_account_password_updated: "Kennwort wurde erfolgreich aktualisiert."
   notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung durch den Administrator."
   notice_account_register_done: "Konto wurde erfolgreich angelegt. Zur Aktivierung folgen Sie dem Link, der Ihnen per E-Mail zugeschickt wurde."
@@ -1125,6 +1129,7 @@ de:
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"
   permission_view_wiki_pages: "Wiki ansehen"
 
+  project_module_activity: "Aktivität"
   project_module_boards: "Foren"
   project_module_calendar: "Kalender"
   project_module_documents: "Dokumente"
@@ -1273,7 +1278,10 @@ de:
   text_line_separated: "Mehrere Werte sind erlaubt (eine Zeile pro Wert)."
   text_load_default_configuration: "Standard-Konfiguration laden"
   text_min_max_length_info: "0 heißt keine Beschränkung"
-  text_no_configuration_data: "Rollen, Tracker, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie sie abändern."
+  text_no_configuration_data: >
+    Rollen, Typ, Ticket-Status und Workflows wurden noch nicht
+    konfiguriert. Es ist sehr zu empfehlen, die Standard-Konfiguration
+    zu laden. Sobald sie geladen ist, können Sie sie abändern.
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
   text_plugin_assets_writable: "Verzeichnis für Plugin-Assets beschreibbar"
   text_powered_by: "Powered by %{link}"
@@ -1291,7 +1299,7 @@ de:
   text_tip_issue_begin_day: "Aufgabe, die an diesem Tag beginnt"
   text_tip_issue_begin_end_day: "Aufgabe, die an diesem Tag beginnt und endet"
   text_tip_issue_end_day: "Aufgabe, die an diesem Tag endet"
-  text_tracker_no_workflow: "Kein Workflow für diesen Tracker definiert."
+  text_type_no_workflow: "Kein Workflow für diesen Typ definiert."
   text_unallowed_characters: "Nicht erlaubte Zeichen"
   text_user_mail_option: "Für nicht ausgewählte Projekte werden Sie nur Benachrichtigungen für Dinge erhalten, die Sie beobachten oder an denen Sie beteiligt sind (z. B. Tickets, deren Autor Sie sind oder die Ihnen zugewiesen sind)."
   text_user_wrote: "%{value} schrieb:"
@@ -1397,7 +1405,7 @@ de:
       parent: "Zeige Unterprojekte von"
       planning_element_filters: "Planungselemente filtern"
       planning_element_responsible: "Planungselemente von diesem Planungsverantwortlichen anzeigen"
-      planning_element_types: "Planungselement-Type anzeigen"
+      planning_element_types: "Planungselement-Typ anzeigen"
 
 
       project_time_filter: "Projekte mit Planungselementen eines Typs in einem Zeitfenster"

@@ -35,7 +35,7 @@ class Issues::ReportsControllerTest < ActionController::TestCase
     should respond_with :success
     should render_template :report
 
-    [:issues_by_tracker, :issues_by_version, :issues_by_category, :issues_by_assigned_to,
+    [:issues_by_type, :issues_by_version, :issues_by_category, :issues_by_assigned_to,
      :issues_by_author, :issues_by_subproject].each do |ivar|
       should_assign_to ivar
       should "set a value for #{ivar}" do
@@ -45,7 +45,7 @@ class Issues::ReportsControllerTest < ActionController::TestCase
   end
 
   context "GET :issue_report_details" do
-    %w(tracker version priority category assigned_to author subproject).each do |detail|
+    %w(type version priority category assigned_to author subproject).each do |detail|
       context "for #{detail}" do
         setup do
           get :report_details, :project_id => 1, :detail => detail

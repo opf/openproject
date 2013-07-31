@@ -46,7 +46,7 @@ class IssuesHelperTest < HelperTestCase
           j.changed_data = {"done_ratio" => [40, 100]}
           j.journaled = FactoryGirl.create :issue
         end
-        assert_equal "% Done changed from 40 to 100", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        assert_equal "% done changed from 40 to 100", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
       end
 
       should 'show a new attribute' do
@@ -54,7 +54,7 @@ class IssuesHelperTest < HelperTestCase
           j.changed_data = {"done_ratio" => [nil, 100]}
           j.journaled = FactoryGirl.create :issue
         end
-        assert_equal "% Done changed from 0 to 100", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        assert_equal "% done changed from 0 to 100", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
       end
 
       should 'show a deleted attribute' do
@@ -62,7 +62,7 @@ class IssuesHelperTest < HelperTestCase
           j.changed_data = {"done_ratio" => [50, nil]}
           j.journaled = FactoryGirl.create :issue
         end
-        assert_equal "% Done changed from 50 to 0", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        assert_equal "% done changed from 50 to 0", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
       end
     end
 
@@ -75,7 +75,9 @@ class IssuesHelperTest < HelperTestCase
         @response.body = @journal.render_detail(@journal.details.to_a.first, :no_html => false)
 
         html_node = HTML::Document.new(@response.body)
-        assert_select html_node.root, 'strong', :text => '% Done'
+        assert_select html_node.root, 'strong', :text => I18n.t(:done_ratio, :scope => [:activerecord,
+                                                                                        :attributes,
+                                                                                        :work_package])
         assert_select html_node.root, 'i', :text => '40'
         assert_select html_node.root, 'i', :text => '100'
       end
@@ -88,7 +90,9 @@ class IssuesHelperTest < HelperTestCase
         @response.body = @journal.render_detail(@journal.details.to_a.first, :no_html => false)
 
         html_node = HTML::Document.new(@response.body)
-        assert_select html_node.root, 'strong', :text => '% Done'
+        assert_select html_node.root, 'strong', :text => I18n.t(:done_ratio, :scope => [:activerecord,
+                                                                                        :attributes,
+                                                                                        :work_package])
         assert_select html_node.root, 'i', :text => '100'
       end
 
@@ -100,8 +104,9 @@ class IssuesHelperTest < HelperTestCase
         @response.body = @journal.render_detail(@journal.details.to_a.first, :no_html => false)
 
         html_node = HTML::Document.new(@response.body)
-        assert_select html_node.root, 'strong', :text => '% Done'
-        assert_select html_node.root, 'i', :text => '50'
+        assert_select html_node.root, 'strong', :text => I18n.t(:done_ratio, :scope => [:activerecord,
+                                                                                        :attributes,
+                                                                                        :work_package])
       end
     end
 
@@ -149,8 +154,8 @@ class IssuesHelperTest < HelperTestCase
       should_show_the_old_and_new_values_for('status_id', IssueStatus)
     end
 
-    context "with a tracker attribute" do
-      should_show_the_old_and_new_values_for('tracker_id', Tracker)
+    context "with a type attribute" do
+      should_show_the_old_and_new_values_for('type_id', Type)
     end
 
     context "with a assigned to attribute" do

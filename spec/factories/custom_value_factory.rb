@@ -23,5 +23,10 @@ FactoryGirl.define do
       custom_field :factory => :issue_custom_field
       customized :factory => :issue
     end
+
+    factory :work_package_custom_value do
+      custom_field :factory => :issue_custom_field
+      customized :factory => :issue
+    end
   end
 end

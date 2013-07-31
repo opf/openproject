@@ -172,20 +172,20 @@ describe WorkPackagesController do
     end
   end
 
-  describe 'new_tracker.js' do
-    describe 'w/o specifying a project_id' do
+  describe 'new_type.js' do
+    describe 'w/o specifying a project_id or an id' do
       before do
-        xhr :get, :new_tracker
+        xhr :get, :new_type
       end
 
-      it 'should return 404 Not found' do
-        response.response_code.should == 404
+      it 'should return 403 Not found' do
+        response.response_code.should == 403
       end
     end
 
     describe 'w/o being a member' do
       before do
-        xhr :get, :new_tracker, :project_id => project.id
+        xhr :get, :new_type, :project_id => project.id
       end
 
       it 'should return 403 Forbidden' do
@@ -194,16 +194,35 @@ describe WorkPackagesController do
     end
 
     describe 'w/ beeing a member
-              w/ having the necessary permissions' do
+              w/ having the necessary permissions
+              w/ specifying a project_id' do
       become_member_with_permissions [:add_work_packages]
 
       before do
-        xhr :get, :new_tracker, :project_id => project.id,
-                                :type => 'Issue' #TODO: remove type once Issue == PlanningElement
+        xhr :get, :new_type, :project_id => project.id
       end
 
       it 'renders the new builder template' do
-        response.should render_template('work_packages/_attributes', :formats => ["html"])
+        response.should render_template('work_packages/new_type', :formats => ["html"])
+      end
+
+      it 'should respond with 200 OK' do
+        response.response_code.should == 200
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions
+              w/ specifying an id' do
+      become_member_with_permissions [:view_work_packages,
+                                      :edit_work_packages]
+
+      before do
+        xhr :get, :new_type, :id => planning_element.id
+      end
+
+      it 'renders the new builder template' do
+        response.should render_template('work_packages/new_type', :formats => ["html"])
       end
 
       it 'should respond with 200 OK' do
@@ -216,7 +235,7 @@ describe WorkPackagesController do
       become_member_with_permissions []
 
       before do
-        xhr :get, :new_tracker, :project_id => project.id
+        xhr :get, :new_type, :project_id => project.id
       end
 
       it 'should return 403 Forbidden' do
@@ -313,6 +332,162 @@ describe WorkPackagesController do
     end
   end
 
+  describe 'edit.html' do
+
+    become_admin
+
+    describe 'w/o a valid work_package id' do
+
+      describe 'w/o being a member or administrator' do
+        become_non_member
+
+        it 'renders a 404 page' do
+          get 'edit', :id => '1337'
+
+          response.response_code.should === 404
+        end
+      end
+
+      describe 'w/ the current user being a member' do
+        become_member_with_view_planning_element_permissions
+
+        it 'raises ActiveRecord::RecordNotFound errors' do
+          get 'edit', :id => '1337'
+
+          response.response_code.should === 404
+        end
+      end
+    end
+
+    describe 'w/ a valid work package id' do
+      become_admin
+
+      describe 'w/o being a member or administrator' do
+        become_non_member
+
+        it 'renders a 403 Forbidden page' do
+          get 'edit', :id => planning_element.id
+
+          response.response_code.should == 403
+        end
+      end
+
+      describe 'w/ the current user being a member' do
+        become_member_with_permissions [:edit_work_packages]
+
+        before do
+          get 'edit', :id => planning_element.id
+        end
+
+        it 'renders the show builder template' do
+          response.should render_template('work_packages/edit', :formats => ["html"], :layout => :base)
+        end
+      end
+    end
+  end
+
+  describe 'update.html' do
+    describe 'w/o being a member' do
+      before do
+        put 'update'
+      end
+
+      it 'should return 404 Not Found' do
+        response.response_code.should == 404
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions
+              w/ a valid wp id
+              w/ having a successful save' do
+      let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+      let(:params) { { :id => planning_element.id, :work_package => wp_params } }
+
+      become_member_with_permissions [:edit_work_packages]
+
+      before do
+        controller.stub!(:work_package).and_return(planning_element)
+        controller.send(:permitted_params).should_receive(:update_work_package)
+                                          .with(:project => planning_element.project)
+                                          .and_return(wp_params)
+        planning_element.should_receive(:update_by).with(current_user, wp_params).and_return(true)
+      end
+
+      it 'should respond with 200 OK' do
+        put 'update', params
+
+        response.response_code.should == 200
+      end
+
+      it 'should show a flash message' do
+        disable_flash_sweep
+
+        put 'update', params
+
+        flash[:notice].should == I18n.t(:notice_successful_update)
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions
+              w/ a valid wp id
+              w/ having an unsuccessful save' do
+      let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+      let(:params) { { :id => planning_element.id, :work_package => wp_params } }
+
+      become_member_with_permissions [:edit_work_packages]
+
+      before do
+        controller.stub!(:work_package).and_return(planning_element)
+        controller.send(:permitted_params).should_receive(:update_work_package)
+                                          .with(:project => planning_element.project)
+                                          .and_return(wp_params)
+        planning_element.should_receive(:update_by).with(current_user, wp_params).and_return(false)
+      end
+
+      it 'render the edit action' do
+        put 'update', params
+
+        response.should render_template('work_packages/edit', :formats => ["html"], :layout => :base)
+      end
+    end
+
+    describe 'w/ beeing a member
+              w/ having the necessary permissions
+              w/ a valid wp id
+              w/ having a successful save
+              w/ having a faulty attachment' do
+      let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+      let(:params) { { :id => planning_element.id, :work_package => wp_params } }
+
+      become_member_with_permissions [:edit_work_packages]
+
+      before do
+        controller.stub!(:work_package).and_return(planning_element)
+        controller.send(:permitted_params).should_receive(:update_work_package)
+                                          .with(:project => planning_element.project)
+                                          .and_return(wp_params)
+        planning_element.should_receive(:update_by).with(current_user, wp_params).and_return(true)
+        planning_element.stub(:unsaved_attachments).and_return([double('unsaved_attachment')])
+      end
+
+      it 'should respond with 200 OK' do
+        put 'update', params
+
+        response.response_code.should == 200
+      end
+
+      it 'should show a flash message' do
+        disable_flash_sweep
+
+        put 'update', params
+
+        flash[:warning].should == I18n.t(:warning_attachments_not_saved, :count => 1)
+      end
+    end
+  end
+
   describe :work_package do
     describe 'when beeing allowed to see the work_package' do
       become_member_with_view_planning_element_permissions
@@ -342,7 +517,7 @@ describe WorkPackagesController do
   describe :new_work_package do
     describe 'when the type is "PlanningElement"' do
       before do
-        controller.params = { :type => 'PlanningElement',
+        controller.params = { :sti_type => 'PlanningElement',
                               :work_package => {} }
         controller.stub!(:project).and_return(project)
         controller.stub!(:current_user).and_return(stub_user)
@@ -368,7 +543,7 @@ describe WorkPackagesController do
 
     describe 'when the type is "Issue"' do
       before do
-        controller.params = { :type => 'Issue',
+        controller.params = { :sti_type => 'Issue',
                               :work_package => {} }
 
         controller.stub!(:project).and_return(project)
@@ -395,7 +570,7 @@ describe WorkPackagesController do
 
     describe 'when the type is "Project"' do
       it "should raise not allowed" do
-        controller.params = { :type => 'Project' }
+        controller.params = { :sti_type => 'Project' }
 
         expect { controller.new_work_package }.to raise_error ArgumentError
       end
@@ -461,7 +636,7 @@ describe WorkPackagesController do
   end
 
   describe :ancestors do
-    let(:project) { FactoryGirl.create(:project_with_trackers) }
+    let(:project) { FactoryGirl.create(:project_with_types) }
     let(:ancestor_issue) { FactoryGirl.create(:issue, :project => project) }
     let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_issue_id => ancestor_issue.id) }
 
@@ -502,6 +677,32 @@ describe WorkPackagesController do
       IssuePriority.stub!(:all).and_return(expected)
 
       controller.priorities.should == expected
+    end
+  end
+
+  describe :allowed_statuses do
+    it "should return all statuses allowed by the issue" do
+      expected = double('statuses')
+
+      controller.stub!(:work_package).and_return(stub_issue)
+
+      stub_issue.stub!(:new_statuses_allowed_to).with(current_user).and_return(expected)
+
+      controller.allowed_statuses.should == expected
+    end
+  end
+
+  describe :time_entry do
+    before do
+      controller.stub!(:work_package).and_return(stub_planning_element)
+    end
+
+    it "should return a time entry" do
+      expected = double('time_entry')
+
+      stub_planning_element.stub!(:add_time_entry).and_return(expected)
+
+      controller.time_entry.should == expected
     end
   end
 end

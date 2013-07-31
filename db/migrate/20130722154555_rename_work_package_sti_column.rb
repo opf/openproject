@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 #
@@ -10,12 +9,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Tracker < ActiveRecord::Base
-  generator_for :name, :method => :next_name
+class RenameWorkPackageStiColumn < ActiveRecord::Migration
+  def up
+    rename_column :work_packages, :type, :sti_type
+  end
 
-  def self.next_name
-    @last_name ||= 'Tracker 0'
-    @last_name.succ!
-    @last_name
+  def down
+    rename_column :work_packages, :sti_type, :type
   end
 end

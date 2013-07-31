@@ -101,6 +101,13 @@ Given /^(?:the )?[pP]roject "([^\"]*)" uses the following [mM]odules:$/ do |proj
   p.reload
 end
 
+Given /^(?:the )?[pP]roject "([^\"]*)" does not use the following [mM]odules:$/ do |project, table|
+  p = Project.find_by_name(project)
+
+  p.enabled_module_names -= table.raw.map { |row| row.first }
+  p.reload
+end
+
 Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*)"$/ do |user, role, project|
   u = User.find_by_login(user)
   r = Role.find_by_name(role)
@@ -119,23 +126,6 @@ Given /^the [Uu]ser "([^\"]*)" has the following preferences$/ do |user, table|
   u = User.find_by_login(user)
 
   send_table_to_object(u.pref, table)
-end
-
-
-Given /^there is a(?:n)? (default )?(?:issue)?status with:$/ do |default, table|
-  name = table.raw.select { |ary| ary.include? "name" }.first[table.raw.first.index("name") + 1].to_s
-  IssueStatus.find_by_name(name) || IssueStatus.create(:name => name.to_s, :is_default => !!default)
-end
-
-Given /^there is a(?:n)? (default )?issuepriority with:$/ do |default, table|
-  name = table.raw.select { |ary| ary.include? "name" }.first[table.raw.first.index("name") + 1].to_s
-  project = get_project
-  IssuePriority.new.tap do |prio|
-    prio.name = name
-    prio.is_default = !!default
-    prio.project = project
-    prio.save!
-  end
 end
 
 Given /^there is a [rR]ole "([^\"]*)"$/ do |name|
@@ -244,18 +234,6 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [Dd]ocument with(?: the following)?:
   end
 end
 
-Given /^the [Pp]roject (.+) has 1 version with(?: the following)?:$/ do |project, table|
-  project.gsub!("\"", "")
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
-  table.rows_hash["effective_date"] = eval(table.rows_hash["effective_date"]).to_date if table.rows_hash["effective_date"]
-
-  as_admin do
-    v = Version.generate
-    send_table_to_object(v, table)
-    p.versions << v
-  end
-end
-
 Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject$/ do |project|
   parent = Project.find_by_name(project)
   p = Project.generate
@@ -274,14 +252,14 @@ Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject with the following:$/ do |
   p.save!
 end
 
-Given /^there are the following trackers:$/ do |table|
+Given /^there are the following types:$/ do |table|
 
   table.hashes.each_with_index do |t, i|
-    tracker = Tracker.find_by_name(t['name'])
-    tracker = Tracker.new :name => t['name'] if tracker.nil?
-    tracker.position = t['position'] ? t['position'] : i
-    tracker.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
-    tracker.save!
+    type = Type.find_by_name(t['name'])
+    type = Type.new :name => t['name'] if type.nil?
+    type.position = t['position'] ? t['position'] : i
+    type.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
+    type.save!
   end
 end
 
@@ -298,15 +276,15 @@ Given /^there are the following issue status:$/ do |table|
   end
 end
 
-Given /^the tracker "(.+?)" has the default workflow for the role "(.+?)"$/ do |tracker_name, role_name|
+Given /^the type "(.+?)" has the default workflow for the role "(.+?)"$/ do |type_name, role_name|
   role = Role.find_by_name(role_name)
-  tracker = Tracker.find_by_name(tracker_name)
-  tracker.workflows = []
+  type = Type.find_by_name(type_name)
+  type.workflows = []
 
   IssueStatus.all(:order => "id ASC").collect(&:id).combination(2).each do |c|
-    tracker.workflows.build(:old_status_id => c[0], :new_status_id => c[1], :role => role)
+    type.workflows.build(:old_status_id => c[0], :new_status_id => c[1], :role => role)
   end
-  tracker.save!
+  type.save!
 end
 
 
@@ -360,7 +338,7 @@ Given /^I (?:stop|pause) (?:step )?execution$/ do
   end
 end
 
-When /^(?:|I )login as (.+)(?: with password (.+))?$/ do |username, password|
+When /^(?:|I )login as (.+?)(?: with password (.+))?$/ do |username, password|
   username = username.gsub("\"", "")
   password = password.nil? ? "adminADMIN!" : password.gsub("\"", "")
   login(username, password)
@@ -402,16 +380,16 @@ Given /^the user "(.*?)" is a "([^\"]*?)"$/ do |user, role|
   step %Q{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
 end
 
-Given /^the [pP]roject(?: "([^\"]*)")? has the following trackers:$/ do |project_name, table|
+Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_name, table|
   p = get_project(project_name)
   table.hashes.each_with_index do |t, i|
-    tracker = Tracker.find_by_name(t['name'])
-    tracker = Tracker.new :name => t['name'] if tracker.nil?
-    tracker.position = t['position'] ? t['position'] : i
-    tracker.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
-    tracker.save!
-    if !p.trackers.include?(tracker)
-      p.trackers << tracker
+    type = Type.find_by_name(t['name'])
+    type = Type.new :name => t['name'] if type.nil?
+    type.position = t['position'] ? t['position'] : i
+    type.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
+    type.save!
+    if !p.types.include?(type)
+      p.types << type
       p.save!
     end
   end

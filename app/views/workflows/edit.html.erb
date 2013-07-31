@@ -21,8 +21,8 @@ See doc/COPYRIGHT.rdoc for more details.
 	<label><%= Role.model_name.human %>:
 	<%= select_tag 'role_id', options_from_collection_for_select(@roles, "id", "name", @role && @role.id) %></label>
 
-  <label><%= Tracker.model_name.human %>:
-	<%= select_tag 'tracker_id', options_from_collection_for_select(@trackers, "id", "name", @tracker && @tracker.id) %></label>
+  <label><%= Type.model_name.human %>:
+	<%= select_tag 'type_id', options_from_collection_for_select(@types, "id", "name", @type && @type.id) %></label>
 
   <%= hidden_field_tag 'used_statuses_only', '0' %>
   <label><%= check_box_tag 'used_statuses_only', '1', @used_statuses_only %> <%= l(:label_display_used_statuses_only) %></label>
@@ -32,9 +32,9 @@ See doc/COPYRIGHT.rdoc for more details.
 </p>
 <% end %>
 
-<% if @tracker && @role && @statuses.any? %>
+<% if @type && @role && @statuses.any? %>
   <%= form_tag({}, :id => 'workflow_form' ) do %>
-    <%= hidden_field_tag 'tracker_id', @tracker.id %>
+    <%= hidden_field_tag 'type_id', @type.id %>
     <%= hidden_field_tag 'role_id', @role.id %>
     <div class="autoscroll">
       <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>

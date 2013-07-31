@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 Feature: Project Settings
   Background:
     Given there is 1 project with the following:
@@ -44,7 +55,8 @@ Feature: Project Settings
     When I click on "Edit" within "#member-1"
     And I uncheck "alpha" within "#member-1-roles-form"
     And I click "Change" within "#member-1-roles-form"
-    Then I should not see "Bob Bobbit" within ".list.members"
+    Then there should be an error message
+    And I should see "Bob Bobbit" within ".list.members"
 
 @javascript
   Scenario: Changing members per page keeps us on the members tab
