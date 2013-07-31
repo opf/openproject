@@ -31,7 +31,6 @@ Feature: Create new meetings
        Then I should not see "New Meeting"
 
   Scenario: Navigate to the meeting index page with permission to create new meetings
-            # TODO Rechte werden nicht hinzugefügt sondern ersetzt?
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
@@ -47,7 +46,6 @@ Feature: Create new meetings
         And I go to the Meetings page for the project called "dingens"
         And I click on "New Meeting"
         And I click on "Create"
-            # TODO Gibt's eine bessere Möglichkeit validation errors abzufragen?
        Then I should see "Title can't be blank"
 
   Scenario Outline: Create a new meeting with a title and a date, time, and duration with no and different time zones set
@@ -88,9 +86,6 @@ Feature: Create new meetings
        Then I should see "New Meeting"
         And I should not see "01" within "#meeting_start_time_5i"
         And I should not see "14" within "#meeting_start_time_5i"
-            # TODO entweder ich habe einen Knick in der Optik, oder die beiden sollten klappen, geht aber auch mit den 2 nächsten Zeilen...
-       #And "00" should be selectable from "meeting_start_time_5i"
-       #And "05" should be selectable from "meeting_start_time_5i"
         And I should see "00" within "#meeting_start_time_5i"
         And I should see "05" within "#meeting_start_time_5i"
 
