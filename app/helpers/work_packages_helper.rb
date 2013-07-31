@@ -243,7 +243,7 @@ module WorkPackagesHelper
   def work_package_form_parent_attribute(form, work_package, locals = {})
     if User.current.allowed_to?(:manage_subtasks, locals[:project])
       field = if work_package.is_a?(Issue)
-                form.text_field :parent_issue_id, :size => 10, :title => l(:description_autocomplete)
+                form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
               else
                 form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
               end

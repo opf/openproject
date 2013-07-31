@@ -136,11 +136,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% unless planning_element.new_record? %>
   <h3><%= l(:field_notes) %></h3>
-  <label for="planning_element_note" class="hidden-for-sighted">
+  <label for="planning_element_journal_notes" class="hidden-for-sighted">
     <%= l(:field_notes) %>
   </label>
-  <%= f.text_area 'note', :cols => 60, :rows => 3, :class => 'wiki-edit' %>
-  <%= wikitoolbar_for 'planning_element_note' %>
+  <%= f.text_area 'journal_notes', :cols => 60, :rows => 3, :class => 'wiki-edit' %>
+  <%= wikitoolbar_for 'planning_element_journal_notes' %>
 <% end %>
 
 <%= submit_tag l(:button_save) %>

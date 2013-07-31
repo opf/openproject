@@ -970,7 +970,7 @@ class Project < ActiveRecord::Base
       # Parent issue
       if issue.parent_id
         if copied_parent = work_packages_map[issue.parent_id]
-          new_issue.parent_issue_id = copied_parent.id
+          new_issue.parent_id = copied_parent.id
         end
       end
 
