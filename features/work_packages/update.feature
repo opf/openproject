@@ -27,7 +27,7 @@ Feature: Updating work packages
       | identifier | ecookbook |
       | name       | ecookbook |
     And the project named "ecookbook" is of the type "Standard Project"
-    And the following types are enabledfor projects of type "Standard Project"
+    And the following types are enabled for projects of type "Standard Project"
       | Phase1 |
       | Phase2 |
     And there is a role "manager"
