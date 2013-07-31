@@ -42,7 +42,7 @@ class Meeting < ActiveRecord::Base
   register_on_journal_formatter(:datetime, 'start_time')
   register_on_journal_formatter(:plaintext, 'location')
 
-  accepts_nested_attributes_for :participants, :reject_if => proc {|attrs| !(attrs['attended'] || attrs['invited'])}
+  accepts_nested_attributes_for :participants, :allow_destroy => true
 
   validates_presence_of :title, :start_time, :duration
 
@@ -102,7 +102,7 @@ class Meeting < ActiveRecord::Base
     copy.send(:set_initial_values)
 
     copy.participants.clear
-    copy.participants << self.participants.collect(&:clone).each{|p| p.id = nil; p.attended = false} # Make sure the participants have no id
+    copy.participants_attributes = self.participants.collect(&:copy_attributes)
 
     copy
   end
@@ -134,6 +134,14 @@ class Meeting < ActiveRecord::Base
   def close_agenda_and_copy_to_minutes!
     self.agenda.lock!
     self.create_minutes(:text => agenda.text)
+  end
+
+  alias :original_participants_attributes= :participants_attributes=
+  def participants_attributes=(attrs)
+    attrs.each do |participant|
+      participant['_destroy'] = true if !(participant['attended'] || participant['invited'])
+    end
+    self.original_participants_attributes = attrs
   end
 
 

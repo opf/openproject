@@ -36,5 +36,10 @@ class MeetingParticipant < ActiveRecord::Base
   end
 
   alias :to_s :name
+
+  def copy_attributes
+    #create a clean attribute set allowing to attach participants to different meetings
+    self.attributes.reject { |k,v| ['id','meeting_id','attended','created_at', 'updated_at'].include?(k)}
+  end
 end
 

@@ -21,10 +21,7 @@ module MeetingNavigationHelpers
     when /^the (\w+?) activity page for the [pP]roject "(.+?)"$/
       project = get_project($2)
       "/projects/#{project.identifier}/activity?show_#{$1}=1"
-    when /^the edit page of the meeting called "(.+?)"$/
-      meeting = Meeting.find_by_title($1)
 
-      "/meetings/#{meeting.id}/edit"
     when /^the show page (?:of|for) the meeting called "(.+?)"$/
       meeting = Meeting.find_by_title($1)
 
