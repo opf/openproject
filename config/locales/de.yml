@@ -35,7 +35,7 @@ de:
   permission_close_meeting_agendas: "Agenden schließen"
   permission_send_meeting_agendas_notification: "Benachrichtigungen für Agenden verschicken"
   permission_create_meeting_minutes: "Protokolle anlegen/bearbeiten"
-  permission_send_meeting_minutess_notification: "Benachrichtigungen für Protokolle verschicken"
+  permission_send_meeting_minutes_notification: "Benachrichtigungen für Protokolle verschicken"
 
   project_module_meetings: "Besprechungen"
 
