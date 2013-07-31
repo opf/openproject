@@ -86,12 +86,11 @@ module OpenProject
     # like if you have constraints or database-specific column types
     # config.active_record.schema_format = :sql
 
-    # needed?
     # Load any local configuration that is kept out of source control
     # (e.g. patches).
-    #if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
-    #  instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
-    #end
+    if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
+      instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
+    end
 
     # Enforce whitelist mode for mass assignment.
     # This will create an empty whitelist of attributes available for mass-assignment for all models
