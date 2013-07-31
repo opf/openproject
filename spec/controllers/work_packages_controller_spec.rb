@@ -9,50 +9,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe WorkPackagesController do
-  # ===========================================================
-  # Helpers
-  def self.become_admin
-    let(:current_user) { FactoryGirl.create(:admin) }
-  end
-
-  def self.become_non_member(&block)
-    let(:current_user) { FactoryGirl.create(:user) }
-
-    before do
-      projects = block ? instance_eval(&block) : [project]
-
-      projects.each do |p|
-        current_user.memberships.select {|m| m.project_id == p.id}.each(&:destroy)
-      end
-    end
-  end
-
-  def self.become_member_with_permissions(permissions)
-    let(:current_user) { FactoryGirl.create(:user) }
-
-    before do
-      role = FactoryGirl.create(:role, :permissions => permissions)
-
-      member = FactoryGirl.build(:member, :user => current_user, :project => project)
-      member.roles = [role]
-      member.save!
-    end
-  end
-
-  def self.become_member_with_view_planning_element_permissions
-    become_member_with_permissions [:view_planning_elements, :view_work_packages]
-  end
 
   before do
     User.stub(:current).and_return current_user
-  end
-
-  #=======================================================================
-
-  before do
     # disables sending mails
     UserMailer.stub!(:new).and_return(double('mailer').as_null_object)
   end
