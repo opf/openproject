@@ -220,20 +220,18 @@ module WorkPackagesHelper
   end
 
   def work_package_form_type_attribute(form, work_package, locals = {})
-    if work_package.is_a?(Issue)
-      field = form.select :type_id, locals[:project].types.collect {|t| [t.name, t.id]}, :required => true
+    field = form.select :type_id, locals[:project].types.collect {|t| [t.name, t.id]}, :required => true
 
-      url = work_package.new_record? ?
-             new_type_project_work_packages_path(locals[:project]) :
-             new_type_work_package_path(work_package)
+    url = work_package.new_record? ?
+           new_type_project_work_packages_path(locals[:project]) :
+           new_type_work_package_path(work_package)
 
-      field += observe_field :work_package_type_id, :url => url,
-                                                    :update => :attributes,
-                                                    :method => :get,
-                                                    :with => "Form.serialize('work_package-form')"
+    field += observe_field :work_package_type_id, :url => url,
+                                                  :update => :attributes,
+                                                  :method => :get,
+                                                  :with => "Form.serialize('work_package-form')"
 
-      WorkPackageAttribute.new(:type, field)
-    end
+    WorkPackageAttribute.new(:type, field)
   end
 
   def work_package_form_subject_attribute(form, work_package, locals = {})
