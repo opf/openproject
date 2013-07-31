@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 #-- copyright
 # OpenProject is a project management system.
 #
@@ -9,8 +11,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# change from symbol to constant once namespace is removed
-
-InstanceFinder.register(PlanningElementType, Proc.new { |name| PlanningElementType.find_by_name(name) })
-
-RouteMap.register(PlanningElementType, "/planning_element_types")
+Then /I should see a journal with the following:$/ do |table|
+  if table.rows_hash["Notes"]
+    should have_css(".journal", :text => table.rows_hash["Notes"])
+  end
+end

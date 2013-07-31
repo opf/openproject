@@ -15,6 +15,10 @@ describe WorkPackage do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
   let(:stub_version) { FactoryGirl.build_stubbed(:version) }
+  let(:stub_project) { FactoryGirl.build_stubbed(:project) }
+  let(:issue) { FactoryGirl.create(:issue) }
+  let(:planning_element) { FactoryGirl.create(:planning_element).reload }
+  let(:user) { FactoryGirl.create(:user) }
 
   describe :assignable_users do
     it 'should return all users the project deems to be assignable' do
@@ -73,6 +77,126 @@ describe WorkPackage do
       sink.copy_from(source, :exclude => [:project_id])
 
       sink.project_id.should == orig_project_id
+    end
+  end
+
+  describe :new_statuses_allowed_to do
+    it "should return all status" do
+      # Dummy implementation as long as trackers/types are not merged
+      expected = double('expect')
+
+      IssueStatus.stub(:all).and_return(expected)
+
+      stub_work_package.new_statuses_allowed_to(stub_user).should == expected
+    end
+  end
+
+  describe :add_time_entry do
+    it "should return a new time entry" do
+      stub_work_package.add_time_entry.should be_a TimeEntry
+    end
+
+    it "should already have the project assigned" do
+      stub_work_package.project = stub_project
+
+      stub_work_package.add_time_entry.project.should == stub_project
+    end
+
+    it "should already have the work_package assigned" do
+      stub_work_package.add_time_entry.work_package.should == stub_work_package
+    end
+
+    it "should return an usaved entry" do
+      stub_work_package.add_time_entry.should be_new_record
+    end
+  end
+
+  describe :update_with do
+    #TODO remove once only WP exists
+    [:issue, :planning_element].each do |subclass|
+
+      describe "for #{subclass}" do
+        let(:instance) { send(subclass) }
+
+        it "should return true" do
+          instance.update_by(user, {}).should be_true
+        end
+
+        it "should set the values" do
+          instance.update_by(user, { :subject => "New subject" })
+
+          instance.subject.should == "New subject"
+        end
+
+        it "should create a journal with the journal's 'notes' attribute set to the supplied" do
+          instance.update_by(user, { :notes => "blubs" })
+
+          instance.journals.last.notes.should == "blubs"
+        end
+
+        it "should attach an attachment" do
+          raw_attachments = [double('attachment')]
+          attachment = FactoryGirl.build(:attachment)
+
+          Attachment.should_receive(:attach_files)
+                    .with(instance, raw_attachments)
+                    .and_return(attachment)
+
+          instance.update_by(user, { :attachments => raw_attachments })
+        end
+
+        it "should only attach the attachment when saving was successful" do
+          raw_attachments = [double('attachment')]
+          attachment = FactoryGirl.build(:attachment)
+
+          Attachment.should_not_receive(:attach_files)
+
+          instance.update_by(user, { :subject => "", :attachments => raw_attachments })
+        end
+
+        it "should add a time entry" do
+          activity = FactoryGirl.create(:time_entry_activity)
+
+          instance.update_by(user, { :time_entry => { "hours" => "5",
+                                                      "activity_id" => activity.id.to_s,
+                                                      "comments" => "blubs" } } )
+
+          instance.should have(1).time_entries
+
+          entry = instance.time_entries.first
+
+          entry.should be_persisted
+          entry.work_package.should == instance
+          entry.user.should == user
+          entry.project.should == instance.project
+          entry.spent_on.should == Date.today
+        end
+
+        it "should not persist the time entry if the #{subclass}'s update fails" do
+          activity = FactoryGirl.create(:time_entry_activity)
+
+          instance.update_by(user, { :subject => '',
+                                     :time_entry => { "hours" => "5",
+                                                      "activity_id" => activity.id.to_s,
+                                                      "comments" => "blubs" } } )
+
+          instance.should have(1).time_entries
+
+          entry = instance.time_entries.first
+
+          entry.should_not be_persisted
+        end
+
+        it "should not add a time entry if the time entry attributes are empty" do
+          time_attributes = { "hours" => "",
+                              "activity_id" => "",
+                              "comments" => "" }
+
+          instance.update_by(user, :time_entry => time_attributes)
+
+          instance.should have(0).time_entries
+        end
+      end
     end
   end
 end
