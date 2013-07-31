@@ -114,8 +114,8 @@ OptionParser.new do |opts|
   opts.on("-q", "--quiet",              "no log") {$quiet = true}
   opts.separator("")
   opts.separator("Examples:")
-  opts.separator("  reposman.rb --svn-dir=/var/svn --redmine-host=redmine.example.net --scm subversion")
-  opts.separator("  reposman.rb -s /var/git -r redmine.example.net -u http://svn.example.net --scm git")
+  opts.separator("  reposman.rb --svn-dir=/var/svn --redmine-host=redmine.example.net --scm Subversion")
+  opts.separator("  reposman.rb -s /var/git -r redmine.example.net -u http://svn.example.net --scm Git")
   opts.separator("")
   opts.separator("You can find more information on the redmine's wiki:\nhttp://www.redmine.org/projects/redmine/wiki/HowTos")
 end.parse!
