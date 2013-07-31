@@ -51,14 +51,14 @@ Feature: Timeline View Tests
 
       And the user "manager" is a "manager"
 
-      And I am logged in as "manager"
+      And I am already logged in as "manager"
 
       And there are the following planning elements:
-              | Subject  | Start date | Due date   | description       | status_name    | responsible    |
-              | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed         | manager        |
-              | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed         | manager        |
-              | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed         | manager        |
-              | April    | 2012-04-01 | 2012-04-30 | Aioli Sali Grande | closed         | manager        |
+              | Subject  | Start date | Due date   | description       | planning_element_status | responsible    |
+              | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed                  | manager        |
+              | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed                  | manager        |
+              | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed                  | manager        |
+              | April    | 2012-04-01 | 2012-04-30 | Aioli Sali Grande | closed                  | manager        |
               | IchBinEinSoLangesPlannungselementIchMacheAllehierkRanKundDaNnaUcHnOcHdieseGroßUNDKleinSchReiBungWieklEiNeKinDer    | 2012-04-01 | 2012-04-30 | Devilish | closed         | manager        |
 
   Scenario: The project manager gets 'No data to display' when there are no planning elements defined
