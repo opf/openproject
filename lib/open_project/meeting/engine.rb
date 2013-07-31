@@ -21,7 +21,7 @@ module OpenProject::Meeting
     initializer 'meeting.register_plugin' do
       Redmine::Plugin.register :openproject_meeting do
 
-		name 'OpenProject Meeting'
+        name 'OpenProject Meeting'
         author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
         author_url spec.homepage
         description spec.description
@@ -30,30 +30,30 @@ module OpenProject::Meeting
 
         requires_openproject ">= 3.0.0pre9"
 
-	    project_module :meetings do
-	      permission :create_meetings, {:meetings => [:new, :create, :copy]}, :require => :member
-	      permission :edit_meetings, {:meetings => [:edit, :update]}, :require => :member
-	      permission :delete_meetings, {:meetings => [:destroy]}, :require => :member
-	      permission :view_meetings, {:meetings => [:index, :show], :meeting_agendas => [:history, :show, :diff], :meeting_minutes => [:history, :show, :diff]}
-	      permission :create_meeting_agendas, {:meeting_agendas => [:update, :preview]}, :require => :member
-	      permission :close_meeting_agendas, {:meeting_agendas => [:close, :open]}, :require => :member
-	      permission :send_meeting_agendas_notification, {:meeting_agendas => [:notify]}, :require => :member
-	      permission :create_meeting_minutes, {:meeting_minutes => [:update, :preview]}, :require => :member
-	      permission :send_meeting_minutes_notification, {:meeting_minutes => [:notify]}, :require => :member
-	    end
+        project_module :meetings do
+          permission :create_meetings, {:meetings => [:new, :create, :copy]}, :require => :member
+          permission :edit_meetings, {:meetings => [:edit, :update]}, :require => :member
+          permission :delete_meetings, {:meetings => [:destroy]}, :require => :member
+          permission :view_meetings, {:meetings => [:index, :show], :meeting_agendas => [:history, :show, :diff], :meeting_minutes => [:history, :show, :diff]}
+          permission :create_meeting_agendas, {:meeting_agendas => [:update, :preview]}, :require => :member
+          permission :close_meeting_agendas, {:meeting_agendas => [:close, :open]}, :require => :member
+          permission :send_meeting_agendas_notification, {:meeting_agendas => [:notify]}, :require => :member
+          permission :create_meeting_minutes, {:meeting_minutes => [:update, :preview]}, :require => :member
+          permission :send_meeting_minutes_notification, {:meeting_minutes => [:notify]}, :require => :member
+        end
 
-	    Redmine::Search.map do |search|
-	      search.register :meetings
-	    end
+        Redmine::Search.map do |search|
+          search.register :meetings
+        end
 
-	    menu :project_menu, :meetings, {:controller => 'meetings', :action => 'index'}, :caption => :project_module_meetings, :param => :project_id, :after => :wiki
-	    menu :project_menu, :new_meeting, {:controller => 'meetings', :action => 'new'}, :param => :project_id, :caption => :label_meeting_new, :parent => :meetings
+        menu :project_menu, :meetings, {:controller => 'meetings', :action => 'index'}, :caption => :project_module_meetings, :param => :project_id, :after => :wiki
+        menu :project_menu, :new_meeting, {:controller => 'meetings', :action => 'new'}, :param => :project_id, :caption => :label_meeting_new, :parent => :meetings
 
-	    ActiveSupport::Inflector.inflections do |inflect|
-	      inflect.uncountable "meeting_minutes"
-	    end
-	  end
-	end
+        ActiveSupport::Inflector.inflections do |inflect|
+          inflect.uncountable "meeting_minutes"
+        end
+      end
+    end
 
     initializer 'meeting.precompile_assets' do |app|
       app.config.assets.precompile += ["meeting.css"]
