@@ -220,8 +220,8 @@ class VersionTest < ActiveSupport::TestCase
 
     should "return the sum of leaves estimated hours" do
       parent = add_issue(@version)
-      add_issue(@version, :estimated_hours => 2.5, :parent_issue_id => parent.id)
-      add_issue(@version, :estimated_hours => 5, :parent_issue_id => parent.id)
+      add_issue(@version, :estimated_hours => 2.5, :parent_id => parent.id)
+      add_issue(@version, :estimated_hours => 5, :parent_id => parent.id)
       assert_equal 7.5, @version.estimated_hours
     end
   end

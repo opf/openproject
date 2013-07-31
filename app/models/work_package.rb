@@ -50,7 +50,17 @@ class WorkPackage < ActiveRecord::Base
 
   acts_as_watchable
 
-  acts_as_nested_set :scope => 'root_id', :dependent => :destroy
+  before_save :store_former_parent_id
+  include OpenProject::NestedSet::WithRootIdScope
+  after_save :reschedule_following_issues,
+             :update_parent_attributes,
+             :create_alternate_date
+
+  after_move :remove_invalid_relations,
+             :recalculate_attributes_for_former_parent
+
+  after_destroy :update_parent_attributes
+
   acts_as_customizable
 
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
@@ -108,6 +118,17 @@ class WorkPackage < ActiveRecord::Base
                                                     :responsible_id
   register_on_journal_formatter :scenario_date,     /^scenario_(\d+)_(start|due)_date$/
 
+  # acts_as_journalized will create an initial journal on wp creation
+  # and touch the journaled object:
+  # journal.rb:47
+  #
+  # This will result in optimistic locking increasing the lock_version attribute to 1.
+  # In order to avoid stale object errors we reload the attributes in question
+  # after the wp is created.
+  # As after_create is run before after_save, and journal creation is triggered by an
+  # after_save hook, we rely on after_save and a specific version, here.
+  after_save :reload_lock_and_timestamps, :if => Proc.new { |wp| wp.lock_version == 0 }
+
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_work_packages, options)
@@ -150,7 +171,7 @@ class WorkPackage < ActiveRecord::Base
 
     # attributes don't come from form, so it's save to force assign
     self.force_attributes = work_package.attributes.dup.except(*merged_options[:exclude])
-    self.parent_issue_id = work_package.parent_id if work_package.parent_id
+    self.parent_id = work_package.parent_id if work_package.parent_id
     self.custom_field_values = work_package.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = work_package.status
     self
@@ -240,6 +261,30 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
+  def trash
+    unless new_record? or self.deleted_at
+      self.children.each{|child| child.trash}
+
+      self.reload
+      self.deleted_at = Time.now
+      self.save!
+    end
+    freeze
+  end
+
+  def restore!
+    unless parent && parent.deleted?
+      self.deleted_at = nil
+      self.save
+    else
+      raise "You cannot restore an element whose parent is deleted. Restore the parent first!"
+    end
+  end
+
+  def deleted?
+    !!read_attribute(:deleted_at)
+  end
+
   # Users the work_package can be assigned to
   delegate :assignable_users, :to => :project
 
@@ -282,47 +327,8 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
-  def recalculate_attributes_for(work_package_id)
-    if work_package_id.is_a? WorkPackage
-      p = work_package_id
-    else
-      p = WorkPackage.find_by_id(work_package_id)
-    end
-
-    if p
-      # priority = highest priority of children
-      if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
-        p.priority = IssuePriority.find_by_position(priority_position)
-      end
-
-      # start/due dates = lowest/highest dates of children
-      p.start_date = p.children.minimum(:start_date)
-      p.due_date = p.children.maximum(:due_date)
-      if p.start_date && p.due_date && p.due_date < p.start_date
-        p.start_date, p.due_date = p.due_date, p.start_date
-      end
-
-      # done ratio = weighted average ratio of leaves
-      unless WorkPackage.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
-        leaves_count = p.leaves.count
-        if leaves_count > 0
-          average = p.leaves.average(:estimated_hours).to_f
-          if average == 0
-            average = 1
-          end
-          done = p.leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
-          progress = done / (average * leaves_count)
-          p.done_ratio = progress.round
-        end
-      end
-
-      # estimate = sum of leaves estimates
-      p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
-      p.estimated_hours = nil if p.estimated_hours == 0.0
-
-      # ancestors will be recursively updated
-      p.save(:validate => false) if p.changed?
-    end
+  def is_milestone?
+    planning_element_type && planning_element_type.is_milestone?
   end
 
   # This is a dummy implementation that is currently overwritten
@@ -346,6 +352,99 @@ class WorkPackage < ActiveRecord::Base
                                          .sum("#{TimeEntry.table_name}.hours").to_f || 0.0
   end
 
+  protected
+
+  def recalculate_attributes_for(work_package_id)
+    p = if work_package_id.is_a? WorkPackage
+          work_package_id
+        else
+          WorkPackage.find_by_id(work_package_id)
+        end
+
+    return unless p
+
+    p.inherit_priority_from_children
+
+    p.inherit_dates_from_children
+
+    p.inherit_done_ratio_from_leaves
+
+    p.inherit_estimated_hours_from_leaves
+
+    # ancestors will be recursively updated
+    if p.changed?
+      p.journal_notes = I18n.t('timelines.planning_element_updated_automatically_by_child_changes', :child => "*#{id}")
+
+      # Ancestors will be updated by parent's after_save hook.
+      p.save(:validate => false)
+    end
+  end
+
+  def update_parent_attributes
+    recalculate_attributes_for(parent_id) if parent_id.present?
+  end
+
+  def inherit_priority_from_children
+    # priority = highest priority of children
+    if priority_position = children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
+      self.priority = IssuePriority.find_by_position(priority_position)
+    end
+  end
+
+  def inherit_dates_from_children
+    active_children = children.without_deleted
+
+    unless active_children.empty?
+      self.start_date = [active_children.minimum(:start_date), active_children.minimum(:due_date)].compact.min
+      self.due_date   = [active_children.maximum(:start_date), active_children.maximum(:due_date)].compact.max
+    end
+  end
+
+  def inherit_done_ratio_from_leaves
+    # done ratio = weighted average ratio of leaves
+    unless WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
+      leaves_count = leaves.count
+      if leaves_count > 0
+        average = leaves.average(:estimated_hours).to_f
+        if average == 0
+          average = 1
+        end
+        done = leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
+        progress = done / (average * leaves_count)
+
+        self.done_ratio = progress.round
+      end
+    end
+  end
+
+  def inherit_estimated_hours_from_leaves
+    # estimate = sum of leaves estimates
+    self.estimated_hours = leaves.sum(:estimated_hours).to_f
+    self.estimated_hours = nil if estimated_hours == 0.0
+  end
+
+  def store_former_parent_id
+    @former_parent_id = parent_id_changed? ? parent_id_was : false
+    true # force callback to return true
+  end
+
+  def remove_invalid_relations
+    # delete invalid relations of all descendants
+    self_and_descendants.each do |issue|
+      issue.relations.each do |relation|
+        relation.destroy unless relation.valid?
+      end
+    end
+  end
+
+  def recalculate_attributes_for_former_parent
+    recalculate_attributes_for(@former_parent_id) if @former_parent_id
+  end
+
+  def reload_lock_and_timestamps
+    reload(:select => [:lock_version, :created_at, :updated_at])
+  end
+
   private
 
   def add_time_entry_for(user, attributes)
@@ -355,5 +454,17 @@ class WorkPackage < ActiveRecord::Base
                                 :spent_on => Date.today })
 
     time_entries.build(attributes)
+  end
+
+  def create_alternate_date
+    # This is a hack.
+    # It is required as long as alternate dates exist/are not moved up to work_packages.
+    # Its purpose is to allow for setting the after_save filter in the correct order
+    # before acts as journalized and the cleanup method reload_lock_and_timestamps.
+    return true unless respond_to?(:alternate_dates)
+
+    if start_date_changed? or due_date_changed?
+      alternate_dates.create(:start_date => start_date, :due_date => due_date)
+    end
   end
 end

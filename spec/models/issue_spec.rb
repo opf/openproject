@@ -81,7 +81,6 @@ describe Issue do
         @issue.status = @status_rejected
         @issue.priority = @priority_low
         @issue.estimated_hours = 3
-        @issue.remaining_hours = 43 if Redmine::Plugin.all.collect(&:id).include?(:backlogs)
         @issue.save!
 
         initial_journal = @issue.journals.first
