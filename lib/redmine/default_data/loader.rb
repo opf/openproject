@@ -125,6 +125,7 @@ module Redmine
             # Types
             Type.create! :name           => l(:default_type_bug),
                          :color_id       => colors[:pjRed],
+                         :is_default     => true,
                          :is_in_chlog    => true,
                          :is_in_roadmap  => false,
                          :in_aggregation => true,
@@ -132,6 +133,7 @@ module Redmine
                          :position       => 1
 
             Type.create! :name           => l(:default_type_feature),
+                         :is_default     => true,
                          :color_id       => colors[:pjLime],
                          :is_in_chlog    => true,
                          :is_in_roadmap  => true,
@@ -140,6 +142,7 @@ module Redmine
                          :position       => 2
 
             Type.create! :name           => l(:default_type_support),
+                         :is_default     => true,
                          :color_id       => colors[:pjBlue],
                          :is_in_chlog    => false,
                          :is_in_roadmap  => false,
@@ -148,6 +151,7 @@ module Redmine
                          :position       => 3
 
             Type.create! :name           => l(:default_type_phase),
+                         :is_default     => true,
                          :color_id       => colors[:pjSilver],
                          :is_in_chlog    => false,
                          :is_in_roadmap  => false,
@@ -156,6 +160,7 @@ module Redmine
                          :position       => 4
 
             Type.create! :name           => l(:default_type_milestone),
+                         :is_default     => true,
                          :color_id       => colors[:pjPurple],
                          :is_in_chlog    => false,
                          :is_in_roadmap  => true,
