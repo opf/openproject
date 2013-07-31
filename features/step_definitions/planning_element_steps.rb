@@ -24,7 +24,7 @@ Given (/^there are the following planning elements(?: in project "([^"]*)")?:$/)
       ["planning_element_status", PlanningElementStatus],
       ["responsible", User],
       ["assigned_to", User],
-      ["planning_element_type", PlanningElementType],
+      ["type", Type],
       ["fixed_version", Version],
       ["priority", IssuePriority],
       ["parent", WorkPackage]
