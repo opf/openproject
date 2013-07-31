@@ -45,7 +45,7 @@ Feature: Group memberships
 
   Scenario: Adding members to a group after the group has been added to the project adds the users to the project
     Given the group "group1" is a "beta" in the project "project1"
-    And I am admin
+    And I am already admin
     When I go to the edit page of the group called "group1"
     And I follow "Users" within ".tabs"
     And I add the user "alice" to the group

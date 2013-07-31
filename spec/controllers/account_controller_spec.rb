@@ -28,7 +28,7 @@ describe AccountController do
 
     describe "User who is not allowed to change password can't login" do
       before do
-        admin = User.find{|u| u.admin}
+        admin = User.find_by_admin(true)
 
         post "change_password", :username => admin.login,
                                 :password => 'adminADMIN!',
@@ -43,7 +43,7 @@ describe AccountController do
 
     describe "User who is not allowed to change password, is not redirected to the login page" do
       before do
-        admin = User.find{|u| u.admin}
+        admin = User.find_by_admin(true)
 
         post "login", {:username => admin.login, :password => 'adminADMIN!'}
       end

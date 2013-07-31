@@ -12,7 +12,7 @@
 Feature: Error Messages
 
   Background:
-    Given I am admin
+    Given I am already admin
 
     Given there is a role "Manager"
 

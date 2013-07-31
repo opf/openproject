@@ -49,13 +49,13 @@ Given /^(?:|I )am [aA]dmin$/ do
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
 
-  admin = User.find{|u| u.admin}
+  admin = User.find_by_admin(true)
 
   login(admin.login, 'adminADMIN!')
 end
 
 Given /^(?:|I )am already [aA]dmin$/ do
-  admin = User.find{|u| u.admin}
+  admin = User.find_by_admin(true)
   # see https://github.com/railsware/rack_session_access
   page.set_rack_session(:user_id => admin.id)
 end

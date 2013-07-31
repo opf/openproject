@@ -13,7 +13,7 @@
 
 Feature: User Status
   Background:
-    Given I am admin
+    Given I am already admin
     Given there is a user named "bobby"
 
   Scenario: Existing user can be assigned a random password

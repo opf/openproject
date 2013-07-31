@@ -15,21 +15,21 @@ Feature: General Timelines adminstration
   So that I can see the reason why I cannot see anything
 
   Scenario: The admin gets 'No data to display' when there are no colors defined
-    Given I am admin
+    Given I am already admin
      When I go to the admin page
       And I follow "Colors"
      Then I should see "No data to display"
       And I should see "New color"
 
   Scenario: The admin gets 'No data to display' when there are no project types defined
-    Given I am admin
+    Given I am already admin
      When I go to the admin page
       And I follow "Project types"
      Then I should see "No data to display"
       And I should see "New project type"
 
   Scenario: The admin gets 'No data to display' when there are no planning element types defined
-    Given I am admin
+    Given I am already admin
      When I go to the admin page
       And I follow "Planning element types"
      Then I should see "No data to display"

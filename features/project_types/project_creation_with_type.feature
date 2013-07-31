@@ -35,7 +35,7 @@ Feature: Project creation with support for project type
 
 
   Scenario: The admin may create a project with a project type
-    Given I am admin
+    Given I am already admin
      When I go to the admin page
       And I follow "Projects"
       And I follow "New project"

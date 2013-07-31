@@ -37,7 +37,7 @@ Feature: User deletion
     Given the "users_deletable_by_admins" setting is set to true
     And there is 1 user with the following:
       | login     | bob |
-    And I am admin
+    And I am already admin
     When I go to the edit page of the user "bob"
     And I select "Delete" from the action menu
     And I press "Delete"
@@ -49,12 +49,12 @@ Feature: User deletion
     Given the "users_deletable_by_admins" setting is set to false
     And there is 1 user with the following:
       | login     | bob |
-    And I am admin
+    And I am already admin
     And I go to the edit page of the user "bob"
     Then there should not be a "Delete" entry in the action menu
 
   Scenario: Deletablilty settings can be set in the users tab of the settings
-    Given I am admin
+    Given I am already admin
     And the "users_deletable_by_admins" setting is set to false
     And the "users_deletable_by_self" setting is set to false
     And I go to the users tab of the settings page

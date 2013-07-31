@@ -14,7 +14,7 @@ Feature:
   I want to be able to do basic CRUD operations on project types
 
   Background:
-      Given I am admin
+      Given I am already admin
 
       And there are the following project types:
         | Name                  |

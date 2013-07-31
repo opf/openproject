@@ -28,7 +28,7 @@ Feature: Activities
       | activity |
     And the project "project2" has 1 issue with the following:
       |  subject | issue2 |
-    And I am admin
+    And I am already admin
 
 Scenario: Hide activity from Projects with disabled activity module
     When I go to the overall activity page
