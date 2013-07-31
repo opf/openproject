@@ -90,6 +90,7 @@ Redmine::AccessControl.map do |map|
                                  :'issues/previews' => :create}
     map.permission :add_work_packages, { :work_packages => [:new, :new_type, :create] }
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
+                                          :work_packages => [:edit, :update, :new_type],
                                           :'issues/previews' => :create}
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
@@ -167,6 +168,8 @@ Redmine::AccessControl.map do |map|
   map.project_module :calendar do |map|
     map.permission :view_calendar, :'issues/calendars' => [:index]
   end
+
+  map.project_module :activity
 
   map.project_module :timelines do |map|
     map.permission :manage_project_configuration,
@@ -284,7 +287,7 @@ Redmine::MenuManager.map :project_menu do |menu|
               :if => Proc.new { |p| p.shared_versions.any? }
 
   menu.push :issues, { :controller => '/issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
-  menu.push :new_issue, { :controller => '/work_packages', :action => 'new', :type => 'Issue' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
+  menu.push :new_issue, { :controller => '/work_packages', :action => 'new', :sti_type => 'Issue' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
   menu.push :view_all_issues, { :controller => '/issues', :action => 'all' }, :param => :project_id, :caption => :label_issue_view_all, :parent => :issues
   menu.push :summary_field, {:controller => '/issues/reports', :action => 'report'}, :param => :project_id, :caption => :label_workflow_summary, :parent => :issues
@@ -369,5 +372,3 @@ Redmine::WikiFormatting.map do |format|
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler
-
-Redmine::AccessControl.available_project_modules << :activity

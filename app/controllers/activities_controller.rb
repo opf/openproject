@@ -83,7 +83,7 @@ class ActivitiesController < ApplicationController
       project_ids = []
       if event.respond_to?(:changed_data) and event.changed_data['project_id']
         project_ids = event.changed_data['project_id']
-      elsif event.respond_to?(:project_id)
+      elsif event.respond_to?(:project_id) or event.journaled.respond_to?(:project_id)
         project_ids = [ event.project_id ]
       end
       if project_ids.empty?

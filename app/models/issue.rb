@@ -414,15 +414,6 @@ class Issue < WorkPackage
     notified.collect(&:mail)
   end
 
-  # Returns the total number of hours spent on this issue and its descendants
-  #
-  # Example:
-  #   spent_hours => 0.0
-  #   spent_hours => 50.2
-  def spent_hours
-    @spent_hours ||= self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f || 0.0
-  end
-
   # Returns the time scheduled for this issue.
   #
   # Example:

@@ -27,9 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="box">
     <%= render :partial => 'form', :locals => { :f => f,
-                                                :work_package => controller.new_work_package,
-                                                :project => controller.project,
-                                                :priorities => controller.priorities } %>
+                                                :work_package => work_package,
+                                                :project => project,
+                                                :priorities => priorities,
+                                                :user => user } %>
     <%= send_notification_option %>
   </div>
 
