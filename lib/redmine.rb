@@ -53,7 +53,7 @@ end
 Redmine::AccessControl.map do |map|
   map.permission :view_project,
                  {
-                   :planning_element_types => [:index, :show],
+                   :types => [:index, :show],
                    :projects => [:show],
                    :scenarios => [:index, :show],
                    :projects => [:show],
