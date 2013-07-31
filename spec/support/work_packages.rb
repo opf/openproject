@@ -29,3 +29,7 @@ end
 def become_member_with_view_planning_element_permissions
   become_member_with_permissions [:view_planning_elements, :view_work_packages]
 end
+
+def become_member_with_move_work_package_permissions
+  become_member_with_permissions [:move_work_packages]
+end
