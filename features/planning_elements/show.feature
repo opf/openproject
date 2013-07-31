@@ -12,16 +12,13 @@
 Feature: Viewing a planning_element
 
   Background:
-    Given there are the following planning element types:
-          | Name      | Is Milestone | In aggregation |
-          | Phase     | false        | true           |
+    Given there are the following types:
+          | Name  | Is Milestone | In aggregation | Is default |
+          | Phase | false        | true           | true       |
 
       And there are the following project types:
           | Name                  |
           | Standard Project      |
-
-      And the following types are default for projects of type "Standard Project"
-          | Phase     |
 
       And there is 1 user with:
           | login | manager |

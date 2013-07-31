@@ -28,20 +28,6 @@ Feature: Timeline View Tests with reporters
           | Standard Project      |
           | Extraordinary Project |
 
-      And the following types are default for projects of type "Standard Project"
-          | Phase1    |
-          | Phase2    |
-          | Phase3    |
-          | Phase4    |
-          | Milestone |
-
-      And the following types are default for projects of type "Extraordinary Project"
-          | Phase1    |
-          | Phase2    |
-          | Phase3    |
-          | Phase4    |
-          | Milestone |
-
       And there is 1 user with:
           | login | manager |
 
@@ -58,6 +44,7 @@ Feature: Timeline View Tests with reporters
           | view_project_associations   |
 
       And there is a project named "ürm" of type "Standard Project"
+
       And I am working in project "ürm"
       And the user "manager" is a "manager"
 
@@ -69,6 +56,13 @@ Feature: Timeline View Tests with reporters
 
       And I am working in project "ecookbook0"
       And the user "manager" is a "manager"
+
+      And the following types are enabled for projects of type "Standard Project"
+          | Phase1    |
+          | Phase2    |
+          | Phase3    |
+          | Phase4    |
+          | Milestone |
 
       And the project uses the following modules:
           | timelines |
@@ -96,6 +90,13 @@ Feature: Timeline View Tests with reporters
               | April13    | 2013-04-01 | 2013-04-30 | Aioli Sali Grande | closed         | manager        |
 
       And there is a project named "ecookbookQ3" of type "Extraordinary Project"
+      And the following types are enabled for projects of type "Extraordinary Project"
+          | Phase1    |
+          | Phase2    |
+          | Phase3    |
+          | Phase4    |
+          | Milestone |
+
       And the project "ecookbookQ3" has the parent "ecookbook13"
       And I am working in project "ecookbookQ3"
       And the user "manager" is a "manager"
@@ -152,6 +153,13 @@ Feature: Timeline View Tests with reporters
     When there is a timeline "Testline" for project "ürm"
       And I set the first level grouping criteria to "ürm" for the timeline "Testline" of the project called "ürm"
       And I set the second level grouping criteria to "Extraordinary Project" for the timeline "Testline" of the project called "ürm"
+      And the following types are enabled for projects of type "Extraordinary Project"
+          | Phase1    |
+          | Phase2    |
+          | Phase3    |
+          | Phase4    |
+          | Milestone |
+
       And I wait for timeline to load table
 
      Then I should see the project "ecookbookEmpty"

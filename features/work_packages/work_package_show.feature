@@ -25,14 +25,9 @@ Feature: Viewing a work package
     And there is a issuepriority with:
       | name   | Immediate |
 
-    And there are the following planning element types:
-      | Name  | Is Milestone | In aggregation |
-      | Phase | false        | true           |
-    And there are the following project types:
-      | Name             |
-      | Standard Project |
-    And the following types are default for projects of type "Standard Project"
-      | Phase |
+    And there are the following types:
+      | Name  | Is Milestone | In aggregation | Is default |
+      | Phase | false        | true           | true       |
 
     And there is a role "member"
     And the role "member" may have the following rights:

@@ -91,17 +91,11 @@ Given /^I delete the scenario "([^"]*)"$/ do |scenario_name|
   scenario.destroy
 end
 
-Given /^there is a project named "(.*?)"$/ do |name|
-  FactoryGirl.create(:project, :name => name)
-end
-
-# Using our own project creation step to make sure, that we may initially assign
-# a project type.
-#
-Given /^there is a project named "([^"]*)" of type "([^"]*)"$/ do |name, project_type_name|
+Given /^there is a project named "([^"]*)"(?: of type "([^"]*)")?$/ do |name, project_type_name|
+  project_type_id = ProjectType.find_by_name!(project_type_name).id unless project_type_name.nil?
   FactoryGirl.create(:project,
                      :name => name,
-                     :project_type_id => ProjectType.find_by_name!(project_type_name).id)
+                     :project_type_id => project_type_id)
 end
 
 Given /^there are the following projects of type "([^"]*)":$/ do |project_type_name, table|
@@ -144,3 +138,15 @@ Given /^there is a timeline "([^"]*)" for project "([^"]*)"$/ do |timeline_name,
   timeline.save!
 end
 
+Given /^the following types are enabled for projects of type "(.*?)"$/ do |project_type_name, type_name_table|
+  project_type = ProjectType.find_by_name(project_type_name)
+  projects = Project.where(:project_type_id => project_type.id)
+  types = type_name_table.raw.flatten.map do |type_name|
+    Type.find_by_name(type_name) || Factory.create(:type, :name => type_name)
+  end
+
+  projects.each do |project|
+    project.types = types
+    project.save
+  end
+end

@@ -11,7 +11,7 @@
 
 Feature: Timeline Wiki Macro
   Background:
-    Given there are the following planning element types:
+    Given there are the following types:
           | Name      | Is Milestone | In aggregation |
           | Phase     | false        | true           |
           | Milestone | true         | true           |
@@ -20,10 +20,6 @@ Feature: Timeline Wiki Macro
           | Name                  |
           | Standard Project      |
           | Extraordinary Project |
-
-      And the following types are default for projects of type "Standard Project"
-          | Phase     |
-          | Milestone |
 
       And there is 1 user with:
           | login | manager |
@@ -50,6 +46,10 @@ Feature: Timeline Wiki Macro
           | delete_planning_elements |
 
       And there is a project named "ecookbook" of type "Standard Project"
+      And the following types are enabled for projects of type "Standard Project"
+          | Phase     |
+          | Milestone |
+
       And I am working in project "ecookbook"
 
       And the project uses the following modules:

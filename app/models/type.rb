@@ -100,14 +100,7 @@ class Type < ActiveRecord::Base
   end
 
   def enabled_in?(object)
-    case object
-    when ProjectType
-      object.types.include?(self)
-    when Project
-      object.types.include?(self)
-    else
-      false
-    end
+    object.types.include?(self)
   end
 
   def available_colors

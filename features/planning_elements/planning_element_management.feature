@@ -15,19 +15,15 @@ Feature: Planning Element Management
   So that I can plan the project's progress and report it to other projects
 
   Background:
-    Given there are the following planning element types:
-          | Name      | Is Milestone | In aggregation |
-          | Phase     | false        | true           |
-          | Milestone | true         | true           |
+    Given there are the following types:
+          | Name      | Is milestone | In aggregation | Is default |
+          | Phase     | false        | true           | true       |
+          | Milestone | true         | true           | true       |
 
       And there are the following project types:
           | Name                  |
           | Standard Project      |
           | Extraordinary Project |
-
-      And the following types are default for projects of type "Standard Project"
-          | Phase     |
-          | Milestone |
 
       And there is 1 user with:
           | login | manager |

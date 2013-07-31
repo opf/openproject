@@ -6,7 +6,7 @@ module WorkPackagesHelper
   end
 
   def ancestors_links
-    ancestors = controller.ancestors.map do |parent|
+    controller.ancestors.map do |parent|
       link_to '#' + h(parent.id), work_package_path(parent.id)
     end
   end
@@ -81,7 +81,6 @@ module WorkPackagesHelper
   def work_package_form_top_attributes(form, work_package, locals = {})
     [
       work_package_form_type_attribute(form, work_package, locals),
-      work_package_form_planning_element_type_attribute(form, work_package, locals),
       work_package_form_subject_attribute(form, work_package, locals),
       work_package_form_parent_attribute(form, work_package, locals),
       work_package_form_description_attribute(form, work_package, locals)
@@ -208,16 +207,6 @@ module WorkPackagesHelper
                                                     :update => :attributes,
                                                     :method => :get,
                                                     :with => "Form.serialize('work_package-form')"
-
-      WorkPackageAttribute.new(:type, field)
-    end
-  end
-
-  def work_package_form_planning_element_type_attribute(form, work_package, locals = {})
-    if work_package.is_a?(PlanningElement)
-      field = form.select :planning_element_type_id,
-                          (locals[:project].types.collect { |m| [m.name, m.id] }),
-                          :include_blank => true
 
       WorkPackageAttribute.new(:type, field)
     end
