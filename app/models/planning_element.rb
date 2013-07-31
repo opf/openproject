@@ -61,9 +61,6 @@ class PlanningElement < WorkPackage
 
   }
 
-  scope :visible, lambda {|*args| { :include => :project,
-                                          :conditions => PlanningElement.visible_condition(args.first || User.current) } }
-
   scope :at_time, lambda { |time|
     {:select     => SQL_FOR_AT[:select],
      :conditions => ["(#{PlanningElement.quoted_table_name}.deleted_at IS NULL
@@ -119,9 +116,6 @@ class PlanningElement < WorkPackage
 
   before_save :append_scenario_dates_to_journal
 
-  after_save :update_parent_attributes
-  after_save :create_alternate_date
-
   validates_presence_of :subject, :project
 
   validates_length_of :subject, :maximum => 255, :unless => lambda { |e| e.subject.blank? }
@@ -132,10 +126,6 @@ class PlanningElement < WorkPackage
     else
       due_date - start_date + 1
     end
-  end
-
-  def is_milestone?
-    planning_element_type && planning_element_type.is_milestone?
   end
 
   validate do
@@ -157,10 +147,6 @@ class PlanningElement < WorkPackage
       errors.add :parent, :cannot_be_in_recycle_bin if parent.deleted?
     end
 
-  end
-
-  def leaf?
-    self.children.count == 0
   end
 
   def all_scenarios
@@ -214,77 +200,6 @@ class PlanningElement < WorkPackage
         alternate_date.attributes = {'start_date' => pe_scenario['start_date'],
                                      'due_date'   => pe_scenario['due_date']}
       end
-    end
-  end
-
-  def note
-    @journal_notes
-  end
-
-  def note=(text)
-    @journal_notes = text
-  end
-
-  def trash
-    unless new_record? or self.deleted_at
-      self.children.each{|child| child.trash}
-
-      self.reload
-      self.deleted_at = Time.now
-      self.save!
-    end
-    freeze
-  end
-
-  def restore!
-    unless parent && parent.deleted?
-      self.deleted_at = nil
-      self.save
-    else
-      raise "You cannot restore an element whose parent is deleted. Restore the parent first!"
-    end
-  end
-
-  def deleted?
-    !!read_attribute(:deleted_at)
-  end
-
-  # Aliasing the parent_issue_id methods here in order
-  # to improve compatibility between
-  # planning elments and issues
-  alias_method :parent_issue_id, :parent_id
-
-  # I am not sure why it is not possible to
-  # alias_method :parent_issue_id=, :parent_id=
-  def parent_issue_id=(arg)
-    parent_id = arg
-  end
-
-  protected
-
-  def update_parent_attributes
-    if parent.present?
-      parent.reload
-
-      unless parent.children.without_deleted.empty?
-        children = parent.children.without_deleted
-
-        parent.start_date = [children.minimum(:start_date), children.minimum(:due_date)].reject(&:nil?).min
-        parent.due_date   = [children.maximum(:start_date), children.maximum(:due_date)].reject(&:nil?).max
-
-        if parent.changes.present?
-          parent.note = I18n.t('timelines.planning_element_updated_automatically_by_child_changes', :child => "*#{id}")
-
-          # Ancestors will be updated by parent's after_save hook.
-          parent.save(:validate => false)
-        end
-      end
-    end
-  end
-
-  def create_alternate_date
-    if start_date_changed? or due_date_changed?
-      alternate_dates.create(:start_date => start_date, :due_date => due_date)
     end
   end
 end

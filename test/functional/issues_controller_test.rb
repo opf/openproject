@@ -521,7 +521,7 @@ class IssuesControllerTest < ActionController::TestCase
       post :create, :project_id => 1,
                  :issue => {:type_id => 1,
                             :subject => 'This is a child issue',
-                            :parent_issue_id => 2}
+                            :parent_id => 2}
     end
     issue = Issue.find_by_subject('This is a child issue')
     assert_not_nil issue
@@ -535,7 +535,7 @@ class IssuesControllerTest < ActionController::TestCase
       post :create, :project_id => 1,
                  :issue => {:type_id => 1,
                             :subject => 'This is a child issue',
-                            :parent_issue_id => 'ABC'}
+                            :parent_id => 'ABC'}
     end
     issue = Issue.find_by_subject('This is a child issue')
     assert_not_nil issue
@@ -1088,7 +1088,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'bulk_edit'
 
-    assert_tag :input, :attributes => {:name => 'issue[parent_issue_id]'}
+    assert_tag :input, :attributes => {:name => 'issue[parent_id]'}
 
     # Project specific custom field, date type
     field = CustomField.find(9)
@@ -1108,7 +1108,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'bulk_edit'
 
     # Can not set issues from different projects as children of an issue
-    assert_no_tag :input, :attributes => {:name => 'issue[parent_issue_id]'}
+    assert_no_tag :input, :attributes => {:name => 'issue[parent_id]'}
 
     # Project specific custom field, date type
     field = CustomField.find(9)
@@ -1223,7 +1223,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     put :bulk_update, :ids => [1, 3],
       :notes => 'Bulk editing parent',
-      :issue => {:priority_id => '', :assigned_to_id => '', :status_id => '', :parent_issue_id => '2'}
+      :issue => {:priority_id => '', :assigned_to_id => '', :status_id => '', :parent_id => '2'}
 
     assert_response 302
     parent = Issue.find(2)
@@ -1341,7 +1341,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_destroy_parent_and_child_issues
     parent = Issue.generate!(:project_id => 1, :type_id => 1)
-    child = Issue.generate!(:project_id => 1, :type_id => 1, :parent_issue_id => parent.id)
+    child = Issue.generate!(:project_id => 1, :type_id => 1, :parent_id => parent.id)
     assert child.is_descendant_of?(parent.reload)
 
     @request.session[:user_id] = 2

@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= check_box_tag("ids[]", issue.id, false, :id => "issue#{issue.id}") %>
           </td>
           <td class="id">
-            <% if parent_issue = issue.parent_issue_id %>
+            <% if parent_issue = issue.parent_id %>
               <span class='hidden-for-sighted'><%=l(:description_subissue) + ' ' + l(:label_issue) + ' #' + parent_issue.to_s %></span>
             <% end -%>
             <%= link_to issue.id, :controller => '/issues', :action => 'show', :id => issue %>
