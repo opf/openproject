@@ -129,6 +129,10 @@ module ApplicationHelper
     s
   end
 
+  def link_to_work_package(work_package)
+    link_to_issue work_package
+  end
+
   # Generates a link to an attachment.
   # Options:
   # * :text - Link text (default to attachment filename)
