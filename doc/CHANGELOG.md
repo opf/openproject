@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1577` Searching for project member candidates is only possible when using "firstname lastname" (or parts of it)
+
 ## 3.0.0pre9
 
 * `#1517` Journal changed_data cannot contain the changes of a wiki_content content
