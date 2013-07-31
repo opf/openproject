@@ -61,7 +61,7 @@ Feature: Planning Element Management
       And I follow "New planning element"
       And I fill in "February" for "Subject"
       And I fill in "2012-02-01" for "Start date"
-      And I fill in "2012-02-29" for "End date"
+      And I fill in "2012-02-29" for "Due date"
       And I submit the form by the "Create" button
      Then I should see a notice flash stating "Successful creation."
       And I should see "February"
@@ -104,7 +104,7 @@ Feature: Planning Element Management
      When I go to the page of the planning element "January" of the project called "ecookbook"
      When I click on "Update" within "#content > .action_menu_main"
      When I fill in "2012-02-01" for "worst case Start date"
-      And I fill in "2012-02-29" for "worst case End date"
+      And I fill in "2012-02-29" for "worst case Due date"
       And I press "Save"
      Then I should see "Scenario worst case: Start date changed from 01/01/2013 to 02/01/2012"
       And I should see "Scenario worst case: Due date changed from 01/31/2013 to 02/29/2012"

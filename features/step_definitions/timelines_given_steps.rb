@@ -70,10 +70,6 @@ Given /^there is a scenario "([^"]*)" in project "([^"]*)"$/ do |scenario_name, 
   FactoryGirl.create(:scenario, :name => scenario_name, :project_id => Project.find_by_name!(project_name).id)
 end
 
-
-#Factory.create(:timelines_reporting, :project => add_project, :reporting_to_project => Project.find(identifier))
-
-
 Given /^there are the following alternate dates for "([^"]*)":$/ do |scenario_name, table|
   scenario = Scenario.find_by_name!(scenario_name)
 
@@ -102,11 +98,6 @@ Given /^there are the following projects of type "([^"]*)":$/ do |project_type_n
   table.raw.flatten.each do |name|
     step %Q{there is a project named "#{name}" of type "#{project_type_name}"}
   end
-end
-
-Given /^the project(?: named "([^"]*)")? has no project type$/ do |name|
-  project = get_project(name)
-  project.update_attribute(:project_type_id, nil)
 end
 
 Given /^there are the following project associations:$/ do |table|

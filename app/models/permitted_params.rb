@@ -82,7 +82,13 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def new_work_package(args = {})
-    permitted = permitted_attributes(args)
+    permitted = permitted_attributes(:new_work_package, args)
+
+    params[:work_package].permit(*permitted)
+  end
+
+  def update_work_package(args = {})
+    permitted = permitted_attributes(:new_work_package, args)
 
     params[:work_package].permit(*permitted)
   end
@@ -128,8 +134,8 @@ class PermittedParams < Struct.new(:params, :user)
 
   protected
 
-  def permitted_attributes(args)
-    merged_args = { :user => user }.merge(args)
+  def permitted_attributes(key, additions = {})
+    merged_args = { :params => params, :user => user }.merge(additions)
 
     self.class.permitted_attributes[:new_work_package].map do |permission|
       if permission.respond_to?(:call)
@@ -159,10 +165,23 @@ class PermittedParams < Struct.new(:params, :user)
                                                      :priority_id,
                                                      :category_id,
                                                      :status_id,
+                                                     :notes,
+                                                     { attachments: [:file, :description] },
                                                      Proc.new do |args|
-                                                       args[:user].allowed_to?(:add_work_package_watchers, args[:project]) ?
-                                                         { :watcher_user_ids => [] } :
-                                                         nil
+                                                       # avoid costly allowed_to? if the param is not there at all
+                                                       if args[:params]["work_package"].has_key?("watcher_user_ids") &&
+                                                          args[:user].allowed_to?(:add_work_package_watchers, args[:project])
+
+                                                         { :watcher_user_ids => [] }
+                                                       end
+                                                     end,
+                                                     Proc.new do |args|
+                                                       # avoid costly allowed_to? if the param is not there at all
+                                                       if args[:params]["work_package"].has_key?("time_entry") &&
+                                                          args[:user].allowed_to?(:log_time, args[:project])
+
+                                                         { time_entry: [:hours, :activity_id, :comments] }
+                                                       end
                                                      end
                                                    ],
                                :color_move => [:move_to],

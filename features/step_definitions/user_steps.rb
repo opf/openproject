@@ -9,9 +9,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+InstanceFinder.register(User, Proc.new { |name| User.find_by_login(name) })
+
 ##
 # Editing/creating users (admin UI)
 #
+#
+
 When /^I create a new user$/ do
   visit '/users/new'
   fill_in('user_login', :with => 'newbobby')

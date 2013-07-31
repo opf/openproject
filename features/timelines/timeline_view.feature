@@ -51,15 +51,15 @@ Feature: Timeline View Tests
 
       And the user "manager" is a "manager"
 
-      And I am logged in as "manager"
+      And I am already logged in as "manager"
 
       And there are the following planning elements:
-          | Start date | Due date   | description       | status_name | responsible | Subject                                                                                                                       |
-          | 2012-01-01 | 2012-01-31 | Avocado Hall      | closed      | manager     | January                                                                                                                       |
-          | 2012-02-01 | 2012-02-24 | Avocado Rincon    | closed      | manager     | February                                                                                                                      |
-          | 2012-03-01 | 2012-03-30 | Hass              | closed      | manager     | March                                                                                                                         |
-          | 2012-04-01 | 2012-04-30 | Avocado Choquette | closed      | manager     | April                                                                                                                         |
-          | 2012-04-01 | 2012-04-30 | Devilish          | closed      | manager     | Loremipsumdolorsitamet,consecteturadipisicingelit,seddoeiusmodtemporincididuntutlaboreetdoloremagnaaliqua.Utenimadminimveniam |
+          | Start date | Due date   | description       | planning_element_status | responsible | Subject                                                                                                                       |
+          | 2012-01-01 | 2012-01-31 | Avocado Hall      | closed                  | manager     | January                                                                                                                       |
+          | 2012-02-01 | 2012-02-24 | Avocado Rincon    | closed                  | manager     | February                                                                                                                      |
+          | 2012-03-01 | 2012-03-30 | Hass              | closed                  | manager     | March                                                                                                                         |
+          | 2012-04-01 | 2012-04-30 | Avocado Choquette | closed                  | manager     | April                                                                                                                         |
+          | 2012-04-01 | 2012-04-30 | Devilish          | closed                  | manager     | Loremipsumdolorsitamet,consecteturadipisicingelit,seddoeiusmodtemporincididuntutlaboreetdoloremagnaaliqua.Utenimadminimveniam |
 
   Scenario: The project manager gets 'No data to display' when there are no planning elements defined
      When I go to the   page of the project called "ecookbook"

@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1246` Implement uniform "edit" action/view for pe & issues
+* `#1247` Implement uniform "update" action for pe & issues
 * `#1437` Update seed data
 
 ## 3.0.0pre9

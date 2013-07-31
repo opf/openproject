@@ -199,6 +199,11 @@ class WorkPackage < ActiveRecord::Base
     self.relations_from.build
   end
 
+  def add_time_entry
+    time_entries.build(:project => project,
+                       :work_package => self)
+  end
+
   def all_dependent_issues(except=[])
     except << self
     dependencies = []
@@ -253,6 +258,23 @@ class WorkPackage < ActiveRecord::Base
     self.status.nil? || self.status.is_closed?
   end
 
+  # TODO: move into Business Object and rename to update
+  # update for now is a private method defined by AR
+  def update_by(user, attributes)
+    init_journal(user, attributes.delete(:notes)) if attributes[:notes]
+
+    raw_attachments = attributes.delete(:attachments)
+    add_time_entry_for(user, attributes.delete(:time_entry))
+
+    if update_attributes(attributes)
+      # as attach_files always saves an attachment right away
+      # it is not possible to stage attaching and check for
+      # valid. If this would be possible, we could check
+      # for this along with update_attributes
+      attachments = Attachment.attach_files(self, raw_attachments)
+    end
+  end
+
   def recalculate_attributes_for(work_package_id)
     if work_package_id.is_a? WorkPackage
       p = work_package_id
@@ -296,8 +318,35 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
+  # This is a dummy implementation that is currently overwritten
+  # by issue
+  # Adapt once tracker/type is migrated
+  def new_statuses_allowed_to(user, include_default = false)
+    IssueStatus.all
+  end
+
   def self.use_status_for_done_ratio?
     Setting.issue_done_ratio == 'issue_status'
   end
 
+  # Returns the total number of hours spent on this issue and its descendants
+  #
+  # Example:
+  #   spent_hours => 0.0
+  #   spent_hours => 50.2
+  def spent_hours
+    @spent_hours ||= self_and_descendants.joins(:time_entries)
+                                         .sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+  end
+
+  private
+
+  def add_time_entry_for(user, attributes)
+    return if attributes.nil? || attributes.values.all?(&:blank?)
+
+    attributes.reverse_merge!({ :user => user,
+                                :spent_on => Date.today })
+
+    time_entries.build(attributes)
+  end
 end
