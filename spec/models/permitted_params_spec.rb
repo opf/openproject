@@ -330,7 +330,7 @@ describe PermittedParams do
       PermittedParams.new(params, user).new_work_package.should == hash
     end
 
-    it "should permit parent_issue_id" do
+    it "should permit parent_id" do
       hash = { "parent_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
@@ -338,8 +338,8 @@ describe PermittedParams do
       PermittedParams.new(params, user).new_work_package.should == hash
     end
 
-    it "should permit parent_issue_id" do
-      hash = { "parent_issue_id" => "1" }
+    it "should permit parent_id" do
+      hash = { "parent_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
 
@@ -484,7 +484,7 @@ describe PermittedParams do
       PermittedParams.new(params, user).update_work_package.should == hash
     end
 
-    it "should permit parent_issue_id" do
+    it "should permit parent_id" do
       hash = { "parent_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
@@ -492,8 +492,8 @@ describe PermittedParams do
       PermittedParams.new(params, user).update_work_package.should == hash
     end
 
-    it "should permit parent_issue_id" do
-      hash = { "parent_issue_id" => "1" }
+    it "should permit parent_id" do
+      hash = { "parent_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
 
