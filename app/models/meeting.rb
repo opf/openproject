@@ -10,7 +10,6 @@
 #++
 
 class Meeting < ActiveRecord::Base
-  unloadable
 
   self.table_name = 'meetings'
 

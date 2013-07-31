@@ -10,7 +10,6 @@
 #++
 
 class MeetingMinutes < MeetingContent
-  unloadable
 
   acts_as_journalized :activity_type => 'meetings',
     :activity_permission => :view_meetings,

@@ -11,6 +11,6 @@
 
 module OpenProject
   module Meeting
-    VERSION = "2.5.1.pre5"
+    VERSION = "3.0.0.rc1"
   end
 end

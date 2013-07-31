@@ -10,7 +10,6 @@
 #++
 
 class MeetingsController < ApplicationController
-  unloadable
 
   around_filter :set_time_zone
   before_filter :find_project, :only => [:index, :new, :create]

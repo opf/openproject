@@ -30,6 +30,4 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= simple_format_without_paragraph @diff.to_html %>
 </div>
 
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'openproject_meeting', :plugin => 'openproject_meeting' %>
-<% end %>
+<%= render :partial => 'shared/meeting_header' %>
