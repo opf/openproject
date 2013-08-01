@@ -32,23 +32,11 @@ class Type < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
 
-#  has_many :default_types, :class_name  => 'DefaultPlanningElementType',
-#                           :foreign_key => 'planning_element_type_id',
-#                           :dependent   => :delete_all
-
-#  has_many :project_types, :through => :default_planning_element_types
-
-#  has_many :enabled_types, :class_name  => 'EnabledPlanningElementType',
-#                           :foreign_key => 'planning_element_type_id',
-#                           :dependent   => :delete_all
-
-#  has_many :projects, :through => :enabled_types
-
   belongs_to :color, :class_name  => 'PlanningElementTypeColor',
                      :foreign_key => 'color_id'
 
   has_many :planning_elements, :class_name  => 'PlanningElement',
-                               :foreign_key => 'planning_element_type_id',
+                               :foreign_key => 'type_id',
                                :dependent   => :nullify
   acts_as_list
 
@@ -100,14 +88,7 @@ class Type < ActiveRecord::Base
   end
 
   def enabled_in?(object)
-    case object
-    when ProjectType
-      object.types.include?(self)
-    when Project
-      object.types.include?(self)
-    else
-      false
-    end
+    object.types.include?(self)
   end
 
   def available_colors

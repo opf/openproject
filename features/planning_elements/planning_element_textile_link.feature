@@ -11,19 +11,15 @@
 
 Feature: Planning elements textile quickinfo links
   Background:
-    Given there are the following planning element types:
-          | Name      | Is Milestone | In aggregation |
-          | Phase     | false        | true           |
-          | Milestone | true         | true           |
+    Given there are the following types:
+          | Name      | Is Milestone | In aggregation | Is default |
+          | Phase     | false        | true           | true       |
+          | Milestone | true         | true           | true       |
 
       And there are the following project types:
           | Name                  |
           | Standard Project      |
           | Extraordinary Project |
-
-      And the following types are default for projects of type "Standard Project"
-          | Phase     |
-          | Milestone |
 
       And there is 1 user with:
           | login | manager |
@@ -46,11 +42,11 @@ Feature: Planning elements textile quickinfo links
               | Name     |
               | closed   |
       Given there are the following planning elements:
-              | Subject | Start date | Due date   | description                | status_name | responsible |
-              | January | 2012-01-01 | 2012-01-31 | Avocado Sali Grande Grande | closed      | manager     |
+              | Subject | Start date | Due date   | description                | planning_element_status | responsible |
+              | January | 2012-01-01 | 2012-01-31 | Avocado Sali Grande Grande | closed                  | manager     |
 
   Scenario: Adding a planning element link
-    Given I am already logged in as "admin"
+    Given I am already admin
     When I go to the wiki page "testitest" for the project called "ecookbook"
     And I fill in the planning element ID of "January" with 1 star for "content_text"
     And I press "Save"
@@ -59,7 +55,7 @@ Feature: Planning elements textile quickinfo links
     Then I should be on the page of the planning element "January" of the project called "ecookbook"
 
   Scenario: Adding a planning element quickinfo link
-    Given I am already logged in as "admin"
+    Given I am already admin
     When I go to the wiki page "testitest" for the project called "ecookbook"
     And I fill in the planning element ID of "January" with 2 star for "content_text"
     And I press "Save"
@@ -68,7 +64,7 @@ Feature: Planning elements textile quickinfo links
     Then I should be on the page of the planning element "January" of the project called "ecookbook"
 
   Scenario: Adding a planning element quickinfo link with description
-    Given I am already logged in as "admin"
+    Given I am already admin
     When I go to the wiki page "testitest" for the project called "ecookbook"
     And I fill in the planning element ID of "January" with 3 star for "content_text"
     And I press "Save"

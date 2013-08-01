@@ -53,11 +53,7 @@ de:
       enumeration:
         active: "Aktiv"
       issue:
-        done_ratio: "% erledigt"
-        fixed_version: "Zielversion"
-        parent: "Übergeordnete Aufgabe"
         parent_issue: "Übergeordnete Aufgabe"
-        priority: "Priorität"
         subproject: "Unterprojekt von"
         time_entries: "Logzeit"
         type: "Typ"
@@ -98,10 +94,8 @@ de:
         alternate_dates:
           due_date: "Abschlussdatum des alternativen Datums"
         description: "Beschreibung"
-        due_date: "Abschlussdatum"
         id: "ID"
         name: "Name"
-        parent: "Eltern-Element"
         planning_element_type: "Typ"
         start_date: "Startdatum"
       planning_element_type:
@@ -157,6 +151,10 @@ de:
         parent_title: "Übergeordnete Seite"
         redirect_existing_links: "Existierende Links umleiten"
       work_package:
+        done_ratio: "% erledigt"
+        fixed_version: "Zielversion"
+        parent: "Übergeordnete Aufgabe"
+        priority: "Priorität"
         progress: "% erledigt"
         responsible: "Planungsverantwortlicher"
         spent_time: "Aufgewendete Zeit"
@@ -1134,6 +1132,7 @@ de:
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"
   permission_view_wiki_pages: "Wiki ansehen"
 
+  project_module_activity: "Aktivität"
   project_module_boards: "Foren"
   project_module_calendar: "Kalender"
   project_module_documents: "Dokumente"

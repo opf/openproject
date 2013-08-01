@@ -16,7 +16,7 @@ Feature: Timeline View Tests
 	edit planning elements via a modal window
 
   Background:
-    Given there are the following planning element types:
+    Given there are the following types:
           | Name      | Is Milestone | In aggregation |
           | Phase     | false        | true           |
           | Milestone | true         | true           |
@@ -26,50 +26,50 @@ Feature: Timeline View Tests
           | Standard Project      |
           | Extraordinary Project |
 
-      And the following types are default for projects of type "Standard Project"
-          | Phase     |
-          | Milestone |
-
       And there is 1 user with:
           | login | manager |
 
       And there is a role "manager"
       And the role "manager" may have the following rights:
-          | view_timelines           |
-          | edit_timelines           |
-          | view_planning_elements   |
-          | move_planning_elements_to_trash  |
-          | delete_planning_elements  |
-          | edit_planning_elements   |
-          | delete_planning_elements |
+          | view_timelines                  |
+          | edit_timelines                  |
+          | view_planning_elements          |
+          | move_planning_elements_to_trash |
+          | delete_planning_elements        |
+          | edit_planning_elements          |
+          | delete_planning_elements        |
 
       And there is a project named "ecookbook" of type "Standard Project"
       And I am working in project "ecookbook"
+
+      And the following types are enabled for projects of type "Standard Project"
+          | Phase     |
+          | Milestone |
 
       And the project uses the following modules:
           | timelines |
 
       And the user "manager" is a "manager"
 
-      And I am logged in as "manager"
+      And I am already logged in as "manager"
 
       And there are the following planning elements:
-              | Subject  | Start date | Due date   | description       | status_name    | responsible    |
-              | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed         | manager        |
-              | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed         | manager        |
-              | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed         | manager        |
-              | April    | 2012-04-01 | 2012-04-30 | Aioli Sali Grande | closed         | manager        |
-              | IchBinEinSoLangesPlannungselementIchMacheAllehierkRanKundDaNnaUcHnOcHdieseGroßUNDKleinSchReiBungWieklEiNeKinDer    | 2012-04-01 | 2012-04-30 | Devilish | closed         | manager        |
+          | Start date | Due date   | description       | planning_element_status | responsible | Subject                                                                                                                       |
+          | 2012-01-01 | 2012-01-31 | Avocado Hall      | closed                  | manager     | January                                                                                                                       |
+          | 2012-02-01 | 2012-02-24 | Avocado Rincon    | closed                  | manager     | February                                                                                                                      |
+          | 2012-03-01 | 2012-03-30 | Hass              | closed                  | manager     | March                                                                                                                         |
+          | 2012-04-01 | 2012-04-30 | Avocado Choquette | closed                  | manager     | April                                                                                                                         |
+          | 2012-04-01 | 2012-04-30 | Devilish          | closed                  | manager     | Loremipsumdolorsitamet,consecteturadipisicingelit,seddoeiusmodtemporincididuntutlaboreetdoloremagnaaliqua.Utenimadminimveniam |
 
   Scenario: The project manager gets 'No data to display' when there are no planning elements defined
      When I go to the   page of the project called "ecookbook"
       And I toggle the "Timelines" submenu
       And I follow "Timeline reports"
      Then I should see "New timeline report"
-     And I should see "General Settings"
+      And I should see "General Settings"
 
   Scenario: create a timeline
-    When there is a timeline "Testline" for project "ecookbook"
+     When there is a timeline "Testline" for project "ecookbook"
       And I go to the page of the project called "ecookbook"
       And I toggle the "Timelines" submenu
       And I follow "Timeline reports"
@@ -79,20 +79,20 @@ Feature: Timeline View Tests
 
    @javascript
   Scenario: planning element click should show modal window
-    When there is a timeline "Testline" for project "ecookbook"
+     When there is a timeline "Testline" for project "ecookbook"
       And I go to the page of the timeline "Testline" of the project called "ecookbook"
       And I wait for timeline to load table
       And I click on the Planning Element with name "January"
      Then I should see the planning element edit modal
       And I should see "January (*1)"
-      And I should see "Aioli Grande"
+      And I should see "Avocado Hall"
       And I should see "01/01/2012 - 01/31/2012"
       And I should see "New timeline report"
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"
 
   @javascript
   Scenario: edit should open edit
-    When there is a timeline "Testline" for project "ecookbook"
+     When there is a timeline "Testline" for project "ecookbook"
       And I go to the page of the timeline "Testline" of the project called "ecookbook"
       And I wait for timeline to load table
       And I click on the Planning Element with name "January"
@@ -104,7 +104,7 @@ Feature: Timeline View Tests
 
   @javascript
   Scenario: edit in modal
-    When there is a timeline "Testline" for project "ecookbook"
+     When there is a timeline "Testline" for project "ecookbook"
       And I go to the page of the timeline "Testline" of the project called "ecookbook"
       And I wait for timeline to load table
       And I click on the Planning Element with name "January"
@@ -117,7 +117,7 @@ Feature: Timeline View Tests
 
   @javascript
   Scenario: enter wrong date in modal
-    When there is a timeline "Testline" for project "ecookbook"
+     When there is a timeline "Testline" for project "ecookbook"
       And I go to the page of the timeline "Testline" of the project called "ecookbook"
       And I wait for timeline to load table
       And I click on the Planning Element with name "January"
@@ -130,7 +130,7 @@ Feature: Timeline View Tests
 
   @javascript
   Scenario: trash element
-    When there is a timeline "Testline" for project "ecookbook"
+     When there is a timeline "Testline" for project "ecookbook"
       And I go to the page of the timeline "Testline" of the project called "ecookbook"
       And I wait for timeline to load table
       And I trash the planning element with name "January"
@@ -161,7 +161,7 @@ Feature: Timeline View Tests
 
 @javascript
   Scenario: trash vertical should be removed
-    When there is a timeline "Testline" for project "ecookbook"
+     When there is a timeline "Testline" for project "ecookbook"
       And I make the planning element "January" vertical for the timeline "Testline" of the project called "ecookbook"
 
       And I go to the page of the timeline "Testline" of the project called "ecookbook"

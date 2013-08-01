@@ -26,8 +26,8 @@ Feature: Viewing a work package
       | name   | Immediate |
 
     And there are the following types:
-      | Name  | Is Milestone | In aggregation |
-      | Phase | false        | true           |
+      | Name  | Is Milestone | In aggregation | Is default |
+      | Phase | false        | true           | true       |
 
     And there is a role "member"
     And the role "member" may have the following rights:

@@ -14,7 +14,7 @@
 Feature: Pasword expiry
   Background:
     Given there is a user named "bob"
-    And I am already logged in as "admin"
+    And I am already admin
 
   Scenario: An admin activating password expiry forces a user to change the password
     When I set passwords to expire after 30 days

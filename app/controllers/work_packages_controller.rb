@@ -15,6 +15,7 @@ class WorkPackagesController < ApplicationController
   helper :timelines, :planning_elements
 
   include ExtendedHTTP
+  include Redmine::Export::PDF
 
   current_menu_item do |controller|
     begin
@@ -34,8 +35,9 @@ class WorkPackagesController < ApplicationController
   model_object WorkPackage
 
   before_filter :disable_api
-  before_filter :find_model_object_and_project, :only => [:show]
-  before_filter :find_project_by_project_id, :only => [:new, :new_type, :create]
+  before_filter :find_model_object_and_project, :only => [:show, :edit, :update]
+  before_filter :find_project_by_project_id, :only => [:new, :create]
+  before_filter :project, :only => [:new_type]
   before_filter :authorize,
                 :assign_planning_elements
   before_filter :apply_at_timestamp, :only => [:show]
@@ -46,29 +48,62 @@ class WorkPackagesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html
-      format.js { render :partial => 'show'}
+      format.html do
+        render :show, :locals => { :work_package => work_package,
+                                   :project => project,
+                                   :priorities => priorities,
+                                   :user => current_user,
+                                   :ancestors => ancestors,
+                                   :descendants => descendants,
+                                   :changesets => changesets,
+                                   :relations => relations,
+                                   :journals => journals }
+      end
+
+      format.js do
+        render :show, :partial => 'show', :locals => { :work_package => work_package,
+                                                       :project => project,
+                                                       :priorities => priorities,
+                                                       :user => current_user,
+                                                       :ancestors => ancestors,
+                                                       :descendants => descendants,
+                                                       :changesets => changesets,
+                                                       :relations => relations,
+                                                       :journals => journals }
+      end
+
+      format.pdf do
+        pdf = issue_to_pdf(work_package)
+
+        send_data(pdf,
+                  :type => 'application/pdf',
+                  :filename => "#{project.identifier}-#{work_package.id}.pdf")
+      end
     end
   end
 
   def new
     respond_to do |format|
-      format.html
+      format.html { render :locals => { :work_package => new_work_package,
+                                        :project => project,
+                                        :priorities => priorities,
+                                        :user => current_user } }
     end
   end
 
   def new_type
     respond_to do |format|
-      format.js { render :partial => 'attributes', :locals => { :work_package => new_work_package,
-                                                                :project => project,
-                                                                :priorities => priorities } }
+      format.js { render :locals => { :work_package => work_package || new_work_package,
+                                      :project => project,
+                                      :priorities => priorities,
+                                      :user => current_user } }
     end
   end
 
   def create
     call_hook(:controller_work_package_new_before_save, { :params => params, :work_package => new_work_package })
 
-    WorkPackageObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
+    WorkPackageObserver.instance.send_notification = send_notifications?
 
     if new_work_package.save
       flash[:notice] = I18n.t(:notice_successful_create)
@@ -83,6 +118,37 @@ class WorkPackagesController < ApplicationController
       respond_to do |format|
         format.html { render :action => 'new' }
       end
+    end
+  end
+
+  def edit
+    respond_to do |format|
+      format.html do
+        render :edit, :locals => { :work_package => work_package,
+                                   :allowed_statuses => allowed_statuses,
+                                   :project => project,
+                                   :priorities => priorities,
+                                   :time_entry => time_entry,
+                                   :user => current_user }
+      end
+    end
+  end
+
+  def update
+    configure_update_notification(send_notifications?)
+
+    safe_params = permitted_params.update_work_package(:project => project)
+    updated = work_package.update_by(current_user, safe_params)
+
+    render_attachment_warning_if_needed(work_package)
+
+    if updated
+
+      flash[:notice] = l(:notice_successful_update)
+
+      show
+    else
+      edit
     end
   end
 
@@ -182,9 +248,15 @@ class WorkPackagesController < ApplicationController
 
   end
 
-  [:changesets].each do |method|
-    define_method method do
-      []
+  def changesets
+    @changesets ||= begin
+      changes = work_package.changesets.visible
+                                       .includes({ :repository => {:project => :enabled_modules} }, :user)
+                                       .all
+
+      changes.reverse! if current_user.wants_comments_in_reverse_order?
+
+      changes
     end
   end
 
@@ -204,7 +276,23 @@ class WorkPackagesController < ApplicationController
     IssuePriority.all
   end
 
+  def allowed_statuses
+    work_package.new_statuses_allowed_to(current_user)
+  end
+
+  def time_entry
+    work_package.add_time_entry
+  end
+
   protected
+
+  def configure_update_notification(state = true)
+    JournalObserver.instance.send_notification = state
+  end
+
+  def send_notifications?
+    params[:send_notification] == '0' ? false : true
+  end
 
   def assign_planning_elements
     @planning_elements = @project.planning_elements.without_deleted

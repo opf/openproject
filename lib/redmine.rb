@@ -91,6 +91,7 @@ Redmine::AccessControl.map do |map|
     map.permission :add_work_packages, { :work_packages => [:new, :new_type, :create] }
     map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, :require => :loggedin
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
+                                          :work_packages => [:edit, :update, :new_type],
                                           :'issues/previews' => :create}
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
@@ -168,6 +169,8 @@ Redmine::AccessControl.map do |map|
   map.project_module :calendar do |map|
     map.permission :view_calendar, :'issues/calendars' => [:index]
   end
+
+  map.project_module :activity
 
   map.project_module :timelines do |map|
     map.permission :manage_project_configuration,
@@ -367,5 +370,3 @@ Redmine::WikiFormatting.map do |format|
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler
-
-Redmine::AccessControl.available_project_modules << :activity

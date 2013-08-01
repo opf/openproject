@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% Type.all.each do |type| %>
         <tr class="<%= cycle('odd', 'even', :name => "pet_table") %>">
           <td class='center'>
-            <%= checked_image(type.enabled_in?(@project.project_type)) %>
+            <%= checked_image(type.enabled_in?(@project)) %>
           </td>
           <td class='center'>
             <%= check_box_tag "project[planning_element_type_ids][]",

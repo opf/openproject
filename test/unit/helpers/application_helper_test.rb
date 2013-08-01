@@ -12,6 +12,8 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class ApplicationHelperTest < ActionView::TestCase
+  include WorkPackagesHelper
+
   def setup
     super
     # @project variable is used by helper
@@ -38,44 +40,13 @@ class ApplicationHelperTest < ActionView::TestCase
         :filesize => 280,
         :description => 'This is a logo'
 
-    User.current = @project_member
+    User.stubs(:current).returns(@project_member)
   end
 
   def request
     @request ||= ActionController::TestRequest.new
   end
-
-  context "#link_to_if_authorized" do
-    should "create a link for an authorized user" do
-      User.current = @project_member
-      response = link_to_if_authorized('link_content', {
-          :controller => 'issues',
-          :action => 'show',
-          :id => @issue },
-        :class => 'fancy_css_class')
-      assert_match(/href/, response)
-      assert_match(/fancy_css_class/, response)
-    end
-
-    should "shouldn't create a link for an unauthorized user" do
-      User.current = @non_member
-      response = link_to_if_authorized 'link_content', {
-          :controller => 'issues',
-          :action => 'show',
-          :id => @issue },
-        :class => 'fancy_css_class'
-      assert_nil response
-    end
-
-    should "allow using the :controller and :action for the target link" do
-      User.current = @admin
-      response = link_to_if_authorized("By controller/action",
-                                       {:controller => 'issues', :action => 'edit', :id => @issue.id})
-      assert_match(/href/, response)
-    end
-
-  end
-
+  
   def test_auto_links
     to_test = {
       'http://foo.bar' => '<a class="external" href="http://foo.bar">http://foo.bar</a>',
@@ -200,110 +171,6 @@ RAW
     }.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :only_path => false) }
   end
 
-  def test_redmine_links
-    document = FactoryGirl.create :document,
-                 :title => 'Test document',
-                 :project => @project
-    version = FactoryGirl.create :version,
-                 :name => '1.0',
-                 :project => @project
-    Setting.enabled_scm = Setting.enabled_scm << "Filesystem" unless Setting.enabled_scm.include? "Filesystem"
-    repository = FactoryGirl.create :repository,
-                 :project => @project
-    changeset1 = FactoryGirl.create :changeset,
-                 :repository => repository,
-                 :comments => 'My very first commit'
-    changeset2 = FactoryGirl.create :changeset,
-                 :repository => repository,
-                 :comments => 'This commit fixes #1, #2 and references #1 & #3'
-    board = FactoryGirl.create :board,
-                 :project => @project
-    message1 = FactoryGirl.create :message,
-                 :board => board
-    message2 = FactoryGirl.create :message,
-                 :board => board,
-                 :parent => message1
-    message1.reload
-    subproject = FactoryGirl.create :valid_project,
-                 :parent => @project
-    identifier = @project.identifier
-    @project.reload
-
-    issue_link = link_to("##{@issue.id}", work_package_path(@issue),
-                               :class => 'issue status-3 priority-1 created-by-me', :title => "#{@issue.subject} (#{@issue.status})")
-
-    changeset_link = link_to("r#{changeset1.revision}", {:controller => 'repositories', :action => 'revision', :id => identifier, :rev => changeset1.revision},
-                                   :class => 'changeset', :title => 'My very first commit')
-    changeset_link2 = link_to("r#{changeset2.revision}", {:controller => 'repositories', :action => 'revision', :id => identifier, :rev => changeset2.revision},
-                                    :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
-
-    document_link = link_to('Test document', {:controller => 'documents', :action => 'show', :id => document.id},
-                                             :class => 'document')
-
-    version_link = link_to('1.0', {:controller => 'versions', :action => 'show', :id => version.id},
-                                  :class => 'version')
-
-    message_url = {:controller => 'messages', :action => 'show', :board_id => board.id, :id => message1.id}
-
-    project_url = {:controller => 'projects', :action => 'show', :id => subproject.identifier}
-
-    source_url = {:controller => 'repositories', :action => 'entry', :id => identifier, :path => ['some', 'file']}
-    source_url_with_ext = {:controller => 'repositories', :action => 'entry', :id => identifier, :path => ['some', 'file.ext']}
-
-    to_test = {
-      # tickets
-      "##{@issue.id}, [##{@issue.id}], (##{@issue.id}) and ##{@issue.id}." => "#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.",
-      # changesets
-      "r#{changeset1.revision}"     => changeset_link,
-      "r#{changeset1.revision}."    => "#{changeset_link}.",
-      "r#{changeset1.revision}, r#{changeset2.revision}" => "#{changeset_link}, #{changeset_link2}",
-      "r#{changeset1.revision},r#{changeset2.revision}"  => "#{changeset_link},#{changeset_link2}",
-      # documents
-      "document##{document.id}"     => document_link,
-      'document:"Test document"'    => document_link,
-      # versions
-      "version##{version.id}"       => version_link,
-      'version:1.0'                 => version_link,
-      'version:"1.0"'               => version_link,
-      # source
-      'source:/some/file'           => link_to('source:/some/file', source_url, :class => 'source'),
-      'source:/some/file.'          => link_to('source:/some/file', source_url, :class => 'source') + ".",
-      'source:/some/file.ext.'      => link_to('source:/some/file.ext', source_url_with_ext, :class => 'source') + ".",
-      'source:/some/file. '         => link_to('source:/some/file', source_url, :class => 'source') + ".",
-      'source:/some/file.ext. '     => link_to('source:/some/file.ext', source_url_with_ext, :class => 'source') + ".",
-      'source:/some/file, '         => link_to('source:/some/file', source_url, :class => 'source') + ",",
-      'source:/some/file@52'        => link_to('source:/some/file@52', source_url.merge(:rev => 52), :class => 'source'),
-      'source:/some/file.ext@52'    => link_to('source:/some/file.ext@52', source_url_with_ext.merge(:rev => 52), :class => 'source'),
-      'source:/some/file#L110'      => link_to('source:/some/file#L110', source_url.merge(:anchor => 'L110'), :class => 'source'),
-      'source:/some/file.ext#L110'  => link_to('source:/some/file.ext#L110', source_url_with_ext.merge(:anchor => 'L110'), :class => 'source'),
-      'source:/some/file@52#L110'   => link_to('source:/some/file@52#L110', source_url.merge(:rev => 52, :anchor => 'L110'), :class => 'source'),
-      'export:/some/file'           => link_to('export:/some/file', source_url.merge(:format => 'raw'), :class => 'source download'),
-      # message
-      "message##{message1.id}"      => link_to(message1.subject, message_url, :class => 'message'),
-      "message##{message2.id}"      => link_to(message2.subject, message_url.merge(:anchor => "message-#{message2.id}", :r => message2.id), :class => 'message'),
-      # project
-      "project##{subproject.id}"    => link_to(subproject.name, project_url, :class => 'project'),
-      "project:#{subproject.identifier}" => link_to(subproject.name, project_url, :class => 'project'),
-      "project:\"#{subproject.name}\"" => link_to(subproject.name, project_url, :class => 'project'),
-      # escaping
-      "!##{@issue.id}."             => "##{@issue.id}.",
-      "!r#{changeset1.id}"          => "r#{changeset1.id}",
-      "!document##{document.id}"    => "document##{document.id}",
-      '!document:"Test document"'   => 'document:"Test document"',
-      "!version##{version.id}"      => "version##{version.id}",
-      '!version:1.0'                => 'version:1.0',
-      '!version:"1.0"'              => 'version:"1.0"',
-      '!source:/some/file'          => 'source:/some/file',
-      # not found
-      '#0123456789'                 => '#0123456789',
-      # invalid expressions
-      'source:'                     => 'source:',
-      # url hash
-      "http://foo.bar/FAQ#3"       => '<a class="external" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a>',
-    }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
-  end
-
   def test_cross_project_redmine_links
     document = FactoryGirl.create :document,
                  :title => 'Test document',
@@ -351,7 +218,7 @@ RAW
   end
 
   def test_redmine_links_git_commit
-    User.current = @admin
+    User.stubs(:current).returns(@admin)
     changeset_link = link_to('abcd',
                                {
                                  :controller => 'repositories',
@@ -381,47 +248,6 @@ RAW
       'attachment:logo.gif' => attachment_link
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => [@attachment]), "#{text} failed" }
-  end
-
-  def test_wiki_links
-    User.current = @admin
-    @project.wiki.start_page = "CookBook documentation"
-    @project.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "CookBook_documentation"
-    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "Another page"
-
-    project2 = FactoryGirl.create :valid_project, :identifier => 'onlinestore'
-    project2.reload # reload indirectly created references (esp. the wiki)
-    project2.wiki.start_page = "Start page"
-    project2.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, :wiki => project2.wiki, :title => "Start_page"
-
-    to_test = {
-      '[[CookBook documentation]]' => "<a href=\"/projects/#{@project.identifier}/wiki/CookBook_documentation\" class=\"wiki-page\">CookBook documentation</a>",
-      '[[Another page|Page]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a>",
-      # link with anchor
-      '[[CookBook documentation#One-section]]' => "<a href=\"/projects/#{@project.identifier}/wiki/CookBook_documentation#One-section\" class=\"wiki-page\">CookBook documentation</a>",
-      '[[Another page#anchor|Page]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Another_page#anchor\" class=\"wiki-page\">Page</a>",
-      # page that doesn't exist
-      '[[Unknown page]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a>",
-      '[[Unknown page|404]]' => "<a href=\"/projects/#{@project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">404</a>",
-      # link to another project wiki
-      '[[onlinestore:]]' => "<a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">onlinestore</a>",
-      '[[onlinestore:|Wiki]]' => "<a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">Wiki</a>",
-      '[[onlinestore:Start page]]' => "<a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Start page</a>",
-      '[[onlinestore:Start page|Text]]' => "<a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Text</a>",
-      '[[onlinestore:Unknown page]]' => "<a href=\"/projects/onlinestore/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a>",
-      # striked through link
-      '-[[Another page|Page]]-' => "<del><a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></del>",
-      '-[[Another page|Page]] link-' => "<del><a href=\"/projects/#{@project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a> link</del>",
-      # escaping
-      '![[Another page|Page]]' => '[[Another page|Page]]',
-      # project does not exist
-      '[[unknowproject:Start]]' => '[[unknowproject:Start]]',
-      '[[unknowproject:Start|Page title]]' => '[[unknowproject:Start|Page title]]',
-    }
-
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
   def test_html_tags
@@ -474,49 +300,6 @@ RAW
 &lt;prepared-statement-cache-size&gt;32&lt;/prepared-statement-cache-size&gt;
 </pre>
 <p>After</p>
-EXPECTED
-
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
-  end
-
-  def test_pre_content_should_not_parse_wiki_and_redmine_links
-    @project.wiki.start_page = "CookBook documentation"
-    @project.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, :wiki => @project.wiki, :title => "CookBook_documentation"
-
-    raw = <<-RAW
-[[CookBook documentation]]
-
-##{@issue.id}
-
-<pre>
-[[CookBook documentation]]
-
-##{@issue.id}
-</pre>
-RAW
-
-    expected = <<-EXPECTED
-<p><a href="/projects/#{@project.identifier}/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a></p>
-<p><a href="/work_packages/#{@issue.id}" class="issue status-3 priority-1 created-by-me" title="#{@issue.subject} (#{@issue.status})">##{@issue.id}</a></p>
-<pre>
-[[CookBook documentation]]
-
-##{@issue.id}
-</pre>
-EXPECTED
-
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
-  end
-
-  def test_non_closing_pre_blocks_should_be_closed
-    raw = <<-RAW
-<pre><code>
-RAW
-
-    expected = <<-EXPECTED
-<pre><code>
-</code></pre>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')

@@ -324,7 +324,7 @@ describe PermittedParams do
       PermittedParams.new(params, user).new_work_package.should == hash
     end
 
-    it "should permit parent_issue_id" do
+    it "should permit parent_id" do
       hash = { "parent_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
@@ -332,8 +332,8 @@ describe PermittedParams do
       PermittedParams.new(params, user).new_work_package.should == hash
     end
 
-    it "should permit parent_issue_id" do
-      hash = { "parent_issue_id" => "1" }
+    it "should permit parent_id" do
+      hash = { "parent_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
 
@@ -402,6 +402,174 @@ describe PermittedParams do
       params = ActionController::Parameters.new(:work_package => hash)
 
       PermittedParams.new(params, user).new_work_package(:project => project).should == {}
+    end
+  end
+
+  describe :update_work_package do
+    it "should permit subject" do
+      hash = { "subject" => "blubs" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit description" do
+      hash = { "description" => "blubs" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit start_date" do
+      hash = { "start_date" => "2013-07-08" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit due_date" do
+      hash = { "due_date" => "2013-07-08" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit assigned_to_id" do
+      hash = { "assigned_to_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit responsible_id" do
+      hash = { "responsible_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit type_id" do
+      hash = { "type_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit planning_element_type_id" do
+      hash = { "planning_element_type_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit prioritiy_id" do
+      hash = { "priority_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit parent_id" do
+      hash = { "parent_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit parent_id" do
+      hash = { "parent_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit fixed_version_id" do
+      hash = { "fixed_version_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit estimated_hours" do
+      hash = { "estimated_hours" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit done_ratio" do
+      hash = { "done_ratio" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit status_id" do
+      hash = { "status_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit category_id" do
+      hash = { "category_id" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit notes" do
+      hash = { "notes" => "blubs" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit attachments" do
+      hash = { "attachments" => [{ "file" => "djskfj", "description" => "desc" }] }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
+    it "should permit time_entry if the user has the log_time permission" do
+      hash = { "time_entry" => { "hours" => "5", "activity_id" => "1", "comments" => "lorem" } }
+
+      project = double('project')
+      user.stub(:allowed_to?).with(:log_time, project).and_return(true)
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package(:project => project).should == hash
+    end
+
+    it "should not permit time_entry if the user lacks the log_time permission" do
+      hash = { "time_entry" => { "hours" => "5", "activity_id" => "1", "comments" => "lorem" } }
+
+      project = double('project')
+      user.stub(:allowed_to?).with(:log_time, project).and_return(false)
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package(:project => project).should == {}
     end
   end
 

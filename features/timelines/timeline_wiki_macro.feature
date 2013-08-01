@@ -11,7 +11,7 @@
 
 Feature: Timeline Wiki Macro
   Background:
-    Given there are the following planning element types:
+    Given there are the following types:
           | Name      | Is Milestone | In aggregation |
           | Phase     | false        | true           |
           | Milestone | true         | true           |
@@ -20,10 +20,6 @@ Feature: Timeline Wiki Macro
           | Name                  |
           | Standard Project      |
           | Extraordinary Project |
-
-      And the following types are default for projects of type "Standard Project"
-          | Phase     |
-          | Milestone |
 
       And there is 1 user with:
           | login | manager |
@@ -50,6 +46,10 @@ Feature: Timeline Wiki Macro
           | delete_planning_elements |
 
       And there is a project named "ecookbook" of type "Standard Project"
+      And the following types are enabled for projects of type "Standard Project"
+          | Phase     |
+          | Milestone |
+
       And I am working in project "ecookbook"
 
       And the project uses the following modules:
@@ -63,11 +63,11 @@ Feature: Timeline Wiki Macro
               | Name     |
               | closed   |
       And there are the following planning elements:
-              | Subject  | Start date | Due date   | description         | status_name | responsible |
-              | January  | 2012-01-01 | 2012-01-31 | Avocado Grande      | closed      | manager     |
-              | February | 2012-02-01 | 2012-02-24 | Avocado Sali        | closed      | manager     |
-              | March    | 2012-03-01 | 2012-03-30 | Sali Grande         | closed      | manager     |
-              | April    | 2012-04-01 | 2012-04-30 | Avocado Sali Grande | closed      | manager     |
+        | Subject  | Start date | Due date   | description         | planning_element_status | responsible |
+        | January  | 2012-01-01 | 2012-01-31 | Avocado Grande      | closed                  | manager     |
+        | February | 2012-02-01 | 2012-02-24 | Avocado Sali        | closed                  | manager     |
+        | March    | 2012-03-01 | 2012-03-30 | Sali Grande         | closed                  | manager     |
+        | April    | 2012-04-01 | 2012-04-30 | Avocado Sali Grande | closed                  | manager     |
       And there is a timeline "Testline" for project "ecookbook"
 
   @javascript

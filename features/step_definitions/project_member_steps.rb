@@ -112,6 +112,14 @@ Then /^I should not see the principal "(.+)" as a member$/ do |principal_name|
   steps %Q{ Then I should not see "#{principal.name}" within "#tab-content-members .members" }
 end
 
+When /^I enter the principal name "(.+)"$/ do |principal_name|
+  if !User.current.impaired?
+    step %Q{I fill in "s2id_autogen4" with "#{principal_name}" within "#s2id_member_user_ids"}
+  else
+    step %Q{I fill in "principal_search" with "#{principal_name}"}
+  end
+end
+
 When /^I delete the "([^"]*)" membership$/ do |group_name|
   membership = member_for_login(group_name)
   step %Q(I follow "Delete" within "#member-#{membership.id}")

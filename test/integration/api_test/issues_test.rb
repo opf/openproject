@@ -30,7 +30,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
         :attributes => {
           :type => 'array',
           :total_count => assigns(:issues).total_entries,
-          :limit => 25,
+          :limit => 100,
           :offset => 0
         }
     end
@@ -179,9 +179,9 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
 
     context "with subtasks" do
       setup do
-        @c1 = Issue.generate!(:status_id => 1, :subject => "child c1", :type_id => 1, :project_id => 1, :parent_issue_id => 1)
-        @c2 = Issue.generate!(:status_id => 1, :subject => "child c2", :type_id => 1, :project_id => 1, :parent_issue_id => 1)
-        @c3 = Issue.generate!(:status_id => 1, :subject => "child c3", :type_id => 1, :project_id => 1, :parent_issue_id => @c1.id)
+        @c1 = Issue.generate!(:status_id => 1, :subject => "child c1", :type_id => 1, :project_id => 1, :parent_id => 1)
+        @c2 = Issue.generate!(:status_id => 1, :subject => "child c2", :type_id => 1, :project_id => 1, :parent_id => 1)
+        @c3 = Issue.generate!(:status_id => 1, :subject => "child c3", :type_id => 1, :project_id => 1, :parent_id => @c1.id)
       end
 
       context ".xml" do

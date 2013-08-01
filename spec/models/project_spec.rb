@@ -119,12 +119,11 @@ describe Project do
       project.add_issue(:type_id => specific_type.id).type.should == specific_type
     end
 
-    it "should call safe_attributes to override all the other attributes" do
-      # TODO: replace once StrongParameters is in place
+    it "should set all the other attributes" do
       attributes = { :blubs => double('blubs') }
 
       new_issue = FactoryGirl.build_stubbed(:issue)
-      new_issue.should_receive(:assign_attributes).with(attributes, :without_protection => true)
+      new_issue.should_receive(:attributes=).with(attributes)
 
       Issue.stub!(:new).and_yield(new_issue)
 

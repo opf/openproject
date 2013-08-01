@@ -63,16 +63,6 @@ See doc/COPYRIGHT.rdoc for more details.
         </td>
       </tr>
       <tr>
-        <th class="planning-element-type">
-          <label for="planning_element_type_id">
-            <%= PlanningElement.human_attribute_name(:type) %>:
-          </label>
-        </th>
-        <td class="planning-element-type">
-          <%= f.select :planning_element_type_id, (project.types.collect { |m| [m.name, m.id] }), :include_blank => true %>
-        </td>
-      </tr>
-      <tr>
         <th class="responsible">
           <label for="planning_element_responsible_id">
             <%= PlanningElement.human_attribute_name(:responsible) %>:
@@ -146,11 +136,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% unless planning_element.new_record? %>
   <h3><%= l(:field_notes) %></h3>
-  <label for="planning_element_note" class="hidden-for-sighted">
+  <label for="planning_element_journal_notes" class="hidden-for-sighted">
     <%= l(:field_notes) %>
   </label>
-  <%= f.text_area 'note', :cols => 60, :rows => 3, :class => 'wiki-edit' %>
-  <%= wikitoolbar_for 'planning_element_note' %>
+  <%= f.text_area 'journal_notes', :cols => 60, :rows => 3, :class => 'wiki-edit' %>
+  <%= wikitoolbar_for 'planning_element_journal_notes' %>
 <% end %>
 
 <%= submit_tag l(:button_save) %>

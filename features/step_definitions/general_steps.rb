@@ -48,7 +48,16 @@ end
 Given /^(?:|I )am [aA]dmin$/ do
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
-  login('admin', 'adminADMIN!')
+
+  admin = User.find_by_admin(true)
+
+  login(admin.login, 'adminADMIN!')
+end
+
+Given /^(?:|I )am already [aA]dmin$/ do
+  admin = User.find_by_admin(true)
+  # see https://github.com/railsware/rack_session_access
+  page.set_rack_session(:user_id => admin.id)
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
@@ -60,6 +69,7 @@ end
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
+
   login(username, 'adminADMIN!')
 end
 
@@ -126,23 +136,6 @@ Given /^the [Uu]ser "([^\"]*)" has the following preferences$/ do |user, table|
   u = User.find_by_login(user)
 
   send_table_to_object(u.pref, table)
-end
-
-
-Given /^there is a(?:n)? (default )?(?:issue)?status with:$/ do |default, table|
-  name = table.raw.select { |ary| ary.include? "name" }.first[table.raw.first.index("name") + 1].to_s
-  IssueStatus.find_by_name(name) || IssueStatus.create(:name => name.to_s, :is_default => !!default)
-end
-
-Given /^there is a(?:n)? (default )?issuepriority with:$/ do |default, table|
-  name = table.raw.select { |ary| ary.include? "name" }.first[table.raw.first.index("name") + 1].to_s
-  project = get_project
-  IssuePriority.new.tap do |prio|
-    prio.name = name
-    prio.is_default = !!default
-    prio.project = project
-    prio.save!
-  end
 end
 
 Given /^there is a [rR]ole "([^\"]*)"$/ do |name|
@@ -251,18 +244,6 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [Dd]ocument with(?: the following)?:
   end
 end
 
-Given /^the [Pp]roject (.+) has 1 version with(?: the following)?:$/ do |project, table|
-  project.gsub!("\"", "")
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
-  table.rows_hash["effective_date"] = eval(table.rows_hash["effective_date"]).to_date if table.rows_hash["effective_date"]
-
-  as_admin do
-    v = Version.generate
-    send_table_to_object(v, table)
-    p.versions << v
-  end
-end
-
 Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject$/ do |project|
   parent = Project.find_by_name(project)
   p = Project.generate
@@ -286,9 +267,10 @@ Given /^there are the following types:$/ do |table|
   table.hashes.each_with_index do |t, i|
     type = Type.find_by_name(t['name'])
     type = Type.new :name => t['name'] if type.nil?
-    type.position = t['position'] ? t['position'] : i
-    type.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
-    type.is_milestone = t['is_milestone'] ? t['is_milestone'] : true
+    type.position       = t['position'] ? t['position'] : i
+    type.is_in_roadmap  = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
+    type.is_milestone   = t['is_milestone'] ? t['is_milestone'] : true
+    type.is_default     = t['is_default'] ? t['is_default'] : false
     type.in_aggregation = t['in_aggregation'] ? t['in_aggregation'] : true
     type.save!
   end

@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
   include AttachmentsHelper
   include PaginationHelper
 
-  REPLIES_PER_PAGE = 25 unless const_defined?(:REPLIES_PER_PAGE)
+  REPLIES_PER_PAGE = 100 unless const_defined?(:REPLIES_PER_PAGE)
 
   # Show a topic and its replies
   def show
