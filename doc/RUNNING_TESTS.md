@@ -63,6 +63,16 @@ You can run the specs with the following commands:
 
 TODO: how to run plugins specs.
 
+## Test Unit
+
+You can run a single test with the following command:
+
+* ``rake test:units TEST=path/to/test.rb TESTOPTS="--name=test_name_of_test_to_run"``
+
+You let test unit display test names instead of anonymous dots with the following command:
+
+* ``rake test:units TESTOPTS="--verbose=verbose"``
+
 ## For the fancy programmer
 
 * We are testing on travis-ci. Look there for your pull requests.<br />

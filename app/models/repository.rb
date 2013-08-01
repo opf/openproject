@@ -21,7 +21,7 @@ class Repository < ActiveRecord::Base
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
-  
+
   attr_protected :project_id
 
   validates_length_of :password, :maximum => 255, :allow_nil => true
@@ -155,8 +155,8 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  def scan_changesets_for_issue_ids
-    self.changesets.each(&:scan_comment_for_issue_ids)
+  def scan_changesets_for_work_package_ids
+    self.changesets.each(&:scan_comment_for_work_package_ids)
   end
 
   # Returns an array of committers usernames and associated user_id
@@ -225,9 +225,9 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  # scan changeset comments to find related and fixed issues for all repositories
-  def self.scan_changesets_for_issue_ids
-    all.each(&:scan_changesets_for_issue_ids)
+  # scan changeset comments to find related and fixed work packages for all repositories
+  def self.scan_changesets_for_work_package_ids
+    all.each(&:scan_changesets_for_work_package_ids)
   end
 
   def self.scm_name
@@ -289,7 +289,7 @@ class Repository < ActiveRecord::Base
   end
 
   def clear_changesets
-    cs, ch, ci = Changeset.table_name, Change.table_name, "#{table_name_prefix}changesets_issues#{table_name_suffix}"
+    cs, ch, ci = Changeset.table_name, Change.table_name, "#{table_name_prefix}changesets_work_packages#{table_name_suffix}"
     connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
     connection.delete("DELETE FROM #{ci} WHERE #{ci}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
     connection.delete("DELETE FROM #{cs} WHERE #{cs}.repository_id = #{id}")

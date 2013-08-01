@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 #-- copyright
 # OpenProject is a project management system.
 #
@@ -11,7 +13,7 @@
 
 Feature: User Status
   Background:
-    Given I am already logged in as "admin"
+    Given I am already admin
     Given there is a user named "bobby"
 
   @javascript
@@ -66,7 +68,7 @@ Feature: User Status
     Given the user "bobby" is registered and not activated
     When I try to log in with user "bobby"
     Then I should not see "Bob Bobbit"
-    When I am already logged in as "admin"
+    When I am already admin
     And I edit the user "bobby"
     And I click "Activate"
     When I try to log in with user "bobby"

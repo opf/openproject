@@ -15,6 +15,7 @@ class WorkPackagesController < ApplicationController
   helper :timelines, :planning_elements
 
   include ExtendedHTTP
+  include Redmine::Export::PDF
 
   current_menu_item do |controller|
     begin
@@ -47,24 +48,37 @@ class WorkPackagesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html { render :show, :locals => { :work_package => work_package,
-                                               :project => project,
-                                               :priorities => priorities,
-                                               :user => current_user,
-                                               :ancestors => ancestors,
-                                               :descendants => descendants,
-                                               :changesets => changesets,
-                                               :relations => relations,
-                                               :journals => journals } }
-      format.js { render :show, :partial => 'show', :locals => { :work_package => work_package,
-                                                                 :project => project,
-                                                                 :priorities => priorities,
-                                                                 :user => current_user,
-                                                                 :ancestors => ancestors,
-                                                                 :descendants => descendants,
-                                                                 :changesets => changesets,
-                                                                 :relations => relations,
-                                                                 :journals => journals } }
+      format.html do
+        render :show, :locals => { :work_package => work_package,
+                                   :project => project,
+                                   :priorities => priorities,
+                                   :user => current_user,
+                                   :ancestors => ancestors,
+                                   :descendants => descendants,
+                                   :changesets => changesets,
+                                   :relations => relations,
+                                   :journals => journals }
+      end
+
+      format.js do
+        render :show, :partial => 'show', :locals => { :work_package => work_package,
+                                                       :project => project,
+                                                       :priorities => priorities,
+                                                       :user => current_user,
+                                                       :ancestors => ancestors,
+                                                       :descendants => descendants,
+                                                       :changesets => changesets,
+                                                       :relations => relations,
+                                                       :journals => journals }
+      end
+
+      format.pdf do
+        pdf = issue_to_pdf(work_package)
+
+        send_data(pdf,
+                  :type => 'application/pdf',
+                  :filename => "#{project.identifier}-#{work_package.id}.pdf")
+      end
     end
   end
 
@@ -234,9 +248,15 @@ class WorkPackagesController < ApplicationController
 
   end
 
-  [:changesets].each do |method|
-    define_method method do
-      []
+  def changesets
+    @changesets ||= begin
+      changes = work_package.changesets.visible
+                                       .includes({ :repository => {:project => :enabled_modules} }, :user)
+                                       .all
+
+      changes.reverse! if current_user.wants_comments_in_reverse_order?
+
+      changes
     end
   end
 

@@ -48,4 +48,7 @@ OpenProject::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # we use per process memory for caching in the test environment
+  config.cache_store = :memory_store
 end

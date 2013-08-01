@@ -23,7 +23,7 @@ Feature: Password Complexity Checks
         And I should be able to login using the new password
 
     Scenario: An admin can change the password complexity requirements and they are effective
-        Given I am admin
+        Given I am already admin
         When I go to the authentication tab of the settings page
         And I activate the lowercase, uppercase, and special password rules
         And I fill in "Minimum number of required classes" with "3"
