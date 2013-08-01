@@ -1,4 +1,5 @@
-= OpenProject Meeting Plugin
+OpenProject Meeting Plugin
+==========================
 
 This plugin adds functions to support project meetings. Meetings
 can be scheduled selecting invitees from the same project to take
@@ -7,13 +8,15 @@ After the meeting, attendants can be selected and minutes can be
 created based on the agenda. Finally, the minutes can be sent to
 all attendants and invitees.
 
-== Requirements
+Requirements
+------------
 
 The meetings plugin currently requires the OpenProject Core in
 version 3.0.0pre9 or newer.
 
 
-== Installation
+Installation
+------------
 
 Please follow the default [plugin installation instructions for
 OpenProject](https://www.openproject.org/projects/openproject/wiki/Installation#222-Add-plugins),
@@ -31,7 +34,8 @@ This plugin contains migrations. To migrate the database, run:
 
 `rake db:migrate`
 
-== Deinstallation
+Deinstallation
+--------------
 
 Remove the line
 
@@ -41,7 +45,8 @@ from the file `Gemfile.plugins` and run:
 
 `bundle install`
 
-== Bug Reporting
+Bug Reporting
+-------------
 
 If you find any bugs, you can create a bug ticket at
 
@@ -53,7 +58,8 @@ To contribute, you can create pull request on the official repository at
 
 `https://github.com/finnlabs/openproject-meeting`
 
-== Credits
+Credits
+-------
 
 We would like to thank
 
@@ -61,7 +67,8 @@ We would like to thank
 * Birthe Russmeyer and Niels Lindenthal of finnlabs for their consulting and
   project management
 
-== Licence
+Licence
+-------
 
 (c) 2013 - Finn GmbH
 
