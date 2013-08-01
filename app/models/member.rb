@@ -31,63 +31,48 @@ class Member < ActiveRecord::Base
     self.user.name
   end
 
-  alias :base_role_ids= :role_ids=
-  def role_ids=(role_ids)
-    assign_roles(role_ids, true)
-  end
-
   # Set the roles for this member to the given roles_or_role_ids.
-  #
   # Inherited roles are left untouched.
-  # Set save_immediately = true to immediately create/destroy MemberRoles
-  def assign_roles(roles_or_role_ids, save_immediately=false)
-    # ensure we have ids
-    ids = roles_or_role_ids.map { |r| (r.kind_of? Role) ? r.id : r }
-
-    # Keep inherited roles
-    ids += member_roles.select {|mr| !mr.inherited_from.nil?}.collect(&:role_id)
-
-    new_role_ids = ids - role_ids
-    # Add new roles
-    # Do this before destroying them, otherwise the Member is destroyed due to not having any
-    # Roles assigned via MemberRoles.
-    new_role_ids.each {|id| add_role(id, save_immediately) }
-
-    # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
-    member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
-    member_roles_to_destroy.each { |mr| remove_member_role(mr, save_immediately) }
+  def assign_roles(roles_or_role_ids)
+    do_assign_roles(roles_or_role_ids, false)
   end
 
-  def add_role!(role_or_role_id)
-    add_role(role_or_role_id, true)
+  alias :base_role_ids= :role_ids=
+
+  # Set the roles for this member to the given roles_or_role_ids, immediately
+  # save the changes and destroy the member in case no role is left.
+  # Inherited roles are left untouched.
+  def assign_and_save_roles_and_destroy_member_if_none_left(roles_or_role_ids)
+    do_assign_roles(roles_or_role_ids, true)
+  end
+  alias_method :role_ids=, :assign_and_save_roles_and_destroy_member_if_none_left
+
+  # Add a role to the membership
+  # Does not save the changes, the member must be saved afterwards for the role to be added.
+  def add_role(role_or_role_id, inherited_from_id=nil)
+    do_add_role(role_or_role_id, inherited_from_id, false)
   end
 
-  def add_role(role_or_role_id, save_immediately=false)
-    id = (role_or_role_id.kind_of? Role) ? role_or_role_id.id : role_or_role_id
-
-    if save_immediately
-      member_roles << MemberRole.new.tap { |r| r.role_id = id }
-    else
-      member_roles.build.tap { |r| r.role_id = id }
-    end
+  # Add a role and save the change to the database
+  def add_and_save_role(role_or_role_id, inherited_from_id=nil)
+    do_add_role(role_or_role_id, inherited_from_id, true)
   end
 
-  # Mark one of the member's role for destruction
-  # Destroys the member itself when no role is left afterwards and save_immediately is set to true
-  def remove_member_role(member_role, save_immediately=false)
-    if save_immediately
-      member_role.destroy_for_member
-      destroy_if_no_roles_left!
-    else
-      member_role.mark_for_destruction
-    end
-    unwatch_from_permission_change
+  # Mark one of the member's roles for destruction
+  #
+  # Make sure to get the MemberRole instance from the member's association, otherwise the actual
+  # destruction on save doesn't work.
+  def mark_member_role_for_destruction(member_role)
+    do_remove_member_role(member_role, false)
   end
 
   # Remove a role from a member
   # Destroys the member itself when no role is left afterwards
-  def remove_member_role!(member_role)
-    remove_member_role(member_role, true)
+  #
+  # Make sure to get the MemberRole instance from the member's association, otherwise the
+  # destruction of the member, when the last MemberRole is destroyed, might not work.
+  def remove_member_role_and_destroy_member_if_last(member_role)
+    do_remove_member_role(member_role, true)
   end
 
   def <=>(member)
@@ -137,6 +122,52 @@ class Member < ActiveRecord::Base
         member_role.marked_for_destruction? || member_role.destroyed?
       end
     end
+  end
+
+  def do_add_role(role_or_role_id, inherited_from_id, save_immediately)
+    id = (role_or_role_id.kind_of? Role) ? role_or_role_id.id : role_or_role_id
+
+    if save_immediately
+      member_roles << MemberRole.new.tap do |member_role|
+        member_role.role_id = id
+        member_role.inherited_from = inherited_from_id
+      end
+    else
+      member_roles.build.tap do |member_role|
+        member_role.role_id = id
+        member_role.inherited_from = inherited_from_id
+      end
+    end
+  end
+
+  # Set save_and_possibly_destroy to true to immediately save changes and destroy
+  # when no roles are left.
+  def do_assign_roles(roles_or_role_ids, save_and_possibly_destroy)
+    # ensure we have integer ids
+    ids = roles_or_role_ids.map { |r| (r.kind_of? Role) ? r.id : r.to_i }
+
+    # Keep inherited roles
+    ids += member_roles.select {|mr| !mr.inherited_from.nil?}.collect(&:role_id)
+
+    new_role_ids = ids - role_ids
+    # Add new roles
+    # Do this before destroying them, otherwise the Member is destroyed due to not having any
+    # Roles assigned via MemberRoles.
+    new_role_ids.each {|id| do_add_role(id, nil, save_and_possibly_destroy) }
+
+    # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
+    member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
+    member_roles_to_destroy.each { |mr| do_remove_member_role(mr, save_and_possibly_destroy) }
+  end
+
+  def do_remove_member_role(member_role, destroy)
+    if destroy
+      member_role.destroy_for_member
+      destroy_if_no_roles_left!
+    else
+      member_role.mark_for_destruction
+    end
+    unwatch_from_permission_change
   end
 
   private

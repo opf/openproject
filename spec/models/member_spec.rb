@@ -16,30 +16,37 @@ describe Member do
   let(:role) { FactoryGirl.create(:role) }
   let(:second_role) { FactoryGirl.create(:role) }
   let(:member) { FactoryGirl.create(:member, :user => user, :roles => [role]) }
-  let(:unsaved_member) { FactoryGirl.build(:member, :user => user) }
 
-  describe "#roles=" do
-    context 'member with all roles removed' do
-      before do
-        unsaved_member.roles = [role]
-        unsaved_member.save!
-        unsaved_member.member_roles.each(&:mark_for_destruction)
-        unsaved_member.valid?  # run validations
-      end
+  describe '#add_role' do
+    before do
+      member.add_role(second_role)
+      member.save!
+      member.reload
+    end
 
-      it { unsaved_member.should_not be_valid }
-      it { unsaved_member.role_ids.should == [role.id] }
-      context 'errors' do
-        it { unsaved_member.errors[:roles].should include "can't be empty" }
-      end
+    context(:roles) do
+      it { member.roles.should include role }
+      it { member.roles.should include second_role }
+    end
+  end
+
+  describe '#add_and_save_role' do
+    before do
+      member.add_and_save_role(second_role)
+      member.reload
+    end
+
+    context(:roles) do
+      it { member.roles.should include role }
+      it { member.roles.should include second_role }
     end
   end
 
   describe '#assign_roles' do
-    describe 'replacing an existing role and saving manually' do
+    describe 'when replacing an existing role' do
       before do
-        member.assign_roles([second_role], false)
-        member.save
+        member.assign_roles([second_role])
+        member.save!
         member.reload
       end
       context :roles do
@@ -48,9 +55,9 @@ describe Member do
       end
     end
 
-    describe 'setting to having no roles and saving manually' do
+    describe 'when assigning empty list of roles' do
       before do
-        member.assign_roles([], false)
+        member.assign_roles([])
         res = member.save
       end
 
@@ -59,28 +66,84 @@ describe Member do
     end
   end
 
-  describe '#add_role' do
-    describe 'saving manually' do
+  describe "#assign_and_save_roles_and_destroy_member_if_none_left" do
+    describe 'when replacing an existing role' do
       before do
-        member.add_role(second_role)
-        member.save
+        member.assign_and_save_roles_and_destroy_member_if_none_left([second_role])
+        member.save!
         member.reload
       end
+      context :roles do
+        it { member.roles.should_not include role }
+        it { member.roles.should include second_role }
+      end
+    end
 
-      context(:roles) { it { member.roles.should include role } }
-      context(:roles) { it { member.roles.should include second_role } }
+    context 'when assigning an empty list of roles' do
+      before do
+        member.assign_and_save_roles_and_destroy_member_if_none_left([])
+      end
+
+      it('member should be destroyed') { member.destroyed?.should == true }
+      context(:roles) { it { member.roles(true).should be_empty } }
     end
   end
 
-  describe '#remove_member_role' do
-    before do
-      member_role = member.member_roles.first
-      member.remove_member_role(member_role)
-      member.save
-      member.reload
+  describe '#mark_member_role_for_destruction' do
+    context 'after saving the member' do
+      before do
+        # Add a second role, since we can't remove the last one
+        member.add_and_save_role(second_role)
+        member.reload
+        # Use member_roles(true) to make sure that all member roles are loaded,
+        # otherwise ActiveRecord doesn't notice mark_for_destruction.
+        member_role = member.member_roles(true).first
+        member.mark_member_role_for_destruction(member_role)
+        member.save!
+        member.reload
+      end
+
+      context(:roles) { it { member.roles.length.should == 1 } }
+      context(:member_roles) { it { member.member_roles.length.should == 1 } }
     end
 
-    context(:roles) { it { member.roles.should be_empty } }
-    context(:member_roles) { it { member.member_roles.should be_empty } }
+    context 'before saving the member when removing the last role' do
+      before do
+        member_role = member.member_roles(true).first
+        member.mark_member_role_for_destruction(member_role)
+      end
+
+      context(:roles) { it { member.roles.should_not be_empty } }
+      context(:member_roles) { it { member.member_roles.should_not be_empty } }
+      context(:member) { it { member.should_not be_valid } }
+    end
+  end
+
+  describe '#remove_member_role_and_destroy_member_if_last' do
+    context 'when a member role remains' do
+      before do
+        # Add second role, so we can check it remains
+        member.add_and_save_role(second_role)
+
+        member_role = member.member_roles(true).first
+        member.remove_member_role_and_destroy_member_if_last(member_role)
+      end
+
+      it('member should not be destroyed') { member.destroyed?.should == false }
+      context(:roles) do
+        it { member.roles(true).length.should == 1 }
+        it { member.roles(true).first.id.should == second_role.id }
+      end
+    end
+
+    context 'when removing the last member role' do
+      before do
+        member_role = member.member_roles(true).first
+        member.remove_member_role_and_destroy_member_if_last(member_role)
+      end
+
+      it('member should be destroyed') { member.destroyed?.should == true }
+      context(:roles) { it { member.roles(true).should be_empty } }
+    end
   end
 end

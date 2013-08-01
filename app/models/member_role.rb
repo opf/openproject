@@ -62,11 +62,10 @@ class MemberRole < ActiveRecord::Base
             m.user_id = user.id
           end
 
-          user_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
-
+          user_member.add_role(role, id)
           user_member.save
         else
-          user_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
+          user_member.add_and_save_role(role, id)
         end
       end
     end
@@ -74,7 +73,7 @@ class MemberRole < ActiveRecord::Base
 
   def remove_role_from_group_users
     MemberRole.all(:conditions => { :inherited_from => id }).group_by(&:member).each do |member, member_roles|
-      member_roles.each { |mr| member.remove_member_role!(mr) }
+      member_roles.each { |mr| member.remove_member_role_and_destroy_member_if_last(mr) }
       if member && member.user
         Watcher.prune(:user => member.user, :project => member.project)
       end
