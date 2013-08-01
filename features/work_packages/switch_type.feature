@@ -43,6 +43,33 @@ Feature: Switching types of work packages
       | Responsible | Bob Bobbit |
     And I follow "More"
     And I select "Feature" from "Type"
+
     Then I should be on the edit page of the work package "wp1"
     And I should see the following fields:
       | Responsible | Bob Bobbit |
+
+  @javascript
+  Scenario: Switching type should update the presented custom fields
+    Given the following work package custom fields are defined:
+      | name      | type |
+      | cfBug     | int  |
+      | cfFeature | int  |
+      | cfAll     | int  |
+    And the custom field "cfBug" is activated for type "Bug"
+    And the custom field "cfFeature" is activated for type "Feature"
+    And the custom field "cfAll" is activated for type "Bug"
+    And the custom field "cfAll" is activated for type "Feature"
+
+    When I go to the edit page of the work package "wp1"
+    And I follow "More"
+    And I fill in the following:
+      | cfAll | 5 |
+    And I select "Feature" from "Type"
+
+    Then I should be on the edit page of the work package "wp1"
+    And I should see the following fields:
+      | cfFeature |   |
+      | cfAll     | 5 |
+
+
+
