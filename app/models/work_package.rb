@@ -321,14 +321,23 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def is_milestone?
-    planning_element_type && planning_element_type.is_milestone?
+    type && type.is_milestone?
   end
 
-  # This is a dummy implementation that is currently overwritten
-  # by issue
-  # Adapt once tracker/type is migrated
-  def new_statuses_allowed_to(user, include_default = false)
-    IssueStatus.all
+  # Returns an array of status that user is able to apply
+  def new_statuses_allowed_to(user, include_default=false)
+    return [] if status.nil?
+
+    statuses = status.find_new_statuses_allowed_to(
+      user.roles_for_project(project),
+      type,
+      author == user,
+      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
+      )
+    statuses << status unless statuses.empty?
+    statuses << IssueStatus.default if include_default
+    statuses = statuses.uniq.sort
+    blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
 
   def self.use_status_for_done_ratio?

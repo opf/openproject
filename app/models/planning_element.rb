@@ -128,10 +128,6 @@ class PlanningElement < WorkPackage
     end
   end
 
-  def is_milestone?
-    type && type.is_milestone?
-  end
-
   validate do
     if self.due_date and self.start_date and self.due_date < self.start_date
       errors.add :due_date, :greater_than_start_date
