@@ -39,6 +39,7 @@ Feature: Planning Element Management
           | edit_planning_elements   |
           | delete_planning_elements |
           | view_work_packages       |
+          | edit_work_packages       |
           | add_work_packages        |
 
       And there is a project named "ecookbook" of type "Standard Project"
