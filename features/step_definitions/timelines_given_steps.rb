@@ -30,18 +30,6 @@ Given /^I am working in the [tT]imeline "([^"]*)" of the project called "([^"]*)
   @timeline_name = timeline_name
 end
 
-# Given /^there are the following types:$/ do |table|
-#   # Color is not handled in a sensible way. We need some extra logic
-#   # to match a color name to an id, so that it is possible to assign a
-#   # certain color to types. This should be added once it is needed.
-#
-#   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
-#
-#   table.hashes.each do |type_attributes|
-#     FactoryGirl.create(:type, type_attributes)
-#   end
-# end
-
 Given /^there are the following planning element statuses:$/ do |table|
   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
 

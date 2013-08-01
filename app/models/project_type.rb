@@ -29,12 +29,6 @@ class ProjectType < ActiveRecord::Base
   has_many :reported_project_statuses, :through => :available_project_statuses
 
 
-  # has_many :default_types, :class_name => 'DefaultPlanningElementType',
-  #                          :foreign_key => 'project_type_id',
-  #                          :dependent => :destroy
-  # has_many :types, :through => :default_types
-
-
   include ActiveModel::ForbiddenAttributesProtection
 
   validates_presence_of :name

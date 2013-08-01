@@ -160,9 +160,6 @@ class Project < ActiveRecord::Base
                                          :reportings_via_target],
                                          :leave_public => true
 
-  # TODO remove this once planning_element_types are completely out of the picture
-  # after_save :assign_default_planning_element_types_as_enabled_planning_element_types
-
   safe_attributes 'project_type_id',
                   'type_ids',
                   'responsible_id'
@@ -206,14 +203,6 @@ class Project < ActiveRecord::Base
       true
     end
   end
-
-  # TODO remove this once planning_element_types are completely out of the picture
-  # def assign_default_planning_element_types_as_enabled_planning_element_types
-  #   return if enabled_planning_element_types.present?
-  #   return if project_type.blank?
-
-  #   self.types = project_type.types
-  # end
 
   def has_many_dependent_for_planning_elements
     # Overwrites :dependent => :destroy - before_destroy callback
