@@ -41,6 +41,12 @@ from the file `Gemfile.plugin` and run:
 
 `bundle install`
 
+== Bug Reporting
+
+If you find any bugs, you can create a bug ticket at
+
+`https://www.openproject.org/projects/plugin-meetings'
+
 == Development
 
 To contribute, you can create pull request on the official repository at
