@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.0pre3
+
+* `#1461` Fix for: Integration Activity Plugin
 
 ## 1.0.0.pre2
 
