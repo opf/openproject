@@ -180,11 +180,11 @@ describe 'api/v2/planning_elements/_planning_element.api' do
   end
 
   describe 'with a planning element having a planning element type' do
-    let(:planning_element_type) { FactoryGirl.create(:planning_element_type,
-                                                 :id => 1342,
-                                                 :name => 'Typ A') }
+    let(:type) { FactoryGirl.create(:type,
+                                    :id => 1342,
+                                    :name => 'Typ A') }
     let(:planning_element) { FactoryGirl.build(:planning_element,
-                                           :planning_element_type_id => planning_element_type.id) }
+                                               :type_id => type.id) }
 
     it 'renders a planning_element_type node containing the type\'s id and name' do
       render

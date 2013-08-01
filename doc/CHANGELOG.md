@@ -4,6 +4,15 @@
 * `#1520` PlanningElements are created without the root_id attribute being set
 * `#1246` Implement uniform "edit" action/view for pe & issues
 * `#1247` Implement uniform "update" action for pe & issues
+* `#1411` Migrate database tables into the new model
+* `#1413` Ensure Permissions still apply to the new Type
+* `#1425` Remove default planning element types in favor of enabled planning element types in the style of has_and_belongs_to_many.
+* `#1427` Enable API with the new Type
+* `#1434` Type controller
+* `#1435` Type model
+* `#1436` Type views
+* `#1437` Update seed data
+* `#1512` Merge PlanningElementTypes model with Types model
 * `#1520` PlanningElements are created without the root_id attribute being set
 * `#1577` Searching for project member candidates is only possible when using "firstname lastname" (or parts of it)
 

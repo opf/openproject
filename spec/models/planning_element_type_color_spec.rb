@@ -16,8 +16,8 @@ describe PlanningElementTypeColor do
     describe '#planning_element_types' do
       it 'can read planning_element_types w/ the help of the has_many association' do
         color                 = FactoryGirl.create(:color)
-        planning_element_type = FactoryGirl.create(:planning_element_type,
-                                               :color_id => color.id)
+        planning_element_type = FactoryGirl.create(:type,
+                                                   :color_id => color.id)
 
         color.reload
 
@@ -27,8 +27,8 @@ describe PlanningElementTypeColor do
 
       it 'nullifies dependent planning_element_types' do
         color                 = FactoryGirl.create(:color)
-        planning_element_type = FactoryGirl.create(:planning_element_type,
-                                               :color_id => color.id)
+        planning_element_type = FactoryGirl.create(:type,
+                                                   :color_id => color.id)
 
         color.reload
         color.destroy

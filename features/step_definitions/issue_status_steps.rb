@@ -9,8 +9,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# change from symbol to constant once namespace is removed
-
-InstanceFinder.register(PlanningElementType, Proc.new { |name| PlanningElementType.find_by_name(name) })
-
-RouteMap.register(PlanningElementType, "/planning_element_types")
+InstanceFinder.register(IssueStatus, Proc.new { |name| IssueStatus.find_by_name(name) })

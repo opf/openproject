@@ -60,13 +60,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <tr>
         <th class="planning-element-type">
-          <label for="planning_element_planning_element_type_id">
-            <%= PlanningElement.human_attribute_name(:planning_element_type) %>:
+          <label for="planning_element_type_id">
+            <%= PlanningElement.human_attribute_name(:type) %>:
           </label>
         </th>
         <td class="planning-element-type">
-          <%= icon_for_planning_element_type(planning_element.planning_element_type) %>
-          <%= h planning_element.planning_element_type.try(:name) %>&nbsp;
+          <%= icon_for_type(planning_element.type) %>
+          <%= h planning_element.type.try(:name) %>&nbsp;
         </td>
       </tr>
       <tr>
@@ -82,9 +82,9 @@ See doc/COPYRIGHT.rdoc for more details.
       </tr>
 <!--
       <tr>
-        <th class="in-aggregation"><%= PlanningElementType.human_attribute_name(:in_aggregation)%>:</th>
+        <th class="in-aggregation"><%= Type.human_attribute_name(:in_aggregation)%>:</th>
         <td class="in-aggregation">
-          <%= checked_image(planning_element.planning_element_type.try(:in_aggregation)) %>
+          <%= checked_image(planning_element.type.try(:in_aggregation)) %>
         </td>
       </tr>-->
       <tr>

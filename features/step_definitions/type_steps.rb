@@ -9,9 +9,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory(:default_planning_element_type, :class => DefaultPlanningElementType) do
-    project_type          { |e| e.association(:project_type) }
-    planning_element_type { |e| e.association(:planning_element_type) }
-  end
+# change from symbol to constant once namespace is removed
+
+InstanceFinder.register(Type, Proc.new { |name| Type.find_by_name(name) })
+
+RouteMap.register(Type, "/types")
+
+Then /^I should not see the "([^"]*)" type$/ do |name|
+  page.all(:css, '.timelines-pet-name', :text => name).should be_empty
 end

@@ -9,9 +9,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory(:enabled_planning_element_type, :class => EnabledPlanningElementType) do
-    project               { |e| e.association(:project) }
-    planning_element_type { |e| e.association(:planning_element_type) }
+module Api
+  module V2
+    class PlanningElementType < Type
+      self.table_name = 'types'
+    end
   end
 end

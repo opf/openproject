@@ -30,7 +30,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
         :attributes => {
           :type => 'array',
           :total_count => assigns(:issues).total_entries,
-          :limit => 25,
+          :limit => 100,
           :offset => 0
         }
     end

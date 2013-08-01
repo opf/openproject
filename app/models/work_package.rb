@@ -32,8 +32,6 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
-  belongs_to :planning_element_type,   :class_name  => "PlanningElementType",
-                                       :foreign_key => 'planning_element_type_id'
   belongs_to :planning_element_status, :class_name  => "PlanningElementStatus",
                                        :foreign_key => 'planning_element_status_id'
 
@@ -110,7 +108,6 @@ class WorkPackage < ActiveRecord::Base
                                                     :status_id, :type_id,
                                                     :assigned_to_id, :priority_id,
                                                     :category_id, :fixed_version_id,
-                                                    :planning_element_type_id,
                                                     :planning_element_status_id,
                                                     :author_id, :responsible_id
   register_on_journal_formatter :datetime,          :start_date, :due_date, :deleted_at
@@ -297,11 +294,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def kind
-    if self.is_a? Issue
-      return type
-    elsif self.is_a? PlanningElement
-      return planning_element_type
-    end
+    return type
   end
 
   def to_s
@@ -336,14 +329,23 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def is_milestone?
-    planning_element_type && planning_element_type.is_milestone?
+    type && type.is_milestone?
   end
 
-  # This is a dummy implementation that is currently overwritten
-  # by issue
-  # Adapt once tracker/type is migrated
-  def new_statuses_allowed_to(user, include_default = false)
-    IssueStatus.all
+  # Returns an array of status that user is able to apply
+  def new_statuses_allowed_to(user, include_default=false)
+    return [] if status.nil?
+
+    statuses = status.find_new_statuses_allowed_to(
+      user.roles_for_project(project),
+      type,
+      author == user,
+      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
+      )
+    statuses << status unless statuses.empty?
+    statuses << IssueStatus.default if include_default
+    statuses = statuses.uniq.sort
+    blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
 
   def self.use_status_for_done_ratio?

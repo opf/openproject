@@ -111,6 +111,14 @@ class PermittedParams < Struct.new(:params, :user)
     end
   end
 
+  def type
+    params.require(:type).permit(*self.class.permitted_attributes[:type])
+  end
+
+  def type_move
+    params.require(:type).permit(*self.class.permitted_attributes[:type_move])
+  end
+
   def work_package
     params.require(:work_package).permit(:subject,
                                          :description,
@@ -207,16 +215,24 @@ class PermittedParams < Struct.new(:params, :user)
                                :project_type => [
                                                   :name,
                                                   :allows_association,
-                                                  # have to check whether this is correct
-                                                  # just copying over from model for now
-                                                  :planning_element_type_ids => [],
+                                                  :type_ids => [],
                                                   :reported_project_status_ids => []
                                                 ],
                                :scenario => [
                                               :name,
                                               :description
-                                            ]
-
+                                            ],
+                               :type => [
+                                          :name,
+                                          :is_in_roadmap,
+                                          :in_aggregation,
+                                          :is_milestone,
+                                          :is_default,
+                                          :color_id,
+                                          :project_ids => [],
+                                          :custom_field_ids => []
+                                        ],
+                               :type_move => [:move_to]
                             }
   end
 end

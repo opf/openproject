@@ -81,14 +81,101 @@ describe WorkPackage do
   end
 
   describe :new_statuses_allowed_to do
-    it "should return all status" do
-      # Dummy implementation as long as trackers/types are not merged
-      expected = double('expect')
 
-      IssueStatus.stub(:all).and_return(expected)
-
-      stub_work_package.new_statuses_allowed_to(stub_user).should == expected
+    let(:role) { FactoryGirl.create(:role) }
+    let(:type) { FactoryGirl.create(:type) }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:statuses) { (1..5).map{ |i| FactoryGirl.create(:issue_status)}}
+    let(:status) { statuses[0] }
+    let(:project) do
+      FactoryGirl.create(:project, :types => [type]).tap { |p| p.add_member(user, role).save }
     end
+    let(:workflow_a) { FactoryGirl.create(:workflow, :role_id => role.id,
+                                                     :type_id => type.id,
+                                                     :old_status_id => statuses[0].id,
+                                                     :new_status_id => statuses[1].id,
+                                                     :author => false,
+                                                     :assignee => false)}
+    let(:workflow_b) { FactoryGirl.create(:workflow, :role_id => role.id,
+                                                     :type_id => type.id,
+                                                     :old_status_id => statuses[0].id,
+                                                     :new_status_id => statuses[2].id,
+                                                     :author => true,
+                                                     :assignee => false)}
+    let(:workflow_c) { FactoryGirl.create(:workflow, :role_id => role.id,
+                                                     :type_id => type.id,
+                                                     :old_status_id => statuses[0].id,
+                                                     :new_status_id => statuses[3].id,
+                                                     :author => false,
+                                                     :assignee => true)}
+    let(:workflow_d) { FactoryGirl.create(:workflow, :role_id => role.id,
+                                                     :type_id => type.id,
+                                                     :old_status_id => statuses[0].id,
+                                                     :new_status_id => statuses[4].id,
+                                                     :author => true,
+                                                     :assignee => true)}
+    let(:workflows) { [workflow_a, workflow_b, workflow_c, workflow_d] }
+
+    it "should respect workflows w/o author and w/o assignee" do
+      workflows
+      status.new_statuses_allowed_to([role], type, false, false).should =~ [statuses[1]]
+      status.find_new_statuses_allowed_to([role], type, false, false).should =~ [statuses[1]]
+    end
+
+    it "should respect workflows w/ author and w/o assignee" do
+      workflows
+      status.new_statuses_allowed_to([role], type, true, false).should =~ [statuses[1], statuses[2]]
+      status.find_new_statuses_allowed_to([role], type, true, false).should =~ [statuses[1], statuses[2]]
+    end
+
+    it "should respect workflows w/o author and w/ assignee" do
+      workflows
+      status.new_statuses_allowed_to([role], type, false, true).should =~ [statuses[1], statuses[3]]
+      status.find_new_statuses_allowed_to([role], type, false, true).should =~ [statuses[1], statuses[3]]
+    end
+
+    it "should respect workflows w/ author and w/ assignee" do
+      workflows
+      status.new_statuses_allowed_to([role], type, true, true).should =~ [statuses[1], statuses[2], statuses[3], statuses[4]]
+      status.find_new_statuses_allowed_to([role], type, true, true).should =~ [statuses[1], statuses[2], statuses[3], statuses[4]]
+    end
+
+    it "should respect workflows w/o author and w/o assignee on work packages" do
+      workflows
+      work_package = FactoryGirl.create(:work_package, :type => type,
+                                                       :status => status,
+                                                       :project_id => project.id)
+      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1]]
+    end
+
+    it "should respect workflows w/ author and w/o assignee on work packages" do
+      workflows
+      work_package = FactoryGirl.create(:work_package, :type => type,
+                                                       :status => status,
+                                                       :project_id => project.id,
+                                                       :author => user)
+      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2]]
+    end
+
+    it "should respect workflows w/o author and w/ assignee on work packages" do
+      workflows
+      work_package = FactoryGirl.create(:work_package, :type => type,
+                                                       :status => status,
+                                                       :project_id => project.id,
+                                                       :assigned_to => user)
+      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[3]]
+    end
+
+    it "should respect workflows w/ author and w/ assignee on work packages" do
+      workflows
+      work_package = FactoryGirl.create(:work_package, :type => type,
+                                                       :status => status,
+                                                       :project_id => project.id,
+                                                       :author => user,
+                                                       :assigned_to => user)
+      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]]
+    end
+
   end
 
   describe :add_time_entry do

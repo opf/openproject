@@ -27,6 +27,7 @@ FactoryGirl.define do
     factory :type_feature do
       name "Feature"
       position 2
+      is_default true
     end
 
     factory :type_support do

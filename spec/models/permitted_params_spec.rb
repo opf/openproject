@@ -53,12 +53,6 @@ describe PermittedParams do
       PermittedParams.new(params, user).project_type.should == { "allows_association" => "1" }
     end
 
-    it "should return planning_element_type_ids" do
-      params = ActionController::Parameters.new(:project_type => { "planning_element_type_ids" => ["1"] } )
-
-      PermittedParams.new(params, user).project_type.should == { "planning_element_type_ids" => ["1"] }
-    end
-
     it "should return reported_project_status_ids" do
       params = ActionController::Parameters.new(:project_type => { "reported_project_status_ids" => ["1"] } )
 
