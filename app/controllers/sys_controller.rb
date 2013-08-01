@@ -15,7 +15,10 @@ class SysController < ActionController::Base
 
   def projects
     p = Project.active.has_module(:repository).find(:all, :include => :repository, :order => 'identifier')
-    render :xml => p.to_xml(:include => :repository)
+    respond_to do |format|
+      format.json { render :json => p.to_json(:include => :repository) }
+      format.any(:html, :xml) {  render :xml => p.to_xml(:include => :repository) }
+    end
   end
 
   def create_project_repository
