@@ -12,7 +12,7 @@
 Feature: Localized list custom fields can be created
 
   Background:
-    Given I am admin
+    Given I am already admin
     And the following languages are active:
       | en |
       | de |

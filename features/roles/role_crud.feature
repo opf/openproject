@@ -15,7 +15,7 @@ Feature: As an admin
 
   @javascript
   Scenario: Normal Role creation with existing role with same name
-    And I am already logged in as "admin"
+    And I am already admin
     When I go to the new page of "Role"
     Then I should see "Issues can be assigned to this role"
     When I fill in "Name" with "Manager"
@@ -25,7 +25,7 @@ Feature: As an admin
   @javascript
   Scenario: Normal Role creation with existing role with same name
     And there is a role "Manager"
-    And I am already logged in as "admin"
+    And I am already admin
     When I go to the new page of "Role"
     Then I should see "Issues can be assigned to this role"
     When I fill in "Name" with "Manager"

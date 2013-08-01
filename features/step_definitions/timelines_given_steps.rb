@@ -98,15 +98,6 @@ Given /^I delete the scenario "([^"]*)"$/ do |scenario_name|
   scenario.destroy
 end
 
-# Using our own project creation step to make sure, that we may initially assign
-# a project type.
-#
-Given /^there is a project named "([^"]*)" of type "([^"]*)"$/ do |name, project_type_name|
-  FactoryGirl.create(:project,
-                 :name                      => name,
-                 :project_type_id => ProjectType.find_by_name!(project_type_name).id)
-end
-
 Given /^there are the following projects of type "([^"]*)":$/ do |project_type_name, table|
   table.raw.flatten.each do |name|
     step %Q{there is a project named "#{name}" of type "#{project_type_name}"}

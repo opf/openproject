@@ -16,8 +16,6 @@
 class Issue < WorkPackage
   include Redmine::SafeAttributes
 
-  has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
-
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
   ATTRIBS_WITH_VALUES_FROM_CHILDREN = %w(priority_id start_date due_date estimated_hours done_ratio)
 
@@ -331,11 +329,6 @@ class Issue < WorkPackage
       end
     end
     false
-  end
-
-  # Returns true if the issue is overdue
-  def overdue?
-    !due_date.nil? && (due_date < Date.today) && !status.is_closed?
   end
 
   # Is the amount of work done less than it should for the due date

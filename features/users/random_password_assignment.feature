@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 #-- copyright
 # OpenProject is a project management system.
 #
@@ -11,7 +13,7 @@
 
 Feature: User Status
   Background:
-    Given I am already logged in as "admin"
+    Given I am already admin
     Given there is a user named "bobby"
 
   Scenario: Existing user can be assigned a random password
