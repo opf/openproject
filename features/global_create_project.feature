@@ -2,13 +2,13 @@ Feature: Global Create Project
 
   Scenario: Create Project is not a member permission
     Given there is a role "Member"
-    And I am already logged in as "admin"
+    And I am already admin
     When I go to the edit page of the role "Member"
     Then I should not see "Create project"
 
   Scenario: Create Project is a global permission
     Given there is a global role "Global"
-    And I am already logged in as "admin"
+    And I am already admin
     When I go to the edit page of the role "Global"
     Then I should see "Create project"
 

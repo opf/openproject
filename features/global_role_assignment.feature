@@ -15,7 +15,7 @@ Feature: Global Role Assignment
       | Firstname | Bob |
       | Lastname | Bobbit |
     And the user "bob" has the global role "global_role1"
-    And I am already logged in as "admin"
+    And I am already admin
     When I go to the edit page of the user called "bob"
     And I click on "tab-global_roles"
     Then I should see "global_role1" within "#table_principal_roles"
@@ -32,7 +32,7 @@ Feature: Global Role Assignment
       | Login | bob |
       | Firstname | Bob |
       | Lastname | Bobbit |
-    And I am already logged in as "admin"
+    And I am already admin
     When I go to the edit page of the user called "bob"
     And I click on "tab-global_roles"
     And I select the available global role "global_role"
@@ -53,7 +53,7 @@ Feature: Global Role Assignment
       | Firstname | Bob |
       | Lastname | Bobbit |
     And the user "bob" has the global role "global_role"
-    And I am already logged in as "admin"
+    And I am already admin
     When I go to the edit page of the user called "bob"
     And I click on "tab-global_roles"
     And I delete the assigned role "global_role"

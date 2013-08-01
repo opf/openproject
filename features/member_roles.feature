@@ -11,7 +11,7 @@ Feature: Unchanged Member Roles
       | Lastname | Bobbit |
     And there is a global role "GlobalRole1"
     And there is a role "MemberRole1"
-    And I am already logged in as "admin"
+    And I am already admin
     When I go to the members tab of the settings page for the project "projectid"
     And I select the principal "bob"
     Then I should see "MemberRole1"

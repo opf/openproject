@@ -5,6 +5,6 @@ Feature: No Module
     And there is 1 project with the following:
       | name       | test |
       | identifier | test |
-    And I am already logged in as "admin"
+    And I am already admin
     When I go to the members tab of the settings page for the project "test"
     Then I should not see "Global"
