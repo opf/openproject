@@ -84,53 +84,62 @@ describe WorkPackage do
 
     it "should work as it did in issue tests" do
 
-      Workflow.delete_all
+      role = FactoryGirl.create(:role)
+      type = FactoryGirl.create(:type)
 
-      Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false)
-      Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 3, :author => true, :assignee => false)
-      Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 4, :author => false, :assignee => true)
-      Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 5, :author => true, :assignee => true)
-      status = IssueStatus.find(1)
-      role = Role.find(1)
-      type = Type.find(1)
+      statuses = (1..5).map do |i|
+        FactoryGirl.create(:issue_status)
+      end
 
-      assert_equal [2], status.new_statuses_allowed_to([role], type, false, false).map(&:id)
-      assert_equal [2], status.find_new_statuses_allowed_to([role], type, false, false).map(&:id)
+      Workflow.create!(:role_id => role.id, :type_id => type.id, :old_status_id => statuses[0].id, :new_status_id => statuses[1].id, :author => false, :assignee => false)
+      Workflow.create!(:role_id => role.id, :type_id => type.id, :old_status_id => statuses[0].id, :new_status_id => statuses[2].id, :author => true, :assignee => false)
+      Workflow.create!(:role_id => role.id, :type_id => type.id, :old_status_id => statuses[0].id, :new_status_id => statuses[3].id, :author => false, :assignee => true)
+      Workflow.create!(:role_id => role.id, :type_id => type.id, :old_status_id => statuses[0].id, :new_status_id => statuses[4].id, :author => true, :assignee => true)
 
-      assert_equal [2, 3], status.new_statuses_allowed_to([role], type, true, false).map(&:id)
-      assert_equal [2, 3], status.find_new_statuses_allowed_to([role], type, true, false).map(&:id)
+      status = statuses[0]
 
-      assert_equal [2, 4], status.new_statuses_allowed_to([role], type, false, true).map(&:id)
-      assert_equal [2, 4], status.find_new_statuses_allowed_to([role], type, false, true).map(&:id)
+      assert_equal [statuses[1]], status.new_statuses_allowed_to([role], type, false, false)
+      assert_equal [statuses[1]], status.find_new_statuses_allowed_to([role], type, false, false)
 
-      assert_equal [2, 3, 4, 5], status.new_statuses_allowed_to([role], type, true, true).map(&:id)
-      assert_equal [2, 3, 4, 5], status.find_new_statuses_allowed_to([role], type, true, true).map(&:id)
+      assert_equal [statuses[1], statuses[2]], status.new_statuses_allowed_to([role], type, true, false)
+      assert_equal [statuses[1], statuses[2]], status.find_new_statuses_allowed_to([role], type, true, false)
+
+      assert_equal [statuses[1], statuses[3]], status.new_statuses_allowed_to([role], type, false, true)
+      assert_equal [statuses[1], statuses[3]], status.find_new_statuses_allowed_to([role], type, false, true)
+
+      assert_equal [statuses[1], statuses[2], statuses[3], statuses[4]], status.new_statuses_allowed_to([role], type, true, true)
+      assert_equal [statuses[1], statuses[2], statuses[3], statuses[4]], status.find_new_statuses_allowed_to([role], type, true, true)
     end
 
     it "should work as it did in issue status tests" do
 
-      Workflow.delete_all
+      role = FactoryGirl.create(:role)
+      type = FactoryGirl.create(:type)
+      user = FactoryGirl.create(:user)
+      project = FactoryGirl.create(:project, :types => [type])
 
-      Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false)
-      Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 3, :author => true, :assignee => false)
-      Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 4, :author => false, :assignee => true)
-      Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 1, :new_status_id => 5, :author => true, :assignee => true)
-      status = IssueStatus.find(1)
-      role = Role.find(1)
-      type = Type.find(1)
-      user = User.find(2)
+      statuses = (1..5).map do |i|
+        FactoryGirl.create(:issue_status)
+      end
 
-      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => 1)
-      assert_equal [1, 2], work_package.new_statuses_allowed_to(user).map(&:id)
+      Workflow.create!(:role_id => role.id, :type_id => type.id, :old_status_id => statuses[0].id, :new_status_id => statuses[1].id, :author => false, :assignee => false)
+      Workflow.create!(:role_id => role.id, :type_id => type.id, :old_status_id => statuses[0].id, :new_status_id => statuses[2].id, :author => true, :assignee => false)
+      Workflow.create!(:role_id => role.id, :type_id => type.id, :old_status_id => statuses[0].id, :new_status_id => statuses[3].id, :author => false, :assignee => true)
+      Workflow.create!(:role_id => role.id, :type_id => type.id, :old_status_id => statuses[0].id, :new_status_id => statuses[4].id, :author => true, :assignee => true)
 
-      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => 1, :author => user)
-      assert_equal [1, 2, 3], work_package.new_statuses_allowed_to(user).map(&:id)
+      status = statuses[0]
 
-      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => 1, :assigned_to => user)
-      assert_equal [1, 2, 4], work_package.new_statuses_allowed_to(user).map(&:id)
+      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => project.id)
+      assert_equal [1, 2], work_package.new_statuses_allowed_to(user)
 
-      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => 1, :author => user, :assigned_to => user)
-      assert_equal [1, 2, 3, 4, 5], work_package.new_statuses_allowed_to(user).map(&:id)
+      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => project.id, :author => user)
+      assert_equal [1, 2, 3], work_package.new_statuses_allowed_to(user)
+
+      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => project.id, :assigned_to => user)
+      assert_equal [1, 2, 4], work_package.new_statuses_allowed_to(user)
+
+      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => project.id, :author => user, :assigned_to => user)
+      assert_equal [1, 2, 3, 4, 5], work_package.new_statuses_allowed_to(user)
     end
 
   end
