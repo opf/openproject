@@ -78,7 +78,6 @@ describe PlanningElementsController do
     end
   end
 
-
   before do
     User.stub(:current).and_return current_user
   end
