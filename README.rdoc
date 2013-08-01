@@ -10,7 +10,7 @@ all attendants and invitees.
 == Requirements
 
 The meetings plugin currently requires the OpenProject Core in
-version 3.0.0pre9.
+version 3.0.0pre9 or newer.
 
 
 == Installation
@@ -37,7 +37,7 @@ Remove the line
 
 `gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting"`
 
-from the file `Gemfile.plugin` and run:
+from the file `Gemfile.plugins` and run:
 
 `bundle install`
 
