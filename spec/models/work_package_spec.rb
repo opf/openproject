@@ -90,7 +90,6 @@ describe WorkPackage do
     let(:project) do
       FactoryGirl.create(:project, :types => [type]).tap { |p| p.add_member(user, role).save }
     end
-
     let(:workflow_a) { FactoryGirl.create(:workflow, :role_id => role.id,
                                                      :type_id => type.id,
                                                      :old_status_id => statuses[0].id,
@@ -143,26 +142,38 @@ describe WorkPackage do
 
     it "should respect workflows w/o author and w/o assignee on work packages" do
       workflows
-      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => project.id)
-      assert_equal [statuses[0], statuses[1]], work_package.new_statuses_allowed_to(user)
+      work_package = FactoryGirl.create(:work_package, :type => type,
+                                                       :status => status,
+                                                       :project_id => project.id)
+      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1]]
     end
 
     it "should respect workflows w/ author and w/o assignee on work packages" do
       workflows
-      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => project.id, :author => user)
-      assert_equal [statuses[0], statuses[1], statuses[2]], work_package.new_statuses_allowed_to(user)
+      work_package = FactoryGirl.create(:work_package, :type => type,
+                                                       :status => status,
+                                                       :project_id => project.id,
+                                                       :author => user)
+      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2]]
     end
 
     it "should respect workflows w/o author and w/ assignee on work packages" do
       workflows
-      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => project.id, :assigned_to => user)
-      assert_equal [statuses[0], statuses[1], statuses[3]], work_package.new_statuses_allowed_to(user)
+      work_package = FactoryGirl.create(:work_package, :type => type,
+                                                       :status => status,
+                                                       :project_id => project.id,
+                                                       :assigned_to => user)
+      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[3]]
     end
 
     it "should respect workflows w/ author and w/ assignee on work packages" do
       workflows
-      work_package = WorkPackage.generate!(:type => type, :status => status, :project_id => project.id, :author => user, :assigned_to => user)
-      assert_equal [statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]], work_package.new_statuses_allowed_to(user)
+      work_package = FactoryGirl.create(:work_package, :type => type,
+                                                       :status => status,
+                                                       :project_id => project.id,
+                                                       :author => user,
+                                                       :assigned_to => user)
+      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]]
     end
 
   end
