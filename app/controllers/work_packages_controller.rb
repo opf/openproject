@@ -36,7 +36,7 @@ class WorkPackagesController < ApplicationController
   before_filter :disable_api
   before_filter :find_model_object_and_project, :only => [:show, :edit, :update]
   before_filter :find_project_by_project_id, :only => [:new, :create]
-  before_filter :project, :only => [:new_type]
+  before_filter :project, :only => [:new_type, :preview]
   before_filter :authorize,
                 :assign_planning_elements
   before_filter :apply_at_timestamp, :only => [:show]
@@ -84,6 +84,22 @@ class WorkPackagesController < ApplicationController
                                       :priorities => priorities,
                                       :user => current_user } }
     end
+  end
+
+  def preview
+    if @work_package
+      if params.has_key? :work_package
+        @description = params[:work_package][:description]
+        @notes = params[:work_package][:notes]
+      end
+      if @description && @description.gsub(/(\r?\n|\n\r?)/, "\n") == @work_package.description.to_s.gsub(/(\r?\n|\n\r?)/, "\n")
+        @description = nil
+      end
+      @notes = @notes
+    else
+      @description = (params[:work_package] ? params[:work_package][:description] : nil)
+    end
+    render :layout => false
   end
 
   def create

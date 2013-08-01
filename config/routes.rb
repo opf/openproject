@@ -300,6 +300,7 @@ OpenProject::Application.routes.draw do
 
   resources :work_packages, :only => [:show, :edit, :update] do
     get :new_type, :on => :member
+    post :preview, :on => :member
 
     resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
 
