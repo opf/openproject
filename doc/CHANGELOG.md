@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1536` Fixed bug: Reposman.rb receives xml response for json request
+* `#1520` PlanningElements are created without the root_id attribute being set
 * `#1246` Implement uniform "edit" action/view for pe & issues
 * `#1247` Implement uniform "update" action for pe & issues
 * `#1520` PlanningElements are created without the root_id attribute being set
