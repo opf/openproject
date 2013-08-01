@@ -705,4 +705,21 @@ describe WorkPackagesController do
       controller.time_entry.should == expected
     end
   end
+
+  describe 'preview.html' do
+    let(:params) { { work_package: { notes: "My note" },
+                     project_id: project.id } }
+
+    become_member_with_permissions [:edit_work_packages]
+
+    before do
+      controller.stub!(:work_package).and_return(stub_issue)
+    end
+
+    it 'render the edit action' do
+      post 'preview', params
+
+      response.should render_template('work_packages/preview', :formats => ["html"], :layout => false)
+    end
+  end
 end
