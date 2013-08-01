@@ -7,8 +7,20 @@ class AddPlanningElementTypePropertiesToType < ActiveRecord::Migration
     add_column :types, :is_default,     :boolean, :default => false, :null => false
 
     add_column :types, :color_id,   :integer
-    add_column :types, :created_at, :datetime, :null => false
-    add_column :types, :updated_at, :datetime, :null => false
+
+    # We have to add the created_at and updated_at columns
+    # in two phases as there might already be values in the db.
+    # Enforcing not null will break on existing values.
+    # Thus, we first create the column, add values for all existing
+    # entries and then add the not null constraint.
+    add_column :types, :created_at, :datetime
+    add_column :types, :updated_at, :datetime
+
+    Type.update_all({:created_at => Time.now, :updated_at => Time.now},
+                    {:created_at => nil, :updated_at => nil})
+
+    change_column :types, :created_at, :datetime, :null => false
+    change_column :types, :updated_at, :datetime, :null => false
 
     change_column :types, :name, :string, :default => "", :null => false
 
