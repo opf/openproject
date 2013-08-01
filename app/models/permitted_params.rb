@@ -84,7 +84,7 @@ class PermittedParams < Struct.new(:params, :user)
   def new_work_package(args = {})
     permitted = permitted_attributes(:new_work_package, args)
 
-    permitted_params = params[:work_package].permit(*permitted)
+    permitted_params = params.require(:work_package).permit(*permitted)
 
     permitted_params.merge!(custom_field_values(:work_package))
 

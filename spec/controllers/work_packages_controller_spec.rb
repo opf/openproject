@@ -592,12 +592,17 @@ describe WorkPackagesController do
   end
 
   describe :new_work_package do
+    let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+
     describe 'when the type is "PlanningElement"' do
       before do
         controller.params = { :sti_type => 'PlanningElement',
                               :work_package => {} }
-        controller.stub!(:find_project_by_project_id).and_return(project)
-        controller.stub!(:current_user).and_return(stub_user)
+        controller.stub(:find_project_by_project_id).and_return(project)
+        controller.stub(:current_user).and_return(stub_user)
+        controller.send(:permitted_params).should_receive(:new_work_package)
+                                          .with(:project => project)
+                                          .and_return(wp_params)
 
         project.should_receive(:add_planning_element) do |args|
 
@@ -623,8 +628,11 @@ describe WorkPackagesController do
         controller.params = { :sti_type => 'Issue',
                               :work_package => {} }
 
-        controller.stub!(:find_project_by_project_id).and_return(project)
-        controller.stub!(:current_user).and_return(stub_user)
+        controller.stub(:find_project_by_project_id).and_return(project)
+        controller.stub(:current_user).and_return(stub_user)
+        controller.send(:permitted_params).should_receive(:new_work_package)
+                                          .with(:project => project)
+                                          .and_return(wp_params)
 
         project.should_receive(:add_issue) do |args|
 

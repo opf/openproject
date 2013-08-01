@@ -12,8 +12,6 @@
 class WorkPackagesController < ApplicationController
   unloadable
 
-  helper :timelines, :planning_elements
-
   include ExtendedHTTP
   include Redmine::Export::PDF
 
@@ -35,17 +33,9 @@ class WorkPackagesController < ApplicationController
   model_object WorkPackage
 
   before_filter :disable_api
-  before_filter :find_model_object_and_project, :only => [:show, :edit, :update]
-  before_filter :find_project_by_project_id, :only => [:new, :create]
-  before_filter :not_found_unless_work_package, :only => :new_type
-  before_filter :project, :only => [:new_type]
-  before_filter :authorize,
-                :assign_planning_elements
-  before_filter :apply_at_timestamp, :only => [:show]
-
-
-  helper :timelines
-  helper :timelines_journals
+  before_filter :not_found_unless_work_package,
+                :project,
+                :authorize
 
   def show
     respond_to do |format|
@@ -179,13 +169,18 @@ class WorkPackagesController < ApplicationController
 
   def new_work_package
     @new_work_package ||= begin
-      params[:work_package] ||= {}
-      sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
-
       project = find_project_by_project_id
-      permitted = permitted_params.new_work_package(:project => project)
+
+      permitted = if params[:work_package]
+                    permitted_params.new_work_package(:project => project)
+                  else
+                    params[:work_package] ||= {}
+                    {}
+                  end
 
       permitted[:author] = current_user
+
+      sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
 
       wp = case sti_type
            when PlanningElement.to_s
@@ -306,20 +301,5 @@ class WorkPackagesController < ApplicationController
 
   def send_notifications?
     params[:send_notification] == '0' ? false : true
-  end
-
-  def assign_planning_elements
-    @planning_elements = @project.planning_elements.without_deleted
-  end
-
-  def apply_at_timestamp
-    return if params[:at].blank?
-
-    time = Time.at(Integer(params[:at]))
-    # intentionally rebuilding scope chain to avoid without_deleted scope
-    @planning_elements = @project.planning_elements.at_time(time)
-
-  rescue ArgumentError
-    render_errors(:at => 'unknown format')
   end
 end
