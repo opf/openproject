@@ -77,26 +77,6 @@ Feature: Planning Element Management
      When I follow "Activity"
      Then I should see "Creation: February"
 
-  Scenario: The project manager may edit planning elements
-    Given there are the following planning elements:
-            | Subject  | Start date | Due date   |
-            | January  | 2012-01-01 | 2012-01-31 |
-            | February | 2012-02-01 | 2012-02-29 |
-            | March    | 2012-03-01 | 2012-03-31 |
-     When I go to the page of the planning element "February" of the project called "ecookbook"
-     When I click on "Update" within "#content > .action_menu_main"
-      And I fill in "February 2012" for "Subject"
-      And I press "Save"
-     Then I should see a notice flash stating "Successful update."
-
-     When I toggle the "Timelines" submenu
-      And I follow "Planning elements"
-     Then I should see a planning element named "February 2012"
-
-     When I follow "Activity"
-     Then I should see "Creation: February 2012"
-     Then I should see "Update: February 2012"
-
   Scenario: Editing a scenario
     Given there are the following planning elements:
             | Subject  | Start date | Due date   |
