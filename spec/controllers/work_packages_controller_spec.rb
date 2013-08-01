@@ -233,13 +233,16 @@ describe WorkPackagesController do
   end
 
   describe 'new_type.js' do
+
+    let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+
     describe 'w/o specifying a project_id or an id' do
       before do
         xhr :get, :new_type
       end
 
-      it 'should return 403 Not found' do
-        response.response_code.should == 403
+      it 'should return 404 Not found' do
+        response.response_code.should == 404
       end
     end
 
@@ -259,6 +262,12 @@ describe WorkPackagesController do
       become_member_with_permissions [:add_work_packages]
 
       before do
+        controller.stub!(:new_work_package).and_return(planning_element)
+        controller.send(:permitted_params).should_receive(:update_work_package)
+                                          .with(:project => planning_element.project)
+                                          .and_return(wp_params)
+        planning_element.should_receive(:update_by).with(current_user, wp_params).and_return(true)
+
         xhr :get, :new_type, :project_id => project.id
       end
 
@@ -277,7 +286,14 @@ describe WorkPackagesController do
       become_member_with_permissions [:view_work_packages,
                                       :edit_work_packages]
 
+
       before do
+        controller.stub(:existing_work_package).and_return(planning_element)
+        controller.send(:permitted_params).should_receive(:update_work_package)
+                                          .with(:project => project)
+                                          .and_return(wp_params)
+        planning_element.should_receive(:update_by).with(current_user, wp_params).and_return(true)
+
         xhr :get, :new_type, :id => planning_element.id
       end
 
@@ -433,7 +449,8 @@ describe WorkPackagesController do
       end
 
       describe 'w/ the current user being a member' do
-        become_member_with_permissions [:edit_work_packages]
+        become_member_with_permissions [:edit_work_packages,
+                                        :view_work_packages]
 
         before do
           get 'edit', :id => planning_element.id
@@ -471,7 +488,7 @@ describe WorkPackagesController do
         controller.send(:permitted_params).should_receive(:update_work_package)
                                           .with(:project => planning_element.project)
                                           .and_return(wp_params)
-        planning_element.should_receive(:update_by).with(current_user, wp_params).and_return(true)
+        planning_element.should_receive(:update_by!).with(current_user, wp_params).and_return(true)
       end
 
       it 'should respond with 200 OK' do
@@ -503,7 +520,7 @@ describe WorkPackagesController do
         controller.send(:permitted_params).should_receive(:update_work_package)
                                           .with(:project => planning_element.project)
                                           .and_return(wp_params)
-        planning_element.should_receive(:update_by).with(current_user, wp_params).and_return(false)
+        planning_element.should_receive(:update_by!).with(current_user, wp_params).and_return(false)
       end
 
       it 'render the edit action' do
@@ -579,7 +596,7 @@ describe WorkPackagesController do
       before do
         controller.params = { :sti_type => 'PlanningElement',
                               :work_package => {} }
-        controller.stub!(:project).and_return(project)
+        controller.stub!(:find_project_by_project_id).and_return(project)
         controller.stub!(:current_user).and_return(stub_user)
 
         project.should_receive(:add_planning_element) do |args|
@@ -606,7 +623,7 @@ describe WorkPackagesController do
         controller.params = { :sti_type => 'Issue',
                               :work_package => {} }
 
-        controller.stub!(:project).and_return(project)
+        controller.stub!(:find_project_by_project_id).and_return(project)
         controller.stub!(:current_user).and_return(stub_user)
 
         project.should_receive(:add_issue) do |args|
@@ -628,8 +645,9 @@ describe WorkPackagesController do
       end
     end
 
-    describe 'when the type is "Project"' do
+    describe 'when the sti_type is "Project"' do
       it "should raise not allowed" do
+        controller.stub(:find_project_by_project_id).and_return(stub_project)
         controller.params = { :sti_type => 'Project' }
 
         expect { controller.new_work_package }.to raise_error ArgumentError
@@ -639,9 +657,9 @@ describe WorkPackagesController do
 
   describe :project do
     it "should be the work_packages's project" do
-      controller.stub!(:work_package).and_return(planning_element)
+      controller.stub(:work_package).and_return(planning_element)
 
-      controller.project.should == project
+      controller.project.should == planning_element.project
     end
   end
 
@@ -747,6 +765,10 @@ describe WorkPackagesController do
   end
 
   describe :descendants do
+    before do
+      controller.stub(:work_package).and_return(planning_element)
+    end
+
     it "should be empty" do
       controller.descendants.should be_empty
     end
