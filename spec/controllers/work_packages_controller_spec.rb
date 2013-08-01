@@ -720,13 +720,13 @@ describe WorkPackagesController do
   describe :ancestors do
     let(:project) { FactoryGirl.create(:project_with_types) }
     let(:ancestor_issue) { FactoryGirl.create(:issue, :project => project) }
-    let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_issue_id => ancestor_issue.id) }
+    let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_id => ancestor_issue.id) }
 
     become_member_with_view_planning_element_permissions
 
     describe "when work_package is an issue" do
       let(:ancestor_issue) { FactoryGirl.create(:issue, :project => project) }
-      let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_issue_id => ancestor_issue.id) }
+      let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_id => ancestor_issue.id) }
 
       it "should return the work_packages ancestors" do
         controller.stub!(:work_package).and_return(issue)
@@ -737,7 +737,7 @@ describe WorkPackagesController do
 
     describe "when work_package is a planning element" do
       let(:descendant_planning_element) { FactoryGirl.create(:planning_element, :project => project,
-                                                                                :parent => planning_element) }
+                                                                                :parent_id => planning_element.id) }
       it "should return the work_packages ancestors" do
         controller.stub!(:work_package).and_return(descendant_planning_element)
 

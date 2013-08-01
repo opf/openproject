@@ -145,7 +145,7 @@ class IssuesController < ApplicationController
       call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
       respond_to do |format|
         format.html {
-          redirect_to(params[:continue] ?  { :action => 'new', :project_id => @project, :issue => {:type_id => @issue.type, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
+          redirect_to(params[:continue] ?  { :action => 'new', :project_id => @project, :issue => {:type_id => @issue.type, :parent_id => @issue.parent_id}.reject {|k,v| v.nil?} } :
                       { :action => 'show', :id => @issue })
         }
       end
