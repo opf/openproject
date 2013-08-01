@@ -45,10 +45,12 @@ Feature: Updating work packages
       | name    | default |
       | status1 | true    |
       | status2 |         |
+    And the type "Phase1" has the default workflow for the role "manager"
+    And the type "Phase2" has the default workflow for the role "manager"
     And there are the following planning elements in project "ecookbook":
-      | subject |
-      | pe1     |
-      | pe2     |
+      | subject | type    | status  |
+      | pe1     | Phase1  | status1 |
+      | pe2     |         |         |
     And I am already logged in as "manager"
 
   @javascript
@@ -57,6 +59,11 @@ Feature: Updating work packages
     And I follow "More"
     And I fill in the following:
       | Type           | Phase2      |
+    # This is to be removed once the bug
+    # that clears the inserted/selected values
+    # after a type refresh is fixed.
+    And I wait for the AJAX requests to finish
+    And I fill in the following:
       | Responsible    | the manager |
       | Assignee       | the manager |
       | Start date     | 2013-03-04  |
