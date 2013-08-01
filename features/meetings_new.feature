@@ -104,7 +104,7 @@ Feature: Create new meetings
       | name       | foreverempty |
     And the project "foreverempty" uses the following modules:
       | meetings |
-    When I am already logged in as "admin"
+    When I am already admin
     And I go to the Meetings page for the project called "foreverempty"
     And I click on "New Meeting"
     And I fill in the following:
