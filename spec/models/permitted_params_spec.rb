@@ -403,6 +403,22 @@ describe PermittedParams do
 
       PermittedParams.new(params, user).new_work_package(:project => project).should == {}
     end
+
+    it "should permit custom field values" do
+      hash = { "custom_field_values" => { "1" => "5" } }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).new_work_package.should == hash
+    end
+
+    it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
+      hash = { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).new_work_package.should == {}
+    end
   end
 
   describe :update_work_package do
@@ -571,6 +587,22 @@ describe PermittedParams do
 
       PermittedParams.new(params, user).update_work_package(:project => project).should == {}
     end
+
+    it "should permit custom field values" do
+      hash = { "custom_field_values" => { "1" => "5" } }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).new_work_package.should == hash
+    end
+
+    it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
+      hash = { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).new_work_package.should == {}
+    end
   end
 
   describe :user do
@@ -579,7 +611,6 @@ describe PermittedParams do
                          'mail',
                          'mail_notification',
                          'language',
-                         'custom_field_values',
                          'custom_fields',
                          'identity_url',
                          'auth_source_id',
@@ -608,6 +639,22 @@ describe PermittedParams do
       params = ActionController::Parameters.new(:user => hash)
 
       PermittedParams.new(params, admin).user_update_as_admin.should == hash
+    end
+
+    it "should permit custom field values" do
+      hash = { "custom_field_values" => { "1" => "5" } }
+
+      params = ActionController::Parameters.new(:user => hash)
+
+      PermittedParams.new(params, admin).user_update_as_admin.should == hash
+    end
+
+    it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
+      hash = { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } }
+
+      params = ActionController::Parameters.new(:user => hash)
+
+      PermittedParams.new(params, admin).user_update_as_admin.should == {}
     end
   end
 end
