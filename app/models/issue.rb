@@ -338,22 +338,6 @@ class Issue < WorkPackage
     return done_date <= Date.today
   end
 
-  # Returns an array of status that user is able to apply
-  def new_statuses_allowed_to(user, include_default=false)
-    return [] if status.nil?
-
-    statuses = status.find_new_statuses_allowed_to(
-      user.roles_for_project(project),
-      type,
-      author == user,
-      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
-      )
-    statuses << status unless statuses.empty?
-    statuses << IssueStatus.default if include_default
-    statuses = statuses.uniq.sort
-    blocked? ? statuses.reject {|s| s.is_closed?} : statuses
-  end
-
   # Returns the mail adresses of users that should be notified
   def recipients
     notified = project.notified_users

@@ -48,7 +48,7 @@ activity_days_default:
   format: int
   default: 30
 per_page_options:
-  default: '25,50,100'
+  default: '100, 500, 1000'
 mail_from:
   default: openproject@example.net
 bcc_recipients:
@@ -155,15 +155,16 @@ default_projects_public:
 default_projects_modules:
   serialized: true
   default:
-  - issue_tracking
-  - time_tracking
-  - news
-  - documents
-  - files
-  - wiki
-  - repository
   - boards
   - calendar
+  - documents
+  - files
+  - issue_tracking
+  - news
+  - repository
+  - time_tracking
+  - timelines
+  - wiki
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
   format: int

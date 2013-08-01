@@ -30,18 +30,6 @@ Given /^I am working in the [tT]imeline "([^"]*)" of the project called "([^"]*)
   @timeline_name = timeline_name
 end
 
-Given /^there are the following planning element types:$/ do |table|
-  # Color is not handled in a sensible way. We need some extra logic to match
-  # a color name to an id, so that it is possible to assign a certain color to
-  # planning element types. This should be added once it is needed.
-  #
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
-
-  table.hashes.each do |type_attributes|
-    FactoryGirl.create(:planning_element_type, type_attributes)
-  end
-end
-
 Given /^there are the following planning element statuses:$/ do |table|
   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
 
@@ -63,17 +51,6 @@ Given /^there are the following project types:$/ do |table|
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:project_type, type_attributes)
-  end
-end
-
-Given /^the following planning element types are default for projects of type "([^"]*)"$/ do |project_type_name, pe_type_names|
-  project_type = ProjectType.find_by_name!(project_type_name)
-
-  pe_type_names = pe_type_names.raw.flatten
-  pe_type_names.each do |pe_type_name|
-    FactoryGirl.create(:default_planning_element_type,
-                   :project_type_id          => project_type.id,
-                   :planning_element_type_id => PlanningElementType.find_by_name!(pe_type_name).id)
   end
 end
 
@@ -133,3 +110,15 @@ Given /^there is a timeline "([^"]*)" for project "([^"]*)"$/ do |timeline_name,
   timeline.save!
 end
 
+Given /^the following types are enabled for projects of type "(.*?)"$/ do |project_type_name, type_name_table|
+  project_type = ProjectType.find_by_name(project_type_name)
+  projects = Project.where(:project_type_id => project_type.id)
+  types = type_name_table.raw.flatten.map do |type_name|
+    Type.find_by_name(type_name) || Factory.create(:type, :name => type_name)
+  end
+
+  projects.each do |project|
+    project.types = types
+    project.save
+  end
+end

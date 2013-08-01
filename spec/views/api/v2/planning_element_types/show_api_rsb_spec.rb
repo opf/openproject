@@ -21,7 +21,7 @@ describe 'api/v2/planning_element_types/show.api.rsb' do
   end
 
   describe 'with an assigned planning element type' do
-    let(:planning_element_type) { FactoryGirl.build(:planning_element_type) }
+    let(:planning_element_type) { FactoryGirl.build(:type) }
 
     before do
       assign(:planning_element_type, planning_element_type)

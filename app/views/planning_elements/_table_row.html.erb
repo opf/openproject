@@ -16,8 +16,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= link_to_planning_element(planning_element, :include_name => false) %>
   </td>
   <td class="timelines-pe-type">
-    <%= icon_for_planning_element_type(planning_element.planning_element_type) %>
-    <%=h planning_element.planning_element_type.try(:name) %>
+    <%= icon_for_type(planning_element.type) %>
+    <%=h planning_element.type.try(:name) %>
   </td>
   <td class="timelines-pe-name">
     <%= link_to_planning_element(planning_element, :include_id => false) %>

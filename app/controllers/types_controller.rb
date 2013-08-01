@@ -15,14 +15,18 @@ class TypesController < ApplicationController
 
   layout 'admin'
 
-  before_filter :require_admin
+  before_filter :require_admin, :except => [:index, :show, :paginate_planning_element_types]
 
   def index
     @types = Type.order('position')
-                       .page(params[:page])
-                       .per_page(per_page_param)
+                 .page(params[:page])
+                 .per_page(per_page_param)
 
     render :action => "index", :layout => false if request.xhr?
+  end
+
+  def type
+    @type
   end
 
   def new
@@ -32,7 +36,7 @@ class TypesController < ApplicationController
   end
 
   def create
-    @type = Type.new(params[:type])
+    @type = Type.new(permitted_params.type)
     if @type.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Type.find_by_id(params[:copy_workflow_from]))
@@ -54,12 +58,25 @@ class TypesController < ApplicationController
 
   def update
     @type = Type.find(params[:id])
-    if @type.update_attributes(params[:type])
+
+    if @type.update_attributes(permitted_params.type)
       redirect_to types_path, :notice => t(:notice_successful_update)
     else
       @projects = Project.all
       render :action => 'edit'
     end
+  end
+
+  def move
+    @type = Type.find(params[:id])
+
+    if @type.update_attributes(permitted_params.type_move)
+      flash[:notice] = l(:notice_successful_update)
+    else
+      flash.now[:error] = l('type_could_not_be_saved')
+      render :action => 'edit'
+    end
+    redirect_to types_path
   end
 
   def destroy
@@ -68,6 +85,7 @@ class TypesController < ApplicationController
     # put that into the model and do a `if @type.destroy`
     if @type.issues.empty?
       @type.destroy
+      flash[:notice] = l(:notice_successful_delete)
     else
       flash[:error] = t(:error_can_not_delete_type)
     end

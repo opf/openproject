@@ -25,7 +25,8 @@ module Api
                            :determine_base,
                            :find_all_projects_by_project_id,
                            :find_project_by_project_id,
-                           :jump_to_project_menu_item
+                           :jump_to_project_menu_item,
+                           :find_optional_project_and_raise_error
 
     end
   end

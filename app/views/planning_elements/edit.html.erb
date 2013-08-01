@@ -13,7 +13,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= header_tags %>
 <%= render :partial => 'breadcrumb', :locals => {:planning_element => @planning_element} %>
 
-<% html_title "#{h(@planning_element.planning_element_type.try(:name))} *#{@planning_element.id} - #{h(@planning_element.subject)}" %>
+<% html_title "#{h(@planning_element.type.try(:name))} *#{@planning_element.id} - #{h(@planning_element.subject)}" %>
 
 <%= form_for :planning_element, :url => project_planning_element_path(@project, @planning_element), :html => {:method => :put} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f, :planning_element => @planning_element, :project => @project} %>

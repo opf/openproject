@@ -36,20 +36,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <p>
       <label>
-        <%= ProjectType.human_attribute_name(:planning_element_types) %>
-      </label>
-
-      <span class="timelines-value">
-        <% if @project_type.planning_element_types.present? %>
-          <%=h @project_type.planning_element_types.map(&:name).join(', ') %>
-        <% else %>
-          -
-        <% end %>
-      </span>
-    </p>
-
-    <p>
-      <label>
         <%= ProjectType.human_attribute_name(:reported_project_statuses) %>
       </label>
 

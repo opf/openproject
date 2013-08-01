@@ -140,38 +140,28 @@ class Project < ActiveRecord::Base
   has_many :associated_b_projects, :through => :project_b_associations,
                                              :source  => :project_a
 
-
-  has_many :enabled_planning_element_types, :class_name  => "::EnabledPlanningElementType",
-                                                      :dependent => :delete_all
-
-  has_many :planning_element_types, :through => :enabled_planning_element_types,
-                                              :source  => :planning_element_type
-
-
   include TimelinesCollectionProxy
 
   collection_proxy :project_associations, :for => [:project_a_associations,
-                                                             :project_b_associations] do
+                                                   :project_b_associations] do
     def visible(user = User.current)
       all.select { |assoc| assoc.visible?(user) }
     end
   end
 
   collection_proxy :associated_projects, :for => [:associated_a_projects,
-                                                            :associated_b_projects] do
+                                                  :associated_b_projects] do
     def visible(user = User.current)
       all.select { |other| other.visible?(user) }
     end
   end
 
   collection_proxy :reportings, :for => [:reportings_via_source,
-                                                   :reportings_via_target],
-                                          :leave_public => true
-
-  after_save :assign_default_planning_element_types_as_enabled_planning_element_types
+                                         :reportings_via_target],
+                                         :leave_public => true
 
   safe_attributes 'project_type_id',
-                  'planning_element_type_ids',
+                  'type_ids',
                   'responsible_id'
 
   def associated_project_candidates(user = User.current)
@@ -214,13 +204,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def assign_default_planning_element_types_as_enabled_planning_element_types
-    return if enabled_planning_element_types.present?
-    return if project_type.blank?
-
-    self.planning_element_types = project_type.planning_element_types
-  end
-
   def has_many_dependent_for_planning_elements
     # Overwrites :dependent => :destroy - before_destroy callback
     # since we need to call the destroy! method instead of the destroy
@@ -252,7 +235,7 @@ class Project < ActiveRecord::Base
       self.enabled_module_names = Setting.default_projects_modules
     end
     if !initialized.key?('types') && !initialized.key?('type_ids')
-      self.types = Type.all
+      self.types = Type.where(is_default: true)
     end
   end
 
@@ -541,9 +524,9 @@ class Project < ActiveRecord::Base
   def rolled_up_types
     @rolled_up_types ||=
       Type.find(:all, :joins => :projects,
-                         :select => "DISTINCT #{Type.table_name}.*",
-                         :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
-                         :order => "#{Type.table_name}.position")
+                      :select => "DISTINCT #{Type.table_name}.*",
+                      :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
+                      :order => "#{Type.table_name}.position")
   end
 
   # Closes open and locked project versions that are completed
@@ -742,7 +725,7 @@ class Project < ActiveRecord::Base
   def hierarchy
     parents = project.self_and_ancestors || []
     descendants = project.descendants || []
-    project_hierarchy = parents | descendants # Set union
+    parents | descendants # Set union
   end
 
   # Returns an auto-generated project identifier based on the last identifier used

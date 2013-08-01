@@ -19,7 +19,7 @@ describe PlanningElement do
       it 'can read the project w/ the help of the belongs_to association' do
         project          = FactoryGirl.create(:project)
         planning_element = FactoryGirl.create(:planning_element,
-                                          :project_id => project.id)
+                                              :project_id => project.id)
 
         planning_element.reload
 
@@ -29,21 +29,21 @@ describe PlanningElement do
       it 'can read the responsible w/ the help of the belongs_to association' do
         user             = FactoryGirl.create(:user)
         planning_element = FactoryGirl.create(:planning_element,
-                                          :responsible_id => user.id)
+                                              :responsible_id => user.id)
 
         planning_element.reload
 
         planning_element.responsible.should == user
       end
 
-      it 'can read the planning_element_type w/ the help of the belongs_to association' do
-        planning_element_type = FactoryGirl.create(:planning_element_type)
-        planning_element      = FactoryGirl.create(:planning_element,
-                                               :planning_element_type_id => planning_element_type.id)
+      it 'can read the type w/ the help of the belongs_to association' do
+        type             = FactoryGirl.create(:type)
+        planning_element = FactoryGirl.create(:planning_element,
+                                                   :type_id => type.id)
 
         planning_element.reload
 
-        planning_element.planning_element_type.should == planning_element_type
+        planning_element.type.should == type
       end
 
       it 'can read the planning_element_status w/ the help of the belongs_to association' do
@@ -123,7 +123,7 @@ describe PlanningElement do
       end
 
       it 'is invalid if planning_element is milestone and due_date is not on start_date' do
-        attributes[:planning_element_type] = FactoryGirl.build(:planning_element_type, :is_milestone => true)
+        attributes[:type] = FactoryGirl.build(:type, :is_milestone => true)
         attributes[:start_date]            = Date.today
         attributes[:due_date]              = Date.today + 1.week
         planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
@@ -150,7 +150,7 @@ describe PlanningElement do
     describe 'parent' do
       it 'is invalid if parent is_milestone' do
         parent = PlanningElement.new.tap do |pe|
-          pe.send(:assign_attributes, attributes.merge(:planning_element_type => FactoryGirl.build(:planning_element_type, :is_milestone => true)), :without_protection => true)
+          pe.send(:assign_attributes, attributes.merge(:type => FactoryGirl.build(:type, :is_milestone => true)), :without_protection => true)
         end
 
         attributes[:parent] = parent
@@ -551,7 +551,7 @@ describe PlanningElement do
 
   describe 'journal' do
     let(:responsible) { FactoryGirl.create(:user) }
-    let(:pe_type)     { FactoryGirl.create(:planning_element_type) }
+    let(:type)     { FactoryGirl.create(:type) }
     let(:pe_status)   { FactoryGirl.create(:planning_element_status) }
 
     let(:pe) { FactoryGirl.create(:planning_element,
@@ -562,7 +562,7 @@ describe PlanningElement do
                                   :due_date                        => Date.new(2012, 1, 31),
                                   :project_id                      => project.id,
                                   :responsible_id                  => responsible.id,
-                                  :planning_element_type_id        => pe_type.id,
+                                  :type_id                         => type.id,
                                   :planning_element_status_id      => pe_status.id,
                                   :planning_element_status_comment => 'All lost'
                                   ) }
@@ -581,7 +581,7 @@ describe PlanningElement do
       changes.should include("due_date")
       changes.should include("project_id")
       changes.should include("responsible_id")
-      changes.should include("planning_element_type_id")
+      changes.should include("type_id")
       changes.should include("planning_element_status_id")
       changes.should include("planning_element_status_comment")
     end

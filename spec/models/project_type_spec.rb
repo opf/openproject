@@ -25,36 +25,6 @@ describe ProjectType do
       end
     end
 
-    describe '#default_planning_element_types' do
-      it 'can read default_planning_element_types w/ the help of the has_many association' do
-        project_type          = FactoryGirl.create(:project_type)
-        planning_element_type = FactoryGirl.create(:planning_element_type)
-        default_planning_element_type = FactoryGirl.create(:default_planning_element_type,
-                                                       :planning_element_type_id => planning_element_type.id,
-                                                       :project_type_id          => project_type.id)
-
-        project_type.reload
-
-        project_type.default_planning_element_types.size.should == 1
-        project_type.default_planning_element_types.first.should == default_planning_element_type
-      end
-    end
-
-    describe '#planning_element_types' do
-      it 'can read planning_element_types w/ the help of the has_many association' do
-        project_type          = FactoryGirl.create(:project_type)
-        planning_element_type = FactoryGirl.create(:planning_element_type)
-        default_planning_element_type = FactoryGirl.create(:default_planning_element_type,
-                                                       :planning_element_type_id => planning_element_type.id,
-                                                       :project_type_id          => project_type.id)
-
-        project_type.reload
-
-        project_type.planning_element_types.size.should == 1
-        project_type.planning_element_types.first.should == planning_element_type
-      end
-    end
-
     describe '#available_project_statuses' do
       it 'can read available_project_statuses w/ the help of the has_many association' do
         project_type             = FactoryGirl.create(:project_type)

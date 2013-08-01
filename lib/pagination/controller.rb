@@ -58,7 +58,9 @@ module Pagination::Controller
     end
 
     def default_action
-      :"paginate_#{self.class.resolve_model(model).name.gsub('::', '_').underscore.downcase.pluralize}"
+      model_name = self.class.resolve_model(model).name
+      model_name_without_modules = model_name.split('::').last || ''
+      :"paginate_#{model_name_without_modules.underscore.downcase.pluralize}"
     end
 
     def default_pagination

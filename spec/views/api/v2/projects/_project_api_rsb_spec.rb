@@ -197,15 +197,12 @@ describe 'api/v2/projects/_project.api' do
 
     before do
       types = [
-        FactoryGirl.create(:planning_element_type, :color_id => color.id),
-        FactoryGirl.create(:planning_element_type, :color_id => color.id),
-        FactoryGirl.create(:planning_element_type, :color_id => color.id)
+        FactoryGirl.create(:type, :color_id => color.id),
+        FactoryGirl.create(:type, :color_id => color.id),
+        FactoryGirl.create(:type, :color_id => color.id)
       ]
-      types.each do |type|
-        FactoryGirl.create(:enabled_planning_element_type,
-                       :project_id => project.id,
-                       :planning_element_type_id => type.id)
-      end
+      project.types = types
+      project.save
     end
 
     describe 'project node' do

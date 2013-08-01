@@ -253,11 +253,17 @@ class ApplicationController < ActionController::Base
   # Find a project based on params[:project_id]
   # TODO: some subclasses override this, see about merging their logic
   def find_optional_project
-    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
-    allowed = User.current.allowed_to?({:controller => params[:controller], :action => params[:action]}, @project, :global => true)
-    allowed ? true : deny_access
+    find_optional_project_and_raise_error
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def find_optional_project_and_raise_error(controller_name = nil)
+    controller_name = params[:controller] if controller_name.nil?
+
+    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
+    allowed = User.current.allowed_to?({:controller => controller_name, :action => params[:action]}, @project, :global => true)
+    allowed ? true : deny_access
   end
 
   # Finds and sets @project based on @object.project
