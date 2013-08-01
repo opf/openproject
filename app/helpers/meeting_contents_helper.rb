@@ -40,16 +40,16 @@ module MeetingContentsHelper
   def close_meeting_agenda_link(content_type, meeting)
     case content_type
     when "meeting_agenda"
-      link_to_if_authorized l(:label_meeting_close), {:controller => 'meeting_agendas', :action => 'close', :meeting_id => meeting}, :method => :put, :class => "icon icon-lock show-meeting_agenda"
+      link_to_if_authorized l(:label_meeting_close), {:controller => '/meeting_agendas', :action => 'close', :meeting_id => meeting}, :method => :put, :class => "icon icon-lock show-meeting_agenda"
     when "meeting_minutes"
-      link_to_if_authorized l(:label_meeting_agenda_close), {:controller => 'meeting_agendas', :action => 'close', :meeting_id => meeting}, :method => :put, :class => "icon icon-lock show-meeting_minutes"
+      link_to_if_authorized l(:label_meeting_agenda_close), {:controller => '/meeting_agendas', :action => 'close', :meeting_id => meeting}, :method => :put, :class => "icon icon-lock show-meeting_minutes"
     end
   end
 
   def open_meeting_agenda_link(content_type, meeting)
     case content_type
     when "meeting_agenda"
-      link_to_if_authorized l(:label_meeting_open), {:controller => 'meeting_agendas', :action => 'open', :meeting_id => meeting}, :method => :put, :class => 'icon icon-unlock show-meeting_agenda', :confirm => l(:text_meeting_agenda_open_are_you_sure)
+      link_to_if_authorized l(:label_meeting_open), {:controller => '/meeting_agendas', :action => 'open', :meeting_id => meeting}, :method => :put, :class => 'icon icon-unlock show-meeting_agenda', :confirm => l(:text_meeting_agenda_open_are_you_sure)
     when "meeting_minutes"
     end
   end
@@ -59,10 +59,10 @@ module MeetingContentsHelper
   end
 
   def meeting_content_history_link(content_type, meeting)
-    link_to_if_authorized l(:label_history), {:controller => content_type.pluralize, :action => 'history', :meeting_id => meeting}, :class => "icon icon-history show-#{content_type}"
+    link_to_if_authorized l(:label_history), {:controller => '/' + content_type.pluralize, :action => 'history', :meeting_id => meeting}, :class => "icon icon-history show-#{content_type}"
   end
 
   def meeting_content_notify_link(content_type, meeting)
-    link_to_if_authorized l(:label_notify), {:controller => content_type.pluralize, :action => 'notify', :meeting_id => meeting}, :method => :put, :class => "icon icon-notification show-#{content_type}"
+    link_to_if_authorized l(:label_notify), {:controller => '/' + content_type.pluralize, :action => 'notify', :meeting_id => meeting}, :method => :put, :class => "icon icon-notification show-#{content_type}"
   end
 end

@@ -10,20 +10,20 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= form_for content, :url => {:controller => content_type.pluralize, :action => 'update', :meeting_id => content.meeting}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
+<%= form_for content, :url => {:controller => '/' + content_type.pluralize, :action => 'update', :meeting_id => content.meeting}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
 <%= error_messages_for content_type %>
 
 <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
 <%= f.hidden_field :lock_version %>
 <p><label for="<%= content_type %>_comment"><%= Meeting.human_attribute_name(:comments) %></label><br /><%= f.text_field :comment, :size => 120 %></p>
-<p><%= submit_tag l(:button_save) %> 
-<%= link_to_remote l(:label_preview), 
-                    {:url => {:controller => content_type.pluralize, :action => 'preview', :meeting_id => content.meeting},
+<p><%= submit_tag l(:button_save) %>
+<%= link_to_remote l(:label_preview),
+                    {:url => {:controller => '/' + content_type.pluralize, :action => 'preview', :meeting_id => content.meeting},
                      :method => :post,
                      :update => "#{content_type}_preview",
                      :with => "'text=' + encodeURIComponent($('#{content_type}_text').value)",
                      :complete => "Element.scrollTo('#{content_type}_preview')"
-                    }, :accesskey => accesskey(:preview) %> | 
+                    }, :accesskey => accesskey(:preview) %> |
 <%= link_to l(:button_cancel), "#", :onclick => "$$('.show-#{content_type}').invoke('show'); $$('.edit-#{content_type}').invoke('hide'); return false;" %></p>
 <%= wikitoolbar_for "#{content_type}_text" %>
 <% end %>
