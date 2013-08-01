@@ -11,6 +11,7 @@
 
 class UserMailer < ActionMailer::Base
   helper :application,  # for textilizable
+         :work_packages, # for css classes
          :custom_fields # for show_value
 
   # wrap in a lambda to allow changing at run-time

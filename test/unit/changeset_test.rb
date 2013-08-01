@@ -24,9 +24,9 @@ class ChangesetTest < ActiveSupport::TestCase
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'New commit (#2). Fixes #1')
-    c.scan_comment_for_issue_ids
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1, 2], c.issue_ids.sort
+    assert_equal [1, 2], c.work_package_ids.sort
     fixed = Issue.find(1)
     assert fixed.closed?
     assert_equal 90, fixed.done_ratio
@@ -40,9 +40,9 @@ class ChangesetTest < ActiveSupport::TestCase
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'Ignores #2. Refs #1')
-    c.scan_comment_for_issue_ids
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1], c.issue_ids.sort
+    assert_equal [1], c.work_package_ids.sort
   end
 
   def test_ref_keywords_any_only
@@ -52,9 +52,9 @@ class ChangesetTest < ActiveSupport::TestCase
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'Ignores #2. Refs #1')
-    c.scan_comment_for_issue_ids
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1, 2], c.issue_ids.sort
+    assert_equal [1, 2], c.work_package_ids.sort
   end
 
   def test_ref_keywords_any_with_timelog
@@ -78,13 +78,13 @@ class ChangesetTest < ActiveSupport::TestCase
     }.each do |syntax, expected_hours|
       c = Changeset.new(:repository => Project.find(1).repository,
                         :committed_on => 24.hours.ago,
-                        :comments => "Worked on this issue #1 @#{syntax}",
+                        :comments => "Worked on this work_package #1 @#{syntax}",
                         :revision => '520',
                         :user => User.find(2))
       assert_difference 'TimeEntry.count' do
-        c.scan_comment_for_issue_ids
+        c.scan_comment_for_work_package_ids
       end
-      assert_equal [1], c.issue_ids.sort
+      assert_equal [1], c.work_package_ids.sort
 
       time = TimeEntry.first(:order => 'id desc')
       assert_equal 1, time.work_package_id
@@ -108,10 +108,10 @@ class ChangesetTest < ActiveSupport::TestCase
                       :comments => 'This is a comment. Fixes #1 @4.5, #2 @1',
                       :user => User.find(2))
     assert_difference 'TimeEntry.count', 2 do
-      c.scan_comment_for_issue_ids
+      c.scan_comment_for_work_package_ids
     end
 
-    assert_equal [1, 2], c.issue_ids.sort
+    assert_equal [1, 2], c.work_package_ids.sort
     assert Issue.find(1).closed?
     assert Issue.find(2).closed?
 
@@ -125,44 +125,44 @@ class ChangesetTest < ActiveSupport::TestCase
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => '#1 is the reason of this commit')
-    c.scan_comment_for_issue_ids
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1], c.issue_ids.sort
+    assert_equal [1], c.work_package_ids.sort
   end
 
-  def test_ref_keywords_allow_brackets_around_a_issue_number
+  def test_ref_keywords_allow_brackets_around_a_work_package_number
     Setting.commit_ref_keywords = '*'
 
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => '[#1] Worked on this issue')
-    c.scan_comment_for_issue_ids
+                      :comments => '[#1] Worked on this work_package')
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1], c.issue_ids.sort
+    assert_equal [1], c.work_package_ids.sort
   end
 
-  def test_ref_keywords_allow_brackets_around_multiple_issue_numbers
+  def test_ref_keywords_allow_brackets_around_multiple_work_package_numbers
     Setting.commit_ref_keywords = '*'
 
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => '[#1 #2, #3] Worked on these')
-    c.scan_comment_for_issue_ids
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1,2,3], c.issue_ids.sort
+    assert_equal [1,2,3], c.work_package_ids.sort
   end
 
-  def test_commit_referencing_a_subproject_issue
+  def test_commit_referencing_a_subproject_work_package
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => 'refs #5, a subproject issue')
-    c.scan_comment_for_issue_ids
+                      :comments => 'refs #5, a subproject work_package')
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [5], c.issue_ids.sort
-    assert c.issues.first.project != c.project
+    assert_equal [5], c.work_package_ids.sort
+    assert c.work_packages.first.project != c.project
   end
 
-  def test_commit_referencing_a_parent_project_issue
+  def test_commit_referencing_a_parent_project_work_package
     # repository of child project
     r = Repository::Subversion.create!(
           :project => Project.find(3),
@@ -170,11 +170,11 @@ class ChangesetTest < ActiveSupport::TestCase
 
     c = Changeset.new(:repository => r,
                       :committed_on => Time.now,
-                      :comments => 'refs #2, an issue of a parent project')
-    c.scan_comment_for_issue_ids
+                      :comments => 'refs #2, an work_package of a parent project')
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [2], c.issue_ids.sort
-    assert c.issues.first.project != c.project
+    assert_equal [2], c.work_package_ids.sort
+    assert c.work_packages.first.project != c.project
   end
 
   def test_text_tag_revision

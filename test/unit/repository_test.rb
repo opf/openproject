@@ -50,7 +50,7 @@ class RepositoryTest < ActiveSupport::TestCase
     Setting.delete_all
   end
 
-  def test_scan_changesets_for_issue_ids
+  def test_scan_changesets_for_work_package_ids
     Setting.default_language = 'en'
     Setting.notified_events = ['issue_added','issue_updated']
 
@@ -62,22 +62,22 @@ class RepositoryTest < ActiveSupport::TestCase
     Setting.default_language = 'en'
     ActionMailer::Base.deliveries.clear
 
-    # make sure issue 1 is not already closed
-    fixed_issue = Issue.find(1)
-    assert !fixed_issue.status.is_closed?
-    old_status = fixed_issue.status
+    # make sure work package 1 is not already closed
+    fixed_work_package = WorkPackage.find(1)
+    assert !fixed_work_package.status.is_closed?
+    old_status = fixed_work_package.status
 
-    Repository.scan_changesets_for_issue_ids
-    assert_equal [101, 102], Issue.find(3).changeset_ids
+    Repository.scan_changesets_for_work_package_ids
+    assert_equal [101, 102], WorkPackage.find(3).changeset_ids
 
     # fixed issues
-    fixed_issue.reload
-    assert fixed_issue.status.is_closed?
-    assert_equal 90, fixed_issue.done_ratio
-    assert_equal [101], fixed_issue.changeset_ids
+    fixed_work_package.reload
+    assert fixed_work_package.status.is_closed?
+    assert_equal 90, fixed_work_package.done_ratio
+    assert_equal [101], fixed_work_package.changeset_ids
 
     # issue change
-    journal = fixed_issue.journals.last
+    journal = fixed_work_package.journals.last
     assert_equal User.find_by_login('dlopper'), journal.user
     assert_equal 'Applied in changeset r2.', journal.notes
 
@@ -85,8 +85,8 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal 5, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.first
     assert_kind_of Mail::Message, mail
-    assert mail.subject.starts_with?("[#{fixed_issue.project.name} - #{fixed_issue.type.name} ##{fixed_issue.id}]")
-    assert mail.body.encoded.include?("Status changed from #{old_status} to #{fixed_issue.status}")
+    assert mail.subject.starts_with?("[#{fixed_work_package.project.name} - #{fixed_work_package.type.name} ##{fixed_work_package.id}]")
+    assert mail.body.encoded.include?("Status changed from #{old_status} to #{fixed_work_package.status}")
 
     # ignoring commits referencing an issue of another project
     assert_equal [], Issue.find(4).changesets

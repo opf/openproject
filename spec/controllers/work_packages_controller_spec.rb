@@ -67,7 +67,6 @@ describe WorkPackagesController do
   let(:current_user) { FactoryGirl.create(:user) }
 
   describe 'show.html' do
-
     become_admin
 
     describe 'w/o a valid planning element id' do
@@ -115,6 +114,67 @@ describe WorkPackagesController do
 
         it 'renders the show builder template' do
           response.should render_template('work_packages/show', :formats => ["html"], :layout => :base)
+        end
+      end
+    end
+  end
+
+  describe 'show.pdf' do
+
+    become_admin
+
+    describe 'w/o a valid planning element id' do
+
+      describe 'w/o being a member or administrator' do
+        become_non_member
+
+        it 'renders a 404 page' do
+          get 'show', :format => 'pdf',
+                      :id => '1337'
+
+          response.response_code.should === 404
+        end
+      end
+
+      describe 'w/ the current user being a member' do
+        become_member_with_view_planning_element_permissions
+
+        it 'raises ActiveRecord::RecordNotFound errors' do
+          get 'show', :format => 'pdf',
+                      :id => '1337'
+
+          response.response_code.should === 404
+        end
+      end
+    end
+
+    describe 'w/ a valid planning element id' do
+      become_admin
+
+      describe 'w/o being a member or administrator' do
+        become_non_member
+
+        it 'renders a 403 Forbidden page' do
+          get 'show', :format => 'pdf',
+                      :id => planning_element.id
+
+          response.response_code.should == 403
+        end
+      end
+
+      describe 'w/ the current user being a member' do
+        become_member_with_view_planning_element_permissions
+
+        it "should respond with a pdf" do
+          pdf = double('pdf')
+
+          expected_name = "#{planning_element.project.identifier}-#{planning_element.id}.pdf"
+          controller.stub!(:issue_to_pdf).and_return(pdf)
+          controller.should_receive(:send_data).with(pdf,
+                                                     :type => 'application/pdf',
+                                                     :filename => expected_name).and_call_original
+          get 'show', :format => 'pdf',
+                      :id => planning_element.id
         end
       end
     end
@@ -606,8 +666,30 @@ describe WorkPackagesController do
   end
 
   describe :changesets do
-    it "should be empty" do
-      controller.changesets.should be_empty
+    let(:change1) { double('change_1') }
+    let(:change2) { double('change_2') }
+    let(:changesets) { [change1, change2] }
+
+    before do
+      planning_element.stub!(:changesets).and_return(changesets)
+      # couldn't get stub_chain to work
+      # https://www.relishapp.com/rspec/rspec-mocks/v/2-0/docs/stubs/stub-a-chain-of-methods
+      [:visible, :all, :includes].each do |meth|
+        changesets.stub!(meth).and_return(changesets)
+      end
+      controller.stub!(:work_package).and_return(planning_element)
+    end
+
+    it "should have all the work_package's changesets" do
+      controller.changesets.should == changesets
+    end
+
+    it "should have all the work_package's changesets in reverse order if the user wan'ts it that way" do
+      controller.stub!(:current_user).and_return(stub_user)
+
+      stub_user.stub!(:wants_comments_in_reverse_order?).and_return(true)
+
+      controller.changesets.should == [change2, change1]
     end
   end
 

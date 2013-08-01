@@ -75,13 +75,6 @@ Given /^I delete the scenario "([^"]*)"$/ do |scenario_name|
   scenario.destroy
 end
 
-Given /^there is a project named "([^"]*)"(?: of type "([^"]*)")?$/ do |name, project_type_name|
-  project_type_id = ProjectType.find_by_name!(project_type_name).id unless project_type_name.nil?
-  FactoryGirl.create(:project,
-                     :name => name,
-                     :project_type_id => project_type_id)
-end
-
 Given /^there are the following projects of type "([^"]*)":$/ do |project_type_name, table|
   table.raw.flatten.each do |name|
     step %Q{there is a project named "#{name}" of type "#{project_type_name}"}
