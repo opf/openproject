@@ -50,7 +50,7 @@ Bug Reporting
 
 If you find any bugs, you can create a bug ticket at
 
-`https://www.openproject.org/projects/plugin-meetings'
+https://www.openproject.org/projects/plugin-meetings
 
 Development
 -----------
