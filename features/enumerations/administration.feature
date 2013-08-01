@@ -12,7 +12,7 @@
 Feature: Administring the enumerations
 
   Scenario: Creating an enumeration
-    Given I am already logged in as "admin"
+    Given I am already admin
 
     When I go to the enumerations page
     And I create a new enumeration with the following:

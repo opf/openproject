@@ -14,7 +14,7 @@ Feature: General Reporting adminstration
   I want to perform CRUD operations on reportings.
 
   Background:
-    Given I am logged in as "admin"
+    Given I am already admin
 
     Given there is 1 project with the following:
           | Name | Santas Project                      |

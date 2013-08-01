@@ -40,6 +40,9 @@ class WorkPackage < ActiveRecord::Base
   has_many :time_entries, :dependent => :delete_all
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
+  has_and_belongs_to_many :changesets,
+                          :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
+
 
   scope :recently_updated, :order => "#{WorkPackage.table_name}.updated_at DESC"
   scope :visible, lambda {|*args| { :include => :project,
@@ -308,6 +311,11 @@ class WorkPackage < ActiveRecord::Base
   # Return true if the work_package is closed, otherwise false
   def closed?
     self.status.nil? || self.status.is_closed?
+  end
+
+  # Returns true if the work_package is overdue
+  def overdue?
+    !due_date.nil? && (due_date < Date.today) && !closed?
   end
 
   # TODO: move into Business Object and rename to update

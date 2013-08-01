@@ -12,7 +12,7 @@
 Feature: Group Memberships
 
   Background:
-    Given I am admin
+    Given I am already admin
 
     Given there is a role "Manager"
       And there is a role "Developer"

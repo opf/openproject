@@ -711,10 +711,10 @@ module ApplicationHelper
           oid = identifier.to_i
           case prefix
           when nil
-            if issue = Issue.visible.find_by_id(oid, :include => :status)
+            if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
               link = link_to("##{oid}", work_package_path(:id => oid, :only_path => only_path),
-                                        :class => issue.css_classes,
-                                        :title => "#{truncate(issue.subject, :length => 100)} (#{issue.status.name})")
+                                        :class => work_package_css_classes(work_package),
+                                        :title => "#{truncate(work_package.subject, :length => 100)} (#{work_package.status.try(:name)})")
             end
           when 'document'
             if document = Document.visible.find_by_id(oid)
@@ -737,15 +737,15 @@ module ApplicationHelper
           end
         elsif sep == '##'
           oid = identifier.to_i
-          if issue = Issue.visible.find_by_id(oid, :include => :status)
+          if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
             extend IssuesHelper # TODO: remove me from here
-            link = issue_quick_info(issue)
+            link = issue_quick_info(work_package)
           end
         elsif sep == '###'
           oid = identifier.to_i
-          if issue = Issue.visible.find_by_id(oid, :include => :status)
+          if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
             extend IssuesHelper # TODO: remove me from here
-            link = issue_quick_info_with_description(issue)
+            link = issue_quick_info_with_description(work_package)
           end
         elsif sep == ':'
           # removes the double quotes if any
