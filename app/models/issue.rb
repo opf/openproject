@@ -69,15 +69,6 @@ class Issue < WorkPackage
   before_save :close_duplicates, :update_done_ratio_from_issue_status
   before_destroy :remove_attachments
 
-  after_initialize :set_default_values
-
-  def set_default_values
-    if new_record? # set default values for new records only
-      self.status   ||= IssueStatus.default
-      self.priority ||= IssuePriority.default
-    end
-  end
-
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
     (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []

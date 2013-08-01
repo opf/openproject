@@ -129,6 +129,15 @@ class WorkPackage < ActiveRecord::Base
   # after_save hook, we rely on after_save and a specific version, here.
   after_save :reload_lock_and_timestamps, :if => Proc.new { |wp| wp.lock_version == 0 }
 
+  after_initialize :set_default_values
+
+  def set_default_values
+    if new_record? # set default values for new records only
+      self.status   ||= IssueStatus.default
+      self.priority ||= IssuePriority.default
+    end
+  end
+
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_work_packages, options)
