@@ -1,6 +1,5 @@
 # Changelog
 
-* `#1520` PlanningElements are created without the root_id attribute being set
 * `#1246` Implement uniform "edit" action/view for pe & issues
 * `#1247` Implement uniform "update" action for pe & issues
 * `#1411` Migrate database tables into the new model
@@ -12,6 +11,8 @@
 * `#1436` Type views
 * `#1437` Update seed data
 * `#1512` Merge PlanningElementTypes model with Types model
+* `#1520` PlanningElements are created without the root_id attribute being set
+* `#1577` Searching for project member candidates is only possible when using "firstname lastname" (or parts of it)
 
 ## 3.0.0pre9
 
