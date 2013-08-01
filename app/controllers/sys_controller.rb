@@ -17,7 +17,7 @@ class SysController < ActionController::Base
     p = Project.active.has_module(:repository).find(:all, :include => :repository, :order => 'identifier')
     respond_to do |format|
       format.json { render :json => p.to_json(:include => :repository) }
-      format.any(:html, :xml) {  render :xml => p.to_xml(:include => :repository) }
+      format.any(:html, :xml) {  render :xml => p.to_xml(:include => :repository), :content_type => Mime::XML }
     end
   end
 
