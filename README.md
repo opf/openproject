@@ -52,7 +52,8 @@ If you find any bugs, you can create a bug ticket at
 
 `https://www.openproject.org/projects/plugin-meetings'
 
-== Development
+Development
+-----------
 
 To contribute, you can create pull request on the official repository at
 
