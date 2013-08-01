@@ -40,13 +40,13 @@ describe User, "#destroy" do
 
   shared_examples_for "updated journalized associated object" do
     before do
-      User.current = user2
+      User.stub(:current).and_return(user2)
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user2)
       end
       associated_instance.save!
 
-      User.current = user # in order to have the content journal created by the user
+      User.stub(:current).and_return(user) # in order to have the content journal created by the user
       associated_instance.reload
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user)
@@ -79,13 +79,13 @@ describe User, "#destroy" do
 
   shared_examples_for "created journalized associated object" do
     before do
-      User.current = user # in order to have the content journal created by the user
+      User.stub(:current).and_return(user) # in order to have the content journal created by the user
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user)
       end
       associated_instance.save!
 
-      User.current = user2
+      User.stub(:current).and_return(user2)
       associated_instance.reload
       associations.each do |association|
         associated_instance.send(association.to_s + "=", user2)

@@ -27,7 +27,7 @@ class MeetingContentsController < ApplicationController
 
   def show
     # Redirect links to the last version
-    (redirect_to :controller => 'meetings', :action => :show, :id => @meeting, :tab => @content_type.sub(/^meeting_/, '') and return) if params[:id].present? && @content.version == params[:id].to_i
+    (redirect_to :controller => '/meetings', :action => :show, :id => @meeting, :tab => @content_type.sub(/^meeting_/, '') and return) if params[:id].present? && @content.version == params[:id].to_i
 
     @content = @content.journals.at params[:id].to_i unless params[:id].blank?
     render 'meeting_contents/show'
@@ -39,7 +39,7 @@ class MeetingContentsController < ApplicationController
     @content.author = User.current
     if @content.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default :controller => 'meetings', :action => 'show', :id => @meeting
+      redirect_back_or_default :controller => '/meetings', :action => 'show', :id => @meeting
     else
     end
   rescue ActiveRecord::StaleObjectError
@@ -71,7 +71,7 @@ class MeetingContentsController < ApplicationController
       MeetingMailer.content_for_review(@content, @content_type).deliver
       flash[:notice] = l(:notice_successful_notification)
     end
-    redirect_back_or_default :controller => 'meetings', :action => 'show', :id => @meeting
+    redirect_back_or_default :controller => '/meetings', :action => 'show', :id => @meeting
   end
 
   def preview
