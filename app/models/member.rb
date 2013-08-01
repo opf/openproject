@@ -33,17 +33,17 @@ class Member < ActiveRecord::Base
 
   alias :base_role_ids= :role_ids=
   def role_ids=(role_ids)
-    update_roles(role_ids, true)
+    assign_roles(role_ids, true)
   end
 
   # Set the roles for this member to the given roles_or_role_ids.
   #
   # Inherited roles are left untouched.
   # Set save_immediately = true to immediately create/destroy MemberRoles
-  def update_roles(roles_or_role_ids, save_immediately=false)
-    # convert Role objects to ids
+  def assign_roles(roles_or_role_ids, save_immediately=false)
+    # ensure we have ids
     ids = roles_or_role_ids.map { |r| (r.kind_of? Role) ? r.id : r }
-    # ids = (arg || []).collect(&:to_i) - [0]
+
     # Keep inherited roles
     ids += member_roles.select {|mr| !mr.inherited_from.nil?}.collect(&:role_id)
 
@@ -55,10 +55,7 @@ class Member < ActiveRecord::Base
 
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
     member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
-    if member_roles_to_destroy.any?
-      member_roles_to_destroy.each { |r| remove_member_role(r, save_immediately) }
-      unwatch_from_permission_change
-    end
+    member_roles_to_destroy.each { |mr| remove_member_role(mr, save_immediately) }
   end
 
   def add_role!(role_or_role_id)
@@ -84,6 +81,7 @@ class Member < ActiveRecord::Base
     else
       member_role.mark_for_destruction
     end
+    unwatch_from_permission_change
   end
 
   # Remove a role from a member
