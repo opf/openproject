@@ -78,7 +78,7 @@ class TypesControllerTest < ActionController::TestCase
 
   def test_post_update
     post :update, :id => 1, :type => { :name => 'Renamed',
-                                        :project_ids => ['1', '2', ''] }
+                                       :project_ids => ['1', '2', ''] }
     assert_redirected_to :action => 'index'
     assert_equal [1, 2], Type.find(1).project_ids.sort
   end
@@ -92,7 +92,7 @@ class TypesControllerTest < ActionController::TestCase
 
   def test_move_lower
    type = Type.find_by_position(1)
-   post :update, :id => 1, :type => { :move_to => 'lower' }
+   post :move, :id => 1, :type => { :move_to => 'lower' }
    assert_equal 2, type.reload.position
   end
 

@@ -228,7 +228,9 @@ class PermittedParams < Struct.new(:params, :user)
                                           :in_aggregation,
                                           :is_milestone,
                                           :is_default,
-                                          :color_id
+                                          :color_id,
+                                          :project_ids => [],
+                                          :custom_field_ids => []
                                         ],
                                :type_move => [:move_to]
                             }
