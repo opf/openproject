@@ -62,17 +62,17 @@ Feature: Copying a work package
       | issue2  | Bug  |
 
     And there are the following planning elements in project "project_1":
-      | subject | start_date | due_date   | planning_element_type |
-      | pe1     | 2013-01-01 | 2013-12-31 | Bug                   |
-      | pe2     | 2013-01-01 | 2013-12-31 | Bug                   |
+      | subject | start_date | due_date   | type |
+      | pe1     | 2013-01-01 | 2013-12-31 | Bug  |
+      | pe2     | 2013-01-01 | 2013-12-31 | Bug  |
 
     And there are the following issues in project "project_2":
       | subject | type    |
       | issue3  | Feature |
 
     And there are the following planning elements in project "project_2":
-      | subject | planning_element_type |
-      | pe3     | Feature               |
+      | subject | type    |
+      | pe3     | Feature |
 
     And the work package "issue1" has the following children:
       | issue2 |

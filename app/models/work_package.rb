@@ -396,6 +396,14 @@ class WorkPackage < ActiveRecord::Base
                                          .sum("#{TimeEntry.table_name}.hours").to_f || 0.0
   end
 
+  # Moves/copies an work_package to a new project and type
+  # Returns the moved/copied work_package on success, false on failure
+  def move_to_project(*args)
+    ret = WorkPackage.transaction do
+      move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
+    end || false
+  end
+
   protected
 
   def recalculate_attributes_for(work_package_id)
@@ -503,14 +511,6 @@ class WorkPackage < ActiveRecord::Base
       end
     end
     projects
-  end
-
-  # Moves/copies an work_package to a new project and type
-  # Returns the moved/copied work_package on success, false on failure
-  def move_to_project(*args)
-    ret = WorkPackage.transaction do
-      move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
-    end || false
   end
 
   def move_to_project_without_transaction(new_project, new_type = nil, options = {})
