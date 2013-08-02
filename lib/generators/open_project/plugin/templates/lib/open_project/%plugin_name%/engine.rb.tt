@@ -1,4 +1,4 @@
-module OpenProject::<%= plugin_name %>
+module OpenProject::<%= plugin_name.camelcase %>
   class Engine < ::Rails::Engine
     engine_name :openproject_<%= plugin_name %>
 
