@@ -1,0 +1,8 @@
+module OpenProject::<%= plugin_name %>
+  class Engine < ::Rails::Engine
+    engine_name :openproject_<%= plugin_name %>
+
+    include OpenProject::Plugins::ActsAsOpEngine
+
+  end
+end
