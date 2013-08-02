@@ -626,7 +626,7 @@ describe PlanningElement do
 
         # sanity check
         child_pe.journals.size.should == 1
-        pe.journals.size.should == 1
+        pe.journals.size.should == 2
 
         # update child
         child_pe.reload
@@ -635,7 +635,7 @@ describe PlanningElement do
         # reload parent to avoid stale journal caches
         pe.reload
 
-        pe.journals.size.should == 2
+        pe.journals.size.should == 3
         changes = pe.journals.last.changed_data.to_hash
 
         changes.size.should == 1
