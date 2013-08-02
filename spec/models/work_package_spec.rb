@@ -292,4 +292,39 @@ describe WorkPackage do
       end
     end
   end
+
+  describe "#allowed_target_projects_on_move" do
+    let(:admin_user) { FactoryGirl.create :admin }
+    let(:valid_user) { FactoryGirl.create :user }
+    let(:project) { FactoryGirl.create :project }
+
+    context "admin user" do
+      before do
+        User.stub(:current).and_return admin_user
+        project
+      end
+
+      subject { WorkPackage.allowed_target_projects_on_move.count }
+
+      it "sees all active projects" do
+        should eq Project.active.count
+      end
+    end
+
+    context "non admin user" do
+      before do
+        User.stub(:current).and_return valid_user
+
+        role = FactoryGirl.create :role, permissions: [:move_work_packages]
+
+        member = FactoryGirl.create(:member, user: valid_user, project: project, roles: [role])
+      end
+
+      subject { WorkPackage.allowed_target_projects_on_move.count }
+
+      it "sees all active projects" do
+        should eq Project.active.count
+      end
+    end
+  end
 end
