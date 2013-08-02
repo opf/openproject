@@ -51,31 +51,33 @@ Feature: Show existing meetings
         And I should see 4 meetings
 
   Scenario: Lots of Meetings are split into pages
-      Given there is 25 meetings in project "dingens" that start 0 days from now with:
+      Given we paginate after 3 items
+      Given there is 3 meetings in project "dingens" that start 0 days from now with:
             | title | Meeting Today     |
-      Given there is 5 meetings in project "dingens" that start -1 days from now with:
+      Given there is 2 meetings in project "dingens" that start -1 days from now with:
             | title | Meeting Last Week |
        When I am already logged in as "alice"
         And I go to the page for the project "dingens"
         And I click on "Meetings"
-         # see above: means 25 meetings
-       Then I should see 50 meetings
+         # see above: means 3 meetings
+       Then I should see 6 meetings
         And I should see "Meeting Today"
         But I should not see "Meeting Last Week"
        When I click on "2"
-         # means 5 meetings
-       Then I should see 10 meetings
+         # means 2 meetings
+       Then I should see 4 meetings
         And I should not see "Meeting Today"
         But I should see "Meeting Last Week"
 
   Scenario: Jumps to page of current date when no page given
-      Given there is 27 meetings in project "dingens" that start +7 days from now with:
+      Given we paginate after 3 items
+      Given there is 5 meetings in project "dingens" that start +7 days from now with:
             | title | Meeting Next Week |
-      Given there is 27 meetings in project "dingens" that start 1 days from now with:
+      Given there is 5 meetings in project "dingens" that start 1 days from now with:
             | title | Meeting Tomorrow  |
-      Given there is 27 meetings in project "dingens" that start 0 days from now with:
+      Given there is 5 meetings in project "dingens" that start 0 days from now with:
             | title | Meeting Today     |
-      Given there is 27 meetings in project "dingens" that start -7 days from now with:
+      Given there is 5 meetings in project "dingens" that start -7 days from now with:
             | title | Meeting Last Week |
        When I am already logged in as "alice"
         And I go to the page for the project "dingens"
