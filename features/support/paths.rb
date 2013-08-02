@@ -239,12 +239,23 @@ module NavigationHelpers
     when /^the authentication modes page$/
       '/auth_sources'
 
-    when /the page of the timeline "([^\"]+)" of the project called "([^\"]+)"$/
+    when /the page of the timeline(?: "([^\"]+)")? of the project called "([^\"]+)"$/
       timeline_name = $1
       project_name = $2
       project_identifier = Project.find_by_name(project_name).identifier.gsub(' ', '%20')
       timeline = Timeline.find_by_name(timeline_name)
-      "/projects/#{project_identifier}/timelines/#{timeline.id}"
+
+      timeline_id = timeline ?
+                      "/#{timeline.id}" :
+                      ""
+
+      "/projects/#{project_identifier}/timelines#{timeline_id}"
+
+    when /the new timeline page of the project called "([^\"]+)"$/
+      project_name = $1
+      project_identifier = Project.find_by_name(project_name).identifier.gsub(' ', '%20')
+
+      "/projects/#{project_identifier}/timelines/new"
 
     when /the edit page of the timeline "([^\"]+)" of the project called "([^\"]+)"$/
       timeline_name = $1

@@ -62,17 +62,13 @@ Feature: Timeline View Tests
           | 2012-04-01 | 2012-04-30 | Devilish          | closed                  | manager     | Loremipsumdolorsitamet,consecteturadipisicingelit,seddoeiusmodtemporincididuntutlaboreetdoloremagnaaliqua.Utenimadminimveniam |
 
   Scenario: The project manager gets 'No data to display' when there are no planning elements defined
-     When I go to the   page of the project called "ecookbook"
-      And I toggle the "Timelines" submenu
-      And I follow "Timeline reports"
+     When I go to the page of the timeline of the project called "ecookbook"
      Then I should see "New timeline report"
       And I should see "General Settings"
 
-  Scenario: create a timeline
+  Scenario: Creating a timeline
      When there is a timeline "Testline" for project "ecookbook"
-      And I go to the page of the project called "ecookbook"
-      And I toggle the "Timelines" submenu
-      And I follow "Timeline reports"
+     When I go to the page of the timeline "Testline" of the project called "ecookbook"
      Then I should see "New timeline report"
       And I should see "Testline"
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"
