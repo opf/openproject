@@ -58,7 +58,7 @@ class Group < Principal
         :conditions =>
           ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)",
             user.id, member.member_role_ids]).each do |member_role|
-              member.remove_member_role_and_destroy_member_if_last(member_role)
+              member_role.member.remove_member_role_and_destroy_member_if_last(member_role)
             end
     end
   end
