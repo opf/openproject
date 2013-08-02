@@ -98,10 +98,10 @@ describe WorkPackagesController do
       describe 'w/o being a member or administrator' do
         become_non_member
 
-        it 'renders a 403 Forbidden page' do
+        it 'renders a 404 Not Found' do
           get 'show', :id => planning_element.id
 
-          response.response_code.should == 403
+          response.response_code.should == 404
         end
       end
 
@@ -154,11 +154,11 @@ describe WorkPackagesController do
       describe 'w/o being a member or administrator' do
         become_non_member
 
-        it 'renders a 403 Forbidden page' do
+        it 'renders a 404 Not Found' do
           get 'show', :format => 'pdf',
                       :id => planning_element.id
 
-          response.response_code.should == 403
+          response.response_code.should == 404
         end
       end
 
@@ -344,19 +344,20 @@ describe WorkPackagesController do
     describe 'w/ beeing a member
               w/ having the necessary permissions
               w/ having an successful save' do
-      let(:params) { { :project_id => project.id, :work_package => { } } }
+      let(:params) { { :project_id => planning_element.project.id,
+                       :work_package => { } } }
 
       become_member_with_permissions [:add_work_packages]
 
       before do
-        controller.stub!(:new_work_package).and_return(stub_issue)
-        stub_issue.should_receive(:save).and_return(true)
+        controller.stub!(:new_work_package).and_return(planning_element)
+        planning_element.should_receive(:save).and_return(true)
       end
 
       it 'redirect to show' do
         post 'create', params
 
-        response.should redirect_to(work_package_path(stub_issue))
+        response.should redirect_to(work_package_path(planning_element))
       end
 
       it 'should show a flash message' do
@@ -370,7 +371,7 @@ describe WorkPackagesController do
       it 'should attach attachments if those are provided' do
         params[:attachments] = 'attachment-blubs-data'
 
-        Attachment.should_receive(:attach_files).with(stub_issue, params[:attachments])
+        Attachment.should_receive(:attach_files).with(planning_element, params[:attachments])
         controller.stub!(:render_attachment_warning_if_needed)
 
         post 'create', params
@@ -383,8 +384,8 @@ describe WorkPackagesController do
       become_member_with_permissions [:add_work_packages]
 
       before do
-        controller.stub!(:new_work_package).and_return(stub_issue)
-        stub_issue.should_receive(:save).and_return(false)
+        controller.stub!(:new_work_package).and_return(planning_element)
+        planning_element.should_receive(:save).and_return(false)
 
         post 'create', :project_id => project.id
       end
@@ -441,10 +442,10 @@ describe WorkPackagesController do
       describe 'w/o being a member or administrator' do
         become_non_member
 
-        it 'renders a 403 Forbidden page' do
+        it 'renders a 404 Not Found' do
           get 'edit', :id => planning_element.id
 
-          response.response_code.should == 403
+          response.response_code.should == 404
         end
       end
 
