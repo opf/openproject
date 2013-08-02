@@ -2,6 +2,7 @@
 
 ## 3.0.0pre10
 
+* `#1541` Use Rails 3.2.14 instead of Git Branch
 * `#1536` Fixed bug: Reposman.rb receives xml response for json request
 * `#1520` PlanningElements are created without the root_id attribute being set
 * `#1246` Implement uniform "edit" action/view for pe & issues
