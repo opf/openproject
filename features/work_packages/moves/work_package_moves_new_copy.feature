@@ -82,10 +82,8 @@ Feature: Copying a work package
 
     And I am already logged in as "bob"
 
-  @javascript
   Scenario: Copy an issue
-    When I go to the page of the work package "issue1"
-     And I select "Copy" from the action menu
+    When I go to the copy page of the work package "issue1"
      And I select "project_2" from "Project"
 
     When I click "Copy and follow"
@@ -93,10 +91,8 @@ Feature: Copying a work package
     Then I should see "Successful creation."
      And I should see "project_2" within ".breadcrumb"
 
-  @javascript
   Scenario: Copy a planning element
-    When I go to the page of the work package "pe1"
-     And I select "Copy" from the action menu
+    When I go to the copy page of the work package "pe1"
      And I select "project_2" from "Project"
 
     When I click "Copy and follow"
@@ -104,10 +100,8 @@ Feature: Copying a work package
     Then I should see "Successful creation."
      And I should see "project_2" within ".breadcrumb"
 
-  @javascript
   Scenario: Move an issue
-    When I go to the page of the work package "issue1"
-     And I select "Move" from the action menu
+    When I go to the move page of the work package "issue1"
      And I select "project_2" from "Project"
 
     When I click "Move and follow"
@@ -115,10 +109,8 @@ Feature: Copying a work package
     Then I should see "Successful update."
      And I should see "project_2" within ".breadcrumb"
 
-  @javascript
   Scenario: Move a planning element
-    When I go to the page of the work package "pe1"
-     And I select "Move" from the action menu
+    When I go to the move page of the work package "pe1"
      And I select "project_2" from "Project"
 
     When I click "Move and follow"
@@ -126,10 +118,8 @@ Feature: Copying a work package
     Then I should see "Successful update."
      And I should see "project_2" within ".breadcrumb"
 
-  @javascript
   Scenario: Issue children are moved
-    When I go to the page of the work package "issue1"
-     And I select "Move" from the action menu
+    When I go to the move page of the work package "issue1"
      And I select "project_2" from "Project"
 
     When I click "Move and follow"
@@ -137,10 +127,8 @@ Feature: Copying a work package
 
      And I should see "project_2" within ".breadcrumb"
 
-  @javascript
   Scenario: Planning element children are moved
-    When I go to the page of the work package "pe1"
-     And I select "Move" from the action menu
+    When I go to the move page of the work package "pe1"
      And I select "project_2" from "Project"
 
     When I click "Move and follow"
@@ -148,20 +136,16 @@ Feature: Copying a work package
 
      And I should see "project_2" within ".breadcrumb"
 
-  @javascript
   Scenario: Move an issue to project with missing type
-    When I go to the page of the work package "issue3"
-     And I select "Move" from the action menu
+    When I go to the move page of the work package "issue3"
      And I select "project_1" from "Project"
 
     When I click "Move and follow"
 
     Then I should see "Failed to save 1 issue(s) on 1 selected:"
 
-  @javascript
   Scenario: Move an planning element to project with missing type
-    When I go to the page of the work package "pe3"
-     And I select "Move" from the action menu
+    When I go to the move page of the work package "pe3"
      And I select "project_1" from "Project"
 
     When I click "Move and follow"
