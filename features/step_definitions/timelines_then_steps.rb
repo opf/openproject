@@ -110,10 +110,6 @@ Then /^I should see that "([^"]*)" is a color$/ do |name|
   cell.should_not be_empty
 end
 
-Then /^I should not see the "([^"]*)" planning element type$/ do |name|
-  page.all(:css, '.timelines-pet-name', :text => name).should be_empty
-end
-
 Then /^I should not see the "([^"]*)" color$/ do |name|
   cell = page.all(:css, ".timelines-color-name", :text => name)
   cell.should be_empty

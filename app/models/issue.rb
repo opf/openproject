@@ -16,8 +16,6 @@
 class Issue < WorkPackage
   include Redmine::SafeAttributes
 
-  has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
-
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
   ATTRIBS_WITH_VALUES_FROM_CHILDREN = %w(priority_id start_date due_date estimated_hours done_ratio)
 
@@ -333,32 +331,11 @@ class Issue < WorkPackage
     false
   end
 
-  # Returns true if the issue is overdue
-  def overdue?
-    !due_date.nil? && (due_date < Date.today) && !status.is_closed?
-  end
-
   # Is the amount of work done less than it should for the due date
   def behind_schedule?
     return false if start_date.nil? || due_date.nil?
     done_date = start_date + ((due_date - start_date+1)* done_ratio/100).floor
     return done_date <= Date.today
-  end
-
-  # Returns an array of status that user is able to apply
-  def new_statuses_allowed_to(user, include_default=false)
-    return [] if status.nil?
-
-    statuses = status.find_new_statuses_allowed_to(
-      user.roles_for_project(project),
-      type,
-      author == user,
-      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
-      )
-    statuses << status unless statuses.empty?
-    statuses << IssueStatus.default if include_default
-    statuses = statuses.uniq.sort
-    blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
 
   # Returns the mail adresses of users that should be notified

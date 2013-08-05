@@ -22,25 +22,6 @@ module TimelinesHelper
     content_tag(:span, " ", options)
   end
 
-  def icon_for_planning_element_type(type)
-    return unless type
-
-    if type.is_milestone?
-      css_class = 'timelines-milestone'
-    else
-      css_class = 'timelines-phase'
-    end
-    if type.color.present?
-      color = type.color.hexcode
-    else
-      color = "#CCC"
-    end
-
-    content_tag(:span, " ",
-                :class => css_class,
-                :style => "background-color: #{color}")
-  end
-
   def parent_id_select_tag(form, planning_element)
     available_parents = planning_element.project.planning_elements.without_deleted.find(:all, :order => "COALESCE(parent_id, id), parent_id")
     available_parents -= [planning_element]

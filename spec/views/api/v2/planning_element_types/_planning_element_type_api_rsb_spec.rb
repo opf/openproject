@@ -23,18 +23,20 @@ describe 'api/v2/planning_element_types/_planning_element_type.api' do
   end
 
   describe 'with an assigned planning_element_type' do
-    let(:planning_element_type) { FactoryGirl.build(:planning_element_type,
-                                                :id => 1,
-                                                :name => 'Awesometastic Planning Element Type',
+    let(:planning_element_type) {
+      FactoryGirl.build(:type,
+                        :id => 1,
+                        :name => 'Awesometastic Planning Element Type',
 
-                                                :in_aggregation => false,
-                                                :is_milestone => true,
-                                                :is_default => true,
+                        :in_aggregation => false,
+                        :is_milestone => true,
+                        :is_default => true,
 
-                                                :position => 100,
+                        :position => 100,
 
-                                                :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                                                :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
+                        :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                        :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
+    }
 
     it 'renders a planning_element_type node' do
       render
@@ -102,8 +104,8 @@ describe 'api/v2/planning_element_types/_planning_element_type.api' do
   describe 'with a planning element type having a color' do
     let(:color) { FactoryGirl.create(:color_white, :id => 1338) }
 
-    let(:planning_element_type) { FactoryGirl.build(:planning_element_type,
-                                                :color_id => color.id) }
+    let(:planning_element_type) { FactoryGirl.build(:type,
+                                                    :color_id => color.id) }
 
     describe 'planning_element_type node' do
       it 'contains a color element with name, id and hexcode attributes' do

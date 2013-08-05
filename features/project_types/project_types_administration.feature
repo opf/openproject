@@ -14,13 +14,13 @@ Feature:
   I want to be able to do basic CRUD operations on project types
 
   Background:
-      Given I am logged in as "admin"
+      Given I am already admin
 
       And there are the following project types:
         | Name                  |
         | Standard Project      |
         | Extraordinary Project |
-      And there are the following planning element types:
+      And there are the following types:
         | Name           |
         | Phase          |
         | Milestone      |
@@ -41,11 +41,8 @@ Feature:
       And I follow "Project types"
       And I follow the edit link of the project type "Standard Project"
      Then I should see "Standard Project"
-      And I should see "Standard planning element types"
+      And I should see "Types"
       And I should see "Reported project statuses"
-      And I should see "Phase"
-      And I should see "Milestone"
-      And I should see "Something else"
       And I should see "Yeah Boy"
       And I should see "Oh Yeah"
 
@@ -75,26 +72,6 @@ Feature:
       And I press "Save"
      Then the "Test Type" row should not be marked as allowing associations
 
-  Scenario: Admins can set the planning element types of a project type
-     When I go to the admin page
-      And I follow "Project types"
-      And I follow the edit link of the project type "Standard Project"
-      And I check "Something else"
-      And I check "Milestone"
-      And I press "Save"
-     Then I should see "Successful update."
-     When I follow the edit link of the project type "Standard Project"
-     Then the "Milestone" checkbox should be checked
-     Then the "Something else" checkbox should be checked
-     Then the "Phase" checkbox should not be checked
-     When I uncheck "Milestone"
-      And I press "Save"
-     Then I should see "Successful update."
-     When I follow the edit link of the project type "Standard Project"
-     Then the "Milestone" checkbox should not be checked
-      And the "Phase" checkbox should not be checked
-      And the "Something else" checkbox should be checked
-
   Scenario: Admins can set the reported project statuses of a project type
      When I go to the admin page
       And I follow "Project types"
@@ -118,8 +95,6 @@ Feature:
       And I follow "Project types"
       And I follow "New project type"
       And I fill in "Name" with "Another Project Type"
-      And I check "Milestone"
-      And I check "Phase"
       And I check "Yeah Boy"
       And I press "Save"
      Then I should see "Successful creation."
@@ -133,7 +108,6 @@ Feature:
       And I press "Save"
      Then I should see an error flash stating "Project type could not be saved"
       And I should see an error explanation stating "Name can't be blank"
-
 
      When I fill in "Some other Project" for "Name"
       And I press "Save"
@@ -153,7 +127,6 @@ Feature:
       And I press "Save"
      Then I should see a notice flash stating "Successful update."
       And I should see "Super-Extraordinary Project"
-
 
   Scenario: Admins are able to delete project types
      When I go to the admin page

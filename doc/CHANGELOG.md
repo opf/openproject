@@ -1,8 +1,22 @@
 # Changelog
 
+## 3.0.0pre10
+
+* `#1536` Fixed bug: Reposman.rb receives xml response for json request
 * `#1520` PlanningElements are created without the root_id attribute being set
 * `#1246` Implement uniform "edit" action/view for pe & issues
 * `#1247` Implement uniform "update" action for pe & issues
+* `#1411` Migrate database tables into the new model
+* `#1413` Ensure Permissions still apply to the new Type
+* `#1425` Remove default planning element types in favor of enabled planning element types in the style of has_and_belongs_to_many.
+* `#1427` Enable API with the new Type
+* `#1434` Type controller
+* `#1435` Type model
+* `#1436` Type views
+* `#1437` Update seed data
+* `#1512` Merge PlanningElementTypes model with Types model
+* `#1520` PlanningElements are created without the root_id attribute being set
+* `#1577` Searching for project member candidates is only possible when using "firstname lastname" (or parts of it)
 
 ## 3.0.0pre9
 
@@ -16,6 +30,7 @@
 * `#1371` Changing pagination per_page_param does not change page
 * `#1314` Always set last activity timestamp and check session expiry if ttl-setting is enabled
 * `#1414` Remove start & due date requirement from planning elements
+* `#1493` Exporting work packages to pdf returns 406
 
 ## 3.0.0pre8
 

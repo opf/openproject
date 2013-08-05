@@ -17,7 +17,7 @@ module WorkPackagesHelper
   end
 
   def ancestors_links
-    ancestors = controller.ancestors.map do |parent|
+    controller.ancestors.map do |parent|
       link_to '#' + h(parent.id), work_package_path(parent.id)
     end
   end
@@ -72,6 +72,21 @@ module WorkPackagesHelper
     end
   end
 
+  # Returns a string of css classes that apply to the issue
+  def work_package_css_classes(work_package)
+    #TODO: remove issue once css is cleaned of it
+    s = "issue work_package".html_safe
+    s << " status-#{work_package.status.position}" if work_package.status
+    s << " priority-#{work_package.priority.position}" if work_package.priority
+    s << ' closed' if work_package.closed?
+    s << ' overdue' if work_package.overdue?
+    s << ' child' if work_package.child?
+    s << ' parent' unless work_package.leaf?
+    s << ' created-by-me' if User.current.logged? && work_package.author_id == User.current.id
+    s << ' assigned-to-me' if User.current.logged? && work_package.assigned_to_id == User.current.id
+    s
+  end
+
   WorkPackageAttribute = Struct.new(:attribute, :field)
 
   def work_package_form_all_middle_attributes(form, work_package, locals = {})
@@ -102,7 +117,6 @@ module WorkPackagesHelper
   def work_package_form_top_attributes(form, work_package, locals = {})
     [
       work_package_form_type_attribute(form, work_package, locals),
-      work_package_form_planning_element_type_attribute(form, work_package, locals),
       work_package_form_subject_attribute(form, work_package, locals),
       work_package_form_parent_attribute(form, work_package, locals),
       work_package_form_description_attribute(form, work_package, locals)
@@ -221,30 +235,18 @@ module WorkPackagesHelper
   end
 
   def work_package_form_type_attribute(form, work_package, locals = {})
-    if work_package.is_a?(Issue)
-      field = form.select :type_id, locals[:project].types.collect {|t| [t.name, t.id]}, :required => true
+    field = form.select :type_id, locals[:project].types.collect {|t| [t.name, t.id]}, :required => true
 
-      url = work_package.new_record? ?
-             new_type_project_work_packages_path(locals[:project]) :
-             new_type_work_package_path(work_package)
+    url = work_package.new_record? ?
+           new_type_project_work_packages_path(locals[:project]) :
+           new_type_work_package_path(work_package)
 
-      field += observe_field :work_package_type_id, :url => url,
-                                                    :update => :attributes,
-                                                    :method => :get,
-                                                    :with => "Form.serialize('work_package-form')"
+    field += observe_field :work_package_type_id, :url => url,
+                                                  :update => :attributes,
+                                                  :method => :get,
+                                                  :with => "Form.serialize('work_package-form')"
 
-      WorkPackageAttribute.new(:type, field)
-    end
-  end
-
-  def work_package_form_planning_element_type_attribute(form, work_package, locals = {})
-    if work_package.is_a?(PlanningElement)
-      field = form.select :planning_element_type_id,
-                          (locals[:project].planning_element_types.collect { |m| [m.name, m.id] }),
-                          :include_blank => true
-
-      WorkPackageAttribute.new(:type, field)
-    end
+    WorkPackageAttribute.new(:type, field)
   end
 
   def work_package_form_subject_attribute(form, work_package, locals = {})

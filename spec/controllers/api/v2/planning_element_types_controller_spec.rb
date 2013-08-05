@@ -19,9 +19,7 @@ describe Api::V2::PlanningElementTypesController do
   end
 
   def enable_type(project, type)
-    FactoryGirl.create(:enabled_planning_element_type,
-                   :project_id => project.id,
-                   :planning_element_type_id => type.id)
+    project.types << type
   end
 
 
@@ -45,7 +43,7 @@ describe Api::V2::PlanningElementTypesController do
       describe 'with no planning element types available' do
         it 'assigns an empty planning_element_types array' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          assigns(:planning_element_types).should == []
+          assigns(:types).should == []
         end
 
         it 'renders the index builder template' do
@@ -57,9 +55,9 @@ describe Api::V2::PlanningElementTypesController do
       describe 'with 3 planning element types available' do
         before do
           @created_planning_element_types = [
-            FactoryGirl.create(:planning_element_type),
-            FactoryGirl.create(:planning_element_type),
-            FactoryGirl.create(:planning_element_type)
+            FactoryGirl.create(:type),
+            FactoryGirl.create(:type),
+            FactoryGirl.create(:type)
           ]
 
           @created_planning_element_types.each do |type|
@@ -69,12 +67,12 @@ describe Api::V2::PlanningElementTypesController do
           # Creating one PlanningElemenType which is not assigned to any
           # Project and should therefore not show up in projects with a project
           # type
-          FactoryGirl.create(:planning_element_type)
+          FactoryGirl.create(:type)
         end
 
         it 'assigns an array with all planning element types' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          assigns(:planning_element_types).should == @created_planning_element_types
+          assigns(:types).should == @created_planning_element_types
         end
 
         it 'renders the index template' do
@@ -86,7 +84,7 @@ describe Api::V2::PlanningElementTypesController do
 
     describe 'show.xml' do
       def fetch
-        @available_type = FactoryGirl.create(:planning_element_type, :id => '1337')
+        @available_type = FactoryGirl.create(:type, :id => '1337')
         enable_type(project, @available_type)
 
         get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
@@ -111,7 +109,7 @@ describe Api::V2::PlanningElementTypesController do
 
       describe 'with an planning element type, which is not enabled in the project' do
         before do
-          FactoryGirl.create(:planning_element_type, :id => '1337')
+          FactoryGirl.create(:type, :id => '1337')
         end
 
         it 'raises ActiveRecord::RecordNotFound errors' do
@@ -123,15 +121,15 @@ describe Api::V2::PlanningElementTypesController do
 
       describe 'with an available planning element type' do
         before do
-          @available_planning_element_type = FactoryGirl.create(:planning_element_type,
-                                                            :id => '1337')
+          @available_planning_element_type = FactoryGirl.create(:type,
+                                                                :id => '1337')
 
           enable_type(project, @available_planning_element_type)
         end
 
         it 'assigns the available planning element type' do
           get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
-          assigns(:planning_element_type).should == @available_planning_element_type
+          assigns(:type).should == @available_planning_element_type
         end
 
         it 'renders the show template' do
@@ -152,7 +150,7 @@ describe Api::V2::PlanningElementTypesController do
       describe 'with no planning element types available' do
         it 'assigns an empty planning_element_types array' do
           get 'index', :format => 'xml'
-          assigns(:planning_element_types).should == []
+          assigns(:types).should == []
         end
 
         it 'renders the index builder template' do
@@ -164,15 +162,15 @@ describe Api::V2::PlanningElementTypesController do
       describe 'with 3 planning element types available' do
         before do
           @created_planning_element_types = [
-            FactoryGirl.create(:planning_element_type),
-            FactoryGirl.create(:planning_element_type),
-            FactoryGirl.create(:planning_element_type)
+            FactoryGirl.create(:type),
+            FactoryGirl.create(:type),
+            FactoryGirl.create(:type)
           ]
         end
 
         it 'assigns an array with all planning element types' do
           get 'index', :format => 'xml'
-          assigns(:planning_element_types).should == @created_planning_element_types
+          assigns(:types).should == @created_planning_element_types
         end
 
         it 'renders the index template' do
@@ -208,7 +206,7 @@ describe Api::V2::PlanningElementTypesController do
 
       describe 'with an available planning element type' do
         before do
-          @available_planning_element_type = FactoryGirl.create(:planning_element_type, :id => '1337')
+          @available_planning_element_type = FactoryGirl.create(:type, :id => '1337')
         end
 
         def fetch
@@ -218,7 +216,7 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'assigns the available planning element type' do
           get 'show', :id => '1337', :format => 'xml'
-          assigns(:planning_element_type).should == @available_planning_element_type
+          assigns(:type).should == @available_planning_element_type
         end
 
         it 'renders the show template' do

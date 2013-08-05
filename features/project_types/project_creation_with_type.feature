@@ -15,27 +15,19 @@ Feature: Project creation with support for project type
   So that the default planning element types are enabled automatically
 
   Background:
-    Given there are the following planning element types:
-          | Name           |
-          | Phase          |
-          | Milestone      |
-          | Something else |
+    Given there are the following types:
+          | Name           | Is default |
+          | Phase          | true       |
+          | Milestone      | false      |
+          | Something else | false      |
 
       And there are the following project types:
           | Name                  |
           | Standard Project      |
           | Extraordinary Project |
 
-      And the following planning element types are default for projects of type "Standard Project"
-          | Phase     |
-          | Milestone |
-
-      And the following planning element types are default for projects of type "Extraordinary Project"
-          | Something else |
-
-
   Scenario: The admin may create a project with a project type
-    Given I am logged in as "admin"
+    Given I am already admin
      When I go to the admin page
       And I follow "Projects"
       And I follow "New project"
@@ -47,42 +39,10 @@ Feature: Project creation with support for project type
 
      Then I should see a notice flash stating "Successful creation."
 
-     When I go to the settings/timelines page of the project called "Fancy Pants"
+     When the following types are enabled for projects of type "Standard Project"
+          | Phase     |
+          | Milestone |
+      And I go to the settings page of the project called "Fancy Pants"
+
      Then the "Phase" checkbox should be checked
       And the "Milestone" checkbox should be checked
-      And the "Phase" row should be marked as default
-      And the "Milestone" row should be marked as default
-
-  Scenario: The project admin may change the project type, planning element types remain unchanged
-    Given there is 1 user with:
-          | login | padme |
-
-      And there is a role "project admin"
-      And the role "project admin" may have the following rights:
-          | edit_project                           |
-          | manage_project_configuration |
-
-      And there is a project named "Fancy Pants" of type "Standard Project"
-      And I am working in project "Fancy Pants"
-
-      And the project uses the following modules:
-          | timelines |
-
-      And the user "padme" is a "project admin"
-
-      And I am logged in as "padme"
-
-     When I go to the settings page of the project called "Fancy Pants"
-      And I select "Extraordinary Project" from "Project type"
-      And I press "Save" within "#tab-content-info"
-
-     Then I should see a notice flash stating "Successful update."
-
-     When I go to the settings/timelines page of the project called "Fancy Pants"
-     Then the "Phase" checkbox should be checked
-      And the "Milestone" checkbox should be checked
-      And the "Something else" checkbox should not be checked
-
-      And the "Phase" row should not be marked as default
-      And the "Milestone" row should not be marked as default
-      And the "Something else" row should be marked as default

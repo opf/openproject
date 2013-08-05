@@ -419,6 +419,8 @@ de:
   default_type_bug: "Fehler"
   default_type_feature: "Feature"
   default_type_support: "Unterstützung"
+  default_type_phase: "Phase"
+  default_type_milestone: "Meilenstein"
 
   description_active: "Aktiv?"
   description_attachment_toggle: "Dateien aus/einblenden"
@@ -1466,6 +1468,7 @@ de:
     project_association_with_other: "Projekt-Abhängigkeit zwischen “%{project_a}” und “%{project_b}”"
     project_association_of_type: "Projekt-Abhängigkeit zu Projekt des Typs “%{type}”"
     project_type_could_not_be_saved: "Projekt-Typ konnte nicht gespeichert werden."
+    type_could_not_be_saved: "Typ konnte nicht gespeichert werden."
     properties: "Eigenschaften"
     reporting_could_not_be_saved: "Statusbericht konnte nicht gespeichert werden."
     reporting_for_project:

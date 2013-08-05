@@ -26,20 +26,20 @@ Feature: Paginated issue index list
       | view_work_packages |
       | create_issues |
     And the user "bob" is a "member" in the project "project1"
-    And the user "bob" has 26 issues with the following:
+    And the user "bob" has 101 issues with the following:
       | subject    | Issuesubject |
     And I am logged in as "bob"
 
   Scenario: Pagination within a project
     When I go to the issues index page of the project "project1"
-    Then I should see 25 issues
+    Then I should see 100 issues
     When I follow "2" within ".pagination"
     Then I should be on the issues index page of the project "project1"
     And I should see 1 issue
 
   Scenario: Pagination outside a project
     When I go to the global index page of issues
-    Then I should see 25 issues
+    Then I should see 100 issues
     When I follow "2" within ".pagination"
     Then I should be on the global index page of issues
     And I should see 1 issue
@@ -48,5 +48,5 @@ Feature: Paginated issue index list
     When I go to the issues index page of the project "project1"
     Then I follow "2" within ".pagination"
     Then I should see 1 issue
-    Then I follow "50" within ".per_page_options"
-    Then I should see 26 issues
+    Then I follow "500" within ".per_page_options"
+    Then I should see 101 issues

@@ -12,22 +12,38 @@
 module Api
   module V2
 
-    class PlanningElementTypesController < PlanningElementTypesController
+    class PlanningElementTypesController < TypesController
 
       include ::Api::V2::ApiController
-      paginate_model PlanningElementType
+
+      extend Pagination::Controller
+      paginate_model ::Api::V2::PlanningElementType
+
+      before_filter {|controller| controller.find_optional_project_and_raise_error('types') }
+      before_filter :check_project_exists
 
       def index
-        @planning_element_types = @base.all
+        @types = (@project.nil?) ? Type.all : @project.types
+
         respond_to do |format|
           format.api
         end
       end
 
       def show
-        @planning_element_type = @base.find(params[:id])
+        @type = (@project.nil?) ? Type.find(params[:id])
+                                : @project.types.find(params[:id])
+
         respond_to do |format|
           format.api
+        end
+      end
+
+      private
+
+      def check_project_exists
+        if params.has_key? :project_id && @project.nil?
+          raise ActiveRecord::RecordNotFound
         end
       end
     end

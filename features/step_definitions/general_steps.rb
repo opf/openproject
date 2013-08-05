@@ -48,7 +48,16 @@ end
 Given /^(?:|I )am [aA]dmin$/ do
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
-  login('admin', 'adminADMIN!')
+
+  admin = User.find_by_admin(true)
+
+  login(admin.login, 'adminADMIN!')
+end
+
+Given /^(?:|I )am already [aA]dmin$/ do
+  admin = User.find_by_admin(true)
+  # see https://github.com/railsware/rack_session_access
+  page.set_rack_session(:user_id => admin.id)
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
@@ -60,6 +69,7 @@ end
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
   FactoryGirl.create :admin unless User.where(:login => 'admin').any?
   FactoryGirl.create :anonymous unless AnonymousUser.count > 0
+
   login(username, 'adminADMIN!')
 end
 
@@ -253,12 +263,15 @@ Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject with the following:$/ do |
 end
 
 Given /^there are the following types:$/ do |table|
-
+  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each_with_index do |t, i|
     type = Type.find_by_name(t['name'])
     type = Type.new :name => t['name'] if type.nil?
-    type.position = t['position'] ? t['position'] : i
-    type.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
+    type.position       = t['position'] ? t['position'] : i
+    type.is_in_roadmap  = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
+    type.is_milestone   = t['is_milestone'] ? t['is_milestone'] : true
+    type.is_default     = t['is_default'] ? t['is_default'] : false
+    type.in_aggregation = t['in_aggregation'] ? t['in_aggregation'] : true
     type.save!
   end
 end

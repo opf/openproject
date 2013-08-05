@@ -16,7 +16,7 @@ Feature: Creating Projects
     Given there is 1 project with the following:
       | name        | Parent      |
       | identifier  | parent      |
-    And I am admin
+    And I am already admin
     When I go to the overview page of the project "Parent"
     And I follow "New subproject"
     And I fill in "project_name" with "child"

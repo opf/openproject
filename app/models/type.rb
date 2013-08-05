@@ -11,7 +11,13 @@
 #++
 
 class Type < ActiveRecord::Base
+
+  extend Pagination::Model
+
+  include ActiveModel::ForbiddenAttributesProtection
+
   before_destroy :check_integrity
+
   has_many :issues
   has_many :workflows, :dependent => :delete_all do
     def copy(source_type)
@@ -20,12 +26,35 @@ class Type < ActiveRecord::Base
   end
 
   has_and_belongs_to_many :projects
-  has_and_belongs_to_many :custom_fields, :class_name => 'WorkPackageCustomField', :join_table => "#{table_name_prefix}custom_fields_types#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
+
+  has_and_belongs_to_many :custom_fields,
+                          :class_name => 'WorkPackageCustomField',
+                          :join_table => "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
+                          :association_foreign_key => 'custom_field_id'
+
+  belongs_to :color, :class_name  => 'PlanningElementTypeColor',
+                     :foreign_key => 'color_id'
+
+  has_many :planning_elements, :class_name  => 'PlanningElement',
+                               :foreign_key => 'type_id',
+                               :dependent   => :nullify
   acts_as_list
 
-  validates_presence_of :name
+  validates_presence_of   :name
   validates_uniqueness_of :name
-  validates_length_of :name, :maximum => 30
+  validates_length_of     :name,
+                          :maximum => 255,
+                          :unless => lambda { |e| e.name.blank? }
+
+  validates_inclusion_of :in_aggregation, :is_default, :is_milestone, :in => [true, false]
+
+  default_scope :order => 'position ASC'
+
+  scope :like, lambda { |q|
+    s = "%#{q.to_s.strip.downcase}%"
+    { :conditions => ["LOWER(name) LIKE :s", {:s => s}],
+    :order => "name" }
+  }
 
   def to_s; name end
 
@@ -52,6 +81,18 @@ class Type < ActiveRecord::Base
             uniq
 
     @issue_statuses = IssueStatus.find_all_by_id(ids).sort
+  end
+
+  def self.search_scope(query)
+    like(query)
+  end
+
+  def enabled_in?(object)
+    object.types.include?(self)
+  end
+
+  def available_colors
+    PlanningElementTypeColor.all
   end
 
 private

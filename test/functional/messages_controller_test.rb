@@ -37,8 +37,8 @@ class MessagesControllerTest < ActionController::TestCase
 
   def test_show_with_pagination
     message = Message.find(1)
-    assert_difference 'Message.count', 30 do
-      30.times do
+    assert_difference 'Message.count', 110 do
+      110.times do
         m = Message.new
         m.force_attributes = {:subject => 'Reply', :content => 'Reply body', :author_id => 2, :board_id => 1}
         message.children << m

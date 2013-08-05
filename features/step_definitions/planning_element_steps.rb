@@ -19,9 +19,10 @@ Given (/^there are the following planning elements(?: in project "([^"]*)")?:$/)
       ["planning_element_status", PlanningElementStatus],
       ["responsible", User],
       ["assigned_to", User],
-      ["planning_element_type", PlanningElementType],
+      ["type", Type],
       ["fixed_version", Version],
       ["priority", IssuePriority],
+      ["status", IssueStatus],
       ["parent", WorkPackage]
     ].each do |key, const|
       if type_attributes[key].present?

@@ -21,7 +21,7 @@ class PlanningElement < WorkPackage
 
   accepts_nested_attributes_for_apis_for :parent,
                                          :planning_element_status,
-                                         :planning_element_type,
+                                         :type,
                                          :project
 
   # This SQL only works when there are no two updates in the same
@@ -38,7 +38,7 @@ class PlanningElement < WorkPackage
                 #{PlanningElement.quoted_table_name}.parent_id,
                 #{PlanningElement.quoted_table_name}.project_id,
                 #{PlanningElement.quoted_table_name}.responsible_id,
-                #{PlanningElement.quoted_table_name}.planning_element_type_id,
+                #{PlanningElement.quoted_table_name}.type_id,
                 #{PlanningElement.quoted_table_name}.planning_element_status_id,
                 #{PlanningElement.quoted_table_name}.created_at,
                 #{PlanningElement.quoted_table_name}.deleted_at,
@@ -79,7 +79,7 @@ class PlanningElement < WorkPackage
     title = ''
     title << subject
     title << ' ('
-    title << planning_element_type.name << ' ' if planning_element_type
+    title << type.name << ' ' if type
     title << '*'
     title << id.to_s
     title << ')'

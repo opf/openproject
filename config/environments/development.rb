@@ -48,4 +48,7 @@ OpenProject::Application.configure do
 
   # Send mails to browser window
   config.action_mailer.delivery_method = :letter_opener
+
+  # we use per process memory for caching in development
+  config.cache_store = :memory_store
 end
