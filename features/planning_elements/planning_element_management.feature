@@ -74,22 +74,6 @@ Feature: Planning Element Management
      When I follow "Activity"
      Then I should see "Creation: February"
 
-  Scenario: Editing a scenario
-    Given there are the following planning elements:
-            | Subject  | Start date | Due date   |
-            | January  | 2012-01-01 | 2012-01-31 |
-    Given there is a scenario "worst case" in project "ecookbook"
-      And there are the following alternate dates for "worst case":
-            | Planning element subject  | Start date | Due date   |
-            | January                   | 2013-01-01 | 2013-01-31 |
-     When I go to the page of the planning element "January" of the project called "ecookbook"
-     When I click on "Update" within "#content > .action_menu_main"
-     When I fill in "2012-02-01" for "worst case Start date"
-      And I fill in "2012-02-29" for "worst case Due date"
-      And I press "Save"
-     Then I should see "Scenario worst case: Start date changed from 01/01/2013 to 02/01/2012"
-      And I should see "Scenario worst case: Due date changed from 01/31/2013 to 02/29/2012"
-
   Scenario: Deleting a scenario that is associated to a planning element
     Given there are the following planning elements in project "ecookbook":
             | Subject  | Start date | Due date   |
