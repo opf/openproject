@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0
+
+* `#1554` Execute release
+
 ## 3.0.0.rc2
 
 * `#1529` First public release

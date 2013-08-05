@@ -71,7 +71,7 @@ Credits
 Special thanks go to
 
 * Deutsche Telekom AG (opensource@telekom.de) for project sponsorhip
-* Le Moign Vincent and his fabulous Minicons icons on webalys.com[http://www.webalys.com/minicons/icons-free-pack.php]
+* Le Moign Vincent and his fabulous Minicons icons on [webalys.com](http://www.webalys.com/minicons/icons-free-pack.php)
 
 License
 -------
