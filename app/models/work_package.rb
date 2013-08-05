@@ -178,34 +178,6 @@ class WorkPackage < ActiveRecord::Base
     self
   end
 
-  # Returns an array of status that user is able to apply
-  def new_statuses_allowed_to(user, include_default=false)
-    return [] if status.nil?
-
-    statuses = status.find_new_statuses_allowed_to(
-      user.roles_for_project(project),
-      type,
-      author == user,
-      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
-      )
-    statuses << status unless statuses.empty?
-    statuses << IssueStatus.default if include_default
-    statuses = statuses.uniq.sort
-    blocked? ? statuses.reject {|s| s.is_closed?} : statuses
-  end
-
-  # Returns a string of css classes that apply to the work_package
-  def css_classes
-    s = "issue status-#{status.position} priority-#{priority.position}"
-    s << ' closed' if closed?
-    s << ' overdue' if overdue?
-    s << ' child' if child?
-    s << ' parent' unless leaf?
-    s << ' created-by-me' if User.current.logged? && author_id == User.current.id
-    s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
-    s
-  end
-
   # Returns true if the work_package is overdue
   def overdue?
     !due_date.nil? && (due_date < Date.today) && !status.is_closed?
@@ -360,6 +332,22 @@ class WorkPackage < ActiveRecord::Base
       # for this along with update_attributes
       attachments = Attachment.attach_files(self, raw_attachments)
     end
+  end
+
+  # Returns an array of status that user is able to apply
+  def new_statuses_allowed_to(user, include_default=false)
+    return [] if status.nil?
+
+    statuses = status.find_new_statuses_allowed_to(
+      user.roles_for_project(project),
+      type,
+      author == user,
+      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
+      )
+    statuses << status unless statuses.empty?
+    statuses << IssueStatus.default if include_default
+    statuses = statuses.uniq.sort
+    blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
 
   def is_milestone?

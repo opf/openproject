@@ -23,7 +23,7 @@ while day <= calendar.enddt %>
 <p class="day-num"><%= day.day %></p>
 <% calendar.events_on(day).each do |i| %>
   <% if i.is_a? Issue %>
-  <div class="<%= i.css_classes %> tooltip">
+  <div class="<%= work_package_css_classes(i) %> tooltip">
   <%= h("#{i.project} -") unless @project && @project == i.project %>
   <%# date_img = '' %>
   <% if day == i.start_date and day == i.due_date %>
