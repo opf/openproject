@@ -87,8 +87,7 @@ class AdminController < ApplicationController
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @checklist = [
-      [:text_default_administrator_account_changed,
-        !User.find_by_login('admin').current_password.same_as_plain_password?('admin')],
+      [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],
       [:text_rmagick_available, Object.const_defined?(:Magick)]
     ]
