@@ -47,6 +47,10 @@ Feature: Planning Element Management
       And there is a issuepriority with:
           | name   | Immediate |
 
+      And there are the following issue status:
+          | name   | is_closed  | is_default  |
+          | New    | false      | true        |
+
       And the project uses the following modules:
           | timelines |
 
