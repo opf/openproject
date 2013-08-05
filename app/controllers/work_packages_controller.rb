@@ -12,7 +12,6 @@
 class WorkPackagesController < ApplicationController
   unloadable
 
-  include ExtendedHTTP
   include Redmine::Export::PDF
 
   current_menu_item do |controller|
@@ -29,8 +28,6 @@ class WorkPackagesController < ApplicationController
       :issues
     end
   end
-
-  model_object WorkPackage
 
   before_filter :disable_api
   before_filter :not_found_unless_work_package,
@@ -169,7 +166,8 @@ class WorkPackagesController < ApplicationController
 
   def new_work_package
     @new_work_package ||= begin
-      project = find_project_by_project_id
+      project = Project.visible.find_by_id(params[:project_id])
+      return nil unless project
 
       permitted = if params[:work_package]
                     permitted_params.new_work_package(:project => project)
