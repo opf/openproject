@@ -792,16 +792,38 @@ describe WorkPackagesController do
     let(:params) { { work_package: { notes: "My note" },
                      project_id: project.id } }
 
-    become_member_with_permissions [:edit_work_packages]
-
     before do
       controller.stub!(:work_package).and_return(stub_issue)
     end
 
-    it 'render the edit action' do
-      post 'preview', params
+    context "as an admin" do
+      become_admin
 
-      response.should render_template('work_packages/preview', :formats => ["html"], :layout => false)
+      it 'render the edit action' do
+        post 'preview', params
+
+        response.should render_template('work_packages/preview', :formats => ["html"], :layout => false)
+      end
+    end
+
+    context "as a project member" do
+      become_member_with_permissions [:edit_work_packages]
+
+      it 'render the edit action' do
+        post 'preview', params
+
+        response.should render_template('work_packages/preview', :formats => ["html"], :layout => false)
+      end
+    end
+
+    context "as a non member" do
+      become_non_member
+
+      it 'render the edit action' do
+        post 'preview', params
+
+        response.response_code.should === 403
+      end
     end
   end
 end
