@@ -23,33 +23,31 @@ class WorkPackages::MovesController < ApplicationController
   def create
     prepare_for_work_package_move
 
-    if request.post?
-      new_type = params[:new_type_id].blank? ? nil : @target_project.types.find_by_id(params[:new_type_id])
-      unsaved_work_package_ids = []
-      moved_work_packages = []
-      @work_packages.each do |work_package|
-        work_package.reload
-        work_package.init_journal(User.current, @notes || "")
-        call_hook(:controller_work_packages_move_before_save, { :params => params, :work_package => work_package, :target_project => @target_project, :copy => !!@copy })
-        if r = work_package.move_to_project(@target_project, new_type, {:copy => @copy, :attributes => extract_changed_attributes_for_move(params)})
-          moved_work_packages << r
-        else
-          unsaved_work_package_ids << work_package.id
-        end
-      end
-      set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_package_ids)
-
-      if params[:follow]
-        if @work_packages.size == 1 && moved_work_packages.size == 1
-          redirect_to work_package_path(moved_work_packages.first)
-        else
-          redirect_to project_issues_path(@target_project || @project)
-        end
+    new_type = params[:new_type_id].blank? ? nil : @target_project.types.find_by_id(params[:new_type_id])
+    unsaved_work_package_ids = []
+    moved_work_packages = []
+    @work_packages.each do |work_package|
+      work_package.reload
+      work_package.init_journal(User.current, @notes || "")
+      call_hook(:controller_work_packages_move_before_save, { :params => params, :work_package => work_package, :target_project => @target_project, :copy => !!@copy })
+      if r = work_package.move_to_project(@target_project, new_type, {:copy => @copy, :attributes => extract_changed_attributes_for_move(params)})
+        moved_work_packages << r
       else
-        redirect_to project_issues_path(@project)
+        unsaved_work_package_ids << work_package.id
       end
-      return
     end
+    set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_package_ids)
+
+    if params[:follow]
+      if @work_packages.size == 1 && moved_work_packages.size == 1
+        redirect_to work_package_path(moved_work_packages.first)
+      else
+        redirect_to project_issues_path(@target_project || @project)
+      end
+    else
+      redirect_to project_issues_path(@project)
+    end
+    return
   end
 
   def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_package_ids)
@@ -71,7 +69,8 @@ class WorkPackages::MovesController < ApplicationController
 
   # Filter for bulk work package operations
   def find_work_packages
-    @work_packages = WorkPackage.find_all_by_id(params[:work_package_id] || params[:ids])
+    @work_packages = WorkPackage.includes(:project)
+                                .find_all_by_id(params[:work_package_id] || params[:ids])
     raise ActiveRecord::RecordNotFound if @work_packages.empty?
     @projects = @work_packages.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
