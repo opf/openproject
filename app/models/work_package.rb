@@ -538,6 +538,10 @@ class WorkPackage < ActiveRecord::Base
       work_package.type = new_type
       work_package.reset_custom_values!
     end
+    # Allow bulk setting of attributes on the work_package
+    if options[:attributes]
+      work_package.attributes = options[:attributes]
+    end
     if options[:copy]
       work_package.author = User.current
       work_package.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
@@ -546,10 +550,6 @@ class WorkPackage < ActiveRecord::Base
                             else
                               self.status
                             end
-    end
-    # Allow bulk setting of attributes on the work_package
-    if options[:attributes]
-      work_package.attributes = options[:attributes]
     end
     if work_package.save
       unless options[:copy]
