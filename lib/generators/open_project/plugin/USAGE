@@ -9,6 +9,8 @@ Example:
 
     This will create:
         ~/openproject-stuff
+        ~/openproject-stuff/CHANGELOG.md
+        ~/openproject-stuff/openproject-stuff.gemspec
         ~/openproject-stuff/lib
         ~/openproject-stuff/lib/openproject-stuff.rb
         ~/openproject-stuff/lib/open_project

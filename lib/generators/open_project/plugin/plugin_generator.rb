@@ -28,7 +28,7 @@ class OpenProject::PluginGenerator < Rails::Generators::Base
 
   def plugin_dir
     @plugin_dir ||= begin
-      empty_directory(plugin_path)
+      directory('', plugin_path, :recursive => false)
     end
   end
 
