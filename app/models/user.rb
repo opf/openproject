@@ -864,6 +864,10 @@ class User < Principal
   def log_failed_login_timestamp
     self.last_failed_login_on = Time.now
   end
+
+  def self.default_admin_account_changed?
+    !User.active.find_by_login('admin').try(:current_password).try(:same_as_plain_password?, 'admin')
+  end
 end
 
 class AnonymousUser < User
