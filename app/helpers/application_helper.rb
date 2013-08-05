@@ -89,7 +89,7 @@ module ApplicationHelper
   def link_to_work_package_preview(context = nil, options = {})
     url = preview_work_package_path(context)
 
-    id = options[:form_id] || 'work_package-form'
+    id = options[:form_id] || 'work_package-form-preview'
 
     link_to l(:label_preview),
               url,
