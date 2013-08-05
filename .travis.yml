@@ -16,8 +16,6 @@ env:
   - "TEST_SUITE=spec             RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
 script: "bundle exec rake $TEST_SUITE"
 before_install:
-  - "sudo apt-get update -qq"
-  - "sudo apt-get --no-install-recommends install git subversion"
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 before_script:
