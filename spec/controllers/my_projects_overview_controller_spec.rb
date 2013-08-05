@@ -5,15 +5,15 @@ describe MyProjectsOverviewsController do
     @controller.stub!(:set_localization)
     @controller.should_receive(:authorize)
 
-    @role = Factory.create(:non_member)
-    @user = Factory.create(:admin)
+    @role = FactoryGirl.create(:non_member)
+    @user = FactoryGirl.create(:admin)
 
     User.stub!(:current).and_return @user
 
     @params = {}
   end
 
-  let(:project) { Factory.create(:project) }
+  let(:project) { FactoryGirl.create(:project) }
 
   describe 'index' do
     let(:params) { { "id" => project.id.to_s } }

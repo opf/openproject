@@ -15,25 +15,21 @@
 class MyProjectsOverview < ActiveRecord::Base
   unloadable
 
+  after_initialize :initialize_default_values
+
   DEFAULTS = {
     "left" => ["projectdescription", "projectdetails", "issuetracking"],
     "right" => ["members", "news"],
     "top" => [],
     "hidden" => [] }
 
-  def initialize(attributes = nil)
-    super
+  def initialize_default_values()
+    # attributes() creates a copy every time it is called, so better not use it in a loop
+    # (this is also why we send the default-values instead of just setting it on attributes)
+    attr = attributes()
 
-    if attributes.nil?
-      DEFAULTS.each_pair do |k, v|
-        self.send("#{k}=", v)
-      end
-    else
-      not_provided = DEFAULTS.keys - attributes.keys.collect(&:to_s)
-
-      not_provided.each do |k|
-        self.send("#{k}=", DEFAULTS[k])
-      end
+    DEFAULTS.each_key do |attribute_name|
+      self.send("#{attribute_name}=",DEFAULTS[attribute_name])  if attr[attribute_name].nil?
     end
   end
 

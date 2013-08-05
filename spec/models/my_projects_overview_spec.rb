@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe MyProjectsOverview do
   before do
     @enabled_module_names = %w[activity issue_tracking news wiki]
-    Factory.create(:project, :enabled_module_names => @enabled_module_names)
+    FactoryGirl.create(:project, :enabled_module_names => @enabled_module_names)
     @project = Project.find(:first)
     @overview = MyProjectsOverview.create(:project_id => @project.id)
   end
