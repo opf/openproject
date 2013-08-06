@@ -22,7 +22,7 @@ module Redmine
         # otherwise false
         def no_data?
           !Role.find(:first, :conditions => {:builtin => 0}) &&
-            !Type.find(:first) &&
+            !Type.find(:first, :conditions => {is_standard: false}) &&
             !IssueStatus.find(:first) &&
             !Enumeration.find(:first)
         end
