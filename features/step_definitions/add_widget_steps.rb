@@ -8,3 +8,8 @@ Then /^"(.+)" should be disabled in the available widgets drop down$/ do |widget
   steps %Q{Then the "block-select" drop-down should have the following options disabled:
             | #{option_name} |}
 end
+
+
+Then /^I should see the dropdown of available widgets$/ do
+  page.has_select?('block-select', :options => ['Watched Issues', 'Issues assigned to me'])
+end

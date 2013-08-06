@@ -9,6 +9,7 @@ module ProjectPageNavigationHelpers
     case page_name
     when /^the project "(.+)" overview personalization page$/
       project = Project.find_by_name($1)
+      puts "poject found: : #{project}"
       "/my_projects_overview/#{project.identifier}/page_layout"
     else
       super

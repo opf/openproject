@@ -1,4 +1,4 @@
-<h2 class="page-layout-only"><%=l(:label_news)%></h2>
+<h2 class="page-layout-only"><%=News.model_name.human%></h2>
 <h3><%=l(:label_news_latest)%></h3>
 <% if recent_news.any? && authorize_for('news', 'index') %>
   <div class="news overview">

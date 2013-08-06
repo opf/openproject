@@ -20,12 +20,13 @@
 	   class="icon icon-cancel"><%= l(:button_cancel) %></a>
       </div>
       <div style="clear: right;"></div>
-        <% form_for :overview, @overview,
-                :url => {:action => 'update_custom_element'},
-                :html => {:id => "block_form_#{block_name.dasherize}",
-                          :class => nil,
-                          :method => :put,
-                          :multipart => true} do |f| %>
+        <%= form_for :overview,
+                     :url => {:action => 'update_custom_element'},
+                     :html => {:id => "block_form_#{block_name.dasherize}",
+                               :class => nil,
+                               :method => :put,
+                               :multipart => true} do |f| %>
+
           <%= hidden_field_tag 'block_name', block_name %>
           <%= text_field_tag "block_title_#{block_name}", block_title %>
           <%= text_area_tag "textile_#{block_name}", textile, :cols => 40, :rows => 5, :class => 'wiki-edit' %>

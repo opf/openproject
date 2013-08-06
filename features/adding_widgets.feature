@@ -3,8 +3,11 @@ Feature: Adding widgets to the page
   Background:
     Given there is 1 project with the following:
       | name        | project1      |
-    And I am already logged in as "admin"
+    And I am already Admin
     And I am on the project "project1" overview personalization page
+
+  Scenario: I should see the available widgets
+    Then I should see the dropdown of available widgets
 
   @javascript
   Scenario: Adding a "Watched issues" widget

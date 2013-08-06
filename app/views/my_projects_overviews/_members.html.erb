@@ -1,5 +1,5 @@
 <% users_by_role.keys.sort.each do |role| %>
-  <%=h role %>: <%= users_by_role[role].sort.collect{ |u| link_to_user u }.join("; ") %>
+  <%=h role %>: <%= users_by_role[role].sort.collect{ |u| link_to_user u }.join("; ").html_safe %>
   <% if users_by_role[role].count < count_users_by_role[role] %>
     <%= l(:'project_page.x_more', :count => count_users_by_role[role] - users_by_role[role].count) %>
   <% end %>

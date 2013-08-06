@@ -1,3 +1,4 @@
+<!-- page_layout.html -->
 <% field_list = ['top', 'left', 'right', 'hidden'] %>
 
 <script language="JavaScript">
@@ -9,7 +10,7 @@ function recreateSortables() {
     <% field_list.each do |f| %>
       Sortable.create("list-<%= f %>", {
         constraint: false,
-        containment: <%= field_list.collect {|x| "list-#{x}" }.inspect %>,
+        containment: <%= field_list.collect {|x| "list-#{x}" }.inspect.html_safe %>,
         dropOnEmpty: true,
         handle: 'handle',
         onUpdate: function () {
@@ -92,9 +93,9 @@ function addBlock() {
 </script>
 
 <div class="contextual">
-<% form_tag({:action => "add_block"}, :id => "block-form") do %>
+<%= form_tag({:action => "add_block"}, :id => "block-form") do %>
   <%= select_tag 'block',
-                 "<option>--#{t(:button_add)}--</option>" + options_for_select(block_options),
+                 ("<option>--#{t(:button_add)}--</option>" + options_for_select(block_options)).html_safe,
                  :id => "block-select",
                  :onChange => "addBlock();"
 %>

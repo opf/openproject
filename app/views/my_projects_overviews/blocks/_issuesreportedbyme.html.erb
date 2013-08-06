@@ -1,0 +1,35 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<h3><%=l(:label_reported_issues)%> (<%= Issue.visible.count(:conditions => { :author_id => User.current.id }) %>)</h3>
+
+<% reported_issues = Issue.visible.find(:all,
+                                        :conditions => { :author_id => User.current.id },
+                                        :limit => 10,
+                                        :include => [ :status, :project, :type ],
+                                        :order => "#{Issue.table_name}.updated_at DESC") %>
+<%= render :partial => 'issues/list_simple', :locals => { :issues => reported_issues } %>
+<% if reported_issues.length > 0 %>
+    <p class="small"><%= link_to l(:label_issue_view_all_reported_by_me), :controller => '/issues',
+                                 :action => 'index',
+                                 :set_filter => 1,
+                                 :status_id => '*',
+                                 :author_id => 'me',
+                                 :sort => 'updated_at:desc' %></p>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= auto_discovery_link_tag(:atom,
+                                {:controller => '/issues', :action => 'index', :set_filter => 1,
+                                 :author_id => 'me', :format => 'atom', :key => User.current.rss_key},
+                                {:title => l(:label_reported_issues)}) %>
+<% end %>

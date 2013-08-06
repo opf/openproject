@@ -5,7 +5,7 @@ Feature: Subproject Widget
       | Name | Parent |
     And the project "Parent" has 1 subproject with the following:
       | Name    | Child  |
-    And I am already logged in as "admin"
+    And I am already Admin
 
   @javascript
   Scenario: Adding a "Subproject" widget

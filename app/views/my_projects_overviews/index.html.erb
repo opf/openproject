@@ -6,14 +6,14 @@
                                  { :controller => 'projects',
                                    :action => 'new',
                                    :parent_id => project },
-                                 :class => 'icon icon-add')
+                                   :class => 'icon icon-add')
       end
       if User.current.allowed_to?(:edit_project, project)
         context_links << link_to(l(:label_personalize_page),
                                  { :action => 'page_layout' },
-                                 :class => 'icon icon-edit')
+                                   :class => 'icon icon-edit')
       end
-      context_links.join("&nbsp;&nbsp;&nbsp;")
+      context_links.join("&nbsp;&nbsp;&nbsp;").html_safe
     %>
 </div>
 

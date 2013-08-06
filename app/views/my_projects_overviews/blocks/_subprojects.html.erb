@@ -3,7 +3,7 @@
 <% if childprojects.any? %>
   <div class="subprojects overview">
     <p>
-      <%= childprojects.collect{ |p| link_to(h(p), project_url(p)) }.join(", ") %>
+      <%= childprojects.collect{ |p| link_to(h(p), project_url(p)) }.join(", ").html_safe %>
     </p>
   </div>
 <% end %>
