@@ -80,7 +80,7 @@ Feature: Timeline View Tests
       And I wait for timeline to load table
       And I click on the Planning Element with name "January"
      Then I should see the planning element edit modal
-      And I should see "January (*1)"
+      And I should see "Work Package #1: January"
       And I should see "Avocado Hall"
       And I should see "01/01/2012 - 01/31/2012"
       And I should see "New timeline report"

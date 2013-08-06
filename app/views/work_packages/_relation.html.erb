@@ -10,13 +10,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<tr id="issue_relation_<%= relation.id %>">
+<tr id="work_package_relation_<%= relation.id %>">
   <td>
     <%= l(relation.label_for(work_package)) %> <%= "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)})" if relation.delay && relation.delay != 0 %>
     <%= h(relation.other_issue(work_package).project) + ' - ' if Setting.cross_project_issue_relations? %>
     <%= link_to_issue(relation.other_issue(work_package), :truncate => 60) %>
   </td>
-  <% if not relation.other_issue(work_package).kind.nil? %>
+  <% unless relation.other_issue(work_package).type.is_standard %>
     <td>
       <%= h(relation.other_issue(work_package).kind.name) %>
     </td>

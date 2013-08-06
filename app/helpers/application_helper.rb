@@ -122,10 +122,9 @@ module ApplicationHelper
     closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
     s = ActiveSupport::SafeBuffer.new
     s << "#{issue.project} - " if options[:project]
-    s << link_to("#{closed}#{h(options[:before_text].to_s)}#{(issue.kind.nil?) ? '' : h(issue.kind.name)} ##{issue.id}".html_safe,
-                work_package_path(issue),
-                :title => h(title))
-    s << ": #{subject}" if subject
+    s << link_to("#{closed}#{h(options[:before_text].to_s)}#{issue.to_s}".html_safe,
+                 work_package_path(issue),
+                 :title => h(title))
     s
   end
 

@@ -32,6 +32,10 @@ Given (/^there are the following planning elements(?: in project "([^"]*)")?:$/)
       end
     end
 
+    unless type_attributes.has_key? :type
+      type_attributes[:type] = Type.find(:first, conditions: { is_standard: true })
+    end
+
     factory = FactoryGirl.create(:planning_element, type_attributes.merge(:project_id => project.id))
   end
 end
