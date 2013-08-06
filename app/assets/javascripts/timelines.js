@@ -3362,7 +3362,7 @@ Timeline = {
   PE_TEXT_OUTSIDE_PADDING: 6,       // space between planning element and text to its right.
   PE_TEXT_SCALE: 0.1875,            // 64 * (1/8 * 1.5) = 12
 
-  USE_MODALS: true,
+  USE_MODALS: false,
 
   scale: 1,
   zoomIndex: 0,
