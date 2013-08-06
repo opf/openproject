@@ -39,13 +39,13 @@ class Group < Principal
         end
 
         member.member_roles.each do |member_role|
-          user_member.member_roles.build(:role => member_role.role, :inherited_from => member_role.id)
+          user_member.add_role(member_role.role, member_role.id)
         end
 
         user_member.save!
       else
         member.member_roles.each do |member_role|
-          user_member.member_roles << MemberRole.new(:role => member_role.role, :inherited_from => member_role.id)
+          user_member.add_and_save_role(member_role.role, member_role.id)
         end
       end
     end
@@ -53,8 +53,13 @@ class Group < Principal
 
   def user_removed(user)
     members.each do |member|
-      MemberRole.find(:all, :include => :member,
-                            :conditions => ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids]).each(&:destroy)
+      MemberRole.find(:all,
+        :include => :member,
+        :conditions =>
+          ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)",
+            user.id, member.member_role_ids]).each do |member_role|
+              member_role.member.remove_member_role_and_destroy_member_if_last(member_role)
+            end
     end
   end
 
