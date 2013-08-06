@@ -416,6 +416,7 @@ de:
   default_role_manager: "Manager"
   default_role_non_member: "Nichtmitglied"
   default_role_reporter: "Reporter"
+  default_type: "Arbeitspaket"
   default_type_bug: "Fehler"
   default_type_feature: "Feature"
   default_type_support: "Unterstützung"

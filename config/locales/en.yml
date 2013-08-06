@@ -420,6 +420,7 @@ en:
   default_role_manager: "Manager"
   default_role_non_member: "Non member"
   default_role_reporter: "Reporter"
+  default_type: "Work Package"
   default_type_bug: "Bug"
   default_type_feature: "Feature"
   default_type_support: "Support"
