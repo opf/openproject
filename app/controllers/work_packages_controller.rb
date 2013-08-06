@@ -206,48 +206,21 @@ class WorkPackagesController < ApplicationController
   end
 
   def ancestors
-    @ancestors ||= begin
-                     case work_package
-                     when PlanningElement
-                       # Right now all planning_elements of a tree are part of the same project.
-                       # That means that a user can either see all planning_elements or none.
-                       # Thus, after access to a planning element is established (work_package) we
-                       # currently need no extra check for the ancestors/descendants
-                       work_package.ancestors
-                     when Issue
-                       work_package.ancestors.visible.includes(:type,
+    @ancestors ||= work_package.ancestors.visible.includes(:type,
+                                                           :assigned_to,
+                                                           :status,
+                                                           :priority,
+                                                           :fixed_version,
+                                                           :project)
+  end
+
+  def descendants
+    @descendants ||= work_package.descendants.visible.includes(:type,
                                                                :assigned_to,
                                                                :status,
                                                                :priority,
                                                                :fixed_version,
                                                                :project)
-                     else
-                       []
-                     end
-                   end
-
-  end
-
-  def descendants
-    @descendants ||= begin
-                       case work_package
-                       when PlanningElement
-                         # Right now all planning_elements of a tree are part of the same project.
-                         # That means that a user can either see all planning_elements or none.
-                         # Thus, after access to a planning element is established (work_package) we
-                         # currently need no extra check for the ancestors/descendants
-                         work_package.descendants
-                       when Issue
-                         work_package.descendants.visible.includes(:type,
-                                                                   :assigned_to,
-                                                                   :status,
-                                                                   :priority,
-                                                                   :fixed_version,
-                                                                   :project)
-                       else
-                         []
-                       end
-                     end
 
   end
 
