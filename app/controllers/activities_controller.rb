@@ -86,7 +86,7 @@ class ActivitiesController < ApplicationController
       elsif event.respond_to?(:project_id) or event.journaled.respond_to?(:project_id)
         # if possible access project_id (its faster)
         project_ids = [ event.project_id ]
-      elsif event.respond_to?(:project_) or event.journaled.respond_to?(:project)
+      elsif event.respond_to?(:project) or event.journaled.respond_to?(:project)
         # sometimes (e.g.) for wikis, we have no :project_id, but a :project method.
         project_ids = [ event.project.id ]
       end
