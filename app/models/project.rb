@@ -410,6 +410,12 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def self.find_visible(user, *args)
+    with_scope(:find => where(Project.visible_by(user))) do
+      find(*args)
+    end
+  end
+
   def to_param
     # id is used for projects with a numeric identifier (compatibility)
     @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id : identifier)
