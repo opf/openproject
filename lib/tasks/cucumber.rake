@@ -37,10 +37,8 @@ begin
     def get_plugin_features(prefix = '')
       features = []
       Rails.application.config.plugins_to_test_paths.each do |dir|
-        if File.directory?( dir )
-          feature_dir = Shellwords.escape(File.join(dir, 'features'))
-          features += [prefix, feature_dir] if File.directory?(feature_dir)
-        end
+        feature_dir = Shellwords.escape(File.join(dir, 'features'))
+        features += [prefix, feature_dir] if File.directory?(feature_dir)
       end
       features
     end
