@@ -143,41 +143,41 @@ describe WorkPackage do
 
     it "should respect workflows w/o author and w/o assignee on work packages" do
       workflows
-      work_package = WorkPackage.generate!(:type => type,
-                                           :status => status,
-                                           :priority => priority,
-                                           :project_id => project.id)
+      work_package = WorkPackage.create(:type => type,
+                                        :status => status,
+                                        :priority => priority,
+                                        :project_id => project.id)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1]]
     end
 
     it "should respect workflows w/ author and w/o assignee on work packages" do
       workflows
-      work_package = WorkPackage.generate!(:type => type,
-                                           :status => status,
-                                           :priority => priority,
-                                           :project_id => project.id,
-                                           :author => user)
+      work_package = WorkPackage.create(:type => type,
+                                        :status => status,
+                                        :priority => priority,
+                                        :project_id => project.id,
+                                        :author => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2]]
     end
 
     it "should respect workflows w/o author and w/ assignee on work packages" do
       workflows
-      work_package = WorkPackage.generate!(:type => type,
-                                           :status => status,
-                                           :priority => priority,
-                                           :project_id => project.id,
-                                           :assigned_to => user)
+      work_package = WorkPackage.create(:type => type,
+                                        :status => status,
+                                        :priority => priority,
+                                        :project_id => project.id,
+                                        :assigned_to => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[3]]
     end
 
     it "should respect workflows w/ author and w/ assignee on work packages" do
       workflows
-      work_package = WorkPackage.generate!(:type => type,
-                                           :status => status,
-                                           :priority => priority,
-                                           :project_id => project.id,
-                                           :author => user,
-                                           :assigned_to => user)
+      work_package = WorkPackage.create(:type => type,
+                                        :status => status,
+                                        :priority => priority,
+                                        :project_id => project.id,
+                                        :author => user,
+                                        :assigned_to => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]]
     end
 
