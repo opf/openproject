@@ -43,5 +43,5 @@ Scenario: Hide wiki activity from Projects with disabled activity module
     When I go to the overall activity page
     And I check "Wiki edits" within "#menu-sidebar"
     And I press "Apply" within "#menu-sidebar"
-    Then I should see "project1" within "#activity"
-    And I should not see "project2" within "#activity"
+    Then I should see "Project1Wiki" within "#activity"
+    And I should not see "Project2Wiki" within "#activity"
