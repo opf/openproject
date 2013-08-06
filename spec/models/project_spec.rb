@@ -42,6 +42,10 @@ describe Project do
   describe "associated_project_candidates" do
     let(:project_type) { FactoryGirl.create(:project_type, :allows_association => true) }
 
+    before do
+      FactoryGirl.create(:type_standard)
+    end
+
     it "should not include the project" do
       project.project_type = project_type
       project.save!
