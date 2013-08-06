@@ -75,6 +75,7 @@ en:
         versions: "Versions"
         project_type: "Project type"
         responsible: "Responsible"
+        types: "Types"
       query:
         column_names: "Columns"
         group_by: "Group results by"
@@ -90,6 +91,9 @@ en:
         type: "Type"
       type:
         is_in_roadmap: "Issues displayed in roadmap"
+        in_aggregation: "Issues displayed in aggregation"
+        is_milestone: "Issues displayed as milestone"
+        color: "Color"
       user:
         admin: "Administrator"
         auth_source: "Authentication mode"
@@ -450,6 +454,7 @@ en:
   description_notes: "Notes"
   description_option_toggle: "Show/Hide options"
   description_parent_issue: "Parent issue of current"
+  description_parent_work_package: "Parent work package of current"
   description_project_scope: "Search scope"
   description_query_sort_criteria_attribute: "Sort attribute"
   description_query_sort_criteria_direction: "Sort direction"

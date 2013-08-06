@@ -74,6 +74,7 @@ de:
         issues: "Tickets"
         parent: "Unterprojekt von"
         versions: "Versionen"
+        types: "Typen"
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
@@ -124,6 +125,9 @@ de:
         reporting_to_project_id: "Beziehung zu Projekt"
       type:
         is_in_roadmap: "In der Roadmap anzeigen"
+        in_aggregation: "In der Aggregation anzeigen"
+        is_milestone: "Als Meilenstein anzeigen"
+        color: "Farbe"
       user:
         admin: "Administrator"
         auth_source: "Authentifizierungs-Modus"
@@ -451,6 +455,7 @@ de:
   description_notes: "Kommentare"
   description_option_toggle: "Optionen aus/einblenden"
   description_parent_issue: "Übergeordnetes Ticket"
+  description_parent_work_package: "Übergeordnetes Arbeitspaket"
   description_project_scope: "Suchbereich"
   description_query_sort_criteria_attribute: "Sortierattribut"
   description_query_sort_criteria_direction: "Sortierrichtung"
