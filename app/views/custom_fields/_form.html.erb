@@ -167,7 +167,7 @@ function toggle_custom_field_format() {
         <legend><%=l(:label_type_plural)%></legend>
         <% for type in @types %>
           <%= check_box_tag "custom_field[type_ids][]", type.id, (@custom_field.types.include? type), :id => "custom_field_type_ids_#{type.id}" %>
-        <%= content_tag :label, h(type.name), :class => "no-css", :for => "custom_field_type_ids_#{type.id}" %>
+          <%= content_tag :label, (type.is_standard) ? l(:label_custom_field_default_type) : h(type), :class => "no-css", :for => "custom_field_type_ids_#{type.id}" %>
         <% end %>
 		  <%= hidden_field_tag "custom_field[type_ids][]", '' %>
     </fieldset>
