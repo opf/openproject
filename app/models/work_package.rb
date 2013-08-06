@@ -298,7 +298,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def to_s
-    "#{(kind.nil?) ? '' : "#{kind.name} "}##{id}: #{subject}"
+    "#{(kind.is_standard) ? l(:default_type) : "#{kind.name}"} ##{id}: #{subject}"
   end
 
   # Return true if the work_package is closed, otherwise false

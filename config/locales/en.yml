@@ -804,6 +804,7 @@ en:
   label_project_all: "All Projects"
   label_project_copy_notifications: "Send email notifications during the project copy"
   label_project_latest: "Latest projects"
+  label_project_default_type: "Allow empty type"
   label_project_new: "New project"
   label_project_plural: "Projects"
   label_project_settings: "Project settings"

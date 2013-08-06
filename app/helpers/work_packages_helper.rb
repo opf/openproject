@@ -235,7 +235,9 @@ module WorkPackagesHelper
   end
 
   def work_package_form_type_attribute(form, work_package, locals = {})
-    field = form.select :type_id, locals[:project].types.collect {|t| [t.name, t.id]}, :required => true
+    selectable_types = locals[:project].types.collect {|t| [((t.is_standard) ? '' : t.name), t.id]}
+
+    field = form.select :type_id, selectable_types, :required => true
 
     url = work_package.new_record? ?
            new_type_project_work_packages_path(locals[:project]) :

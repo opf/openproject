@@ -823,6 +823,7 @@ de:
   label_project_all: "Alle Projekte"
   label_project_copy_notifications: "Sende Mailbenachrichtigungen beim Kopieren des Projekts."
   label_project_latest: "Neueste Projekte"
+  label_project_default_type: "Erlaube leere Typen"
   label_project_new: "Neues Projekt"
   label_project_plural: "Projekte"
   label_project_settings: "Projektkonfiguration"
