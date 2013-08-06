@@ -10,33 +10,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require File.expand_path('../shared/become_member', __FILE__)
+
 module PermissionSpecs
   def self.included(base)
     base.class_eval do
       let(:project) { FactoryGirl.create(:project, :is_public => false) }
       let(:current_user) { FactoryGirl.create(:user) }
 
-      def become_member_with_permissions(permissions = [])
-        permissions = Array(permissions)
-
-        role = FactoryGirl.create(:role, :permissions => permissions)
-
-        member = FactoryGirl.build(:member, :user => current_user, :project => project)
-        member.roles = [role]
-        member.save!
-      end
+      include BecomeMember
 
       def self.check_permission_required_for(controller_action, permission)
         controller_name, action_name = controller_action.split('#')
 
         it "should allow calling #{controller_action} when having the permission #{permission} permission" do
-          become_member_with_permissions(permission)
+          become_member_with_permissions(project, current_user, permission)
 
           controller.send(:authorize, controller_name, action_name).should be_true
         end
 
         it "should prevent calling #{controller_action} when not having the permission #{permission} permission" do
-          become_member_with_permissions
+          become_member_with_permissions(project, current_user)
 
           controller.send(:authorize, controller_name, action_name).should be_false
         end

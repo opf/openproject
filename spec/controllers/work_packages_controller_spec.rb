@@ -343,9 +343,7 @@ describe WorkPackagesController do
       let(:params) { { :project_id => stub_project.id } }
 
       before do
-        projects = [stub_project]
-        Project.stub(:visible).and_return projects
-        projects.stub(:find_by_id).and_return(stub_project)
+        Project.stub(:find_visible).and_return stub_project
       end
 
       describe 'when the type is "PlanningElement"' do

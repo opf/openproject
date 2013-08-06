@@ -166,7 +166,7 @@ class WorkPackagesController < ApplicationController
 
   def new_work_package
     @new_work_package ||= begin
-      project = Project.visible.find_by_id(params[:project_id])
+      project = Project.find_visible(current_user, params[:project_id])
       return nil unless project
 
       permitted = if params[:work_package]
