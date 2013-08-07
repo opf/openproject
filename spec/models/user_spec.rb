@@ -216,4 +216,47 @@ describe User do
       end
     end
   end
+
+  describe ".default_admin_account_deleted_or_changed?" do
+    let(:default_admin) { FactoryGirl.build(:user, :login => 'admin', :password => 'admin', :password_confirmation => 'admin', :admin => true) }
+
+    before do
+      Setting.password_min_length = 5
+    end
+
+    context "default admin account exists with default password" do
+      before do
+        default_admin.save
+      end
+      it { User.default_admin_account_changed?.should be_false }
+    end
+
+    context "default admin account exists with changed password" do
+      before do
+        default_admin.update_attribute :password, 'dafaultAdminPwd'
+        default_admin.update_attribute :password_confirmation, 'dafaultAdminPwd'
+        default_admin.save
+      end
+
+      it { User.default_admin_account_changed?.should be_true }
+    end
+
+    context "default admin account was deleted" do
+      before do
+        default_admin.save
+        default_admin.delete
+      end
+
+      it { User.default_admin_account_changed?.should be_true }
+    end
+
+    context "default admin account was disabled" do
+      before do
+        default_admin.status = User::STATUSES[:locked]
+        default_admin.save
+      end
+
+      it { User.default_admin_account_changed?.should be_true }
+    end
+  end
 end

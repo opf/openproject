@@ -177,20 +177,8 @@ JS
     attrs.delete(:project_id)
 
     role_ids = attrs.delete(:role_ids).map(&:to_i).select{ |i| i > 0 }
-    roles = Role.find_all_by_id(role_ids)
 
-    # Keep inherited roles
-    role_ids += @member.member_roles.select { |mr| !mr.inherited_from.nil? }.collect(&:role_id)
-
-    new_role_ids = role_ids - @member.role_ids
-    # Add new roles
-    new_role_ids.each { |id| @member.member_roles.build.tap { |r| r.role_id = id } }
-    # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
-    member_roles_to_destroy = @member.member_roles.select { |mr| !role_ids.include?(mr.role_id) }
-    if member_roles_to_destroy.any?
-      member_roles_to_destroy.each(&:mark_for_destruction)
-      Watcher.prune(:user => @member.principal, :project => @member.project)
-    end
+    @member.assign_roles(role_ids)
 
     @member.attributes = attrs
     @member
