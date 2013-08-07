@@ -10,11 +10,17 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::Meeting::VERSION
   s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
-  s.homepage    = "http://www.finn.de"
-  s.summary     = "This OpenProject plugin adds a meeting module with functionality to plan an agenda and save the minutes of a meeting."
-  s.description = "This OpenProject plugin adds a meeting module with functionality to plan an agenda and save the minutes of a meeting."
+  s.homepage    = "https://www.openproject.org/projects/plugin-meetings"
+  s.summary     = "This OpenProject plugin adds a meeting module with functionality to plan an " +
+                  "agenda and save the minutes of a meeting."
+  s.description = "This plugin adds functions to support project meetings to OpenProject. Meetings
+    can be scheduled selecting invitees from the same project to take part in the meeting. An agenda
+    can be created and sent to the invitees. After the meeting, attendants can be selected and
+    minutes can be created based on the agenda. Finally, the minutes can be sent to all attendants
+    and invitees."
+  s.license     = "GPLv3"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"
