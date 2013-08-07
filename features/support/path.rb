@@ -10,6 +10,9 @@ module ProjectPageNavigationHelpers
     when /^the project "(.+)" overview personalization page$/
       project = Project.find_by_name($1)
       "/my_projects_overview/#{project.identifier}/page_layout"
+    when /^the project "(.+)" overview page$/
+      project = Project.find_by_name($1)
+      "/projects/#{project.identifier}"
     else
       super
     end

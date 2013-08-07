@@ -22,7 +22,7 @@
 <% ['top', 'left', 'right'].each do |position| %>
   <div id="list-<%= position %>" class="splitcontent<%= position %>">
     <% blocks[position].each do |b| %>
-      <div class="mypage-box">
+      <div class="mypage-box" id='<%=b.respond_to?(:to_ary) ? "widget_teaser_#{b[0]}" : "widget_#{b}" %>'>
         <div class="wiki">
           <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
             <%= render :partial => "my_projects_overviews/blocks/#{b}" %>
