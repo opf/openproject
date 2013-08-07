@@ -24,7 +24,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= render :partial => "timelines/general", :locals => {:timeline => @timeline, :f => f}%>
 
-  <%= render :partial => "timelines/comparison", :locals => {:timeline => @timeline}%>
+  <%# comparisons were removed so that they don't break for everyone once the
+      journalization changes start.
+
+        render :partial => "timelines/comparison", :locals => {:timeline => @timeline}
+
+      TODO enable comparisons once journalization is done.
+  %>
 
   <%= render :partial => "timelines/vertical_planning_elements", :locals => {:timeline => @timeline}%>
 

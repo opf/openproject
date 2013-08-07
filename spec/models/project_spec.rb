@@ -10,10 +10,14 @@
 #++
 
 require 'spec_helper'
+require File.expand_path('../../support/shared/become_member', __FILE__)
 
 describe Project do
+  include BecomeMember
+
   let(:project) { FactoryGirl.build(:project) }
   let(:admin) { FactoryGirl.create(:admin) }
+  let(:user) { FactoryGirl.create(:user) }
 
   describe Project::STATUS_ACTIVE do
     it "equals 1" do
@@ -132,6 +136,28 @@ describe Project do
       Issue.stub!(:new).and_yield(new_issue)
 
       project.add_issue(attributes)
+    end
+  end
+
+  describe :find_visible do
+    it 'should find the project by id if the user is project member' do
+      become_member_with_permissions(project, user, :view_work_packages)
+
+      Project.find_visible(user, project.id).should == project
+    end
+
+    it 'should find the project by identifier if the user is project member' do
+      become_member_with_permissions(project, user, :view_work_packages)
+
+      Project.find_visible(user, project.identifier).should == project
+    end
+
+    it 'should not find the project by identifier if the user is no project member' do
+      expect { Project.find_visible(user, project.identifier) }.to raise_error ActiveRecord::RecordNotFound
+    end
+
+    it 'should not find the project by id if the user is no project member' do
+      expect { Project.find_visible(user, project.id) }.to raise_error ActiveRecord::RecordNotFound
     end
   end
 end

@@ -198,7 +198,7 @@ describe WorkPackage do
     end
   end
 
-  describe :update_with do
+  describe :update_by! do
     #TODO remove once only WP exists
     [:issue, :planning_element].each do |subclass|
 
@@ -206,17 +206,17 @@ describe WorkPackage do
         let(:instance) { send(subclass) }
 
         it "should return true" do
-          instance.update_by(user, {}).should be_true
+          instance.update_by!(user, {}).should be_true
         end
 
         it "should set the values" do
-          instance.update_by(user, { :subject => "New subject" })
+          instance.update_by!(user, { :subject => "New subject" })
 
           instance.subject.should == "New subject"
         end
 
         it "should create a journal with the journal's 'notes' attribute set to the supplied" do
-          instance.update_by(user, { :notes => "blubs" })
+          instance.update_by!(user, { :notes => "blubs" })
 
           instance.journals.last.notes.should == "blubs"
         end
@@ -229,7 +229,7 @@ describe WorkPackage do
                     .with(instance, raw_attachments)
                     .and_return(attachment)
 
-          instance.update_by(user, { :attachments => raw_attachments })
+          instance.update_by!(user, { :attachments => raw_attachments })
         end
 
         it "should only attach the attachment when saving was successful" do
@@ -238,13 +238,13 @@ describe WorkPackage do
 
           Attachment.should_not_receive(:attach_files)
 
-          instance.update_by(user, { :subject => "", :attachments => raw_attachments })
+          instance.update_by!(user, { :subject => "", :attachments => raw_attachments })
         end
 
         it "should add a time entry" do
           activity = FactoryGirl.create(:time_entry_activity)
 
-          instance.update_by(user, { :time_entry => { "hours" => "5",
+          instance.update_by!(user, { :time_entry => { "hours" => "5",
                                                       "activity_id" => activity.id.to_s,
                                                       "comments" => "blubs" } } )
 
@@ -262,7 +262,7 @@ describe WorkPackage do
         it "should not persist the time entry if the #{subclass}'s update fails" do
           activity = FactoryGirl.create(:time_entry_activity)
 
-          instance.update_by(user, { :subject => '',
+          instance.update_by!(user, { :subject => '',
                                      :time_entry => { "hours" => "5",
                                                       "activity_id" => activity.id.to_s,
                                                       "comments" => "blubs" } } )
@@ -279,7 +279,7 @@ describe WorkPackage do
                               "activity_id" => "",
                               "comments" => "" }
 
-          instance.update_by(user, :time_entry => time_attributes)
+          instance.update_by!(user, :time_entry => time_attributes)
 
           instance.should have(0).time_entries
         end
