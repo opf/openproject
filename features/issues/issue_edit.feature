@@ -22,11 +22,8 @@ Feature: Issue edit
       | name   | Normal |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | add_issues         |
-      | add_work_packages  |
       | view_work_packages |
       | edit_work_packages |
-      | manage_subtasks    |
     And there is 1 user with the following:
       | login | bob|
     And the user "bob" is a "member" in the project "omicronpersei8"
@@ -36,47 +33,33 @@ Feature: Issue edit
     Given the user "bob" has 1 issue with the following:
       |  subject      | issue1             |
       |  description  | Aioli Sali Grande  |
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
 
-  @javascript
   Scenario: User updates an issue successfully
     When I go to the page of the issue "issue1"
-    Then I should see "Update" within "#content > .action_menu_main"
-    And I should not see "Change properties"
-    When I click on "Update" within "#content > .action_menu_main"
-    Then I should see "Change properties"
+    And I select "Update" from the action menu
     Then I fill in "Notes" with "human Horn"
-    And I click on "Submit"
+    And I submit the form by the "Submit" button
     And I should see "Successful update." within ".notice"
     And I should see "human Horn" within "#history"
 
   @javascript
   Scenario: User updates an issue with previewing the stuff before
     When I go to the page of the issue "issue1"
-    Then I should see "Update" within "#content > .action_menu_main"
-    And I should not see "Change properties"
-    When I click on "Update" within "#content > .action_menu_main"
-    Then I should see "Change properties"
+    And I select "Update" from the action menu
     Then I fill in "Notes" with "human Horn"
-    When I click on "Preview"
+    When I follow "Preview"
     Then I should see "human Horn" within "#preview"
-    Then I click on "Submit"
+    And I submit the form by the "Submit" button
     And I should see "Successful update." within ".notice"
     And I should see "human Horn" within "#history"
 
-  @javascript
-  Scenario: On an issue with children a User should not be able to change attributes which are overridden by children
-    When I go to the page of the issue "issue1"
-    And I click on "Add subtask"
-    Then I should be on the new work_package page of the project called "omicronpersei8"
-    When I fill in "find the popplers" for "Subject"
-    And I click on the first button matching "Create"
-    Then I should see "Successful creation."
-    When I go to the page of the issue "issue1"
-    And I click on "Update" within "#content > .action_menu_main"
-    Then I should see "Change properties"
-    And I should not see "% Done" within "#work_package-form"
-    And there should be the disabled "#work_package_priority_id" element within "#work_package-form"
-    And there should be the disabled "#work_package_start_date" element within "#work_package-form"
-    And there should be the disabled "#work_package_due_date" element within "#work_package-form"
-    And there should be the disabled "#work_package_estimated_hours" element within "#work_package-form"
+  Scenario: On an issue with children a user should not be able to change attributes which are overridden by children
+    Given the user "bob" has 1 issue with the following:
+      | subject | child1      |
+    When I go to the edit page of the work package "issue1"
+    Then there should not be a "% Done" field
+    And there should be a disabled "Priority" field
+    And there should be a disabled "Start date" field
+    And there should be a disabled "Due date" field
+    And there should be a disabled "Estimated time" field

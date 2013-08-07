@@ -316,37 +316,22 @@ When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: t
   end
 end
 
-Then /^there should be a( disabled)? "(.+)" field( visible| invisible)?(?: within "([^\"]*)")?(?: if plugin "(.+)" is loaded)?$/ do |disabled, fieldname, visible, selector, plugin_name|
-  if plugin_name.nil? || Redmine::Plugin.installed?(plugin_name)
-    with_scope(selector) do
-      if defined?(Spec::Rails::Matchers)
-        find_field(fieldname, :visible => false).should_not be_nil
-        if visible && visible == " visible"
-          find_field(fieldname, :visible => false).should be_visible
-        elsif visible && visible == " invisible"
-          find_field(fieldname, :visible => false).should_not be_visible
-        end
+Then /^there should be a( disabled)? "(.+)" field( visible| invisible)?$/ do |disabled, fieldname, visible|
+  # Checking for a disabled field will only work for field with labels where the label
+  # has a correctly filled "for" attribute
+  visibility = visible && visible.include?("invisible") ? false : true
 
-        if disabled
-          find_field(fieldname, :visible => false)[:disabled].should == "disabled"
-        else
-          find_field(fieldname, :visible => false)[:disabled].should == nil
-        end
-      else
-        assert_not_nil find_field(fieldname, :visible => false)
-      end
-    end
+  if disabled
+    # disabled fields can not be found via find_field
+    field_id = find('label', :text => fieldname)["for"]
+    should have_css("##{field_id}", :visible => visibility)
+  else
+    should have_field(fieldname, :visible => visibility)
   end
 end
 
-Then /^there should not be a "(.+)" field(?: within "([^\"]*)")?$/ do |fieldname, selector|
-  with_scope(selector) do
-    if defined?(Spec::Rails::Matchers)
-      lambda {find_field(fieldname)}.should raise_error(Capybara::ElementNotFound)
-    else
-      assert_nil find_field(fieldname)
-    end
-  end
+Then /^there should not be a "(.+)" field$/ do |fieldname|
+  should_not have_field(fieldname)
 end
 
 Then /^there should be a "(.+)" button$/ do |button_label|
