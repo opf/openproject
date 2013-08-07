@@ -92,19 +92,13 @@ class WorkPackagesController < ApplicationController
   end
 
   def preview
-    if @work_package
-      if params.has_key? :work_package
-        @description = params[:work_package][:description]
-        @notes = params[:work_package][:notes]
-      end
-      if @description && @description.gsub(/(\r?\n|\n\r?)/, "\n") == @work_package.description.to_s.gsub(/(\r?\n|\n\r?)/, "\n")
-        @description = nil
-      end
-      @notes = @notes
-    else
-      @description = (params[:work_package] ? params[:work_package][:description] : nil)
+    safe_params = permitted_params.update_work_package(:project => project)
+    work_package.update_by(current_user, safe_params)
+
+    respond_to do |format|
+      format.any(:html, :js) { render 'preview', :locals => { :work_package => work_package },
+                                                 :layout => false }
     end
-    render :layout => false
   end
 
   def create

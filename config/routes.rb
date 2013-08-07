@@ -212,6 +212,7 @@ OpenProject::Application.routes.draw do
 
     resources :work_packages, :only => [:new, :create] do
       get :new_type, :on => :collection
+      post :preview, :on => :collection
     end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'

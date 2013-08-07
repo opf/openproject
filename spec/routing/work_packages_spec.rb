@@ -61,4 +61,10 @@ describe WorkPackagesController do
                                                       :id => '1' )
   end
 
+  it "should connect POST /project/1/work_packages/preview to work_packages#preview" do
+    post("/projects/1/work_packages/preview").should route_to( :controller => 'work_packages',
+                                                               :action => 'preview',
+                                                               :project_id => '1' )
+  end
+
 end

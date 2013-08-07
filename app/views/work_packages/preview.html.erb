@@ -10,14 +10,24 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% if @notes %>
-	<fieldset class="preview"><legend><%= Journal.human_attribute_name(:notes) %></legend>
-		<%= textilizable @notes, :attachments => @attachements, :object => @work_packgae %>
-	</fieldset>
+<% if work_package.journal_notes.present? %>
+  <fieldset class="preview">
+    <legend>
+      <%= Journal.human_attribute_name(:notes) %>
+    </legend>
+
+    <%= textilizable work_package.journal_notes,
+                     :object => work_package %>
+  </fieldset>
 <% end %>
 
-<% if @description %>
-	<fieldset class="preview"><legend><%= WorkPackage.human_attribute_name(:description) %></legend>
-		<%= textilizable @description, :attachments => @attachements, :object => @work_package%>
-	</fieldset>
+<% if work_package.description.present? %>
+  <fieldset class="preview">
+    <legend>
+      <%= WorkPackage.human_attribute_name(:description) %>
+    </legend>
+
+    <%= textilizable work_package.description,
+                     :object => work_package %>
+  </fieldset>
 <% end %>

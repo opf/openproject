@@ -311,6 +311,48 @@ describe WorkPackagesController do
     end
   end
 
+  describe 'preview.html' do
+    let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+    let(:params) { { work_package: wp_params } }
+    let(:call_action) { post 'preview', params }
+
+    requires_permission_in_project do
+      before do
+        controller.stub(:work_package).and_return(stub_work_package)
+        controller.send(:permitted_params).should_receive(:update_work_package)
+                                          .with(:project => stub_work_package.project)
+                                          .and_return(wp_params)
+      end
+
+      it 'render the preview ' do
+        call_action
+
+        response.should render_template('work_packages/preview', :formats => ["html"], :layout => false)
+      end
+    end
+  end
+
+  describe 'preview.js' do
+    let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
+    let(:params) { { work_package: wp_params } }
+    let(:call_action) { xhr :post, :preview, params }
+
+    requires_permission_in_project do
+      before do
+        controller.stub(:work_package).and_return(stub_work_package)
+        controller.send(:permitted_params).should_receive(:update_work_package)
+                                          .with(:project => stub_work_package.project)
+                                          .and_return(wp_params)
+      end
+
+      it 'render the preview ' do
+        call_action
+
+        response.should render_template('work_packages/preview', :formats => ["html"], :layout => false)
+      end
+    end
+  end
+
   describe :work_package do
     describe 'when providing an id (wanting to see an existing wp)' do
       describe 'when beeing allowed to see the work_package' do
@@ -591,42 +633,4 @@ describe WorkPackagesController do
     end
   end
 
-  describe 'preview.html' do
-    let(:params) { { work_package: { notes: "My note" },
-                     project_id: project.id } }
-
-    before do
-      controller.stub!(:work_package).and_return(stub_issue)
-    end
-
-    context "as an admin" do
-      become_admin
-
-      it 'render the edit action' do
-        post 'preview', params
-
-        response.should render_template('work_packages/preview', :formats => ["html"], :layout => false)
-      end
-    end
-
-    context "as a project member" do
-      become_member_with_permissions [:edit_work_packages]
-
-      it 'render the edit action' do
-        post 'preview', params
-
-        response.should render_template('work_packages/preview', :formats => ["html"], :layout => false)
-      end
-    end
-
-    context "as a non member" do
-      become_non_member
-
-      it 'render the edit action' do
-        post 'preview', params
-
-        response.response_code.should === 403
-      end
-    end
-  end
 end

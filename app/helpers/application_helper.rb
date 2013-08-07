@@ -87,7 +87,9 @@ module ApplicationHelper
   end
 
   def link_to_work_package_preview(context = nil, options = {})
-    url = preview_work_package_path(context)
+    url = context.is_a?(Project) ?
+            preview_project_work_packages_path(context) :
+            preview_work_package_path(context)
 
     id = options[:form_id] || 'work_package-form-preview'
 
