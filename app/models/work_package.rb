@@ -313,19 +313,27 @@ class WorkPackage < ActiveRecord::Base
 
   # TODO: move into Business Object and rename to update
   # update for now is a private method defined by AR
-  def update_by(user, attributes)
-    init_journal(user, attributes.delete(:notes)) if attributes[:notes]
-
+  def update_by!(user, attributes)
     raw_attachments = attributes.delete(:attachments)
-    add_time_entry_for(user, attributes.delete(:time_entry))
 
-    if update_attributes(attributes)
+    update_by(user, attributes)
+
+    if save
       # as attach_files always saves an attachment right away
       # it is not possible to stage attaching and check for
       # valid. If this would be possible, we could check
       # for this along with update_attributes
       attachments = Attachment.attach_files(self, raw_attachments)
     end
+  end
+
+  def update_by(user, attributes)
+    init_journal(user, attributes.delete(:notes)) if attributes[:notes]
+
+    add_time_entry_for(user, attributes.delete(:time_entry))
+    attributes.delete(:attachments)
+
+    self.attributes = attributes
   end
 
   def is_milestone?

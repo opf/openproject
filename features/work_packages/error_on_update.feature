@@ -10,7 +10,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Logging time on work package update
+Feature: Error messages are displayed
+
   Background:
     Given there is 1 user with:
       | login     | manager |
@@ -33,7 +34,7 @@ Feature: Logging time on work package update
     And I am already logged in as "manager"
 
   @javascript
-  Scenario: Logging time
+  Scenario: Inserting a blank subject results in an error beeing shown
     When I go to the edit page of the work package called "pe1"
      And I follow "More"
      And I fill in the following:
