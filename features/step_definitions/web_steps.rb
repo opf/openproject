@@ -406,18 +406,6 @@ rescue Nokogiri::CSS::SyntaxError
   elements
 end
 
-def disable_warn_unsaved_popup
-  # disable WarnLeavingUnsaved function call when testing with selenium as this
-  # will freeze the server
-
-  if defined?(ChiliProject::VERSION::MAJOR) &&
-     ChiliProject::VERSION::MAJOR > 1 &&
-     Capybara.current_driver.to_s.include?("selenium")
-
-    page.execute_script("window.onbeforeunload = null")
-  end
-end
-
 require 'timeout'
 
 def wait_until(seconds = 5, options = {}, &block)
