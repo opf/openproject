@@ -652,24 +652,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
 #    should route(:post, "/projects/redmine/repository/edit").to( :controller => 'repositories', :action => 'edit', :id => 'redmine')
   end
 
-  context "files" do
-    context "project scoped" do
-      should route(:get, "/projects/33/files").to( :controller => 'files',
-                                                   :action => 'index',
-                                                   :project_id => '33' )
-
-      should route(:get, "/projects/33/files/new").to( :controller => 'files',
-                                                       :action => 'new',
-                                                       :project_id => '33' )
-
-      should route(:post, "/projects/33/files").to( :controller => 'files',
-                                                    :action => 'create',
-                                                    :project_id => '33' )
-
-    end
-
-  end
-
   context "timelogs" do
     should route(:get, "/time_entries").to( :controller => 'timelog',
                                             :action => 'index' )
