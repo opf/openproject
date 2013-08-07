@@ -15,7 +15,7 @@ require File.expand_path('../../support/shared/become_member', __FILE__)
 describe Project do
   include BecomeMember
 
-  let(:project) { FactoryGirl.build(:project) }
+  let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:admin) { FactoryGirl.create(:admin) }
   let(:user) { FactoryGirl.create(:user) }
 
