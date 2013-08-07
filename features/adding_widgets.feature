@@ -3,6 +3,8 @@ Feature: Adding widgets to the page
   Background:
     Given there is 1 project with the following:
       | name        | project1      |
+    And there is a role "Admin"
+    And there is a role "Manager"
     And I am already Admin
     And I am on the project "project1" overview personalization page
 

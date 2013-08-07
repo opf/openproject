@@ -5,6 +5,8 @@ Feature: Project Details Widget
       | Name | Parent |
     And the project "Parent" has 1 subproject with the following:
       | Name    | Child  |
+    And there is a role "Admin"
+    And there is a role "Manager"
     And I am already Admin
 
   @javascript

@@ -156,8 +156,8 @@ function addBlock() {
 <%= javascript_tag "updateSelect()" %>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "my_project_page", :plugin => 'chiliproject_my_project_page' %>
-  <%= stylesheet_link_tag "my_projects_overview.css", :plugin => "chiliproject_my_project_page", :media => 'all' %>
+  <%= javascript_include_tag "my_project_page/my_project_page", :plugin => 'chiliproject_my_project_page' %>
+  <%= stylesheet_link_tag "my_project_page/my_projects_overview", :plugin => "chiliproject_my_project_page", :media => 'all' %>
   <% heads_for_wiki_formatter %>
 <% end %>
 
