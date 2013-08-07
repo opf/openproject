@@ -11,20 +11,11 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% content_for :action_menu_main do %>
-  <% if controller.work_package.is_a? Issue %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_update), { :controller => '/issues',
-                                                                 :action => 'edit',
-                                                                 :id => controller.work_package.id },
-                                                                 :class => 'edit icon icon-edit',
-                                                                 :accesskey => accesskey(:edit))) %>
-  <% elsif controller.work_package.is_a? PlanningElement %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_update), { :controller => '/planning_elements',
-                                                                 :action => 'edit',
-                                                                 :project_id => controller.work_package.project,
-                                                                 :id => controller.work_package },
-                                                                 :class => 'edit icon icon-edit',
-                                                                 :accesskey => accesskey(:edit))) %>
-  <% end %>
+  <%= li_unless_nil(link_to_if_authorized(l(:button_update), { :controller => '/work_packages',
+                                                               :action => 'edit',
+                                                               :id => work_package.id },
+                                                               :class => 'edit icon icon-edit',
+                                                               :accesskey => accesskey(:edit))) %>
 
   <%= li_unless_nil(watcher_link(work_package,
                                  User.current,
@@ -32,17 +23,41 @@ See doc/COPYRIGHT.rdoc for more details.
                                    :replace => User.current.allowed_to?(:view_work_package_watchers, @project) ? ['#watchers', '.watcher_link'] : ['.watcher_link'] })) %>
 <% end %>
 <% content_for :action_menu_more do %>
-  <%= li_unless_nil(link_to_if_authorized l(:button_log_time), {:controller => '/timelog', :action => 'new', :work_package_id => controller.work_package}, :class => 'icon icon-time-add') %>
-  <%= li_unless_nil(link_to_if_authorized l(:button_duplicate), {:controller => '/issues', :action => 'new', :project_id => @project, :copy_from => work_package }, :class => 'icon icon-duplicate') %>
-  <%= li_unless_nil(link_to_if_authorized l(:button_copy), {:controller => '/issue_moves', :action => 'new', :id => controller.work_package, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy') %>
-  <%= li_unless_nil(link_to_if_authorized l(:button_move), {:controller => '/issue_moves', :action => 'new', :id => controller.work_package}, :class => 'icon icon-move') %>
-  <%= li_unless_nil(link_to_if_authorized l(:button_delete), { :controller => '/issues',
-                                                               :action => 'destroy',
-                                                               :id => controller.work_package },
-                                                               :confirm => (controller.work_package.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)),
-                                                               :remote => true,
-                                                               :method => :delete ,
-                                                               :class => 'icon icon-del' ) %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_log_time), {:controller => '/timelog', :action => 'new', :work_package_id => work_package}, :class => 'icon icon-time-add') %>
 
-  <%= call_hook(:view_work_package_show_action_menu, :work_package => controller.work_package) %>
+  <% if work_package.is_a? Issue %>
+    <%= li_unless_nil(link_to_if_authorized l(:button_duplicate), {:controller => '/issues', :action => 'new', :project_id => @project, :copy_from => work_package }, :class => 'icon icon-duplicate') %>
+    <%= li_unless_nil(link_to_if_authorized l(:button_copy), {:controller => '/issue_moves', :action => 'new', :id => work_package, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy') %>
+    <%= li_unless_nil(link_to_if_authorized l(:button_move), {:controller => '/issue_moves', :action => 'new', :id => work_package}, :class => 'icon icon-move') %>
+    <%= li_unless_nil(link_to_if_authorized l(:button_delete), { :controller => '/issues',
+                                                                 :action => 'destroy',
+                                                                 :id => work_package },
+                                                                 :confirm => (work_package.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)),
+                                                                 :remote => true,
+                                                                 :method => :delete ,
+                                                                 :class => 'icon icon-del' ) %>
+  <% elsif work_package.is_a? PlanningElement %>
+    <% if work_package.deleted? %>
+      <%= li_unless_nil(link_to(l("timelines.button_restore"),
+                                restore_project_planning_element_path(work_package.project, work_package),
+                                :method => 'post',
+                                :class => 'icon icon-cancel input-as-link')) %>
+
+      <%= li_unless_nil(link_to_if_authorized(l(:button_delete),
+                                              {:controller => '/planning_elements',
+                                               :action => 'confirm_destroy',
+                                               :project_id => work_package.project,
+                                               :id => work_package},
+                                               :class => 'icon icon-del')) %>
+      <% else %>
+        <%= li_unless_nil(link_to_if_authorized(l("timelines.button_move_to_trash"),
+                                                {:controller => '/planning_elements',
+                                                 :action => 'confirm_move_to_trash',
+                                                 :project_id => work_package.project,
+                                                 :id => work_package},
+                                                 :class => 'icon icon-del')) %>
+      <% end %>
+  <% end %>
+
+  <%= call_hook(:view_work_package_show_action_menu, :work_package => work_package) %>
 <% end %>

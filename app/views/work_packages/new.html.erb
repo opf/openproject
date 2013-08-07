@@ -13,15 +13,15 @@ See doc/COPYRIGHT.rdoc for more details.
 <h2><%=l(:label_work_package_new)%></h2>
 
 
-<%= labelled_tabular_form_for controller.new_work_package,
-                              :url => project_work_packages_path(@project),
+<%= labelled_tabular_form_for work_package,
+                              :url => project_work_packages_path(project),
                               # TODO: remove once Issue == PlanningElement
                               :as => 'work_package',
                               :html => { :multipart => true,
                                          :id => 'work_package-form',
                                          :class => 'tabular new-work_package-form' } do |f| %>
 
-  <%= error_messages_for :object => controller.new_work_package %>
+  <%= error_messages_for :object => work_package %>
 
   <%= f.hidden_field :sti_type %>
 
@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= submit_tag l(:button_create) %>
   <!-- not supported by controller for now -->
   <%#= submit_tag l(:button_create_and_continue), :name => 'continue' %>
-  <%= link_to_issue_preview(controller.project) %>
+  <%= link_to_work_package_preview(project) %>
 
   <%= javascript_tag "Form.Element.focus('#{f.object_name}_subject');" %>
 <% end %>
