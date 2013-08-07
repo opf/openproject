@@ -11,9 +11,7 @@
 
 Feature: Timeline View Tests
 	As a Project Member
-	I want to view the timeline data
-	change the timeline selection
-	edit planning elements via a modal window
+	I want edit planning elements via a modal window
 
   Background:
     Given there are the following types:
