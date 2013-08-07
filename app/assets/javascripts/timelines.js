@@ -3746,19 +3746,25 @@ Timeline = {
 
     var currentContainer = 0;
 
-    // ╭───────────────────────────────────────────────────────╮
-    // │  Add element                                          │
-    // ╰───────────────────────────────────────────────────────╯
+    if (Timeline.USE_MODALS) {
 
-    containers[currentContainer++].append(
-      jQuery(icon
-        .replace(/%t/, timeline.i18n('timelines.new_planning_element'))
-        .replace(/%c/, 'icon icon-add')
-      ).click(function(e) {
-        e.stopPropagation();
-        timeline.addPlanningElement();
-        return false;
-      }));
+      // ╭───────────────────────────────────────────────────────╮
+      // │  Add element                                          │
+      // ╰───────────────────────────────────────────────────────╯
+
+      containers[currentContainer++].append(
+        jQuery(icon
+          .replace(/%t/, timeline.i18n('timelines.new_planning_element'))
+          .replace(/%c/, 'icon icon-add')
+        ).click(function(e) {
+          e.stopPropagation();
+          timeline.addPlanningElement();
+          return false;
+        }));
+
+    } else {
+      currentContainer++;
+    }
 
     // ╭───────────────────────────────────────────────────────╮
     // │  Spacer                                               │
