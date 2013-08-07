@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
     and invitees."
   s.license     = "GPLv3"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "README.md"]
+  s.files = Dir["{app,config,db,lib,doc}/**/*", "CHANGELOG.md", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"

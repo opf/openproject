@@ -25,7 +25,7 @@ Please follow the default [plugin installation instructions for
 OpenProject](https://www.openproject.org/projects/openproject/wiki/Installation#222-Add-plugins),
 adding the following line to the Gemfile.plugins:
 
-`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting"`
+`gem "openproject-meeting"`
 
 Afterwards, run:
 
@@ -42,7 +42,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting"`
+`gem "openproject-meeting"`
 
 from the file `Gemfile.plugins` and run:
 
