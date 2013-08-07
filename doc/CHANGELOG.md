@@ -2,6 +2,7 @@
 
 * `#1541` Use Rails 3.2.14 instead of Git Branch
 * `#1598` Switching type of work package looses inserted data
+* `#1596` Copy/Move work packages between projects
 
 ## 3.0.0pre10
 
