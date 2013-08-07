@@ -64,7 +64,6 @@ class RedmineTest < ActiveSupport::TestCase
     assert_menu_contains_item_named :project_menu, :news
     assert_menu_contains_item_named :project_menu, :documents
     assert_menu_contains_item_named :project_menu, :boards
-    assert_menu_contains_item_named :project_menu, :files
     assert_menu_contains_item_named :project_menu, :repository
     assert_menu_contains_item_named :project_menu, :settings
   end

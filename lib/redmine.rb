@@ -130,11 +130,6 @@ Redmine::AccessControl.map do |map|
     map.permission :view_documents, :documents => [:index, :show, :download]
   end
 
-  map.project_module :files do |map|
-    map.permission :manage_files, {:files => [:new, :create]}, :require => :loggedin
-    map.permission :view_files, :files => :index, :versions => :download
-  end
-
   map.project_module :wiki do |map|
     map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
     map.permission :manage_wiki_menu, {:wiki_menu_items => [:edit, :update]}, :require => :member
@@ -296,7 +291,6 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :documents, { :controller => '/documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
   menu.push :boards, { :controller => '/boards', :action => 'index', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
-  menu.push :files, { :controller => '/files', :action => 'index' }, :caption => :label_file_plural, :param => :project_id
   menu.push :repository, { :controller => '/repositories', :action => 'show' },
               :if => Proc.new { |p| p.repository && !p.repository.new_record? }
   menu.push :settings, { :controller => '/projects', :action => 'settings' }, :caption => :label_project_settings, :last => true
@@ -348,7 +342,6 @@ Redmine::Activity.map do |activity|
   activity.register :changesets
   activity.register :news
   activity.register :documents, :class_name => %w(Document Attachment)
-  activity.register :files, :class_name => 'Attachment'
   activity.register :wiki_edits, :class_name => 'WikiContent', :default => false
   activity.register :messages, :default => false
   activity.register :time_entries, :default => false
