@@ -84,28 +84,30 @@ class PermittedParams < Struct.new(:params, :user)
   def new_work_package(args = {})
     permitted = permitted_attributes(:new_work_package, args)
 
-    params[:work_package].permit(*permitted)
+    permitted_params = params.require(:work_package).permit(*permitted)
+
+    permitted_params.merge!(custom_field_values(:work_package))
+
+    permitted_params
   end
 
-  def update_work_package(args = {})
-    permitted = permitted_attributes(:new_work_package, args)
-
-    params[:work_package].permit(*permitted)
-  end
+  alias :update_work_package :new_work_package
 
   def user_update_as_admin
     if user.admin?
-      params.require(:user).permit(:firstname,
-                                   :lastname,
-                                   :mail,
-                                   :mail_notification,
-                                   :language,
-                                   :custom_field_values,
-                                   :custom_fields,
-                                   :identity_url,
-                                   :auth_source_id,
-                                   :force_password_change,
-                                   :group_ids => [])
+      permitted_params = params.require(:user).permit(:firstname,
+                                                      :lastname,
+                                                      :mail,
+                                                      :mail_notification,
+                                                      :language,
+                                                      :custom_fields,
+                                                      :identity_url,
+                                                      :auth_source_id,
+                                                      :force_password_change,
+                                                      :group_ids => [])
+      permitted_params.merge!(custom_field_values(:user))
+
+      permitted_params
     else
       params.require(:user).permit()
     end
@@ -133,6 +135,20 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   protected
+
+  def custom_field_values(key)
+    # a hash of arbitrary values is not supported by strong params
+    # thus we do it by hand
+    values = params.require(key)[:custom_field_values] || {}
+
+    # only permit values following the schema
+    # 'id as string' => 'value as string'
+    values.reject!{ |k, v| k.to_i < 1 || !v.is_a?(String) }
+
+    values.empty? ?
+      {} :
+      { "custom_field_values" => values }
+  end
 
   def permitted_attributes(key, additions = {})
     merged_args = { :params => params, :user => user }.merge(additions)

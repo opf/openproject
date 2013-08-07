@@ -25,6 +25,7 @@ Feature: Fields editable on work package edit
       | name | prio1 |
     And the role "manager" may have the following rights:
       | edit_work_packages |
+      | view_work_packages |
       | manage_subtasks    |
     And the project "ecookbook" has 1 version with:
       | name | version1 |
@@ -57,6 +58,7 @@ Feature: Fields editable on work package edit
   Scenario: Going to the page and viewing timelog fields if this module is enabled
     Given the role "manager" may have the following rights:
       | edit_work_packages |
+      | view_work_packages |
       | log_time           |
 
     And there are the following planning elements in project "ecookbook":

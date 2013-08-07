@@ -12,14 +12,11 @@
 class WorkPackagesController < ApplicationController
   unloadable
 
-  helper :timelines, :planning_elements
-
-  include ExtendedHTTP
   include Redmine::Export::PDF
 
   current_menu_item do |controller|
     begin
-      wp = controller.new_work_package || controller.work_package
+      wp = controller.work_package
 
       case wp
       when PlanningElement
@@ -32,18 +29,10 @@ class WorkPackagesController < ApplicationController
     end
   end
 
-  model_object WorkPackage
-
   before_filter :disable_api
-  before_filter :find_model_object_and_project, :only => [:show, :edit, :update]
-  before_filter :find_project_by_project_id, :only => [:new, :create]
-  before_filter :project, :only => [:new_type]
-  before_filter :authorize,
-                :assign_planning_elements
-  before_filter :apply_at_timestamp, :only => [:show]
-
-  helper :timelines
-  helper :timelines_journals
+  before_filter :not_found_unless_work_package,
+                :project,
+                :authorize
 
   def show
     respond_to do |format|
@@ -83,7 +72,7 @@ class WorkPackagesController < ApplicationController
 
   def new
     respond_to do |format|
-      format.html { render :locals => { :work_package => new_work_package,
+      format.html { render :locals => { :work_package => work_package,
                                         :project => project,
                                         :priorities => priorities,
                                         :user => current_user } }
@@ -91,8 +80,11 @@ class WorkPackagesController < ApplicationController
   end
 
   def new_type
+    safe_params = permitted_params.update_work_package(:project => project)
+    work_package.update_by(current_user, safe_params)
+
     respond_to do |format|
-      format.js { render :locals => { :work_package => work_package || new_work_package,
+      format.js { render :locals => { :work_package => work_package,
                                       :project => project,
                                       :priorities => priorities,
                                       :user => current_user } }
@@ -100,19 +92,19 @@ class WorkPackagesController < ApplicationController
   end
 
   def create
-    call_hook(:controller_work_package_new_before_save, { :params => params, :work_package => new_work_package })
+    call_hook(:controller_work_package_new_before_save, { :params => params, :work_package => work_package })
 
     WorkPackageObserver.instance.send_notification = send_notifications?
 
-    if new_work_package.save
+    if work_package.save
       flash[:notice] = I18n.t(:notice_successful_create)
 
-      Attachment.attach_files(new_work_package, params[:attachments])
-      render_attachment_warning_if_needed(new_work_package)
+      Attachment.attach_files(work_package, params[:attachments])
+      render_attachment_warning_if_needed(work_package)
 
-      call_hook(:controller_work_pacakge_new_after_save, { :params => params, :work_package => new_work_package })
+      call_hook(:controller_work_pacakge_new_after_save, { :params => params, :work_package => work_package })
 
-      redirect_to(work_package_path(new_work_package))
+      redirect_to(work_package_path(work_package))
     else
       respond_to do |format|
         format.html { render :action => 'new' }
@@ -137,7 +129,7 @@ class WorkPackagesController < ApplicationController
     configure_update_notification(send_notifications?)
 
     safe_params = permitted_params.update_work_package(:project => project)
-    updated = work_package.update_by(current_user, safe_params)
+    updated = work_package.update_by!(current_user, safe_params)
 
     render_attachment_warning_if_needed(work_package)
 
@@ -151,8 +143,17 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+
   def work_package
-    @work_package ||= begin
+    if params[:id]
+      existing_work_package
+    elsif params[:project_id]
+      new_work_package
+    end
+  end
+
+  def existing_work_package
+    @existing_work_package ||= begin
 
       wp = WorkPackage.includes(:project)
                       .find_by_id(params[:id])
@@ -165,12 +166,19 @@ class WorkPackagesController < ApplicationController
 
   def new_work_package
     @new_work_package ||= begin
-      params[:work_package] ||= {}
-      sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
+      project = Project.find_visible(current_user, params[:project_id])
+      return nil unless project
 
-      permitted = permitted_params.new_work_package(:project => project)
+      permitted = if params[:work_package]
+                    permitted_params.new_work_package(:project => project)
+                  else
+                    params[:work_package] ||= {}
+                    {}
+                  end
 
       permitted[:author] = current_user
+
+      sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
 
       wp = case sti_type
            when PlanningElement.to_s
@@ -188,11 +196,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def project
-    @project ||= if params[:project_id]
-                   find_project_by_project_id
-                 elsif work_package
-                   work_package.project
-                 end
+    @project ||= work_package.project
   end
 
   def journals
@@ -202,48 +206,21 @@ class WorkPackagesController < ApplicationController
   end
 
   def ancestors
-    @ancestors ||= begin
-                     case work_package
-                     when PlanningElement
-                       # Right now all planning_elements of a tree are part of the same project.
-                       # That means that a user can either see all planning_elements or none.
-                       # Thus, after access to a planning element is established (work_package) we
-                       # currently need no extra check for the ancestors/descendants
-                       work_package.ancestors
-                     when Issue
-                       work_package.ancestors.visible.includes(:type,
+    @ancestors ||= work_package.ancestors.visible.includes(:type,
+                                                           :assigned_to,
+                                                           :status,
+                                                           :priority,
+                                                           :fixed_version,
+                                                           :project)
+  end
+
+  def descendants
+    @descendants ||= work_package.descendants.visible.includes(:type,
                                                                :assigned_to,
                                                                :status,
                                                                :priority,
                                                                :fixed_version,
                                                                :project)
-                     else
-                       []
-                     end
-                   end
-
-  end
-
-  def descendants
-    @descendants ||= begin
-                       case work_package
-                       when PlanningElement
-                         # Right now all planning_elements of a tree are part of the same project.
-                         # That means that a user can either see all planning_elements or none.
-                         # Thus, after access to a planning element is established (work_package) we
-                         # currently need no extra check for the ancestors/descendants
-                         work_package.descendants
-                       when Issue
-                         work_package.descendants.visible.includes(:type,
-                                                                   :assigned_to,
-                                                                   :status,
-                                                                   :priority,
-                                                                   :fixed_version,
-                                                                   :project)
-                       else
-                         []
-                       end
-                     end
 
   end
 
@@ -285,6 +262,10 @@ class WorkPackagesController < ApplicationController
 
   protected
 
+  def not_found_unless_work_package
+    render_404 unless work_package
+  end
+
   def configure_update_notification(state = true)
     JournalObserver.instance.send_notification = state
   end
@@ -292,20 +273,4 @@ class WorkPackagesController < ApplicationController
   def send_notifications?
     params[:send_notification] == '0' ? false : true
   end
-
-  def assign_planning_elements
-    @planning_elements = @project.planning_elements.without_deleted
-  end
-
-  def apply_at_timestamp
-    return if params[:at].blank?
-
-    time = Time.at(Integer(params[:at]))
-    # intentionally rebuilding scope chain to avoid without_deleted scope
-    @planning_elements = @project.planning_elements.at_time(time)
-
-  rescue ArgumentError
-    render_errors(:at => 'unknown format')
-  end
-
 end
