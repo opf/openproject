@@ -61,15 +61,73 @@ Feature: Timeline View Tests
           | 2012-04-01 | 2012-04-30 | Avocado Choquette | closed                  | manager     | April                                                                                                                         |
           | 2012-04-01 | 2012-04-30 | Relish            | closed                  | manager     | Loremipsumdolorsitamet,consecteturadipisicingelit,seddoeiusmodtemporincididuntutlaboreetdoloremagnaaliqua.Utenimadminimveniam |
 
-  Scenario: The project manager gets 'No data to display' when there are no planning elements defined
-     When I go to the page of the timeline of the project called "ecookbook"
-     Then I should see "New timeline report"
-      And I should see "General Settings"
-
-  Scenario: Creating a timeline
+  @javascript
+  Scenario: planning element click should show modal window
      When there is a timeline "Testline" for project "ecookbook"
-     When I go to the page of the timeline "Testline" of the project called "ecookbook"
-     Then I should see "New timeline report"
-      And I should see "Testline"
+      And I go to the page of the timeline "Testline" of the project called "ecookbook"
+      And I wait for timeline to load table
+      And I click on the Planning Element with name "January"
+     Then I should see the planning element edit modal
+      And I should see "January (*1)"
+      And I should see "Avocado Hall"
+      And I should see "01/01/2012 - 01/31/2012"
+      And I should see "New timeline report"
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"
 
+  @javascript
+  Scenario: edit should open edit
+     When there is a timeline "Testline" for project "ecookbook"
+      And I go to the page of the timeline "Testline" of the project called "ecookbook"
+      And I wait for timeline to load table
+      And I click on the Planning Element with name "January"
+      And I click on the Edit Link
+     Then I should see the planning element edit modal
+      And I should be on the page of the timeline "Testline" of the project called "ecookbook"
+      And I should see "Save"
+      And I should see "Cancel"
+
+  @javascript
+  Scenario: edit in modal
+     When there is a timeline "Testline" for project "ecookbook"
+      And I go to the page of the timeline "Testline" of the project called "ecookbook"
+      And I wait for timeline to load table
+      And I click on the Planning Element with name "January"
+      And I click on the Edit Link
+      And I set duedate to "2012-01-30"
+      And I click on the Save Link
+
+     Then I should be on the page of the timeline "Testline" of the project called "ecookbook"
+      And I should see "01/01/2012 - 01/30/2012"
+
+  @javascript
+  Scenario: enter wrong date in modal
+     When there is a timeline "Testline" for project "ecookbook"
+      And I go to the page of the timeline "Testline" of the project called "ecookbook"
+      And I wait for timeline to load table
+      And I click on the Planning Element with name "January"
+      And I click on the Edit Link
+      And I set duedate to "2011-01-30"
+      And I click on the Save Link
+
+     Then I should be on the page of the timeline "Testline" of the project called "ecookbook"
+      And I should see "Due date must be greater than start date"
+
+  @javascript
+  Scenario: trash element
+     When there is a timeline "Testline" for project "ecookbook"
+      And I go to the page of the timeline "Testline" of the project called "ecookbook"
+      And I wait for timeline to load table
+      And I trash the planning element with name "January"
+
+     Then I should be on the page of the timeline "Testline" of the project called "ecookbook"
+      And I should not see "January"
+
+  @javascript
+  Scenario: trash vertical should be removed
+     When there is a timeline "Testline" for project "ecookbook"
+      And I make the planning element "January" vertical for the timeline "Testline" of the project called "ecookbook"
+
+      And I go to the page of the timeline "Testline" of the project called "ecookbook"
+      And I trash the planning element with name "January"
+
+     Then I should not see the planning element "January"
