@@ -11,10 +11,14 @@
 
 Given /^the rest api is enabled$/ do
   Setting.rest_api_enabled = "1"
+
+  Support::Cleanup.to_clean Support::ClearCache.clear
 end
 
 Given /^the following languages are available:$/ do |table|
   Setting.available_languages += table.raw.map(&:first)
+
+  Support::Cleanup.to_clean Support::ClearCache.clear
 end
 
 #Given /^the "(.+?)" setting is set to (true|false)$/ do |name, trueish|
@@ -34,6 +38,8 @@ Given /^the "(.+?)" setting is set to (.+)$/ do |name, value|
   value = value.to_i if Setting.available_settings[name]["format"] == "int"
 
   Setting[name.to_sym] = value
+
+  Support::ClearCache.clear_after
 end
 
 Then /^the "(.+?)" setting should be (true|false)$/ do |name, trueish|
@@ -42,6 +48,8 @@ end
 
 Given /^I save the settings$/ do
   click_button('Save')
+
+  Support::ClearCache.clear_after
 end
 
 ##
@@ -54,10 +62,14 @@ end
 Given /^users are blocked for ([0-9]+) minutes after ([0-9]+) failed login attempts$/ do |duration, attempts|
   Setting.brute_force_block_minutes = duration
   Setting.brute_force_block_after_failed_logins = attempts
+
+  Support::ClearCache.clear_after
 end
 
 Given /^we paginate after (\d+) items$/ do |per_page_param|
   Setting.per_page_options = "#{per_page_param}, 50, 100"
+
+  Support::ClearCache.clear_after
 end
 
 #
@@ -67,5 +79,16 @@ Given /^I set passwords to expire after ([0-9]+) days$/ do |days|
   visit '/settings?tab=authentication'
   fill_in('settings_password_days_valid', :with => days.to_s)
   step 'I save the settings'
+
+  Support::ClearCache.clear_after
 end
 
+module Support
+  module ClearCache
+    def self.clear_after
+      Support::Cleanup.to_clean do
+        Rails.cache.clear
+      end
+    end
+  end
+end
