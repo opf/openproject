@@ -17,9 +17,9 @@ Journal.class_eval do
     recreated = o.attributes
 
     original.except!("created_at")
-    original["changed_data"].except!("created_on")
+    self.changed_data.except!("created_on")
     recreated.except!("created_at")
-    recreated["changed_data"].except!("created_on")
+    o.changed_data.except!("created_on")
 
     original.identical?(recreated)
   end

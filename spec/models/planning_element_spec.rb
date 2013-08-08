@@ -572,18 +572,18 @@ describe PlanningElement do
 
       changes = pe.journals.first.changed_data.to_hash
 
-      changes.size.should == 10
+      changes.size.should == 12
 
-      changes.should include("subject")
-      changes.should include("author_id")
-      changes.should include("description")
-      changes.should include("start_date")
-      changes.should include("due_date")
-      changes.should include("project_id")
-      changes.should include("responsible_id")
-      changes.should include("type_id")
-      changes.should include("planning_element_status_id")
-      changes.should include("planning_element_status_comment")
+      changes.should include(:subject)
+      changes.should include(:author_id)
+      changes.should include(:description)
+      changes.should include(:start_date)
+      changes.should include(:due_date)
+      changes.should include(:project_id)
+      changes.should include(:responsible_id)
+      changes.should include(:type_id)
+      changes.should include(:planning_element_status_id)
+      changes.should include(:planning_element_status_comment)
     end
 
     it 'stores updates in journals' do
@@ -595,10 +595,10 @@ describe PlanningElement do
 
       changes.size.should == 1
 
-      changes.should include("due_date")
+      changes.should include(:due_date)
 
-      changes['due_date'].first.should == Date.new(2012, 1, 31)
-      changes['due_date'].last.should  == Date.new(2012, 2, 1)
+      changes[:due_date].first.should == Date.new(2012, 1, 31)
+      changes[:due_date].last.should  == Date.new(2012, 2, 1)
     end
 
     describe 'planning element hierarchies' do
@@ -632,7 +632,7 @@ describe PlanningElement do
         changes = pe.journals.last.changed_data.to_hash
 
         changes.size.should == 1
-        changes.should include("start_date")
+        changes.should include(:start_date)
       end
 
     end
@@ -760,7 +760,7 @@ describe PlanningElement do
       @pe1.trash
 
       @pe1.journals.reload
-      @pe1.journals.last.changed_data.should be_has_key("deleted_at")
+      @pe1.journals.last.changed_data.should be_has_key(:deleted_at)
     end
 
     it 'should adjust parent start and due dates' do
