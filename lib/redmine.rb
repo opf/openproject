@@ -88,10 +88,10 @@ Redmine::AccessControl.map do |map|
     map.permission :export_issues, {:'issues' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
-    map.permission :add_work_packages, { :work_packages => [:new, :new_type, :create] }
+    map.permission :add_work_packages, { :work_packages => [:new, :new_type, :preview, :create] }
     map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, :require => :loggedin
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
-                                          :work_packages => [:edit, :update, :new_type],
+                                          :work_packages => [:edit, :update, :new_type, :preview],
                                           :'issues/previews' => :create}
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}

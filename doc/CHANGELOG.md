@@ -1,6 +1,7 @@
 # Changelog
 
 * `#1541` Use Rails 3.2.14 instead of Git Branch
+* `#1595` Cleanup action menu for work packages
 * `#1598` Switching type of work package looses inserted data
 * `#1596` Copy/Move work packages between projects
 
