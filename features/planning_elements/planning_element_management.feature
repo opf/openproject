@@ -41,6 +41,17 @@ Feature: Planning Element Management
       And there is a project named "ecookbook" of type "Standard Project"
       And I am working in project "ecookbook"
 
+      And there is a default issuepriority with:
+          | name   | Normal |
+      And there is a issuepriority with:
+          | name   | High |
+      And there is a issuepriority with:
+          | name   | Immediate |
+
+      And there are the following issue status:
+          | name   | is_closed  | is_default  |
+          | New    | false      | true        |
+
       And the project uses the following modules:
           | timelines |
 

@@ -12,7 +12,12 @@
 require 'spec_helper'
 
 describe WorkPackagesHelper do
-  let(:stub_work_package) { FactoryGirl.build_stubbed(:planning_element) }
+  let(:statuses) { (1..5).map{ |i| FactoryGirl.create(:issue_status)}}
+  let(:priority) { FactoryGirl.create :priority, is_default: true }
+  let(:status) { statuses[0] }
+  let(:stub_work_package) { FactoryGirl.build_stubbed(:planning_element,
+                                                      :status => status,
+                                                      :priority => priority) }
   let(:form) { double('form', :select => "").as_null_object }
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
 
@@ -137,10 +142,6 @@ describe WorkPackagesHelper do
       helper.work_package_css_classes(stub_work_package).should include("status-5")
     end
 
-    it "should not have a status class if the work_package has none" do
-      helper.work_package_css_classes(stub_work_package).should_not include("status")
-    end
-
     it "should return the position of the work_package's priority" do
       priority = double('priority')
 
@@ -148,10 +149,6 @@ describe WorkPackagesHelper do
       priority.stub!(:position).and_return(5)
 
       helper.work_package_css_classes(stub_work_package).should include("priority-5")
-    end
-
-    it "should not have a priority class if the work_package has none" do
-      helper.work_package_css_classes(stub_work_package).should_not include("priority")
     end
 
     it "should have a closed class if the work_package is closed" do
@@ -309,19 +306,6 @@ describe WorkPackagesHelper do
 
       attribute.field.should have_text(WorkPackage.human_attribute_name(:status))
       attribute.field.should have_text(status1.name)
-    end
-
-    it "should return a label and a '-' if the work_package has no status" do
-      stub_work_package.stub!(:new_statuses_allowed_to)
-                       .with(stub_user, true)
-                       .and_return([])
-
-      attribute = inside_form do |f|
-        helper.work_package_form_status_attribute(f, stub_work_package, :user => stub_user)
-      end
-
-      attribute.field.should have_text(WorkPackage.human_attribute_name(:status))
-      attribute.field.should have_text("-")
     end
   end
 end

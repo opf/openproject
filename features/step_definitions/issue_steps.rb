@@ -69,12 +69,14 @@ Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |projec
 
   table.hashes.each do |type_attributes|
     assignee = User.find_by_login(type_attributes.delete("assignee"))
+    type = type_attributes.delete("type")
 
     factory = FactoryGirl.create(:issue, type_attributes.merge(:project_id => project.id))
 
     factory.reload
 
     factory.assignee = assignee unless assignee.nil?
+    factory.type = Type.find_by_name(type) unless type.nil?
 
     factory.save! if factory.changed?
   end

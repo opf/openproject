@@ -80,6 +80,9 @@ describe Api::V2::PlanningElementsController do
 
   before do
     User.stub(:current).and_return current_user
+
+    FactoryGirl.create :priority, is_default: true
+    FactoryGirl.create :default_issue_status
   end
 
   # ===========================================================
