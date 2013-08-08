@@ -138,7 +138,7 @@ class MyProjectsOverviewsController < ApplicationController
       rescue ActiveRecord::RecordNotFound
       end
     end
-    attachments -= [att]
+
     render :partial => 'page_layout_attachments'
   end
 

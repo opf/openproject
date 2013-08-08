@@ -64,17 +64,3 @@ When /^I should not see the issue-subject "([^"]*)" in the 'Issues watched'-sect
 end
 
 
-Given /^the [Uu]ser "([^\"]*)" has (\d+) [iI]ssue(?:s)? for the project "([^\"]*)" with(?: the following)?:$/ do |user, count, project_name, table|
-  u = User.find_by_login user
-  project = Project.find_by_name(project_name)
-
-  raise "This user must be member of the project to have issues" unless u.projects.map(&:id).include? project.id
-  as_admin count do
-    i = Issue.generate_for_project!(project)
-    i.author = u
-    i.assigned_to = u
-    i.type = Type.find_by_name(table.rows_hash.delete("type")) if table.rows_hash["type"]
-    send_table_to_object(i, table, {}, method(:add_custom_value_to_issue))
-    i.save!
-  end
-end

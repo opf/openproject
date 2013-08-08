@@ -27,52 +27,48 @@ Feature: Behavior of specific blocks (news, issues - this is currently not compl
   Scenario: In the news Section, I should only see news for the selected project
     And project "tested_project" uses the following modules:
       | news |
-    And the following widgets should be selected for the overview page of the "tested_project" project:
+    And the following widgets are selected for the overview page of the "tested_project" project:
       #TODO mapping from the human-name back to it's widget-name??!
       | top        | news   |
     Given there is a news "test-headline" for project "tested_project"
     And there is a news "NO-SHOW" for project "other_project"
-    And I am on the project "tested_project" overview page
+    And I am on the homepage for the project "tested_project"
     Then I should see the widget "news"
     And I should see the news-headline "test-headline"
     And I should not see the news-headline "NO-SHOW"
 
   Scenario: In the 'Issues reported by me'-Section, I should only see issues for the selected project
-    And the user "bob" has 1 Issue for the project "tested_project" with:
-      | subject    | Test-Issue  |
-    And the user "bob" has 1 Issue for the project "other_project" with:
-      | subject    | NO-SHOW      |
-    And the following widgets should be selected for the overview page of the "tested_project" project:
+    And there are the following issues with attributes:
+      | subject     | project        | author  |
+      | Test-Issue  | tested_project | bob     |
+      | NO-SHOW     | other_project  | bob     |
+    And the following widgets are selected for the overview page of the "tested_project" project:
       | top        | issuesreportedbyme |
-    And I am on the project "tested_project" overview page
+    And I am on the homepage for the project "tested_project"
     Then I should see the widget "issuesreportedbyme"
     And I should see the issue-subject "Test-Issue" in the 'Issues reported by me'-section
     And I should not see the issue-subject "NO-SHOW" in the 'Issues reported by me'-section
 
   Scenario: In the 'Issues assigned to me'-Section, I should only see issues for the selected project
-    And the user "bob" has 1 Issue for the project "tested_project" with:
-      | subject    | Test-Issue  |
-    And the user "bob" has 1 Issue for the project "other_project" with:
-      | subject    | NO-SHOW      |
-    And the following widgets should be selected for the overview page of the "tested_project" project:
+    And there are the following issues with attributes:
+      | subject     | project        | author  | assignee  |
+      | Test-Issue  | tested_project | bob     | bob       |
+      | NO-SHOW     | tested_project | bob     | mary      |
+    And the following widgets are selected for the overview page of the "tested_project" project:
       | top        | issuesassignedtome |
-    And I am on the project "tested_project" overview page
+    And I am on the homepage for the project "tested_project"
     Then I should see the widget "issuesassignedtome"
     And I should see the issue-subject "Test-Issue" in the 'Issues assigned to me'-section
     And I should not see the issue-subject "NO-SHOW" in the 'Issues assigned to me'-section
 
   Scenario: In the 'Issues watched by me'-Section, I should only see issues for the selected project
-    And the user "bob" has 1 Issue for the project "tested_project" with:
-      | subject    | Test-Issue  |
-    And the issue "Test-Issue" is watched by:
-      | bob |
-    And the user "bob" has 2 Issue for the project "other_project" with:
-      | subject    | NOT-WATCHED      |
-    And the issue "NOT-WATCHED" is watched by:
-      | bob |
-    And the following widgets should be selected for the overview page of the "tested_project" project:
+    And there are the following issues with attributes:
+      | subject     | project        | author  | watched_by |
+      | Test-Issue  | tested_project | bob     | bob        |
+      | NOT-WATCHED | other_project  | bob     | bob,mary   |
+    And the following widgets are selected for the overview page of the "tested_project" project:
       | top        | issueswatched |
-    And I am on the project "tested_project" overview page
+    And I am on the homepage for the project "tested_project"
     Then I should see the widget "issueswatched"
     And I should see the issue-subject "Test-Issue" in the 'Issues watched'-section
     And I should not see the issue-subject "NOT-WATCHED" in the 'Issues watched'-section
