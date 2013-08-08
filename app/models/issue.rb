@@ -69,82 +69,9 @@ class Issue < WorkPackage
   before_save :close_duplicates, :update_done_ratio_from_issue_status
   before_destroy :remove_attachments
 
-  after_initialize :set_default_values
-
-  def set_default_values
-    if new_record? # set default values for new records only
-      self.status   ||= IssueStatus.default
-      self.priority ||= IssuePriority.default
-    end
-  end
-
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
     (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []
-  end
-
-  # Moves/copies an issue to a new project and type
-  # Returns the moved/copied issue on success, false on failure
-  def move_to_project(*args)
-    Issue.transaction do
-      move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
-    end || false
-  end
-
-  def move_to_project_without_transaction(new_project, new_type = nil, options = {})
-    options ||= {}
-    issue = options[:copy] ? self.class.new.copy_from(self) : self
-
-    if new_project && issue.project_id != new_project.id
-      delete_relations(issue)
-      # issue is moved to another project
-      # reassign to the category with same name if any
-      new_category = issue.category.nil? ? nil : new_project.issue_categories.find_by_name(issue.category.name)
-      issue.category = new_category
-      # Keep the fixed_version if it's still valid in the new_project
-      unless new_project.shared_versions.include?(issue.fixed_version)
-        issue.fixed_version = nil
-      end
-      issue.project = new_project
-
-      if !Setting.cross_project_issue_relations? &&
-         parent && parent.project_id != project_id
-        self.parent_id = nil
-      end
-    end
-    if new_type
-      issue.type = new_type
-      issue.reset_custom_values!
-    end
-    if options[:copy]
-      issue.author = User.current
-      issue.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
-      issue.status = if options[:attributes] && options[:attributes][:status_id]
-                       IssueStatus.find_by_id(options[:attributes][:status_id])
-                     else
-                       self.status
-                     end
-    end
-    # Allow bulk setting of attributes on the issue
-    if options[:attributes]
-      issue.attributes = options[:attributes]
-    end
-    if issue.save
-      unless options[:copy]
-        # Manually update project_id on related time entries
-        TimeEntry.update_all("project_id = #{new_project.id}", {:work_package_id => id})
-
-        issue.children.each do |child|
-          unless child.move_to_project_without_transaction(new_project)
-            # Move failed and transaction was rollback'd
-            return false
-          end
-        end
-      end
-    else
-      return false
-    end
-    issue
   end
 
   def status_id=(sid)
@@ -384,18 +311,6 @@ class Issue < WorkPackage
     end
   end
 
-  # Returns a string of css classes that apply to the issue
-  def css_classes
-    s = "issue status-#{status.position} priority-#{priority.position}"
-    s << ' closed' if closed?
-    s << ' overdue' if overdue?
-    s << ' child' if child?
-    s << ' parent' unless leaf?
-    s << ' created-by-me' if User.current.logged? && author_id == User.current.id
-    s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
-    s
-  end
-
   # Saves an issue, time_entry, attachments, and a journal from the parameters
   # Returns false if save fails
   def save_issue_with_child_records(params, existing_time_entry=nil)
@@ -506,23 +421,6 @@ class Issue < WorkPackage
                                               group by s.id, s.is_closed, i.project_id") if project.descendants.active.any?
   end
   # End ReportsController extraction
-
-  # Returns an array of projects that current user can move issues to
-  def self.allowed_target_projects_on_move
-    projects = []
-    if User.current.admin?
-      # admin is allowed to move issues to any active (visible) project
-      projects = Project.visible.all
-    elsif User.current.logged?
-      if Role.non_member.allowed_to?(:move_issues)
-        projects = Project.visible.all
-      else
-        User.current.memberships.each {|m| projects << m.project if m.roles.detect {|r| r.allowed_to?(:move_issues)}}
-      end
-    end
-    projects
-  end
-
 
   private
 

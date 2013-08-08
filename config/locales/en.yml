@@ -750,6 +750,7 @@ en:
   label_more: "More"
   label_more_than_ago: "more than days ago"
   label_move_issue: "Move issue"
+  label_move_work_package: "Move work package"
   label_my_account: "My account"
   label_my_account_data: "My account data"
   label_my_page: "My page"

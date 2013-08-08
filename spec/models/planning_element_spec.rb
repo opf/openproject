@@ -14,6 +14,11 @@ require File.expand_path('../../spec_helper', __FILE__)
 describe PlanningElement do
   let(:project) { FactoryGirl.create(:project) }
 
+  before do
+    FactoryGirl.create :priority, is_default: true
+    FactoryGirl.create :default_issue_status
+  end
+
   describe '- Relations ' do
     describe '#project' do
       it 'can read the project w/ the help of the belongs_to association' do
@@ -572,13 +577,15 @@ describe PlanningElement do
 
       changes = pe.journals.first.changed_data.to_hash
 
-      changes.size.should == 10
+      changes.size.should == 12
 
       changes.should include("subject")
       changes.should include("author_id")
       changes.should include("description")
       changes.should include("start_date")
       changes.should include("due_date")
+      changes.should include("status_id")
+      changes.should include("priority_id")
       changes.should include("project_id")
       changes.should include("responsible_id")
       changes.should include("type_id")
@@ -619,7 +626,7 @@ describe PlanningElement do
 
         # sanity check
         child_pe.journals.size.should == 1
-        pe.journals.size.should == 1
+        pe.journals.size.should == 2
 
         # update child
         child_pe.reload
@@ -628,7 +635,7 @@ describe PlanningElement do
         # reload parent to avoid stale journal caches
         pe.reload
 
-        pe.journals.size.should == 2
+        pe.journals.size.should == 3
         changes = pe.journals.last.changed_data.to_hash
 
         changes.size.should == 1

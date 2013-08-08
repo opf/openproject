@@ -16,7 +16,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= content_tag('h2', h(@issue.type.name) + ' #' +@issue.id.to_s) %>
 
-<div class="<%= @issue.css_classes %> details">
+<div class="<%= work_package_css_classes(@issue) %> details">
   <div class="profile-wrap">
     <%= avatar(@issue.author, :size => "40") %>
   </div>
