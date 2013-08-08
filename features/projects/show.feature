@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Creating Projects
+Feature: Showing Projects
   Background:
     Given there is 1 project with the following:
       | identifier | omicronpersei8 |
