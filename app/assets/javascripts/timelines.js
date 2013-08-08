@@ -3362,6 +3362,8 @@ Timeline = {
   PE_TEXT_OUTSIDE_PADDING: 6,       // space between planning element and text to its right.
   PE_TEXT_SCALE: 0.1875,            // 64 * (1/8 * 1.5) = 12
 
+  USE_MODALS: false,
+
   scale: 1,
   zoomIndex: 0,
 
@@ -3744,27 +3746,33 @@ Timeline = {
 
     var currentContainer = 0;
 
-    // ╭───────────────────────────────────────────────────────╮
-    // │  Add element                                          │
-    // ╰───────────────────────────────────────────────────────╯
+    if (Timeline.USE_MODALS) {
 
-    containers[currentContainer++].append(
-      jQuery(icon
-        .replace(/%t/, timeline.i18n('timelines.new_planning_element'))
-        .replace(/%c/, 'icon icon-add')
-      ).click(function(e) {
-        e.stopPropagation();
-        timeline.addPlanningElement();
-        return false;
-      }));
+      // ╭───────────────────────────────────────────────────────╮
+      // │  Add element                                          │
+      // ╰───────────────────────────────────────────────────────╯
 
-    // ╭───────────────────────────────────────────────────────╮
-    // │  Spacer                                               │
-    // ╰───────────────────────────────────────────────────────╯
+      containers[currentContainer++].append(
+        jQuery(icon
+          .replace(/%t/, timeline.i18n('timelines.new_planning_element'))
+          .replace(/%c/, 'icon icon-add')
+        ).click(function(e) {
+          e.stopPropagation();
+          timeline.addPlanningElement();
+          return false;
+        }));
 
-    containers[currentContainer++].css({
-      'background-color': '#000000'
-    });
+      // ╭───────────────────────────────────────────────────────╮
+      // │  Spacer                                               │
+      // ╰───────────────────────────────────────────────────────╯
+
+      containers[currentContainer++].css({
+        'background-color': '#000000'
+      });
+
+    } else {
+      currentContainer += 2;
+    }
 
     // ╭───────────────────────────────────────────────────────╮
     // │  Zooming                                              │
@@ -4187,7 +4195,7 @@ Timeline = {
       if (data.getUrl instanceof Function) {
         text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank"/>').append(text).attr("title", text);
         text.click(function(event) {
-          if (!event.ctrlKey && !event.metaKey && data.is(Timeline.PlanningElement)) {
+          if (Timeline.USE_MODALS && !event.ctrlKey && !event.metaKey && data.is(Timeline.PlanningElement)) {
             timeline.modalHelper.createPlanningModal(
               'show',
               data.project.identifier,
@@ -4876,13 +4884,15 @@ Timeline = {
 
     e.unhover();
     e.click(function(e) {
-      var payload = node.getData();
-      timeline.modalHelper.createPlanningModal(
-        'show',
-        payload.project.identifier,
-        payload.id
-      );
-      e.stopPropagation();
+      if (Timeline.USE_MODALS) {
+        var payload = node.getData();
+        timeline.modalHelper.createPlanningModal(
+          'show',
+          payload.project.identifier,
+          payload.id
+        );
+        e.stopPropagation();
+      }
     });
     e.attr({'cursor': 'pointer'});
     e.hover(
