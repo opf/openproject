@@ -22,10 +22,10 @@ class TimeEntry < ActiveRecord::Base
   attr_protected :project_id, :user_id, :tyear, :tmonth, :tweek
 
   acts_as_customizable
-  acts_as_journalized :event_title => Proc.new {|o| "#{l_hours(o.hours)} (#{(o.work_package || o.project).event_title})"},
-                :event_url => Proc.new {|o| {:controller => '/timelog', :action => 'index', :project_id => o.project, :work_package_id => o.work_package}},
-                :event_author => :user,
-                :event_description => :comments
+  #acts_as_journalized :event_title => Proc.new {|o| "#{l_hours(o.hours)} (#{(o.work_package || o.project).event_title})"},
+  #              :event_url => Proc.new {|o| {:controller => '/timelog', :action => 'index', :project_id => o.project, :work_package_id => o.work_package}},
+  #              :event_author => :user,
+  #              :event_description => :comments
 
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
