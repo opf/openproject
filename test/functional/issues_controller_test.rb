@@ -308,10 +308,8 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
 
-    assert_tag :div, :attributes => { :id => 'relations' },
-                     :descendant => { :tag => 'a', :content => /#2$/ }
-    assert_no_tag :div, :attributes => { :id => 'relations' },
-                        :descendant => { :tag => 'a', :content => /#4$/ }
+    assert_select 'div#relations a[href*="work_packages/2"]'
+    assert_select 'div#relations a[href*="work_packages/4"]', false
   end
 
   def test_show_atom
