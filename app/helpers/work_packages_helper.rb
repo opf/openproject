@@ -27,6 +27,108 @@ module WorkPackagesHelper
     link_to(t(:label_issue_plural), {:controller => '/issues', :action => 'index'})
   end
 
+  # Displays a link to +work_package+ with its subject.
+  # Examples:
+  #
+  #   link_to_work_package(package)                             # => Defect #6: This is the subject
+  #   link_to_work_package(package, :all_link => true)          # => Defect #6: This is the subject (everything within the link)
+  #   link_to_work_package(package, :truncate => 9)             # => Defect #6: This i...
+  #   link_to_work_package(package, :subject => false)          # => Defect #6
+  #   link_to_work_package(package, :type => false)             # => #6: This is the subject
+  #   link_to_work_package(package, :project => true)           # => Foo - Defect #6
+  #   link_to_work_package(package, :id_only => true)           # => #6
+  #   link_to_work_package(package, :subject_only => true)      # => This is the subject (as link)
+  def link_to_work_package(package, options = {})
+
+    if options[:subject_only]
+      options.merge!(:type => false,
+                     :subject => true,
+                     :id => false,
+                     :all_link => true)
+    elsif options[:id_only]
+      options.merge!(:type => false,
+                     :subject => false,
+                     :id => true,
+                     :all_link => true)
+    else
+      options.reverse_merge!(:type => true,
+                             :subject => true,
+                             :id => true)
+    end
+
+    parts = { :prefix => [],
+              :hidden_link => [],
+              :link => [],
+              :suffix => [],
+              :title => [] }
+
+    # Prefix part
+
+    parts[:prefix] << "#{package.project}" if options[:project]
+
+    # Link part
+
+    parts[:link] << h(options[:before_text].to_s) if options[:before_text]
+
+    parts[:link] << h(package.kind.to_s) if options[:type]
+
+    parts[:link] << "##{package.id}" if options[:id]
+
+    # Hidden link part
+
+    if package.closed?
+      parts[:hidden_link] << content_tag(:span,
+                                         t(:label_closed_issues),
+                                         :class => "hidden-for-sighted")
+    end
+
+    # Suffix part
+
+    if options[:subject]
+      subject = if options[:subject]
+                  subject = package.subject
+                  if options[:truncate]
+                    subject = truncate(subject, :length => options[:truncate])
+                  end
+
+                  subject
+                end
+
+      parts[:suffix] << subject
+    end
+
+    # title part
+
+    parts[:title] << package.subject
+
+    # combining
+
+    prefix = parts[:prefix].join(" ")
+    suffix = parts[:suffix].join(" ")
+    link = parts[:link].join(" ").strip
+    hidden_link = parts[:hidden_link].join("")
+    title = parts[:title].join(" ")
+
+    text = if options[:all_link]
+             link_text = [prefix, link].reject(&:empty?).join(" - ")
+             link_text = [link_text, suffix].reject(&:empty?).join(": ")
+             link_text = [hidden_link, link_text].reject(&:empty?).join("")
+
+             link_to(link_text.html_safe,
+                     work_package_path(package),
+                     :title => title)
+           else
+             link_text = [hidden_link, link].reject(&:empty?).join("")
+
+             html_link = link_to(link_text.html_safe,
+                                 work_package_path(package),
+                                 :title => title)
+
+             [[prefix, html_link].reject(&:empty?).join(" - "),
+              suffix].reject(&:empty?).join(": ")
+            end.html_safe
+  end
+
   def work_package_list(work_packages, &block)
     ancestors = []
     work_packages.each do |work_package|

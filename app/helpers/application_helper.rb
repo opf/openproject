@@ -114,34 +114,6 @@ module ApplicationHelper
     l(('status_' + user.status_name).to_sym)
   end
 
-  # Displays a link to +work_package+ with its subject.
-  # Examples:
-  #
-  #   link_to_work_package(package)                        # => Defect #6: This is the subject
-  #   link_to_work_package(package, :truncate => 6)        # => Defect #6: This i...
-  #   link_to_work_package(package, :subject => false)     # => Defect #6
-  #   link_to_work_package(package, :project => true)      # => Foo - Defect #6
-  def link_to_work_package(package, options = {})
-    title = nil
-    subject = nil
-    if options[:subject] == false
-      title = truncate(package.subject, :length => 60)
-    else
-      subject = package.subject
-      if options[:truncate]
-        subject = truncate(subject, :length => options[:truncate])
-      end
-    end
-    closed = package.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
-    s = ActiveSupport::SafeBuffer.new
-    s << "#{package.project} - " if options[:project]
-    s << link_to("#{closed}#{h(options[:before_text].to_s)}#{(package.kind.nil?) ? '' : h(package.kind.name)} ##{package.id}".html_safe,
-                work_package_path(package),
-                :title => h(title))
-    s << ": #{subject}" if subject
-    s
-  end
-
   def link_to_issue(issue, options={})
     warn "[DEPRECATION] link_to_issue will be removed - use link_to_work_package instead.\n" +
          "Called from: #{caller[0]}"
@@ -757,13 +729,11 @@ module ApplicationHelper
         elsif sep == '##'
           oid = identifier.to_i
           if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
-            extend IssuesHelper # TODO: remove me from here
             link = issue_quick_info(work_package)
           end
         elsif sep == '###'
           oid = identifier.to_i
           if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
-            extend IssuesHelper # TODO: remove me from here
             link = issue_quick_info_with_description(work_package)
           end
         elsif sep == ':'
@@ -1123,30 +1093,6 @@ module ApplicationHelper
 
   # start timelines stuff
   #
-  def link_to_planning_element(planning_element, options = {})
-    return if planning_element.new_record?
-
-    options = options.stringify_keys
-    options.assert_valid_keys("include_id", "include_name", "text")
-
-    options.reverse_merge!("include_id"   => true,
-                           "include_name" => true)
-
-    if options["text"].blank?
-      text = []
-
-      text << "*#{planning_element.id}" if options["include_id"]
-      text << "#{planning_element.subject}" if options["include_name"]
-
-      text = text.join(" ")
-    else
-      text = options[:text]
-    end
-
-    link_to(h(text),
-            work_package_path(planning_element),
-            :title => planning_element.subject)
-  end
 
   def planning_element_quick_info(planning_element)
     start_date_change = ""
