@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+#
 #-- copyright
 # OpenProject is a project management system.
 #
@@ -127,6 +129,72 @@ module WorkPackagesHelper
              [[prefix, html_link].reject(&:empty?).join(" - "),
               suffix].reject(&:empty?).join(": ")
             end.html_safe
+  end
+
+  def work_package_quick_info(work_package)
+    changed_dates = {}
+
+    journals = work_package.journals.where(["created_at >= ?", Date.today.to_time - 7.day])
+                                    .order("created_at desc")
+
+    journals.each do |journal|
+      break if changed_dates["start_date"] && changed_dates["due_date"]
+
+      ["start_date", "due_date"].each do |date|
+        if changed_dates[date].nil? &&
+           journal.changed_data[date] &&
+           journal.changed_data[date].first
+              changed_dates[date] = " (<del>#{journal.changed_data[date].first}</del>)".html_safe
+        end
+      end
+    end
+
+    link = link_to_work_package(work_package)
+    link += " #{work_package.start_date.nil? ? "[?]" : work_package.start_date.to_s}"
+    link += changed_dates["start_date"]
+    link += " – #{work_package.due_date.nil? ? "[?]" : work_package.due_date.to_s}"
+    link += changed_dates["due_date"]
+
+    link
+  end
+
+  def work_package_quick_info_with_description(work_package, lines = 3)
+    description_lines = work_package.description.to_s.lines.to_a[0,lines]
+
+    if description_lines[lines-1] && work_package.description.to_s.lines.to_a.size > lines
+      description_lines[lines-1].strip!
+
+      while !description_lines[lines-1].end_with?("...") do
+        description_lines[lines-1] = description_lines[lines-1] + "."
+      end
+    end
+
+    description = if work_package.description.blank?
+                    "-"
+                  else
+                    textilizable(description_lines.join(""))
+                  end
+
+    link = work_package_quick_info(work_package)
+
+    link += content_tag(:div, :class => 'indent quick_info attributes') do
+
+      responsible = if work_package.responsible_id.present?
+                      "<span class='label'>#{WorkPackage.human_attribute_name(:responsible)}:</span> " +
+                      "#{work_package.responsible.name}"
+                    end
+
+      assignee = if work_package.assigned_to_id.present?
+                   "<span class='label'>#{WorkPackage.human_attribute_name(:assigned_to)}:</span> " +
+                   "#{work_package.assigned_to.name}"
+                 end
+
+      [responsible, assignee].compact.join("<br>").html_safe
+    end
+
+    link += content_tag(:div, description, :class => 'indent quick_info description')
+
+    link
   end
 
   def work_package_list(work_packages, &block)

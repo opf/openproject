@@ -257,32 +257,6 @@ module IssuesHelper
 
   end
 
-  def issue_quick_info(issue)
-    ret = link_to(h(issue.to_s),
-                  work_package_path(issue),
-                  :class => work_package_css_classes(issue),
-                  :title => "#{ truncate(issue.subject, :length => 100) } (#{ issue.status.name })")
-    ret += " #{ issue.start_date.nil? ? "[?]" : issue.start_date.to_s }"
-    ret += " – #{ issue.due_date.nil? ? "[?]" : issue.due_date.to_s }"
-    ret += "#{ issue.assigned_to.nil? ?  " " : " (#{h(issue.assigned_to.to_s)})" }"
-    ret
-  end
-
-  def issue_quick_info_with_description(issue, lines = 3)
-    description_lines = issue.description.to_s.lines.to_a[0,lines]
-
-    if description_lines[lines-1] && issue.description.to_s.lines.to_a.size > lines
-      description_lines[lines-1].strip!
-
-      while !description_lines[lines-1].end_with?("...") do
-        description_lines[lines-1] = description_lines[lines-1] + "."
-      end
-    end
-
-    issue_quick_info(issue) +
-      content_tag(:div, textilizable("\n" + description_lines.to_s), :class => "indent")
-  end
-
   def entries_for_filter_select_sorted(query)
     [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || Issue.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
       ActiveSupport::Inflector.transliterate(el[0]).downcase
