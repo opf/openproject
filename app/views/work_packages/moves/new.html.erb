@@ -63,6 +63,13 @@ See doc/COPYRIGHT.rdoc for more details.
                  content_tag('option', l(:label_nobody), :value => 'none') +
                  options_from_collection_for_select(@target_project.assignable_users, :id, :name)) %>
 </p>
+<p>
+  <label for='responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
+  <%= select_tag('responsible_id',
+                 content_tag('option', l(:label_no_change_option), :value => '') +
+                 content_tag('option', l(:label_nobody), :value => 'none') +
+                 options_from_collection_for_select(@target_project.assignable_users, :id, :name)) %>
+</p>
 </div>
 
 <div class="splitcontentright">
