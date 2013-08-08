@@ -15,10 +15,6 @@ enabled_modules_004:
   name: documents
   project_id: 1
   id: 4
-enabled_modules_005:
-  name: files
-  project_id: 1
-  id: 5
 enabled_modules_006:
   name: wiki
   project_id: 1

@@ -126,22 +126,6 @@ class AttachmentsControllerTest < ActionController::TestCase
     end
   end
 
-  def test_destroy_project_attachment
-    @request.session[:user_id] = 2
-    assert_difference 'Attachment.count', -1 do
-      delete :destroy, :id => 8
-      assert_response 302
-    end
-  end
-
-  def test_destroy_version_attachment
-    @request.session[:user_id] = 2
-    assert_difference 'Attachment.count', -1 do
-      delete :destroy, :id => 9
-      assert_response 302
-    end
-  end
-
   def test_destroy_without_permission
     delete :destroy, :id => 3
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F3'

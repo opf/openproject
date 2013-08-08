@@ -141,8 +141,6 @@ OpenProject::Application.routes.draw do
 
     resources :documents, :shallow => true
 
-    resources :files, :only => [:index, :new, :create]
-
     resources :versions, :only => [:new, :create] do
       collection do
         put :close_completed
