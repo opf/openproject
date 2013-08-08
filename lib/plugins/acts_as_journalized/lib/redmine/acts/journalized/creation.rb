@@ -118,7 +118,7 @@ module Redmine::Acts::Journalized
         attributes_setter.call(initial_changes, :without_protection => true)
 
         # Call the journal creating method
-        new_journal.changed_data = fill_object.send(:merge_journal_changes)
+        changed_data = fill_object.send(:merge_journal_changes)
 
         new_journal.version = 1
         new_journal.activity_type = activity_type
@@ -129,8 +129,7 @@ module Redmine::Acts::Journalized
           new_journal.user_id = user.id
         end
 
-        new_journal.save!
-        new_journal.reload
+        JournalManager.recreate_initial_journal self.class, new_journal, changed_data
 
         # Backdate journal
         if respond_to?(:created_at)
@@ -157,7 +156,8 @@ module Redmine::Acts::Journalized
         # "update_journal" has been called in "update_journal?" at this point (to get a hold on association changes)
         # It must not be called again here.
         def create_journal
-          journals << self.class.journal_class.create(journal_attributes)
+          #journal = JournalManager.create_journal self.class, journal_attributes
+          #journals << journal
           reset_journal_changes
           reset_journal
           true

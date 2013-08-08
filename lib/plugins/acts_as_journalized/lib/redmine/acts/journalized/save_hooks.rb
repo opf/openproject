@@ -38,11 +38,16 @@ module Redmine::Acts::Journalized
 
       base.class_eval do
         before_save :init_journal
-        after_save :reset_instance_variables
+        after_save :reset_instance_variables, :write_journal
         
         attr_accessor :journal_notes, :journal_user, :extra_journal_attributes
       end
     end
+
+    def write_journal(user = User.current, notes = "")
+      JournalManager.write_journal self, user, notes
+    end
+
 
     # Saves the current custom values, notes and journal to include them in the next journal
     # Called before save
