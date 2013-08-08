@@ -10,61 +10,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'journal_formatter'
-require 'redmine/acts/journalized/format_hooks'
-require 'open_project/journal_formatter/diff'
-require 'open_project/journal_formatter/attachment'
-require 'open_project/journal_formatter/custom_field'
-require 'open_project/journal_formatter/scenario_date'
-
-# The ActiveRecord model representing journals.
 class Journal < ActiveRecord::Base
-  # unloadable
+  self.table_name = "journals"
 
-  include Comparable
-  include JournalFormatter
-  include JournalDeprecated
-  include FormatHooks
+  attr_accessible :journaled_type, :journaled_id, :activity_type, :version, :notes, :user_id
 
   # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, :scope => [:journaled_id, :type]
+  validates_uniqueness_of :version, :scope => [:journaled_id, :journaled_type]
 
-  # Define a default class_name to prevent `uninitialized constant Journal::Journaled`
-  # subclasses will be given an actual class name when they are created by aaj
-  #
-  #  e.g. IssueJournal will get :class_name => 'Issue'
-  belongs_to :journaled, :class_name => 'Journal'
   belongs_to :user
 
-  #attr_protected :user_id
-
-  register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
-  register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
-  register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
-  register_journal_formatter :scenario_date, OpenProject::JournalFormatter::ScenarioDate
-
-  # "touch" the journaled object on creation
-  after_create :touch_journaled_after_creation
-
-  serialize :changed_data, Hash
+  before_save :save_data
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
   scope "changing", :conditions => ["version > 1"]
 
-  # let all child classes have Journal as it's model name
-  # used to not having to create another route for every subclass of Journal
-  def self.inherited(child)
-    child.instance_eval do
-      def model_name
-        Journal.model_name
-      end
-    end
-    super
+  def journaled
+    journalized_object_type.find(journaled_id)
   end
 
-  def touch_journaled_after_creation
-    journaled.touch
+  def changed_data=(changed_attributes)
+    data.update_attributes changed_attributes
   end
 
   # In conjunction with the included Comparable module, allows comparison of journal records
@@ -101,7 +68,7 @@ class Journal < ActiveRecord::Base
   end
 
   def details
-    attributes["changed_data"] || {}
+    changes
   end
 
   alias_method :changed_data, :details
@@ -114,25 +81,44 @@ class Journal < ActiveRecord::Base
     details[prop.to_s].first if details.keys.include? prop.to_s
   end
 
-  # Returns a string of css classes
-  def css_classes
-    s = 'journal'
-    s << ' has-notes' unless notes.blank?
-    s << ' has-details' unless details.empty?
-    s
+  def data
+    @data ||= "Journal::#{journaled_type}".constantize.find_by_journal_id(id)
   end
 
-  # This is here to allow people to disregard the difference between working with a
-  # Journal and the object it is attached to.
-  # The lookup is as follows:
-  ## => Call super if the method corresponds to one of our attributes (will end up in AR::Base)
-  ## => Try the journaled object with the same method and arguments
-  ## => On error, call super
-  def method_missing(method, *args, &block)
-    return super if respond_to?(method) || attributes[method.to_s]
-    journaled.send(method, *args, &block)
-  rescue NoMethodError => e
-    e.name == method ? super : raise(e)
+  private
+
+  def save_data
+    data.save! unless data.nil?
   end
 
+  def changes
+    return {} if data.nil?
+
+    if @changes.nil?
+      @changes = {}
+
+      if predecessor.nil?
+        @changes = data.journaled_attributes.select{|_,v| !v.nil?}
+                                            .inject({}) { |h, (k, v)| h[k] = [(true if Float(v) rescue false) ? 0 : nil, v]; h }
+      else
+        predecessor_data = predecessor.data.journaled_attributes
+          data.journaled_attributes.select{|k,v| v != predecessor_data[k]}.each do |k, v|
+            @changes[k] = [predecessor_data[k], v]
+          end
+        end
+    end
+
+    @changes
+  end
+
+  def predecessor
+    @predecessor ||= Journal.where("journaled_type = ? AND journaled_id = ? AND created_at <= ? AND id != ?",
+                                   journaled_type, journaled_id, created_at, id)
+                            .order("created_at DESC")
+                            .first
+  end
+
+  def journalized_object_type
+    "#{journaled_type.gsub('Journal', '')}".constantize
+  end
 end
