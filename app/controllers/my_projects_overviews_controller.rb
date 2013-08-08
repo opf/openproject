@@ -220,9 +220,7 @@ class MyProjectsOverviewsController < ApplicationController
                     hash
                   end
                 else
-
                   project.users_by_role
-
                 end
 
     end
