@@ -68,7 +68,7 @@ module Redmine
 
             journal_class.with_scope(:find => scope_options) do
               query = journal_class.where(provider_options[:find_options][:conditions])
-              query = query.joins(provider_options[:find_options][:include]) if provider_options[:find_options][:include]
+              query = query.includes(provider_options[:find_options][:include]) if provider_options[:find_options][:include]
               query
             end
           end
