@@ -45,8 +45,6 @@ roles_001:
     - :edit_messages
     - :delete_messages
     - :manage_boards
-    - :view_files
-    - :manage_files
     - :browse_repository
     - :manage_repository
     - :view_changesets
@@ -92,8 +90,6 @@ roles_002:
     - :edit_own_messages
     - :delete_own_messages
     - :manage_boards
-    - :view_files
-    - :manage_files
     - :browse_repository
     - :view_changesets
     - :list_attachments
@@ -130,8 +126,6 @@ roles_003:
     - :delete_wiki_pages
     - :add_messages
     - :manage_boards
-    - :view_files
-    - :manage_files
     - :browse_repository
     - :view_changesets
     - :list_attachments
@@ -160,8 +154,6 @@ roles_004:
     - :view_wiki_edits
     - :edit_wiki_pages
     - :add_messages
-    - :view_files
-    - :manage_files
     - :browse_repository
     - :view_changesets
     - :list_attachments
@@ -180,7 +172,6 @@ roles_005:
     - :view_documents
     - :view_wiki_pages
     - :view_wiki_edits
-    - :view_files
     - :browse_repository
     - :view_changesets
     - :list_attachments

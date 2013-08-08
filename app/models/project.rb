@@ -65,8 +65,6 @@ class Project < ActiveRecord::Base
                           :association_foreign_key => 'custom_field_id'
 
   acts_as_nested_set :order_column => :name, :dependent => :destroy
-  acts_as_attachable :view_permission => :view_files,
-                     :delete_permission => :manage_files
 
   acts_as_customizable
   acts_as_searchable :columns => ["#{table_name}.name", "#{table_name}.identifier", "#{table_name}.description", "#{table_name}.summary"], :project_key => 'id', :permission => nil

@@ -16,8 +16,6 @@ class Version < ActiveRecord::Base
   belongs_to :project
   has_many :fixed_issues, :class_name => 'WorkPackage', :foreign_key => 'fixed_version_id', :dependent => :nullify
   acts_as_customizable
-  acts_as_attachable :view_permission => :view_files,
-                     :delete_permission => :manage_files
 
   VERSION_STATUSES = %w(open locked closed)
   VERSION_SHARINGS = %w(none descendants hierarchy tree system)

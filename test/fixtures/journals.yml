@@ -142,26 +142,6 @@ journals_010:
   notes:
   journaled_id: 5
   changed_data: --- {}
-journals_011:
-  id: 11
-  type: "AttachmentJournal"
-  activity_type: "files"
-  created_at: <%= 2.days.ago.to_date.to_s(:db) %>
-  version: 1
-  user_id: 2
-  notes: "An attachment on a version"
-  journaled_id: 9
-  changed_data: --- {}
-journals_012:
-  id: 12
-  type: "AttachmentJournal"
-  activity_type: "files"
-  created_at: <%= 2.days.ago.to_date.to_s(:db) %>
-  version: 1
-  user_id: 2
-  notes: "An attachment on a project"
-  journaled_id: 8
-  changed_data: --- {}
 journals_013:
   id: 13
   type: "AttachmentJournal"

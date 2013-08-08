@@ -158,7 +158,6 @@ default_projects_modules:
   - boards
   - calendar
   - documents
-  - files
   - issue_tracking
   - news
   - repository
