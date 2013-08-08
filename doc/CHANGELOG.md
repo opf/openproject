@@ -1,8 +1,11 @@
 # Changelog
 
-* `#1541` Use Rails 3.2.14 instead of Git Branch
-* `#1598` Switching type of work package looses inserted data
 * `#1417` Enable default behavior for types
+* `#1541` Use Rails 3.2.14 instead of Git Branch
+* `#1595` Cleanup action menu for work packages
+* `#1598` Switching type of work package looses inserted data
+* `#1618` Deactivate modal dialogs and respective cukes
+* `#1648` Arbitrarily failing cuke: Navigating to the timeline page
 
 ## 3.0.0pre10
 

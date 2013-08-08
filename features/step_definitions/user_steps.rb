@@ -68,6 +68,12 @@ Given /^the [Uu]ser "([^\"]*)" has:$/ do |user, table|
   modify_user(u, table)
 end
 
+Given /^the [Uu]ser "([^\"]*)" has the following preferences$/ do |user, table|
+  u = User.find_by_login(user)
+
+  send_table_to_object(u.pref, table)
+end
+
 Given /^the user "([^\"]*)" is locked$/ do |user|
   User.find_by_login(user).lock!
 end

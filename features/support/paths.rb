@@ -98,7 +98,7 @@ module NavigationHelpers
        project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
        "/projects/#{project_identifier}/issues"
 
-    when /^the page (?:for|of) the work package "([^\"]+)"$/
+    when /^the page (?:for|of) the work package(?: called)? "([^\"]+)"$/
       work_package = WorkPackage.find_by_subject($1)
       "/work_packages/#{work_package.id}"
 

@@ -1,5 +1,6 @@
 Feature: Navigating to the work package edit page
-  Scenario: Directly opening the page
+
+  Background:
     Given there is 1 user with:
         | login | manager |
 
@@ -16,10 +17,17 @@ Feature: Navigating to the work package edit page
     And the user "manager" is a "manager"
 
     And there are the following planning elements in project "ecookbook":
-      | subject | start_date | due_date   |
-      | pe1     | 2013-01-01 | 2013-12-31 |
+      | subject |
+      | pe1     |
 
     And I am already logged in as "manager"
 
+
+  Scenario: Directly opening the page
     When I go to the edit page of the work package called "pe1"
+    Then I should be on the edit page of the work package called "pe1"
+
+  Scenario: From the show page of a work package
+    When I go to the page of the work package called "pe1"
+    And I select "Update" from the action menu
     Then I should be on the edit page of the work package called "pe1"

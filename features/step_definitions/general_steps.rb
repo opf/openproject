@@ -136,12 +136,6 @@ Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*
   end
 end
 
-Given /^the [Uu]ser "([^\"]*)" has the following preferences$/ do |user, table|
-  u = User.find_by_login(user)
-
-  send_table_to_object(u.pref, table)
-end
-
 Given /^there is a [rR]ole "([^\"]*)"$/ do |name|
   Role.spawn.tap { |r| r.name = name }.save! unless Role.find_by_name(name)
 end

@@ -91,6 +91,16 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  def preview
+    safe_params = permitted_params.update_work_package(:project => project)
+    work_package.update_by(current_user, safe_params)
+
+    respond_to do |format|
+      format.any(:html, :js) { render 'preview', :locals => { :work_package => work_package },
+                                                 :layout => false }
+    end
+  end
+
   def create
     call_hook(:controller_work_package_new_before_save, { :params => params, :work_package => work_package })
 
