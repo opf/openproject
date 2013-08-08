@@ -13,19 +13,6 @@
 require 'uri'
 require 'cgi'
 
-# There is a circular dependency chain between User, Principal, and Project
-# If anybody triggers the loading of User first, Rails fails to autoload
-# the three. Defining class User depends on the resolution of the Principal constant.
-# Triggering autoload of the User class does not immediately define the User constant
-# while Principal and Project dont inherit from something undefined.
-# This means they will be defined as constants right after their autoloading
-# was triggered. When Rails discovers it has to load the undefined class User
-# during the load circle while noticing it has already tried to load it (the
-# first load of user), it will complain about user being an undefined constant.
-# Requiring this dependency here ensures Principal is loaded first in development
-# on each request.
-require_dependency 'principal'
-
 
 class ApplicationController < ActionController::Base
   # ensure the OpenProject models are required in the right order (as they have circular dependencies)
