@@ -11,17 +11,8 @@
 
 Feature: User session
   Background:
-    Given there is 1 project with the following:
-      | name            | Awesome Project      |
-      | identifier      | awesome-project      |
-    And project "Awesome Project" uses the following modules:
-      | calendar |
-    And there is a role "member"
-    And the role "member" may have the following rights:
-      | view_calendar  |
-    And there is 1 user with the following:
+    Given there is 1 user with the following:
       | login | bob |
-    And the user "bob" is a "member" in the project "Awesome Project"
 
   Scenario: A user can log in
     When I login as "bob"

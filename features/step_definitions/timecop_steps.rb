@@ -13,13 +13,26 @@
 
 Given /^the time is ([0-9]+) minutes later$/ do |duration|
   Timecop.travel(Time.now + duration.to_i.minutes)
+
+  # Ensure timecop returns after each scenario
+  Support::ResetTimecop.reset_after
 end
 
 Given /^the time is ([0-9]+) days later$/ do |duration|
   Timecop.travel(Time.now + duration.to_i.days)
+
+  # Ensure timecop returns after each scenario
+  Support::ResetTimecop.reset_after
 end
 
-# Ensure timecop returns after each scenario
-After do
-  Timecop.return
+module Support
+  module ResetTimecop
+    def self.reset_after
+      Support::Cleanup.to_clean do
+        Proc.new do
+          Timecop.return
+        end
+      end
+    end
+  end
 end
