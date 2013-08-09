@@ -603,16 +603,16 @@ describe PlanningElement do
 
     describe 'planning element hierarchies' do
       let(:child_pe) { FactoryGirl.create(:planning_element,
-                                      :parent_id                       => pe.id,
-                                      :subject                         => "Plan B",
-                                      :description                     => "This will work out",
-                                      # interval is the same as parent, so that
-                                      # dates are not updated
-                                      :start_date                      => Date.new(2012, 1, 24),
-                                      :due_date                        => Date.new(2012, 1, 31),
-                                      :project_id                      => project.id,
-                                      :responsible_id                  => responsible.id
-                                     ) }
+                                          :parent_id         => pe.id,
+                                          :subject           => "Plan B",
+                                          :description       => "This will work out",
+                                          # interval is the same as parent, so that
+                                          # dates are not updated
+                                          :start_date        => Date.new(2012, 1, 24),
+                                          :due_date          => Date.new(2012, 1, 31),
+                                          :project_id        => project.id,
+                                          :responsible_id    => responsible.id
+                                         ) }
 
       it 'creates a journal in the parent when end date is changes indirectly' do
         child_pe # trigger creation of child and parent
