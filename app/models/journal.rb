@@ -13,6 +13,14 @@
 class Journal < ActiveRecord::Base
   self.table_name = "journals"
 
+  include JournalFormatter
+  include FormatHooks
+
+  register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
+  register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
+  register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
+  register_journal_formatter :scenario_date, OpenProject::JournalFormatter::ScenarioDate
+
   attr_accessible :journaled_type, :journaled_id, :activity_type, :version, :notes, :user_id
 
   # Make sure each journaled model instance only has unique version ids
@@ -20,7 +28,7 @@ class Journal < ActiveRecord::Base
 
   belongs_to :user
 
-  before_save :save_data
+  after_save :save_data
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
@@ -68,7 +76,7 @@ class Journal < ActiveRecord::Base
   end
 
   def details
-    changes
+    get_changes
   end
 
   alias_method :changed_data, :details
@@ -85,13 +93,18 @@ class Journal < ActiveRecord::Base
     @data ||= "Journal::#{journaled_type}".constantize.find_by_journal_id(id)
   end
 
+  def data=(data)
+    @data = data
+  end
+
   private
 
   def save_data
-    data.save! unless data.nil?
+    data.journal_id = id if data.new_record?
+    data.save!
   end
 
-  def changes
+  def get_changes
     return {} if data.nil?
 
     if @changes.nil?
@@ -102,17 +115,17 @@ class Journal < ActiveRecord::Base
                                             .inject({}) { |h, (k, v)| h[k] = [(true if Float(v) rescue false) ? 0 : nil, v]; h }
       else
         predecessor_data = predecessor.data.journaled_attributes
-          data.journaled_attributes.select{|k,v| v != predecessor_data[k]}.each do |k, v|
-            @changes[k] = [predecessor_data[k], v]
-          end
+        data.journaled_attributes.select{|k,v| v != predecessor_data[k]}.each do |k, v|
+          @changes[k] = [predecessor_data[k], v]
         end
+      end
     end
 
     @changes
   end
 
   def predecessor
-    @predecessor ||= Journal.where("journaled_type = ? AND journaled_id = ? AND created_at <= ? AND id != ?",
+    @predecessor ||= Journal.where("journaled_type = ? AND journaled_id = ? AND created_at <= ? AND id < ?",
                                    journaled_type, journaled_id, created_at, id)
                             .order("created_at DESC")
                             .first
