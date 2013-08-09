@@ -17,9 +17,9 @@ Feature: Subproject Widget
     Then the "Subprojects" widget should be in the hidden block
 
   Scenario: Includes links to all child projects
-    Given the following widgets should be selected for the overview page of the "Parent" project:
+    Given the following widgets are selected for the overview page of the "Parent" project:
       | top        | Subprojects   |
-    When I go to the overview page of the project called "Parent"
+    And I am on the homepage for the project "Parent"
     And I follow "Child" within ".mypage-box .subprojects"
     Then I should be on the overview page of the project called "Child"
 

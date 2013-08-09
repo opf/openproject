@@ -29,7 +29,10 @@ class MyProjectsOverview < ActiveRecord::Base
     attr = attributes()
 
     DEFAULTS.each_key do |attribute_name|
-      self.send("#{attribute_name}=",DEFAULTS[attribute_name])  if attr[attribute_name].nil?
+      # mysql and postgres handle serialized arrays differently: This check initializes the defaults for both cases -
+      # this especially deals properly with the case where [] is written into the db and re-read ( which
+      # is not properly handled by a .blank?- check !!!)
+      self.send("#{attribute_name}=",DEFAULTS[attribute_name])  if attr[attribute_name].nil? || attr[attribute_name] ==""
     end
   end
 

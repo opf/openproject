@@ -1,4 +1,4 @@
-Given /^the following widgets should be selected for the overview page of the "(.+)" project:$/ do |project_name, table|
+Given /^the following widgets are selected for the overview page of the "(.+)" project:$/ do |project_name, table|
   project = Project.find_by_name(project_name)
   page = MyProjectsOverview.find_or_create_by_project_id(project.id)
 

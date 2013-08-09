@@ -7,7 +7,7 @@ require "open_project/my_project_page/version"
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "openproject-my_project_page"
-  s.version     = OpenProject::MyProjectPage::Version.full
+  s.version     = OpenProject::MyProjectPage::VERSION
   s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
   s.homepage    = "http://www.finn.de"

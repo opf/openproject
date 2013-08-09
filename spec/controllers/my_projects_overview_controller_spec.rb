@@ -19,7 +19,7 @@ describe MyProjectsOverviewsController do
     let(:params) { { "id" => project.id.to_s } }
 
     describe "WHEN calling the page" do
-      integrate_views
+      render_views
 
       before do
         get 'index', params

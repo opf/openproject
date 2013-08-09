@@ -13,3 +13,6 @@ end
 Then /^I should see the dropdown of available widgets$/ do
   page.has_select?('block-select', :options => ['Watched Issues', 'Issues assigned to me'])
 end
+Then(/^I should see the widget "([^"]*)"$/) do |arg|
+  page.find("#widget_#{arg}").should_not be_nil
+end

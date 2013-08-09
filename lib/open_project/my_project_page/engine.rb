@@ -32,10 +32,7 @@ module OpenProject::MyProjectPage
         requires_openproject ">= 3.0.0pre9"
 
         project_module :my_project_page do
-          # add plugin-specific configuration here (e.g. add permissions)
-          permission :view_project, {:meetings => [:new, :create, :copy]}, :require => :member
 
-          #TODO translate these permissions into the new syntax
           Redmine::AccessControl.permission(:view_project).actions << "my_projects_overviews/index" <<
               "my_projects_overviews/show_all_members"
           Redmine::AccessControl.permission(:edit_project).actions << "my_projects_overviews/page_layout" <<
@@ -54,6 +51,7 @@ module OpenProject::MyProjectPage
     end
 
     initializer 'my_project_page.register_path_to_rspec' do |app|
+      require File.join(File.dirname(__FILE__), "disabled_specs")
       app.config.plugins_to_test_paths << self.root
     end
 
@@ -74,10 +72,6 @@ module OpenProject::MyProjectPage
     # adds our factories to factory girl's load path
     initializer "my_project_page.register_factories", :after => "factory_girl.set_factory_paths" do |app|
       FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
-    end
-
-    initializer "my_project_page.register_hooks" do
-      require 'open_project/my_project_page/hooks'
     end
 
     config.to_prepare do

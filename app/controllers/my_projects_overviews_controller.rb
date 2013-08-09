@@ -138,7 +138,7 @@ class MyProjectsOverviewsController < ApplicationController
       rescue ActiveRecord::RecordNotFound
       end
     end
-    attachments -= [att]
+
     render :partial => 'page_layout_attachments'
   end
 
@@ -220,9 +220,7 @@ class MyProjectsOverviewsController < ApplicationController
                     hash
                   end
                 else
-
                   project.users_by_role
-
                 end
 
     end
