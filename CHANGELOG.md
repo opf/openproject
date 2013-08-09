@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1
+
+* `#1673` Fixed missing translation in diff view
+
 ## 3.0.0
 
 * `#1554` Execute release
