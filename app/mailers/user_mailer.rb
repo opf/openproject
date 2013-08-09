@@ -292,6 +292,8 @@ class UserMailer < ActionMailer::Base
   def self.generate_message_id(object)
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
+    object = object.journaled if object.is_a? Journal
+
     if object.is_a? WorkPackage
       timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
     else
