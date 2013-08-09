@@ -53,8 +53,6 @@ class User < Principal
     ['none', :label_user_mail_option_none]
   ]
 
-  USER_DELETION_JOURNAL_BUCKET_SIZE = 1000;
-
   has_many :group_users
   has_many :groups, :through => :group_users,
                     :after_add => Proc.new {|user, group| group.user_added(user)},
@@ -784,29 +782,7 @@ class User < Principal
       klass.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
     end
 
-    foreign_keys = ['author_id', 'user_id', 'assigned_to_id']
-
-    # as updating the journals will take some time we do it in batches
-    # so that journals created later are also accounted for
-    while (journal_subset = Journal.all(:conditions => ["id > ?", current_id ||= 0],
-                                        :order => "id ASC",
-                                        :limit => USER_DELETION_JOURNAL_BUCKET_SIZE)).size > 0 do
-
-      journal_subset.each do |journal|
-        change = journal.changed_data.dup
-
-        foreign_keys.each do |foreign_key|
-          if journal.changed_data[foreign_key].present?
-            change[foreign_key] = change[foreign_key].map { |a_id| a_id == id ? substitute.id : a_id }
-          end
-        end
-
-        journal.changed_data = change
-        journal.save if journal.changed?
-      end
-
-      current_id = journal_subset.last.id
-    end
+    JournalManager.update_user_references id, substitute.id
   end
 
   def delete_associated_public_queries
