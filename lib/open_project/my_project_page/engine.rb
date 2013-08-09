@@ -51,6 +51,7 @@ module OpenProject::MyProjectPage
     end
 
     initializer 'my_project_page.register_path_to_rspec' do |app|
+      require File.join(File.dirname(__FILE__), "disabled_specs")
       app.config.plugins_to_test_paths << self.root
     end
 
