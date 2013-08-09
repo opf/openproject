@@ -37,17 +37,36 @@ module Redmine::Acts::Journalized
       base.extend ClassMethods
 
       base.class_eval do
-        before_save :init_journal
-        after_save :reset_instance_variables, :write_journal
+        after_save :save_journals
         
         attr_accessor :journal_notes, :journal_user, :extra_journal_attributes
       end
     end
 
-    def write_journal(user = User.current, notes = "")
-      JournalManager.write_journal self, user, notes
+    def save_journals
+      add_journal
+
+      journals.select{|j| j.new_record?}.each {|j| j.save}
     end
 
+    def add_journal(user = User.current, notes = "")
+      #association_data = associations_of_object
+
+      JournalManager.add_journal self, user, notes if journals.empty? or not journals.last.new_record?
+    end
+
+    def associations_of_object
+      associations = self.reflect_on_all_associations(:has_many)
+
+      require 'pry'
+      binding.pry
+
+      associations.each do |a|
+        if self.respond_to? a
+
+        end
+      end
+    end
 
     # Saves the current custom values, notes and journal to include them in the next journal
     # Called before save

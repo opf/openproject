@@ -13,25 +13,30 @@
 class JournalManager
 
   def self.recreate_initial_journal(type, journal, changed_data)
-    journal.changed_data = changed_data
+    if journal.data.nil?
+      journal.data = create_journal_data journal.id, type, changed_data.except(:id)
+    else
+      journal.changed_data = changed_data
+    end
 
     journal.save!
     journal.reload
   end
 
-  def self.write_journal(journaled, user = User.current, notes = "")
+  def self.add_journal(journaled, user = User.current, notes = "")
     journal_attributes = { journaled_id: journaled.id,
                            journaled_type: journal_class_name(journaled.class),
                            version: (journaled.journals.count + 1),
-                           activity_type: journaled.activity_type,
+                           activity_type: journaled.send(:activity_type),
                            changed_data: journaled.attributes.symbolize_keys }
 
-    create_journal base_class(journaled.class), journal_attributes, user, notes
+    create_journal journaled, journal_attributes, user, notes
   end
 
-  def self.create_journal(type, journal_attributes, user = User.current,  notes = "")
+  def self.create_journal(journaled, journal_attributes, user = User.current,  notes = "")
+    type = base_class(journaled.class)
     extended_journal_attributes = journal_attributes.merge({ journaled_type: journal_class_name(type) })
-                                                    .merge({ notes: (notes.empty?) ? nil? : notes })
+                                                    .merge({ notes: notes })
                                                     .except(:changed_data)
                                                     .except(:id)
 
@@ -39,23 +44,17 @@ class JournalManager
       extended_journal_attributes[:user_id] = user.id
     end
 
-    journal = create_journal_base extended_journal_attributes
-    create_journal_data journal.id, type, journal_attributes[:changed_data].except(:id)
+    journal = journaled.journals.build extended_journal_attributes
+    journal.data = create_journal_data journal.id, type, journal_attributes[:changed_data].except(:id)
 
     journal
-  end
-
-  def self.create_journal_base(journal_attributes)
-    Journal.create journal_attributes
   end
 
   def self.create_journal_data(journal_id, type, changed_data)
     journal_class = journal_class type
     new_data = Hash[changed_data.map{|k,v| [k, (v.kind_of? Array) ? v.last : v]}]
 
-    new_data[:journal_id] = journal_id
-
-    journal_class.create new_data
+    journal_class.new new_data
   end
 
   private
