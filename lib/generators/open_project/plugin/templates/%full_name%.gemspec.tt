@@ -13,11 +13,7 @@ Gem::Specification.new do |s|
   s.description = FIXME
   s.license     = FIXME # e.g. "MIT" or "GPLv3"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.md)
+  s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.md README.md)
 
-  s.add_dependency "rails", "~> 3.2.9"
-
-  s.add_development_dependency 'rspec-rails'
-  s.add_development_dependency 'cucumber-rails'
-  s.add_development_dependency 'database_cleaner'
+  s.add_dependency "rails", "~> 3.2.14"
 end
