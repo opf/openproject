@@ -32,17 +32,17 @@ class Attachment < ActiveRecord::Base
   before_save :copy_file_to_destination
   after_destroy :delete_file_on_disk
 
-  #acts_as_journalized :event_title => :filename,
-  #      :event_url => (Proc.new do |o|
-  #        { :controller => '/attachments', :action => 'download',
-  #          :id => o.journaled_id, :filename => o.filename }
-  #      end),
-  #      :activity_type => 'files',
-  #      :activity_permission => :view_files,
-  #      :activity_find_options => { :include => { :version => :project } }
+  acts_as_journalized :event_title => :filename,
+        :event_url => (Proc.new do |o|
+          { :controller => '/attachments', :action => 'download',
+            :id => o.journaled_id, :filename => o.filename }
+        end),
+        :activity_type => 'files',
+        :activity_permission => :view_files,
+        :activity_find_options => { :include => { :version => :project } }
 
-  #acts_as_activity :type => 'documents', :permission => :view_documents,
-  #      :find_options => { :include => { :document => :project } }
+  acts_as_activity :type => 'documents', :permission => :view_documents,
+        :find_options => { :include => { :document => :project } }
 
   # This method is called on save by the AttachmentJournal in order to
   # decide which kind of activity we are dealing with. When that activity

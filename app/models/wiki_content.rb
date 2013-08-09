@@ -24,12 +24,12 @@ class WikiContent < ActiveRecord::Base
 
   before_save :comments_to_journal_notes
 
-  #acts_as_journalized :event_type => 'wiki-page',
-  #  :event_title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
-  #  :event_url => Proc.new {|o| {:controller => '/wiki', :action => 'show', :id => o.page.title, :project_id => o.page.wiki.project, :version => o.version}},
-  #  :activity_type => 'wiki_edits',
-  #  :activity_permission => :view_wiki_edits,
-  #  :activity_find_options => { :include => { :page => { :wiki => :project } } }
+  acts_as_journalized :event_type => 'wiki-page',
+    :event_title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
+    :event_url => Proc.new {|o| {:controller => '/wiki', :action => 'show', :id => o.page.title, :project_id => o.page.wiki.project, :version => o.version}},
+    :activity_type => 'wiki_edits',
+    :activity_permission => :view_wiki_edits,
+    :activity_find_options => { :include => { :page => { :wiki => :project } } }
 
   def activity_type
     'wiki_edits'
@@ -67,7 +67,7 @@ class WikiContent < ActiveRecord::Base
   private
 
   def comments_to_journal_notes
-    self.init_journal(author, comments)
+    add_journal author, comments
   end
 
   # FIXME: This is for backwards compatibility only. Remove once we decide it is not needed anymore
