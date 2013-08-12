@@ -614,7 +614,7 @@ describe PlanningElement do
                                           :responsible_id    => responsible.id
                                          ) }
 
-      it 'creates a journal in the parent when end date is changes indirectly' do
+      it 'creates a journal in the parent when end date is changed indirectly' do
         child_pe # trigger creation of child and parent
 
         # sanity check
