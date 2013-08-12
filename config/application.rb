@@ -55,7 +55,7 @@ module OpenProject
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
     config.active_record.observers = :journal_observer, :message_observer, :issue_observer,
-                                     :news_observer, :document_observer, :wiki_content_observer,
+                                     :news_observer, :wiki_content_observer,
                                      :comment_observer
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
