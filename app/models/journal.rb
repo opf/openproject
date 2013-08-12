@@ -118,7 +118,7 @@ class Journal < ActiveRecord::Base
 
       if predecessor.nil?
         @changes = data.journaled_attributes.select{|_,v| !v.nil?}
-                                            .inject({}) { |h, (k, v)| h[k] = [(true if Float(v) rescue false) ? 0 : nil, v]; h }
+                                            .inject({}) { |h, (k, v)| h[k] = [nil, v]; h }
       else
         predecessor_data = predecessor.data.journaled_attributes
         data.journaled_attributes.select{|k,v| v != predecessor_data[k]}.each do |k, v|
