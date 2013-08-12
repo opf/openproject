@@ -46,9 +46,6 @@ Given /^(?:|I )am not logged in$/ do
 end
 
 Given /^(?:|I )am [aA]dmin$/ do
-  FactoryGirl.create :admin unless User.where(:login => 'admin').any?
-  FactoryGirl.create :anonymous unless AnonymousUser.count > 0
-
   admin = User.find_by_admin(true)
 
   login(admin.login, 'adminADMIN!')
@@ -67,8 +64,6 @@ Given /^I am already logged in as "(.+?)"$/ do |login|
 end
 
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
-  FactoryGirl.create :admin unless User.where(:login => 'admin').any?
-  FactoryGirl.create :anonymous unless AnonymousUser.count > 0
 
   login(username, 'adminADMIN!')
 end
