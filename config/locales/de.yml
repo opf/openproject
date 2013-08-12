@@ -395,8 +395,6 @@ de:
 
   default_activity_design: "Design"
   default_activity_development: "Entwicklung"
-  default_doc_category_tech: "Technische Dokumentation"
-  default_doc_category_user: "Benutzerdokumentation"
   default_issue_status_closed: "Erledigt"
   default_issue_status_feedback: "Feedback"
   default_issue_status_in_progress: "In Bearbeitung"
