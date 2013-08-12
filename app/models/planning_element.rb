@@ -89,9 +89,9 @@ class PlanningElement < WorkPackage
   journal_class.class_eval do
     def event_title
       if initial?
-        I18n.t("timelines.planning_element_creation", :title => journalized.title)
+        I18n.t("timelines.planning_element_creation", :title => journaled.title)
       else
-        I18n.t("timelines.planning_element_update", :title => journalized.title)
+        I18n.t("timelines.planning_element_update", :title => journaled.title)
       end
     end
   end
