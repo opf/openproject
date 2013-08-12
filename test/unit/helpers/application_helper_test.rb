@@ -196,11 +196,6 @@ RAW
     the_other_project = FactoryGirl.create :valid_project
 
     to_test = {
-      # documents
-      'document:"Test document"'              => 'document:"Test document"',
-      "#{identifier}:document##{document.id}" => "<a href=\"/documents/#{document.id}\" class=\"document\">Test document</a>",
-      "#{identifier}:document:\"Test document\"" => "<a href=\"/documents/#{document.id}\" class=\"document\">Test document</a>",
-      'invalid:document:"Test document"'      => 'invalid:document:"Test document"',
       # versions
       'version:"1.0"'                         => 'version:"1.0"',
       "#{identifier}:version:\"1.0\""         => "<a href=\"/versions/#{version.id}\" class=\"version\">1.0</a>",
