@@ -131,9 +131,9 @@ class Journal < ActiveRecord::Base
   end
 
   def predecessor
-    @predecessor ||= Journal.where("journaled_type = ? AND journaled_id = ? AND created_at <= ? AND id < ?",
-                                   journaled_type, journaled_id, created_at, id)
-                            .order("created_at DESC")
+    @predecessor ||= Journal.where("journaled_type = ? AND journaled_id = ? AND id < ?",
+                                   journaled_type, journaled_id, id)
+                            .order("version DESC")
                             .first
   end
 
