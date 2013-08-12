@@ -39,7 +39,13 @@ class Journal < ActiveRecord::Base
   end
 
   def changed_data=(changed_attributes)
-    data.update_attributes changed_attributes
+    attributes = changed_attributes
+
+    if attributes.kind_of? Hash and attributes.values.first.kind_of? Array
+      attributes.each {|k,v| attributes[k] = v[1]}
+    end
+
+    data.update_attributes attributes
   end
 
   # In conjunction with the included Comparable module, allows comparison of journal records
