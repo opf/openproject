@@ -1,3 +1,3 @@
 # Changelog
 
-* `#<ticket number>` Create plugin
+* `#1631` Initial creation of Documents plugin
