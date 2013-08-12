@@ -577,13 +577,14 @@ describe PlanningElement do
 
       changes = pe.journals.first.changed_data.to_hash
 
-      changes.size.should == 12
+      changes.size.should == 13
 
       changes.should include(:subject)
       changes.should include(:author_id)
       changes.should include(:description)
       changes.should include(:start_date)
       changes.should include(:due_date)
+      changes.should include(:done_ratio)
       changes.should include(:status_id)
       changes.should include(:priority_id)
       changes.should include(:project_id)
