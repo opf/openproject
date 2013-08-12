@@ -14,8 +14,20 @@ module Redmine
   module Views
     module MyPage
       module Block
+
         def self.additional_blocks
-          @@additional_blocks ||= Dir.glob(Rails.root.join('vendor/plugins/*/app/views/my/blocks/_*.{rhtml,erb}')).inject({}) do |h,file|
+          #look at the gemspecs of all plugins trying to find views in a /my/blocks subdirectory
+          @@additional_blocks ||= Dir.glob(
+            Plugin.registered_plugins.map do |plugin_id,_|
+              gem_spec = Gem.loaded_specs[plugin_id.to_s]
+              if gem_spec.nil?
+                ActiveSupport::Deprecation.warn "No Gemspec found for plugin: " + plugin_id.to_s + ", plugin name should equal the gem name"
+                nil
+              else
+                Gem.loaded_specs[plugin_id.to_s].full_gem_path + '/**/my/blocks/_*.{rhtml,erb}'
+              end
+            end.compact
+          ).inject({}) do |h,file|
             name = File.basename(file).split('.').first.gsub(/^_/, '')
             h[name] = name.to_sym
             h
