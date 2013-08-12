@@ -21,8 +21,10 @@ module OpenProject
                   name = identifier.gsub(%r{^"(.*)"$}, "\\1")
                   document = project.documents.visible.find_by_title(name)
                 end
-                link = link_to document.title, {:only_path => only_path, :controller => '/documents', :action => 'show', :id => document},
-                                                        :class => 'document'
+                if document
+                  link = link_to document.title, {:only_path => only_path, :controller => '/documents', :action => 'show', :id => document},
+                                                  :class => 'document'
+                end
                 modified = true
               end
               leading + (link || "#{project_prefix}#{prefix}#{sep}#{identifier}")
