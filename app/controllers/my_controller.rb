@@ -23,7 +23,6 @@ class MyController < ApplicationController
              'issueswatched' => :label_watched_issues,
              'news' => :label_news_latest,
              'calendar' => :label_calendar,
-             'documents' => :label_document_plural,
              'timelog' => :label_spent_time
            }.merge(Redmine::Views::MyPage::Block.additional_blocks).freeze
 
