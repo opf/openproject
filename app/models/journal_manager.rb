@@ -12,6 +12,18 @@
 
 class JournalManager
 
+  def self.attributes_changed?(journaled)
+    if journaled.journals.count > 0
+      current = journaled.attributes
+      predecessor = journaled.journals.last.data.journaled_attributes
+
+      return predecessor.map{|k,v| current[k.to_s] != v}
+                        .inject(false) { |r, c| r || c }
+    end
+
+    true
+  end
+
   def self.recreate_initial_journal(type, journal, changed_data)
     if journal.data.nil?
       journal.data = create_journal_data journal.id, type, changed_data.except(:id)
@@ -60,6 +72,9 @@ class JournalManager
   USER_DELETION_JOURNAL_BUCKET_SIZE = 1000;
 
   def self.update_user_references(current_user_id, substitute_id)
+    require 'pry'
+    #binding.pry
+
     foreign_keys = ['author_id', 'user_id', 'assigned_to_id', 'responsible_id']
 
     # as updating the journals will take some time we do it in batches

@@ -44,7 +44,7 @@ module Redmine::Acts::Journalized
     end
 
     def save_journals
-      add_journal if journals.empty? or changed?
+      add_journal if journals.empty? or JournalManager.attributes_changed?(self)
 
       journals.select{|j| j.new_record?}.each {|j| j.save}
     end
