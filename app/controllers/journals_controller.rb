@@ -63,8 +63,9 @@ class JournalsController < ApplicationController
 
   def diff
     if valid_field?(params[:field])
-      from = @journal.changed_data[params[:field]][0]
-      to = @journal.changed_data[params[:field]][1]
+      field = params[:field].parameterize.underscore.to_sym
+      from = @journal.changed_data[field][0]
+      to = @journal.changed_data[field][1]
 
       @diff = Redmine::Helpers::Diff.new(to, from)
       @journaled = @journal.journaled
@@ -81,7 +82,7 @@ class JournalsController < ApplicationController
 
   def find_journal
     @journal = Journal.find(params[:id])
-    @project = @journal.journalized.project
+    @project = @journal.journaled.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end

@@ -200,8 +200,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def journals
-    @journals ||= work_package.journals.changing
-                                       .includes(:user, :journaled)
+    @journals ||= work_package.journals.includes(:user)
                                        .order("#{Journal.table_name}.created_at ASC")
   end
 
