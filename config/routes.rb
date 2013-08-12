@@ -139,8 +139,6 @@ OpenProject::Application.routes.draw do
 
     resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]
 
-    resources :documents, :shallow => true
-
     resources :versions, :only => [:new, :create] do
       collection do
         put :close_completed
