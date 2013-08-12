@@ -50,6 +50,7 @@ module Redmine::Acts::Journalized
     end
 
     def add_journal(user = User.current, notes = "")
+      @journal_notes = notes
       JournalManager.add_journal self, user, notes if journals.empty? or not journals.last.new_record?
     end
 
