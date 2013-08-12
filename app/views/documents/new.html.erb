@@ -1,0 +1,27 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<h2><%=l(:label_document_new)%></h2>
+
+<%= form_tag(project_documents_path(@project),
+             :class => "tabular",
+             :multipart => true) do %>
+<%= render :partial => 'documents/form' %>
+
+<div class="box">
+<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
+</div>
+
+<%= submit_tag l(:button_create) %>
+<% end %>
+
+

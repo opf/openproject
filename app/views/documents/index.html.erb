@@ -1,0 +1,52 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div class="contextual">
+<%= link_to_if_authorized l(:label_document_new),
+                          {:controller => '/documents', :action => 'new', :project_id => @project},
+                          :class => 'icon icon-add' %>
+</div>
+
+<h2><%=l(:label_document_plural)%></h2>
+
+<% if @grouped.empty? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% @grouped.keys.sort.each do |group| %>
+  <h3><%= group %></h3>
+  <%= render :partial => 'documents/document', :collection => @grouped[group] %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <h3><%= l(:label_sort_by, '') %></h3>
+  <%= form_tag({}, :method => :get) do %>
+    <label>
+      <%= radio_button_tag 'sort_by', 'category', (@sort_by == 'category'), :onclick => 'this.form.submit();' %>
+      <%= Document.human_attribute_name(:category) %>
+    </label><br />
+    <label>
+      <%= radio_button_tag 'sort_by', 'date', (@sort_by == 'date'), :onclick => 'this.form.submit();' %>
+      <%= l(:label_date) %>
+    </label><br />
+    <label>
+      <%= radio_button_tag 'sort_by', 'title', (@sort_by == 'title'), :onclick => 'this.form.submit();' %>
+      <%= Document.human_attribute_name(:title) %>
+    </label><br />
+    <label>
+      <%= radio_button_tag 'sort_by', 'author', (@sort_by == 'author'), :onclick => 'this.form.submit();' %>
+      <%= Document.human_attribute_name(:author) %>
+    </label>
+  <% end %>
+<% end %>
+
+<% html_title(l(:label_document_plural)) -%>

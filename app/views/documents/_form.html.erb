@@ -1,0 +1,34 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for 'document' %>
+<div class="box">
+<!--[form:document]-->
+<p>
+  <label for="document_category_id"><%= Document.human_attribute_name(:category)%> <span class="required">*</span></label>
+  <%= select('document', 'category_id', DocumentCategory.all.collect {|c| [c.name, c.id]}) %>
+</p>
+
+<p>
+  <label for="document_title"><%= Document.human_attribute_name(:title)%> <span class="required">*</span></label>
+  <%= text_field 'document', 'title', :size => 60 %>
+</p>
+
+<p>
+  <label for="document_description"><%= Document.human_attribute_name(:description)%></label>
+  <%= text_area 'document', 'description', :cols => 60, :rows => 15, :class => 'wiki-edit' %>
+</p>
+
+<!--[eoform:document]-->
+</div>
+
+<%= wikitoolbar_for 'document_description' %>

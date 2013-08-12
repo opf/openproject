@@ -1,0 +1,14 @@
+de:
+  activerecord:
+    models:
+      document: "Dokument"
+
+  enumeration_doc_categories: "Dokumentenkategorien"
+
+  label_document_added: "Dokument hinzugefügt"
+  label_document_new: "Neues Dokument"
+  label_document_plural: "Dokumente"
+
+  permission_manage_documents: "Dokumente verwalten"
+  permission_view_documents: "Dokumente ansehen"
+  project_module_documents: "Dokumente"
