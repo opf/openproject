@@ -26,7 +26,7 @@ class ApplicationHelperTest < ActionView::TestCase
     @project_member = FactoryGirl.create :user,
       :member_in_project => @project,
       :member_through_role => FactoryGirl.create(:role,
-          :permissions => [:view_work_packages, :edit_work_packages, :view_documents,
+          :permissions => [:view_work_packages, :edit_work_packages,
                            :browse_repository, :view_changesets, :view_wiki_pages])
 
     @issue = FactoryGirl.create :issue, :project => @project, :author => @project_member, :type => @project.types.first
@@ -46,7 +46,7 @@ class ApplicationHelperTest < ActionView::TestCase
   def request
     @request ||= ActionController::TestRequest.new
   end
-  
+
   def test_auto_links
     to_test = {
       'http://foo.bar' => '<a class="external" href="http://foo.bar">http://foo.bar</a>',

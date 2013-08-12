@@ -707,11 +707,6 @@ module ApplicationHelper
                                         :class => work_package_css_classes(work_package),
                                         :title => "#{truncate(work_package.subject, :length => 100)} (#{work_package.status.try(:name)})")
             end
-          when 'document'
-            if document = Document.visible.find_by_id(oid)
-              link = link_to h(document.title), {:only_path => only_path, :controller => '/documents', :action => 'show', :id => document},
-                                                :class => 'document'
-            end
           when 'version'
             if version = Version.visible.find_by_id(oid)
               link = link_to h(version.name), {:only_path => only_path, :controller => '/versions', :action => 'show', :id => version},
@@ -740,11 +735,6 @@ module ApplicationHelper
           # removes the double quotes if any
           name = identifier.gsub(%r{^"(.*)"$}, "\\1")
           case prefix
-          when 'document'
-            if project && document = project.documents.visible.find_by_title(name)
-              link = link_to h(document.title), {:only_path => only_path, :controller => '/documents', :action => 'show', :id => document},
-                                                :class => 'document'
-            end
           when 'version'
             if project && version = project.versions.visible.find_by_name(name)
               link = link_to h(version.name), {:only_path => only_path, :controller => '/versions', :action => 'show', :id => version},
