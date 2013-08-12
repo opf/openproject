@@ -223,21 +223,6 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def attachments_added(user, attachments)
-    @attachments = attachments
-
-    container = attachments.first.container
-
-    open_project_headers 'Type'    => 'Attachment'
-    open_project_headers 'Project' => container.project.identifier if container.project
-
-    with_locale_for(user) do
-      subject = t(:label_attachment_new)
-      subject = "[#{container.project.name}] #{subject}" if container.project
-      mail :to => user.mail, :subject => subject
-    end
-  end
-
   def reminder_mail(user, issues, days)
     @issues = issues
     @days   = days
