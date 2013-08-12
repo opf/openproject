@@ -69,6 +69,7 @@ module OpenProject::Documents
     config.to_prepare do
       require_dependency 'open_project/documents/patches/project_patch'
       require_dependency 'open_project/documents/patches/application_helper_patch'
+      require_dependency 'open_project/documents/patches/custom_fields_helper_patch'
     end
 
     config.after_initialize do
