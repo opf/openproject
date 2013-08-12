@@ -22,6 +22,8 @@ module OpenProject::Documents
         permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
         permission :view_documents, :documents => [:index, :show, :download]
 
+        Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
+
         #settings Engine.settings
       end
 
@@ -66,6 +68,11 @@ module OpenProject::Documents
 
     config.to_prepare do
       require_dependency 'open_project/documents/patches/project_patch'
+      require_dependency 'open_project/documents/patches/application_helper_patch'
+    end
+
+    config.after_initialize do
+      HelpController.view_paths.unshift("#{config.root}/app/views")
     end
 
   end
