@@ -16,7 +16,7 @@ class DocumentObserver < ActiveRecord::Observer
 
     users = User.find_all_by_mails(document.recipients)
     users.each do |user|
-      UserMailer.document_added(user, document).deliver
+      DocumentsMailer.document_added(user, document).deliver
     end
   end
 end
