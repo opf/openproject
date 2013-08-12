@@ -28,7 +28,9 @@ class WorkPackages::MovesController < ApplicationController
     moved_work_packages = []
     @work_packages.each do |work_package|
       work_package.reload
-      work_package.init_journal(User.current, @notes || "")
+
+      JournalManager.add_journal work_package, User.current, @notes || ""
+
       call_hook(:controller_work_packages_move_before_save, { :params => params, :work_package => work_package, :target_project => @target_project, :copy => !!@copy })
       if r = work_package.move_to_project(@target_project, new_type, {:copy => @copy, :attributes => extract_changed_attributes_for_move(params)})
         moved_work_packages << r
