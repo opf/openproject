@@ -50,7 +50,6 @@ class Project < ActiveRecord::Base
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
   has_many :time_entries, :dependent => :delete_all
   has_many :queries, :dependent => :delete_all
-  has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :destroy, :include => :author
   has_many :issue_categories, :dependent => :delete_all, :order => "#{IssueCategory.table_name}.name"
   has_many :boards, :dependent => :destroy, :order => "position ASC"
