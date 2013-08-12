@@ -35,7 +35,7 @@ class Journal < ActiveRecord::Base
   scope "changing", :conditions => ["version > 1"]
 
   def journaled
-    journalized_object_type.find(journaled_id)
+    @journaled ||= journalized_object_type.find(journaled_id)
   end
 
   def changed_data=(changed_attributes)
