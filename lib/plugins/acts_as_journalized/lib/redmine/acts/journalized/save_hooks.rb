@@ -50,22 +50,7 @@ module Redmine::Acts::Journalized
     end
 
     def add_journal(user = User.current, notes = "")
-      #association_data = associations_of_object
-
       JournalManager.add_journal self, user, notes if journals.empty? or not journals.last.new_record?
-    end
-
-    def associations_of_object
-      associations = self.reflect_on_all_associations(:has_many)
-
-      require 'pry'
-      binding.pry
-
-      associations.each do |a|
-        if self.respond_to? a
-
-        end
-      end
     end
 
     # Saves the current custom values, notes and journal to include them in the next journal
