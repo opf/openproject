@@ -152,16 +152,6 @@ journals_013:
   notes: "An attachment on an issue"
   journaled_id: 7
   changed_data: --- {}
-journals_014:
-  id: 14
-  type: "AttachmentJournal"
-  activity_type: "documents"
-  created_at: <%= 2.days.ago.to_date.to_s(:db) %>
-  version: 1
-  user_id: 2
-  notes: "An attachment on a document"
-  journaled_id: 2
-  changed_data: --- {}
 journals_015:
   id: 15
   type: "MessageJournal"
