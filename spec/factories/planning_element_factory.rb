@@ -12,6 +12,8 @@
 
 FactoryGirl.define do
   factory(:planning_element, :class => PlanningElement) do
+    priority
+    status :factory => :issue_status
 
     prepared_names = [
       "Backup",

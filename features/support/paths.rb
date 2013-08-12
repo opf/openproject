@@ -98,7 +98,7 @@ module NavigationHelpers
        project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
        "/projects/#{project_identifier}/issues"
 
-    when /^the page (?:for|of) the work package "([^\"]+)"$/
+    when /^the page (?:for|of) the work package(?: called)? "([^\"]+)"$/
       work_package = WorkPackage.find_by_subject($1)
       "/work_packages/#{work_package.id}"
 
@@ -292,6 +292,14 @@ module NavigationHelpers
     when /^the time entry page of issue "(.+)"$/
       issue_id = Issue.find_by_subject($1).id
       "/issues/#{issue_id}/time_entries"
+
+    when /^the copy page of the work package "(.+)"$/
+      work_package_id = WorkPackage.find_by_subject($1).id
+      "/work_packages/#{work_package_id}/moves/new?copy="
+
+    when /^the move page of the work package "(.+)"$/
+      work_package_id = WorkPackage.find_by_subject($1).id
+      "/work_packages/#{work_package_id}/moves/new"
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

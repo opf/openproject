@@ -46,3 +46,5 @@
 /.ruby-version
 /.ruby-gemset
 
+# coverage in plugins
+/lib/plugins/*/coverage

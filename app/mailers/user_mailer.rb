@@ -244,12 +244,6 @@ class UserMailer < ActionMailer::Base
     open_project_headers 'Project' => container.project.identifier if container.project
 
     case container.class.name
-    when 'Project'
-      @added_to     = "#{Project.model_name.human}: #{container}"
-      @added_to_url = url_for(:controller => '/files', :action => 'index', :project_id => container)
-    when 'Version'
-      @added_to     = "#{Version.model_name.human}: #{container.name}"
-      @added_to_url = url_for(:controller => '/files', :action => 'index', :project_id => container.project)
     when 'Document'
       @added_to     = "#{Document.model_name.human}: #{container.title}"
       @added_to_url = url_for(:controller => '/documents', :action => 'show', :id => container.id)

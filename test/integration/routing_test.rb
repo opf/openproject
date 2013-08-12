@@ -545,89 +545,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
     end
   end
 
-
-  context "projects" do
-    should route(:get, "/projects").to( :controller => 'projects',
-                                        :action => 'index')
-
-    should route(:get, "/projects.atom").to( :controller => 'projects',
-                                             :action => 'index',
-                                             :format => 'atom' )
-
-    should route(:get, "/projects.xml").to( :controller => 'projects',
-                                            :action => 'index',
-                                            :format => 'xml' )
-
-    should route(:get, "/projects/new").to( :controller => 'projects',
-                                            :action => 'new' )
-
-    should route(:get, "/projects/test").to( :controller => 'projects',
-                                             :action => 'show',
-                                             :id => 'test' )
-
-    should route(:get, "/projects/1.xml").to( :controller => 'projects',
-                                              :action => 'show',
-                                              :id => '1',
-                                              :format => 'xml' )
-
-    should route(:post, "/projects").to( :controller => 'projects',
-                                         :action => 'create' )
-
-    should route(:post, "/projects.xml").to( :controller => 'projects',
-                                             :action => 'create',
-                                             :format => 'xml' )
-
-    should route(:put, "/projects/4223").to( :controller => 'projects',
-                                             :action => 'update',
-                                             :id => '4223' )
-
-    should route(:put, "/projects/1.xml").to( :controller => 'projects',
-                                              :action => 'update',
-                                              :id => '1',
-                                              :format => 'xml' )
-
-    should route(:get, "/projects/64/destroy_info").to( :controller => 'projects',
-                                                         :action => 'destroy_info',
-                                                         :id => '64' )
-
-    should route(:delete, "/projects/64").to( :controller => 'projects',
-                                              :action => 'destroy',
-                                              :id => '64' )
-
-    should route(:delete, "/projects/1.xml").to( :controller => 'projects',
-                                                 :action => 'destroy',
-                                                 :id => '1',
-                                                 :format => 'xml' )
-
-    should route(:get, "/projects/4223/settings").to( :controller => 'projects',
-                                                      :action => 'settings',
-                                                      :id => '4223' )
-
-    should route(:get, "/projects/4223/settings/members").to( :controller => 'projects',
-                                                              :action => 'settings',
-                                                              :id => '4223',
-                                                              :tab => 'members' )
-
-    should route(:put, "/projects/64/modules").to( :controller => 'projects',
-                                                   :action => 'modules',
-                                                   :id => '64' )
-
-    should route(:put, "/projects/64/archive").to( :controller => 'projects',
-                                                    :action => 'archive',
-                                                    :id => '64' )
-
-    should route(:put, "/projects/64/unarchive").to( :controller => 'projects',
-                                                      :action => 'unarchive',
-                                                      :id => '64' )
-
-    should route(:get, "/projects/64/copy").to( :controller => 'projects',
-                                                :action => 'copy',
-                                                :id => '64' )
-
-    should route(:post, "/projects/64/copy").to( :controller => 'projects',
-                                                 :action => 'copy',
-                                                 :id => '64' )
-#  end
 #
 #  context "repositories" do
 #    should route(:get, "/projects/redmine/repository").to( :controller => 'repositories', :action => 'show', :id => 'redmine')
@@ -650,25 +567,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
 #
 #
 #    should route(:post, "/projects/redmine/repository/edit").to( :controller => 'repositories', :action => 'edit', :id => 'redmine')
-  end
-
-  context "files" do
-    context "project scoped" do
-      should route(:get, "/projects/33/files").to( :controller => 'files',
-                                                   :action => 'index',
-                                                   :project_id => '33' )
-
-      should route(:get, "/projects/33/files/new").to( :controller => 'files',
-                                                       :action => 'new',
-                                                       :project_id => '33' )
-
-      should route(:post, "/projects/33/files").to( :controller => 'files',
-                                                    :action => 'create',
-                                                    :project_id => '33' )
-
-    end
-
-  end
 
   context "timelogs" do
     should route(:get, "/time_entries").to( :controller => 'timelog',

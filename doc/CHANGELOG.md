@@ -1,7 +1,14 @@
 # Changelog
 
+## 3.0.0pre11
+
 * `#1541` Use Rails 3.2.14 instead of Git Branch
+* `#1595` Cleanup action menu for work packages
 * `#1598` Switching type of work package looses inserted data
+* `#1596` Copy/Move work packages between projects
+* `#1618` Deactivate modal dialogs and respective cukes
+* `#1648` Arbitrarily failing cuke: Navigating to the timeline page
+* `#1637` Removed files module
 
 ## 3.0.0pre10
 

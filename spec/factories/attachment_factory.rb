@@ -15,5 +15,9 @@ FactoryGirl.define do
     author :factory => :user
     sequence(:filename) { |n| "test#{n}.test" }
     sequence(:disk_filename) { |n| "test#{n}.test" }
+
+    factory :wiki_attachment do
+      container :factory => :wiki_page_with_content
+    end
   end
 end

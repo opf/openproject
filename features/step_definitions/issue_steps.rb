@@ -69,13 +69,41 @@ Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |projec
 
   table.hashes.each do |type_attributes|
     assignee = User.find_by_login(type_attributes.delete("assignee"))
+    type = type_attributes.delete("type")
 
     factory = FactoryGirl.create(:issue, type_attributes.merge(:project_id => project.id))
 
     factory.reload
 
     factory.assignee = assignee unless assignee.nil?
+    factory.type = Type.find_by_name(type) unless type.nil?
 
     factory.save! if factory.changed?
   end
+end
+
+Given (/^there are the following issues with attributes:$/) do |table|
+
+  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table.hashes.each do |type_attributes|
+
+    project  = get_project(type_attributes.delete("project"))
+    attributes = type_attributes.merge(:project_id => project.id)
+
+    assignee = User.find_by_login(attributes.delete("assignee"))
+    attributes.merge! :assigned_to_id => assignee.id if assignee
+
+    author   = User.find_by_login(attributes.delete("author"))
+    attributes.merge! :author_id => author.id if author
+
+    watchers = attributes.delete("watched_by")
+    issue = FactoryGirl.create(:issue, attributes)
+
+    if watchers
+      watchers.split(",").each {|w| issue.add_watcher User.find_by_login(w)}
+      issue.save
+    end
+
+  end
+
 end

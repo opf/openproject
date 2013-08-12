@@ -88,9 +88,10 @@ Redmine::AccessControl.map do |map|
     map.permission :export_issues, {:'issues' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
-    map.permission :add_work_packages, { :work_packages => [:new, :new_type, :create] }
+    map.permission :add_work_packages, { :work_packages => [:new, :new_type, :preview, :create] }
+    map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, :require => :loggedin
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
-                                          :work_packages => [:edit, :update, :new_type],
+                                          :work_packages => [:edit, :update, :new_type, :preview],
                                           :'issues/previews' => :create}
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
@@ -127,11 +128,6 @@ Redmine::AccessControl.map do |map|
   map.project_module :documents do |map|
     map.permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
     map.permission :view_documents, :documents => [:index, :show, :download]
-  end
-
-  map.project_module :files do |map|
-    map.permission :manage_files, {:files => [:new, :create]}, :require => :loggedin
-    map.permission :view_files, :files => :index, :versions => :download
   end
 
   map.project_module :wiki do |map|
@@ -295,7 +291,6 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :documents, { :controller => '/documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
   menu.push :boards, { :controller => '/boards', :action => 'index', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
-  menu.push :files, { :controller => '/files', :action => 'index' }, :caption => :label_file_plural, :param => :project_id
   menu.push :repository, { :controller => '/repositories', :action => 'show' },
               :if => Proc.new { |p| p.repository && !p.repository.new_record? }
   menu.push :settings, { :controller => '/projects', :action => 'settings' }, :caption => :label_project_settings, :last => true
@@ -347,7 +342,6 @@ Redmine::Activity.map do |activity|
   activity.register :changesets
   activity.register :news
   activity.register :documents, :class_name => %w(Document Attachment)
-  activity.register :files, :class_name => 'Attachment'
   activity.register :wiki_edits, :class_name => 'WikiContent', :default => false
   activity.register :messages, :default => false
   activity.register :time_entries, :default => false
