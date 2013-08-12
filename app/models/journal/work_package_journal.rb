@@ -25,7 +25,7 @@ class Journal::WorkPackageJournal < ActiveRecord::Base
                             :priority_id,
                             :fixed_version_id,
                             :author_id,
-                            :done_ration,
+                            :done_ratio,
                             :estimated_hours,
                             :planning_element_status_comment,
                             :deleted_at,
