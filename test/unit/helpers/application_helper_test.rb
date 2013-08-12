@@ -172,9 +172,6 @@ RAW
   end
 
   def test_cross_project_redmine_links
-    document = FactoryGirl.create :document,
-                 :title => 'Test document',
-                 :project => @project
     version = FactoryGirl.create :version,
                  :name => '1.0',
                  :project => @project
