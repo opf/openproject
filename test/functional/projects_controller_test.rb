@@ -381,9 +381,9 @@ class ProjectsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     Project.find(1).enabled_module_names = ['issue_tracking', 'news']
 
-    put :modules, :id => 1, :enabled_module_names => ['issue_tracking', 'repository', 'documents']
+    put :modules, :id => 1, :enabled_module_names => ['issue_tracking', 'repository']
     assert_redirected_to '/projects/ecookbook/settings/modules'
-    assert_equal ['documents', 'issue_tracking', 'repository'], Project.find(1).enabled_module_names.sort
+    assert_equal ['issue_tracking', 'repository'], Project.find(1).enabled_module_names.sort
   end
 
   def test_get_destroy_info
@@ -450,7 +450,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   def test_jump_should_not_redirect_to_inactive_tab
-    get :show, :id => 3, :jump => 'documents'
+    get :show, :id => 3, :jump => 'news'
     assert_response :success
     assert_template 'show'
   end
