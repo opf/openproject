@@ -83,7 +83,7 @@ Feature: Planning Element Management
      Then I should see a planning element named "February"
 
      When I follow "Activity"
-     Then I should see "Creation: February"
+     Then I should see "February"
 
   Scenario: Deleting a scenario that is associated to a planning element
     Given there are the following planning elements in project "ecookbook":
