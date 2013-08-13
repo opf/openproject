@@ -8,13 +8,14 @@ module OpenProject::Documents
     spec = Bundler.environment.specs['openproject-documents'][0]
 
     initializer 'documents.register_plugin' do
-      Redmine::Plugin.register 'openproject-documents' do
+      Redmine::Plugin.register :openproject_documents do
 
         name 'OpenProject Documents'
         author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
         author_url spec.homepage
         description spec.description
         version spec.version
+        gem_name 'openproject-documents'
         url 'https://www.openproject.org/projects/documents'
 
         requires_openproject ">= 3.0.0pre10"
