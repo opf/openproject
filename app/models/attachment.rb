@@ -226,5 +226,7 @@ private
 
   def update_container_journal
     JournalManager.add_journal container
+
+    container.save!
   end
 end
