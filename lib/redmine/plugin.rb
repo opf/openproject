@@ -74,11 +74,12 @@ module Redmine #:nodoc:
         end
       end
     end
-    def_field :name, :description, :url, :author, :author_url, :version, :settings
+    def_field :name, :description, :url, :author, :author_url, :version, :settings, :gem_name
     attr_reader :id
 
     # Plugin constructor
     def self.register(id, &block)
+      gem_name = id.gsub('openproject_','openproject-') if gem_name.nil? && id.starts_with('openproject_')
       id = id.to_sym
       p = new(id)
       p.instance_eval(&block)
