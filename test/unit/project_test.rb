@@ -182,11 +182,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_destroying_root_projects_should_clear_data
-    puts "Documents: #{Document.all.map(&:title)}"
-    puts "Attachments: #{Attachment.all.map(&:inspect)}"
     Project.roots.each do |root|
-
-      puts "Documents for this project: #{Document.where(:project_id => root.id).all.map(&:title)}"
       root.destroy
     end
 
