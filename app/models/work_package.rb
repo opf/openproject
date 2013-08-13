@@ -49,6 +49,8 @@ class WorkPackage < ActiveRecord::Base
   scope :without_deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NULL"
   scope :deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NOT NULL"
 
+  after_initialize :set_default_values
+
   acts_as_watchable
 
   before_save :store_former_parent_id
@@ -151,13 +153,12 @@ class WorkPackage < ActiveRecord::Base
     Setting.issue_done_ratio == 'issue_field'
   end
 
-  # Returns true if usr or current user is allowed to view the issue
+  # Returns true if usr or current user is allowed to view the work_package
   def visible?(usr=nil)
     (usr || User.current).allowed_to?(:view_work_packages, self.project)
   end
 
   def copy_from(arg, options = {})
-
     merged_options = { :exclude => ["id",
                                     "root_id",
                                     "parent_id",
@@ -175,6 +176,11 @@ class WorkPackage < ActiveRecord::Base
     self.custom_field_values = work_package.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = work_package.status
     self
+  end
+
+  # Returns true if the work_package is overdue
+  def overdue?
+    !due_date.nil? && (due_date < Date.today) && !status.is_closed?
   end
 
   # ACTS AS ATTACHABLE
@@ -288,7 +294,7 @@ class WorkPackage < ActiveRecord::Base
   # Users the work_package can be assigned to
   delegate :assignable_users, :to => :project
 
-  # Versions that the issue can be assigned to
+  # Versions that the work_package can be assigned to
   def assignable_versions
     @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
   end
@@ -368,6 +374,14 @@ class WorkPackage < ActiveRecord::Base
   def spent_hours
     @spent_hours ||= self_and_descendants.joins(:time_entries)
                                          .sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+  end
+
+  # Moves/copies an work_package to a new project and type
+  # Returns the moved/copied work_package on success, false on failure
+  def move_to_project(*args)
+    ret = WorkPackage.transaction do
+      move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
+    end || false
   end
 
   protected
@@ -461,6 +475,87 @@ class WorkPackage < ActiveRecord::Base
 
   def reload_lock_and_timestamps
     reload(:select => [:lock_version, :created_at, :updated_at])
+  end
+
+  # Returns an array of projects that current user can move issues to
+  def self.allowed_target_projects_on_move
+    projects = []
+    if User.current.admin?
+      # admin is allowed to move issues to any active (visible) project
+      projects = Project.visible.all
+    elsif User.current.logged?
+      if Role.non_member.allowed_to?(:move_work_packages)
+        projects = Project.visible.all
+      else
+        User.current.memberships.each {|m| projects << m.project if m.roles.detect {|r| r.allowed_to?(:move_work_packages)}}
+      end
+    end
+    projects
+  end
+
+  def move_to_project_without_transaction(new_project, new_type = nil, options = {})
+    options ||= {}
+    work_package = options[:copy] ? self.class.new.copy_from(self) : self
+
+    if new_project && work_package.project_id != new_project.id
+      delete_relations(work_package)
+      # work_package is moved to another project
+      # reassign to the category with same name if any
+      new_category = work_package.category.nil? ? nil : new_project.issue_categories.find_by_name(work_package.category.name)
+      work_package.category = new_category
+      # Keep the fixed_version if it's still valid in the new_project
+      unless new_project.shared_versions.include?(work_package.fixed_version)
+        work_package.fixed_version = nil
+      end
+      work_package.project = new_project
+
+      if !Setting.cross_project_issue_relations? &&
+         parent && parent.project_id != project_id
+        self.parent_id = nil
+      end
+    end
+    if new_type
+      work_package.type = new_type
+      work_package.reset_custom_values!
+    end
+    # Allow bulk setting of attributes on the work_package
+    if options[:attributes]
+      work_package.attributes = options[:attributes]
+    end
+    if options[:copy]
+      work_package.author = User.current
+      work_package.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
+      work_package.status = if options[:attributes] && options[:attributes][:status_id]
+                              IssueStatus.find_by_id(options[:attributes][:status_id])
+                            else
+                              self.status
+                            end
+    end
+    if work_package.save
+      unless options[:copy]
+        # Manually update project_id on related time entries
+        TimeEntry.update_all("project_id = #{new_project.id}", {:work_package_id => id})
+
+        work_package.children.each do |child|
+          unless child.move_to_project_without_transaction(new_project)
+            # Move failed and transaction was rollback'd
+            return false
+          end
+        end
+      end
+    else
+      return false
+    end
+    work_package
+  end
+
+  private
+
+  def set_default_values
+    if new_record? # set default values for new records only
+      self.status   ||= IssueStatus.default
+      self.priority ||= IssuePriority.default
+    end
   end
 
   private

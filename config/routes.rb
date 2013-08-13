@@ -141,8 +141,6 @@ OpenProject::Application.routes.draw do
 
     resources :documents, :shallow => true
 
-    resources :files, :only => [:index, :new, :create]
-
     resources :versions, :only => [:new, :create] do
       collection do
         put :close_completed
@@ -304,6 +302,8 @@ OpenProject::Application.routes.draw do
     post :preview, :on => :member
 
     resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
+
+    resource :moves, :controller => 'work_packages/moves', :only => [:new, :create]
 
     resources :time_entries, :controller => 'timelog',
                              :only => [:new]

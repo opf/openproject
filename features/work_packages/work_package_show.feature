@@ -35,6 +35,7 @@ Feature: Viewing a work package
       | manage_work_package_relations |
       | view_work_packages            |
       | edit_work_packages            |
+      | move_work_packages            |
       | add_issues                    |
       | add_work_package              |
       | edit_planning_elements        |
@@ -162,3 +163,31 @@ Feature: Viewing a work package
     When I select "Log time" from the action menu
 
     Then I should see "Spent time"
+
+  @javascript
+  Scenario: For an issue copy leads to work package copy page
+    When I go to the page of the work package "issue1"
+    When I select "Copy" from the action menu
+
+    Then I should see "Copy"
+
+  @javascript
+  Scenario: For a planning element copy leads to work package copy page
+    When I go to the page of the work package "pe1"
+    When I select "Copy" from the action menu
+
+    Then I should see "Copy"
+
+  @javascript
+  Scenario: For an issue move leads to work package copy page
+    When I go to the page of the work package "issue1"
+    When I select "Move" from the action menu
+
+    Then I should see "Move"
+
+  @javascript
+  Scenario: For a planning element move leads to work package copy page
+    When I go to the page of the work package "pe1"
+    When I select "Move" from the action menu
+
+    Then I should see "Move"

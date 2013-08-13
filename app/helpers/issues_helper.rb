@@ -260,7 +260,7 @@ module IssuesHelper
   def issue_quick_info(issue)
     ret = link_to(h(issue.to_s),
                   work_package_path(issue),
-                  :class => issue.css_classes,
+                  :class => work_package_css_classes(issue),
                   :title => "#{ truncate(issue.subject, :length => 100) } (#{ issue.status.name })")
     ret += " #{ issue.start_date.nil? ? "[?]" : issue.start_date.to_s }"
     ret += " – #{ issue.due_date.nil? ? "[?]" : issue.due_date.to_s }"

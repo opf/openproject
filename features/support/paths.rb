@@ -293,6 +293,14 @@ module NavigationHelpers
       issue_id = Issue.find_by_subject($1).id
       "/issues/#{issue_id}/time_entries"
 
+    when /^the copy page of the work package "(.+)"$/
+      work_package_id = WorkPackage.find_by_subject($1).id
+      "/work_packages/#{work_package_id}/moves/new?copy="
+
+    when /^the move page of the work package "(.+)"$/
+      work_package_id = WorkPackage.find_by_subject($1).id
+      "/work_packages/#{work_package_id}/moves/new"
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

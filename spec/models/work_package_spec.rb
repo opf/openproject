@@ -86,6 +86,7 @@ describe WorkPackage do
     let(:type) { FactoryGirl.create(:type) }
     let(:user) { FactoryGirl.create(:user) }
     let(:statuses) { (1..5).map{ |i| FactoryGirl.create(:issue_status)}}
+    let(:priority) { FactoryGirl.create :priority, is_default: true }
     let(:status) { statuses[0] }
     let(:project) do
       FactoryGirl.create(:project, :types => [type]).tap { |p| p.add_member(user, role).save }
@@ -142,37 +143,41 @@ describe WorkPackage do
 
     it "should respect workflows w/o author and w/o assignee on work packages" do
       workflows
-      work_package = FactoryGirl.create(:work_package, :type => type,
-                                                       :status => status,
-                                                       :project_id => project.id)
+      work_package = WorkPackage.create(:type => type,
+                                        :status => status,
+                                        :priority => priority,
+                                        :project_id => project.id)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1]]
     end
 
     it "should respect workflows w/ author and w/o assignee on work packages" do
       workflows
-      work_package = FactoryGirl.create(:work_package, :type => type,
-                                                       :status => status,
-                                                       :project_id => project.id,
-                                                       :author => user)
+      work_package = WorkPackage.create(:type => type,
+                                        :status => status,
+                                        :priority => priority,
+                                        :project_id => project.id,
+                                        :author => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2]]
     end
 
     it "should respect workflows w/o author and w/ assignee on work packages" do
       workflows
-      work_package = FactoryGirl.create(:work_package, :type => type,
-                                                       :status => status,
-                                                       :project_id => project.id,
-                                                       :assigned_to => user)
+      work_package = WorkPackage.create(:type => type,
+                                        :status => status,
+                                        :priority => priority,
+                                        :project_id => project.id,
+                                        :assigned_to => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[3]]
     end
 
     it "should respect workflows w/ author and w/ assignee on work packages" do
       workflows
-      work_package = FactoryGirl.create(:work_package, :type => type,
-                                                       :status => status,
-                                                       :project_id => project.id,
-                                                       :author => user,
-                                                       :assigned_to => user)
+      work_package = WorkPackage.create(:type => type,
+                                        :status => status,
+                                        :priority => priority,
+                                        :project_id => project.id,
+                                        :author => user,
+                                        :assigned_to => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]]
     end
 
@@ -283,6 +288,41 @@ describe WorkPackage do
 
           instance.should have(0).time_entries
         end
+      end
+    end
+  end
+
+  describe "#allowed_target_projects_on_move" do
+    let(:admin_user) { FactoryGirl.create :admin }
+    let(:valid_user) { FactoryGirl.create :user }
+    let(:project) { FactoryGirl.create :project }
+
+    context "admin user" do
+      before do
+        User.stub(:current).and_return admin_user
+        project
+      end
+
+      subject { WorkPackage.allowed_target_projects_on_move.count }
+
+      it "sees all active projects" do
+        should eq Project.active.count
+      end
+    end
+
+    context "non admin user" do
+      before do
+        User.stub(:current).and_return valid_user
+
+        role = FactoryGirl.create :role, permissions: [:move_work_packages]
+
+        member = FactoryGirl.create(:member, user: valid_user, project: project, roles: [role])
+      end
+
+      subject { WorkPackage.allowed_target_projects_on_move.count }
+
+      it "sees all active projects" do
+        should eq Project.active.count
       end
     end
   end

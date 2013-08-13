@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 		</tr>
 		<% previous_group = group %>
   <% end %>
-	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= work_package_css_classes(issue) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
           <td class="checkbox hide-when-print">
             <label for="issue<%= issue.id %>" class="hidden-for-sighted"><%= l(:description_select_issue) + '#' + issue.id.to_s %></label>
             <%= check_box_tag("ids[]", issue.id, false, :id => "issue#{issue.id}") %>
@@ -57,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%# Check if we are at the end of a group or the end of a page %>
     <% if @query.grouped? %>
       <% if !next_in_same_group? or issue == issues.last %>
-        <tr class="<%= cycle('odd', 'even') + " sum grouped " + issue.css_classes %>">
+        <tr class="<%= cycle('odd', 'even') + " sum grouped " + work_package_css_classes(issue) %>">
           <td colspan="2">
             <% column_content = column_content(@query.group_by_column, issue).to_s %>
             <%=raw t(:label_sum_for, :value => (column_content.empty? ? 'None' : column_content)) %>
@@ -71,7 +71,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <%# Check if we are at the end of a page %>
     <% if issue == issues.last %>
-      <tr class="<%= cycle('odd', 'even') + " sum group all " + all_issues.first.css_classes %>">
+      <tr class="<%= cycle('odd', 'even') + " sum group all " + work_package_css_classes(all_issues.first) %>">
         <td colspan="2"><%= t(:label_sum_for, :value => l(:label_all_issues)) %></td>
         <% @query.columns.each do |column| %>
           <td><%= mapping_for(column).call(total_sum_of(column)) %></td>

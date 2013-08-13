@@ -21,7 +21,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </tr></thead>
     <tbody>
     <% for issue in issues %>
-    <tr id="issue-<%= h(issue.id) %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
+    <tr id="issue-<%= h(issue.id) %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= work_package_css_classes(issue) %>">
       <td class="id">
         <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
         <%= link_to(h(issue.id), :controller => '/issues', :action => 'show', :id => issue) %>

@@ -49,6 +49,18 @@ describe WorkPackagesController do
                                                        :project_id => '1' )
   end
 
+  it "should connect GET /work_packages/moves/:work_package_id to work_packages/moves#new" do
+    get("/work_packages/1/moves/new").should route_to( :controller => 'work_packages/moves',
+                                                       :action => 'new',
+                                                       :work_package_id => '1' )
+  end
+
+  it "should connect POST /work_packages/moves/:work_package_id to work_packages/moves#create" do
+    post("/work_packages/1/moves/").should route_to( :controller => 'work_packages/moves',
+                                                           :action => 'create',
+                                                           :work_package_id => '1' )
+  end
+
   it "should connect PUT /work_packages/1 to work_packages#update" do
     put("/work_packages/1").should route_to( :controller => 'work_packages',
                                              :action => 'update',

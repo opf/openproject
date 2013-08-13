@@ -23,16 +23,16 @@ See doc/COPYRIGHT.rdoc for more details.
                                    :replace => User.current.allowed_to?(:view_work_package_watchers, @project) ? ['#watchers', '.watcher_link'] : ['.watcher_link'] })) %>
 <% end %>
 <% content_for :action_menu_more do %>
-  <%= li_unless_nil(link_to_if_authorized l(:button_log_time), {:controller => '/timelog', :action => 'new', :work_package_id => work_package}, :class => 'icon icon-time-add') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_log_time), {:controller => '/timelog', :action => 'new', :work_package_id => controller.work_package}, :class => 'icon icon-time-add') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_duplicate), {:controller => '/work_packages', :action => 'new', :project_id => @project, :copy_from => work_package }, :class => 'icon icon-duplicate') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_copy), {:controller => '/work_packages/moves', :action => 'new', :work_package_id => controller.work_package, :copy => ''}, :class => 'icon icon-copy') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_move), {:controller => '/work_packages/moves', :action => 'new', :work_package_id => controller.work_package}, :class => 'icon icon-move') %>
 
   <% if work_package.is_a? Issue %>
-    <%= li_unless_nil(link_to_if_authorized l(:button_duplicate), {:controller => '/issues', :action => 'new', :project_id => @project, :copy_from => work_package }, :class => 'icon icon-duplicate') %>
-    <%= li_unless_nil(link_to_if_authorized l(:button_copy), {:controller => '/issue_moves', :action => 'new', :id => work_package, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy') %>
-    <%= li_unless_nil(link_to_if_authorized l(:button_move), {:controller => '/issue_moves', :action => 'new', :id => work_package}, :class => 'icon icon-move') %>
     <%= li_unless_nil(link_to_if_authorized l(:button_delete), { :controller => '/issues',
                                                                  :action => 'destroy',
-                                                                 :id => work_package },
-                                                                 :confirm => (work_package.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)),
+                                                                 :id => controller.work_package },
+                                                                 :confirm => (controller.work_package.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)),
                                                                  :remote => true,
                                                                  :method => :delete ,
                                                                  :class => 'icon icon-del' ) %>
@@ -46,18 +46,18 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= li_unless_nil(link_to_if_authorized(l(:button_delete),
                                               {:controller => '/planning_elements',
                                                :action => 'confirm_destroy',
-                                               :project_id => work_package.project,
-                                               :id => work_package},
+                                               :project_id => controller.work_package.project,
+                                               :id => controller.work_package},
                                                :class => 'icon icon-del')) %>
       <% else %>
         <%= li_unless_nil(link_to_if_authorized(l("timelines.button_move_to_trash"),
                                                 {:controller => '/planning_elements',
                                                  :action => 'confirm_move_to_trash',
-                                                 :project_id => work_package.project,
-                                                 :id => work_package},
+                                                 :project_id => controller.work_package.project,
+                                                 :id => controller.work_package},
                                                  :class => 'icon icon-del')) %>
       <% end %>
   <% end %>
 
-  <%= call_hook(:view_work_package_show_action_menu, :work_package => work_package) %>
+  <%= call_hook(:view_work_package_show_action_menu, :work_package => controller.work_package) %>
 <% end %>

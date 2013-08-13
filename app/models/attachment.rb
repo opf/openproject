@@ -16,7 +16,6 @@ class Attachment < ActiveRecord::Base
   belongs_to :container, :polymorphic => true
 
   # FIXME: Remove these once the Versions, Documents and Projects themselves can provide file events
-  belongs_to :version, :foreign_key => "container_id"
   belongs_to :document, :foreign_key => "container_id"
 
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
@@ -33,16 +32,13 @@ class Attachment < ActiveRecord::Base
   after_destroy :delete_file_on_disk
 
   acts_as_journalized :event_title => :filename,
-        :event_url => (Proc.new do |o|
-          { :controller => '/attachments', :action => 'download',
-            :id => o.journaled_id, :filename => o.filename }
-        end),
-        :activity_type => 'files',
-        :activity_permission => :view_files,
-        :activity_find_options => { :include => { :version => :project } }
-
-  acts_as_activity :type => 'documents', :permission => :view_documents,
-        :find_options => { :include => { :document => :project } }
+       :event_url => (Proc.new do |o|
+         { :controller => '/attachments', :action => 'download',
+           :id => o.journaled_id, :filename => o.filename }
+       end),
+       :activity_type => 'documents',
+       :activity_permission => :view_documents,
+       :activity_find_options => { :include => { :document => :project } }
 
   # This method is called on save by the AttachmentJournal in order to
   # decide which kind of activity we are dealing with. When that activity
@@ -52,8 +48,6 @@ class Attachment < ActiveRecord::Base
     case container_type
     when "Document"
       "documents"
-    when "Version"
-      "files"
     else
       super
     end
