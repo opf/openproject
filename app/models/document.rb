@@ -40,7 +40,7 @@ class Document < ActiveRecord::Base
   end
 
   def after_initialize
-    if new_record?
+    if new_record? && DocumentCategory.default.present?
       # FIXME: on Rails 3 use this instead
       # self.category ||= DocumentCategory.default
       self.category_id = DocumentCategory.default.id if self.category_id == 0
