@@ -18,10 +18,10 @@ module Redmine
         def self.additional_blocks
           #look at the gemspecs of all plugins trying to find views in a /my/blocks subdirectory
           @@additional_blocks ||= Dir.glob(
-            Plugin.registered_plugins.map do |plugin_id,_|
-              gem_spec = Gem.loaded_specs[plugin_id.to_s]
+            Plugin.registered_plugins.map do |_,plugin|
+              gem_spec = Gem.loaded_specs[plugin.gem_name]
               if gem_spec.nil?
-                ActiveSupport::Deprecation.warn "No Gemspec found for plugin: " + plugin_id.to_s + ", plugin name should equal the gem name"
+                ActiveSupport::Deprecation.warn "No Gemspec found for plugin: " + plugin.id.to_s + ", please add the gem name to the plugin registration"
                 nil
               else
                 Gem.loaded_specs[plugin_id.to_s].full_gem_path + '/**/my/blocks/_*.{rhtml,erb}'
