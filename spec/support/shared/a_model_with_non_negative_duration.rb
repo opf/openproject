@@ -24,7 +24,7 @@ shared_examples_for "a model with non-negative duration" do
 
     describe 'when end date > start date' do
       it 'is the difference between end date and start date plus one day' do
-        subject.start_date = 5.days.ago.to_date
+        subject.start_date = Date.today - 5.days
         subject.due_date   = Date.today
         subject.duration.should == 6
       end
@@ -33,7 +33,7 @@ shared_examples_for "a model with non-negative duration" do
     describe 'when start date > end date' do
       it 'is 1' do
         subject.start_date = Date.today
-        subject.due_date   = 5.days.ago.to_date
+        subject.due_date   = Date.today - 5.days
         subject.duration.should == 1
       end
     end
