@@ -18,13 +18,15 @@ module Redmine
         def self.additional_blocks
           #look at the gemspecs of all plugins trying to find views in a /my/blocks subdirectory
           @@additional_blocks ||= Dir.glob(
-            Plugin.registered_plugins.map do |_,plugin|
-              gem_spec = Gem.loaded_specs[plugin.gem_name]
+            Plugin.registered_plugins.map do |plugin_id,_|
+              gem_name = plugin_id.to_s.gsub('openproject_','openproject-') if plugin_id.to_s.starts_with?('openproject_')
+              gem_spec = Gem.loaded_specs[gem_name]
               if gem_spec.nil?
-                ActiveSupport::Deprecation.warn "No Gemspec found for plugin: " + plugin.id.to_s + ", please add the gem name to the plugin registration"
+                ActiveSupport::Deprecation.warn "No Gemspec found for plugin: " + plugin_id
+                  + ", expected gem name to match the plugin name but starting with openproject-"
                 nil
               else
-                Gem.loaded_specs[plugin_id.to_s].full_gem_path + '/**/my/blocks/_*.{rhtml,erb}'
+                gem_spec.full_gem_path + '/**/my/blocks/_*.{rhtml,erb}'
               end
             end.compact
           ).inject({}) do |h,file|
