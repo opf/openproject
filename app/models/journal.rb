@@ -128,9 +128,37 @@ class Journal < ActiveRecord::Base
           @changes[k] = [predecessor_data[k], v]
         end
       end
+
+      @changes.merge!(get_attachment_changes predecessor)
     end
 
     @changes
+  end
+
+  def get_attachment_changes(predecessor)
+    changes = {}
+
+    if predecessor.nil?
+      attachable_journals.each_with_object(changes) {|a, h| h["attachments_#{a.attachment_id}".to_sym] = [nil, a.filename] }
+    else
+      all_attachable_journal_ids = attachable_journals.map(&:attachment_id) | predecessor.attachable_journals.map(&:attachment_id)
+
+      all_attachable_journals = all_attachable_journal_ids.each_with_object({}) { |i, h| h[i] = [predecessor.attachable_journals.find_by_attachment_id(i), attachable_journals.find_by_attachment_id(i)] }
+
+      # find new attachments
+      all_attachable_journals.select {|_, v| v[0].nil? and not v[1].nil?}
+                             .each_with_object(changes) { |k,h| h["attachments_#{k[0]}".to_sym] = [nil, k[1][1].filename] }
+
+      # find removed attachments
+      all_attachable_journals.select {|_, v| not v[0].nil? and v[1].nil?}
+                             .each_with_object(changes) { |k,h| h["attachments_#{k[0]}".to_sym] = [k[1][0].filename, nil] }
+
+      # find changed attachments
+      all_attachable_journals.select {|_, v| not v[0].nil? and not v[1].nil? and v[0].filename != v[1].filename}
+                             .each_with_object(changes) { |k,h| h["attachments_#{k[0]}".to_sym] = [k[1][0].filename, k[1][1].filename] }
+    end
+
+    changes
   end
 
   def predecessor
