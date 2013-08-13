@@ -11,6 +11,8 @@
 #++
 
 class DocumentObserver < ActiveRecord::Observer
+
+
   def after_create(document)
     return unless Notifier.notify?(:document_added)
 
@@ -20,3 +22,4 @@ class DocumentObserver < ActiveRecord::Observer
     end
   end
 end
+

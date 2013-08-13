@@ -4,7 +4,9 @@ module OpenProject::Documents
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
 
+
     spec = Bundler.environment.specs['openproject-documents'][0]
+
     initializer 'documents.register_plugin' do
       Redmine::Plugin.register 'openproject-documents' do
 
@@ -34,6 +36,7 @@ module OpenProject::Documents
 
 
 
+
     #initializer 'landing_page.precompile_assets' do
     #  Rails.application.config.assets.precompile += %w(landing_page.css landing_page.js)
     #end
@@ -51,6 +54,7 @@ module OpenProject::Documents
       # This is required for the routes to be loaded first
       # as the routes should be prepended so they take precedence over the core.
       app.config.paths['config/routes'].unshift File.join(File.dirname(__FILE__), "..", "..", "..", "config", "routes.rb")
+
     end
 
     initializer "remove_duplicate_documents_routes", :after => "add_routing_paths" do |app|
@@ -72,9 +76,17 @@ module OpenProject::Documents
       require_dependency 'open_project/documents/patches/custom_fields_helper_patch'
     end
 
-    config.after_initialize do
+    config.after_initialize do |app|
       HelpController.view_paths.unshift("#{config.root}/app/views")
+
+      # this registers the observer to listen for callbacks
+      DocumentObserver.instance
     end
+
+
+
+
+
 
   end
 end
