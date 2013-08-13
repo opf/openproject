@@ -28,6 +28,9 @@ class Journal < ActiveRecord::Base
 
   belongs_to :user
 
+  has_many :attachable_journals, class_name: Journal::AttachableJournal
+  has_many :customizable_journals, class_name: Journal::CustomizableJournal
+
   after_save :save_data
 
   # Scopes to all journals excluding the initial journal - useful for change

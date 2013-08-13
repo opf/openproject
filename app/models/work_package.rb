@@ -186,9 +186,7 @@ class WorkPackage < ActiveRecord::Base
   # ACTS AS ATTACHABLE
   # Callback on attachment deletion
   def attachment_removed(obj)
-    init_journal(User.current)
-    create_journal
-    last_journal.update_attribute(:changed_data, { "attachments_#{obj.id}" => [obj.filename, nil] })
+    JournalManager.add_journal self
   end
 
   # ACTS AS JOURNALIZED
