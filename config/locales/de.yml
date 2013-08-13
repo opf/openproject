@@ -247,6 +247,10 @@ de:
       wiki_page: "Wiki-Seite"
       workflow: "Workflow"
 
+  activity:
+    created: "Erstellt: %{title}"
+    updated: "Aktualisiert: %{title}"
+
   # common attributes of all models
   attributes:
     assigned_to: "Zugewiesen an"
@@ -948,6 +952,7 @@ de:
   label_wiki_show_new_page_link: "'Neue Unterseite anlegen' Link als Untermenüpunkt anzeigen"
   label_wiki_show_submenu_item: "als Untermenüpunkt anzeigen von "
   label_work_package: "Arbeitspaket"
+  label_work_package: "Arbeitspakete"
   label_work_package_new: "Neues Arbeitspaket"
   label_workflow: "Workflow"
   label_workflow_summary: "Zusammenfassung"
@@ -1455,11 +1460,9 @@ de:
 
     planning_element_could_not_be_saved: "Planungselement konnte nicht gespeichert werden"
     planning_element_could_not_be_restored: "Planungselement konnte nicht wiederhergestellt werden"
-    planning_element_creation: "Anlegen: %{title}"
     planning_element_updated_automatically_by_child_changes: |
         _Automatisch durch die Änderungen in %{child} aktualisert_
     planning_element_type_could_not_be_saved: "Planungselement-Typ konnte nicht gespeichert werden"
-    planning_element_update: "Aktualisierung: %{title}"
     planning_elements_are_displayed_in_aggregations: "Planungselemente werden in Aggregation angezeigt"
     project_association_new: "Projekt-Abhängigkeit hinzufügen"
     project_association_new_for_with: "Anlegen der Projekt-Abhängigkeit von “%{project_a}” zu"

@@ -251,6 +251,10 @@ en:
       wiki_page: "Wiki page"
       workflow: "Workflow"
 
+  activity:
+    created: "Created: %{title}"
+    updated: "Updated: %{title}"
+
   # common attributes of all models
   attributes:
     assigned_to: "Assignee"
@@ -929,6 +933,7 @@ en:
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_work_package: "Work package"
+  label_work_package_plural: "Work packages"
   label_work_package_new: "New work package"
   label_workflow: "Workflow"
   label_workflow_summary: "Summary"
@@ -1435,11 +1440,9 @@ en:
 
     planning_element_could_not_be_saved: "Planning element could not be saved"
     planning_element_could_not_be_restored: "Planning element could not be restored"
-    planning_element_creation: "Creation: %{title}"
     planning_element_updated_automatically_by_child_changes: |
         _Updated automatically by changing values within child planning element %{child}_
     planning_element_type_could_not_be_saved: "Planning element type could not be saved"
-    planning_element_update: "Update: %{title}"
     planning_elements_are_displayed_in_aggregations: "Planning elements are displayed in aggregations"
     project_association_new: Add project dependency
     project_association_new_for_with: Set dependency for “%{project_a}” with

@@ -13,14 +13,14 @@ See doc/COPYRIGHT.rdoc for more details.
 <% show_deleted ||= false %>
 <tr class="<%= cycle('odd', 'even') %>">
   <td class="timelines-pe-id">
-    <%= link_to_planning_element(planning_element, :include_name => false) %>
+    <%= link_to_work_package(planning_element, :id_only => true) %>
   </td>
   <td class="timelines-pe-type">
     <%= icon_for_type(planning_element.type) %>
     <%=h planning_element.type.try(:name) %>
   </td>
   <td class="timelines-pe-name">
-    <%= link_to_planning_element(planning_element, :include_id => false) %>
+    <%= link_to_work_package(planning_element, :subject_only => true) %>
   </td>
   <td class="timelines-pe-responsible">
     <% if planning_element.responsible.present? %>

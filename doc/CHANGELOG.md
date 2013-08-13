@@ -2,6 +2,7 @@
 
 ## 3.0.0pre11
 
+* `#1418` Change links to issues/planning elements to use work_packages controller
 * `#1541` Use Rails 3.2.14 instead of Git Branch
 * `#1595` Cleanup action menu for work packages
 * `#1598` Switching type of work package looses inserted data
