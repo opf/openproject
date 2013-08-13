@@ -354,13 +354,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert UserMailer.issue_updated(user, journal).deliver
   end
 
-  def test_document_added
-    user     = FactoryGirl.create(:user)
-    document = FactoryGirl.create(:document)
-    # TODO move out this method, as it ties core to openproject-documents-plugin
-    assert DocumentsMailer.document_added(user, document).deliver
-  end
-
   def test_news_added
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
