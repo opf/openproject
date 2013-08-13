@@ -13,7 +13,6 @@ require 'spec_helper'
 
 describe ApplicationHelper do
   include ApplicationHelper
-  include WorkPackagesHelper
   include ActionView::Helpers
   include ActionDispatch::Routing
   include Rails.application.routes.url_helpers
@@ -27,32 +26,23 @@ describe ApplicationHelper do
                                               :member_through_role => FactoryGirl.create(:role,
                                                                                          :permissions => [:view_work_packages, :edit_work_packages,
                                                                                          :view_documents, :browse_repository, :view_changesets, :view_wiki_pages]) }
-    let(:issue) { FactoryGirl.create :issue,
-                                     :project => project,
-                                     :author => project_member,
-                                     :type => project.types.first }
+    let(:document) { FactoryGirl.create :document,
+                                          :title => 'Test document',
+                                          :project => project }
 
     before do
       @project = project
-
       User.stubs(:current).returns(project_member)
-
-      Setting.enabled_scm = Setting.enabled_scm << "Filesystem" unless Setting.enabled_scm.include? "Filesystem"
     end
 
     after do
       User.unstub(:current)
-
-      Setting.enabled_scm.delete "Filesystem"
     end
 
-  context "Document links" do
-      let(:document) { FactoryGirl.create :document,
-                                          :title => 'Test document',
-                                          :project => project }
+    context "Simple Document links" do
       let(:document_link) { link_to('Test document',
-                                    {:controller => 'documents', :action => 'show', :id => document.id},
-                                    :class => 'document') }
+                                     {:controller => 'documents', :action => 'show', :id => document.id},
+                                     :class => 'document') }
 
       context "Plain link" do
         subject { textilizable("document##{document.id}") }
@@ -76,6 +66,34 @@ describe ApplicationHelper do
         subject { textilizable('!document:"Test document"') }
 
         it { should eq('<p>document:"Test document"</p>') }
+      end
+    end
+
+    context 'Cross-Project Document Links' do
+      let(:the_other_project) { FactoryGirl.create :valid_project }
+
+      context "By name without project" do
+        subject { textilizable("document:\"#{document.title}\"", :project => the_other_project) }
+
+        it { should eq('<p>document:"Test document"</p>') }
+      end
+
+      context "By id and given project" do
+        subject { textilizable("#{identifier}:document##{document.id}", :project => the_other_project) }
+
+        it { should eq("<p><a href=\"/documents/#{document.id}\" class=\"document\">Test document</a></p>") }
+      end
+
+      context "By name and given project" do
+        subject { textilizable("#{identifier}:document:\"#{document.title}\"", :project => the_other_project) }
+
+        it { should eq("<p><a href=\"/documents/#{document.id}\" class=\"document\">Test document</a></p>") }
+      end
+
+      context "Invalid link" do
+        subject { textilizable("invalid:document:\"Test document\"", :project => the_other_project) }
+
+        it { should eq('<p>invalid:document:"Test document"</p>') }
       end
     end
   end
