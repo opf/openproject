@@ -44,7 +44,7 @@ class JournalObserverTest < ActiveSupport::TestCase
     should "should send a notification when configured as a notification" do
       Setting.notified_events = ['issue_note_added']
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
-        @issue.init_journal(@user, 'This update has a note')
+        @issue.add_journal(@user, 'This update has a note')
         assert @issue.save
       end
     end
