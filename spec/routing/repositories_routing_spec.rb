@@ -31,31 +31,31 @@ describe RepositoriesController do
     it { get("/projects/testproject/repository/revisions/2457").should route_to( :controller => 'repositories', :action => 'revision', :id => 'testproject', :rev => '2457')}
   end
 
-  # describe "diff" do
-  #   it { get("/projects/testproject/repository/revisions/2457/diff").should             route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :rev => '2457')}
-  #   it { get("/projects/testproject/repository/revisions/2457/diff.diff").should        route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :rev => '2457', :format => 'diff')}
-  #   it { get("/projects/testproject/repository/diff/path/to/file.c").should             route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :path => %w[path to file.c])}
-  #   it { get("/projects/testproject/repository/revisions/2/diff/path/to/file.c").should route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :path => %w[path to file.c], :rev => '2')}
-  # end
+  pending describe "diff" do
+    it { get("/projects/testproject/repository/revisions/2457/diff").should             route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :rev => '2457')}
+    it { get("/projects/testproject/repository/revisions/2457/diff.diff").should        route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :rev => '2457', :format => 'diff')}
+    it { get("/projects/testproject/repository/diff/path/to/file.c").should             route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :path => %w[path to file.c])}
+    it { get("/projects/testproject/repository/revisions/2/diff/path/to/file.c").should route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :path => %w[path to file.c], :rev => '2')}
+  end
 
-  # describe "browse" do
-  #   it { get("/projects/testproject/repository/browse/path/to/file.c").should route_to( :controller => 'repositories', :action => 'browse', :id => 'testproject', :path => %w[path to file.c])}
-  # end
+  pending describe "browse" do
+    it { get("/projects/testproject/repository/browse/path/to/file.c").should route_to( :controller => 'repositories', :action => 'browse', :id => 'testproject', :path => %w[path to file.c])}
+  end
 
-  # describe "entry" do
-  #   it { get("/projects/testproject/repository/entry/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c])}
-  #   it { get("/projects/testproject/repository/revisions/2/entry/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c], :rev => '2')}
-  #   it { get("/projects/testproject/repository/raw/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c], :format => 'raw')}
-  #   it { get("/projects/testproject/repository/revisions/2/raw/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c], :rev => '2', :format => 'raw')}
-  # end
+  pending describe "entry" do
+    it { get("/projects/testproject/repository/entry/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c])}
+    it { get("/projects/testproject/repository/revisions/2/entry/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c], :rev => '2')}
+    it { get("/projects/testproject/repository/raw/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c], :format => 'raw')}
+    it { get("/projects/testproject/repository/revisions/2/raw/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c], :rev => '2', :format => 'raw')}
+  end
 
-  # describe "annotate" do
-  #   it { get("/projects/testproject/repository/annotate/path/to/file.c").should route_to( :controller => 'repositories', :action => 'annotate', :id => 'testproject', :path => %w[path to file.c])}
-  # end
+  pending describe "annotate" do
+    it { get("/projects/testproject/repository/annotate/path/to/file.c").should route_to( :controller => 'repositories', :action => 'annotate', :id => 'testproject', :path => %w[path to file.c])}
+  end
 
-  # describe "changes" do
-  #   it { get("/projects/testproject/repository/changes/path/to/file.c").should route_to( :controller => 'repositories', :action => 'changes', :id => 'testproject', :path => %w[path to file.c])}
-  # end
+  pending describe "changes" do
+    it { get("/projects/testproject/repository/changes/path/to/file.c").should route_to( :controller => 'repositories', :action => 'changes', :id => 'testproject', :path => %w[path to file.c])}
+  end
 
   describe "stats" do
     it { get("/projects/testproject/repository/statistics").should route_to( :controller => 'repositories', :action => 'stats', :id => 'testproject')}
