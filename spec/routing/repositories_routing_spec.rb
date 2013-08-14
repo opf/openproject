@@ -64,4 +64,8 @@ describe RepositoriesController do
   describe "committers" do
     it { get("/projects/testproject/repository/committers").should route_to( :controller => 'repositories', :action => 'committers', :id => 'testproject')}
   end
+
+  describe "graph" do
+    it { get("/projects/testproject/repository/graph").should route_to( :controller => 'repositories', :action => 'graph', :id => 'testproject')}
+  end
 end
