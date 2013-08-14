@@ -15,15 +15,15 @@ describe CustomFieldsController do
   let(:custom_field) { FactoryGirl.build(:custom_field) }
 
   before do
-    @controller.stub!(:authorize)
-    @controller.stub!(:check_if_login_required)
-    @controller.stub!(:require_admin)
+    @controller.stub(:authorize)
+    @controller.stub(:check_if_login_required)
+    @controller.stub(:require_admin)
   end
 
   describe "POST edit" do
     before do
       Setting.available_languages = ["de", "en"]
-      CustomField.stub!(:find).and_return(custom_field)
+      CustomField.stub(:find).and_return(custom_field)
     end
 
     describe "WITH all ok params" do

@@ -32,7 +32,7 @@ module OpenProject
     #
     #   2.0.0debian-2
     def self.special
-      'pre10'
+      'pre11'
     end
 
     def self.revision

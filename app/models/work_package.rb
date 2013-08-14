@@ -84,19 +84,40 @@ class WorkPackage < ActiveRecord::Base
   ###################################################
   acts_as_attachable :after_remove => :attachment_removed
 
-  acts_as_journalized :event_title => Proc.new {|o| "#{ o.to_s }"},
-                      :event_type => (Proc.new do |o|
-                        t = 'work_package'
-                        if o.changed_data.empty?
-                          t << '-note' unless o.initial?
-                        else
-                          t << (IssueStatus.find_by_id(
-                            o.new_value_for(:status_id)).try(:is_closed?) ? '-closed' : '-edit'
-                          )
-                        end
-                        t
-                      end),
-                      :except => ["root_id"]
+  # This one is here only to ease reading
+  module JournalizedProcs
+    def self.event_title
+      Proc.new do |journal|
+        work_package = journal.journaled
+
+        title = work_package.to_s
+        title << " (#{work_package.status.name})" if work_package.status.present?
+
+        title
+      end
+    end
+
+    def self.event_type
+      Proc.new do |journal|
+        t = 'work_package'
+
+        t << if journal.changed_data.empty? && !journal.initial?
+               '-note'
+             else
+               status = IssueStatus.find_by_id(journal.new_value_for(:status_id))
+
+               status.try(:is_closed?) ? '-closed' : '-edit'
+             end
+
+        t
+      end
+    end
+  end
+
+  acts_as_journalized :event_title => JournalizedProcs.event_title,
+                      :event_type => JournalizedProcs.event_type,
+                      :except => ["root_id"],
+                      :activity_find_options => { :include => [:status, :type] }
 
   register_on_journal_formatter(:id, 'parent_id')
   register_on_journal_formatter(:fraction, 'estimated_hours')
@@ -128,7 +149,7 @@ class WorkPackage < ActiveRecord::Base
   # In order to avoid stale object errors we reload the attributes in question
   # after the wp is created.
   # As after_create is run before after_save, and journal creation is triggered by an
-  # after_save hook, we rely on after_save and a specific version, here.
+  # after_save hook, we rely on after_save and a specific version here.
   after_save :reload_lock_and_timestamps, :if => Proc.new { |wp| wp.lock_version == 0 }
 
   # Returns a SQL conditions string used to find all work units visible by the specified user

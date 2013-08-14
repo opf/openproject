@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </th>
         <td>
           <%= planning_element.parent ?
-          (link_to_planning_element(planning_element.parent, :include_id => false)) : "" %>&nbsp;
+          (link_to_work_package(planning_element.parent, :subject_only => true)) : "" %>&nbsp;
         </td>
       </tr>
       <tr>

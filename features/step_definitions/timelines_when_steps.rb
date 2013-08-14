@@ -199,26 +199,6 @@ When (/^I move "([^"]*)" down by one$/) do |name|
   link.click
 end
 
-When (/^I fill in the planning element ID of "([^"]*)" with (\d+) star for "([^"]*)"$/) do |planning_element_subject, number_hash_keys, container|
-  planning_element = PlanningElement.find_by_subject(planning_element_subject)
-  text = "#{('*' * number_hash_keys.to_i)}#{planning_element.id}"
-
-  step %Q{I fill in "#{text}" for "#{container}"}
-end
-
-When (/^I follow the planning element link with (\d+) star for "([^"]*)"$/) do |star_count, planning_element_subject|
-  planning_element = PlanningElement.find_by_subject(planning_element_subject)
-
-  text = ""
-  if star_count.to_i > 1
-    text = "*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.subject}"
-  elsif star_count.to_i == 1
-    text = "*#{planning_element.id}"
-  end
-
-  step %Q{I follow "#{text}"}
-end
-
 When (/^I fill in a wiki macro for timeline "([^"]*)" for "([^"]*)"$/) do |timeline_name, container|
   timeline = Timeline.find_by_name(timeline_name)
 

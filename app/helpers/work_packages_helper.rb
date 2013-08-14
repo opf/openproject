@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+#
 #-- copyright
 # OpenProject is a project management system.
 #
@@ -25,6 +27,174 @@ module WorkPackagesHelper
   def work_package_index_link
     # TODO: will need to change to work_package index
     link_to(t(:label_issue_plural), {:controller => '/issues', :action => 'index'})
+  end
+
+  # Displays a link to +work_package+ with its subject.
+  # Examples:
+  #
+  #   link_to_work_package(package)                             # => Defect #6: This is the subject
+  #   link_to_work_package(package, :all_link => true)          # => Defect #6: This is the subject (everything within the link)
+  #   link_to_work_package(package, :truncate => 9)             # => Defect #6: This i...
+  #   link_to_work_package(package, :subject => false)          # => Defect #6
+  #   link_to_work_package(package, :type => false)             # => #6: This is the subject
+  #   link_to_work_package(package, :project => true)           # => Foo - Defect #6
+  #   link_to_work_package(package, :id_only => true)           # => #6
+  #   link_to_work_package(package, :subject_only => true)      # => This is the subject (as link)
+  def link_to_work_package(package, options = {})
+
+    if options[:subject_only]
+      options.merge!(:type => false,
+                     :subject => true,
+                     :id => false,
+                     :all_link => true)
+    elsif options[:id_only]
+      options.merge!(:type => false,
+                     :subject => false,
+                     :id => true,
+                     :all_link => true)
+    else
+      options.reverse_merge!(:type => true,
+                             :subject => true,
+                             :id => true)
+    end
+
+    parts = { :prefix => [],
+              :hidden_link => [],
+              :link => [],
+              :suffix => [],
+              :title => [] }
+
+    # Prefix part
+
+    parts[:prefix] << "#{package.project}" if options[:project]
+
+    # Link part
+
+    parts[:link] << h(options[:before_text].to_s) if options[:before_text]
+
+    parts[:link] << h(package.kind.to_s) if options[:type]
+
+    parts[:link] << "##{package.id}" if options[:id]
+
+    # Hidden link part
+
+    if package.closed?
+      parts[:hidden_link] << content_tag(:span,
+                                         t(:label_closed_issues),
+                                         :class => "hidden-for-sighted")
+    end
+
+    # Suffix part
+
+    if options[:subject]
+      subject = if options[:subject]
+                  subject = package.subject
+                  if options[:truncate]
+                    subject = truncate(subject, :length => options[:truncate])
+                  end
+
+                  subject
+                end
+
+      parts[:suffix] << subject
+    end
+
+    # title part
+
+    parts[:title] << package.subject
+
+    # combining
+
+    prefix = parts[:prefix].join(" ")
+    suffix = parts[:suffix].join(" ")
+    link = parts[:link].join(" ").strip
+    hidden_link = parts[:hidden_link].join("")
+    title = parts[:title].join(" ")
+
+    text = if options[:all_link]
+             link_text = [prefix, link].reject(&:empty?).join(" - ")
+             link_text = [link_text, suffix].reject(&:empty?).join(": ")
+             link_text = [hidden_link, link_text].reject(&:empty?).join("")
+
+             link_to(link_text.html_safe,
+                     work_package_path(package),
+                     :title => title)
+           else
+             link_text = [hidden_link, link].reject(&:empty?).join("")
+
+             html_link = link_to(link_text.html_safe,
+                                 work_package_path(package),
+                                 :title => title)
+
+             [[prefix, html_link].reject(&:empty?).join(" - "),
+              suffix].reject(&:empty?).join(": ")
+            end.html_safe
+  end
+
+  def work_package_quick_info(work_package)
+    changed_dates = {}
+
+    journals = work_package.journals.where(["created_at >= ?", Date.today.to_time - 7.day])
+                                    .order("created_at desc")
+
+    journals.each do |journal|
+      break if changed_dates["start_date"] && changed_dates["due_date"]
+
+      ["start_date", "due_date"].each do |date|
+        if changed_dates[date].nil? &&
+           journal.changed_data[date] &&
+           journal.changed_data[date].first
+              changed_dates[date] = " (<del>#{journal.changed_data[date].first}</del>)".html_safe
+        end
+      end
+    end
+
+    link = link_to_work_package(work_package)
+    link += " #{work_package.start_date.nil? ? "[?]" : work_package.start_date.to_s}"
+    link += changed_dates["start_date"]
+    link += " – #{work_package.due_date.nil? ? "[?]" : work_package.due_date.to_s}"
+    link += changed_dates["due_date"]
+
+    link
+  end
+
+  def work_package_quick_info_with_description(work_package, lines = 3)
+    description_lines = work_package.description.to_s.lines.to_a[0,lines]
+
+    if description_lines[lines-1] && work_package.description.to_s.lines.to_a.size > lines
+      description_lines[lines-1].strip!
+
+      while !description_lines[lines-1].end_with?("...") do
+        description_lines[lines-1] = description_lines[lines-1] + "."
+      end
+    end
+
+    description = if work_package.description.blank?
+                    "-"
+                  else
+                    textilizable(description_lines.join(""))
+                  end
+
+    link = work_package_quick_info(work_package)
+
+    link += content_tag(:div, :class => 'indent quick_info attributes') do
+
+      responsible = if work_package.responsible_id.present?
+                      "<span class='label'>#{WorkPackage.human_attribute_name(:responsible)}:</span> " +
+                      "#{work_package.responsible.name}"
+                    end
+
+      assignee = if work_package.assigned_to_id.present?
+                   "<span class='label'>#{WorkPackage.human_attribute_name(:assigned_to)}:</span> " +
+                   "#{work_package.assigned_to.name}"
+                 end
+
+      [responsible, assignee].compact.join("<br>").html_safe
+    end
+
+    link += content_tag(:div, description, :class => 'indent quick_info description')
+
+    link
   end
 
   def work_package_list(work_packages, &block)

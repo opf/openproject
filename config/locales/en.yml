@@ -245,6 +245,10 @@ en:
       wiki_page: "Wiki page"
       workflow: "Workflow"
 
+  activity:
+    created: "Created: %{title}"
+    updated: "Updated: %{title}"
+
   # common attributes of all models
   attributes:
     assigned_to: "Assignee"
@@ -1427,7 +1431,6 @@ en:
 
     planning_element_could_not_be_saved: "Planning element could not be saved"
     planning_element_could_not_be_restored: "Planning element could not be restored"
-    planning_element_creation: "Creation: %{title}"
     planning_element_updated_automatically_by_child_changes: |
         _Updated automatically by changing values within child planning element %{child}_
     planning_element_update: "Update: %{title}"

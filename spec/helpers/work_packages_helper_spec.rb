@@ -12,12 +12,9 @@
 require 'spec_helper'
 
 describe WorkPackagesHelper do
-  let(:statuses) { (1..5).map{ |i| FactoryGirl.create(:issue_status)}}
-  let(:priority) { FactoryGirl.create :priority, is_default: true }
-  let(:status) { statuses[0] }
-  let(:stub_work_package) { FactoryGirl.build_stubbed(:planning_element,
-                                                      :status => status,
-                                                      :priority => priority) }
+  let(:stub_work_package) { FactoryGirl.build_stubbed(:planning_element) }
+  let(:stub_project) { FactoryGirl.build_stubbed(:project) }
+  let(:stub_type) { FactoryGirl.build_stubbed(:type) }
   let(:form) { double('form', :select => "").as_null_object }
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
 
@@ -57,6 +54,116 @@ describe WorkPackagesHelper do
       ancestors.each_with_index do |ancestor, index|
         helper.ancestors_links[index].should have_selector("a[href='#{work_package_path(ancestor.id)}']", :text => "##{ancestor.id}")
 
+      end
+    end
+  end
+
+  describe :link_to_work_package do
+    let(:open_status) { FactoryGirl.build_stubbed(:issue_status, :is_closed => false) }
+    let(:closed_status) { FactoryGirl.build_stubbed(:issue_status, :is_closed => true) }
+
+    before do
+      stub_work_package.status = open_status
+    end
+
+    describe "without parameters" do
+      it 'should return a link to the work package with the id as the text' do
+        link_text = Regexp.new("^##{stub_work_package.id}$")
+        helper.link_to_work_package(stub_work_package).should have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+      end
+
+      it 'should return a link to the work package with type and id as the text if type is set' do
+        stub_work_package.type = stub_type
+
+        link_text = Regexp.new("^#{stub_type.name} ##{stub_work_package.id}$")
+        helper.link_to_work_package(stub_work_package).should have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+      end
+
+      it 'should additionally return the subject' do
+        text = Regexp.new("#{stub_work_package.subject}$")
+        helper.link_to_work_package(stub_work_package).should have_text(text)
+      end
+
+      it 'should prepend an invisible closed information if the work package is closed' do
+        stub_work_package.status = closed_status
+
+        helper.link_to_work_package(stub_work_package).should have_selector("a span.hidden-for-sighted", :text => "closed")
+      end
+    end
+
+    describe "with the all_link option provided" do
+      it 'should return a link to the work package with the type, id, and subject as the text' do
+        stub_work_package.type = stub_type
+
+        link_text = Regexp.new("^#{stub_type.to_s} ##{stub_work_package.id}: #{stub_work_package.subject}$")
+        helper.link_to_work_package(stub_work_package, :all_link => true).should have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+      end
+    end
+
+    describe "when truncating" do
+      it 'should truncate the subject if the subject is longer than the specified amount' do
+        stub_work_package.subject = "12345678"
+
+        text = Regexp.new("1234...$")
+        helper.link_to_work_package(stub_work_package, :truncate => 7).should have_text(text)
+      end
+
+      it 'should not truncate the subject if the subject is shorter than the specified amount' do
+        stub_work_package.subject = "1234567"
+
+        text = Regexp.new("1234567$")
+        helper.link_to_work_package(stub_work_package, :truncate => 7).should have_text(text)
+      end
+    end
+
+    describe "when omitting the subject" do
+      it 'should omit the subject' do
+        helper.link_to_work_package(stub_work_package, :subject => false).should_not have_text(stub_work_package.subject)
+      end
+    end
+
+    describe "when omitting the type" do
+      it 'should omit the type' do
+        stub_work_package.type = stub_type
+
+        link_text = Regexp.new("^##{stub_work_package.id}$")
+        helper.link_to_work_package(stub_work_package, :type => false).should have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+      end
+    end
+
+    describe "with a project" do
+      let(:text) { Regexp.new("^#{stub_project.name} -") }
+
+      before do
+        stub_work_package.project = stub_project
+      end
+
+      it 'should prepend the project if parameter set to true' do
+        helper.link_to_work_package(stub_work_package, :project => true).should have_text(text)
+      end
+
+      it 'should not have the project name if the parameter is missing/false' do
+        helper.link_to_work_package(stub_work_package).should_not have_text(text)
+      end
+    end
+
+    describe "when only wanting the id" do
+      it 'should return a link with the id as text only even if the work package has a type' do
+        stub_work_package.type = stub_type
+
+        link_text = Regexp.new("^##{stub_work_package.id}$")
+        helper.link_to_work_package(stub_work_package, :id_only => true).should have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+      end
+
+      it 'should not have the subject as text' do
+        helper.link_to_work_package(stub_work_package, :id_only => true).should_not have_text(stub_work_package.subject)
+      end
+    end
+
+    describe "when only wanting the subject" do
+      it 'should return a link with the subject as text' do
+        link_text = Regexp.new("^#{stub_work_package.subject}$")
+        helper.link_to_work_package(stub_work_package, :subject_only => true).should have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
       end
     end
   end
@@ -129,6 +236,13 @@ describe WorkPackagesHelper do
   end
 
   describe :work_package_css_classes do
+    let(:statuses) { (1..5).map{ |i| FactoryGirl.build_stubbed(:issue_status)}}
+    let(:priority) { FactoryGirl.build_stubbed :priority, is_default: true }
+    let(:status) { statuses[0] }
+    let(:stub_work_package) { FactoryGirl.build_stubbed(:planning_element,
+                                                        :status => status,
+                                                        :priority => priority) }
+
     it "should always have the work_package class" do
       helper.work_package_css_classes(stub_work_package).should include("work_package")
     end

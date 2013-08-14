@@ -114,36 +114,10 @@ module ApplicationHelper
     l(('status_' + user.status_name).to_sym)
   end
 
-  # Displays a link to +issue+ with its subject.
-  # Examples:
-  #
-  #   link_to_issue(issue)                        # => Defect #6: This is the subject
-  #   link_to_issue(issue, :truncate => 6)        # => Defect #6: This i...
-  #   link_to_issue(issue, :subject => false)     # => Defect #6
-  #   link_to_issue(issue, :project => true)      # => Foo - Defect #6
-  #
   def link_to_issue(issue, options={})
-    title = nil
-    subject = nil
-    if options[:subject] == false
-      title = truncate(issue.subject, :length => 60)
-    else
-      subject = issue.subject
-      if options[:truncate]
-        subject = truncate(subject, :length => options[:truncate])
-      end
-    end
-    closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
-    s = ActiveSupport::SafeBuffer.new
-    s << "#{issue.project} - " if options[:project]
-    s << link_to("#{closed}#{h(options[:before_text].to_s)}#{issue.to_s}".html_safe,
-                 work_package_path(issue),
-                 :title => h(title))
-    s
-  end
-
-  def link_to_work_package(work_package)
-    link_to_issue work_package
+    warn "[DEPRECATION] link_to_issue will be removed - use link_to_work_package instead.\n" +
+         "Called from: #{caller[0]}"
+    link_to_work_package(issue, options)
   end
 
   # Generates a link to an attachment.
@@ -755,14 +729,12 @@ module ApplicationHelper
         elsif sep == '##'
           oid = identifier.to_i
           if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
-            extend IssuesHelper # TODO: remove me from here
-            link = issue_quick_info(work_package)
+            link = work_package_quick_info(work_package)
           end
         elsif sep == '###'
           oid = identifier.to_i
           if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
-            extend IssuesHelper # TODO: remove me from here
-            link = issue_quick_info_with_description(work_package)
+            link = work_package_quick_info_with_description(work_package)
           end
         elsif sep == ':'
           # removes the double quotes if any
@@ -1118,112 +1090,6 @@ module ApplicationHelper
     elements << I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url))
     elements.join(", ").html_safe
   end
-
-  # start timelines stuff
-  #
-  def link_to_planning_element(planning_element, options = {})
-    return if planning_element.new_record?
-
-    options = options.stringify_keys
-    options.assert_valid_keys("include_id", "include_name", "text")
-
-    options.reverse_merge!("include_id"   => true,
-                           "include_name" => true)
-
-    if options["text"].blank?
-      text = []
-
-      text << "*#{planning_element.id}" if options["include_id"]
-      text << "#{planning_element.subject}" if options["include_name"]
-
-      text = text.join(" ")
-    else
-      text = options[:text]
-    end
-
-    link_to(h(text),
-            work_package_path(planning_element),
-            :title => planning_element.subject)
-  end
-
-  def planning_element_quick_info(planning_element)
-    start_date_change = ""
-    due_date_change = ""
-
-    journals = planning_element.journals.find(:all, :conditions => ["created_at >= ?", Date.today.to_time - 7.day], :order => "created_at desc")
-
-    journals.each do |journal|
-      break if !start_date_change.empty? and !due_date_change.empty?
-
-      if start_date_change.empty?
-        unless journal.changes["start_date"].nil?
-          unless journal.changes["start_date"].first.nil?
-            start_date_change = " (<del>#{journal.changes["start_date"].first}</del>)"
-          end
-        end
-      end
-
-      if due_date_change.empty?
-        unless journal.changes["due_date"].nil?
-          unless journal.changes["due_date"].first.nil?
-            due_date_change = " (<del>#{journal.changes["due_date"].first}</del>)"
-          end
-        end
-      end
-    end
-
-    link = link_to(h("*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.subject} "),
-                   work_package_path(planning_element),
-                   :title => h("#{truncate(planning_element.subject, :length => 100)} #{planning_element.planning_element_status.nil? ? "" :
-                               "(" + planning_element.planning_element_status.name + ")"}"))
-    link += "#{planning_element.start_date.nil? ? "[?]" : planning_element.start_date.to_s}#{start_date_change} – #{planning_element.due_date.nil? ? "[?]" :
-      planning_element.due_date.to_s}#{due_date_change}"
-    link += "#{planning_element.responsible.nil? ? "" : h(" (#{planning_element.responsible.to_s})")}"
-
-    return link
-  end
-
-  def planning_element_quick_info_with_description(planning_element, lines)
-    description_lines = planning_element.description.to_s.lines.to_a[0,lines]
-
-    if description_lines[lines-1] && planning_element.description.to_s.lines.to_a.size > lines
-      description_lines[lines-1].strip!
-
-      while !description_lines[lines-1].end_with?("...") do
-        description_lines[lines-1] = description_lines[lines-1] + "."
-      end
-    end
-
-    planning_element_quick_info(planning_element) +
-      content_tag(:div, textilizable("\n" + description_lines.to_s), :class => "indent")
-  end
-
-  def parse_redmine_links_with_planning_element_links(text, project, obj, attr, only_path, options)
-    parse_redmine_links_without_planning_element_links(text, project, obj, attr, only_path, options)
-    text.gsub!(%r{(?:\W|^|\A)((\*+)(\d+))(?:\W|$|\z)}) do |match|
-      text, stars, id = $1, $2, $3
-      planning_element = PlanningElement.without_deleted.visible.find_by_id(id)
-
-      if planning_element.present?
-        if stars == "*"
-          match.sub(text, link_to_planning_element(planning_element, :include_name => false))
-        elsif stars == "**"
-          replace = planning_element_quick_info(planning_element)
-          match.sub(text, replace)
-        elsif stars == "***"
-          replace = planning_element_quick_info_with_description(planning_element,3)
-          match.sub(text, replace)
-        end
-      else
-        match
-      end
-    end
-  end
-
-  #TODO remove method chain!
-  alias_method_chain :parse_redmine_links, :planning_element_links
-
-  # end timelines stuff
 
   private
 
