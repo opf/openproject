@@ -1,5 +1,5 @@
 class RemoveDocuments < ActiveRecord::Migration
-  def self.up
+  def up
     unless Redmine::Plugin.registered_plugins.include?(:openproject_documents)
       if  Document.any? || Attachment.where(:container_type => ['Document']).any?
         raise "There are still documents and/or attachments attached to documents, please remove them."
@@ -11,7 +11,7 @@ class RemoveDocuments < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     unless ActiveRecord::Base.connection.table_exists 'Documents'
       create_table "documents", :force => true do |t|
         t.integer  "project_id",                :default => 0,  :null => false
@@ -24,4 +24,13 @@ class RemoveDocuments < ActiveRecord::Migration
       DocumentCategory.create!(:name => l(:default_doc_category_tech), :position => 2)
     end
   end
+end
+
+class Document < ActiveRecord::Base
+  belongs_to :project
+  belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
+end
+
+class DocumentCategory < Enumeration
+  has_many :documents, :foreign_key => 'category_id'
 end
