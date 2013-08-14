@@ -12,7 +12,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= Document.model_name.human %></h2>
 
-<%= form_tag(document_path(@document),
+<%= form_tag(project_document_path(@document),
              :method => :put,
              :class => "tabular") do %>
   <%= render :partial => 'form' %>

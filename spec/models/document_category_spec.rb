@@ -34,6 +34,17 @@ describe DocumentCategory do
     expect(DocumentCategory.new.option_name).to eql  :enumeration_doc_categories
   end
 
+  it "should only allow one category to be the default-category" do
+    old_default = FactoryGirl.create :document_category, :name => "old default", :project => project, :is_default => true
+
+    expect{
+      new_default = FactoryGirl.create :document_category, :name => "new default", :project => project, :is_default => true
+      old_default.reload
+    }.to change{old_default.is_default?}.from(true).to(false)
+
+
+  end
+
 end
 
 
