@@ -16,16 +16,66 @@ class JournalManager
     not obj.nil? and obj.respond_to? :journals
   end
 
-  def self.attributes_changed?(journaled)
+  def self.changed?(journaled)
     if journaled.journals.count > 0
-      current = journaled.attributes
-      predecessor = journaled.journals.last.data.journaled_attributes
+      changed = attributes_changed? journaled
+      changed ||= association_changed? journaled, "attachable", :attachments, :id, :attachment_id, :filename
+      changed ||= association_changed? journaled, "customizable", :custom_values, :custom_field_id, :custom_field_id, :value
 
-      return predecessor.map{|k,v| current[k.to_s] != v}
-                        .inject(false) { |r, c| r || c }
+      changed
+    else
+      true
     end
+  end
 
-    true
+  def self.attributes_changed?(journaled)
+    current = journaled.attributes
+    predecessor = journaled.journals.last.data.journaled_attributes
+
+    return predecessor.map{|k,v| current[k.to_s] != v}
+                      .inject(false) { |r, c| r || c }
+  end
+
+  def self.association_changed?(journaled, journal_association, association, id, key, value)
+    if journaled.respond_to? association
+      journal_assoc_name = "#{journal_association}_journals".to_sym
+      changes = {}
+      current = journaled.send(association).map {|a| { key.to_s => a.send(id), value.to_s => a.send(value)} }
+      predecessor = journaled.journals.last.send(journal_assoc_name).map(&:attributes)
+
+      merged_journals = JournalManager.merge_reference_journals_by_id current, predecessor, key.to_s
+
+      changes.merge! JournalManager.added_references(merged_journals, association.to_s, value.to_s)
+      changes.merge! JournalManager.removed_references(merged_journals, association.to_s, value.to_s)
+      changes.merge! JournalManager.changed_references(merged_journals, association.to_s, value.to_s)
+
+      not changes.empty?
+    else
+      false
+    end
+  end
+
+  def self.merge_reference_journals_by_id(current, predecessor, key)
+      all_attachable_journal_ids = current.map { |j| j[key] } | predecessor.map { |j| j[key] }
+
+      all_attachable_journal_ids.each_with_object({}) { |i, h| h[i] = [predecessor.detect { |j| j[key] == i },
+                                                                       current.detect { |j| j[key] == i }] }
+  end
+
+  def self.added_references(merged_references, key, value)
+    merged_references.select {|_, v| v[0].nil? and not v[1].nil?}
+                     .each_with_object({}) { |k,h| h["#{key}_#{k[0]}".to_sym] = [nil, k[1][1][value]] }
+  end
+
+  def self.removed_references(merged_references, key, value)
+    merged_references.select {|_, v| not v[0].nil? and v[1].nil?}
+                             .each_with_object({}) { |k,h| h["#{key}_#{k[0]}".to_sym] = [k[1][0][value], nil] }
+  end
+
+  def self.changed_references(merged_references, key, value)
+    merged_references.select {|_, v| not v[0].nil? and not v[1].nil? and v[0][value] != v[1][value]}
+                     .each_with_object({}) { |k,h| h["#{key}_#{k[0]}".to_sym] = [k[1][0][value], k[1][1][value]] }
+
   end
 
   def self.recreate_initial_journal(type, journal, changed_data)
@@ -136,8 +186,8 @@ class JournalManager
   end
 
   def self.create_custom_field_data(journaled, journal)
-    journaled.custom_values.each do |c|
-      journal.customizable_journals.build journal: journal, custom_field: c, value: c.value
+    journaled.custom_values.each do |cv|
+      journal.customizable_journals.build journal: journal, custom_field: cv.custom_field, value: cv.value
     end
   end
 end

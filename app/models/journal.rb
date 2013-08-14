@@ -129,33 +129,30 @@ class Journal < ActiveRecord::Base
         end
       end
 
-      @changes.merge!(get_attachment_changes predecessor)
+      @changes.merge!(get_association_changes predecessor, "attachable", "attachments", :attachment_id, :filename)
+      @changes.merge!(get_association_changes predecessor, "customizable", "custom_fields", :custom_field_id, :value)
     end
 
     @changes
   end
 
-  def get_attachment_changes(predecessor)
+  def get_association_changes(predecessor, journal_association, association, key, value)
     changes = {}
+    journal_assoc_name = "#{journal_association}_journals".to_sym
 
     if predecessor.nil?
-      attachable_journals.each_with_object(changes) {|a, h| h["attachments_#{a.attachment_id}".to_sym] = [nil, a.filename] }
+      send(journal_assoc_name).each_with_object(changes) {|a, h| h["#{association}_#{a.send(key)}".to_sym] = [nil, a.send(value)] }
     else
-      all_attachable_journal_ids = attachable_journals.map(&:attachment_id) | predecessor.attachable_journals.map(&:attachment_id)
+      current = send(journal_assoc_name).map(&:attributes)
+      predecessor_attachable_journals = predecessor.send(journal_assoc_name).map(&:attributes)
 
-      all_attachable_journals = all_attachable_journal_ids.each_with_object({}) { |i, h| h[i] = [predecessor.attachable_journals.find_by_attachment_id(i), attachable_journals.find_by_attachment_id(i)] }
+      merged_journals = JournalManager.merge_reference_journals_by_id current,
+                                                                      predecessor_attachable_journals,
+                                                                      key.to_s
 
-      # find new attachments
-      all_attachable_journals.select {|_, v| v[0].nil? and not v[1].nil?}
-                             .each_with_object(changes) { |k,h| h["attachments_#{k[0]}".to_sym] = [nil, k[1][1].filename] }
-
-      # find removed attachments
-      all_attachable_journals.select {|_, v| not v[0].nil? and v[1].nil?}
-                             .each_with_object(changes) { |k,h| h["attachments_#{k[0]}".to_sym] = [k[1][0].filename, nil] }
-
-      # find changed attachments
-      all_attachable_journals.select {|_, v| not v[0].nil? and not v[1].nil? and v[0].filename != v[1].filename}
-                             .each_with_object(changes) { |k,h| h["attachments_#{k[0]}".to_sym] = [k[1][0].filename, k[1][1].filename] }
+      changes.merge! JournalManager.added_references(merged_journals, association, value.to_s)
+      changes.merge! JournalManager.removed_references(merged_journals, association, value.to_s)
+      changes.merge! JournalManager.changed_references(merged_journals, association, value.to_s)
     end
 
     changes
