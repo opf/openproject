@@ -1,6 +1,6 @@
 class CreateDocumentsTables < ActiveRecord::Migration
-  def self.up
-    unless ActiveRecord::Base.connection.table_exists 'Documents'
+  def up
+    unless ActiveRecord::Base.connection.table_exists? 'documents'
       create_table "documents", :force => true do |t|
         t.integer  "project_id",                :default => 0,  :null => false
         t.integer  "category_id",               :default => 0,  :null => false
@@ -11,7 +11,7 @@ class CreateDocumentsTables < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :documents
   end
 end
