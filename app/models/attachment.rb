@@ -225,8 +225,10 @@ private
   end
 
   def update_container_journal
-    JournalManager.add_journal container
+    if JournalManager.changed? container
+      JournalManager.add_journal container
 
-    container.save!
+      container.save!
+    end
   end
 end
