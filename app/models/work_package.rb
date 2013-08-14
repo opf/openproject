@@ -187,6 +187,7 @@ class WorkPackage < ActiveRecord::Base
   # Callback on attachment deletion
   def attachment_removed(obj)
     JournalManager.add_journal self
+    save!
   end
 
   # ACTS AS JOURNALIZED
