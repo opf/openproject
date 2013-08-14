@@ -1,8 +1,9 @@
 class AddDefaultDocumentCategoriesData < ActiveRecord::Migration
   def up
     unless DocumentCategory.any?
-      DocumentCategory.create!(:name => l(:default_doc_category_user), :position => 1)
-      DocumentCategory.create!(:name => l(:default_doc_category_tech), :position => 2)
+      require "i18n"
+      DocumentCategory.create!(:name => I18n.t(:default_doc_category_user), :position => 1)
+      DocumentCategory.create!(:name => I18n.t(:default_doc_category_tech), :position => 2)
     end
   end
 
