@@ -15,6 +15,13 @@ FactoryGirl.define do
     name { |a| "Type No. #{a.position}" }
   end
 
+  factory :type_standard, :class => Type do
+    name "None"
+    is_standard true
+    is_default true
+    is_in_chlog true
+  end
+
   factory :type_bug, :class => Type do
     name "Bug"
     is_in_chlog true

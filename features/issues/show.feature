@@ -36,6 +36,7 @@ Feature: Viewing an issue
       | New         | false      | true        |
     And the user "bob" has 1 issue with the following:
       | Subject | issue1 |
+      | type    | Bug    |
     And I am already logged in as "bob"
 
   Scenario: Calling the issue page and view the issue

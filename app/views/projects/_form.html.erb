@@ -66,10 +66,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if @project.new_record? || @project.module_enabled?('issue_tracking') %>
 <% unless @types.empty? %>
 <fieldset class="box" id="project_types"><legend><%=l(:label_type_plural)%> <span style="font-size:0.9em">(<%= check_all_links 'project_types' %>)</span></legend>
-<% @types.each do |type| %>
+  <% @types.each do |type| %>
     <label class="floating">
     <%= check_box_tag 'project[type_ids][]', type.id, @project.types.include?(type) %>
-    <%= h(type) %>
+    <%= (type.is_standard) ? l(:label_project_default_type) : h(type) %>
     </label>
 <% end %>
 <%= hidden_field_tag 'project[type_ids][]', '' %>

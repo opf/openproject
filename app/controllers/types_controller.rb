@@ -18,7 +18,7 @@ class TypesController < ApplicationController
   before_filter :require_admin, :except => [:index, :show, :paginate_planning_element_types]
 
   def index
-    @types = Type.order('position')
+    @types = Type.without_standard
                  .page(params[:page])
                  .per_page(per_page_param)
 

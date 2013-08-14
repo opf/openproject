@@ -40,10 +40,10 @@ describe Api::V2::PlanningElementTypesController do
         end
       end
 
-      describe 'with no planning element types available' do
-        it 'assigns an empty planning_element_types array' do
+      describe 'with only the standard type available' do
+        it 'assigns an type array including the standard type' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          assigns(:types).should == []
+          assigns(:types).should == project.types
         end
 
         it 'renders the index builder template' do
@@ -64,6 +64,10 @@ describe Api::V2::PlanningElementTypesController do
             enable_type(project, type)
           end
 
+          @all_types = Array.new
+          @all_types.concat @created_planning_element_types
+          @all_types.concat Type.where(is_standard: true)
+
           # Creating one PlanningElemenType which is not assigned to any
           # Project and should therefore not show up in projects with a project
           # type
@@ -72,7 +76,7 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'assigns an array with all planning element types' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          assigns(:types).should == @created_planning_element_types
+          assigns(:types).should == @all_types
         end
 
         it 'renders the index template' do
