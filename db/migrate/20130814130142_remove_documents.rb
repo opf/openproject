@@ -20,6 +20,9 @@ class RemoveDocuments < ActiveRecord::Migration
         t.text     "description"
         t.datetime "created_on"
       end
+      add_index "documents", ["category_id"], :name => "index_documents_on_category_id"
+      add_index "documents", ["created_on"], :name => "index_documents_on_created_on"
+      add_index "documents", ["project_id"], :name => "documents_project_id"
       DocumentCategory.create!(:name => l(:default_doc_category_user), :position => 1)
       DocumentCategory.create!(:name => l(:default_doc_category_tech), :position => 2)
     end
