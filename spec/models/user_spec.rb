@@ -185,6 +185,37 @@ describe User do
       (!!User.try_authentication_for_existing_user(user_double, 'anypassword')).should \
         == true
     end
+
+    context 'with an external auth source' do
+      let(:auth_source) { FactoryGirl.build(:auth_source) }
+      let(:user_with_external_auth_source) do
+        user = FactoryGirl.build(:user, :login => 'user')
+        user.stub(:auth_source).and_return(auth_source)
+        user
+      end
+
+      context 'and successful external authentication' do
+        before do
+          auth_source.should_receive(:authenticate).with('user', 'password').and_return(true)
+        end
+
+        it 'should succeed' do
+          User.try_authentication_for_existing_user(user_with_external_auth_source, 'password').
+            should == user_with_external_auth_source
+        end
+      end
+
+      context 'and failing external authentication' do
+        before do
+          auth_source.should_receive(:authenticate).with('user', 'password').and_return(false)
+        end
+
+        it 'should fail when the authentication fails' do
+          User.try_authentication_for_existing_user(user_with_external_auth_source, 'password').
+            should == nil
+        end
+      end
+    end
   end
 
   describe '.system' do
