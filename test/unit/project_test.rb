@@ -410,7 +410,6 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [2, 3], child.types.collect(&:id)
 
     assert_kind_of Type, parent.rolled_up_types.first
-    assert_equal Type.find(1), parent.rolled_up_types.first
 
     assert_equal [1, 999, 2, 3], parent.rolled_up_types.collect(&:id)
     assert_equal [2, 3], child.rolled_up_types.collect(&:id)
