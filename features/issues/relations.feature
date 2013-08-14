@@ -16,20 +16,20 @@ Feature: Relating issues to each other
       | login | bob |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | view_issues   |
+      | view_issues |
     And there is 1 project with the following:
       | name       | project1 |
       | identifier | project1 |
     And the project "project1" has the following types:
       | name | position |
-      | Bug  |     1    |
+      | Bug  | 1        |
     And the user "bob" is a "member" in the project "project1"
     And the user "bob" has 1 issue with the following:
       | subject | Some Issue |
-      | type    | Bug |
+      | type    | Bug        |
     And the user "bob" has 1 issue with the following:
       | subject | Another Issue |
-      | type    | Bug |
+      | type    | Bug           |
     And I am already admin
 
   @javascript
@@ -46,7 +46,7 @@ Feature: Relating issues to each other
   Scenario: Adding a relation to an issue with special chars in subject should not end in broken html
     Given the user "bob" has 1 issue with the following:
       | subject | Anothe'r & Issue |
-      | type    | Bug |
+      | type    | Bug              |
     When I go to the page of the issue "Some Issue"
     And I click on "Add related work package"
     And I fill in "relation_issue_to_id" with "3"
