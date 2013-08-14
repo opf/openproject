@@ -17,7 +17,7 @@ describe WorkPackage do
                                      types: [type] }
   let(:status) { FactoryGirl.create :default_issue_status }
   let(:priority) { FactoryGirl.create :priority }
-  let(:work_package) { FactoryGirl.create(:planning_element,
+  let(:work_package) { FactoryGirl.create(:issue,
                                           :project_id => project.id,
                                           :type => type,
                                           :priority => priority) }
@@ -53,6 +53,8 @@ describe WorkPackage do
     let(:priority_2) { FactoryGirl.create :priority }
 
     before do
+      project.types << type_2
+
       work_package.subject = "changed"
       work_package.description = "changed"
       work_package.type = type_2
@@ -111,6 +113,102 @@ describe WorkPackage do
       it { should have_key attachment_id }
 
       it { subject[attachment_id].should eq([@old_filename, attachment.filename]) }
+    end
+
+    context "attachment saved w/o change" do
+      before do
+        @original_journal_count = work_package.journals.count
+
+        attachment.save!
+      end
+
+      subject { work_package.journals.count }
+
+      it { should eq(@original_journal_count) }
+    end
+
+    context "attachment removed" do
+      before { work_package.attachments.delete(attachment) }
+
+      subject { work_package.journals.last.changed_data }
+
+      it { should have_key attachment_id }
+
+      it { subject[attachment_id].should eq([attachment.filename, nil]) }
+    end
+  end
+
+  context "custom values" do
+    let(:custom_field) { FactoryGirl.create :work_package_custom_field }
+    let(:custom_value) { FactoryGirl.create :custom_value,
+                                            value: "false",
+                                            customized: work_package,
+                                            custom_field: custom_field }
+
+    let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}".to_sym }
+
+    before do
+      project.work_package_custom_fields << custom_field
+      type.custom_fields << custom_field
+      custom_value
+      work_package.save!
+    end
+
+    context "new custom value" do
+      subject { work_package.journals.last.changed_data }
+
+      it { should have_key custom_field_id }
+
+      it { subject[custom_field_id].should eq([nil, custom_value.value]) }
+    end
+
+    context "custom value modified" do
+      let(:custom_value_2) { FactoryGirl.create :custom_value,
+                                                value: "true",
+                                                customized: work_package,
+                                                custom_field: custom_field }
+      before do
+        work_package.custom_values.delete(custom_value)
+        custom_value_2
+        work_package.save!
+      end
+
+      subject { work_package.journals.last.changed_data }
+
+      it { should have_key custom_field_id }
+
+      it { subject[custom_field_id].should eq([custom_value.value.to_s, custom_value_2.value.to_s]) }
+    end
+
+    context "work package saved w/o change" do
+      let(:custom_value_2) { FactoryGirl.create :custom_value,
+                                                value: "false",
+                                                customized: work_package,
+                                                custom_field: custom_field }
+      before do
+        @original_journal_count = work_package.journals.count
+
+        work_package.custom_values.delete(custom_value)
+        custom_value_2
+        work_package.save!
+      end
+
+      subject { work_package.journals.count }
+
+      it { should eq(@original_journal_count) }
+    end
+
+    context "custom value removed" do
+      before { 
+        work_package.custom_values.delete(custom_value)
+        work_package.save!
+      }
+
+      subject { work_package.journals.last.changed_data }
+
+      it { should have_key custom_field_id }
+
+      it { subject[custom_field_id].should eq([custom_value.value, nil]) }
     end
   end
 end
