@@ -14,6 +14,7 @@ class DocumentObserver < ActiveRecord::Observer
 
 
   def after_create(document)
+
     return unless Notifier.notify?(:document_added)
 
     users = User.find_all_by_mails(document.recipients)

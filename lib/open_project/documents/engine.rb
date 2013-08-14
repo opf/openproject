@@ -15,7 +15,7 @@ module OpenProject::Documents
         author_url spec.homepage
         description spec.description
         version spec.version
-        gem_name 'openproject-documents'
+
         url 'https://www.openproject.org/projects/documents'
 
         requires_openproject ">= 3.0.0pre10"
@@ -35,6 +35,11 @@ module OpenProject::Documents
 
     end
 
+
+    initializer 'documents.register_observers' do |app|
+      # Observers
+      ActiveRecord::Base.observers.push :document_observer
+    end
 
 
 
@@ -79,9 +84,6 @@ module OpenProject::Documents
 
     config.after_initialize do |app|
       HelpController.view_paths.unshift("#{config.root}/app/views")
-
-      # this registers the observer to listen for callbacks
-      DocumentObserver.instance
     end
 
 

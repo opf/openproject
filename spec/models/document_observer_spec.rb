@@ -23,12 +23,11 @@ describe DocumentObserver do
   end
 
 
-  it "is wired correctly" do
+  it "is triggered, when a document has been created" do
     document = FactoryGirl.build(:document)
-
-    DocumentObserver.any_instance.should_receive(:after_create)
-
-    document.save
+    #observers are singletons, so any_instance exactly leaves out the singleton
+    DocumentObserver.instance.should_receive(:after_create)
+    document.save!
   end
 
   it "calls the DocumentsMailer, when a new document has been added" do
