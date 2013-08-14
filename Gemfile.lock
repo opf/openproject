@@ -184,6 +184,7 @@ GEM
     multi_test (0.0.2)
     mysql (2.9.1)
     mysql2 (0.3.11)
+    net-ldap (0.2.2)
     nokogiri (1.5.9)
     paper_trail (2.7.1)
       activerecord (~> 3.0)
@@ -378,6 +379,7 @@ DEPENDENCIES
   mocha (~> 0.13.1)
   mysql
   mysql2 (~> 0.3.11)
+  net-ldap (~> 0.2.2)
   object-daddy!
   pg
   prototype-rails
