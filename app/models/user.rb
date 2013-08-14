@@ -240,7 +240,7 @@ class User < Principal
     return nil if !user.active?
     if user.auth_source
       # user has an external authentication method
-      return nil unless user.auth_source.authenticate(login, password)
+      return nil unless user.auth_source.authenticate(user.login, password)
     else
       # authentication with local password
       return nil unless user.check_password?(password)
