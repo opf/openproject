@@ -129,24 +129,15 @@ en:
         description: Description
         id: ID
         name: Name
-        planning_element_type: "Type"
         start_date: Start date
         deleted_at: Deleted at
         planning_element_status: "Status"
         # parent: Subelement of
-      planning_element_type:
-        color: Color
-        id: ID
-        in_aggregation: In aggregation
-        is_default: Default value
-        is_milestone: Milestone
-        name: Name
       project_association:
         description: Cause
       project_type:
         allows_association: Allows association
         name: Name
-        planning_element_types: Standard planning element types
         reported_project_statuses: Reported project statuses
         position: Position
       scenario:
@@ -246,7 +237,6 @@ en:
         other: "Roles"
       type: "Type"
       planning_element: Planning element
-      planning_element_type: Planning element type
       project_type: Project type
       scenario: Scenario
       user: "User"
@@ -541,7 +531,6 @@ en:
         its child elements?
       due_date: "Due date"
       name: "Name"
-      planning_element_types: "Planning element type"
       project_status: "Project status"
       project_type: "Project type"
       responsible: "Responsible"
@@ -1306,7 +1295,6 @@ en:
   timelines:
     admin_menu:
       colors: "Colors"
-      planning_element_types: "Planning element types"
       project_types: "Project types"
     project_menu:
       planning_elements: "Planning elements"
@@ -1321,7 +1309,6 @@ en:
     button_move_to_trash: "Move to recycle bin"
     button_restore: "Restore"
     button_restore_all: "Restore all"
-    cannot_update_planning_element_types: "Planning element types could not be updated"
     change: "Change in planning"
     children: "Child elements"
     color_could_not_be_saved: "Color could not be saved"
@@ -1335,7 +1322,6 @@ en:
       one:   "1 day"
       other: "%{count} days"
     edit_color: "Edit color"
-    edit_planning_element_type: "Edit planning element type"
     edit_project_type: "Edit project type"
     edit_thing: "Edit"
     edit_timeline: "Edit timeline report"
@@ -1357,7 +1343,6 @@ en:
       column:
         end_date: "End date"
         name: "Name"
-        planning_element_types: "Planning element type"
         project_status: "Project status"
         project_type: "Project type"
         responsible: "Responsible"
@@ -1393,7 +1378,6 @@ en:
       parent: "Show subprojects of"
       planning_element_filters: "Filter planning elements"
       planning_element_responsible: "Show planning elements with responsible"
-      planning_element_types: "Show planning element types"
 
       project_time_filter: "Projects with a Planning Element of a certain type in a certain timeframe"
       project_time_filter_historical: "from %{startdate} to %{enddate}"
@@ -1411,7 +1395,6 @@ en:
     new_color: "New color"
     new_association: "New dependency"
     new_planning_element: "New planning element"
-    new_planning_element_type: "New planning element type"
     new_project_type: "New project type"
     new_reporting: "New reporting"
     new_scenario: "New scenario"
@@ -1447,7 +1430,6 @@ en:
     planning_element_creation: "Creation: %{title}"
     planning_element_updated_automatically_by_child_changes: |
         _Updated automatically by changing values within child planning element %{child}_
-    planning_element_type_could_not_be_saved: "Planning element type could not be saved"
     planning_element_update: "Update: %{title}"
     planning_elements_are_displayed_in_aggregations: "Planning elements are displayed in aggregations"
     project_association_new: Add project dependency
@@ -1467,9 +1449,6 @@ en:
     really_delete_planning_element: >
       Are you sure, you want to permanently delete the following planning element and all
       its child elements?
-    really_delete_planning_element_type: >
-      Are you sure, you want to delete the following planning element type?
-      Planning Elements using this type will not be deleted.
     really_delete_project_association_between_project_a_and_project_b: >
       Are you sure, you want to delete the dependency between “%{project_a}” and
       “%{project_b}”?
