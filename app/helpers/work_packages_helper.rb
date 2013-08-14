@@ -214,7 +214,7 @@ module WorkPackagesHelper
     css_classes << "idnt" << "idnt-#{level}" if level > 0
 
     if relation == "root"
-      issue_text = link_to("#{(work_package.kind.nil?) ? '' : h(work_package.kind.name)} ##{work_package.id}",
+      issue_text = link_to("#{work_package.to_s}",
                              'javascript:void(0)',
                              :style => "color:inherit; font-weight: bold; text-decoration:none; cursor:default;")
     else
@@ -225,13 +225,9 @@ module WorkPackagesHelper
       elsif relation == "child"
         title << content_tag(:span, l(:description_sub_work_package), :class => "hidden-for-sighted")
       end
-      title << ((work_package.kind.nil?) ? '' : h(work_package.kind.name))
-      title << "##{work_package.id}"
 
-      issue_text = link_to(title.join(' ').html_safe, work_package_path(work_package))
+      issue_text = link_to(work_package.to_s.html_safe, work_package_path(work_package))
     end
-    issue_text << ": "
-    issue_text << truncate(work_package.subject, :length => 60)
 
     content_tag :tr, :class => css_classes.join(' ') do
       concat content_tag :td, check_box_tag("ids[]", work_package.id, false, :id => nil), :class => 'checkbox'
@@ -405,7 +401,9 @@ module WorkPackagesHelper
   end
 
   def work_package_form_type_attribute(form, work_package, locals = {})
-    field = form.select :type_id, locals[:project].types.collect {|t| [t.name, t.id]}, :required => true
+    selectable_types = locals[:project].types.collect {|t| [((t.is_standard) ? '' : t.name), t.id]}
+
+    field = form.select :type_id, selectable_types, :required => true
 
     url = work_package.new_record? ?
            new_type_project_work_packages_path(locals[:project]) :

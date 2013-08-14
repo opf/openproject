@@ -16,6 +16,12 @@ FactoryGirl.define do
     sequence(:identifier) { |n| "myproject_no_#{n}" }
     enabled_module_names Redmine::AccessControl.available_project_modules
 
+    before :create do |project|
+      unless Type.find(:first, conditions: { is_standard: true })
+        project.types << FactoryGirl.build(:type_standard)
+      end
+    end
+
     factory :public_project do
       is_public true
     end

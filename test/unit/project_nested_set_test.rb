@@ -15,6 +15,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
 
   context "nested set" do
     setup do
+      FactoryGirl.create(:type_standard)
       Project.delete_all
 
       @a = Project.create!(:name => 'Project A', :identifier => 'projecta')

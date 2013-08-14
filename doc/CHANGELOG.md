@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1417` Enable default behavior for types
+
 ## 3.0.0pre11
 
 * `#1418` Change links to issues/planning elements to use work_packages controller

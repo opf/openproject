@@ -17,3 +17,9 @@ types_003:
   is_in_chlog: false
   position: 3
   is_default: true
+types_999:
+  name: none
+  id: 999
+  is_standard: true
+  is_in_chlog: true
+  is_default: true

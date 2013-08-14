@@ -48,10 +48,10 @@ Feature: Viewing a work package
       | New         | false      | true        |
 
     And there are the following issues in project "omicronpersei8":
-      | subject |
-      | issue1  |
-      | issue2  |
-      | issue3  |
+      | subject | type |
+      | issue1  | Bug  |
+      | issue2  | Bug  |
+      | issue3  | Bug  |
 
     And there are the following planning elements in project "omicronpersei8":
       | subject | start_date | due_date   |
