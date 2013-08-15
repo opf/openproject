@@ -1,6 +1,10 @@
 # Changelog
 
-## 1.0.0pre3
+## 1.0.0.pre4
+
+* adapted cukes to changed steps from core
+
+## 1.0.0.pre3
 
 * `#1461` Fix for: Integration Activity Plugin
 
