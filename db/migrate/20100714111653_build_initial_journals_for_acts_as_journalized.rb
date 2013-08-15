@@ -75,3 +75,8 @@ class BuildInitialJournalsForActsAsJournalized < ActiveRecord::Migration
   end
 
 end
+
+class Document < ActiveRecord::Base
+  belongs_to :project
+  belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
+end
