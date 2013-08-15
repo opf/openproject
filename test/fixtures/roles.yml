@@ -31,8 +31,6 @@ roles_001:
     - :delete_time_entries
     - :manage_news
     - :comment_news
-    - :view_documents
-    - :manage_documents
     - :view_wiki_pages
     - :export_wiki_pages
     - :view_wiki_edits
@@ -79,8 +77,6 @@ roles_002:
     - :edit_own_time_entries
     - :manage_news
     - :comment_news
-    - :view_documents
-    - :manage_documents
     - :view_wiki_pages
     - :view_wiki_edits
     - :edit_wiki_pages
@@ -118,8 +114,6 @@ roles_003:
     - :view_time_entries
     - :manage_news
     - :comment_news
-    - :view_documents
-    - :manage_documents
     - :view_wiki_pages
     - :view_wiki_edits
     - :edit_wiki_pages
@@ -148,8 +142,6 @@ roles_004:
     - :log_time
     - :view_time_entries
     - :comment_news
-    - :view_documents
-    - :manage_documents
     - :view_wiki_pages
     - :view_wiki_edits
     - :edit_wiki_pages
@@ -169,7 +161,6 @@ roles_005:
     - :add_issue_notes
     - :view_calendar
     - :view_time_entries
-    - :view_documents
     - :view_wiki_pages
     - :view_wiki_edits
     - :browse_repository

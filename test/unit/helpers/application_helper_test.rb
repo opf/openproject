@@ -26,7 +26,7 @@ class ApplicationHelperTest < ActionView::TestCase
     @project_member = FactoryGirl.create :user,
       :member_in_project => @project,
       :member_through_role => FactoryGirl.create(:role,
-          :permissions => [:view_work_packages, :edit_work_packages, :view_documents,
+          :permissions => [:view_work_packages, :edit_work_packages,
                            :browse_repository, :view_changesets, :view_wiki_pages])
 
     @issue = FactoryGirl.create :issue, :project => @project, :author => @project_member, :type => @project.types.first
@@ -46,7 +46,7 @@ class ApplicationHelperTest < ActionView::TestCase
   def request
     @request ||= ActionController::TestRequest.new
   end
-  
+
   def test_auto_links
     to_test = {
       'http://foo.bar' => '<a class="external" href="http://foo.bar">http://foo.bar</a>',
@@ -172,9 +172,6 @@ RAW
   end
 
   def test_cross_project_redmine_links
-    document = FactoryGirl.create :document,
-                 :title => 'Test document',
-                 :project => @project
     version = FactoryGirl.create :version,
                  :name => '1.0',
                  :project => @project
@@ -196,11 +193,6 @@ RAW
     the_other_project = FactoryGirl.create :valid_project
 
     to_test = {
-      # documents
-      'document:"Test document"'              => 'document:"Test document"',
-      "#{identifier}:document##{document.id}" => "<a href=\"/documents/#{document.id}\" class=\"document\">Test document</a>",
-      "#{identifier}:document:\"Test document\"" => "<a href=\"/documents/#{document.id}\" class=\"document\">Test document</a>",
-      'invalid:document:"Test document"'      => 'invalid:document:"Test document"',
       # versions
       'version:"1.0"'                         => 'version:"1.0"',
       "#{identifier}:version:\"1.0\""         => "<a href=\"/versions/#{version.id}\" class=\"version\">1.0</a>",

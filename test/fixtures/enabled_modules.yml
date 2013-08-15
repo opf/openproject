@@ -11,10 +11,6 @@ enabled_modules_003:
   name: news
   project_id: 1
   id: 3
-enabled_modules_004:
-  name: documents
-  project_id: 1
-  id: 4
 enabled_modules_006:
   name: wiki
   project_id: 1

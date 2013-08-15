@@ -1,6 +1,7 @@
 # Changelog
 
 * `#1417` Enable default behavior for types
+* `#1631` Remove documents from core
 
 ## 3.0.0pre11
 
@@ -10,8 +11,8 @@
 * `#1598` Switching type of work package looses inserted data
 * `#1596` Copy/Move work packages between projects
 * `#1618` Deactivate modal dialogs and respective cukes
-* `#1648` Arbitrarily failing cuke: Navigating to the timeline page
 * `#1637` Removed files module
+* `#1648` Arbitrarily failing cuke: Navigating to the timeline page
 
 ## 3.0.0pre10
 

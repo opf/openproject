@@ -33,7 +33,6 @@ class DefaultDataTest < ActiveSupport::TestCase
       begin
         delete_loaded_data!
         assert Redmine::DefaultData::Loader::load(lang)
-        assert_not_nil DocumentCategory.first
         assert_not_nil IssuePriority.first
         assert_not_nil TimeEntryActivity.first
       rescue ActiveRecord::RecordInvalid => e

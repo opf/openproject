@@ -5,7 +5,6 @@ user_preferences_001:
     :my_page_layout:
       left:
       - latestnews
-      - documents
       right:
       - issuesassignedtome
       top:
@@ -20,7 +19,6 @@ user_preferences_002:
     :my_page_layout:
       left:
       - latestnews
-      - documents
       right:
       - issuesassignedtome
       top:
