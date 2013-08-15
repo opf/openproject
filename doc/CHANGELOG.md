@@ -1,6 +1,7 @@
 # Changelog
 
 * `#1417` Enable default behavior for types
+* `#1631` Remove documents from core
 
 ## 3.0.0pre11
 
