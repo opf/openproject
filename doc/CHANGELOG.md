@@ -2,6 +2,7 @@
 
 * `#1417` Enable default behavior for types
 * `#1631` Remove documents from core
+* `#1686` Issues not accessible in public projects when not a member
 
 ## 3.0.0pre11
 
