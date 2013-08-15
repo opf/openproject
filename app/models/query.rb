@@ -174,7 +174,7 @@ class Query < ActiveRecord::Base
       # populate the watcher list with the same user list as other user filters if the user has the :view_issue_watchers permission in at least one project
       # TODO: this could be differentiated more, e.g. all users could watch issues in public projects, but won't necessarily be shown here
       watcher_values = [["<< #{l(:label_me)} >>", "me"]]
-      watcher_values << user_values if User.current.allowed_to_globally?(:view_issue_watchers, {})
+      user_values.each { |v| watcher_values << v } if User.current.allowed_to_globally?(:view_issue_watchers, {})
       @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => watcher_values }
     end
 
