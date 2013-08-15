@@ -91,11 +91,11 @@ class Journal < ActiveRecord::Base
   alias_method :changed_data, :details
 
   def new_value_for(prop)
-    details[prop.to_s].last if details.keys.include? prop.to_s
+    details[prop.to_sym].last if details.keys.include? prop.to_sym
   end
 
   def old_value_for(prop)
-    details[prop.to_s].first if details.keys.include? prop.to_s
+    details[prop.to_sym].first if details.keys.include? prop.to_sym
   end
 
   def data
