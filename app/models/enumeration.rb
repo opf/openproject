@@ -164,3 +164,8 @@ end
 
   require_dependency enum_subclass
 end
+
+begin
+  require_dependency 'document_category'
+rescue
+end
