@@ -684,7 +684,7 @@ module ApplicationHelper
   #     identifier:version:1.0.0
   #     identifier:source:some/file
   def parse_redmine_links(text, project, obj, attr, only_path, options)
-    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|document|version|commit|source|export|message|project)?((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |m|
+    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|version|commit|source|export|message|project)?((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |m|
       leading, esc, project_prefix, project_identifier, prefix, sep, identifier = $1, $2, $3, $4, $5, $7 || $9, $8 || $10
       link = nil
       if project_identifier
@@ -706,11 +706,6 @@ module ApplicationHelper
               link = link_to("##{oid}", work_package_path(:id => oid, :only_path => only_path),
                                         :class => work_package_css_classes(work_package),
                                         :title => "#{truncate(work_package.subject, :length => 100)} (#{work_package.status.try(:name)})")
-            end
-          when 'document'
-            if document = Document.visible.find_by_id(oid)
-              link = link_to h(document.title), {:only_path => only_path, :controller => '/documents', :action => 'show', :id => document},
-                                                :class => 'document'
             end
           when 'version'
             if version = Version.visible.find_by_id(oid)
@@ -740,11 +735,6 @@ module ApplicationHelper
           # removes the double quotes if any
           name = identifier.gsub(%r{^"(.*)"$}, "\\1")
           case prefix
-          when 'document'
-            if project && document = project.documents.visible.find_by_title(name)
-              link = link_to h(document.title), {:only_path => only_path, :controller => '/documents', :action => 'show', :id => document},
-                                                :class => 'document'
-            end
           when 'version'
             if project && version = project.versions.visible.find_by_name(name)
               link = link_to h(version.name), {:only_path => only_path, :controller => '/versions', :action => 'show', :id => version},

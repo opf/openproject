@@ -185,18 +185,6 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def document_added(user, document)
-    @document = document
-
-    open_project_headers 'Project' => @document.project.identifier,
-                         'Type'    => 'Document'
-
-    with_locale_for(user) do
-      subject = "[#{@document.project.name}] #{t(:label_document_new)}: #{@document.title}"
-      mail :to => user.mail, :subject => subject
-    end
-  end
-
   def account_activated(user)
     @user = user
 
@@ -232,27 +220,6 @@ class UserMailer < ActionMailer::Base
     with_locale_for(admin) do
       subject = t(:mail_subject_account_activation_request, :value => Setting.app_title)
       mail :to => admin.mail, :subject => subject
-    end
-  end
-
-  def attachments_added(user, attachments)
-    @attachments = attachments
-
-    container = attachments.first.container
-
-    open_project_headers 'Type'    => 'Attachment'
-    open_project_headers 'Project' => container.project.identifier if container.project
-
-    case container.class.name
-    when 'Document'
-      @added_to     = "#{Document.model_name.human}: #{container.title}"
-      @added_to_url = url_for(:controller => '/documents', :action => 'show', :id => container.id)
-    end
-
-    with_locale_for(user) do
-      subject = t(:label_attachment_new)
-      subject = "[#{container.project.name}] #{subject}" if container.project
-      mail :to => user.mail, :subject => subject
     end
   end
 

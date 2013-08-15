@@ -71,17 +71,8 @@ describe "Journalized Objects" do
     initial_journal.should be_identical(recreated_journal)
   end
 
-  it 'should work with documents' do
-    @document ||= FactoryGirl.create(:document)
-
-    initial_journal = @document.journals.first
-    recreated_journal = @document.recreate_initial_journal!
-
-    initial_journal.should be_identical(recreated_journal)
-  end
-
   it 'should work with attachments' do
-    @attachment ||= FactoryGirl.create(:attachment, :container => FactoryGirl.create(:document), :author => @current)
+    @attachment ||= FactoryGirl.create(:attachment, :container => FactoryGirl.create(:issue), :author => @current)
 
     initial_journal = @attachment.journals.first
     recreated_journal = @attachment.recreate_initial_journal!
