@@ -4,7 +4,6 @@ module OpenProject::Documents
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
 
-
     spec = Bundler.environment.specs['openproject-documents'][0]
 
     initializer 'documents.register_plugin' do
@@ -17,7 +16,7 @@ module OpenProject::Documents
         version spec.version
         url 'https://www.openproject.org/projects/documents'
 
-        requires_openproject ">= 3.0.0pre10"
+        requires_openproject ">= 3.0.0pre12"
 
         menu :project_menu, :documents, { :controller => '/documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
 
@@ -26,12 +25,9 @@ module OpenProject::Documents
 
         Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
 
-        #settings Engine.settings
       end
 
       Redmine::Search.register :documents
-      #Redmine::Activity.register :documents, :class_name => %w(Document)
-
     end
 
 
@@ -39,21 +35,6 @@ module OpenProject::Documents
       # Observers
       ActiveRecord::Base.observers.push :document_observer
     end
-
-
-
-    #initializer 'landing_page.precompile_assets' do
-    #  Rails.application.config.assets.precompile += %w(landing_page.css landing_page.js)
-    #end
-
-    #initializer 'landing_page.register_test_paths' do |app|
-    #  app.config.plugins_to_test_paths << self.root
-    #end
-
-    #initializer 'landing_page.register_hooks' do
-    #  # don't use require_dependency to not reload hooks in development mode
-    #  require 'open_project/landing_page/hooks'
-    #end
 
     config.before_configuration do |app|
       # This is required for the routes to be loaded first
@@ -84,11 +65,5 @@ module OpenProject::Documents
     config.after_initialize do |app|
       HelpController.view_paths.unshift("#{config.root}/app/views")
     end
-
-
-
-
-
-
   end
 end
