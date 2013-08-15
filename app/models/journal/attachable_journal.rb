@@ -12,7 +12,6 @@
 
 class Journal::AttachableJournal < ActiveRecord::Base
   self.table_name = "attachable_journals"
-  self.primary_key = [:journal_id, :attachment_id]
 
   belongs_to :journal
   belongs_to :attachment

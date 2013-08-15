@@ -12,7 +12,6 @@
 
 class Journal::CustomizableJournal < ActiveRecord::Base
   self.table_name = "customizable_journals"
-  self.primary_key = [:journal_id, :custom_field_id]
 
   belongs_to :journal
   belongs_to :custom_field, foreign_key: :custom_field_id
