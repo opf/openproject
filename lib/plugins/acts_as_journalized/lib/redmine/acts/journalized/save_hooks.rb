@@ -44,15 +44,22 @@ module Redmine::Acts::Journalized
     end
 
     def save_journals
-      add_journal if journals.empty? or JournalManager.changed?(self)
+      journal_metadata_set = !(@journaled_user.nil? and @journaled_notes.nil?)
+
+      @journaled_user ||= User.current
+      @journaled_notes ||= ""
+
+      JournalManager.add_journal self, @journaled_user, @journaled_notes if journals.empty? or JournalManager.changed?(self) or journal_metadata_set
 
       journals.select{|j| j.new_record?}.each {|j| j.save}
+
+      @journaled_user = nil
+      @journaled_notes = nil
     end
 
     def add_journal(user = User.current, notes = "")
-      @journal_notes = notes
-
-      JournalManager.add_journal self, user, notes
+      @journaled_user ||= user
+      @journaled_notes ||= notes
     end
 
     # Saves the current custom values, notes and journal to include them in the next journal
