@@ -65,7 +65,7 @@ group :test do
   gem 'object-daddy', :git => 'https://github.com/awebneck/object_daddy.git'
   gem 'mocha', '~> 0.13.1', :require => false
   gem "launchy", "~> 2.3.0"
-  gem "factory_girl_rails", "~> 4.0"
+  gem "factory_girl_rails", "~> 4.0", :group => :development
   gem 'cucumber-rails', :require => false
   gem 'rack_session_access'
   gem 'database_cleaner'
@@ -94,8 +94,6 @@ group :openid do
 end
 
 group :development do
-  gem 'rails-footnotes', '>= 3.7.5.rc4'
-  gem 'bullet'
   gem 'letter_opener', '~> 1.0.0'
   gem 'pry-rails'
   gem 'pry-stack_explorer'
@@ -107,6 +105,8 @@ group :development do
   gem 'guard-cucumber'
   gem 'rb-fsevent', :group => :test
   gem 'thin'
+  gem "populator"
+  gem "faker"
 end
 
 group :tools do
