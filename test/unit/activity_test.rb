@@ -19,7 +19,7 @@ class ActivityTest < ActiveSupport::TestCase
     @project = Project.find(1)
     [1,4,5,6].each do |issue_id|
       i = Issue.find(issue_id)
-      i.init_journal(User.current, "A journal to find")
+      i.add_journal(User.current, "A journal to find")
       i.save!
     end
   end
@@ -44,6 +44,7 @@ class ActivityTest < ActiveSupport::TestCase
   end
 
   def test_global_activity_anonymous
+    Message.all.each { |m| m.recreate_initial_journal! }
     events = find_events(User.anonymous)
     assert_not_nil events
 
@@ -63,6 +64,9 @@ class ActivityTest < ActiveSupport::TestCase
   end
 
   def test_user_activity
+    Issue.all.each { |m| m.recreate_initial_journal! }
+    Message.all.each { |m| m.recreate_initial_journal! }
+
     user = User.find(2)
     events = Redmine::Activity::Fetcher.new(User.anonymous, :author => user).events(nil, nil, :limit => 10)
 

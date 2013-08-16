@@ -14,9 +14,14 @@ FactoryGirl.define do
     created_at Time.now
     sequence(:version) {|n| n}
 
-    factory :work_package_journal do
+    factory :work_package_journal, class: Journal do
       journaled_type "WorkPackageJournal"
       data FactoryGirl.build(:journal_work_package_journal)
+    end
+
+    factory :wiki_content_journal, class: Journal do
+      journaled_type "WikiContentJournal"
+      data FactoryGirl.build(:journal_wiki_content_journal)
     end
   end
 end

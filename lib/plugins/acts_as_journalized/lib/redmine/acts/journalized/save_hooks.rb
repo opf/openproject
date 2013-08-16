@@ -64,17 +64,17 @@ module Redmine::Acts::Journalized
 
     # Saves the current custom values, notes and journal to include them in the next journal
     # Called before save
-    def init_journal(user = User.current, notes = "")
-      @journal_notes ||= notes
-      @journal_user ||= user
-      @associations_before_save ||= {}
+    #def init_journal(user = User.current, notes = "")
+    #  @journal_notes ||= notes
+    #  @journal_user ||= user
+    #  @associations_before_save ||= {}
 
-      @associations = {}
-      save_possible_association :custom_values, :key => :custom_field_id, :value => :value
-      save_possible_association :attachments, :key => :id, :value => :filename
+    #  @associations = {}
+    #  save_possible_association :custom_values, :key => :custom_field_id, :value => :value
+    #  save_possible_association :attachments, :key => :id, :value => :filename
 
-      @current_journal ||= last_journal
-    end
+    #  @current_journal ||= last_journal
+    #end
 
     # Saves the notes and custom value changes in the last Journal
     # Called before create_journal
