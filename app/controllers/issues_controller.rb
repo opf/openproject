@@ -232,7 +232,7 @@ class IssuesController < ApplicationController
     unsaved_issue_ids = []
     @issues.each do |issue|
       issue.reload
-      journal = issue.init_journal(User.current, params[:notes])
+      journal = issue.add_journal(User.current, params[:notes])
       issue.safe_attributes = attributes
       call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
       JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
@@ -311,7 +311,7 @@ private
     @time_entry.attributes = params[:time_entry]
 
     @notes = params[:notes] || (params[:issue].present? ? params[:issue][:notes] : nil)
-    @issue.init_journal(User.current, @notes)
+    @issue.add_journal(User.current, @notes)
     @issue.safe_attributes = params[:issue]
     @journal = @issue.current_journal
   end
