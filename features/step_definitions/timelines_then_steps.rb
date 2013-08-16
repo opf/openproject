@@ -157,21 +157,6 @@ Then /^I should (not )?see a planning element link for "([^"]*)"$/ do |negate, p
   step %Q{I should #{negate}see "#{text}"}
 end
 
-Then /^I should (not )?see a planning element quickinfo link for "([^"]*)"$/ do |negate, planning_element_subject|
-  planning_element = PlanningElement.find_by_subject(planning_element_subject)
-
-
-  text = "*#{planning_element.id} #{planning_element.planning_element_status.nil? ? "" : planning_element.planning_element_status.name + ":"} #{planning_element.subject} #{planning_element.start_date.to_s} – #{planning_element.due_date.to_s} (#{planning_element.responsible.to_s})"
-  step %Q{I should #{negate}see "#{text}"}
-end
-
-Then /^I should (not )?see a planning element quickinfo link with description for "([^"]*)"$/ do |negate, planning_element_subject|
-  planning_element = PlanningElement.find_by_subject(planning_element_subject)
-
-  step %Q{I should #{negate}see a planning element quickinfo link for "#{planning_element_subject}"}
-  step %Q{I should #{negate}see "#{planning_element.description}"}
-end
-
 Then /^I should (not )?see the timeline "([^"]*)"$/ do |negate, timeline_name|
   selector = "div.timeline div.tl-left-main"
   timeline = Timeline.find_by_name(timeline_name)

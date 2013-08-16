@@ -56,6 +56,9 @@ class Type < ActiveRecord::Base
     :order => "name" }
   }
 
+  scope :without_standard, conditions: { is_standard: false },
+                           order: :position
+
   def to_s; name end
 
   def <=>(type)

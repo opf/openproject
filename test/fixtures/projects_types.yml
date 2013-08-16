@@ -41,4 +41,8 @@ projects_types_013:
 projects_types_014:
   project_id: 1
   type_id: 3
+projects_types_015:
+  project_id: 6
+  type_id: 999
+
 

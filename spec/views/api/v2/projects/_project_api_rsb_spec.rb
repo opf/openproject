@@ -140,11 +140,9 @@ describe 'api/v2/projects/_project.api' do
 
   describe 'with a project having an invisible parent project and a visible grand-parent' do
     let(:grand_parent_project) { FactoryGirl.create(:project,
-                                                :id => 103,
                                                 :name => 'Grand-Parent',
                                                 :identifier => 'granny') }
     let(:parent_project)       { FactoryGirl.create(:project,
-                                                :id => 104,
                                                 :name => 'Parent',
                                                 :identifier => 'parent',
                                                 :is_public => false).tap { |p| p.move_to_child_of(grand_parent_project.id) } }
@@ -154,7 +152,7 @@ describe 'api/v2/projects/_project.api' do
       it 'contains a parent element with name and id attributes of the grand parent' do
         render
 
-        response.should have_selector('project parent[name=Grand-Parent][id="103"][identifier=granny]', :count => 1)
+        response.should have_selector("project parent[name=Grand-Parent][id='#{grand_parent_project.id}'][identifier=granny]", :count => 1)
       end
     end
   end

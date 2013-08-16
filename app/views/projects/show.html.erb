@@ -45,9 +45,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
       <% for type in @types %>
-        <li><%= link_to h(type.name), :controller => '/issues', :action => 'index', :project_id => @project,
-                                         :set_filter => 1,
-                                         "type_id" => type.id %>:
+        <li><%= link_to (type.is_standard) ? l(:default_type) : h(type.name),
+                        :controller => '/issues', :action => 'index', :project_id => @project,
+                        :set_filter => 1,
+                        "type_id" => type.id %>:
             <%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_type[type].to_i,
                                                       :total => @total_issues_by_type[type].to_i) %>
         </li>

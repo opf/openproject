@@ -139,8 +139,6 @@ OpenProject::Application.routes.draw do
 
     resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]
 
-    resources :documents, :shallow => true
-
     resources :versions, :only => [:new, :create] do
       collection do
         put :close_completed
@@ -369,6 +367,8 @@ OpenProject::Application.routes.draw do
       match '/projects/:id/repository', :action => :show
       match '/projects/:id/repository/edit', :action => :edit
       match '/projects/:id/repository/statistics', :action => :stats
+      match '/projects/:id/repository/committers', :action => :committers
+      match '/projects/:id/repository/graph', :action => :graph
       match '/projects/:id/repository/revisions', :action => :revisions
       match '/projects/:id/repository/revisions.:format', :action => :revisions
       match '/projects/:id/repository/revisions/:rev', :action => :revision

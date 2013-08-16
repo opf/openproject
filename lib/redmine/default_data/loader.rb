@@ -22,7 +22,7 @@ module Redmine
         # otherwise false
         def no_data?
           !Role.find(:first, :conditions => {:builtin => 0}) &&
-            !Type.find(:first) &&
+            !Type.find(:first, :conditions => {is_standard: false}) &&
             !IssueStatus.find(:first) &&
             !Enumeration.find(:first)
         end
@@ -55,7 +55,6 @@ module Redmine
                                                       :log_time,
                                                       :view_time_entries,
                                                       :comment_news,
-                                                      :view_documents,
                                                       :view_wiki_pages,
                                                       :view_wiki_edits,
                                                       :edit_wiki_pages,
@@ -76,7 +75,6 @@ module Redmine
                                                     :log_time,
                                                     :view_time_entries,
                                                     :comment_news,
-                                                    :view_documents,
                                                     :view_wiki_pages,
                                                     :view_wiki_edits,
                                                     :add_messages,
@@ -92,7 +90,6 @@ module Redmine
                                                             :view_calendar,
                                                             :view_time_entries,
                                                             :comment_news,
-                                                            :view_documents,
                                                             :view_wiki_pages,
                                                             :view_wiki_edits,
                                                             :add_messages,
@@ -103,7 +100,6 @@ module Redmine
                                              :permissions => [:view_issues,
                                                            :view_calendar,
                                                            :view_time_entries,
-                                                           :view_documents,
                                                            :view_wiki_pages,
                                                            :view_wiki_edits,
                                                            :browse_repository,
@@ -198,8 +194,6 @@ module Redmine
             }
 
             # Enumerations
-            DocumentCategory.create!(:name => l(:default_doc_category_user), :position => 1)
-            DocumentCategory.create!(:name => l(:default_doc_category_tech), :position => 2)
 
             IssuePriority.create!(:name => l(:default_priority_low), :position => 1)
             IssuePriority.create!(:name => l(:default_priority_normal), :position => 2, :is_default => true)

@@ -354,18 +354,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert UserMailer.issue_updated(user, journal).deliver
   end
 
-  def test_document_added
-    user     = FactoryGirl.create(:user)
-    document = FactoryGirl.create(:document)
-    assert UserMailer.document_added(user, document).deliver
-  end
-
-  def test_attachments_added
-    user     = FactoryGirl.create(:user)
-    attachments = [ FactoryGirl.create(:attachment) ]
-    assert UserMailer.attachments_added(user, attachments).deliver
-  end
-
   def test_news_added
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)

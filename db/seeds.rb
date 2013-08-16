@@ -17,3 +17,14 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
+
+Type.connection.schema_cache.clear!
+Type.reset_column_information
+Type.create!(name: 'none',
+             color_id: '#000000',
+             is_standard: true,
+             is_default: true,
+             is_in_chlog: true,
+             is_in_roadmap: true,
+             in_aggregation: true,
+             is_milestone: false)

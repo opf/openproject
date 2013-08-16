@@ -85,6 +85,10 @@ group :test do
   gem 'simplecov', ">= 0.8.pre"
 end
 
+group :ldap do
+  gem "net-ldap", '~> 0.2.2'
+end
+
 group :openid do
   gem "ruby-openid", '~> 2.2.3', :require => 'openid'
 end
