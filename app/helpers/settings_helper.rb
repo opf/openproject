@@ -26,7 +26,7 @@ module SettingsHelper
 
   def setting_select(setting, choices, options={})
     if blank_text = options.delete(:blank)
-      choices = [[blank_text.is_a?(Symbol) ? l(blank_text) : blank_text, '']] + choices
+      choices = [[blank_text.is_a?(Symbol) ? I18n.t(blank_text) : blank_text, '']] + choices
     end
 
     ret = select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
@@ -55,9 +55,9 @@ module SettingsHelper
     ('<table>' +
       '<thead>' +
         '<tr>' +
-          '<th>' + l(options[:label_choices] || :label_choices) + '</th>' +
+          '<th>' + I18n.t(options[:label_choices] || :label_choices) + '</th>' +
           settings.collect do |setting|
-            '<th>' + hidden_field_tag("settings[#{setting}][]", '') + l('setting_' + setting.to_s) + '</th>'
+            '<th>' + hidden_field_tag("settings[#{setting}][]", '') + I18n.t('setting_' + setting.to_s) + '</th>'
           end.join +
         '</tr>' +
       '</thead>' +
@@ -93,7 +93,7 @@ module SettingsHelper
 
   def setting_label(setting, options={})
     label = options.delete(:label)
-    label != false ? content_tag("label", l(label || "setting_#{setting}"), :for => "settings_#{setting}" ) : ''.html_safe
+    label != false ? content_tag("label", I18n.t(label || "setting_#{setting}"), :for => "settings_#{setting}" ) : ''.html_safe
   end
 
   # Renders a notification field for a Redmine::Notifiable option
