@@ -90,8 +90,6 @@ group :openid do
 end
 
 group :development do
-  #gem 'rails-footnotes', '>= 3.7.5.rc4'
-  #gem 'bullet'
   gem 'letter_opener', '~> 1.0.0'
   gem 'pry-rails'
   gem 'pry-stack_explorer'
