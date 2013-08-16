@@ -13,6 +13,8 @@
 class Journal::ChangesetJournal < ActiveRecord::Base
   self.table_name = "changeset_journals"
 
+  belongs_to :journal
+
   @@journaled_attributes = [:repository_id,
                             :revision,
                             :commiter,

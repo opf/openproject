@@ -13,6 +13,8 @@
 class Journal::WikiContentJournal < ActiveRecord::Base
   self.table_name = "wiki_content_journals"
 
+  belongs_to :journal
+
   @@journaled_attributes = [:page_id,
                             :author_id,
                             :text]

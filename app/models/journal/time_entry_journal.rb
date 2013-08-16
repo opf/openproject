@@ -13,6 +13,8 @@
 class Journal::TimeEntryJournal < ActiveRecord::Base
   self.table_name = "time_entry_journals"
 
+  belongs_to :journal
+
   @@journaled_attributes = [:project_id,
                             :user_id,
                             :work_package_id,

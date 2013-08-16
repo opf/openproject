@@ -13,6 +13,8 @@
 class Journal::NewsJournal < ActiveRecord::Base
   self.table_name = "news_journals"
 
+  belongs_to :journal
+
   @@journaled_attributes = [:project_id,
                             :title,
                             :summary,

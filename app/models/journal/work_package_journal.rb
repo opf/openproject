@@ -13,6 +13,8 @@
 class Journal::WorkPackageJournal < ActiveRecord::Base
   self.table_name = "work_package_journals"
 
+  belongs_to :journal
+
   @@journaled_attributes = [:type_id,
                             :project_id,
                             :subject,

@@ -13,6 +13,8 @@
 class Journal::MessageJournal < ActiveRecord::Base
   self.table_name = "message_journals"
 
+  belongs_to :journal
+
   @@journaled_attributes = [:board_id,
                             :parent_id,
                             :subject,

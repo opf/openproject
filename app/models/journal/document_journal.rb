@@ -13,6 +13,8 @@
 class Journal::DocumentJournal < ActiveRecord::Base
   self.table_name = "document_journals"
 
+  belongs_to :journal
+
   @@journaled_attributes = [:project_id,
                             :category_id,
                             :title,

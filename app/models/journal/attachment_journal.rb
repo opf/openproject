@@ -13,6 +13,8 @@
 class Journal::AttachmentJournal < ActiveRecord::Base
   self.table_name = "attachment_journals"
 
+  belongs_to :journal
+
   @@journaled_attributes = [:container_id,
                             :container_type,
                             :filename,
