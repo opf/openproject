@@ -31,14 +31,18 @@ class Journal < ActiveRecord::Base
   has_many :attachable_journals, class_name: Journal::AttachableJournal
   has_many :customizable_journals, class_name: Journal::CustomizableJournal
 
-  after_save :save_data
+  after_save :save_data, :touch_journaled
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
   scope "changing", :conditions => ["version > 1"]
 
   def journaled
-    @journaled ||= journalized_object_type.find(journaled_id)
+    unless journaled_type.nil?
+      @journaled ||= journalized_object_type.find(journaled_id)
+    else
+      nil
+    end
   end
 
   def changed_data=(changed_attributes)
@@ -111,6 +115,10 @@ class Journal < ActiveRecord::Base
   def save_data
     data.journal_id = id if data.new_record?
     data.save!
+  end
+
+  def touch_journaled
+    journaled.touch
   end
 
   def get_changes

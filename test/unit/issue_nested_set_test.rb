@@ -136,7 +136,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue3 = create_issue!(:parent_id => issue2.id)
     issue4 = create_issue!(:parent_id => issue1.id)
 
-    issue3.init_journal(User.find(2))
+    issue3.add_journal(User.find(2))
     issue3.subject = 'child with journal'
     issue3.save!
 
@@ -168,7 +168,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     root = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'root').reload
     child = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'child', :parent_id => root.id).reload
     leaf = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'leaf', :parent_id => child.id).reload
-    leaf.init_journal(User.find(2))
+    leaf.add_journal(User.find(2))
     leaf.subject = 'leaf with journal'
     leaf.save!
 

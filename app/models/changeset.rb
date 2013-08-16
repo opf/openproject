@@ -197,7 +197,7 @@ class Changeset < ActiveRecord::Base
     # don't change the status is the work package is closed
     return if work_package.status && work_package.status.is_closed?
 
-    work_package.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag))
+    work_package.add_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag))
     work_package.status = status
     unless Setting.commit_fix_done_ratio.blank?
       work_package.done_ratio = Setting.commit_fix_done_ratio.to_i

@@ -26,7 +26,6 @@ class Attachment < ActiveRecord::Base
   validate :filesize_below_allowed_maximum
 
   before_save :copy_file_to_destination
-  after_save :update_container_journal
   after_destroy :delete_file_on_disk
 
   acts_as_journalized :event_title => :filename,
@@ -203,13 +202,5 @@ private
       timestamp.succ!
     end
     "#{timestamp}_#{ascii}"
-  end
-
-  def update_container_journal
-    if JournalManager.changed? container
-      JournalManager.add_journal container
-
-      container.save!
-    end
   end
 end

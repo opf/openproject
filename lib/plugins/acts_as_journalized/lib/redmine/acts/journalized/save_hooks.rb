@@ -44,30 +44,37 @@ module Redmine::Acts::Journalized
     end
 
     def save_journals
-      add_journal if journals.empty? or JournalManager.changed?(self)
+      journal_metadata_set = !(@journaled_user.nil? and @journaled_notes.nil?)
+
+      @journaled_user ||= User.current
+      @journaled_notes ||= ""
+
+      JournalManager.add_journal self, @journaled_user, @journaled_notes if journals.empty? or JournalManager.changed?(self) or journal_metadata_set
 
       journals.select{|j| j.new_record?}.each {|j| j.save}
+
+      @journaled_user = nil
+      @journaled_notes = nil
     end
 
     def add_journal(user = User.current, notes = "")
-      @journal_notes = notes
-
-      JournalManager.add_journal self, user, notes
+      @journaled_user ||= user
+      @journaled_notes ||= notes
     end
 
     # Saves the current custom values, notes and journal to include them in the next journal
     # Called before save
-    def init_journal(user = User.current, notes = "")
-      @journal_notes ||= notes
-      @journal_user ||= user
-      @associations_before_save ||= {}
+    #def init_journal(user = User.current, notes = "")
+    #  @journal_notes ||= notes
+    #  @journal_user ||= user
+    #  @associations_before_save ||= {}
 
-      @associations = {}
-      save_possible_association :custom_values, :key => :custom_field_id, :value => :value
-      save_possible_association :attachments, :key => :id, :value => :filename
+    #  @associations = {}
+    #  save_possible_association :custom_values, :key => :custom_field_id, :value => :value
+    #  save_possible_association :attachments, :key => :id, :value => :filename
 
-      @current_journal ||= last_journal
-    end
+    #  @current_journal ||= last_journal
+    #end
 
     # Saves the notes and custom value changes in the last Journal
     # Called before create_journal
