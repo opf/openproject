@@ -39,6 +39,8 @@ module Redmine
       end
 
       def to_html(format, text, options = {}, &block)
+        puts "---   -----------------       Formatting....            -------------------------------------------"
+
         edit = !!options.delete(:edit)
         text = if Setting.cache_formatted_text? && text.size > 2.kilobyte && cache_store && cache_key = cache_key_for(format, options[:object], options[:attribute, options[:edit]])
           # Text retrieved from the cache store may be frozen
@@ -47,9 +49,11 @@ module Redmine
             formatter_for(format).new(text).to_html edit ? :edit : nil
           end.dup
         else
+          puts "---   -----------------       formatter....            -------------------------------------------"
           formatter_for(format).new(text).to_html edit ? :edit : nil
         end
         if block_given? and !edit
+          puts "---   -----------------       Executing macros....            -------------------------------------------"
           execute_macros(text, block)
         end
         text
