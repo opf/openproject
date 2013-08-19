@@ -265,6 +265,28 @@ class UserMailer < ActionMailer::Base
     "#{hash}@#{host}"
   end
 
+protected
+
+  # Option 1 to take out an html part: Leave the part out
+  # while creating the mail. Since rails internally uses three
+  # different ways to create a mail (passing a block, giving parameters
+  # with optional template, or passing the body directly), we would have
+  # to replicate a lot of rails code to modify all three ways.
+  # Therefore, we use option 2: modiyfing the set of parts rails
+  # created internally as a result of the above ways, as this is
+  # much shorter.
+  # On the downside, this might break if ActionMailer changes the signature
+  # or semantics of the following funtion. However, we should at least
+  # notice this as there are tests for checking the no-html setting.
+  def collect_responses_and_parts_order(headers)
+    responses, parts_order = super(headers)
+    if Setting.plain_text_mail?
+      responses.delete_if { |response| response[:content_type]=="text/html" }
+      parts_order.delete_if { |part| part == "text/html"} unless parts_order.nil?
+    end
+    [responses, parts_order]
+  end
+
 private
 
   def self.host
@@ -281,13 +303,6 @@ private
 
   def self.default_url_options
     super.merge :host => host, :protocol => protocol
-  end
-
-  def mail(headers = {})
-    super(headers) do |format|
-      format.text
-      format.html unless Setting.plain_text_mail?
-    end
   end
 
   def message_id(object)
