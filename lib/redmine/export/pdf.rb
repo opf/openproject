@@ -14,6 +14,7 @@ require 'rfpdf/fpdf'
 require 'fpdf/chinese'
 require 'fpdf/japanese'
 require 'fpdf/korean'
+require 'tcpdf'
 
 module Redmine
   module Export
@@ -169,7 +170,7 @@ module Redmine
       end
 
       # Returns a PDF string of a list of issues
-      def issues_to_pdf(issues, project, query)
+      def issues_to_pdf(issues, project, query, options={})
         if ( current_language.to_s.downcase == 'ko'    ||
              current_language.to_s.downcase == 'ja'    ||
              current_language.to_s.downcase == 'zh'    ||
@@ -257,11 +258,18 @@ module Redmine
           base_y = pdf.GetY
           pdf.SetY(2 * page_height)
           max_height = issues_to_pdf_write_cells(pdf, col_values, col_width, row_height)
+          description_height = 0
+          if options[:show_descriptions]
+            description_height = issues_to_pdf_write_cells(pdf,
+                                                          [issue.description.to_s],
+                                                          [table_width / 2],
+                                                          row_height)
+          end
           pdf.SetXY(base_x, base_y)
 
           # make new page if it doesn't fit on the current one
           space_left = page_height - base_y - bottom_margin
-          if max_height > space_left
+          if max_height + description_height > space_left
             pdf.AddPage("L")
             base_x = pdf.GetX
             base_y = pdf.GetY
@@ -271,7 +279,24 @@ module Redmine
           pdf.Cell(col_id_width, row_height, issue.id.to_s, "T", 0, 'C', 1)
           issues_to_pdf_write_cells(pdf, col_values, col_width, row_height)
           issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_id_width, col_width)
-          pdf.SetY(base_y + max_height);
+
+          # description
+          if options[:show_descriptions]
+            pdf.SetXY(base_x, base_y + max_height)
+            issues_to_pdf_write_cells(pdf,
+                                      [issue.description.to_s],
+                                      [table_width / 2],
+                                      row_height)
+            issues_to_pdf_draw_borders(pdf,
+                                       base_x,
+                                       base_y + max_height,
+                                       base_y + max_height + description_height,
+                                       0,
+                                       [table_width])
+            pdf.SetY(base_y + max_height + description_height);
+          else
+            pdf.SetY(base_y + max_height);
+          end
         end
 
         if issues.size == Setting.issues_export_limit.to_i

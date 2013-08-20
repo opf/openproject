@@ -780,6 +780,7 @@ en:
   label_password_rule_special: "Special Characters"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
+  label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Per page"
   label_permissions: "Permissions"
   label_permissions_report: "Permissions report"
