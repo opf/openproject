@@ -798,6 +798,7 @@ de:
   label_password_rule_special: "Sonderzeichen"
   label_password_rule_uppercase: "Großbuchstaben"
   label_path_encoding: "Path encoding"
+  label_pdf_with_descriptions: "PDF mit Beschreibungen"
   label_per_page: "Pro Seite"
   label_permissions: "Berechtigungen"
   label_permissions_report: "Berechtigungsübersicht"
