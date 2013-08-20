@@ -741,12 +741,12 @@ class IssueTest < ActiveSupport::TestCase
 
     i.add_journal(User.find(2))
     i.description = new_description
-    assert_difference 'WorkPackageJournal.count', 1 do
+    assert_difference 'Journal.count', 1 do
       i.save!
     end
 
-    journal = WorkPackageJournal.first(:order => 'id DESC')
-    assert_equal i, journal.journaled
+    journal = Journal.first(:order => 'id DESC')
+    assert_equal i, journal.journable
     assert journal.changed_data.has_key? :description
     assert_equal old_description, journal.old_value_for("description")
     assert_equal new_description, journal.new_value_for("description")

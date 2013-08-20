@@ -102,7 +102,8 @@ class WikiPageTest < ActiveSupport::TestCase
     # make sure that page content and its history are deleted
     assert WikiContent.find_all_by_page_id(1).empty?
     content_ids.each do |wiki_content_id|
-      assert WikiContent.journal_class.find_all_by_journaled_id(wiki_content_id).empty?
+      assert Journal.find :all, conditions: { journable_type: WikiContent,
+                                              journable_id: wiki_content_id }
     end
   end
 

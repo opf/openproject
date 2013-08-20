@@ -22,6 +22,13 @@ class ActivityTest < ActiveSupport::TestCase
       i.add_journal(User.current, "A journal to find")
       i.save!
     end
+
+    Issue.all.each { |i| i.recreate_initial_journal! }
+    Message.all.each { |m| m.recreate_initial_journal! }
+  end
+
+  def teardown
+    Journal.delete_all
   end
 
   def test_activity_without_subprojects
@@ -44,7 +51,6 @@ class ActivityTest < ActiveSupport::TestCase
   end
 
   def test_global_activity_anonymous
-    Message.all.each { |m| m.recreate_initial_journal! }
     events = find_events(User.anonymous)
     assert_not_nil events
 
@@ -64,15 +70,12 @@ class ActivityTest < ActiveSupport::TestCase
   end
 
   def test_user_activity
-    Issue.all.each { |m| m.recreate_initial_journal! }
-    Message.all.each { |m| m.recreate_initial_journal! }
-
     user = User.find(2)
     events = Redmine::Activity::Fetcher.new(User.anonymous, :author => user).events(nil, nil, :limit => 10)
 
     assert(events.size > 0)
     assert(events.size <= 10)
-    assert_nil(events.detect {|e| e.event_author != user})
+    assert_nil(events.detect {|e| e.data.event_author != user})
   end
 
   private
@@ -81,6 +84,6 @@ class ActivityTest < ActiveSupport::TestCase
     events = Redmine::Activity::Fetcher.new(user, options).events(Date.today - 30, Date.today + 1)
     # Because events are provided by the journals, but we want to test for
     # their targets here, transform that
-    events.group_by(&:journaled).keys
+    events.group_by(&:journable).keys
   end
 end

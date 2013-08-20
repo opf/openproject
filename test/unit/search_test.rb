@@ -112,7 +112,7 @@ class SearchTest < ActiveSupport::TestCase
 
   def test_search_issue_with_multiple_hits_in_journals
     i = Issue.find(1)
-    Journal.delete_all journaled_id: i.id
+    Journal.delete_all journable_id: i.id
     i.add_journal User.current, "Journal notes"
     i.save!
     i.add_journal User.current, "Some notes with Redmine links: #2, r2."

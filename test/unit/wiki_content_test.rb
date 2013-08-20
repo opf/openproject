@@ -68,7 +68,7 @@ class WikiContentTest < ActiveSupport::TestCase
 
   def test_fetch_history
     wiki_content_journal = FactoryGirl.build(:wiki_content_journal,
-                                             journaled_id: @page.content.id)
+                                             journable_id: @page.content.id)
     wiki_content_journal.data.page_id = @page.id
     wiki_content_journal.data.text = ""
 

@@ -193,7 +193,7 @@ module Redmine
                   end
                 end
                 include_opts.uniq!
-                opts[:include] = [:journable => include_opts]
+                opts[:include] = include_opts
 
                 #opts[:joins] = h[:find_options][:joins] if h[:find_options][:joins]
               end

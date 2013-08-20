@@ -83,7 +83,7 @@ class JournalTest < ActiveSupport::TestCase
   test "accessing #journaled on a Journal should not error (parent class)" do
     journal = Journal.new
     assert_nothing_raised do
-      assert_equal nil, journal.journaled
+      assert_equal nil, journal.journable
     end
   end
 

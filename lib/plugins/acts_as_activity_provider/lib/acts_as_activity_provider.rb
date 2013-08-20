@@ -69,11 +69,8 @@ module Redmine
 
             journal_class = JournalManager.journal_class(self)
 
-            journal_class.with_scope(:find => scope_options) do
-              query = Journal.includes(provider_options[:find_options][:include])
-                             .where(journable_type: self.to_s)
-                             .joins("INNER JOIN #{journal_class.table_name} ON #{journal_class.table_name}.journal_id = journals.id")
-              query
+            self.with_scope(:find => scope_options) do
+              self.includes(:journals, provider_options[:find_options][:include])
             end
           end
         end

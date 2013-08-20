@@ -185,13 +185,13 @@ class JournalManager
 
   def self.create_attachment_data(journable, journal)
     journable.attachments.each do |a|
-      journal.attachable_journals.build journal: journal, attachment: a, filename: a.filename
+      journal.attachable_journals.build attachment: a, filename: a.filename
     end
   end
 
   def self.create_custom_field_data(journable, journal)
     journable.custom_values.each do |cv|
-      journal.customizable_journals.build journal: journal, custom_field: cv.custom_field, value: cv.value
+      journal.customizable_journals.build custom_field_id: cv.custom_field_id, value: cv.value
     end
   end
 end

@@ -45,7 +45,7 @@ class IssuesHelperTest < HelperTestCase
         issue = FactoryGirl.build :issue
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journaled).returns(issue)
+        journal.stubs(:journable).returns(issue)
         journal.stubs(:details).returns({"done_ratio" => [40, 100]})
 
         assert_equal "% done changed from 40 to 100", journal.render_detail(journal.details.to_a.first, :no_html => true)
@@ -55,7 +55,7 @@ class IssuesHelperTest < HelperTestCase
         issue = FactoryGirl.build :issue
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journaled).returns(issue)
+        journal.stubs(:journable).returns(issue)
         journal.stubs(:details).returns({"done_ratio" => [nil, 100]})
 
         assert_equal "% done changed from 0 to 100", journal.render_detail(journal.details.to_a.first, :no_html => true)
@@ -65,7 +65,7 @@ class IssuesHelperTest < HelperTestCase
         issue = FactoryGirl.build :issue
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journaled).returns(issue)
+        journal.stubs(:journable).returns(issue)
         journal.stubs(:details).returns({"done_ratio" => [50, nil]})
 
         assert_equal "% done changed from 50 to 0", journal.render_detail(journal.details.to_a.first, :no_html => true)
@@ -77,7 +77,7 @@ class IssuesHelperTest < HelperTestCase
         issue = FactoryGirl.build :issue
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journaled).returns(issue)
+        journal.stubs(:journable).returns(issue)
         journal.stubs(:details).returns({"done_ratio" => [40, 100]})
 
         @response.body = journal.render_detail(journal.details.to_a.first, :no_html => false)
@@ -94,7 +94,7 @@ class IssuesHelperTest < HelperTestCase
         issue = FactoryGirl.build :issue
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journaled).returns(issue)
+        journal.stubs(:journable).returns(issue)
         journal.stubs(:details).returns({"done_ratio" => [nil, 100]})
 
         @response.body = journal.render_detail(journal.details.to_a.first, :no_html => false)
@@ -110,7 +110,7 @@ class IssuesHelperTest < HelperTestCase
         issue = FactoryGirl.build :issue
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journaled).returns(issue)
+        journal.stubs(:journable).returns(issue)
         journal.stubs(:details).returns({"done_ratio" => [50, nil]})
 
         @response.body = journal.render_detail(journal.details.to_a.first, :no_html => false)
@@ -127,7 +127,7 @@ class IssuesHelperTest < HelperTestCase
         issue = FactoryGirl.build :issue
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journaled).returns(issue)
+        journal.stubs(:journable).returns(issue)
         journal.stubs(:details).returns({"start_date" => ['2010-01-01', '2010-01-31']})
 
         assert_match "01/31/2010", journal.render_detail(journal.details.to_a.first, :no_html => true)
@@ -137,7 +137,7 @@ class IssuesHelperTest < HelperTestCase
         issue = FactoryGirl.build :issue
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journaled).returns(issue)
+        journal.stubs(:journable).returns(issue)
         journal.stubs(:details).returns({"start_date" => ['2010-01-01', '2010-01-31']})
 
         assert_match "01/01/2010", journal.render_detail(journal.details.to_a.first, :no_html => true)
@@ -149,7 +149,7 @@ class IssuesHelperTest < HelperTestCase
         issue = FactoryGirl.build :issue
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journaled).returns(issue)
+        journal.stubs(:journable).returns(issue)
         journal.stubs(:details).returns({"start_date" => ['2010-01-01', '2010-01-31']})
 
         assert_match "01/31/2010", journal.render_detail(journal.details.to_a.first, :no_html => true)
@@ -159,7 +159,7 @@ class IssuesHelperTest < HelperTestCase
         issue = FactoryGirl.build :issue
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journaled).returns(issue)
+        journal.stubs(:journable).returns(issue)
         journal.stubs(:details).returns({"start_date" => ['2010-01-01', '2010-01-31']})
 
         assert_match "01/01/2010", journal.render_detail(journal.details.to_a.first, :no_html => true)
