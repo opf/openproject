@@ -27,7 +27,7 @@ module JournalsHelper
   def render_journal(model, journal, options = {})
     return "" if journal.initial?
     journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
-    content_tag "div", journal_content, { :id => "change-#{journal.id}", :class => work_package_css_classes(journal.journaled) }
+    content_tag "div", journal_content, { :id => "change-#{journal.id}", :class => work_package_css_classes(journal.journable) }
   end
 
   # This renders a journal entry with a header and details

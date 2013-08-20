@@ -119,6 +119,18 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
   context "GET /api/v1/issues/:id" do
     context "with journals" do
       context ".xml" do
+
+        setup do
+          FactoryGirl.create :work_package_journal,
+                             journable_id: 1,
+                             data: FactoryGirl.build(:journal_work_package_journal,
+                                                     status_id: 1)
+          FactoryGirl.create :work_package_journal,
+                             journable_id: 1,
+                             data: FactoryGirl.build(:journal_work_package_journal,
+                                                     status_id: 2)
+        end
+
         should "display journals" do
           get '/api/v1/issues/1.xml?include=journals'
 
@@ -128,7 +140,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
               :attributes => { :type => 'array' },
               :child => {
                 :tag => 'journal',
-                :attributes => { :id => '1'},
+                :attributes => { :id => '2'},
                 :child => {
                   :tag => 'details',
                   :attributes => { :type => 'array' },
