@@ -143,6 +143,8 @@ class IssueTest < ActiveSupport::TestCase
     field = WorkPackageCustomField.find_by_name('Database')
     field.update_attribute(:is_required, true)
 
+    CustomValue.delete 18
+
     issue = Issue.find(1)
     assert_nil issue.custom_value_for(field)
     assert issue.available_custom_fields.include?(field)
