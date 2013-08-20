@@ -27,6 +27,18 @@ GIT
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
 
+PATH
+  remote: ~/workspace/openproject-plugins/openproject-documents
+  specs:
+    openproject-documents (1.0.0.pre1)
+      rails (~> 3.2.9)
+
+PATH
+  remote: ~/workspace/openproject-plugins/openproject-video_upload
+  specs:
+    openproject-video_upload (1.0.0.pre2)
+      rails (~> 3.2.9)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -60,6 +72,7 @@ GEM
     acts_as_list (0.2.0)
       activerecord (>= 3.0)
     addressable (2.3.4)
+    ansi (1.4.3)
     arel (3.0.2)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
@@ -146,6 +159,7 @@ GEM
     guard-test (1.0.0)
       guard (>= 1.8)
       test-unit (~> 2.2)
+    hashie (2.0.5)
     hike (1.2.3)
     htmldiff (0.0.1)
     i18n (0.6.4)
@@ -176,6 +190,12 @@ GEM
     metaclass (0.0.1)
     method_source (0.8.1)
     mime-types (1.23)
+    minitest (4.7.5)
+    minitest-reporters (0.14.20)
+      ansi
+      builder
+      minitest (>= 2.12, < 5.0)
+      powerbar
     mocha (0.13.3)
       metaclass (~> 0.0.1)
     multi_json (1.7.9)
@@ -189,6 +209,9 @@ GEM
       railties (~> 3.0)
     pg (0.15.1)
     polyglot (0.3.3)
+    powerbar (1.0.11)
+      ansi (~> 1.4.0)
+      hashie (>= 1.1.0)
     prototype-rails (3.2.1)
       rails (~> 3.2)
     pry (0.9.12.2)
@@ -370,11 +393,14 @@ DEPENDENCIES
   launchy (~> 2.3.0)
   letter_opener (~> 1.0.0)
   loofah
+  minitest-reporters
   mocha (~> 0.13.1)
   mysql
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
   object-daddy!
+  openproject-documents!
+  openproject-video_upload!
   pg
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
