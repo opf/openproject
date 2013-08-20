@@ -15,12 +15,14 @@ FactoryGirl.define do
     sequence(:version) {|n| n}
 
     factory :work_package_journal, class: Journal do
-      journaled_type "WorkPackageJournal"
+      journable_type "WorkPackage"
+      activity_type "work_packages"
       data FactoryGirl.build(:journal_work_package_journal)
     end
 
     factory :wiki_content_journal, class: Journal do
-      journaled_type "WikiContentJournal"
+      journable_type "WikiContent"
+      activity_type "wiki_edits"
       data FactoryGirl.build(:journal_wiki_content_journal)
     end
   end

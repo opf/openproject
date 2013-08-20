@@ -53,13 +53,16 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_issues
+    Issue.find(5).recreate_initial_journal!
+    Issue.find(8).recreate_initial_journal!
+
     get :index, :q => 'issue', :issues => 1
     assert_response :success
     assert_template 'index'
 
     assert assigns(:results).include?(Issue.find(8))
     assert assigns(:results).include?(Issue.find(5))
-    assert_select "dt.work_package" do
+    assert_select "dt.work_package-edit" do
       assert_select "a", :text => /Closed/
     end
   end

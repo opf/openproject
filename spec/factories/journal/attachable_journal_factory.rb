@@ -10,6 +10,6 @@
 #++
 
 FactoryGirl.define do
-  factory :journal_work_package_journal, :class => Journal::WorkPackageJournal do
+  factory :journal_attachable_journal, :class => Journal::AttachableJournal do
   end
 end

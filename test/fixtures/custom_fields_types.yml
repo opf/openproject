@@ -17,3 +17,6 @@ custom_fields_types_005:
 custom_fields_types_006:
   custom_field_id: 6
   type_id: 3
+custom_fields_types_007:
+  custom_field_id: 8
+  type_id: 1

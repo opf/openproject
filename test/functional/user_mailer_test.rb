@@ -262,7 +262,7 @@ class UserMailerTest < ActionMailer::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal UserMailer.generate_message_id(journal), mail.message_id
-    assert_match mail.references, UserMailer.generate_message_id(journal.journaled)
+    assert_match mail.references, UserMailer.generate_message_id(journal.journable)
   end
 
   def test_message_posted_message_id
