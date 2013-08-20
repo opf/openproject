@@ -168,11 +168,10 @@ end
 Then /^the "([^"]*)" field(?: within (.*))? should contain "([^"]*)"$/ do |field, parent, value|
   with_scope(parent) do
     field = find_field(field)
-    field_value = (field.tag_name == 'textarea') ? field.text : field.value
-    if field_value.respond_to? :should
-      field_value.should =~ /#{value}/
+    if field.value.respond_to? :should
+      field.value.should =~ /#{value}/
     else
-      assert_match(/#{value}/, field_value)
+      assert_match(/#{value}/, field.value)
     end
   end
 end
@@ -180,11 +179,10 @@ end
 Then /^the "([^"]*)" field(?: within (.*))? should not contain "([^"]*)"$/ do |field, parent, value|
   with_scope(parent) do
     field = find_field(field)
-    field_value = (field.tag_name == 'textarea') ? field.text : field.value
-    if field_value.respond_to? :should_not
-      field_value.should_not =~ /#{value}/
+    if field.value.respond_to? :should_not
+      field.value.should_not =~ /#{value}/
     else
-      assert_no_match(/#{value}/, field_value)
+      assert_no_match(/#{value}/, field.value)
     end
   end
 end
