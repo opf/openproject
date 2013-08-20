@@ -44,13 +44,20 @@ class User < Principal
     :username =>                User.user_format_structure_to_format(:username)
   }
 
+  USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all]
+  USER_MAIL_OPTION_SELECTED       = ['selected', :label_user_mail_option_selected]
+  USER_MAIL_OPTION_ONLY_MY_EVENTS = ['only_my_events', :label_user_mail_option_only_my_events]
+  USER_MAIL_OPTION_ONLY_ASSIGNED  = ['only_assigned', :label_user_mail_option_only_assigned]
+  USER_MAIL_OPTION_ONLY_OWNER     = ['only_owner', :label_user_mail_option_only_owner]
+  USER_MAIL_OPTION_NON            = ['none', :label_user_mail_option_none]
+
   MAIL_NOTIFICATION_OPTIONS = [
-    ['all', :label_user_mail_option_all],
-    ['selected', :label_user_mail_option_selected],
-    ['only_my_events', :label_user_mail_option_only_my_events],
-    ['only_assigned', :label_user_mail_option_only_assigned],
-    ['only_owner', :label_user_mail_option_only_owner],
-    ['none', :label_user_mail_option_none]
+    USER_MAIL_OPTION_ALL,
+    USER_MAIL_OPTION_SELECTED,
+    USER_MAIL_OPTION_ONLY_MY_EVENTS,
+    USER_MAIL_OPTION_ONLY_ASSIGNED,
+    USER_MAIL_OPTION_ONLY_OWNER,
+    USER_MAIL_OPTION_NON
   ]
 
   USER_DELETION_JOURNAL_BUCKET_SIZE = 1000;
@@ -87,7 +94,7 @@ class User < Principal
   # Active non-anonymous users scope
   scope :active, :conditions => "#{User.table_name}.status = #{STATUSES[:active]}"
   scope :active_or_registered, :conditions =>
-          "#{User.table_name}.status = #{STATUSES[:active]} or " + 
+          "#{User.table_name}.status = #{STATUSES[:active]} or " +
           "#{User.table_name}.status = #{STATUSES[:registered]}"
   scope :not_builtin,
         :conditions => "#{User.table_name}.status <> #{STATUSES[:builtin]}"
@@ -100,7 +107,7 @@ class User < Principal
   def self.create_blocked_scope(blocked)
     block_duration = Setting.brute_force_block_minutes.to_i.minutes
     blocked_if_login_since = Time.now - block_duration
-    negation = blocked ? '' : 'NOT' 
+    negation = blocked ? '' : 'NOT'
     where("#{negation} (failed_login_count >= ? AND last_failed_login_on > ?)",
           Setting.brute_force_block_after_failed_logins.to_i,
           blocked_if_login_since)
@@ -849,7 +856,7 @@ class User < Principal
   #
   def last_failed_login_within_block_time?
     block_duration = Setting.brute_force_block_minutes.to_i.minutes
-    self.last_failed_login_on and 
+    self.last_failed_login_on and
       Time.now - self.last_failed_login_on < block_duration
   end
 
