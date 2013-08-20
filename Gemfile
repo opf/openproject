@@ -105,6 +105,7 @@ group :development do
   gem 'guard-cucumber'
   gem 'rb-fsevent', :group => :test
   gem 'thin'
+  gem 'faker'
 end
 
 group :tools do
