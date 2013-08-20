@@ -87,6 +87,22 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
     )
   end
 
+  def test_inline_auto_link
+    assert_html_output(
+        'Autolink to http://www.google.com'=>
+        'Autolink to <a class="external" href="http://www.google.com">http://www.google.com</a>'
+    )
+  end
+
+  def test_ignore_links_inside_macros
+    assert_html_output(
+        '{{embed_youtube(http://www.google.com)}}'=>
+        '{{embed_youtube(http://www.google.com)}}'
+    )
+  end
+
+
+
   def test_blockquote
     # orig raw text
     raw = <<-RAW
