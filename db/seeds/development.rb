@@ -1,4 +1,4 @@
-# only seed a new project, if it hasn't already run
+# Careful: The seeding recreates the seeded project before it runs, so any changes on the seeded project will be lost.
 puts "Creating seeded project..."
 if delete_me=Project.find_by_identifier("seeded_project")
   delete_me.destroy
