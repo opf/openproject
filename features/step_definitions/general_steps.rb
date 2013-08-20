@@ -46,9 +46,6 @@ Given /^(?:|I )am not logged in$/ do
 end
 
 Given /^(?:|I )am [aA]dmin$/ do
-  FactoryGirl.create :admin unless User.where(:login => 'admin').any?
-  FactoryGirl.create :anonymous unless AnonymousUser.count > 0
-
   admin = User.find_by_admin(true)
 
   login(admin.login, 'adminADMIN!')
@@ -67,8 +64,6 @@ Given /^I am already logged in as "(.+?)"$/ do |login|
 end
 
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
-  FactoryGirl.create :admin unless User.where(:login => 'admin').any?
-  FactoryGirl.create :anonymous unless AnonymousUser.count > 0
 
   login(username, 'adminADMIN!')
 end
@@ -79,7 +74,11 @@ Given /^(?:|I )am (not )?impaired$/ do |bool|
 end
 
 Given /^there is 1 [pP]roject with(?: the following)?:$/ do |table|
+  standard_type = FactoryGirl.build(:type_standard)
   p = FactoryGirl.build(:project)
+
+  p.types << standard_type
+
   send_table_to_object(p, table)
 end
 
@@ -224,17 +223,6 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
         object.save!
       end
     )
-  end
-end
-
-Given /^the [Pp]roject "([^\"]*)" has (\d+) [Dd]ocument with(?: the following)?:$/ do |project, count, table|
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
-  as_admin count do
-    d = Document.spawn
-    d.project = p
-    d.category = DocumentCategory.first
-    d.save!
-    send_table_to_object(d, table)
   end
 end
 

@@ -16,6 +16,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def setup
     super
+    FactoryGirl.create(:type_standard)
     @ecookbook = Project.find(1)
     @ecookbook_sub1 = Project.find(3)
     User.current = nil
@@ -37,7 +38,6 @@ class ProjectTest < ActiveSupport::TestCase
     should have_many :versions
     should have_many :time_entries
     should have_many :queries
-    should have_many :documents
     should have_many :news
     should have_many :issue_categories
     should have_many :boards
@@ -190,7 +190,6 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, MemberRole.count
     assert_equal 0, WorkPackage.count
     assert_equal 0, WorkPackageJournal.count, "Journals were not deleted: #{Journal.all.inspect}"
-    assert_equal 0, Attachment.count, "Attachments were not deleted: #{Attachment.all.inspect}"
     assert_equal 0, EnabledModule.count
     assert_equal 0, IssueCategory.count
     assert_equal 0, IssueRelation.count
@@ -409,9 +408,8 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [2, 3], child.types.collect(&:id)
 
     assert_kind_of Type, parent.rolled_up_types.first
-    assert_equal Type.find(1), parent.rolled_up_types.first
 
-    assert_equal [1, 2, 3], parent.rolled_up_types.collect(&:id)
+    assert_equal [1, 999, 2, 3], parent.rolled_up_types.collect(&:id)
     assert_equal [2, 3], child.rolled_up_types.collect(&:id)
   end
 

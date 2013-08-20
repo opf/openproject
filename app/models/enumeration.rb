@@ -159,7 +159,7 @@ private
 end
 
 # Force load the subclasses in development mode
-['time_entry_activity', 'document_category', 'issue_priority',
+['time_entry_activity', 'issue_priority',
  'reported_project_status', 'planning_element_status'].each do |enum_subclass|
 
   require_dependency enum_subclass

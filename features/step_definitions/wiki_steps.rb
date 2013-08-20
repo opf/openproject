@@ -45,3 +45,10 @@ Then /^the child page wiki menu item inside the "(.*?)" menu item should be sele
   page.should have_css(".#{parent_item.item_class}-new-page.selected")
 end
 
+Given /^the wiki page "([^"]*)" of the project "([^"]*)" has the following contents:$/ do |page, project, table|
+  project = Project.find_by_name project
+  wiki = project.wiki || project.wiki.create!
+  wp = wiki.pages.find_or_create_by_title(page)
+  wc = wp.content || wp.create_content
+  wc.update_attribute(:text, table.raw.first)
+end

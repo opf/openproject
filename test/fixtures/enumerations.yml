@@ -1,19 +1,4 @@
 ---
-enumerations_001:
-  name: Uncategorized
-  id: 1
-  type: DocumentCategory
-  active: true
-enumerations_002:
-  name: User documentation
-  id: 2
-  type: DocumentCategory
-  active: true
-enumerations_003:
-  name: Technical documentation
-  id: 3
-  type: DocumentCategory
-  active: true
 enumerations_004:
   name: Low
   id: 4

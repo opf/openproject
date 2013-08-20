@@ -13,7 +13,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title h(planning_element.title) %>
 
 <h2 class="subject">
-  <%= planning_element.title %>
+  <%= planning_element.to_s %>
 </h2>
 
 <%
@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </th>
         <td>
           <%= planning_element.parent ?
-          (link_to_planning_element(planning_element.parent, :include_id => false)) : "" %>&nbsp;
+          (link_to_work_package(planning_element.parent, :subject_only => true)) : "" %>&nbsp;
         </td>
       </tr>
       <tr>

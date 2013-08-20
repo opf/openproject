@@ -107,36 +107,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
 
   end
 
-  context "documents" do
-    should route(:get, "/projects/567/documents").to( :controller => 'documents',
-                                                      :action => 'index',
-                                                      :project_id => '567' )
-
-    should route(:get, "/projects/567/documents/new").to( :controller => 'documents',
-                                                          :action => 'new',
-                                                          :project_id => '567' )
-
-    should route(:get, "/documents/22").to( :controller => 'documents',
-                                            :action => 'show',
-                                            :id => '22' )
-
-    should route(:get, "/documents/22/edit").to( :controller => 'documents',
-                                                 :action => 'edit',
-                                                 :id => '22' )
-
-    should route(:post, "/projects/567/documents").to( :controller => 'documents',
-                                                       :action => 'create',
-                                                       :project_id => '567' )
-
-    should route(:put, "/documents/567").to( :controller => 'documents',
-                                             :action => 'update',
-                                             :id => '567' )
-
-    should route(:delete, "/documents/567").to( :controller => 'documents',
-                                                :action => 'destroy',
-                                                :id => '567' )
-  end
-
   context "issues" do
     # REST actions
     should route(:get, "/issues").to( :controller => 'issues',
@@ -544,29 +514,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
                                                              :project_id => '64' )
     end
   end
-
-#
-#  context "repositories" do
-#    should route(:get, "/projects/redmine/repository").to( :controller => 'repositories', :action => 'show', :id => 'redmine')
-#    should route(:get, "/projects/redmine/repository/edit").to( :controller => 'repositories', :action => 'edit', :id => 'redmine')
-#    should route(:get, "/projects/redmine/repository/revisions").to( :controller => 'repositories', :action => 'revisions', :id => 'redmine')
-#    should route(:get, "/projects/redmine/repository/revisions.atom").to( :controller => 'repositories', :action => 'revisions', :id => 'redmine', :format => 'atom')
-#    should route(:get, "/projects/redmine/repository/revisions/2457").to( :controller => 'repositories', :action => 'revision', :id => 'redmine', :rev => '2457')
-#    should route(:get, "/projects/redmine/repository/revisions/2457/diff").to( :controller => 'repositories', :action => 'diff', :id => 'redmine', :rev => '2457')
-#    should route(:get, "/projects/redmine/repository/revisions/2457/diff.diff").to( :controller => 'repositories', :action => 'diff', :id => 'redmine', :rev => '2457', :format => 'diff')
-#    should route(:get, "/projects/redmine/repository/diff/path/to/file.c").to( :controller => 'repositories', :action => 'diff', :id => 'redmine', :path => %w[path to file.c])
-#    should route(:get, "/projects/redmine/repository/revisions/2/diff/path/to/file.c").to( :controller => 'repositories', :action => 'diff', :id => 'redmine', :path => %w[path to file.c], :rev => '2')
-#    should route(:get, "/projects/redmine/repository/browse/path/to/file.c").to( :controller => 'repositories', :action => 'browse', :id => 'redmine', :path => %w[path to file.c])
-#    should route(:get, "/projects/redmine/repository/entry/path/to/file.c").to( :controller => 'repositories', :action => 'entry', :id => 'redmine', :path => %w[path to file.c])
-#    should route(:get, "/projects/redmine/repository/revisions/2/entry/path/to/file.c").to( :controller => 'repositories', :action => 'entry', :id => 'redmine', :path => %w[path to file.c], :rev => '2')
-#    should route(:get, "/projects/redmine/repository/raw/path/to/file.c").to( :controller => 'repositories', :action => 'entry', :id => 'redmine', :path => %w[path to file.c], :format => 'raw')
-#    should route(:get, "/projects/redmine/repository/revisions/2/raw/path/to/file.c").to( :controller => 'repositories', :action => 'entry', :id => 'redmine', :path => %w[path to file.c], :rev => '2', :format => 'raw')
-#    should route(:get, "/projects/redmine/repository/annotate/path/to/file.c").to( :controller => 'repositories', :action => 'annotate', :id => 'redmine', :path => %w[path to file.c])
-#    should route(:get, "/projects/redmine/repository/changes/path/to/file.c").to( :controller => 'repositories', :action => 'changes', :id => 'redmine', :path => %w[path to file.c])
-#    should route(:get, "/projects/redmine/repository/statistics").to( :controller => 'repositories', :action => 'stats', :id => 'redmine')
-#
-#
-#    should route(:post, "/projects/redmine/repository/edit").to( :controller => 'repositories', :action => 'edit', :id => 'redmine')
 
   context "timelogs" do
     should route(:get, "/time_entries").to( :controller => 'timelog',

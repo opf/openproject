@@ -53,17 +53,6 @@ class Issue < WorkPackage
       :conditions => ::Query.merge_conditions(query.statement)
     }
   }
-  #
-  # Used for activities list
-  def title
-    title = ''
-    title << subject
-    title << ' ('
-    title << status.name << ' ' if status
-    title << '*'
-    title << id.to_s
-    title << ')'
-  end
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status

@@ -69,11 +69,14 @@ module Redmine
         # Versioning and acting as an Event may only be applied once.
         # To apply more than on activity, use acts_as_activity
         def acts_as_journalized(options = {}, &block)
+
+          acts_as_activity = options.delete(:acts_as_activity)
+
           activity_hash, event_hash, journal_hash = split_option_hashes(options)
 
           self.journal_class_name = journal_hash.delete(:class_name) || "#{name.gsub("::", "_")}Journal"
 
-          acts_as_activity(activity_hash)
+          acts_as_activity(activity_hash) if acts_as_activity!=false
 
           return if journaled?
 

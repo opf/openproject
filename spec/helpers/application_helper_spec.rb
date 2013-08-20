@@ -77,7 +77,7 @@ describe ApplicationHelper do
     let(:project_member) { FactoryGirl.create :user,
                                               :member_in_project => project,
                                               :member_through_role => FactoryGirl.create(:role,
-                                                                                         :permissions => [:view_work_packages, :edit_work_packages, :view_documents,
+                                                                                         :permissions => [:view_work_packages, :edit_work_packages,
                                                                                          :browse_repository, :view_changesets, :view_wiki_pages]) }
     let(:issue) { FactoryGirl.create :issue,
                                      :project => project,
@@ -138,7 +138,7 @@ describe ApplicationHelper do
     let(:project_member) { FactoryGirl.create :user,
                                               :member_in_project => project,
                                               :member_through_role => FactoryGirl.create(:role,
-                                                                                         :permissions => [:view_work_packages, :edit_work_packages, :view_documents,
+                                                                                         :permissions => [:view_work_packages, :edit_work_packages,
                                                                                          :browse_repository, :view_changesets, :view_wiki_pages]) }
     let(:issue) { FactoryGirl.create :issue,
                                      :project => project,
@@ -206,39 +206,6 @@ describe ApplicationHelper do
         subject { textilizable("!r#{changeset1.id}") }
 
         it { should eq("<p>r#{changeset1.id}</p>") }
-      end
-    end
-
-    context "Document links" do
-      let(:document) { FactoryGirl.create :document,
-                                          :title => 'Test document',
-                                          :project => project }
-      let(:document_link) { link_to('Test document',
-                                    {:controller => 'documents', :action => 'show', :id => document.id},
-                                    :class => 'document') }
-
-      context "Plain link" do
-        subject { textilizable("document##{document.id}") }
-
-        it { should eq("<p>#{document_link}</p>") }
-      end
-
-      context "Link with document name" do
-        subject { textilizable("document##{document.id}") }
-
-        it { should eq("<p>#{document_link}</p>") }
-      end
-
-      context "Escaping plain link" do
-        subject { textilizable("!document##{document.id}") }
-
-        it { should eq("<p>document##{document.id}</p>") }
-      end
-
-      context "Escaping link with document name" do
-        subject { textilizable('!document:"Test document"') }
-
-        it { should eq('<p>document:"Test document"</p>') }
       end
     end
 

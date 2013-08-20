@@ -74,6 +74,7 @@ de:
         issues: "Tickets"
         parent: "Unterprojekt von"
         versions: "Versionen"
+        types: "Typen"
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
@@ -96,21 +97,12 @@ de:
         description: "Beschreibung"
         id: "ID"
         name: "Name"
-        planning_element_type: "Typ"
         start_date: "Startdatum"
-      planning_element_type:
-        color: "Farbe"
-        id: "ID"
-        in_aggregation: "In Aggregration"
-        is_default: "Standardwert"
-        is_milestone: "Meilenstein"
-        name: "Name"
       project_association:
         description: "Begründung"
       project_type:
         allows_association: "Erlaubt Projekt-Abhängigkeiten"
         name: "Name"
-        planning_element_types: "Standard-Planungselement-Typen"
         reported_project_statuses: "Gemeldeter Projekt-Status"
       scenario:
         created_at: "Angelegt"
@@ -124,6 +116,9 @@ de:
         reporting_to_project_id: "Beziehung zu Projekt"
       type:
         is_in_roadmap: "In der Roadmap anzeigen"
+        in_aggregation: "In der Aggregation anzeigen"
+        is_milestone: "Als Meilenstein anzeigen"
+        color: "Farbe"
       user:
         admin: "Administrator"
         auth_source: "Authentifizierungs-Modus"
@@ -224,7 +219,6 @@ de:
       board: "Forum"
       comment: "Kommentar"
       custom_field: "Benutzerdefiniertes Feld"
-      document: "Dokument"
       group: "Gruppe"
       issue: "Ticket"
       issue_category: "Ticket-Kategorie"
@@ -238,7 +232,6 @@ de:
         other: "Rollen"
       type: "Typ"
       planning_element: "Planungselement"
-      planning_element_type: "Planungselement-Typ"
       project_type: "Projekt-Typ"
       scenario: "Szenario"
       user: "Benutzer"
@@ -246,6 +239,10 @@ de:
       wiki: "Wiki"
       wiki_page: "Wiki-Seite"
       workflow: "Workflow"
+
+  activity:
+    created: "Erstellt: %{title}"
+    updated: "Aktualisiert: %{title}"
 
   # common attributes of all models
   attributes:
@@ -398,8 +395,6 @@ de:
 
   default_activity_design: "Design"
   default_activity_development: "Entwicklung"
-  default_doc_category_tech: "Technische Dokumentation"
-  default_doc_category_user: "Benutzerdokumentation"
   default_issue_status_closed: "Erledigt"
   default_issue_status_feedback: "Feedback"
   default_issue_status_in_progress: "In Bearbeitung"
@@ -416,6 +411,7 @@ de:
   default_role_manager: "Manager"
   default_role_non_member: "Nichtmitglied"
   default_role_reporter: "Reporter"
+  default_type: "Arbeitspaket"
   default_type_bug: "Fehler"
   default_type_feature: "Feature"
   default_type_support: "Unterstützung"
@@ -450,6 +446,7 @@ de:
   description_notes: "Kommentare"
   description_option_toggle: "Optionen aus/einblenden"
   description_parent_issue: "Übergeordnetes Ticket"
+  description_parent_work_package: "Übergeordnetes Arbeitspaket"
   description_project_scope: "Suchbereich"
   description_query_sort_criteria_attribute: "Sortierattribut"
   description_query_sort_criteria_direction: "Sortierrichtung"
@@ -466,7 +463,6 @@ de:
   direction: "ltr"
 
   enumeration_activities: "Aktivitäten (Zeiterfassung)"
-  enumeration_doc_categories: "Dokumentenkategorien"
   enumeration_issue_priorities: "Ticket-Prioritäten"
   enumeration_planning_element_statuses: "Planungselement-Status"
   enumeration_reported_project_statuses: "Gemeldeter Projekt-Status"
@@ -499,7 +495,6 @@ de:
   field_scenario_start_date: "Szenario %{title}: Startdatum"
   field_scenario_deleted: '(gelöschtes Szenario)'
   field_planning_element_status: "Status"
-  field_planning_element_type: "Typ"
 
 # Overriding definition in core to make field_parent more generic, so that it
 # also works for sub planning elements
@@ -551,7 +546,6 @@ de:
       filter:
         none: "(keines)"
       name: "Name"
-      planning_element_types: "Planungselement-Typ"
       project_status: "Projekt-Status"
       project_type: "Projekt-Typ"
       responsible: "Planungsverantwortlicher"
@@ -641,6 +635,7 @@ de:
   label_current_version: "Gegenwärtige Version"
   label_custom_field_new: "Neues Feld"
   label_custom_field_plural: "Benutzerdefinierte Felder"
+  label_custom_field_default_type: "Leerer Typ"
   label_date: "Datum"
   label_date_from: "Von"
   label_date_from_to: "von %{start} bis %{end}"
@@ -661,9 +656,6 @@ de:
   label_display_per_page: "Pro Seite: %{value}"
   label_display_sums: "Summen anzeigen"
   label_display_used_statuses_only: "Zeige nur Status an, die von diesem Typ verwendet werden"
-  label_document_added: "Dokument hinzugefügt"
-  label_document_new: "Neues Dokument"
-  label_document_plural: "Dokumente"
   label_download: "%{count} Download"
   label_download_plural: "%{count} Downloads"
   label_downloads_abbr: "D/L"
@@ -823,6 +815,7 @@ de:
   label_project_all: "Alle Projekte"
   label_project_copy_notifications: "Sende Mailbenachrichtigungen beim Kopieren des Projekts."
   label_project_latest: "Neueste Projekte"
+  label_project_default_type: "Erlaube leere Typen"
   label_project_new: "Neues Projekt"
   label_project_plural: "Projekte"
   label_project_settings: "Projektkonfiguration"
@@ -948,6 +941,7 @@ de:
   label_wiki_show_new_page_link: "'Neue Unterseite anlegen' Link als Untermenüpunkt anzeigen"
   label_wiki_show_submenu_item: "als Untermenüpunkt anzeigen von "
   label_work_package: "Arbeitspaket"
+  label_work_package_plural: "Arbeitspakete"
   label_work_package_new: "Neues Arbeitspaket"
   label_workflow: "Workflow"
   label_workflow_summary: "Zusammenfassung"
@@ -1100,7 +1094,6 @@ de:
   permission_log_time: "Aufwände buchen"
   permission_manage_boards: "Foren verwalten"
   permission_manage_categories: "Ticket-Kategorien verwalten"
-  permission_manage_documents: "Dokumente verwalten"
   permission_manage_issue_relations: "Ticket-Beziehungen verwalten"
   permission_manage_members: "Mitglieder verwalten"
   permission_manage_news: "News verwalten"
@@ -1118,7 +1111,6 @@ de:
   permission_select_project_modules: "Projektmodule auswählen"
   permission_view_calendar: "Kalender ansehen"
   permission_view_changesets: "Changesets ansehen"
-  permission_view_documents: "Dokumente ansehen"
   permission_view_issue_watchers: "Liste der Beobachter ansehen"
   permission_view_issues: "Tickets anzeigen"
   permission_view_messages: "Forenbeiträge ansehen"
@@ -1133,7 +1125,6 @@ de:
   project_module_activity: "Aktivität"
   project_module_boards: "Foren"
   project_module_calendar: "Kalender"
-  project_module_documents: "Dokumente"
   project_module_issue_tracking: "Ticket-Verfolgung"
   project_module_news: "News"
   project_module_repository: "Projektarchiv"
@@ -1325,7 +1316,6 @@ de:
   timelines:
     admin_menu:
       colors: "Farben"
-      planning_element_types: "Planungselement-Typen"
       project_types: "Projekt-Typen"
     add_project_association: "Projekt-Abhängigkeit erstellen"
     associations: "Abhängigkeiten"
@@ -1333,7 +1323,6 @@ de:
     button_move_to_trash: "In den Papierkorb verschieben"
     button_restore: "Wiederherstellen"
     button_restore_all: "Alle wiederherstellen"
-    cannot_update_planning_element_types: "Planungselement-Typen konnten nicht aktualisiert werden"
     change: "Planungsveränderung"
     children: "Kind-Elemente"
     color_could_not_be_saved: "Farbe konnte nicht gespeichert werden"
@@ -1347,7 +1336,6 @@ de:
       one:   "1 Tag"
       other: "%{count} Tage"
     edit_color: "Farbe bearbeiten"
-    edit_planning_element_type: "Planungselement-Typ bearbeiten"
     edit_project_type: "Projekt-Typ bearbeiten"
     edit_thing: "Bearbeiten"
     edit_timeline: "Zeitplan-Report bearbeiten"
@@ -1369,7 +1357,6 @@ de:
       column:
         end_date: "Abschlussdatum"
         name: "Name"
-        planning_element_types: "Planungselement-Typ"
         project_status: "Projekt-Status"
         project_type: "Projekt-Typ"
         responsible: "Planungsverantwortlicher"
@@ -1405,7 +1392,6 @@ de:
       parent: "Zeige Unterprojekte von"
       planning_element_filters: "Planungselemente filtern"
       planning_element_responsible: "Planungselemente von diesem Planungsverantwortlichen anzeigen"
-      planning_element_types: "Planungselement-Typ anzeigen"
 
 
       project_time_filter: "Projekte mit Planungselementen eines Typs in einem Zeitfenster"
@@ -1424,7 +1410,6 @@ de:
     new_association: "Neue Abhängigkeit"
     new_color: "Neue Farbe"
     new_planning_element: "Neues Planungselement"
-    new_planning_element_type: "Neuer Planungselement-Typ"
     new_project_type: "Neuer Projekt-Typ"
     new_reporting: "Neuer Statusbericht"
     new_scenario: "Neues Szenario"
@@ -1455,11 +1440,8 @@ de:
 
     planning_element_could_not_be_saved: "Planungselement konnte nicht gespeichert werden"
     planning_element_could_not_be_restored: "Planungselement konnte nicht wiederhergestellt werden"
-    planning_element_creation: "Anlegen: %{title}"
     planning_element_updated_automatically_by_child_changes: |
         _Automatisch durch die Änderungen in %{child} aktualisert_
-    planning_element_type_could_not_be_saved: "Planungselement-Typ konnte nicht gespeichert werden"
-    planning_element_update: "Aktualisierung: %{title}"
     planning_elements_are_displayed_in_aggregations: "Planungselemente werden in Aggregation angezeigt"
     project_association_new: "Projekt-Abhängigkeit hinzufügen"
     project_association_new_for_with: "Anlegen der Projekt-Abhängigkeit von “%{project_a}” zu"
@@ -1488,9 +1470,6 @@ de:
     really_delete_planning_element: >
       Möchten Sie wirklich das folgende Planungselement und seine Kind-Elemente
       dauerhaft löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.
-    really_delete_planning_element_type: >
-      Möchten Sie den folgenden Planungselement-Typ wirklich löschen?
-      Planungselemente dieses Typs bleiben erhalten.
     really_delete_project_association_between_project_a_and_project_b: >
       Möchten Sie die Projekt-Abhängigkeit zwischen „%{project_a}“ und
       „%{project_b}“ wirklich löschen?

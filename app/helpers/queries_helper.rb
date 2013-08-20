@@ -28,7 +28,7 @@ module QueriesHelper
     case value.class.name
     when 'String'
       if column.name == :subject
-        link_to(h(value), :controller => '/issues', :action => 'show', :id => issue)
+        link_to(h(value), work_package_path(issue))
       else
         h(value)
       end
@@ -52,8 +52,8 @@ module QueriesHelper
       l(:general_text_Yes)
     when 'FalseClass'
       l(:general_text_No)
-    when 'Issue'
-      link_to_issue(value, :subject => false)
+    when 'Issue', 'PlanningElement'
+      link_to_work_package(value, :subject => false)
     else
       h(value)
     end

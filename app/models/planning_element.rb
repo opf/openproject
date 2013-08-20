@@ -74,28 +74,6 @@ class PlanningElement < WorkPackage
     {:conditions => {:project_id => projects}}
   }
 
-  # Used for activities list
-  def title
-    title = ''
-    title << subject
-    title << ' ('
-    title << type.name << ' ' if type
-    title << '*'
-    title << id.to_s
-    title << ')'
-  end
-
-  # Overriding Journal Class to provide extended information in activity view
-  JournalManager.journal_class(self).class_eval do
-    def event_title
-      if journal.initial?
-        I18n.t("timelines.planning_element_creation", :title => journal.journable.title)
-      else
-        I18n.t("timelines.planning_element_update", :title => journal.journable.title)
-      end
-    end
-  end
-
   def append_scenario_dates_to_journal
     changes = {}
     alternate_dates.each do |d|

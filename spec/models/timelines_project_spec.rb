@@ -287,7 +287,7 @@ describe Project do
 
           project.reload
 
-          project.types.size.should == 3
+          project.types.size.should == 4 # including standard type
           types.each do |type|
             project.types.should be_include(type)
           end

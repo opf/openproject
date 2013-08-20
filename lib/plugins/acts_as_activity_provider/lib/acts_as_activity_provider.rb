@@ -46,8 +46,9 @@ module Redmine
         module ClassMethods
           # Returns events of type event_type visible by user that occured between from and to
           def find_events(event_type, user, from, to, options)
+            raise "#{self.name} can not provide #{event_type} events." if activity_provider_options[event_type].nil?
+
             provider_options = activity_provider_options[event_type].dup
-            raise "#{self.name} can not provide #{event_type} events." if provider_options.nil?
 
             scope_options = {}
             cond = ARCondition.new

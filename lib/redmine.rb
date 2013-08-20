@@ -125,11 +125,6 @@ Redmine::AccessControl.map do |map|
     map.permission :comment_news, {:'news/comments' => :create}
   end
 
-  map.project_module :documents do |map|
-    map.permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
-    map.permission :view_documents, :documents => [:index, :show, :download]
-  end
-
   map.project_module :wiki do |map|
     map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
     map.permission :manage_wiki_menu, {:wiki_menu_items => [:edit, :update]}, :require => :member
@@ -288,7 +283,6 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :news, { :controller => '/news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
   menu.push :new_news, { :controller => '/news', :action => 'new' }, :param => :project_id, :caption => :label_news_new, :parent => :news,
               :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) }
-  menu.push :documents, { :controller => '/documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
   menu.push :boards, { :controller => '/boards', :action => 'index', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
   menu.push :repository, { :controller => '/repositories', :action => 'show' },
@@ -341,7 +335,6 @@ Redmine::Activity.map do |activity|
   activity.register :work_packages, :class_name => 'WorkPackage'
   activity.register :changesets
   activity.register :news
-  activity.register :documents, :class_name => %w(Document Attachment)
   activity.register :wiki_edits, :class_name => 'WikiContent', :default => false
   activity.register :messages, :default => false
   activity.register :time_entries, :default => false
@@ -350,7 +343,6 @@ end
 Redmine::Search.map do |search|
   search.register :work_packages
   search.register :news
-  search.register :documents
   search.register :changesets
   search.register :wiki_pages
   search.register :messages

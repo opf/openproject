@@ -75,6 +75,7 @@ en:
         versions: "Versions"
         project_type: "Project type"
         responsible: "Responsible"
+        types: "Types"
       query:
         column_names: "Columns"
         group_by: "Group results by"
@@ -90,6 +91,9 @@ en:
         type: "Type"
       type:
         is_in_roadmap: "Issues displayed in roadmap"
+        in_aggregation: "Issues displayed in aggregation"
+        is_milestone: "Issues displayed as milestone"
+        color: "Color"
       user:
         admin: "Administrator"
         auth_source: "Authentication mode"
@@ -125,24 +129,15 @@ en:
         description: Description
         id: ID
         name: Name
-        planning_element_type: "Type"
         start_date: Start date
         deleted_at: Deleted at
         planning_element_status: "Status"
         # parent: Subelement of
-      planning_element_type:
-        color: Color
-        id: ID
-        in_aggregation: In aggregation
-        is_default: Default value
-        is_milestone: Milestone
-        name: Name
       project_association:
         description: Cause
       project_type:
         allows_association: Allows association
         name: Name
-        planning_element_types: Standard planning element types
         reported_project_statuses: Reported project statuses
         position: Position
       scenario:
@@ -228,7 +223,6 @@ en:
       board: "Forum"
       comment: "Comment"
       custom_field: "Custom field"
-      document: "Document"
       group: "Group"
       issue: "Issue"
       issue_category: "Category"
@@ -242,7 +236,6 @@ en:
         other: "Roles"
       type: "Type"
       planning_element: Planning element
-      planning_element_type: Planning element type
       project_type: Project type
       scenario: Scenario
       user: "User"
@@ -250,6 +243,10 @@ en:
       wiki: "Wiki"
       wiki_page: "Wiki page"
       workflow: "Workflow"
+
+  activity:
+    created: "Created: %{title}"
+    updated: "Updated: %{title}"
 
   # common attributes of all models
   attributes:
@@ -402,8 +399,6 @@ en:
 
   default_activity_design: "Design"
   default_activity_development: "Development"
-  default_doc_category_tech: "Technical documentation"
-  default_doc_category_user: "User documentation"
   default_issue_status_closed: "Closed"
   default_issue_status_feedback: "Feedback"
   default_issue_status_in_progress: "In Progress"
@@ -420,6 +415,7 @@ en:
   default_role_manager: "Manager"
   default_role_non_member: "Non member"
   default_role_reporter: "Reporter"
+  default_type: "Work Package"
   default_type_bug: "Bug"
   default_type_feature: "Feature"
   default_type_support: "Support"
@@ -449,6 +445,7 @@ en:
   description_notes: "Notes"
   description_option_toggle: "Show/Hide options"
   description_parent_issue: "Parent issue of current"
+  description_parent_work_package: "Parent work package of current"
   description_project_scope: "Search scope"
   description_query_sort_criteria_attribute: "Sort attribute"
   description_query_sort_criteria_direction: "Sort direction"
@@ -465,7 +462,6 @@ en:
   direction: ltr
 
   enumeration_activities: "Activities (time tracking)"
-  enumeration_doc_categories: "Document categories"
   enumeration_issue_priorities: "Issue priorities"
   enumeration_system_activity: "System Activity"
   enumeration_planning_element_statuses: "Planning element status"
@@ -535,7 +531,6 @@ en:
         its child elements?
       due_date: "Due date"
       name: "Name"
-      planning_element_types: "Planning element type"
       project_status: "Project status"
       project_type: "Project type"
       responsible: "Responsible"
@@ -622,6 +617,7 @@ en:
   label_current_version: "Current version"
   label_custom_field_new: "New custom field"
   label_custom_field_plural: "Custom fields"
+  label_custom_field_default_type: "Empty type"
   label_date: "Date"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
@@ -642,9 +638,6 @@ en:
   label_display_per_page: "Per page: %{value}"
   label_display_sums: "Display Sums"
   label_display_used_statuses_only: "Only display statuses that are used by this type"
-  label_document_added: "Document added"
-  label_document_new: "New document"
-  label_document_plural: "Documents"
   label_download: "%{count} Download"
   label_download_plural: "%{count} Downloads"
   label_downloads_abbr: "D/L"
@@ -804,6 +797,7 @@ en:
   label_project_all: "All Projects"
   label_project_copy_notifications: "Send email notifications during the project copy"
   label_project_latest: "Latest projects"
+  label_project_default_type: "Allow empty type"
   label_project_new: "New project"
   label_project_plural: "Projects"
   label_project_settings: "Project settings"
@@ -929,6 +923,7 @@ en:
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_work_package: "Work package"
+  label_work_package_plural: "Work packages"
   label_work_package_new: "New work package"
   label_workflow: "Workflow"
   label_workflow_summary: "Summary"
@@ -1075,7 +1070,6 @@ en:
   permission_log_time: "Log spent time"
   permission_manage_boards: "Manage forums"
   permission_manage_categories: "Manage issue categories"
-  permission_manage_documents: "Manage documents"
   permission_manage_issue_relations: "Manage issue relations"
   permission_manage_members: "Manage members"
   permission_manage_news: "Manage news"
@@ -1093,7 +1087,6 @@ en:
   permission_select_project_modules: "Select project modules"
   permission_view_calendar: "View calendar"
   permission_view_changesets: "View changesets"
-  permission_view_documents: "View documents"
   permission_view_issue_watchers: "View watchers list"
   permission_view_issues: "View Issues"
   permission_view_messages: "View messages"
@@ -1108,7 +1101,6 @@ en:
   project_module_activity: "Activity"
   project_module_boards: "Forums"
   project_module_calendar: "Calendar"
-  project_module_documents: "Documents"
   project_module_issue_tracking: "Issue tracking"
   project_module_news: "News"
   project_module_repository: "Repository"
@@ -1297,7 +1289,6 @@ en:
   timelines:
     admin_menu:
       colors: "Colors"
-      planning_element_types: "Planning element types"
       project_types: "Project types"
     project_menu:
       planning_elements: "Planning elements"
@@ -1312,7 +1303,6 @@ en:
     button_move_to_trash: "Move to recycle bin"
     button_restore: "Restore"
     button_restore_all: "Restore all"
-    cannot_update_planning_element_types: "Planning element types could not be updated"
     change: "Change in planning"
     children: "Child elements"
     color_could_not_be_saved: "Color could not be saved"
@@ -1326,7 +1316,6 @@ en:
       one:   "1 day"
       other: "%{count} days"
     edit_color: "Edit color"
-    edit_planning_element_type: "Edit planning element type"
     edit_project_type: "Edit project type"
     edit_thing: "Edit"
     edit_timeline: "Edit timeline report"
@@ -1348,7 +1337,6 @@ en:
       column:
         end_date: "End date"
         name: "Name"
-        planning_element_types: "Planning element type"
         project_status: "Project status"
         project_type: "Project type"
         responsible: "Responsible"
@@ -1384,7 +1372,6 @@ en:
       parent: "Show subprojects of"
       planning_element_filters: "Filter planning elements"
       planning_element_responsible: "Show planning elements with responsible"
-      planning_element_types: "Show planning element types"
 
       project_time_filter: "Projects with a Planning Element of a certain type in a certain timeframe"
       project_time_filter_historical: "from %{startdate} to %{enddate}"
@@ -1402,7 +1389,6 @@ en:
     new_color: "New color"
     new_association: "New dependency"
     new_planning_element: "New planning element"
-    new_planning_element_type: "New planning element type"
     new_project_type: "New project type"
     new_reporting: "New reporting"
     new_scenario: "New scenario"
@@ -1435,10 +1421,8 @@ en:
 
     planning_element_could_not_be_saved: "Planning element could not be saved"
     planning_element_could_not_be_restored: "Planning element could not be restored"
-    planning_element_creation: "Creation: %{title}"
     planning_element_updated_automatically_by_child_changes: |
         _Updated automatically by changing values within child planning element %{child}_
-    planning_element_type_could_not_be_saved: "Planning element type could not be saved"
     planning_element_update: "Update: %{title}"
     planning_elements_are_displayed_in_aggregations: "Planning elements are displayed in aggregations"
     project_association_new: Add project dependency
@@ -1458,9 +1442,6 @@ en:
     really_delete_planning_element: >
       Are you sure, you want to permanently delete the following planning element and all
       its child elements?
-    really_delete_planning_element_type: >
-      Are you sure, you want to delete the following planning element type?
-      Planning Elements using this type will not be deleted.
     really_delete_project_association_between_project_a_and_project_b: >
       Are you sure, you want to delete the dependency between “%{project_a}” and
       “%{project_b}”?

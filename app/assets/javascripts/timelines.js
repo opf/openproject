@@ -2308,10 +2308,7 @@ Timeline = {
       var options = this.timeline.options;
       var url = options.url_prefix;
 
-      url += options.project_prefix;
-      url += "/";
-      url += this.getProject().identifier;
-      url += "/planning_elements/";
+      url += "/work_packages/";
       url += this.id;
 
       return url;
