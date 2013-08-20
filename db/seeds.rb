@@ -17,14 +17,24 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
+#
+# loads environment-specific seeds. The assumed directory structure in db/ is like this:
+#|___seeds
+#| |___all.rb
+#| |___development.rb
+#| |___staging.rb
+#| |___production.rb
+#|___seeds.rb
+#
+['all', Rails.env].each do |seed|
+  seed_file = "#{Rails.root}/db/seeds/#{seed}.rb"
+  if File.exists?(seed_file)
+    puts "*** Loading #{seed} seed data"
+    require seed_file
+  end
+end
 
-Type.connection.schema_cache.clear!
-Type.reset_column_information
-Type.create!(name: 'none',
-             color_id: '#000000',
-             is_standard: true,
-             is_default: true,
-             is_in_chlog: true,
-             is_in_roadmap: true,
-             in_aggregation: true,
-             is_milestone: false)
+Rails::Application::Railties.engines.each do |engine|
+  puts "*** Loading #{engine.engine_name} seed data"
+  engine.load_seed
+end
