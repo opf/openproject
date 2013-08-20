@@ -27,7 +27,7 @@ module OpenProject::MyProjectPage
         author_url spec.homepage
         description spec.description
         version spec.version
-        url 'https://www.openproject.org/projects/plugin-my_project_page'
+        url 'https://www.openproject.org/projects/my-project-page'
 
         requires_openproject ">= 3.0.0pre9"
 
