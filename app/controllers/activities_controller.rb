@@ -39,7 +39,7 @@ class ActivitiesController < ApplicationController
     if events.empty? || stale?(:etag => [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
       respond_to do |format|
         format.html {
-          @events_by_day = events.group_by(&:event_date)
+          @events_by_day = events.group_by {|e| e.data.event_date}
           render :layout => false if request.xhr?
         }
         format.atom {
@@ -82,10 +82,10 @@ class ActivitiesController < ApplicationController
     events.select! do |event|
       if event.respond_to?(:data) and event.data.respond_to? :project_id
         project_id = event.data.project_id
-      elsif event.respond_to?(:project_id) or event.journaled.respond_to?(:project_id)
+      elsif event.respond_to?(:project_id) or event.journable.respond_to?(:project_id)
         # if possible access project_id (its faster)
         project_id = event.project_id
-      elsif event.respond_to?(:project) or event.journaled.respond_to?(:project)
+      elsif event.respond_to?(:project) or event.journable.respond_to?(:project)
         # sometimes (e.g.) for wikis, we have no :project_id, but a :project method.
         project_id = event.project.id
       end

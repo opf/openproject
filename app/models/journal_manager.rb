@@ -16,11 +16,11 @@ class JournalManager
     not obj.nil? and obj.respond_to? :journals
   end
 
-  def self.changed?(journaled)
-    if journaled.journals.count > 0
-      changed = attributes_changed? journaled
-      changed ||= association_changed? journaled, "attachable", :attachments, :id, :attachment_id, :filename
-      changed ||= association_changed? journaled, "customizable", :custom_values, :custom_field_id, :custom_field_id, :value
+  def self.changed?(journable)
+    if journable.journals.count > 0
+      changed = attributes_changed? journable
+      changed ||= association_changed? journable, "attachable", :attachments, :id, :attachment_id, :filename
+      changed ||= association_changed? journable, "customizable", :custom_values, :custom_field_id, :custom_field_id, :value
 
       changed
     else
@@ -28,20 +28,20 @@ class JournalManager
     end
   end
 
-  def self.attributes_changed?(journaled)
-    current = journaled.attributes
-    predecessor = journaled.journals.last.data.journaled_attributes
+  def self.attributes_changed?(journable)
+    current = journable.attributes
+    predecessor = journable.journals.last.data.journaled_attributes
 
     return predecessor.map{|k,v| current[k.to_s] != v}
                       .inject(false) { |r, c| r || c }
   end
 
-  def self.association_changed?(journaled, journal_association, association, id, key, value)
-    if journaled.respond_to? association
+  def self.association_changed?(journable, journal_association, association, id, key, value)
+    if journable.respond_to? association
       journal_assoc_name = "#{journal_association}_journals".to_sym
       changes = {}
-      current = journaled.send(association).map {|a| { key.to_s => a.send(id), value.to_s => a.send(value)} }
-      predecessor = journaled.journals.last.send(journal_assoc_name).map(&:attributes)
+      current = journable.send(association).map {|a| { key.to_s => a.send(id), value.to_s => a.send(value)} }
+      predecessor = journable.journals.last.send(journal_assoc_name).map(&:attributes)
 
       merged_journals = JournalManager.merge_reference_journals_by_id current, predecessor, key.to_s
 
@@ -83,27 +83,31 @@ class JournalManager
       journal.data = create_journal_data journal.id, type, changed_data.except(:id)
     else
       journal.changed_data = changed_data
+      journal.attachable_journals.delete_all
+      journal.customizable_journals.delete_all
     end
+
+    create_association_data journal.journable, journal
 
     journal.save!
     journal.reload
   end
 
-  def self.add_journal(journaled, user = User.current, notes = "")
-    if is_journalized? journaled
-      journal_attributes = { journaled_id: journaled.id,
-                             journaled_type: journal_class_name(journaled.class),
-                             version: (journaled.journals.count + 1),
-                             activity_type: journaled.send(:activity_type),
-                             changed_data: journaled.attributes.symbolize_keys }
+  def self.add_journal(journable, user = User.current, notes = "")
+    if is_journalized? journable
+      journal_attributes = { journable_id: journable.id,
+                             journable_type: journal_class_name(journable.class),
+                             version: (journable.journals.count + 1),
+                             activity_type: journable.send(:activity_type),
+                             changed_data: journable.attributes.symbolize_keys }
 
-      create_journal journaled, journal_attributes, user, notes
+      create_journal journable, journal_attributes, user, notes
     end
   end
 
-  def self.create_journal(journaled, journal_attributes, user = User.current,  notes = "")
-    type = base_class(journaled.class)
-    extended_journal_attributes = journal_attributes.merge({ journaled_type: journal_class_name(type) })
+  def self.create_journal(journable, journal_attributes, user = User.current,  notes = "")
+    type = base_class(journable.class)
+    extended_journal_attributes = journal_attributes.merge({ journable_type: journal_class_name(type) })
                                                     .merge({ notes: notes })
                                                     .except(:changed_data)
                                                     .except(:id)
@@ -112,10 +116,10 @@ class JournalManager
       extended_journal_attributes[:user_id] = user.id
     end
 
-    journal = journaled.journals.build extended_journal_attributes
+    journal = journable.journals.build extended_journal_attributes
     journal.data = create_journal_data journal.id, type, journal_attributes[:changed_data].except(:id)
 
-    create_association_data journaled, journal
+    create_association_data journable, journal
 
     journal
   end
@@ -156,11 +160,11 @@ class JournalManager
     end
   end
 
-  private
-
   def self.journal_class(type)
     "Journal::#{journal_class_name(type)}".constantize
   end
+
+  private
 
   def self.journal_class_name(type)
     "#{base_class(type).name}Journal"
@@ -174,19 +178,19 @@ class JournalManager
     supertype
   end
 
-  def self.create_association_data(journaled, journal)
-    create_attachment_data journaled, journal if journaled.respond_to? :attachments
-    create_custom_field_data journaled, journal if journaled.respond_to? :custom_values
+  def self.create_association_data(journable, journal)
+    create_attachment_data journable, journal if journable.respond_to? :attachments
+    create_custom_field_data journable, journal if journable.respond_to? :custom_values
   end
 
-  def self.create_attachment_data(journaled, journal)
-    journaled.attachments.each do |a|
+  def self.create_attachment_data(journable, journal)
+    journable.attachments.each do |a|
       journal.attachable_journals.build journal: journal, attachment: a, filename: a.filename
     end
   end
 
-  def self.create_custom_field_data(journaled, journal)
-    journaled.custom_values.each do |cv|
+  def self.create_custom_field_data(journable, journal)
+    journable.custom_values.each do |cv|
       journal.customizable_journals.build journal: journal, custom_field: cv.custom_field, value: cv.value
     end
   end

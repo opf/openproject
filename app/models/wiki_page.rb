@@ -225,7 +225,7 @@ class WikiDiff < Redmine::Helpers::Diff
   def initialize(content_to, content_from)
     @content_to = content_to
     @content_from = content_from
-    super(content_to.text, content_from.text)
+    super(content_to.data.text, content_from.data.text)
   end
 end
 
@@ -235,18 +235,18 @@ class WikiAnnotate
   def initialize(content)
     @content = content
     current = content
-    current_lines = current.text.split(/\r?\n/)
+    current_lines = current.journable.text.split(/\r?\n/)
     @lines = current_lines.collect {|t| [nil, nil, t]}
     positions = []
     current_lines.size.times {|i| positions << i}
     while (current.previous)
-      d = current.previous.text.split(/\r?\n/).diff(current.text.split(/\r?\n/)).diffs.flatten
+      d = current.previous.journable.text.split(/\r?\n/).diff(current.journable.text.split(/\r?\n/)).diffs.flatten
       d.each_slice(3) do |s|
         sign, line = s[0], s[1]
         if sign == '+' && positions[line] && positions[line] != -1
           if @lines[positions[line]][0].nil?
             @lines[positions[line]][0] = current.version
-            @lines[positions[line]][1] = current.author
+            @lines[positions[line]][1] = current.journable.author
           end
         end
       end

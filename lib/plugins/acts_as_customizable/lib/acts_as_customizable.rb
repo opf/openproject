@@ -47,6 +47,8 @@ module Redmine
         # Sets the values of the object's custom fields
         # values is an array like [{'id' => 1, 'value' => 'foo'}, {'id' => 2, 'value' => 'bar'}]
         def custom_fields=(values)
+          require 'pry'
+          binding.pry
           values_to_hash = values.inject({}) do |hash, v|
             v = v.stringify_keys
             if v['id'] && v.has_key?('value')

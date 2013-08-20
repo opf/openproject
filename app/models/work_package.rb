@@ -84,14 +84,18 @@ class WorkPackage < ActiveRecord::Base
   ###################################################
   acts_as_attachable :after_remove => :attachment_removed
 
-  acts_as_journalized :event_title => Proc.new {|o| "#{ o.to_s }"},
+  acts_as_journalized :event_title => Proc.new {|o|
+                        journable = o.journal.journable
+
+                        "#{journable.kind.to_s} ##{journable.id} (#{journable.status}): #{journable.subject}"
+                      },
                       :event_type => (Proc.new do |o|
                         t = 'work_package'
-                        if o.changed_data.empty?
-                          t << '-note' unless o.initial?
+                        if o.journal.changed_data.empty?
+                          t << '-note' unless o.journal.initial?
                         else
                           t << (IssueStatus.find_by_id(
-                            o.new_value_for(:status_id)).try(:is_closed?) ? '-closed' : '-edit'
+                            o.journal.new_value_for(:status_id)).try(:is_closed?) ? '-closed' : '-edit'
                           )
                         end
                         t
@@ -103,7 +107,7 @@ class WorkPackage < ActiveRecord::Base
   register_on_journal_formatter(:decimal, 'done_ratio')
   register_on_journal_formatter(:diff, 'description')
   register_on_journal_formatter(:attachment, /attachments_?\d+/)
-  register_on_journal_formatter(:custom_field, /custom_values\d+/)
+  register_on_journal_formatter(:custom_field, /custom_fields_\d+/)
 
   # Joined
   register_on_journal_formatter :named_association, :parent_id, :project_id,
@@ -134,15 +138,6 @@ class WorkPackage < ActiveRecord::Base
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_work_packages, options)
-  end
-
-  WorkPackageJournal.class_eval do
-    # Shortcut
-    def new_status
-      if details.keys.include? 'status_id'
-        (newval = details['status_id'].last) ? IssueStatus.find_by_id(newval.to_i) : nil
-      end
-    end
   end
 
   def self.use_status_for_done_ratio?
@@ -186,7 +181,7 @@ class WorkPackage < ActiveRecord::Base
   # ACTS AS ATTACHABLE
   # Callback on attachment deletion
   def attachment_removed(obj)
-    JournalManager.add_journal self
+    add_journal
     save!
   end
 

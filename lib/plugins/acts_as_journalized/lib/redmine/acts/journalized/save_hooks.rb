@@ -44,12 +44,12 @@ module Redmine::Acts::Journalized
     end
 
     def save_journals
-      journal_metadata_set = !(@journaled_user.nil? and @journaled_notes.nil?)
-
       @journaled_user ||= User.current
       @journaled_notes ||= ""
 
-      JournalManager.add_journal self, @journaled_user, @journaled_notes if journals.empty? or JournalManager.changed?(self) or journal_metadata_set
+      add_journal = journals.empty? || JournalManager.changed?(self) || !@journaled_notes.empty?
+
+      JournalManager.add_journal self, @journaled_user, @journaled_notes if add_journal
 
       journals.select{|j| j.new_record?}.each {|j| j.save}
 

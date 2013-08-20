@@ -44,7 +44,11 @@ module Redmine
               if option.is_a?(Proc)
                 option.call(self)
               elsif option.is_a?(Symbol)
-                send(option)
+                if respond_to?(:journal) and journal.respond_to?(option)
+                  journal.send(option)
+                else
+                  send(option)
+                end
               else
                 option
               end

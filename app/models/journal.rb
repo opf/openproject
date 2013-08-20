@@ -21,29 +21,22 @@ class Journal < ActiveRecord::Base
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
   register_journal_formatter :scenario_date, OpenProject::JournalFormatter::ScenarioDate
 
-  attr_accessible :journaled_type, :journaled_id, :activity_type, :version, :notes, :user_id
+  attr_accessible :journable_type, :journable_id, :activity_type, :version, :notes, :user_id
 
   # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, :scope => [:journaled_id, :journaled_type]
+  validates_uniqueness_of :version, :scope => [:journable_id, :journable_type]
 
   belongs_to :user
+  belongs_to :journable, polymorphic: true
 
   has_many :attachable_journals, class_name: Journal::AttachableJournal
   has_many :customizable_journals, class_name: Journal::CustomizableJournal
 
-  after_save :save_data, :touch_journaled
+  after_save :save_data, :touch_journable
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
   scope "changing", :conditions => ["version > 1"]
-
-  def journaled
-    unless journaled_type.nil?
-      @journaled ||= journalized_object_type.find(journaled_id)
-    else
-      nil
-    end
-  end
 
   def changed_data=(changed_attributes)
     attributes = changed_attributes
@@ -75,17 +68,17 @@ class Journal < ActiveRecord::Base
 
   # Possible shortcut to the associated project
   def project
-    if journaled.respond_to?(:project)
-      journaled.project
-    elsif journaled.is_a? Project
-      journaled
+    if journable.respond_to?(:project)
+      journable.project
+    elsif journable.is_a? Project
+      journable
     else
       nil
     end
   end
 
   def editable_by?(user)
-    journaled.journal_editable_by?(user)
+    journable.journal_editable_by?(user)
   end
 
   def details
@@ -103,11 +96,15 @@ class Journal < ActiveRecord::Base
   end
 
   def data
-    @data ||= "Journal::#{journaled_type}".constantize.find_by_journal_id(id)
+    @data ||= "Journal::#{journable_type}Journal".constantize.find_by_journal_id(id)
   end
 
   def data=(data)
     @data = data
+  end
+
+  def previous
+    predecessor
   end
 
   private
@@ -117,8 +114,8 @@ class Journal < ActiveRecord::Base
     data.save!
   end
 
-  def touch_journaled
-    journaled.touch
+  def touch_journable
+    journable.touch unless journable.nil?
   end
 
   def get_changes
@@ -167,8 +164,8 @@ class Journal < ActiveRecord::Base
   end
 
   def predecessor
-    @predecessor ||= Journal.where("journaled_type = ? AND journaled_id = ? AND id < ?",
-                                   journaled_type, journaled_id, id)
+    @predecessor ||= Journal.where("journable_type = ? AND journable_id = ? AND id < ?",
+                                   journable_type, journable_id, id)
                             .order("version DESC")
                             .first
   end

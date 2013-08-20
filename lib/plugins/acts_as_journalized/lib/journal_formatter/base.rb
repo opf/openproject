@@ -56,7 +56,7 @@ class JournalFormatter::Base
   end
 
   def label(key)
-    @journal.journaled.class.human_attribute_name(key)
+    @journal.journable.class.human_attribute_name(key)
   end
 
   def render_ternary_detail_text(label, value, old_value)

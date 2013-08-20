@@ -62,13 +62,16 @@ module Redmine
             scope_options[:conditions] = cond.conditions
             if options[:limit]
               # id and creation time should be in same order in most cases
-              scope_options[:order] = "#{journal_class.table_name}.id DESC"
+              scope_options[:order] = "#{Journal.table_name}.id DESC"
               scope_options[:limit] = options[:limit]
             end
 
+            journal_class = JournalManager.journal_class(self)
+
             journal_class.with_scope(:find => scope_options) do
-              query = journal_class.where(provider_options[:find_options][:conditions])
-              query = query.joins(provider_options[:find_options][:include]) if provider_options[:find_options][:include]
+              query = Journal.includes(provider_options[:find_options][:include])
+                             .where(journable_type: self.to_s)
+                             .joins("INNER JOIN #{journal_class.table_name} ON #{journal_class.table_name}.journal_id = journals.id")
               query
             end
           end

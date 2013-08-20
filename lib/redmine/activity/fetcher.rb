@@ -82,7 +82,7 @@ module Redmine
           end
         end
 
-        e.sort! {|a,b| b.event_datetime <=> a.event_datetime}
+        e.sort! {|a,b| b.data.event_datetime <=> a.data.event_datetime}
 
         if options[:limit]
           e = e.slice(0, options[:limit])

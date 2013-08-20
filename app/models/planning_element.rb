@@ -86,12 +86,12 @@ class PlanningElement < WorkPackage
   end
 
   # Overriding Journal Class to provide extended information in activity view
-  journal_class.class_eval do
+  JournalManager.journal_class(self).class_eval do
     def event_title
-      if initial?
-        I18n.t("timelines.planning_element_creation", :title => journaled.title)
+      if journal.initial?
+        I18n.t("timelines.planning_element_creation", :title => journal.journable.title)
       else
-        I18n.t("timelines.planning_element_update", :title => journaled.title)
+        I18n.t("timelines.planning_element_update", :title => journal.journable.title)
       end
     end
   end
