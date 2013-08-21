@@ -1,17 +1,39 @@
+# set some sensible defaults:
+include Redmine::I18n
+
+#sensible shortcut: Create the default data in english
+begin
+  set_language_if_valid('en')
+  Redmine::DefaultData::Loader.load(current_language)
+  puts "Default configuration data loaded."
+rescue Redmine::DefaultData::DataAlreadyLoaded => error
+  puts "Redmine Default-Data already loaded"
+end
+
 # Careful: The seeding recreates the seeded project before it runs, so any changes on the seeded project will be lost.
 puts "Creating seeded project..."
 if delete_me=Project.find_by_identifier("seeded_project")
   delete_me.destroy
 end
 
-project = FactoryGirl.create(:public_project, name: "Seeded Project", identifier: "seeded_project", description: Faker::Lorem.paragraph(5), types: Type.all)
+project = Project.create(name: "Seeded Project",
+                         identifier: "seeded_project",
+                         description: Faker::Lorem.paragraph(5),
+                         types: Type.all,
+                         is_public: true
+                        )
 
 # this will fail rather miserably, when there are no statuses present
 statuses = IssueStatus.all
-types = project.types.all
+# don't bother with milestones, too difficult to handle all cases
+types = project.types.all.reject{|type| type.is_milestone?}
+
+project.enabled_module_names += ["timelines"]
 
 # create a default timeline that shows all our planning elements
-timeline = FactoryGirl.build(:timeline, project: project)
+timeline = Timeline.create()
+timeline.project = project
+timeline.name = "Sample Timeline"
 timeline.options.merge!({zoom_factor: ["4"]})
 timeline.save
 
@@ -24,11 +46,14 @@ print "Creating issues and planning-elements..."
   user = User.find_by_login(login)
 
   unless user
-    user = FactoryGirl.create(:user,
-                              login: login,
-                              firstname: Faker::Name.first_name,
-                              lastname: Faker::Name.last_name,
-                              mail: Faker::Internet.email)
+    user = User.new()
+    user.tap do |u|
+        u.login = login
+        u.firstname = Faker::Name.first_name
+        u.lastname  = Faker::Name.last_name
+        u.mail      = Faker::Internet.email
+        u.save
+    end
   end
 
   ## let every user create some issues...
@@ -51,6 +76,7 @@ print "Creating issues and planning-elements..."
     print "."
     start_date = rand(90).days.from_now
     due_date   = start_date + 5.day + rand(30).days
+
 
     element = PlanningElement.create!(project: project,
                                       author: user,
