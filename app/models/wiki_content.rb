@@ -19,14 +19,14 @@ class WikiContent < ActiveRecord::Base
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 
   attr_accessor :comments
-  
+
   #attr_protected :author_id
 
   before_save :comments_to_journal_notes
 
   acts_as_journalized :event_type => 'wiki-page',
-    :event_title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.journaled.page.title} (##{o.version})"},
-    :event_url => Proc.new {|o| {:controller => '/wiki', :action => 'show', :id => o.journaled.page.title, :project_id => o.journaled.page.wiki.project, :version => o.version}},
+    :event_title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.journal.journable.page.title} (##{o.journal.journable.version})"},
+    :event_url => Proc.new {|o| {:controller => '/wiki', :action => 'show', :id => o.journal.journable.page.title, :project_id => o.journal.journable.page.wiki.project, :version => o.journal.journable.version}},
     :activity_type => 'wiki_edits',
     :activity_permission => :view_wiki_edits,
     :activity_find_options => { :include => { :page => { :wiki => :project } } }
