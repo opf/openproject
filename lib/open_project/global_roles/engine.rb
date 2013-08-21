@@ -72,12 +72,6 @@ module OpenProject::GlobalRoles
 
       User.register_allowance_evaluator OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global
     end
-
-    config.after_initialize do
-      # We are overwriting versions/_form.html.erb so our view must be found first
-      RolesController.view_paths.unshift("#{config.root}/app/views")
-      UsersController.view_paths.unshift("#{config.root}/app/views")
-    end
   end
 end
 
