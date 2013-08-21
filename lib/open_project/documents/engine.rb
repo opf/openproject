@@ -67,6 +67,8 @@ module OpenProject::Documents
       require_dependency 'open_project/documents/patches/project_patch'
       require_dependency 'open_project/documents/patches/application_helper_patch'
       require_dependency 'open_project/documents/patches/custom_fields_helper_patch'
+      require_dependency 'document_category'
+      require_dependency 'document_category_custom_field'
     end
   end
 end
