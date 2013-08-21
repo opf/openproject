@@ -1205,6 +1205,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update_on_different_projects_without_rights
+    Journal.delete_all
+
     @request.session[:user_id] = 3
     user = User.find(3)
     action = { :controller => "issues", :action => "bulk_update" }
@@ -1215,7 +1217,7 @@ class IssuesControllerTest < ActionController::TestCase
                                                 :assigned_to_id => '',
                                                 :custom_field_values => {'2' => ''}}
     assert_response 403
-    assert Journal::WorkPackageJournal.all.empty?
+    assert Journal.all.empty?
   end
 
   def test_bulk_update_should_send_a_notification
