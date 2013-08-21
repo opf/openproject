@@ -198,7 +198,7 @@ module RepositoriesHelper
 
   def subversion_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)) +
-                       '<br />(file:///, http://, https://, svn://, svn+[tunnelscheme]://)') +
+                       '<br />(file:///, http://, https://, svn://, svn+[tunnelscheme]://)'.html_safe) +
       content_tag('p', form.text_field(:login, :size => 30)) +
       content_tag('p', form.password_field(:password, :size => 30, :name => 'ignore',
                                            :value => ((repository.new_record? || repository.password.blank?) ? '' : ('x'*15)),
@@ -208,11 +208,11 @@ module RepositoriesHelper
 
   def git_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :label => :label_git_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)) +
-                  '<br />' + l(:text_git_repo_example)) +
+                  '<br />'.html_safe + l(:text_git_repo_example)) +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => l(:label_path_encoding)) +
-                        '<br />' + l(:text_default_encoding))
+                        '<br />'.html_safe + l(:text_default_encoding))
   end
 
   def filesystem_field_tags(form, repository)
