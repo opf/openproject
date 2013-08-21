@@ -103,5 +103,14 @@ module OpenProject
 
     # initialize variable for register plugin tests
     config.plugins_to_test_paths = []
+
+    config.to_prepare do
+      # Rails loads app/views paths of all plugin on each request and appends it to the view_paths.
+      # Thus, they end up behind the core view path and core views are found before plugin views.
+      # To change this behaviour, we just reverse the view_path order on each request so plugin views
+      # take precedence.
+      ApplicationController.view_paths = ActionView::PathSet.new(ApplicationController.view_paths.to_ary.reverse)
+      ActionMailer::Base.view_paths = ActionView::PathSet.new(ActionMailer::Base.view_paths.to_ary.reverse)
+    end
   end
 end
