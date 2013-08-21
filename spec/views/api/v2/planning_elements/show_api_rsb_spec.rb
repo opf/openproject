@@ -57,18 +57,30 @@ describe 'api/v2/planning_elements/show.api.rsb' do
       view.stub(:include_journals?).and_return(true)
     end
 
-    let(:journal) { FactoryGirl.build(:planning_element_journal) }
-    let(:changes) { { "name" => ["old_name", "new_name"],
-                      "project_id" => ["1", "2"],
-                      "scenario_1_due_date" => ["2012-01-01", "2013-01-01"] } }
+    let(:change_1) { { "subject" => "old_name",
+                        "project_id" => "1" } }
+    let(:change_2) { { "subject" => "new_name",
+                        "project_id" => "2" } }
     let(:user) { FactoryGirl.create(:user) }
+    let(:journal_1) { FactoryGirl.build(:work_package_journal,
+                                        journable_id: planning_element.id,
+                                        user: user,
+                                        data: FactoryGirl.build(:journal_work_package_journal, change_1)) }
+    let(:journal_2) { FactoryGirl.build(:work_package_journal,
+                                        journable_id: planning_element.id,
+                                        user: user,
+                                        data: FactoryGirl.build(:journal_work_package_journal, change_2)) }
 
     it 'countains an array of journals' do
       # prevents problems related to the journal not having a user associated
       User.stub!(:current).and_return(user)
 
-      assign(:planning_element, journal.journaled)
-      journal.changed_data = changes
+      journal_1.stub(:journable).and_return planning_element
+      journal_2.stub(:journable).and_return planning_element
+
+      planning_element.journals << journal_1 << journal_2
+
+      @planning_element = planning_element
 
       render
 

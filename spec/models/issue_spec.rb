@@ -49,20 +49,20 @@ describe Issue do
       it 'should not include certain attributes' do
         recreated_journal = @issue.recreate_initial_journal!
 
-        recreated_journal.attributes["changed_data"].include?('rgt').should == false
-        recreated_journal.attributes["changed_data"].include?('lft').should == false
-        recreated_journal.attributes["changed_data"].include?('lock_version').should == false
-        recreated_journal.attributes["changed_data"].include?('updated_at').should == false
-        recreated_journal.attributes["changed_data"].include?('updated_on').should == false
-        recreated_journal.attributes["changed_data"].include?('id').should == false
-        recreated_journal.attributes["changed_data"].include?('type').should == false
-        recreated_journal.attributes["changed_data"].include?('root_id').should == false
+        recreated_journal.changed_data.include?('rgt').should == false
+        recreated_journal.changed_data.include?('lft').should == false
+        recreated_journal.changed_data.include?('lock_version').should == false
+        recreated_journal.changed_data.include?('updated_at').should == false
+        recreated_journal.changed_data.include?('updated_on').should == false
+        recreated_journal.changed_data.include?('id').should == false
+        recreated_journal.changed_data.include?('type').should == false
+        recreated_journal.changed_data.include?('root_id').should == false
       end
 
       it 'should not include useless transitions' do
         recreated_journal = @issue.recreate_initial_journal!
 
-        recreated_journal.attributes["changed_data"].values.each do |change|
+        recreated_journal.changed_data.values.each do |change|
           change.first.should_not == change.last
         end
       end

@@ -34,6 +34,6 @@ api.journal do
     end
   end
 
-  api.created_on(journal.created_on.utc)
+  api.created_on(journal.created_at.utc)
 end
 

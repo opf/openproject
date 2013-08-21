@@ -9,11 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-PlanningElement # this should fix "uninitialized constant PlanningElementJournal" errors on ci.
-
 FactoryGirl.define do
-  factory(:planning_element_journal, :class => WorkPackageJournal) do
-
-    association :journaled, :factory => :planning_element
+  factory :journal_work_package_journal, :class => Journal::WorkPackageJournal do
   end
 end

@@ -35,7 +35,7 @@ describe OpenProject::JournalFormatter::Attachment do
   let(:user) { FactoryGirl.create(:user) }
   let(:attachment) { FactoryGirl.create(:attachment,
                                     :author => user) }
-  let(:key) { "attachments#{attachment.id}" }
+  let(:key) { "attachments_#{attachment.id}" }
 
   describe :render do
     describe "WITH the first value beeing nil, and the second an id as string" do

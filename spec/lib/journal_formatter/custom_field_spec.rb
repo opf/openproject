@@ -26,7 +26,7 @@ describe OpenProject::JournalFormatter::CustomField do
   end
   let(:user) { FactoryGirl.create(:user) }
   let(:custom_field) { FactoryGirl.create(:issue_custom_field) }
-  let(:key) { "custom_values#{custom_field.id}" }
+  let(:key) { "custom_fields_#{custom_field.id}" }
 
   describe :render do
     describe "WITH the first value beeing nil, and the second a valid value as string" do

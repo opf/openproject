@@ -143,6 +143,8 @@ class IssueTest < ActiveSupport::TestCase
     field = WorkPackageCustomField.find_by_name('Database')
     field.update_attribute(:is_required, true)
 
+    CustomValue.delete 18
+
     issue = Issue.find(1)
     assert_nil issue.custom_value_for(field)
     assert issue.available_custom_fields.include?(field)
@@ -318,7 +320,7 @@ class IssueTest < ActiveSupport::TestCase
     assert issue1.reload.duplicates.include?(issue2)
 
     # Closing issue 1
-    issue1.init_journal(User.find(:first), "Closing issue1")
+    issue1.add_journal(User.find(:first), "Closing issue1")
     issue1.status = IssueStatus.find :first, :conditions => {:is_closed => true}
     assert issue1.save
     # 2 and 3 should be also closed
@@ -348,7 +350,7 @@ class IssueTest < ActiveSupport::TestCase
     assert !issue2.reload.duplicates.include?(issue1)
 
     # Closing issue 2
-    issue2.init_journal(User.find(:first), "Closing issue2")
+    issue2.add_journal(User.find(:first), "Closing issue2")
     issue2.status = IssueStatus.find :first, :conditions => {:is_closed => true}
     assert issue2.save
     # 1 should not be also closed
@@ -694,6 +696,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_should_send_email_notification
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
@@ -710,9 +713,10 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_stale_issue_should_not_send_email_notification
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     i = FactoryGirl.create :issue
-    i.init_journal(User.find(1))
+    i.add_journal(User.find(1))
 
     issue = Issue.find(i.id)
     stale = Issue.find(i.id)
@@ -722,7 +726,7 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.size
     ActionMailer::Base.deliveries.clear
 
-    stale.init_journal(User.find(1))
+    stale.add_journal(User.find(1))
     stale.subject = 'Another subjet update'
     assert_raise ActiveRecord::StaleObjectError do
       stale.save
@@ -734,18 +738,20 @@ class IssueTest < ActiveSupport::TestCase
     WorkPackageCustomField.delete_all
 
     i = Issue.first
+    i.recreate_initial_journal!
+    i.reload
     old_description = i.description
     new_description = "This is the new description"
 
-    i.init_journal(User.find(2))
+    i.add_journal(User.find(2))
     i.description = new_description
-    assert_difference 'WorkPackageJournal.count', 1 do
+    assert_difference 'Journal.count', 1 do
       i.save!
     end
 
-    journal = WorkPackageJournal.first(:order => 'id DESC')
-    assert_equal i, journal.journaled
-    assert journal.changed_data.has_key? "description"
+    journal = Journal.first(:order => 'id DESC')
+    assert_equal i, journal.journable
+    assert journal.changed_data.has_key? :description
     assert_equal old_description, journal.old_value_for("description")
     assert_equal new_description, journal.new_value_for("description")
   end
@@ -1022,6 +1028,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_should_not_send_email_notification_if_told_not_to
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,

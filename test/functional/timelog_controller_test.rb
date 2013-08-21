@@ -231,6 +231,8 @@ class TimelogControllerTest < ActionController::TestCase
   end
 
   def test_index_atom_feed
+    TimeEntry.all.each(&:recreate_initial_journal!)
+
     get :index, :project_id => 1, :format => 'atom'
     assert_response :success
     assert_equal 'application/atom+xml', @response.content_type

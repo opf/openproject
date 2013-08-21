@@ -342,29 +342,35 @@ class MailHandlerTest < ActiveSupport::TestCase
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
     assert_equal User.find_by_login('jsmith'), journal.user
-    assert_equal Issue.find(2), journal.journaled
+    assert_equal Issue.find(2), journal.journable
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.work_package.type.name
+    assert_equal 'Feature request', journal.journable.type.name
   end
 
   test "reply to issue update (Journal) by message_id" do
+    Journal.delete_all
+    issue = WorkPackage.find(2)
+    j = FactoryGirl.create :work_package_journal,
+                           id: 3,
+                           journable_id: issue.id
     journal = submit_email('ticket_reply_by_message_id.eml')
-    assert journal.is_a?(WorkPackageJournal), "Email was a #{journal.class}"
+    assert journal.data.is_a?(Journal::WorkPackageJournal), "Email was a #{journal.data.class}"
     assert_equal User.find_by_login('jsmith'), journal.user
-    assert_equal Issue.find(2), journal.journaled
+    assert_equal Issue.find(2), journal.journable
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.work_package.type.name
+    assert_equal 'Feature request', journal.journable.type.name
   end
 
   def test_add_issue_note_with_attribute_changes
+    WorkPackage.find(2).recreate_initial_journal!
     # This email contains: 'Status: Resolved'
     journal = submit_email('ticket_reply_with_status.eml')
-    assert journal.is_a?(WorkPackageJournal)
-    issue = Issue.find(journal.journaled.id)
+    assert journal.data.is_a?(Journal::WorkPackageJournal)
+    issue = Issue.find(journal.journable.id)
     assert_equal User.find_by_login('jsmith'), journal.user
-    assert_equal Issue.find(2), journal.journaled
+    assert_equal Issue.find(2), journal.journable
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.work_package.type.name
+    assert_equal 'Feature request', journal.journable.type.name
     assert_equal IssueStatus.find_by_name("Resolved"), issue.status
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
@@ -376,6 +382,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_note_should_send_email_notification
+    WorkPackage.find(2).recreate_initial_journal!
     ActionMailer::Base.deliveries.clear
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
@@ -386,8 +393,8 @@ class MailHandlerTest < ActiveSupport::TestCase
     journal = submit_email('ticket_reply.eml', :issue => {:type => 'Support request', :priority => 'High'})
     assert journal.is_a?(Journal)
     assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.work_package.type.name
-    assert_equal 'Normal', journal.work_package.priority.name
+    assert_equal 'Feature request', journal.journable.type.name
+    assert_equal 'Normal', journal.journable.priority.name
   end
 
   def test_reply_to_a_message

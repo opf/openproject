@@ -18,11 +18,11 @@ class Message < ActiveRecord::Base
   acts_as_attachable
   belongs_to :last_reply, :class_name => 'Message', :foreign_key => 'last_reply_id'
 
-  acts_as_journalized :event_title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
+  acts_as_journalized :event_title => Proc.new {|o| "#{o.journal.journable.board.name}: #{o.journal.journable.subject}"},
                 :event_description => :content,
                 :event_type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
                 :event_url => (Proc.new do |o|
-                  msg = o.journaled
+                  msg = o.journal.journable
                   if msg.parent_id.nil?
                     {:id => msg.id}
                   else

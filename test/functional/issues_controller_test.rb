@@ -313,10 +313,14 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_atom
-    get :show, :id => 1, :format => 'atom'
+    issue = Issue.find(2)
+
+    issue.recreate_initial_journal!
+
+    get :show, :id => 2, :format => 'atom'
     assert_response :success
     assert_template 'journals/index'
-    assert_select 'content', :text => Regexp.new(Regexp.quote('http://test.host/work_packages/2'))
+    assert_match /http:\/\/test\.host\/work_packages\/2/, response.body
   end
 
   def test_show_export_to_pdf
@@ -411,6 +415,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_post_create_should_not_send_a_notification_if_send_notification_is_off
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
     post :create, :project_id => 1,
@@ -541,6 +546,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_post_create_should_send_a_notification
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
@@ -633,14 +639,14 @@ class IssuesControllerTest < ActionController::TestCase
 
     context "#update" do
       should "ignore status change" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
         end
         assert_equal 1, Issue.find(1).status_id
       end
 
       should "ignore attributes changes" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed', :assigned_to_id => 2}
         end
         issue = Issue.find(1)
@@ -660,21 +666,21 @@ class IssuesControllerTest < ActionController::TestCase
 
     context "#update" do
       should "accept authorized status" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
         end
         assert_equal 3, Issue.find(1).status_id
       end
 
       should "ignore unauthorized status" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 2}
         end
         assert_equal 1, Issue.find(1).status_id
       end
 
       should "accept authorized attributes changes" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:assigned_to_id => 2}
         end
         issue = Issue.find(1)
@@ -682,7 +688,7 @@ class IssuesControllerTest < ActionController::TestCase
       end
 
       should "ignore unauthorized attributes changes" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed'}
         end
         issue = Issue.find(1)
@@ -696,21 +702,21 @@ class IssuesControllerTest < ActionController::TestCase
       end
 
       should "accept authorized status" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
         end
         assert_equal 3, Issue.find(1).status_id
       end
 
       should "ignore unauthorized status" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 2}
         end
         assert_equal 1, Issue.find(1).status_id
       end
 
       should "accept authorized attributes changes" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed', :assigned_to_id => 2}
         end
         issue = Issue.find(1)
@@ -791,19 +797,22 @@ class IssuesControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
 
     issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     assert_equal '125', issue.custom_value_for(2).value
     old_subject = issue.subject
     new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
 
-    assert_difference('WorkPackageJournal.count') do
+    assert_difference('Journal::WorkPackageJournal.count') do
       put :update, :id => 1, :issue => {:subject => new_subject,
         :priority_id => '6',
         :category_id => '1' # no change
       }
     end
-    assert issue.current_journal.changed_data.has_key? "subject"
-    assert issue.current_journal.changed_data.has_key? "priority_id"
-    assert !issue.current_journal.changed_data.has_key?("category_id")
+    issue.reload
+    assert issue.current_journal.changed_data.has_key? :subject
+    assert issue.current_journal.changed_data.has_key? :priority_id
+    assert !issue.current_journal.changed_data.has_key?(:category_id)
 
     assert_redirected_to work_package_path(1)
     issue.reload
@@ -821,20 +830,23 @@ class IssuesControllerTest < ActionController::TestCase
   def test_put_update_with_custom_field_change
     @request.session[:user_id] = 2
     issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     ActionMailer::Base.deliveries.clear
     assert_equal '125', issue.custom_value_for(2).value
 
-    assert_difference('WorkPackageJournal.count') do
+    assert_difference('Journal::WorkPackageJournal.count') do
       put :update, :id => 1, :issue => {:subject => 'Custom field change',
         :priority_id => '6',
         :category_id => '1', # no change
         :custom_field_values => { '2' => 'New custom value' }
       }
     end
-    assert issue.current_journal.changed_data.has_key? "subject"
-    assert issue.current_journal.changed_data.has_key? "priority_id"
-    assert !issue.current_journal.changed_data.has_key?("category_id")
-    assert issue.current_journal.changed_data.has_key? "custom_values2"
+    issue.reload
+    assert issue.current_journal.changed_data.has_key? :subject
+    assert issue.current_journal.changed_data.has_key? :priority_id
+    assert !issue.current_journal.changed_data.has_key?(:category_id)
+    assert issue.current_journal.changed_data.has_key? :custom_fields_2
 
     assert_redirected_to work_package_path(1)
     issue.reload
@@ -847,6 +859,8 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_put_update_with_status_and_assignee_change
     issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     assert_equal 1, issue.status_id
     @request.session[:user_id] = 2
     assert_difference('TimeEntry.count', 0) do
@@ -859,7 +873,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to work_package_path(1)
     issue.reload
     assert_equal 2, issue.status_id
-    j = WorkPackageJournal.find(:first, :order => 'id DESC')
+    j = Journal.find(:first, :order => 'id DESC')
     assert_equal 'Assigned to dlopper', j.notes
     assert_equal 2, j.details.size
 
@@ -870,13 +884,17 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_put_update_with_note_only
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
     notes = 'Note added by IssuesControllerTest#test_update_with_note_only'
+
     # anonymous user
     put :update,
          :id => 1,
          :notes => notes
     assert_redirected_to work_package_path(1)
-    j = WorkPackageJournal.find(:first, :order => 'id DESC')
+    issue.reload
+    j = Journal.find(:first, :order => 'id DESC')
     assert_equal notes, j.notes
     assert_equal 0, j.details.size
     assert_equal User.anonymous, j.user
@@ -886,6 +904,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_put_update_with_note_and_spent_time
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     @request.session[:user_id] = 2
     spent_hours_before = Issue.find(1).spent_hours
     assert_difference('TimeEntry.count') do
@@ -896,9 +917,8 @@ class IssuesControllerTest < ActionController::TestCase
     end
     assert_redirected_to work_package_path(1)
 
-    issue = Issue.find(1)
-
-    j = WorkPackageJournal.find(:first, :order => 'id DESC')
+    issue.reload
+    j = Journal.find(:first, :order => 'id DESC')
     assert_equal '2.5 hours added', j.notes
     assert_equal 0, j.details.size
 
@@ -909,6 +929,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_put_update_with_attachment_only
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'https'
 
@@ -936,7 +959,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     # Delete all fixtured journals, a race condition can occur causing the wrong
     # journal to get fetched in the next find.
-    WorkPackageJournal.delete_all
+    Journal.delete_all
 
     # Mock out the unsaved attachment
     Attachment.any_instance.stubs(:create).returns(Attachment.new)
@@ -953,9 +976,11 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_put_update_with_no_change
     issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     ActionMailer::Base.deliveries.clear
 
-    assert_no_difference('WorkPackageJournal.count') do
+    assert_no_difference('Journal.count') do
       put :update,
            :id => 1,
            :notes => ''
@@ -971,6 +996,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(1)
+    issue.recreate_initial_journal!
     old_subject = issue.subject
     new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
 
@@ -1001,7 +1027,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     notes = 'Note added by IssuesControllerTest#test_post_edit_with_invalid_spent_time'
 
-    assert_no_difference('WorkPackageJournal.count') do
+    assert_no_difference('Journal::WorkPackageJournal.count') do
       put :update,
            :id => 1,
            :notes => notes,
@@ -1019,7 +1045,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     notes = 'Note added by IssuesControllerTest#test_post_edit_with_invalid_spent_time'
 
-    assert_no_difference('WorkPackageJournal.count') do
+    assert_no_difference('Journal::WorkPackageJournal.count') do
       put :update,
            :id => 1,
            :notes => notes,
@@ -1116,6 +1142,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     @request.session[:user_id] = 2
     # update issues priority
     put :bulk_update, :ids => [1, 2], :notes => 'Bulk editing',
@@ -1127,7 +1156,7 @@ class IssuesControllerTest < ActionController::TestCase
     # check that the issues were updated
     assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
 
-    issue = Issue.find(1)
+    issue.reload
     journal = issue.journals.reorder('created_at DESC').first
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
@@ -1154,6 +1183,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update_on_different_projects
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     @request.session[:user_id] = 2
     # update issues priority
     put :bulk_update, :ids => [1, 2, 6], :notes => 'Bulk editing',
@@ -1165,7 +1197,7 @@ class IssuesControllerTest < ActionController::TestCase
     # check that the issues were updated
     assert_equal [7, 7, 7], Issue.find([1,2,6]).map(&:priority_id)
 
-    issue = Issue.find(1)
+    issue.reload
     journal = issue.journals.reorder('created_at DESC').first
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
@@ -1173,6 +1205,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update_on_different_projects_without_rights
+    Journal.delete_all
+
     @request.session[:user_id] = 3
     user = User.find(3)
     action = { :controller => "issues", :action => "bulk_update" }
@@ -1183,10 +1217,13 @@ class IssuesControllerTest < ActionController::TestCase
                                                 :assigned_to_id => '',
                                                 :custom_field_values => {'2' => ''}}
     assert_response 403
-    assert_not_equal "Bulk should fail", WorkPackageJournal.last.notes
+    assert Journal.all.empty?
   end
 
   def test_bulk_update_should_send_a_notification
+    WorkPackage.find(1).recreate_initial_journal!
+    WorkPackage.find(2).recreate_initial_journal!
+
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     put(:bulk_update,
@@ -1231,6 +1268,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update_custom_field
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     @request.session[:user_id] = 2
     # update issues priority
     put :bulk_update, :ids => [1, 2], :notes => 'Bulk editing custom field',
@@ -1240,12 +1280,12 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response 302
 
-    issue = Issue.find(1)
+    issue.reload
     journal = issue.journals.last
     assert_equal '777', issue.custom_value_for(2).value
     assert_equal 1, journal.details.size
-    assert_equal '125', journal.old_value_for('custom_values2')
-    assert_equal '777', journal.new_value_for('custom_values2')
+    assert_equal '125', journal.old_value_for(:custom_fields_2)
+    assert_equal '777', journal.new_value_for(:custom_fields_2)
   end
 
   def test_bulk_update_unassign
@@ -1357,12 +1397,14 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_quote_issue
+    issue = WorkPackage.find(6)
+
     @request.session[:user_id] = 2
     get :quoted, :id => 6
     assert_response :success
     assert_template 'edit'
     assert_not_nil assigns(:issue)
-    assert_equal Issue.find(6), assigns(:issue)
+    assert_equal issue, assigns(:issue)
   end
 
   def test_quote_issue_without_permission
@@ -1372,12 +1414,16 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_quote_note
+    issue = Issue.find(6)
+
+    journal = FactoryGirl.create :work_package_journal, journable_id: issue.id
+
     @request.session[:user_id] = 2
-    get :quoted, :id => 6, :journal_id => 4
+    get :quoted, :id => 6, :journal_id => journal.id
     assert_response :success
     assert_template 'edit'
     assert_not_nil assigns(:issue)
     assert_equal Issue.find(6), assigns(:issue)
-    assert_equal Journal.find(4), assigns(:journal)
+    assert_equal journal, assigns(:journal)
   end
 end
