@@ -3,6 +3,11 @@
 ## 3.0.0pre12
 
 * `#1417` Enable default behavior for types
+* `#1606` Update journal fixtures
+* `#1608` Change activities to use the new journals
+* `#1609` Change search to use the new journals
+* `#1616` Serialization/Persistence
+* `#1617` Migrate database to new journalization
 * `#1631` Remove documents from core
 
 ## 3.0.0pre11
