@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2010-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 Given /^there is the global permission "(.+)?" of the module "(.+)?"$/ do |perm_name, perm_module|
   Redmine::AccessControl.map do |map|
     map.project_module perm_module.to_sym do |mod|
