@@ -415,7 +415,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_post_create_should_not_send_a_notification_if_send_notification_is_off
-    Journals.delete_all
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
     post :create, :project_id => 1,
@@ -546,7 +546,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_post_create_should_send_a_notification
-    Journals.delete_all
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do

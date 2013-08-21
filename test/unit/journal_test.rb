@@ -46,7 +46,7 @@ class JournalTest < ActiveSupport::TestCase
   end
 
   test "creating the initial journal should track the changes from creation" do
-    Journals.delete_all
+    Journal.delete_all
     @project = Project.generate!
     issue = Issue.new do |i|
       i.project = @project
