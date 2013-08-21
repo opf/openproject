@@ -109,6 +109,7 @@ class ActivitiesControllerTest < ActionController::TestCase
     issue = Issue.find(1)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,
+                       user_id: 2,
                        created_at: 3.days.ago.to_date.to_s(:db),
                        data: FactoryGirl.build(:journal_work_package_journal,
                                                project_id: issue.project_id)
