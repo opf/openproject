@@ -83,4 +83,4 @@ Feature: Planning Element Management
      Then I should see a planning element named "February"
 
      When I follow "Activity"
-     Then I should see "Creation: February"
+     Then I should see "Phase #1: February (New)"
