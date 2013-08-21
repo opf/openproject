@@ -9,11 +9,14 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::GlobalRoles::VERSION
   s.authors = "Finn GmbH"
   s.email = "info@finn.de"
-  s.homepage = "http://www.finn.de"
-  s.summary     = "A OpenProject plugin to define global roles."
-  s.description = "Adds global non-project-bound roles. Create Project becomes a global role."
+  s.homepage = "https://www.openproject.org/projects/plugin-global-roles"
+  s.summary     = "An OpenProject plugin to define global roles."
+  s.description = "Adds global roles not bound to a project. A user can have a global role allowing to
+  perform actions outside of the scope of a specific project normally only allowed for administrators.
+  By assigning the permission to create projects to a global role, non-administrators can create top-level projects."
+  s.license     = "GPLv3"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib,doc}/**/*", "CHANGELOG.md", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"

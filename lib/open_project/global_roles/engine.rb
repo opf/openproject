@@ -11,12 +11,12 @@ module OpenProject::GlobalRoles
       Redmine::Plugin.register :openproject_global_roles do
         name 'OpenProject Global Roles'
         author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
-        author_url spec.homepage
+        author_url "http://finn.de"
         description spec.description
         version spec.version
-        url 'https://www.openproject.org/projects/plugin-global-roles'
+        url spec.homepage
 
-        requires_openproject ">= 3.0.0pre6"
+        requires_openproject ">= 3.0.0pre13"
 
         Redmine::AccessControl.permission(:add_project).global = true
       end
