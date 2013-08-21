@@ -1,5 +1,4 @@
 class OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global < ChiliProject::PrincipalAllowanceEvaluator::Base
-  unloadable
 
   def granted_for_global? membership, action, options
     return false unless membership.is_a?(PrincipalRole)

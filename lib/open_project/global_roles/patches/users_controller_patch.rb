@@ -6,7 +6,6 @@ module OpenProject::GlobalRoles::Patches
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-        unloadable
 
         before_filter :add_global_roles, :only => [:edit]
       end

@@ -4,7 +4,6 @@ module OpenProject::GlobalRoles::Patches
   module RolesHelperPatch
     def self.included(base) # :nodoc:
       base.class_eval do
-        unloadable
 
         def permissions_id permissions
           "permissions_" + permissions[0].hash.to_s

@@ -6,7 +6,6 @@ module OpenProject::GlobalRoles::Patches
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-        unloadable
 
         alias_method_chain :user_settings_tabs, :global_roles
       end

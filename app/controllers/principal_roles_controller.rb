@@ -1,5 +1,4 @@
 class PrincipalRolesController < ApplicationController
-  unloadable PrincipalRolesController
 
   def create
     @principal_roles = new_principal_roles_from_params
