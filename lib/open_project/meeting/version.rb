@@ -1,7 +1,7 @@
 #-- copyright
 # OpenProject is a project management system.
 #
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2011-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -11,6 +11,6 @@
 
 module OpenProject
   module Meeting
-    VERSION = "3.0.1"
+    VERSION = "3.0.2"
   end
 end
