@@ -109,8 +109,49 @@ describe Meeting do
         meeting.all_possible_participants.include?(user2).should be_false
       end
     end
-
   end
+  
+  #neu, Jonas Heinrich
+  describe "all_changeable_participants" do
+    describe "WITH a user having the view_meetings permission" do
+      before do
+        project.add_member user1, [role]
+        project.save!
+      end
+
+      it "should contain the user" do
+        meeting.all_changeable_participants.should == [user1]
+      end
+    end
+
+    describe "WITH a user not having the view_meetings permission" do
+      let(:role2) { FactoryGirl.create(:role, :permissions => []) }
+
+      before do
+        # adding both users so that the author is valid
+        project.add_member user1, [role]
+        project.add_member user2, [role2]
+
+        project.save!
+      end
+
+      it "should not contain the user" do
+        meeting.all_changeable_participants.include?(user2).should be_false
+      end
+    end
+    
+    describe "WITH a user being locked but invited" do
+      let(:locked_user) { FactoryGirl.create(:locked_user) }
+      before do 
+        meeting.participants_attributes = [{"user_id" => locked_user.id, "invited" => 1}]
+      end
+      
+      it "should contain the user" do
+        meeting.all_changeable_participants.include?(locked_user).should be_true
+      end
+    end
+  end
+
 
   describe "participants and author as watchers" do
     before do

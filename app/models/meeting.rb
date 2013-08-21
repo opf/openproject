@@ -106,6 +106,12 @@ class Meeting < ActiveRecord::Base
   def all_possible_participants
     self.project.users.all(:include => { :memberships => [:roles, :project] } ).select{ |u| self.visible?(u) }
   end
+  
+  #TODO neu, macht fast das Gleiche wie all_possible_participants, fügt aber deaktivierte eingeladene User hinzu. 
+  def all_changeable_participants
+    (self.project.users.all(:include => { :memberships => [:roles, :project] } ).select{|u| self.visible?(u)} + self.participants.select(&:invited).collect{|p| p.user}).uniq{|user| user.id}
+    #self.project.users.all.select{ |u| self.visible(u)}
+  end
 
   def copy(attrs)
     copy = self.dup

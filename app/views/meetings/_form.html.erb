@@ -34,7 +34,7 @@ See doc/COPYRIGHT.md for more details.
         <th><%=Meeting.human_attribute_name(:participants_attended) %></th>
       </tr></thead>
       <tbody>
-        <% @meeting.all_possible_participants.sort.each do |user| -%>
+        <% @meeting.all_changeable_participants.sort.each do |user| -%>
         <%= hidden_field_tag "meeting[participants_attributes][][user_id]", user.id %>
         <tr class="<%= cycle("odd", "even")%>">
           <td><%=h user %></td>
