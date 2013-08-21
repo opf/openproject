@@ -16,6 +16,7 @@ class ActivitiesControllerTest < ActionController::TestCase
   fixtures :all
 
   def test_project_index
+    Journal.delete_all
     project = Project.find(1)
     issue = FactoryGirl.create :issue,
                                status_id: 2,

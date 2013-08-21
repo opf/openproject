@@ -124,11 +124,11 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
           FactoryGirl.create :work_package_journal,
                              journable_id: 1,
                              data: FactoryGirl.build(:journal_work_package_journal,
-                                                     status_id: 1)
-          FactoryGirl.create :work_package_journal,
-                             journable_id: 1,
-                             data: FactoryGirl.build(:journal_work_package_journal,
-                                                     status_id: 2)
+                                                                    status_id: 1)
+          @journal_to = FactoryGirl.create :work_package_journal,
+                                           journable_id: 1,
+                                           data: FactoryGirl.build(:journal_work_package_journal,
+                                                                  status_id: 2)
         end
 
         should "display journals" do
@@ -140,7 +140,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
               :attributes => { :type => 'array' },
               :child => {
                 :tag => 'journal',
-                :attributes => { :id => '2'},
+                :attributes => { :id => @journal_to.id },
                 :child => {
                   :tag => 'details',
                   :attributes => { :type => 'array' },
