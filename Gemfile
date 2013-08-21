@@ -65,7 +65,7 @@ group :test do
   gem 'object-daddy', :git => 'https://github.com/awebneck/object_daddy.git'
   gem 'mocha', '~> 0.13.1', :require => false
   gem "launchy", "~> 2.3.0"
-  gem "factory_girl_rails", "~> 4.0", :group => :development
+  gem "factory_girl_rails", "~> 4.0"
   gem 'cucumber-rails', :require => false
   gem 'rack_session_access'
   gem 'database_cleaner'
