@@ -38,7 +38,9 @@ This plugin contains migrations. To migrate the database, run:
 Deinstallation
 --------------
 
-Remove the line
+Currently, there complete automatic uninstall is not supported.
+Before the plugin can be removed, all global roles have to be deleted.
+Afterwards, remove the line
 
 `gem "openproject-global_roles"`
 
@@ -46,7 +48,7 @@ from the file `Gemfile.plugins` and run:
 
 `bundle install`
 
-Please not that this leaves plugin data in the database. Currently, we do not
+Please not that this changes by the plugin in the database. Currently, we do not
 support full uninstall of the plugin.
 
 Bug Reporting
