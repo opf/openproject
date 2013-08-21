@@ -33,7 +33,7 @@ describe WorkPackage do
     it { Journal.all.count.should eq(1) }
 
     it "has a journal entry" do
-      Journal.first.journaled.should eq(work_package)
+      Journal.first.journable.should eq(work_package)
     end
   end
 
@@ -84,12 +84,11 @@ describe WorkPackage do
   end
 
   context "attachments" do
-    let(:attachment) { FactoryGirl.create :attachment,
-                                          container: work_package }
+    let(:attachment) { FactoryGirl.build :attachment }
     let(:attachment_id) { "attachments_#{attachment.id}".to_sym }
 
     before do
-      attachment
+      work_package.attachments << attachment
     end
 
     context "new attachment" do
@@ -98,21 +97,6 @@ describe WorkPackage do
       it { should have_key attachment_id }
 
       it { subject[attachment_id].should eq([nil, attachment.filename]) }
-    end
-
-    context "attachment modified" do
-      before do
-        @old_filename = attachment.filename
-
-        attachment.filename = "changed"
-        attachment.save!
-      end
-
-      subject { work_package.journals.last.changed_data }
-
-      it { should have_key attachment_id }
-
-      it { subject[attachment_id].should eq([@old_filename, attachment.filename]) }
     end
 
     context "attachment saved w/o change" do
@@ -163,13 +147,11 @@ describe WorkPackage do
     end
 
     context "custom value modified" do
-      let(:custom_value_2) { FactoryGirl.create :custom_value,
-                                                value: "true",
-                                                customized: work_package,
-                                                custom_field: custom_field }
+      let(:modified_custom_value) { FactoryGirl.create :custom_value,
+                                                       value: "true",
+                                                       custom_field: custom_field }
       before do
-        work_package.custom_values.delete(custom_value)
-        custom_value_2
+        work_package.custom_values = [modified_custom_value]
         work_package.save!
       end
 
@@ -177,19 +159,17 @@ describe WorkPackage do
 
       it { should have_key custom_field_id }
 
-      it { subject[custom_field_id].should eq([custom_value.value.to_s, custom_value_2.value.to_s]) }
+      it { subject[custom_field_id].should eq([custom_value.value.to_s, modified_custom_value.value.to_s]) }
     end
 
     context "work package saved w/o change" do
-      let(:custom_value_2) { FactoryGirl.create :custom_value,
-                                                value: "false",
-                                                customized: work_package,
-                                                custom_field: custom_field }
+      let(:unmodified_custom_value) { FactoryGirl.create :custom_value,
+                                                         value: "false",
+                                                         custom_field: custom_field }
       before do
         @original_journal_count = work_package.journals.count
 
-        work_package.custom_values.delete(custom_value)
-        custom_value_2
+        work_package.custom_values = [unmodified_custom_value]
         work_package.save!
       end
 

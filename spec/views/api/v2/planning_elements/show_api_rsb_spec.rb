@@ -63,11 +63,11 @@ describe 'api/v2/planning_elements/show.api.rsb' do
                         "project_id" => "2" } }
     let(:user) { FactoryGirl.create(:user) }
     let(:journal_1) { FactoryGirl.build(:work_package_journal,
-                                        journaled_id: planning_element.id,
+                                        journable_id: planning_element.id,
                                         user: user,
                                         data: FactoryGirl.build(:journal_work_package_journal, change_1)) }
     let(:journal_2) { FactoryGirl.build(:work_package_journal,
-                                        journaled_id: planning_element.id,
+                                        journable_id: planning_element.id,
                                         user: user,
                                         data: FactoryGirl.build(:journal_work_package_journal, change_2)) }
 
@@ -75,8 +75,8 @@ describe 'api/v2/planning_elements/show.api.rsb' do
       # prevents problems related to the journal not having a user associated
       User.stub!(:current).and_return(user)
 
-      journal_1.stub(:journaled).and_return planning_element
-      journal_2.stub(:journaled).and_return planning_element
+      journal_1.stub(:journable).and_return planning_element
+      journal_2.stub(:journable).and_return planning_element
 
       planning_element.journals << journal_1 << journal_2
 

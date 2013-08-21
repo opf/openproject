@@ -22,7 +22,7 @@ describe OpenProject::JournalFormatter::Diff do
     Rails.application.routes.url_helpers
   end
 
-  Struct.new("TestJournal", :id, :journaled)
+  Struct.new("TestJournal", :id, :journable)
 
   let(:klass) { OpenProject::JournalFormatter::Diff }
   let(:id) { 1 }

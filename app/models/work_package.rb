@@ -82,7 +82,8 @@ class WorkPackage < ActiveRecord::Base
   # test_destroying_root_projects_should_clear_data #
   # for details.                                    #
   ###################################################
-  acts_as_attachable :after_remove => :attachment_removed
+  acts_as_attachable :after_add => :attachments_changed,
+                     :after_remove => :attachments_changed
 
   # This one is here only to ease reading
   module JournalizedProcs
@@ -199,7 +200,7 @@ class WorkPackage < ActiveRecord::Base
 
   # ACTS AS ATTACHABLE
   # Callback on attachment deletion
-  def attachment_removed(obj)
+  def attachments_changed(obj)
     add_journal
     save!
   end
