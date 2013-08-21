@@ -450,15 +450,14 @@ describe WorkPackagesController do
 
   describe :journals do
     it "should return all the work_package's journals except the first one" do
-      journal = FactoryGirl.create(:planning_element_journal, journaled: planning_element,
-                                                              changed_data: { description: [planning_element.description, "blubs"]},
-                                                              version: 2
-                                  )
+      planning_element.description = "blubs"
+
+      planning_element.save
       planning_element.reload
 
       controller.stub!(:work_package).and_return(planning_element)
 
-      controller.journals.should == [journal]
+      controller.journals.should == [planning_element.journals.last]
     end
 
     it "should be empty if the work_package has only one journal" do

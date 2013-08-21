@@ -176,6 +176,7 @@ class Attachment < ActiveRecord::Base
   end
 
 private
+
   def sanitize_filename(value)
     # get only the filename, not the whole path
     just_filename = value.gsub(/^.*(\\|\/)/, '')

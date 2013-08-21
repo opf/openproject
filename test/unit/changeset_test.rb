@@ -15,6 +15,8 @@ class ChangesetTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_ref_keywords_any
+    Issue.all.each { |m| m.recreate_initial_journal! }
+
     ActionMailer::Base.deliveries.clear
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = '90'

@@ -33,7 +33,7 @@ class WikiContentTest < ActiveSupport::TestCase
     assert_equal "Content text", content.text
     assert_equal "My comment", content.versions.last.notes
     assert_equal User.find(1), content.author
-    assert_equal content.text, content.versions.last.text
+    assert_equal content.text, content.versions.last.data.text
   end
 
   def test_create_should_send_email_notification
@@ -67,9 +67,15 @@ class WikiContentTest < ActiveSupport::TestCase
   end
 
   def test_fetch_history
+    wiki_content_journal = FactoryGirl.build(:wiki_content_journal,
+                                             journable_id: @page.content.id)
+    wiki_content_journal.data.page_id = @page.id
+    wiki_content_journal.data.text = ""
+
+    @page.content.journals << wiki_content_journal
     assert !@page.content.journals.empty?
     @page.content.journals.each do |journal|
-      assert_kind_of String, journal.text
+      assert_kind_of String, journal.data.text
     end
   end
 

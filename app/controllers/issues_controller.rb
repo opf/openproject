@@ -92,7 +92,7 @@ class IssuesController < ApplicationController
   end
 
   def show
-    @journals = @issue.journals.changing.find(:all, :include => [:user, :journaled], :order => "#{Journal.table_name}.created_at ASC")
+    @journals = @issue.journals.find(:all, :include => [:user, :journable], :order => "#{Journal.table_name}.created_at ASC")
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @changesets = @issue.changesets.visible.all(:include => [{ :repository => {:project => :enabled_modules} }, :user])
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
@@ -235,7 +235,7 @@ class IssuesController < ApplicationController
     unsaved_issue_ids = []
     @issues.each do |issue|
       issue.reload
-      journal = issue.init_journal(User.current, params[:notes])
+      issue.add_journal(User.current, params[:notes])
       issue.safe_attributes = attributes
       call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
       JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
@@ -314,7 +314,7 @@ private
     @time_entry.attributes = params[:time_entry]
 
     @notes = params[:notes] || (params[:issue].present? ? params[:issue][:notes] : nil)
-    @issue.init_journal(User.current, @notes)
+    @issue.add_journal(User.current, @notes)
     @issue.safe_attributes = params[:issue]
     @journal = @issue.current_journal
   end
@@ -367,6 +367,7 @@ private
     attributes = (params[:issue] || {}).reject {|k,v| v.blank?}
     attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
     attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
+    attributes.delete :custom_field_values if not attributes.has_key?(:custom_field_values) or attributes[:custom_field_values].empty?
     attributes
   end
 

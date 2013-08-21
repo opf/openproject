@@ -83,21 +83,4 @@ Feature: Planning Element Management
      Then I should see a planning element named "February"
 
      When I follow "Activity"
-     Then I should see "February"
-
-  Scenario: Deleting a scenario that is associated to a planning element
-    Given there are the following planning elements in project "ecookbook":
-            | Subject  | Start date | Due date   |
-            | January  | 2012-01-01 | 2012-01-31 |
-    And there is a scenario "delete me" in project "ecookbook"
-    And there are the following alternate dates for "delete me":
-            | Planning element subject  | Start date | Due date   |
-            | January                   | 2013-01-01 | 2013-01-31 |
-     When I go to the   page of the project called "ecookbook"
-      And I toggle the "Timelines" submenu
-      And I follow "Planning elements"
-     Then I should see a planning element named "January"
-     When I delete the scenario "delete me"
-      And I follow "January" within ".timelines-pe-name"
-     Then I should see "Scenario (deleted scenario): Start date set to 01/01/2013"
-      And I should see "Scenario (deleted scenario): Due date set to 01/31/2013"
+     Then I should see "Phase #1: February (New)"

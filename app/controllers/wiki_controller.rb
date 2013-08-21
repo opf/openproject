@@ -175,6 +175,7 @@ class WikiController < ApplicationController
     params[:content].delete(:version) # The version count is automatically increased
     @content.attributes = params[:content]
     @content.author = User.current
+    @content.add_journal User.current, params["content"]["comments"]
     # if page is new @page.save will also save content, but not if page isn't a new record
     if (@page.new_record? ? @page.save : @content.save)
       attachments = Attachment.attach_files(@page, params[:attachments])
@@ -221,7 +222,7 @@ class WikiController < ApplicationController
 
   def diff
     if @diff = @page.diff(params[:version], params[:version_from])
-      @html_diff = HTMLDiff::DiffBuilder.new(@diff.content_from.text, @diff.content_to.text).build
+      @html_diff = HTMLDiff::DiffBuilder.new(@diff.content_from.data.text, @diff.content_to.data.text).build
     else
       render_404
     end

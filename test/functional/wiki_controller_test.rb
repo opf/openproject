@@ -104,25 +104,28 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_update_page
+    page = Wiki.find(1).pages.find_by_title('Another_page')
+    page.content.recreate_initial_journal!
+
     @request.session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
-        assert_difference 'WikiContentJournal.count' do
+        assert_difference 'Journal.count' do
           put :update, :project_id => 1,
             :id => 'Another_page',
             :content => {
               :comments => "my comments",
               :text => "edited",
-              :lock_version => 1
+              :lock_version => 2
             }
         end
       end
     end
     assert_redirected_to '/projects/ecookbook/wiki/Another_page'
 
-    page = Wiki.find(1).pages.find_by_title('Another_page')
+    page.reload
     assert_equal "edited", page.content.text
-    assert_equal 2, page.content.version
+    assert_equal page.content.journals.map(&:version).max, page.content.version
     assert_equal "my comments", page.content.last_journal.notes
   end
 
@@ -130,7 +133,7 @@ class WikiControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
-        assert_no_difference 'WikiContentJournal.count' do
+        assert_no_difference 'Journal.count' do
           put :update, :project_id => 1,
             :id => 'Another_page',
             :content => {
@@ -150,6 +153,10 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_update_stale_page_should_not_raise_an_error
+    journal = FactoryGirl.create :wiki_content_journal,
+                                 journable_id: 2,
+                                 data: FactoryGirl.build(:journal_wiki_content_journal,
+                                                         text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     @request.session[:user_id] = 2
     c = Wiki.find(1).find_page('Another_page').content
     c.text = 'Previous text'
@@ -158,7 +165,7 @@ class WikiControllerTest < ActionController::TestCase
 
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
-        assert_no_difference 'WikiContentJournal.count' do
+        assert_no_difference 'Journal.count' do
           put :update, :project_id => 1,
             :id => 'Another_page',
             :content => {
@@ -182,7 +189,7 @@ class WikiControllerTest < ActionController::TestCase
 
     c.reload
     assert_equal 'Previous text', c.text
-    assert_equal 2, c.version
+    assert_equal journal.version, c.version
   end
 
   def test_preview
@@ -208,6 +215,19 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_history
+    FactoryGirl.create :wiki_content_journal,
+                       journable_id: 1,
+                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                                               text: "h1. CookBook documentation")
+    FactoryGirl.create :wiki_content_journal,
+                       journable_id: 1,
+                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                                               text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
+    FactoryGirl.create :wiki_content_journal,
+                       journable_id: 1,
+                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                                               text: "h1. CookBook documentation\nSome updated [[documentation]] here...")
+
     get :history, :project_id => 1, :id => 'CookBook_documentation'
     assert_response :success
     assert_template 'history'
@@ -217,6 +237,10 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_history_with_one_version
+    FactoryGirl.create :wiki_content_journal,
+                       journable_id: 2,
+                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                                               text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     get :history, :project_id => 1, :id => 'Another_page'
     assert_response :success
     assert_template 'history'
@@ -226,7 +250,16 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_diff
-    get :diff, :project_id => 1, :id => 'CookBook_documentation', :version => 2, :version_from => 1
+    journal_from = FactoryGirl.create :wiki_content_journal,
+                                      journable_id: 1,
+                                      data: FactoryGirl.build(:journal_wiki_content_journal,
+                                                              text: "h1. CookBook documentation")
+    journal_to = FactoryGirl.create :wiki_content_journal,
+                                    journable_id: 1,
+                                    data: FactoryGirl.build(:journal_wiki_content_journal,
+                                                            text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
+
+    get :diff, :project_id => 1, :id => 'CookBook_documentation', :version => journal_to.version, :version_from => journal_from.version
     assert_response :success
     assert_template 'diff'
     assert_tag :tag => 'ins', :attributes => { :class => 'diffins'},
@@ -234,7 +267,16 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_annotate
-    get :annotate, :project_id => 1, :id =>  'CookBook_documentation', :version => 2
+    FactoryGirl.create :wiki_content_journal,
+                       journable_id: 1,
+                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                                               text: "h1. CookBook documentation")
+    journal_to = FactoryGirl.create :wiki_content_journal,
+                                    journable_id: 1,
+                                    data: FactoryGirl.build(:journal_wiki_content_journal,
+                                                            text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
+
+    get :annotate, :project_id => 1, :id =>  'CookBook_documentation', :version => journal_to.version
     assert_response :success
     assert_template 'annotate'
     # Line 1

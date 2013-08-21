@@ -82,13 +82,15 @@ class WorkPackage < ActiveRecord::Base
   # test_destroying_root_projects_should_clear_data #
   # for details.                                    #
   ###################################################
-  acts_as_attachable :after_remove => :attachment_removed
+  acts_as_attachable :after_add => :attachments_changed,
+                     :after_remove => :attachments_changed
 
   # This one is here only to ease reading
   module JournalizedProcs
     def self.event_title
-      Proc.new do |journal|
-        work_package = journal.journaled
+      Proc.new do |data|
+        journal = data.journal
+        work_package = journal.journable
 
         title = work_package.to_s
         title << " (#{work_package.status.name})" if work_package.status.present?
@@ -98,7 +100,8 @@ class WorkPackage < ActiveRecord::Base
     end
 
     def self.event_type
-      Proc.new do |journal|
+      Proc.new do |data|
+        journal = data.journal
         t = 'work_package'
 
         t << if journal.changed_data.empty? && !journal.initial?
@@ -124,7 +127,7 @@ class WorkPackage < ActiveRecord::Base
   register_on_journal_formatter(:decimal, 'done_ratio')
   register_on_journal_formatter(:diff, 'description')
   register_on_journal_formatter(:attachment, /attachments_?\d+/)
-  register_on_journal_formatter(:custom_field, /custom_values\d+/)
+  register_on_journal_formatter(:custom_field, /custom_fields_\d+/)
 
   # Joined
   register_on_journal_formatter :named_association, :parent_id, :project_id,
@@ -155,15 +158,6 @@ class WorkPackage < ActiveRecord::Base
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_work_packages, options)
-  end
-
-  WorkPackageJournal.class_eval do
-    # Shortcut
-    def new_status
-      if details.keys.include? 'status_id'
-        (newval = details['status_id'].last) ? IssueStatus.find_by_id(newval.to_i) : nil
-      end
-    end
   end
 
   def self.use_status_for_done_ratio?
@@ -206,10 +200,9 @@ class WorkPackage < ActiveRecord::Base
 
   # ACTS AS ATTACHABLE
   # Callback on attachment deletion
-  def attachment_removed(obj)
-    init_journal(User.current)
-    create_journal
-    last_journal.update_attribute(:changed_data, { "attachments_#{obj.id}" => [obj.filename, nil] })
+  def attachments_changed(obj)
+    add_journal
+    save!
   end
 
   # ACTS AS JOURNALIZED
@@ -355,7 +348,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def update_by(user, attributes)
-    init_journal(user, attributes.delete(:notes)) if attributes[:notes]
+    add_journal(user, attributes.delete(:notes)) if attributes[:notes]
 
     add_time_entry_for(user, attributes.delete(:time_entry))
     attributes.delete(:attachments)

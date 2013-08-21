@@ -64,7 +64,7 @@ class JournalFormatter::NamedAssociation < JournalFormatter::Attribute
   end
 
   def class_from_field(field)
-    association = @journal.class.journaled_class.reflect_on_association(field)
+    association = @journal.journable.class.reflect_on_association(field)
 
     if association
       association.class_name.constantize

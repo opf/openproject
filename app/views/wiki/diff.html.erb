@@ -18,10 +18,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p>
 <%= Version.model_name.human %> <%= link_to @diff.content_from.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => @diff.content_from.version %>/<%= @page.content.version %>
-<em>(<%= @diff.content_from.user ? link_to_user(@diff.content_from.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_from.updated_on) %>)</em>
+<em>(<%= @diff.content_from.user ? link_to_user(@diff.content_from.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_from.data.updated_on) %>)</em>
 &#8594;
 <%= Version.model_name.human %> <%= link_to @diff.content_to.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => @diff.content_to.version %>/<%= @page.content.version %>
-<em>(<%= @diff.content_to.user ? link_to_user(@diff.content_to.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_to.updated_on) %>)</em>
+<em>(<%= @diff.content_to.user ? link_to_user(@diff.content_to.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_to.data.updated_on) %>)</em>
 </p>
 
 <div class="text-diff">

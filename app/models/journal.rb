@@ -10,61 +10,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'journal_formatter'
-require 'redmine/acts/journalized/format_hooks'
-require 'open_project/journal_formatter/diff'
-require 'open_project/journal_formatter/attachment'
-require 'open_project/journal_formatter/custom_field'
-require 'open_project/journal_formatter/scenario_date'
-
-# The ActiveRecord model representing journals.
 class Journal < ActiveRecord::Base
-  # unloadable
+  self.table_name = "journals"
 
-  include Comparable
   include JournalFormatter
-  include JournalDeprecated
   include FormatHooks
-
-  # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, :scope => [:journaled_id, :type]
-
-  # Define a default class_name to prevent `uninitialized constant Journal::Journaled`
-  # subclasses will be given an actual class name when they are created by aaj
-  #
-  #  e.g. IssueJournal will get :class_name => 'Issue'
-  belongs_to :journaled, :class_name => 'Journal'
-  belongs_to :user
-
-  #attr_protected :user_id
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
   register_journal_formatter :scenario_date, OpenProject::JournalFormatter::ScenarioDate
 
-  # "touch" the journaled object on creation
-  after_create :touch_journaled_after_creation
+  attr_accessible :journable_type, :journable_id, :activity_type, :version, :notes, :user_id
 
-  serialize :changed_data, Hash
+  # Make sure each journaled model instance only has unique version ids
+  validates_uniqueness_of :version, :scope => [:journable_id, :journable_type]
+
+  belongs_to :user
+  belongs_to :journable, polymorphic: true
+
+  has_many :attachable_journals, class_name: Journal::AttachableJournal, dependent: :destroy
+  has_many :customizable_journals, class_name: Journal::CustomizableJournal, dependent: :destroy
+
+  after_save :save_data, :touch_journable
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
   scope "changing", :conditions => ["version > 1"]
 
-  # let all child classes have Journal as it's model name
-  # used to not having to create another route for every subclass of Journal
-  def self.inherited(child)
-    child.instance_eval do
-      def model_name
-        Journal.model_name
-      end
-    end
-    super
-  end
+  def changed_data=(changed_attributes)
+    attributes = changed_attributes
 
-  def touch_journaled_after_creation
-    journaled.touch
+    if attributes.kind_of? Hash and attributes.values.first.kind_of? Array
+      attributes.each {|k,v| attributes[k] = v[1]}
+    end
+
+    data.update_attributes attributes
   end
 
   # In conjunction with the included Comparable module, allows comparison of journal records
@@ -87,52 +68,109 @@ class Journal < ActiveRecord::Base
 
   # Possible shortcut to the associated project
   def project
-    if journaled.respond_to?(:project)
-      journaled.project
-    elsif journaled.is_a? Project
-      journaled
+    if journable.respond_to?(:project)
+      journable.project
+    elsif journable.is_a? Project
+      journable
     else
       nil
     end
   end
 
   def editable_by?(user)
-    journaled.journal_editable_by?(user)
+    journable.journal_editable_by?(user)
   end
 
   def details
-    attributes["changed_data"] || {}
+    get_changes
   end
 
   alias_method :changed_data, :details
 
   def new_value_for(prop)
-    details[prop.to_s].last if details.keys.include? prop.to_s
+    details[prop.to_sym].last if details.keys.include? prop.to_sym
   end
 
   def old_value_for(prop)
-    details[prop.to_s].first if details.keys.include? prop.to_s
+    details[prop.to_sym].first if details.keys.include? prop.to_sym
   end
 
-  # Returns a string of css classes
-  def css_classes
-    s = 'journal'
-    s << ' has-notes' unless notes.blank?
-    s << ' has-details' unless details.empty?
-    s
+  def data
+    @data ||= "Journal::#{journable_type}Journal".constantize.find_by_journal_id(id)
   end
 
-  # This is here to allow people to disregard the difference between working with a
-  # Journal and the object it is attached to.
-  # The lookup is as follows:
-  ## => Call super if the method corresponds to one of our attributes (will end up in AR::Base)
-  ## => Try the journaled object with the same method and arguments
-  ## => On error, call super
-  def method_missing(method, *args, &block)
-    return super if respond_to?(method) || attributes[method.to_s]
-    journaled.send(method, *args, &block)
-  rescue NoMethodError => e
-    e.name == method ? super : raise(e)
+  def data=(data)
+    @data = data
   end
 
+  def previous
+    predecessor
+  end
+
+  private
+
+  def save_data
+    data.journal_id = id if data.new_record?
+    data.save!
+  end
+
+  def touch_journable
+    journable.touch unless journable.nil?
+  end
+
+  def get_changes
+    return {} if data.nil?
+
+    if @changes.nil?
+      @changes = {}
+
+      if predecessor.nil?
+        @changes = data.journaled_attributes.select{|_,v| !v.nil?}
+                                            .inject({}) { |h, (k, v)| h[k] = [nil, v]; h }
+      else
+        predecessor_data = predecessor.data.journaled_attributes
+        data.journaled_attributes.select{|k,v| v != predecessor_data[k]}.each do |k, v|
+          @changes[k] = [predecessor_data[k], v]
+        end
+      end
+
+      @changes.merge!(get_association_changes predecessor, "attachable", "attachments", :attachment_id, :filename)
+      @changes.merge!(get_association_changes predecessor, "customizable", "custom_fields", :custom_field_id, :value)
+    end
+
+    @changes
+  end
+
+  def get_association_changes(predecessor, journal_association, association, key, value)
+    changes = {}
+    journal_assoc_name = "#{journal_association}_journals".to_sym
+
+    if predecessor.nil?
+      send(journal_assoc_name).each_with_object(changes) {|a, h| h["#{association}_#{a.send(key)}".to_sym] = [nil, a.send(value)] }
+    else
+      current = send(journal_assoc_name).map(&:attributes)
+      predecessor_attachable_journals = predecessor.send(journal_assoc_name).map(&:attributes)
+
+      merged_journals = JournalManager.merge_reference_journals_by_id current,
+                                                                      predecessor_attachable_journals,
+                                                                      key.to_s
+
+      changes.merge! JournalManager.added_references(merged_journals, association, value.to_s)
+      changes.merge! JournalManager.removed_references(merged_journals, association, value.to_s)
+      changes.merge! JournalManager.changed_references(merged_journals, association, value.to_s)
+    end
+
+    changes
+  end
+
+  def predecessor
+    @predecessor ||= Journal.where("journable_type = ? AND journable_id = ? AND id < ?",
+                                   journable_type, journable_id, id)
+                            .order("version DESC")
+                            .first
+  end
+
+  def journalized_object_type
+    "#{journaled_type.gsub('Journal', '')}".constantize
+  end
 end

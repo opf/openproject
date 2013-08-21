@@ -55,19 +55,20 @@ class JournalsController < ApplicationController
     @journal.destroy if @journal.details.empty? && @journal.notes.blank?
     call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
     respond_to do |format|
-      format.html { redirect_to :controller => "/#{@journal.journaled.class.name.pluralize.downcase}",
-        :action => 'show', :id => @journal.journaled_id }
+      format.html { redirect_to :controller => "/#{@journal.journable.class.name.pluralize.downcase}",
+        :action => 'show', :id => @journal.journable_id }
       format.js { render :action => 'update' }
     end
   end
 
   def diff
     if valid_field?(params[:field])
-      from = @journal.changed_data[params[:field]][0]
-      to = @journal.changed_data[params[:field]][1]
+      field = params[:field].parameterize.underscore.to_sym
+      from = @journal.changed_data[field][0]
+      to = @journal.changed_data[field][1]
 
       @diff = Redmine::Helpers::Diff.new(to, from)
-      @journaled = @journal.journaled
+      @journable = @journal.journable
       respond_to do |format|
         format.html { }
         format.js { render :partial => 'diff', :locals => { :diff => @diff } }
@@ -81,7 +82,7 @@ class JournalsController < ApplicationController
 
   def find_journal
     @journal = Journal.find(params[:id])
-    @project = @journal.journalized.project
+    @project = @journal.journable.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end

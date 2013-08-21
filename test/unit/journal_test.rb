@@ -16,27 +16,13 @@ class JournalTest < ActiveSupport::TestCase
 
   def setup
     super
-    @journal = WorkPackageJournal.find(1)
-  end
-
-  def test_journalized_is_an_issue
-    issue = @journal.journalized
-    assert_kind_of Issue, issue
-    assert_equal 1, issue.id
-  end
-
-  def test_new_status
-    status = @journal.new_status
-    assert_not_nil status
-    assert_kind_of IssueStatus, status
-    assert_equal 2, status.id
   end
 
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
     if issue.journals.empty?
-      issue.init_journal(User.current, "This journal represents the creationa of journal version 1")
+      issue.add_journal(User.current, "This journal represents the creationa of journal version 1")
       issue.save
     end
     user = User.find(:first)
@@ -50,7 +36,7 @@ class JournalTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
     user = User.find(:first)
-    journal = issue.init_journal(user, "A note")
+    journal = issue.add_journal(user, "A note")
     JournalObserver.instance.send_notification = false
 
     assert_difference("Journal.count") do
@@ -60,6 +46,7 @@ class JournalTest < ActiveSupport::TestCase
   end
 
   test "creating the initial journal should track the changes from creation" do
+    Journal.delete_all
     @project = Project.generate!
     issue = Issue.new do |i|
       i.project = @project
@@ -74,9 +61,9 @@ class JournalTest < ActiveSupport::TestCase
     end
 
     journal = issue.reload.journals.first
-    assert_equal ["","Test initial journal"], journal.changed_data["subject"]
-    assert_equal [0, @project.id], journal.changed_data["project_id"]
-    assert_equal [nil, "Some content"], journal.changed_data["description"]
+    assert_equal [nil,"Test initial journal"], journal.changed_data[:subject]
+    assert_equal [nil, @project.id], journal.changed_data[:project_id]
+    assert_equal [nil, "Some content"], journal.changed_data[:description]
   end
 
   test "creating a journal should update the updated_on value of the parent record (touch)" do
@@ -87,7 +74,7 @@ class JournalTest < ActiveSupport::TestCase
     sleep(1) # TODO: massive hack to make sure the timestamps are different. switch to timecop later
 
     assert_difference("Journal.count") do
-      @issue.init_journal(@user, "A note")
+      @issue.add_journal(@user, "A note")
       @issue.save
     end
 
@@ -97,15 +84,14 @@ class JournalTest < ActiveSupport::TestCase
   test "accessing #journaled on a Journal should not error (parent class)" do
     journal = Journal.new
     assert_nothing_raised do
-      assert_equal nil, journal.journaled
+      assert_equal nil, journal.journable
     end
   end
 
   test "setting journal fields through the journaled object for creation" do
     @issue = Issue.generate_for_project!(Project.generate!)
 
-    @issue.journal_user = @issue.author
-    @issue.journal_notes = 'Test setting fields on Journal from Issue'
+    @issue.add_journal @issue.author, 'Test setting fields on Journal from Issue'
     assert_difference('Journal.count') do
       assert @issue.save
     end

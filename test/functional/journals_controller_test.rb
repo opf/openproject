@@ -27,29 +27,49 @@ class JournalsControllerTest < ActionController::TestCase
   end
 
   def test_get_edit
+    issue = Issue.find(1)
+    journal = FactoryGirl.create :work_package_journal,
+                                 journable_id: issue.id
+    identifier = "journal-#{journal.id}"
+
     @request.session[:user_id] = 1
-    xhr :get, :edit, :id => 2
+    xhr :get, :edit, :id => journal.id
     assert_response :success
-    assert_select_rjs :insert, :after, 'journal-2-notes' do
-      assert_select 'form[id=journal-2-form]'
+    assert_select_rjs :insert, :after, "#{identifier}-notes" do
+      assert_select "form[id=#{identifier}-form]"
       assert_select 'textarea'
     end
   end
 
   def test_post_edit
+    issue = Issue.find(1)
+    journal = FactoryGirl.create :work_package_journal,
+                                 journable_id: issue.id,
+                                 data: FactoryGirl.build(:journal_work_package_journal)
+    identifier = "journal-#{journal.id}-notes"
+
     @request.session[:user_id] = 1
-    xhr :post, :update, :id => 2, :notes => 'Updated notes'
+    xhr :post, :update, :id => journal.id, :notes => 'Updated notes'
     assert_response :success
-    assert_select_rjs :replace, 'journal-2-notes'
-    assert_equal 'Updated notes', Journal.find(2).notes
+    assert_select_rjs :replace, identifier
+    assert_equal 'Updated notes', Journal.find(journal.id).notes
   end
 
   def test_post_edit_with_empty_notes
+    issue = Issue.find(1)
+    FactoryGirl.create :work_package_journal,
+                       journable_id: issue.id,
+                       data: FactoryGirl.build(:journal_work_package_journal)
+    journal = FactoryGirl.create :work_package_journal,
+                                 journable_id: issue.id,
+                                 data: FactoryGirl.build(:journal_work_package_journal)
+    identifier = "change-#{journal.id}"
+
     @request.session[:user_id] = 1
-    xhr :post, :update, :id => 2, :notes => ''
+    xhr :post, :update, :id => journal.id, :notes => ''
     assert_response :success
-    assert_select_rjs :remove, 'change-2'
-    assert_nil Journal.find_by_id(2)
+    assert_select_rjs :remove, identifier
+    assert_nil Journal.find_by_id(journal.id)
   end
 
   def test_index

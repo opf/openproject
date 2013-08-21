@@ -63,11 +63,6 @@ FactoryGirl.define do
       end
     end
 
-    factory :work_package_custom_field do
-      sequence(:name) { |n| "Work Package Custom Field #{n}" }
-      type "WorkPackageCustomField"
-    end
-
     factory :issue_custom_field do
       sequence(:name) { |n| "Issue Custom Field #{n}" }
       type "WorkPackageCustomField"

@@ -42,37 +42,45 @@ class IssuesHelperTest < HelperTestCase
   context "IssuesHelper#show_detail" do
     context "with no_html" do
       should 'show a changing attribute' do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {"done_ratio" => [40, 100]}
-          j.journaled = FactoryGirl.create :issue
-        end
-        assert_equal "% done changed from 40 to 100", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        issue = FactoryGirl.build :issue
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(issue)
+        journal.stubs(:details).returns({"done_ratio" => [40, 100]})
+
+        assert_equal "% done changed from 40 to 100", journal.render_detail(journal.details.to_a.first, :no_html => true)
       end
 
       should 'show a new attribute' do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {"done_ratio" => [nil, 100]}
-          j.journaled = FactoryGirl.create :issue
-        end
-        assert_equal "% done changed from 0 to 100", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        issue = FactoryGirl.build :issue
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(issue)
+        journal.stubs(:details).returns({"done_ratio" => [nil, 100]})
+
+        assert_equal "% done changed from 0 to 100", journal.render_detail(journal.details.to_a.first, :no_html => true)
       end
 
       should 'show a deleted attribute' do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {"done_ratio" => [50, nil]}
-          j.journaled = FactoryGirl.create :issue
-        end
-        assert_equal "% done changed from 50 to 0", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        issue = FactoryGirl.build :issue
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(issue)
+        journal.stubs(:details).returns({"done_ratio" => [50, nil]})
+
+        assert_equal "% done changed from 50 to 0", journal.render_detail(journal.details.to_a.first, :no_html => true)
       end
     end
 
     context "with html" do
       should 'show a changing attribute with HTML highlights' do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {"done_ratio" => [40, 100]}
-          j.journaled = FactoryGirl.create :issue
-        end
-        @response.body = @journal.render_detail(@journal.details.to_a.first, :no_html => false)
+        issue = FactoryGirl.build :issue
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(issue)
+        journal.stubs(:details).returns({"done_ratio" => [40, 100]})
+
+        @response.body = journal.render_detail(journal.details.to_a.first, :no_html => false)
 
         html_node = HTML::Document.new(@response.body)
         assert_select html_node.root, 'strong', :text => I18n.t(:done_ratio, :scope => [:activerecord,
@@ -83,11 +91,13 @@ class IssuesHelperTest < HelperTestCase
       end
 
       should 'show a new attribute with HTML highlights' do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {"done_ratio" => [nil, 100]}
-          j.journaled = FactoryGirl.create :issue
-        end
-        @response.body = @journal.render_detail(@journal.details.to_a.first, :no_html => false)
+        issue = FactoryGirl.build :issue
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(issue)
+        journal.stubs(:details).returns({"done_ratio" => [nil, 100]})
+
+        @response.body = journal.render_detail(journal.details.to_a.first, :no_html => false)
 
         html_node = HTML::Document.new(@response.body)
         assert_select html_node.root, 'strong', :text => I18n.t(:done_ratio, :scope => [:activerecord,
@@ -97,11 +107,13 @@ class IssuesHelperTest < HelperTestCase
       end
 
       should 'show a deleted attribute with HTML highlights' do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {"done_ratio" => [50, nil]}
-          j.journaled = FactoryGirl.create :issue
-        end
-        @response.body = @journal.render_detail(@journal.details.to_a.first, :no_html => false)
+        issue = FactoryGirl.build :issue
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(issue)
+        journal.stubs(:details).returns({"done_ratio" => [50, nil]})
+
+        @response.body = journal.render_detail(journal.details.to_a.first, :no_html => false)
 
         html_node = HTML::Document.new(@response.body)
         assert_select html_node.root, 'strong', :text => I18n.t(:done_ratio, :scope => [:activerecord,
@@ -112,37 +124,45 @@ class IssuesHelperTest < HelperTestCase
 
     context "with a start_date attribute" do
       should "format the current date" do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {"start_date" => ['2010-01-01', '2010-01-31']}
-          j.journaled = FactoryGirl.create :issue
-        end
-        assert_match "01/31/2010", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        issue = FactoryGirl.build :issue
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(issue)
+        journal.stubs(:details).returns({"start_date" => ['2010-01-01', '2010-01-31']})
+
+        assert_match "01/31/2010", journal.render_detail(journal.details.to_a.first, :no_html => true)
       end
 
       should "format the old date" do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {"start_date" => ['2010-01-01', '2010-01-31']}
-          j.journaled = FactoryGirl.create :issue
-        end
-        assert_match "01/01/2010", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        issue = FactoryGirl.build :issue
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(issue)
+        journal.stubs(:details).returns({"start_date" => ['2010-01-01', '2010-01-31']})
+
+        assert_match "01/01/2010", journal.render_detail(journal.details.to_a.first, :no_html => true)
       end
     end
 
     context "with a due_date attribute" do
       should "format the current date" do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {"due_date" => ['2010-01-01', '2010-01-31']}
-          j.journaled = FactoryGirl.create :issue
-        end
-        assert_match "01/31/2010", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        issue = FactoryGirl.build :issue
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(issue)
+        journal.stubs(:details).returns({"start_date" => ['2010-01-01', '2010-01-31']})
+
+        assert_match "01/31/2010", journal.render_detail(journal.details.to_a.first, :no_html => true)
       end
 
       should "format the old date" do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {"due_date" => ['2010-01-01', '2010-01-31']}
-          j.journaled = FactoryGirl.create :issue
-        end
-        assert_match "01/01/2010", @journal.render_detail(@journal.details.to_a.first, :no_html => true)
+        issue = FactoryGirl.build :issue
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(issue)
+        journal.stubs(:details).returns({"start_date" => ['2010-01-01', '2010-01-31']})
+
+        assert_match "01/01/2010", journal.render_detail(journal.details.to_a.first, :no_html => true)
       end
     end
 

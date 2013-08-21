@@ -504,11 +504,19 @@ class Query < ActiveRecord::Base
   # Returns the journals
   # Valid options are :order, :offset, :limit
   def work_package_journals(options={})
-    WorkPackageJournal.find :all, :joins => [:user, {:work_package => [:project, :author, :type, :status]}],
-                       :conditions => statement,
-                       :order => options[:order],
-                       :limit => options[:limit],
-                       :offset => options[:offset]
+    query = Journal.includes(:user)
+                   .where(journable_type: WorkPackage.to_s)
+                   .joins("INNER JOIN work_packages ON work_packages.id = journals.journable_id")
+                   .joins("INNER JOIN projects ON work_packages.project_id = projects.id")
+                   .joins("INNER JOIN users AS authors ON work_packages.author_id = authors.id")
+                   .joins("INNER JOIN types ON work_packages.type_id = types.id")
+                   .joins("INNER JOIN issue_statuses ON work_packages.status_id = issue_statuses.id")
+                   .where(statement)
+                   .order(options[:order])
+                   .limit(options[:limit])
+                   .offset(options[:offset])
+
+    query.find :all
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end

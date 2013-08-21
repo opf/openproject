@@ -53,7 +53,8 @@ module Redmine::Acts::Journalized
           def #{m}
             if last_journal.nil?
               begin
-                journals << self.class.journal_class.create(journal_attributes)
+                JournalManager.add_journal self
+                save!
                 reset_journal_changes
                 reset_journal
                 true
@@ -65,14 +66,14 @@ module Redmine::Acts::Journalized
               end
               journals.reload
             end
-            return last_journal.#{m}
+            return last_journal.data.#{m}
           end
         RUBY
       end
     end
 
     def event_url(options = {})
-      last_journal.event_url(options)
+      last_journal.data.event_url(options)
     end
 
     # deprecate :recipients => "use #last_journal.recipients"

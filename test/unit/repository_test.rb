@@ -51,6 +51,8 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_scan_changesets_for_work_package_ids
+    WorkPackage.all.each {|w| w.recreate_initial_journal!}
+
     Setting.default_language = 'en'
     Setting.notified_events = ['issue_added','issue_updated']
 

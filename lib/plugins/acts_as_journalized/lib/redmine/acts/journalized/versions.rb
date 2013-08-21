@@ -64,14 +64,14 @@ module Redmine::Acts::Journalized
       condition = (from_number == to_number) ? to_number : Range.new(*[from_number, to_number].sort)
       all(
         :conditions => {:version => condition},
-        :order => "#{table_name}.version #{(from_number > to_number) ? 'DESC' : 'ASC'}"
+        :order => "#{Journal.table_name}.version #{(from_number > to_number) ? 'DESC' : 'ASC'}"
       )
     end
 
     # Returns all journal records created before the journal associated with the given value.
     def before(value)
       return [] if (version = journal_at(value)).nil?
-      all(:conditions => "#{table_name}.version < #{version}")
+      all(:conditions => "#{Journal.table_name}.version < #{version}")
     end
 
     # Returns all journal records created after the journal associated with the given value.
@@ -79,7 +79,7 @@ module Redmine::Acts::Journalized
     # This is useful for dissociating records during use of the +reset_to!+ method.
     def after(value)
       return [] if (version = journal_at(value)).nil?
-      all(:conditions => "#{table_name}.version > #{version}")
+      all(:conditions => "#{Journal.table_name}.version > #{version}")
     end
 
     # Returns a single journal associated with the given value. The following formats are valid:
@@ -98,7 +98,7 @@ module Redmine::Acts::Journalized
     #   untouched.
     def at(value)
       case value
-        when Date, Time then last(:conditions => ["#{table_name}.created_at <= ?", value.to_time])
+        when Date, Time then last(:conditions => ["#{Journal.table_name}.created_at <= ?", value.to_time])
         when Numeric then find_by_version(value.floor)
         when Symbol then respond_to?(value) ? send(value) : nil
         when Journal then value

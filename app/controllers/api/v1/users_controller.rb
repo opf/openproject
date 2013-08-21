@@ -46,7 +46,7 @@ module Api
         @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
 
         events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
-        @events_by_day = events.group_by(&:event_date)
+        @events_by_day = events.map(&:data).group_by(&:event_date)
 
         unless User.current.admin?
           if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
