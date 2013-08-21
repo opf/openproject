@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0
+
+* `#1643` Public Release of Global Roles Plugin
+
 ## 1.0.0.pre4
 
 * adapted cukes to changed steps from core
