@@ -56,8 +56,6 @@ module Redmine::Acts::Journalized
         extend ClassMethods
         include InstanceMethods
 
-        after_save :create_journal, :if => :create_journal?
-
         class << self
           alias_method_chain :prepare_journaled_options, :creation
         end
@@ -141,33 +139,6 @@ module Redmine::Acts::Journalized
       end
 
       private
-        # Returns whether a new journal should be created upon updating the parent record.
-        # A new journal will be created if
-        # a) attributes have changed
-        # b) no previous journal exists
-        # c) journal notes were added
-        # d) the parent record is already saved
-        def create_journal?
-          update_journal
-          (journal_changes.present? or journal_notes.present? or journals.empty?) and !new_record?
-        end
-
-        # Creates a new journal upon updating the parent record.
-        # "update_journal" has been called in "update_journal?" at this point (to get a hold on association changes)
-        # It must not be called again here.
-        def create_journal
-          #journal = JournalManager.create_journal self.class, journal_attributes
-          #journals << journal
-          reset_journal_changes
-          reset_journal
-          true
-        rescue Exception => e # FIXME: What to do? This likely means that the parent record is invalid!
-          p e
-          p e.message
-          p e.backtrace
-          false
-        end
-
         # Returns an array of column names that should be included in the changes of created
         # journals. If <tt>vestal_journals_options[:only]</tt> is specified, only those columns
         # will be journaled. Otherwise, if <tt>vestal_journals_options[:except]</tt> is specified,
