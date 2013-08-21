@@ -36,11 +36,18 @@ module OpenProject::Documents
       ActiveRecord::Base.observers.push :document_observer
     end
 
+    initializer 'documents.precompile_assets' do
+      Rails.application.config.assets.precompile += %w(documents.css)
+    end
+
+    initializer "documents.register_hooks" do
+      require 'open_project/documents/hooks'
+    end
+
     config.before_configuration do |app|
       # This is required for the routes to be loaded first
       # as the routes should be prepended so they take precedence over the core.
       app.config.paths['config/routes'].unshift File.join(File.dirname(__FILE__), "..", "..", "..", "config", "routes.rb")
-
     end
 
     initializer "remove_duplicate_documents_routes", :after => "add_routing_paths" do |app|
@@ -60,10 +67,8 @@ module OpenProject::Documents
       require_dependency 'open_project/documents/patches/project_patch'
       require_dependency 'open_project/documents/patches/application_helper_patch'
       require_dependency 'open_project/documents/patches/custom_fields_helper_patch'
-    end
-
-    config.after_initialize do |app|
-      HelpController.view_paths.unshift("#{config.root}/app/views")
+      require_dependency 'document_category'
+      require_dependency 'document_category_custom_field'
     end
   end
 end
