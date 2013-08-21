@@ -181,6 +181,9 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_destroying_root_projects_should_clear_data
+    Journal.delete_all
+    WorkPackage.all.each(&:recreate_initial_journal!)
+
     Project.roots.each do |root|
       root.destroy
     end
