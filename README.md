@@ -15,7 +15,7 @@ Requirements
 ------------
 
 The Meetings plugin currently requires the [OpenProject Core](https://github.com/opf/openproject/) in
-version 3.0.0pre9 or newer.
+version 3.0.0pre9 to 3.0.0pre12.
 
 
 Installation
