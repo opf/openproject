@@ -2,7 +2,7 @@ require_dependency 'users_helper'
 
 module OpenProject::GlobalRoles::Patches
   module UsersHelperPatch
-    def self.included(base) # :nodoc:
+    def self.included(base)
       base.send(:include, InstanceMethods)
 
       base.class_eval do

@@ -2,7 +2,7 @@ require_dependency "roles_helper"
 
 module OpenProject::GlobalRoles::Patches
   module RolesHelperPatch
-    def self.included(base) # :nodoc:
+    def self.included(base)
       base.class_eval do
 
         def permissions_id permissions

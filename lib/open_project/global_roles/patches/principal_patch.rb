@@ -1,6 +1,6 @@
 module OpenProject::GlobalRoles::Patches
   module PrincipalPatch
-    def self.included(base) # :nodoc:
+    def self.included(base)
       base.class_eval do
 
         has_many :principal_roles, :dependent => :destroy
