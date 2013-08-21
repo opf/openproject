@@ -121,14 +121,16 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
       context ".xml" do
 
         setup do
+          Journal.delete_all
+
           FactoryGirl.create :work_package_journal,
                              journable_id: 1,
                              data: FactoryGirl.build(:journal_work_package_journal,
-                                                                    status_id: 1)
+                                                     status_id: 1)
           @journal_to = FactoryGirl.create :work_package_journal,
                                            journable_id: 1,
                                            data: FactoryGirl.build(:journal_work_package_journal,
-                                                                  status_id: 2)
+                                                                   status_id: 2)
         end
 
         should "display journals" do

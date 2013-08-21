@@ -696,6 +696,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_should_send_email_notification
+    Journals.delete_all
     ActionMailer::Base.deliveries.clear
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
@@ -712,6 +713,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_stale_issue_should_not_send_email_notification
+    Journals.delete_all
     ActionMailer::Base.deliveries.clear
     i = FactoryGirl.create :issue
     i.add_journal(User.find(1))
@@ -1026,6 +1028,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_should_not_send_email_notification_if_told_not_to
+    Journals.delete_all
     ActionMailer::Base.deliveries.clear
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
