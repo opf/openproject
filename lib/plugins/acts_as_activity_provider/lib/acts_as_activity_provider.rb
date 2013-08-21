@@ -67,8 +67,6 @@ module Redmine
               scope_options[:limit] = options[:limit]
             end
 
-            journal_class = JournalManager.journal_class(self)
-
             self.with_scope(:find => scope_options) do
               self.includes(:journals, provider_options[:find_options][:include])
             end
