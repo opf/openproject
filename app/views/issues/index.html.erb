@@ -96,6 +96,9 @@ See doc/COPYRIGHT.rdoc for more details.
 	<%= f.link_to 'Atom', :url => { :project_id => @project, :query_id => (@query.new_record? ? nil : @query), :key => User.current.rss_key } %>
 	<%= f.link_to 'CSV', :url => { :project_id => @project } %>
 	<%= f.link_to 'PDF', :url => { :project_id => @project } %>
+    <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => @project,
+                                                                  :show_descriptions => true,
+                                                                  :format => 'pdf' } %>
 <% end if User.current.allowed_to? :export_issues, @project, :global => @project.nil? %>
 
 <% end %>

@@ -1,5 +1,8 @@
 # Changelog
 
+* `#1724` PDF Export of Work Packages with Description
+* `#1731` Squash old migrations into one
+
 ## 3.0.0pre12
 
 * `#1417` Enable default behavior for types

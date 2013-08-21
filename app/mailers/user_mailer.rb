@@ -267,6 +267,28 @@ class UserMailer < ActionMailer::Base
     "#{hash}@#{host}"
   end
 
+protected
+
+  # Option 1 to take out an html part: Leave the part out
+  # while creating the mail. Since rails internally uses three
+  # different ways to create a mail (passing a block, giving parameters
+  # with optional template, or passing the body directly), we would have
+  # to replicate a lot of rails code to modify all three ways.
+  # Therefore, we use option 2: modiyfing the set of parts rails
+  # created internally as a result of the above ways, as this is
+  # much shorter.
+  # On the downside, this might break if ActionMailer changes the signature
+  # or semantics of the following funtion. However, we should at least
+  # notice this as there are tests for checking the no-html setting.
+  def collect_responses_and_parts_order(headers)
+    responses, parts_order = super(headers)
+    if Setting.plain_text_mail?
+      responses.delete_if { |response| response[:content_type]=="text/html" }
+      parts_order.delete_if { |part| part == "text/html"} unless parts_order.nil?
+    end
+    [responses, parts_order]
+  end
+
 private
 
   def self.host
@@ -283,13 +305,6 @@ private
 
   def self.default_url_options
     super.merge :host => host, :protocol => protocol
-  end
-
-  def mail(headers = {})
-    super(headers) do |format|
-      format.text
-      format.html unless Setting.plain_text_mail?
-    end
   end
 
   def message_id(object)
@@ -311,14 +326,20 @@ private
   end
 end
 
-# interceptors
+##
+# Interceptors
+#
+# These are registered in config/initializers/register_mail_interceptors.rb
+#
+# Unfortunately, this results in changes on the interceptor classes during development mode
+# not being reflected until a server restart.
 
 class DefaultHeadersInterceptor
-  def delivering_email(mail)
+  def self.delivering_email(mail)
     mail.headers(default_headers)
   end
 
-  def default_headers
+  def self.default_headers
     {
       'X-Mailer'           => 'OpenProject',
       'X-OpenProject-Host' => Setting.host_name,
@@ -330,7 +351,7 @@ class DefaultHeadersInterceptor
 end
 
 class RemoveSelfNotificationsInterceptor
-  def delivering_email(mail)
+  def self.delivering_email(mail)
     current_user = User.current
     if current_user.pref[:no_self_notified].present?
       mail.to = mail.to.reject {|address| address == current_user.mail} if mail.to.present?
@@ -339,17 +360,11 @@ class RemoveSelfNotificationsInterceptor
 end
 
 class DoNotSendMailsWithoutReceiverInterceptor
-  def delivering_email(mail)
+  def self.delivering_email(mail)
     mail.perform_deliveries = false if mail.to.blank?
   end
 end
 
-# register interceptors
-
-UserMailer.register_interceptor(DefaultHeadersInterceptor.new)
-UserMailer.register_interceptor(RemoveSelfNotificationsInterceptor.new)
-# following needs to be the last interceptor
-UserMailer.register_interceptor(DoNotSendMailsWithoutReceiverInterceptor.new)
 
 # helper object for `rake redmine:send_reminders`
 
