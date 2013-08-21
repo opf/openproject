@@ -7,6 +7,6 @@ class AddCustomizableJournal < ActiveRecord::Migration
     end
 
     add_index :customizable_journals, :journal_id
-    add_index :customizable_journals, [:journal_id, :custom_field_id], unique: true
+    add_index :customizable_journals, :custom_field_id
   end
 end

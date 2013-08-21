@@ -7,6 +7,6 @@ class AddAttachableJournal < ActiveRecord::Migration
     end
 
     add_index :attachable_journals, :journal_id
-    add_index :attachable_journals, [:journal_id, :attachment_id], unqiue: true
+    add_index :attachable_journals, :attachment_id
   end
 end
