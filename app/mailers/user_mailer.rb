@@ -324,14 +324,20 @@ private
   end
 end
 
-# interceptors
+##
+# Interceptors
+#
+# These are registered in config/initializers/register_mail_interceptors.rb
+#
+# Unfortunately, this results in changes on the interceptor classes during development mode
+# not being reflected until a server restart.
 
 class DefaultHeadersInterceptor
-  def delivering_email(mail)
+  def self.delivering_email(mail)
     mail.headers(default_headers)
   end
 
-  def default_headers
+  def self.default_headers
     {
       'X-Mailer'           => 'OpenProject',
       'X-OpenProject-Host' => Setting.host_name,
@@ -343,7 +349,7 @@ class DefaultHeadersInterceptor
 end
 
 class RemoveSelfNotificationsInterceptor
-  def delivering_email(mail)
+  def self.delivering_email(mail)
     current_user = User.current
     if current_user.pref[:no_self_notified].present?
       mail.to = mail.to.reject {|address| address == current_user.mail} if mail.to.present?
@@ -352,17 +358,11 @@ class RemoveSelfNotificationsInterceptor
 end
 
 class DoNotSendMailsWithoutReceiverInterceptor
-  def delivering_email(mail)
+  def self.delivering_email(mail)
     mail.perform_deliveries = false if mail.to.blank?
   end
 end
 
-# register interceptors
-
-UserMailer.register_interceptor(DefaultHeadersInterceptor.new)
-UserMailer.register_interceptor(RemoveSelfNotificationsInterceptor.new)
-# following needs to be the last interceptor
-UserMailer.register_interceptor(DoNotSendMailsWithoutReceiverInterceptor.new)
 
 # helper object for `rake redmine:send_reminders`
 
