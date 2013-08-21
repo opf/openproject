@@ -44,26 +44,26 @@ module Redmine::Acts::Journalized
     end
 
     def save_journals
-      @journaled_user ||= User.current
-      @journaled_notes ||= ""
+      @journal_user ||= User.current
+      @journal_notes ||= ""
 
-      add_journal = journals.empty? || JournalManager.changed?(self) || !@journaled_notes.empty?
+      add_journal = journals.empty? || JournalManager.changed?(self) || !@journal_notes.empty?
 
-      JournalManager.add_journal self, @journaled_user, @journaled_notes if add_journal
+      JournalManager.add_journal self, @journal_user, @journal_notes if add_journal
 
       journals.select{|j| j.new_record?}.each {|j| j.save}
 
-      @journaled_user = nil
-      @journaled_notes = nil
+      @journal_user = nil
+      @journal_notes = nil
     end
 
     def add_journal(user = User.current, notes = "")
-      @journaled_user ||= user
-      @journaled_notes ||= notes
+      @journal_user ||= user
+      @journal_notes ||= notes
     end
 
-    # Saves the current custom values, notes and journal to include them in the next journal
-    # Called before save
+    ## Saves the current custom values, notes and journal to include them in the next journal
+    ## Called before save
     #def init_journal(user = User.current, notes = "")
     #  @journal_notes ||= notes
     #  @journal_user ||= user
@@ -76,68 +76,68 @@ module Redmine::Acts::Journalized
     #  @current_journal ||= last_journal
     #end
 
-    # Saves the notes and custom value changes in the last Journal
-    # Called before create_journal
-    def update_journal
-      unless (@associations || {}).empty?
-        changed_associations = {}
-        changed_associations.merge!(possibly_updated_association :custom_values)
-        changed_associations.merge!(possibly_updated_association :attachments)
-      end
+    ## Saves the notes and custom value changes in the last Journal
+    ## Called before create_journal
+    #def update_journal
+    #  unless (@associations || {}).empty?
+    #    changed_associations = {}
+    #    changed_associations.merge!(possibly_updated_association :custom_values)
+    #    changed_associations.merge!(possibly_updated_association :attachments)
+    #  end
 
-      unless changed_associations.blank?
-        update_extended_journal_contents(changed_associations)
-      end
-    end
+    #  unless changed_associations.blank?
+    #    update_extended_journal_contents(changed_associations)
+    #  end
+    #end
 
-    def reset_instance_variables
-      if last_journal != @current_journal
-        if last_journal.user != @journal_user
-          last_journal.update_attribute(:user_id, @journal_user.id)
-        end
-      end
-      @associations_before_save = @current_journal = @journal_notes = @journal_user = @extra_journal_attributes = nil
-    end
+    #def reset_instance_variables
+    #  if last_journal != @current_journal
+    #    if last_journal.user != @journal_user
+    #      last_journal.update_attribute(:user_id, @journal_user.id)
+    #    end
+    #  end
+    #  @associations_before_save = @current_journal = @journal_notes = @journal_user = @extra_journal_attributes = nil
+    #end
 
-    def save_possible_association(method, options)
-      @associations[method] = options
-      if self.respond_to? method
-        @associations_before_save[method] ||= send(method).inject({}) do |hash, cv|
-          hash[cv.send(options[:key])] = cv.send(options[:value])
-          hash
-        end
-      end
-    end
+    #def save_possible_association(method, options)
+    #  @associations[method] = options
+    #  if self.respond_to? method
+    #    @associations_before_save[method] ||= send(method).inject({}) do |hash, cv|
+    #      hash[cv.send(options[:key])] = cv.send(options[:value])
+    #      hash
+    #    end
+    #  end
+    #end
 
-    def possibly_updated_association(method)
-      if @associations_before_save[method]
-        # Has custom values from init_journal_notes
-        return changed_associations(method, @associations_before_save[method])
-      end
-      {}
-    end
+    #def possibly_updated_association(method)
+    #  if @associations_before_save[method]
+    #    # Has custom values from init_journal_notes
+    #    return changed_associations(method, @associations_before_save[method])
+    #  end
+    #  {}
+    #end
 
-    # Saves the notes and changed custom values to the journal
-    # Creates a new journal, if no immediate attributes were changed
-    def update_extended_journal_contents(changed_associations)
-      journal_changes.merge!(changed_associations)
-    end
+    ## Saves the notes and changed custom values to the journal
+    ## Creates a new journal, if no immediate attributes were changed
+    #def update_extended_journal_contents(changed_associations)
+    #  journal_changes.merge!(changed_associations)
+    #end
 
-    def changed_associations(method, previous)
-      send(method).reload # Make sure the associations are reloaded
-      send(method).inject({}) do |hash, c|
-        key = c.send(@associations[method][:key])
-        new_value = c.send(@associations[method][:value])
+    #def changed_associations(method, previous)
+    #  send(method).reload # Make sure the associations are reloaded
+    #  send(method).inject({}) do |hash, c|
+    #    key = c.send(@associations[method][:key])
+    #    new_value = c.send(@associations[method][:value])
 
-        if previous[key].blank? && new_value.blank?
-          # The key was empty before, don't add a blank value
-        elsif previous[key] != new_value
-          # The key's value changed
-          hash["#{method}#{key}"] = [previous[key], new_value]
-        end
-        hash
-      end
-    end
+    #    if previous[key].blank? && new_value.blank?
+    #      # The key was empty before, don't add a blank value
+    #    elsif previous[key] != new_value
+    #      # The key's value changed
+    #      hash["#{method}#{key}"] = [previous[key], new_value]
+    #    end
+    #    hash
+    #  end
+    #end
 
     module ClassMethods
     end
