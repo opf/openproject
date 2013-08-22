@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.2
+
+* `#1602` Copyright notice updates and wiring to specific Core versions because of coming update to acts_as_journalized
+
 ## 3.0.1
 
 * `#1673` Fixed missing translation in diff view
