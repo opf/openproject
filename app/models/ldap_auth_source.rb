@@ -39,7 +39,7 @@ class LdapAuthSource < AuthSource
     ldap_con = initialize_ldap_con(self.account, self.account_password)
     ldap_con.open { }
   rescue  Net::LDAP::LdapError => text
-    raise "LdapError: " + text
+    raise "LdapError: " + text.to_s
   end
 
   def auth_method_name
