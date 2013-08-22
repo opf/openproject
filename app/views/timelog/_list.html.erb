@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <td class="project"><%= link_to_project(entry.project) %></td>
 <td class="subject">
 <% if entry.work_package -%>
-<%= entry.work_package.visible? ? link_to_issue(entry.work_package, :truncate => 50) : "##{entry.work_package.id}" -%>
+<%= entry.work_package.visible? ? link_to_work_package(entry.work_package, :truncate => 50) : "##{entry.work_package.id}" -%>
 <% end -%>
 </td>
 <td class="comments"><%=h entry.comments %></td>

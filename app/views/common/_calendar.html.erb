@@ -37,7 +37,7 @@ while day <= calendar.enddt %>
                                     :class => "imgtag-icon") %>
   <% end %>
 
-  <%= link_to_issue i, :truncate => 30, :before_text => date_img %>
+  <%= link_to_work_package i, :truncate => 30, :before_text => date_img %>
   <span class="tip"><%= render_issue_tooltip i %></span>
   </div>
   <% else %>

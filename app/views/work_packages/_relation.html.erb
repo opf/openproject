@@ -14,7 +14,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <td>
     <%= l(relation.label_for(work_package)) %> <%= "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)})" if relation.delay && relation.delay != 0 %>
     <%= h(relation.other_issue(work_package).project) + ' - ' if Setting.cross_project_issue_relations? %>
-    <%= link_to_issue(relation.other_issue(work_package), :truncate => 60) %>
+    <%= link_to_work_package(relation.other_issue(work_package), :truncate => 60) %>
   </td>
   <% unless relation.other_issue(work_package).type.is_standard %>
     <td>
