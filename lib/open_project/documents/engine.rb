@@ -11,12 +11,12 @@ module OpenProject::Documents
 
         name 'OpenProject Documents'
         author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
-        author_url spec.homepage
+        author_url "http://www.finn.de"
         description spec.description
         version spec.version
-        url 'https://www.openproject.org/projects/documents'
+        url spec.homepage
 
-        requires_openproject ">= 3.0.0pre12"
+        requires_openproject "= 3.0.0pre13"
 
         menu :project_menu, :documents, { :controller => '/documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
 
