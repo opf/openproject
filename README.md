@@ -14,7 +14,7 @@ A more detailed feature tour can be found [here](https://www.openproject.org/pro
 Requirements
 ------------
 
-The Meetings plugin currently requires the [OpenProject Core](https://github.com/opf/openproject/) in
+The Meeting plugin currently requires the [OpenProject Core](https://github.com/opf/openproject/) in
 version 3.0.0pre9 to 3.0.0pre12.
 
 
