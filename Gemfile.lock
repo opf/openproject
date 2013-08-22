@@ -189,7 +189,7 @@ GEM
     paper_trail (2.7.1)
       activerecord (~> 3.0)
       railties (~> 3.0)
-    pg (0.15.1)
+    pg (0.16.0)
     polyglot (0.3.3)
     prototype-rails (3.2.1)
       rails (~> 3.2)
