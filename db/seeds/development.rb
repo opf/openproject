@@ -53,6 +53,9 @@ timeline.name = "Sample Timeline"
 timeline.options.merge!({zoom_factor: ["4"]})
 timeline.save
 
+board = Board.create project: project,
+                     name: Faker::Lorem.words(2).join(" "),
+                     description: Faker::Lorem.paragraph(5)
 
 
 print "Creating issues and planning-elements..."
@@ -163,14 +166,38 @@ print "Creating issues and planning-elements..."
                                               due_date: sub_due_date)
     end
 
+  ## create some messages
+
+  puts ""
+  print "......create messages"
+
+  rand(30).times do
+    print "."
+    message = Message.create board: board,
+                             author: user,
+                             subject: Faker::Lorem.words(5).join(" "),
+                             content: Faker::Lorem.paragraph(5, true, 3)
+
+    rand(5).times do
+      print "."
+      child_message = Message.create board: board,
+                                     author: user,
+                                     subject: message.subject,
+                                     content: Faker::Lorem.paragraph(5, true, 3),
+                                     parent: message
+    end
+  end
+
 
   end
 
 
 
 end
+
 print "done."
 puts "\n"
 puts "#{PlanningElement.where(:project_id => project.id).count} planning_elements created."
 puts "#{Issue.where(:project_id => project.id).count} issues created."
+puts "#{Message.joins(:board).where(boards: { :project_id => project.id }).count} messages created."
 puts "Creating seeded project...done."
