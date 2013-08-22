@@ -275,7 +275,30 @@ repository = Repository::Filesystem.create! project: project,
     end
   end
 
+  ## create some news
 
+  puts ""
+  print "......create news"
+
+  rand(30).times do
+    print "."
+    news = News.create project: project,
+                       author: user,
+                       title: Faker::Lorem.characters(60),
+                       summary: Faker::Lorem.paragraph(1, true, 3),
+                       description: Faker::Lorem.paragraph(5, true, 3)
+
+    ## create some journal entries
+
+    rand(5).times do
+      news.reload
+
+      news.title = Faker::Lorem.words(5).join(" ") if rand(99).even?
+      news.summary = Faker::Lorem.paragraph(1, true, 3) if rand(99).even?
+      news.description = Faker::Lorem.paragraph(5, true, 3) if rand(99).even?
+
+      news.save!
+    end
   end
 
   ## create some wiki pages
@@ -311,6 +334,7 @@ puts "\n"
 puts "#{PlanningElement.where(:project_id => project.id).count} planning_elements created."
 puts "#{Issue.where(:project_id => project.id).count} issues created."
 puts "#{Message.joins(:board).where(boards: { :project_id => project.id }).count} messages created."
+puts "#{News.where(:project_id => project.id).count} news created."
 puts "#{WikiContent.joins(page: [ :wiki ]).where("wikis.project_id = ?", project.id).count} wiki contents created."
 puts "#{TimeEntry.where(:project_id => project.id).count} time entries created."
 puts "#{Changeset.joins(:repository).where(repositories: { :project_id => project.id }).count} changesets created."
