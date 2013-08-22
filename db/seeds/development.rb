@@ -67,7 +67,7 @@ wiki = Wiki.create project: project, start_page: "Seed"
 
 time_entry_activities = []
 
-rand(5).times do
+5.times do
   time_entry_activity = TimeEntryActivity.create name: Faker::Lorem.words(2).join(" ")
 
   time_entry_activity.save!
