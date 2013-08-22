@@ -6,17 +6,70 @@ module OpenProject::Plugins
         ActiveSupport::Inflector.demodulize(base).downcase
       end
 
-      base.send(:define_method, :patch) do |target, patch|
-        OpenProject::Plugins::PatchRegistry.register(target, patch)
+      # Don't use the PatchRegistry for now, as the core classes doesn't notify of class loading
+      # Use the old config.to_prepare method, but we can hopefully someday switch to on-demand
+      # patching once the PatchRegistry works.
+
+      # base.send(:define_method, :patch) do |target, patch|
+      #   OpenProject::Plugins::PatchRegistry.register(target, patch)
+      # end
+
+      # Disable LoadDependency for the same reason
+      # base.send(:define_method, :load_dependent) do |target, *dependencies|
+      #   OpenProject::Plugins::LoadDependency.register(target, *dependencies)
+      # end
+
+      # Patch classes
+      #
+      # Looks for patches via autoloading in
+      # <plugin root>/lib/openproject/<plugin name>/patches/<patched_class>_patch.rb
+      # Make sure the patch module has the name the Rails autoloading expects.
+      #
+      # Example:
+      #  patches [:IssuesController]
+      # This looks for OpenProject::XlsExport::Patches::IssuesControllerPatch
+      #  in openproject/xls_export/patches/issues_controller_patch.rb
+      base.send(:define_method, :patches) do |patched_classes|
+        plugin_name = engine_name
+        base.config.to_prepare do
+          patched_classes.each do |klass_name|
+            plugin_module = plugin_name.sub(/^openproject_/, '').camelcase
+            patch = "OpenProject::#{plugin_module}::Patches::#{klass_name.to_s}Patch".constantize
+            klass = klass_name.to_s.constantize
+            klass.send(:include, patch) unless klass.included_modules.include?(patch)
+          end
+        end
       end
 
-      base.send(:define_method, :load_dependent) do |target, *dependencies|
-        OpenProject::Plugins::LoadDependency.register(target, *dependencies)
-      end
-
+      # Define assets provided by the plugin
       base.send(:define_method, :assets) do |assets|
-        base.initializer '#{name}.precompile_assets' do |app|
+        base.initializer '#{engine_name}.precompile_assets' do |app|
           app.config.assets.precompile += assets.to_a
+        end
+      end
+
+      # Register a plugin with OpenProject
+      #
+      # readable_name: The plugin name shown in the OpenProject administration
+      # gem_name:      The gem name, used for querying the gem for metadata like author
+      # options:       An options Hash, at least :requires_openproject is recommended to
+      #                define the minimal version of OpenProject the plugin is compatible with
+      #                Another common option is :author_url.
+      base.send(:define_method, :register) do |readable_name, gem_name, options|
+        base.initializer "#{engine_name}.register_plugin" do
+          spec = Bundler.environment.specs[gem_name][0]
+
+          Redmine::Plugin.register engine_name.to_sym do
+            name readable_name
+            author spec.authors.kind_of?(Array) ? spec.authors[0] : spec.authors
+            description spec.description
+            version spec.version
+            url spec.homepage
+
+            options.each do |name, value|
+              send(name, value)
+            end
+          end
         end
       end
 
@@ -26,10 +79,10 @@ module OpenProject::Plugins
         config.before_configuration do |app|
           # This is required for the routes to be loaded first
           # as the routes should be prepended so they take precedence over the core.
-          app.config.paths['config/routes'].unshift File.join(File.dirname(__FILE__), "..", "..", "..", "config", "routes.rb")
+          app.config.paths['config/routes'].unshift File.join(config.root, "config", "routes.rb")
         end
 
-        initializer "#{name}.remove_duplicate_routes", :after => "add_routing_paths" do |app|
+        initializer "#{engine_name}.remove_duplicate_routes", :after => "add_routing_paths" do |app|
           # removes duplicate entry from app.routes_reloader
           # As we prepend the plugin's routes to the load_path up front and rails
           # adds all engines' config/routes.rb later, we have double loaded the routes
@@ -37,12 +90,12 @@ module OpenProject::Plugins
           app.routes_reloader.paths.uniq!
         end
 
-        initializer "#{name}.register_test_paths" do |app|
+        initializer "#{engine_name}.register_test_paths" do |app|
           app.config.plugins_to_test_paths << self.root
         end
 
         # adds our factories to factory girl's load path
-        initializer "#{name}.register_factories", :after => "factory_girl.set_factory_paths" do |app|
+        initializer "#{engine_name}.register_factories", :after => "factory_girl.set_factory_paths" do |app|
           FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
         end
       end
