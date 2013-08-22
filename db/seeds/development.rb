@@ -6,7 +6,7 @@ begin
   set_language_if_valid('en')
   Redmine::DefaultData::Loader.load(current_language)
   puts "Default configuration data loaded."
-rescue Redmine::DefaultData::DataAlreadyLoaded => error
+rescue Redmine::DefaultData::DataAlreadyLoaded
   puts "Redmine Default-Data already loaded"
 end
 
@@ -101,12 +101,12 @@ print "Creating objects for..."
 
   rand(10).times do
     print "."
-    issue = Issue.create!(project: project,
-                          author: user,
-                          status: statuses.sample,
-                          subject: Faker::Lorem.words(8).join(" "),
-                          description: Faker::Lorem.paragraph(5, true,3),
-                          type: types.sample
+    Issue.create!(project: project,
+                  author: user,
+                  status: statuses.sample,
+                  subject: Faker::Lorem.words(8).join(" "),
+                  description: Faker::Lorem.paragraph(5, true,3),
+                  type: types.sample
     )
 
   end
@@ -278,11 +278,11 @@ print "Creating objects for..."
 
     rand(5).times do
       print "."
-      child_message = Message.create board: board,
-                                     author: user,
-                                     subject: message.subject,
-                                     content: Faker::Lorem.paragraph(5, true, 3),
-                                     parent: message
+      Message.create board: board,
+                     author: user,
+                     subject: message.subject,
+                     content: Faker::Lorem.paragraph(5, true, 3),
+                     parent: message
     end
   end
 
