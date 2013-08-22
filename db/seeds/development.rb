@@ -30,6 +30,22 @@ types = project.types.all.reject{|type| type.is_milestone?}
 
 project.enabled_module_names += ["timelines"]
 
+# create some custom fields and add them to the project
+3.times do |count|
+  cf = WorkPackageCustomField.create!(name: Faker::Lorem.words(2).join(" "),
+                                      regexp: "",
+                                      is_required: false,
+                                      min_length: false,
+                                      default_value: "",
+                                      max_length: false,
+                                      editable: true,
+                                      possible_values: "",
+                                      visible: true,
+                                      field_format: "text")
+
+  project.work_package_custom_fields << cf
+end
+
 # create a default timeline that shows all our planning elements
 timeline = Timeline.create()
 timeline.project = project
@@ -70,7 +86,53 @@ print "Creating issues and planning-elements..."
 
   end
 
+  ## extend user's last issue
+  created_issues = WorkPackage.find :all, conditions: { author_id: user.id }
 
+  if !created_issues.empty?
+    issue = created_issues.last
+
+    ## add attachments
+
+    3.times do |count|
+      issue.attachments << Attachment.new(author: user,
+                                          filename: Faker::Lorem.words(8).join(" "),
+                                          disk_filename: Faker::Lorem.words(8).join("_"))
+    end
+
+    ## add custom values
+
+    project.work_package_custom_fields.each do |custom_field|
+      issue.type.custom_fields << custom_field if !issue.type.custom_fields.include?(custom_field)
+      issue.custom_values << CustomValue.new(custom_field: custom_field, value: Faker::Lorem.words(8).join(" "))
+    end
+
+    issue.type.save!
+    issue.save!
+
+    ## create some changes
+
+    20.times do
+      issue.reload
+
+      issue.status = statuses.sample if rand(99).even?
+      issue.subject = Faker::Lorem.words(8).join(" ") if rand(99).even?
+      issue.description = Faker::Lorem.paragraph(5, true,3) if rand(99).even?
+      issue.type = types.sample if rand(99).even?
+
+      attachments = issue.attachments
+
+      attachments.each do |a|
+        issue.attachments.delete a if rand(99).even?
+      end
+
+      issue.custom_values.each do |cv|
+        cv.value = Faker::Code.isbn if rand(99).even?
+      end
+
+      issue.save!
+    end
+  end
 
   rand(30).times do
     print "."
