@@ -69,6 +69,12 @@ rand(5).times do
   time_entry_activities << time_entry_activity
 end
 
+Setting.enabled_scm = Setting.enabled_scm.dup << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
+
+repository = Repository::Filesystem.create! project: project,
+                                            url: Faker::Internet.url()
+
+
 20.times do |count|
   login = "#{Faker::Name.first_name}#{rand(10000)}"
 
@@ -104,6 +110,44 @@ end
 
   if !created_issues.empty?
     issue = created_issues.last
+
+    ## add changesets
+
+    2.times do |count|
+      print "."
+      changeset = Changeset.create(repository: repository,
+                                   user: user,
+                                   revision: issue.id * 10 + count,
+                                   scmid: issue.id * 10 + count,
+                                   user: user,
+                                   work_packages: [issue],
+                                   committer: Faker::Name.name,
+                                   committed_on: Date.today,
+                                   comments: Faker::Lorem.words(8).join(" "))
+
+      5.times do
+        print "."
+        change = Change.create(action: Faker::Lorem.word,
+                               path: Faker::Internet.url)
+
+        changeset.changes << change
+      end
+
+      repository.changesets << changeset
+
+      changeset.save!
+
+      rand(5).times do
+        print "."
+        changeset.reload
+
+        changeset.committer = Faker::Name.name if rand(99).even?
+        changeset.committed_on = Date.today + rand(999) if rand(99).even?
+        changeset.comments = Faker::Lorem.words(8).join(" ") if rand(99).even?
+
+        changeset.save!
+      end
+    end
 
     ## add time entries
 
@@ -253,4 +297,5 @@ puts "#{Issue.where(:project_id => project.id).count} issues created."
 puts "#{Message.joins(:board).where(boards: { :project_id => project.id }).count} messages created."
 puts "#{WikiContent.joins(page: [ :wiki ]).where("wikis.project_id = ?", project.id).count} wiki contents created."
 puts "#{TimeEntry.where(:project_id => project.id).count} time entries created."
+puts "#{Changeset.joins(:repository).where(repositories: { :project_id => project.id }).count} changesets created."
 puts "Creating seeded project...done."
