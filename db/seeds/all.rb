@@ -18,6 +18,7 @@
 # not fixing stuff!
 Project
 
+# clear some schema caches and column information.
 [Type, PlanningElementTypeColor, Role, User].each do |klass|
   klass.connection.schema_cache.clear!
   klass.reset_column_information
