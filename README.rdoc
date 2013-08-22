@@ -1,9 +1,0 @@
-= Additional Formats
-
-This plugin provides additional formats for exporting.
-A printable html view for issues lists and an excel builder 
-used for issue exports and optionally (as a soft dependency)
-for the cost reports of the redmine_costs plugin.
-
-== Required gems
-spreadsheet (>= 0.6.4.1)
