@@ -57,6 +57,7 @@ board = Board.create project: project,
                      name: Faker::Lorem.words(2).join(" "),
                      description: Faker::Lorem.paragraph(5)
 
+wiki = Wiki.create project: project, start_page: "Seed"
 
 print "Creating issues and planning-elements..."
 20.times do |count|
@@ -191,8 +192,32 @@ print "Creating issues and planning-elements..."
 
   end
 
+  ## create some wiki pages
 
+  rand(5).times do
+    print "."
+    wiki_page = WikiPage.create wiki: wiki,
+                                title: Faker::Lorem.words(5).join(" ")
 
+    ## create some wiki contents
+
+    rand(5).times do
+      print "."
+      wiki_content = WikiContent.create page: wiki_page,
+                                        author: user,
+                                        text: Faker::Lorem.paragraph(5, true, 3)
+
+      ## create some journal entries
+
+      rand(5).times do
+        wiki_content.reload
+
+        wiki_content.text = Faker::Lorem.paragraph(5, true, 3) if rand(99).even?
+
+        wiki_content.save!
+      end
+    end
+  end
 end
 
 print "done."
@@ -200,4 +225,5 @@ puts "\n"
 puts "#{PlanningElement.where(:project_id => project.id).count} planning_elements created."
 puts "#{Issue.where(:project_id => project.id).count} issues created."
 puts "#{Message.joins(:board).where(boards: { :project_id => project.id }).count} messages created."
+puts "#{WikiContent.joins(page: [ :wiki ]).where("wikis.project_id = ?", project.id).count} wiki contents created."
 puts "Creating seeded project...done."
