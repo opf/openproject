@@ -237,6 +237,22 @@ repository = Repository::Filesystem.create! project: project,
                                               due_date: sub_due_date)
     end
 
+    [element, child_element].compact.each do |e|
+      2.times do
+        print "."
+        e.reload
+
+        e.status = statuses.sample if rand(99).even?
+        e.subject = Faker::Lorem.words(8).join(" ") if rand(99).even?
+        e.description = Faker::Lorem.paragraph(5, true,3) if rand(99).even?
+        e.type = types.sample if rand(99).even?
+
+        e.save!
+      end
+    end
+
+  end
+
   ## create some messages
 
   puts ""
