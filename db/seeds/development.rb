@@ -59,7 +59,6 @@ board = Board.create project: project,
 
 wiki = Wiki.create project: project, start_page: "Seed"
 
-print "Creating issues and planning-elements..."
 time_entry_activities = []
 
 rand(5).times do
@@ -75,8 +74,12 @@ repository = Repository::Filesystem.create! project: project,
                                             url: Faker::Internet.url()
 
 
+print "Creating objects for..."
 20.times do |count|
   login = "#{Faker::Name.first_name}#{rand(10000)}"
+
+  puts
+  print "...for user number #{count} (#{login})"
 
   user = User.find_by_login(login)
 
@@ -92,6 +95,9 @@ repository = Repository::Filesystem.create! project: project,
   end
 
   ## let every user create some issues...
+
+  puts ""
+  print "......create issues"
 
   rand(10).times do
     print "."
@@ -181,6 +187,7 @@ repository = Repository::Filesystem.create! project: project,
     ## create some changes
 
     20.times do
+      print "."
       issue.reload
 
       issue.status = statuses.sample if rand(99).even?
@@ -208,10 +215,14 @@ repository = Repository::Filesystem.create! project: project,
     end
   end
 
+  puts ""
+  print "......create planning elements"
+
   rand(30).times do
     print "."
     start_date = rand(90).days.from_now
     due_date   = start_date + 5.day + rand(30).days
+    child_element = nil
 
 
     element = PlanningElement.create!(project: project,
@@ -302,6 +313,9 @@ repository = Repository::Filesystem.create! project: project,
   end
 
   ## create some wiki pages
+
+  puts ""
+  print "......create wikis"
 
   rand(5).times do
     print "."
