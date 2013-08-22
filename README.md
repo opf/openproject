@@ -14,8 +14,8 @@ A more detailed feature tour can be found [here](https://www.openproject.org/pro
 Requirements
 ------------
 
-The meetings plugin currently requires the [OpenProject Core](https://github.com/opf/openproject/) in
-version 3.0.0pre9 or newer.
+The Meetings plugin currently requires the [OpenProject Core](https://github.com/opf/openproject/) in
+version 3.0.0pre9 to 3.0.0pre12.
 
 
 Installation
@@ -70,7 +70,7 @@ Credits
 
 Special thanks go to
 
-* Deutsche Telekom AG (opensource@telekom.de) for project sponsorhip
+* Deutsche Telekom AG (opensource@telekom.de) for project sponsorship
 * Le Moign Vincent and his fabulous Minicons icons on [webalys.com](http://www.webalys.com/minicons/icons-free-pack.php)
 
 License
