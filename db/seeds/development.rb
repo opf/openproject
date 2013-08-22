@@ -119,12 +119,12 @@ print "Creating objects for..."
 
     ## add changesets
 
-    2.times do |count|
+    2.times do |changeset_count|
       print "."
       changeset = Changeset.create(repository: repository,
                                    user: user,
-                                   revision: issue.id * 10 + count,
-                                   scmid: issue.id * 10 + count,
+                                   revision: issue.id * 10 + changeset_count,
+                                   scmid: issue.id * 10 + changeset_count,
                                    user: user,
                                    work_packages: [issue],
                                    committer: Faker::Name.name,
@@ -157,18 +157,18 @@ print "Creating objects for..."
 
     ## add time entries
 
-    5.times do |count|
+    5.times do |time_entry_count|
       issue.time_entries << TimeEntry.create(project: project,
                                              user: user,
                                              work_package: issue,
-                                             spent_on: Date.today + count,
+                                             spent_on: Date.today + time_entry_count,
                                              activity: time_entry_activities.sample,
-                                             hours: count)
+                                             hours: time_entry_count)
     end
 
     ## add attachments
 
-    3.times do |count|
+    3.times do |attachment_count|
       issue.attachments << Attachment.new(author: user,
                                           filename: Faker::Lorem.words(8).join(" "),
                                           disk_filename: Faker::Lorem.words(8).join("_"))
