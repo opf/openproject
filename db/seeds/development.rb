@@ -60,6 +60,15 @@ board = Board.create project: project,
 wiki = Wiki.create project: project, start_page: "Seed"
 
 print "Creating issues and planning-elements..."
+time_entry_activities = []
+
+rand(5).times do
+  time_entry_activity = TimeEntryActivity.create name: Faker::Lorem.words(2).join(" ")
+
+  time_entry_activity.save!
+  time_entry_activities << time_entry_activity
+end
+
 20.times do |count|
   login = "#{Faker::Name.first_name}#{rand(10000)}"
 
@@ -96,6 +105,17 @@ print "Creating issues and planning-elements..."
   if !created_issues.empty?
     issue = created_issues.last
 
+    ## add time entries
+
+    5.times do |count|
+      issue.time_entries << TimeEntry.create(project: project,
+                                             user: user,
+                                             work_package: issue,
+                                             spent_on: Date.today + count,
+                                             activity: time_entry_activities.sample,
+                                             hours: count)
+    end
+
     ## add attachments
 
     3.times do |count|
@@ -123,6 +143,12 @@ print "Creating issues and planning-elements..."
       issue.subject = Faker::Lorem.words(8).join(" ") if rand(99).even?
       issue.description = Faker::Lorem.paragraph(5, true,3) if rand(99).even?
       issue.type = types.sample if rand(99).even?
+
+      issue.time_entries.each do |t|
+        t.spent_on = Date.today + rand(100) if rand(99).even?
+        t.activity = time_entry_activities.sample if rand(99).even?
+        t.hours = rand(10) if rand(99).even?
+      end
 
       attachments = issue.attachments
 
@@ -226,4 +252,5 @@ puts "#{PlanningElement.where(:project_id => project.id).count} planning_element
 puts "#{Issue.where(:project_id => project.id).count} issues created."
 puts "#{Message.joins(:board).where(boards: { :project_id => project.id }).count} messages created."
 puts "#{WikiContent.joins(page: [ :wiki ]).where("wikis.project_id = ?", project.id).count} wiki contents created."
+puts "#{TimeEntry.where(:project_id => project.id).count} time entries created."
 puts "Creating seeded project...done."
