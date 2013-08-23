@@ -114,12 +114,6 @@ module ApplicationHelper
     l(('status_' + user.status_name).to_sym)
   end
 
-  def link_to_issue(issue, options={})
-    warn "[DEPRECATION] link_to_issue will be removed - use link_to_work_package instead.\n" +
-         "Called from: #{caller[0]}"
-    link_to_work_package(issue, options)
-  end
-
   # Generates a link to an attachment.
   # Options:
   # * :text - Link text (default to attachment filename)

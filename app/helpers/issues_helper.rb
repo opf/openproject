@@ -41,7 +41,7 @@ module IssuesHelper
     @cached_label_priority ||= Issue.human_attribute_name(:priority)
     @cached_label_project ||= Issue.human_attribute_name(:project)
 
-    (link_to_issue(issue) + "<br /><br />
+    (link_to_work_package(issue) + "<br /><br />
       <strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />
       <strong>#{@cached_label_status}</strong>: #{h(issue.status.name)}<br />
       <strong>#{@cached_label_start_date}</strong>: #{format_date(issue.start_date)}<br />
