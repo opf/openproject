@@ -259,7 +259,7 @@ class IssuesController < ApplicationController
       when 'reassign'
         reassign_to = @project.work_packages.find_by_id(params[:reassign_to_id])
         if reassign_to.nil?
-          flash.now[:error] = l(:error_issue_not_found_in_project)
+          flash.now[:error] = l(:error_work_package_not_found_in_project)
           return
         else
           TimeEntry.update_all("work_package_id = #{reassign_to.id}", ['work_package_id IN (?)', @issues])

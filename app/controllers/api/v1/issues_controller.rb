@@ -125,7 +125,7 @@ module Api
           when 'reassign'
             reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
             if reassign_to.nil?
-              flash.now[:error] = l(:error_issue_not_found_in_project)
+              flash.now[:error] = l(:error_work_package_not_found_in_project)
               return
             else
               TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
