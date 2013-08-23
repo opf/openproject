@@ -117,11 +117,19 @@ class JournalManager
     end
 
     journal = journable.journals.build extended_journal_attributes
-    journal.data = create_journal_data journal.id, type, journal_attributes[:changed_data].except(:id)
+    journal.data = create_journal_data journal.id, type, valid_journal_attributes(type, journal_attributes[:changed_data])
 
     create_association_data journable, journal
 
     journal
+  end
+
+  def self.valid_journal_attributes(type, changed_data)
+    journal_class = journal_class type
+    journal_class_attributes = journal_class.columns.map(&:name).map{|n| n.to_sym}
+
+    valid_journal_attributes = changed_data.select {|k,v| journal_class_attributes.include?(k)}
+    valid_journal_attributes.except :id
   end
 
   def self.create_journal_data(journal_id, type, changed_data)
