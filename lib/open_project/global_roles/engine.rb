@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2010-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 module OpenProject::GlobalRoles
   class Engine < ::Rails::Engine
     engine_name :openproject_global_roles
@@ -11,12 +22,12 @@ module OpenProject::GlobalRoles
       Redmine::Plugin.register :openproject_global_roles do
         name 'OpenProject Global Roles'
         author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
-        author_url spec.homepage
+        author_url "http://finn.de"
         description spec.description
         version spec.version
-        url 'https://www.openproject.org/projects/plugin-global-roles'
+        url spec.homepage
 
-        requires_openproject ">= 3.0.0pre6"
+        requires_openproject ">= 3.0.0pre13"
 
         Redmine::AccessControl.permission(:add_project).global = true
       end
@@ -71,12 +82,6 @@ module OpenProject::GlobalRoles
       require_dependency 'open_project/global_roles/patches/users_helper_patch'
 
       User.register_allowance_evaluator OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global
-    end
-
-    config.after_initialize do
-      # We are overwriting versions/_form.html.erb so our view must be found first
-      RolesController.view_paths.unshift("#{config.root}/app/views")
-      UsersController.view_paths.unshift("#{config.root}/app/views")
     end
   end
 end

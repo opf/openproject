@@ -1,12 +1,22 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2010-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require_dependency 'users_helper'
 
 module OpenProject::GlobalRoles::Patches
   module UsersHelperPatch
-    def self.included(base) # :nodoc:
+    def self.included(base)
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-        unloadable
 
         alias_method_chain :user_settings_tabs, :global_roles
       end
