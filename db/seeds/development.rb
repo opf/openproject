@@ -53,9 +53,9 @@ timeline.name = "Sample Timeline"
 timeline.options.merge!({zoom_factor: ["4"]})
 timeline.save
 
-board = Board.create project: project,
-                     name: Faker::Lorem.words(2).join(" "),
-                     description: Faker::Lorem.paragraph(5)
+board = Board.create! project: project,
+                      name: Faker::Lorem.words(2).join(" "),
+                      description: Faker::Lorem.paragraph(5).slice(0, 255)
 
 wiki = Wiki.create project: project, start_page: "Seed"
 
