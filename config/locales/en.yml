@@ -766,7 +766,7 @@ en:
   label_none: "none"
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
-  label_notify_member_plural: "Email issue updates"
+  label_notify_member_plural: "Email updates"
   label_open_issues: "open"
   label_open_issues_plural: "open"
   label_optional_description: "Description"

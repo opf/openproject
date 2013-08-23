@@ -784,7 +784,7 @@ de:
   label_none: "kein"
   label_not_contains: "enthält nicht"
   label_not_equals: "ist nicht"
-  label_notify_member_plural: "Ticket-Aktualisierungen per E-Mail verschicken"
+  label_notify_member_plural: "Aktualisierungen per E-Mail verschicken"
   label_open_issues: "offen"
   label_open_issues_plural: "offen"
   label_optional_description: "Beschreibung"
