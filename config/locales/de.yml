@@ -453,7 +453,7 @@ de:
   description_select_issue: "Ticket auswählen"
   description_selected_columns: "Ausgewählte Spalten"
   description_sub_work_package: "Untergeordnetes Arbeitspaket"
-  description_subissue: "Unterticket von"
+  description_subwork_package: "Untergeordnetes Arbeitspaket von"
   description_toc_toggle: "Inhaltsverzeichnis aus/einblenden"
   description_user_mail_notification: "Mailbenachrichtigungseinstellung"
   description_wiki_subpages_reassign: "Neue Elternseite wählen"
