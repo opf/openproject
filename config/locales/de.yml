@@ -450,7 +450,7 @@ de:
   description_query_sort_criteria_attribute: "Sortierattribut"
   description_query_sort_criteria_direction: "Sortierrichtung"
   description_search: "Suchfeld"
-  description_select_issue: "Ticket auswählen"
+  description_select_work_package: "Arbeitspaket auswählen"
   description_selected_columns: "Ausgewählte Spalten"
   description_sub_work_package: "Untergeordnetes Arbeitspaket"
   description_subwork_package: "Untergeordnetes Arbeitspaket von"

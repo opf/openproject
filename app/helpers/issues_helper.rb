@@ -67,7 +67,7 @@ module IssuesHelper
     issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
       s << content_tag('tr',
              content_tag('td',
-                         "<label>#{l(:description_select_issue) + " #" + child.id.to_s}" +
+                         "<label>#{l(:description_select_work_package) + " #" + child.id.to_s}" +
                          check_box_tag('ids[]', child.id, false, :id => nil) + '</label>',
                          :class => 'checkbox') +
              content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') +
