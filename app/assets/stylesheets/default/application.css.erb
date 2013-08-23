@@ -496,13 +496,25 @@ p.pagination {margin-top: 8px;}
 
 html>body .tabular p {overflow: hidden;}
 
-.tabular label{
+label {
   font-weight: bold;
+}
+
+fieldset.tabular label{
   float: left;
   text-align: right;
   margin-left: -180px; /*width of left column*/
   width: 175px; /*width of labels. Should be smaller than left column to create some right
   margin*/
+}
+
+.tabular p {
+  margin: 18px 10px 6px;
+}
+
+p label {
+  float: left;
+  margin-left: -178px;
 }
 
 .tabular label.floating{
