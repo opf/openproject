@@ -564,6 +564,7 @@ de:
   label_add_columns: "Ausgewählte Spalten hinzufügen"
   label_add_note: "Kommentar hinzufügen"
   label_add_related_issues: "Zugehöriges Ticket hinzufügen"
+  label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
   label_add_subtask: "Unteraufgabe hinzufügen"
   label_added: "hinzugefügt"
   label_added_time_by: "Von %{author} vor %{age} hinzugefügt"
@@ -1513,7 +1514,6 @@ de:
       quarters: "Quartale"
       years: "Jahre"
 
-  label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
   label_related_work_packages: "Zugehörige Arbeitspakete"
   label_work_package_hierarchy: "Arbeitspakethierarchie"
 

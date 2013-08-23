@@ -546,6 +546,7 @@ en:
   label_add_columns: "Add selected columns"
   label_add_note: "Add a note"
   label_add_related_issues: "Add related issue"
+  label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
   label_added: "added"
   label_added_time_by: "Added by %{author} %{age} ago"
@@ -1488,7 +1489,6 @@ en:
 
   label_work_package_hierarchy: "Work Package Hierarchy"
   label_related_work_packages: "Related work packages"
-  label_add_related_work_packages: "Add related work packages"
 
   total_progress: "Total progress"
 
