@@ -25,7 +25,13 @@
 #| |___staging.rb
 #| |___production.rb
 #|___seeds.rb
-#
+
+# clear some schema caches and column information.
+ActiveRecord::Base.descendants.each do |klass|
+  klass.connection.schema_cache.clear!
+  klass.reset_column_information
+end
+
 ['all', Rails.env].each do |seed|
   seed_file = "#{Rails.root}/db/seeds/#{seed}.rb"
   if File.exists?(seed_file)

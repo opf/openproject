@@ -1,13 +1,7 @@
 # set some sensible defaults:
 include Redmine::I18n
 
-# clear some schema caches and column information.
-[CustomValue].each do |klass|
-  klass.connection.schema_cache.clear!
-  klass.reset_column_information
-end
-
-#sensible shortcut: Create the default data in english
+# sensible shortcut: Create the default data in english
 begin
   set_language_if_valid('en')
   Redmine::DefaultData::Loader.load(current_language)
