@@ -473,7 +473,7 @@ en:
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_check_user_and_role: "Please choose a user and a role."
-  error_issue_done_ratios_not_updated: "Issue done ratios not updated."
+  error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
   error_issue_not_found_in_project: "The issue was not found or does not belong to this project"
   error_must_be_project_member: "must be project member"
   error_no_default_issue_status: "No default issue status is defined. Please check your configuration (Go to \"Administration -> Issue statuses\")."
