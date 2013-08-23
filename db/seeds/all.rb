@@ -18,11 +18,6 @@
 # not fixing stuff!
 Project
 
-[Type, PlanningElementTypeColor, Role, User].each do |klass|
-  klass.connection.schema_cache.clear!
-  klass.reset_column_information
-end
-
 PlanningElementTypeColor.ms_project_colors.map(&:save)
 default_color = PlanningElementTypeColor.find_by_name('pjSilver')
 
