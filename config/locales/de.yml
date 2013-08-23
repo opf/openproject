@@ -445,7 +445,6 @@ de:
   description_noscript: "Sie müssen JavaScript aktiveren, um OpenProject nutzen zu können!"
   description_notes: "Kommentare"
   description_option_toggle: "Optionen aus/einblenden"
-  description_parent_issue: "Übergeordnetes Ticket"
   description_parent_work_package: "Übergeordnetes Arbeitspaket"
   description_project_scope: "Suchbereich"
   description_query_sort_criteria_attribute: "Sortierattribut"
@@ -453,7 +452,7 @@ de:
   description_search: "Suchfeld"
   description_select_issue: "Ticket auswählen"
   description_selected_columns: "Ausgewählte Spalten"
-  description_sub_issue: "Untergeordnetes Ticket"
+  description_sub_work_package: "Untergeordnetes Arbeitspaket"
   description_subissue: "Unterticket von"
   description_toc_toggle: "Inhaltsverzeichnis aus/einblenden"
   description_user_mail_notification: "Mailbenachrichtigungseinstellung"
@@ -1513,8 +1512,6 @@ de:
       months: "Monate"
       quarters: "Quartale"
       years: "Jahre"
-
-  description_sub_work_package: "Untergeordnetes Arbeitspaket"
 
   label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
   label_related_work_packages: "Zugehörige Arbeitspakete"

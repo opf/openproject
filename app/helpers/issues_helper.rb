@@ -169,9 +169,9 @@ module IssuesHelper
       title = []
 
       if relation == "parent"
-        title << content_tag(:span, l(:description_parent_issue), :class => "hidden-for-sighted")
+        title << content_tag(:span, l(:description_parent_work_package), :class => "hidden-for-sighted")
       elsif relation == "child"
-        title << content_tag(:span, l(:description_sub_issue), :class => "hidden-for-sighted")
+        title << content_tag(:span, l(:description_sub_work_package), :class => "hidden-for-sighted")
       end
       title << h(issue.type.name)
       title << "##{issue.id}"

@@ -444,7 +444,6 @@ en:
   description_noscript: "You need to activate JavaScript in order to use OpenProject!"
   description_notes: "Notes"
   description_option_toggle: "Show/Hide options"
-  description_parent_issue: "Parent issue of current"
   description_parent_work_package: "Parent work package of current"
   description_project_scope: "Search scope"
   description_query_sort_criteria_attribute: "Sort attribute"
@@ -452,7 +451,7 @@ en:
   description_search: "Searchfield"
   description_select_issue: "Select issue"
   description_selected_columns: "Selected Columns"
-  description_sub_issue: "Subissue of current"
+  description_sub_work_package: "Sub work package of current"
   description_subissue: "Subissue of"
   description_toc_toggle: "Show/Hide table of contents"
   description_user_mail_notification: "Mail notification settings"
@@ -1488,7 +1487,6 @@ en:
       years: "Years"
 
   label_work_package_hierarchy: "Work Package Hierarchy"
-  description_sub_work_package: "Sub work package of current"
   label_related_work_packages: "Related work packages"
   label_add_related_work_packages: "Add related work packages"
 
