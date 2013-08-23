@@ -20,7 +20,7 @@ class Changeset < ActiveRecord::Base
                 :event_description => :long_comments,
                 :event_datetime => :committed_on,
                 :event_url => Proc.new {|o| {:controller => '/repositories', :action => 'revision', :id => o.journal.journable.repository.project, :rev => o.journal.journable.identifier}},
-                :event_author => Proc.new {|o| o.author},
+                :event_author => Proc.new {|o| o.journal.journable.author},
                 :activity_timestamp => "#{table_name}.committed_on",
                 :activity_find_options => {:include => [:user, {:repository => :project}]}
   acts_as_searchable :columns => 'comments',
