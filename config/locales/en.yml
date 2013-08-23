@@ -163,7 +163,7 @@ en:
       messages:
         accepted: "must be accepted"
         blank: "can't be blank"
-        cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
+        cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks"
         circular_dependency: "This relation would create a circular dependency"
         confirmation: "doesn't match confirmation"
         empty: "can't be empty"

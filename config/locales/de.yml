@@ -158,7 +158,7 @@ de:
       messages:
         accepted: "muss akzeptiert werden"
         blank: "muss ausgefüllt werden"
-        cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer ihrer Unteraufgaben verlinkt werden"
+        cant_link_a_work_package_with_a_descendant: "Ein Arbeitspaket kann nicht mit einer ihrer Unteraufgaben verlinkt werden"
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
         confirmation: "stimmt nicht mit der Bestätigung überein"
         empty: "muss ausgefüllt werden"
