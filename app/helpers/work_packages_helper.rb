@@ -80,7 +80,7 @@ module WorkPackagesHelper
 
     if package.closed?
       parts[:hidden_link] << content_tag(:span,
-                                         t(:label_closed_issues),
+                                         t(:label_closed_work_packages),
                                          :class => "hidden-for-sighted")
     end
 
