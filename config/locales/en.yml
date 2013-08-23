@@ -470,7 +470,7 @@ en:
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_type: "This type contains issues and cannot be deleted."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
-  error_can_not_reopen_issue_on_closed_version: "An issue assigned to a closed version cannot be reopened"
+  error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_check_user_and_role: "Please choose a user and a role."
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
