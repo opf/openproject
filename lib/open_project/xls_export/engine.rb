@@ -4,10 +4,10 @@ module OpenProject::XlsExport
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register_plugin 'OpenProject XLS Export',
-                    'openproject-xls_export',
-                    :author_url => 'http://finn.de/',
-                    :requires_openproject => '>= 3.0.0pre11'
+    register 'OpenProject XLS Export',
+             'openproject-xls_export',
+             :author_url => 'http://finn.de/',
+             :requires_openproject => '>= 3.0.0pre11'
 
     assets %w(excel_export.css)
 

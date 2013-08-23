@@ -18,5 +18,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 3.2.14"
   s.add_dependency "spreadsheet", "~>0.6.0"
-  s.add_dependency "openproject-plugins", "~> 1.0.0"
+  s.add_dependency "openproject-plugins", "~> 1.0.1"
 end
