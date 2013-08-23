@@ -15,6 +15,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render :partial => 'diff',
            :locals => { :diff => @diff } %>
 
-<p><%= link_to(l(:button_back), polymorphic_path(@journaled)) %></p>
+<p><%= link_to(l(:button_back), polymorphic_path(@journable)) %></p>
 
-<% html_title "#{ @journaled.to_s }" %>
+<% html_title "#{ @journable.to_s }" %>
