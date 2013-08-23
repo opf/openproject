@@ -461,7 +461,7 @@ en:
   direction: ltr
 
   enumeration_activities: "Activities (time tracking)"
-  enumeration_issue_priorities: "Issue priorities"
+  enumeration_work_package_priorities: "Work package priorities"
   enumeration_system_activity: "System Activity"
   enumeration_planning_element_statuses: "Planning element status"
   enumeration_reported_project_statuses: "Reported project status"

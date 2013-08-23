@@ -26,7 +26,7 @@ class IssuePriorityTest < ActiveSupport::TestCase
   end
 
   def test_option_name
-    assert_equal :enumeration_issue_priorities, IssuePriority.new.option_name
+    assert_equal :enumeration_work_package_priorities, IssuePriority.new.option_name
   end
 end
 
