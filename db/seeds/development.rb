@@ -133,7 +133,7 @@ print "Creating objects for..."
 
       5.times do
         print "."
-        change = Change.create(action: Faker::Lorem.word,
+        change = Change.create(action: Faker::Lorem.characters(1),
                                path: Faker::Internet.url)
 
         changeset.changes << change
