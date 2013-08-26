@@ -10,12 +10,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-var Issue = Issue || {};
+var WorkPackage = WorkPackage || {};
 
-Issue.Show = (function($) {
+WorkPackage.Show = (function($) {
   var init;
 
   init = function () {
+    
     $.ajaxAppend({
       trigger: '.action_menu_main .edit',
       indicator_class: 'ajax-indicator',
@@ -23,7 +24,7 @@ Issue.Show = (function($) {
       loading_text: I18n.t("js.ajax.loading"),
       loading_class: 'box loading',
       loading: function(update) {
-                 $('html, body').animate({
+                $('html, body').animate({
                    scrollTop: $(update).offset().top
                  }, 200);
                },
@@ -31,7 +32,7 @@ Issue.Show = (function($) {
                 $('html, body').animate({
                   scrollTop: $(update).offset().top
                 }, 200);
-                $("#notes").focus();
+                $("#work_package_notes").focus();
       }
     });
 
@@ -76,7 +77,7 @@ Issue.Show = (function($) {
   };
 
   $('document').ready(function () {
-    if ($('body.controller-issues.action-show').size() > 0) {
+    if ($('body.controller-work_packages.action-show').size() > 0) {
      init();
     }
   });
