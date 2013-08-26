@@ -27,13 +27,13 @@ while day <= calendar.enddt %>
   <%= h("#{i.project} -") unless @project && @project == i.project %>
   <%# date_img = '' %>
   <% if day == i.start_date and day == i.due_date %>
-    <% date_img = image_tag("bullet_diamond.png", :title => l(:text_tip_issue_begin_end_day), :alt => l(:text_tip_issue_begin_end_day),
+    <% date_img = image_tag("bullet_diamond.png", :title => l(:text_tip_work_package_begin_end_day), :alt => l(:text_tip_work_package_begin_end_day),
                                     :class => "imgtag-icon") %>
   <% elsif day == i.start_date %>
-    <% date_img = image_tag("bullet_go.png", :title => l(:text_tip_issue_begin_day), :alt => l(:text_tip_issue_begin_day),
+    <% date_img = image_tag("bullet_go.png", :title => l(:text_tip_work_package_begin_day), :alt => l(:text_tip_work_package_begin_day),
                                     :class => "imgtag-icon") %>
   <% elsif day == i.due_date %>
-    <% date_img = image_tag("bullet_end.png", :title => l(:text_tip_issue_end_day), :alt => l(:text_tip_issue_end_day),
+    <% date_img = image_tag("bullet_end.png", :title => l(:text_tip_work_package_end_day), :alt => l(:text_tip_work_package_end_day),
                                     :class => "imgtag-icon") %>
   <% end %>
 
