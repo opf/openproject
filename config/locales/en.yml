@@ -5,8 +5,8 @@ en:
     deleted: "Account successfully deleted"
     deletion_info:
       data_consequences:
-        other: "Of the data the user created (e.g. e-mail, preferences, issues, wiki entries) as much as possible will be deleted. Note however, that data like issues and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
-        self: "Of the data you created (e.g. e-mail, preferences, issues, wiki entries) as much as possible will be deleted. Note however, that data like issues and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
+        other: "Of the data the user created (e.g. e-mail, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
+        self: "Of the data you created (e.g. e-mail, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
       heading: "Delete account %{name}"
       info:
         other: "Deleting the user account is an irreversible action."
@@ -59,10 +59,10 @@ en:
         watcher: "Watcher"
       issue_relation:
         delay: "Delay"
-        issue_from: "Issue"
-        issue_to: "Related issue"
+        issue_from: "Work Package"
+        issue_to: "Related work package"
       issue_status:
-        is_closed: "Issue closed"
+        is_closed: "Work package closed"
       journal:
         notes: "Notes"
       member:
@@ -70,7 +70,7 @@ en:
       project:
         homepage: "Homepage"
         identifier: "Identifier"
-        issues: "Issues"
+        work_packages: "Work Packages"
         parent: "Subproject of"
         versions: "Versions"
         project_type: "Project type"
@@ -82,17 +82,17 @@ en:
       repository:
         url: "URL"
       role:
-        assignable: "Issues can be assigned to this role"
+        assignable: "work packages can be assigned to this role"
       time_entry:
         activity: "Activity"
         hours: "Hours"
-        issue: "Issue"
+        work_package: "Work Package"
         spent_on: "Date"
         type: "Type"
       type:
-        is_in_roadmap: "Issues displayed in roadmap"
-        in_aggregation: "Issues displayed in aggregation"
-        is_milestone: "Issues displayed as milestone"
+        is_in_roadmap: "Work packages displayed in roadmap"
+        in_aggregation: "Work packages displayed in aggregation"
+        is_milestone: "Work packages displayed as milestone"
         color: "Color"
       user:
         admin: "Administrator"
@@ -424,7 +424,7 @@ en:
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
-  description_autocomplete: "This field uses autocomplete. While typing the title of an issue you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the issue number directly."
+  description_autocomplete: "This field uses autocomplete. While typing the title of a work package you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the work package number directly."
   description_available_columns: "Available Columns"
   description_choose_project: "Projects"
   description_compare_from: "Compare from version"
@@ -438,7 +438,7 @@ en:
   description_enter_text: "Enter text"
   description_filter: "Filter"
   description_filter_toggle: "Show/Hide filter"
-  description_issue_category_reassign: "Choose issue category"
+  description_issue_category_reassign: "Choose category"
   description_message_content: "Message content"
   description_my_project: "You are member"
   description_noscript: "You need to activate JavaScript in order to use OpenProject!"
@@ -468,7 +468,7 @@ en:
 
   error_can_not_archive_project: "This project cannot be archived"
   error_can_not_delete_custom_field: "Unable to delete custom field"
-  error_can_not_delete_type: "This type contains issues and cannot be deleted."
+  error_can_not_delete_type: "This type contains work packages and cannot be deleted."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
@@ -476,12 +476,12 @@ en:
   error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
   error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
   error_must_be_project_member: "must be project member"
-  error_no_default_issue_status: "No default issue status is defined. Please check your configuration (Go to \"Administration -> Issue statuses\")."
+  error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
-  error_unable_delete_issue_status: "Unable to delete issue status"
+  error_unable_delete_issue_status: "Unable to delete work package status"
   error_unable_to_connect: "Unable to connect (%{value})"
   error_workflow_copy_source: "Please select a source type or role"
   error_workflow_copy_target: "Please select target type(s) and role(s)"
@@ -954,13 +954,13 @@ en:
   mail_body_account_information_external: "You can use your %{value} account to log in."
   mail_body_lost_password: "To change your password, click on the following link:"
   mail_body_register: "To activate your account, click on the following link:"
-  mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
+  mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_lost_password: "Your %{value} password"
   mail_subject_register: "Your %{value} account activation"
-  mail_subject_reminder: "%{count} issue(s) due in the next %{days} days"
+  mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
 
@@ -1208,7 +1208,7 @@ en:
 
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
-  text_are_you_sure_with_children: "Delete issue and all child issues?"
+  text_are_you_sure_with_children: "Delete work package and all child work packages?"
   text_assign_time_entries_to_project: "Assign reported hours to the project"
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
@@ -1243,13 +1243,13 @@ en:
   text_line_separated: "Multiple values allowed (one line for each value)."
   text_load_default_configuration: "Load the default configuration"
   text_min_max_length_info: "0 means no restriction"
-  text_no_configuration_data: "Roles, types, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
   text_plugin_assets_writable: "Plugin assets directory writable"
   text_powered_by: "Powered by %{link}"
   text_project_destroy_confirmation: "Are you sure you want to delete this project and related data?"
   text_project_identifier_info: "Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter.<br />Once saved, the identifier cannot be changed."
-  text_reassign_time_entries: "Reassign reported hours to this issue:"
+  text_reassign_time_entries: "Reassign reported hours to this work package:"
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
   text_rmagick_available: "RMagick available (optional)"
@@ -1263,7 +1263,7 @@ en:
   text_tip_work_package_end_day: "work package ending this day"
   text_type_no_workflow: "No workflow defined for this type"
   text_unallowed_characters: "Unallowed characters"
-  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
+  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. work packages you're the author or assignee)."
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
   text_wiki_destroy_confirmation: "Are you sure you want to delete this wiki and all its content?"
