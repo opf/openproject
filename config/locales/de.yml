@@ -898,7 +898,7 @@ de:
   label_type_new: "Neuer Typ"
   label_type_plural: "Typen"
   label_ui: "Nutzeroberfläche"
-  label_update_issue_done_ratios: "Ticket-Fortschritt aktualisieren"
+  label_update_work_package_done_ratios: "Arbeitspaket-Fortschritt aktualisieren"
   label_updated_time: "Vor %{value} aktualisiert"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Von %{author} vor %{age} aktualisiert"
