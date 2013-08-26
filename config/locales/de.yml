@@ -847,7 +847,7 @@ de:
   label_revision_plural: "Revisionen"
   label_roadmap: "Roadmap"
   label_roadmap_due_in: "Fällig in %{value}"
-  label_roadmap_no_issues: "Keine Tickets für diese Version"
+  label_roadmap_no_work_packages: "Keine Arbeitspakete für diese Version"
   label_roadmap_overdue: "%{value} verspätet"
   label_role_and_permissions: "Rollen und Rechte"
   label_role_new: "Neue Rolle"

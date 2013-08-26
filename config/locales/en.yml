@@ -829,7 +829,7 @@ en:
   label_revision_plural: "Revisions"
   label_roadmap: "Roadmap"
   label_roadmap_due_in: "Due in %{value}"
-  label_roadmap_no_issues: "No issues for this version"
+  label_roadmap_no_work_packages: "No work packages for this version"
   label_roadmap_overdue: "%{value} late"
   label_role_and_permissions: "Roles and permissions"
   label_role_new: "New role"
