@@ -1,9 +1,8 @@
 require 'spec_helper'
-require 'xls_report/spreadsheet_builder'
 
 describe "SpreadsheetBuilder" do
   before(:each) do
-    @spreadsheet = SpreadsheetBuilder.new
+    @spreadsheet = OpenProject::XlsExport::SpreadsheetBuilder.new
     @sheet = @spreadsheet.send(:raw_sheet)
   end
   

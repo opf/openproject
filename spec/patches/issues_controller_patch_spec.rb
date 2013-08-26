@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'xls_report/issues_controller_patch'
 
 describe IssuesController, "rendering to xls" do
   
