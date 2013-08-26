@@ -1123,7 +1123,7 @@ de:
   project_module_activity: "Aktivität"
   project_module_boards: "Foren"
   project_module_calendar: "Kalender"
-  project_module_issue_tracking: "Ticket-Verfolgung"
+  project_module_work_package_tracking: "Arbeitspaket-Verfolgung"
   project_module_news: "News"
   project_module_repository: "Projektarchiv"
   project_module_time_tracking: "Zeiterfassung"

@@ -1099,7 +1099,7 @@ en:
   project_module_activity: "Activity"
   project_module_boards: "Forums"
   project_module_calendar: "Calendar"
-  project_module_issue_tracking: "Issue tracking"
+  project_module_work_package_tracking: "Work package tracking"
   project_module_news: "News"
   project_module_repository: "Repository"
   project_module_time_tracking: "Time tracking"
