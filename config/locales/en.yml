@@ -82,7 +82,7 @@ en:
       repository:
         url: "URL"
       role:
-        assignable: "work packages can be assigned to this role"
+        assignable: "Work packages can be assigned to this role"
       time_entry:
         activity: "Activity"
         hours: "Hours"
@@ -985,7 +985,7 @@ en:
   notice_default_data_loaded: "Default configuration successfully loaded."
   notice_email_error: "An error occurred while sending mail (%{value})"
   notice_email_sent: "An email was sent to %{value}"
-  notice_failed_to_save_work_packages: "Failed to save %{count} work_package(s) on %{total} selected: %{ids}."
+  notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   notice_feeds_access_key_reseted: "Your RSS access key was reset."
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
