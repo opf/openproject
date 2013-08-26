@@ -49,8 +49,8 @@ See doc/COPYRIGHT.rdoc for more details.
                         :controller => '/issues', :action => 'index', :project_id => @project,
                         :set_filter => 1,
                         "type_id" => type.id %>:
-            <%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_type[type].to_i,
-                                                      :total => @total_issues_by_type[type].to_i) %>
+            <%= l(:label_x_open_work_packages_abbr_on_total, :count => @open_issues_by_type[type].to_i,
+                                                             :total => @total_issues_by_type[type].to_i) %>
         </li>
       <% end %>
     </ul>

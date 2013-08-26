@@ -944,7 +944,7 @@ de:
   label_work_package_new: "Neues Arbeitspaket"
   label_workflow: "Workflow"
   label_workflow_summary: "Zusammenfassung"
-  label_x_closed_issues_abbr:
+  label_x_closed_work_packages_abbr:
     one: "1 geschlossen"
     other: "%{count} geschlossen"
     zero: "0 geschlossen"
@@ -952,11 +952,11 @@ de:
     one: "1 Kommentar"
     other: "%{count} Kommentare"
     zero: "keine Kommentare"
-  label_x_open_issues_abbr:
+  label_x_open_work_packages_abbr:
     one: "1 offen"
     other: "%{count} offen"
     zero: "0 offen"
-  label_x_open_issues_abbr_on_total:
+  label_x_open_work_packages_abbr_on_total:
     one: "1 offen / %{total}"
     other: "%{count} offen / %{total}"
     zero: "0 offen / %{total}"
