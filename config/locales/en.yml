@@ -810,7 +810,7 @@ en:
   label_registration_activation_by_email: "account activation by email"
   label_registration_automatic_activation: "automatic account activation"
   label_registration_manual_activation: "manual account activation"
-  label_related_issues: "Related issues"
+  label_related_work_packages: "Related work packages"
   label_relates_to: "related to"
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
@@ -1486,7 +1486,6 @@ en:
       years: "Years"
 
   label_work_package_hierarchy: "Work Package Hierarchy"
-  label_related_work_packages: "Related work packages"
 
   total_progress: "Total progress"
 

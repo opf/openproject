@@ -828,7 +828,7 @@ de:
   label_registration_activation_by_email: "Kontoaktivierung durch E-Mail"
   label_registration_automatic_activation: "Automatische Kontoaktivierung"
   label_registration_manual_activation: "Manuelle Kontoaktivierung"
-  label_related_issues: "Zugehörige Tickets"
+  label_related_work_packages: "Zugehörige Arbeitspakete"
   label_relates_to: "Beziehung mit"
   label_relation_delete: "Beziehung löschen"
   label_relation_new: "Neue Beziehung"
@@ -1512,7 +1512,6 @@ de:
       quarters: "Quartale"
       years: "Jahre"
 
-  label_related_work_packages: "Zugehörige Arbeitspakete"
   label_work_package_hierarchy: "Arbeitspakethierarchie"
 
   total_progress: "Gesamtfortschritt"
