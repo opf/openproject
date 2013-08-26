@@ -66,7 +66,7 @@ class IssueStatusesController < ApplicationController
 
   def update_issue_done_ratio
     if IssueStatus.update_issue_done_ratios
-      flash[:notice] = l(:notice_issue_done_ratios_updated)
+      flash[:notice] = l(:notice_work_package_done_ratios_updated)
     else
       flash[:error] =  l(:error_work_package_done_ratios_not_updated)
     end
