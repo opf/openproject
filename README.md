@@ -8,6 +8,14 @@ of a specific project normally only allowed for administrators.
 By assigning the permission to create projects to a global role,
 non-administrators can create top-level projects.
 
+To create a global role, go to the Administration view, select "Roles and permissions"
+and click on "New Role". Afterwards, select the checkbox "Global Role" and choose the
+permissions for this role. From the plugin, only "Create project" is available.
+However, there are other plugins adding more permissions to be assigned to global
+roles.
+
+The created global roles can be assigned to individual users in the added "Global Roles"
+tab of the user settings.
 
 Requirements
 ------------
