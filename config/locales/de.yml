@@ -477,7 +477,7 @@ de:
   error_work_package_done_ratios_not_updated: "Der Arbeitspaket-Fortschritt wurde nicht aktualisiert."
   error_work_package_not_found_in_project: "Das Arbeitspaket wurde nicht gefunden oder gehört nicht zu diesem Projekt."
   error_must_be_project_member: "muss Mitglied des Projekts sein"
-  error_no_default_issue_status: "Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter \"Administration -> Ticket-Status\")."
+  error_no_default_work_package_status: "Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter \"Administration -> Ticket-Status\")."
   error_no_type_in_project: "Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen Sie die Projekteinstellungen."
   error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"

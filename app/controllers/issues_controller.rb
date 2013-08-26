@@ -358,7 +358,7 @@ private
 
   def check_for_default_issue_status
     if IssueStatus.default.nil?
-      render_error l(:error_no_default_issue_status)
+      render_error l(:error_no_default_work_package_status)
       return false
     end
   end
