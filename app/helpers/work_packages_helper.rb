@@ -26,7 +26,7 @@ module WorkPackagesHelper
 
   def work_package_index_link
     # TODO: will need to change to work_package index
-    link_to(t(:label_issue_plural), {:controller => '/issues', :action => 'index'})
+    link_to(t(:label_work_package_plural), {:controller => '/issues', :action => 'index'})
   end
 
   # Displays a link to +work_package+ with its subject.
@@ -491,10 +491,10 @@ module WorkPackagesHelper
                           :include_blank => true)
 
       field += prompt_to_remote(image_tag('plus.png', :style => 'vertical-align: middle;'),
-                                         t(:label_issue_category_new),
+                                         t(:label_work_package_category_new),
                                          'category[name]',
                                          project_issue_categories_path(locals[:project]),
-                                         :title => t(:label_issue_category_new)) if authorize_for('issue_categories', 'new')
+                                         :title => t(:label_work_package_category_new)) if authorize_for('issue_categories', 'new')
 
       WorkPackageAttribute.new(:category, field)
     end

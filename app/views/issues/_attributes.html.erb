@@ -23,10 +23,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <% unless @project.issue_categories.empty? %>
       <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
       <%= prompt_to_remote(image_tag('plus.png', :style => 'vertical-align: middle;'),
-                           l(:label_issue_category_new),
+                           l(:label_work_package_category_new),
                            'category[name]',
                            {:controller => '/issue_categories', :action => 'new', :project_id => @project},
-                           :title => l(:label_issue_category_new)) if authorize_for('issue_categories', 'new') %></p>
+                           :title => l(:label_work_package_category_new)) if authorize_for('issue_categories', 'new') %></p>
     <% end %>
     <% unless @issue.assignable_versions.empty? %>
       <p>

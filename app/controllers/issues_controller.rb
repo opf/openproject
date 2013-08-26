@@ -71,7 +71,7 @@ class IssuesController < ApplicationController
       respond_to do |format|
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
         format.html { render :template => 'issues/index', :layout => !request.xhr? }
-        format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
+        format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}") }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query,
                                               :show_descriptions => params[:show_descriptions]),
                                 :type => 'application/pdf',

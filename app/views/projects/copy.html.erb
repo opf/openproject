@@ -18,8 +18,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <fieldset class="box"><legend><%= l(:button_copy) %></legend>
   <label class="block"><%= check_box_tag 'only[]', 'members', true %> <%= l(:label_member_plural) %> (<%= @source_project.members.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'versions', true %> <%= l(:label_version_plural) %> (<%= @source_project.versions.count %>)</label>
-  <label class="block"><%= check_box_tag 'only[]', 'issue_categories', true %> <%= l(:label_issue_category_plural) %> (<%= @source_project.issue_categories.count %>)</label>
-  <label class="block"><%= check_box_tag 'only[]', 'work_packages', true %> <%= l(:label_issue_plural) %> (<%= @source_project.work_packages.count %>)</label>
+  <label class="block"><%= check_box_tag 'only[]', 'issue_categories', true %> <%= l(:label_work_package_category_plural) %> (<%= @source_project.issue_categories.count %>)</label>
+  <label class="block"><%= check_box_tag 'only[]', 'work_packages', true %> <%= l(:label_work_package_plural) %> (<%= @source_project.work_packages.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'queries', true %> <%= l(:label_query_plural) %> (<%= @source_project.queries.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'boards', true %> <%= l(:label_board_plural) %> (<%= @source_project.boards.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'wiki', true %> <%= l(:label_wiki_page_plural) %> (<%= @source_project.wiki.nil? ? 0 : @source_project.wiki.pages.count %>)</label>
