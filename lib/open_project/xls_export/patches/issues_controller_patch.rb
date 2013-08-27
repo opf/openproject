@@ -43,16 +43,16 @@ module OpenProject::XlsExport
           sb.add_title("#{project_name} >> #{l(:label_issue_plural)} (#{format_date(Date.today)})")
 
           filters = FilterSettingsHelper.filter_settings(query)
-          sb.add_headers l(:label_filter_plural)
+          sb.add_headers [l(:label_filter_plural)]
           sb.add_row(filters)
           group_by_settings = FilterSettingsHelper.group_by_setting(query)
           if group_by_settings
-            sb.add_headers l(:field_group_by)
-            sb.add_row group_by_settings
+            sb.add_headers [Query.human_attribute_name(:group_by)]
+            sb.add_row [group_by_settings]
           end
           sb.add_empty_row
 
-          headers = (columns.collect(&:caption) << l(:field_description)).unshift("#")
+          headers = (columns.collect(&:caption) << Issue.human_attribute_name(:description)).unshift("#")
           sb.add_headers headers
 
           issues.each do |issue|
