@@ -1,7 +1,8 @@
-# Hooks to attach to the Redmine Issues.
 module PrintableIssues
   class IssueHook  < Redmine::Hook::ViewListener
-    # Renders the Cost Object subject and basic costs information
-    render_on :view_issues_sidebar_issues_bottom, :partial => 'hooks/different_formats/view_issues_sidebar_issues_bottom'
+    # Add XLS format link below issue list
+    def view_issues_index_other_formats(context)
+      context[:link_formatter].link_to 'XLS', :url => { :project_id => context[:project].id }
+    end
   end
 end
