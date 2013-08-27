@@ -61,7 +61,7 @@ class WikiContent < ActiveRecord::Base
 
   # REVIEW
   def version
-    new_record? || last_journal.nil? ? 0 : last_journal.version
+    last_journal.nil? ? 0 : last_journal.version
   end
 
   private
