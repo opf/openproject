@@ -105,7 +105,7 @@ print "Creating objects for..."
                   author: user,
                   status: statuses.sample,
                   subject: Faker::Lorem.words(8).join(" "),
-                  description: Faker::Lorem.paragraph(5, true,3),
+                  description: Faker::Lorem.paragraph(5, true, 3),
                   type: types.sample
     )
 
@@ -308,7 +308,7 @@ print "Creating objects for..."
     rand(5).times do
       news.reload
 
-      news.title = Faker::Lorem.words(5).join(" ") if rand(99).even?
+      news.title = Faker::Lorem.words(5).join(" ").slice(0, 60) if rand(99).even?
       news.summary = Faker::Lorem.paragraph(1, true, 3) if rand(99).even?
       news.description = Faker::Lorem.paragraph(5, true, 3) if rand(99).even?
 
