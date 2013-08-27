@@ -180,6 +180,12 @@ en:
         too_long: "is too long (maximum is %{count} characters)"
         too_short: "is too short (minimum is %{count} characters)"
         wrong_length: "is the wrong length (should be %{count} characters)"
+        # translations for date-validator
+        not_a_date: "is not a date"
+        after: "must be after %{date}"
+        after_or_equal_to: "must be after or equal to %{date}"
+        before: "must be before %{date}"
+        before_or_equal_to: "must be before or equal to %{date}"
       models:
         planning_element:
           attributes:

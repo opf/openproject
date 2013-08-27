@@ -31,6 +31,8 @@ gem 'htmldiff'
 gem 'execjs'
 gem 'therubyracer'
 
+gem "date_validator"
+
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
 gem 'strong_parameters'
 
@@ -83,6 +85,7 @@ group :test do
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', ">= 0.8.pre"
+  gem "shoulda-matchers"
 end
 
 group :ldap do
