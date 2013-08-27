@@ -123,14 +123,19 @@ class WorkPackagesController < ApplicationController
   end
 
   def edit
+    locals =   { :work_package => work_package,
+                 :allowed_statuses => allowed_statuses,
+                 :project => project,
+                 :priorities => priorities,
+                 :time_entry => time_entry,
+                 :user => current_user }
+
     respond_to do |format|
       format.html do
-        render :edit, :locals => { :work_package => work_package,
-                                   :allowed_statuses => allowed_statuses,
-                                   :project => project,
-                                   :priorities => priorities,
-                                   :time_entry => time_entry,
-                                   :user => current_user }
+        render :edit, :locals => locals
+      end
+      format.js do
+        render :partial => "edit", :locals => locals
       end
     end
   end
