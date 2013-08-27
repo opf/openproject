@@ -229,7 +229,7 @@ class RepositoriesController < ApplicationController
     @project = Project.find(params[:id])
     @repository = @project.repository
     (render_404; return false) unless @repository
-    @path = params[:path].join('/') unless params[:path].nil?
+    @path = params[:path] unless params[:path].nil?
     @path ||= ''
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
     @rev_to = params[:rev_to]
