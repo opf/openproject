@@ -99,6 +99,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => @project,
                                                                   :show_descriptions => true,
                                                                   :format => 'pdf' } %>
+  <%= call_hook(:view_issues_index_other_formats, :link_formatter => f) %>
 <% end if User.current.allowed_to? :export_issues, @project, :global => @project.nil? %>
 
 <% end %>
