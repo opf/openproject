@@ -21,14 +21,6 @@ class Issue < WorkPackage
 
   attr_protected :project_id, :author_id, :lft, :rgt
 
-  validates_presence_of :subject, :priority, :project, :type, :author, :status
-
-  validates_length_of :subject, :maximum => 255
-  validates_inclusion_of :done_ratio, :in => 0..100
-  validates_numericality_of :estimated_hours, :allow_nil => true
-
-  validate :validate_format_of_due_date
-  validate :validate_start_date_before_due_date
   validate :validate_start_date_before_soonest_start_date
   validate :validate_fixed_version_is_assignable
   validate :validate_fixed_version_is_still_open
@@ -178,17 +170,6 @@ class Issue < WorkPackage
     Setting.issue_done_ratio == 'issue_field'
   end
 
-  def validate_format_of_due_date
-    if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
-      errors.add :due_date, :not_a_date
-    end
-  end
-
-  def validate_start_date_before_due_date
-    if self.due_date and self.start_date and self.due_date < self.start_date
-      errors.add :due_date, :greater_than_start_date
-    end
-  end
 
   def validate_start_date_before_soonest_start_date
     if start_date && soonest_start && start_date < soonest_start
