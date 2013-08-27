@@ -176,6 +176,12 @@ de:
         too_long: "ist zu lang (nicht mehr als %{count} Zeichen)"
         too_short: "ist zu kurz (nicht weniger als %{count} Zeichen)"
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
+        # locales for date_validator
+        not_a_date: "ist kein Datum"
+        after: "muss nach %{date} sein"
+        after_or_equal_to: "muss nach oder gleich %{date} sein"
+        before: "muss vor %{date} sein"
+        before_or_equal_to: "muss vor oder gleich %{date} sein"
       models:
         planning_element:
           attributes:
