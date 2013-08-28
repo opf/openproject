@@ -104,8 +104,6 @@ describe Project do
 
         expect { planning_element.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
-
-      it 'destroys associated planning elements so that alternate dates may also be deleted'
     end
 
     describe '#reportings' do
@@ -153,31 +151,6 @@ describe Project do
 
         expect { project.reportings_via_target }.to_not raise_error(NoMethodError)
       end
-    end
-
-    describe '#scenarios' do
-      it 'can read reportings w/ the help of the has_many association' do
-        project  = FactoryGirl.create(:project)
-        scenario = FactoryGirl.create(:scenario, :project_id => project.id)
-
-        project.reload
-
-        project.scenarios.size.should  == 1
-        project.scenarios.first.should == scenario
-      end
-
-      it 'deletes associated scenarios' do
-        project  = FactoryGirl.create(:project)
-        scenario = FactoryGirl.create(:scenario, :project_id => project.id)
-
-        project.reload
-
-        project.destroy
-
-        expect { scenario.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-
-      it 'destroys associated scenarios so that alternate dates may also be deleted'
     end
 
     describe ' - project associations ' do

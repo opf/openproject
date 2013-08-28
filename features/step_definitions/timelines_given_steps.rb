@@ -54,27 +54,6 @@ Given /^there are the following project types:$/ do |table|
   end
 end
 
-Given /^there is a scenario "([^"]*)" in project "([^"]*)"$/ do |scenario_name, project_name|
-  FactoryGirl.create(:scenario, :name => scenario_name, :project_id => Project.find_by_name!(project_name).id)
-end
-
-Given /^there are the following alternate dates for "([^"]*)":$/ do |scenario_name, table|
-  scenario = Scenario.find_by_name!(scenario_name)
-
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
-  table.hashes.each do |row|
-    planning_element = PlanningElement.find_by_subject!(row["planning_element_subject"])
-    planning_element.scenarios = {scenario.id.to_s => {"id" => scenario.id.to_s, "start_date" => row["start_date"], "due_date" => row["due_date"]} }
-
-    planning_element.save!
-  end
-end
-
-Given /^I delete the scenario "([^"]*)"$/ do |scenario_name|
-  scenario = Scenario.find_by_name!(scenario_name)
-  scenario.destroy
-end
-
 Given /^there are the following projects of type "([^"]*)":$/ do |project_type_name, table|
   table.raw.flatten.each do |name|
     step %Q{there is a project named "#{name}" of type "#{project_type_name}"}

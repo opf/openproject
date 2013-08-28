@@ -301,16 +301,11 @@ class PlanningElementsController < ApplicationController
   end
 
   # Helpers
-  helper_method :include_journals?, :include_scenarios?
+  helper_method :include_journals?
 
   def include_journals?
     params[:include].tap { |i| i.present? && i.include?("journals") }
   end
-
-  def include_scenarios?
-    !params[:exclude].tap { |i| i.present? && i.include?("scenarios") }
-  end
-
 
   def default_breadcrumb
     l('timelines.project_menu.planning_elements')

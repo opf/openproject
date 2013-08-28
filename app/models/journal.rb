@@ -19,7 +19,6 @@ class Journal < ActiveRecord::Base
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
-  register_journal_formatter :scenario_date, OpenProject::JournalFormatter::ScenarioDate
 
   attr_accessible :journable_type, :journable_id, :activity_type, :version, :notes, :user_id
 

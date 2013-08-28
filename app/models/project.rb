@@ -116,9 +116,6 @@ class Project < ActiveRecord::Base
                                          :dependent  => :destroy
   has_many :planning_elements, :class_name => "::PlanningElement",
                                          :dependent  => :destroy
-  has_many :scenarios,         :class_name => "::Scenario",
-                                         :dependent  => :destroy
-
 
   has_many :reportings_via_source, :class_name  => "::Reporting",
                                              :foreign_key => 'project_id',

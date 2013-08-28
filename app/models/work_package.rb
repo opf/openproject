@@ -56,8 +56,7 @@ class WorkPackage < ActiveRecord::Base
   before_save :store_former_parent_id
   include OpenProject::NestedSet::WithRootIdScope
   after_save :reschedule_following_issues,
-             :update_parent_attributes,
-             :create_alternate_date
+             :update_parent_attributes
 
   after_move :remove_invalid_relations,
              :recalculate_attributes_for_former_parent
@@ -142,7 +141,6 @@ class WorkPackage < ActiveRecord::Base
   register_on_journal_formatter :plaintext,         :subject,
                                                     :planning_element_status_comment,
                                                     :responsible_id
-  register_on_journal_formatter :scenario_date,     /^scenario_(\d+)_(start|due)_date$/
 
   # acts_as_journalized will create an initial journal on wp creation
   # and touch the journaled object:
@@ -612,17 +610,5 @@ class WorkPackage < ActiveRecord::Base
                                 :spent_on => Date.today })
 
     time_entries.build(attributes)
-  end
-
-  def create_alternate_date
-    # This is a hack.
-    # It is required as long as alternate dates exist/are not moved up to work_packages.
-    # Its purpose is to allow for setting the after_save filter in the correct order
-    # before acts as journalized and the cleanup method reload_lock_and_timestamps.
-    return true unless respond_to?(:alternate_dates)
-
-    if start_date_changed? or due_date_changed?
-      alternate_dates.create(:start_date => start_date, :due_date => due_date)
-    end
   end
 end
