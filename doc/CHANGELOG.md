@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1859` Fix 20130814130142 down-migration (remove_documents)
+
 ## 3.0.0pre13
 
 * `#1606` Update journal fixtures
