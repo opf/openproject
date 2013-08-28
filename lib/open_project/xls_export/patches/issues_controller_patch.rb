@@ -24,8 +24,11 @@ module OpenProject::XlsExport
                 @issues = @query.issues(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
                                         :order => sort_clause)
                 unless @issues.empty?
-                  send_data(issues_to_xls, :type => "application/vnd.ms-excel",
-                    :filename => FilenameHelper.sane_filename("(#{I18n.l(DateTime.now)}) Issue Report#{" " + @project.name if @project}.xls"))
+                  send_data(issues_to_xls(:show_descriptions => params[:show_descriptions]),
+                            :type => "application/vnd.ms-excel",
+                            :filename => FilenameHelper.sane_filename(
+                                          "(#{I18n.l(DateTime.now)}) " +
+                                          "Issue Report#{" " + @project.name if @project}.xls"))
                 end
               end
             end
@@ -35,7 +38,7 @@ module OpenProject::XlsExport
         end
 
         # Convert an issues query with associated issues to xls using the queries columns as headers
-        def build_spreadsheet(project, issues, query)
+        def build_spreadsheet(project, issues, query, options)
           columns = query.columns
 
           sb = SpreadsheetBuilder.new
@@ -52,14 +55,17 @@ module OpenProject::XlsExport
           end
           sb.add_empty_row
 
-          headers = (columns.collect(&:caption) << Issue.human_attribute_name(:description)).unshift("#")
+          headers = columns.collect(&:caption).unshift("#")
+          headers << Issue.human_attribute_name(:description) if options[:show_descriptions]
           sb.add_headers headers
 
           issues.each do |issue|
-            sb.add_row((columns.collect do |column|
-              cv = column.value(issue)
-              (cv.respond_to? :name) ? cv.name : cv
-            end << issue.description).unshift(issue.id))
+            row = (columns.collect do |column|
+                    cv = column.value(issue)
+                    (cv.respond_to? :name) ? cv.name : cv
+                  end).unshift(issue.id)
+            row << issue.description if options[:show_descriptions]
+            sb.add_row(row)
           end
 
           headers.each_with_index do |h,idx|
@@ -75,8 +81,8 @@ module OpenProject::XlsExport
         end
 
         # Return an xls file from a spreadsheet builder
-        def issues_to_xls
-          build_spreadsheet(@project, @issues, @query).xls
+        def issues_to_xls(options)
+          build_spreadsheet(@project, @issues, @query, options).xls
         end
       end
     end
