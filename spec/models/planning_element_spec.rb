@@ -12,7 +12,8 @@
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe PlanningElement do
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryGirl.create(:project_with_types) }
+  let(:user)    { FactoryGirl.create(:user) }
 
   before do
     FactoryGirl.create :priority, is_default: true
@@ -42,9 +43,10 @@ describe PlanningElement do
       end
 
       it 'can read the type w/ the help of the belongs_to association' do
-        type             = FactoryGirl.create(:type)
+        type             = project.types.first
         planning_element = FactoryGirl.create(:planning_element,
-                                                   :type_id => type.id)
+                                                   :type_id => type.id,
+                                                   :project => project)
 
         planning_element.reload
 
@@ -68,7 +70,10 @@ describe PlanningElement do
       {:subject    => 'Planning Element No. 1',
        :start_date => Date.today,
        :due_date   => Date.today + 2.weeks,
-       :project_id => project.id}
+       :project_id => project.id,
+       :type       => project.types.first,
+       :author     => user
+      }
     }
 
     it { PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }.should be_valid }
@@ -124,7 +129,7 @@ describe PlanningElement do
         planning_element.should_not be_valid
 
         planning_element.errors[:due_date].should be_present
-        planning_element.errors[:due_date].should == ["must be greater than start date"]
+        planning_element.errors[:due_date].should include("must be greater than start date")
       end
 
       it 'is invalid if planning_element is milestone and due_date is not on start_date' do
@@ -148,7 +153,7 @@ describe PlanningElement do
         planning_element.should_not be_valid
 
         planning_element.errors[:project].should be_present
-        planning_element.errors[:project].should == ["can't be blank"]
+        planning_element.errors[:project].should include("can't be blank")
       end
     end
 
@@ -215,9 +220,349 @@ describe PlanningElement do
     end
   end
 
+  describe 'alternate dates' do
+    describe 'auto-creation' do
+      let(:planning_element) {
+        FactoryGirl.build(:planning_element,
+                             :subject    => 'Planning Element No. 1',
+                             :start_date => Date.today,
+                             :due_date   => Date.today + 2.weeks,
+                             :project_id => project.id)
+      }
+
+      it 'creates an alternate date whenever a planning element is created' do
+        pe = planning_element
+        pe.save
+
+        pe.reload
+        pe.alternate_dates.should_not be_empty
+        pe.alternate_dates.size.should == 1
+
+        ad = pe.alternate_dates.last
+        ad.start_date.should == pe.start_date
+        ad.due_date.should == pe.due_date
+      end
+
+      it 'creates an alternate date whenever start or end date is updated' do
+        pe = planning_element
+        pe.save
+
+        pe.reload
+        pe.update_attributes(:start_date => Date.today + 1.day,
+                             :due_date   => Date.today + 1.day + 2.weeks)
+
+        pe.alternate_dates.should_not be_empty
+        pe.alternate_dates.size.should == 2
+
+        ad = pe.alternate_dates.last
+        ad.start_date.should == pe.start_date
+        ad.due_date.should == pe.due_date
+      end
+
+      it 'does not create an alternate date when other attributes are changed' do
+        pe = planning_element
+        pe.save
+
+        pe.reload
+        pe.update_attributes(:subject => 'Things')
+
+        pe.alternate_dates.size.should == 1
+      end
+    end
+
+    describe 'at_time scope' do
+      let(:changes) { [
+          {:time       => Date.new(2011,  1, 1).to_time,
+           :start_date => Date.new(2012,  1, 1),
+           :due_date   => Date.new(2012,  1, 2),
+           :due_date   => Date.new(2012,  1, 2)},
+
+          {:time       => Date.new(2011,  1, 2).to_time,
+           :start_date => Date.new(2012,  2, 1),
+           :due_date   => Date.new(2012,  2, 2),
+           :due_date   => Date.new(2012,  2, 2)},
+
+          {:time       => Date.new(2011,  1, 3).to_time,
+           :start_date => Date.new(2011, 12, 1),
+           :due_date   => Date.new(2012, 12, 2),
+           :due_date   => Date.new(2011, 12, 2)}
+        ] }
+
+      before do
+        # create proper planning element history and journals
+        initial = changes.first
+        pe = FactoryGirl.create(:planning_element,
+                            :start_date => initial[:start_date],
+                            :due_date   => initial[:due_date],
+                            :created_at => initial[:time],
+                            :updated_at => initial[:time])
+
+        begin
+          PlanningElement.record_timestamps = false
+          # This will keep an api builder intact when calling partials
+          pe.reload
+          changes[1..-1].each do |change|
+            pe[:start_date] = change[:start_date]
+            pe[:due_date]   = change[:due_date]
+            pe[:updated_at] = change[:time]
+            pe.save
+            pe.reload
+          end
+        ensure
+          PlanningElement.record_timestamps = true
+        end
+
+        # Kill auto-generated alterate dates. We'll create our own
+        pe.alternate_dates.delete_all
+
+        changes.each do |change|
+          FactoryGirl.create(:alternate_date,
+                         :planning_element_id => pe.id,
+                         :start_date => change[:start_date],
+                         :due_date   => change[:due_date],
+                         :created_at => change[:time],
+                         :updated_at => change[:time])
+        end
+
+        pe.alternate_dates.reload
+
+        @pe = pe
+      end
+
+      it 'returns the current data when timestamp is after last edit' do
+        fetched = PlanningElement.at_time(changes.last[:time] + 1.day).find(@pe.id)
+
+        fetched.start_date.should == @pe.start_date
+        fetched.due_date.should   == @pe.due_date
+        fetched.updated_at        == @pe.updated_at
+        fetched.should be_readonly
+      end
+
+      it 'returns nothing when timestamp is before first edit' do
+        expect {
+          PlanningElement.at_time(changes.first[:time] - 1.day).find(@pe.id)
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it 'returns intial data when timestamp is between first and second edit' do
+        edit = changes.first
+        fetched = PlanningElement.at_time(edit[:time] + 1.hour).find(@pe.id)
+
+        fetched.start_date.should == edit[:start_date]
+        fetched.due_date.should   == edit[:due_date]
+        fetched.updated_at        == edit[:updated_at]
+        fetched.should be_readonly
+      end
+
+      it 'returns intermediate data when timestamp is between second and last edit' do
+        edit = changes.second
+        fetched = PlanningElement.at_time(edit[:time] + 1.hour).find(@pe.id)
+
+        fetched.start_date.should == edit[:start_date]
+        fetched.due_date.should   == edit[:due_date]
+        fetched.updated_at       == edit[:updated_at]
+        fetched.should be_readonly
+      end
+    end
+  end
+
+  describe 'scenarios' do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:planning_element) { FactoryGirl.create(:planning_element,
+                                            :project_id => project.id) }
+
+    describe 'w/o scenarios' do
+      describe '#scenarios' do
+        it 'returns an empty array' do
+          planning_element.scenarios.should be_empty
+          planning_element.scenarios.should == []
+        end
+      end
+
+      describe '#all_scenarios' do
+        it 'returns an empty array' do
+          planning_element.all_scenarios.should be_empty
+          planning_element.all_scenarios.should == []
+        end
+      end
+    end
+
+    describe 'w/ scenarios' do
+      let(:scenario_a) {FactoryGirl.create(:scenario,
+                                       :project_id => project.id) }
+      let(:scenario_b) {FactoryGirl.create(:scenario,
+                                       :project_id => project.id) }
+
+      before { scenario_a; scenario_b }
+
+      describe "w/o alternate dates" do
+        describe '#scenarios' do
+          it 'returns an empty array' do
+            planning_element.scenarios.should be_empty
+            planning_element.scenarios.should == []
+          end
+        end
+
+        describe '#all_scenarios' do
+          it 'returns an with all scenario w/o dates' do
+            scenarios = planning_element.all_scenarios
+            scenarios.size.should == 2
+
+            first = scenarios.first
+            first.scenario.should == scenario_a
+            first.planning_element.should == planning_element
+            first.start_date.should be_nil
+            first.due_date.should be_nil
+
+            second = scenarios.second
+            second.scenario.should == scenario_b
+            second.planning_element.should == planning_element
+            second.start_date.should be_nil
+            second.due_date.should be_nil
+          end
+        end
+      end
+
+      describe 'w/ alternate dates' do
+        let(:alternate_date) { FactoryGirl.create(:alternate_date,
+                                              :planning_element_id => planning_element.id,
+                                              :scenario_id         => scenario_a.id) }
+
+        before { alternate_date; planning_element.reload }
+
+        describe '#scenarios' do
+          it 'returns an array w/ one element' do
+            scenarios = planning_element.scenarios
+            scenarios.size.should == 1
+
+            first = scenarios.first
+
+            first.scenario.should == scenario_a
+            first.planning_element.should == planning_element
+
+            first.start_date.should == alternate_date.start_date
+            first.due_date.should == alternate_date.due_date
+          end
+        end
+
+        describe '#all_scenarios' do
+          it 'returns an array' do
+            scenarios = planning_element.all_scenarios
+            scenarios.size.should == 2
+
+            first = scenarios.first
+
+            first.scenario.should == scenario_a
+            first.planning_element.should == planning_element
+
+            first.start_date.should == alternate_date.start_date
+            first.due_date.should == alternate_date.due_date
+
+            second = scenarios.second
+
+            second.scenario.should == scenario_b
+            second.planning_element.should == planning_element
+
+            second.start_date.should be_nil
+            second.due_date.should be_nil
+          end
+        end
+      end
+    end
+  end
+
+  describe 'scenarios=' do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:planning_element) { FactoryGirl.create(:planning_element,
+                                            :project_id => project.id) }
+    let(:scenario) { FactoryGirl.create(:scenario,
+                                    :project_id => project.id) }
+
+    it 'creates alternate dates if there are none' do
+      planning_element; scenario
+
+      planning_element.reload
+      planning_element.alternate_dates.scenaric.should be_empty
+
+      planning_element.scenarios = [
+        {'id' => scenario.id, 'start_date' => Date.new(2012, 1, 2), 'due_date' => Date.new(2012, 1, 3) }
+      ]
+
+      planning_element.save!
+
+      planning_element.reload
+      planning_element.alternate_dates.scenaric.should_not be_empty
+      planning_element.alternate_dates.scenaric.size.should == 1
+
+      alternate_date = planning_element.alternate_dates.scenaric.first
+
+      alternate_date.scenario.should         == scenario
+      alternate_date.start_date.should       == Date.new(2012, 1, 2)
+      alternate_date.due_date.should         == Date.new(2012, 1, 3)
+      alternate_date.planning_element.should == planning_element
+    end
+
+    it 'updates alternate dates if there are some' do
+      alternate_date = FactoryGirl.create(:alternate_date,
+                                      :planning_element_id => planning_element.id,
+                                      :scenario_id => scenario.id,
+                                      :start_date  => Date.new(2012, 1, 2),
+                                      :due_date    => Date.new(2012, 1, 3))
+
+      planning_element.reload
+      planning_element.alternate_dates.scenaric.size.should  == 1
+      planning_element.alternate_dates.scenaric.first.should == alternate_date
+
+      planning_element.scenarios = [
+        {'id' => scenario.id, 'start_date' => Date.new(2012, 2, 2), 'due_date' => Date.new(2012, 2, 3) }
+      ]
+
+      planning_element.save!
+
+      planning_element.reload
+      planning_element.alternate_dates.scenaric.should_not be_empty
+      planning_element.alternate_dates.scenaric.size.should == 1
+
+      alternate_date.reload
+      planning_element.alternate_dates.scenaric.first.should == alternate_date
+
+      alternate_date.scenario.should         == scenario
+      alternate_date.start_date.should       == Date.new(2012, 2, 2)
+      alternate_date.due_date.should         == Date.new(2012, 2, 3)
+      alternate_date.planning_element.should == planning_element
+    end
+
+    it 'deletes alternate_dates, if they are marked for destruction' do
+      alternate_date = FactoryGirl.create(:alternate_date,
+                                      :planning_element_id => planning_element.id,
+                                      :scenario_id => scenario.id,
+                                      :start_date  => Date.new(2012, 1, 2),
+                                      :due_date    => Date.new(2012, 1, 3))
+
+      planning_element.reload
+      planning_element.alternate_dates.scenaric.size.should  == 1
+      planning_element.alternate_dates.scenaric.first.should == alternate_date
+
+      planning_element.scenarios = [
+        {'id' => scenario.id,
+         'start_date' => Date.new(2012, 2, 2),
+         'due_date' => Date.new(2012, 2, 3),
+         '_destroy' => '1'}
+      ]
+
+      planning_element.save!
+
+      planning_element.reload
+      planning_element.alternate_dates.scenaric.should be_empty
+      planning_element.alternate_dates.scenaric.size.should == 0
+
+      expect { alternate_date.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
   describe 'journal' do
     let(:responsible) { FactoryGirl.create(:user) }
-    let(:type)     { FactoryGirl.create(:type) }
+    let(:type)        { project.types.first }
     let(:pe_status)   { FactoryGirl.create(:planning_element_status) }
 
     let(:pe) { FactoryGirl.create(:planning_element,
@@ -231,7 +576,8 @@ describe PlanningElement do
                                   :type_id                         => type.id,
                                   :planning_element_status_id      => pe_status.id,
                                   :planning_element_status_comment => 'All lost'
-                                  ) }
+                                  )
+    }
 
     it "has an initial journal, so that it's creation shows up in activity" do
       pe.journals.size.should == 1
