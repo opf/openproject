@@ -1,6 +1,8 @@
 # Changelog
 
 * `#825` Migrate Duration
+* `#1421` Adapt issue created/updated wording to apply to work packages
+* `#1813` Run Data Generator on old AAJ schema
 
 ## 3.0.0pre13
 

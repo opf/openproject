@@ -13,7 +13,7 @@
 class IssuePriority < Enumeration
   has_many :issues, :foreign_key => 'priority_id'
 
-  OptionName = :enumeration_issue_priorities
+  OptionName = :enumeration_work_package_priorities
 
   def option_name
     OptionName

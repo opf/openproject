@@ -12,7 +12,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render :partial => 'action_menu' %>
 
-<% breadcrumb_paths(*[link_to(l(:label_issue_plural), {:controller => '/issues', :action => 'index'})] << @ancestors.collect {|parent| link_to '#' + h(parent.id), {:controller => '/issues', :action => 'show', :id => parent}}) unless @ancestors.empty? %>
+<% breadcrumb_paths(*[link_to(l(:label_work_package_plural), {:controller => '/issues', :action => 'index'})] << @ancestors.collect {|parent| link_to '#' + h(parent.id), {:controller => '/issues', :action => 'show', :id => parent}}) unless @ancestors.empty? %>
 
 <%= content_tag('h2', h(@issue.type.name) + ' #' +@issue.id.to_s) %>
 

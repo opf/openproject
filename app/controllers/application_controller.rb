@@ -538,7 +538,7 @@ class ApplicationController < ActionController::Base
     if unsaved_issue_ids.empty?
       flash[:notice] = l(:notice_successful_update) unless issues.empty?
     else
-      flash[:error] = l(:notice_failed_to_save_issues,
+      flash[:error] = l(:notice_failed_to_save_work_packages,
                         :count => unsaved_issue_ids.size,
                         :total => issues.size,
                         :ids => '#' + unsaved_issue_ids.join(', #'))

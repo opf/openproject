@@ -41,12 +41,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= work_package_css_classes(issue) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
           <td class="checkbox hide-when-print">
-            <label for="issue<%= issue.id %>" class="hidden-for-sighted"><%= l(:description_select_issue) + '#' + issue.id.to_s %></label>
+            <label for="issue<%= issue.id %>" class="hidden-for-sighted"><%= l(:description_select_work_package) + '#' + issue.id.to_s %></label>
             <%= check_box_tag("ids[]", issue.id, false, :id => "issue#{issue.id}") %>
           </td>
           <td class="id">
             <% if parent_issue = issue.parent_id %>
-              <span class='hidden-for-sighted'><%=l(:description_subissue) + ' ' + l(:label_issue) + ' #' + parent_issue.to_s %></span>
+              <span class='hidden-for-sighted'><%=l(:description_subwork_package) + ' ' + l(:label_work_package) + ' #' + parent_issue.to_s %></span>
             <% end -%>
             <%= link_to issue.id, work_package_path(issue) %>
           </td>

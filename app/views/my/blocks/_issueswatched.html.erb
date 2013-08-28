@@ -10,12 +10,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h3><%=l(:label_watched_issues)%> (<%= Issue.visible.watched_by(user.id).count %>)</h3>
+<h3><%=l(:label_watched_work_packages)%> (<%= Issue.visible.watched_by(user.id).count %>)</h3>
 <% watched_issues = Issue.visible.on_active_project.watched_by(user.id).recently_updated.with_limit(10) %>
 
 <%= render :partial => 'issues/list_simple', :locals => { :issues => watched_issues } %>
 <% if watched_issues.length > 0 %>
-<p class="small"><%= link_to l(:label_issue_view_all_watched), :controller => '/issues',
+<p class="small"><%= link_to l(:label_work_package_view_all_watched), :controller => '/issues',
 																											 :action => 'index',
 																											 :set_filter => 1,
 																											 :watcher_id => 'me',

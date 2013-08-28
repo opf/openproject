@@ -130,7 +130,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <li class="delete">
     <%= context_menu_link l(:button_delete), issues_path(:ids => @issues.collect(&:id)),
                                              :method => :delete,
-                                             :confirm => l(:text_issues_destroy_confirmation),
+                                             :confirm => l(:text_work_packages_destroy_confirmation),
                                              :class => 'context_item',
                                              :disabled => !@can[:delete] %>
   </li>

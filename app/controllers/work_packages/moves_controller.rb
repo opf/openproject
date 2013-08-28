@@ -56,7 +56,7 @@ class WorkPackages::MovesController < ApplicationController
     if unsaved_work_package_ids.empty? and not work_packages.empty?
       flash[:notice] = (@copy) ? l(:notice_successful_create) : l(:notice_successful_update)
     else
-      flash[:error] = l(:notice_failed_to_save_issues,
+      flash[:error] = l(:notice_failed_to_save_work_packages,
                         :count => unsaved_work_package_ids.size,
                         :total => work_packages.size,
                         :ids => '#' + unsaved_work_package_ids.join(', #'))

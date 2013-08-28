@@ -204,7 +204,7 @@ class Issue < WorkPackage
 
   def validate_fixed_version_is_still_open
     if fixed_version && assignable_versions.include?(fixed_version)
-      errors.add :base, I18n.t(:error_can_not_reopen_issue_on_closed_version) if reopened? && fixed_version.closed?
+      errors.add :base, I18n.t(:error_can_not_reopen_work_package_on_closed_version) if reopened? && fixed_version.closed?
     end
   end
 

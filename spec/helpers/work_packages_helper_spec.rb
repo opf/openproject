@@ -170,7 +170,7 @@ describe WorkPackagesHelper do
 
   describe :work_package_index_link do
     it "should return a link to issue_index (work_packages index later)" do
-      helper.work_package_index_link.should have_selector("a[href='#{issues_path}']", :text => I18n.t(:label_issue_plural))
+      helper.work_package_index_link.should have_selector("a[href='#{issues_path}']", :text => I18n.t(:label_work_package_plural))
     end
   end
 

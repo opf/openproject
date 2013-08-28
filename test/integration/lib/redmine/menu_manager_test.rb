@@ -25,7 +25,7 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
                                                                              :attributes => { :href => '/projects/ecookbook/activity',
                                                                                               :class => 'activity ellipsis' } } }
     assert_tag :div, :attributes => { :id => 'main-menu' },
-                     :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_issue_plural),
+                     :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_work_package_plural),
                                                                              :attributes => { :href => '/projects/ecookbook/issues',
                                                                                               :class => 'issues ellipsis selected' } } }
   end
