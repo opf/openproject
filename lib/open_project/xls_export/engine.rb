@@ -9,8 +9,6 @@ module OpenProject::XlsExport
              :author_url => 'http://finn.de/',
              :requires_openproject => '>= 3.0.0pre11'
 
-    assets %w(excel_export.css)
-
     patches [:IssuesController]
     # disabled since not yet migrated: :CostReportsController
 
