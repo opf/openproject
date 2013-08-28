@@ -724,13 +724,6 @@ describe PlanningElement do
     end
   end
 
-  describe ' - Instance Methods' do
-    it_should_behave_like "a model with non-negative duration"
-
-    describe 'trash' do
-    end
-  end
-
   describe 'acts as paranoid trash' do
     before(:each) do
       @pe1 = FactoryGirl.create(:planning_element,
