@@ -1,22 +1,29 @@
 require 'spec_helper'
 
-describe IssuesController, "rendering to xls" do
-  
-  it "should respond with the xls if requested in the index" do
-    pending
-    params_from(:get, "/hello/world").should == {:controller => "hello", :action => "world"}
-    render :action => :index
-    response.should be_success
+describe IssuesController, "rendering to xls", :type => :controller do
+  let(:current_user) { FactoryGirl.create(:admin) }
+
+  before do
+    User.stub(:current).and_return current_user
   end
-  
-  it "should not respond with the xls if requested in a detail view" do
-    pending
-    render :action => :show
-    response.should_not be_success
+
+  describe "should respond with the xls if requested in the index" do
+    let!(:issue) { FactoryGirl.create(:issue) }
+
+    before do
+      get('index', :format => 'xls', :project_id => issue.project_id)
+    end
+
+    it 'should respond with 200 OK' do
+      response.response_code.should == 200
+    end
+
+    it 'should have a length > 100 bytes' do
+      response.body.length.should > 100
+    end
+
+    context 'the mime type' do
+      it { response.header['Content-Type'].should == 'application/vnd.ms-excel' }
+    end
   end
-  
-  it "should generate xls from issues" do
-    pending
-  end
-  
 end
