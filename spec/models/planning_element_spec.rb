@@ -12,7 +12,8 @@
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe PlanningElement do
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryGirl.create(:project_with_types) }
+  let(:user)    { FactoryGirl.create(:user) }
 
   before do
     FactoryGirl.create :priority, is_default: true
@@ -42,9 +43,10 @@ describe PlanningElement do
       end
 
       it 'can read the type w/ the help of the belongs_to association' do
-        type             = FactoryGirl.create(:type)
+        type             = project.types.first
         planning_element = FactoryGirl.create(:planning_element,
-                                                   :type_id => type.id)
+                                                   :type_id => type.id,
+                                                   :project => project)
 
         planning_element.reload
 
@@ -68,7 +70,10 @@ describe PlanningElement do
       {:subject    => 'Planning Element No. 1',
        :start_date => Date.today,
        :due_date   => Date.today + 2.weeks,
-       :project_id => project.id}
+       :project_id => project.id,
+       :type       => project.types.first,
+       :author     => user
+      }
     }
 
     it { PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }.should be_valid }
@@ -124,7 +129,7 @@ describe PlanningElement do
         planning_element.should_not be_valid
 
         planning_element.errors[:due_date].should be_present
-        planning_element.errors[:due_date].should == ["must be greater than start date"]
+        planning_element.errors[:due_date].should include("must be greater than start date")
       end
 
       it 'is invalid if planning_element is milestone and due_date is not on start_date' do
@@ -148,7 +153,7 @@ describe PlanningElement do
         planning_element.should_not be_valid
 
         planning_element.errors[:project].should be_present
-        planning_element.errors[:project].should == ["can't be blank"]
+        planning_element.errors[:project].should include("can't be blank")
       end
     end
 
@@ -217,15 +222,16 @@ describe PlanningElement do
 
   describe 'alternate dates' do
     describe 'auto-creation' do
-      let(:attributes) {
-        {:subject    => 'Planning Element No. 1',
-         :start_date => Date.today,
-         :due_date   => Date.today + 2.weeks,
-         :project_id => project.id}
+      let(:planning_element) {
+        FactoryGirl.build(:planning_element,
+                             :subject    => 'Planning Element No. 1',
+                             :start_date => Date.today,
+                             :due_date   => Date.today + 2.weeks,
+                             :project_id => project.id)
       }
 
       it 'creates an alternate date whenever a planning element is created' do
-        pe = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        pe = planning_element
         pe.save
 
         pe.reload
@@ -238,7 +244,7 @@ describe PlanningElement do
       end
 
       it 'creates an alternate date whenever start or end date is updated' do
-        pe = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        pe = planning_element
         pe.save
 
         pe.reload
@@ -254,7 +260,7 @@ describe PlanningElement do
       end
 
       it 'does not create an alternate date when other attributes are changed' do
-        pe = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        pe = planning_element
         pe.save
 
         pe.reload
@@ -556,7 +562,7 @@ describe PlanningElement do
 
   describe 'journal' do
     let(:responsible) { FactoryGirl.create(:user) }
-    let(:type)     { FactoryGirl.create(:type) }
+    let(:type)        { project.types.first }
     let(:pe_status)   { FactoryGirl.create(:planning_element_status) }
 
     let(:pe) { FactoryGirl.create(:planning_element,
@@ -570,7 +576,8 @@ describe PlanningElement do
                                   :type_id                         => type.id,
                                   :planning_element_status_id      => pe_status.id,
                                   :planning_element_status_comment => 'All lost'
-                                  ) }
+                                  )
+    }
 
     it "has an initial journal, so that it's creation shows up in activity" do
       pe.journals.size.should == 1

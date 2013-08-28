@@ -94,10 +94,6 @@ class PlanningElement < WorkPackage
 
   before_save :append_scenario_dates_to_journal
 
-  validates_presence_of :subject, :project
-
-  validates_length_of :subject, :maximum => 255, :unless => lambda { |e| e.subject.blank? }
-
   def duration
     if start_date >= due_date
       1
