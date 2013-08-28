@@ -271,20 +271,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_nil first_parent.reload.estimated_hours
   end
 
-  def test_reschuling_a_parent_should_reschedule_subtasks
-    parent = create_issue!
-    c1 = create_issue!(:start_date => '2010-05-12', :due_date => '2010-05-18', :parent_id => parent.id)
-    c2 = create_issue!(:start_date => '2010-06-03', :due_date => '2010-06-10', :parent_id => parent.id)
-    parent.reload
-    parent.reschedule_after(Date.parse('2010-06-02'))
-    c1.reload
-    assert_equal [Date.parse('2010-06-02'), Date.parse('2010-06-08')], [c1.start_date, c1.due_date]
-    c2.reload
-    assert_equal [Date.parse('2010-06-03'), Date.parse('2010-06-10')], [c2.start_date, c2.due_date] # no change
-    parent.reload
-    assert_equal [Date.parse('2010-06-02'), Date.parse('2010-06-10')], [parent.start_date, parent.due_date]
-  end
-
   def test_project_copy_should_copy_issue_tree
     Project.delete_all # make sure unqiue identifiers
     p = Project.create!(:name => 'Tree copy', :identifier => 'tree-copy', :type_ids => [1, 2])
