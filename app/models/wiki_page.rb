@@ -110,9 +110,16 @@ class WikiPage < ActiveRecord::Base
   end
 
   def content_for_version(version=nil)
-    result = content.versions.find_by_version(version.to_i) if version
-    result ||= content
-    result
+    journal = content.versions.find_by_version(version.to_i) if version
+
+    unless journal.nil? || content.version == journal.version
+      content_version = WikiContent.new journal.data.attributes.except('id', 'journal_id')
+      content_version.journals = content.journals.select{|j| j.version <= version.to_i}
+
+      content_version
+    else
+      content
+    end
   end
 
   def diff(version_to=nil, version_from=nil)
