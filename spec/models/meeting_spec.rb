@@ -111,7 +111,6 @@ describe Meeting do
     end
   end
   
-  #neu, Jonas Heinrich
   describe "all_changeable_participants" do
     describe "WITH a user having the view_meetings permission" do
       before do
