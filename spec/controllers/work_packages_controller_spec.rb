@@ -54,6 +54,39 @@ describe WorkPackagesController do
     end
   end
 
+  describe 'index.html' do
+    before do
+      User.current.should_receive(:allowed_to?)
+                  .with({ :controller => "work_packages",
+                          :action => "index" },
+                        project,
+                        :global => true)
+                  .and_return(true)
+    end
+
+    describe "w/o a project" do
+      let(:project) { nil }
+      let(:call_action) { get('index') }
+
+      it 'should render the index template' do
+        call_action
+
+        response.should render_template('work_packages/index', :formats => ["html"],
+                                                               :layout => :base)
+      end
+    end
+
+    describe "w/ a project" do
+      let(:call_action) { get('index', :project_id => project.id) }
+
+      it 'should render the index template' do
+        call_action
+
+        response.should render_template('work_packages/index', :formats => ["html"],
+                                                               :layout => :base)
+      end
+    end
+  end
 
   describe 'show.html' do
     let(:call_action) { get('show', :id => '1337') }

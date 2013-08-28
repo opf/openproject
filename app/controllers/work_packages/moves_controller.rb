@@ -44,10 +44,10 @@ class WorkPackages::MovesController < ApplicationController
       if @work_packages.size == 1 && moved_work_packages.size == 1
         redirect_to work_package_path(moved_work_packages.first)
       else
-        redirect_to project_issues_path(@target_project || @project)
+        redirect_to project_work_packages_path(@target_project || @project)
       end
     else
-      redirect_to project_issues_path(@project)
+      redirect_to project_work_packages_path(@project)
     end
     return
   end

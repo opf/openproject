@@ -12,7 +12,12 @@
 class WorkPackagesController < ApplicationController
   unloadable
 
+  DEFAULT_SORT_ORDER = ['parent', 'desc']
+
   include Redmine::Export::PDF
+  include QueriesHelper
+  include SortHelper
+  include PaginationHelper
 
   current_menu_item do |controller|
     begin
@@ -32,7 +37,8 @@ class WorkPackagesController < ApplicationController
   before_filter :disable_api
   before_filter :not_found_unless_work_package,
                 :project,
-                :authorize
+                :authorize, :except => [:index]
+  before_filter :find_optional_project, :only => [:index]
 
   def show
     respond_to do |format|
@@ -187,8 +193,25 @@ class WorkPackagesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_back_or_default(controller: '/issues', action: 'index', project_id: @project) }
+      format.html { redirect_back_or_default(controller: '/work_packages', action: 'index', project_id: @project) }
     end
+  end
+
+  def index
+    query = retrieve_query
+
+    sort_init(query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : query.sort_criteria)
+    sort_update(query.sortable_columns)
+
+    work_packages = query.issues(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+                                 :order => sort_clause)
+                                .page(page_param)
+                                .per_page(per_page_param).all
+
+    render :index, :locals => { :query => query,
+                                :work_packages => work_packages,
+                                :project => @project },
+                   :layout => !request.xhr?
   end
 
   def work_package

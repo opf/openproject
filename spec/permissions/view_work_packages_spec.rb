@@ -16,4 +16,5 @@ describe WorkPackagesController, "view_work_packages permission", :type => :cont
   include PermissionSpecs
 
   check_permission_required_for('work_packages#show', :view_work_packages)
+  check_permission_required_for('work_packages#index', :view_work_packages)
 end

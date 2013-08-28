@@ -54,17 +54,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag :tag => 'a', :content => /Subproject issue/
   end
 
-  def test_index_should_not_list_issues_when_module_disabled
-    EnabledModule.delete_all("name = 'issue_tracking' AND project_id = 1")
-    get :index
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_tag :tag => 'a', :content => /Subproject issue/
-  end
-
   def test_index_with_project
     Setting.display_subprojects_issues = 0
     get :index, :project_id => 1
