@@ -30,6 +30,7 @@ module OpenProject::XlsExport
       if @worksheets[idx].nil?
         @worksheets[idx] = Worksheet.new.tap do |wb|
           wb.sheet = @xls.create_worksheet(:name => name)
+          wb.sheet.default_format.vertical_align = :top
           wb.column_widths = []
         end
       end
