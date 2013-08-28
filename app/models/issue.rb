@@ -21,10 +21,6 @@ class Issue < WorkPackage
 
   attr_protected :project_id, :author_id, :lft, :rgt
 
-  validate :validate_start_date_before_soonest_start_date
-  validate :validate_fixed_version_is_assignable
-  validate :validate_fixed_version_is_still_open
-  validate :validate_enabled_type
 
   scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
@@ -170,62 +166,12 @@ class Issue < WorkPackage
     Setting.issue_done_ratio == 'issue_field'
   end
 
-
-  def validate_start_date_before_soonest_start_date
-    if start_date && soonest_start && start_date < soonest_start
-      errors.add :start_date, :invalid
-    end
-  end
-
-  def validate_fixed_version_is_assignable
-    if fixed_version
-      errors.add :fixed_version_id, :inclusion unless assignable_versions.include?(fixed_version)
-    end
-  end
-
-  def validate_fixed_version_is_still_open
-    if fixed_version && assignable_versions.include?(fixed_version)
-      errors.add :base, I18n.t(:error_can_not_reopen_issue_on_closed_version) if reopened? && fixed_version.closed?
-    end
-  end
-
-  def validate_enabled_type
-    # Checks that the issue can not be added/moved to a disabled type
-    if project && (type_id_changed? || project_id_changed?)
-      errors.add :type_id, :inclusion unless project.types.include?(type)
-    end
-  end
-
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
   def update_done_ratio_from_issue_status
     if Issue.use_status_for_done_ratio? && status && status.default_done_ratio
       self.done_ratio = status.default_done_ratio
     end
-  end
-
-  # Return true if the issue is being reopened
-  def reopened?
-    if !new_record? && status_id_changed?
-      status_was = IssueStatus.find_by_id(status_id_was)
-      status_new = IssueStatus.find_by_id(status_id)
-      if status_was && status_new && status_was.is_closed? && !status_new.is_closed?
-        return true
-      end
-    end
-    false
-  end
-
-  # Return true if the issue is being closed
-  def closing?
-    if !new_record? && status_id_changed?
-      status_was = IssueStatus.find_by_id(status_id_was)
-      status_new = IssueStatus.find_by_id(status_id)
-      if status_was && status_new && !status_was.is_closed? && status_new.is_closed?
-        return true
-      end
-    end
-    false
   end
 
   # Is the amount of work done less than it should for the due date
@@ -248,28 +194,6 @@ class Issue < WorkPackage
     notified.collect(&:mail)
   end
 
-  # Returns the time scheduled for this issue.
-  #
-  # Example:
-  #   Start Date: 2/26/09, End Date: 3/04/09
-  #   duration => 6
-  def duration
-    (start_date && due_date) ? due_date - start_date : 0
-  end
-
-  def reschedule_after(date)
-    return if date.nil?
-    if leaf?
-      if start_date.nil? || start_date < date
-        self.start_date, self.due_date = date, date + duration
-        save
-      end
-    else
-      leaves.each do |leaf|
-        leaf.reschedule_after(date)
-      end
-    end
-  end
 
   def <=>(issue)
     if issue.nil?

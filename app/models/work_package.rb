@@ -14,16 +14,9 @@
 # So we create an 'emtpy' Issue class first, to make Project happy.
 
 class WorkPackage < ActiveRecord::Base
-
-  # validations
-  validates_presence_of :subject, :priority, :project, :type, :author, :status
-
-  validates_length_of :subject, :maximum => 255
-  validates_inclusion_of :done_ratio, :in => 0..100
-  validates_numericality_of :estimated_hours, :allow_nil => true
-
-  validates :start_date, :date => {:allow_blank => true}
-  validates :due_date, :date => {:after => :start_date, :message => :greater_than_start_date, :allow_blank => true}, :unless => Proc.new { |wp| wp.start_date.blank?}
+  include WorkPackage::Validations
+  include WorkPackage::SchedulingRules
+  include WorkPackage::StatusTransitions
 
   #TODO Remove alternate inheritance column name once single table
   # inheritance is no longer needed. The need for a different column name
@@ -319,6 +312,9 @@ class WorkPackage < ActiveRecord::Base
   delegate :assignable_users, :to => :project
 
   # Versions that the work_package can be assigned to
+  # A work_package can be assigned to:
+  #   * any open, shared version of the project the wp belongs to
+  #   * the version it was already assigned to (to make sure, that you can still update closed tickets)
   def assignable_versions
     @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
   end
