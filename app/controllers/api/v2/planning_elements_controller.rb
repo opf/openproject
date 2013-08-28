@@ -22,7 +22,6 @@ module Api
       before_filter :find_project_by_project_id,
                     :authorize,
                     :assign_planning_elements, :except => [:index, :list]
-      before_filter :apply_at_timestamp, :only => [:show]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
       #            before filters !!!
@@ -100,7 +99,7 @@ module Api
           options[:conditions] = ["id IN (?) AND project_id IN (?)", ids, project_ids]
         end
 
-        @planning_elements = PlanningElement.all(options)
+        @planning_elements = WorkPackage.all(options)
 
         respond_to do |format|
           format.api { render :action => :index }
@@ -133,7 +132,6 @@ module Api
           find_project_by_project_id unless performed?
           authorize                  unless performed?
           assign_planning_elements   unless performed?
-          apply_at_timestamp         unless performed?
         else
           # find_project_by_project_id
           ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /^\d*$/ }
@@ -165,34 +163,12 @@ module Api
             return
           end
 
-          # assign_planning_elements and apply_at_timestamp
-          if params[:at].blank?
-            @planning_elements = PlanningElement.for_projects(@projects).without_deleted
-          else
-            begin
-              time = Time.at(Integer(params[:at]))
-              # intentionally avoiding without_deleted scope
-              @planning_elements = PlanningElement.for_projects(@projects).at_time(time)
-            rescue ArgumentError
-              render_errors(:at => 'unknown format')
-            end
-          end
+          @planning_elements = WorkPackage.for_projects(@projects).without_deleted
         end
       end
 
       def assign_planning_elements
         @planning_elements = @project.planning_elements.without_deleted
-      end
-
-      def apply_at_timestamp
-        return if params[:at].blank?
-
-        time = Time.at(Integer(params[:at]))
-        # intentionally rebuilding scope chain to avoid without_deleted scope
-        @planning_elements = @project.planning_elements.at_time(time)
-
-      rescue ArgumentError
-        render_errors(:at => 'unknown format')
       end
 
       # Helpers
@@ -241,7 +217,7 @@ module Api
         ids_hash      = @planning_elements.inject({}) { |h, pe| h[pe.id] = pe; h }
         children_hash = Hash.new { |h,k| h[k] = [] }
 
-        parent_refl, children_refl = [:parent, :children].map{|assoc| PlanningElement.reflect_on_association(assoc)}
+        parent_refl, children_refl = [:parent, :children].map{|assoc| WorkPackage.reflect_on_association(assoc)}
 
         associations = {
           :belongs_to => ActiveRecord::Associations::BelongsToAssociation,

@@ -70,10 +70,6 @@ class PlanningElement < WorkPackage
     }
   }
 
-  scope :for_projects, lambda { |projects|
-    {:conditions => {:project_id => projects}}
-  }
-
   def append_scenario_dates_to_journal
     changes = {}
     alternate_dates.each do |d|
