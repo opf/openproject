@@ -10,7 +10,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<strong><%= l(:label_issue_hierarchy) %></strong>
+<strong><%= l(:label_work_package_hierarchy) %></strong>
 (<%= link_to(l(:label_add_subtask), {:controller => '/issues', :action => 'new', :project_id => @project, :issue => {:parent_id => @issue}}) if User.current.allowed_to?(:manage_subtasks, @project) %>)
 
 <% if !@issue.leaf? || @issue.parent %>

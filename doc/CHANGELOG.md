@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1421` Adapt issue created/updated wording to apply to work packages
+
 ## 3.0.0pre13
 
 * `#1606` Update journal fixtures

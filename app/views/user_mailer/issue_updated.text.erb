@@ -1,4 +1,4 @@
-<%= t(:text_issue_updated, :id => "##{@issue.id}", :author => @journal.user) %>
+<%= t(:text_work_package_updated, :id => "##{@issue.id}", :author => @journal.user) %>
 
 <% @journal.details.each do |detail| %>
   <%= @journal.render_detail(detail, :no_html => true, :only_path => false) %>

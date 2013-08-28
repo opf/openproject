@@ -26,7 +26,7 @@ module WorkPackagesHelper
 
   def work_package_index_link
     # TODO: will need to change to work_package index
-    link_to(t(:label_issue_plural), {:controller => '/issues', :action => 'index'})
+    link_to(t(:label_work_package_plural), {:controller => '/issues', :action => 'index'})
   end
 
   # Displays a link to +work_package+ with its subject.
@@ -80,7 +80,7 @@ module WorkPackagesHelper
 
     if package.closed?
       parts[:hidden_link] << content_tag(:span,
-                                         t(:label_closed_issues),
+                                         t(:label_closed_work_packages),
                                          :class => "hidden-for-sighted")
     end
 
@@ -206,6 +206,14 @@ module WorkPackagesHelper
       yield work_package, ancestors.size
       ancestors << work_package unless work_package.leaf?
     end
+  end
+
+  def send_notification_option
+    content_tag(:label,
+                l(:label_notify_member_plural),
+                  :for => 'send_notification') +
+    hidden_field_tag('send_notification', '0', :id => nil) +
+    check_box_tag('send_notification', '1', true)
   end
 
   def render_work_package_tree_row(work_package, level, relation)
@@ -482,10 +490,10 @@ module WorkPackagesHelper
                           :include_blank => true)
 
       field += prompt_to_remote(image_tag('plus.png', :style => 'vertical-align: middle;'),
-                                         t(:label_issue_category_new),
+                                         t(:label_work_package_category_new),
                                          'category[name]',
                                          project_issue_categories_path(locals[:project]),
-                                         :title => t(:label_issue_category_new)) if authorize_for('issue_categories', 'new')
+                                         :title => t(:label_work_package_category_new)) if authorize_for('issue_categories', 'new')
 
       WorkPackageAttribute.new(:category, field)
     end

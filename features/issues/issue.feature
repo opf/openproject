@@ -37,7 +37,7 @@ Feature: Issue textile quickinfo links
 
   Scenario: Navigating from issue reports back to issue overview
     When I go to the issues/report page of the project called "parent"
-    And I follow "Issue" within "#main-menu"
+    And I follow "Work packages" within "#main-menu"
     Then I should be on the issues index page of the project called "parent"
 
   Scenario: An issue attachment is listed

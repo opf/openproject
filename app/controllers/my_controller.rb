@@ -18,9 +18,9 @@ class MyController < ApplicationController
   menu_item :account, :only => [:account]
   menu_item :password, :only => [:password]
 
-  BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
-             'issuesreportedbyme' => :label_reported_issues,
-             'issueswatched' => :label_watched_issues,
+  BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
+             'issuesreportedbyme' => :label_reported_work_packages,
+             'issueswatched' => :label_watched_work_packages,
              'news' => :label_news_latest,
              'calendar' => :label_calendar,
              'timelog' => :label_spent_time
