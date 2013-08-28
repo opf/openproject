@@ -183,8 +183,7 @@ module TimelinesHelper
         }
         .timelines-color-properties label,
         .timelines-pet-properties label,
-        .timelines-pt-properties label,
-        .timelines-scenario-properties label {
+        .timelines-pt-properties label {
           display: inline-block;
           width: 10em;
         }
@@ -192,9 +191,6 @@ module TimelinesHelper
         .timelines-pet-properties .timelines-value,
         .timelines-pt-properties .timelines-value {
           margin-left: 0.4em;
-        }
-        td.timelines-scenario-name {
-          font-weight: bold;
         }
 
         .contextual.timelines-for_previous_heading {

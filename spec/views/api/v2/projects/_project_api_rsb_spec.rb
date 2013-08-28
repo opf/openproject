@@ -74,12 +74,6 @@ describe 'api/v2/projects/_project.api' do
         response.should_not have_selector('project planning_element_types')
       end
 
-      it 'does not contain a scenarios element' do
-        render
-
-        response.should_not have_selector('project scenarios')
-      end
-
       it 'does not contain a project_associations element' do
         render
 
@@ -229,18 +223,17 @@ describe 'api/v2/projects/_project.api' do
     let(:project) { FactoryGirl.create(:project) }
 
     before do
-      @project_scenarios = [
-        FactoryGirl.create(:project_association,
-                       :project_a_id => project.id,
-                       :project_b_id => FactoryGirl.create(:project, :is_public => true).id),
-        FactoryGirl.create(:project_association,
-                       :project_b_id => project.id,
-                       :project_a_id => FactoryGirl.create(:project, :is_public => true).id)
-      ]
+      FactoryGirl.create(:project_association,
+                         :project_a_id => project.id,
+                         :project_b_id => FactoryGirl.create(:project, :is_public => true).id)
+      FactoryGirl.create(:project_association,
+                         :project_b_id => project.id,
+                         :project_a_id => FactoryGirl.create(:project, :is_public => true).id)
+
       # Adding invisible association to make sure, that it is not included in the output
       FactoryGirl.create(:project_association,
-                     :project_a_id => project.id,
-                     :project_b_id => FactoryGirl.create(:project, :is_public => false).id)
+                         :project_a_id => project.id,
+                         :project_b_id => FactoryGirl.create(:project, :is_public => false).id)
     end
 
     describe 'project node' do
@@ -255,34 +248,6 @@ describe 'api/v2/projects/_project.api' do
           render
 
           response.should have_selector('project project_associations project_association[id]', :count => 2)
-        end
-      end
-    end
-  end
-
-  describe 'with a project having 3 scenarios' do
-    let(:project) { FactoryGirl.create(:project) }
-
-    before do
-      @project_scenarios = [
-        FactoryGirl.create(:scenario, :project_id => project.id),
-        FactoryGirl.create(:scenario, :project_id => project.id),
-        FactoryGirl.create(:scenario, :project_id => project.id)
-      ]
-    end
-
-    describe 'project node' do
-      it 'contains a scenarios element of type array with a size of 3' do
-        render
-
-        response.should have_selector('project scenarios[type=array][size="3"]', :count => 1)
-      end
-
-      describe 'scenarios node' do
-        it 'contains 3 scenario elements having id and name attributes' do
-          render
-
-          response.should have_selector('project scenarios scenario[id][name]', :count => 3)
         end
       end
     end

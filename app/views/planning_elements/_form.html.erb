@@ -93,43 +93,6 @@ See doc/COPYRIGHT.rdoc for more details.
         </td>
         <td>&nbsp;</td>
       </tr>
-
-      <% planning_element.all_scenarios.each do |pe_scenario| %>
-        <%= fields_for 'planning_element[scenarios][]', pe_scenario do |scenario_fields| %>
-          <% id_base = "planning_element_scenarios_#{scenario_fields.object.id}" %>
-          <tr class="timelines-scenaric-dates">
-            <th>
-              <%= scenario_fields.hidden_field :id %>
-              <%=h scenario_fields.object.name %>:
-            </th>
-            <td>
-              <label class="hidden-for-sighted" for="<%= id_base %>_start_date">
-                <%=h scenario_fields.object.name %>
-                <%= PlanningElement.human_attribute_name(:start_date) %>
-              </label>
-              <%= scenario_fields.text_field :start_date, date_input_options %><%= calendar_for("#{id_base}_start_date") if planning_element.leaf? %>
-
-               -
-
-              <label class="hidden-for-sighted" for="<%= id_base %>_due_date">
-                <%=h scenario_fields.object.name %>
-                <%= PlanningElement.human_attribute_name(:due_date) %>
-              </label>
-              <%= scenario_fields.text_field :due_date, date_input_options %><%= calendar_for("#{id_base}_due_date") if planning_element.leaf? %>
-
-              <%= scenario_fields.check_box :_destroy %>
-              <label for="<%= id_base %>__destroy">
-                <%= t(:button_delete) %>
-                <span class="hidden-for-sighted">
-                  <%=h scenario_fields.object.name %>
-                </span>
-              </label>
-              &nbsp;
-            </td>
-          </tr>
-        <% end %>
-      <% end %>
-
     </table>
   </div>
 </div>

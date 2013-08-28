@@ -15,7 +15,6 @@ require 'redmine/acts/journalized/format_hooks'
 require 'open_project/journal_formatter/diff'
 require 'open_project/journal_formatter/attachment'
 require 'open_project/journal_formatter/custom_field'
-require 'open_project/journal_formatter/scenario_date'
 
 # The ActiveRecord model representing journals.
 class LegacyJournal < ActiveRecord::Base
@@ -41,7 +40,6 @@ class LegacyJournal < ActiveRecord::Base
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
-  register_journal_formatter :scenario_date, OpenProject::JournalFormatter::ScenarioDate
 
   # "touch" the journaled object on creation
   after_create :touch_journaled_after_creation

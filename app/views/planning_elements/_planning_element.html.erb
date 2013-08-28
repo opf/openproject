@@ -95,17 +95,6 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= format_date planning_element.start_date, format_date_options %> - <%= format_date planning_element.due_date, format_date_options %>
         </td>
       </tr>
-
-      <% planning_element.scenarios.each do |pe_scenario| %>
-        <tr>
-          <th>
-            <%=h pe_scenario.name %>:
-          </th>
-          <td>
-            <%= format_date pe_scenario.start_date, format_date_options %> - <%= format_date pe_scenario.due_date, format_date_options %>
-          </td>
-        </tr>
-      <% end %>
     </table>
   </div>
 </div>

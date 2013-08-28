@@ -59,15 +59,6 @@ api.project do
     end
   end
 
-  scenarios = project.scenarios
-  if scenarios.present?
-    api.array :scenarios, :size => scenarios.size do
-      scenarios.each do |scenario|
-        api.scenario(:id => scenario.id, :name => scenario.name)
-      end
-    end
-  end
-
   project_associations = project.project_associations.visible
   if project_associations.present?
     api.array :project_associations, :size => project_associations.size do
