@@ -53,7 +53,7 @@ class Issues::MovesController < ApplicationController
   end
 
   def default_breadcrumb
-    l(:label_move_issue)
+    l(:label_move_work_package)
   end
 
   private

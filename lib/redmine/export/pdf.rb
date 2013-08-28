@@ -180,7 +180,7 @@ module Redmine
         else
           pdf = ITCPDF.new(current_language)
         end
-        title = query.new_record? ? l(:label_issue_plural) : query.name
+        title = query.new_record? ? l(:label_work_package_plural) : query.name
         title = "#{project} - #{title}" if project
         pdf.SetTitle(title)
         pdf.alias_nb_pages

@@ -17,7 +17,7 @@ Feature: As an admin
   Scenario: Normal Role creation with existing role with same name
     And I am already admin
     When I go to the new page of "Role"
-    Then I should see "Issues can be assigned to this role"
+    Then I should see "Work packages can be assigned to this role"
     When I fill in "Name" with "Manager"
     And I click on "Create"
     Then I should see "Successful creation."
@@ -27,7 +27,7 @@ Feature: As an admin
     And there is a role "Manager"
     And I am already admin
     When I go to the new page of "Role"
-    Then I should see "Issues can be assigned to this role"
+    Then I should see "Work packages can be assigned to this role"
     When I fill in "Name" with "Manager"
     And I click on "Create"
     Then I should see "Name has already been taken"

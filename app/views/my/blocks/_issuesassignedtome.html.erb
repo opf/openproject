@@ -10,7 +10,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h3><%=l(:label_assigned_to_me_issues)%> (<%= Issue.visible.open.count(:conditions => {:assigned_to_id => User.current.id})%>)</h3>
+<h3><%=l(:label_assigned_to_me_work_packages)%> (<%= Issue.visible.open.count(:conditions => {:assigned_to_id => User.current.id})%>)</h3>
 
 <% assigned_issues = Issue.visible.open.find(:all,
                                 :conditions => {:assigned_to_id => User.current.id},
@@ -19,7 +19,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                 :order => "#{IssuePriority.table_name}.position DESC, #{Issue.table_name}.updated_at DESC") %>
 <%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %>
 <% if assigned_issues.length > 0 %>
-<p class="small"><%= link_to l(:label_issue_view_all_assigned_to_me), :controller => '/issues',
+<p class="small"><%= link_to l(:label_work_package_view_all_assigned_to_me), :controller => '/issues',
 																											 :action => 'index',
 																											 :set_filter => 1,
 																											 :assigned_to_id => 'me',
@@ -30,5 +30,5 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= auto_discovery_link_tag(:atom,
                             {:controller => '/issues', :action => 'index', :set_filter => 1,
                              :assigned_to_id => 'me', :format => 'atom', :key => User.current.rss_key},
-                            {:title => l(:label_assigned_to_me_issues)}) %>
+                            {:title => l(:label_assigned_to_me_work_packages)}) %>
 <% end %>

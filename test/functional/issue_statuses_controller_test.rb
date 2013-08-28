@@ -100,7 +100,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
         post :update_issue_done_ratio
       end
 
-      should set_the_flash.to /Issue done ratios updated/
+      should set_the_flash.to /Work package done ratios updated/
       should redirect_to('the index') { '/issue_statuses' }
     end
   end

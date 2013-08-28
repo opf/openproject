@@ -201,11 +201,15 @@ print "Creating objects for..."
         t.hours = rand(10) if rand(99).even?
       end
 
+      issue.reload
+
       attachments = issue.attachments
 
       attachments.each do |a|
         issue.attachments.delete a if rand(99).even?
       end
+
+      issue.reload
 
       issue.custom_values.each do |cv|
         cv.value = Faker::Code.isbn if rand(99).even?

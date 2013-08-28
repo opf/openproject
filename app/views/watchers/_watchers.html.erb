@@ -10,7 +10,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<strong><%= l(:label_issue_watchers) %> (<%= watched.watcher_users.size %>)</strong>
+<strong><%= l(:label_work_package_watchers) %> (<%= watched.watcher_users.size %>)</strong>
 <%= "(#{link_to(l(:button_add_watcher), new_watcher_path(:object_type => watched.class.name.underscore.pluralize,
                                                          :object_id => watched),
                                         :method => :get,

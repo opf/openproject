@@ -12,7 +12,7 @@
 
 class IssuePriorityCustomField < CustomField
   def type_name
-    :enumeration_issue_priorities
+    :enumeration_work_package_priorities
   end
 end
 
