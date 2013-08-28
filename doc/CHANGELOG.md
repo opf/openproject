@@ -1,5 +1,7 @@
 # Changelog
 
+* `#825` Migrate Duration
+
 ## 3.0.0pre13
 
 * `#1606` Update journal fixtures
