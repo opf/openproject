@@ -496,9 +496,9 @@ class Query < ActiveRecord::Base
     order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
     order_option = nil if order_option.blank?
 
-    Issue.where(::Query.merge_conditions(statement, options[:conditions]))
-         .includes([:status, :project] + (options[:include] || []).uniq)
-         .order(order_option)
+    WorkPackage.where(::Query.merge_conditions(statement, options[:conditions]))
+               .includes([:status, :project] + (options[:include] || []).uniq)
+               .order(order_option)
   end
 
   # Returns the journals
