@@ -27,8 +27,8 @@ module OpenProject::XlsExport
                   send_data(issues_to_xls(:show_descriptions => params[:show_descriptions]),
                             :type => "application/vnd.ms-excel",
                             :filename => FilenameHelper.sane_filename(
-                                          "(#{I18n.l(DateTime.now)}) " +
-                                          "Issue Report#{" " + @project.name if @project}.xls"))
+                              "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} " +
+                              "#{format_time_as_date(Time.now, '%Y-%m-%d')}.xls"))
                 end
               end
             end
