@@ -98,14 +98,6 @@ class PlanningElement < WorkPackage
 
   validates_length_of :subject, :maximum => 255, :unless => lambda { |e| e.subject.blank? }
 
-  def duration
-    if start_date >= due_date
-      1
-    else
-      due_date - start_date + 1
-    end
-  end
-
   validate do
     if self.due_date and self.start_date and self.due_date < self.start_date
       errors.add :due_date, :greater_than_start_date
