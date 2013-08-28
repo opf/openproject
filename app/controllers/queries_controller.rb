@@ -20,7 +20,7 @@ class QueriesController < ApplicationController
   def new
     if request.post? && params[:confirm] && @query.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :controller => '/issues', :action => 'index', :project_id => @project, :query_id => @query
+      redirect_to :controller => '/work_packages', :action => 'index', :project_id => @project, :query_id => @query
       return
     end
     render :layout => false if request.xhr?
@@ -30,14 +30,14 @@ class QueriesController < ApplicationController
     if request.post?
       if @query.save
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :controller => '/issues', :action => 'index', :project_id => @project, :query_id => @query
+        redirect_to :controller => '/work_packages', :action => 'index', :project_id => @project, :query_id => @query
       end
     end
   end
 
   def destroy
     @query.destroy if request.post?
-    redirect_to :controller => '/issues', :action => 'index', :project_id => @project, :set_filter => 1
+    redirect_to :controller => '/work_packages', :action => 'index', :project_id => @project, :set_filter => 1
   end
 
 private
