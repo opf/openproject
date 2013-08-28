@@ -85,6 +85,7 @@ describe WorkPackage do
     let(:role) { FactoryGirl.create(:role) }
     let(:type) { FactoryGirl.create(:type) }
     let(:user) { FactoryGirl.create(:user) }
+    let(:other_user) { FactoryGirl.create(:user) }
     let(:statuses) { (1..5).map{ |i| FactoryGirl.create(:issue_status)}}
     let(:priority) { FactoryGirl.create :priority, is_default: true }
     let(:status) { statuses[0] }
@@ -164,9 +165,11 @@ describe WorkPackage do
       workflows
       work_package = WorkPackage.create(:type => type,
                                         :status => status,
+                                        :subject => "test",
                                         :priority => priority,
                                         :project_id => project.id,
-                                        :assigned_to => user)
+                                        :assigned_to => user,
+                                        :author => other_user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[3]]
     end
 
@@ -174,6 +177,7 @@ describe WorkPackage do
       workflows
       work_package = WorkPackage.create(:type => type,
                                         :status => status,
+                                        :subject => "test",
                                         :priority => priority,
                                         :project_id => project.id,
                                         :author => user,

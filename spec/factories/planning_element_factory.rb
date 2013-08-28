@@ -46,8 +46,11 @@ FactoryGirl.define do
     sequence(:start_date) { |n| ((n - 1) * 7).days.since.to_date }
     sequence(:due_date)   { |n| (n * 7).days.since.to_date }
 
-    association :author, :factory => :user
+    association :author,  :factory => :user
+    association :project, :factory => :project_with_types
 
-    association :project
+    after :build do |planning_element|
+      planning_element.type = planning_element.project.types.first unless planning_element.type
+    end
   end
 end
