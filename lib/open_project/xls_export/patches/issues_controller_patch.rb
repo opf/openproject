@@ -1,7 +1,3 @@
-#require_dependency 'issues_controller'
-#require_dependency 'xls_report/spreadsheet_builder'
-#require_dependency 'additional_formats/filter_settings_helper'
-
 module OpenProject::XlsExport
   module Patches
     module IssuesControllerPatch
@@ -41,23 +37,11 @@ module OpenProject::XlsExport
         def build_spreadsheet(project, issues, query, options)
           columns = query.columns
 
-          sb = SpreadsheetBuilder.new
-          project_name = (project.name if project) || "All Projects"
-          sb.add_title("#{project_name} >> #{l(:label_issue_plural)} (#{format_date(Date.today)})")
-
-          filters = FilterSettingsHelper.filter_settings(query)
-          sb.add_headers [l(:label_filter_plural)]
-          sb.add_row(filters)
-          group_by_settings = FilterSettingsHelper.group_by_setting(query)
-          if group_by_settings
-            sb.add_headers [Query.human_attribute_name(:group_by)]
-            sb.add_row [group_by_settings]
-          end
-          sb.add_empty_row
+          sb = SpreadsheetBuilder.new("#{I18n.t(:label_work_package_plural)}")
 
           headers = columns.collect(&:caption).unshift("#")
           headers << Issue.human_attribute_name(:description) if options[:show_descriptions]
-          sb.add_headers headers
+          sb.add_headers headers, 0
 
           issues.each do |issue|
             row = (columns.collect do |column|
