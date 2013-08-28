@@ -11,11 +11,11 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div class="contextual">
-<%= link_to l(:label_issue_status_new), {:action => 'new'}, :class => 'icon icon-add' %>
-<%= link_to(l(:label_update_issue_done_ratios), {:action => 'update_issue_done_ratio'}, :class => 'icon icon-multiple', :method => 'post', :confirm => l(:text_are_you_sure)) if Issue.use_status_for_done_ratio? %>
+<%= link_to l(:label_work_package_status_new), {:action => 'new'}, :class => 'icon icon-add' %>
+<%= link_to(l(:label_update_work_package_done_ratios), {:action => 'update_issue_done_ratio'}, :class => 'icon icon-multiple', :method => 'post', :confirm => l(:text_are_you_sure)) if Issue.use_status_for_done_ratio? %>
 </div>
 
-<h2><%=l(:label_issue_status_plural)%></h2>
+<h2><%=l(:label_work_package_status_plural)%></h2>
 
 <table class="list">
   <thead><tr>
@@ -51,4 +51,4 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= pagination_links_full @issue_statuses %>
 
-<% html_title(l(:label_issue_status_plural)) -%>
+<% html_title(l(:label_work_package_status_plural)) -%>

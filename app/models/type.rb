@@ -18,7 +18,7 @@ class Type < ActiveRecord::Base
 
   before_destroy :check_integrity
 
-  has_many :issues
+  has_many :work_packages
   has_many :workflows, :dependent => :delete_all do
     def copy(source_type)
       Workflow.copy(source_type, nil, proxy_association.owner, nil)

@@ -29,8 +29,8 @@ class Query < ActiveRecord::Base
 
   @@operators = { "="   => :label_equals,
                   "!"   => :label_not_equals,
-                  "o"   => :label_open_issues,
-                  "c"   => :label_closed_issues,
+                  "o"   => :label_open_work_packages,
+                  "c"   => :label_closed_work_packages,
                   "!*"  => :label_none,
                   "*"   => :label_all,
                   ">="  => :label_greater_or_equal,

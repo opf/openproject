@@ -11,7 +11,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <p>
-  <strong><%=l(:label_related_issues)%></strong>
+  <strong><%=l(:label_related_work_packages)%></strong>
   <% if authorize_for('issue_relations', 'create') %>
     (<%= toggle_link l(:label_add_related_issues), 'new-relation-form', {:focus => 'relation_issue_to_id'} %>)
   <% end %>

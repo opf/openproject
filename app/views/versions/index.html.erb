@@ -25,7 +25,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
 
     <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-    <strong class="related-issues-heading"><%= l(:label_related_issues) %></strong>
+    <strong class="related-issues-heading"><%= l(:label_related_work_packages) %></strong>
     <%= form_tag({}) do -%>
     <table class="list related-issues">
     <%- issues.each do |issue| -%>

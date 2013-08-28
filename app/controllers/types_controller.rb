@@ -81,9 +81,9 @@ class TypesController < ApplicationController
 
   def destroy
     @type = Type.find(params[:id])
-    # types cannot be deleted when they have issue
+    # types cannot be deleted when they have work packages
     # put that into the model and do a `if @type.destroy`
-    if @type.issues.empty?
+    if @type.work_packages.empty?
       @type.destroy
       flash[:notice] = l(:notice_successful_delete)
     else

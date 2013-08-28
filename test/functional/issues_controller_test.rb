@@ -358,7 +358,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     get :new, :project_id => 1
     assert_response 500
-    assert_error_tag :content => /No default issue/
+    assert_error_tag :content => /No default work package/
   end
 
   def test_get_new_with_no_type_should_display_an_error
