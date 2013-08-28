@@ -9,21 +9,85 @@ class MigrateLegacyJournals < ActiveRecord::Migration
   def up
     check_assumptions
 
-    fetch_legacy_journals.each do |journal|
+    previous_journaled_id, previous_type = 0, ""
+    previous_journal = {}
+    journal_tables = {
+      "ChangesetJournal" => "changeset_journals",
+      "NewsJournal" => "news_journals",
+      "MessageJournal" => "message_journals",
+      "WorkPackageJournal" => "work_package_journals"
+    }
+
+
+    fetch_legacy_journals.each do |legacy_journal|
 
       # turn id fields into integers.
       ["id", "journaled_id", "user_id", "version"].each do |f|
-        journal[f] = journal[f].to_i
+        legacy_journal[f] = legacy_journal[f].to_i
       end
 
-      journal["changed_data"] = YAML.load(journal["changed_data"])
+      legacy_journal["changed_data"] = YAML.load(legacy_journal["changed_data"])
 
-      get_journal journal["journaled_id"],
-                  journal["type"],
-                  journal["version"]
+      journaled_id, type, version = legacy_journal["journaled_id"], legacy_journal["type"], legacy_journal["version"]
+      table = journal_tables[type]
+
+      if table.nil?
+        puts "Ignoring type `#{type}`"
+        next
+      end
+
+      # actually insert/update stuff in the database.
+      journal = get_journal(journaled_id, type, version)
+      journal_id = journal["id"]
+
+      # update the journal w/ all values not previously inserted.
+      execute <<-SQL
+        UPDATE journals
+           SET journable_data_id   = 0,
+               journable_data_type = #{quote_value(type)},
+               user_id             = #{quote_value(legacy_journal["user_id"])},
+               notes               = #{quote_value(legacy_journal["notes"])},
+               created_at          = #{quote_value(legacy_journal["created_at"])},
+               activity_type       = #{quote_value(legacy_journal["activity_type"])}
+         WHERE id = #{quote_value(journal_id)};
+      SQL
+
+      # compute the combined journal from current and all previous changesets.
+      combined_journal = legacy_journal["changed_data"]
+      if previous_journaled_id == journaled_id && previous_type == type
+        combined_journal = previous_journal.merge(combined_journal)
+      end
+
+      # remember the combined journal as the previous one for the next iteration.
+      previous_journal = combined_journal
+      previous_journaled_id = journaled_id
+      previous_type = type
+
+      data = fetch_journal_data(journal_id, table)
+
+      if data.size > 1
+
+        raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+          It appears there are ambiguous journal data. Please make sure
+          journal data are consistent and that the unique constraint on
+          journal_id is met.
+        MESSAGE
+
+      elsif data.size == 0
+
+        keys = combined_journal.keys
+        values = combined_journal.values.map(&:last)
+
+        execute <<-SQL
+          INSERT INTO #{quoted_table_name(table)}(journal_id, #{keys.join(", ")})
+          VALUES (#{quote_value(journal_id)}, #{values.map{|d| quote_value(d)}.join(", ")});
+        SQL
+
+      end
+
+      (data || fetch_journal_data(journal_id, table)).first
+
     end
-
-    binding.pry
 
   end
 
@@ -32,7 +96,16 @@ class MigrateLegacyJournals < ActiveRecord::Migration
 
   private
 
-  # gets a journal, and makes sure it has a valid id in the database.
+  # fetches specific journal data row. might be empty.
+  def fetch_journal_data(journal_id, table)
+    ActiveRecord::Base.connection.select_all <<-SQL
+      SELECT *
+      FROM #{quoted_table_name(table)} AS d
+      WHERE d.journal_id = #{quote_value(journal_id)};
+    SQL
+  end
+
+  # gets a journal row, and makes sure it has a valid id in the database.
   def get_journal(id, type, version)
     journal = fetch_journal(id, type, version)
 
@@ -40,24 +113,37 @@ class MigrateLegacyJournals < ActiveRecord::Migration
 
       raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
         It appears there are ambiguous journals. Please make sure
-        journals are consistent and that the unique constraing on id,
+        journals are consistent and that the unique constraint on id,
         type and version is met.
       MESSAGE
 
     elsif journal.size == 0
 
       execute <<-SQL
-        INSERT INTO journals(journable_id, journable_type, version, created_at)
+        INSERT INTO #{quoted_journals_table_name}(journable_id, journable_type, version, created_at)
         VALUES (
           #{quote_value(id)},
           #{quote_value(type)},
           #{quote_value(version)},
           #{quote_value(Time.now)}
-        )
+        );
       SQL
+
+      journal = fetch_journal(id, type, version)
     end
 
-    journal || fetch_journal(id, type, version)
+    journal.first
+  end
+
+  # fetches specific journal row. might be empty.
+  def fetch_journal(id, type, version)
+    ActiveRecord::Base.connection.select_all <<-SQL
+      SELECT *
+      FROM #{quoted_journals_table_name} AS j
+      WHERE j.journable_id = #{quote_value(id)}
+        AND j.journable_type = #{quote_value(type)}
+        AND j.version = #{quote_value(version)};
+    SQL
   end
 
   # fetches legacy journals. might me empty.
@@ -65,20 +151,10 @@ class MigrateLegacyJournals < ActiveRecord::Migration
     ActiveRecord::Base.connection.select_all <<-SQL
       SELECT *
       FROM #{quoted_legacy_journals_table_name} AS j
-      ORDER BY j.journaled_id, j.activity_type, j.version
+      ORDER BY j.journaled_id, j.activity_type, j.version;
     SQL
   end
 
-  # fetches specific journal. might be empty.
-  def fetch_journal(id, type, version)
-    ActiveRecord::Base.connection.select_all <<-SQL
-      SELECT *
-      FROM #{quoted_journals_table_name} AS j
-      WHERE j.journable_id = #{quote_value(id)}
-        AND j.journable_type = #{quote_value(type)}
-        AND j.version = #{quote_value(version)}
-    SQL
-  end
 
   def quote_value name
     ActiveRecord::Base.connection.quote name
