@@ -124,8 +124,6 @@ en:
         name: Name
         hexcode: Hex code
       planning_element:
-        alternate_dates:
-          due_date: End date of alternate date
         description: Description
         id: ID
         name: Name
@@ -140,9 +138,6 @@ en:
         name: Name
         reported_project_statuses: Reported project statuses
         position: Position
-      scenario:
-        created_at: Created
-        name: Name
       timeline:
         name: Name
       reporting:
@@ -186,10 +181,6 @@ en:
         too_short: "is too short (minimum is %{count} characters)"
         wrong_length: "is the wrong length (should be %{count} characters)"
       models:
-        alternate_date:
-          attributes:
-            due_date:
-              not_start_date: "is not on start date, although this is required for milestones"
         planning_element:
           attributes:
             due_date:
@@ -237,7 +228,6 @@ en:
       type: "Type"
       planning_element: Planning element
       project_type: Project type
-      scenario: Scenario
       user: "User"
       version: "Version"
       wiki: "Wiki"
@@ -835,9 +825,6 @@ en:
   label_role_new: "New role"
   label_role_plural: "Roles"
   label_role_search: "Search for roles"
-  label_scenario_due_date: "Scenario %{title}: Due date"
-  label_scenario_start_date: "Scenario %{title}: Start date"
-  label_scenario_deleted: '(deleted scenario)'
   label_scm: "SCM"
   label_search: "Search"
   label_search_titles_only: "Search titles only"
@@ -1346,7 +1333,6 @@ en:
         historical: "Historical"
         none: "None"
         relative: "Relative"
-        scenario: "Scenario"
         compare_relative: "Compare current planning to %{timespan} ago"
         compare_absolute: "Compare current planning to %{date}"
         compare_historical: "Compare %{startdate} to %{enddate}"
@@ -1389,7 +1375,6 @@ en:
     new_planning_element: "New planning element"
     new_project_type: "New project type"
     new_reporting: "New reporting"
-    new_scenario: "New scenario"
     new_timeline: "New timeline report"
     no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
     no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
@@ -1446,10 +1431,6 @@ en:
     really_delete_project_type: >
       Are you sure, you want to delete the following project type?
       Projects using this type will not be deleted.
-    really_delete_scenario: >
-      Are you sure, you want to delete this scenario?
-      Planning elements with start and end dates within this scenario will not
-      be deleted.
     really_delete_timeline: >
       Are you sure, you want to delete the following timeline report?
       Planning elements shown in this timeline report will not be
@@ -1463,7 +1444,6 @@ en:
     really_restore_all_planning_elements: >
       Are you sure, you want to restore all the following planning elements?
     restore_all: Restore all
-    scenarios: "Scenarios"
     start: "Start"
     timeline: "Timeline report"
     timelines: "Timeline reports"

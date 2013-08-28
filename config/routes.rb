@@ -59,7 +59,6 @@ OpenProject::Application.routes.draw do
           get :paginate_reported_project_statuses
         end
       end
-      resources :scenarios
       resources :timelines
 
       resources :projects do
@@ -495,10 +494,6 @@ OpenProject::Application.routes.draw do
     end
 
     resources :reportings,             :controller => 'reportings' do
-      get :confirm_destroy, :on => :member
-    end
-
-    resources :scenarios,              :controller => 'scenarios' do
       get :confirm_destroy, :on => :member
     end
 

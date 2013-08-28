@@ -55,7 +55,6 @@ Redmine::AccessControl.map do |map|
                  {
                    :types => [:index, :show],
                    :projects => [:show],
-                   :scenarios => [:index, :show],
                    :projects => [:show],
                    :activities => [:index]
                  },
@@ -64,8 +63,7 @@ Redmine::AccessControl.map do |map|
   map.permission :add_project, {:projects => [:new, :create]}, :require => :loggedin
   map.permission :edit_project,
                  {
-                   :projects => [:settings, :edit, :update],
-                   :scenarios => [:new, :create, :edit, :update, :confirm_destroy, :destroy]
+                   :projects => [:settings, :edit, :update]
                  },
                  :require => :member
   map.permission :select_project_modules, {:projects => :modules}, :require => :member

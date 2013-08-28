@@ -53,20 +53,6 @@ module PlanningElementsHelper
         api.planning_element_status(:id => status.id, :name => status.name)
       end
 
-      if include_scenarios?
-        scenarios = planning_element.scenarios
-        if scenarios.present?
-          api.array(:scenarios, :size => scenarios.size) do
-            scenarios.each do |pe_scenario|
-              api.scenario(:id => pe_scenario.id, :name => pe_scenario.name) do
-                api.start_date(pe_scenario.start_date.to_formatted_s(:db)) unless pe_scenario.start_date.nil?
-                api.end_date(pe_scenario.due_date.to_formatted_s(:db)) unless pe_scenario.due_date.nil?
-              end
-            end
-          end
-        end
-      end
-
       api.planning_element_status_comment(planning_element.planning_element_status_comment)
 
       if include_journals?
