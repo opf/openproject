@@ -44,5 +44,13 @@ describe WikiController do
                                                          :action => 'preview',
                                                          :project_id => 'abc')
     end
+
+    it do
+      post('/projects/abc/wiki/abc_wiki?version=3').should
+        route_to(controller: 'wiki',
+                 action: 'show',
+                 id: 'abc_wiki',
+                 version: '3')
+    end
   end
 end
