@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= link_to l(:label_activity), :controller => '/activities', :action => 'index', :id => nil, :user_id => @user, :from => @events_by_day.keys.first %>
     </h3>
     <p>
-      <%=l(:label_reported_issues)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
+      <%=l(:label_reported_work_packages)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
     </p>
     <div id="activity">
       <% @events_by_day.keys.sort.reverse.each do |day| %>

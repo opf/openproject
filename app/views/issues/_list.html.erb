@@ -46,7 +46,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </td>
           <td class="id">
             <% if parent_issue = issue.parent_id %>
-              <span class='hidden-for-sighted'><%=l(:description_subwork_package) + ' ' + l(:label_issue) + ' #' + parent_issue.to_s %></span>
+              <span class='hidden-for-sighted'><%=l(:description_subwork_package) + ' ' + l(:label_work_package) + ' #' + parent_issue.to_s %></span>
             <% end -%>
             <%= link_to issue.id, work_package_path(issue) %>
           </td>

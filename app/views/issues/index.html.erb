@@ -10,6 +10,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% breadcrumb_paths(l(:label_work_package_plural)) %>
 <div class="contextual">
   <% if !@query.new_record? && @query.editable_by?(User.current) %>
     <%= link_to l(:button_edit), {:controller => '/queries', :action => 'edit', :id => @query}, :class => 'icon icon-edit' %>
