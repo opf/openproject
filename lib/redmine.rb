@@ -191,12 +191,6 @@ Redmine::AccessControl.map do |map|
                    {:planning_elements => [:new, :create, :edit, :update],
                     :planning_element_journals => [:create]},
                    {:require => :member}
-    map.permission :move_planning_elements_to_trash,
-                   {:planning_elements => [:confirm_move_to_trash,
-                                           :move_to_trash, :restore,
-                                           :restore_all, :recycle_bin,
-                                           :confirm_restore_all]},
-                   {:require => :member}
     map.permission :delete_planning_elements,
                    {:planning_elements => [:confirm_destroy, :destroy,
                                            :destroy_all,

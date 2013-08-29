@@ -204,9 +204,6 @@ class Project < ActiveRecord::Base
   end
 
   def has_many_dependent_for_planning_elements
-    # Overwrites :dependent => :destroy - before_destroy callback
-    # since we need to call the destroy! method instead of the destroy
-    # method which just moves the element to the recycle bin
     planning_elements.each {|element| element.destroy!}
   end
 

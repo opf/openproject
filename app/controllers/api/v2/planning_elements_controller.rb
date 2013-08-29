@@ -98,16 +98,6 @@ module Api
           format.api
         end
       end
-
-      def move_to_trash
-        @planning_element = @planning_elements.find(params[:id])
-        @planning_element.trash
-
-        respond_to do |format|
-          format.api
-        end
-      end
     end
-
   end
 end

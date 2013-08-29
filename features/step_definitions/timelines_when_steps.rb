@@ -18,9 +18,6 @@ end
 When /^I click on the Save Link$/ do
   click_link("Save")
 end
-When /^I click on the Trash Link$/ do
-  click_link("Move to recycle bin")
-end
 When(/^I hide empty projects for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
@@ -116,30 +113,6 @@ When(/^I set the sortation of the first level grouping criteria to explicit orde
 
   page.execute_script("jQuery('#timeline_options_grouping_one_sort').val('1')")
   page.execute_script("jQuery('#content form').submit()")
-end
-When (/^I trash the planning element with name "([^"]*?)"$/) do |planning_element_subject|
-  steps %Q{
-    When I click on the Planning Element with name "#{planning_element_subject}"
-      And I wait for the modal to show
-      And I click on the Trash Link
-      And I wait for the modal to close
-  }
-end
-When(/^I restore the planning element with name "(.*?)" of project "(.*?)"$/) do |planning_element_subject, project|
-  steps %Q{
-    When I open a modal for planning element "#{planning_element_subject}" of project "#{project}"
-      And I wait for the modal to show
-      And I click on the Restore Link
-      And I wait for the modal to close
-  }
-end
-When (/^I trash the planning element with name "([^"]*?)" of project "([^"]*?)"$/) do |planning_element_subject, project|
-  steps %Q{
-    When I open a modal for planning element "#{planning_element_subject}" of project "#{project}"
-      And I wait for the modal to show
-      And I click on the Trash Link
-      And I wait for the modal to close
-  }
 end
 When /^I click on the Restore Link$/ do
   page.execute_script("jQuery('.input-as-link').click()")

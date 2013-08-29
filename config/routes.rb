@@ -473,16 +473,10 @@ OpenProject::Application.routes.draw do
         get :all
         delete :destroy_all
         get :confirm_destroy_all
-        post :restore_all
-        get :confirm_restore_all
-        get :recycle_bin
       end
 
       member do
-        get :confirm_move_to_trash
         get :confirm_destroy
-        delete :move_to_trash
-        post :restore
       end
 
       resources :journals, :controller => 'planning_element_journals',
