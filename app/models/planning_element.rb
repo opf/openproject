@@ -19,10 +19,6 @@ class PlanningElement < WorkPackage
                                          :type,
                                          :project
 
-  scope :for_projects, lambda { |projects|
-    {:conditions => {:project_id => projects}}
-  }
-
   validates_presence_of :subject, :project
 
   validates_length_of :subject, :maximum => 255, :unless => lambda { |e| e.subject.blank? }
