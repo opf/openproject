@@ -231,15 +231,21 @@ describe Api::V2::PlanningElementsController do
   describe 'create.xml' do
     become_admin
 
-    it 'needs to be tested'
+    let(:project) { FactoryGirl.create(:project_with_types, :is_public => false) }
+    let(:author)  { FactoryGirl.create(:user)}
 
-    let(:project) { FactoryGirl.create(:project, :is_public => false) }
     def fetch
       post 'create', :project_id => project.identifier,
                      :format => 'xml',
                      :planning_element => FactoryGirl.build(:planning_element,
+                                                            :author => author,
                                                             :project_id => project.id).attributes
+                                                                                      .merge("planning_element_type_id" => project.types.first.id)
+                                                                                      # there is a mapping in the API-controller, that maps
+                                                                                      # planning_element_type_id onto type_id's - this is left here
+                                                                                      # to ensure compatibility with the api-clients
     end
+
     def expect_redirect_to
       Regexp.new(project_planning_elements_path(project))
     end
