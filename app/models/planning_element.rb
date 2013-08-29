@@ -23,40 +23,7 @@ class PlanningElement < WorkPackage
     {:conditions => {:project_id => projects}}
   }
 
-  def append_scenario_dates_to_journal
-    changes = {}
-    alternate_dates.each do |d|
-      if d.scenario.present? && (!(alternate_date_changes = d.changes).empty? || d.marked_for_destruction?)
-        ["start_date", "due_date"].each do |field|
-          old_value = if (scenario_changes = alternate_date_changes["scenario_id"])
-            scenario_changes.first.nil? ? nil : d.send(field)
-          else
-            alternate_date_changes[field].nil? ? d.send(field) : alternate_date_changes[field].first
-          end
-          new_value = d.marked_for_destruction? ? nil : d.send(field)
-          changes.merge!({ "scenario_#{d.scenario.id}_#{field}" => [old_value, new_value] }) unless new_value == old_value
-        end
-      end
-    end
-    journal_changes.append_changes!(changes)
-  end
-
-  before_save :append_scenario_dates_to_journal
-
-  def duration
-    if start_date >= due_date
-      1
-    else
-      due_date - start_date + 1
-    end
-  end
-
-
   validate do
-    if self.due_date and self.start_date and self.due_date < self.start_date
-      errors.add :due_date, :greater_than_start_date
-    end
-
     if self.is_milestone?
       if self.due_date and self.start_date and self.start_date != self.due_date
         errors.add :due_date, :not_start_date

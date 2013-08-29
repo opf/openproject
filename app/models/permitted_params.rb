@@ -165,7 +165,6 @@ class PermittedParams < Struct.new(:params, :user)
                                                      :description,
                                                      :start_date,
                                                      :due_date,
-                                                     :planning_element_type_id,
                                                      :parent_id,
                                                      :parent_id,
                                                      :assigned_to_id,
@@ -208,7 +207,7 @@ class PermittedParams < Struct.new(:params, :user)
                                                       :start_date,
                                                       :due_date,
                                                       :note,
-                                                      :planning_element_type_id,
+                                                      :planning_element_type_id, # this param is mapped on a type-id
                                                       :planning_element_status_comment,
                                                       :planning_element_status_id,
                                                       :parent_id,
