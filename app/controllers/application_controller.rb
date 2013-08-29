@@ -455,7 +455,7 @@ class ApplicationController < ActionController::Base
       format.html {
         render :template => 'common/error', :layout => use_layout, :status => @status
       }
-      format.any(:atom, :xml, :js, :json, :pdf) { head @status }
+      format.any(:atom, :xml, :js, :json, :pdf, :csv) { head @status }
     end
   end
 

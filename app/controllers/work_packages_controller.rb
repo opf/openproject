@@ -13,6 +13,7 @@ class WorkPackagesController < ApplicationController
   unloadable
 
   DEFAULT_SORT_ORDER = ['parent', 'desc']
+  EXPORT_FORMATS = %w[atom rss xls csv pdf]
 
   include QueriesHelper
   include SortHelper
@@ -37,7 +38,8 @@ class WorkPackagesController < ApplicationController
   before_filter :not_found_unless_work_package,
                 :project,
                 :authorize, :except => [:index]
-  before_filter :find_optional_project, :only => [:index]
+  before_filter :find_optional_project,
+                :protect_from_unauthorized_export, :only => [:index, :all]
 
   def show
     respond_to do |format|
@@ -367,6 +369,15 @@ class WorkPackagesController < ApplicationController
 
   def not_found_unless_work_package
     render_404 unless work_package
+  end
+
+  def protect_from_unauthorized_export
+    if EXPORT_FORMATS.include?(params[:format]) &&
+       !User.current.allowed_to?(:export_work_packages, @project, :global => @project.nil?)
+
+      deny_access
+      false
+    end
   end
 
   def configure_update_notification(state = true)

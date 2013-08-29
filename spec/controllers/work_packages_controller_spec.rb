@@ -54,6 +54,57 @@ describe WorkPackagesController do
     end
   end
 
+  def self.requires_export_permission(&block)
+
+    describe 'w/ the export permission
+              w/o a project' do
+      let(:project) { nil }
+
+      before do
+        User.current.should_receive(:allowed_to?)
+                    .with(:export_work_packages,
+                          project,
+                          :global => true)
+                    .and_return(true)
+      end
+
+      instance_eval(&block)
+    end
+
+    describe 'w/ the export permission
+              w/ a project' do
+      before do
+        params[:project_id] = project.id
+
+        User.current.should_receive(:allowed_to?)
+                    .with(:export_work_packages,
+                          project,
+                          :global => false)
+                    .and_return(true)
+      end
+
+      instance_eval(&block)
+    end
+
+    describe 'w/o the export permission' do
+      let(:project) { nil }
+
+      before do
+        User.current.should_receive(:allowed_to?)
+                    .with(:export_work_packages,
+                          project,
+                          :global => true)
+                    .and_return(false)
+
+        call_action
+      end
+
+      it 'should render a 403' do
+        response.response_code.should == 403
+      end
+    end
+  end
+
   describe 'index' do
     let(:query) { FactoryGirl.build_stubbed(:query) }
     let(:work_packages) { double("work packages").as_null_object }
@@ -96,28 +147,21 @@ describe WorkPackagesController do
     end
 
     describe 'csv' do
-      before do
-        mock_csv = double('csv export')
+      let(:params) { {} }
+      let(:call_action) { get('index', params.merge(:format => 'csv')) }
 
-        WorkPackage::Exporter.should_receive(:csv).with(work_packages, project)
-                                                  .and_return(mock_csv)
+      requires_export_permission do
 
-        controller.should_receive(:send_data).with(mock_csv,
-                                                   :type => 'text/csv; header=present',
-                                                   :filename => 'export.csv').and_call_original
-      end
+        before do
+          mock_csv = double('csv export')
 
-      describe "w/o a project" do
-        let(:project) { nil }
-        let(:call_action) { get('index', :format => 'csv') }
+          WorkPackage::Exporter.should_receive(:csv).with(work_packages, project)
+                                                    .and_return(mock_csv)
 
-        it 'should fulfill the defined should_receives' do
-          call_action
+          controller.should_receive(:send_data).with(mock_csv,
+                                                     :type => 'text/csv; header=present',
+                                                     :filename => 'export.csv').and_call_original
         end
-      end
-
-      describe "w/ a project" do
-        let(:call_action) { get('index', :project_id => project.id, :format => 'csv') }
 
         it 'should fulfill the defined should_receives' do
           call_action
@@ -126,27 +170,19 @@ describe WorkPackagesController do
     end
 
     describe 'pdf' do
-      before do
-        mock_pdf = double('pdf export')
+      let(:params) { {} }
+      let(:call_action) { get('index', params.merge(:format => 'pdf')) }
 
-        WorkPackage::Exporter.should_receive(:pdf).and_return(mock_pdf)
+      requires_export_permission do
+        before do
+          mock_pdf = double('pdf export')
 
-        controller.should_receive(:send_data).with(mock_pdf,
-                                                   :type => 'application/pdf',
-                                                   :filename => 'export.pdf').and_call_original
-      end
+          WorkPackage::Exporter.should_receive(:pdf).and_return(mock_pdf)
 
-      describe "w/o a project" do
-        let(:project) { nil }
-        let(:call_action) { get('index', :format => 'pdf') }
-
-        it 'should fulfill the defined should_receives' do
-          call_action
+          controller.should_receive(:send_data).with(mock_pdf,
+                                                     :type => 'application/pdf',
+                                                     :filename => 'export.pdf').and_call_original
         end
-      end
-
-      describe "w/ a project" do
-        let(:call_action) { get('index', :project_id => project.id, :format => 'pdf') }
 
         it 'should fulfill the defined should_receives' do
           call_action
@@ -155,21 +191,13 @@ describe WorkPackagesController do
     end
 
     describe 'atom' do
-      before do
-        controller.should_receive(:render_feed).with(work_packages, anything()).and_call_original
-      end
+      let(:params) { {} }
+      let(:call_action) { get('index', params.merge(:format => 'atom')) }
 
-      describe "w/o a project" do
-        let(:project) { nil }
-        let(:call_action) { get('index', :format => 'atom') }
-
-        it 'should fulfill the defined should_receives' do
-          call_action
+      requires_export_permission do
+        before do
+          controller.should_receive(:render_feed).with(work_packages, anything()).and_call_original
         end
-      end
-
-      describe "w/ a project" do
-        let(:call_action) { get('index', :project_id => project.id, :format => 'atom') }
 
         it 'should fulfill the defined should_receives' do
           call_action

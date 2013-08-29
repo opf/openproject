@@ -145,7 +145,7 @@ module NavigationHelpers
       "/users"
 
     when /^the global index page (?:for|of) (.+)$/
-      "/#{$1}"
+      "/#{$1.gsub(" ", "_")}"
 
     when /^the edit page (?:for |of )the version(?: called) (.+)$/
       version_name = $1.gsub("\"", "")

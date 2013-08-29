@@ -83,7 +83,7 @@ Redmine::AccessControl.map do |map|
                                          :queries => :index,
                                          :work_packages => [:show, :index],
                                          :'issues/reports' => [:report, :report_details]}
-    map.permission :export_issues, {:'issues' => [:index, :all]}
+    map.permission :export_work_packages, {:'work_packages' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
     map.permission :add_work_packages, { :work_packages => [:new, :new_type, :preview, :create] }
