@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
 						<td><label for='group_by'><%= Query.human_attribute_name(:group_by) %></label></td>
 						<td><%= select_tag('group_by', options_for_select([[]] + query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, query.group_by)) %></td>
 					</tr>
-					<% if any_summable_columns? %>
+					<% if query.any_summable_columns? %>
 					<tr>
 						<td><%= label_tag :display_sums, l(:label_display_sums) %></td>
 						<td><%= check_box_tag :display_sums, 1, query.display_sums? %></td>
@@ -87,7 +87,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if work_packages.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-<%= render :partial => 'issues/list', :locals => {:issues => work_packages, :query => query} %>
+  <%= render :partial => 'work_packages/list', :locals => { :work_packages => work_packages,
+                                                            :query => query,
+                                                            :results => results } %>
 
 <%= pagination_links_full work_packages %>
 

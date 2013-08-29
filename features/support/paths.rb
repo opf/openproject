@@ -93,10 +93,10 @@ module NavigationHelpers
       project = issue.project
       "/projects/#{project.identifier}/issues/#{issue.id}/copy"
 
-    when /^the issues? index page (?:for|of) (the)? project(?: called)? (.+)$/
+    when /^the work packages? index page (?:for|of) (the)? project(?: called)? (.+)$/
        project_identifier = $2.gsub("\"", "")
        project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
-       "/projects/#{project_identifier}/issues"
+       "/projects/#{project_identifier}/work_packages"
 
     when /^the page (?:for|of) the work package(?: called)? "([^\"]+)"$/
       work_package = WorkPackage.find_by_subject($1)

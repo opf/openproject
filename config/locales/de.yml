@@ -557,7 +557,7 @@ de:
   label_age: "Geändert vor"
   label_ago: "vor"
   label_all: "alle"
-  label_all_issues: "alle Tickets"
+  label_all_work_packages: "alle Arbeitspackete"
   label_all_time: "gesamter Zeitraum"
   label_all_words: "Alle Wörter"
   label_and_its_subprojects: "%{value} und dessen Unterprojekte"

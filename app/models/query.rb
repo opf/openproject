@@ -335,6 +335,14 @@ class Query < ActiveRecord::Base
     !group_by_column.nil?
   end
 
+  def display_sums?
+    display_sums && any_summable_columns?
+  end
+
+  def any_summable_columns?
+    Setting.issue_list_summable_columns.any?
+  end
+
   def group_by_column
     groupable_columns.detect {|c| c.groupable && c.name.to_s == group_by}
   end
@@ -463,42 +471,10 @@ class Query < ActiveRecord::Base
     (filters_clauses << project_statement).join(' AND ')
   end
 
-  # Returns the issue count
-  def issue_count
-    WorkPackage.count(:include => [:status, :project], :conditions => statement)
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise ::Query::StatementInvalid.new(e.message)
-  end
-
-  # Returns the issue count by group or nil if query is not grouped
-  def issue_count_by_group
-    r = nil
-    if grouped?
-      begin
-        # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
-        r = WorkPackage.count(:group => group_by_statement, :include => [:status, :project], :conditions => statement)
-      rescue ActiveRecord::RecordNotFound
-        r = {nil => issue_count}
-      end
-      c = group_by_column
-      if c.is_a?(QueryCustomFieldColumn)
-        r = r.keys.inject({}) {|h, k| h[c.custom_field.cast_value(k)] = r[k]; h}
-      end
-    end
-    r
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise ::Query::StatementInvalid.new(e.message)
-  end
-
-  # Returns the issues
+  # Returns the result set
   # Valid options are :order, :include, :conditions
-  def issues(options={})
-    order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
-    order_option = nil if order_option.blank?
-
-    WorkPackage.where(::Query.merge_conditions(statement, options[:conditions]))
-               .includes([:status, :project] + (options[:include] || []).uniq)
-               .order(order_option)
+  def results(options={})
+    Results.new(self, options)
   end
 
   # Returns the journals
@@ -517,15 +493,6 @@ class Query < ActiveRecord::Base
                    .offset(options[:offset])
 
     query.find :all
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise ::Query::StatementInvalid.new(e.message)
-  end
-
-  # Returns the versions
-  # Valid options are :conditions
-  def versions(options={})
-    Version.find :all, :include => :project,
-                       :conditions => ::Query.merge_conditions(project_statement, options[:conditions])
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end

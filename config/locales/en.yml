@@ -542,7 +542,7 @@ en:
   label_age: "Age"
   label_ago: "days ago"
   label_all: "all"
-  label_all_issues: "all Issues"
+  label_all_work_packages: "all work packages"
   label_all_time: "all time"
   label_all_words: "All words"
   label_and_its_subprojects: "%{value} and its subprojects"

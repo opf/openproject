@@ -21,12 +21,13 @@ module Api
         sort_update(@query.sortable_columns)
 
         if @query.valid?
-          @issues = @query.issues(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                                  :order => sort_clause)
-                                 .page(page_param)
-                                 .per_page(per_page_param)
+          results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+                                   :order => sort_clause)
 
-          @issue_count_by_group = @query.issue_count_by_group
+          @issues = results.work_packages.page(page_param)
+                                         .per_page(per_page_param)
+
+          @issue_count_by_group = results.work_package_count_by_group
 
           respond_to do |format|
             format.api

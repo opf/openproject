@@ -19,7 +19,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= label_tag :query_name, Query.human_attribute_name(:name) %>
   <%= text_field 'query', 'name', :size => 80 %>
 </p>
-<% if any_summable_columns? %>
+<% if query.any_summable_columns? %>
 <p>
   <%= label_tag :display_sums, l(:label_display_sums) %>
   <%= check_box 'query', 'display_sums' %>
