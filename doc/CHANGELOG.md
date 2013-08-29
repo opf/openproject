@@ -1,5 +1,7 @@
 # Changelog
 
+## 3.0.0pre14
+
 * `#825` Migrate Duration
 * `#828` Remove Alternate Dates
 * `#1421` Adapt issue created/updated wording to apply to work packages
