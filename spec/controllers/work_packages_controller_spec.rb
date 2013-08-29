@@ -54,41 +54,10 @@ describe WorkPackagesController do
     end
   end
 
-  describe 'index.html' do
-    before do
-      User.current.should_receive(:allowed_to?)
-                  .with({ :controller => "work_packages",
-                          :action => "index" },
-                        project,
-                        :global => true)
-                  .and_return(true)
-    end
+  describe 'index' do
+    let(:query) { FactoryGirl.build_stubbed(:query) }
+    let(:work_packages) { double("work packages").as_null_object }
 
-    describe "w/o a project" do
-      let(:project) { nil }
-      let(:call_action) { get('index') }
-
-      it 'should render the index template' do
-        call_action
-
-        response.should render_template('work_packages/index', :formats => ["html"],
-                                                               :layout => :base)
-      end
-    end
-
-    describe "w/ a project" do
-      let(:call_action) { get('index', :project_id => project.id) }
-
-      it 'should render the index template' do
-        call_action
-
-        response.should render_template('work_packages/index', :formats => ["html"],
-                                                               :layout => :base)
-      end
-    end
-  end
-
-  describe 'index.csv' do
     before do
       User.current.should_receive(:allowed_to?)
                   .with({ :controller => "work_packages",
@@ -97,65 +66,114 @@ describe WorkPackagesController do
                         :global => true)
                   .and_return(true)
 
-      mock_csv = double('csv export')
-
-      WorkPackage::Exporter.should_receive(:csv).and_return(mock_csv)
-
-      controller.should_receive(:send_data).with(mock_csv,
-                                                 :type => 'text/csv; header=present',
-                                                 :filename => 'export.csv').and_call_original
+      controller.stub(:retrieve_query).and_return(query)
+      query.stub_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
     end
 
-    describe "w/o a project" do
-      let(:project) { nil }
-      let(:call_action) { get('index', :format => 'csv') }
+    describe 'html' do
+      describe "w/o a project" do
+        let(:project) { nil }
+        let(:call_action) { get('index') }
 
-      it 'should fulfill the defined should_receives' do
-        call_action
+        it 'should render the index template' do
+          call_action
+
+          response.should render_template('work_packages/index', :formats => ["html"],
+                                                                 :layout => :base)
+        end
+      end
+
+      describe "w/ a project" do
+        let(:call_action) { get('index', :project_id => project.id) }
+
+        it 'should render the index template' do
+          call_action
+
+          response.should render_template('work_packages/index', :formats => ["html"],
+                                                                 :layout => :base)
+        end
       end
     end
 
-    describe "w/ a project" do
-      let(:call_action) { get('index', :project_id => project.id, :format => 'csv') }
+    describe 'csv' do
+      before do
+        mock_csv = double('csv export')
 
-      it 'should fulfill the defined should_receives' do
-        call_action
+        WorkPackage::Exporter.should_receive(:csv).with(work_packages, project)
+                                                  .and_return(mock_csv)
+
+        controller.should_receive(:send_data).with(mock_csv,
+                                                   :type => 'text/csv; header=present',
+                                                   :filename => 'export.csv').and_call_original
       end
-    end
-  end
 
-  describe 'index.pdf' do
-    before do
-      User.current.should_receive(:allowed_to?)
-                  .with({ :controller => "work_packages",
-                          :action => "index" },
-                        project,
-                        :global => true)
-                  .and_return(true)
+      describe "w/o a project" do
+        let(:project) { nil }
+        let(:call_action) { get('index', :format => 'csv') }
 
-      mock_pdf = double('pdf export')
+        it 'should fulfill the defined should_receives' do
+          call_action
+        end
+      end
 
-      WorkPackage::Exporter.should_receive(:pdf).and_return(mock_pdf)
+      describe "w/ a project" do
+        let(:call_action) { get('index', :project_id => project.id, :format => 'csv') }
 
-      controller.should_receive(:send_data).with(mock_pdf,
-                                                 :type => 'application/pdf',
-                                                 :filename => 'export.pdf').and_call_original
-    end
-
-    describe "w/o a project" do
-      let(:project) { nil }
-      let(:call_action) { get('index', :format => 'pdf') }
-
-      it 'should fulfill the defined should_receives' do
-        call_action
+        it 'should fulfill the defined should_receives' do
+          call_action
+        end
       end
     end
 
-    describe "w/ a project" do
-      let(:call_action) { get('index', :project_id => project.id, :format => 'pdf') }
+    describe 'pdf' do
+      before do
+        mock_pdf = double('pdf export')
 
-      it 'should fulfill the defined should_receives' do
-        call_action
+        WorkPackage::Exporter.should_receive(:pdf).and_return(mock_pdf)
+
+        controller.should_receive(:send_data).with(mock_pdf,
+                                                   :type => 'application/pdf',
+                                                   :filename => 'export.pdf').and_call_original
+      end
+
+      describe "w/o a project" do
+        let(:project) { nil }
+        let(:call_action) { get('index', :format => 'pdf') }
+
+        it 'should fulfill the defined should_receives' do
+          call_action
+        end
+      end
+
+      describe "w/ a project" do
+        let(:call_action) { get('index', :project_id => project.id, :format => 'pdf') }
+
+        it 'should fulfill the defined should_receives' do
+          call_action
+        end
+      end
+    end
+
+    describe 'atom' do
+      before do
+        controller.should_receive(:render_feed).with(work_packages, anything()).and_call_original
+      end
+
+      describe "w/o a project" do
+        let(:project) { nil }
+        let(:call_action) { get('index', :format => 'atom') }
+
+        it 'should fulfill the defined should_receives' do
+          call_action
+        end
+      end
+
+      describe "w/ a project" do
+        let(:call_action) { get('index', :project_id => project.id, :format => 'atom') }
+
+        it 'should fulfill the defined should_receives' do
+          call_action
+        end
       end
     end
 

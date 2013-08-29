@@ -206,7 +206,8 @@ class WorkPackagesController < ApplicationController
                             :order => sort_clause)
 
     work_packages = results.work_packages.page(page_param)
-                                         .per_page(per_page_param).all
+                                         .per_page(per_page_param)
+                                         .all
 
     respond_to do |format|
       format.html do
@@ -232,6 +233,10 @@ class WorkPackagesController < ApplicationController
         send_data(serialized_work_packages,
                   :type => 'application/pdf',
                   :filename => 'export.pdf')
+      end
+      format.atom do
+        render_feed(work_packages,
+                    :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
       end
     end
   end
