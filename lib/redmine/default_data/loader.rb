@@ -44,7 +44,7 @@ module Redmine
                                       :position => 2,
                                       :permissions => [:manage_versions,
                                                       :manage_categories,
-                                                      :view_issues,
+                                                      :view_work_packages,
                                                       :add_issues,
                                                       :edit_issues,
                                                       :manage_issue_relations,
@@ -67,7 +67,7 @@ module Redmine
 
             reporter = Role.create! :name => l(:default_role_reporter),
                                     :position => 3,
-                                    :permissions => [:view_issues,
+                                    :permissions => [:view_work_packages,
                                                     :add_issues,
                                                     :add_issue_notes,
                                                     :save_queries,
@@ -83,7 +83,7 @@ module Redmine
                                                     :view_changesets]
 
             Role.non_member.update_attributes :name => l(:default_role_non_member),
-                                              :permissions => [:view_issues,
+                                              :permissions => [:view_work_packages,
                                                             :add_issues,
                                                             :add_issue_notes,
                                                             :save_queries,
@@ -97,7 +97,7 @@ module Redmine
                                                             :view_changesets]
 
             Role.anonymous.update_attributes :name => l(:default_role_anonymous),
-                                             :permissions => [:view_issues,
+                                             :permissions => [:view_work_packages,
                                                            :view_calendar,
                                                            :view_time_entries,
                                                            :view_wiki_pages,
