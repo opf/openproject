@@ -49,6 +49,10 @@ class WorkPackage < ActiveRecord::Base
   scope :without_deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NULL"
   scope :deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NOT NULL"
 
+  scope :for_projects, lambda { |projects|
+    {:conditions => {:project_id => projects}}
+  }
+
   after_initialize :set_default_values
 
   acts_as_watchable
