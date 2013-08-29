@@ -40,6 +40,7 @@ Feature: Viewing a work package
       | add_work_package              |
       | edit_planning_elements        |
       | log_time                      |
+      | delete_work_packages          |
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "member" in the project "omicronpersei8"
@@ -191,3 +192,19 @@ Feature: Viewing a work package
     When I select "Move" from the action menu
 
     Then I should see "Move"
+
+  @javascript
+  Scenario: For an issue deletion leads to the work package list
+    When I go to the page of the work package "issue1"
+    When I select "Delete" from the action menu
+     And I confirm popups
+
+    Then I should see "Work packages"
+
+  @javascript
+  Scenario: For a planning element deletion leads to the work package list
+    When I go to the page of the work package "pe1"
+    When I select "Delete" from the action menu
+     And I confirm popups
+
+    Then I should see "Work packages"
