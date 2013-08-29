@@ -31,6 +31,8 @@ gem 'htmldiff'
 gem 'execjs'
 gem 'therubyracer'
 
+gem "date_validator"
+
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
 gem 'strong_parameters'
 
@@ -83,6 +85,7 @@ group :test do
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', ">= 0.8.pre"
+  gem "shoulda-matchers"
 end
 
 group :ldap do
@@ -94,19 +97,19 @@ group :openid do
 end
 
 group :development do
-  gem 'rails-footnotes', '>= 3.7.5.rc4'
-  gem 'bullet'
   gem 'letter_opener', '~> 1.0.0'
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
-  gem 'pry-debugger'
+  gem 'pry-byebug', :platforms => :mri_20
+  gem 'pry-debugger', :platforms => :mri_19
   gem 'pry-doc'
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'rb-fsevent', :group => :test
   gem 'thin'
+  gem 'faker'
 end
 
 group :tools do
