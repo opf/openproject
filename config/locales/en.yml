@@ -188,7 +188,6 @@ en:
             parent:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
-              cannot_be_in_recycle_bin : "cannot be in recycle bin."
         project_association:
           identical_projects: "can not be created from one project to itself"
           project_association_not_allowed: "does not allow associations"
@@ -512,9 +511,6 @@ en:
       tooManyProjects: "More than %{count} Projects. Please use a better filter!"
       cancel: Cancel
       save: Save
-      really_move_planning_element_to_trash: >
-        Are you sure, you want to move the following planning element and all
-        its child elements to recycle bin?
       really_delete_planning_element: >
         Are you sure, you want to permanently delete the following planning element and all
         its child elements?
@@ -1065,7 +1061,6 @@ en:
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
   permission_move_work_packages: "Move work packages"
-  permission_move_planning_elements_to_trash: "Move planning elements to recycle bin"
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
   permission_save_queries: "Save queries"
@@ -1278,16 +1273,12 @@ en:
     project_menu:
       planning_elements: "Planning elements"
       project_associations: "Dependencies"
-      recycle_bin: "Recycle bin"
       reportings: "Status reportings"
       reports: "Timeline reports"
       timelines: "Timelines"
     add_project_association: "Add dependency"
     associations: "Dependencies"
     button_delete_all: "Delete all"
-    button_move_to_trash: "Move to recycle bin"
-    button_restore: "Restore"
-    button_restore_all: "Restore all"
     change: "Change in planning"
     children: "Child elements"
     color_could_not_be_saved: "Color could not be saved"
@@ -1381,9 +1372,6 @@ en:
     no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
     no_timeline_for_id: "There is no timeline with ID %{id}."
     notice_successful_deleted_all_elements: "Successfully deleted all elements"
-    notice_successful_moved_to_trash: "Successfully moved to recycle bin"
-    notice_successful_restored: "Successfully restored"
-    notice_successful_restored_all_elements: "Successfully restored all elements"
     outline: "Reset Outline"
     outlines:
       aggregation: "Show aggregations only"
@@ -1404,7 +1392,6 @@ en:
       show: "Status: %{comment}"
 
     planning_element_could_not_be_saved: "Planning element could not be saved"
-    planning_element_could_not_be_restored: "Planning element could not be restored"
     planning_element_updated_automatically_by_child_changes: |
         _Updated automatically by changing values within child planning element %{child}_
     planning_element_update: "Update: %{title}"
@@ -1439,12 +1426,6 @@ en:
     really_delete_reporting: >
       Are you sure, you want to delete the following reporting?
       Previous reporting statuses will be deleted, too.
-    really_move_planning_element_to_trash: >
-      Are you sure, you want to move the following planning element and all
-      its child elements to recycle bin?
-    really_restore_all_planning_elements: >
-      Are you sure, you want to restore all the following planning elements?
-    restore_all: Restore all
     start: "Start"
     timeline: "Timeline report"
     timelines: "Timeline reports"

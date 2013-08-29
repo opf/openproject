@@ -158,6 +158,38 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  def destroy
+    @hours = TimeEntry.sum(:hours, :conditions => ['work_package_id IN (?)', work_package]).to_f
+    if @hours > 0
+      case params[:todo]
+      when 'destroy'
+        # nothing to do
+      when 'nullify'
+        TimeEntry.update_all('work_package_id = NULL', ['work_package_id IN (?)', work_package])
+      when 'reassign'
+        reassign_to = @project.work_packages.find_by_id(params[:reassign_to_id])
+        if reassign_to.nil?
+          flash.now[:error] = l(:error_work_package_not_found_in_project)
+          return
+        else
+          TimeEntry.update_all("work_package_id = #{reassign_to.id}", ['work_package_id IN (?)', work_package])
+        end
+      else
+        # display the destroy form if it's a user request
+        return unless api_request?
+      end
+    end
+
+    begin
+      work_package.reload.destroy
+    rescue ::ActiveRecord::RecordNotFound # raised by #reload if work package no longer exists
+      # nothing to do, work package was already deleted (eg. by a parent)
+    end
+
+    respond_to do |format|
+      format.html { redirect_back_or_default(controller: '/issues', action: 'index', project_id: @project) }
+    end
+  end
 
   def work_package
     if params[:id]

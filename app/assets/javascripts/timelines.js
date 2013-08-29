@@ -612,8 +612,6 @@ Timeline = {
         this.augmentReportingsWithProjectObjects();
         this.augmentProjectsWithProjectTypesAndAssociations();
 
-        this.removeTrashedPlanningElements();
-
         this.augmentPlanningElementsWithHistoricalData();
         this.augmentPlanningElementsWithProjectAndParentAndChildInformation();
         this.augmentPlanningElementsWithVerticalityData();
@@ -775,15 +773,6 @@ Timeline = {
       });
     };
 
-    DataEnhancer.prototype.removeTrashedPlanningElements = function () {
-      var dataEnhancer = this;
-      jQuery.each(dataEnhancer.getElements(Timeline.PlanningElement), function (i, e) {
-         if (e.in_trash) {
-          delete dataEnhancer.data[Timeline.PlanningElement.identifier][e.id];
-         }
-      });
-    };
-
     DataEnhancer.prototype.augmentPlanningElementsWithHistoricalData = function () {
       var dataEnhancer = this;
 
@@ -868,9 +857,7 @@ Timeline = {
         var pe = dataEnhancer.getElement(Timeline.PlanningElement, e.id);
         var pet = pe.getPlanningElementType();
 
-        if (!pe.in_trash) {
-          pe.vertical = this.timeline.verticalPlanningElementIds().indexOf(pe.id) != -1;
-        }
+        pe.vertical = this.timeline.verticalPlanningElementIds().indexOf(pe.id) != -1;
         //this.timeline.optionsfalse || Math.random() < 0.5 || (pet && pet.is_milestone);
       });
     };
