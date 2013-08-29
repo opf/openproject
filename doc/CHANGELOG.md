@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1808` Add option to log user for each request
+
 ## 3.0.0pre14
 
 * `#825` Migrate Duration
