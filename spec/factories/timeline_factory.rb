@@ -50,7 +50,7 @@ FactoryGirl.define do
           pe.due_date = pe.due_date + delay
           pe.save
 
-          # predate all journals and alternate dates by one week.
+          # predate all journals by one week.
 
           predate = Proc.new do |e|
             fake = e.created_at - 1.week
@@ -61,13 +61,10 @@ FactoryGirl.define do
           end
 
           PlanningElement.record_timestamps = false
-          AlternateDate.record_timestamps = false
           Journal.record_timestamps = false
 
           dates = pe.journals.map &predate
-          pe.alternate_dates.each &predate
 
-          AlternateDate.record_timestamps = true
           Journal.record_timestamps = true
 
           earliest_update = dates.min

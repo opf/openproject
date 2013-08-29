@@ -142,24 +142,6 @@ describe PermittedParams do
     end
   end
 
-  describe :scenario do
-    it "should permit name" do
-      hash = { "name" => "blubs" }
-
-      params = ActionController::Parameters.new(:scenario => hash)
-
-      PermittedParams.new(params, user).scenario.should == hash
-    end
-
-    it "should permit description" do
-      hash = { "description" => "blubs" }
-
-      params = ActionController::Parameters.new(:scenario => hash)
-
-      PermittedParams.new(params, user).scenario.should == hash
-    end
-  end
-
   describe :planning_element do
     it "should permit planning_element" do
       hash = { "subject" => "blubs" }
@@ -187,14 +169,6 @@ describe PermittedParams do
 
     it "should permit due_date" do
       hash = { "due_date" => "2012-12-12" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit scenarios" do
-      hash = { "scenarios" => {'id' => "1", 'start_date' => '2012-01-01', 'due_date' => '2012-01-03' } }
 
       params = ActionController::Parameters.new(:planning_element => hash)
 

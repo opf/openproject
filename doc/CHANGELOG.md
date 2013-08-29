@@ -1,9 +1,11 @@
 # Changelog
 
-* `#825`  Migrate Duration
+* `#825` Migrate Duration
+* `#828` Remove Alternate Dates
 * `#1421` Adapt issue created/updated wording to apply to work packages
 * `#1610` Move Planning Element Controller to API V2
 * `#1768` Fixed bug: Klicking on Wiki Edit Activity results in error 500
+* `#1787` Remove Scenarios
 * `#1813` Run Data Generator on old AAJ schema
 * `#1859` Fix 20130814130142 down-migration (remove_documents)
 

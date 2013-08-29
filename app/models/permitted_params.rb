@@ -73,10 +73,6 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type_move])
   end
 
-  def scenario
-    params.require(:scenario).permit(*self.class.permitted_attributes[:scenario])
-  end
-
   def planning_element
     params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
   end
@@ -211,7 +207,6 @@ class PermittedParams < Struct.new(:params, :user)
                                                       :description,
                                                       :start_date,
                                                       :due_date,
-                                                      { scenarios: [:id, :start_date, :due_date] },
                                                       :note,
                                                       :planning_element_type_id,
                                                       :planning_element_status_comment,
@@ -234,10 +229,6 @@ class PermittedParams < Struct.new(:params, :user)
                                                   :type_ids => [],
                                                   :reported_project_status_ids => []
                                                 ],
-                               :scenario => [
-                                              :name,
-                                              :description
-                                            ],
                                :type => [
                                           :name,
                                           :is_in_roadmap,

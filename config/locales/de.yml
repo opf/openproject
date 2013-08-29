@@ -92,8 +92,6 @@ de:
         name: "Name"
         hexcode: "Hex-Code"
       planning_element:
-        alternate_dates:
-          due_date: "Abschlussdatum des alternativen Datums"
         description: "Beschreibung"
         id: "ID"
         name: "Name"
@@ -104,9 +102,6 @@ de:
         allows_association: "Erlaubt Projekt-Abhängigkeiten"
         name: "Name"
         reported_project_statuses: "Gemeldeter Projekt-Status"
-      scenario:
-        created_at: "Angelegt"
-        name: "Name"
       timeline:
         name: "Name"
       reporting:
@@ -182,10 +177,6 @@ de:
         too_short: "ist zu kurz (nicht weniger als %{count} Zeichen)"
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
       models:
-        alternate_date:
-          attributes:
-            due_date:
-              not_start_date: "ist nicht identisch mit dem Startdatum, obwohl dies bei Meilensteinen Pflicht ist"
         planning_element:
           attributes:
             due_date:
@@ -233,7 +224,6 @@ de:
       type: "Typ"
       planning_element: "Planungselement"
       project_type: "Projekt-Typ"
-      scenario: "Szenario"
       user: "Benutzer"
       version: "Version"
       wiki: "Wiki"
@@ -490,9 +480,6 @@ de:
   field_responsible: "Planungsverantwortlicher"
   field_end_date: "Abschlussdatum"
   field_deleted_at: "Gelöscht am"
-  field_scenario_end_date: "Szenario %{title}: Abschlussdatum"
-  field_scenario_start_date: "Szenario %{title}: Startdatum"
-  field_scenario_deleted: '(gelöschtes Szenario)'
   field_planning_element_status: "Status"
 
 # Overriding definition in core to make field_parent more generic, so that it
@@ -853,9 +840,6 @@ de:
   label_role_new: "Neue Rolle"
   label_role_plural: "Rollen"
   label_role_search: "Nach Rollen suchen"
-  label_scenario_due_date: "Scenario %{title}: Abgabedatum"
-  label_scenario_start_date: "Scenario %{title}: Startdatum"
-  label_scenario_deleted: '(gelöschtes Scenario)'
   label_scm: "Versionskontrollsystem"
   label_search: "Suche"
   label_search_titles_only: "Nur Titel durchsuchen"
@@ -1366,7 +1350,6 @@ de:
         historical: "Historisch"
         none: "Kein Planungsvergleich"
         relative: "Relativ"
-        scenario: "Szenario"
         compare_relative: "Vergleiche aktuelle Planung mit vor %{timespan}"
         compare_absolute: "Vergleiche aktuelle Planung mit %{date}"
         compare_historical: "Vergleiche %{startdate} mit %{enddate}"
@@ -1390,7 +1373,7 @@ de:
       parent: "Zeige Unterprojekte von"
       planning_element_filters: "Planungselemente filtern"
       planning_element_responsible: "Planungselemente von diesem Planungsverantwortlichen anzeigen"
-
+      planning_element_types: "Typ anzeigen"
 
       project_time_filter: "Projekte mit Planungselementen eines Typs in einem Zeitfenster"
       project_time_filter_historical: "von %{startdate} bis %{enddate}"
@@ -1410,7 +1393,6 @@ de:
     new_planning_element: "Neues Planungselement"
     new_project_type: "Neuer Projekt-Typ"
     new_reporting: "Neuer Statusbericht"
-    new_scenario: "Neues Szenario"
     new_timeline: "Neuer Zeitplan-Report"
     no_projects_for_reporting_available: "Es gibt keine Projekte, zu denen ein Statusbericht erstellt werden könnte."
     no_right_to_view_timeline: "Sie haben nicht das Recht, den ausgewählten Zeitplan zu sehen."
@@ -1474,10 +1456,6 @@ de:
     really_delete_project_type: >
       Möchten Sie den folgenden Projekt-Typ wirklich löschen?
       Projekte dieses Typs bleiben erhalten.
-    really_delete_scenario: >
-      Möchten Sie dieses Szenario wirklich löschen?
-      Planungselemente werden nicht mit gelöscht - die Planungsinformationen
-      für dieses Szenario gehen jedoch verloren.
     really_delete_timeline: >
       Möchten Sie dieses Zeitplan-Report wirklich löschen?
       Planungselemente dieses Reports bleiben erhalten.
@@ -1490,7 +1468,6 @@ de:
     really_restore_all_planning_elements: >
       Möchten Sie die folgenden Planungselemente wirklich wiederherstellen?
     restore_all: "Alle wiederherstellen"
-    scenarios: "Szenarien"
     start: "Beginn"
     timeline: "Zeitplan-Report"
     timelines: "Zeitplan-Reporte"

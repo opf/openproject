@@ -215,8 +215,6 @@ Timeline = {
       case 'historical':
         value = this.options.compare_to_historical_one;
         break;
-      case 'scenario':
-        return this.die(this.i18n('timelines.errors.not_implemented'));
       default:
         return this.die(this.i18n('timelines.errors.report_comparison'));
     }
