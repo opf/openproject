@@ -209,11 +209,21 @@ class WorkPackagesController < ApplicationController
     work_packages = results.work_packages.page(page_param)
                                          .per_page(per_page_param).all
 
-    render :index, :locals => { :query => query,
-                                :work_packages => work_packages,
-                                :results => results,
-                                :project => @project },
-                   :layout => !request.xhr?
+    respond_to do |format|
+      format.html do
+        render :index, :locals => { :query => query,
+                                    :work_packages => work_packages,
+                                    :results => results,
+                                    :project => @project },
+                       :layout => !request.xhr?
+      end
+      format.csv do
+        serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
+
+        send_data(serialized_work_packages, :type => 'text/csv; header=present',
+                                            :filename => 'export.csv')
+      end
+    end
   end
 
   def work_package

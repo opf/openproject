@@ -88,6 +88,42 @@ describe WorkPackagesController do
     end
   end
 
+  describe 'index.csv' do
+    before do
+      User.current.should_receive(:allowed_to?)
+                  .with({ :controller => "work_packages",
+                          :action => "index" },
+                        project,
+                        :global => true)
+                  .and_return(true)
+
+      mock_csv = double('csv export')
+
+      WorkPackage::Exporter.should_receive(:csv).and_return(mock_csv)
+
+      controller.should_receive(:send_data).with(mock_csv,
+                                                 :type => 'text/csv; header=present',
+                                                 :filename => 'export.csv').and_call_original
+    end
+
+    describe "w/o a project" do
+      let(:project) { nil }
+      let(:call_action) { get('index', :format => 'csv') }
+
+      it 'should render the index template' do
+        call_action
+      end
+    end
+
+    describe "w/ a project" do
+      let(:call_action) { get('index', :project_id => project.id, :format => 'csv') }
+
+      it 'should render the index template' do
+        call_action
+      end
+    end
+  end
+
   describe 'show.html' do
     let(:call_action) { get('show', :id => '1337') }
 

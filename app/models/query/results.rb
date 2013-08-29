@@ -65,7 +65,6 @@ class ::Query::Results
                .includes([:status, :project] + (options[:include] || []).uniq)
                .order(order_option)
   end
-  alias_method :issues, :work_packages
 
   def versions
     Version.find :all, :include => :project,

@@ -190,63 +190,6 @@ module IssuesHelper
     end
   end
 
-  def issues_to_csv(issues, project = nil)
-    decimal_separator = l(:general_csv_decimal_separator)
-    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
-      # csv header fields
-      headers = [ "#",
-                  Issue.human_attribute_name(:status),
-                  Issue.human_attribute_name(:project),
-                  Issue.human_attribute_name(:type),
-                  Issue.human_attribute_name(:priority),
-                  Issue.human_attribute_name(:subject),
-                  Issue.human_attribute_name(:assigned_to),
-                  Issue.human_attribute_name(:category),
-                  Issue.human_attribute_name(:fixed_version),
-                  Issue.human_attribute_name(:author),
-                  Issue.human_attribute_name(:start_date),
-                  Issue.human_attribute_name(:due_date),
-                  Issue.human_attribute_name(:done_ratio),
-                  Issue.human_attribute_name(:estimated_hours),
-                  Issue.human_attribute_name(:parent_issue),
-                  Issue.human_attribute_name(:created_at),
-                  Issue.human_attribute_name(:updated_at)
-                  ]
-      # Export project custom fields if project is given
-      # otherwise export custom fields marked as "For all projects"
-      custom_fields = project.nil? ? WorkPackageCustomField.for_all : project.all_work_package_custom_fields
-      custom_fields.each {|f| headers << f.name}
-      # Description in the last column
-      headers << CustomField.human_attribute_name(:description)
-      csv << headers.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
-      # csv lines
-      issues.each do |issue|
-        fields = [issue.id,
-                  issue.status.name,
-                  issue.project.name,
-                  issue.type.name,
-                  issue.priority.name,
-                  issue.subject,
-                  issue.assigned_to,
-                  issue.category,
-                  issue.fixed_version,
-                  issue.author.name,
-                  format_date(issue.start_date),
-                  format_date(issue.due_date),
-                  issue.done_ratio,
-                  issue.estimated_hours.to_s.gsub('.', decimal_separator),
-                  issue.parent_id,
-                  format_time(issue.created_at),
-                  format_time(issue.updated_at)
-                  ]
-        custom_fields.each {|f| fields << show_value(issue.custom_value_for(f)) }
-        fields << issue.description
-        csv << fields.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
-      end
-    end
-    export
-  end
-
   def entries_for_filter_select_sorted(query)
     [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || Issue.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
       ActiveSupport::Inflector.transliterate(el[0]).downcase
