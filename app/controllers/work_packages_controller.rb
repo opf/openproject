@@ -205,9 +205,13 @@ class WorkPackagesController < ApplicationController
     results = query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
                             :order => sort_clause)
 
-    work_packages = results.work_packages.page(page_param)
-                                         .per_page(per_page_param)
-                                         .all
+    work_packages = if query.valid?
+                      results.work_packages.page(page_param)
+                                           .per_page(per_page_param)
+                                           .all
+                    else
+                      []
+                    end
 
     respond_to do |format|
       format.html do
@@ -239,6 +243,8 @@ class WorkPackagesController < ApplicationController
                     :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
       end
     end
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def work_package
@@ -369,5 +375,16 @@ class WorkPackagesController < ApplicationController
 
   def send_notifications?
     params[:send_notification] == '0' ? false : true
+  end
+
+  def per_page_param
+    case params[:format]
+    when 'csv', 'pdf'
+      Setting.issues_export_limit.to_i
+    when 'atom'
+      Setting.feeds_limit.to_i
+    else
+      super
+    end
   end
 end
