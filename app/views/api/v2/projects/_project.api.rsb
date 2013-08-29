@@ -17,7 +17,6 @@ api.project do
   api.permissions(
       :view_planning_elements => User.current.allowed_to?(:view_planning_elements, project),
       :edit_planning_elements => User.current.allowed_to?(:edit_planning_elements, project),
-      :move_planning_elements_to_trash => User.current.allowed_to?(:move_planning_elements_to_trash, project),
       :delete_planning_elements => User.current.allowed_to?(:delete_planning_elements, project)
     )
 

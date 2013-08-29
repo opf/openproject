@@ -36,7 +36,6 @@ Feature: Timeline View Tests with reporters
           | view_timelines           |
           | edit_timelines           |
           | view_planning_elements   |
-          | move_planning_elements_to_trash  |
           | delete_planning_elements    |
           | edit_planning_elements      |
           | delete_planning_elements    |

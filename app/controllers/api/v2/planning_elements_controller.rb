@@ -115,15 +115,6 @@ module Api
         end
       end
 
-      def move_to_trash
-        @planning_element = @planning_elements.find(params[:id])
-        @planning_element.trash
-
-        respond_to do |format|
-          format.api
-        end
-      end
-
       protected
 
       # Filters
@@ -172,14 +163,10 @@ module Api
       end
 
       # Helpers
-      helper_method :include_journals?, :include_scenarios?
+      helper_method :include_journals?
 
       def include_journals?
         params[:include].tap { |i| i.present? && i.include?("journals") }
-      end
-
-      def include_scenarios?
-        !params[:exclude].tap { |i| i.present? && i.include?("scenarios") }
       end
 
       # Actual protected methods

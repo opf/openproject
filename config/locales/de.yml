@@ -184,7 +184,6 @@ de:
             parent:
               cannot_be_milestone: "darf kein Meilenstein sein"
               cannot_be_in_another_project: "darf nicht in einem anderen Projekt sein"
-              cannot_be_in_recycle_bin : "darf nicht im Papierkorb liegen"
         project_association:
           identical_projects: "kann nicht von einem Projekt auf sich selbst erstellt werden"
           project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"
@@ -537,9 +536,6 @@ de:
       responsible: "Planungsverantwortlicher"
       save: "Speichern"
       start_date: "Startdatum"
-      really_move_planning_element_to_trash: >
-        Möchten Sie dieses Planungselement und all seine Kind-Elemente wirklich in
-        den Papierkorb verschieben?
       really_delete_planning_element: >
         Möchten Sie wirklich das folgende Planungselement und seine Kind-Elemente
         permanent löschen? Diese Operation kann nicht rückgängig gemacht werden.
@@ -1086,7 +1082,6 @@ de:
   permission_manage_versions: "Versionen verwalten"
   permission_manage_wiki: "Wiki verwalten"
   permission_move_work_packages: "Arbeitspakete verschieben"
-  permission_move_planning_elements_to_trash: "Planungselemente in den Papierkorb verschieben"
   permission_protect_wiki_pages: "Wiki-Seiten schützen"
   permission_rename_wiki_pages: "Wiki-Seiten umbenennen"
   permission_save_queries: "Filter speichern"
@@ -1302,9 +1297,6 @@ de:
     add_project_association: "Projekt-Abhängigkeit erstellen"
     associations: "Abhängigkeiten"
     button_delete_all: "Alle löschen"
-    button_move_to_trash: "In den Papierkorb verschieben"
-    button_restore: "Wiederherstellen"
-    button_restore_all: "Alle wiederherstellen"
     change: "Planungsveränderung"
     children: "Kind-Elemente"
     color_could_not_be_saved: "Farbe konnte nicht gespeichert werden"
@@ -1398,9 +1390,6 @@ de:
     no_right_to_view_timeline: "Sie haben nicht das Recht, den ausgewählten Zeitplan zu sehen."
     no_timeline_for_id: "Es konnte keine Timeline, mit der ID %{id} gefunden werden."
     notice_successful_deleted_all_elements: "Alle Elemente erfolgreich gelöscht"
-    notice_successful_moved_to_trash: "Erfolgreich in den Papierkorb verschoben"
-    notice_successful_restored: "Erfolgreich wiederhergestellt"
-    notice_successful_restored_all_elements: "Erfolgreich alle Elemente wiederhergestellt"
     outline: "Hierarchie zurücksetzen"
     outlines:
       aggregation: "Nur Aggregationen anzeigen"
@@ -1413,13 +1402,11 @@ de:
     project_menu:
       planning_elements: "Planungselemente"
       project_associations: "Abhängigkeiten"
-      recycle_bin: "Papierkorb"
       reportings: "Statusberichte"
       reports: "Zeitplan-Reporte"
       timelines: "Zeitpläne"
 
     planning_element_could_not_be_saved: "Planungselement konnte nicht gespeichert werden"
-    planning_element_could_not_be_restored: "Planungselement konnte nicht wiederhergestellt werden"
     planning_element_updated_automatically_by_child_changes: |
         _Automatisch durch die Änderungen in %{child} aktualisert_
     planning_elements_are_displayed_in_aggregations: "Planungselemente werden in Aggregation angezeigt"
@@ -1462,12 +1449,6 @@ de:
     really_delete_reporting: >
       Möchten Sie diesen Statusbericht wirklich löschen?
       Vorherige gemeldete Statusberichte gehen dabei verloren.
-    really_move_planning_element_to_trash: >
-      Möchten Sie dieses Planungselement und all seine Kind-Elemente wirklich in
-      den Papierkorb verschieben?
-    really_restore_all_planning_elements: >
-      Möchten Sie die folgenden Planungselemente wirklich wiederherstellen?
-    restore_all: "Alle wiederherstellen"
     start: "Beginn"
     timeline: "Zeitplan-Report"
     timelines: "Zeitplan-Reporte"

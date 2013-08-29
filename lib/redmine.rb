@@ -91,6 +91,7 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
                                           :work_packages => [:edit, :update, :new_type, :preview],
                                           :'issues/previews' => :create}
+    map.permission :delete_work_packages, {:work_packages => :destroy}, :require => :member
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
@@ -190,12 +191,6 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_planning_elements,
                    {:planning_elements => [:new, :create, :edit, :update],
                     :planning_element_journals => [:create]},
-                   {:require => :member}
-    map.permission :move_planning_elements_to_trash,
-                   {:planning_elements => [:confirm_move_to_trash,
-                                           :move_to_trash, :restore,
-                                           :restore_all, :recycle_bin,
-                                           :confirm_restore_all]},
                    {:require => :member}
     map.permission :delete_planning_elements,
                    {:planning_elements => [:confirm_destroy, :destroy,

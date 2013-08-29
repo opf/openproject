@@ -25,8 +25,6 @@ module PlanningElementsHelper
       api.start_date(planning_element.start_date.to_formatted_s(:db)) unless planning_element.start_date.nil?
       api.end_date(planning_element.due_date.to_formatted_s(:db)) unless planning_element.due_date.nil?
 
-      api.in_trash(!!planning_element.deleted_at)
-
       if planning_element.parent
         api.parent(:id => planning_element.parent_id, :name => planning_element.parent.subject)
       end

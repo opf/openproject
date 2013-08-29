@@ -283,26 +283,6 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
-  def trash
-    unless new_record? or self.deleted_at
-      self.children.each{|child| child.trash}
-
-      self.reload
-      self.deleted_at = Time.now
-      self.save!
-    end
-    freeze
-  end
-
-  def restore!
-    unless parent && parent.deleted?
-      self.deleted_at = nil
-      self.save
-    else
-      raise "You cannot restore an element whose parent is deleted. Restore the parent first!"
-    end
-  end
-
   def deleted?
     !!read_attribute(:deleted_at)
   end
