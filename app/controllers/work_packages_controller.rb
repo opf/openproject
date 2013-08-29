@@ -14,7 +14,6 @@ class WorkPackagesController < ApplicationController
 
   DEFAULT_SORT_ORDER = ['parent', 'desc']
 
-  include Redmine::Export::PDF
   include QueriesHelper
   include SortHelper
   include PaginationHelper
@@ -67,7 +66,7 @@ class WorkPackagesController < ApplicationController
       end
 
       format.pdf do
-        pdf = issue_to_pdf(work_package)
+        pdf = WorkPackage::Exporter.work_package_to_pdf(work_package)
 
         send_data(pdf,
                   :type => 'application/pdf',
@@ -222,6 +221,17 @@ class WorkPackagesController < ApplicationController
 
         send_data(serialized_work_packages, :type => 'text/csv; header=present',
                                             :filename => 'export.csv')
+      end
+      format.pdf do
+        serialized_work_packages = WorkPackage::Exporter.pdf(work_packages,
+                                                             @project,
+                                                             query,
+                                                             results,
+                                                             :show_descriptions => params[:show_descriptions])
+
+        send_data(serialized_work_packages,
+                  :type => 'application/pdf',
+                  :filename => 'export.pdf')
       end
     end
   end

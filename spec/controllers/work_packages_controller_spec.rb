@@ -110,7 +110,7 @@ describe WorkPackagesController do
       let(:project) { nil }
       let(:call_action) { get('index', :format => 'csv') }
 
-      it 'should render the index template' do
+      it 'should fulfill the defined should_receives' do
         call_action
       end
     end
@@ -118,10 +118,47 @@ describe WorkPackagesController do
     describe "w/ a project" do
       let(:call_action) { get('index', :project_id => project.id, :format => 'csv') }
 
-      it 'should render the index template' do
+      it 'should fulfill the defined should_receives' do
         call_action
       end
     end
+  end
+
+  describe 'index.pdf' do
+    before do
+      User.current.should_receive(:allowed_to?)
+                  .with({ :controller => "work_packages",
+                          :action => "index" },
+                        project,
+                        :global => true)
+                  .and_return(true)
+
+      mock_pdf = double('pdf export')
+
+      WorkPackage::Exporter.should_receive(:pdf).and_return(mock_pdf)
+
+      controller.should_receive(:send_data).with(mock_pdf,
+                                                 :type => 'application/pdf',
+                                                 :filename => 'export.pdf').and_call_original
+    end
+
+    describe "w/o a project" do
+      let(:project) { nil }
+      let(:call_action) { get('index', :format => 'pdf') }
+
+      it 'should fulfill the defined should_receives' do
+        call_action
+      end
+    end
+
+    describe "w/ a project" do
+      let(:call_action) { get('index', :project_id => project.id, :format => 'pdf') }
+
+      it 'should fulfill the defined should_receives' do
+        call_action
+      end
+    end
+
   end
 
   describe 'show.html' do
@@ -146,7 +183,7 @@ describe WorkPackagesController do
         pdf = double('pdf')
 
         expected_name = "#{stub_work_package.project.identifier}-#{stub_work_package.id}.pdf"
-        controller.stub!(:issue_to_pdf).and_return(pdf)
+        WorkPackage::Exporter.should_receive(:work_package_to_pdf).and_return(pdf)
         controller.should_receive(:send_data).with(pdf,
                                                    :type => 'application/pdf',
                                                    :filename => expected_name).and_call_original

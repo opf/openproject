@@ -44,7 +44,6 @@ class IssuesController < ApplicationController
   include RepositoriesHelper
   include SortHelper
   include IssuesHelper
-  include Redmine::Export::PDF
   include PaginationHelper
 
   def index

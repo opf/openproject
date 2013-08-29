@@ -22,16 +22,16 @@ class ::Query::Results
     self.query = query
   end
 
-  # Returns the issue count
-  def issue_count
+  # Returns the work package count
+  def work_package_count
     WorkPackage.count(:include => [:status, :project], :conditions => statement)
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end
 
-  # Returns the issue count by group or nil if query is not grouped
+  # Returns the work package count by group or nil if query is not grouped
   def work_package_count_by_group
-    @issue_count_by_group ||= begin
+    @work_package_count_by_group ||= begin
       r = nil
       if query.grouped?
         begin
@@ -40,7 +40,7 @@ class ::Query::Results
                                 :include => [:status, :project],
                                 :conditions => query.statement)
         rescue ActiveRecord::RecordNotFound
-          r = {nil => issue_count}
+          r = {nil => work_package_count}
         end
         c = query.group_by_column
         if c.is_a?(QueryCustomFieldColumn)
