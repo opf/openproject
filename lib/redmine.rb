@@ -310,15 +310,6 @@ Redmine::MenuManager.map :project_menu do |menu|
       menu.push :reportings,
                 {:controller => '/reportings', :action => 'index'},
                 rep_options.merge(:caption => :'timelines.project_menu.reportings')
-
-      menu.push :planning_elements,
-                {:controller => '/planning_elements', :action => 'all'},
-                rep_options.merge(:caption => :'timelines.project_menu.planning_elements')
-
-      menu.push :recycle_bin,
-                {:controller => '/planning_elements', :action => 'recycle_bin'},
-                rep_options.merge(:caption => :'timelines.project_menu.recycle_bin')
-
     end
   end
 end

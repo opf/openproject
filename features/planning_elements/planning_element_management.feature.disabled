@@ -59,6 +59,32 @@ Feature: Planning Element Management
 
       And I am logged in as "manager"
 
+  Scenario: The project manager gets 'No data to display' when there are no planning elements defined
+     When I go to the   page of the project called "ecookbook"
+      And I toggle the "Timelines" submenu
+      And I follow "Planning elements"
+     Then I should see "No data to display"
+      And I should see "New planning element"
+
+  Scenario: The project manager may create planning elements
+     When I go to the   page of the project called "ecookbook"
+      And I toggle the "Timelines" submenu
+      And I follow "Planning elements"
+      And I follow "New planning element"
+      And I fill in "February" for "Subject"
+      And I fill in "2012-02-01" for "Start date"
+      And I fill in "2012-02-29" for "Due date"
+      And I submit the form by the "Create" button
+     Then I should see a notice flash stating "Successful creation."
+      And I should see "February"
+
+     When I toggle the "Timelines" submenu
+      And I follow "Planning elements"
+     Then I should see a planning element named "February"
+
+     When I follow "Activity"
+     Then I should see "Phase #1: February (New)"
+
   Scenario: Deleting a scenario that is associated to a planning element
     Given there are the following planning elements in project "ecookbook":
             | Subject  | Start date | Due date   |
