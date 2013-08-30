@@ -16,6 +16,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1898` Separate action for changing wiki parent page (was same as rename before)
 * `#1923` Add permission that allows hiding repository statistics on commits per author
 * `#1850` Disable atom feeds via setting
+* Use Helvetica as default font, still falls back to Arial
 
 ## 3.0.0pre15
 
