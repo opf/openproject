@@ -8,6 +8,10 @@ en:
   label_confirm_delete: Really delete this element?
   label_save_or_reset_teaser: Save changes made to the teaser?
   label_reported_issues: Issues reported by me
+  label_assigned_to_me_issues: Issues assigned to me
+  label_watched_issues: Watched issues
+  label_document_plural: Documents
+  label_issue_tracking: Issue tracking
 
   project_page:
     all: "Show all"
