@@ -19,6 +19,10 @@ class PlanningElement < WorkPackage
                                          :type,
                                          :project
 
+  scope :for_projects, lambda { |projects|
+    {:conditions => {:project_id => projects}}
+  }
+
   validate do
     if self.is_milestone?
       if self.due_date and self.start_date and self.start_date != self.due_date
