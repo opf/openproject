@@ -28,7 +28,7 @@ Feature: Paginated issue index list
     And the user "bob" is a "member" in the project "project1"
     And the user "bob" has 101 issues with the following:
       | subject    | Issuesubject |
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
 
   Scenario: Pagination within a project
     When I go to the issues index page of the project "project1"

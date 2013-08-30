@@ -25,7 +25,7 @@ Feature: Renaming a wiki page
     And the user "bob" is a "member" in the project "project1"
     And the project "project1" has 1 wiki page with the following:
       | title | WikiPage |
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
 
   @javascript
   Scenario: Renaming a wiki page

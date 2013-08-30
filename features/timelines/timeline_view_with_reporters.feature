@@ -133,7 +133,7 @@ Feature: Timeline View Tests with reporters
           | ecookbook0 | ecookbook_q3 |
 
 
-      And I am logged in as "manager"
+      And I am already logged in as "manager"
 
   @javascript
   Scenario: Filter Empty Projects

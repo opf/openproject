@@ -78,7 +78,7 @@ Feature: Reporting Permissions
 
   @javascript
   Scenario: Creating a reporting by a privileged user
-     When I am logged in as "privileged"
+     When I am already logged in as "privileged"
       And I go to the page of the project called "Santas Project"
       And I toggle the "Timelines" submenu
       And I click on "Status reportings"
@@ -90,7 +90,7 @@ Feature: Reporting Permissions
      Then I should see "Successful creation."
 
   Scenario: Editing a reporting as a privileged user
-    Given I am logged in as "privileged"
+    Given I am already logged in as "privileged"
       And there are the following reportings:
           | Project        | Reporting To Project | Reported Project Status Comment |
           | Santas Project | World Domination     | Hallo Junge                     |
@@ -107,7 +107,7 @@ Feature: Reporting Permissions
 
   Scenario: Cannot create a reporting as an unprivileged user
     Given the user "observer" is a "view reportings" in the project "Santas Project"
-      And I am logged in as "observer"
+      And I am already logged in as "observer"
      When I go to the page of the project called "Santas Project"
       And I toggle the "Timelines" submenu
       And I click on "Status reportings"
@@ -119,7 +119,7 @@ Feature: Reporting Permissions
       And there are the following reportings:
           | Project        | Reporting To Project | Reported Project Status Comment |
           | Santas Project | World Domination     | Hallo Junge                     |
-      And I am logged in as "editor"
+      And I am already logged in as "editor"
      When I go to the page of the project called "Santas Project"
       And I toggle the "Timelines" submenu
       And I click on "Status reportings"

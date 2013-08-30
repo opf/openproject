@@ -32,7 +32,7 @@ Feature: Watch issues
     And the user "bob" is a "member" in the project "parent"
     Given the user "bob" has 1 issue with the following:
       | subject     | issue1              |
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
 
   @javascript
   Scenario: Watch an issue

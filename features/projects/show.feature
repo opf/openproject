@@ -24,7 +24,7 @@ Feature: Showing Projects
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "CanViewCal" in the project "omicronpersei8"
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
 
   Scenario: Calendar link in the 'tickets box' should work when calendar is activated
     When I go to the overview page of the project "omicronpersei8"
