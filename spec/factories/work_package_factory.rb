@@ -13,8 +13,16 @@ FactoryGirl.define do
   factory :work_package do
     priority
     project :factory => :project_with_types
-    sequence(:subject) { |n| "Issue No. #{n}" }
+    status :factory => :issue_status
+    sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author :factory => :user
+
+    after :build do |work_package|
+      work_package.type = work_package.project.types.first unless work_package.type
+    end
+
   end
+
+
 end

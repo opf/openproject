@@ -282,14 +282,6 @@ describe PermittedParams do
       PermittedParams.new(params, user).new_work_package.should == hash
     end
 
-    it "should permit planning_element_type_id" do
-      hash = { "planning_element_type_id" => "1" }
-
-      params = ActionController::Parameters.new(:work_package => hash)
-
-      PermittedParams.new(params, user).new_work_package.should == hash
-    end
-
     it "should permit prioritiy_id" do
       hash = { "priority_id" => "1" }
 
@@ -446,14 +438,6 @@ describe PermittedParams do
 
     it "should permit type_id" do
       hash = { "type_id" => "1" }
-
-      params = ActionController::Parameters.new(:work_package => hash)
-
-      PermittedParams.new(params, user).update_work_package.should == hash
-    end
-
-    it "should permit planning_element_type_id" do
-      hash = { "planning_element_type_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
 
