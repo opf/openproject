@@ -42,19 +42,20 @@ describe WorkPackage do
       # There are basically __no__ validations for hierarchies: The sole semantic here is, that the start-date of a parent
       # is set to the earliest start-date of its children.
 
-
-      let(:parent) { FactoryGirl.create(:work_package, author: user, project: project, start_date: "31/01/13")}
-      let(:child_1){ FactoryGirl.create(:work_package, author: user, project: project, parent: parent, start_date: "31/01/13")}
-      let(:child_2){ FactoryGirl.create(:work_package, author: user, project: project, parent: parent, start_date: "31/01/13")}
+      let(:early_date) {1.week.from_now.to_date}
+      let(:late_date)  {2.weeks.from_now.to_date}
+      let(:parent) { FactoryGirl.create(:work_package, author: user, project: project, start_date: late_date)}
+      let(:child_1){ FactoryGirl.create(:work_package, author: user, project: project, parent: parent, start_date: late_date)}
+      let(:child_2){ FactoryGirl.create(:work_package, author: user, project: project, parent: parent, start_date: late_date)}
 
       it "verify, that the start-date of a parent is set to the start-date of it's earliest child." do
-        child_1.start_date = "01/01/13"
+        child_1.start_date = early_date
         expect(child_1).to be_valid # yes, I can move the child-start-date before the parent-start-date...
         child_1.save
 
         expect{
           parent.reload
-        }.to change{parent.start_date}.from("31/01/13".to_date).to("01/01/13".to_date) # ... but this changes the parent's start_date to the child's start_date
+        }.to change{parent.start_date}.from(late_date).to(early_date) # ... but this changes the parent's start_date to the child's start_date
       end
 
     end
