@@ -1408,8 +1408,6 @@ de:
       timelines: "Zeitpläne"
 
     planning_element_could_not_be_saved: "Planungselement konnte nicht gespeichert werden"
-    planning_element_updated_automatically_by_child_changes: |
-        _Automatisch durch die Änderungen in %{child} aktualisert_
     planning_elements_are_displayed_in_aggregations: "Planungselemente werden in Aggregation angezeigt"
     project_association_new: "Projekt-Abhängigkeit hinzufügen"
     project_association_new_for_with: "Anlegen der Projekt-Abhängigkeit von “%{project_a}” zu"
@@ -1505,3 +1503,7 @@ de:
   wiki_menu_item: "Menüpunkt"
   wiki_menu_item_for: "Menüpunkt für die Wikiseite \"%{title}\""
   wiki_menu_item_setting: "Sichtbarkeit"
+
+  work_package:
+    updated_automatically_by_child_changes: |
+        _Automatisch durch die Änderungen in %{child} aktualisert_
