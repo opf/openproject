@@ -1,5 +1,6 @@
 # Changelog
 
+* `#1766` Fixed bug: Viewing diff of Work Package description results in error 500
 * `#1808` Add option to log user for each request
 
 ## 3.0.0pre14
