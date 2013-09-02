@@ -85,8 +85,8 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
         migrate_key_value_pairs!(keys, values, table, legacy_journal)
 
         execute <<-SQL
-          INSERT INTO #{quoted_table_name(table)}(journal_id, #{keys.join(", ")})
-          VALUES (#{quote_value(journal_id)}, #{values.map{|d| quote_value(d)}.join(", ")});
+          INSERT INTO #{quoted_table_name(table)}(journal_id#{", " + keys.join(", ") unless keys.empty? })
+          VALUES (#{quote_value(journal_id)}#{", " + values.map{|d| quote_value(d)}.join(", ") unless values.empty?});
         SQL
 
       end
