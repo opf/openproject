@@ -62,6 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <legend><%= I18n.t(:other, :scope => [:settings]) %></legend>
       <p><%= setting_check_box :openid, :disabled => !Object.const_defined?(:OpenID) %></p>
 
+      <p><%= setting_check_box :log_requesting_user %></p>
       <p><%= setting_check_box :rest_api_enabled %></p>
     </fieldset>
   </div>

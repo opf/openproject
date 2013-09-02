@@ -46,18 +46,6 @@ class ApplicationController < ActionController::Base
     cookies.delete(:autologin)
   end
 
-  # Remove broken cookie after upgrade from 0.8.x (#4292)
-  # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
-  # TODO: remove it when Rails is fixed
-  before_filter :delete_broken_cookies
-  def delete_broken_cookies
-    if cookies['_chiliproject_session'] && cookies['_chiliproject_session'] !~ /--/
-      cookies.delete '_chiliproject_session'
-      redirect_to home_path
-      return false
-    end
-  end
-
   # FIXME: Remove this when all of Rack and Rails have learned how to
   # properly use encodings
   before_filter :params_filter
@@ -76,7 +64,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_filter :user_setup, :check_if_login_required, :reset_i18n_fallbacks, :set_localization, :check_session_lifetime
+  before_filter :user_setup,
+                :check_if_login_required,
+                :log_requesting_user,
+                :reset_i18n_fallbacks,
+                :set_localization,
+                :check_session_lifetime
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
 
@@ -152,6 +145,21 @@ class ApplicationController < ActionController::Base
     # no check needed if user is already logged in
     return true if User.current.logged?
     require_login if Setting.login_required?
+  end
+
+  def log_requesting_user
+    return unless Setting.log_requesting_user?
+    login_and_mail = " (#{escape_for_logging(User.current.login)} ID: #{User.current.id} " +
+                     "<#{escape_for_logging(User.current.mail)}>)" unless User.current.anonymous?
+    logger.info "OpenProject User: #{escape_for_logging(User.current.name)}#{login_and_mail}"
+  end
+
+  # Escape string to prevent log injection
+  # e.g. setting the user name to contain \r allows overwriting a log line on console
+  # replaces all invalid characters with #
+  def escape_for_logging(string)
+    # only allow numbers, ASCII letters, space and the following characters: @.-"'!?=/
+    string.gsub(/[^0-9a-zA-Z@._\-"\'!\?=\/ ]{1}/, '#')
   end
 
   def reset_i18n_fallbacks
