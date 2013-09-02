@@ -35,11 +35,11 @@ describe MyProjectsOverviewsController do
               WHEN providing a jump parameter" do
 
       before do
-        params["jump"] = "issues"
+        params["jump"] = "work_packages"
         get 'index', params
       end
 
-      it { response.should redirect_to({ :controller => "issues", :action => "index", :project_id => project }) }
+      it { response.should redirect_to({ :controller => "work_packages", :action => "index", :project_id => project }) }
     end
   end
 end
