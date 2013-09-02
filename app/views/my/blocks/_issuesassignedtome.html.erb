@@ -19,16 +19,16 @@ See doc/COPYRIGHT.rdoc for more details.
                                 :order => "#{IssuePriority.table_name}.position DESC, #{Issue.table_name}.updated_at DESC") %>
 <%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %>
 <% if assigned_issues.length > 0 %>
-<p class="small"><%= link_to l(:label_work_package_view_all_assigned_to_me), :controller => '/issues',
-																											 :action => 'index',
-																											 :set_filter => 1,
-																											 :assigned_to_id => 'me',
-																											 :sort => 'priority:desc,updated_at:desc' %></p>
+<p class="small"><%= link_to l(:label_work_package_view_all_assigned_to_me), controller: :work_packages,
+																											 action: :index,
+																											 set_filter: 1,
+																											 assigned_to_id: 'me',
+																											 sort: 'priority:desc,updated_at:desc' %></p>
 <% end %>
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom,
-                            {:controller => '/issues', :action => 'index', :set_filter => 1,
-                             :assigned_to_id => 'me', :format => 'atom', :key => User.current.rss_key},
-                            {:title => l(:label_assigned_to_me_work_packages)}) %>
+                            {controller: :work_packages, action: :index, set_filter: 1,
+                             assigned_to_id: 'me', format: 'atom', key: User.current.rss_key},
+                            {title: l(:label_assigned_to_me_work_packages)}) %>
 <% end %>
