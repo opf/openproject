@@ -107,6 +107,8 @@ GEM
     daemons (1.1.9)
     dalli (2.6.4)
     database_cleaner (1.0.1)
+    date_validator (0.7.0)
+      activemodel (>= 3)
     debug_inspector (0.0.2)
     debugger (1.6.0)
       columnize (>= 0.3.1)
@@ -362,6 +364,7 @@ DEPENDENCIES
   cucumber-rails-training-wheels
   dalli
   database_cleaner
+  date_validator
   delayed_job_active_record
   execjs
   factory_girl_rails (~> 4.0)
@@ -411,6 +414,7 @@ DEPENDENCIES
   select2-rails (~> 3.3.2)
   selenium-webdriver
   shoulda
+  shoulda-matchers
   simplecov (>= 0.8.pre)
   sqlite3
   strong_parameters

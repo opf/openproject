@@ -165,7 +165,6 @@ class PermittedParams < Struct.new(:params, :user)
                                                      :description,
                                                      :start_date,
                                                      :due_date,
-                                                     :planning_element_type_id,
                                                      :parent_id,
                                                      :parent_id,
                                                      :assigned_to_id,

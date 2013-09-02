@@ -13,6 +13,7 @@ require 'spec_helper'
 
 describe WorkPackages::MovesController do
 
+  let(:user) { FactoryGirl.create(:user)}
   let(:type) { FactoryGirl.create :type }
   let(:type_2) { FactoryGirl.create :type }
   let(:status) { FactoryGirl.create :default_issue_status }
@@ -25,6 +26,7 @@ describe WorkPackages::MovesController do
   let(:work_package) { FactoryGirl.create(:planning_element,
                                           :project_id => project.id,
                                           :type => type,
+                                          :author => user,
                                           :priority => priority) }
 
   let(:current_user) { FactoryGirl.create(:user) }
@@ -108,6 +110,7 @@ describe WorkPackages::MovesController do
                :work_package_id => work_package.id,
                :new_project_id => target_project.id,
                :type_id => '',
+               :author_id => user.id,
                :assigned_to_id => '',
                :status_id => '',
                :start_date => '',
@@ -125,7 +128,7 @@ describe WorkPackages::MovesController do
           post :create,
                :work_package_id => work_package.id,
                :new_project_id => target_project.id,
-               :type_id => '',
+               :new_type_id => target_project.types.first.id, # FIXME (see #1868) the validation on the work_package requires a proper target-type, other cases are not tested here
                :assigned_to_id => '',
                :status_id => '',
                :start_date => '',
@@ -143,6 +146,11 @@ describe WorkPackages::MovesController do
     describe 'bulk move' do
       context "with two work packages" do
         before do
+          # make sure, that the types of the work-packages are available on the target-project
+          # (and handle it/test it, when this is not the case see #1868)
+          target_project.types << [work_package.type, work_package_2.type]
+          target_project.save
+
           post :create,
                :ids => [work_package.id, work_package_2.id],
                :new_project_id => target_project.id
@@ -219,6 +227,7 @@ describe WorkPackages::MovesController do
                  :ids => [work_package.id],
                  :copy => '',
                  :new_project_id => target_project.id,
+                 :new_type_id => target_project.types.first.id, #FIXME see #1868
                  :follow => ''
           end
 
@@ -261,6 +270,7 @@ describe WorkPackages::MovesController do
                  :ids => [work_package.id, work_package_2.id],
                  :copy => '',
                  :new_project_id => target_project.id,
+                 :new_type_id => target_project.types.first.id, #FIXME see #1868
                  :assigned_to_id => target_user.id,
                  :status_id => [target_status],
                  :start_date => start_date,
