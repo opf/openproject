@@ -13,6 +13,9 @@ brute_force_block_after_failed_logins:
   format: int
 welcome_text:
   default:
+log_requesting_user:
+  default: 0
+  format: int
 login_required:
   default: 0
 self_registration:
