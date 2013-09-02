@@ -25,4 +25,4 @@ a journal as the cache could then not be used between all of an issue's journals
   <%= call_hook(:view_issues_history_journal_bottom, { :journal => journal }) %>
 <% end %>
 
-<% heads_for_wiki_formatter if User.current.allowed_to?(:edit_issue_notes, work_package.project) || User.current.allowed_to?(:edit_own_issue_notes, work_package.project) %>
+<% heads_for_wiki_formatter if User.current.allowed_to?(:edit_work_package_notes, work_package.project) || User.current.allowed_to?(:edit_own_work_package_notes, work_package.project) %>

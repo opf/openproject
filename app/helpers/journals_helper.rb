@@ -61,9 +61,8 @@ module JournalsHelper
   end
 
   def render_notes(model, journal, options={})
-    controller = "/#{model.class.name.downcase.pluralize}"
     action = 'edit'
-    reply_links = authorize_for(controller, action)
+    reply_links = authorize_for(:work_packages, action)
 
     if User.current.logged?
       editable = User.current.allowed_to?(options[:edit_permission], journal.project) if options[:edit_permission]
@@ -76,7 +75,7 @@ module JournalsHelper
       links = [].tap do |l|
         if reply_links
           l << link_to(image_tag('quote.png', :alt => l(:button_quote), :title => l(:button_quote)),
-                                                { :controller => controller,
+                                                { :controller => :work_packages,
                                                   :action => 'quoted',
                                                   :id => model,
                                                   :journal_id => journal }, :class => 'quote-link')

@@ -90,6 +90,7 @@ class WorkPackagesController < ApplicationController
       format.html { render :locals => { :work_package => work_package,
                                         :project => project,
                                         :priorities => priorities,
+                                        :notes => "",
                                         :user => current_user } }
     end
   end
@@ -102,17 +103,29 @@ class WorkPackagesController < ApplicationController
       format.js { render :locals => { :work_package => work_package,
                                       :project => project,
                                       :priorities => priorities,
+                                      :notes => "",
                                       :user => current_user } }
     end
   end
 
   def preview
-    safe_params = permitted_params.update_work_package(:project => project)
-    work_package.update_by(current_user, safe_params)
+    if params.has_key? :journal_id
+      journal = Journal.find(params[:id])
 
-    respond_to do |format|
-      format.any(:html, :js) { render 'preview', :locals => { :work_package => work_package },
-                                                 :layout => false }
+      journal.notes = params[:notes]
+
+      respond_to do |format|
+        format.any(:html, :js) { render 'journal_preview', locals: { journal: journal },
+                                                           layout: false }
+      end
+    else
+      safe_params = permitted_params.update_work_package(project: project)
+      work_package.update_by(current_user, safe_params)
+
+      respond_to do |format|
+        format.any(:html, :js) { render 'preview', locals: { work_package: work_package },
+                                                   layout: false }
+      end
     end
   end
 
@@ -143,6 +156,7 @@ class WorkPackagesController < ApplicationController
                  :project => project,
                  :priorities => priorities,
                  :time_entry => time_entry,
+                 :notes => "",
                  :user => current_user }
 
     respond_to do |format|
@@ -255,6 +269,37 @@ class WorkPackagesController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def quoted
+    locals = { :work_package => work_package,
+               :allowed_statuses => allowed_statuses,
+               :project => project,
+               :priorities => priorities,
+               :time_entry => time_entry,
+               :notes => "",
+               :user => current_user }
+
+    journal = Journal.find(params[:journal_id]) if params[:journal_id]
+    if journal
+      user = journal.user
+      text = journal.notes
+    else
+      user = work_package.author
+      text = work_package.description
+      journal = work_package.current_journal
+    end
+
+    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
+    quoted_text = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
+    quoted_text << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+    locals[:notes] = quoted_text
+
+    respond_to do |format|
+      format.js { render :partial => 'edit', locals: locals }
+      format.html { render :action => 'edit', locals: locals }
+      format.xml  { }
+    end
   end
 
   def work_package

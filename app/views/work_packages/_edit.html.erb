@@ -66,12 +66,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <%= label_tag "work_package[notes]", Journal.human_attribute_name(:notes),
                                            :class => 'hidden-for-sighted' %>
-      <%= text_area_tag "work_package[notes]", work_package.journal_notes, :cols => 60,
-                                                                           :rows => 10,
-                                                                           :class => 'wiki-edit' %>
+      <%= text_area_tag "work_package[notes]", notes, :cols => 60,
+                                                      :rows => 10,
+                                                      :class => 'wiki-edit' %>
       <%= wikitoolbar_for 'work_package_notes' %>
       <%= call_hook(:view_issues_edit_notes_bottom, { :issue => work_package,
-                                                      :notes => work_package.journal_notes,
+                                                      :notes => notes,
                                                       :form => f }) %>
 
     </fieldset>
