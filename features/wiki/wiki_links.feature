@@ -28,7 +28,7 @@ Feature: Check links to a wiki page
     And I am working in project "project1"
     And the project uses the following modules:
       | wiki |
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
 
   Scenario: Check activity link
     When I go to the activity page of the project "project1"

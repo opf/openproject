@@ -22,7 +22,7 @@ Feature: Viewing the wiki index page
       | name       | project1 |
       | identifier | project1 |
     And the user "bob" is a "member" in the project "project1"
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
 
   Scenario: Visiting the wiki index page without a related page should show the overall index page and select no menu item
     When I go to the wiki index page of the project called "project1"

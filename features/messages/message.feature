@@ -28,7 +28,7 @@ Feature: Issue textile quickinfo links
     And there is 1 user with the following:
       | login | bob|
     And the user "bob" is a "member" in the project "parent"
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
 
   Scenario: Adding a message to a forum
     When I go to the boards page of the project called "parent"
