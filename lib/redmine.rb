@@ -270,7 +270,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :work_packages, { :controller => '/work_packages', :action => 'index' }, :param => :project_id, :caption => :label_work_package_plural
   menu.push :new_issue, { :controller => '/work_packages', :action => 'new', :sti_type => 'Issue' }, :param => :project_id, :caption => :label_work_package_new, :parent => :work_packages,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
-  menu.push :view_all_issues, { :controller => '/issues', :action => 'all' }, :param => :project_id, :caption => :label_work_package_view_all, :parent => :work_packages
+  menu.push :view_all_work_packages, { :controller => '/work_packages', :action => 'index', :set_filter => 1 }, :param => :project_id, :caption => :label_work_package_view_all, :parent => :work_packages
   menu.push :summary_field, {:controller => '/issues/reports', :action => 'report'}, :param => :project_id, :caption => :label_workflow_summary, :parent => :work_packages
   menu.push :calendar, { :controller => '/issues/calendars', :action => 'index' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => '/news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
