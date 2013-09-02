@@ -193,6 +193,41 @@ h2. Subheading
 h3. Subsubheading
 </pre>
 
+      <h3>Numbered Headings</h3>
+
+      <p>
+        You may also define numbered headings. They are then automatically
+        managed by OpenProject for you.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>
+              Wiki format
+            </th>
+            <th style='padding-left: 3em'>
+              Resulting Text
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+<pre>
+h1#. Topic Foo
+h2#. Sub-Topic Foo Bar
+h1#. Topic Baz
+</pre>
+            </td>
+            <td style='padding-left: 3em'>
+              <strong>1. Topic A</strong><br/>
+              1.2. Sub-Topic 1<br/>
+              <strong>2. Topic B</strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
         <p>OpenProject assigns an anchor to each of those headings thus you can link to them with "#Heading", "#Subheading" and so forth.</p>
 
 
@@ -240,7 +275,7 @@ To go live, all you need to add is a database and a web server.
 
     <h2><a name="13" class="wiki-page"></a>Code highlighting</h2>
 
-    <p>Code highlightment relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, cpp, css, delphi, groovy, html, java, javascript, json, php, python, rhtml, ruby, scheme, sql, xml and yaml languages.</p>
+    <p>Code highlighting relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, cpp, css, delphi, groovy, html, java, javascript, json, php, python, rhtml, ruby, scheme, sql, xml and yaml languages.</p>
 
     <p>You can highlight code in your wiki page using this syntax:</p>
 
