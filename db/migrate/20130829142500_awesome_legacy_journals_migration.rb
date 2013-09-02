@@ -111,6 +111,11 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
     if table == "wiki_content_journals"
 
+      if keys.index("lock_version").nil?
+        keys.push "lock_version"
+        values.push legacy_journal["version"]
+      end
+
       if !(data_index = keys.index("data")).nil?
 
         compression_index = keys.index("compression")
