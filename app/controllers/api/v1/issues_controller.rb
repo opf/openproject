@@ -13,8 +13,17 @@ module Api
   module V1
 
     class IssuesController < IssuesController
+      EXPORT_FORMATS = %w[atom rss api xls csv pdf]
+      DEFAULT_SORT_ORDER = ['parent', 'desc']
 
       include ::Api::V1::ApiController
+
+      skip_before_filter :authorize, :only => [:index]
+      before_filter :find_optional_project, :only => :index
+      before_filter :protect_from_unauthorized_export, :only => :index
+      before_filter :retrieve_query, :only => :index
+
+      accept_key_auth :index, :show, :create, :update, :destroy
 
       def index
         sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)

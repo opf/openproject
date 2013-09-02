@@ -116,7 +116,7 @@ describe WorkPackages::MovesController do
 
         it "redirects to the project's work packages page" do
           should be_redirect
-          should redirect_to(project_issues_path(project))
+          should redirect_to(project_work_packages_path(project))
         end
       end
 
@@ -211,7 +211,7 @@ describe WorkPackages::MovesController do
           work_package_2.journals.sort_by(&:id).last.notes.should eq(note)
         end
       end
-    
+
       describe '&copy' do
         context "follows to another project" do
           before do

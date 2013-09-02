@@ -11,8 +11,7 @@
 #++
 
 class IssuesController < ApplicationController
-  EXPORT_FORMATS = %w[atom rss api xls csv pdf]
-  DEFAULT_SORT_ORDER = ['parent', 'desc']
+  EXPORT_FORMATS = %w[atom rss xls csv pdf]
 
   menu_item :new_issue, :only => [:new, :create]
   menu_item :view_all_issues, :only => [:all]
@@ -23,14 +22,14 @@ class IssuesController < ApplicationController
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :move, :perform_move, :destroy]
   before_filter :check_project_uniqueness, :only => [:move, :perform_move]
   before_filter :find_project, :only => [:new, :create]
-  before_filter :authorize, :except => [:index, :all]
-  before_filter :find_optional_project, :only => [:index, :all]
-  before_filter :protect_from_unauthorized_export, :only => [:index, :all]
+  before_filter :authorize, :except => [:all]
+  before_filter :find_optional_project, :only => [:all]
+  before_filter :protect_from_unauthorized_export, :only => [:all]
   before_filter :check_for_default_issue_status, :only => [:new, :create]
   before_filter :build_new_issue_from_params, :only => [:new, :create]
-  before_filter :retrieve_query, :only => [:index, :all]
+  before_filter :retrieve_query, :only => [:all]
 
-  accept_key_auth :index, :show, :create, :update, :destroy
+  accept_key_auth :show, :create, :update, :destroy
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
 
@@ -45,44 +44,6 @@ class IssuesController < ApplicationController
   include SortHelper
   include IssuesHelper
   include PaginationHelper
-
-  def index
-    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
-
-    if @query.valid?
-      per_page = case params[:format]
-                 when 'csv', 'pdf'
-                   Setting.issues_export_limit.to_i
-                 when 'atom'
-                   Setting.feeds_limit.to_i
-                 else
-                   per_page_param
-                 end
-
-      @issues = @query.issues(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                              :order => sort_clause)
-                             .page(page_param)
-                             .per_page(per_page)
-
-      @issue_count_by_group = @query.issue_count_by_group
-
-      respond_to do |format|
-        format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
-        format.html { render :template => 'issues/index', :layout => !request.xhr? }
-        format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}") }
-        format.pdf  { send_data(issues_to_pdf(@issues, @project, @query,
-                                              :show_descriptions => params[:show_descriptions]),
-                                :type => 'application/pdf',
-                                :filename => 'export.pdf') }
-      end
-    else
-      # Send html if the query is not valid
-      render(:template => 'issues/index', :layout => !request.xhr?)
-    end
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
 
   def all
     params[:set_filter] = '1'
@@ -124,7 +85,7 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.html { render :template => 'issues/show' }
       format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
-      format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
+      format.pdf  { send_data(WorkPackage::Exporter.work_package_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
   end
 
@@ -244,7 +205,7 @@ class IssuesController < ApplicationController
       end
     end
     set_flash_from_bulk_issue_save(@issues, unsaved_issue_ids)
-    redirect_back_or_default({:controller => '/issues', :action => 'index', :project_id => @project})
+    redirect_back_or_default({:controller => '/work_packages', :action => 'index', :project_id => @project})
   end
 
   def destroy
@@ -276,7 +237,7 @@ class IssuesController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_back_or_default(:action => 'index', :project_id => @project) }
+      format.html { redirect_back_or_default(:controller => '/work_packages', :action => 'index', :project_id => @project) }
     end
   end
 

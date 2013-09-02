@@ -26,209 +26,6 @@ class IssuesControllerTest < ActionController::TestCase
     User.current = nil
   end
 
-  def test_index
-    Setting.default_language = 'en'
-
-    get :index
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_nil assigns(:project)
-    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_tag :tag => 'a', :content => /Subproject issue/
-    # private projects hidden
-    assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
-    assert_no_tag :tag => 'a', :content => /Issue on project 2/
-    # project column
-    assert_tag :tag => 'th', :content => /Project/
-  end
-
-  def test_index_should_not_list_issues_when_module_disabled
-    EnabledModule.delete_all("name = 'issue_tracking' AND project_id = 1")
-    get :index
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_tag :tag => 'a', :content => /Subproject issue/
-  end
-
-  def test_index_with_project
-    Setting.display_subprojects_issues = 0
-    get :index, :project_id => 1
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_no_tag :tag => 'a', :content => /Subproject issue/
-  end
-
-  def test_index_with_project_and_subprojects
-    Setting.display_subprojects_issues = 1
-    get :index, :project_id => 1
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_tag :tag => 'a', :content => /Subproject issue/
-    assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
-  end
-
-  def test_index_with_project_and_subprojects_should_show_private_subprojects
-    @request.session[:user_id] = 2
-    Setting.display_subprojects_issues = 1
-    get :index, :project_id => 1
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_tag :tag => 'a', :content => /Subproject issue/
-    assert_tag :tag => 'a', :content => /Issue of a private subproject/
-  end
-
-  def test_index_with_project_and_default_filter
-    get :index, :project_id => 1, :set_filter => 1
-    assert_response :success
-    assert_template ''
-    assert_not_nil assigns(:issues)
-
-    query = assigns(:query)
-    assert_not_nil query
-    # default filter
-    assert_equal({'status_id' => {:operator => 'o', :values => ['']}}, query.filters)
-  end
-
-  def test_index_with_project_and_filter
-    get :index, :project_id => 1, :set_filter => 1,
-      :f => ['type_id'],
-      :op => {'type_id' => '='},
-      :v => {'type_id' => ['1']}
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-
-    query = assigns(:query)
-    assert_not_nil query
-    assert_equal({'type_id' => {:operator => '=', :values => ['1']}}, query.filters)
-  end
-
-  def test_index_with_project_and_empty_filters
-    get :index, :project_id => 1, :set_filter => 1, :fields => ['']
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-
-    query = assigns(:query)
-    assert_not_nil query
-    # no filter
-    assert_equal({}, query.filters)
-  end
-
-  def test_index_with_query
-    get :index, :project_id => 1, :query_id => 5
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_nil assigns(:issue_count_by_group)
-  end
-
-  def test_index_with_query_grouped_by_type
-    get :index, :project_id => 1, :query_id => 6
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_not_nil assigns(:issue_count_by_group)
-  end
-
-  def test_index_with_query_grouped_by_list_custom_field
-    get :index, :project_id => 1, :query_id => 9
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_not_nil assigns(:issue_count_by_group)
-  end
-
-  def test_index_sort_by_field_not_included_in_columns
-    Setting.issue_list_default_columns = %w(subject author)
-    get :index, :sort => 'type'
-  end
-
-  def test_index_csv_with_project
-    Setting.default_language = 'en'
-    Role.anonymous.add_permission!(:export_issues)
-
-    get :index, :format => 'csv'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'text/csv; header=present', @response.content_type
-    assert @response.body.starts_with?("#,")
-
-    get :index, :project_id => 1, :format => 'csv'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'text/csv; header=present', @response.content_type
-  end
-
-  def test_index_pdf
-    Role.anonymous.add_permission!(:export_issues)
-
-    get :index, :format => 'pdf'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'application/pdf', @response.content_type
-
-    get :index, :project_id => 1, :format => 'pdf'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'application/pdf', @response.content_type
-
-    get :index, :project_id => 1, :query_id => 6, :format => 'pdf'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'application/pdf', @response.content_type
-  end
-
-  def test_index_pdf_with_query_grouped_by_list_custom_field
-    Role.anonymous.add_permission!(:export_issues)
-
-    get :index, :project_id => 1, :query_id => 9, :format => 'pdf'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_not_nil assigns(:issue_count_by_group)
-    assert_equal 'application/pdf', @response.content_type
-  end
-
-  def test_index_sort
-    get :index, :sort => 'type,id:desc'
-    assert_response :success
-
-    sort_params = @request.session['issues_index_sort']
-    assert sort_params.is_a?(String)
-    assert_equal 'type,id:desc', sort_params
-
-    issues = assigns(:issues)
-    assert_not_nil issues
-    assert !issues.empty?
-    assert_equal issues.sort {|a,b| a.type == b.type ? b.id <=> a.id : a.type <=> b.type }.collect(&:id), issues.collect(&:id)
-  end
-
-  def test_index_with_columns
-    columns = ['type', 'subject', 'assigned_to']
-    get :index, :set_filter => 1, :c => columns
-    assert_response :success
-
-    # query should use specified columns
-    query = assigns(:query)
-    assert_kind_of Query, query
-    assert_equal columns, query.column_names.map(&:to_s)
-
-    # columns should be stored in session
-    assert_kind_of Hash, session[:query]
-    assert_kind_of Array, session[:query][:column_names]
-    assert_equal columns, session[:query][:column_names].map(&:to_s)
-  end
-
   def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
@@ -1313,14 +1110,14 @@ class IssuesControllerTest < ActionController::TestCase
     put :bulk_update, :ids => [1,2], :back_url => 'http://google.com'
 
     assert_response :redirect
-    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => Project.find(1).identifier
+    assert_redirected_to :controller => 'work_packages', :action => 'index', :project_id => Project.find(1).identifier
   end
 
   def test_destroy_issue_with_no_time_entries
     assert_nil TimeEntry.find_by_work_package_id(2)
     @request.session[:user_id] = 2
     post :destroy, :id => 2
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to :controller => 'work_packages', :action => 'index', :project_id => 'ecookbook'
     assert_nil Issue.find_by_id(2)
   end
 
@@ -1336,7 +1133,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_destroy_issues_and_destroy_time_entries
     @request.session[:user_id] = 2
     post :destroy, :ids => [1, 3], :todo => 'destroy'
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to :controller => 'work_packages', :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_nil TimeEntry.find_by_id([1, 2])
   end
@@ -1344,7 +1141,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_destroy_issues_and_assign_time_entries_to_project
     @request.session[:user_id] = 2
     post :destroy, :ids => [1, 3], :todo => 'nullify'
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to :controller => 'work_packages', :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_nil TimeEntry.find(1).work_package_id
     assert_nil TimeEntry.find(2).work_package_id
@@ -1353,7 +1150,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_destroy_issues_and_reassign_time_entries_to_another_issue
     @request.session[:user_id] = 2
     post :destroy, :ids => [1, 3], :todo => 'reassign', :reassign_to_id => 2
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to :controller => 'work_packages', :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_equal 2, TimeEntry.find(1).work_package_id
     assert_equal 2, TimeEntry.find(2).work_package_id
@@ -1362,7 +1159,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_destroy_issues_from_different_projects
     @request.session[:user_id] = 2
     post :destroy, :ids => [1, 2, 6], :todo => 'destroy'
-    assert_redirected_to :controller => 'issues', :action => 'index'
+    assert_redirected_to :controller => 'work_packages', :action => 'index'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(2) || Issue.find_by_id(6))
   end
 
@@ -1376,13 +1173,6 @@ class IssuesControllerTest < ActionController::TestCase
       post :destroy, :ids => [parent.id, child.id], :todo => 'destroy'
     end
     assert_response 302
-  end
-
-  def test_default_search_scope
-    get :index
-    assert_select "#search form" do
-      assert_select "input[type=hidden][name=issues][value=1]"
-    end
   end
 
   def test_quote_issue
