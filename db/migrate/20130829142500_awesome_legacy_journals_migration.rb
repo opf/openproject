@@ -104,6 +104,25 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
   def migrate_key_value_pairs!(keys, values, table, legacy_journal)
     migrate_key_value_pairs_for_wiki_contents!(keys, values, table, legacy_journal)
+    migrate_key_value_pairs_for_work_packages!(keys, values, table, legacy_journal)
+  end
+
+  def migrate_key_value_pairs_for_work_packages!(keys, values, table, legacy_journal)
+
+    if table == "work_package_journals"
+
+      attachments = keys.select { |d| d =~ /attachments_.*/ }
+      attachments.each do |k|
+        j = keys.index(k)
+        [keys, values].each { |a| a.delete_at(j) }
+      end
+
+      custom_values = keys.select { |d| d =~ /custom_values.*/ }
+      custom_values.each do |k|
+        j = keys.index(k)
+        [keys, values].each { |a| a.delete_at(j) }
+      end
+    end
   end
 
   # custom logic for changes wiki contents.
