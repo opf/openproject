@@ -29,11 +29,18 @@ class JournalsController < ApplicationController
 
     if @query.valid?
       @journals = @query.work_package_journals(:order => "#{Journal.table_name}.created_at DESC",
-                                            :limit => 25)
+                                               :limit => 25)
     end
-    @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
+
+    title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
+
     respond_to do |format|
-      format.atom { render :layout => false, :content_type => 'application/atom+xml' }
+      format.atom do
+        render :layout => false,
+               :content_type => 'application/atom+xml',
+               :locals => { :title => title,
+                            :journals => @journals }
+      end
     end
   rescue ActiveRecord::RecordNotFound
     render_404

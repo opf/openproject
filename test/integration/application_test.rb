@@ -33,12 +33,12 @@ class ApplicationTest < ActionDispatch::IntegrationTest
   end
 
   def test_token_based_access_should_not_start_session
-    # issue of a private project
-    get 'issues/4.atom'
-    assert_response 302
+    # work_packages of a private project
+    get '/work_packages/4.atom'
+    assert_response 404
 
     rss_key = User.find(2).rss_key
-    get "issues/4.atom?key=#{rss_key}"
+    get "/work_packages/4.atom?key=#{rss_key}"
     assert_response 200
     assert_nil session[:user_id]
   end

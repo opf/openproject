@@ -238,6 +238,20 @@ describe WorkPackagesController do
     end
   end
 
+  describe 'show.atom' do
+    let(:call_action) { get('show', :format => 'atom', :id => '1337') }
+
+    requires_permission_in_project do
+      it 'render the journal/index template' do
+        call_action
+
+        response.should render_template('journals/index', :formats => ["atom"],
+                                                          :layout => false,
+                                                          :content_type => 'application/atom+xml')
+      end
+    end
+  end
+
 
   describe 'new.html' do
     let(:call_action) { get('new', :format => 'html', :project_id => 5) }

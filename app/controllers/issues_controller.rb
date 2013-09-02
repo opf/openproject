@@ -84,7 +84,7 @@ class IssuesController < ApplicationController
     @time_entry = TimeEntry.new(:work_package=> @issue, :project => @issue.project)
     respond_to do |format|
       format.html { render :template => 'issues/show' }
-      format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
+      format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml', :locals => { :title => "#{Setting.app_title} - #{@issue.to_s}", :journals => @journals } }
       format.pdf  { send_data(WorkPackage::Exporter.work_package_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
   end

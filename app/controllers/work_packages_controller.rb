@@ -19,6 +19,8 @@ class WorkPackagesController < ApplicationController
   include SortHelper
   include PaginationHelper
 
+  accept_key_auth :index, :show, :create, :update, :destroy
+
   current_menu_item do |controller|
     begin
       wp = controller.work_package
@@ -73,6 +75,14 @@ class WorkPackagesController < ApplicationController
         send_data(pdf,
                   :type => 'application/pdf',
                   :filename => "#{project.identifier}-#{work_package.id}.pdf")
+      end
+
+      format.atom do
+        render :template => 'journals/index',
+               :layout => false,
+               :content_type => 'application/atom+xml',
+               :locals => { :title => "#{Setting.app_title} - #{work_package.to_s}",
+                            :journals => journals }
       end
     end
   end
