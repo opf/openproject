@@ -22,12 +22,9 @@ class IssuesController < ApplicationController
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :move, :perform_move, :destroy]
   before_filter :check_project_uniqueness, :only => [:move, :perform_move]
   before_filter :find_project, :only => [:new, :create]
-  before_filter :authorize, :except => [:all]
-  before_filter :find_optional_project, :only => [:all]
-  before_filter :protect_from_unauthorized_export, :only => [:all]
+  before_filter :authorize
   before_filter :check_for_default_issue_status, :only => [:new, :create]
   before_filter :build_new_issue_from_params, :only => [:new, :create]
-  before_filter :retrieve_query, :only => [:all]
 
   accept_key_auth :show, :create, :update, :destroy
 
@@ -44,12 +41,6 @@ class IssuesController < ApplicationController
   include SortHelper
   include IssuesHelper
   include PaginationHelper
-
-  def all
-    params[:set_filter] = '1'
-    retrieve_query
-    index
-  end
 
   def show
     @journals = @issue.journals.find(:all, :include => [:user, :journable], :order => "#{Journal.table_name}.created_at ASC")
