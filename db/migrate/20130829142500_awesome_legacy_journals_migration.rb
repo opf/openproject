@@ -69,6 +69,11 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
       data = fetch_journal_data(journal_id, table)
 
+      keys = combined_journal.keys
+      values = combined_journal.values.map(&:last)
+
+      migrate_key_value_pairs!(keys, values, table, legacy_journal)
+
       if data.size > 1
 
         raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
@@ -79,19 +84,22 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
       elsif data.size == 0
 
-        keys = combined_journal.keys
-        values = combined_journal.values.map(&:last)
-
-        migrate_key_value_pairs!(keys, values, table, legacy_journal)
-
         execute <<-SQL
           INSERT INTO #{quoted_table_name(table)}(journal_id#{", " + keys.join(", ") unless keys.empty? })
           VALUES (#{quote_value(journal_id)}#{", " + values.map{|d| quote_value(d)}.join(", ") unless values.empty?});
         SQL
 
+        data = fetch_journal_data
       end
 
-      (data || fetch_journal_data(journal_id, table)).first
+      data = data.first
+
+      execute <<-SQL
+        UPDATE #{quoted_table_name(table)}
+           SET #{(keys.each_with_index.map {|k,i| "#{k} = #{quote_value(values[i])}"}).join(", ")}
+         WHERE id = #{data["id"]};
+      SQL
+
 
     end
 
@@ -113,6 +121,7 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
       attachments = keys.select { |d| d =~ /attachments_.*/ }
       attachments.each do |k|
+
         j = keys.index(k)
         [keys, values].each { |a| a.delete_at(j) }
       end
