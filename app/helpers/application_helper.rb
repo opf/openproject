@@ -1063,6 +1063,8 @@ module ApplicationHelper
   #
   def footer_content
     elements = []
+    elements << I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name,
+                                                          Redmine::Info.url))
     unless OpenProject::Footer.content.nil?
       OpenProject::Footer.content.each do |name, value|
         content = value.respond_to?(:call) ? value.call : value
@@ -1071,7 +1073,6 @@ module ApplicationHelper
         end
       end
     end
-    elements << I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url))
     elements << Setting.additional_footer_content if Setting.additional_footer_content.present?
     elements.join(", ").html_safe
   end
