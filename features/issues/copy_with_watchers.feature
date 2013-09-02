@@ -48,7 +48,7 @@ Feature: Copying an issue should copy the watchers
       | ndnd |
 
   Scenario: Watchers shouldn't be copied when the user doesn't have the permission to
-    Given I am logged in as "ndnd"
+    Given I am already logged in as "ndnd"
     When I go to the copy page for the issue "Improve drive"
     Then I should not see "Watchers"
     When I fill in "issue_subject" with "Improve drive even more"
@@ -57,7 +57,7 @@ Feature: Copying an issue should copy the watchers
     And the issue "Improve drive even more" should have 0 watchers
 
   Scenario: Watchers should be copied when the user has the permission to
-    Given I am logged in as "lrrr"
+    Given I am already logged in as "lrrr"
     When I go to the copy page for the issue "Improve drive"
     Then I should see "Watchers" within "p#watchers_form"
     When I fill in "issue_subject" with "Improve drive even more"

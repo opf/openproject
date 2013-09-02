@@ -23,7 +23,7 @@ Feature: Viewing the wiki new child page
       | name       | project1 |
       | identifier | project1 |
     And the user "bob" is a "member" in the project "project1"
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
 
   Scenario: Visiting the wiki new child page with a parent page that has the new child page option enabled on it's menu item should show the page and select the toc menu entry within the wiki menu item
     Given the project "project1" has 1 wiki page with the following:

@@ -26,7 +26,7 @@ Feature: Exporting issues
     And the user "bob" is a "member" in the project "project1"
     And the user "bob" has 1 issue with the following:
       | subject | Some Issue |
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
 
   Scenario: No export links on project issues index if user has no "export_issues" permission
     When I go to the issues index page of the project called "project1"
