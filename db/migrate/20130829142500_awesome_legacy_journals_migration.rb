@@ -1,5 +1,8 @@
 class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
+  class UnsupportedWikiContentJournalCompressionError < ::StandardError
+  end
+
   class AmbiguousJournalsError < ::StandardError
   end
 
@@ -15,9 +18,10 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       "ChangesetJournal" => "changeset_journals",
       "NewsJournal" => "news_journals",
       "MessageJournal" => "message_journals",
-      "WorkPackageJournal" => "work_package_journals"
+      "WorkPackageJournal" => "work_package_journals",
+      "TimeEntryJournal" => "time_entry_journals",
+      "WikiContentJournal" => "wiki_content_journals"
     }
-
 
     fetch_legacy_journals.each do |legacy_journal|
 
@@ -78,6 +82,8 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
         keys = combined_journal.keys
         values = combined_journal.values.map(&:last)
 
+        migrate_key_value_pairs!(keys, values, table, legacy_journal)
+
         execute <<-SQL
           INSERT INTO #{quoted_table_name(table)}(journal_id, #{keys.join(", ")})
           VALUES (#{quote_value(journal_id)}, #{values.map{|d| quote_value(d)}.join(", ")});
@@ -95,6 +101,38 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
   end
 
   private
+
+  def migrate_key_value_pairs!(keys, values, table, legacy_journal)
+    migrate_key_value_pairs_for_wiki_contents!(keys, values, table, legacy_journal)
+  end
+
+  # custom logic for changes wiki contents.
+  def migrate_key_value_pairs_for_wiki_contents!(keys, values, table, legacy_journal)
+
+    if table == "wiki_content_journals"
+
+      if !(data_index = keys.index("data")).nil?
+
+        compression_index = keys.index("compression")
+        compression = values[compression_index]
+
+        if !compression.empty?
+
+          raise UnsupportedWikiContentJournalCompressionError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+            There is a WikiContent journal that contains data in an
+            unsupported compression: #{compression}
+          MESSAGE
+
+        end
+
+        keys[data_index] = "text"
+
+        keys.delete_at(compression_index)
+        values.delete_at(compression_index)
+      end
+
+    end
+  end
 
   # fetches specific journal data row. might be empty.
   def fetch_journal_data(journal_id, table)
