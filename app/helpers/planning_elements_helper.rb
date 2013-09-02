@@ -41,7 +41,7 @@ module PlanningElementsHelper
         api.responsible(:id => planning_element.responsible.id, :name => planning_element.responsible.name)
       end
 
-      if planning_element.type
+      if planning_element.type && !planning_element.type.is_standard?
         type = planning_element.type
         api.planning_element_type(:id => type.id, :name => type.name)
       end

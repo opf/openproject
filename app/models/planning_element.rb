@@ -23,15 +23,7 @@ class PlanningElement < WorkPackage
     {:conditions => {:project_id => projects}}
   }
 
-  validates_presence_of :subject, :project
-
-  validates_length_of :subject, :maximum => 255, :unless => lambda { |e| e.subject.blank? }
-
   validate do
-    if self.due_date and self.start_date and self.due_date < self.start_date
-      errors.add :due_date, :greater_than_start_date
-    end
-
     if self.is_milestone?
       if self.due_date and self.start_date and self.start_date != self.due_date
         errors.add :due_date, :not_start_date

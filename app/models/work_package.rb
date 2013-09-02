@@ -386,7 +386,6 @@ class WorkPackage < ActiveRecord::Base
     end || false
   end
 
-
   protected
 
   def recalculate_attributes_for(work_package_id)
