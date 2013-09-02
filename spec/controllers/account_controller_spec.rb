@@ -57,7 +57,7 @@ describe AccountController do
   context "GET #register" do
     context "with self registration on" do
       before do
-        Setting.self_registration = '3'
+        Setting.stub!(:self_registration).and_return("3")
         get :register
       end
 
@@ -70,7 +70,8 @@ describe AccountController do
 
     context "with self registration off" do
       before do
-        Setting.self_registration = '0'
+        Setting.stub!(:self_registration).and_return("0")
+        Setting.stub!(:self_registration?).and_return(false)
         get :register
       end
 
@@ -84,7 +85,7 @@ describe AccountController do
   context "POST #register" do
     context "with self registration on automatic" do
       before do
-        Setting.self_registration = '3'
+        Setting.stub!(:self_registration).and_return("3")
         post :register, :user => {
           :login => 'register',
           :password => 'adminADMIN!',
@@ -111,8 +112,16 @@ describe AccountController do
 
     context "with self registration off" do
       before do
-        Setting.self_registration = '0'
-        post :register
+        Setting.stub!(:self_registration).and_return("0")
+        Setting.stub!(:self_registration?).and_return(false)
+        post :register, :user => {
+          :login => 'register',
+          :password => 'adminADMIN!',
+          :password_confirmation => 'adminADMIN!',
+          :firstname => 'John',
+          :lastname => 'Doe',
+          :mail => 'register@example.com'
+        }
       end
 
       it "redirects to home" do
