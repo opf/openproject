@@ -210,11 +210,24 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
   # fetches legacy journals. might me empty.
   def fetch_legacy_journals
-    ActiveRecord::Base.connection.select_all <<-SQL
+
+    attachments_and_changesets = ActiveRecord::Base.connection.select_all <<-SQL
       SELECT *
       FROM #{quoted_legacy_journals_table_name} AS j
+      WHERE (j.activity_type = #{quote_value("attachments")})
+        OR (j.activity_type = #{quote_value("custom_fields")})
       ORDER BY j.journaled_id, j.activity_type, j.version;
     SQL
+
+    remainder = ActiveRecord::Base.connection.select_all <<-SQL
+      SELECT *
+      FROM #{quoted_legacy_journals_table_name} AS j
+      WHERE NOT ((j.activity_type = #{quote_value("attachments")})
+        OR (j.activity_type = #{quote_value("custom_fields")}))
+      ORDER BY j.journaled_id, j.activity_type, j.version;
+    SQL
+
+    attachments_and_changesets + remainder
   end
 
 
