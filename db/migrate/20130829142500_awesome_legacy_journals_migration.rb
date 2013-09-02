@@ -44,18 +44,6 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       journal = get_journal(journaled_id, type, version)
       journal_id = journal["id"]
 
-      # update the journal w/ all values not previously inserted.
-      execute <<-SQL
-        UPDATE journals
-           SET journable_data_id   = 0,
-               journable_data_type = #{quote_value(type)},
-               user_id             = #{quote_value(legacy_journal["user_id"])},
-               notes               = #{quote_value(legacy_journal["notes"])},
-               created_at          = #{quote_value(legacy_journal["created_at"])},
-               activity_type       = #{quote_value(legacy_journal["activity_type"])}
-         WHERE id = #{quote_value(journal_id)};
-      SQL
-
       # compute the combined journal from current and all previous changesets.
       combined_journal = legacy_journal["changed_data"]
       if previous_journaled_id == journaled_id && previous_type == type
@@ -98,8 +86,16 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
         UPDATE #{quoted_table_name(table)}
            SET #{(keys.each_with_index.map {|k,i| "#{k} = #{quote_value(values[i])}"}).join(", ")}
          WHERE id = #{data["id"]};
-      SQL
 
+        UPDATE journals
+           SET journable_data_id   = #{quote_value(journal_id)},
+               journable_data_type = #{quote_value(type)},
+               user_id             = #{quote_value(legacy_journal["user_id"])},
+               notes               = #{quote_value(legacy_journal["notes"])},
+               created_at          = #{quote_value(legacy_journal["created_at"])},
+               activity_type       = #{quote_value(legacy_journal["activity_type"])}
+         WHERE id = #{quote_value(journal_id)};
+      SQL
 
     end
 
