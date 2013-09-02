@@ -13,8 +13,8 @@
 module Redmine
   module Info
     class << self
-      def app_name; 'OpenProject' end
-      def url; 'https://www.openproject.org/' end
+      def app_name; Setting.software_name end
+      def url; Setting.software_url end
       def help_url
         "https://www.openproject.org/projects/support"
       end
