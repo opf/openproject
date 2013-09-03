@@ -31,7 +31,7 @@ Feature: Doing Ajax when logged out
 
   @javascript
   Scenario: If we do ajax while being logged out a confirm dialog should open
-    When I go to the issue page of the Project "ecookbook"
+    When I go to the work packages index page of the project "ecookbook"
       And I log out in the background
       And I do some ajax
       And I confirm popups
