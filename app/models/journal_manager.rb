@@ -29,7 +29,8 @@ class JournalManager
   end
 
   def self.attributes_changed?(journable)
-    current = journable.attributes
+    type = base_class(journable.class)
+    current = valid_journal_attributes type, journable.attributes
     predecessor = journable.journals.last.data.journaled_attributes
 
     return predecessor.map{|k,v| current[k.to_s] != v}
@@ -126,10 +127,10 @@ class JournalManager
 
   def self.valid_journal_attributes(type, changed_data)
     journal_class = journal_class type
-    journal_class_attributes = journal_class.columns.map(&:name).map{|n| n.to_sym}
+    journal_class_attributes = journal_class.columns.map(&:name)
 
-    valid_journal_attributes = changed_data.select {|k,v| journal_class_attributes.include?(k)}
-    valid_journal_attributes.except :id
+    valid_journal_attributes = changed_data.select {|k,v| journal_class_attributes.include?(k.to_s)}
+    valid_journal_attributes.except 'id', 'updated_at', 'updated_on'
   end
 
   def self.create_journal_data(journal_id, type, changed_data)
