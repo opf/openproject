@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= @timeline.name %></h2>
 
-<% form_tag :id => "specialForm" do %>
+<%= form_tag :id => "specialForm" do %>
   <%= label_tag 'timeline_select', l("timelines.timeline") %>
   <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {:id => 'timeline_select'}) %>
 <% end %>
