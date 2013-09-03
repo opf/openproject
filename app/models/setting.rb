@@ -81,19 +81,13 @@ class Setting < ActiveRecord::Base
     # or set using Setting.some_setting_name = "some value"
     src = <<-END_SRC
       def self.#{name}
-        if connection.table_exists?(table_name)
-          self[:#{name}]
-        else
-          {} # when runnung too early, there is no settings table. do nothing
-        end
+        # when runnung too early, there is no settings table. do nothing
+        self[:#{name}] if connection.table_exists?(table_name)
       end
 
       def self.#{name}?
-        if connection.table_exists?(table_name)
-          self[:#{name}].to_i > 0
-        else
-          {} # when runnung too early, there is no settings table. do nothing
-        end
+        # when runnung too early, there is no settings table. do nothing
+        self[:#{name}].to_i > 0 if connection.table_exists?(table_name)
       end
 
       def self.#{name}=(value)
@@ -101,7 +95,7 @@ class Setting < ActiveRecord::Base
           self[:#{name}] = value
         else
           logger.warn "Trying to save a setting named '#{name}' while there is no 'setting' table yet. This setting will not be saved!"
-          {} # when runnung too early, there is no settings table. do nothing
+          nil # when runnung too early, there is no settings table. do nothing
         end
       end
     END_SRC
