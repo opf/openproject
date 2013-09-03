@@ -20,8 +20,8 @@ module Api
       include ExtendedHTTP
 
       before_filter :find_project_by_project_id,
-                    :authorize,
-                    :assign_planning_elements, :except => [:index, :list]
+                    :authorize, :except => [:index, :list]
+      before_filter :assign_planning_elements, :except => [:index, :list, :update, :create]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
       #            before filters !!!
@@ -48,7 +48,7 @@ module Api
           p.except!(:planning_element_type_id)
         end
 
-        @planning_element = @planning_elements.new(planning_element_params)
+        @planning_element = planning_element_scope.new(planning_element_params)
 
         # The planning_element inherits from workpackage, which requires an author.
         # Using the current_user also satisfies this demand for API-calls
@@ -81,7 +81,7 @@ module Api
       end
 
       def update
-        @planning_element = @planning_elements.find(params[:id])
+        @planning_element = planning_element_scope.find(params[:id])
         @planning_element.attributes = permitted_params.planning_element
 
         successfully_updated = @planning_element.save
@@ -98,11 +98,11 @@ module Api
       end
 
       def list
-        options = {:order => 'id'}
-
         projects = Project.visible.select do |project|
           User.current.allowed_to?(:view_planning_elements, project)
         end
+
+        assign_planning_elements(projects).order(:id).all
 
         if params[:ids]
           ids = params[:ids].split(/,/).map(&:strip).select { |s| s =~ /^\d*$/ }.map(&:to_i).sort
@@ -110,15 +110,13 @@ module Api
           options[:conditions] = ["id IN (?) AND project_id IN (?)", ids, project_ids]
         end
 
-        @planning_elements = WorkPackage.all(options)
-
         respond_to do |format|
           format.api { render :action => :index }
         end
       end
 
       def destroy
-        @planning_element = @project.planning_elements.find(params[:id])
+        @planning_element = planning_element_scope.find(params[:id])
         @planning_element.destroy
 
         respond_to do |format|
@@ -131,9 +129,9 @@ module Api
       # Filters
       def find_all_projects_by_project_id
         if params[:project_id] !~ /,/
-          find_project_by_project_id unless performed?
-          authorize                  unless performed?
-          assign_planning_elements   unless performed?
+          find_project_by_project_id         unless performed?
+          authorize                          unless performed?
+          assign_planning_elements(@project) unless performed?
         else
           # find_project_by_project_id
           ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /^\d*$/ }
@@ -165,12 +163,19 @@ module Api
             return
           end
 
-          @planning_elements = WorkPackage.for_projects(@projects).without_deleted
+          assign_planning_elements(@projects)
         end
       end
 
-      def assign_planning_elements
-        @planning_elements = @project.planning_elements.without_deleted
+      # is called as a before filter and as a method
+      def assign_planning_elements(projects = (@projects || [@project]))
+        @planning_elements = WorkPackage.for_projects(projects).without_deleted
+      end
+
+      # remove this and replace by calls it with calls
+      # to assign_planning_elements once WorkPackages can be created
+      def planning_element_scope
+        @project.planning_elements.without_deleted
       end
 
       # Helpers
