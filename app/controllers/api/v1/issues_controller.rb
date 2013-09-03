@@ -13,20 +13,30 @@ module Api
   module V1
 
     class IssuesController < IssuesController
+      EXPORT_FORMATS = %w[atom rss api xls csv pdf]
+      DEFAULT_SORT_ORDER = ['parent', 'desc']
 
       include ::Api::V1::ApiController
+
+      skip_before_filter :authorize, :only => [:index]
+      before_filter :find_optional_project, :only => :index
+      before_filter :protect_from_unauthorized_export, :only => :index
+      before_filter :retrieve_query, :only => :index
+
+      accept_key_auth :index, :show, :create, :update, :destroy
 
       def index
         sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
         sort_update(@query.sortable_columns)
 
         if @query.valid?
-          @issues = @query.issues(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                                  :order => sort_clause)
-                                 .page(page_param)
-                                 .per_page(per_page_param)
+          results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+                                   :order => sort_clause)
 
-          @issue_count_by_group = @query.issue_count_by_group
+          @issues = results.work_packages.page(page_param)
+                                         .per_page(per_page_param)
+
+          @issue_count_by_group = results.work_package_count_by_group
 
           respond_to do |format|
             format.api

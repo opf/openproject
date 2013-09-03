@@ -47,7 +47,7 @@ roles_001:
     - :manage_repository
     - :view_changesets
     - :manage_project_activities
-    - :export_issues
+    - :export_work_packages
     - :list_attachments
 
   position: 1

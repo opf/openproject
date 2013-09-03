@@ -548,7 +548,7 @@ en:
   label_age: "Age"
   label_ago: "days ago"
   label_all: "all"
-  label_all_issues: "all Issues"
+  label_all_work_packages: "all work packages"
   label_all_time: "all time"
   label_all_words: "All words"
   label_and_its_subprojects: "%{value} and its subprojects"
@@ -1399,8 +1399,6 @@ en:
       show: "Status: %{comment}"
 
     planning_element_could_not_be_saved: "Planning element could not be saved"
-    planning_element_updated_automatically_by_child_changes: |
-        _Updated automatically by changing values within child planning element %{child}_
     planning_element_update: "Update: %{title}"
     planning_elements_are_displayed_in_aggregations: "Planning elements are displayed in aggregations"
     project_association_new: Add project dependency
@@ -1487,3 +1485,7 @@ en:
   wiki_menu_item: "Menu item"
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
   wiki_menu_item_setting: "Visibility"
+
+  work_package:
+    updated_automatically_by_child_changes: |
+        _Updated automatically by changing values within child work package %{child}_

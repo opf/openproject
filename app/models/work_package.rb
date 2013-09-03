@@ -407,7 +407,7 @@ class WorkPackage < ActiveRecord::Base
 
     # ancestors will be recursively updated
     if p.changed?
-      p.journal_notes = I18n.t('timelines.planning_element_updated_automatically_by_child_changes', :child => "*#{id}")
+      p.journal_notes = I18n.t('work_package.updated_automatically_by_child_changes', :child => "##{id}")
 
       # Ancestors will be updated by parent's after_save hook.
       p.save(:validate => false)

@@ -13,6 +13,17 @@ require 'spec_helper'
 
 describe WorkPackagesController do
 
+  it "should connect GET /work_packages to work_packages#index" do
+    get("/work_packages").should route_to( :controller => 'work_packages',
+                                           :action => 'index')
+  end
+
+  it "should connect GET /projects/blubs/work_packages to work_packages#index" do
+    get("/projects/blubs/work_packages").should route_to( :controller => 'work_packages',
+                                                          :project_id => 'blubs',
+                                                          :action => 'index')
+  end
+
   it "should connect GET /work_packages/:id to work_packages#show" do
     get("/work_packages/1").should route_to( :controller => 'work_packages',
                                              :action => 'show',

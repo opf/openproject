@@ -9,10 +9,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Paginated issue index list
+Feature: Paginated work packages index list
 
   Background:
-    Given there are no issues
+    Given we paginate after 3 items
     And there is 1 project with the following:
       | identifier | project1 |
       | name       | project1 |
@@ -24,29 +24,28 @@ Feature: Paginated issue index list
     And there is a role "member"
     And the role "member" may have the following rights:
       | view_work_packages |
-      | create_issues |
     And the user "bob" is a "member" in the project "project1"
-    And the user "bob" has 101 issues with the following:
+    And the user "bob" has 4 issues with the following:
       | subject    | Issuesubject |
     And I am already logged in as "bob"
 
   Scenario: Pagination within a project
-    When I go to the issues index page of the project "project1"
-    Then I should see 100 issues
+    When I go to the work packages index page of the project "project1"
+    Then I should see 3 issues
     When I follow "2" within ".pagination"
-    Then I should be on the issues index page of the project "project1"
+    Then I should be on the work packages index page of the project "project1"
     And I should see 1 issue
 
   Scenario: Pagination outside a project
-    When I go to the global index page of issues
-    Then I should see 100 issues
+    When I go to the global index page of work packages
+    Then I should see 3 issues
     When I follow "2" within ".pagination"
-    Then I should be on the global index page of issues
+    Then I should be on the global index page of work packages
     And I should see 1 issue
 
   Scenario: Changing issues per page
-    When I go to the issues index page of the project "project1"
+    When I go to the work packages index page of the project "project1"
     Then I follow "2" within ".pagination"
     Then I should see 1 issue
-    Then I follow "500" within ".per_page_options"
-    Then I should see 101 issues
+    Then I follow "100" within ".per_page_options"
+    Then I should see 4 issues

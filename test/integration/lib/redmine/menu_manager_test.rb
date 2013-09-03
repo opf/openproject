@@ -18,16 +18,16 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
 
   def test_project_menu_with_specific_locale
     Setting.available_languages = [:de, :en]
-    get 'projects/ecookbook/issues', { }, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
+    get 'projects/ecookbook', { }, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
 
     assert_tag :div, :attributes => { :id => 'main-menu' },
                      :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_activity),
                                                                              :attributes => { :href => '/projects/ecookbook/activity',
                                                                                               :class => 'activity ellipsis' } } }
     assert_tag :div, :attributes => { :id => 'main-menu' },
-                     :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_work_package_plural),
-                                                                             :attributes => { :href => '/projects/ecookbook/issues',
-                                                                                              :class => 'issues ellipsis selected' } } }
+                     :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_overview),
+                                                                             :attributes => { :href => '/projects/ecookbook',
+                                                                                              :class => 'overview ellipsis selected' } } }
   end
 
   def test_project_menu_with_additional_menu_items

@@ -79,47 +79,6 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert_equal 0, Issue.find(1).attachments.length
   end
 
-  def test_other_formats_links_on_get_index
-    Role.anonymous.add_permission!(:export_issues)
-    get '/projects/ecookbook/issues'
-
-    %w(Atom PDF CSV).each do |format|
-      assert_tag :a, :content => format,
-                     :attributes => { :href => "/projects/ecookbook/issues.#{format.downcase}",
-                                      :rel => 'nofollow' }
-    end
-  end
-
-  def test_other_formats_links_on_get_index_without_project_id_in_url
-    Role.anonymous.add_permission!(:export_issues)
-    get '/issues', :project_id => 'ecookbook'
-
-    %w(Atom PDF CSV).each do |format|
-      assert_tag :a, :content => format,
-                     :attributes => { :href => "/projects/ecookbook/issues.#{format.downcase}",
-                                      :class => format.downcase,
-                                      :rel => 'nofollow' }
-    end
-  end
-
-  def test_pagination_links_on_get_index
-    Setting.per_page_options = '2'
-    get '/projects/ecookbook/issues'
-
-    assert_tag :a, :content => '2',
-                   :attributes => { :href => '/projects/ecookbook/issues?page=2' }
-
-  end
-
-  def test_pagination_links_on_get_index_without_project_id_in_url
-    Setting.per_page_options = '2'
-    get '/issues', :project_id => 'ecookbook'
-
-    assert_tag :a, :content => '2',
-                   :attributes => { :href => '/projects/ecookbook/issues?page=2' }
-
-  end
-
   def test_issue_with_user_custom_field
     @field = WorkPackageCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true, :types => Type.all)
     Role.anonymous.add_permission! :add_issues, :edit_work_packages

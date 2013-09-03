@@ -316,13 +316,13 @@ class QueryTest < ActiveSupport::TestCase
   def test_invalid_query_should_raise_query_statement_invalid_error
     q = Query.new
     assert_raise ActiveRecord::StatementInvalid do
-      q.issues(:conditions => "foo = 1").all
+      q.results(:conditions => "foo = 1").work_packages.all
     end
   end
 
   def test_issue_count_by_association_group
     q = Query.new(:name => '_', :group_by => 'assigned_to')
-    count_by_group = q.issue_count_by_group
+    count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(NilClass User), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
     assert_equal %w(Fixnum), count_by_group.values.collect {|k| k.class.name}.uniq
@@ -331,7 +331,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_issue_count_by_list_custom_field_group
     q = Query.new(:name => '_', :group_by => 'cf_1')
-    count_by_group = q.issue_count_by_group
+    count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(NilClass String), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
     assert_equal %w(Fixnum), count_by_group.values.collect {|k| k.class.name}.uniq
@@ -340,7 +340,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_issue_count_by_date_custom_field_group
     q = Query.new(:name => '_', :group_by => 'cf_8')
-    count_by_group = q.issue_count_by_group
+    count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(Date NilClass), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
     assert_equal %w(Fixnum), count_by_group.values.collect {|k| k.class.name}.uniq

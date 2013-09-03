@@ -8,31 +8,27 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-# Attention: expects @query to be set (with a Chiliproject Query Object)
-module IssueListSumsHelper
-
-  # Duplicate code from IssueController#index action, retrieves all issues for a query
-  def all_issues
-    @all_issues ||= @query.issues(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                                  :order   => sort_clause)
+module ::Query::Sums
+  def all_work_packages
+    @all_work_packages ||= work_packages.all
   end
 
   def next_in_same_group?(issue = cached_issue)
     caching_issue issue do |issue|
-      !last_issue? && @query.group_by_column.value(issue) == @query.group_by_column.value(all_issues[issue_index + 1])
+      !last_issue? &&
+      query.group_by_column.value(issue) == query.group_by_column.value(all_work_packages[issue_index + 1])
     end
   end
 
   def last_issue?(issue = cached_issue)
     caching_issue issue do |issue|
-      issue_index == all_issues.size - 1
+      issue_index == all_work_packages.size - 1
     end
   end
 
   def issue_index(issue = cached_issue)
     caching_issue issue do |issue|
-      all_issues.find_index(issue)
+      all_work_packages.find_index(issue)
     end
   end
 
@@ -41,21 +37,26 @@ module IssueListSumsHelper
   end
 
   def total_sum_of(column)
-    sum_of(column, all_issues)
+    sum_of(column, all_work_packages)
   end
 
   def sum_of(column, collection)
     return unless should_be_summed_up?(column)
 
     # This is a workaround to be able to sum up currency with the redmine_costs plugin
-    values = collection.map { |issue| column.respond_to?(:real_value) ? column.real_value(issue) : column.value(issue) }.select do |value|
-      begin
-        next if value.respond_to? :today? or value.is_a? String
-        true if Float(value)
-      rescue ArgumentError, TypeError
-        false
-      end
-    end
+    values = collection.map do |issue|
+               column.respond_to?(:real_value) ?
+                 column.real_value(issue) :
+                 column.value(issue)
+             end.select do |value|
+               begin
+                 next if value.respond_to? :today? or value.is_a? String
+                 true if Float(value)
+               rescue ArgumentError, TypeError
+                 false
+               end
+             end
+
     crunch(values.reduce :+)
   end
 
@@ -84,21 +85,13 @@ module IssueListSumsHelper
 
   def group_for_issue(issue = @current_issue)
     caching_issue issue do |issue|
-      all_issues.select do |is|
-        @query.group_by_column.value(issue) == @query.group_by_column.value(is)
+      all_work_packages.select do |is|
+        query.group_by_column.value(issue) == query.group_by_column.value(is)
       end
     end
   end
 
-  def display_sums?
-    @query.display_sums? && any_summable_columns?
-  end
-
   def should_be_summed_up?(column)
     Setting.issue_list_summable_columns.include?(column.name.to_s)
-  end
-
-  def any_summable_columns?
-    Setting.issue_list_summable_columns.any?
   end
 end

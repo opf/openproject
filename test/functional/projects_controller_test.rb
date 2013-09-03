@@ -445,8 +445,8 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   def test_jump_should_redirect_to_active_tab
-    get :show, :id => 1, :jump => 'issues'
-    assert_redirected_to '/projects/ecookbook/issues'
+    get :show, :id => 1, :jump => 'work_packages'
+    assert_redirected_to '/projects/ecookbook/work_packages'
   end
 
   def test_jump_should_not_redirect_to_inactive_tab
