@@ -18,6 +18,7 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
     previous_journaled_id, previous_type = 0, ""
     previous_journal = {}
     journal_tables = {
+      "AttachmentJournal" => "attachment_journals",
       "ChangesetJournal" => "changeset_journals",
       "NewsJournal" => "news_journals",
       "MessageJournal" => "message_journals",
@@ -121,7 +122,7 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       attachments = keys.select { |d| d =~ /attachments_.*/ }
       attachments.each do |k|
 
-        attachment_id = "attachments_9".split("_").last.to_i
+        attachment_id = k.split("_").last.to_i
 
         attachable = ActiveRecord::Base.connection.select_all <<-SQL
           SELECT *
@@ -140,17 +141,14 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
         elsif attachable.size == 0
 
-          filename_rows = ActiveRecord::Base.connection.select_all <<-SQL
-            SELECT *
-            FROM #{quoted_table_name("attachments")} AS a
-            WHERE a.id = #{attachment_id};
-          SQL
-
           execute <<-SQL
-            INSERT INTO #{quoted_table_name("attachable_journals")}(journal_id, attachment_id, filename)
-            VALUES (#{quote_value(journal_id)}, #{quote_value(attachment_id)}, #{quote_value(filename)});
+            INSERT INTO #{quoted_table_name("attachable_journals")}(journal_id, attachment_id)
+            VALUES (#{quote_value(journal_id)}, #{quote_value(attachment_id)});
           SQL
         end
+
+        j = keys.index(k)
+        [keys, values].each { |a| a.delete_at(j) }
       end
 
       custom_values = keys.select { |d| d =~ /custom_values.*/ }
