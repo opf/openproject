@@ -169,9 +169,11 @@ print "Creating objects for..."
     ## add attachments
 
     3.times do |attachment_count|
-      issue.attachments << Attachment.new(author: user,
-                                          filename: Faker::Lorem.words(8).join(" "),
-                                          disk_filename: Faker::Lorem.words(8).join("_"))
+      attachment = Attachment.new(author: user,
+                                  filename: Faker::Lorem.words(8).join(" "),
+                                  disk_filename: Faker::Lorem.words(8).join("_"))
+      attachment.save!
+      issue.attachments << attachment
     end
 
     ## add custom values
