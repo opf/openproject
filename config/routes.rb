@@ -446,8 +446,6 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  get 'planning_elements' => 'planning_elements', :action => 'list'
-
   resources :project_types, :controller => 'project_types' do
     member do
       get :confirm_destroy

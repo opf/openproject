@@ -20,8 +20,8 @@ module Api
       include ExtendedHTTP
 
       before_filter :find_project_by_project_id,
-                    :authorize, :except => [:index, :list]
-      before_filter :assign_planning_elements, :except => [:index, :list, :update, :create]
+                    :authorize, :except => [:index]
+      before_filter :assign_planning_elements, :except => [:index, :update, :create]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
       #            before filters !!!
@@ -30,7 +30,7 @@ module Api
       helper :timelines
       helper :timelines_journals
 
-      accept_key_auth :index, :create, :show, :update, :destroy, :list
+      accept_key_auth :index, :create, :show, :update, :destroy
 
       def index
         optimize_planning_elements_for_less_db_queries
@@ -94,24 +94,6 @@ module Api
               render_validation_errors(@planning_element)
             end
           end
-        end
-      end
-
-      def list
-        projects = Project.visible.select do |project|
-          User.current.allowed_to?(:view_planning_elements, project)
-        end
-
-        assign_planning_elements(projects).order(:id).all
-
-        if params[:ids]
-          ids = params[:ids].split(/,/).map(&:strip).select { |s| s =~ /^\d*$/ }.map(&:to_i).sort
-          project_ids = projects.map(&:id).sort
-          options[:conditions] = ["id IN (?) AND project_id IN (?)", ids, project_ids]
-        end
-
-        respond_to do |format|
-          format.api { render :action => :index }
         end
       end
 
