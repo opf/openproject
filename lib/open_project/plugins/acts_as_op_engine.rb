@@ -71,6 +71,18 @@ module OpenProject::Plugins
             end
           end
         end
+
+        # Workaround to ensure settings are available after unloading in development mode
+        plugin_name = engine_name
+        if options.include? :settings
+          base.class_eval do
+            config.to_prepare do
+              Setting.create_setting("plugin_#{plugin_name}",
+                                     { 'serialized' => true }.merge(options[:settings]))
+              Setting.create_setting_accessors("plugin_#{plugin_name}")
+            end
+          end
+        end
       end
 
       base.class_eval do
