@@ -183,6 +183,11 @@ namespace :copyright do
     rewrite_copyright("html.erb", [], :erb, args[:arg1])
   end
 
+  desc "Update the copyright on .text.erb source files"
+  task :update_text_erb, :arg1 do |task, args|
+    rewrite_copyright("text.erb", [], :erb, args[:arg1])
+  end
+
   desc "Update the copyright on .api.rsb source files"
   task :update_api_rsb, :arg1 do |task, args|
     rewrite_copyright("api.rsb", [], :rb, args[:arg1])
@@ -196,6 +201,7 @@ namespace :copyright do
      :update_js_erb,
      :update_css_erb,
      :update_html_erb,
+     :update_text_erb,
      :update_api_rsb,
      :update_rake,
      :update_feature,
