@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe IssuesController, "rendering to xls", :type => :controller do
+describe WorkPackagesController, "rendering to xls", :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
   let!(:work_package) { FactoryGirl.create(:issue, :subject => '!SUBJECT!',
                                                    :description => '!DESCRIPTION!') }
