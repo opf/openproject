@@ -22,21 +22,5 @@ class PlanningElement < WorkPackage
   scope :for_projects, lambda { |projects|
     {:conditions => {:project_id => projects}}
   }
-
-  validate do
-    if self.is_milestone?
-      if self.due_date and self.start_date and self.start_date != self.due_date
-        errors.add :due_date, :not_start_date
-      end
-    end
-
-    # TODO: reconsider self.parent.is_a?(PlanningElement)
-    #       once any of the errors can also apply when using issues
-    if self.parent && self.parent.is_a?(PlanningElement)
-      errors.add :parent, :cannot_be_milestone if parent.is_milestone?
-      errors.add :parent, :cannot_be_in_another_project if parent.project != project
-      errors.add :parent, :cannot_be_in_recycle_bin if parent.deleted?
-    end
-
-  end
+  
 end
