@@ -26,6 +26,9 @@ module WorkPackage::Validations
     validate :validate_fixed_version_is_assignable
     validate :validate_fixed_version_is_still_open
     validate :validate_enabled_type
+
+    validate :validate_milestone_constraint
+    validate :validate_parent_constraint
   end
 
   def validate_start_date_before_soonest_start_date
@@ -50,6 +53,19 @@ module WorkPackage::Validations
     # Checks that the issue can not be added/moved to a disabled type
     if project && (type_id_changed? || project_id_changed?)
       errors.add :type_id, :inclusion unless project.types.include?(type)
+    end
+  end
+
+  def validate_milestone_constraint
+    if self.is_milestone? && self.due_date && self.start_date && self.start_date != self.due_date
+      errors.add :due_date, :not_start_date
+    end
+  end
+
+  def validate_parent_constraint
+    if self.parent
+      errors.add :parent, :cannot_be_milestone if parent.is_milestone?
+      errors.add :parent, :cannot_be_in_recycle_bin if parent.deleted?
     end
   end
 end
