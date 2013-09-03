@@ -1,15 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
 #
-# Copyright (C) 2010-2011 Finn GmbH
+# Copyright (C) 2012-2013 the OpenProject Team
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# modify it under the terms of the GNU General Public License version 3.
 #
-# See LICENSE for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class MyProjectsOverviewsController < ApplicationController
@@ -22,19 +20,19 @@ class MyProjectsOverviewsController < ApplicationController
   before_filter :authorize
   before_filter :jump_to_project_menu_item, :only => :index
 
+  puts Redmine::Views::MyPage::Block.additional_blocks
   BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
     'issuesreportedbyme' => :label_reported_issues,
     'issueswatched' => :label_watched_issues,
     'news' => :label_news_latest,
     'calendar' => :label_calendar,
-    'documents' => :label_document_plural,
     'timelog' => :label_spent_time,
     'members' => :label_member_plural,
     'issuetracking' => :label_issue_tracking,
     'projectdetails' => :label_project_details,
     'projectdescription' => :label_project_description,
     'subprojects' => :label_subproject_plural
-  }
+  }.merge(OpenProject::MyProjectPage.plugin_blocks).freeze
 
   verify :xhr => true,
          :only => [:add_block, :remove_block, :order_blocks]

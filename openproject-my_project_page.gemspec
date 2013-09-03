@@ -10,11 +10,15 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::MyProjectPage::VERSION
   s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
-  s.homepage    = "http://www.finn.de"
-  s.summary     = 'This plugin replaces the old overview page for projects with something similar to the "My Page"'
-  s.description = 'This plugin replaces the old overview page for projects with something similar to the "My Page"'
+  s.homepage    = "https://www.openproject.org/projects/my-project-page"
+  s.summary     = 'This plugin provides a customizable Overview-Page for Projects'
+  s.description = "This plugin replaces the old overview page for projects with something similar to the 'My Page':
+      The provided blocks are scoped to the project and show only information (open tickets, News etc.). It also provides
+      a mechanism to add custom content-blocks(teasers) for the Project."
 
-  s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "README.rdoc"]
+  s.license     = "GPLv3"
+
+  s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"
