@@ -62,10 +62,11 @@ namespace :copyright do
   def rewrite_copyright(ending, exclude, format, path, options = {})
     regexp = options[:regex] || copyright_regexp(format)
     copyright = options[:copyright] || short_copyright(format)
-
     path = '.' if path.nil?
+    file_list = options[:file_list] || Dir[File.absolute_path(path) + "/**/*.#{ending}"]
+
     raise "Path not found" unless Dir.exists?(path)
-    Dir[File.absolute_path(path) + "/**/*.#{ending}"].each do |file_name|
+    file_list.each do |file_name|
       # Skip 3rd party code
       next if exclude.any? {|e| file_name.include?(e) }
 
@@ -84,6 +85,15 @@ namespace :copyright do
         file.write file_content
       end
     end
+  end
+
+  desc "Update special files, which do not have an ending"
+  task :update_special_files, :arg1 do |task, args|
+    # ruby-like files
+    file_list = %w{Gemfile Guardfile Rakefile config.ru .travis.yml .rspec .gitignore}.map do |f|
+      File.absolute_path f
+    end
+    rewrite_copyright("rb", [], :rb, args[:arg1], :file_list => file_list)
   end
 
   desc "Update the copyright on .rb source files"
@@ -190,7 +200,8 @@ namespace :copyright do
      :update_rake,
      :update_feature,
      :update_rdoc,
-     :update_md].each do |t|
+     :update_md,
+     :update_special_files].each do |t|
       Rake::Task['copyright:' + t.to_s].invoke(args[:arg1])
     end
   end
