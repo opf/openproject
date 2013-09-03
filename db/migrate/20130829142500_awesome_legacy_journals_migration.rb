@@ -6,6 +6,9 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
   class AmbiguousJournalsError < ::StandardError
   end
 
+  class AmbiguousAttachableJournalError < AmbiguousJournalsError
+  end
+
   class IncompleteJournalsError < ::StandardError
   end
 
@@ -60,7 +63,7 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       keys = combined_journal.keys
       values = combined_journal.values.map(&:last)
 
-      migrate_key_value_pairs!(keys, values, table, legacy_journal)
+      migrate_key_value_pairs!(keys, values, table, legacy_journal, journal_id)
 
       if data.size > 1
 
@@ -77,7 +80,7 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
           VALUES (#{quote_value(journal_id)}#{", " + values.map{|d| quote_value(d)}.join(", ") unless values.empty?});
         SQL
 
-        data = fetch_journal_data
+        data = fetch_journal_data(journal_id, table)
       end
 
       data = data.first
@@ -106,20 +109,48 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
   private
 
-  def migrate_key_value_pairs!(keys, values, table, legacy_journal)
-    migrate_key_value_pairs_for_wiki_contents!(keys, values, table, legacy_journal)
-    migrate_key_value_pairs_for_work_packages!(keys, values, table, legacy_journal)
+  def migrate_key_value_pairs!(keys, values, table, legacy_journal, journal_id)
+    migrate_key_value_pairs_for_wiki_contents!(keys, values, table, legacy_journal, journal_id)
+    migrate_key_value_pairs_for_work_packages!(keys, values, table, legacy_journal, journal_id)
   end
 
-  def migrate_key_value_pairs_for_work_packages!(keys, values, table, legacy_journal)
+  def migrate_key_value_pairs_for_work_packages!(keys, values, table, legacy_journal, journal_id)
 
     if table == "work_package_journals"
 
       attachments = keys.select { |d| d =~ /attachments_.*/ }
       attachments.each do |k|
 
-        j = keys.index(k)
-        [keys, values].each { |a| a.delete_at(j) }
+        attachment_id = "attachments_9".split("_").last.to_i
+
+        attachable = ActiveRecord::Base.connection.select_all <<-SQL
+          SELECT *
+          FROM #{quoted_table_name("attachable_journals")} AS a
+          WHERE a.journal_id = #{quote_value(journal_id)} AND a.attachment_id = #{attachment_id};
+        SQL
+
+        if attachable.size > 1
+
+          raise AmbiguousAttachableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+            It appears there are ambiguous attachable journal data.
+            Please make sure attachable journal data are consistent and
+            that the unique constraint on journal_id and attachment_id
+            is met.
+          MESSAGE
+
+        elsif attachable.size == 0
+
+          filename_rows = ActiveRecord::Base.connection.select_all <<-SQL
+            SELECT *
+            FROM #{quoted_table_name("attachments")} AS a
+            WHERE a.id = #{attachment_id};
+          SQL
+
+          execute <<-SQL
+            INSERT INTO #{quoted_table_name("attachable_journals")}(journal_id, attachment_id, filename)
+            VALUES (#{quote_value(journal_id)}, #{quote_value(attachment_id)}, #{quote_value(filename)});
+          SQL
+        end
       end
 
       custom_values = keys.select { |d| d =~ /custom_values.*/ }
@@ -131,7 +162,7 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
   end
 
   # custom logic for changes wiki contents.
-  def migrate_key_value_pairs_for_wiki_contents!(keys, values, table, legacy_journal)
+  def migrate_key_value_pairs_for_wiki_contents!(keys, values, table, legacy_journal, journal_id)
 
     if table == "wiki_content_journals"
 
