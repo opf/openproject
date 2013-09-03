@@ -171,20 +171,6 @@ describe PlanningElement do
         planning_element.errors[:parent].should be_present
         planning_element.errors[:parent].should == ["cannot be a milestone"]
       end
-
-      it 'is invalid if parent is in another project' do
-        parent = PlanningElement.new.tap do |pe|
-          pe.send(:assign_attributes, attributes.merge(:project_id => FactoryGirl.build(:project)), :without_protection => true)
-        end
-
-        attributes[:parent] = parent
-        planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
-
-        planning_element.should_not be_valid
-
-        planning_element.errors[:parent].should be_present
-        planning_element.errors[:parent].should == ["cannot be in another project"]
-      end
     end
   end
 

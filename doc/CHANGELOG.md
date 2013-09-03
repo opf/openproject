@@ -2,6 +2,7 @@
 
 * `#1755` Migrate helper-tests for issues into specs for work package
 * `#1766` Fixed bug: Viewing diff of Work Package description results in error 500
+* `#1789` Move validation to Work Package
 * `#1800` Add settings to change software name and URL and add additional footer content
 * `#1808` Add option to log user for each request
 * `#1896` Moved visibility-tests for issues into specs for workpackages
