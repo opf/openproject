@@ -86,11 +86,7 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
       data = data.first
 
-      execute <<-SQL
-        UPDATE #{quoted_table_name(table)}
-           SET #{(keys.each_with_index.map {|k,i| "#{k} = #{quote_value(values[i])}"}).join(", ")}
-         WHERE id = #{data["id"]};
-
+      sql_statements = <<-SQL
         UPDATE journals
            SET journable_data_id   = #{quote_value(journal_id)},
                journable_data_type = #{quote_value(type)},
@@ -100,6 +96,14 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
                activity_type       = #{quote_value(legacy_journal["activity_type"])}
          WHERE id = #{quote_value(journal_id)};
       SQL
+
+      sql_statements = <<-SQL + sql_statements unless keys.empty?
+        UPDATE #{quoted_table_name(table)}
+           SET #{(keys.each_with_index.map {|k,i| "#{k} = #{quote_value(values[i])}"}).join(", ")}
+         WHERE id = #{data["id"]};
+      SQL
+
+      execute sql_statements
 
     end
 
