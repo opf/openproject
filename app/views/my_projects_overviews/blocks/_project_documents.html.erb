@@ -1,0 +1,17 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<h3><%=l(:label_document_plural)%></h3>
+
+<% if @user.allowed_to?(:view_documents, @project)%>
+    <%= render(:partial => 'documents/document',
+               :collection => Document.where(project_id: @project.id).limit(10).order("created_on DESC")) %>
+<% end %>
