@@ -6,6 +6,7 @@
 
 ## 3.0.0pre14
 
+* `#1873` Move Validations from Issue into Workpackage
 * `#825` Migrate Duration
 * `#828` Remove Alternate Dates
 * `#1421` Adapt issue created/updated wording to apply to work packages

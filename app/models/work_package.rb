@@ -14,6 +14,9 @@
 # So we create an 'emtpy' Issue class first, to make Project happy.
 
 class WorkPackage < ActiveRecord::Base
+  include WorkPackage::Validations
+  include WorkPackage::SchedulingRules
+  include WorkPackage::StatusTransitions
 
   #TODO Remove alternate inheritance column name once single table
   # inheritance is no longer needed. The need for a different column name
@@ -291,6 +294,9 @@ class WorkPackage < ActiveRecord::Base
   delegate :assignable_users, :to => :project
 
   # Versions that the work_package can be assigned to
+  # A work_package can be assigned to:
+  #   * any open, shared version of the project the wp belongs to
+  #   * the version it was already assigned to (to make sure, that you can still update closed tickets)
   def assignable_versions
     @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
   end
@@ -378,37 +384,6 @@ class WorkPackage < ActiveRecord::Base
     WorkPackage.transaction do
       move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
     end || false
-  end
-
-  def reschedule_after(date)
-    return if date.nil?
-    if leaf?
-      if start_date.nil? || start_date < date
-        self.start_date, self.due_date = date, date + duration - 1
-        save
-      end
-    else
-      leaves.each do |leaf|
-        # this depends on the "update_parent_attributes" after save hook
-        # updating the start/end date of each work package between leaf and self
-        leaf.reschedule_after(date)
-      end
-    end
-  end
-
-  # Returns the time scheduled for this work package.
-  #
-  # Example:
-  #   Start Date: 2/26/09, Due Date: 3/04/09,  duration => 7
-  #   Start Date: 2/26/09, Due Date: 2/26/09,  duration => 1
-  #   Start Date: 2/26/09, Due Date: -      ,  duration => 1
-  #   Start Date: -      , Due Date: 2/26/09,  duration => 1
-  def duration
-    if (start_date && due_date)
-      due_date - start_date + 1
-    else
-      1
-    end
   end
 
   protected

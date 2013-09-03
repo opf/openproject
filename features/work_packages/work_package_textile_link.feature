@@ -40,7 +40,7 @@ Feature: Work package textile quickinfo links
         | In Progress | false     | false      |
       And there are the following planning elements:
         | Subject | Type  | Start date | Due date   | description                | status | responsible | assigned_to |
-        | January | Phase | 2012-01-01 | 2012-01-31 | Avocado Sali Grande Grande | New    | manager     | manager  |
+        | January | None  | 2012-01-01 | 2012-01-31 | Avocado Sali Grande Grande | New    | manager     | manager  |
 
   Scenario: Adding a work package link
     Given I am already logged in as "manager"
