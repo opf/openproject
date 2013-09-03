@@ -93,7 +93,7 @@ Given /^the following types are enabled for projects of type "(.*?)"$/ do |proje
   project_type = ProjectType.find_by_name(project_type_name)
   projects = Project.where(:project_type_id => project_type.id)
   types = type_name_table.raw.flatten.map do |type_name|
-    Type.find_by_name(type_name) || Factory.create(:type, :name => type_name)
+    Type.find_by_name(type_name) || FactoryGirl.create(:type, :name => type_name)
   end
 
   projects.each do |project|

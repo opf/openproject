@@ -22,11 +22,6 @@ end
 Then /^I should see a modal window$/ do
   steps 'Then I should see a modal window with selector ".ui-dialog-content"'
 end
-Then(/^I should not see the planning element "(.*?)"$/) do |planning_element_name|
-  steps %Q{
-    Then I should not see "#{planning_element_name}" within ".tl-left-main"
-  }
-end
 Then(/^the project "(.*?)" should have an indent of (\d+)$/) do |project_name, indent|
   find(".tl-indent-#{indent}", :text => project_name).should_not be_nil
 end
@@ -39,11 +34,6 @@ Then(/^the project "(.*?)" should follow after "(.*?)"$/) do |project_name_one, 
 
   elements = find_lowest_containing_element project_name_one, ".tl-word-ellipsis"
   elements[-1].should have_xpath("preceding::span[@class='tl-word-ellipsis']/descendant-or-self::*[text()='#{project_name_two}']")
-end
-Then(/^I should see the planning element "(.*?)"$/) do |planning_element_name|
-  steps %Q{
-    Then I should see "#{planning_element_name}" within ".tl-left-main"
-  }
 end
 Then(/^I should see the project "(.*?)"$/) do |project_name|
   steps %Q{
