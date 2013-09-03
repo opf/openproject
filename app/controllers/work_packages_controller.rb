@@ -12,7 +12,14 @@
 class WorkPackagesController < ApplicationController
   unloadable
 
-  include Redmine::Export::PDF
+  DEFAULT_SORT_ORDER = ['parent', 'desc']
+  EXPORT_FORMATS = %w[atom rss xls csv pdf]
+
+  include QueriesHelper
+  include SortHelper
+  include PaginationHelper
+
+  accept_key_auth :index, :show, :create, :update, :destroy
 
   current_menu_item do |controller|
     begin
@@ -32,7 +39,9 @@ class WorkPackagesController < ApplicationController
   before_filter :disable_api
   before_filter :not_found_unless_work_package,
                 :project,
-                :authorize
+                :authorize, :except => [:index]
+  before_filter :find_optional_project,
+                :protect_from_unauthorized_export, :only => [:index, :all]
 
   def show
     respond_to do |format|
@@ -61,11 +70,19 @@ class WorkPackagesController < ApplicationController
       end
 
       format.pdf do
-        pdf = issue_to_pdf(work_package)
+        pdf = WorkPackage::Exporter.work_package_to_pdf(work_package)
 
         send_data(pdf,
                   :type => 'application/pdf',
                   :filename => "#{project.identifier}-#{work_package.id}.pdf")
+      end
+
+      format.atom do
+        render :template => 'journals/index',
+               :layout => false,
+               :content_type => 'application/atom+xml',
+               :locals => { :title => "#{Setting.app_title} - #{work_package.to_s}",
+                            :journals => journals }
       end
     end
   end
@@ -187,8 +204,59 @@ class WorkPackagesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_back_or_default(controller: '/issues', action: 'index', project_id: @project) }
+      format.html { redirect_back_or_default(controller: '/work_packages', action: 'index', project_id: @project) }
     end
+  end
+
+  def index
+    query = retrieve_query
+
+    sort_init(query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : query.sort_criteria)
+    sort_update(query.sortable_columns)
+
+    results = query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+                            :order => sort_clause)
+
+    work_packages = if query.valid?
+                      results.work_packages.page(page_param)
+                                           .per_page(per_page_param)
+                                           .all
+                    else
+                      []
+                    end
+
+    respond_to do |format|
+      format.html do
+        render :index, :locals => { :query => query,
+                                    :work_packages => work_packages,
+                                    :results => results,
+                                    :project => @project },
+                       :layout => !request.xhr?
+      end
+      format.csv do
+        serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
+
+        send_data(serialized_work_packages, :type => 'text/csv; header=present',
+                                            :filename => 'export.csv')
+      end
+      format.pdf do
+        serialized_work_packages = WorkPackage::Exporter.pdf(work_packages,
+                                                             @project,
+                                                             query,
+                                                             results,
+                                                             :show_descriptions => params[:show_descriptions])
+
+        send_data(serialized_work_packages,
+                  :type => 'application/pdf',
+                  :filename => 'export.pdf')
+      end
+      format.atom do
+        render_feed(work_packages,
+                    :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
+      end
+    end
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def work_package
@@ -313,11 +381,31 @@ class WorkPackagesController < ApplicationController
     render_404 unless work_package
   end
 
+  def protect_from_unauthorized_export
+    if EXPORT_FORMATS.include?(params[:format]) &&
+       !User.current.allowed_to?(:export_work_packages, @project, :global => @project.nil?)
+
+      deny_access
+      false
+    end
+  end
+
   def configure_update_notification(state = true)
     JournalObserver.instance.send_notification = state
   end
 
   def send_notifications?
     params[:send_notification] == '0' ? false : true
+  end
+
+  def per_page_param
+    case params[:format]
+    when 'csv', 'pdf'
+      Setting.issues_export_limit.to_i
+    when 'atom'
+      Setting.feeds_limit.to_i
+    else
+      super
+    end
   end
 end

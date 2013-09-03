@@ -91,5 +91,7 @@ module QueriesHelper
         @query.project = @project
       end
     end
+
+    @query
   end
 end

@@ -443,8 +443,8 @@ class UserTest < ActiveSupport::TestCase
       should "only managers are allowed to export tickets" do
         project = Project.find(1)
         project.enabled_module_names = ["issue_tracking"]
-        assert @jsmith.allowed_to?(:export_issues, project)    #Manager
-        assert ! @dlopper.allowed_to?(:export_issues, project) #Developper
+        assert @jsmith.allowed_to?(:export_work_packages, project)    #Manager
+        assert ! @dlopper.allowed_to?(:export_work_packages, project) #Developper
       end
     end
 

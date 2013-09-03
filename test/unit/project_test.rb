@@ -734,9 +734,9 @@ class ProjectTest < ActiveSupport::TestCase
     assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
   end
 
-  def test_export_issues_is_allowed
+  def test_export_work_packages_is_allowed
     project = Project.find(1)
-    assert project.allows_to?(:export_issues)
+    assert project.allows_to?(:export_work_packages)
   end
 
   context "Project#copy" do

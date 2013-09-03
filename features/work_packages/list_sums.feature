@@ -39,7 +39,7 @@ Feature: Issue Sum Calculations for Currency
       | subject | Some other issue |
       | cf1     | 50               |
       | type | Bug              |
-    When I go to the issues index page for the project called "project1"
+    When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
     And I toggle the Options fieldset
@@ -59,7 +59,7 @@ Feature: Issue Sum Calculations for Currency
       | cf1     | 50               |
       | type | Bug              |
     And the custom field "cf1" is not summable
-    When I go to the issues index page for the project called "project1"
+    When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
     And I toggle the Options fieldset
@@ -78,7 +78,7 @@ Feature: Issue Sum Calculations for Currency
       | subject | Some other issue |
       | cf1     | 50               |
       | type | Bug              |
-    When I go to the issues index page for the project called "project1"
+    When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
     And I toggle the Options fieldset
@@ -87,9 +87,9 @@ Feature: Issue Sum Calculations for Currency
     And I click on "Save"
     And I fill in "TestQuery" for "query_name"
     And I press "Save"
-    And I go to the issues index page for the project called "project1"
+    And I go to the work package index page for the project called "project1"
     And I click on "TestQuery"
-    Then I should be on the issues index page for the project called "project1"
+    Then I should be on the work package index page for the project called "project1"
     And I toggle the Options fieldset
     Then the "display_sums" checkbox should be checked
     And I should see "150" in the overall sum
@@ -106,7 +106,7 @@ Feature: Issue Sum Calculations for Currency
       | subject | Some other issue |
       | cf1     | 50               |
       | type | Bug              |
-    When I go to the issues index page for the project called "project1"
+    When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
     And I toggle the Options fieldset
@@ -115,9 +115,9 @@ Feature: Issue Sum Calculations for Currency
     And I click on "Save"
     And I fill in "TestQuery" for "query_name"
     And I press "Save"
-    And I go to the issues index page for the project called "project1"
+    And I go to the work package index page for the project called "project1"
     And I click on "TestQuery"
-    Then I should be on the issues index page for the project called "project1"
+    Then I should be on the work package index page for the project called "project1"
     And I toggle the Options fieldset
     And the "display_sums" checkbox should not be checked
     And I click on "Edit"
@@ -151,7 +151,7 @@ Feature: Issue Sum Calculations for Currency
       | subject | Some issue |
       | cf1     | 250        |
       | type | Bug        |
-    When I go to the issues index page for the project called "project1"
+    When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
     And I toggle the Options fieldset
@@ -174,7 +174,7 @@ Feature: Issue Sum Calculations for Currency
       | subject | Some issue |
       | cf1     | 50         |
       | type | Bug        |
-    When I go to the issues index page for the project called "project1"
+    When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
     And I toggle the Options fieldset
@@ -195,7 +195,7 @@ Feature: Issue Sum Calculations for Currency
       | subject | Some issue  |
       | cf1     | 50.09       |
       | type | Bug         |
-    When I go to the issues index page for the project called "project1"
+    When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
     And I toggle the Options fieldset

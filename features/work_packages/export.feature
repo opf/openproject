@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Exporting issues
+Feature: Exporting work packages
 
   Background:
     Given there is 1 user with the following:
@@ -28,29 +28,27 @@ Feature: Exporting issues
       | subject | Some Issue |
     And I am already logged in as "bob"
 
-  Scenario: No export links on project issues index if user has no "export_issues" permission
-    When I go to the issues index page of the project called "project1"
+  Scenario: No export links on project work packages index if user has no "export_work_packages" permission
+    When I go to the work packages index page of the project called "project1"
     Then I should not see "CSV"
     And I should not see "PDF"
 
-  Scenario: Export links on project issues index if user has the "export_issues" permission
+  Scenario: Export links on project issues work packages if user has the "export_work_packages" permission
     Given the role "member" may have the following rights:
-     | view_issues   |
-     | export_issues |
-    When I go to the issues index page of the project called "project1"
+     | export_work_packages |
+    When I go to the work packages index page of the project called "project1"
     Then I should see "CSV" within ".other-formats"
     And I should see "PDF" within ".other-formats"
 
-  Scenario: No export links on global issues index if user has no "export_issues" permission
-    When I go to the global index page of issues
+  Scenario: No export links on global issues index if user has no "export_work_packages" permission
+    When I go to the global index page of work packages
     Then I should not see "CSV"
     And I should not see "PDF"
 
-  Scenario: Export links on global issues index if user has the "export_issues" permission
+  Scenario: Export links on global issues index if user has the "export_work_packages" permission
     Given the role "member" may have the following rights:
-     | view_issues   |
-     | export_issues |
-    When I go to the global index page of issues
+     | export_work_packages |
+    When I go to the global index page of work packages
     Then I should see "CSV" within ".other-formats"
     And I should see "PDF" within ".other-formats"
 
