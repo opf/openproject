@@ -169,11 +169,15 @@ print "Creating objects for..."
     ## add attachments
 
     3.times do |attachment_count|
-      attachment = Attachment.new(author: user,
+
+      attachment = Attachment.new(container: issue,
+                                  author: user,
                                   filename: Faker::Lorem.words(8).join(" "),
                                   disk_filename: Faker::Lorem.words(8).join("_"))
       attachment.save!
+
       issue.attachments << attachment
+
     end
 
     ## add custom values
@@ -205,11 +209,8 @@ print "Creating objects for..."
 
       issue.reload
 
-      attachments = issue.attachments
-
-      attachments.each do |a|
-        issue.attachments.delete a if rand(99).even?
-      end
+      attachments = issue.attachments.select { |a| rand(999) < 10 }
+      issue.attachments = issue.attachments - attachments
 
       issue.reload
 
