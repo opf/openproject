@@ -19,6 +19,10 @@ namespace :copyright do
       short_copyright_line("//")
     when :erb
       short_copyright_surrounding("<%#", "#%>")
+    when :rdoc
+      "----------\n#{short_copyright_line(' ')}\n----------\n".gsub(' -- copyright',"==== copyright\n")
+    when :md
+      "----------\n#{short_copyright_line('    ')}\n----------\n".gsub('    -- copyright',"#### copyright\n")
     else
       raise "Undefined format #{format}"
     end
@@ -46,14 +50,18 @@ namespace :copyright do
       /^\/\/--\s*copyright.*?\/\/\+\+/m
     when :erb
       /^<%#--\s*copyright.*?\+\+#%>/m
+    when :rdoc
+      /-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n$/
+    when :md
+      /-{10}\n\#{4} copyright\n\n[\s\S]*?\+\+\n-{10}\n$/
     else
       raise "Undefined format #{format}"
     end
   end
 
-  def rewrite_copyright(ending, exclude, format, path)
-    regexp = copyright_regexp(format)
-    copyright = short_copyright(format)
+  def rewrite_copyright(ending, exclude, format, path, options = {})
+    regexp = options[:regex] || copyright_regexp(format)
+    copyright = options[:copyright] || short_copyright(format)
 
     path = '.' if path.nil?
     raise "Path not found" unless Dir.exists?(path)
@@ -65,7 +73,11 @@ namespace :copyright do
       if file_content.match(regexp)
         file_content.gsub!(regexp, copyright)
       else
-        file_content = copyright + "\n\n" + file_content # Prepend
+        if options[:position] == :bottom
+          file_content = file_content + "\n\n" + copyright # append
+        else
+          file_content = copyright + "\n\n" + file_content # prepend
+        end
       end
 
       File.open(file_name, "w") do |file|
@@ -141,6 +153,21 @@ namespace :copyright do
     rewrite_copyright("js.erb", excluded, :erb, args[:arg1])
   end
 
+  desc "Update the copyright on .rdoc source files"
+  task :update_rdoc, :arg1 do |task, args|
+    excluded = ["README.rdoc",
+                "doc/COPYRIGHT.rdoc",
+                "doc/COPYING.rdoc",
+                "doc/COPYRIGHT_short.rdoc"]
+
+    rewrite_copyright("rdoc", excluded, :rdoc, args[:arg1], :position => :bottom)
+  end
+
+  desc "Update the copyright on .md source files"
+  task :update_md, :arg1 do |task, args|
+    rewrite_copyright("md", [], :md, args[:arg1], :position => :bottom)
+  end
+
   desc "Update the copyright on .html.erb source files"
   task :update_html_erb, :arg1 do |task, args|
     rewrite_copyright("html.erb", [], :erb, args[:arg1])
@@ -161,7 +188,9 @@ namespace :copyright do
      :update_html_erb,
      :update_api_rsb,
      :update_rake,
-     :update_feature].each do |t|
+     :update_feature,
+     :update_rdoc,
+     :update_md].each do |t|
       Rake::Task['copyright:' + t.to_s].invoke(args[:arg1])
     end
   end
