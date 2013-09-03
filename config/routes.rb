@@ -368,6 +368,7 @@ OpenProject::Application.routes.draw do
       match '/projects/:id/repository/statistics', :action => :stats
       match '/projects/:id/repository/committers', :action => :committers
       match '/projects/:id/repository/graph', :action => :graph
+      match '/projects/:id/repository/diff', :action => :diff
       match '/projects/:id/repository/revisions', :action => :revisions
       match '/projects/:id/repository/revisions.:format', :action => :revisions
       match '/projects/:id/repository/revisions/:rev', :action => :revision

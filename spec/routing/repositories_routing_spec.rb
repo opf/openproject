@@ -36,6 +36,7 @@ describe RepositoriesController do
       it { get("/projects/testproject/repository/revisions/2457/diff").should             route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :rev => '2457')}
       it { get("/projects/testproject/repository/revisions/2457/diff.diff").should        route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :rev => '2457', :format => 'diff')}
     end
+    it { get("/projects/testproject/repository/diff").should route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject')}
     it { get("/projects/testproject/repository/diff/path/to/file.c").should             route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :path => "path/to/file", :format => 'c')}
     it { get("/projects/testproject/repository/revisions/2/diff/path/to/file.c").should route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :path => "path/to/file.c", :rev => '2')}
   end
