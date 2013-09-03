@@ -63,7 +63,7 @@ describe AccountController do
 
       it "is successful" do
         should respond_with :success
-        should render_template :register
+        expect(response).to render_template :register
         expect(assigns[:user]).not_to be_nil
       end
     end
@@ -110,6 +110,55 @@ describe AccountController do
       end
     end
 
+    context "with self registration by email" do
+      before do
+        Setting.stub!(:self_registration).and_return("1")
+        Token.delete_all
+        post :register, :user => {
+          :login => 'register',
+          :password => 'adminADMIN!',
+          :password_confirmation => 'adminADMIN!',
+          :firstname => 'John',
+          :lastname => 'Doe',
+          :mail => 'register@example.com'
+        }
+      end
+
+      it "redirects to the login page" do
+        should redirect_to '/login'
+      end
+
+      it "doesn't activate the user but sends out a token instead" do
+        expect(User.find_by_login('register')).not_to be_active
+        token = Token.find(:first)
+        expect(token.action).to eq('register')
+        expect(token.user.mail).to eq('register@example.com')
+        expect(token).not_to be_expired
+      end
+    end
+
+    context "with manual activation" do
+      before do
+        Setting.stub!(:self_registration).and_return("2")
+        post :register, :user => {
+          :login => 'register',
+          :password => 'adminADMIN!',
+          :password_confirmation => 'adminADMIN!',
+          :firstname => 'John',
+          :lastname => 'Doe',
+          :mail => 'register@example.com'
+        }
+      end
+
+      it "redirects to the login page" do
+        should redirect_to '/login'
+      end
+
+      it "doesn't activate the user" do
+        expect(User.find_by_login('register')).not_to be_active
+      end
+    end
+
     context "with self registration off" do
       before do
         Setting.stub!(:self_registration).and_return("0")
@@ -126,6 +175,29 @@ describe AccountController do
 
       it "redirects to home" do
         should redirect_to('/') { home_url }
+      end
+    end
+
+    context "with on-the-fly registration" do
+
+      before do
+        Setting.stub!(:self_registration).and_return("0")
+        Setting.stub!(:self_registration?).and_return(false)
+        AuthSource.stub!(:authenticate).and_return({:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
+        post :login, :username => 'foo', :password => 'bar'
+      end
+
+      it "registers the user on-the-fly" do
+        should respond_with :success
+        expect(response).to render_template :register
+
+        post :register, :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
+        should redirect_to '/my/account'
+
+        user = User.find_by_login('foo')
+        assert user.is_a?(User)
+        assert_equal 66, user.auth_source_id
+        assert user.current_password.nil?
       end
     end
   end

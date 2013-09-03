@@ -99,53 +99,6 @@ class AccountTest < ActionDispatch::IntegrationTest
     assert_equal 0, Token.count
   end
 
-  def test_register_with_automatic_activation
-    Setting.self_registration = '3'
-
-    get 'account/register'
-    assert_response :success
-    assert_template 'account/register'
-
-    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"},
-                             :password => "newpassPASS!", :password_confirmation => "newpassPASS!"
-    assert_redirected_to '/my/account'
-    follow_redirect!
-    assert_response :success
-    assert_template 'my/account'
-
-    user = User.find_by_login('newuser')
-    assert_not_nil user
-    assert user.active?
-    assert_not_nil user.last_login_on
-  end
-
-  def test_register_with_manual_activation
-    Setting.self_registration = '2'
-
-    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"},
-                             :password => "newpass", :password_confirmation => "newpass"
-    assert_redirected_to '/login'
-    assert !User.find_by_login('newuser').active?
-  end
-
-  def test_register_with_email_activation
-    Setting.self_registration = '1'
-    Token.delete_all
-
-    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar", :password => "newpassPASS!", :password_confirmation => "newpassPASS!"}
-    assert_redirected_to '/login'
-    assert !User.find_by_login('newuser').active?
-
-    token = Token.find(:first)
-    assert_equal 'register', token.action
-    assert_equal 'newuser@foo.bar', token.user.mail
-    assert !token.expired?
-
-    get 'account/activate', :token => token.value
-    assert_redirected_to '/login'
-    log_user('newuser', 'newpassPASS!')
-  end
-
   should_eventually "login after losing password should redirect back to home" do
     visit "/login"
     assert_response :success
@@ -179,28 +132,6 @@ class AccountTest < ActionDispatch::IntegrationTest
 
     post 'account/login', :username => 'foo', :password => 'bar'
     assert_redirected_to '/my/first_login'
-
-    user = User.find_by_login('foo')
-    assert user.is_a?(User)
-    assert_equal 66, user.auth_source_id
-    assert user.current_password.nil?
-  end
-
-  def test_onthefly_registration_with_invalid_attributes
-    # disable registration
-    Setting.self_registration = '0'
-    AuthSource.expects(:authenticate).returns({:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
-
-    post 'account/login', :username => 'foo', :password => 'bar'
-    assert_response :success
-    assert_template 'account/register'
-    assert_tag :input, :attributes => { :name => 'user[firstname]', :value => '' }
-    assert_tag :input, :attributes => { :name => 'user[lastname]', :value => 'Smith' }
-    assert_no_tag :input, :attributes => { :name => 'user[login]' }
-    assert_no_tag :input, :attributes => { :name => 'user[password]' }
-
-    post 'account/register', :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
-    assert_redirected_to '/my/account'
 
     user = User.find_by_login('foo')
     assert user.is_a?(User)
