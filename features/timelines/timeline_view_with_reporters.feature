@@ -180,9 +180,9 @@ Feature: Timeline View Tests with reporters
       And I should not see the project "ecookbook_empty"
       And I should not see the project "ecookbook_q3"
       And I should not see the project "ecookbook13"
-      And I should see the planning element "March"
-      And I should not see the planning element "August"
-      And I should not see the planning element "March13"
+      And I should see the planning element "March" in the timeline
+      And I should not see the planning element "August" in the timeline
+      And I should not see the planning element "March13" in the timeline
 
   @javascript
   Scenario: First level grouping and sortation
