@@ -1,8 +1,9 @@
 module OpenProject::XlsExport
   module Patches
-    module IssuesControllerPatch
+    module WorkPackagesControllerPatch
       def self.included(base) # :nodoc:
         base.send(:include, InstanceMethods)
+
 
         base.class_eval do
           unloadable
@@ -17,8 +18,8 @@ module OpenProject::XlsExport
             super do |format|
               yield format
               format.xls do
-                @issues = @query.issues(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                                        :order => sort_clause)
+                @issues = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+                                        :order => sort_clause).work_packages
                 unless @issues.empty?
                   send_data(issues_to_xls(:show_descriptions => params[:show_descriptions]),
                             :type => "application/vnd.ms-excel",

@@ -9,7 +9,7 @@ module OpenProject::XlsExport
              :author_url => 'http://finn.de/',
              :requires_openproject => '>= 3.0.0pre11'
 
-    patches [:IssuesController]
+    patches [:WorkPackagesController]
     # disabled since not yet migrated: :CostReportsController
 
     initializer 'xls_export.register_hooks' do
