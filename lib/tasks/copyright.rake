@@ -183,6 +183,11 @@ namespace :copyright do
     rewrite_copyright("html.erb", [], :erb, args[:arg1])
   end
 
+  desc "Update the copyright on .json.erb source files"
+  task :update_json_erb, :arg1 do |task, args|
+    rewrite_copyright("json.erb", [], :erb, args[:arg1])
+  end
+
   desc "Update the copyright on .atom.builder source files"
   task :update_atom_builder, :arg1 do |task, args|
     rewrite_copyright("atom.builder", [], :erb, args[:arg1])
@@ -206,6 +211,7 @@ namespace :copyright do
      :update_js_erb,
      :update_css_erb,
      :update_html_erb,
+     :update_json_erb,
      :update_text_erb,
      :update_atom_builder,
      :update_api_rsb,
