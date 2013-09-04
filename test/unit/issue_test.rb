@@ -16,29 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_should_update_issue_with_disabled_type
-    p = Project.find(1)
-    issue = Issue.find(1)
-
-    p.types.delete(issue.type)
-    assert !p.types.include?(issue.type)
-
-    issue.reload
-    issue.subject = 'New subject'
-    assert issue.save
-  end
-
-  def test_should_not_set_a_disabled_type
-    p = Project.find(1)
-    p.types.delete(Type.find(2))
-
-    issue = Issue.find(1)
-    issue.type_id = 2
-    issue.subject = 'New subject'
-    assert !issue.save
-    refute_empty issue.errors[:type_id]
-  end
-
   def test_category_based_assignment
     (issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,

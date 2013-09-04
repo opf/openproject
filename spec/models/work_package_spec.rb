@@ -256,6 +256,45 @@ describe WorkPackage do
     end
   end
 
+  describe :type do
+    context "disabled type" do
+      describe "allows work package update" do
+        before do
+          work_package.save!
+
+          project.types.delete work_package.type
+
+          work_package.reload
+          work_package.subject = "New subject"
+        end
+
+        subject { work_package.save }
+
+        it { should be_true }
+      end
+
+      describe "must not be set on work package" do
+        before do
+          project.types.delete work_package.type
+        end
+
+        context :save do
+          subject { work_package.save }
+
+          it { should be_false }
+        end
+
+        context :errors do
+          before { work_package.save }
+
+          subject { work_package.errors[:type_id] }
+
+          it { should_not be_empty }
+        end
+      end
+    end
+  end
+
   describe :assignable_users do
     it 'should return all users the project deems to be assignable' do
       stub_work_package.project.stub!(:assignable_users).and_return([stub_user])
