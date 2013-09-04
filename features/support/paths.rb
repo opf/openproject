@@ -201,6 +201,9 @@ module NavigationHelpers
     when /^the My page$/
       '/my/page'
 
+    when /^the My page personalization page$/
+      "/my/page_layout"
+
     when /^the [mM]y account page$/
       '/my/account'
 
