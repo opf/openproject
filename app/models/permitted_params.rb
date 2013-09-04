@@ -74,7 +74,7 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def planning_element
-    params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
+    params.require(:work_package).permit(*self.class.permitted_attributes[:work_package])
   end
 
   def new_work_package(args = {})
@@ -195,6 +195,7 @@ class PermittedParams < Struct.new(:params, :user)
                                                        end
                                                      end
                                                    ],
+                               :work_package_move =>[:assigned_to_id, :responsible_id, :status_id, :start_date, :due_date, :priority_id],
                                :color_move => [:move_to],
                                :color => [
                                            :name,

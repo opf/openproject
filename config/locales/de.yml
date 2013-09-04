@@ -88,14 +88,9 @@ de:
         issue: "Ticket"
         spent_on: "Datum"
         type: "Typ"
-      planning_element_type_color:
+      type_color:
         name: "Name"
         hexcode: "Hex-Code"
-      planning_element:
-        description: "Beschreibung"
-        id: "ID"
-        name: "Name"
-        start_date: "Startdatum"
       project_association:
         description: "Begründung"
       project_type:
@@ -148,7 +143,6 @@ de:
         progress: "% erledigt"
         responsible: "Planungsverantwortlicher"
         spent_time: "Aufgewendete Zeit"
-
     errors:
       messages:
         accepted: "muss akzeptiert werden"
@@ -183,7 +177,7 @@ de:
         before: "muss vor %{date} sein"
         before_or_equal_to: "muss vor oder gleich %{date} sein"
       models:
-        planning_element:
+        work_package:
           attributes:
             due_date:
               not_start_date: "ist nicht am Startdatum, obwohl die bei Meilensteinen Pflicht ist"
