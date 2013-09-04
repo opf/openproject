@@ -101,7 +101,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_browse_directory
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => 3, :path => ['images']
+      get :show, :id => 3, :path => 'images'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -117,7 +117,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_browse_at_given_revision
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => 3, :path => ['images'], :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
+      get :show, :id => 3, :path => 'images', :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -127,14 +127,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_changes
-      get :changes, :id => 3, :path => ['images', 'edit.png']
+      get :changes, :id => 3, :path => 'images/edit.png'
       assert_response :success
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
     end
 
     def test_entry_show
-      get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb']
+      get :entry, :id => 3, :path => 'sources/watchers_controller.rb'
       assert_response :success
       assert_template 'entry'
       # Line 19
@@ -145,14 +145,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_entry_download
-      get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
+      get :entry, :id => 3, :path => 'sources/watchers_controller.rb', :format => 'raw'
       assert_response :success
       # File content
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
 
     def test_directory_entry
-      get :entry, :id => 3, :path => ['sources']
+      get :entry, :id => 3, :path => 'sources'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entry)
@@ -191,7 +191,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_annotate
-      get :annotate, :id => 3, :path => ['sources', 'watchers_controller.rb']
+      get :annotate, :id => 3, :path => 'sources/watchers_controller.rb'
       assert_response :success
       assert_template 'annotate'
       # Line 23, changeset 2f9c0091
@@ -204,14 +204,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_annotate_at_given_revision
       @repository.fetch_changesets
       @repository.reload
-      get :annotate, :id => 3, :rev => 'deff7', :path => ['sources', 'watchers_controller.rb']
+      get :annotate, :id => 3, :rev => 'deff7', :path => 'sources/watchers_controller.rb'
       assert_response :success
       assert_template 'annotate'
       assert_tag :tag => 'h2', :content => /@ deff712f/
     end
 
     def test_annotate_binary_file
-      get :annotate, :id => 3, :path => ['images', 'edit.png']
+      get :annotate, :id => 3, :path => 'images/edit.png'
       assert_response 500
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
                               :content => /cannot be annotated/

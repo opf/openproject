@@ -385,7 +385,7 @@ module ApplicationHelper
   end
 
   def to_path_param(path)
-    path.to_s.split(%r{[/\\]}).select {|p| !p.blank?}
+    path.to_s
   end
 
 

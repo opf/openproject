@@ -40,7 +40,7 @@ class Repository::Subversion < Repository
 
   # Returns a path relative to the url of the repository
   def relative_path(path)
-    path.gsub(Regexp.new("^\/?#{Regexp.escape(relative_url)}"), '')
+    path.gsub(Regexp.new("^\/?#{Regexp.escape(relative_url)}\/"), '')
   end
 
   def fetch_changesets
