@@ -13,7 +13,7 @@ module OpenProject
   module GlobalRoles
     module PluginSpecHelper
       def mobile_tan_plugin_loaded?
-        plugin_loaded?("openproject_mobile_otp_authentication")
+        plugin_loaded?("openproject_mobile_otp")
       end
 
       def privacy_plugin_loaded?
