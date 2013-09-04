@@ -16,27 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_update_issue_with_required_custom_field
-    field = WorkPackageCustomField.find_by_name('Database')
-    field.update_attribute(:is_required, true)
-
-    CustomValue.delete 18
-
-    issue = Issue.find(1)
-    assert_nil issue.custom_value_for(field)
-    assert issue.available_custom_fields.include?(field)
-    # No change to custom values, issue can be saved
-    assert issue.save
-    # Blank value
-    issue.custom_field_values = { field.id => '' }
-    assert !issue.save
-    # Valid value
-    issue.custom_field_values = { field.id => 'PostgreSQL' }
-    assert issue.save
-    issue.reload
-    assert_equal 'PostgreSQL', issue.custom_value_for(field).value
-  end
-
   def test_should_not_update_attributes_if_custom_fields_validation_fails
     issue = Issue.find(1)
     field = WorkPackageCustomField.find_by_name('Database')
