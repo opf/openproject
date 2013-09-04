@@ -22,7 +22,7 @@ namespace :copyright do
     when :rdoc
       "----------\n#{short_copyright_line(' ')}\n----------\n".gsub(' -- copyright',"==== copyright\n")
     when :md
-      "----------\n#{short_copyright_line('    ')}\n----------\n".gsub('    -- copyright',"#### copyright\n")
+      short_copyright_surrounding("<!--", "-->")
     else
       raise "Undefined format #{format}"
     end
@@ -53,7 +53,7 @@ namespace :copyright do
     when :rdoc
       /-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n$/
     when :md
-      /-{10}\n\#{4} copyright\n\n[\s\S]*?\+\+\n-{10}\n$/
+      /^<!----\s*copyright.*?\+\+-->/m
     else
       raise "Undefined format #{format}"
     end
@@ -175,7 +175,7 @@ namespace :copyright do
 
   desc "Update the copyright on .md source files"
   task :update_md, :arg1 do |task, args|
-    rewrite_copyright("md", [], :md, args[:arg1], :position => :bottom)
+    rewrite_copyright("md", [], :md, args[:arg1])
   end
 
   desc "Update the copyright on .html.erb source files"
