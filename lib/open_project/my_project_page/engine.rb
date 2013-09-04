@@ -10,6 +10,7 @@
 #++
 
 require 'rails/engine'
+require 'open_project/my_project_page/plugin_blocks'
 
 module OpenProject::MyProjectPage
   class Engine < ::Rails::Engine
