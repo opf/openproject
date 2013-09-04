@@ -27,5 +27,4 @@ Feature: Adding widgets to the page
    When I select "Watched issues" from the available widgets drop down
     And I wait for the AJAX requests to finish
     Then the "Watched issues" widget should be in the hidden block
-    And "Watched issues" should be disabled in the available widgets drop down
-
+    And "Watched issues" should be disabled in the my project page available widgets drop down

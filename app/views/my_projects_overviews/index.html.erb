@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
             <%= render :partial => "my_projects_overviews/blocks/#{b}" %>
           <% elsif b.respond_to? :to_ary %>
-            <%= render :partial => "my_projects_overviews/blocks/textilizable",
+            <%= render :partial => "textilizable",
                        :locals => { :project => project,
                                     :user => user,
                                     :block_title => b[1],

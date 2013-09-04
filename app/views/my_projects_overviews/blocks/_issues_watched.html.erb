@@ -10,7 +10,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h3><%=l(:label_watched_issues)%> (<%= Issue.where(project_id: @project.id).visible.watched_by(@user.id).count %>)</h3>
+<h3><%=l(:label_issues_watched)%> (<%= Issue.where(project_id: @project.id).visible.watched_by(@user.id).count %>)</h3>
 <% watched_issues = Issue.where(project_id: @project.id).visible.on_active_project.watched_by(@user.id).recently_updated.with_limit(10) %>
 
 <%= render :partial => 'issues/list_simple', :locals => { :issues => watched_issues } %>

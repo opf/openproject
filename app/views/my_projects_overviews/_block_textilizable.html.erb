@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
 	<a href="#" onclick="return editTextilizable('<%= block_name %>');"
 	   class="icon icon-edit"><%= l(:button_edit) %></a>
       </div>
-      <%= render :partial => "my_projects_overviews/blocks/textilizable",
+      <%= render :partial => "textilizable",
                  :locals => { :block_title => block_title,
                               :textile => textile }
             %>

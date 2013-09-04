@@ -10,7 +10,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h3><%=l(:label_assigned_to_me_issues)%> (<%= Issue.visible.open.count(:conditions => {:assigned_to_id => User.current.id, :project_id => @project.id})%>)</h3>
+<h3><%=l(:label_issues_assigned_to_me)%> (<%= Issue.visible.open.count(:conditions => {:assigned_to_id => User.current.id, :project_id => @project.id})%>)</h3>
 
 <% assigned_issues = Issue.visible.open.find(:all,
                                              :conditions => {:assigned_to_id => User.current.id, :project_id => @project.id},
