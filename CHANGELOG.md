@@ -1,7 +1,9 @@
 # Changelog
 
+* `#1875` Added document block to my project page
+
 ## 1.0.0.pre3
-* renamed the projectscoped-documents back to just "documents"
+
 * Removed hard wiring to specific core version
 
 ## 1.0.0.pre2

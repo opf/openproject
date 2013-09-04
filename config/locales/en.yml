@@ -11,6 +11,7 @@ en:
   label_document_added: "Document added"
   label_document_new: "New document"
   label_document_plural: "Documents"
+  label_documents: "Documents"
 
   permission_manage_documents: "Manage documents"
   permission_view_documents: "View documents"
