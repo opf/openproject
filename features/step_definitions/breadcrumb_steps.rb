@@ -9,10 +9,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Then /^the breadcrumb should contain "(.+)"$/ do |string|
-  container = ChiliProject::VERSION::MAJOR < 2 ?  "p.breadcrumb a" : "#breadcrumb a"
-
-  steps %Q{ Then I should see "#{string}" within "#{container}" }
+Then /^the breadcrumbs should have the element "(.+)"$/ do |string|
+  # find all descendants of an element with id 'breadcrumb' that have a child text node equalling
+  # string
+  find(:xpath, "//*[@id='breadcrumb']//*[text()='#{string}']")
 end
-
-
