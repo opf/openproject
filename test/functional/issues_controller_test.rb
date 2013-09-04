@@ -46,9 +46,6 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
 
-    assert_tag :tag => 'a',
-      :content => /Quote/
-
     assert_tag :tag => 'ul',
                :attributes => { :class => "action_menu_main" },
                :child => { :tag => 'li',
