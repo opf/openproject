@@ -16,22 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_create
-    issue = Issue.new.tap do |i|
-      i.force_attributes = { :project_id => 1,
-                             :type_id => 1,
-                             :author_id => 3,
-                             :status_id => 1,
-                             :priority => IssuePriority.all.first,
-                             :subject => 'test_create',
-                             :description => 'IssueTest#test_create',
-                             :estimated_hours => '1:30' }
-    end
-    assert issue.save
-    issue.reload
-    assert_equal 1.5, issue.estimated_hours
-  end
-
   def test_create_minimal
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,

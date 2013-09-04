@@ -20,6 +20,41 @@ describe WorkPackage do
   let(:planning_element) { FactoryGirl.create(:planning_element).reload }
   let(:user) { FactoryGirl.create(:user) }
 
+  let(:type) { FactoryGirl.create(:type_standard) }
+  let(:project) { FactoryGirl.create(:project, types: [type]) }
+  let(:status) { FactoryGirl.create(:issue_status) }
+  let(:priority) { FactoryGirl.create(:priority) }
+
+  describe "create" do
+    let(:work_package) { WorkPackage.new.tap do |w|
+                           w.force_attributes = { project_id: project.id,
+                             type_id: type.id,
+                             author_id: user.id,
+                             status_id: status.id,
+                             priority: priority,
+                             subject: 'test_create',
+                             description: 'WorkPackage#create',
+                             estimated_hours: '1:30' }
+                         end }
+
+    context :save do
+      subject { work_package.save }
+
+      it { should be_true }
+    end
+
+    context :estimated_hours do
+      before do
+        work_package.save!
+        work_package.reload
+      end
+
+      subject { work_package.estimated_hours }
+
+      it { should eq(1.5) }
+    end
+  end
+
   describe :assignable_users do
     it 'should return all users the project deems to be assignable' do
       stub_work_package.project.stub!(:assignable_users).and_return([stub_user])
