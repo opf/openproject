@@ -9,6 +9,9 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
   class AmbiguousAttachableJournalError < AmbiguousJournalsError
   end
 
+  class AmbiguousCustomizableJournalError < AmbiguousJournalsError
+  end
+
   class IncompleteJournalsError < ::StandardError
   end
 
@@ -157,8 +160,36 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
       custom_values = keys.select { |d| d =~ /custom_values.*/ }
       custom_values.each do |k|
+
+        custom_field_id = k.split("_values").last.to_i
+        value = values[keys.index k]
+
+        customizable = ActiveRecord::Base.connection.select_all <<-SQL
+          SELECT *
+          FROM #{quoted_table_name("customizable_journals")} AS a
+          WHERE a.journal_id = #{quote_value(journal_id)} AND a.custom_field_id = #{custom_field_id};
+        SQL
+
+        if customizable.size > 1
+
+          raise AmbiguousCustomizableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+            It appears there are ambiguous customizable journal
+            data. Please make sure customizable journal data are
+            consistent and that the unique constraint on journal_id and
+            custom_field_id is met.
+          MESSAGE
+
+        elsif customizable.size == 0
+
+          execute <<-SQL
+            INSERT INTO #{quoted_table_name("customizable_journals")}(journal_id, custom_field_id, value)
+            VALUES (#{quote_value(journal_id)}, #{quote_value(custom_field_id)}, #{quote_value(value)});
+          SQL
+        end
+
         j = keys.index(k)
         [keys, values].each { |a| a.delete_at(j) }
+
       end
     end
   end
