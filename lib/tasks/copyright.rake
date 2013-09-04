@@ -146,9 +146,9 @@ namespace :copyright do
                 "app/assets/javascripts/date-en-US.js",
                 "app/assets/javascripts/raphael.js",
                 "app/assets/javascripts/raphael-min.js",
-                "app/assets/javascripts/tinymce",
-                "app/assets/javascripts/calendar",
-                "app/assets/javascripts/jstoolbar"]
+                "app/assets/javascripts/tinymce/",
+                "app/assets/javascripts/calendar/",
+                "app/assets/javascripts/jstoolbar/"]
 
     rewrite_copyright("js", excluded, :js, args[:arg1])
   end
@@ -156,8 +156,8 @@ namespace :copyright do
   desc "Update the copyright on .js.erb source files"
   task :update_js_erb, :arg1 do |task, args|
     excluded = ["lib/assets",
-                "app/assets/javascripts/tinymce",
-                "app/assets/javascripts/calendar",
+                "app/assets/javascripts/tinymce/",
+                "app/assets/javascripts/calendar/",
                 "app/assets/javascripts/jstoolbar"]
 
     rewrite_copyright("js.erb", excluded, :erb, args[:arg1])
