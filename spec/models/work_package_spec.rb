@@ -24,19 +24,18 @@ describe WorkPackage do
   let(:project) { FactoryGirl.create(:project, types: [type]) }
   let(:status) { FactoryGirl.create(:issue_status) }
   let(:priority) { FactoryGirl.create(:priority) }
+  let(:work_package) { WorkPackage.new.tap do |w|
+                         w.force_attributes = { project_id: project.id,
+                           type_id: type.id,
+                           author_id: user.id,
+                           status_id: status.id,
+                           priority: priority,
+                           subject: 'test_create',
+                           description: 'WorkPackage#create',
+                           estimated_hours: '1:30' }
+                       end }
 
   describe "create" do
-    let(:work_package) { WorkPackage.new.tap do |w|
-                           w.force_attributes = { project_id: project.id,
-                             type_id: type.id,
-                             author_id: user.id,
-                             status_id: status.id,
-                             priority: priority,
-                             subject: 'test_create',
-                             description: 'WorkPackage#create',
-                             estimated_hours: '1:30' }
-                         end }
-
     describe :save do
       subject { work_package.save }
 
@@ -79,6 +78,94 @@ describe WorkPackage do
         subject { work_package_minimal.description }
 
         it { should be_nil }
+      end
+    end
+  end
+
+  describe :custom_fields do
+    let (:custom_field) { FactoryGirl.create(:work_package_custom_field,
+                                             name: 'Database',
+                                             field_format: 'list',
+                                             possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
+                                             is_required: true) }
+
+    before do
+      project.work_package_custom_fields << custom_field
+
+      work_package.save
+    end
+
+    subject { work_package.available_custom_fields }
+
+    it { should include(custom_field) }
+
+    describe "invalid custom field value error messages" do
+      context "short error message" do
+        shared_examples_for "custom field with invalid value" do
+          before do
+            unless custom_field_value.nil?
+              work_package.custom_field_values = { custom_field.id => custom_field_value }
+            end
+            work_package.save
+          end
+
+          subject { work_package.errors[:custom_values] }
+
+          it { should include(I18n.translate('activerecord.errors.messages.invalid')) }
+        end
+
+        context "no value given" do
+          let(:custom_field_value) { nil }
+
+          it_behaves_like "custom field with invalid value"
+        end
+
+        context "empty value given" do
+          let(:custom_field_value) { '' }
+
+          it_behaves_like "custom field with invalid value"
+        end
+
+        context "invalid value given" do
+          let(:custom_field_value) { 'SQLServer' }
+
+          it_behaves_like "custom field with invalid value"
+        end
+      end
+
+      context "full error message" do
+        before do
+          work_package.custom_field_values = { custom_field.id => 'SQLServer' }
+          work_package.save
+        end
+
+        subject { work_package.errors.full_messages.first }
+
+        it { should eq("Database is not included in the list") }
+      end
+    end
+
+    context "valid value given" do
+      before do
+        work_package.custom_field_values = { custom_field.id => 'PostgreSQL' }
+        work_package.save
+      end
+
+      context :errors do
+        subject { work_package.errors[:custom_values] }
+
+        it { should be_empty }
+      end
+
+      context :save do
+        before do
+          work_package.save!
+          work_package.reload
+        end
+
+        subject { work_package.custom_value_for(custom_field.id).value }
+
+        it { should eq('PostgreSQL') }
       end
     end
   end

@@ -16,57 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_create_with_required_custom_field
-    field = WorkPackageCustomField.find_by_name('Database')
-    field.update_attribute(:is_required, true)
-
-    issue = Issue.new.tap do |i|
-      i.force_attributes = { :project_id => 1,
-                             :type_id => 1,
-                             :author_id => 1,
-                             :status_id => 1,
-                             :subject => 'test_create',
-                             :description => 'IssueTest#test_create_with_required_custom_field' }
-    end
-    assert issue.available_custom_fields.include?(field)
-    # No value for the custom field
-    assert !issue.save
-    assert_include issue.errors[:custom_values], I18n.translate('activerecord.errors.messages.invalid')
-    # Blank value
-    issue.custom_field_values = { field.id => '' }
-    assert !issue.save
-    assert_include issue.errors[:custom_values], I18n.translate('activerecord.errors.messages.invalid')
-    # Invalid value
-    issue.custom_field_values = { field.id => 'SQLServer' }
-    assert !issue.save
-    assert_include issue.errors[:custom_values], I18n.translate('activerecord.errors.messages.invalid')
-    # Valid value
-    issue.custom_field_values = { field.id => 'PostgreSQL' }
-    assert issue.save
-    issue.reload
-    assert_equal 'PostgreSQL', issue.custom_value_for(field).value
-  end
-
-  def test_errors_full_messages_should_include_custom_fields_errors
-    field = WorkPackageCustomField.find_by_name('Database')
-
-    issue = Issue.new.tap do |i|
-      i.force_attributes = { :project_id => 1,
-                             :type_id => 1,
-                             :author_id => 1,
-                             :status_id => 1,
-                             :subject => 'test_create',
-                             :description => 'IssueTest#test_create_with_required_custom_field' }
-    end
-    assert issue.available_custom_fields.include?(field)
-    # Invalid value
-    issue.custom_field_values = { field.id => 'SQLServer' }
-
-    assert !issue.valid?
-    assert_equal 1, issue.errors.full_messages.size
-    assert_equal "Database is not included in the list", issue.errors.full_messages.first
-  end
-
   def test_update_issue_with_required_custom_field
     field = WorkPackageCustomField.find_by_name('Database')
     field.update_attribute(:is_required, true)
