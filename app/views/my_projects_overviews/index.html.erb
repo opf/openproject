@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% blocks[position].each do |b| %>
       <div class="mypage-box" id='<%=b.respond_to?(:to_ary) ? "widget_teaser_#{b[0]}" : "widget_#{b}" %>'>
         <div class="wiki">
-          <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
+          <% if MyProjectsOverviewsController.available_blocks.keys.include? b %>
             <%= render :partial => "my_projects_overviews/blocks/#{b}" %>
           <% elsif b.respond_to? :to_ary %>
             <%= render :partial => "textilizable",
