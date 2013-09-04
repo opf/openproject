@@ -16,20 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_category_based_assignment
-    (issue = Issue.new.tap do |i|
-      i.force_attributes = { :project_id => 1,
-                             :type_id => 1,
-                             :author_id => 3,
-                             :status_id => 1,
-                             :priority => IssuePriority.all.first,
-                             :subject => 'Assignment test',
-                             :description => 'Assignment test',
-                             :category_id => 1 }
-    end).save!
-    assert_equal IssueCategory.find(1).assigned_to, issue.assigned_to
-  end
-
   def test_copy
     issue = Issue.new.copy_from(1)
     assert issue.save

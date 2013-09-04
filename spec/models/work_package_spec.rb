@@ -295,6 +295,22 @@ describe WorkPackage do
     end
   end
 
+  describe :category do
+    let(:user_2) { FactoryGirl.create(:user, member_in_project: project) }
+    let(:category) { FactoryGirl.create(:issue_category,
+                                        project: project,
+                                        assigned_to: user_2) }
+
+    before do
+      work_package.force_attributes = { category_id: category.id }
+      work_package.save!
+    end
+
+    subject { work_package.assigned_to }
+
+    it { should eq(category.assigned_to) }
+  end
+
   describe :assignable_users do
     it 'should return all users the project deems to be assignable' do
       stub_work_package.project.stub!(:assignable_users).and_return([stub_user])
