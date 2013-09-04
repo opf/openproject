@@ -1174,35 +1174,4 @@ class IssuesControllerTest < ActionController::TestCase
     end
     assert_response 302
   end
-
-  def test_quote_issue
-    issue = WorkPackage.find(6)
-
-    @request.session[:user_id] = 2
-    get :quoted, :id => 6
-    assert_response :success
-    assert_template 'edit'
-    assert_not_nil assigns(:issue)
-    assert_equal issue, assigns(:issue)
-  end
-
-  def test_quote_issue_without_permission
-    @request.session[:user_id] = 7
-    get :quoted, :id => 6
-    assert_response 403
-  end
-
-  def test_quote_note
-    issue = Issue.find(6)
-
-    journal = FactoryGirl.create :work_package_journal, journable_id: issue.id
-
-    @request.session[:user_id] = 2
-    get :quoted, :id => 6, :journal_id => journal.id
-    assert_response :success
-    assert_template 'edit'
-    assert_not_nil assigns(:issue)
-    assert_equal Issue.find(6), assigns(:issue)
-    assert_equal journal, assigns(:journal)
-  end
 end
