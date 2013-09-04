@@ -53,6 +53,9 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_issues
+    Issue.find(5).recreate_initial_journal!
+    Issue.find(8).recreate_initial_journal!
+
     get :index, :q => 'issue', :issues => 1
     assert_response :success
     assert_template 'index'

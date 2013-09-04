@@ -34,7 +34,7 @@ Feature: Group memberships
   Scenario: Adding a group with members to a project
     Given the group "group1" has the following members:
       | alice     |
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
     When I go to the members tab of the settings page of the project "project1"
     And I add the principal "group1" as a member with the roles:
       | beta |
@@ -60,7 +60,7 @@ Feature: Group memberships
     Given the group "group1" has the following members:
       | alice     |
     And the group "group1" is a "beta" in the project "project1"
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
     When I go to the members tab of the settings page of the project "project1"
     And I follow the delete link of the project member "group1"
     Then I should not see the principal "group1" as a member
@@ -72,7 +72,7 @@ Feature: Group memberships
       | alice     |
     And the user "alice" is a "alpha" in the project "project1"
     And the group "group1" is a "beta" in the project "project1"
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
     When I go to the members tab of the settings page of the project "project1"
     And I follow the delete link of the project member "group1"
     Then I should not see the principal "group1" as a member

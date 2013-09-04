@@ -58,5 +58,15 @@ FactoryGirl.define do
     factory :deleted_user, :class => DeletedUser do
       status User::STATUSES[:builtin]
     end
+    
+    factory :locked_user do
+      firstname 'Locked'
+      lastname 'User'
+      sequence(:login) { |n| "bob#{n}" }
+      sequence(:mail) {|n| "bob#{n}.bobbit@bob.com" }
+      password 'adminADMIN!'
+      password_confirmation 'adminADMIN!'
+     status User::STATUSES[:locked]
+   end
   end
 end

@@ -16,6 +16,10 @@ describe UsersController do
     User.delete_all
   end
 
+  after do
+    User.current = nil
+  end
+
   let(:user) { FactoryGirl.create(:user) }
   let(:admin) { FactoryGirl.create(:admin) }
   let(:anonymous) { FactoryGirl.create(:anonymous) }
@@ -322,6 +326,20 @@ describe UsersController do
           it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
         end
       end
+    end
+  end
+
+  describe "update" do
+    let(:ldap_auth_source) { FactoryGirl.create(:ldap_auth_source) }
+
+    it "with a password change to an AuthSource user switching to Internal authentication" do
+      user.auth_source = ldap_auth_source
+      as_logged_in_user admin do
+        put :update, :id => user.id, :user => {:auth_source_id => '', :password => 'newpassPASS!', :password_confirmation => 'newpassPASS!'}
+      end
+
+      expect(user.reload.auth_source).to be_nil
+      expect(user.check_password?('newpassPASS!')).to be_true
     end
   end
 end

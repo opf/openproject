@@ -14,6 +14,9 @@
 # So we create an 'emtpy' Issue class first, to make Project happy.
 
 class WorkPackage < ActiveRecord::Base
+  include WorkPackage::Validations
+  include WorkPackage::SchedulingRules
+  include WorkPackage::StatusTransitions
 
   #TODO Remove alternate inheritance column name once single table
   # inheritance is no longer needed. The need for a different column name
@@ -49,6 +52,10 @@ class WorkPackage < ActiveRecord::Base
   scope :without_deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NULL"
   scope :deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NOT NULL"
 
+  scope :for_projects, lambda { |projects|
+    {:conditions => {:project_id => projects}}
+  }
+
   after_initialize :set_default_values
 
   acts_as_watchable
@@ -56,8 +63,7 @@ class WorkPackage < ActiveRecord::Base
   before_save :store_former_parent_id
   include OpenProject::NestedSet::WithRootIdScope
   after_save :reschedule_following_issues,
-             :update_parent_attributes,
-             :create_alternate_date
+             :update_parent_attributes
 
   after_move :remove_invalid_relations,
              :recalculate_attributes_for_former_parent
@@ -82,13 +88,15 @@ class WorkPackage < ActiveRecord::Base
   # test_destroying_root_projects_should_clear_data #
   # for details.                                    #
   ###################################################
-  acts_as_attachable :after_remove => :attachment_removed
+  acts_as_attachable :after_add => :attachments_changed,
+                     :after_remove => :attachments_changed
 
   # This one is here only to ease reading
   module JournalizedProcs
     def self.event_title
-      Proc.new do |journal|
-        work_package = journal.journaled
+      Proc.new do |data|
+        journal = data.journal
+        work_package = journal.journable
 
         title = work_package.to_s
         title << " (#{work_package.status.name})" if work_package.status.present?
@@ -98,7 +106,8 @@ class WorkPackage < ActiveRecord::Base
     end
 
     def self.event_type
-      Proc.new do |journal|
+      Proc.new do |data|
+        journal = data.journal
         t = 'work_package'
 
         t << if journal.changed_data.empty? && !journal.initial?
@@ -124,7 +133,7 @@ class WorkPackage < ActiveRecord::Base
   register_on_journal_formatter(:decimal, 'done_ratio')
   register_on_journal_formatter(:diff, 'description')
   register_on_journal_formatter(:attachment, /attachments_?\d+/)
-  register_on_journal_formatter(:custom_field, /custom_values\d+/)
+  register_on_journal_formatter(:custom_field, /custom_fields_\d+/)
 
   # Joined
   register_on_journal_formatter :named_association, :parent_id, :project_id,
@@ -139,7 +148,6 @@ class WorkPackage < ActiveRecord::Base
   register_on_journal_formatter :plaintext,         :subject,
                                                     :planning_element_status_comment,
                                                     :responsible_id
-  register_on_journal_formatter :scenario_date,     /^scenario_(\d+)_(start|due)_date$/
 
   # acts_as_journalized will create an initial journal on wp creation
   # and touch the journaled object:
@@ -155,15 +163,6 @@ class WorkPackage < ActiveRecord::Base
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_work_packages, options)
-  end
-
-  WorkPackageJournal.class_eval do
-    # Shortcut
-    def new_status
-      if details.keys.include? 'status_id'
-        (newval = details['status_id'].last) ? IssueStatus.find_by_id(newval.to_i) : nil
-      end
-    end
   end
 
   def self.use_status_for_done_ratio?
@@ -206,10 +205,9 @@ class WorkPackage < ActiveRecord::Base
 
   # ACTS AS ATTACHABLE
   # Callback on attachment deletion
-  def attachment_removed(obj)
-    init_journal(User.current)
-    create_journal
-    last_journal.update_attribute(:changed_data, { "attachments_#{obj.id}" => [obj.filename, nil] })
+  def attachments_changed(obj)
+    add_journal
+    save!
   end
 
   # ACTS AS JOURNALIZED
@@ -288,26 +286,6 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
-  def trash
-    unless new_record? or self.deleted_at
-      self.children.each{|child| child.trash}
-
-      self.reload
-      self.deleted_at = Time.now
-      self.save!
-    end
-    freeze
-  end
-
-  def restore!
-    unless parent && parent.deleted?
-      self.deleted_at = nil
-      self.save
-    else
-      raise "You cannot restore an element whose parent is deleted. Restore the parent first!"
-    end
-  end
-
   def deleted?
     !!read_attribute(:deleted_at)
   end
@@ -316,6 +294,9 @@ class WorkPackage < ActiveRecord::Base
   delegate :assignable_users, :to => :project
 
   # Versions that the work_package can be assigned to
+  # A work_package can be assigned to:
+  #   * any open, shared version of the project the wp belongs to
+  #   * the version it was already assigned to (to make sure, that you can still update closed tickets)
   def assignable_versions
     @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
   end
@@ -355,7 +336,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def update_by(user, attributes)
-    init_journal(user, attributes.delete(:notes)) if attributes[:notes]
+    add_journal(user, attributes.delete(:notes)) if attributes[:notes]
 
     add_time_entry_for(user, attributes.delete(:time_entry))
     attributes.delete(:attachments)
@@ -400,7 +381,7 @@ class WorkPackage < ActiveRecord::Base
   # Moves/copies an work_package to a new project and type
   # Returns the moved/copied work_package on success, false on failure
   def move_to_project(*args)
-    ret = WorkPackage.transaction do
+    WorkPackage.transaction do
       move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
     end || false
   end
@@ -426,7 +407,7 @@ class WorkPackage < ActiveRecord::Base
 
     # ancestors will be recursively updated
     if p.changed?
-      p.journal_notes = I18n.t('timelines.planning_element_updated_automatically_by_child_changes', :child => "*#{id}")
+      p.journal_notes = I18n.t('work_package.updated_automatically_by_child_changes', :child => "##{id}")
 
       # Ancestors will be updated by parent's after_save hook.
       p.save(:validate => false)
@@ -588,17 +569,5 @@ class WorkPackage < ActiveRecord::Base
                                 :spent_on => Date.today })
 
     time_entries.build(attributes)
-  end
-
-  def create_alternate_date
-    # This is a hack.
-    # It is required as long as alternate dates exist/are not moved up to work_packages.
-    # Its purpose is to allow for setting the after_save filter in the correct order
-    # before acts as journalized and the cleanup method reload_lock_and_timestamps.
-    return true unless respond_to?(:alternate_dates)
-
-    if start_date_changed? or due_date_changed?
-      alternate_dates.create(:start_date => start_date, :due_date => due_date)
-    end
   end
 end

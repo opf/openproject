@@ -25,8 +25,6 @@ module PlanningElementsHelper
       api.start_date(planning_element.start_date.to_formatted_s(:db)) unless planning_element.start_date.nil?
       api.end_date(planning_element.due_date.to_formatted_s(:db)) unless planning_element.due_date.nil?
 
-      api.in_trash(!!planning_element.deleted_at)
-
       if planning_element.parent
         api.parent(:id => planning_element.parent_id, :name => planning_element.parent.subject)
       end
@@ -43,7 +41,7 @@ module PlanningElementsHelper
         api.responsible(:id => planning_element.responsible.id, :name => planning_element.responsible.name)
       end
 
-      if planning_element.type
+      if planning_element.type && !planning_element.type.is_standard?
         type = planning_element.type
         api.planning_element_type(:id => type.id, :name => type.name)
       end
@@ -51,20 +49,6 @@ module PlanningElementsHelper
       if planning_element.planning_element_status
         status = planning_element.planning_element_status
         api.planning_element_status(:id => status.id, :name => status.name)
-      end
-
-      if include_scenarios?
-        scenarios = planning_element.scenarios
-        if scenarios.present?
-          api.array(:scenarios, :size => scenarios.size) do
-            scenarios.each do |pe_scenario|
-              api.scenario(:id => pe_scenario.id, :name => pe_scenario.name) do
-                api.start_date(pe_scenario.start_date.to_formatted_s(:db)) unless pe_scenario.start_date.nil?
-                api.end_date(pe_scenario.due_date.to_formatted_s(:db)) unless pe_scenario.due_date.nil?
-              end
-            end
-          end
-        end
       end
 
       api.planning_element_status_comment(planning_element.planning_element_status_comment)

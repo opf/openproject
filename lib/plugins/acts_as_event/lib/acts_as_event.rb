@@ -19,7 +19,7 @@ module Redmine
       module ClassMethods
         def acts_as_event(options = {})
           return if self.included_modules.include?(Redmine::Acts::Event::InstanceMethods)
-          default_options = { :datetime => :created_on,
+          default_options = { :datetime => :created_at,
                               :title => :title,
                               :description => :description,
                               :author => :author,
@@ -44,7 +44,11 @@ module Redmine
               if option.is_a?(Proc)
                 option.call(self)
               elsif option.is_a?(Symbol)
-                send(option)
+                if respond_to?(:journal) and journal.respond_to?(option)
+                  journal.send(option)
+                else
+                  send(option)
+                end
               else
                 option
               end

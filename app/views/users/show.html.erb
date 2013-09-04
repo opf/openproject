@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= link_to l(:label_activity), :controller => '/activities', :action => 'index', :id => nil, :user_id => @user, :from => @events_by_day.keys.first %>
     </h3>
     <p>
-      <%=l(:label_reported_issues)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
+      <%=l(:label_reported_work_packages)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
     </p>
     <div id="activity">
       <% @events_by_day.keys.sort.reverse.each do |day| %>
@@ -63,7 +63,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
             <dt class="<%= e.event_type %>">
               <span class="time"><%= format_time(e.event_datetime, false) %></span>
-              <%= content_tag('span', h(e.project), :class => 'project') %>
+              <%= content_tag('span', h(e.journal.journable.project), :class => 'project') %>
               <%= link_to format_activity_title(e.event_title), e.event_url %>
             </dt>
             <dd><span class="description"><%= format_activity_description(e.event_description) %></span></dd>

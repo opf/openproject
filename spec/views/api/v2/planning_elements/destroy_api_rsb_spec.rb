@@ -19,7 +19,6 @@ describe 'api/v2/planning_elements/destroy.api.rsb' do
 
   before do
     view.stub(:include_journals?).and_return(false)
-    view.stub(:include_scenarios?).and_return(false)
 
     params[:format] = 'xml'
   end

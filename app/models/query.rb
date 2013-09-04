@@ -29,8 +29,8 @@ class Query < ActiveRecord::Base
 
   @@operators = { "="   => :label_equals,
                   "!"   => :label_not_equals,
-                  "o"   => :label_open_issues,
-                  "c"   => :label_closed_issues,
+                  "o"   => :label_open_work_packages,
+                  "c"   => :label_closed_work_packages,
                   "!*"  => :label_none,
                   "*"   => :label_all,
                   ">="  => :label_greater_or_equal,
@@ -335,6 +335,14 @@ class Query < ActiveRecord::Base
     !group_by_column.nil?
   end
 
+  def display_sums?
+    display_sums && any_summable_columns?
+  end
+
+  def any_summable_columns?
+    Setting.issue_list_summable_columns.any?
+  end
+
   def group_by_column
     groupable_columns.detect {|c| c.groupable && c.name.to_s == group_by}
   end
@@ -463,61 +471,28 @@ class Query < ActiveRecord::Base
     (filters_clauses << project_statement).join(' AND ')
   end
 
-  # Returns the issue count
-  def issue_count
-    WorkPackage.count(:include => [:status, :project], :conditions => statement)
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise ::Query::StatementInvalid.new(e.message)
-  end
-
-  # Returns the issue count by group or nil if query is not grouped
-  def issue_count_by_group
-    r = nil
-    if grouped?
-      begin
-        # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
-        r = WorkPackage.count(:group => group_by_statement, :include => [:status, :project], :conditions => statement)
-      rescue ActiveRecord::RecordNotFound
-        r = {nil => issue_count}
-      end
-      c = group_by_column
-      if c.is_a?(QueryCustomFieldColumn)
-        r = r.keys.inject({}) {|h, k| h[c.custom_field.cast_value(k)] = r[k]; h}
-      end
-    end
-    r
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise ::Query::StatementInvalid.new(e.message)
-  end
-
-  # Returns the issues
+  # Returns the result set
   # Valid options are :order, :include, :conditions
-  def issues(options={})
-    order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
-    order_option = nil if order_option.blank?
-
-    Issue.where(::Query.merge_conditions(statement, options[:conditions]))
-         .includes([:status, :project] + (options[:include] || []).uniq)
-         .order(order_option)
+  def results(options={})
+    Results.new(self, options)
   end
 
   # Returns the journals
   # Valid options are :order, :offset, :limit
   def work_package_journals(options={})
-    WorkPackageJournal.find :all, :joins => [:user, {:work_package => [:project, :author, :type, :status]}],
-                       :conditions => statement,
-                       :order => options[:order],
-                       :limit => options[:limit],
-                       :offset => options[:offset]
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise ::Query::StatementInvalid.new(e.message)
-  end
+    query = Journal.includes(:user)
+                   .where(journable_type: WorkPackage.to_s)
+                   .joins("INNER JOIN work_packages ON work_packages.id = journals.journable_id")
+                   .joins("INNER JOIN projects ON work_packages.project_id = projects.id")
+                   .joins("INNER JOIN users AS authors ON work_packages.author_id = authors.id")
+                   .joins("INNER JOIN types ON work_packages.type_id = types.id")
+                   .joins("INNER JOIN issue_statuses ON work_packages.status_id = issue_statuses.id")
+                   .where(statement)
+                   .order(options[:order])
+                   .limit(options[:limit])
+                   .offset(options[:offset])
 
-  # Returns the versions
-  # Valid options are :conditions
-  def versions(options={})
-    Version.find :all, :include => :project,
-                       :conditions => ::Query.merge_conditions(project_statement, options[:conditions])
+    query.find :all
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end

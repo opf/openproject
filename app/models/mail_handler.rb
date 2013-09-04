@@ -174,7 +174,7 @@ class MailHandler < ActionMailer::Base
 
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
-    issue.init_journal(user, cleaned_up_text_body)
+    issue.add_journal(user, cleaned_up_text_body)
     add_attachments(issue)
     issue.save!
     logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info
@@ -184,8 +184,8 @@ class MailHandler < ActionMailer::Base
   # Reply will be added to the issue
   def receive_issue_journal_reply(journal_id)
     journal = Journal.find_by_id(journal_id)
-    if journal and journal.journaled.is_a? Issue
-      receive_issue_reply(journal.journaled_id)
+    if journal and journal.journable.is_a? Issue
+      receive_issue_reply(journal.journable_id)
     end
   end
 

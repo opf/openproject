@@ -1,6 +1,9 @@
 # DO NOT MODIFY THIS FILE !!!
 # Settings can be defined through the application in Admin -> Settings
 
+additional_footer_content:
+  default: ''
+# The instance name
 app_title:
   default: OpenProject
 app_subtitle:
@@ -13,6 +16,9 @@ brute_force_block_after_failed_logins:
   format: int
 welcome_text:
   default:
+log_requesting_user:
+  default: 0
+  format: int
 login_required:
   default: 0
 self_registration:
@@ -38,6 +44,10 @@ password_count_former_banned:
 password_days_valid:
   format: int
   default: 0
+software_name:
+  default: OpenProject
+software_url:
+  default: 'https://www.openproject.org/'
 attachment_max_size:
   format: int
   default: 5120

@@ -69,7 +69,8 @@ class Project < ActiveRecord::Base
   acts_as_searchable :columns => ["#{table_name}.name", "#{table_name}.identifier", "#{table_name}.description", "#{table_name}.summary"], :project_key => 'id', :permission => nil
   acts_as_event :title => Proc.new {|o| "#{Project.model_name.human}: #{o.name}"},
                 :url => Proc.new {|o| {:controller => '/projects', :action => 'show', :id => o}},
-                :author => nil
+                :author => nil,
+                :datetime => :created_on
 
   attr_protected :status
 
@@ -115,9 +116,6 @@ class Project < ActiveRecord::Base
                                          :dependent  => :destroy
   has_many :planning_elements, :class_name => "::PlanningElement",
                                          :dependent  => :destroy
-  has_many :scenarios,         :class_name => "::Scenario",
-                                         :dependent  => :destroy
-
 
   has_many :reportings_via_source, :class_name  => "::Reporting",
                                              :foreign_key => 'project_id',
@@ -206,9 +204,6 @@ class Project < ActiveRecord::Base
   end
 
   def has_many_dependent_for_planning_elements
-    # Overwrites :dependent => :destroy - before_destroy callback
-    # since we need to call the destroy! method instead of the destroy
-    # method which just moves the element to the recycle bin
     planning_elements.each {|element| element.destroy!}
   end
 

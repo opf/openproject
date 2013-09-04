@@ -262,7 +262,7 @@ class UserMailerTest < ActionMailer::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal UserMailer.generate_message_id(journal), mail.message_id
-    assert_match mail.references, UserMailer.generate_message_id(journal.journaled)
+    assert_match mail.references, UserMailer.generate_message_id(journal.journable)
   end
 
   def test_message_posted_message_id
@@ -416,7 +416,7 @@ class UserMailerTest < ActionMailer::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert mail.to.include?('foo@bar.de')
     assert mail.body.encoded.include?("#{issue.project.name} - #{issue.type.name} ##{issue.id}: some issue")
-    assert_equal '1 issue(s) due in the next 42 days', mail.subject
+    assert_equal '1 work package(s) due in the next 42 days', mail.subject
   end
 
   def test_reminders_for_users
@@ -434,7 +434,7 @@ class UserMailerTest < ActionMailer::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert mail.to.include?('foo1@bar.de')
     assert mail.body.encoded.include?("#{issue.project.name} - #{issue.type.name} ##{issue.id}: some issue")
-    assert_equal '1 issue(s) due in the next 42 days', mail.subject
+    assert_equal '1 work package(s) due in the next 42 days', mail.subject
   end
 
   def test_mailer_should_not_change_locale

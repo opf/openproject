@@ -40,7 +40,7 @@ messages_004:
   replies_count: 2
   last_reply_id: 6
   content: "This is an other post"
-  author_id:
+  author_id: 1
   parent_id:
   board_id: 1
 messages_005:

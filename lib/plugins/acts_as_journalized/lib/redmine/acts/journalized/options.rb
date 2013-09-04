@@ -74,12 +74,14 @@ module Redmine::Acts::Journalized
         options.symbolize_keys!
         options.reverse_merge!(Configuration.options)
         options.reverse_merge!(
-          :class_name => journal_class_name,
-          :dependent => :delete_all,
-          :foreign_key => "journaled_id"
+          class_name: Journal.name,
+          dependent: :delete_all,
+          foreign_key: :journable_id,
+          conditions: { journable_type: self.to_s },
+          as: :journable
         )
         options.reverse_merge!(
-          :order => "#{journal_class.table_name}.version ASC"
+          :order => "#{Journal.table_name}.version ASC"
         )
 
         class_attribute :vestal_journals_options

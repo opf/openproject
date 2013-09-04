@@ -13,7 +13,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if statuses.try(:empty?) and rows.try(:empty?) %>
   <p><i><%=l(:label_no_data)%></i></p>
 <% else %>
-  <% column_names = statuses.map(&:name) + [l(:label_open_issues_plural), l(:label_closed_issues_plural), l(:label_total)] %>
+  <% column_names = statuses.map(&:name) + [l(:label_open_work_packages), l(:label_closed_work_packages), l(:label_total)] %>
 <% col_width = 70 / (column_names.length+3) %>
 <table class="list">
   <thead>

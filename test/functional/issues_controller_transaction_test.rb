@@ -56,6 +56,27 @@ class IssuesControllerTransactionTest < ActionController::TestCase
 
   def test_put_update_stale_issue_prints_users_that_were_changing_it
     issue = Issue.find(1)
+    FactoryGirl.create :work_package_journal,
+                       journable_id: issue.id,
+                       created_at: 4.days.ago.to_date.to_s(:db),
+                       user_id: 1,
+                       data: FactoryGirl.build(:journal_work_package_journal,
+                                                         status_id: 1,
+                                                         done_ratio: 40)
+    journal_from = FactoryGirl.create :work_package_journal,
+                                      journable_id: issue.id,
+                                      created_at: 3.days.ago.to_date.to_s(:db),
+                                      user_id: 1,
+                                      notes: "Journal notes",
+                                      data: FactoryGirl.build(:journal_work_package_journal,
+                                                              status_id: 2,
+                                                              done_ratio: 30)
+    journal_to = FactoryGirl.create :work_package_journal,
+                                    journable_id: issue.id,
+                                    created_at: 1.days.ago.to_date.to_s(:db),
+                                    user_id: 2,
+                                    notes: "Some notes with Redmine links: #2, r2.",
+                                    data: FactoryGirl.build(:journal_work_package_journal)
     @request.session[:user_id] = 3
 
     put :update,
@@ -72,7 +93,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_template 'edit'
 
     assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
-                              :content => /redMine Admin \(#{Journal.find(1).created_at.strftime("%d %b 00:00")}\), John Smith \(#{Journal.find(2).created_at.strftime("%d %b 00:00")}\)/
+                              :content => /redMine Admin \(#{journal_from.created_at.strftime("%d %b 00:00")}\), John Smith \(#{journal_to.created_at.strftime("%d %b 00:00")}\)/
     assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
                               :content => /Please reload the page/
   end

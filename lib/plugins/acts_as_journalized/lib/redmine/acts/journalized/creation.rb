@@ -56,8 +56,6 @@ module Redmine::Acts::Journalized
         extend ClassMethods
         include InstanceMethods
 
-        after_save :create_journal, :if => :create_journal?
-
         class << self
           alias_method_chain :prepare_journaled_options, :creation
         end
@@ -118,7 +116,7 @@ module Redmine::Acts::Journalized
         attributes_setter.call(initial_changes, :without_protection => true)
 
         # Call the journal creating method
-        new_journal.changed_data = fill_object.send(:merge_journal_changes)
+        changed_data = fill_object.send(:merge_journal_changes)
 
         new_journal.version = 1
         new_journal.activity_type = activity_type
@@ -129,8 +127,7 @@ module Redmine::Acts::Journalized
           new_journal.user_id = user.id
         end
 
-        new_journal.save!
-        new_journal.reload
+        JournalManager.recreate_initial_journal self.class, new_journal, changed_data
 
         # Backdate journal
         if respond_to?(:created_at)
@@ -142,32 +139,6 @@ module Redmine::Acts::Journalized
       end
 
       private
-        # Returns whether a new journal should be created upon updating the parent record.
-        # A new journal will be created if
-        # a) attributes have changed
-        # b) no previous journal exists
-        # c) journal notes were added
-        # d) the parent record is already saved
-        def create_journal?
-          update_journal
-          (journal_changes.present? or journal_notes.present? or journals.empty?) and !new_record?
-        end
-
-        # Creates a new journal upon updating the parent record.
-        # "update_journal" has been called in "update_journal?" at this point (to get a hold on association changes)
-        # It must not be called again here.
-        def create_journal
-          journals << self.class.journal_class.create(journal_attributes)
-          reset_journal_changes
-          reset_journal
-          true
-        rescue Exception => e # FIXME: What to do? This likely means that the parent record is invalid!
-          p e
-          p e.message
-          p e.backtrace
-          false
-        end
-
         # Returns an array of column names that should be included in the changes of created
         # journals. If <tt>vestal_journals_options[:only]</tt> is specified, only those columns
         # will be journaled. Otherwise, if <tt>vestal_journals_options[:except]</tt> is specified,

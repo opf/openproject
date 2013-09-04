@@ -61,6 +61,7 @@ module Redmine
                         (                          # leading text
                           <\w+.*?>|                # leading HTML tag, or
                           [^=<>!:'"/]|             # leading punctuation, or
+                          \{\{\w+\(|               # inside a macro?
                           ^                        # beginning of line
                         )
                         (
@@ -80,7 +81,7 @@ module Redmine
         def inline_auto_link(text)
           text.gsub!(AUTO_LINK_RE) do
             all, leading, proto, url, post = $&, $1, $2, $3, $6
-            if leading =~ /<a\s/i || leading =~ /![<>=]?/
+            if leading =~ /<a\s/i || leading =~ /![<>=]?/ || leading =~ /\{\{\w+\(/
               # don't replace URL's that are already linked
               # and URL's prefixed with ! !> !< != (textile images)
               all

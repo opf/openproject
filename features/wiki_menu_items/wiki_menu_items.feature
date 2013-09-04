@@ -26,7 +26,7 @@ Feature: Wiki menu items
       | Title | Wiki |
     And the project "Awesome Project" has 1 wiki page with the following:
       | Title | AwesomePage |
-    And I am logged in as "bob"
+    And I am already logged in as "bob"
 
     @javascript
   Scenario: Adding a main menu entry without index and toc links

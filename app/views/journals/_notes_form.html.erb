@@ -18,7 +18,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= call_hook(:view_journals_notes_form_after_notes, { :journal => @journal}) %>
     <p><%= submit_tag l(:button_save) %>
     <%= link_to_remote l(:label_preview),
-                       { :url => preview_issue_path(:project_id => @project, :id => @journal.work_package),
+                       { :url => preview_issue_path(:project_id => @project, :id => @journal.journable),
                          :method => 'post',
                          :update => "journal_#{@journal.id}_preview",
                          :with => "Form.serialize('journal-#{@journal.id}-form')",

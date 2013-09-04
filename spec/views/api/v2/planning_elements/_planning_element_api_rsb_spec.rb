@@ -24,7 +24,6 @@ describe 'api/v2/planning_elements/_planning_element.api' do
 
   before :each do
     view.stub(:include_journals?).and_return(false)
-    view.stub(:include_scenarios?).and_return(true)
   end
 
   describe 'with an assigned planning element' do
@@ -202,103 +201,6 @@ describe 'api/v2/planning_elements/_planning_element.api' do
     it 'renders a planning_element_status node containing the status\'s id and name' do
       render
       response.should have_selector('planning_element planning_element_status[id="1343"][name="All well"]')
-    end
-  end
-
-  describe 'with scenaric alternate dates' do
-    let(:project) { FactoryGirl.create(:project) }
-
-    let(:scenario_a) { FactoryGirl.create(:scenario,
-                                      :project_id => project.id,
-                                      :id   => 2001,
-                                      :name => 'Scenario A') }
-    let(:scenario_b) { FactoryGirl.create(:scenario,
-                                      :project_id => project.id,
-                                      :id   => 2010,
-                                      :name => 'Scenario B') }
-    let(:scenario_c) { FactoryGirl.create(:scenario,
-                                      :project_id => project.id,
-                                      :id   => 2030,
-                                      :name => 'Scenario C') }
-    let(:scenario_d) { FactoryGirl.create(:scenario,
-                                      :project_id => project.id,
-                                      :id   => 2100,
-                                      :name => 'Scenario D') }
-
-    let(:planning_element) { FactoryGirl.create(:planning_element,
-                                            :project_id => project.id) }
-
-    before do
-      @scenario_dates = [
-        FactoryGirl.create(:alternate_scenaric_date,
-                       :planning_element_id => planning_element.id,
-                       :scenario_id => scenario_a.id,
-
-                       :start_date => Date.new(2011, 01, 01),
-                       :due_date   => Date.new(2011, 01, 31)),
-
-        FactoryGirl.create(:alternate_scenaric_date,
-                       :planning_element_id => planning_element.id,
-                       :scenario_id => scenario_b.id,
-
-                       :start_date => Date.new(2011, 02, 01),
-                       :due_date   => Date.new(2011, 02, 28)),
-
-        FactoryGirl.create(:alternate_scenaric_date,
-                       :planning_element_id => planning_element.id,
-                       :scenario_id => scenario_c.id,
-
-                       :start_date => Date.new(2011, 03, 01),
-                       :due_date   => Date.new(2011, 03, 31))
-      ]
-
-      # This is just created to make sure, that it is ok, that there are
-      # scenarios in the project for which a planning element may have no
-      # alternate dates.
-      scenario_d
-    end
-
-    describe 'planning_element node' do
-      it 'contains a scenarios node of type array and a size' do
-        render
-        response.should have_selector('planning_element scenarios[type=array][size="3"]')
-      end
-
-      describe 'scenarios node' do
-        it 'contains a scenario node for every available alternate scenario' do
-          render
-          response.should have_selector("planning_element scenarios scenario", :count => 3)
-        end
-
-        it 'scenarios nodes have an id and name attribute' do
-          render
-
-          response.should have_selector("planning_element scenarios") do
-            with_tag("scenario[id=2001][name=Scenario A]")
-            with_tag("scenario[id=2010][name=Scenario B]")
-            with_tag("scenario[id=2030][name=Scenario C]")
-          end
-        end
-
-        it 'scenario nodes contain start_date and due_date nodes containing the alternate dates' do
-          render
-
-          response.should have_selector('planning_element scenarios scenario[name="Scenario A"]') do
-            with_tag("start_date", :text => '2011-01-01')
-            with_tag("end_date", :text => '2011-01-31')
-          end
-
-          response.should have_selector('planning_element scenarios scenario[name="Scenario B"]') do
-            with_tag("start_date", :text => '2011-02-01')
-            with_tag("end_date", :text => '2011-02-28')
-          end
-
-          response.should have_selector('planning_element scenarios scenario[name="Scenario C"]') do
-            with_tag("start_date", :text => '2011-03-01')
-            with_tag("end_date", :text => '2011-03-31')
-          end
-        end
-      end
     end
   end
 

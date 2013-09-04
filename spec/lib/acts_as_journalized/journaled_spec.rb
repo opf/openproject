@@ -24,7 +24,6 @@ describe "Journalized Objects" do
     @status_open ||= FactoryGirl.create(:issue_status, :name => "Open", :is_default => true)
     @issue ||= FactoryGirl.create(:issue, :project => @project, :status => @status_open, :type => @type, :author => @current)
 
-
     initial_journal = @issue.journals.first
     recreated_journal = @issue.recreate_initial_journal!
 

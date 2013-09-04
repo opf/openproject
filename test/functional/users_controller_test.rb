@@ -241,18 +241,6 @@ class UsersControllerTest < ActionController::TestCase
     assert mail.body.encoded.include?('newpassPASS!')
   end
 
-  test "put :update with a password change to an AuthSource user switching to Internal authentication" do
-    # Configure as auth source
-    u = User.find(2)
-    u.auth_source = AuthSource.find(1)
-    u.save!
-
-    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpassPASS!'}, :password_confirmation => 'newpassPASS!'
-
-    assert_equal nil, u.reload.auth_source
-    assert u.check_password?('newpassPASS!')
-  end
-
   def test_edit_membership
     post :edit_membership, :id => 2, :membership_id => 1,
                            :membership => { :role_ids => [2]}

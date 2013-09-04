@@ -36,7 +36,6 @@ Feature: Timeline View Tests with reporters
           | view_timelines           |
           | edit_timelines           |
           | view_planning_elements   |
-          | move_planning_elements_to_trash  |
           | delete_planning_elements    |
           | edit_planning_elements      |
           | delete_planning_elements    |
@@ -134,7 +133,7 @@ Feature: Timeline View Tests with reporters
           | ecookbook0 | ecookbook_q3 |
 
 
-      And I am logged in as "manager"
+      And I am already logged in as "manager"
 
   @javascript
   Scenario: Filter Empty Projects
@@ -181,9 +180,9 @@ Feature: Timeline View Tests with reporters
       And I should not see the project "ecookbook_empty"
       And I should not see the project "ecookbook_q3"
       And I should not see the project "ecookbook13"
-      And I should see the planning element "March"
-      And I should not see the planning element "August"
-      And I should not see the planning element "March13"
+      And I should see the planning element "March" in the timeline
+      And I should not see the planning element "August" in the timeline
+      And I should not see the planning element "March13" in the timeline
 
   @javascript
   Scenario: First level grouping and sortation

@@ -26,220 +26,6 @@ class IssuesControllerTest < ActionController::TestCase
     User.current = nil
   end
 
-  def test_index
-    Setting.default_language = 'en'
-
-    get :index
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_nil assigns(:project)
-    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_tag :tag => 'a', :content => /Subproject issue/
-    # private projects hidden
-    assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
-    assert_no_tag :tag => 'a', :content => /Issue on project 2/
-    # project column
-    assert_tag :tag => 'th', :content => /Project/
-  end
-
-  def test_index_should_not_list_issues_when_module_disabled
-    EnabledModule.delete_all("name = 'issue_tracking' AND project_id = 1")
-    get :index
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_tag :tag => 'a', :content => /Subproject issue/
-  end
-
-  def test_index_should_not_list_issues_when_module_disabled
-    EnabledModule.delete_all("name = 'issue_tracking' AND project_id = 1")
-    get :index
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_nil assigns(:project)
-    assert_no_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_tag :tag => 'a', :content => /Subproject issue/
-  end
-
-  def test_index_with_project
-    Setting.display_subprojects_issues = 0
-    get :index, :project_id => 1
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_no_tag :tag => 'a', :content => /Subproject issue/
-  end
-
-  def test_index_with_project_and_subprojects
-    Setting.display_subprojects_issues = 1
-    get :index, :project_id => 1
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_tag :tag => 'a', :content => /Subproject issue/
-    assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
-  end
-
-  def test_index_with_project_and_subprojects_should_show_private_subprojects
-    @request.session[:user_id] = 2
-    Setting.display_subprojects_issues = 1
-    get :index, :project_id => 1
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_tag :tag => 'a', :content => ERB::Util.html_escape("Can't print recipes")
-    assert_tag :tag => 'a', :content => /Subproject issue/
-    assert_tag :tag => 'a', :content => /Issue of a private subproject/
-  end
-
-  def test_index_with_project_and_default_filter
-    get :index, :project_id => 1, :set_filter => 1
-    assert_response :success
-    assert_template ''
-    assert_not_nil assigns(:issues)
-
-    query = assigns(:query)
-    assert_not_nil query
-    # default filter
-    assert_equal({'status_id' => {:operator => 'o', :values => ['']}}, query.filters)
-  end
-
-  def test_index_with_project_and_filter
-    get :index, :project_id => 1, :set_filter => 1,
-      :f => ['type_id'],
-      :op => {'type_id' => '='},
-      :v => {'type_id' => ['1']}
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-
-    query = assigns(:query)
-    assert_not_nil query
-    assert_equal({'type_id' => {:operator => '=', :values => ['1']}}, query.filters)
-  end
-
-  def test_index_with_project_and_empty_filters
-    get :index, :project_id => 1, :set_filter => 1, :fields => ['']
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-
-    query = assigns(:query)
-    assert_not_nil query
-    # no filter
-    assert_equal({}, query.filters)
-  end
-
-  def test_index_with_query
-    get :index, :project_id => 1, :query_id => 5
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_nil assigns(:issue_count_by_group)
-  end
-
-  def test_index_with_query_grouped_by_type
-    get :index, :project_id => 1, :query_id => 6
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_not_nil assigns(:issue_count_by_group)
-  end
-
-  def test_index_with_query_grouped_by_list_custom_field
-    get :index, :project_id => 1, :query_id => 9
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:issues)
-    assert_not_nil assigns(:issue_count_by_group)
-  end
-
-  def test_index_sort_by_field_not_included_in_columns
-    Setting.issue_list_default_columns = %w(subject author)
-    get :index, :sort => 'type'
-  end
-
-  def test_index_csv_with_project
-    Setting.default_language = 'en'
-    Role.anonymous.add_permission!(:export_issues)
-
-    get :index, :format => 'csv'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'text/csv; header=present', @response.content_type
-    assert @response.body.starts_with?("#,")
-
-    get :index, :project_id => 1, :format => 'csv'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'text/csv; header=present', @response.content_type
-  end
-
-  def test_index_pdf
-    Role.anonymous.add_permission!(:export_issues)
-
-    get :index, :format => 'pdf'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'application/pdf', @response.content_type
-
-    get :index, :project_id => 1, :format => 'pdf'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'application/pdf', @response.content_type
-
-    get :index, :project_id => 1, :query_id => 6, :format => 'pdf'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_equal 'application/pdf', @response.content_type
-  end
-
-  def test_index_pdf_with_query_grouped_by_list_custom_field
-    Role.anonymous.add_permission!(:export_issues)
-
-    get :index, :project_id => 1, :query_id => 9, :format => 'pdf'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert_not_nil assigns(:issue_count_by_group)
-    assert_equal 'application/pdf', @response.content_type
-  end
-
-  def test_index_sort
-    get :index, :sort => 'type,id:desc'
-    assert_response :success
-
-    sort_params = @request.session['issues_index_sort']
-    assert sort_params.is_a?(String)
-    assert_equal 'type,id:desc', sort_params
-
-    issues = assigns(:issues)
-    assert_not_nil issues
-    assert !issues.empty?
-    assert_equal issues.sort {|a,b| a.type == b.type ? b.id <=> a.id : a.type <=> b.type }.collect(&:id), issues.collect(&:id)
-  end
-
-  def test_index_with_columns
-    columns = ['type', 'subject', 'assigned_to']
-    get :index, :set_filter => 1, :c => columns
-    assert_response :success
-
-    # query should use specified columns
-    query = assigns(:query)
-    assert_kind_of Query, query
-    assert_equal columns, query.column_names.map(&:to_s)
-
-    # columns should be stored in session
-    assert_kind_of Hash, session[:query]
-    assert_kind_of Array, session[:query][:column_names]
-    assert_equal columns, session[:query][:column_names].map(&:to_s)
-  end
-
   def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
@@ -313,10 +99,14 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_atom
-    get :show, :id => 1, :format => 'atom'
+    issue = Issue.find(2)
+
+    issue.recreate_initial_journal!
+
+    get :show, :id => 2, :format => 'atom'
     assert_response :success
     assert_template 'journals/index'
-    assert_select 'content', :text => Regexp.new(Regexp.quote('http://test.host/work_packages/2'))
+    assert_match /http:\/\/test\.host\/work_packages\/2/, response.body
   end
 
   def test_show_export_to_pdf
@@ -354,7 +144,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     get :new, :project_id => 1
     assert_response 500
-    assert_error_tag :content => /No default issue/
+    assert_error_tag :content => /No default work package/
   end
 
   def test_get_new_with_no_type_should_display_an_error
@@ -411,6 +201,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_post_create_should_not_send_a_notification_if_send_notification_is_off
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
     post :create, :project_id => 1,
@@ -541,6 +332,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_post_create_should_send_a_notification
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
@@ -633,14 +425,14 @@ class IssuesControllerTest < ActionController::TestCase
 
     context "#update" do
       should "ignore status change" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
         end
         assert_equal 1, Issue.find(1).status_id
       end
 
       should "ignore attributes changes" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed', :assigned_to_id => 2}
         end
         issue = Issue.find(1)
@@ -660,21 +452,21 @@ class IssuesControllerTest < ActionController::TestCase
 
     context "#update" do
       should "accept authorized status" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
         end
         assert_equal 3, Issue.find(1).status_id
       end
 
       should "ignore unauthorized status" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 2}
         end
         assert_equal 1, Issue.find(1).status_id
       end
 
       should "accept authorized attributes changes" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:assigned_to_id => 2}
         end
         issue = Issue.find(1)
@@ -682,7 +474,7 @@ class IssuesControllerTest < ActionController::TestCase
       end
 
       should "ignore unauthorized attributes changes" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed'}
         end
         issue = Issue.find(1)
@@ -696,21 +488,21 @@ class IssuesControllerTest < ActionController::TestCase
       end
 
       should "accept authorized status" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
         end
         assert_equal 3, Issue.find(1).status_id
       end
 
       should "ignore unauthorized status" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 2}
         end
         assert_equal 1, Issue.find(1).status_id
       end
 
       should "accept authorized attributes changes" do
-        assert_difference 'WorkPackageJournal.count' do
+        assert_difference 'Journal::WorkPackageJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed', :assigned_to_id => 2}
         end
         issue = Issue.find(1)
@@ -791,19 +583,22 @@ class IssuesControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
 
     issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     assert_equal '125', issue.custom_value_for(2).value
     old_subject = issue.subject
     new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
 
-    assert_difference('WorkPackageJournal.count') do
+    assert_difference('Journal::WorkPackageJournal.count') do
       put :update, :id => 1, :issue => {:subject => new_subject,
         :priority_id => '6',
         :category_id => '1' # no change
       }
     end
-    assert issue.current_journal.changed_data.has_key? "subject"
-    assert issue.current_journal.changed_data.has_key? "priority_id"
-    assert !issue.current_journal.changed_data.has_key?("category_id")
+    issue.reload
+    assert issue.current_journal.changed_data.has_key? :subject
+    assert issue.current_journal.changed_data.has_key? :priority_id
+    assert !issue.current_journal.changed_data.has_key?(:category_id)
 
     assert_redirected_to work_package_path(1)
     issue.reload
@@ -821,20 +616,23 @@ class IssuesControllerTest < ActionController::TestCase
   def test_put_update_with_custom_field_change
     @request.session[:user_id] = 2
     issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     ActionMailer::Base.deliveries.clear
     assert_equal '125', issue.custom_value_for(2).value
 
-    assert_difference('WorkPackageJournal.count') do
+    assert_difference('Journal::WorkPackageJournal.count') do
       put :update, :id => 1, :issue => {:subject => 'Custom field change',
         :priority_id => '6',
         :category_id => '1', # no change
         :custom_field_values => { '2' => 'New custom value' }
       }
     end
-    assert issue.current_journal.changed_data.has_key? "subject"
-    assert issue.current_journal.changed_data.has_key? "priority_id"
-    assert !issue.current_journal.changed_data.has_key?("category_id")
-    assert issue.current_journal.changed_data.has_key? "custom_values2"
+    issue.reload
+    assert issue.current_journal.changed_data.has_key? :subject
+    assert issue.current_journal.changed_data.has_key? :priority_id
+    assert !issue.current_journal.changed_data.has_key?(:category_id)
+    assert issue.current_journal.changed_data.has_key? :custom_fields_2
 
     assert_redirected_to work_package_path(1)
     issue.reload
@@ -847,6 +645,8 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_put_update_with_status_and_assignee_change
     issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     assert_equal 1, issue.status_id
     @request.session[:user_id] = 2
     assert_difference('TimeEntry.count', 0) do
@@ -859,7 +659,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to work_package_path(1)
     issue.reload
     assert_equal 2, issue.status_id
-    j = WorkPackageJournal.find(:first, :order => 'id DESC')
+    j = Journal.find(:first, :order => 'id DESC')
     assert_equal 'Assigned to dlopper', j.notes
     assert_equal 2, j.details.size
 
@@ -870,13 +670,17 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_put_update_with_note_only
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
     notes = 'Note added by IssuesControllerTest#test_update_with_note_only'
+
     # anonymous user
     put :update,
          :id => 1,
          :notes => notes
     assert_redirected_to work_package_path(1)
-    j = WorkPackageJournal.find(:first, :order => 'id DESC')
+    issue.reload
+    j = Journal.find(:first, :order => 'id DESC')
     assert_equal notes, j.notes
     assert_equal 0, j.details.size
     assert_equal User.anonymous, j.user
@@ -886,6 +690,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_put_update_with_note_and_spent_time
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     @request.session[:user_id] = 2
     spent_hours_before = Issue.find(1).spent_hours
     assert_difference('TimeEntry.count') do
@@ -896,9 +703,8 @@ class IssuesControllerTest < ActionController::TestCase
     end
     assert_redirected_to work_package_path(1)
 
-    issue = Issue.find(1)
-
-    j = WorkPackageJournal.find(:first, :order => 'id DESC')
+    issue.reload
+    j = Journal.find(:first, :order => 'id DESC')
     assert_equal '2.5 hours added', j.notes
     assert_equal 0, j.details.size
 
@@ -909,6 +715,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_put_update_with_attachment_only
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'https'
 
@@ -936,7 +745,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     # Delete all fixtured journals, a race condition can occur causing the wrong
     # journal to get fetched in the next find.
-    WorkPackageJournal.delete_all
+    Journal.delete_all
 
     # Mock out the unsaved attachment
     Attachment.any_instance.stubs(:create).returns(Attachment.new)
@@ -953,9 +762,11 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_put_update_with_no_change
     issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     ActionMailer::Base.deliveries.clear
 
-    assert_no_difference('WorkPackageJournal.count') do
+    assert_no_difference('Journal.count') do
       put :update,
            :id => 1,
            :notes => ''
@@ -971,6 +782,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(1)
+    issue.recreate_initial_journal!
     old_subject = issue.subject
     new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
 
@@ -1001,7 +813,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     notes = 'Note added by IssuesControllerTest#test_post_edit_with_invalid_spent_time'
 
-    assert_no_difference('WorkPackageJournal.count') do
+    assert_no_difference('Journal::WorkPackageJournal.count') do
       put :update,
            :id => 1,
            :notes => notes,
@@ -1019,7 +831,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     notes = 'Note added by IssuesControllerTest#test_post_edit_with_invalid_spent_time'
 
-    assert_no_difference('WorkPackageJournal.count') do
+    assert_no_difference('Journal::WorkPackageJournal.count') do
       put :update,
            :id => 1,
            :notes => notes,
@@ -1116,6 +928,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     @request.session[:user_id] = 2
     # update issues priority
     put :bulk_update, :ids => [1, 2], :notes => 'Bulk editing',
@@ -1127,7 +942,7 @@ class IssuesControllerTest < ActionController::TestCase
     # check that the issues were updated
     assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
 
-    issue = Issue.find(1)
+    issue.reload
     journal = issue.journals.reorder('created_at DESC').first
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
@@ -1154,6 +969,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update_on_different_projects
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     @request.session[:user_id] = 2
     # update issues priority
     put :bulk_update, :ids => [1, 2, 6], :notes => 'Bulk editing',
@@ -1165,7 +983,7 @@ class IssuesControllerTest < ActionController::TestCase
     # check that the issues were updated
     assert_equal [7, 7, 7], Issue.find([1,2,6]).map(&:priority_id)
 
-    issue = Issue.find(1)
+    issue.reload
     journal = issue.journals.reorder('created_at DESC').first
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
@@ -1173,6 +991,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update_on_different_projects_without_rights
+    Journal.delete_all
+
     @request.session[:user_id] = 3
     user = User.find(3)
     action = { :controller => "issues", :action => "bulk_update" }
@@ -1183,10 +1003,13 @@ class IssuesControllerTest < ActionController::TestCase
                                                 :assigned_to_id => '',
                                                 :custom_field_values => {'2' => ''}}
     assert_response 403
-    assert_not_equal "Bulk should fail", WorkPackageJournal.last.notes
+    assert Journal.all.empty?
   end
 
   def test_bulk_update_should_send_a_notification
+    WorkPackage.find(1).recreate_initial_journal!
+    WorkPackage.find(2).recreate_initial_journal!
+
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     put(:bulk_update,
@@ -1231,6 +1054,9 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update_custom_field
+    issue = Issue.find(1)
+    issue.recreate_initial_journal!
+
     @request.session[:user_id] = 2
     # update issues priority
     put :bulk_update, :ids => [1, 2], :notes => 'Bulk editing custom field',
@@ -1240,12 +1066,12 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response 302
 
-    issue = Issue.find(1)
+    issue.reload
     journal = issue.journals.last
     assert_equal '777', issue.custom_value_for(2).value
     assert_equal 1, journal.details.size
-    assert_equal '125', journal.old_value_for('custom_values2')
-    assert_equal '777', journal.new_value_for('custom_values2')
+    assert_equal '125', journal.old_value_for(:custom_fields_2)
+    assert_equal '777', journal.new_value_for(:custom_fields_2)
   end
 
   def test_bulk_update_unassign
@@ -1284,14 +1110,14 @@ class IssuesControllerTest < ActionController::TestCase
     put :bulk_update, :ids => [1,2], :back_url => 'http://google.com'
 
     assert_response :redirect
-    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => Project.find(1).identifier
+    assert_redirected_to :controller => 'work_packages', :action => 'index', :project_id => Project.find(1).identifier
   end
 
   def test_destroy_issue_with_no_time_entries
     assert_nil TimeEntry.find_by_work_package_id(2)
     @request.session[:user_id] = 2
     post :destroy, :id => 2
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to :controller => 'work_packages', :action => 'index', :project_id => 'ecookbook'
     assert_nil Issue.find_by_id(2)
   end
 
@@ -1307,7 +1133,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_destroy_issues_and_destroy_time_entries
     @request.session[:user_id] = 2
     post :destroy, :ids => [1, 3], :todo => 'destroy'
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to :controller => 'work_packages', :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_nil TimeEntry.find_by_id([1, 2])
   end
@@ -1315,7 +1141,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_destroy_issues_and_assign_time_entries_to_project
     @request.session[:user_id] = 2
     post :destroy, :ids => [1, 3], :todo => 'nullify'
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to :controller => 'work_packages', :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_nil TimeEntry.find(1).work_package_id
     assert_nil TimeEntry.find(2).work_package_id
@@ -1324,7 +1150,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_destroy_issues_and_reassign_time_entries_to_another_issue
     @request.session[:user_id] = 2
     post :destroy, :ids => [1, 3], :todo => 'reassign', :reassign_to_id => 2
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to :controller => 'work_packages', :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_equal 2, TimeEntry.find(1).work_package_id
     assert_equal 2, TimeEntry.find(2).work_package_id
@@ -1333,7 +1159,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_destroy_issues_from_different_projects
     @request.session[:user_id] = 2
     post :destroy, :ids => [1, 2, 6], :todo => 'destroy'
-    assert_redirected_to :controller => 'issues', :action => 'index'
+    assert_redirected_to :controller => 'work_packages', :action => 'index'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(2) || Issue.find_by_id(6))
   end
 
@@ -1349,20 +1175,15 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response 302
   end
 
-  def test_default_search_scope
-    get :index
-    assert_select "#search form" do
-      assert_select "input[type=hidden][name=issues][value=1]"
-    end
-  end
-
   def test_quote_issue
+    issue = WorkPackage.find(6)
+
     @request.session[:user_id] = 2
     get :quoted, :id => 6
     assert_response :success
     assert_template 'edit'
     assert_not_nil assigns(:issue)
-    assert_equal Issue.find(6), assigns(:issue)
+    assert_equal issue, assigns(:issue)
   end
 
   def test_quote_issue_without_permission
@@ -1372,12 +1193,16 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_quote_note
+    issue = Issue.find(6)
+
+    journal = FactoryGirl.create :work_package_journal, journable_id: issue.id
+
     @request.session[:user_id] = 2
-    get :quoted, :id => 6, :journal_id => 4
+    get :quoted, :id => 6, :journal_id => journal.id
     assert_response :success
     assert_template 'edit'
     assert_not_nil assigns(:issue)
     assert_equal Issue.find(6), assigns(:issue)
-    assert_equal Journal.find(4), assigns(:journal)
+    assert_equal journal, assigns(:journal)
   end
 end

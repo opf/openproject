@@ -55,7 +55,6 @@ Redmine::AccessControl.map do |map|
                  {
                    :types => [:index, :show],
                    :projects => [:show],
-                   :scenarios => [:index, :show],
                    :projects => [:show],
                    :activities => [:index]
                  },
@@ -64,8 +63,7 @@ Redmine::AccessControl.map do |map|
   map.permission :add_project, {:projects => [:new, :create]}, :require => :loggedin
   map.permission :edit_project,
                  {
-                   :projects => [:settings, :edit, :update],
-                   :scenarios => [:new, :create, :edit, :update, :confirm_destroy, :destroy]
+                   :projects => [:settings, :edit, :update]
                  },
                  :require => :member
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
@@ -83,9 +81,9 @@ Redmine::AccessControl.map do |map|
                                          :versions => [:index, :show, :status_by],
                                          :journals => [:index, :diff],
                                          :queries => :index,
-                                         :work_packages => [:show],
+                                         :work_packages => [:show, :index],
                                          :'issues/reports' => [:report, :report_details]}
-    map.permission :export_issues, {:'issues' => [:index, :all]}
+    map.permission :export_work_packages, {:'work_packages' => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form],
                                  :'issues/previews' => :create}
     map.permission :add_work_packages, { :work_packages => [:new, :new_type, :preview, :create] }
@@ -93,6 +91,7 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
                                           :work_packages => [:edit, :update, :new_type, :preview],
                                           :'issues/previews' => :create}
+    map.permission :delete_work_packages, {:work_packages => :destroy}, :require => :member
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
@@ -193,12 +192,6 @@ Redmine::AccessControl.map do |map|
                    {:planning_elements => [:new, :create, :edit, :update],
                     :planning_element_journals => [:create]},
                    {:require => :member}
-    map.permission :move_planning_elements_to_trash,
-                   {:planning_elements => [:confirm_move_to_trash,
-                                           :move_to_trash, :restore,
-                                           :restore_all, :recycle_bin,
-                                           :confirm_restore_all]},
-                   {:require => :member}
     map.permission :delete_planning_elements,
                    {:planning_elements => [:confirm_destroy, :destroy,
                                            :destroy_all,
@@ -248,7 +241,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :groups, {:controller => '/groups'}, :caption => :label_group_plural
   menu.push :roles, {:controller => '/roles'}, :caption => :label_role_and_permissions
   menu.push :types, {:controller => '/types'}, :caption => :label_type_plural
-  menu.push :issue_statuses, {:controller => '/issue_statuses'}, :caption => :label_issue_status_plural,
+  menu.push :issue_statuses, {:controller => '/issue_statuses'}, :caption => :label_work_package_status_plural,
             :html => {:class => 'issue_statuses'}
   menu.push :workflows, {:controller => '/workflows', :action => 'edit'}, :caption => Proc.new { Workflow.model_name.human }
   menu.push :custom_fields, {:controller => '/custom_fields'},  :caption => :label_custom_field_plural,
@@ -274,11 +267,11 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :roadmap, { :controller => '/versions', :action => 'index' }, :param => :project_id,
               :if => Proc.new { |p| p.shared_versions.any? }
 
-  menu.push :issues, { :controller => '/issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
-  menu.push :new_issue, { :controller => '/work_packages', :action => 'new', :sti_type => 'Issue' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
+  menu.push :work_packages, { :controller => '/work_packages', :action => 'index' }, :param => :project_id, :caption => :label_work_package_plural
+  menu.push :new_issue, { :controller => '/work_packages', :action => 'new', :sti_type => 'Issue' }, :param => :project_id, :caption => :label_work_package_new, :parent => :work_packages,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
-  menu.push :view_all_issues, { :controller => '/issues', :action => 'all' }, :param => :project_id, :caption => :label_issue_view_all, :parent => :issues
-  menu.push :summary_field, {:controller => '/issues/reports', :action => 'report'}, :param => :project_id, :caption => :label_workflow_summary, :parent => :issues
+  menu.push :view_all_work_packages, { :controller => '/work_packages', :action => 'index', :set_filter => 1 }, :param => :project_id, :caption => :label_work_package_view_all, :parent => :work_packages
+  menu.push :summary_field, {:controller => '/issues/reports', :action => 'report'}, :param => :project_id, :caption => :label_workflow_summary, :parent => :work_packages
   menu.push :calendar, { :controller => '/issues/calendars', :action => 'index' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => '/news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
   menu.push :new_news, { :controller => '/news', :action => 'new' }, :param => :project_id, :caption => :label_news_new, :parent => :news,
@@ -318,15 +311,6 @@ Redmine::MenuManager.map :project_menu do |menu|
       menu.push :reportings,
                 {:controller => '/reportings', :action => 'index'},
                 rep_options.merge(:caption => :'timelines.project_menu.reportings')
-
-      menu.push :planning_elements,
-                {:controller => '/planning_elements', :action => 'all'},
-                rep_options.merge(:caption => :'timelines.project_menu.planning_elements')
-
-      menu.push :recycle_bin,
-                {:controller => '/planning_elements', :action => 'recycle_bin'},
-                rep_options.merge(:caption => :'timelines.project_menu.recycle_bin')
-
     end
   end
 end

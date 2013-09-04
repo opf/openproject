@@ -59,7 +59,6 @@ OpenProject::Application.routes.draw do
           get :paginate_reported_project_statuses
         end
       end
-      resources :scenarios
       resources :timelines
 
       resources :projects do
@@ -206,7 +205,7 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :work_packages, :only => [:new, :create] do
+    resources :work_packages, :only => [:new, :create, :index] do
       get :new_type, :on => :collection
       post :preview, :on => :collection
     end
@@ -295,7 +294,7 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :work_packages, :only => [:show, :edit, :update] do
+  resources :work_packages, :only => [:show, :edit, :update, :index] do
     get :new_type, :on => :member
     post :preview, :on => :member
 
@@ -447,8 +446,6 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  get 'planning_elements' => 'planning_elements', :action => 'list'
-
   resources :project_types, :controller => 'project_types' do
     member do
       get :confirm_destroy
@@ -474,16 +471,10 @@ OpenProject::Application.routes.draw do
         get :all
         delete :destroy_all
         get :confirm_destroy_all
-        post :restore_all
-        get :confirm_restore_all
-        get :recycle_bin
       end
 
       member do
-        get :confirm_move_to_trash
         get :confirm_destroy
-        delete :move_to_trash
-        post :restore
       end
 
       resources :journals, :controller => 'planning_element_journals',
@@ -495,10 +486,6 @@ OpenProject::Application.routes.draw do
     end
 
     resources :reportings,             :controller => 'reportings' do
-      get :confirm_destroy, :on => :member
-    end
-
-    resources :scenarios,              :controller => 'scenarios' do
       get :confirm_destroy, :on => :member
     end
 

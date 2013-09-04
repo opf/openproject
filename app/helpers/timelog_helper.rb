@@ -19,7 +19,7 @@ module TimelogHelper
     links << link_to(h(@project), {:project_id => @project, :work_package_id => nil}) if @project
     if @issue
       if @issue.visible?
-        links << link_to_issue(@issue, :subject => false)
+        links << link_to_work_package(@issue, :subject => false)
       else
         links << "##{@issue.id}".html_safe
       end

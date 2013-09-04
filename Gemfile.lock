@@ -68,8 +68,9 @@ GEM
     bourne (1.4.0)
       mocha (~> 0.13.2)
     builder (3.0.4)
-    bullet (4.6.0)
-      uniform_notifier
+    byebug (1.8.2)
+      columnize (~> 0.3.6)
+      debugger-linecache (~> 1.2.0)
     capybara (2.1.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -106,6 +107,8 @@ GEM
     daemons (1.1.9)
     dalli (2.6.4)
     database_cleaner (1.0.1)
+    date_validator (0.7.0)
+      activemodel (>= 3)
     debug_inspector (0.0.2)
     debugger (1.6.0)
       columnize (>= 0.3.1)
@@ -128,6 +131,8 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
+    faker (1.2.0)
+      i18n (~> 0.5)
     fastercsv (1.5.5)
     ffi (1.9.0)
     formatador (0.2.4)
@@ -197,6 +202,9 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-byebug (1.1.2)
+      byebug (~> 1.6)
+      pry (~> 0.9.12)
     pry-debugger (0.2.2)
       debugger (~> 1.3)
       pry (~> 0.9.10)
@@ -232,8 +240,6 @@ GEM
     rails-dev-tweaks (0.6.1)
       actionpack (~> 3.1)
       railties (~> 3.1)
-    rails-footnotes (3.7.9)
-      rails (>= 3.0.0)
     rails_autolink (1.1.0)
       rails (> 3.1)
     railties (3.2.14)
@@ -334,7 +340,6 @@ GEM
     uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
-    uniform_notifier (1.2.0)
     websocket (1.0.7)
     will_paginate (3.0.4)
     xpath (2.0.0)
@@ -350,7 +355,6 @@ DEPENDENCIES
   activerecord-jdbcsqlite3-adapter
   acts_as_list (~> 0.2.0)
   awesome_nested_set
-  bullet
   capybara
   capybara-screenshot
   coderay (~> 1.0.5)
@@ -360,9 +364,11 @@ DEPENDENCIES
   cucumber-rails-training-wheels
   dalli
   database_cleaner
+  date_validator
   delayed_job_active_record
   execjs
   factory_girl_rails (~> 4.0)
+  faker
   fastercsv (~> 1.5.0)
   globalize3!
   guard-cucumber
@@ -384,6 +390,7 @@ DEPENDENCIES
   pg
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
+  pry-byebug
   pry-debugger
   pry-doc
   pry-rails
@@ -392,7 +399,6 @@ DEPENDENCIES
   rack_session_access
   rails (~> 3.2.14)
   rails-dev-tweaks (~> 0.6.1)
-  rails-footnotes (>= 3.7.5.rc4)
   rails_autolink
   rb-fsevent
   rb-readline
@@ -408,6 +414,7 @@ DEPENDENCIES
   select2-rails (~> 3.3.2)
   selenium-webdriver
   shoulda
+  shoulda-matchers
   simplecov (>= 0.8.pre)
   sqlite3
   strong_parameters

@@ -78,7 +78,7 @@ Feature: Project Association Management
       And the user "Project-Admin" is a "Project Admin"
 
   Scenario: Reader does not render anything when there are no project associations
-    Given I am logged in as "Viewer"
+    Given I am already logged in as "Viewer"
      When I go to the   page of the project called "My Project"
       And I toggle the "Timelines" submenu
       And I follow "Dependencies"
@@ -88,7 +88,7 @@ Feature: Project Association Management
       And I should not see "No data to display"
 
   Scenario: Reader gets 'No data to display' when there are associations to unknown projects
-    Given I am logged in as "Viewer"
+    Given I am already logged in as "Viewer"
       And there are the following project associations:
           | Project A  | Project B |
           | My Project | Other     |
@@ -102,7 +102,7 @@ Feature: Project Association Management
       And I should not see "No data to display"
 
   Scenario: Reader sees associations to projects where s/he is member and to public ones
-    Given I am logged in as "Viewer"
+    Given I am already logged in as "Viewer"
       And there are the following project associations:
           | Project A  | Project B  |
           | My Project | Visible    |
@@ -118,14 +118,14 @@ Feature: Project Association Management
       And I should see "Scrum" below "Scrum Project"
 
   Scenario: Reader is not able to add associations
-    Given I am logged in as "Viewer"
+    Given I am already logged in as "Viewer"
      When I go to the   page of the project called "My Project"
       And I click on "Dependencies"
       And I should not be able to add new project associations
 
   @javascript
   Scenario: Editor is able to add associations
-    Given I am logged in as "Editor"
+    Given I am already logged in as "Editor"
      When I go to the   page of the project called "My Project"
       And I toggle the "Timelines" submenu
       And I click on "Dependencies"
@@ -139,7 +139,7 @@ Feature: Project Association Management
       And I should see "Visible" below "Waterfall Project"
 
   Scenario: Editor is able to edit associations
-    Given I am logged in as "Editor"
+    Given I am already logged in as "Editor"
       And there are the following project associations:
           | Project A  | Project B | Description   |
           | My Project | Visible   | A good reason |
@@ -155,7 +155,7 @@ Feature: Project Association Management
       And I should see "A better reason" below "Waterfall Project"
 
    Scenario: Editor cannot delete associations
-    Given I am logged in as "Editor"
+    Given I am already logged in as "Editor"
       And there are the following project associations:
           | Project A  | Project B | Description   |
           | My Project | Visible   | A good reason |
@@ -166,7 +166,7 @@ Feature: Project Association Management
      Then I should not see "Delete Visible"
 
    Scenario: Project-Admin may delete associations
-    Given I am logged in as "Project-Admin"
+    Given I am already logged in as "Project-Admin"
       And there are the following project associations:
           | Project A  | Project B | Description   |
           | My Project | Visible   | A good reason |

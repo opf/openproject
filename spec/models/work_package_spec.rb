@@ -85,6 +85,7 @@ describe WorkPackage do
     let(:role) { FactoryGirl.create(:role) }
     let(:type) { FactoryGirl.create(:type) }
     let(:user) { FactoryGirl.create(:user) }
+    let(:other_user) { FactoryGirl.create(:user) }
     let(:statuses) { (1..5).map{ |i| FactoryGirl.create(:issue_status)}}
     let(:priority) { FactoryGirl.create :priority, is_default: true }
     let(:status) { statuses[0] }
@@ -164,9 +165,11 @@ describe WorkPackage do
       workflows
       work_package = WorkPackage.create(:type => type,
                                         :status => status,
+                                        :subject => "test",
                                         :priority => priority,
                                         :project_id => project.id,
-                                        :assigned_to => user)
+                                        :assigned_to => user,
+                                        :author => other_user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[3]]
     end
 
@@ -174,6 +177,7 @@ describe WorkPackage do
       workflows
       work_package = WorkPackage.create(:type => type,
                                         :status => status,
+                                        :subject => "test",
                                         :priority => priority,
                                         :project_id => project.id,
                                         :author => user,
@@ -239,7 +243,6 @@ describe WorkPackage do
 
         it "should only attach the attachment when saving was successful" do
           raw_attachments = [double('attachment')]
-          attachment = FactoryGirl.build(:attachment)
 
           Attachment.should_not_receive(:attach_files)
 
@@ -316,13 +319,72 @@ describe WorkPackage do
 
         role = FactoryGirl.create :role, permissions: [:move_work_packages]
 
-        member = FactoryGirl.create(:member, user: valid_user, project: project, roles: [role])
+        FactoryGirl.create(:member, user: valid_user, project: project, roles: [role])
       end
 
       subject { WorkPackage.allowed_target_projects_on_move.count }
 
       it "sees all active projects" do
         should eq Project.active.count
+      end
+    end
+  end
+
+  describe :duration do
+    #TODO remove once only WP exists
+    [:issue, :planning_element].each do |subclass|
+
+      describe "for #{subclass}" do
+        let(:instance) { send(subclass) }
+
+        describe "w/ today as start date
+                  w/ tomorrow as due date" do
+          before do
+            instance.start_date = Date.today
+            instance.due_date = Date.today + 1.day
+          end
+
+          it "should have a duration of two" do
+            instance.duration.should == 2
+          end
+        end
+
+        describe "w/ today as start date
+                  w/ today as due date" do
+          before do
+            instance.start_date = Date.today
+            instance.due_date = Date.today
+          end
+
+          it "should have a duration of one" do
+            instance.duration.should == 1
+          end
+        end
+
+        describe "w/ today as start date
+                  w/o a due date" do
+          before do
+            instance.start_date = Date.today
+            instance.due_date = nil
+          end
+
+          it "should have a duration of one" do
+            instance.duration.should == 1
+          end
+        end
+
+        describe "w/o a start date
+                  w today as due date" do
+          before do
+            instance.start_date = nil
+            instance.due_date = Date.today
+          end
+
+          it "should have a duration of one" do
+            instance.duration.should == 1
+          end
+        end
+
       end
     end
   end

@@ -5,8 +5,8 @@ en:
     deleted: "Account successfully deleted"
     deletion_info:
       data_consequences:
-        other: "Of the data the user created (e.g. e-mail, preferences, issues, wiki entries) as much as possible will be deleted. Note however, that data like issues and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
-        self: "Of the data you created (e.g. e-mail, preferences, issues, wiki entries) as much as possible will be deleted. Note however, that data like issues and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
+        other: "Of the data the user created (e.g. e-mail, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
+        self: "Of the data you created (e.g. e-mail, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
       heading: "Delete account %{name}"
       info:
         other: "Deleting the user account is an irreversible action."
@@ -59,10 +59,10 @@ en:
         watcher: "Watcher"
       issue_relation:
         delay: "Delay"
-        issue_from: "Issue"
-        issue_to: "Related issue"
+        issue_from: "Work Package"
+        issue_to: "Related work package"
       issue_status:
-        is_closed: "Issue closed"
+        is_closed: "Work package closed"
       journal:
         notes: "Notes"
       member:
@@ -70,7 +70,7 @@ en:
       project:
         homepage: "Homepage"
         identifier: "Identifier"
-        issues: "Issues"
+        work_packages: "Work Packages"
         parent: "Subproject of"
         versions: "Versions"
         project_type: "Project type"
@@ -82,17 +82,17 @@ en:
       repository:
         url: "URL"
       role:
-        assignable: "Issues can be assigned to this role"
+        assignable: "Work packages can be assigned to this role"
       time_entry:
         activity: "Activity"
         hours: "Hours"
-        issue: "Issue"
+        work_package: "Work Package"
         spent_on: "Date"
         type: "Type"
       type:
-        is_in_roadmap: "Issues displayed in roadmap"
-        in_aggregation: "Issues displayed in aggregation"
-        is_milestone: "Issues displayed as milestone"
+        is_in_roadmap: "Work packages displayed in roadmap"
+        in_aggregation: "Work packages displayed in aggregation"
+        is_milestone: "Work packages displayed as milestone"
         color: "Color"
       user:
         admin: "Administrator"
@@ -124,8 +124,6 @@ en:
         name: Name
         hexcode: Hex code
       planning_element:
-        alternate_dates:
-          due_date: End date of alternate date
         description: Description
         id: ID
         name: Name
@@ -140,9 +138,6 @@ en:
         name: Name
         reported_project_statuses: Reported project statuses
         position: Position
-      scenario:
-        created_at: Created
-        name: Name
       timeline:
         name: Name
       reporting:
@@ -163,7 +158,7 @@ en:
       messages:
         accepted: "must be accepted"
         blank: "can't be blank"
-        cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
+        cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks"
         circular_dependency: "This relation would create a circular dependency"
         confirmation: "doesn't match confirmation"
         empty: "can't be empty"
@@ -185,11 +180,13 @@ en:
         too_long: "is too long (maximum is %{count} characters)"
         too_short: "is too short (minimum is %{count} characters)"
         wrong_length: "is the wrong length (should be %{count} characters)"
+        # translations for date-validator
+        not_a_date: "is not a date"
+        after: "must be after %{date}"
+        after_or_equal_to: "must be after or equal to %{date}"
+        before: "must be before %{date}"
+        before_or_equal_to: "must be before or equal to %{date}"
       models:
-        alternate_date:
-          attributes:
-            due_date:
-              not_start_date: "is not on start date, although this is required for milestones"
         planning_element:
           attributes:
             due_date:
@@ -197,7 +194,6 @@ en:
             parent:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
-              cannot_be_in_recycle_bin : "cannot be in recycle bin."
         project_association:
           identical_projects: "can not be created from one project to itself"
           project_association_not_allowed: "does not allow associations"
@@ -237,7 +233,6 @@ en:
       type: "Type"
       planning_element: Planning element
       project_type: Project type
-      scenario: Scenario
       user: "User"
       version: "Version"
       wiki: "Wiki"
@@ -424,7 +419,7 @@ en:
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
-  description_autocomplete: "This field uses autocomplete. While typing the title of an issue you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the issue number directly."
+  description_autocomplete: "This field uses autocomplete. While typing the title of a work package you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the work package number directly."
   description_available_columns: "Available Columns"
   description_choose_project: "Projects"
   description_compare_from: "Compare from version"
@@ -438,22 +433,21 @@ en:
   description_enter_text: "Enter text"
   description_filter: "Filter"
   description_filter_toggle: "Show/Hide filter"
-  description_issue_category_reassign: "Choose issue category"
+  description_issue_category_reassign: "Choose category"
   description_message_content: "Message content"
   description_my_project: "You are member"
   description_noscript: "You need to activate JavaScript in order to use OpenProject!"
   description_notes: "Notes"
   description_option_toggle: "Show/Hide options"
-  description_parent_issue: "Parent issue of current"
   description_parent_work_package: "Parent work package of current"
   description_project_scope: "Search scope"
   description_query_sort_criteria_attribute: "Sort attribute"
   description_query_sort_criteria_direction: "Sort direction"
   description_search: "Searchfield"
-  description_select_issue: "Select issue"
+  description_select_work_package: "Select work package"
   description_selected_columns: "Selected Columns"
-  description_sub_issue: "Subissue of current"
-  description_subissue: "Subissue of"
+  description_sub_work_package: "Sub work package of current"
+  description_subwork_package: "Sub work package of"
   description_toc_toggle: "Show/Hide table of contents"
   description_user_mail_notification: "Mail notification settings"
   description_wiki_subpages_reassign: "Choose new parent page"
@@ -462,27 +456,27 @@ en:
   direction: ltr
 
   enumeration_activities: "Activities (time tracking)"
-  enumeration_issue_priorities: "Issue priorities"
+  enumeration_work_package_priorities: "Work package priorities"
   enumeration_system_activity: "System Activity"
   enumeration_planning_element_statuses: "Planning element status"
   enumeration_reported_project_statuses: "Reported project status"
 
   error_can_not_archive_project: "This project cannot be archived"
   error_can_not_delete_custom_field: "Unable to delete custom field"
-  error_can_not_delete_type: "This type contains issues and cannot be deleted."
+  error_can_not_delete_type: "This type contains work packages and cannot be deleted."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
-  error_can_not_reopen_issue_on_closed_version: "An issue assigned to a closed version cannot be reopened"
+  error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_check_user_and_role: "Please choose a user and a role."
-  error_issue_done_ratios_not_updated: "Issue done ratios not updated."
-  error_issue_not_found_in_project: "The issue was not found or does not belong to this project"
+  error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
+  error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
   error_must_be_project_member: "must be project member"
-  error_no_default_issue_status: "No default issue status is defined. Please check your configuration (Go to \"Administration -> Issue statuses\")."
+  error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
-  error_unable_delete_issue_status: "Unable to delete issue status"
+  error_unable_delete_issue_status: "Unable to delete work package status"
   error_unable_to_connect: "Unable to connect (%{value})"
   error_workflow_copy_source: "Please select a source type or role"
   error_workflow_copy_target: "Please select target type(s) and role(s)"
@@ -523,9 +517,6 @@ en:
       tooManyProjects: "More than %{count} Projects. Please use a better filter!"
       cancel: Cancel
       save: Save
-      really_move_planning_element_to_trash: >
-        Are you sure, you want to move the following planning element and all
-        its child elements to recycle bin?
       really_delete_planning_element: >
         Are you sure, you want to permanently delete the following planning element and all
         its child elements?
@@ -547,6 +538,7 @@ en:
   label_add_columns: "Add selected columns"
   label_add_note: "Add a note"
   label_add_related_issues: "Add related issue"
+  label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
   label_added: "added"
   label_added_time_by: "Added by %{author} %{age} ago"
@@ -556,7 +548,7 @@ en:
   label_age: "Age"
   label_ago: "days ago"
   label_all: "all"
-  label_all_issues: "all Issues"
+  label_all_work_packages: "all work packages"
   label_all_time: "all time"
   label_all_words: "All words"
   label_and_its_subprojects: "%{value} and its subprojects"
@@ -564,7 +556,7 @@ en:
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_applied_status: "Applied status"
   label_ascending: "Ascending"
-  label_assigned_to_me_issues: "Issues assigned to me"
+  label_assigned_to_me_work_packages: "Work packages assigned to me"
   label_associated_revisions: "Associated revisions"
   label_attachment_delete: "Delete file"
   label_attachment_new: "New file"
@@ -596,8 +588,7 @@ en:
   label_checked: "checked"
   label_chronological_order: "In chronological order"
   label_close_versions: "Close completed versions"
-  label_closed_issues: "closed"
-  label_closed_issues_plural: "closed"
+  label_closed_work_packages: "closed"
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"
@@ -685,22 +676,22 @@ en:
   label_information_plural: "Information"
   label_integer: "Integer"
   label_internal: "Internal"
-  label_issue_added: "Issue added"
-  label_issue_category_new: "New category"
-  label_issue_category_plural: "Issue categories"
-  label_issue_hierarchy: "Issue Hierarchy"
-  label_issue_new: "New issue"
-  label_issue_plural: "Issues"
-  label_issue_status_new: "New status"
-  label_issue_status_plural: "Issue statuses"
-  label_issue_tracking: "Issue tracking"
-  label_issue_updated: "Issue updated"
-  label_issue_view_all: "View all issues"
-  label_issue_view_all_assigned_to_me: "View all issues assigned to me"
-  label_issue_view_all_reported_by_me: "View all issues reported by me"
-  label_issue_view_all_watched: "View all watched issues"
-  label_issue_watchers: "Watchers"
-  label_issues_by: "Issues by %{value}"
+  label_work_package_added: "Work package added"
+  label_work_package_category_new: "New category"
+  label_work_package_category_plural: "Work package categories"
+  label_work_package_hierarchy: "Work package hierarchy"
+  label_work_package_new: "New work package"
+  label_work_package_plural: "Work packages"
+  label_work_package_status_new: "New status"
+  label_work_package_status_plural: "work package statuses"
+  label_work_package_tracking: "Work package tracking"
+  label_work_package_updated: "Work package updated"
+  label_work_package_view_all: "View all work packages"
+  label_work_package_view_all_assigned_to_me: "View all work packages assigned to me"
+  label_work_package_view_all_reported_by_me: "View all work packages reported by me"
+  label_work_package_view_all_watched: "View all watched work packages"
+  label_work_package_watchers: "Watchers"
+  label_work_packages_by: "Work packages by %{value}"
   label_journal_diff: "Description Comparison"
   label_jump_to_a_project: "Jump to a project..."
   label_language_based: "Based on user's language"
@@ -742,7 +733,6 @@ en:
   label_months_from: "months from"
   label_more: "More"
   label_more_than_ago: "more than days ago"
-  label_move_issue: "Move issue"
   label_move_work_package: "Move work package"
   label_my_account: "My account"
   label_my_account_data: "My account data"
@@ -766,9 +756,9 @@ en:
   label_none: "none"
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
-  label_notify_member_plural: "Email issue updates"
-  label_open_issues: "open"
-  label_open_issues_plural: "open"
+  label_notify_member_plural: "Email updates"
+  label_open_work_packages: "open"
+  label_open_work_packages_plural: "open"
   label_optional_description: "Description"
   label_options: "Options"
   label_overall_activity: "Overall activity"
@@ -780,6 +770,7 @@ en:
   label_password_rule_special: "Special Characters"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
+  label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Per page"
   label_permissions: "Permissions"
   label_permissions_report: "Permissions report"
@@ -811,7 +802,7 @@ en:
   label_registration_activation_by_email: "account activation by email"
   label_registration_automatic_activation: "automatic account activation"
   label_registration_manual_activation: "manual account activation"
-  label_related_issues: "Related issues"
+  label_related_work_packages: "Related work packages"
   label_relates_to: "related to"
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
@@ -820,7 +811,7 @@ en:
   label_reply_plural: "Replies"
   label_report: "Report"
   label_report_plural: "Reports"
-  label_reported_issues: "Reported issues"
+  label_reported_work_packages: "Reported work packages"
   label_repository: "Repository"
   label_repository_plural: "Repositories"
   label_result_plural: "Results"
@@ -830,15 +821,12 @@ en:
   label_revision_plural: "Revisions"
   label_roadmap: "Roadmap"
   label_roadmap_due_in: "Due in %{value}"
-  label_roadmap_no_issues: "No issues for this version"
+  label_roadmap_no_work_packages: "No work packages for this version"
   label_roadmap_overdue: "%{value} late"
   label_role_and_permissions: "Roles and permissions"
   label_role_new: "New role"
   label_role_plural: "Roles"
   label_role_search: "Search for roles"
-  label_scenario_due_date: "Scenario %{title}: Due date"
-  label_scenario_start_date: "Scenario %{title}: Start date"
-  label_scenario_deleted: '(deleted scenario)'
   label_scm: "SCM"
   label_search: "Search"
   label_search_titles_only: "Search titles only"
@@ -881,7 +869,7 @@ en:
   label_type_new: "New type"
   label_type_plural: "Types"
   label_ui: "User Interface"
-  label_update_issue_done_ratios: "Update issue done ratios"
+  label_update_work_package_done_ratios: "Update work package done ratios"
   label_updated_time: "Updated %{value} ago"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Updated by %{author} %{age} ago"
@@ -908,7 +896,7 @@ en:
   label_view_all_revisions: "View all revisions"
   label_view_diff: "View differences"
   label_view_revisions: "View revisions"
-  label_watched_issues: "Watched issues"
+  label_watched_work_packages: "Watched work packages"
   label_week: "Week"
   label_wiki_content_added: "Wiki page added"
   label_wiki_content_updated: "Wiki page updated"
@@ -927,7 +915,7 @@ en:
   label_work_package_new: "New work package"
   label_workflow: "Workflow"
   label_workflow_summary: "Summary"
-  label_x_closed_issues_abbr:
+  label_x_closed_work_packages_abbr:
     one: "1 closed"
     other: "%{count} closed"
     zero: "0 closed"
@@ -935,11 +923,11 @@ en:
     one: "1 comment"
     other: "%{count} comments"
     zero: "no comments"
-  label_x_open_issues_abbr:
+  label_x_open_work_packages_abbr:
     one: "1 open"
     other: "%{count} open"
     zero: "0 open"
-  label_x_open_issues_abbr_on_total:
+  label_x_open_work_packages_abbr_on_total:
     one: "1 open / %{total}"
     other: "%{count} open / %{total}"
     zero: "0 open / %{total}"
@@ -955,13 +943,13 @@ en:
   mail_body_account_information_external: "You can use your %{value} account to log in."
   mail_body_lost_password: "To change your password, click on the following link:"
   mail_body_register: "To activate your account, click on the following link:"
-  mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
+  mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_lost_password: "Your %{value} password"
   mail_subject_register: "Your %{value} account activation"
-  mail_subject_reminder: "%{count} issue(s) due in the next %{days} days"
+  mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
 
@@ -986,17 +974,16 @@ en:
   notice_default_data_loaded: "Default configuration successfully loaded."
   notice_email_error: "An error occurred while sending mail (%{value})"
   notice_email_sent: "An email was sent to %{value}"
-  notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
+  notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   notice_feeds_access_key_reseted: "Your RSS access key was reset."
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_issue_done_ratios_updated: "Issue done ratios updated."
+  notice_work_package_done_ratios_updated: "Work package done ratios updated."
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
-  notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
   notice_no_principals_found: "No results found."
   notice_not_authorized: "You are not authorized to access this page."
   notice_not_authorized_archived_project: "The project you're trying to access has been archived."
@@ -1033,8 +1020,8 @@ en:
           mb: "MB"
           tb: "TB"
 
-  permission_add_issue_notes: "Add notes"
-  permission_add_issues: "Add issues"
+  permission_add_work_package_notes: "Add notes"
+  permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
   permission_add_subprojects: "Create subprojects"
@@ -1042,8 +1029,8 @@ en:
   permission_browse_repository: "Browse repository"
   permission_comment_news: "Comment news"
   permission_commit_access: "Commit access"
-  permission_delete_issue_watchers: "Delete watchers"
-  permission_delete_issues: "Delete issues"
+  permission_delete_work_package_watchers: "Delete watchers"
+  permission_delete_work_packages: "Delete work packages"
   permission_delete_messages: "Delete messages"
   permission_delete_own_messages: "Delete own messages"
   permission_delete_planning_elements: "Delete planning elements"
@@ -1052,10 +1039,10 @@ en:
   permission_delete_timelines: "Delete timelines"
   permission_delete_wiki_pages: "Delete wiki pages"
   permission_delete_wiki_pages_attachments: "Delete attachments"
-  permission_edit_issue_notes: "Edit notes"
-  permission_edit_issues: "Edit issues"
+  permission_edit_work_package_notes: "Edit notes"
+  permission_edit_work_packages: "Edit work packages"
   permission_edit_messages: "Edit messages"
-  permission_edit_own_issue_notes: "Edit own notes"
+  permission_edit_own_work_package_notes: "Edit own notes"
   permission_edit_own_messages: "Edit own messages"
   permission_edit_own_time_entries: "Edit own time logs"
   permission_edit_planning_elements: "Edit planning elements"
@@ -1065,12 +1052,12 @@ en:
   permission_edit_time_entries: "Edit time logs"
   permission_edit_timelines: "Edit timelines"
   permission_edit_wiki_pages: "Edit wiki pages"
-  permission_export_issues: "Export Issues"
+  permission_export_work_packages: "Export Work Packages"
   permission_export_wiki_pages: "Export wiki pages"
   permission_log_time: "Log spent time"
   permission_manage_boards: "Manage forums"
-  permission_manage_categories: "Manage issue categories"
-  permission_manage_issue_relations: "Manage issue relations"
+  permission_manage_categories: "Manage work package categories"
+  permission_manage_work_package_relations: "Manage work package relations"
   permission_manage_members: "Manage members"
   permission_manage_news: "Manage news"
   permission_manage_project_activities: "Manage project activities"
@@ -1079,16 +1066,15 @@ en:
   permission_manage_subtasks: "Manage subtasks"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
-  permission_move_issues: "Move issues"
-  permission_move_planning_elements_to_trash: "Move planning elements to recycle bin"
+  permission_move_work_packages: "Move work packages"
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
   permission_save_queries: "Save queries"
   permission_select_project_modules: "Select project modules"
   permission_view_calendar: "View calendar"
   permission_view_changesets: "View changesets"
-  permission_view_issue_watchers: "View watchers list"
-  permission_view_issues: "View Issues"
+  permission_view_work_package_watchers: "View watchers list"
+  permission_view_work_packages: "View Work Packages"
   permission_view_messages: "View messages"
   permission_view_planning_elements: "View planning elements"
   permission_view_project_associations: "View project dependencies"
@@ -1101,7 +1087,7 @@ en:
   project_module_activity: "Activity"
   project_module_boards: "Forums"
   project_module_calendar: "Calendar"
-  project_module_issue_tracking: "Issue tracking"
+  project_module_work_package_tracking: "Work package tracking"
   project_module_news: "News"
   project_module_repository: "Repository"
   project_module_time_tracking: "Time tracking"
@@ -1127,20 +1113,20 @@ en:
   setting_brute_force_block_after_failed_logins: "Block user after this number of failed login attempts (disable with 0)"
   setting_brute_force_block_minutes: "Time the user is blocked for (minutes)"
   setting_cache_formatted_text: "Cache formatted text"
-  setting_column_options: "Customize the appearance of the issue lists"
+  setting_column_options: "Customize the appearance of the work package lists"
   setting_commit_fix_keywords: "Fixing keywords"
   setting_commit_logs_encoding: "Commit messages encoding"
   setting_commit_logtime_activity_id: "Activity for logged time"
   setting_commit_logtime_enabled: "Enable time logging"
   setting_commit_ref_keywords: "Referencing keywords"
-  setting_cross_project_issue_relations: "Allow cross-project issue relations"
+  setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_date_format: "Date format"
   setting_default_language: "Default language"
   setting_default_notification_option: "Default notification option"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
   setting_diff_max_lines_displayed: "Max number of diff lines displayed"
-  setting_display_subprojects_issues: "Display subprojects issues on main projects by default"
+  setting_display_subprojects_work_packages: "Display subprojects work packages on main projects by default"
   setting_emails_footer: "Emails footer"
   setting_emails_header: "Emails header"
   setting_enabled_scm: "Enabled SCM"
@@ -1149,14 +1135,15 @@ en:
   setting_gravatar_default: "Default Gravatar image"
   setting_gravatar_enabled: "Use Gravatar user icons"
   setting_host_name: "Host name and path"
-  setting_issue_done_ratio: "Calculate the issue done ratio with"
-  setting_issue_done_ratio_issue_field: "Use the issue field"
-  setting_issue_done_ratio_issue_status: "Use the issue status"
-  setting_issue_list_default_columns: "Display by default"
-  setting_issue_list_summable_columns: "Summable"
-  setting_issue_properties: "Issue properties"
-  setting_issue_startdate_is_adddate: "Use current date as start date for new issues"
-  setting_issues_export_limit: "Issues export limit"
+  setting_work_package_done_ratio: "Calculate the work package done ratio with"
+  setting_work_package_done_ratio_work_package_field: "Use the work package field"
+  setting_work_package_done_ratio_work_package_status: "Use the work package status"
+  setting_work_package_list_default_columns: "Display by default"
+  setting_work_package_list_summable_columns: "Summable"
+  setting_work_package_properties: "Work package properties"
+  setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
+  setting_work_packages_export_limit: "Work packages export limit"
+  setting_log_requesting_user: "Log user login, name, and mail address for all requests"
   setting_login_required: "Authentication required"
   setting_mail_from: "Emission email address"
   setting_mail_handler_api_enabled: "Enable WS for incoming emails"
@@ -1210,7 +1197,7 @@ en:
 
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
-  text_are_you_sure_with_children: "Delete issue and all child issues?"
+  text_are_you_sure_with_children: "Delete work package and all child work packages?"
   text_assign_time_entries_to_project: "Assign reported hours to the project"
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
@@ -1219,20 +1206,20 @@ en:
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
   text_destroy_time_entries: "Delete reported hours"
-  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do?"
+  text_destroy_time_entries_question: "%{hours} hours were reported on the work package you are about to delete. What do you want to do?"
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   text_enumeration_category_reassign_to: "Reassign them to this value:"
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_file_repository_writable: "Attachments directory writable"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
-  text_issue_added: "Issue %{id} has been reported by %{author}."
-  text_issue_category_destroy_assignments: "Remove category assignments"
-  text_issue_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do?"
-  text_issue_category_reassign_to: "Reassign issues to this category"
-  text_issue_updated: "Issue %{id} has been updated by %{author}."
-  text_issues_destroy_confirmation: "Are you sure you want to delete the selected issue(s)?"
-  text_issues_ref_in_commit_messages: "Referencing and fixing issues in commit messages"
+  text_work_package_added: "Work package %{id} has been reported by %{author}."
+  text_work_package_category_destroy_assignments: "Remove category assignments"
+  text_work_package_category_destroy_question: "Some work packages (%{count}) are assigned to this category. What do you want to do?"
+  text_work_package_category_reassign_to: "Reassign work packages to this category"
+  text_work_package_updated: "Work package %{id} has been updated by %{author}."
+  text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+  text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
   text_journal_changed: "%{label} changed from %{old} to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
@@ -1245,13 +1232,13 @@ en:
   text_line_separated: "Multiple values allowed (one line for each value)."
   text_load_default_configuration: "Load the default configuration"
   text_min_max_length_info: "0 means no restriction"
-  text_no_configuration_data: "Roles, types, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
   text_plugin_assets_writable: "Plugin assets directory writable"
   text_powered_by: "Powered by %{link}"
   text_project_destroy_confirmation: "Are you sure you want to delete this project and related data?"
   text_project_identifier_info: "Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter.<br />Once saved, the identifier cannot be changed."
-  text_reassign_time_entries: "Reassign reported hours to this issue:"
+  text_reassign_time_entries: "Reassign reported hours to this work package:"
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
   text_rmagick_available: "RMagick available (optional)"
@@ -1260,12 +1247,12 @@ en:
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
   text_time_logged_by_changeset: "Applied in changeset %{value}."
-  text_tip_issue_begin_day: "issue beginning this day"
-  text_tip_issue_begin_end_day: "issue beginning and ending this day"
-  text_tip_issue_end_day: "issue ending this day"
+  text_tip_work_package_begin_day: "work package beginning this day"
+  text_tip_work_package_begin_end_day: "work package beginning and ending this day"
+  text_tip_work_package_end_day: "work package ending this day"
   text_type_no_workflow: "No workflow defined for this type"
   text_unallowed_characters: "Unallowed characters"
-  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
+  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. work packages you're the author or assignee)."
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
   text_wiki_destroy_confirmation: "Are you sure you want to delete this wiki and all its content?"
@@ -1293,16 +1280,12 @@ en:
     project_menu:
       planning_elements: "Planning elements"
       project_associations: "Dependencies"
-      recycle_bin: "Recycle bin"
       reportings: "Status reportings"
       reports: "Timeline reports"
       timelines: "Timelines"
     add_project_association: "Add dependency"
     associations: "Dependencies"
     button_delete_all: "Delete all"
-    button_move_to_trash: "Move to recycle bin"
-    button_restore: "Restore"
-    button_restore_all: "Restore all"
     change: "Change in planning"
     children: "Child elements"
     color_could_not_be_saved: "Color could not be saved"
@@ -1348,7 +1331,6 @@ en:
         historical: "Historical"
         none: "None"
         relative: "Relative"
-        scenario: "Scenario"
         compare_relative: "Compare current planning to %{timespan} ago"
         compare_absolute: "Compare current planning to %{date}"
         compare_historical: "Compare %{startdate} to %{enddate}"
@@ -1372,6 +1354,7 @@ en:
       parent: "Show subprojects of"
       planning_element_filters: "Filter planning elements"
       planning_element_responsible: "Show planning elements with responsible"
+      types: "Show types"
 
       project_time_filter: "Projects with a Planning Element of a certain type in a certain timeframe"
       project_time_filter_historical: "from %{startdate} to %{enddate}"
@@ -1391,15 +1374,11 @@ en:
     new_planning_element: "New planning element"
     new_project_type: "New project type"
     new_reporting: "New reporting"
-    new_scenario: "New scenario"
     new_timeline: "New timeline report"
     no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
     no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
     no_timeline_for_id: "There is no timeline with ID %{id}."
     notice_successful_deleted_all_elements: "Successfully deleted all elements"
-    notice_successful_moved_to_trash: "Successfully moved to recycle bin"
-    notice_successful_restored: "Successfully restored"
-    notice_successful_restored_all_elements: "Successfully restored all elements"
     outline: "Reset Outline"
     outlines:
       aggregation: "Show aggregations only"
@@ -1420,9 +1399,6 @@ en:
       show: "Status: %{comment}"
 
     planning_element_could_not_be_saved: "Planning element could not be saved"
-    planning_element_could_not_be_restored: "Planning element could not be restored"
-    planning_element_updated_automatically_by_child_changes: |
-        _Updated automatically by changing values within child planning element %{child}_
     planning_element_update: "Update: %{title}"
     planning_elements_are_displayed_in_aggregations: "Planning elements are displayed in aggregations"
     project_association_new: Add project dependency
@@ -1448,10 +1424,6 @@ en:
     really_delete_project_type: >
       Are you sure, you want to delete the following project type?
       Projects using this type will not be deleted.
-    really_delete_scenario: >
-      Are you sure, you want to delete this scenario?
-      Planning elements with start and end dates within this scenario will not
-      be deleted.
     really_delete_timeline: >
       Are you sure, you want to delete the following timeline report?
       Planning elements shown in this timeline report will not be
@@ -1459,13 +1431,6 @@ en:
     really_delete_reporting: >
       Are you sure, you want to delete the following reporting?
       Previous reporting statuses will be deleted, too.
-    really_move_planning_element_to_trash: >
-      Are you sure, you want to move the following planning element and all
-      its child elements to recycle bin?
-    really_restore_all_planning_elements: >
-      Are you sure, you want to restore all the following planning elements?
-    restore_all: Restore all
-    scenarios: "Scenarios"
     start: "Start"
     timeline: "Timeline report"
     timelines: "Timeline reports"
@@ -1487,9 +1452,6 @@ en:
       years: "Years"
 
   label_work_package_hierarchy: "Work Package Hierarchy"
-  description_sub_work_package: "Sub work package of current"
-  label_related_work_packages: "Related work packages"
-  label_add_related_work_packages: "Add related work packages"
 
   total_progress: "Total progress"
 
@@ -1523,3 +1485,7 @@ en:
   wiki_menu_item: "Menu item"
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
   wiki_menu_item_setting: "Visibility"
+
+  work_package:
+    updated_automatically_by_child_changes: |
+        _Updated automatically by changing values within child work package %{child}_

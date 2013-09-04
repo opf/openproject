@@ -54,6 +54,158 @@ describe WorkPackagesController do
     end
   end
 
+  def self.requires_export_permission(&block)
+
+    describe 'w/ the export permission
+              w/o a project' do
+      let(:project) { nil }
+
+      before do
+        User.current.should_receive(:allowed_to?)
+                    .with(:export_work_packages,
+                          project,
+                          :global => true)
+                    .and_return(true)
+      end
+
+      instance_eval(&block)
+    end
+
+    describe 'w/ the export permission
+              w/ a project' do
+      before do
+        params[:project_id] = project.id
+
+        User.current.should_receive(:allowed_to?)
+                    .with(:export_work_packages,
+                          project,
+                          :global => false)
+                    .and_return(true)
+      end
+
+      instance_eval(&block)
+    end
+
+    describe 'w/o the export permission' do
+      let(:project) { nil }
+
+      before do
+        User.current.should_receive(:allowed_to?)
+                    .with(:export_work_packages,
+                          project,
+                          :global => true)
+                    .and_return(false)
+
+        call_action
+      end
+
+      it 'should render a 403' do
+        response.response_code.should == 403
+      end
+    end
+  end
+
+  describe 'index' do
+    let(:query) { FactoryGirl.build_stubbed(:query) }
+    let(:work_packages) { double("work packages").as_null_object }
+
+    before do
+      User.current.should_receive(:allowed_to?)
+                  .with({ :controller => "work_packages",
+                          :action => "index" },
+                        project,
+                        :global => true)
+                  .and_return(true)
+
+      controller.stub(:retrieve_query).and_return(query)
+      query.stub_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
+    end
+
+    describe 'html' do
+      describe "w/o a project" do
+        let(:project) { nil }
+        let(:call_action) { get('index') }
+
+        it 'should render the index template' do
+          call_action
+
+          response.should render_template('work_packages/index', :formats => ["html"],
+                                                                 :layout => :base)
+        end
+      end
+
+      describe "w/ a project" do
+        let(:call_action) { get('index', :project_id => project.id) }
+
+        it 'should render the index template' do
+          call_action
+
+          response.should render_template('work_packages/index', :formats => ["html"],
+                                                                 :layout => :base)
+        end
+      end
+    end
+
+    describe 'csv' do
+      let(:params) { {} }
+      let(:call_action) { get('index', params.merge(:format => 'csv')) }
+
+      requires_export_permission do
+
+        before do
+          mock_csv = double('csv export')
+
+          WorkPackage::Exporter.should_receive(:csv).with(work_packages, project)
+                                                    .and_return(mock_csv)
+
+          controller.should_receive(:send_data).with(mock_csv,
+                                                     :type => 'text/csv; header=present',
+                                                     :filename => 'export.csv').and_call_original
+        end
+
+        it 'should fulfill the defined should_receives' do
+          call_action
+        end
+      end
+    end
+
+    describe 'pdf' do
+      let(:params) { {} }
+      let(:call_action) { get('index', params.merge(:format => 'pdf')) }
+
+      requires_export_permission do
+        before do
+          mock_pdf = double('pdf export')
+
+          WorkPackage::Exporter.should_receive(:pdf).and_return(mock_pdf)
+
+          controller.should_receive(:send_data).with(mock_pdf,
+                                                     :type => 'application/pdf',
+                                                     :filename => 'export.pdf').and_call_original
+        end
+
+        it 'should fulfill the defined should_receives' do
+          call_action
+        end
+      end
+    end
+
+    describe 'atom' do
+      let(:params) { {} }
+      let(:call_action) { get('index', params.merge(:format => 'atom')) }
+
+      requires_export_permission do
+        before do
+          controller.should_receive(:render_feed).with(work_packages, anything()).and_call_original
+        end
+
+        it 'should fulfill the defined should_receives' do
+          call_action
+        end
+      end
+    end
+
+  end
 
   describe 'show.html' do
     let(:call_action) { get('show', :id => '1337') }
@@ -77,11 +229,25 @@ describe WorkPackagesController do
         pdf = double('pdf')
 
         expected_name = "#{stub_work_package.project.identifier}-#{stub_work_package.id}.pdf"
-        controller.stub!(:issue_to_pdf).and_return(pdf)
+        WorkPackage::Exporter.should_receive(:work_package_to_pdf).and_return(pdf)
         controller.should_receive(:send_data).with(pdf,
                                                    :type => 'application/pdf',
                                                    :filename => expected_name).and_call_original
         call_action
+      end
+    end
+  end
+
+  describe 'show.atom' do
+    let(:call_action) { get('show', :format => 'atom', :id => '1337') }
+
+    requires_permission_in_project do
+      it 'render the journal/index template' do
+        call_action
+
+        response.should render_template('journals/index', :formats => ["atom"],
+                                                          :layout => false,
+                                                          :content_type => 'application/atom+xml')
       end
     end
   end
@@ -450,15 +616,14 @@ describe WorkPackagesController do
 
   describe :journals do
     it "should return all the work_package's journals except the first one" do
-      journal = FactoryGirl.create(:planning_element_journal, journaled: planning_element,
-                                                              changed_data: { description: [planning_element.description, "blubs"]},
-                                                              version: 2
-                                  )
+      planning_element.description = "blubs"
+
+      planning_element.save
       planning_element.reload
 
       controller.stub!(:work_package).and_return(planning_element)
 
-      controller.journals.should == [journal]
+      controller.journals.should == [planning_element.journals.last]
     end
 
     it "should be empty if the work_package has only one journal" do

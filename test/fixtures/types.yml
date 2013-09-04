@@ -22,4 +22,5 @@ types_999:
   id: 999
   is_standard: true
   is_in_chlog: true
+  position: 0
   is_default: true

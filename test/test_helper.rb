@@ -223,19 +223,21 @@ class ActiveSupport::TestCase
       end
 
       should "use the new value's name" do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {prop_key => [@old_value.id, @new_value.id]}
-          j.journaled = Issue.last
-        end
-        assert_match @new_value.class.find(@new_value.id).name, @journal.render_detail(prop_key, :no_html => true)
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(Issue.last)
+        journal.stubs(:details).returns({prop_key => [@old_value.id, @new_value.id]})
+
+        assert_match @new_value.class.find(@new_value.id).name, journal.render_detail(prop_key, :no_html => true)
       end
 
       should "use the old value's name" do
-        @journal = WorkPackageJournal.create! do |j|
-          j.changed_data = {prop_key => [@old_value.id, @new_value.id]}
-          j.journaled = Issue.last
-        end
-        assert_match @old_value.class.find(@old_value.id).name, @journal.render_detail(prop_key, :no_html => true)
+        journal = FactoryGirl.build :work_package_journal
+
+        journal.stubs(:journable).returns(Issue.last)
+        journal.stubs(:details).returns({prop_key => [@old_value.id, @new_value.id]})
+
+        assert_match @old_value.class.find(@old_value.id).name, journal.render_detail(prop_key, :no_html => true)
       end
     end
   end

@@ -36,7 +36,7 @@ Feature: Issue edit
     And there are the following issue status:
       | name        | is_closed  | is_default  |
       | New         | false      | true        |
-    And I am logged in as "lrrr"
+    And I am already logged in as "lrrr"
 
   Scenario: While creating an issue the user can change attributes which are overriden by children
     When I go to the new work_package page of the project called "omicronpersei8"

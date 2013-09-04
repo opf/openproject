@@ -1,5 +1,36 @@
 # Changelog
 
+* `#1755` Migrate helper-tests for issues into specs for work package
+* `#1766` Fixed bug: Viewing diff of Work Package description results in error 500
+* `#1789` Move validation to Work Package
+* `#1800` Add settings to change software name and URL and add additional footer content
+* `#1808` Add option to log user for each request
+* `#1876` Timelines do not show work packages when there is no status reporting
+* `#1896` Moved visibility-tests for issues into specs for workpackages
+
+## 3.0.0pre14
+
+* `#1873` Move Validations from Issue into Workpackage
+* `#825` Migrate Duration
+* `#828` Remove Alternate Dates
+* `#1421` Adapt issue created/updated wording to apply to work packages
+* `#1610` Move Planning Element Controller to API V2
+* `#1686` Issues not accessible in public projects when not a member
+* `#1768` Fixed bug: Klicking on Wiki Edit Activity results in error 500
+* `#1787` Remove Scenarios
+* `#1813` Run Data Generator on old AAJ schema
+* `#1859` Fix 20130814130142 down-migration (remove_documents)
+
+## 3.0.0pre13
+
+* `#1606` Update journal fixtures
+* `#1608` Change activities to use the new journals
+* `#1609` Change search to use the new journals
+* `#1616` Serialization/Persistence
+* `#1617` Migrate database to new journalization
+* `#1724` PDF Export of Work Packages with Description
+* `#1731` Squash old migrations into one
+
 ## 3.0.0pre12
 
 * `#1417` Enable default behavior for types

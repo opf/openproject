@@ -41,7 +41,7 @@ module IssuesHelper
     @cached_label_priority ||= Issue.human_attribute_name(:priority)
     @cached_label_project ||= Issue.human_attribute_name(:project)
 
-    (link_to_issue(issue) + "<br /><br />
+    (link_to_work_package(issue) + "<br /><br />
       <strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />
       <strong>#{@cached_label_status}</strong>: #{h(issue.status.name)}<br />
       <strong>#{@cached_label_start_date}</strong>: #{format_date(issue.start_date)}<br />
@@ -67,7 +67,7 @@ module IssuesHelper
     issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
       s << content_tag('tr',
              content_tag('td',
-                         "<label>#{l(:description_select_issue) + " #" + child.id.to_s}" +
+                         "<label>#{l(:description_select_work_package) + " #" + child.id.to_s}" +
                          check_box_tag('ids[]', child.id, false, :id => nil) + '</label>',
                          :class => 'checkbox') +
              content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') +
@@ -169,9 +169,9 @@ module IssuesHelper
       title = []
 
       if relation == "parent"
-        title << content_tag(:span, l(:description_parent_issue), :class => "hidden-for-sighted")
+        title << content_tag(:span, l(:description_parent_work_package), :class => "hidden-for-sighted")
       elsif relation == "child"
-        title << content_tag(:span, l(:description_sub_issue), :class => "hidden-for-sighted")
+        title << content_tag(:span, l(:description_sub_work_package), :class => "hidden-for-sighted")
       end
       title << h(issue.type.name)
       title << "##{issue.id}"
@@ -188,73 +188,6 @@ module IssuesHelper
       concat content_tag :td, link_to_user(issue.assigned_to)
       concat content_tag :td, link_to_version(issue.fixed_version)
     end
-  end
-
-  def issues_to_csv(issues, project = nil)
-    decimal_separator = l(:general_csv_decimal_separator)
-    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
-      # csv header fields
-      headers = [ "#",
-                  Issue.human_attribute_name(:status),
-                  Issue.human_attribute_name(:project),
-                  Issue.human_attribute_name(:type),
-                  Issue.human_attribute_name(:priority),
-                  Issue.human_attribute_name(:subject),
-                  Issue.human_attribute_name(:assigned_to),
-                  Issue.human_attribute_name(:category),
-                  Issue.human_attribute_name(:fixed_version),
-                  Issue.human_attribute_name(:author),
-                  Issue.human_attribute_name(:start_date),
-                  Issue.human_attribute_name(:due_date),
-                  Issue.human_attribute_name(:done_ratio),
-                  Issue.human_attribute_name(:estimated_hours),
-                  Issue.human_attribute_name(:parent_issue),
-                  Issue.human_attribute_name(:created_at),
-                  Issue.human_attribute_name(:updated_at)
-                  ]
-      # Export project custom fields if project is given
-      # otherwise export custom fields marked as "For all projects"
-      custom_fields = project.nil? ? WorkPackageCustomField.for_all : project.all_work_package_custom_fields
-      custom_fields.each {|f| headers << f.name}
-      # Description in the last column
-      headers << CustomField.human_attribute_name(:description)
-      csv << headers.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
-      # csv lines
-      issues.each do |issue|
-        fields = [issue.id,
-                  issue.status.name,
-                  issue.project.name,
-                  issue.type.name,
-                  issue.priority.name,
-                  issue.subject,
-                  issue.assigned_to,
-                  issue.category,
-                  issue.fixed_version,
-                  issue.author.name,
-                  format_date(issue.start_date),
-                  format_date(issue.due_date),
-                  issue.done_ratio,
-                  issue.estimated_hours.to_s.gsub('.', decimal_separator),
-                  issue.parent_id,
-                  format_time(issue.created_at),
-                  format_time(issue.updated_at)
-                  ]
-        custom_fields.each {|f| fields << show_value(issue.custom_value_for(f)) }
-        fields << issue.description
-        csv << fields.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
-      end
-    end
-    export
-  end
-
-  def send_notification_option
-    content_tag(:p,
-                content_tag(:label,
-                            l(:label_notify_member_plural), :for => 'send_notification') +
-                hidden_field_tag('send_notification', '0', :id => nil) +
-                check_box_tag('send_notification', '1', true))
-
-
   end
 
   def entries_for_filter_select_sorted(query)

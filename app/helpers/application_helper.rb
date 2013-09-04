@@ -114,12 +114,6 @@ module ApplicationHelper
     l(('status_' + user.status_name).to_sym)
   end
 
-  def link_to_issue(issue, options={})
-    warn "[DEPRECATION] link_to_issue will be removed - use link_to_work_package instead.\n" +
-         "Called from: #{caller[0]}"
-    link_to_work_package(issue, options)
-  end
-
   # Generates a link to an attachment.
   # Options:
   # * :text - Link text (default to attachment filename)
@@ -1069,6 +1063,8 @@ module ApplicationHelper
   #
   def footer_content
     elements = []
+    elements << I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name,
+                                                          Redmine::Info.url))
     unless OpenProject::Footer.content.nil?
       OpenProject::Footer.content.each do |name, value|
         content = value.respond_to?(:call) ? value.call : value
@@ -1077,7 +1073,7 @@ module ApplicationHelper
         end
       end
     end
-    elements << I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url))
+    elements << Setting.additional_footer_content if Setting.additional_footer_content.present?
     elements.join(", ").html_safe
   end
 

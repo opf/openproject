@@ -27,7 +27,7 @@ module JournalsHelper
   def render_journal(model, journal, options = {})
     return "" if journal.initial?
     journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
-    content_tag "div", journal_content, { :id => "change-#{journal.id}", :class => journal.css_classes }
+    content_tag "div", journal_content, { :id => "change-#{journal.id}", :class => work_package_css_classes(journal.journable) }
   end
 
   # This renders a journal entry with a header and details
@@ -91,7 +91,7 @@ module JournalsHelper
 
     content = ''
     content << content_tag('div', links.join(' '),{ :class => 'contextual' }, false) unless links.empty?
-    content << content_tag('div', textilizable(journal, :notes), :class => 'wikicontent', "data-user" => journal.author)
+    content << content_tag('div', textilizable(journal, :notes), :class => 'wikicontent', "data-user" => journal.journable.author)
 
     css_classes = "wiki"
     css_classes << " editable" if editable

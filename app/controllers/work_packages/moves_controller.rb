@@ -28,7 +28,9 @@ class WorkPackages::MovesController < ApplicationController
     moved_work_packages = []
     @work_packages.each do |work_package|
       work_package.reload
-      work_package.init_journal(User.current, @notes || "")
+
+      JournalManager.add_journal work_package, User.current, @notes || ""
+
       call_hook(:controller_work_packages_move_before_save, { :params => params, :work_package => work_package, :target_project => @target_project, :copy => !!@copy })
       if r = work_package.move_to_project(@target_project, new_type, {:copy => @copy, :attributes => extract_changed_attributes_for_move(params)})
         moved_work_packages << r
@@ -42,10 +44,10 @@ class WorkPackages::MovesController < ApplicationController
       if @work_packages.size == 1 && moved_work_packages.size == 1
         redirect_to work_package_path(moved_work_packages.first)
       else
-        redirect_to project_issues_path(@target_project || @project)
+        redirect_to project_work_packages_path(@target_project || @project)
       end
     else
-      redirect_to project_issues_path(@project)
+      redirect_to project_work_packages_path(@project)
     end
     return
   end
@@ -54,7 +56,7 @@ class WorkPackages::MovesController < ApplicationController
     if unsaved_work_package_ids.empty? and not work_packages.empty?
       flash[:notice] = (@copy) ? l(:notice_successful_create) : l(:notice_successful_update)
     else
-      flash[:error] = l(:notice_failed_to_save_issues,
+      flash[:error] = l(:notice_failed_to_save_work_packages,
                         :count => unsaved_work_package_ids.size,
                         :total => work_packages.size,
                         :ids => '#' + unsaved_work_package_ids.join(', #'))

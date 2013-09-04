@@ -136,12 +136,12 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue3 = create_issue!(:parent_id => issue2.id)
     issue4 = create_issue!(:parent_id => issue1.id)
 
-    issue3.init_journal(User.find(2))
+    issue3.add_journal(User.find(2))
     issue3.subject = 'child with journal'
     issue3.save!
 
     assert_difference 'Issue.count', -2 do
-      assert_difference 'WorkPackageJournal.count', -3 do
+      assert_difference 'Journal.count', -3 do
         Issue.find(issue2.id).destroy
       end
     end
@@ -168,13 +168,13 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     root = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'root').reload
     child = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'child', :parent_id => root.id).reload
     leaf = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'leaf', :parent_id => child.id).reload
-    leaf.init_journal(User.find(2))
+    leaf.add_journal(User.find(2))
     leaf.subject = 'leaf with journal'
     leaf.save!
 
     total_journals_on_children = leaf.reload.journals.count + child.reload.journals.count
     assert_difference 'Issue.count', -2 do
-      assert_difference 'WorkPackageJournal.count', -total_journals_on_children do
+      assert_difference 'Journal.count', -total_journals_on_children do
         Issue.find(child.id).destroy
       end
     end
@@ -269,20 +269,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
                             :parent_id => second_parent.id)
     assert_equal 7, second_parent.reload.estimated_hours
     assert_nil first_parent.reload.estimated_hours
-  end
-
-  def test_reschuling_a_parent_should_reschedule_subtasks
-    parent = create_issue!
-    c1 = create_issue!(:start_date => '2010-05-12', :due_date => '2010-05-18', :parent_id => parent.id)
-    c2 = create_issue!(:start_date => '2010-06-03', :due_date => '2010-06-10', :parent_id => parent.id)
-    parent.reload
-    parent.reschedule_after(Date.parse('2010-06-02'))
-    c1.reload
-    assert_equal [Date.parse('2010-06-02'), Date.parse('2010-06-08')], [c1.start_date, c1.due_date]
-    c2.reload
-    assert_equal [Date.parse('2010-06-03'), Date.parse('2010-06-10')], [c2.start_date, c2.due_date] # no change
-    parent.reload
-    assert_equal [Date.parse('2010-06-02'), Date.parse('2010-06-10')], [parent.start_date, parent.due_date]
   end
 
   def test_project_copy_should_copy_issue_tree

@@ -58,7 +58,7 @@ class RedmineTest < ActiveSupport::TestCase
     assert_menu_contains_item_named :project_menu, :overview
     assert_menu_contains_item_named :project_menu, :activity
     assert_menu_contains_item_named :project_menu, :roadmap
-    assert_menu_contains_item_named :project_menu, :issues
+    assert_menu_contains_item_named :project_menu, :work_packages
     assert_menu_contains_item_named :project_menu, :new_issue
     assert_menu_contains_item_named :project_menu, :calendar
     assert_menu_contains_item_named :project_menu, :news
@@ -69,6 +69,6 @@ class RedmineTest < ActiveSupport::TestCase
 
   def test_new_issue_should_have_issues_as_a_parent
     new_issue = get_menu_item(:project_menu, :new_issue)
-    assert_equal :issues, new_issue.parent.name
+    assert_equal :work_packages, new_issue.parent.name
   end
 end

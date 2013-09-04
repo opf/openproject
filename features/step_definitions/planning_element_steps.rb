@@ -17,6 +17,7 @@ Given (/^there are the following planning elements(?: in project "([^"]*)")?:$/)
 
     [
       ["planning_element_status", PlanningElementStatus],
+      ["author", User],
       ["responsible", User],
       ["assigned_to", User],
       ["type", Type],
@@ -32,8 +33,10 @@ Given (/^there are the following planning elements(?: in project "([^"]*)")?:$/)
       end
     end
 
+    # lookup the type by its name and replace it with the type
+    # if the cast is ommitted, the contents of type_attributes is interpreted as an int
     unless type_attributes.has_key? :type
-      type_attributes[:type] = Type.find(:first, conditions: { is_standard: true })
+      type_attributes[:type] = Type.where(name: type_attributes[:type].to_s).first
     end
 
     factory = FactoryGirl.create(:planning_element, type_attributes.merge(:project_id => project.id))

@@ -18,7 +18,7 @@ class WorkPackageCustomField < CustomField
   def type_name
     # TODO
     # this needs to be renamed to label_work_package_plural
-    :label_issue_plural
+    :label_work_package_plural
   end
 end
 

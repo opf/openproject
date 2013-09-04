@@ -76,49 +76,6 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 'PostgreSQL', issue.custom_value_for(field).value
   end
 
-  def test_visible_scope_for_anonymous
-    # Anonymous user should see issues of public projects only
-    issues = Issue.visible(User.anonymous).all
-    assert issues.any?
-    assert_nil issues.detect {|issue| !issue.project.is_public?}
-    # Anonymous user should not see work units without permission
-    Role.anonymous.remove_permission!(:view_work_packages)
-    issues = Issue.visible(User.anonymous).all
-    assert issues.empty?
-  end
-
-  def test_visible_scope_for_user
-    user = User.find(9)
-    assert user.projects.empty?
-    # Non member user should see issues of public projects only
-    issues = Issue.visible(user).all
-    assert issues.any?
-    assert_nil issues.detect {|issue| !issue.project.is_public?}
-    # Non member user should not see issues without permission
-    Role.non_member.remove_permission!(:view_work_packages)
-    user.reload
-    issues = Issue.visible(user).all
-    assert issues.empty?
-    # User should see issues of projects for which he has view_issues permissions only
-    Member.new.tap do |m|
-      m.force_attributes = { :principal => user, :project_id => 2, :role_ids => [1] }
-    end.save!
-    user.reload
-    issues = Issue.visible(user).all
-    assert issues.any?
-    assert_nil issues.detect {|issue| issue.project_id != 2}
-  end
-
-  def test_visible_scope_for_admin
-    user = User.find(1)
-    user.members.each(&:destroy)
-    assert user.projects.empty?
-    issues = Issue.visible(user).all
-    assert issues.any?
-    # Admin should see issues on private projects that he does not belong to
-    assert issues.detect {|issue| !issue.project.is_public?}
-  end
-
   def test_errors_full_messages_should_include_custom_fields_errors
     field = WorkPackageCustomField.find_by_name('Database')
 
@@ -142,6 +99,8 @@ class IssueTest < ActiveSupport::TestCase
   def test_update_issue_with_required_custom_field
     field = WorkPackageCustomField.find_by_name('Database')
     field.update_attribute(:is_required, true)
+
+    CustomValue.delete 18
 
     issue = Issue.find(1)
     assert_nil issue.custom_value_for(field)
@@ -318,7 +277,7 @@ class IssueTest < ActiveSupport::TestCase
     assert issue1.reload.duplicates.include?(issue2)
 
     # Closing issue 1
-    issue1.init_journal(User.find(:first), "Closing issue1")
+    issue1.add_journal(User.find(:first), "Closing issue1")
     issue1.status = IssueStatus.find :first, :conditions => {:is_closed => true}
     assert issue1.save
     # 2 and 3 should be also closed
@@ -348,7 +307,7 @@ class IssueTest < ActiveSupport::TestCase
     assert !issue2.reload.duplicates.include?(issue1)
 
     # Closing issue 2
-    issue2.init_journal(User.find(:first), "Closing issue2")
+    issue2.add_journal(User.find(:first), "Closing issue2")
     issue2.status = IssueStatus.find :first, :conditions => {:is_closed => true}
     assert issue2.save
     # 1 should not be also closed
@@ -694,6 +653,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_should_send_email_notification
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
@@ -710,9 +670,10 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_stale_issue_should_not_send_email_notification
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     i = FactoryGirl.create :issue
-    i.init_journal(User.find(1))
+    i.add_journal(User.find(1))
 
     issue = Issue.find(i.id)
     stale = Issue.find(i.id)
@@ -722,7 +683,7 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.size
     ActionMailer::Base.deliveries.clear
 
-    stale.init_journal(User.find(1))
+    stale.add_journal(User.find(1))
     stale.subject = 'Another subjet update'
     assert_raise ActiveRecord::StaleObjectError do
       stale.save
@@ -734,18 +695,20 @@ class IssueTest < ActiveSupport::TestCase
     WorkPackageCustomField.delete_all
 
     i = Issue.first
+    i.recreate_initial_journal!
+    i.reload
     old_description = i.description
     new_description = "This is the new description"
 
-    i.init_journal(User.find(2))
+    i.add_journal(User.find(2))
     i.description = new_description
-    assert_difference 'WorkPackageJournal.count', 1 do
+    assert_difference 'Journal.count', 1 do
       i.save!
     end
 
-    journal = WorkPackageJournal.first(:order => 'id DESC')
-    assert_equal i, journal.journaled
-    assert journal.changed_data.has_key? "description"
+    journal = Journal.first(:order => 'id DESC')
+    assert_equal i, journal.journable
+    assert journal.changed_data.has_key? :description
     assert_equal old_description, journal.old_value_for("description")
     assert_equal new_description, journal.new_value_for("description")
   end
@@ -1022,6 +985,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_should_not_send_email_notification_if_told_not_to
+    Journal.delete_all
     ActionMailer::Base.deliveries.clear
     issue = Issue.new.tap do |i|
       i.force_attributes = { :project_id => 1,
