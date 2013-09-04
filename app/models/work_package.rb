@@ -560,8 +560,6 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
-  private
-
   def add_time_entry_for(user, attributes)
     return if attributes.nil? || attributes.values.all?(&:blank?)
 
