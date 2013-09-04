@@ -20,7 +20,6 @@ class MyProjectsOverviewsController < ApplicationController
   before_filter :authorize
   before_filter :jump_to_project_menu_item, :only => :index
 
-  puts Redmine::Views::MyPage::Block.additional_blocks
   BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
     'issuesreportedbyme' => :label_reported_issues,
     'issueswatched' => :label_watched_issues,
