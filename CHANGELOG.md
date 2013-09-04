@@ -1,7 +1,7 @@
 # Changelog
 
 ## 1.0.0.pre3
-
+* renamed the projectscoped-documents back to just "documents"
 * Removed hard wiring to specific core version
 
 ## 1.0.0.pre2
