@@ -190,7 +190,7 @@ namespace :copyright do
 
   desc "Update the copyright on .atom.builder source files"
   task :update_atom_builder, :arg1 do |task, args|
-    rewrite_copyright("atom.builder", [], :erb, args[:arg1])
+    rewrite_copyright("atom.builder", [], :rb, args[:arg1])
   end
 
   desc "Update the copyright on .text.erb source files"
