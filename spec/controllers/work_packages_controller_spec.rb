@@ -735,17 +735,15 @@ describe WorkPackagesController do
   describe "quotation" do
     let(:call_action) { get :quoted }
 
-    context "description" do
-      requires_permission_in_project do
+    requires_permission_in_project do
+      context "description" do
         subject { get :quoted, id: planning_element.id }
 
         it { should be_success }
         it { should render_template('edit') }
       end
-    end
 
-    context "journal" do
-      requires_permission_in_project do
+      context "journal" do
         let(:journal_id) { planning_element.journals.first.id }
 
         subject { get :quoted, id: planning_element.id, journal_id: journal_id }
