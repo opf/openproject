@@ -37,13 +37,13 @@ describe WorkPackage do
                              estimated_hours: '1:30' }
                          end }
 
-    context :save do
+    describe :save do
       subject { work_package.save }
 
       it { should be_true }
     end
 
-    context :estimated_hours do
+    describe :estimated_hours do
       before do
         work_package.save!
         work_package.reload
@@ -52,6 +52,34 @@ describe WorkPackage do
       subject { work_package.estimated_hours }
 
       it { should eq(1.5) }
+    end
+
+    describe "minimal" do
+      let(:work_package_minimal) { WorkPackage.new.tap do |w|
+                                     w.force_attributes = { project_id: project.id,
+                                       type_id: type.id,
+                                       author_id: user.id,
+                                       status_id: status.id,
+                                       priority: priority,
+                                       subject: 'test_create' }
+                                 end }
+
+      context :save do
+        subject { work_package_minimal.save }
+
+        it { should be_true }
+      end
+
+      context :description do
+        before do
+          work_package_minimal.save!
+          work_package_minimal.reload
+        end
+
+        subject { work_package_minimal.description }
+
+        it { should be_nil }
+      end
     end
   end
 

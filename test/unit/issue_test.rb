@@ -16,19 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_create_minimal
-    issue = Issue.new.tap do |i|
-      i.force_attributes = { :project_id => 1,
-                             :type_id => 1,
-                             :author_id => 3,
-                             :status_id => 1,
-                             :priority => IssuePriority.all.first,
-                             :subject => 'test_create' }
-    end
-    assert issue.save
-    assert issue.description.nil?
-  end
-
   def test_create_with_required_custom_field
     field = WorkPackageCustomField.find_by_name('Database')
     field.update_attribute(:is_required, true)
