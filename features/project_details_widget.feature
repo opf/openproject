@@ -21,7 +21,7 @@ Feature: Project Details Widget
     And I am already Admin
 
   @javascript
-  Scenario: Adding a "Project Details" widget
+  Scenario: Adding a "Calendar" widget
     Given I am on the project "Parent" overview personalization page
     When I select "Calendar" from the available widgets drop down
     And I wait for the AJAX requests to finish
@@ -29,7 +29,7 @@ Feature: Project Details Widget
 
   Scenario: Includes links to all child projects
     Given the following widgets are selected for the overview page of the "Parent" project:
-      | top        | Projectdetails   |
+      | top        | Project_details   |
     When I go to the overview page of the project called "Parent"
     And I follow "Child" within ".mypage-box .project_details"
     Then I should be on the overview page of the project called "Child"

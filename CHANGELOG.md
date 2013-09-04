@@ -2,8 +2,8 @@
 
 ## 3.0.0
 
+* `#1875` removed the documents-block, that now resides in the documents-plugin
 * `#1794` prepared the plugin for publishing, added copyright-headers, README's etc.
-* fixed an issue with the loading of external blocks (removed the documents-block, that now resides in the documents-plugin)
 
 ## 3.0.0.pre2
 

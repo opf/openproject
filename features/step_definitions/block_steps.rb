@@ -26,17 +26,17 @@ Then /^there should be (\d+) news for project "(.+)"$/ do |count, project_name|
 end
 
 When(/^I should not see the news-headline "([^"]*)"$/) do |news_headline|
-  page.should_not have_css("#widget_news .news .overview a", text: news_headline)
+  page.should_not have_css("#widget_news_latest .news .overview a", text: news_headline)
 end
 
 When(/^I should see the news-headline "([^"]*)"$/) do |news_headline|
-  page.should have_css("#widget_news .news .overview a", text: news_headline)
+  page.should have_css("#widget_news_latest .news .overview a", text: news_headline)
 end
 
 
 # steps for issues reported by me
 def reported_issue_subject
-  "#widget_issuesreportedbyme td.subject a"
+  "#widget_issues_reported_by_me td.subject a"
 end
 
 When /^I should see the issue-subject "([^"]*)" in the 'Issues reported by me'-section$/ do |issue_subject|
@@ -49,7 +49,7 @@ end
 
 # steps for issues assigned to me
 def assigned_to_me_issue_subject
-  "#widget_issuesassignedtome td.subject a"
+  "#widget_issues_assigned_to_me td.subject a"
 end
 
 When /^I should see the issue-subject "([^"]*)" in the 'Issues assigned to me'-section$/ do |issue_subject|
@@ -60,10 +60,9 @@ When /^I should not see the issue-subject "([^"]*)" in the 'Issues assigned to m
   page.should_not have_css(assigned_to_me_issue_subject, text: issue_subject)
 end
 
-
 # steps for issues assigned to me
 def watched_issue_subject
-  "#widget_issueswatched td.subject a"
+  "#widget_issues_watched td.subject a"
 end
 
 When /^I should see the issue-subject "([^"]*)" in the 'Issues watched'-section$/ do |issue_subject|

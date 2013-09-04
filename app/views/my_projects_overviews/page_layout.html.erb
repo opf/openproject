@@ -26,7 +26,7 @@ function recreateSortables() {
         dropOnEmpty: true,
         handle: 'handle',
         onUpdate: function () {
-          new Ajax.Request('<%= url_for(:controller => 'my_projects_overviews',
+          new Ajax.Request('<%= url_for(:controller => '/my_projects_overviews',
                                         :action => 'order_blocks',
                                         :group => f) %>',
                            { asynchronous: true,

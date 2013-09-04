@@ -30,7 +30,7 @@ module OpenProject
           end.compact
       ).inject({}) do |h,file|
         name = File.basename(file).split('.').first.gsub(/^_/, '')
-        h[name] = name.to_sym
+        h[name] = ("label_"+ name).to_sym
         h
       end
     end

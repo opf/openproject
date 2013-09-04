@@ -40,11 +40,11 @@ Feature: Behavior of specific blocks (news, issues - this is currently not compl
       | news |
     And the following widgets are selected for the overview page of the "tested_project" project:
       #TODO mapping from the human-name back to it's widget-name??!
-      | top        | news   |
+      | top        | news_latest   |
     Given there is a news "test-headline" for project "tested_project"
     And there is a news "NO-SHOW" for project "other_project"
     And I am on the homepage for the project "tested_project"
-    Then I should see the widget "news"
+    Then I should see the widget "news_latest"
     And I should see the news-headline "test-headline"
     And I should not see the news-headline "NO-SHOW"
 
@@ -54,9 +54,9 @@ Feature: Behavior of specific blocks (news, issues - this is currently not compl
       | Test-Issue  | tested_project | bob     |
       | NO-SHOW     | other_project  | bob     |
     And the following widgets are selected for the overview page of the "tested_project" project:
-      | top        | issuesreportedbyme |
+      | top        | issues_reported_by_me |
     And I am on the homepage for the project "tested_project"
-    Then I should see the widget "issuesreportedbyme"
+    Then I should see the widget "issues_reported_by_me"
     And I should see the issue-subject "Test-Issue" in the 'Issues reported by me'-section
     And I should not see the issue-subject "NO-SHOW" in the 'Issues reported by me'-section
 
@@ -66,9 +66,9 @@ Feature: Behavior of specific blocks (news, issues - this is currently not compl
       | Test-Issue  | tested_project | bob     | bob       |
       | NO-SHOW     | tested_project | bob     | mary      |
     And the following widgets are selected for the overview page of the "tested_project" project:
-      | top        | issuesassignedtome |
+      | top        | issues_assigned_to_me |
     And I am on the homepage for the project "tested_project"
-    Then I should see the widget "issuesassignedtome"
+    Then I should see the widget "issues_assigned_to_me"
     And I should see the issue-subject "Test-Issue" in the 'Issues assigned to me'-section
     And I should not see the issue-subject "NO-SHOW" in the 'Issues assigned to me'-section
 
@@ -78,8 +78,8 @@ Feature: Behavior of specific blocks (news, issues - this is currently not compl
       | Test-Issue  | tested_project | bob     | bob        |
       | NOT-WATCHED | other_project  | bob     | bob,mary   |
     And the following widgets are selected for the overview page of the "tested_project" project:
-      | top        | issueswatched |
+      | top        | issues_watched |
     And I am on the homepage for the project "tested_project"
-    Then I should see the widget "issueswatched"
+    Then I should see the widget "issues_watched"
     And I should see the issue-subject "Test-Issue" in the 'Issues watched'-section
     And I should not see the issue-subject "NOT-WATCHED" in the 'Issues watched'-section
