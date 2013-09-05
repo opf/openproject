@@ -22,7 +22,7 @@ module Redmine
               gem_name = plugin_id.to_s.gsub('openproject_','openproject-') if plugin_id.to_s.starts_with?('openproject_')
               gem_spec = Gem.loaded_specs[gem_name]
               if gem_spec.nil?
-                ActiveSupport::Deprecation.warn "No Gemspec found for plugin: " + plugin_id
+                ActiveSupport::Deprecation.warn "No Gemspec found for plugin: " + plugin_id.to_s
                   + ", expected gem name to match the plugin name but starting with openproject-"
                 nil
               else
