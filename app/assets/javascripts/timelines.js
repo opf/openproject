@@ -274,7 +274,8 @@ Timeline = {
       // prerequisites (3rd party libs)
       this.checkPrerequisites();
 
-      this.modalHelper = new ModalHelper(
+      this.modalHelper = new ModalHelper();
+      this.modalHelper.setupTimeline(
         this,
         {
           api_prefix                : this.options.api_prefix,
@@ -282,7 +283,10 @@ Timeline = {
           project_prefix            : this.options.project_prefix
         }
       );
-      this.modalHelper.setup();
+
+      jQuery(this.modalHelper).on("closed", function () {
+        timeline.reload();
+      });
 
       timelineLoader = new Timeline.TimelineLoader(
         this,
@@ -1036,13 +1040,13 @@ Timeline = {
     TimelineLoader.prototype.registerPlanningElementsByID = function (ids) {
 
       this.inChunks(ids, function (planningElementIdsOfPacket, i) {
-        var planningElementPrefix = this.options.url_prefix +
-                            this.options.planning_element_prefix;
+        var projectPrefix = this.options.url_prefix +
+                            this.options.api_prefix;
 
         // load current planning elements.
         this.loader.register(
             Timeline.PlanningElement.identifier + '_IDS_' + i,
-            { url : planningElementPrefix +
+            { url : projectPrefix +
                     '/planning_elements.json?ids=' +
                     planningElementIdsOfPacket.join(',')},
             { storeIn: Timeline.PlanningElement.identifier }
@@ -3344,7 +3348,7 @@ Timeline = {
   PE_TEXT_OUTSIDE_PADDING: 6,       // space between planning element and text to its right.
   PE_TEXT_SCALE: 0.1875,            // 64 * (1/8 * 1.5) = 12
 
-  USE_MODALS: false,
+  USE_MODALS: true,
 
   scale: 1,
   zoomIndex: 0,
@@ -4173,17 +4177,7 @@ Timeline = {
 
       text = timeline.escape(data.name);
       if (data.getUrl instanceof Function) {
-        text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank"/>').append(text).attr("title", text);
-        text.click(function(event) {
-          if (Timeline.USE_MODALS && !event.ctrlKey && !event.metaKey && data.is(Timeline.PlanningElement)) {
-            timeline.modalHelper.createPlanningModal(
-              'show',
-              data.project.identifier,
-              data.id
-            );
-            event.preventDefault();
-          }
-        });
+        text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank" data-modal/>').append(text).attr("title", text);
       }
 
       if (data.is(Timeline.Project)) {
@@ -4866,11 +4860,7 @@ Timeline = {
     e.click(function(e) {
       if (Timeline.USE_MODALS) {
         var payload = node.getData();
-        timeline.modalHelper.createPlanningModal(
-          'show',
-          payload.project.identifier,
-          payload.id
-        );
+        timeline.modalHelper.createModal(payload.getUrl());
         e.stopPropagation();
       }
     });
@@ -4903,7 +4893,7 @@ Timeline = {
     }
 
     if (typeof projectID !== "undefined") {
-      this.modalHelper.createPlanningModal("new", projectID);
+      this.modalHelper.create(projectID);
     }
   }
 };

@@ -41,6 +41,13 @@ Feature: Timeline View Tests
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"
 
   @javascript
+  Scenario: name column width
+     When there is a timeline "Testline" for project "ecookbook"
+      And I go to the page of the timeline "Testline" of the project called "ecookbook"
+      And I wait for timeline to load table
+     Then the first table column should not take more than 25% of the space
+
+  @javascript
   Scenario: switch timeline
     When there is a timeline "Testline" for project "ecookbook"
       And there is a timeline "Testline2" for project "ecookbook"
