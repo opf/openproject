@@ -530,10 +530,10 @@ class WorkPackage < ActiveRecord::Base
     end
     # Allow bulk setting of attributes on the work_package
     if options[:attributes]
-      # this is a temporary hack to get to the core of the move: The
-      params = ActionController::Parameters.new(options[:attributes])
-      work_package.attributes = params.permit(:assigned_to_id, :responsible_id, :status_id, :start_date, :due_date, :priority_id)
-    end
+      # before setting the attributes, we need to remove the move-related fields
+      work_package.attributes = options[:attributes].except(:copy,:new_project_id, :new_type_id, :follow, :ids)
+                                                    .reject { |key, value| value.blank? }
+    end                                             # FIXME this eliminates the case, where values shall be bulk-assigned to null, but this needs to work together with the permit
     if options[:copy]
       work_package.author = User.current
       work_package.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
@@ -543,6 +543,7 @@ class WorkPackage < ActiveRecord::Base
                               self.status
                             end
     end
+
     if work_package.save
       unless options[:copy]
         # Manually update project_id on related time entries
