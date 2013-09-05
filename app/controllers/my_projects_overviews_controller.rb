@@ -20,10 +20,12 @@ class MyProjectsOverviewsController < ApplicationController
   before_filter :authorize
   before_filter :jump_to_project_menu_item, :only => :index
 
-  BLOCKS = OpenProject::MyProjectPage.plugin_blocks.freeze
-
   verify :xhr => true,
          :only => [:add_block, :remove_block, :order_blocks]
+
+  def self.available_blocks
+    @available_blocks ||= OpenProject::MyProjectPage.plugin_blocks
+  end
 
   def index
     render
@@ -56,7 +58,7 @@ class MyProjectsOverviewsController < ApplicationController
   # params[:block] : id of the block to add
   def add_block
     block = params[:block].to_s.underscore
-    if (BLOCKS.keys.include? block)
+    if (MyProjectsOverviewsController.available_blocks.keys.include? block)
       # remove if already present in a group
       %w(top left right hidden).each {|f| overview.send(f).delete block }
       # add it hidden
@@ -109,7 +111,7 @@ class MyProjectsOverviewsController < ApplicationController
 
   def param_to_block(param)
     block = param.to_s.underscore
-    unless (BLOCKS.keys.include? block)
+    unless (MyProjectsOverviewsController.available_blocks.keys.include? block)
       block = overview.custom_elements.detect {|ary| ary.first == block}
     end
     block
@@ -276,7 +278,7 @@ class MyProjectsOverviewsController < ApplicationController
 
   def block_options
     @block_options = []
-    BLOCKS.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
+    MyProjectsOverviewsController.available_blocks.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
     @block_options << [l(:label_custom_element), :custom_element]
   end
 

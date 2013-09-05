@@ -121,7 +121,7 @@ function addBlock() {
 <% (field_list - ['hidden']).each do |f| %>
   <div id="list-<%= f %>" class="splitcontent<%= f %> block-receiver">
     <% blocks[f].each do |b| %>
-      <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
+      <% if MyProjectsOverviewsController.available_blocks.keys.include? b %>
         <%= render(:partial => 'block', :locals => { :block_name => b }) %>
       <% elsif b.respond_to? :to_ary %>
         <%= render(:partial => 'block_textilizable',
@@ -137,7 +137,7 @@ function addBlock() {
 <h4><%=l(:label_hidden_elements) %></h4>
 <div id="list-hidden" class="block-receiver">
   <% blocks['hidden'].each do |b| %>
-    <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
+    <% if MyProjectsOverviewsController.available_blocks.keys.include? b %>
       <%= render(:partial => 'block', :locals => {:block_name => b}) %>
     <% elsif b.respond_to? :to_ary %>
       <%= render(:partial => 'block_textilizable',
