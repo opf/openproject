@@ -1,5 +1,6 @@
 # Changelog
 
+* `#1301` Ajax call when logged out should open a popup window
 * `#1350` Generalize Modal Creation
 # `#1557` Timeline Report Selection Not Visible
 * `#1755` Migrate helper-tests for issues into specs for work package
