@@ -1,5 +1,6 @@
 # Changelog
 
+# `#1557` Timeline Report Selection Not Visible
 * `#1755` Migrate helper-tests for issues into specs for work package
 * `#1766` Fixed bug: Viewing diff of Work Package description results in error 500
 * `#1767` Fixed bug: Viewing changesets results in "page not found"
