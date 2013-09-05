@@ -34,6 +34,18 @@ describe WorkPackage do
                            description: 'WorkPackage#create',
                            estimated_hours: '1:30' }
                        end }
+  let (:custom_field) { FactoryGirl.create(:work_package_custom_field,
+                                           name: 'Database',
+                                           field_format: 'list',
+                                           possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
+                                           is_required: true) }
+
+  before do
+    def self.change_custom_field_value(work_package, value)
+      work_package.custom_field_values = { custom_field.id => value } unless value.nil?
+      work_package.save
+    end
+  end
 
   describe "create" do
     describe :save do
@@ -82,25 +94,16 @@ describe WorkPackage do
     end
   end
 
-  describe :custom_fields do
-    let (:custom_field) { FactoryGirl.create(:work_package_custom_field,
-                                             name: 'Database',
-                                             field_format: 'list',
-                                             possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
-                                             is_required: true) }
-
+  shared_context "project with required custom field" do
     before do
-      def self.change_custom_field_value(value)
-        work_package.custom_field_values = { custom_field.id => value } unless value.nil?
-        work_package.save
-      end
+      project.work_package_custom_fields << custom_field
+      work_package.save
     end
+  end
 
+  describe :custom_fields do
     context "required custom field exists" do
-      before do
-        project.work_package_custom_fields << custom_field
-        work_package.save
-      end
+      include_context "project with required custom field"
 
       subject { work_package.available_custom_fields }
 
@@ -114,7 +117,7 @@ describe WorkPackage do
             before do
               work_package.subject = modified_work_package_subject
 
-              change_custom_field_value(custom_field_value)
+              change_custom_field_value(work_package, custom_field_value)
             end
 
             describe "error message" do
@@ -152,7 +155,7 @@ describe WorkPackage do
         end
 
         context "full error message" do
-          before { change_custom_field_value('SQLServer') }
+          before { change_custom_field_value(work_package, 'SQLServer') }
 
           subject { work_package.errors.full_messages.first }
 
@@ -161,7 +164,7 @@ describe WorkPackage do
       end
 
       describe "valid value given" do
-        before { change_custom_field_value('PostgreSQL') }
+        before { change_custom_field_value(work_package, 'PostgreSQL') }
 
         context :errors do
           subject { work_package.errors[:custom_values] }
@@ -182,9 +185,9 @@ describe WorkPackage do
 
         describe "value change" do
           before do
-            change_custom_field_value('PostgreSQL')
+            change_custom_field_value(work_package, 'PostgreSQL')
             @initial_custom_value = work_package.custom_value_for(custom_field).id
-            change_custom_field_value('MySQL')
+            change_custom_field_value(work_package, 'MySQL')
 
             work_package.reload
           end
@@ -206,7 +209,7 @@ describe WorkPackage do
           custom_field
           project.types << type_feature
 
-          change_custom_field_value('PostgreSQL')
+          change_custom_field_value(work_package, 'PostgreSQL')
           work_package.reload
 
           work_package.type = type_feature
@@ -350,16 +353,47 @@ describe WorkPackage do
   end
 
   describe :copy_from do
+    include_context "project with required custom field"
+
     let(:source) { FactoryGirl.build(:work_package) }
     let(:sink) { FactoryGirl.build(:work_package) }
 
-    shared_examples_for "work package copy" do
-      subject { sink.project_id }
-
-      it { should eq(project_id) }
+    before do
+      source.project_id = project.id
+      change_custom_field_value(source, 'MySQL')
     end
 
-    before { source.project_id = 1 }
+    shared_examples_for "work package copy" do
+      context :subject do
+        subject { sink.subject }
+
+        it { should eq(source.subject) }
+      end
+
+      context :type do
+        subject { sink.type }
+
+        it { should eq(source.type) }
+      end
+
+      context :status do
+        subject { sink.status }
+
+        it { should eq(source.status) }
+      end
+
+      context :project do
+        subject { sink.project_id }
+
+        it { should eq(project_id) }
+      end
+
+      context :custom_field do
+        subject { sink.custom_value_for(custom_field.id).value }
+
+        it { should eq('MySQL') }
+      end
+    end
 
     context "should copy project" do
       let(:project_id) { source.project_id }

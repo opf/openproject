@@ -16,26 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_copy
-    issue = Issue.new.copy_from(1)
-    assert issue.save
-    issue.reload
-    orig = Issue.find(1)
-    assert_equal orig.subject, issue.subject
-    assert_equal orig.type, issue.type
-    assert_equal "125", issue.custom_value_for(2).value
-  end
-
-  def test_copy_should_copy_status
-    orig = Issue.find(8)
-    assert orig.status != IssueStatus.default
-
-    issue = Issue.new.copy_from(orig)
-    assert issue.save
-    issue.reload
-    assert_equal orig.status, issue.status
-  end
-
   def test_should_close_duplicates
     # Create 3 issues
     issue1 = Issue.new.tap do |i|
