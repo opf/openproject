@@ -28,8 +28,7 @@ module OpenProject::RepositoryAuthentication
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'OpenProject Repository Authentication',
-             'openproject-repository_authentication',
+    register 'openproject-repository_authentication',
              :author_url => 'http://finn.de',
              :requires_openproject => '>= 3.0.0pre6'
 
