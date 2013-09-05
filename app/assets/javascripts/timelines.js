@@ -3586,21 +3586,20 @@ Timeline = {
     return {
       all: ['end_date', 'planning_element_types', 'project_status', 'project_type', 'responsible', 'start_date'],
       type: function (data, pet, pt) {
+        var ptName, petName;
         if (pt !== undefined) {
-          if (pt === null) {
-            return jQuery('<span class="tl-column">-</span>');
+          if (pt !== null) {
+            ptName = pt.name;
           }
-
-          return jQuery('<span class="tl-column">' + timeline.escape(pt.name) + '</span>');
         }
 
         if (pet !== undefined) {
-          if (pet === null) {
-            return jQuery('<span class="tl-column">-</span>');
+          if (pet !== null) {
+            petName = pet.name;
           }
-
-          return jQuery('<span class="tl-column">' + timeline.escape(pet.name) + '</span>');
         }
+
+        return jQuery('<span class="tl-column">' + (ptName || petName || "-") + '</span>');
       },
       project_status: function(data) {
         var status;
