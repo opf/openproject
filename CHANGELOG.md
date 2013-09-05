@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.0.0.pre4
+
 * `#1875` Added document block to my project page
 
 ## 1.0.0.pre3
