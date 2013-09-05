@@ -1,6 +1,5 @@
 # Changelog
 
-# `#1912` Merge column project type with column planning element type
 * `#1755` Migrate helper-tests for issues into specs for work package
 * `#1766` Fixed bug: Viewing diff of Work Package description results in error 500
 * `#1767` Fixed bug: Viewing changesets results in "page not found"
@@ -10,6 +9,7 @@
 * `#1875` Added test steps to reuse steps for my page, my project page, and documents, no my page block lookup at class load time
 * `#1876` Timelines do not show work packages when there is no status reporting
 * `#1896` Moved visibility-tests for issues into specs for workpackages
+* `#1912` Merge column project type with column planning element type
 
 ## 3.0.0pre14
 
