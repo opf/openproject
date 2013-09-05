@@ -27,18 +27,6 @@ GIT
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
 
-PATH
-  remote: ~/workspace/openproject-plugins/openproject-documents
-  specs:
-    openproject-documents (1.0.0.pre3)
-      rails (~> 3.2.9)
-
-PATH
-  remote: ~/workspace/openproject-plugins/openproject-my_project_page
-  specs:
-    openproject-my_project_page (3.0.0)
-      rails (~> 3.2.9)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -411,8 +399,6 @@ DEPENDENCIES
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
   object-daddy!
-  openproject-documents!
-  openproject-my_project_page!
   pg
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!

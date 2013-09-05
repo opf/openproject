@@ -120,7 +120,7 @@ en:
       wiki_page:
         parent_title: "Parent page"
         redirect_existing_links: "Redirect existing links"
-      type_color:
+      planning_element_type_color:
         name: Name
         hexcode: Hex code
       project_association:

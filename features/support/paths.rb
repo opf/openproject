@@ -266,7 +266,7 @@ module NavigationHelpers
 
     when /^the page of the planning element "([^\"]+)" of the project called "([^\"]+)"$/
       planning_element_name = $1
-      planning_element = PlanningElement.find_by_subject(planning_element_name)
+      planning_element = WorkPackage.find_by_subject(planning_element_name)
       "/work_packages/#{planning_element.id}"
 
     when /^the (.+) page (?:for|of) the project called "([^\"]+)"$/

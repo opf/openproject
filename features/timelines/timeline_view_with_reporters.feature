@@ -28,6 +28,12 @@ Feature: Timeline View Tests with reporters
           | Standard Project      |
           | Extraordinary Project |
 
+      And there are the following status:
+          | name        | default |
+          | new         | true    |
+          | in progress | false   |
+          | closed      | false   |
+
       And there is 1 user with:
           | login | manager |
 
@@ -68,7 +74,7 @@ Feature: Timeline View Tests with reporters
           | timelines |
 
       And there are the following planning elements:
-        | Subject  | Start date | Due date   | description       | planning_element_status | responsible | type   |
+        | Subject  | Start date | Due date   | description       | status                  | responsible | type   |
         | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed                  | manager     | Phase1 |
         | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed                  | manager     | Phase2 |
         | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed                  | manager     | Phase3 |
@@ -83,7 +89,7 @@ Feature: Timeline View Tests with reporters
           | timelines |
 
       And there are the following planning elements:
-       | Subject    | Start date | Due date   | description       | planning_element_status | responsible    |
+       | Subject    | Start date | Due date   | description       | status                  | responsible    |
        | January13  | 2013-01-01 | 2013-01-31 | Aioli Grande      | closed                  | manager        |
        | February13 | 2013-02-01 | 2013-02-24 | Aioli Sali        | closed                  | manager        |
        | March13    | 2013-03-01 | 2013-03-30 | Sali Grande       | closed                  | manager        |
@@ -105,7 +111,7 @@ Feature: Timeline View Tests with reporters
           | timelines |
 
       And there are the following planning elements:
-        | Subject   | Start date | Due date   | description       | planning_element_status | responsible    |
+        | Subject   | Start date | Due date   | description       | status                  | responsible    |
         | July      | 2012-07-01 | 2013-07-31 | Aioli Grande      | closed                  | manager        |
         | August    | 2012-08-01 | 2013-08-31 | Aioli Sali        | closed                  | manager        |
         | Septembre | 2012-09-01 | 2013-09-30 | Sali Grande       | closed                  | manager        |
