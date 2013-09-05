@@ -43,13 +43,8 @@ class Issue < WorkPackage
   }
 
   before_create :default_assign
-  before_save :close_duplicates, :update_done_ratio_from_issue_status
+  before_save :update_done_ratio_from_issue_status
   before_destroy :remove_attachments
-
-  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
-  def available_custom_fields
-    (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []
-  end
 
   def status_id=(sid)
     self.status = nil
@@ -349,23 +344,6 @@ class Issue < WorkPackage
   def default_assign
     if assigned_to.nil? && category && category.assigned_to
       self.assigned_to = category.assigned_to
-    end
-  end
-
-  # Closes duplicates if the issue is being closed
-  def close_duplicates
-    if closing?
-      duplicates.each do |duplicate|
-        # Reload is need in case the duplicate was updated by a previous duplicate
-        duplicate.reload
-        # Don't re-close it if it's already closed
-        next if duplicate.closed?
-        # Implicitely creates a new journal
-        duplicate.update_attribute :status, self.status
-        # Same user and notes
-        duplicate.journals.last.user = current_journal.user
-        duplicate.journals.last.notes = current_journal.notes
-      end
     end
   end
 

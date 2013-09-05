@@ -60,7 +60,10 @@ class WorkPackage < ActiveRecord::Base
 
   acts_as_watchable
 
+  before_create :default_assign
+
   before_save :store_former_parent_id
+  before_save :close_duplicates
   include OpenProject::NestedSet::WithRootIdScope
   after_save :reschedule_following_issues,
              :update_parent_attributes
@@ -171,6 +174,16 @@ class WorkPackage < ActiveRecord::Base
 
   def self.use_field_for_done_ratio?
     Setting.issue_done_ratio == 'issue_field'
+  end
+
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
+  def available_custom_fields
+    (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []
+  end
+
+  def estimated_hours=(h)
+    converted_hours = (h.is_a?(String) ? h.to_hours : h)
+    write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
   end
 
   # Returns true if usr or current user is allowed to view the work_package
@@ -557,6 +570,30 @@ class WorkPackage < ActiveRecord::Base
     if new_record? # set default values for new records only
       self.status   ||= IssueStatus.default
       self.priority ||= IssuePriority.default
+    end
+  end
+
+  # Closes duplicates if the issue is being closed
+  def close_duplicates
+    if closing?
+      duplicates.each do |duplicate|
+        # Reload is need in case the duplicate was updated by a previous duplicate
+        duplicate.reload
+        # Don't re-close it if it's already closed
+        next if duplicate.closed?
+        # Implicitely creates a new journal
+        duplicate.update_attribute :status, self.status
+        # Same user and notes
+        duplicate.journals.last.user = current_journal.user
+        duplicate.journals.last.notes = current_journal.notes
+      end
+    end
+  end
+
+  # Default assignment based on category
+  def default_assign
+    if assigned_to.nil? && category && category.assigned_to
+      self.assigned_to = category.assigned_to
     end
   end
 
