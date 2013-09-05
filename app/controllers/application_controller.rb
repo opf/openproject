@@ -207,7 +207,7 @@ class ApplicationController < ActionController::Base
         end
         format.any(:xml, :js, :json)  {
           head :unauthorized,
-          "Reason" => "login needed",
+          "X-Reason" => "login needed",
           'WWW-Authenticate' => authentication_scheme + ' realm="OpenProject API"'
         }
       end
