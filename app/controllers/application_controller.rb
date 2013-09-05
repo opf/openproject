@@ -82,16 +82,8 @@ class ApplicationController < ActionController::Base
     require "repository/#{scm.underscore}"
   end
 
-  def redirect_to(options = {}, response_status = {})
-    if options.is_a?(String) && respond_to?(:params) && !params["layout"].nil?
-      uri = "layout=" + params["layout"]
-
-      if options.index(uri).nil?
-        options += (options.index('?').nil? ? '?' : '&') + uri
-      end
-    end
-
-    super
+  def default_url_options(options={})
+    { :layout => params["layout"] }
   end
 
   # the current user is a per-session kind of thing and session stuff is controller responsibility.

@@ -21,20 +21,6 @@ module ApplicationHelper
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
 
-  def url_for(options={})
-    url = super
-
-    if respond_to?(:params) && !params["layout"].nil?
-      uri = "layout=" + params["layout"]
-
-      if url.index(uri).nil?
-        url += (url.index('?').nil? ? '?' : '&') + uri
-      end
-    end
-
-    url
-  end
-
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
     User.current.allowed_to?({:controller => controller, :action => action}, @project)
