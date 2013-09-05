@@ -203,6 +203,8 @@ class RepositoriesController < ApplicationController
   end
 
   def stats
+    @show_commits_per_author = current_user.allowed_to_in_project?(:view_commit_author_statistics,
+                                                                  @project)
   end
 
   def graph
