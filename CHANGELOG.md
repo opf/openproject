@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.1.pre1
+
+* Fixed error message
+* fix block finding
+
 ## 3.0.0
 
 * `#1875` removed the documents-block, that now resides in the documents-plugin
