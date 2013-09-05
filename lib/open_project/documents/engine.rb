@@ -40,6 +40,10 @@ module OpenProject::Documents
       Rails.application.config.assets.precompile += %w(documents.css)
     end
 
+    initializer 'documents.register_test_paths' do |app|
+      app.config.plugins_to_test_paths << self.root
+    end
+
     initializer "documents.register_hooks" do
       require 'open_project/documents/hooks'
     end
