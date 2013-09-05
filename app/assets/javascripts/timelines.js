@@ -4895,7 +4895,7 @@ Timeline = {
     }
 
     if (typeof projectID !== "undefined") {
-      this.modalHelper.createPlanningModal("new", projectID);
+      this.modalHelper.create(projectID);
     }
   }
 };
