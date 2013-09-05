@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
   s.homepage    = "http://www.finn.de"
-  s.summary     = 'OpenProject plugin for exporting issue lists as Excel spreadsheets'
+  s.summary     = 'OpenProject XLS Export'
   s.description = 'Export issue lists as Excel spreadsheets (.xls). Support for exporting
     cost entries and cost reports is not yet migrated to Rails 3 and disabled.'
   s.license     = "GPLv3"
