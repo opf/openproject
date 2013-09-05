@@ -3585,14 +3585,21 @@ Timeline = {
     var timeline = this;
     return {
       all: ['end_date', 'planning_element_types', 'project_status', 'project_type', 'responsible', 'start_date'],
-      planning_element_types: function(data, pet, pt) {
-        if (pet === undefined) {
-          // nop
-        } else if (pet === null) {
-          return jQuery('<span class="tl-column">-</span>');
-        } else {
-          return jQuery('<span class="tl-column">' + timeline.escape(pet.name) + '</span>');
+      type: function (data, pet, pt) {
+        var ptName, petName;
+        if (pt !== undefined) {
+          if (pt !== null) {
+            ptName = pt.name;
+          }
         }
+
+        if (pet !== undefined) {
+          if (pet !== null) {
+            petName = pet.name;
+          }
+        }
+
+        return jQuery('<span class="tl-column">' + (ptName || petName || "-") + '</span>');
       },
       project_status: function(data) {
         var status;
@@ -3603,15 +3610,6 @@ Timeline = {
           return jQuery('<span class="tl-column">' + timeline.escape(status.name) + '</span>');
         } else {
           return jQuery('<span class="tl-column">-</span>');
-        }
-      },
-      project_type: function(data, pet, pt) {
-        if (pt === undefined) {
-          // nop
-        } else if (pt === null) {
-          return jQuery('<span class="tl-column">-</span>');
-        } else {
-          return jQuery('<span class="tl-column">' + timeline.escape(pt.name) + '</span>');
         }
       },
       responsible: function(data) {

@@ -1336,10 +1336,10 @@ de:
         date: "Datum"
         default: "Default"
       column:
+        type: "Typ"
         end_date: "Abschlussdatum"
         name: "Name"
         project_status: "Projekt-Status"
-        project_type: "Projekt-Typ"
         responsible: "Planungsverantwortlicher"
         start_date: "Startdatum"
       columns: "Spalten"
