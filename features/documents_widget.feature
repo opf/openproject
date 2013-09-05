@@ -15,7 +15,6 @@ Feature: Adding the document widget to personalisable pages
     And "Documents" should be disabled in the my project page available widgets drop down
 
   @javascript
-  @firebug
   Scenario: Adding a "Documents" widget to the my page
     And I am on the My page personalization page
     When I select "Documents" from the available widgets drop down
