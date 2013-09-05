@@ -32,7 +32,20 @@ class WorkPackages::MovesController < ApplicationController
       JournalManager.add_journal work_package, User.current, @notes || ""
 
       call_hook(:controller_work_packages_move_before_save, { :params => params, :work_package => work_package, :target_project => @target_project, :copy => !!@copy })
-      if r = work_package.move_to_project(@target_project, new_type, {:copy => @copy, :attributes => extract_changed_attributes_for_move(params)})
+
+      permitted_params = params.permit(:copy,
+                                       :assigned_to_id,
+                                       :responsible_id,
+                                       :start_date,
+                                       :due_date,
+                                       :priority_id,
+                                       :follow,
+                                       :new_type_id,
+                                       :new_project_id,
+                                       ids:[],
+                                       status_id:[])
+
+      if r = work_package.move_to_project(@target_project, new_type, {:copy => @copy, :attributes => permitted_params})
         moved_work_packages << r
       else
         unsaved_work_package_ids << work_package.id
@@ -90,16 +103,6 @@ class WorkPackages::MovesController < ApplicationController
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes]
     @notes ||= ''
-  end
-
-  def extract_changed_attributes_for_move(params)
-    changed_attributes = {}
-    [:assigned_to_id, :responsible_id, :status_id, :start_date, :due_date, :priority_id].each do |valid_attribute|
-      unless params[valid_attribute].blank?
-        changed_attributes[valid_attribute] = (params[valid_attribute] == 'none' ? nil : params[valid_attribute])
-      end
-    end
-    changed_attributes
   end
 
 end

@@ -12,7 +12,7 @@
 require 'spec_helper'
 
 describe WorkPackagesHelper do
-  let(:stub_work_package) { FactoryGirl.build_stubbed(:planning_element) }
+  let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:stub_type) { FactoryGirl.build_stubbed(:type) }
   let(:form) { double('form', :select => "").as_null_object }
@@ -239,7 +239,7 @@ describe WorkPackagesHelper do
     let(:statuses) { (1..5).map{ |i| FactoryGirl.build_stubbed(:issue_status)}}
     let(:priority) { FactoryGirl.build_stubbed :priority, is_default: true }
     let(:status) { statuses[0] }
-    let(:stub_work_package) { FactoryGirl.build_stubbed(:planning_element,
+    let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package,
                                                         :status => status,
                                                         :priority => priority) }
 

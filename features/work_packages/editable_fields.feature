@@ -42,7 +42,7 @@ Feature: Fields editable on work package edit
       | name | version1 |
     And the following types are enabled for projects of type "Standard Project"
       | Phase |
-    And there are the following planning elements in project "ecookbook":
+    And there are the following work packages in project "ecookbook":
       | subject  | description     | start_date | due_date   | done_ratio | type  | responsible | assigned_to | priority | parent   | estimated_hours | fixed_version |
       | parentpe |                 |            |            | 0          | Phase |             |             | prio1    |          |                 |               |
       | pe1      | pe1 description | 2013-01-01 | 2013-12-31 | 30         | Phase | manager     | manager     | prio1    | parentpe | 5               | version1      |
@@ -72,7 +72,7 @@ Feature: Fields editable on work package edit
       | view_work_packages |
       | log_time           |
 
-    And there are the following planning elements in project "ecookbook":
+    And there are the following work packages in project "ecookbook":
       | subject |
       | pe1     |
 
@@ -96,7 +96,7 @@ Feature: Fields editable on work package edit
       | name | type  |
       | cf1  | int   |
 
-    And there are the following planning elements in project "ecookbook":
+    And there are the following work packages in project "ecookbook":
       | subject |
       | pe1     |
 

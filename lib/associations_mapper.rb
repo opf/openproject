@@ -9,17 +9,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module NestedAttributesForApi
+module AssociationsMapper
   def self.included(base)
     base.extend(ClassMethods)
   end
 
   module ClassMethods
-    def accepts_nested_attributes_for_apis_for(*association_names)
+    # this allows you to set project=4711. which then dos a lookup
+    def map_associations_for(*association_names)
       association_names.each do |association_name|
         if reflection = reflect_on_association(association_name)
           class_eval %Q{
-            def #{association_name}_with_accepts_nested_attributes_for_apis=(new_value)
+            def #{association_name}_with_map_associations_for=(new_value)
               if new_value.present? && new_value.is_a?(Hash) && new_value.has_key?(:id)
                 obj = #{reflection.klass.name}.find_by_id(new_value[:id])
 
@@ -30,12 +31,12 @@ module NestedAttributesForApi
                   @errors_in_nested_attributes[:#{association_name}] = [:invalid]
                 end
               else
-                self.#{association_name}_without_accepts_nested_attributes_for_apis = new_value
+                self.#{association_name}_without_map_associations_for = new_value
               end
             end
-            alias_method_chain :#{association_name}=, :accepts_nested_attributes_for_apis
+            alias_method_chain :#{association_name}=, :map_associations_for
 
-            attr_accessible :#{association_name} unless included_modules.include?(ActiveModel::ForbiddenAttributesProtection)
+
           }, __FILE__, __LINE__
         else
           raise ArgumentError, "No association found for name `#{association_name}'. Has it been defined yet?"

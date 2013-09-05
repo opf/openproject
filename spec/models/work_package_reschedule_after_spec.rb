@@ -18,9 +18,9 @@ describe WorkPackage, "#reschedule_after" do
   let(:issue) { FactoryGirl.create(:issue, :project => project, :type => project.types.first) }
   let(:issue2) { FactoryGirl.create(:issue, :project => project, :type => project.types.first) }
   let(:issue3) { FactoryGirl.create(:issue, :project => project, :type => project.types.first) }
-  let(:planning_element) { FactoryGirl.create(:planning_element, :project => project) }
-  let(:planning_element2) { FactoryGirl.create(:planning_element, :project => project) }
-  let(:planning_element3) { FactoryGirl.create(:planning_element, :project => project) }
+  let(:planning_element) { FactoryGirl.create(:work_package, :project => project) }
+  let(:planning_element2) { FactoryGirl.create(:work_package, :project => project) }
+  let(:planning_element3) { FactoryGirl.create(:work_package, :project => project) }
 
   [:issue, :planning_element].each do |subclass|
 

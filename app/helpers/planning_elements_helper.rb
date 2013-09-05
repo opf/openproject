@@ -46,12 +46,10 @@ module PlanningElementsHelper
         api.planning_element_type(:id => type.id, :name => type.name)
       end
 
-      if planning_element.planning_element_status
-        status = planning_element.planning_element_status
+      if planning_element.status
+        status = planning_element.status
         api.planning_element_status(:id => status.id, :name => status.name)
       end
-
-      api.planning_element_status_comment(planning_element.planning_element_status_comment)
 
       if include_journals?
         api.array :journals, :size => planning_element.journals.size do

@@ -86,26 +86,6 @@ describe Project do
       end
     end
 
-    describe '#planning_elements' do
-      it 'can read planning elements w/ the help of the has_many association' do
-        project          = FactoryGirl.create(:project)
-        planning_element = FactoryGirl.create(:planning_element, :project_id => project.id)
-
-        project.reload
-
-        project.planning_elements.size.should  == 1
-        project.planning_elements.first.should == planning_element
-      end
-
-      it 'deletes associated planning elements' do
-        planning_element = FactoryGirl.create(:planning_element)
-
-        planning_element.project.destroy
-
-        expect { planning_element.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
-
     describe '#reportings' do
       it 'can read reportings via source w/ the help of the has_many association' do
         project   = FactoryGirl.create(:project)

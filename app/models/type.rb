@@ -35,9 +35,6 @@ class Type < ActiveRecord::Base
   belongs_to :color, :class_name  => 'PlanningElementTypeColor',
                      :foreign_key => 'color_id'
 
-  has_many :planning_elements, :class_name  => 'PlanningElement',
-                               :foreign_key => 'type_id',
-                               :dependent   => :nullify
   acts_as_list
 
   validates_presence_of   :name

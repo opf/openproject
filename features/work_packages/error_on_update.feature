@@ -27,7 +27,7 @@ Feature: Error messages are displayed
       | log_time           |
     And I am working in project "ecookbook"
     And the user "manager" is a "manager"
-    And there are the following planning elements in project "ecookbook":
+    And there are the following work packages in project "ecookbook":
       | subject |
       | pe1     |
     And there is an activity "design"

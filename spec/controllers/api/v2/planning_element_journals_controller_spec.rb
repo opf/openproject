@@ -16,7 +16,7 @@ describe Api::V2::PlanningElementJournalsController do
 
   describe 'index.xml' do
     def fetch
-      planning_element = FactoryGirl.create(:planning_element,
+      planning_element = FactoryGirl.create(:work_package,
                                             :project_id => project.id)
 
       get 'index', :project_id          => project.identifier,

@@ -26,8 +26,6 @@ class WorkPackagesController < ApplicationController
       wp = controller.work_package
 
       case wp
-      when PlanningElement
-        :planning_elements
       when Issue
         :issues
       end
@@ -296,8 +294,6 @@ class WorkPackagesController < ApplicationController
       sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
 
       wp = case sti_type
-           when PlanningElement.to_s
-             project.add_planning_element(permitted)
            when Issue.to_s
              project.add_issue(permitted)
            else
