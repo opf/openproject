@@ -68,7 +68,7 @@ Feature: Timeline Wiki Macro
       And there are the following planning element statuses:
               | Name     |
               | closed   |
-      And there are the following planning elements:
+      And there are the following work packages:
         | Subject  | Start date | Due date   | description         | status                  | responsible |
         | January  | 2012-01-01 | 2012-01-31 | Avocado Grande      | closed                  | manager     |
         | February | 2012-02-01 | 2012-02-24 | Avocado Sali        | closed                  | manager     |

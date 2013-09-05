@@ -73,7 +73,7 @@ Feature: Timeline View Tests with reporters
       And the project uses the following modules:
           | timelines |
 
-      And there are the following planning elements:
+      And there are the following work packages:
         | Subject  | Start date | Due date   | description       | status                  | responsible | type   |
         | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed                  | manager     | Phase1 |
         | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed                  | manager     | Phase2 |
@@ -88,7 +88,7 @@ Feature: Timeline View Tests with reporters
       And the project uses the following modules:
           | timelines |
 
-      And there are the following planning elements:
+      And there are the following work packages:
        | Subject    | Start date | Due date   | description       | status                  | responsible    |
        | January13  | 2013-01-01 | 2013-01-31 | Aioli Grande      | closed                  | manager        |
        | February13 | 2013-02-01 | 2013-02-24 | Aioli Sali        | closed                  | manager        |
@@ -110,7 +110,7 @@ Feature: Timeline View Tests with reporters
       And the project uses the following modules:
           | timelines |
 
-      And there are the following planning elements:
+      And there are the following work packages:
         | Subject   | Start date | Due date   | description       | status                  | responsible    |
         | July      | 2012-07-01 | 2013-07-31 | Aioli Grande      | closed                  | manager        |
         | August    | 2012-08-01 | 2013-08-31 | Aioli Sali        | closed                  | manager        |
