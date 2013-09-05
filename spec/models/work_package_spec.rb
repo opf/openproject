@@ -353,21 +353,28 @@ describe WorkPackage do
     let(:source) { FactoryGirl.build(:work_package) }
     let(:sink) { FactoryGirl.build(:work_package) }
 
-    it "should copy project" do
-      source.project_id = 1
+    shared_examples_for "work package copy" do
+      subject { sink.project_id }
 
-      sink.copy_from(source)
-
-      sink.project_id.should == source.project_id
+      it { should eq(project_id) }
     end
 
-    it "should not copy project if explicitly excluded" do
-      source.project_id = 1
-      orig_project_id = sink.project_id
+    before { source.project_id = 1 }
 
-      sink.copy_from(source, :exclude => [:project_id])
+    context "should copy project" do
+      let(:project_id) { source.project_id }
 
-      sink.project_id.should == orig_project_id
+      before { sink.copy_from(source) }
+
+      it_behaves_like "work package copy"
+    end
+
+    context "should not copy excluded project" do
+      let(:project_id) { sink.project_id }
+
+      before { sink.copy_from(source, :exclude => [:project_id]) }
+
+      it_behaves_like "work package copy"
     end
   end
 
