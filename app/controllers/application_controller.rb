@@ -82,6 +82,10 @@ class ApplicationController < ActionController::Base
     require "repository/#{scm.underscore}"
   end
 
+  def default_url_options(options={})
+    { :layout => params["layout"] }
+  end
+
   # the current user is a per-session kind of thing and session stuff is controller responsibility.
   # a globally accessible User.current is a big code smell. when used incorrectly it allows getting
   # the current user outside of a session scope, i.e. in the model layer, from mailers or in the console
@@ -203,7 +207,7 @@ class ApplicationController < ActionController::Base
         end
         format.any(:xml, :js, :json)  {
           head :unauthorized,
-          "Reason" => "login needed",
+          "X-Reason" => "login needed",
           'WWW-Authenticate' => authentication_scheme + ' realm="OpenProject API"'
         }
       end

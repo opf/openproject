@@ -103,6 +103,10 @@ When /^(?:|I )fill in the following:$/ do |fields|
   end
 end
 
+When (/^I do some ajax$/) do
+  click_link("Apply")
+end
+
 When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
   begin
     select(value, :from => field)
@@ -365,6 +369,13 @@ Given /^I (accept|dismiss) the alert dialog$/ do |method|
   if Capybara.current_driver.to_s.include?("selenium")
     page.driver.browser.switch_to.alert.send(method.to_s)
   end
+end
+
+Then /^(.*) in the iframe "([^\"]+)"$/ do |step, iframe_name|
+  browser = page.driver.browser
+  browser.switch_to.frame(iframe_name)
+  step(step)
+  browser.switch_to.default_content
 end
 
 # that's capybara's old behaviour: clicking the first button that matches

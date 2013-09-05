@@ -2249,6 +2249,15 @@ tr.context-menu-selection td.priority {
   background: none !important;
 }
 
+.nomenus #content {
+  margin: 0px;
+  padding: 0px;
+}
+
+.nomenus #main {
+  padding-bottom: 0px;
+}
+
 /* Blue dots killed */
 .nosidebar ul li {
   background: none;
@@ -3387,4 +3396,17 @@ input::-webkit-input-placeholder {
 }
 :-moz-placeholder {
   color:    #000000;
+}
+
+.ui-dialog { overflow: visible; }
+
+#ui-dialog-closer {
+    background-image: url(<%= asset_path 'modal_close.png' %>);
+    cursor: pointer;
+    height: 33px;
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    width: 33px;
+    z-index: 5000;
 }

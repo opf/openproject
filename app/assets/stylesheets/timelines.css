@@ -544,19 +544,6 @@ dt.timelines\2F planning-element {
   background-image: url(../assets/new_planning_element.png);
 }
 
-.ui-dialog { overflow: visible; }
-
-#ui-dialog-closer {
-    background-image: url("../assets/modal_close.png");
-    cursor: pointer;
-    height: 33px;
-    position: absolute;
-    right: -15px;
-    top: -15px;
-    width: 33px;
-    z-index: 5000;
-}
-
 #history .journal {
   background: none;
 }
