@@ -1318,10 +1318,10 @@ en:
         date: "date"
         default: "default"
       column:
+        type: "Type"
         end_date: "End date"
         name: "Name"
         project_status: "Project status"
-        project_type: "Project type"
         responsible: "Responsible"
         start_date: "Start date"
       columns: "Columns"
