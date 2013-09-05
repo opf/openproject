@@ -50,17 +50,18 @@ module OpenProject::Plugins
 
       # Register a plugin with OpenProject
       #
-      # readable_name: The plugin name shown in the OpenProject administration
+      # Uses Gem specification for plugin name, author etc.
+      #
       # gem_name:      The gem name, used for querying the gem for metadata like author
       # options:       An options Hash, at least :requires_openproject is recommended to
       #                define the minimal version of OpenProject the plugin is compatible with
       #                Another common option is :author_url.
-      base.send(:define_method, :register) do |readable_name, gem_name, options|
+      base.send(:define_method, :register) do |gem_name, options|
         base.initializer "#{engine_name}.register_plugin" do
           spec = Bundler.environment.specs[gem_name][0]
 
           Redmine::Plugin.register engine_name.to_sym do
-            name readable_name
+            name spec.summary
             author spec.authors.kind_of?(Array) ? spec.authors[0] : spec.authors
             description spec.description
             version spec.version
