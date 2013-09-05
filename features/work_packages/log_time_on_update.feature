@@ -29,7 +29,7 @@ Feature: Logging time on work package update
     And there are the following status:
       | name    | default |
       | status1 | true    |
-    And there are the following planning elements in project "ecookbook":
+    And there are the following work packages in project "ecookbook":
       | subject |
       | pe1     |
     And there is an activity "design"

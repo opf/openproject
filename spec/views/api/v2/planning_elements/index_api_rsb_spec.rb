@@ -38,9 +38,9 @@ describe 'api/v2/planning_elements/index.api.rsb' do
 
   describe 'with 3 planning elements available' do
     let(:planning_elements) {
-      [ FactoryGirl.build(:planning_element),
-        FactoryGirl.build(:planning_element),
-        FactoryGirl.build(:planning_element)
+      [ FactoryGirl.build(:work_package),
+        FactoryGirl.build(:work_package),
+        FactoryGirl.build(:work_package)
       ]
     }
 

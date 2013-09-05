@@ -37,6 +37,6 @@ class PlanningElementJournalsController < ApplicationController
 
   def find_planning_element_by_planning_element_id
     raise ActiveRecord::RecordNotFound if @project.blank?
-    @planning_element = @project.planning_elements.find(params[:planning_element_id])
+    @planning_element = @project.work_packages.find(params[:planning_element_id])
   end
 end

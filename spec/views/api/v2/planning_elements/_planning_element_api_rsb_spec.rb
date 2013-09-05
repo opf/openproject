@@ -9,6 +9,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+#
+# The spec is still using the planning-elements, although internally only work_packages are used.
+#
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/planning_elements/_planning_element.api' do
@@ -30,7 +33,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
     let(:project) { FactoryGirl.create(:project, :id => 4711,
                                              :identifier => 'test_project',
                                              :name => 'Test Project') }
-    let(:planning_element) { FactoryGirl.build(:planning_element,
+    let(:planning_element) { FactoryGirl.build(:work_package,
                                            :id => 1,
                                            :project_id => project.id,
                                            :subject => 'Awesometastic Planning Element',
@@ -38,8 +41,6 @@ describe 'api/v2/planning_elements/_planning_element.api' do
 
                                            :start_date => Date.parse('2011-12-06'),
                                            :due_date   => Date.parse('2011-12-13'),
-
-                                           :planning_element_status_comment => 'All going well',
 
                                            :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
                                            :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
@@ -92,17 +93,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
 
       it 'does not contain a planning_element_type node' do
         render
-        response.should_not have_selector('planning_element planning_element_type')
-      end
-
-      it 'does not contain a planning_element_status node' do
-        render
-        response.should_not have_selector('planning_element planning_element_status')
-      end
-
-      it 'contains a planning_element_status_comment node containing the planning element status comment' do
-        render
-        response.should have_selector('planning_element planning_element_status_comment', :text => 'All going well')
+        response.should_not have_selector('planning_element type')
       end
 
       it 'contains a created_at element containing the planning element created_at in UTC in ISO 8601' do
@@ -120,11 +111,11 @@ describe 'api/v2/planning_elements/_planning_element.api' do
   describe 'with a planning element having a parent' do
     let(:project) { FactoryGirl.create(:project) }
 
-    let(:parent_element)   { FactoryGirl.create(:planning_element,
+    let(:parent_element)   { FactoryGirl.create(:work_package,
                                             :id         => 1337,
                                             :subject       => 'Parent Element',
                                             :project_id => project.id) }
-    let(:planning_element) {  FactoryGirl.build(:planning_element,
+    let(:planning_element) {  FactoryGirl.build(:work_package,
                                             :parent_id  => parent_element.id,
                                             :project_id => project.id) }
 
@@ -136,16 +127,16 @@ describe 'api/v2/planning_elements/_planning_element.api' do
 
   describe 'with a planning element having children' do
     let(:project) { FactoryGirl.create(:project) }
-    let(:planning_element) { FactoryGirl.create(:planning_element,
+    let(:planning_element) { FactoryGirl.create(:work_package,
                                                 :id => 1338,
                                                 :project_id => project.id) }
     before do
-      FactoryGirl.create(:planning_element,
+      FactoryGirl.create(:work_package,
                      :project_id => project.id,
                      :parent_id  => planning_element.id,
                      :id         => 1339,
                      :subject    => 'Child #1')
-      FactoryGirl.create(:planning_element,
+      FactoryGirl.create(:work_package,
                      :project_id => project.id,
                      :parent_id  => planning_element.id,
                      :id         => 1340,
@@ -169,7 +160,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
                                             :id => 1341,
                                             :firstname => 'Paul',
                                             :lastname => 'McCartney') }
-    let(:planning_element) { FactoryGirl.build(:planning_element,
+    let(:planning_element) { FactoryGirl.build(:work_package,
                                            :responsible_id => responsible.id) }
 
     it 'renders a responsible node containing the responsible\'s id and name' do
@@ -182,7 +173,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
     let(:type) { FactoryGirl.create(:type,
                                     :id => 1342,
                                     :name => 'Typ A') }
-    let(:planning_element) { FactoryGirl.build(:planning_element,
+    let(:planning_element) { FactoryGirl.build(:work_package,
                                                :type_id => type.id) }
 
     it 'renders a planning_element_type node containing the type\'s id and name' do
@@ -192,11 +183,11 @@ describe 'api/v2/planning_elements/_planning_element.api' do
   end
 
   describe 'with a planning element having a planning element status' do
-    let(:planning_element_status) { FactoryGirl.create(:planning_element_status,
+    let(:planning_element_status) { FactoryGirl.create(:issue_status,
                                                    :id => 1343,
                                                    :name => 'All well') }
-    let(:planning_element) { FactoryGirl.build(:planning_element,
-                                           :planning_element_status_id => planning_element_status.id) }
+    let(:planning_element) { FactoryGirl.build(:work_package,
+                                               :status_id => planning_element_status.id) }
 
     it 'renders a planning_element_status node containing the status\'s id and name' do
       render
@@ -205,7 +196,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
   end
 
   describe "a destroyed planning element" do
-    let(:planning_element) { FactoryGirl.create(:planning_element) }
+    let(:planning_element) { FactoryGirl.create(:work_package) }
     before do
       planning_element.destroy
     end

@@ -114,9 +114,6 @@ class Project < ActiveRecord::Base
 
   has_many :timelines,         :class_name => "::Timeline",
                                          :dependent  => :destroy
-  has_many :planning_elements, :class_name => "::PlanningElement",
-                                         :dependent  => :destroy
-
   has_many :reportings_via_source, :class_name  => "::Reporting",
                                              :foreign_key => 'project_id',
                                              :dependent   => :delete_all
@@ -201,10 +198,6 @@ class Project < ActiveRecord::Base
     else
       true
     end
-  end
-
-  def has_many_dependent_for_planning_elements
-    planning_elements.each {|element| element.destroy!}
   end
 
   def self.selectable_projects
@@ -860,15 +853,6 @@ class Project < ActiveRecord::Base
       list << element
     end
     list
-  end
-
-  # TODO: merge with add_issue once type or similar is defined there
-  def add_planning_element(attributes = {})
-    attributes ||= {}
-
-    self.planning_elements.build do |pe|
-      pe.attributes = attributes
-    end
   end
 
   # TODO: merge with add_planning_elemement once type or similar is defined there

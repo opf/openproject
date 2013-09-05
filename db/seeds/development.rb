@@ -232,42 +232,42 @@ print "Creating objects for..."
     child_element = nil
 
 
-    element = PlanningElement.create!(project: project,
-                                      author: user,
-                                      status: statuses.sample,
-                                      subject: Faker::Lorem.words(5).join(" "),
-                                      description: Faker::Lorem.paragraph(5, true,3),
-                                      type: types.sample,
-                                      start_date: start_date,
-                                      due_date: due_date)
-    rand(5).times do
-      print "."
-      sub_start_date = rand(start_date..due_date)
-      sub_due_date   = rand(sub_start_date..due_date)
-      child_element = PlanningElement.create!(project: project,
-                                              parent: element,
-                                              author: user,
-                                              status: statuses.sample,
-                                              subject: Faker::Lorem.words(5).join(" "),
-                                              description: Faker::Lorem.paragraph(5, true,3),
-                                              type: types.sample,
-                                              start_date: sub_start_date,
-                                              due_date: sub_due_date)
-    end
-
-    [element, child_element].compact.each do |e|
-      2.times do
-        print "."
-        e.reload
-
-        e.status = statuses.sample if rand(99).even?
-        e.subject = Faker::Lorem.words(8).join(" ") if rand(99).even?
-        e.description = Faker::Lorem.paragraph(5, true,3) if rand(99).even?
-        e.type = types.sample if rand(99).even?
-
-        e.save!
-      end
-    end
+#     element = PlanningElement.create!(project: project,
+#                                       author: user,
+#                                       status: statuses.sample,
+#                                       subject: Faker::Lorem.words(5).join(" "),
+#                                       description: Faker::Lorem.paragraph(5, true,3),
+#                                       type: types.sample,
+#                                       start_date: start_date,
+#                                       due_date: due_date)
+#    rand(5).times do
+#      print "."
+#      sub_start_date = rand(start_date..due_date)
+#      sub_due_date   = rand(sub_start_date..due_date)
+#      child_element = PlanningElement.create!(project: project,
+#                                              parent: element,
+#                                              author: user,
+#                                              status: statuses.sample,
+#                                              subject: Faker::Lorem.words(5).join(" "),
+#                                              description: Faker::Lorem.paragraph(5, true,3),
+#                                              type: types.sample,
+#                                              start_date: sub_start_date,
+#                                              due_date: sub_due_date)
+#    end
+#
+#    [element, child_element].compact.each do |e|
+#      2.times do
+#        print "."
+#        e.reload
+#
+#        e.status = statuses.sample if rand(99).even?
+#        e.subject = Faker::Lorem.words(8).join(" ") if rand(99).even?
+#        e.description = Faker::Lorem.paragraph(5, true,3) if rand(99).even?
+#        e.type = types.sample if rand(99).even?
+#
+#        e.save!
+#      end
+#    end
 
   end
 

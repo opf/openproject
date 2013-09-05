@@ -23,7 +23,7 @@ describe 'api/v2/planning_elements/destroy.api.rsb' do
     params[:format] = 'xml'
   end
 
-  let(:planning_element) { FactoryGirl.build(:planning_element) }
+  let(:planning_element) { FactoryGirl.build(:work_package) }
 
   describe 'with an assigned planning element' do
     it 'renders a planning_element document' do

@@ -21,7 +21,13 @@ Feature: Timeline Wiki Macro
           | Standard Project      |
           | Extraordinary Project |
 
-      And there is 1 user with:
+      And there are the following status:
+          | name        | default |
+          | new         | true    |
+          | in progress | false   |
+          | closed      | false   |
+
+    And there is 1 user with:
           | login | manager |
 
       And there is 1 user with:
@@ -62,8 +68,8 @@ Feature: Timeline Wiki Macro
       And there are the following planning element statuses:
               | Name     |
               | closed   |
-      And there are the following planning elements:
-        | Subject  | Start date | Due date   | description         | planning_element_status | responsible |
+      And there are the following work packages:
+        | Subject  | Start date | Due date   | description         | status                  | responsible |
         | January  | 2012-01-01 | 2012-01-31 | Avocado Grande      | closed                  | manager     |
         | February | 2012-02-01 | 2012-02-24 | Avocado Sali        | closed                  | manager     |
         | March    | 2012-03-01 | 2012-03-30 | Sali Grande         | closed                  | manager     |

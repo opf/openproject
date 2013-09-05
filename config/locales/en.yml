@@ -123,14 +123,6 @@ en:
       planning_element_type_color:
         name: Name
         hexcode: Hex code
-      planning_element:
-        description: Description
-        id: ID
-        name: Name
-        start_date: Start date
-        deleted_at: Deleted at
-        planning_element_status: "Status"
-        # parent: Subelement of
       project_association:
         description: Cause
       project_type:
@@ -153,7 +145,6 @@ en:
         progress: "% done"
         responsible: "Responsible"
         spent_time: "Spent time"
-
     errors:
       messages:
         accepted: "must be accepted"
@@ -187,16 +178,16 @@ en:
         before: "must be before %{date}"
         before_or_equal_to: "must be before or equal to %{date}"
       models:
-        planning_element:
+        project_association:
+          identical_projects: "can not be created from one project to itself"
+          project_association_not_allowed: "does not allow associations"
+        work_package:
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones"
             parent:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
-        project_association:
-          identical_projects: "can not be created from one project to itself"
-          project_association_not_allowed: "does not allow associations"
         user:
           attributes:
             password:
