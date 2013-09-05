@@ -40,3 +40,14 @@ Feature: Timeline View Tests
       And I should see "Testline"
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"
 
+  @javascript
+  Scenario: switch timeline
+    When there is a timeline "Testline" for project "ecookbook"
+      And there is a timeline "Testline2" for project "ecookbook"
+      And I go to the page of the project called "ecookbook"
+      And I toggle the "Timelines" submenu
+      And I follow "Timeline reports"
+      And I switch the timeline to "Testline2"
+     Then I should see "New timeline report"
+      And I should see "Testline2"
+      And I should be on the page of the timeline "Testline2" of the project called "ecookbook"
