@@ -17,7 +17,6 @@ describe WorkPackage do
   let(:stub_version) { FactoryGirl.build_stubbed(:version) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:issue) { FactoryGirl.create(:issue) }
-  let(:planning_element) { FactoryGirl.create(:planning_element).reload }
   let(:user) { FactoryGirl.create(:user) }
 
   describe :assignable_users do
@@ -209,7 +208,7 @@ describe WorkPackage do
 
   describe :update_by! do
     #TODO remove once only WP exists
-    [:issue, :planning_element].each do |subclass|
+    [:issue].each do |subclass|
 
       describe "for #{subclass}" do
         let(:instance) { send(subclass) }
@@ -332,7 +331,7 @@ describe WorkPackage do
 
   describe :duration do
     #TODO remove once only WP exists
-    [:issue, :planning_element].each do |subclass|
+    [:issue].each do |subclass|
 
       describe "for #{subclass}" do
         let(:instance) { send(subclass) }
