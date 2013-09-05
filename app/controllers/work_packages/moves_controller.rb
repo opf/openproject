@@ -33,7 +33,17 @@ class WorkPackages::MovesController < ApplicationController
 
       call_hook(:controller_work_packages_move_before_save, { :params => params, :work_package => work_package, :target_project => @target_project, :copy => !!@copy })
 
-      permitted_params = params.permit(*PermittedParams.permitted_attributes[:work_package_move])
+      permitted_params = params.permit(:copy,
+                                       :assigned_to_id,
+                                       :responsible_id,
+                                       :start_date,
+                                       :due_date,
+                                       :priority_id,
+                                       :follow,
+                                       :new_type_id,
+                                       :new_project_id,
+                                       ids:[],
+                                       status_id:[])
 
       if r = work_package.move_to_project(@target_project, new_type, {:copy => @copy, :attributes => permitted_params})
         moved_work_packages << r

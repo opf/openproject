@@ -195,7 +195,6 @@ class PermittedParams < Struct.new(:params, :user)
                                                        end
                                                      end
                                                    ],
-                               :work_package_move =>[:assigned_to_id, :responsible_id, :status_id, :start_date, :due_date, :priority_id],
                                :color_move => [:move_to],
                                :color => [
                                            :name,
