@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.0.0.pre2
+
 * `#1907` Adapt XLS export to WorkPackagesController.index
 
 ## 1.0.0.pre1
