@@ -481,16 +481,6 @@ describe PermittedParams do
     end
   end
 
-  describe :work_package_move do
-    it "should permit al parameters required for a move" do
-      hash = { "priority_id" => 4711, "due_date" => "30/11/2013", "start_date" => "30/11/2013"  }
-
-      params = ActionController::Parameters.new(hash)
-
-      params.permit(*PermittedParams.permitted_attributes[:work_package_move]).should == hash
-    end
-
-  end
   describe :user do
     admin_permissions = ['firstname',
                          'lastname',

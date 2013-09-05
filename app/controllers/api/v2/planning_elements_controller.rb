@@ -73,7 +73,7 @@ module Api
       end
 
       def show
-        @planning_element = @project.planning_elements.find(params[:id])
+        @planning_element = @project.work_packages.find(params[:id])
 
         respond_to do |format|
           format.api
@@ -157,7 +157,7 @@ module Api
       # remove this and replace by calls it with calls
       # to assign_planning_elements once WorkPackages can be created
       def planning_element_scope
-        @project.planning_elements.without_deleted
+        @project.work_packages.without_deleted
       end
 
       # Helpers

@@ -74,7 +74,7 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def planning_element
-    params.require(:work_package).permit(*self.class.permitted_attributes[:work_package])
+    params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
   end
 
   def new_work_package(args = {})
