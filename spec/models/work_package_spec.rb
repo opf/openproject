@@ -615,6 +615,155 @@ describe WorkPackage do
     end
   end
 
+  describe :move do
+    let(:work_package) { FactoryGirl.create(:work_package,
+                                            project: project,
+                                            type: type) }
+    let(:target_project) { FactoryGirl.create(:project) }
+
+    shared_examples_for "moved work package" do
+      subject { work_package.project }
+
+      it { should eq(target_project) }
+    end
+
+    describe :time_entries do
+      let(:time_entry_1) { FactoryGirl.create(:time_entry,
+                                              project: project,
+                                              work_package: work_package) }
+      let(:time_entry_2) { FactoryGirl.create(:time_entry,
+                                              project: project,
+                                              work_package: work_package) }
+
+      before do
+        time_entry_1
+        time_entry_2
+
+        work_package.reload
+        work_package.move_to_project(target_project)
+
+        time_entry_1.reload
+        time_entry_2.reload
+      end
+
+      context "time entry 1" do
+        subject { work_package.time_entries } 
+
+        it { should include(time_entry_1) }
+      end
+
+      context "time entry 2" do
+        subject { work_package.time_entries } 
+
+        it { should include(time_entry_2) }
+      end
+
+      it_behaves_like "moved work package"
+    end
+
+    describe :category do
+      let(:category) { FactoryGirl.create(:issue_category,
+                                          project: project) }
+
+      before do
+        work_package.category = category
+        work_package.save!
+
+        work_package.reload
+      end
+
+      context "with same category" do
+        let(:target_category) { FactoryGirl.create(:issue_category,
+                                                   name: category.name,
+                                                   project: target_project) }
+
+        before do
+          target_category
+
+          work_package.move_to_project(target_project)
+        end
+
+        describe "category moved" do
+          subject { work_package.category_id }
+
+          it { should eq(target_category.id) }
+        end
+        
+        it_behaves_like "moved work package"
+      end
+
+      context "w/o target category" do
+        before { work_package.move_to_project(target_project) }
+
+        describe "category discarded" do
+          subject { work_package.category_id }
+
+          it { should be_nil }
+        end
+
+        it_behaves_like "moved work package"
+      end
+    end
+
+    describe :version do
+      let(:sharing) { 'none' }
+      let(:version) { FactoryGirl.create(:version,
+                                         status: 'open',
+                                         project: project,
+                                         sharing: sharing) }
+      let(:work_package) { FactoryGirl.create(:work_package,
+                                              fixed_version: version,
+                                              project: project) }
+
+      before { work_package.move_to_project(target_project) }
+
+      it_behaves_like "moved work package"
+
+      context "unshared version" do
+        subject { work_package.fixed_version }
+
+        it { should be_nil }
+      end
+
+      context "system wide shared version" do
+        let(:sharing) { 'system' }
+
+        subject { work_package.fixed_version }
+
+        it { should eq(version) }
+      end
+
+      context "move work package in project hierarchy" do
+        let(:target_project) { FactoryGirl.create(:project,
+                                                  parent: project) }
+
+        context "unshared version" do
+          subject { work_package.fixed_version }
+
+          it { should be_nil }
+        end
+
+        context "shared version" do
+          let(:sharing) { 'tree' }
+
+          subject { work_package.fixed_version }
+
+          it { should eq(version) }
+        end
+      end
+    end
+
+    describe :type do
+      let(:target_type) { FactoryGirl.create(:type) }
+      let(:target_project) { FactoryGirl.create(:project,
+                                                  types: [ target_type ]) }
+
+      subject { work_package.move_to_project(target_project) }
+
+      it { should be_false }
+    end
+  end
+
   describe :new_statuses_allowed_to do
 
     let(:role) { FactoryGirl.create(:role) }
