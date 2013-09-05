@@ -26,7 +26,7 @@ Feature: A work packages changesets are displayed on the work package show page
 
       And the user "manager" is a "manager"
 
-      And there are the following planning elements in project "ecookbook":
+      And there are the following work packages in project "ecookbook":
         | subject | start_date | due_date   |
         | pe1     | 2013-01-01 | 2013-12-31 |
 

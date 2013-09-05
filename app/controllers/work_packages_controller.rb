@@ -26,8 +26,6 @@ class WorkPackagesController < ApplicationController
       wp = controller.work_package
 
       case wp
-      when PlanningElement
-        :planning_elements
       when Issue
         :issues
       end

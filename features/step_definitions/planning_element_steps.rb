@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Given (/^there are the following planning elements(?: in project "([^"]*)")?:$/) do |project_name, table|
+Given (/^there are the following work packages(?: in project "([^"]*)")?:$/) do |project_name, table|
   project = get_project(project_name)
   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
 
