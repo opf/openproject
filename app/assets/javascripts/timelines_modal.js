@@ -1,8 +1,16 @@
-/** create a planning modal
- * @param type either new, edit or show.
+//-- copyright
+// OpenProject is a project management system.
+//
+// Copyright (C) 2012-2013 the OpenProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+/** create a work package creation modal
  * @param projectId id of the project to create the modal for.
- * @param elementId element id to create the modal for. not needed for new type.
- * @param callback called when done
  */
 ModalHelper.prototype.create = function(projectId) {
   var modalHelper = this;
