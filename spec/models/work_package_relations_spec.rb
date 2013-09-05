@@ -39,30 +39,18 @@ describe WorkPackage do
       relation_dup_2_org
     end
 
-    shared_examples_for "work package closed" do
-      before { work_package.reload }
-
-      subject { work_package.closed? }
-
-      it { should be_true }
-    end
-
-    describe "duplicates are closed" do
+    describe "closes duplicates" do
       before do
         original.status = closed_state
         original.save!
+
+        dup_1.reload
+        dup_2.reload
       end
 
-      context "first duplicate closed" do
-        let(:work_package) { dup_1 }
-
-        it_behaves_like "work package closed"
-      end
-
-      context "second duplicate closed" do
-        let(:work_package) { dup_2 }
-
-        it_behaves_like "work package closed"
+      it "duplicates are closed" do
+        dup_1.closed?.should be_true
+        dup_2.closed?.should be_true
       end
     end
 
