@@ -58,12 +58,6 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_equal 'image/svg+xml', @response.content_type
   end
 
-  def test_graph_commits_per_author
-    get :graph, :id => 1, :graph => 'commits_per_author'
-    assert_response :success
-    assert_equal 'image/svg+xml', @response.content_type
-  end
-
   def test_committers
     @request.session[:user_id] = 2
     # add a commit with an unknown user
