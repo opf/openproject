@@ -16,17 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_copy_to_the_same_project
-    issue = Issue.find(1)
-    copy = nil
-    assert_difference 'Issue.count' do
-      copy = issue.move_to_project(issue.project, nil, :copy => true)
-    end
-    assert_kind_of Issue, copy
-    assert_equal issue.project, copy.project
-    assert_equal "125", copy.custom_value_for(2).value
-  end
-
   def test_copy_to_another_project_and_type
     issue = Issue.find(1)
     copy = nil

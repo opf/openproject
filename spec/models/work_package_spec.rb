@@ -756,11 +756,50 @@ describe WorkPackage do
     describe :type do
       let(:target_type) { FactoryGirl.create(:type) }
       let(:target_project) { FactoryGirl.create(:project,
-                                                  types: [ target_type ]) }
+                                                types: [ target_type ]) }
 
       subject { work_package.move_to_project(target_project) }
 
       it { should be_false }
+    end
+  end
+
+  describe :copy do
+    let(:source_project) { FactoryGirl.create(:project) }
+    let(:work_package) { FactoryGirl.create(:work_package,
+                                            project: source_project) }
+
+    shared_examples_for "copied work package" do
+      subject { copy.id }
+
+      it { should_not eq(work_package.id) }
+    end
+
+    describe "to the same project" do
+      let(:copy) { work_package.move_to_project(source_project, nil, :copy => true) }
+
+      it_behaves_like "copied work package"
+
+      context :project do
+        subject { copy.project }
+
+        it { should eq(source_project) }
+      end
+    end
+
+    describe "to a different project" do
+      let(:target_type) { FactoryGirl.create(:type) }
+      let(:target_project) { FactoryGirl.create(:project,
+                                                types: [target_type]) }
+      let(:copy) { work_package.move_to_project(target_project, target_type, :copy => true) }
+
+      it_behaves_like "copied work package"
+
+      context :project do
+        subject { copy.project_id }
+
+        it { should eq(target_project.id) }
+      end
     end
   end
 
