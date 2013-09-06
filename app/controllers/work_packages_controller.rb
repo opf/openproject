@@ -90,7 +90,6 @@ class WorkPackagesController < ApplicationController
       format.html { render :locals => { :work_package => work_package,
                                         :project => project,
                                         :priorities => priorities,
-                                        :notes => "",
                                         :user => current_user } }
     end
   end
@@ -103,7 +102,6 @@ class WorkPackagesController < ApplicationController
       format.js { render :locals => { :work_package => work_package,
                                       :project => project,
                                       :priorities => priorities,
-                                      :notes => "",
                                       :user => current_user } }
     end
   end
@@ -145,7 +143,6 @@ class WorkPackagesController < ApplicationController
                  :project => project,
                  :priorities => priorities,
                  :time_entry => time_entry,
-                 :notes => "",
                  :user => current_user }
 
     respond_to do |format|
@@ -261,28 +258,26 @@ class WorkPackagesController < ApplicationController
   end
 
   def quoted
+    text, author = if params[:journal_id]
+                     journal = work_package.journals.find(params[:journal_id])
+
+                     [journal.notes, journal.user]
+                   else
+
+                     [work_package.description, work_package.author]
+                   end
+
+    work_package.journal_notes = "#{ll(Setting.default_language, :text_user_wrote, author)}\n> "
+
+    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
+    work_package.journal_notes << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+
     locals = { :work_package => work_package,
                :allowed_statuses => allowed_statuses,
                :project => project,
                :priorities => priorities,
                :time_entry => time_entry,
-               :notes => "",
                :user => current_user }
-
-    journal = Journal.find(params[:journal_id]) if params[:journal_id]
-    if journal
-      user = journal.user
-      text = journal.notes
-    else
-      user = work_package.author
-      text = work_package.description
-      journal = work_package.current_journal
-    end
-
-    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
-    quoted_text = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
-    quoted_text << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
-    locals[:notes] = quoted_text
 
     respond_to do |format|
       format.js { render :partial => 'edit', locals: locals }
