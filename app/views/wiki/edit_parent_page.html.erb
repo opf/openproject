@@ -1,0 +1,36 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<h2><%= t(:button_change_parent_page) %>: <%= h(@page.title) %></h2>
+
+<%= error_messages_for 'page' %>
+
+<%= labelled_tabular_form_for @page, :url => { :action => 'update_parent_page' } do |f| %>
+  <div class="box">
+    <p>
+      <%= f.select :parent_id,
+            "<option value=''></option>".html_safe + wiki_page_options_for_select(@parent_pages,
+                                                                                  @page.parent),
+            {:label => WikiPage.human_attribute_name(:parent_title) },
+            {:size => "#{@parent_pages.size + 1}", :class => "parent-select"} %>
+    </p>
+
+    <%= javascript_tag do -%>
+      jQuery(function() {
+          var parent_select = jQuery('#wiki_page_parent_id');
+          parent_select.attr('size', parent_select.children().length);
+        }
+      ));
+    <% end -%>
+  </div>
+  <%= submit_tag t(:button_save) %>
+<% end %>

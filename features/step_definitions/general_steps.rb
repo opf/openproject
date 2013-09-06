@@ -87,17 +87,6 @@ Then /^the project "([^"]*)" is( not)? public$/ do |project_name, negation|
   p.update_attribute(:is_public, !negation)
 end
 
-Given /^the [Pp]roject "([^\"]*)" has 1 [wW]iki(?: )?[pP]age with the following:$/ do |project, table|
-  p = Project.find_by_name(project)
-
-  p.wiki.create! unless p.wiki
-
-  page = FactoryGirl.create(:wiki_page, :wiki => p.wiki)
-  content = FactoryGirl.create(:wiki_content, :page => page)
-
-  send_table_to_object(page, table)
-end
-
 Given /^the plugin (.+) is loaded$/ do |plugin_name|
   plugin_name = plugin_name.gsub("\"", "")
   Redmine::Plugin.all.detect {|x| x.id == plugin_name.to_sym}.present? ? nil : pending("Plugin #{plugin_name} not loaded")

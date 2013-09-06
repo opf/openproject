@@ -9,6 +9,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+Given /^the [Pp]roject "([^\"]*)" has 1 [wW]iki(?: )?[pP]age with the following:$/ do |project, table|
+  p = Project.find_by_name(project)
+
+  p.wiki.create! unless p.wiki
+
+  page = FactoryGirl.create(:wiki_page, :wiki => p.wiki)
+  content = FactoryGirl.create(:wiki_content, :page => page)
+
+  send_table_to_object(page, table)
+end
+
 Given /^there are no wiki menu items$/ do
   WikiMenuItem.destroy_all
 end

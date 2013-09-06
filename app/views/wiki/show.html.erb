@@ -26,7 +26,14 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= content_tag(:li, link_to(l(:create_child_page), wiki_new_child_path(:id => @page.title, :project_id => @project), :class => 'icon icon-duplicate')) %>
       <% end %>
     <% end %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_rename), {:action => 'rename', :id => @page.title}, :class => 'icon icon-rename')) if @content.version == @page.content.version %>
+    <% if @content.version == @page.content.version %>
+      <%= li_unless_nil(link_to_if_authorized(t(:button_rename),
+                                              {:action => 'rename', :id => @page.title},
+                                              :class => 'icon icon-rename')) %>
+      <%= li_unless_nil(link_to_if_authorized(t(:button_change_parent_page),
+                                              {:action => 'edit_parent_page', :id => @page.title},
+                                              :class => 'icon icon-parent')) %>
+    <% end %>
     <%= li_unless_nil(link_to_if_authorized(l(:button_delete), {:action => 'destroy', :id => @page.title}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')) %>
     <%= li_unless_nil(link_to_if_authorized(l(:button_rollback), {:action => 'edit', :id => @page.title, :version => @content.version }, :class => 'icon icon-cancel')) if @content.version < @page.content.version %>
   <% end %>

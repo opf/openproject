@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1898` Separate action for changing wiki parent page (was same as rename before)
+
 ## 3.0.0pre15
 
 * `#1301` Ajax call when logged out should open a popup window
