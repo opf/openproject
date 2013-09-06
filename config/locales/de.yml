@@ -9,6 +9,9 @@ de:
         participants_attended: "Anwesend"
         participants_invited: "Eingeladen"
         start_time: "Anfangszeit"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Protokoll"
 
   description_attended: "teilgenommen"
   description_invite: "eingeladen"

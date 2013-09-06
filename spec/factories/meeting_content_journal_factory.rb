@@ -9,10 +9,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'meeting_minutes'
+# require 'meeting_minutes'
+
+# FactoryGirl.define do
+#   factory :meeting_content_journal do |m|
+#     m.association :journaled, :factory => :meeting_minutes
+#   end
+# end
 
 FactoryGirl.define do
-  factory :meeting_minutes_journal do |m|
-    m.association :journaled, :factory => :meeting_minutes
+  factory :journal_meeting_content_journal, :class => Journal::MeetingContentJournal do
   end
 end

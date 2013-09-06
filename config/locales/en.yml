@@ -9,6 +9,9 @@ en:
         participants_attended: "Attendants"
         participants_invited: "Invitees"
         start_time: "Time"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Minutes"
 
   description_attended: "attended"
   description_invite: "invited"

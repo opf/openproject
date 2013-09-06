@@ -22,8 +22,18 @@ class MeetingContent < ActiveRecord::Base
 
   before_save :comment_to_journal_notes
 
+  acts_as_journalized :activity_type => 'meetings',
+    :activity_permission => :view_meetings,
+    :activity_find_options => {:include => {:meeting => :project}},
+    :event_title => Proc.new {|o| "#{o.journal.journable.class.model_name.human}: #{o.journal.journable.meeting.title}"},
+    :event_url => Proc.new {|o| {:controller => '/meetings', :action => 'show', :id => o.journal.journable.meeting}}
+
   User.before_destroy do |user|
     MeetingContent.update_all ['author_id = ?', DeletedUser.first], ['author_id = ?', user.id]
+  end
+
+  def activity_type
+    'meetings'
   end
 
   def editable?
@@ -39,6 +49,13 @@ class MeetingContent < ActiveRecord::Base
     content_from = self.journals.find_by_version(version_from)
 
     (content_to && content_from) ? WikiPage::WikiDiff.new(content_to, content_from) : nil
+  end
+
+  def at_version(version)
+    # TODO: instead of retrieving all versions and filtering them, we should just select the single version
+    # from the db - as a start, something using find_by_version could be used
+    versions = journals.select {|journal| journal.journable.type == self.class.to_s }
+    versions[version.to_i - 1].data
   end
 
   # Compatibility for mailer.rb
@@ -62,6 +79,6 @@ class MeetingContent < ActiveRecord::Base
   private
 
   def comment_to_journal_notes
-    init_journal(author, comment) unless changes.empty?
+    add_journal(author, comment) unless changes.empty?
   end
 end
