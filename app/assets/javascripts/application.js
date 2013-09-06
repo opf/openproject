@@ -648,15 +648,21 @@ jQuery(document).ready(function($) {
         containerCssClass : "select2-select",
       }).
       on('change', function (e) {
-          if (e.val) {
+        // this handles expected 'new-tab behaviour'
+        if (e.val) {
+          // jQuery sets metaKey to true when pressing ctrl
+          if (event.metaKey) {
+            window.open(select2.data().project.url);
+          } else {
             window.location = select2.data().project.url;
           }
-        }).
+        }
+      }).
       on('close', function () {
-          if (menu.is('.open')) {
-            menu.slideAndFocus(that.propagateOpenClose);
-          }
-        });
+        if (menu.is('.open')) {
+          menu.trigger("closeMenu");
+        }
+      });
 
     select2 = select.data('select2');
 
