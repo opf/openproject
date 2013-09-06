@@ -27,7 +27,7 @@ module Redmine
                 ActiveSupport::Deprecation.warn(error)
                 nil
               else
-                gem_spec.full_gem_path + '/**/my/blocks/_*.{rhtml,erb}'
+                gem_spec.full_gem_path + '/app/views/my/blocks/_*.{rhtml,erb}'
               end
             end.compact
           ).inject({}) do |h,file|
