@@ -19,4 +19,6 @@ describe WorkPackagesController, "edit_work_packages permission", :type => :cont
   check_permission_required_for('work_packages#update', :edit_work_packages)
   check_permission_required_for('work_packages#new_type', :edit_work_packages)
   check_permission_required_for('work_packages#quoted', :edit_work_packages)
+
+  check_permission_required_for('journals#preview', :edit_work_packages)
 end

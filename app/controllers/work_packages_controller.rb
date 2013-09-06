@@ -109,23 +109,12 @@ class WorkPackagesController < ApplicationController
   end
 
   def preview
-    if params.has_key? :journal_id
-      journal = Journal.find(params[:id])
+    safe_params = permitted_params.update_work_package(project: project)
+    work_package.update_by(current_user, safe_params)
 
-      journal.notes = params[:notes]
-
-      respond_to do |format|
-        format.any(:html, :js) { render 'journal_preview', locals: { journal: journal },
-                                                           layout: false }
-      end
-    else
-      safe_params = permitted_params.update_work_package(project: project)
-      work_package.update_by(current_user, safe_params)
-
-      respond_to do |format|
-        format.any(:html, :js) { render 'preview', locals: { work_package: work_package },
-                                                   layout: false }
-      end
+    respond_to do |format|
+      format.any(:html, :js) { render 'preview', locals: { work_package: work_package },
+                                                 layout: false }
     end
   end
 

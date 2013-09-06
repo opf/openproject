@@ -81,7 +81,9 @@ OpenProject::Application.routes.draw do
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes
-  resources :journals, :only => [:edit, :update]
+  resources :journals, :only => [:edit, :update] do
+    get :preview, on: :member
+  end
 
   # REVIEW: review those wiki routes
   scope "projects/:project_id/wiki/:id" do

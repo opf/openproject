@@ -90,7 +90,7 @@ Redmine::AccessControl.map do |map|
     map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, :require => :loggedin
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form],
                                           :work_packages => [:edit, :update, :new_type, :preview, :quoted],
-                                          :'issues/previews' => :create}
+                                          :journals => :preview }
     map.permission :edit_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :edit_own_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :delete_work_packages, {:work_packages => :destroy}, :require => :member
