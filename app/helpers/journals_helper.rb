@@ -61,9 +61,6 @@ module JournalsHelper
   end
 
   def render_notes(model, journal, options={})
-    action = 'edit'
-    reply_links = authorize_for(:work_packages, action)
-
     if User.current.logged?
       editable = User.current.allowed_to?(options[:edit_permission], journal.project) if options[:edit_permission]
       if journal.user == User.current && options[:edit_own_permission]
@@ -72,10 +69,16 @@ module JournalsHelper
     end
 
     unless journal.notes.blank?
+
       links = [].tap do |l|
-        if reply_links
+        if options[:quote_permission] && User.current.allowed_to?(options[:quote_permission], journal.project)
+          # TODO: This is a hack.
+          # it assumes that there is a quoted action on the controller
+          # currently rendering the view
+          # the quote link should somehow be supplied
+          controller_name = controller.class.to_s.underscore.gsub(/_controller$/,"").to_sym
           l << link_to(image_tag('quote.png', :alt => l(:button_quote), :title => l(:button_quote)),
-                                                { :controller => :work_packages,
+                                                { :controller => controller_name,
                                                   :action => 'quoted',
                                                   :id => model,
                                                   :journal_id => journal }, :class => 'quote-link')
