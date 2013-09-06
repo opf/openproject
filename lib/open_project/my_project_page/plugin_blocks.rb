@@ -26,7 +26,7 @@ module OpenProject
                 ActiveSupport::Deprecation.warn(error)
               nil
             else
-              gem_spec.full_gem_path + '/**/my_projects_overviews/blocks/_*.{rhtml,erb}'
+              gem_spec.full_gem_path + '/app/views/my_projects_overviews/blocks/_*.{rhtml,erb}'
             end
           end.compact
       ).inject({}) do |h,file|
