@@ -421,10 +421,6 @@ class WorkPackage < ActiveRecord::Base
     blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
 
-  def self.use_status_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_status'
-  end
-
   # Returns the total number of hours spent on this issue and its descendants
   #
   # Example:
@@ -797,10 +793,6 @@ class WorkPackage < ActiveRecord::Base
     'fixed_version_id',
     'done_ratio',
     :if => lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
-
-  def self.use_field_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_field'
-  end
 
   def <=>(issue)
     if issue.nil?
