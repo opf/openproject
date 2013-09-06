@@ -15,10 +15,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'page' %>
 
 <%= labelled_tabular_form_for @page, :url => { :action => 'rename' }, :as => :wiki_page do |f| %>
-<div class="box">
-<p><%= f.text_field :title, :required => true, :size => 100  %></p>
-<p><%= f.check_box :redirect_existing_links %></p>
-<p><%= f.select :parent_id, content_tag(:option, '', :value => '') + wiki_page_options_for_select(@wiki.pages.all(:include => :parent) - @page.self_and_descendants, @page.parent), :label => WikiPage.human_attribute_name(:parent_title) %></p>
-</div>
-<%= submit_tag l(:button_rename) %>
+  <div class="box">
+    <p><%= f.text_field :title, :required => true, :size => 100  %></p>
+    <p><%= f.check_box :redirect_existing_links %></p>
+  </div>
+  <%= submit_tag l(:button_rename) %>
 <% end %>
