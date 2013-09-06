@@ -282,7 +282,6 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.js { render :partial => 'edit', locals: locals }
       format.html { render :action => 'edit', locals: locals }
-      format.xml  { }
     end
   end
 
