@@ -112,29 +112,33 @@ class Project < ActiveRecord::Base
 
   belongs_to :responsible,  :class_name => "User"
 
-  has_many :timelines,         :class_name => "::Timeline",
-                                         :dependent  => :destroy
+  has_many :timelines,  :class_name => "::Timeline",
+                        :dependent  => :destroy
+
   has_many :reportings_via_source, :class_name  => "::Reporting",
-                                             :foreign_key => 'project_id',
-                                             :dependent   => :delete_all
+                                   :foreign_key => 'project_id',
+                                   :dependent   => :delete_all
+
   has_many :reportings_via_target, :class_name  => "::Reporting",
-                                             :foreign_key => 'reporting_to_project_id',
-                                             :dependent   => :delete_all
+                                   :foreign_key => 'reporting_to_project_id',
+                                   :dependent   => :delete_all
 
   has_many :reporting_to_projects, :through => :reportings_via_source,
-                                             :source  => :reporting_to_project
+                                   :source  => :reporting_to_project
 
   has_many :project_a_associations, :class_name  => "::ProjectAssociation",
-                                              :foreign_key => 'project_a_id',
-                                              :dependent   => :delete_all
+                                    :foreign_key => 'project_a_id',
+                                    :dependent   => :delete_all
+
   has_many :project_b_associations, :class_name  => "::ProjectAssociation",
-                                              :foreign_key => 'project_b_id',
-                                              :dependent   => :delete_all
+                                    :foreign_key => 'project_b_id',
+                                    :dependent   => :delete_all
 
   has_many :associated_a_projects, :through => :project_a_associations,
-                                             :source  => :project_b
+                                   :source  => :project_b
+
   has_many :associated_b_projects, :through => :project_b_associations,
-                                             :source  => :project_a
+                                   :source  => :project_a
 
   include TimelinesCollectionProxy
 
