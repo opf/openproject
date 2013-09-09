@@ -371,6 +371,8 @@ module WorkPackagesHelper
   end
 
   def work_package_show_progress_attribute(work_package)
+    return if Setting.issue_done_ratio == 'disabled'
+
     work_package_show_table_row(:progress, 'done-ratio') do
       progress_bar work_package.done_ratio, :width => '80px', :legend => work_package.done_ratio.to_s
     end

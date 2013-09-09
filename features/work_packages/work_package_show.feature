@@ -71,6 +71,13 @@ Feature: Viewing a work package
     When I go to the page of the work package "issue1"
     Then I should see "Bug #1: issue1"
     Then I should see "Bug #2: issue2" within ".idnt-1"
+    And I should see "0 Total progress"
+
+  Scenario: View work package with issue done ratio disabled
+    Given the "issue_done_ratio" setting is set to disabled
+    When I go to the page of the work package "issue1"
+    Then I should see "Bug #1: issue1"
+    And I should not see "Total progress"
 
   Scenario: View child work package of type issue
     When I go to the page of the work package "issue1"
