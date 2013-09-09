@@ -10,8 +10,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% if @project %>
-<div class="new-issue button-large">
-  <%= link_to("Open a New Issue", {:controller => '/issues', :action => 'new', :project_id => @project}, :title => "Open a New Issue", :class => '') %>
-</div>
-<% end %>
+<fieldset class="preview">
+  <legend>
+    <%= Journal.human_attribute_name(:notes) %>
+  </legend>
+
+  <%= textilizable journal.notes, object: journal %>
+</fieldset>

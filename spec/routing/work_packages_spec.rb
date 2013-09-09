@@ -60,16 +60,26 @@ describe WorkPackagesController do
                                                        :project_id => '1' )
   end
 
-  it "should connect GET /work_packages/moves/:work_package_id to work_packages/moves#new" do
-    get("/work_packages/1/moves/new").should route_to( :controller => 'work_packages/moves',
+  it "should connect GET /work_packages/:work_package_id/moves/new to work_packages/moves#new" do
+    get("/work_packages/1/move/new").should route_to( :controller => 'work_packages/moves',
                                                        :action => 'new',
                                                        :work_package_id => '1' )
   end
 
-  it "should connect POST /work_packages/moves/:work_package_id to work_packages/moves#create" do
-    post("/work_packages/1/moves/").should route_to( :controller => 'work_packages/moves',
-                                                           :action => 'create',
-                                                           :work_package_id => '1' )
+  it "should connect POST /work_packages/:work_package_id/moves to work_packages/moves#create" do
+    post("/work_packages/1/move/").should route_to( :controller => 'work_packages/moves',
+                                                     :action => 'create',
+                                                     :work_package_id => '1' )
+  end
+
+  it "should connect GET /work_packages/moves/new?ids=1,2,3 to work_packages/moves#new" do
+    get("/work_packages/move/new?ids=1,2,3").should route_to( :controller => 'work_packages/moves',
+                                                               :action => 'new' )
+  end
+
+  it "should connect POST /work_packages/moves to work_packages/moves#create" do
+    post("/work_packages/move?ids=1,2,3").should route_to( :controller => 'work_packages/moves',
+                                                            :action => 'create' )
   end
 
   it "should connect PUT /work_packages/1 to work_packages#update" do
@@ -78,16 +88,16 @@ describe WorkPackagesController do
                                              :id => '1' )
   end
 
-  it "should connect POST /work_packages/1/preview to work_packages#preview" do
-    post("/work_packages/1/preview").should route_to( :controller => 'work_packages',
-                                                      :action => 'preview',
-                                                      :id => '1' )
+  it "should connect PUT /work_packages/1/preview to work_packages#preview" do
+    put("/work_packages/1/preview").should route_to( :controller => 'work_packages',
+                                                     :action => 'preview',
+                                                     :id => '1' )
   end
 
-  it "should connect POST /project/1/work_packages/preview to work_packages#preview" do
-    post("/projects/1/work_packages/preview").should route_to( :controller => 'work_packages',
-                                                               :action => 'preview',
-                                                               :project_id => '1' )
+  it "should connect PUT /project/1/work_packages/preview to work_packages#preview" do
+    put("/projects/1/work_packages/preview").should route_to( :controller => 'work_packages',
+                                                              :action => 'preview',
+                                                              :project_id => '1' )
   end
 
 end

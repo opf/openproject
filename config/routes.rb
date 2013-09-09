@@ -81,7 +81,9 @@ OpenProject::Application.routes.draw do
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes
-  resources :journals, :only => [:edit, :update]
+  resources :journals, :only => [:edit, :update] do
+    get :preview, on: :member
+  end
 
   # REVIEW: review those wiki routes
   scope "projects/:project_id/wiki/:id" do
@@ -209,7 +211,7 @@ OpenProject::Application.routes.draw do
 
     resources :work_packages, :only => [:new, :create, :index] do
       get :new_type, :on => :collection
-      post :preview, :on => :collection
+      put :preview, :on => :collection
     end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
@@ -298,11 +300,15 @@ OpenProject::Application.routes.draw do
 
   resources :work_packages, :only => [:show, :edit, :update, :index] do
     get :new_type, :on => :member
-    post :preview, :on => :member
+    put :preview, :on => :member
 
     resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
 
-    resource :moves, :controller => 'work_packages/moves', :only => [:new, :create]
+    # move bulk of wps
+    get 'move/new' => 'work_packages/moves#new', :on => :collection, :as => 'new_move'
+    post 'move' => 'work_packages/moves#create', :on => :collection, :as => 'move'
+    # move individual wp
+    resource :move, :controller => 'work_packages/moves', :only => [:new, :create]
 
     resources :time_entries, :controller => 'timelog',
                              :only => [:new]

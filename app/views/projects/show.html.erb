@@ -46,8 +46,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <ul>
       <% for type in @types %>
         <li><%= link_to (type.is_standard) ? l(:default_type) : h(type.name),
-                        :controller => '/issues', :action => 'index', :project_id => @project,
-                        :set_filter => 1,
+                        controller: :work_packages, action: :index, project_id: @project,
+                        set_filter: 1,
                         "type_id" => type.id %>:
             <%= l(:label_x_open_work_packages_abbr_on_total, :count => @open_issues_by_type[type].to_i,
                                                              :total => @total_issues_by_type[type].to_i) %>
@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
     </ul>
     <p>
-      <%= link_to l(:label_work_package_view_all), :controller => '/issues', :action => 'index', :project_id => @project, :set_filter => 1 %>
+      <%= link_to l(:label_work_package_view_all), controller: :work_packages, action: :index, project_id: @project, set_filter: 1 %>
       <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
         | <%= link_to(l(:label_calendar), :controller => '/issues/calendars', :action => 'index', :project_id => @project) %>
       <% end %>
