@@ -44,7 +44,7 @@ describe ProjectsHelper do
 
     describe 'with a valid user' do
       let(:user) { FactoryGirl.create :user, :member_in_project => test_project }
-      before { User.current = user}
+      before { User.stub(:current).and_return(user)}
 
       it 'generates a link' do
         link_to_version(version).should == "<a href=\"/versions/#{version.id}\">#{test_project.name} - #{version.name}</a>"
