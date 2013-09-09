@@ -21,7 +21,7 @@ describe WorkPackage do
 
   describe :assignable_users do
     it 'should return all users the project deems to be assignable' do
-      stub_work_package.project.stub!(:assignable_users).and_return([stub_user])
+      stub_work_package.project.stub(:assignable_users).and_return([stub_user])
 
       stub_work_package.assignable_users.should include(stub_user)
     end
@@ -38,7 +38,7 @@ describe WorkPackage do
         self
       end
 
-      stub_work_package.project.stub!(:shared_versions).and_return(versions)
+      stub_work_package.project.stub(:shared_versions).and_return(versions)
     end
 
     it "should return all the project's shared versions" do
@@ -50,8 +50,8 @@ describe WorkPackage do
     it "should return the current fixed_version" do
       stub_shared_versions
 
-      stub_work_package.stub!(:fixed_version_id_was).and_return(5)
-      Version.stub!(:find_by_id).with(5).and_return(stub_version)
+      stub_work_package.stub(:fixed_version_id_was).and_return(5)
+      Version.stub(:find_by_id).with(5).and_return(stub_version)
 
       stub_work_package.assignable_versions.should == [stub_version]
     end

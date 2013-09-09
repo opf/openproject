@@ -15,7 +15,7 @@ describe MyController, :type => :controller do
   describe 'password change' do
     let(:user) { FactoryGirl.create(:user) }
     before(:each) do
-      User.stub!(:current).and_return(user)
+      User.stub(:current).and_return(user)
     end
 
     describe :password do

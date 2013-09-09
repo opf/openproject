@@ -16,7 +16,7 @@ describe WorkPackagesController do
   before do
     User.stub(:current).and_return current_user
     # disables sending mails
-    UserMailer.stub!(:new).and_return(double('mailer').as_null_object)
+    UserMailer.stub(:new).and_return(double('mailer').as_null_object)
   end
 
   let(:planning_element) { FactoryGirl.create(:work_package, :project_id => project.id) }
@@ -329,7 +329,7 @@ describe WorkPackagesController do
           params[:attachments] = 'attachment-blubs-data'
 
           Attachment.should_receive(:attach_files).with(stub_work_package, params[:attachments])
-          controller.stub!(:render_attachment_warning_if_needed)
+          controller.stub(:render_attachment_warning_if_needed)
 
           call_action
         end
@@ -593,13 +593,13 @@ describe WorkPackagesController do
       planning_element.save
       planning_element.reload
 
-      controller.stub!(:work_package).and_return(planning_element)
+      controller.stub(:work_package).and_return(planning_element)
 
       controller.journals.should == [planning_element.journals.last]
     end
 
     it "should be empty if the work_package has only one journal" do
-      controller.stub!(:work_package).and_return(planning_element)
+      controller.stub(:work_package).and_return(planning_element)
 
       controller.journals.should be_empty
     end
@@ -611,13 +611,13 @@ describe WorkPackagesController do
     let(:changesets) { [change1, change2] }
 
     before do
-      planning_element.stub!(:changesets).and_return(changesets)
+      planning_element.stub(:changesets).and_return(changesets)
       # couldn't get stub_chain to work
       # https://www.relishapp.com/rspec/rspec-mocks/v/2-0/docs/stubs/stub-a-chain-of-methods
       [:visible, :all, :includes].each do |meth|
-        changesets.stub!(meth).and_return(changesets)
+        changesets.stub(meth).and_return(changesets)
       end
-      controller.stub!(:work_package).and_return(planning_element)
+      controller.stub(:work_package).and_return(planning_element)
     end
 
     it "should have all the work_package's changesets" do
@@ -625,9 +625,9 @@ describe WorkPackagesController do
     end
 
     it "should have all the work_package's changesets in reverse order if the user wan'ts it that way" do
-      controller.stub!(:current_user).and_return(stub_user)
+      controller.stub(:current_user).and_return(stub_user)
 
-      stub_user.stub!(:wants_comments_in_reverse_order?).and_return(true)
+      stub_user.stub(:wants_comments_in_reverse_order?).and_return(true)
 
       controller.changesets.should == [change2, change1]
     end
@@ -639,19 +639,19 @@ describe WorkPackagesController do
     let(:relations) { [relation] }
 
     before do
-      controller.stub!(:work_package).and_return(stub_issue)
+      controller.stub(:work_package).and_return(stub_issue)
       stub_issue.stub(:relations).and_return(relations)
-      relations.stub!(:includes).and_return(relations)
+      relations.stub(:includes).and_return(relations)
     end
 
     it "should return all the work_packages's relations visible to the user" do
-      stub_planning_element.stub!(:visible?).and_return(true)
+      stub_planning_element.stub(:visible?).and_return(true)
 
       controller.relations.should == relations
     end
 
     it "should not return relations invisible to the user" do
-      stub_planning_element.stub!(:visible?).and_return(false)
+      stub_planning_element.stub(:visible?).and_return(false)
 
       controller.relations.should == []
     end
@@ -669,7 +669,7 @@ describe WorkPackagesController do
       let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_id => ancestor_issue.id) }
 
       it "should return the work_packages ancestors" do
-        controller.stub!(:work_package).and_return(issue)
+        controller.stub(:work_package).and_return(issue)
 
         controller.ancestors.should == [ancestor_issue]
       end
@@ -679,7 +679,7 @@ describe WorkPackagesController do
       let(:descendant_planning_element) { FactoryGirl.create(:work_package, :project => project,
                                                                                 :parent_id => planning_element.id) }
       it "should return the work_packages ancestors" do
-        controller.stub!(:work_package).and_return(descendant_planning_element)
+        controller.stub(:work_package).and_return(descendant_planning_element)
 
         controller.ancestors.should == [planning_element]
       end
@@ -700,7 +700,7 @@ describe WorkPackagesController do
     it "should return all defined priorities" do
       expected = double('priorities')
 
-      IssuePriority.stub!(:all).and_return(expected)
+      IssuePriority.stub(:all).and_return(expected)
 
       controller.priorities.should == expected
     end
@@ -710,9 +710,9 @@ describe WorkPackagesController do
     it "should return all statuses allowed by the issue" do
       expected = double('statuses')
 
-      controller.stub!(:work_package).and_return(stub_issue)
+      controller.stub(:work_package).and_return(stub_issue)
 
-      stub_issue.stub!(:new_statuses_allowed_to).with(current_user).and_return(expected)
+      stub_issue.stub(:new_statuses_allowed_to).with(current_user).and_return(expected)
 
       controller.allowed_statuses.should == expected
     end
@@ -720,13 +720,13 @@ describe WorkPackagesController do
 
   describe :time_entry do
     before do
-      controller.stub!(:work_package).and_return(stub_planning_element)
+      controller.stub(:work_package).and_return(stub_planning_element)
     end
 
     it "should return a time entry" do
       expected = double('time_entry')
 
-      stub_planning_element.stub!(:add_time_entry).and_return(expected)
+      stub_planning_element.stub(:add_time_entry).and_return(expected)
 
       controller.time_entry.should == expected
     end

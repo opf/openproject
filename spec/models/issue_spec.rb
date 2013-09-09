@@ -27,7 +27,7 @@ describe Issue do
       @project ||= FactoryGirl.create(:project_with_types)
 
       @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
-      User.stub!(:current).and_return(@current)
+      User.stub(:current).and_return(@current)
 
       @user2 = FactoryGirl.create(:user, :login => "user2", :mail => "user2@users.com")
 
