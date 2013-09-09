@@ -15,7 +15,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if !@issue.nil? -%>
   <li class="edit">
-    <%= context_menu_link l(:button_edit), edit_issue_path(@issue),
+    <%= context_menu_link l(:button_edit), edit_work_package_path(@issue),
 	                                         :class => 'icon-edit',
                                            :disabled => !@can[:edit] %>
   </li>
@@ -94,7 +94,7 @@ See doc/COPYRIGHT.rdoc for more details.
 	<% if @can[:log_time] -%>
     <li class="log_time">
       <%= context_menu_link l(:button_log_time),
-                            new_issue_time_entry_path(@issue),
+                            new_work_package_time_entry_path(@issue),
 	                          :class => 'context_item' %>
     </li>
   <% end %>
@@ -108,27 +108,27 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if @issue.present? %>
   <li>
-    <%= context_menu_link l(:button_duplicate), new_project_issue_path({ :project_id => @project,
-                                                                         :copy_from => @issue }),
+    <%= context_menu_link l(:button_duplicate), new_project_work_package_path({ :project_id => @project,
+                                                                                :copy_from => @issue }),
                                                 :class => 'icon-duplicate',
                                                 :disabled => !@can[:copy] %>
   </li>
 <% end %>
 
   <li class="move">
-    <%= context_menu_link l(:button_move), new_issues_move_path(:ids => @issues.collect(&:id)),
+    <%= context_menu_link l(:button_move), new_move_work_packages_path(:ids => @issues.collect(&:id)),
 	                                         :class => 'context_item',
                                            :disabled => !@can[:move] %>
   </li>
 
   <li class="copy">
-    <%= context_menu_link l(:button_copy), new_issues_move_path(:ids => @issues.collect(&:id),
-                                                                :copy_options => { :copy => 't' }),
-                                                                :class => 'context_item' %>
+    <%= context_menu_link l(:button_copy), new_move_work_packages_path(:ids => @issues.collect(&:id),
+                                           :copy_options => { :copy => 't' }),
+                                           :class => 'context_item' %>
   </li>
 
   <li class="delete">
-    <%= context_menu_link l(:button_delete), issues_path(:ids => @issues.collect(&:id)),
+    <%= context_menu_link l(:button_delete), work_packages_path(:ids => @issues.collect(&:id)),
                                              :method => :delete,
                                              :confirm => l(:text_work_packages_destroy_confirmation),
                                              :class => 'context_item',

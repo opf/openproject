@@ -304,7 +304,11 @@ OpenProject::Application.routes.draw do
 
     resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
 
-    resource :moves, :controller => 'work_packages/moves', :only => [:new, :create]
+    # move bulk of wps
+    get 'move/new' => 'work_packages/moves#new', :on => :collection, :as => 'new_move'
+    post 'move' => 'work_packages/moves#create', :on => :collection, :as => 'move'
+    # move individual wp
+    resource :move, :controller => 'work_packages/moves', :only => [:new, :create]
 
     resources :time_entries, :controller => 'timelog',
                              :only => [:new]
