@@ -107,12 +107,12 @@ class WorkPackagesController < ApplicationController
   end
 
   def preview
-    safe_params = permitted_params.update_work_package(:project => project)
+    safe_params = permitted_params.update_work_package(project: project)
     work_package.update_by(current_user, safe_params)
 
     respond_to do |format|
-      format.any(:html, :js) { render 'preview', :locals => { :work_package => work_package },
-                                                 :layout => false }
+      format.any(:html, :js) { render 'preview', locals: { work_package: work_package },
+                                                 layout: false }
     end
   end
 
@@ -255,6 +255,34 @@ class WorkPackagesController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def quoted
+    text, author = if params[:journal_id]
+                     journal = work_package.journals.find(params[:journal_id])
+
+                     [journal.notes, journal.user]
+                   else
+
+                     [work_package.description, work_package.author]
+                   end
+
+    work_package.journal_notes = "#{ll(Setting.default_language, :text_user_wrote, author)}\n> "
+
+    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
+    work_package.journal_notes << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+
+    locals = { :work_package => work_package,
+               :allowed_statuses => allowed_statuses,
+               :project => project,
+               :priorities => priorities,
+               :time_entry => time_entry,
+               :user => current_user }
+
+    respond_to do |format|
+      format.js { render :partial => 'edit', locals: locals }
+      format.html { render :action => 'edit', locals: locals }
+    end
   end
 
   def work_package

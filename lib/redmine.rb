@@ -88,9 +88,11 @@ Redmine::AccessControl.map do |map|
                                  :'issues/previews' => :create}
     map.permission :add_work_packages, { :work_packages => [:new, :new_type, :preview, :create] }
     map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, :require => :loggedin
-    map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
-                                          :work_packages => [:edit, :update, :new_type, :preview],
-                                          :'issues/previews' => :create}
+    map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form],
+                                          :work_packages => [:edit, :update, :new_type, :preview, :quoted],
+                                          :journals => :preview }
+    map.permission :edit_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
+    map.permission :edit_own_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :delete_work_packages, {:work_packages => :destroy}, :require => :member
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
