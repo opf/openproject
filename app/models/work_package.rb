@@ -586,6 +586,21 @@ class WorkPackage < ActiveRecord::Base
     send :attributes_without_type_first=, new_attributes
   end
 
+  # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
+  # even if the user turns off the setting later
+  def update_done_ratio_from_issue_status
+    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio
+      self.done_ratio = status.default_done_ratio
+    end
+  end
+
+  # Is the amount of work done less than it should for the due date
+  def behind_schedule?
+    return false if start_date.nil? || due_date.nil?
+    done_date = start_date + ((due_date - start_date+1)* done_ratio/100).floor
+    return done_date <= Date.today
+  end
+
   protected
 
   def recalculate_attributes_for(work_package_id)
@@ -783,21 +798,6 @@ class WorkPackage < ActiveRecord::Base
 
   def self.use_field_for_done_ratio?
     Setting.issue_done_ratio == 'issue_field'
-  end
-
-  # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
-  # even if the user turns off the setting later
-  def update_done_ratio_from_issue_status
-    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio
-      self.done_ratio = status.default_done_ratio
-    end
-  end
-
-  # Is the amount of work done less than it should for the due date
-  def behind_schedule?
-    return false if start_date.nil? || due_date.nil?
-    done_date = start_date + ((due_date - start_date+1)* done_ratio/100).floor
-    return done_date <= Date.today
   end
 
   def <=>(issue)
