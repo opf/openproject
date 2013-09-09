@@ -18,14 +18,6 @@ end
 When /^I click on the Save Link$/ do
   click_link("Save")
 end
-When(/^I switch the timeline to "(.*?)"$/) do |arg1|
-  within "div#s2id_timeline_select" do
-    click_link("Testline")
-  end
-  element = find('.select2-results', :text => 'Testline2')
-  element.click
-  element.native.send_keys(:return)
-end
 When(/^I hide empty projects for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
