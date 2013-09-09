@@ -225,13 +225,13 @@ print "Creating objects for..."
   puts ""
   print "......create planning elements"
 
-  rand(30).times do
-    print "."
-    start_date = rand(90).days.from_now
-    due_date   = start_date + 5.day + rand(30).days
-    child_element = nil
-
-
+#  rand(30).times do
+#    print "."
+#    start_date = rand(90).days.from_now
+#    due_date   = start_date + 5.day + rand(30).days
+#    child_element = nil
+#
+#
 #     element = PlanningElement.create!(project: project,
 #                                       author: user,
 #                                       status: statuses.sample,
@@ -268,8 +268,8 @@ print "Creating objects for..."
 #        e.save!
 #      end
 #    end
-
-  end
+#
+#  end
 
   ## create some messages
 
@@ -352,7 +352,7 @@ end
 
 print "done."
 puts "\n"
-puts "#{PlanningElement.where(:project_id => project.id).count} planning_elements created."
+# puts "#{PlanningElement.where(:project_id => project.id).count} planning_elements created."
 puts "#{Issue.where(:project_id => project.id).count} issues created."
 puts "#{Message.joins(:board).where(boards: { :project_id => project.id }).count} messages created."
 puts "#{News.where(:project_id => project.id).count} news created."
