@@ -47,17 +47,17 @@ namespace :copyright do
   def copyright_regexp(format)
     case format
     when :ruby, :rb
-      /^#--\s*copyright.*?\+\+/m
+      /^(?<shebang>#![^\n]+\n)?#--\s*copyright.*?\+\+/m
     when :js, :css
-      /^\/\/--\s*copyright.*?\/\/\+\+/m
+      /^(?<shebang>#![^\n]+\n)?\/\/--\s*copyright.*?\/\/\+\+/m
     when :erb
-      /^<%#--\s*copyright.*?\+\+#%>/m
+      /^(?<shebang>#![^\n]+\n)?<%#--\s*copyright.*?\+\+#%>/m
     when :rdoc
-      /-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n$/
+      /(?<shebang>)?-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n$/
     when :md
-      /^<!----\s*copyright.*?\+\+-->/m
+      /^(?<shebang>#![^\n]+\n)?<!----\s*copyright.*?\+\+-->/m
     when :sql
-      /^-- --\s*copyright.*?\+\+/m
+      /^(?<shebang>#![^\n]+\n)?-- --\s*copyright.*?\+\+/m
     else
       raise "Undefined format #{format}"
     end
@@ -76,7 +76,7 @@ namespace :copyright do
 
       file_content = File.read(file_name)
       if file_content.match(regexp)
-        file_content.gsub!(regexp, copyright)
+        file_content.gsub!(regexp, '\k<shebang>' + copyright)
       else
         if options[:position] == :bottom
           file_content = file_content + "\n\n" + copyright # append
