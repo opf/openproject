@@ -1,3 +1,4 @@
+#!/usr/bin/env rake
 #-- copyright
 # OpenProject is a project management system.
 #
