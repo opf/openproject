@@ -42,6 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% unless @types.nil? %>
   <% params = default_params.merge(:collection => @types,
                                    :attribute => 'type',
+                                   :title => WorkPackage.human_attribute_name(:type),
                                    :selected => lambda { |type| (@issue && type == @issue.type) },
                                    :disabled => lambda { |type| !@can[:edit] }) %>
   <%= context_menu_entry(params) %>
@@ -49,6 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% params = default_params.merge(:collection => @priorities,
                                    :attribute => 'priority',
+                                   :title => WorkPackage.human_attribute_name(:priority),
                                    :selected => lambda { |priority| (@issue && priority == @issue.priority) },
                                    :disabled => lambda { |priority| !@can[:edit] || @issues.detect { |i| !i.leaf? } }) %>
   <%= context_menu_entry(params) %>
@@ -67,6 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% assignables = @assignables.dup << [nil, l(:label_none)] %>
   <% params = default_params.merge(:collection => assignables,
                                    :attribute => 'assigned_to',
+                                   :title => WorkPackage.human_attribute_name(:assigned_to),
                                    :selected => lambda { |user| @issue && user == @issue.assigned_to },
                                    :disabled => lambda { |user| !@can[:update] }) %>
   <%= context_menu_entry(params) %>
@@ -76,6 +79,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% categories << [nil, l(:label_none)] %>
   <% params = default_params.merge(:collection => categories,
                                    :attribute => 'category',
+                                   :title => WorkPackage.human_attribute_name(:category),
                                    :selected => lambda { |category| @issue && category == @issue.category },
                                    :disabled => lambda { |category| !@can[:update] }) %>
   <%= context_menu_entry(params) %>
@@ -84,6 +88,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if Issue.use_field_for_done_ratio? %>
   <% params = default_params.merge(:collection => (0..10).map{ |x| x * 10 },
                                    :attribute => 'done_ratio',
+                                   :title => WorkPackage.human_attribute_name(:done_ratio),
                                    :db_attribute => 'done_ratio',
                                    :selected => lambda { |ratio| @issue && ratio == @issue.done_ratio },
                                    :disabled => lambda { |ratio| !@can[:edit] || @issues.detect { |i| !i.leaf? } }) %>
