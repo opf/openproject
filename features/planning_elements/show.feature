@@ -37,7 +37,7 @@ Feature: Viewing a planning_element
 
       And the user "manager" is a "manager"
 
-      And there are the following planning elements in project "ecookbook":
+      And there are the following work packages in project "ecookbook":
         | subject | start_date | due_date   |
         | pe1     | 2013-01-01 | 2013-12-31 |
 

@@ -38,7 +38,7 @@ Feature: Work package textile quickinfo links
         | name        | is_closed | is_default |
         | New         | false     | true       |
         | In Progress | false     | false      |
-      And there are the following planning elements:
+      And there are the following work packages:
         | Subject | Type  | Start date | Due date   | description                | status | responsible | assigned_to |
         | January | None  | 2012-01-01 | 2012-01-31 | Avocado Sali Grande Grande | New    | manager     | manager  |
 

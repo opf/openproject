@@ -84,8 +84,7 @@ class Timeline < ActiveRecord::Base
   ]
 
   @@available_columns = [
-    "project_type",
-    "planning_element_types",
+    "type",
     "start_date",
     "end_date",
     "responsible",

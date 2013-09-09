@@ -88,14 +88,9 @@ de:
         issue: "Ticket"
         spent_on: "Datum"
         type: "Typ"
-      planning_element_type_color:
+      type_color:
         name: "Name"
         hexcode: "Hex-Code"
-      planning_element:
-        description: "Beschreibung"
-        id: "ID"
-        name: "Name"
-        start_date: "Startdatum"
       project_association:
         description: "Begründung"
       project_type:
@@ -148,7 +143,6 @@ de:
         progress: "% erledigt"
         responsible: "Planungsverantwortlicher"
         spent_time: "Aufgewendete Zeit"
-
     errors:
       messages:
         accepted: "muss akzeptiert werden"
@@ -183,7 +177,7 @@ de:
         before: "muss vor %{date} sein"
         before_or_equal_to: "muss vor oder gleich %{date} sein"
       models:
-        planning_element:
+        work_package:
           attributes:
             due_date:
               not_start_date: "ist nicht am Startdatum, obwohl die bei Meilensteinen Pflicht ist"
@@ -287,6 +281,7 @@ de:
   button_back: "Zurück"
   button_cancel: "Abbrechen"
   button_change: "Wechseln"
+  button_change_parent_page: "Übergeordnete Seite ändern"
   button_change_password: "Kennwort ändern"
   button_check_all: "Alles auswählen"
   button_clear: "Zurücksetzen"
@@ -1048,6 +1043,7 @@ de:
   permission_add_subprojects: "Unterprojekte erstellen"
   permission_add_work_package_watchers: "Beobachter hinzufügen"
   permission_browse_repository: "Projektarchiv ansehen"
+  permission_change_wiki_parent_page: "Übergeordnete Wiki Seite ändern"
   permission_comment_news: "News kommentieren"
   permission_commit_access: "Commit-Zugriff (über WebDAV)"
   permission_delete_work_package_watchers: "Beobachter löschen"
@@ -1336,10 +1332,10 @@ de:
         date: "Datum"
         default: "Default"
       column:
+        type: "Typ"
         end_date: "Abschlussdatum"
         name: "Name"
         project_status: "Projekt-Status"
-        project_type: "Projekt-Typ"
         responsible: "Planungsverantwortlicher"
         start_date: "Startdatum"
       columns: "Spalten"

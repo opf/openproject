@@ -18,6 +18,14 @@ end
 When /^I click on the Save Link$/ do
   click_link("Save")
 end
+When(/^I switch the timeline to "(.*?)"$/) do |arg1|
+  within "div#s2id_timeline_select" do
+    click_link("Testline")
+  end
+  element = find('.select2-results', :text => 'Testline2')
+  element.click
+  element.native.send_keys(:return)
+end
 When(/^I hide empty projects for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
@@ -114,34 +122,19 @@ When(/^I set the sortation of the first level grouping criteria to explicit orde
   page.execute_script("jQuery('#timeline_options_grouping_one_sort').val('1')")
   page.execute_script("jQuery('#content form').submit()")
 end
+
 When /^I click on the Restore Link$/ do
   page.execute_script("jQuery('.input-as-link').click()")
 end
 When /^I wait (\d+) seconds?$/ do |seconds|
   sleep seconds.to_i
 end
-When /^I wait for the modal to show$/ do
-  page.should have_selector('#planningElementDialog')
-end
-When /^I wait for the modal to close$/ do
-  page.should have_no_selector('#planningElementDialog')
-end
+
 When (/^I set duedate to "([^"]*)"$/) do |value|
   fill_in 'planning_element_due_date', :with => value
 end
 When /^I wait for timeline to load table$/ do
   page.should have_selector('.tl-left-main')
-end
-When (/^I open a modal for planning element "([^"]*)" of project "([^"]*)"$/) do |planning_element_subject, project_name|
-  planning_element = PlanningElement.find_by_subject(planning_element_subject)
-  project = Project.find_by_name(project_name)
-  page.execute_script <<-JS
-    Timeline.get().modalHelper.createPlanningModal(
-      'show',
-      #{project.id},
-      #{planning_element.id}
-    );
-  JS
 end
 
 When (/^I move "([^"]*)" to the top$/) do |name|

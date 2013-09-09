@@ -61,7 +61,7 @@ Feature: Copying a work package
       | issue1  | Bug  |
       | issue2  | Bug  |
 
-    And there are the following planning elements in project "project_1":
+    And there are the following work packages in project "project_1":
       | subject | start_date | due_date   | type |
       | pe1     | 2013-01-01 | 2013-12-31 | Bug  |
       | pe2     | 2013-01-01 | 2013-12-31 | Bug  |
@@ -70,7 +70,7 @@ Feature: Copying a work package
       | subject | type    |
       | issue3  | Feature |
 
-    And there are the following planning elements in project "project_2":
+    And there are the following work packages in project "project_2":
       | subject | type    |
       | pe3     | Feature |
 

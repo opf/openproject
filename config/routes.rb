@@ -172,6 +172,8 @@ OpenProject::Application.routes.draw do
         get '/diff(/:version)' => 'wiki#diff', :as => 'wiki_diff'
         get '/annotate/:version' => 'wiki#annotate', :as => 'wiki_annotate'
         match :rename, :via => [:get, :put]
+        get :parent_page, :action => 'edit_parent_page'
+        put :parent_page, :action => 'update_parent_page'
         get :history
         post :preview
         post :protect
@@ -368,13 +370,14 @@ OpenProject::Application.routes.draw do
       match '/projects/:id/repository/statistics', :action => :stats
       match '/projects/:id/repository/committers', :action => :committers
       match '/projects/:id/repository/graph', :action => :graph
+      match '/projects/:id/repository/diff', :action => :diff
       match '/projects/:id/repository/revisions', :action => :revisions
       match '/projects/:id/repository/revisions.:format', :action => :revisions
       match '/projects/:id/repository/revisions/:rev', :action => :revision
       match '/projects/:id/repository/revisions/:rev/diff/*path(.:format)', :action => :diff
-      match '/projects/:id/repository/revisions/:rev/raw/*path', :action => :entry, :format => 'raw', :rev => /[a-z0-9\.\-_]+/
+      match '/projects/:id/repository/revisions/:rev/raw/*path', :action => :entry, :kind => 'raw', :rev => /[a-z0-9\.\-_]+/
       match '/projects/:id/repository/revisions/:rev/:action/*path', :rev => /[a-z0-9\.\-_]+/
-      match '/projects/:id/repository/raw/*path', :action => :entry, :format => 'raw'
+      match '/projects/:id/repository/raw/*path', :action => :entry, :kind => 'raw'
       # TODO: why the following route is required?
       match '/projects/:id/repository/entry/*path', :action => :entry
       match '/projects/:id/repository/:action/*path'

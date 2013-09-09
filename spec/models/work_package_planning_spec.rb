@@ -11,7 +11,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe PlanningElement do
+describe WorkPackage do
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:user)    { FactoryGirl.create(:user) }
 
@@ -24,7 +24,7 @@ describe PlanningElement do
     describe '#project' do
       it 'can read the project w/ the help of the belongs_to association' do
         project          = FactoryGirl.create(:project)
-        planning_element = FactoryGirl.create(:planning_element,
+        planning_element = FactoryGirl.create(:work_package,
                                               :project_id => project.id)
 
         planning_element.reload
@@ -34,7 +34,7 @@ describe PlanningElement do
 
       it 'can read the responsible w/ the help of the belongs_to association' do
         user             = FactoryGirl.create(:user)
-        planning_element = FactoryGirl.create(:planning_element,
+        planning_element = FactoryGirl.create(:work_package,
                                               :responsible_id => user.id)
 
         planning_element.reload
@@ -44,7 +44,7 @@ describe PlanningElement do
 
       it 'can read the type w/ the help of the belongs_to association' do
         type             = project.types.first
-        planning_element = FactoryGirl.create(:planning_element,
+        planning_element = FactoryGirl.create(:work_package,
                                                    :type_id => type.id,
                                                    :project => project)
 
@@ -54,20 +54,20 @@ describe PlanningElement do
       end
 
       it 'can read the planning_element_status w/ the help of the belongs_to association' do
-        planning_element_status = FactoryGirl.create(:planning_element_status)
-        planning_element        = FactoryGirl.create(:planning_element,
-                                                 :planning_element_status_id => planning_element_status.id)
+        status = FactoryGirl.create(:issue_status)
+        work_package = FactoryGirl.create(:work_package,
+                                          :status_id => status.id)
 
-        planning_element.reload
+        work_package.reload
 
-        planning_element.planning_element_status.should == planning_element_status
+        work_package.status.should == status
       end
     end
   end
 
   describe '- Validations ' do
     let(:attributes) {
-      {:subject    => 'Planning Element No. 1',
+      {:subject    => 'workpackage No. 1',
        :start_date => Date.today,
        :due_date   => Date.today + 2.weeks,
        :project_id => project.id,
@@ -76,12 +76,12 @@ describe PlanningElement do
       }
     }
 
-    it { PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }.should be_valid }
+    it { WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }.should be_valid }
 
     describe 'subject' do
       it 'is invalid w/o a subject' do
         attributes[:subject] = nil
-        planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
         planning_element.should_not be_valid
 
@@ -91,7 +91,7 @@ describe PlanningElement do
 
       it 'is invalid w/ a subject longer than 255 characters' do
         attributes[:subject] = "A" * 500
-        planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
         planning_element.should_not be_valid
 
@@ -103,7 +103,7 @@ describe PlanningElement do
     describe 'start_date' do
       it 'is valid w/o a start_date' do
         attributes[:start_date] = nil
-        planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
         planning_element.should be_valid
 
@@ -114,7 +114,7 @@ describe PlanningElement do
     describe 'due_date' do
       it 'is valid w/o a due_date' do
         attributes[:due_date] = nil
-        planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
         planning_element.should be_valid
 
@@ -124,7 +124,7 @@ describe PlanningElement do
       it 'is invalid if start_date is after due_date' do
         attributes[:start_date] = Date.today
         attributes[:due_date]   = Date.today - 1.week
-        planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
         planning_element.should_not be_valid
 
@@ -136,7 +136,7 @@ describe PlanningElement do
         attributes[:type] = FactoryGirl.build(:type, :is_milestone => true)
         attributes[:start_date]            = Date.today
         attributes[:due_date]              = Date.today + 1.week
-        planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
         planning_element.should_not be_valid
 
@@ -148,7 +148,7 @@ describe PlanningElement do
     describe 'project' do
       it 'is invalid w/o a project' do
         attributes[:project_id] = nil
-        planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+        planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
         planning_element.should_not be_valid
 
@@ -158,27 +158,41 @@ describe PlanningElement do
     end
 
     describe 'parent' do
+      let (:de_message){ "darf kein Meilenstein sein"}
+      let (:en_message){ "cannot be a milestone"}
+      after(:each) do
+        #proper reset of the locale after the test
+        I18n.locale = "en"
+      end
+
       it 'is invalid if parent is_milestone' do
-        parent = PlanningElement.new.tap do |pe|
-          pe.send(:assign_attributes, attributes.merge(:type => FactoryGirl.build(:type, :is_milestone => true)), :without_protection => true)
+        ["en","de"].each do |locale|
+          I18n.with_locale(locale) do
+            parent = WorkPackage.new.tap do |pe|
+              pe.send(:assign_attributes, attributes.merge(:type => FactoryGirl.build(:type, :is_milestone => true)), :without_protection => true)
+            end
+
+            attributes[:parent] = parent
+            planning_element = WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
+
+            planning_element.should_not be_valid
+
+            planning_element.errors[:parent].should be_present
+            planning_element.errors[:parent].should == [self.send("#{I18n.locale}_message")]
+          end
+
         end
 
-        attributes[:parent] = parent
-        planning_element = PlanningElement.new.tap { |pe| pe.send(:assign_attributes, attributes, :without_protection => true) }
 
-        planning_element.should_not be_valid
-
-        planning_element.errors[:parent].should be_present
-        planning_element.errors[:parent].should == ["cannot be a milestone"]
       end
     end
   end
 
   describe 'derived attributes' do
     before do
-      @pe1  = FactoryGirl.create(:planning_element, :project_id => project.id)
-      @pe11 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => @pe1.id)
-      @pe12 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => @pe1.id)
+      @pe1  = FactoryGirl.create(:work_package, :project_id => project.id)
+      @pe11 = FactoryGirl.create(:work_package, :project_id => project.id, :parent_id => @pe1.id)
+      @pe12 = FactoryGirl.create(:work_package, :project_id => project.id, :parent_id => @pe1.id)
     end
 
     describe 'start_date' do
@@ -211,9 +225,9 @@ describe PlanningElement do
     let(:type)        { project.types.first } # The type-validation, that now lives on work-package is more
                                               # strict than the previous validation on the planning-element
                                               # it also checks, that the type is available for the project the pe lives in.
-    let(:pe_status)   { FactoryGirl.create(:planning_element_status) }
+    let(:pe_status)   { FactoryGirl.create(:issue_status) }
 
-    let(:pe) { FactoryGirl.create(:planning_element,
+    let(:pe) { FactoryGirl.create(:work_package,
                                   :subject                         => "Plan A",
                                   :author                          => responsible,
                                   :description                     => "This won't work out",
@@ -222,8 +236,7 @@ describe PlanningElement do
                                   :project_id                      => project.id,
                                   :responsible_id                  => responsible.id,
                                   :type_id                         => type.id,
-                                  :planning_element_status_id      => pe_status.id,
-                                  :planning_element_status_comment => 'All lost'
+                                  :status_id                       => pe_status.id
                                   ) }
 
     it "has an initial journal, so that it's creation shows up in activity" do
@@ -231,7 +244,7 @@ describe PlanningElement do
 
       changes = pe.journals.first.changed_data.to_hash
 
-      changes.size.should == 13
+      changes.size.should == 11
 
       changes.should include(:subject)
       changes.should include(:author_id)
@@ -244,8 +257,6 @@ describe PlanningElement do
       changes.should include(:project_id)
       changes.should include(:responsible_id)
       changes.should include(:type_id)
-      changes.should include(:planning_element_status_id)
-      changes.should include(:planning_element_status_comment)
     end
 
     it 'stores updates in journals' do
@@ -263,8 +274,8 @@ describe PlanningElement do
       changes[:due_date].last.should  == Date.new(2012, 2, 1)
     end
 
-    describe 'planning element hierarchies' do
-      let(:child_pe) { FactoryGirl.create(:planning_element,
+    describe 'workpackage hierarchies' do
+      let(:child_pe) { FactoryGirl.create(:work_package,
                                           :parent_id         => pe.id,
                                           :subject           => "Plan B",
                                           :description       => "This will work out",
@@ -302,7 +313,7 @@ describe PlanningElement do
 
   describe 'acts as paranoid trash' do
     before(:each) do
-      @pe1 = FactoryGirl.create(:planning_element,
+      @pe1 = FactoryGirl.create(:work_package,
                             :project_id => project.id,
                             :start_date => Date.new(2011, 1, 1),
                             :due_date   => Date.new(2011, 2, 1),
@@ -312,25 +323,25 @@ describe PlanningElement do
     it 'should delete the object permanantly when using destroy' do
       @pe1.destroy
 
-      PlanningElement.without_deleted.find_by_id(@pe1.id).should be_nil
-      PlanningElement.find_by_id(@pe1.id).should be_nil
+      WorkPackage.without_deleted.find_by_id(@pe1.id).should be_nil
+      WorkPackage.find_by_id(@pe1.id).should be_nil
     end
 
     it 'destroys all child elements' do
-      pe1   = FactoryGirl.create(:planning_element, :project_id => project.id)
-      pe11  = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => pe1.id)
-      pe12  = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => pe1.id)
-      pe121 = FactoryGirl.create(:planning_element, :project_id => project.id, :parent_id => pe12.id)
-      pe2   = FactoryGirl.create(:planning_element, :project_id => project.id)
+      pe1   = FactoryGirl.create(:work_package, :project_id => project.id)
+      pe11  = FactoryGirl.create(:work_package, :project_id => project.id, :parent_id => pe1.id)
+      pe12  = FactoryGirl.create(:work_package, :project_id => project.id, :parent_id => pe1.id)
+      pe121 = FactoryGirl.create(:work_package, :project_id => project.id, :parent_id => pe12.id)
+      pe2   = FactoryGirl.create(:work_package, :project_id => project.id)
 
       pe1.destroy
 
       [pe1, pe11, pe12, pe121].each do |pe|
-        PlanningElement.without_deleted.find_by_id(pe.id).should be_nil
-        PlanningElement.find_by_id(pe.id).should be_nil
+        WorkPackage.without_deleted.find_by_id(pe.id).should be_nil
+        WorkPackage.find_by_id(pe.id).should be_nil
       end
 
-      PlanningElement.without_deleted.find_by_id(pe2.id).should == pe2
+      WorkPackage.without_deleted.find_by_id(pe2.id).should == pe2
     end
   end
 end

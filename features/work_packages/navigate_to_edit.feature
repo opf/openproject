@@ -16,7 +16,7 @@ Feature: Navigating to the work package edit page
 
     And the user "manager" is a "manager"
 
-    And there are the following planning elements in project "ecookbook":
+    And there are the following work packages in project "ecookbook":
       | subject |
       | pe1     |
 

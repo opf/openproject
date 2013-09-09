@@ -23,7 +23,7 @@ describe WorkPackages::MovesController do
   let(:project) { FactoryGirl.create(:project,
                                      :is_public => false,
                                      :types => [type, type_2]) }
-  let(:work_package) { FactoryGirl.create(:planning_element,
+  let(:work_package) { FactoryGirl.create(:work_package,
                                           :project_id => project.id,
                                           :type => type,
                                           :author => user,
@@ -92,7 +92,7 @@ describe WorkPackages::MovesController do
     become_member_with_move_work_package_permissions
 
     let(:target_project) { FactoryGirl.create(:project, :is_public => false) }
-    let(:work_package_2) { FactoryGirl.create(:planning_element,
+    let(:work_package_2) { FactoryGirl.create(:work_package,
                                               :project_id => project.id,
                                               :type => type_2,
                                               :priority => priority) }

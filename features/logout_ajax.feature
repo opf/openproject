@@ -20,30 +20,19 @@ Feature: Doing Ajax when logged out
 
       And there is a role "manager"
       And the role "manager" may have the following rights:
-          | view_timelines         |
-          | edit_timelines         |
-          | view_planning_elements |
+          | view_work_packages    |
 
       And there is a project named "ecookbook" of type "Standard Project"
       And I am working in project "ecookbook"
-
-      And the project uses the following modules:
-          | timelines |
 
       And the user "manager" is a "manager"
 
       And I am logged in as "manager"
 
-      And there are the following planning elements:
-        | Subject  |
-        | January  |
-
   @javascript
   Scenario: If we do ajax while being logged out a confirm dialog should open
-    Given there is a timeline "Testline" for project "ecookbook"
-    When I go to the page of the timeline "Testline" of the project called "ecookbook"
-      And I wait for timeline to load table
+    When I go to the work packages index page of the project "ecookbook"
       And I log out in the background
-      And I open a modal for planning element "January" of project "ecookbook"
+      And I do some ajax
       And I confirm popups
     Then I should be on the login page

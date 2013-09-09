@@ -49,13 +49,17 @@ jQuery.fn.reverse = [].reverse;
 
   $.fn.breadcrumbOutOfBounds = function(){
     var lastElement = this.find(' > li').last();
-    var rightCorner = lastElement.width() + lastElement.offset().left;
-    var windowSize = jQuery(window).width();
+    if (lastElement) {
+      var rightCorner = lastElement.width() + lastElement.offset().left;
+      var windowSize = jQuery(window).width();
 
-    if ((Math.max(1000,windowSize) - rightCorner) < 10) {
-      return true;
-    }
-    else {
+      if ((Math.max(1000,windowSize) - rightCorner) < 10) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    } else {
       return false;
     }
   };

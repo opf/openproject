@@ -42,7 +42,7 @@ Feature: Switching types of work packages
 
   @javascript
   Scenario: Previewing changes on an existing work package
-    Given there are the following planning elements in project "project1":
+    Given there are the following work packages in project "project1":
       | subject  | description     |
       | pe1      | pe1 description |
     When I am on the edit page of the work package called "pe1"

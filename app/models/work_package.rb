@@ -14,6 +14,7 @@
 # So we create an 'emtpy' Issue class first, to make Project happy.
 
 class WorkPackage < ActiveRecord::Base
+
   include WorkPackage::Validations
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
@@ -42,9 +43,6 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
-  belongs_to :planning_element_status, :class_name  => "PlanningElementStatus",
-                                       :foreign_key => 'planning_element_status_id'
-
   has_many :time_entries, :dependent => :delete_all
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
@@ -61,6 +59,8 @@ class WorkPackage < ActiveRecord::Base
                                                                                  User.current) } }
   scope :without_deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NULL"
   scope :deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NOT NULL"
+
+  scope :in_status, lambda {|*args| where(:status_id => (args.first.respond_to?(:id) ? args.first.id : args.first))}
 
   scope :for_projects, lambda { |projects|
     {:conditions => {:project_id => projects}}
@@ -130,6 +130,16 @@ class WorkPackage < ActiveRecord::Base
   ###################################################
   acts_as_attachable :after_add => :attachments_changed,
                      :after_remove => :attachments_changed
+
+  # Mapping attributes, that are passed in as id's onto their respective associations
+  # (eg. type=4711 onto type=Type.find(4711))
+  include AssociationsMapper
+  # recovered this from planning-element: is it still needed?!
+  map_associations_for :parent,
+                       :status,
+                       :type,
+                       :project,
+                       :priority
 
   # This one is here only to ease reading
   module JournalizedProcs
@@ -590,8 +600,10 @@ class WorkPackage < ActiveRecord::Base
     end
     # Allow bulk setting of attributes on the work_package
     if options[:attributes]
-      work_package.attributes = options[:attributes]
-    end
+      # before setting the attributes, we need to remove the move-related fields
+      work_package.attributes = options[:attributes].except(:copy,:new_project_id, :new_type_id, :follow, :ids)
+                                                    .reject { |key, value| value.blank? }
+    end                                             # FIXME this eliminates the case, where values shall be bulk-assigned to null, but this needs to work together with the permit
     if options[:copy]
       work_package.author = User.current
       work_package.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
@@ -601,6 +613,7 @@ class WorkPackage < ActiveRecord::Base
                               self.status
                             end
     end
+
     if work_package.save
       unless options[:copy]
         # Manually update project_id on related time entries

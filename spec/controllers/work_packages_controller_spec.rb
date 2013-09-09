@@ -19,9 +19,9 @@ describe WorkPackagesController do
     UserMailer.stub!(:new).and_return(double('mailer').as_null_object)
   end
 
-  let(:planning_element) { FactoryGirl.create(:planning_element, :project_id => project.id) }
+  let(:planning_element) { FactoryGirl.create(:work_package, :project_id => project.id) }
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
-  let(:stub_planning_element) { FactoryGirl.build_stubbed(:planning_element, :project_id => stub_project.id) }
+  let(:stub_planning_element) { FactoryGirl.build_stubbed(:work_package, :project_id => stub_project.id) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project, :identifier => 'test_project', :is_public => false) }
   let(:stub_issue) { FactoryGirl.build_stubbed(:issue, :project_id => stub_project.id) }
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
@@ -516,34 +516,6 @@ describe WorkPackagesController do
         Project.stub(:find_visible).and_return stub_project
       end
 
-      describe 'when the type is "PlanningElement"' do
-        before do
-          controller.params = { :sti_type => 'PlanningElement',
-                                :work_package => {} }.merge(params)
-
-          controller.stub(:current_user).and_return(stub_user)
-          controller.send(:permitted_params).should_receive(:new_work_package)
-                                            .with(:project => stub_project)
-                                            .and_return(wp_params)
-
-          stub_project.should_receive(:add_planning_element) do |args|
-
-            expect(args[:author]).to eql stub_user
-
-          end.and_return(stub_planning_element)
-        end
-
-        it 'should return a new planning element on the project' do
-          controller.work_package.should == stub_planning_element
-        end
-
-        it 'should copy over attributes from another work_package provided as the source' do
-          controller.params[:copy_from] = 2
-          stub_planning_element.should_receive(:copy_from).with(2, :exclude => [:project_id])
-
-          controller.work_package
-        end
-      end
 
       describe 'when the type is "Issue"' do
         before do
@@ -704,7 +676,7 @@ describe WorkPackagesController do
     end
 
     describe "when work_package is a planning element" do
-      let(:descendant_planning_element) { FactoryGirl.create(:planning_element, :project => project,
+      let(:descendant_planning_element) { FactoryGirl.create(:work_package, :project => project,
                                                                                 :parent_id => planning_element.id) }
       it "should return the work_packages ancestors" do
         controller.stub!(:work_package).and_return(descendant_planning_element)

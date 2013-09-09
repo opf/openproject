@@ -123,14 +123,6 @@ en:
       planning_element_type_color:
         name: Name
         hexcode: Hex code
-      planning_element:
-        description: Description
-        id: ID
-        name: Name
-        start_date: Start date
-        deleted_at: Deleted at
-        planning_element_status: "Status"
-        # parent: Subelement of
       project_association:
         description: Cause
       project_type:
@@ -153,7 +145,6 @@ en:
         progress: "% done"
         responsible: "Responsible"
         spent_time: "Spent time"
-
     errors:
       messages:
         accepted: "must be accepted"
@@ -187,16 +178,16 @@ en:
         before: "must be before %{date}"
         before_or_equal_to: "must be before or equal to %{date}"
       models:
-        planning_element:
+        project_association:
+          identical_projects: "can not be created from one project to itself"
+          project_association_not_allowed: "does not allow associations"
+        work_package:
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones"
             parent:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
-        project_association:
-          identical_projects: "can not be created from one project to itself"
-          project_association_not_allowed: "does not allow associations"
         user:
           attributes:
             password:
@@ -291,6 +282,7 @@ en:
   button_back: "Back"
   button_cancel: "Cancel"
   button_change: "Change"
+  button_change_parent_page: "Change parent page"
   button_change_password: "Change password"
   button_check_all: "Check all"
   button_clear: "Clear"
@@ -1027,6 +1019,7 @@ en:
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Add watchers"
   permission_browse_repository: "Browse repository"
+  permission_change_wiki_parent_page: "Change parent wiki page"
   permission_comment_news: "Comment news"
   permission_commit_access: "Commit access"
   permission_delete_work_package_watchers: "Delete watchers"
@@ -1318,10 +1311,10 @@ en:
         date: "date"
         default: "default"
       column:
+        type: "Type"
         end_date: "End date"
         name: "Name"
         project_status: "Project status"
-        project_type: "Project type"
         responsible: "Responsible"
         start_date: "Start date"
       columns: "Columns"
