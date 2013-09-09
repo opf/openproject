@@ -23,7 +23,7 @@ namespace :copyright do
       short_copyright_surrounding("<%#", "#%>")
     when :rdoc
       "----------\n#{short_copyright_line(' ')}\n----------\n".gsub(' -- copyright',"==== copyright\n")
-    when :md
+    when :md, :html
       short_copyright_surrounding("<!--", "-->")
     else
       raise "Undefined format #{format}"
@@ -54,7 +54,7 @@ namespace :copyright do
       /^(?<shebang>#![^\n]+\n)?<%#--\s*copyright.*?\+\+#%>/m
     when :rdoc
       /(?<shebang>)?-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n$/
-    when :md
+    when :md, :html
       /^(?<shebang>#![^\n]+\n)?<!----\s*copyright.*?\+\+-->/m
     when :sql
       /^(?<shebang>#![^\n]+\n)?-- --\s*copyright.*?\+\+/m
@@ -198,6 +198,13 @@ namespace :copyright do
     rewrite_copyright("html.erb", [], :erb, args[:arg1])
   end
 
+  desc "Update the copyright on .html source files"
+  task :update_html, :arg1 do |task, args|
+    excluded = ["app/assets/javascripts/tinymce/",
+                "lib/assets/javascripts/qunit/"]
+    rewrite_copyright("html", excluded, :html, args[:arg1])
+  end
+
   desc "Update the copyright on .json.erb source files"
   task :update_json_erb, :arg1 do |task, args|
     rewrite_copyright("json.erb", [], :erb, args[:arg1])
@@ -222,7 +229,7 @@ namespace :copyright do
   task :update, :arg1 do |task, args|
     %w{
       css rb js js_erb css_erb html_erb json_erb text_erb atom_builder api_rsb rake
-      feature rdoc rjs md sql special_files
+      feature rdoc rjs md sql html special_files
     }.each do |t|
       Rake::Task['copyright:update_' + t.to_s].invoke(args[:arg1])
     end
