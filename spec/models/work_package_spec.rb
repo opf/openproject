@@ -146,7 +146,7 @@ describe WorkPackage do
       work_package = WorkPackage.create(:type => type,
                                         :status => status,
                                         :priority => priority,
-                                        :project_id => project.id)
+                                        :project => project)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1]]
     end
 
@@ -155,7 +155,7 @@ describe WorkPackage do
       work_package = WorkPackage.create(:type => type,
                                         :status => status,
                                         :priority => priority,
-                                        :project_id => project.id,
+                                        :project => project,
                                         :author => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2]]
     end
@@ -166,7 +166,7 @@ describe WorkPackage do
                                         :status => status,
                                         :subject => "test",
                                         :priority => priority,
-                                        :project_id => project.id,
+                                        :project => project,
                                         :assigned_to => user,
                                         :author => other_user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[3]]
@@ -178,7 +178,7 @@ describe WorkPackage do
                                         :status => status,
                                         :subject => "test",
                                         :priority => priority,
-                                        :project_id => project.id,
+                                        :project => project,
                                         :author => user,
                                         :assigned_to => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]]
