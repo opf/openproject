@@ -24,8 +24,6 @@ class WorkPackage < ActiveRecord::Base
   # comes from Trackers becoming Types.
   self.inheritance_column = :sti_type
 
-  include NestedAttributesForApi
-
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   include Redmine::SafeAttributes
 
@@ -464,6 +462,130 @@ class WorkPackage < ActiveRecord::Base
   end
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+  # Safely sets attributes
+  # Should be called from controllers instead of #attributes=
+  # attr_accessible is too rough because we still want things like
+  # Issue.new(:project => foo) to work
+  # TODO: move workflow/permission checks from controllers to here
+  def safe_attributes=(attrs, user=User.current)
+    return unless attrs.is_a?(Hash)
+
+    # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
+    attrs = delete_unsafe_attributes(attrs, user)
+    return if attrs.empty?
+
+    # Type must be set before since new_statuses_allowed_to depends on it.
+    if t = attrs.delete('type_id')
+      self.type_id = t
+    end
+
+    if attrs['status_id']
+      unless new_statuses_allowed_to(user).collect(&:id).include?(attrs['status_id'].to_i)
+        attrs.delete('status_id')
+      end
+    end
+
+    if parent.present?
+      attrs.reject! {|k,v| %w(priority_id done_ratio start_date due_date estimated_hours).include?(k)}
+    end
+
+    if attrs.has_key?('parent_id')
+      if !user.allowed_to?(:manage_subtasks, project)
+        attrs.delete('parent_id')
+      elsif !attrs['parent_id'].blank?
+        attrs.delete('parent_id') unless WorkPackage.visible(user).exists?(attrs['parent_id'].to_i)
+      end
+    end
+
+    # Bug #501: browsers might swap the line endings causing a Journal.
+    if attrs.has_key?('description') && attrs['description'].present?
+      if attrs['description'].gsub(/\r\n?/,"\n") == self.description
+        attrs.delete('description')
+      end
+    end
+
+    self.attributes = attrs
+  end
+
+  # Saves an issue, time_entry, attachments, and a journal from the parameters
+  # Returns false if save fails
+  def save_issue_with_child_records(params, existing_time_entry=nil)
+    Issue.transaction do
+      if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, project)
+        @time_entry = existing_time_entry || TimeEntry.new
+        @time_entry.project = project
+        @time_entry.work_package = self
+        @time_entry.user = User.current
+        @time_entry.spent_on = Date.today
+        @time_entry.attributes = params[:time_entry]
+        self.time_entries << @time_entry
+      end
+
+      if valid?
+        attachments = Attachment.attach_files(self, params[:attachments])
+
+        # TODO: Rename hook
+        Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => current_journal})
+        begin
+          if save
+            # TODO: Rename hook
+            Redmine::Hook.call_hook(:controller_issues_edit_after_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => current_journal})
+          else
+            raise ActiveRecord::Rollback
+          end
+        rescue ActiveRecord::StaleObjectError
+          attachments[:files].each(&:destroy)
+          error_message = l(:notice_locking_conflict)
+
+          journals_since = self.journals.after(lock_version)
+
+          if journals_since.any?
+            changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
+            error_message << " " << l(:notice_locking_conflict_additional_information, :users => changes.join(', '))
+          end
+
+          error_message << " " << l(:notice_locking_conflict_reload_page)
+
+          errors.add :base, error_message
+          raise ActiveRecord::Rollback
+        end
+      end
+    end
+  end
+
+  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
+  def available_custom_fields
+    (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []
+  end
+
+  def status_id=(sid)
+    self.status = nil
+    write_attribute(:status_id, sid)
+  end
+
+  def priority_id=(pid)
+    self.priority = nil
+    write_attribute(:priority_id, pid)
+  end
+
+  def type_id=(tid)
+    self.type = nil
+    result = write_attribute(:type_id, tid)
+    @custom_field_values = nil
+    result
+  end
+
+  # Overrides attributes= so that type_id gets assigned first
+  def attributes_with_type_first=(new_attributes)
+    return if new_attributes.nil?
+    new_type_id = new_attributes['type_id'] || new_attributes[:type_id]
+    if new_type_id
+      self.type_id = new_type_id
+    end
+    send :attributes_without_type_first=, new_attributes
+  end
+
   protected
 
   def recalculate_attributes_for(work_package_id)
@@ -632,38 +754,6 @@ class WorkPackage < ActiveRecord::Base
     work_package
   end
 
-  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
-  def available_custom_fields
-    (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []
-  end
-
-  def status_id=(sid)
-    self.status = nil
-    write_attribute(:status_id, sid)
-  end
-
-  def priority_id=(pid)
-    self.priority = nil
-    write_attribute(:priority_id, pid)
-  end
-
-  def type_id=(tid)
-    self.type = nil
-    result = write_attribute(:type_id, tid)
-    @custom_field_values = nil
-    result
-  end
-
-  # Overrides attributes= so that type_id gets assigned first
-  def attributes_with_type_first=(new_attributes)
-    return if new_attributes.nil?
-    new_type_id = new_attributes['type_id'] || new_attributes[:type_id]
-    if new_type_id
-      self.type_id = new_type_id
-    end
-    send :attributes_without_type_first=, new_attributes
-  end
   # Do not redefine alias chain on reload (see #4838)
   alias_method_chain(:attributes=, :type_first) unless method_defined?(:attributes_without_type_first=)
 
@@ -691,51 +781,6 @@ class WorkPackage < ActiveRecord::Base
     'done_ratio',
     :if => lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
 
-  # Safely sets attributes
-  # Should be called from controllers instead of #attributes=
-  # attr_accessible is too rough because we still want things like
-  # Issue.new(:project => foo) to work
-  # TODO: move workflow/permission checks from controllers to here
-  def safe_attributes=(attrs, user=User.current)
-    return unless attrs.is_a?(Hash)
-
-    # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
-    attrs = delete_unsafe_attributes(attrs, user)
-    return if attrs.empty?
-
-    # Type must be set before since new_statuses_allowed_to depends on it.
-    if t = attrs.delete('type_id')
-      self.type_id = t
-    end
-
-    if attrs['status_id']
-      unless new_statuses_allowed_to(user).collect(&:id).include?(attrs['status_id'].to_i)
-        attrs.delete('status_id')
-      end
-    end
-
-    if parent.present?
-      attrs.reject! {|k,v| %w(priority_id done_ratio start_date due_date estimated_hours).include?(k)}
-    end
-
-    if attrs.has_key?('parent_id')
-      if !user.allowed_to?(:manage_subtasks, project)
-        attrs.delete('parent_id')
-      elsif !attrs['parent_id'].blank?
-        attrs.delete('parent_id') unless WorkPackage.visible(user).exists?(attrs['parent_id'].to_i)
-      end
-    end
-
-    # Bug #501: browsers might swap the line endings causing a Journal.
-    if attrs.has_key?('description') && attrs['description'].present?
-      if attrs['description'].gsub(/\r\n?/,"\n") == self.description
-        attrs.delete('description')
-      end
-    end
-
-    self.attributes = attrs
-  end
-
   def self.use_field_for_done_ratio?
     Setting.issue_done_ratio == 'issue_field'
   end
@@ -762,52 +807,6 @@ class WorkPackage < ActiveRecord::Base
       (root_id || 0) <=> (issue.root_id || 0)
     else
       (lft || 0) <=> (issue.lft || 0)
-    end
-  end
-
-  # Saves an issue, time_entry, attachments, and a journal from the parameters
-  # Returns false if save fails
-  def save_issue_with_child_records(params, existing_time_entry=nil)
-    Issue.transaction do
-      if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, project)
-        @time_entry = existing_time_entry || TimeEntry.new
-        @time_entry.project = project
-        @time_entry.work_package = self
-        @time_entry.user = User.current
-        @time_entry.spent_on = Date.today
-        @time_entry.attributes = params[:time_entry]
-        self.time_entries << @time_entry
-      end
-
-      if valid?
-        attachments = Attachment.attach_files(self, params[:attachments])
-
-        # TODO: Rename hook
-        Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => current_journal})
-        begin
-          if save
-            # TODO: Rename hook
-            Redmine::Hook.call_hook(:controller_issues_edit_after_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => current_journal})
-          else
-            raise ActiveRecord::Rollback
-          end
-        rescue ActiveRecord::StaleObjectError
-          attachments[:files].each(&:destroy)
-          error_message = l(:notice_locking_conflict)
-
-          journals_since = self.journals.after(lock_version)
-
-          if journals_since.any?
-            changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
-            error_message << " " << l(:notice_locking_conflict_additional_information, :users => changes.join(', '))
-          end
-
-          error_message << " " << l(:notice_locking_conflict_reload_page)
-
-          errors.add :base, error_message
-          raise ActiveRecord::Rollback
-        end
-      end
     end
   end
 
