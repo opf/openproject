@@ -17,6 +17,8 @@ namespace :copyright do
       short_copyright_line("#")
     when :js, :css
       short_copyright_line("//")
+    when :sql
+      short_copyright_line("-- ")
     when :erb
       short_copyright_surrounding("<%#", "#%>")
     when :rdoc
@@ -54,6 +56,8 @@ namespace :copyright do
       /-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n$/
     when :md
       /^<!----\s*copyright.*?\+\+-->/m
+    when :sql
+      /^-- --\s*copyright.*?\+\+/m
     else
       raise "Undefined format #{format}"
     end
@@ -138,6 +142,11 @@ namespace :copyright do
     rewrite_copyright("css.erb", excluded, :css, args[:arg1])
   end
 
+  desc "Update the copyright on .sql source files"
+  task :update_sql, :arg1 do |task, args|
+    rewrite_copyright("sql", [], :sql, args[:arg1])
+  end
+
   desc "Update the copyright on .js source files"
   task :update_js, :arg1 do |task, args|
     excluded = ["lib/assets",
@@ -219,6 +228,7 @@ namespace :copyright do
      :update_feature,
      :update_rdoc,
      :update_md,
+     :update_sql,
      :update_special_files].each do |t|
       Rake::Task['copyright:' + t.to_s].invoke(args[:arg1])
     end
