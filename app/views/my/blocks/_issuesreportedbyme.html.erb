@@ -9,16 +9,17 @@ modify it under the terms of the GNU General Public License version 3.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<% reported = WorkPackage.visible.all(:conditions => { :author_id => User.current.id },
+                                      :limit => 10,
+                                      :include => [ :status, :project, :type ],
+                                      :order => "#{WorkPackage.table_name}.updated_at DESC") %>
+<% reported_count = WorkPackage.visible.count(:conditions => { :author_id => User.current.id }) %>
 
-<h3><%=l(:label_reported_work_packages)%> (<%= Issue.visible.count(:conditions => { :author_id => User.current.id }) %>)</h3>
+<h3><%=l(:label_reported_work_packages)%> (<%= reported_count %>)</h3>
 
-<% reported_issues = Issue.visible.find(:all,
-                                :conditions => { :author_id => User.current.id },
-                                :limit => 10,
-                                :include => [ :status, :project, :type ],
-                                :order => "#{Issue.table_name}.updated_at DESC") %>
-<%= render :partial => 'issues/list_simple', :locals => { :issues => reported_issues } %>
-<% if reported_issues.length > 0 %>
+<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => reported } %>
+
+<% if reported.length > 0 %>
 <p class="small"><%= link_to l(:label_work_package_view_all_reported_by_me), controller: :work_packages,
 																											 action: :index,
 																											 set_filter: 1,
