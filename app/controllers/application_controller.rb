@@ -354,7 +354,7 @@ class ApplicationController < ActionController::Base
 
   # Filter for bulk issue operations
   def find_issues
-    @issues = Issue.find_all_by_id(params[:id] || params[:ids])
+    @issues = WorkPackage.find_all_by_id(params[:id] || params[:ids])
     raise ActiveRecord::RecordNotFound if @issues.empty?
     @projects = @issues.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1

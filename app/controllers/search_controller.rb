@@ -36,9 +36,9 @@ class SearchController < ApplicationController
     offset = nil
     begin; offset = params[:offset].to_time if params[:offset]; rescue; end
 
-    # quick jump to an issue
-    if @question.match(/^#?(\d+)$/) && Issue.visible.find_by_id($1.to_i)
-      redirect_to :controller => "/issues", :action => "show", :id => $1
+    # quick jump to an work_package
+    if @question.match(/^#?(\d+)$/) && WorkPackage.visible.find_by_id($1.to_i)
+      redirect_to work_package_path(:id => $1)
       return
     end
 

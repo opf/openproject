@@ -61,38 +61,17 @@ Feature: Copying a work package
       | issue1  | Bug  |
       | issue2  | Bug  |
 
-    And there are the following work packages in project "project_1":
-      | subject | start_date | due_date   | type |
-      | pe1     | 2013-01-01 | 2013-12-31 | Bug  |
-      | pe2     | 2013-01-01 | 2013-12-31 | Bug  |
-
     And there are the following issues in project "project_2":
       | subject | type    |
       | issue3  | Feature |
 
-    And there are the following work packages in project "project_2":
-      | subject | type    |
-      | pe3     | Feature |
-
     And the work package "issue1" has the following children:
       | issue2 |
-
-    And the work package "pe1" has the following children:
-      | pe2    |
 
     And I am already logged in as "bob"
 
   Scenario: Copy an issue
-    When I go to the copy page of the work package "issue1"
-     And I select "project_2" from "Project"
-
-    When I click "Copy and follow"
-
-    Then I should see "Successful creation."
-     And I should see "project_2" within ".breadcrumb"
-
-  Scenario: Copy a planning element
-    When I go to the copy page of the work package "pe1"
+    When I go to the move new page of the work package "issue1"
      And I select "project_2" from "Project"
 
     When I click "Copy and follow"
@@ -109,30 +88,12 @@ Feature: Copying a work package
     Then I should see "Successful update."
      And I should see "project_2" within ".breadcrumb"
 
-  Scenario: Move a planning element
-    When I go to the move page of the work package "pe1"
-     And I select "project_2" from "Project"
-
-    When I click "Move and follow"
-
-    Then I should see "Successful update."
-     And I should see "project_2" within ".breadcrumb"
-
   Scenario: Issue children are moved
     When I go to the move page of the work package "issue1"
      And I select "project_2" from "Project"
 
     When I click "Move and follow"
     When I go to the page of the work package "issue2"
-
-     And I should see "project_2" within ".breadcrumb"
-
-  Scenario: Planning element children are moved
-    When I go to the move page of the work package "pe1"
-     And I select "project_2" from "Project"
-
-    When I click "Move and follow"
-    When I go to the page of the work package "pe2"
 
      And I should see "project_2" within ".breadcrumb"
 

@@ -81,7 +81,8 @@ module Redmine
         def remove_watcher(user)
           return nil unless user && user.is_a?(User)
           watchers_to_delete = self.watchers.find_all{|watcher| watcher.user == user}
-          watchers_to_delete.each{|watcher| watcher.delete}
+          watchers_to_delete.each(&:delete)
+          self.watchers(true)
           watchers_to_delete.count
         end
 
@@ -100,7 +101,9 @@ module Redmine
 
         # Returns true if object is watched by +user+
         def watched_by?(user)
-          !!(user && self.watcher_user_ids.detect {|uid| uid == user.id })
+          !!(user &&
+             (self.watchers.loaded? && self.watchers.map(&:user_id).any?{ |uid| uid == user.id } ||
+              self.watcher_user_ids.any?{|uid| uid == user.id }))
         end
 
         # Returns an array of watchers' email addresses
