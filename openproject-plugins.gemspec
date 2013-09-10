@@ -1,8 +1,19 @@
 # encoding: UTF-8
+# -- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.md for more details.
+#
+# ++
+
 $:.push File.expand_path("../lib", __FILE__)
 
 require 'open_project/plugins/version'
-# Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "openproject-plugins"
   s.version     = OpenProject::Plugins::VERSION
@@ -11,10 +22,12 @@ Gem::Specification.new do |s|
   s.homepage    = "http://www.finn.de"
   s.summary     = "OpenProject Plugins Plugin"
   s.description = <<-STR
+    This plugin aims to make writing plugins easier. It provides a generator for creating a
+    basic plugin structure and a module that simplifies setting up the plugin Rails engine.
+    Thus, it is also a dependency for many openproject plugins.
   STR
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.rdoc Gemfile COPYRIGHT.txt LICENSE.txt Rakefile)
-  s.test_files = Dir["test/**/*_test.rb"]
+  s.files = Dir["{lib, doc}/**/*"] + %w(README.md)
 
   s.add_dependency "rails", "~> 3.2.9"
 
