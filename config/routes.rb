@@ -193,19 +193,10 @@ OpenProject::Application.routes.draw do
       resources :calendar, :controller => 'calendars', :only => [:index]
     end
 
-    resources :issues, :except => [:show, :edit, :update, :destroy] do
-      # should probably belong to :member, but requires :copy_from instead
-      # of the default :id
-      get ':copy_from/copy', :action => "new", :on => :collection, :as => "copy"
-
+    resources :issues, :only => [] do
       collection do
-        get :all
-
         match '/report/:detail' => 'issues/reports#report_details', :via => :get
         match '/report' => 'issues/reports#report', :via => :get
-
-        # get a preview of a new issue (i.e. one without an ID)
-        match '/new/preview' => 'issues/previews#create', :as => 'preview_new', :via => :post
       end
     end
 
@@ -269,12 +260,9 @@ OpenProject::Application.routes.draw do
 
     # TODO: separate routes and action for get and post
     match 'context_menu' => 'context_menus#issues', :via => [:get, :post], :format => false
-
-    resource :move, :controller => 'moves', :only => [:new, :create]
   end
 
-  # TODO: remove create as issues should be created scoped under project
-  resources :issues, :except => [:new] do
+  resources :issues, :only => [] do
     namespace :time_entries do
       resource :report, :controller => 'reports', :only => [:show]
     end
@@ -283,18 +271,9 @@ OpenProject::Application.routes.draw do
 
     resources :relations, :controller => 'issue_relations', :only => [:create, :destroy]
 
-    member do
-      match '/preview' => 'issues/previews#create', :via => :post
-      # this route is defined so that it has precedence of the one defined on the collection
-      delete :destroy
-      get :quoted
-    end
-
     collection do
       get :bulk_edit, :format => false
       put :bulk_update, :format => false
-
-      delete :destroy
     end
   end
 
@@ -319,9 +298,6 @@ OpenProject::Application.routes.draw do
       get :status_by
     end
   end
-
-  # Misc issue routes. TODO: move into resources
-  match '/issues/:id/destroy' => 'issues#destroy', :via => :post # legacy
 
   # Misc journal routes. TODO: move into resources
   match '/journals/:id/diff/:field' => 'journals#diff', :via => :get, :as => 'journal_diff'

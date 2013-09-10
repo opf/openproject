@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if @allowed_statuses.present? %>
   <% params = default_params.merge(:collection => @statuses,
                                    :attribute => 'status',
+                                   :title => WorkPackage.human_attribute_name(:status),
                                    :selected => lambda { |status| (@issue && status == @issue.status) },
                                    :disabled => lambda { |status| !(@can[:update] && @allowed_statuses.include?(status)) }) %>
   <%= context_menu_entry(params) %>
