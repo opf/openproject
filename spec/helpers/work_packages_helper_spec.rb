@@ -33,8 +33,8 @@ describe WorkPackagesHelper do
       index_link = double('work_package_index_link')
       ancestors_links = double('ancestors_links')
 
-      helper.stub!(:ancestors_links).and_return([ancestors_links])
-      helper.stub!(:work_package_index_link).and_return(index_link)
+      helper.stub(:ancestors_links).and_return([ancestors_links])
+      helper.stub(:work_package_index_link).and_return(index_link)
 
       @expectation = [index_link, ancestors_links]
 
@@ -46,10 +46,10 @@ describe WorkPackagesHelper do
 
   describe :ancestors_links do
     it 'should return a list of links for every ancestor' do
-      ancestors = [mock('ancestor1', id: 1),
-                   mock('ancestor2', id: 2)]
+      ancestors = [double('ancestor1', id: 1),
+                   double('ancestor2', id: 2)]
 
-      controller.stub!(:ancestors).and_return(ancestors)
+      controller.stub(:ancestors).and_return(ancestors)
 
       ancestors.each_with_index do |ancestor, index|
         helper.ancestors_links[index].should have_selector("a[href='#{work_package_path(ancestor.id)}']", :text => "##{ancestor.id}")
@@ -200,18 +200,18 @@ describe WorkPackagesHelper do
 
     before do
       # set sensible defaults
-      stub!(:authorize_for).and_return(false)
-      stub_project.stub!(:issue_categories).and_return([stub_category])
+      helper.stub(:authorize_for).and_return(false)
+      stub_project.stub(:issue_categories).and_return([stub_category])
     end
 
     it "should return nothing if the project has no categories assigned" do
-      stub_project.stub!(:issue_categories).and_return([])
+      stub_project.stub(:issue_categories).and_return([])
 
-      work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).should be_nil
+      helper.work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).should be_nil
     end
 
     it "should have a :category symbol as the attribute" do
-      work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).attribute.should == :category
+      helper.work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).attribute.should == :category
     end
 
     it "should render a select with the project's issue category" do
@@ -221,17 +221,19 @@ describe WorkPackagesHelper do
                                         [[stub_category.name, stub_category.id]],
                                         :include_blank => true).and_return(select)
 
-      work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).field.should == select
+      helper.work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).field.should == select
     end
 
     it "should add an additional remote link to create new categories if allowed" do
       remote = "remote"
 
-      stub!(:authorize_for).and_return(true)
+      helper.stub(:authorize_for).and_return(true)
 
-      should_receive(:prompt_to_remote).with(*([anything()] * 3), project_issue_categories_path(stub_project), anything()).and_return(remote)
+      helper.should_receive(:prompt_to_remote)
+            .with(*([anything()] * 3), project_issue_categories_path(stub_project), anything())
+            .and_return(remote)
 
-      work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).field.should include(remote)
+      helper.work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).field.should include(remote)
     end
   end
 
@@ -250,8 +252,8 @@ describe WorkPackagesHelper do
     it "should return the position of the work_package's status" do
       status = double('status', :is_closed? => false)
 
-      stub_work_package.stub!(:status).and_return(status)
-      status.stub!(:position).and_return(5)
+      stub_work_package.stub(:status).and_return(status)
+      status.stub(:position).and_return(5)
 
       helper.work_package_css_classes(stub_work_package).should include("status-5")
     end
@@ -259,72 +261,72 @@ describe WorkPackagesHelper do
     it "should return the position of the work_package's priority" do
       priority = double('priority')
 
-      stub_work_package.stub!(:priority).and_return(priority)
-      priority.stub!(:position).and_return(5)
+      stub_work_package.stub(:priority).and_return(priority)
+      priority.stub(:position).and_return(5)
 
       helper.work_package_css_classes(stub_work_package).should include("priority-5")
     end
 
     it "should have a closed class if the work_package is closed" do
-      stub_work_package.stub!(:closed?).and_return(true)
+      stub_work_package.stub(:closed?).and_return(true)
 
       helper.work_package_css_classes(stub_work_package).should include("closed")
     end
 
     it "should not have a closed class if the work_package is not closed" do
-      stub_work_package.stub!(:closed?).and_return(false)
+      stub_work_package.stub(:closed?).and_return(false)
 
       helper.work_package_css_classes(stub_work_package).should_not include("closed")
     end
 
     it "should have an overdue class if the work_package is overdue" do
-      stub_work_package.stub!(:overdue?).and_return(true)
+      stub_work_package.stub(:overdue?).and_return(true)
 
       helper.work_package_css_classes(stub_work_package).should include("overdue")
     end
 
     it "should not have an overdue class if the work_package is not overdue" do
-      stub_work_package.stub!(:overdue?).and_return(false)
+      stub_work_package.stub(:overdue?).and_return(false)
 
       helper.work_package_css_classes(stub_work_package).should_not include("overdue")
     end
 
     it "should have a child class if the work_package is a child" do
-      stub_work_package.stub!(:child?).and_return(true)
+      stub_work_package.stub(:child?).and_return(true)
 
       helper.work_package_css_classes(stub_work_package).should include("child")
     end
 
     it "should not have a child class if the work_package is not a child" do
-      stub_work_package.stub!(:child?).and_return(false)
+      stub_work_package.stub(:child?).and_return(false)
 
       helper.work_package_css_classes(stub_work_package).should_not include("child")
     end
 
     it "should have a parent class if the work_package is a parent" do
-      stub_work_package.stub!(:leaf?).and_return(false)
+      stub_work_package.stub(:leaf?).and_return(false)
 
       helper.work_package_css_classes(stub_work_package).should include("parent")
     end
 
     it "should not have a parent class if the work_package is not a parent" do
-      stub_work_package.stub!(:leaf?).and_return(true)
+      stub_work_package.stub(:leaf?).and_return(true)
 
       helper.work_package_css_classes(stub_work_package).should_not include("parent")
     end
 
     it "should have a created-by-me class if the work_package is a created by the current user" do
       stub_user = double('user', :logged? => true, :id => 5)
-      User.stub!(:current).and_return(stub_user)
-      stub_work_package.stub!(:author_id).and_return(5)
+      User.stub(:current).and_return(stub_user)
+      stub_work_package.stub(:author_id).and_return(5)
 
       helper.work_package_css_classes(stub_work_package).should include("created-by-me")
     end
 
     it "should not have a created-by-me class if the work_package is not created by the current user" do
       stub_user = double('user', :logged? => true, :id => 5)
-      User.stub!(:current).and_return(stub_user)
-      stub_work_package.stub!(:author_id).and_return(4)
+      User.stub(:current).and_return(stub_user)
+      stub_work_package.stub(:author_id).and_return(4)
 
       helper.work_package_css_classes(stub_work_package).should_not include("created-by-me")
     end
@@ -335,16 +337,16 @@ describe WorkPackagesHelper do
 
     it "should have a assigned-to-me class if the work_package is a created by the current user" do
       stub_user = double('user', :logged? => true, :id => 5)
-      User.stub!(:current).and_return(stub_user)
-      stub_work_package.stub!(:assigned_to_id).and_return(5)
+      User.stub(:current).and_return(stub_user)
+      stub_work_package.stub(:assigned_to_id).and_return(5)
 
       helper.work_package_css_classes(stub_work_package).should include("assigned-to-me")
     end
 
     it "should not have a assigned-to-me class if the work_package is not created by the current user" do
       stub_user = double('user', :logged? => true, :id => 5)
-      User.stub!(:current).and_return(stub_user)
-      stub_work_package.stub!(:assigned_to_id).and_return(4)
+      User.stub(:current).and_return(stub_user)
+      stub_work_package.stub(:assigned_to_id).and_return(4)
 
       helper.work_package_css_classes(stub_work_package).should_not include("assigned-to-me")
     end
@@ -371,7 +373,7 @@ describe WorkPackagesHelper do
     let(:expected) { "field contents" }
 
     before do
-      stub_work_package.stub!(:custom_field_values).and_return([stub_custom_value])
+      stub_work_package.stub(:custom_field_values).and_return([stub_custom_value])
 
       helper.should_receive(:custom_field_tag_with_label).with(:work_package, stub_custom_value).and_return(expected)
     end
@@ -390,7 +392,7 @@ describe WorkPackagesHelper do
     let(:status2) { FactoryGirl.build_stubbed(:issue_status) }
 
     it "should return a select with every available status as an option" do
-      stub_work_package.stub!(:new_statuses_allowed_to)
+      stub_work_package.stub(:new_statuses_allowed_to)
                        .with(stub_user, true)
                        .and_return([status1, status2])
 
@@ -408,7 +410,7 @@ describe WorkPackagesHelper do
     end
 
     it "should return a label and the name of the current status if no new status is available" do
-      stub_work_package.stub!(:new_statuses_allowed_to)
+      stub_work_package.stub(:new_statuses_allowed_to)
                        .with(stub_user, true)
                        .and_return([])
 

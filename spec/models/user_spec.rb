@@ -95,8 +95,8 @@ describe User do
 
     before do
       user.save!
-      Setting.stub!(:brute_force_block_after_failed_logins).and_return(3)
-      Setting.stub!(:brute_force_block_minutes).and_return(30)
+      Setting.stub(:brute_force_block_after_failed_logins).and_return(3)
+      Setting.stub(:brute_force_block_minutes).and_return(30)
     end
 
     it 'should return the single blocked user' do

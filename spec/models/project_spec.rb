@@ -105,7 +105,7 @@ describe Project do
       new_issue = FactoryGirl.build_stubbed(:issue)
       new_issue.should_receive(:attributes=).with(attributes)
 
-      Issue.stub!(:new).and_yield(new_issue)
+      Issue.stub(:new).and_yield(new_issue)
 
       project.add_issue(attributes)
     end

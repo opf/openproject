@@ -16,9 +16,9 @@ describe UsersHelper do
 
   def build_user(status, blocked)
     user = FactoryGirl.build(:user)
-    user.stub!(:status).and_return(User::STATUSES[status])
-    user.stub!(:failed_too_many_recent_login_attempts?).and_return(blocked)
-    user.stub!(:failed_login_count).and_return(3)
+    user.stub(:status).and_return(User::STATUSES[status])
+    user.stub(:failed_too_many_recent_login_attempts?).and_return(blocked)
+    user.stub(:failed_login_count).and_return(3)
     user
   end
 

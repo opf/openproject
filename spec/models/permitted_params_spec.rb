@@ -267,7 +267,7 @@ describe PermittedParams do
     it "should permit watcher_user_ids when the user is allowed to add watchers" do
       project = double('project')
 
-      user.stub!(:allowed_to?).with(:add_work_package_watchers, project).and_return(true)
+      user.stub(:allowed_to?).with(:add_work_package_watchers, project).and_return(true)
 
       hash = { "watcher_user_ids" => ["1", "2"] }
 
@@ -279,7 +279,7 @@ describe PermittedParams do
     it "should not return watcher_user_ids when the user is not allowed to add watchers" do
       project = double('project')
 
-      user.stub!(:allowed_to?).with(:add_work_package_watchers, project).and_return(false)
+      user.stub(:allowed_to?).with(:add_work_package_watchers, project).and_return(false)
 
       hash = { "watcher_user_ids" => ["1", "2"] }
 

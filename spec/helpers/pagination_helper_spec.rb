@@ -27,7 +27,7 @@ describe PaginationHelper do
     end
 
     # this is required in order to be able to produce a valid url
-    helper.stub!(:params).and_return( { :controller => 'issues', :action => 'index' }.with_indifferent_access )
+    helper.stub(:params).and_return( { :controller => 'issues', :action => 'index' }.with_indifferent_access )
 
     paginator
   end
