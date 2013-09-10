@@ -109,7 +109,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= call_hook(:view_issues_index_bottom, { :issues => work_packages, :project => project, :query => query }) %>
 
 <% content_for :sidebar do %>
-    <%= render :partial => 'issues/sidebar' %>
+    <%= render :partial => 'sidebar' %>
 <% end %>
 
 <% content_for :header_tags do %>

@@ -88,10 +88,10 @@ module NavigationHelpers
       issue = Issue.find_by_subject($1)
       "/issues/#{issue.id}/edit"
 
-    when /^the copy page (?:for|of) the issue "([^\"]+)"$/
-      issue = Issue.find_by_subject($1)
-      project = issue.project
-      "/projects/#{project.identifier}/issues/#{issue.id}/copy"
+    when /^the copy page (?:for|of) the work package "([^\"]+)"$/
+      package = WorkPackage.find_by_subject($1)
+      project = package.project
+      "/projects/#{project.identifier}/work_packages/new?copy_from=#{package.id}"
 
     when /^the work packages? index page (?:for|of) (the)? project(?: called)? (.+)$/
        project_identifier = $2.gsub("\"", "")
@@ -296,7 +296,7 @@ module NavigationHelpers
       issue_id = Issue.find_by_subject($1).id
       "/issues/#{issue_id}/time_entries"
 
-    when /^the copy page of the work package "(.+)"$/
+    when /^the move new page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id
       "/work_packages/#{work_package_id}/move/new?copy="
 

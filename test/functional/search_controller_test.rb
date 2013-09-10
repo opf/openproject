@@ -134,12 +134,12 @@ class SearchControllerTest < ActionController::TestCase
     assert_nil assigns(:results)
   end
 
-  def test_quick_jump_to_issue
-    # issue of a public project
+  def test_quick_jump_to_work_packages
+    # work_package of a public project
     get :index, :q => "3"
-    assert_redirected_to '/issues/3'
+    assert_redirected_to '/work_packages/3'
 
-    # issue of a private project
+    # work_package of a private project
     get :index, :q => "4"
     assert_response :success
     assert_template 'index'
