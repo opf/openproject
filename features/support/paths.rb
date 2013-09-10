@@ -294,7 +294,7 @@ module NavigationHelpers
 
     when /^the time entry page of issue "(.+)"$/
       issue_id = WorkPackage.find_by_subject($1).id
-      "/issues/#{issue_id}/time_entries"
+      "/work_packages/#{issue_id}/time_entries"
 
     when /^the move new page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id

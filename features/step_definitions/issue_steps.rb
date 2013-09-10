@@ -26,21 +26,21 @@ end
 Given(/^the issue "(.*?)" has an attachment "(.*?)"$/) do |issue_subject, file_name|
   issue = WorkPackage.find(:last, :conditions => {:subject => issue_subject}, :order => :created_at)
   attachment = FactoryGirl.create :attachment,
-        :author => issue.author,
-        :content_type => 'image/gif',
-        :filename => file_name,
-        :disk_filename => "#{rand(10000000..99999999)}_#{file_name}",
-        :digest => Digest::MD5.hexdigest(file_name),
-        :container => issue,
-        :filesize => rand(100..10000),
-        :description => 'This is an attachment description'
+                                  :author => issue.author,
+                                  :content_type => 'image/gif',
+                                  :filename => file_name,
+                                  :disk_filename => "#{rand(10000000..99999999)}_#{file_name}",
+                                  :digest => Digest::MD5.hexdigest(file_name),
+                                  :container => issue,
+                                  :filesize => rand(100..10000),
+                                  :description => 'This is an attachment description'
 end
 
 Given /^the [Uu]ser "([^\"]*)" has (\d+) [iI]ssue(?:s)? with(?: the following)?:$/ do |user, count, table|
   u = User.find_by_login user
   raise "This user must be member of a project to have issues" unless u.projects.last
   as_admin count do
-    i = WorkPackage.generate_for_project!(u.projects.last)
+    i = FactoryGirl.create(:work_package, project: u.projects.last)
     i.author = u
     i.assigned_to = u
     i.type = Type.find_by_name(table.rows_hash.delete("type")) if table.rows_hash["type"]
@@ -52,8 +52,8 @@ end
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [iI]ssue(?:s)? with(?: the following)?:$/ do |project, count, table|
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin count do
-    i = FactoryGirl.build(:issue, :project => p,
-                                  :type => p.types.first)
+    i = FactoryGirl.build(:work_package, :project => p,
+                                         :type => p.types.first)
     send_table_to_object(i, table, {}, method(:add_custom_value_to_issue))
   end
 end

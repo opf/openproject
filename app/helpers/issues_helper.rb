@@ -150,7 +150,7 @@ module IssuesHelper
   end
 
   def value_overridden_by_children?(attrib)
-    Issue::ATTRIBS_WITH_VALUES_FROM_CHILDREN.include? attrib
+    WorkPackage::ATTRIBS_WITH_VALUES_FROM_CHILDREN.include? attrib
   end
 
   def attrib_disabled?(issue, attrib)

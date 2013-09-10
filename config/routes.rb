@@ -289,8 +289,11 @@ OpenProject::Application.routes.draw do
     # move individual wp
     resource :move, :controller => 'work_packages/moves', :only => [:new, :create]
 
-    resources :time_entries, :controller => 'timelog',
-                             :only => [:new]
+    resources :time_entries, :controller => 'timelog'
+    # this duplicate mapping is required for the timelog_helper
+    namespace :time_entries do
+      resource :report, :controller => 'reports'
+    end
   end
 
   resources :versions, :only => [:show, :edit, :update, :destroy] do

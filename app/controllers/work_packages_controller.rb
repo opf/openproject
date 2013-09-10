@@ -319,18 +319,10 @@ class WorkPackagesController < ApplicationController
 
       permitted[:author] = current_user
 
-      sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
+      wp = project.add_issue(permitted)
+      wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
 
-      wp = case sti_type
-           when WorkPackage.to_s
-             project.add_issue(permitted)
-           else
-             raise ArgumentError, "sti_type #{ sti_type } is not supported"
-           end
-
-       wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
-
-       wp
+      wp
     end
   end
 
