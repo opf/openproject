@@ -20,12 +20,12 @@ describe WorkPackage, "rebuilding nested set" do
   let(:author) { FactoryGirl.create(:user) }
 
   def issue_factory(parent = nil)
-    FactoryGirl.create(:issue, :status => status,
-                               :project => project,
-                               :priority => priority,
-                               :author => author,
-                               :type => type,
-                               :parent => parent)
+    FactoryGirl.create(:work_package, :status => status,
+                                      :project => project,
+                                      :priority => priority,
+                                      :author => author,
+                                      :type => type,
+                                      :parent => parent)
   end
 
   let(:root_1) { issue_factory }

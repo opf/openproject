@@ -18,16 +18,16 @@ describe User, 'deletion' do
   let(:member) { project.members.first }
   let(:role) { member.roles.first }
   let(:issue_status) { FactoryGirl.create(:issue_status) }
-  let(:issue) { FactoryGirl.create(:issue, :type => project.types.first,
-                                       :author => user,
-                                       :project => project,
-                                       :status => issue_status,
-                                       :assigned_to => user) }
-  let(:issue2) { FactoryGirl.create(:issue, :type => project.types.first,
-                                        :author => user2,
-                                        :project => project,
-                                        :status => issue_status,
-                                        :assigned_to => user2) }
+  let(:issue) { FactoryGirl.create(:work_package, :type => project.types.first,
+                                                  :author => user,
+                                                  :project => project,
+                                                  :status => issue_status,
+                                                  :assigned_to => user) }
+  let(:issue2) { FactoryGirl.create(:work_package, :type => project.types.first,
+                                                   :author => user2,
+                                                   :project => project,
+                                                   :status => issue_status,
+                                                   :assigned_to => user2) }
 
   let(:substitute_user) { DeletedUser.first }
 
@@ -165,9 +165,9 @@ describe User, 'deletion' do
   end
 
   describe "WHEN the user has an issue created and assigned" do
-    let(:associated_instance) { FactoryGirl.build(:issue, :type => project.types.first,
-                                                      :project => project,
-                                                      :status => issue_status) }
+    let(:associated_instance) { FactoryGirl.build(:work_package, :type => project.types.first,
+                                                                 :project => project,
+                                                                 :status => issue_status) }
     let(:associated_class) { Issue }
     let(:associations) { [:author, :assigned_to] }
 
@@ -175,9 +175,9 @@ describe User, 'deletion' do
   end
 
   describe "WHEN the user has an issue updated and assigned" do
-    let(:associated_instance) { FactoryGirl.build(:issue, :type => project.types.first,
-                                                      :project => project,
-                                                      :status => issue_status) }
+    let(:associated_instance) { FactoryGirl.build(:work_package, :type => project.types.first,
+                                                                 :project => project,
+                                                                 :status => issue_status) }
     let(:associated_class) { Issue }
     let(:associations) { [:author, :assigned_to] }
 
@@ -310,7 +310,7 @@ describe User, 'deletion' do
   end
 
   describe "WHEN the user is watching something" do
-    let(:watched) { FactoryGirl.create(:issue, :project => project) }
+    let(:watched) { FactoryGirl.create(:work_package, :project => project) }
     let(:watch) { Watcher.new(:user => user,
                               :watchable => watched) }
 

@@ -16,7 +16,7 @@ describe WorkPackage do
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
   let(:stub_version) { FactoryGirl.build_stubbed(:version) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
-  let(:issue) { FactoryGirl.create(:issue) }
+  let(:work_package) { FactoryGirl.create(:work_package) }
   let(:user) { FactoryGirl.create(:user) }
 
   describe :assignable_users do
@@ -217,7 +217,7 @@ describe WorkPackage do
 
   describe :update_by! do
     #TODO remove once only WP exists
-    [:issue].each do |subclass|
+    [:work_package].each do |subclass|
 
       describe "for #{subclass}" do
         let(:instance) { send(subclass) }
@@ -340,7 +340,7 @@ describe WorkPackage do
 
   describe :duration do
     #TODO remove once only WP exists
-    [:issue].each do |subclass|
+    [:work_package].each do |subclass|
 
       describe "for #{subclass}" do
         let(:instance) { send(subclass) }
@@ -417,7 +417,7 @@ describe WorkPackage do
       @user2 = FactoryGirl.create(:user, :login => "user2", :mail => "user2@users.com")
 
 
-      @issue ||= FactoryGirl.create(:issue, :project => @project, :status => @status_open, :type => @type, :author => @current)
+      @issue ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
     end
 
     describe 'ignore blank to blank transitions' do
