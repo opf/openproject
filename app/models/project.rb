@@ -859,10 +859,12 @@ class Project < ActiveRecord::Base
     list
   end
 
-  # TODO: merge with add_planning_elemement once type or similar is defined there
   def add_issue(attributes = {})
-    attributes ||= {}
+    ActiveSupport::Deprecation.warn "Project.add_issue is deprecated. Use Project.add_work_package instead."
+    add_work_package attributes
+  end
 
+  def add_work_package(attributes = {})
     WorkPackage.new do |i|
       i.project = self
 

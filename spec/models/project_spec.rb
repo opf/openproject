@@ -58,30 +58,30 @@ describe Project do
     end
   end
 
-  describe "add_issue" do
+  describe "add_work_package" do
     let(:project) { FactoryGirl.create(:project_with_types) }
 
-    it "should return a new issue" do
-      project.add_issue.should be_a(Issue)
+    it "should return a new work_package" do
+      project.add_work_package.should be_a(WorkPackage)
     end
 
     it "should not be saved" do
-      project.add_issue.should be_new_record
+      project.add_work_package.should be_new_record
     end
 
-    it "returned issue should have project set to self" do
-      project.add_issue.project.should == project
+    it "returned work_package should have project set to self" do
+      project.add_work_package.project.should == project
     end
 
-    it "returned issue should have type set to project's first type" do
-      project.add_issue.type.should == project.types.first
+    it "returned work_package should have type set to project's first type" do
+      project.add_work_package.type.should == project.types.first
     end
 
-    it "returned issue should have type set to provided type" do
+    it "returned work_package should have type set to provided type" do
       specific_type = FactoryGirl.build(:type)
       project.types << specific_type
 
-      project.add_issue(:type => specific_type).type.should == specific_type
+      project.add_work_package(:type => specific_type).type.should == specific_type
     end
 
     it "should raise an error if the provided type is not one of the project's types" do
@@ -89,25 +89,25 @@ describe Project do
       project
       specific_type = FactoryGirl.create(:type)
 
-      expect { project.add_issue(:type => specific_type) }.to raise_error ActiveRecord::RecordNotFound
+      expect { project.add_work_package(:type => specific_type) }.to raise_error ActiveRecord::RecordNotFound
     end
 
-    it "returned issue should have type set to provided type_id" do
+    it "returned work_package should have type set to provided type_id" do
       specific_type = FactoryGirl.build(:type)
       project.types << specific_type
 
-      project.add_issue(:type_id => specific_type.id).type.should == specific_type
+      project.add_work_package(:type_id => specific_type.id).type.should == specific_type
     end
 
     it "should set all the other attributes" do
       attributes = { :blubs => double('blubs') }
 
-      new_issue = FactoryGirl.build_stubbed(:issue)
-      new_issue.should_receive(:attributes=).with(attributes)
+      new_work_package = FactoryGirl.build_stubbed(:work_package)
+      new_work_package.should_receive(:attributes=).with(attributes)
 
-      WorkPackage.stub(:new).and_yield(new_issue)
+      WorkPackage.stub(:new).and_yield(new_work_package)
 
-      project.add_issue(attributes)
+      project.add_work_package(attributes)
     end
   end
 
