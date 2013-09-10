@@ -399,6 +399,19 @@ class WorkPackage < ActiveRecord::Base
     end || false
   end
 
+  # Returns the mail adresses of users that should be notified
+  def recipients
+    notified = project.notified_users
+    # Author and assignee are always notified unless they have been
+    # locked or don't want to be notified
+    notified << author if author && author.active? && author.notify_about?(self)
+    notified << assigned_to if assigned_to && assigned_to.active? && assigned_to.notify_about?(self)
+    notified.uniq!
+    # Remove users that can not view the issue
+    notified.reject! {|user| !visible?(user)}
+    notified.collect(&:mail)
+  end
+
   protected
 
   def recalculate_attributes_for(work_package_id)
