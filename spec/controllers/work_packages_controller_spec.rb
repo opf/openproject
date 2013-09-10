@@ -732,4 +732,25 @@ describe WorkPackagesController do
     end
   end
 
+  describe "quotation" do
+    let(:call_action) { get :quoted }
+
+    requires_permission_in_project do
+      context "description" do
+        subject { get :quoted, id: planning_element.id }
+
+        it { should be_success }
+        it { should render_template('edit') }
+      end
+
+      context "journal" do
+        let(:journal_id) { planning_element.journals.first.id }
+
+        subject { get :quoted, id: planning_element.id, journal_id: journal_id }
+
+        it { should be_success }
+        it { should render_template('edit') }
+      end
+    end
+  end
 end

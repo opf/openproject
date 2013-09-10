@@ -46,7 +46,7 @@ project.enabled_module_names += ["timelines"]
   project.work_package_custom_fields << cf
 end
 
-# create a default timeline that shows all our planning elements
+# create a default timeline that shows all our work packages
 timeline = Timeline.create()
 timeline.project = project
 timeline.name = "Sample Timeline"
@@ -221,9 +221,6 @@ print "Creating objects for..."
       issue.save!
     end
   end
-
-  puts ""
-  print "......create planning elements"
 
   ## create some messages
 

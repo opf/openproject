@@ -298,11 +298,11 @@ module NavigationHelpers
 
     when /^the copy page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id
-      "/work_packages/#{work_package_id}/moves/new?copy="
+      "/work_packages/#{work_package_id}/move/new?copy="
 
     when /^the move page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id
-      "/work_packages/#{work_package_id}/moves/new"
+      "/work_packages/#{work_package_id}/move/new"
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

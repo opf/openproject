@@ -1,5 +1,6 @@
 # Changelog
 
+* `#1418` Additional changes: Change links to issues/planning elements to use work_packages controller
 * `#1898` Separate action for changing wiki parent page (was same as rename before)
 
 ## 3.0.0pre15

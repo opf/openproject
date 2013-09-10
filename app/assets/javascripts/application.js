@@ -1399,7 +1399,7 @@ var Preview = (function ($) {
       $('html').on('click','a.preview', function() {
         $.ajax({
           url: $(this).attr('href'),
-          type: 'POST',
+          type: 'PUT',
           data: $("#" + $(this).attr('id').replace(/-preview/, "")).serialize().replace('_method=put&', ''),
           success: function(data) { $('#preview').html(data);
                                     $('html, body').animate({

@@ -49,10 +49,10 @@ Feature: Viewing a work package
       | New         | false      | true        |
 
     And there are the following issues in project "omicronpersei8":
-      | subject | type |
-      | issue1  | Bug  |
-      | issue2  | Bug  |
-      | issue3  | Bug  |
+      | subject | type | description |
+      | issue1  | Bug  | "1"         |
+      | issue2  | Bug  | "2"         |
+      | issue3  | Bug  | "3"         |
 
     And there are the following work packages in project "omicronpersei8":
       | subject | start_date | due_date   |
@@ -147,3 +147,14 @@ Feature: Viewing a work package
      And I confirm popups
 
     Then I should see "Work packages"
+
+  Scenario: Description quoting link visible
+    When I go to the page of the work package "issue1"
+    Then I should see "Quote" within ".description"
+
+  @javascript
+  Scenario: Description quoting link sets edit note
+    When I go to the page of the work package "issue1"
+     And I click on "Quote" within ".description"
+
+    Then I should see "Bob Bobbit wrote:"

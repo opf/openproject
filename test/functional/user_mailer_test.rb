@@ -75,7 +75,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_select_email do
       # link to the main ticket
       assert_select 'a[href=?]',
-                    "https://mydomain.foo/issues/#{issue.id}",
+                    "https://mydomain.foo/work_packages/#{issue.id}",
                     :text => "My Type ##{issue.id}: My awesome Ticket"
       # link to a description diff
       assert_select 'li', :text => /Description changed/
@@ -113,7 +113,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_select_email do
       # link to the main ticket
       assert_select 'a[href=?]',
-                    "http://mydomain.foo/rdm/issues/#{issue.id}",
+                    "http://mydomain.foo/rdm/work_packages/#{issue.id}",
                     :text => "My Type ##{issue.id}: My awesome Ticket"
       # link to a description diff
       assert_select 'li', :text => /Description changed/
@@ -154,7 +154,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_select_email do
       # link to the main ticket
       assert_select 'a[href=?]',
-                    "http://mydomain.foo/rdm/issues/#{issue.id}",
+                    "http://mydomain.foo/rdm/work_packages/#{issue.id}",
                     :text => "My Type ##{issue.id}: My awesome Ticket"
       # link to a description diff
       assert_select 'li', :text => /Description changed/
