@@ -298,7 +298,7 @@ describe User do
 
     context "feeds enabled" do
       before do
-        Setting.stub!(:feeds_disabled?).and_return(false)
+        Setting.stub(:feeds_disabled?).and_return(false)
       end
 
       it { User.find_by_rss_key(@rss_key).should == user }
@@ -306,7 +306,7 @@ describe User do
 
     context "feeds disabled" do
       before do
-        Setting.stub!(:feeds_disabled?).and_return(true)
+        Setting.stub(:feeds_disabled?).and_return(true)
       end
 
       it { User.find_by_rss_key(@rss_key).should == nil }

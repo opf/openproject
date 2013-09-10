@@ -546,7 +546,7 @@ EXPECTED
 
     context "link given but disabled" do
       before do
-        Setting.stub!(:feeds_disabled?).and_return(true)
+        Setting.stub(:feeds_disabled?).and_return(true)
         @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
       end
       it { @links.should be_nil}
