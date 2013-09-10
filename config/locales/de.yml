@@ -1090,6 +1090,7 @@ de:
   permission_select_project_modules: "Projektmodule auswählen"
   permission_view_calendar: "Kalender ansehen"
   permission_view_changesets: "Changesets ansehen"
+  permission_view_commit_author_statistics: "Commit Autor Statistiken ansehen"
   permission_view_work_package_watchers: "Liste der Beobachter ansehen"
   permission_view_work_packages: "Arbeitspakete anzeigen"
   permission_view_messages: "Forenbeiträge ansehen"

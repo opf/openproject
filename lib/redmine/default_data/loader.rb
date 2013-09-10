@@ -63,7 +63,8 @@ module Redmine
                                                       :edit_own_messages,
                                                       :browse_repository,
                                                       :view_changesets,
-                                                      :commit_access]
+                                                      :commit_access,
+                                                      :view_commit_author_statistics]
 
             reporter = Role.create! :name => l(:default_role_reporter),
                                     :position => 3,
@@ -80,7 +81,8 @@ module Redmine
                                                     :add_messages,
                                                     :edit_own_messages,
                                                     :browse_repository,
-                                                    :view_changesets]
+                                                    :view_changesets,
+                                                    :view_commit_author_statistics]
 
             Role.non_member.update_attributes :name => l(:default_role_non_member),
                                               :permissions => [:view_work_packages,
@@ -94,7 +96,8 @@ module Redmine
                                                             :view_wiki_edits,
                                                             :add_messages,
                                                             :browse_repository,
-                                                            :view_changesets]
+                                                            :view_changesets,
+                                                            :view_commit_author_statistics]
 
             Role.anonymous.update_attributes :name => l(:default_role_anonymous),
                                              :permissions => [:view_work_packages,
@@ -103,7 +106,8 @@ module Redmine
                                                            :view_wiki_pages,
                                                            :view_wiki_edits,
                                                            :browse_repository,
-                                                           :view_changesets]
+                                                           :view_changesets,
+                                                           :view_commit_author_statistics]
 
             # Colors
             colors_list = PlanningElementTypeColor.ms_project_colors
