@@ -16,62 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_copy_to_another_project_and_type
-    issue = Issue.find(1)
-    copy = nil
-    assert_difference 'Issue.count' do
-      copy = issue.move_to_project(Project.find(3), Type.find(2), :copy => true)
-    end
-    copy.reload
-    assert_kind_of Issue, copy
-    assert_equal Project.find(3), copy.project
-    assert_equal Type.find(2), copy.type
-    # Custom field #2 is not associated with target type
-    assert_nil copy.custom_value_for(2)
-  end
-
-  context "#move_to_project" do
-    context "as a copy" do
-      setup do
-        @issue = Issue.find(1)
-        @copy = nil
-      end
-
-      should "allow assigned_to changes" do
-        @copy = @issue.move_to_project(Project.find(3), Type.find(2), {:copy => true, :attributes => {:assigned_to_id => 3}})
-        assert_equal 3, @copy.assigned_to_id
-      end
-
-      should "allow status changes" do
-        @copy = @issue.move_to_project(Project.find(3), Type.find(2), {:copy => true, :attributes => {:status_id => 2}})
-        assert_equal 2, @copy.status_id
-      end
-
-      should "allow start date changes" do
-        date = Date.today
-        @copy = @issue.move_to_project(Project.find(3), Type.find(2), {:copy => true, :attributes => {:start_date => date}})
-        assert_equal date, @copy.start_date
-      end
-
-      should "allow due date changes" do
-        date = Date.today
-        @copy = @issue.move_to_project(Project.find(3), Type.find(2), {:copy => true, :attributes => {:due_date => date}})
-
-        assert_equal date, @copy.due_date
-      end
-    end
-  end
-
-  def test_recipients_should_not_include_users_that_cannot_view_the_issue
-    issue = Issue.find(12)
-    assert issue.recipients.include?(issue.author.mail)
-    User.current = issue.author
-    # move the issue to a private project
-    copy  = issue.move_to_project(Project.find(5), Type.find(2), :copy => true)
-    # the author of the original issue is no user of the project and thus not informed
-    assert !copy.recipients.include?(copy.author.mail)
-  end
-
   def test_watcher_recipients_should_not_include_users_that_cannot_view_the_issue
     issue = FactoryGirl.create :issue
     user = FactoryGirl.create :user, :member_in_project => issue.project
