@@ -16,7 +16,7 @@ class Journal < ActiveRecord::Base
 
   def self.generate_issue
     project = Project.generate!
-    Issue.generate_for_project!(project)
+    WorkPackage.generate_for_project!(project)
   end
 
   def self.generate_user

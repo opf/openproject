@@ -135,7 +135,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_archive_should_fail_if_versions_are_used_by_non_descendant_projects
     # Assign an issue of a project to a version of a child project
-    Issue.find(4).update_attribute :fixed_version_id, 4
+    WorkPackage.find(4).update_attribute :fixed_version_id, 4
 
     assert_no_difference "Project.count(:all, :conditions => 'status = #{Project::STATUS_ARCHIVED}')" do
       assert_equal false, @ecookbook.archive
@@ -177,7 +177,7 @@ class ProjectTest < ActiveSupport::TestCase
     # make sure related data was removed
     assert_nil Member.first(:conditions => {:project_id => @ecookbook.id})
     assert_nil Board.first(:conditions => {:project_id => @ecookbook.id})
-    assert_nil Issue.first(:conditions => {:project_id => @ecookbook.id})
+    assert_nil WorkPackage.first(:conditions => {:project_id => @ecookbook.id})
   end
 
   def test_destroying_root_projects_should_clear_data
@@ -282,19 +282,19 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_set_parent_should_update_issue_fixed_version_associations_when_a_fixed_version_is_moved_out_of_the_hierarchy
     # Parent issue with a hierarchy project's fixed version
-    parent_issue = Issue.find(1)
+    parent_issue = WorkPackage.find(1)
     parent_issue.update_attribute(:fixed_version_id, 4)
     parent_issue.reload
     assert_equal 4, parent_issue.fixed_version_id
 
     # Should keep fixed versions for the issues
-    issue_with_local_fixed_version = Issue.find(5)
+    issue_with_local_fixed_version = WorkPackage.find(5)
     issue_with_local_fixed_version.update_attribute(:fixed_version_id, 4)
     issue_with_local_fixed_version.reload
     assert_equal 4, issue_with_local_fixed_version.fixed_version_id
 
     # Local issue with hierarchy fixed_version
-    issue_with_hierarchy_fixed_version = Issue.find(13)
+    issue_with_hierarchy_fixed_version = WorkPackage.find(13)
     issue_with_hierarchy_fixed_version.update_attribute(:fixed_version_id, 6)
     issue_with_hierarchy_fixed_version.reload
     assert_equal 6, issue_with_hierarchy_fixed_version.fixed_version_id
@@ -750,7 +750,7 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     should "copy work units" do
-      @source_project.work_packages << Issue.generate!(:status => IssueStatus.find_by_name('Closed'),
+      @source_project.work_packages << WorkPackage.generate!(:status => IssueStatus.find_by_name('Closed'),
                                                     :subject => "copy issue status",
                                                     :type_id => 1,
                                                     :assigned_to_id => 2,
@@ -777,7 +777,7 @@ class ProjectTest < ActiveSupport::TestCase
       assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open')
       @source_project.versions << assigned_version
       assert_equal 3, @source_project.versions.size
-      Issue.generate_for_project!(@source_project,
+      WorkPackage.generate_for_project!(@source_project,
                                   :fixed_version_id => assigned_version.id,
                                   :subject => "change the new issues to use the copied version",
                                   :type_id => 1,
@@ -796,15 +796,15 @@ class ProjectTest < ActiveSupport::TestCase
     should "copy issue relations" do
       Setting.cross_project_issue_relations = '1'
 
-      second_issue = Issue.generate!(:status_id => 5,
+      second_issue = WorkPackage.generate!(:status_id => 5,
                                      :subject => "copy issue relation",
                                      :type_id => 1,
                                      :assigned_to_id => 2,
                                      :project_id => @source_project.id)
-      source_relation = IssueRelation.generate!(:issue_from => Issue.find(4),
+      source_relation = IssueRelation.generate!(:issue_from => WorkPackage.find(4),
                                                 :issue_to => second_issue,
                                                 :relation_type => "relates")
-      source_relation_cross_project = IssueRelation.generate!(:issue_from => Issue.find(1),
+      source_relation_cross_project = IssueRelation.generate!(:issue_from => WorkPackage.find(1),
                                                               :issue_to => second_issue,
                                                               :relation_type => "duplicates")
 
@@ -938,7 +938,7 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     should "change the new issues to use the copied issue categories" do
-      issue = Issue.find(4)
+      issue = WorkPackage.find(4)
       issue.update_attribute(:category_id, 3)
 
       assert @project.copy(@source_project)
@@ -979,8 +979,8 @@ class ProjectTest < ActiveSupport::TestCase
 
     should "be the earliest start date of it's issues" do
       early = 7.days.ago.to_date
-      Issue.generate_for_project!(@project, :start_date => Date.today)
-      Issue.generate_for_project!(@project, :start_date => early)
+      WorkPackage.generate_for_project!(@project, :start_date => Date.today)
+      WorkPackage.generate_for_project!(@project, :start_date => early)
 
       assert_equal early, @project.start_date
     end
@@ -1002,8 +1002,8 @@ class ProjectTest < ActiveSupport::TestCase
 
     should "be the latest due date of it's issues" do
       future = 7.days.from_now.to_date
-      Issue.generate_for_project!(@project, :due_date => future)
-      Issue.generate_for_project!(@project, :due_date => Date.today)
+      WorkPackage.generate_for_project!(@project, :due_date => future)
+      WorkPackage.generate_for_project!(@project, :due_date => Date.today)
 
       assert_equal future, @project.due_date
     end
@@ -1021,7 +1021,7 @@ class ProjectTest < ActiveSupport::TestCase
     should "pick the latest date from it's issues and versions" do
       future = 7.days.from_now.to_date
       far_future = 14.days.from_now.to_date
-      Issue.generate_for_project!(@project, :due_date => far_future)
+      WorkPackage.generate_for_project!(@project, :due_date => far_future)
       @project.versions << Version.generate!(:effective_date => future)
 
       assert_equal far_future, @project.due_date
@@ -1052,18 +1052,18 @@ class ProjectTest < ActiveSupport::TestCase
 
       should "return 100 if the version has only closed issues" do
         v1 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v1)
+        WorkPackage.generate_for_project!(@project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v1)
         v2 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v2)
+        WorkPackage.generate_for_project!(@project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v2)
 
         assert_equal 100, @project.completed_percent
       end
 
       should "return the averaged completed percent of the versions (not weighted)" do
         v1 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
+        WorkPackage.generate_for_project!(@project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
         v2 = Version.generate!(:project => @project)
-        Issue.generate_for_project!(@project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
+        WorkPackage.generate_for_project!(@project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
 
         assert_equal 50, @project.completed_percent
       end

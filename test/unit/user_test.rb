@@ -489,7 +489,7 @@ class UserTest < ActiveSupport::TestCase
         @project = Project.find(1)
         @author = User.generate_with_protected!
         @assignee = User.generate_with_protected!
-        @issue = Issue.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
+        @issue = WorkPackage.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
       end
 
       should "be true for a user with :all" do

@@ -10,21 +10,21 @@
 #++
 
 Given /^there are no issues$/ do
-  Issue.destroy_all
+  WorkPackage.destroy_all
 end
 
 Given /^the issue "(.*?)" is watched by:$/ do |issue_subject, watchers|
-  issue = Issue.find(:last, :conditions => {:subject => issue_subject}, :order => :created_at)
+  issue = WorkPackage.find(:last, :conditions => {:subject => issue_subject}, :order => :created_at)
   watchers.raw.flatten.each {|w| issue.add_watcher User.find_by_login(w)}
   issue.save
 end
 
 Then /^the issue "(.*?)" should have (\d+) watchers$/ do |issue_subject, watcher_count|
-  Issue.find_by_subject(issue_subject).watchers.count.should == watcher_count.to_i
+  WorkPackage.find_by_subject(issue_subject).watchers.count.should == watcher_count.to_i
 end
 
 Given(/^the issue "(.*?)" has an attachment "(.*?)"$/) do |issue_subject, file_name|
-  issue = Issue.find(:last, :conditions => {:subject => issue_subject}, :order => :created_at)
+  issue = WorkPackage.find(:last, :conditions => {:subject => issue_subject}, :order => :created_at)
   attachment = FactoryGirl.create :attachment,
         :author => issue.author,
         :content_type => 'image/gif',
@@ -40,7 +40,7 @@ Given /^the [Uu]ser "([^\"]*)" has (\d+) [iI]ssue(?:s)? with(?: the following)?:
   u = User.find_by_login user
   raise "This user must be member of a project to have issues" unless u.projects.last
   as_admin count do
-    i = Issue.generate_for_project!(u.projects.last)
+    i = WorkPackage.generate_for_project!(u.projects.last)
     i.author = u
     i.assigned_to = u
     i.type = Type.find_by_name(table.rows_hash.delete("type")) if table.rows_hash["type"]

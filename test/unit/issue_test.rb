@@ -17,7 +17,7 @@ class IssueTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_create
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 3,
@@ -33,7 +33,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_minimal
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 3,
@@ -49,7 +49,7 @@ class IssueTest < ActiveSupport::TestCase
     field = WorkPackageCustomField.find_by_name('Database')
     field.update_attribute(:is_required, true)
 
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 1,
@@ -79,7 +79,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_errors_full_messages_should_include_custom_fields_errors
     field = WorkPackageCustomField.find_by_name('Database')
 
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 1,
@@ -102,7 +102,7 @@ class IssueTest < ActiveSupport::TestCase
 
     CustomValue.delete 18
 
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     assert_nil issue.custom_value_for(field)
     assert issue.available_custom_fields.include?(field)
     # No change to custom values, issue can be saved
@@ -118,7 +118,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_not_update_attributes_if_custom_fields_validation_fails
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     field = WorkPackageCustomField.find_by_name('Database')
     assert issue.available_custom_fields.include?(field)
 
@@ -133,7 +133,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_should_not_recreate_custom_values_objects_on_update
     field = WorkPackageCustomField.find_by_name('Database')
 
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     issue.custom_field_values = { field.id => 'PostgreSQL' }
     assert issue.save
     custom_value = issue.custom_value_for(field)
@@ -145,23 +145,23 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_not_update_custom_fields_on_changing_type_with_different_custom_fields
-    issue = Issue.new(:project => Project.find(1))
+    issue = WorkPackage.new(:project => Project.find(1))
     issue.force_attributes = {:type_id => 1, :author_id => 1, :status_id => 1, :subject => 'Test', :custom_field_values => {'2' => 'Test'}}
     issue.save!
 
     assert !Type.find(2).custom_field_ids.include?(2)
 
-    issue = Issue.find(issue.id)
+    issue = WorkPackage.find(issue.id)
     issue.attributes = {:type_id => 2, :custom_field_values => {'1' => ''}}
 
-    issue = Issue.find(issue.id)
+    issue = WorkPackage.find(issue.id)
     custom_value = issue.custom_value_for(2)
     assert_not_nil custom_value
     assert_equal 'Test', custom_value.value
   end
 
   def test_assigning_type_id_should_reload_custom_fields_values
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project => Project.find(1) }
     end
     assert issue.custom_field_values.empty?
@@ -173,7 +173,7 @@ class IssueTest < ActiveSupport::TestCase
     attributes = ActiveSupport::OrderedHash.new
     attributes['custom_field_values'] = { '1' => 'MySQL' }
     attributes['type_id'] = '1'
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project => Project.find(1) }
     end
     issue.attributes = attributes
@@ -183,7 +183,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_should_update_issue_with_disabled_type
     p = Project.find(1)
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
 
     p.types.delete(issue.type)
     assert !p.types.include?(issue.type)
@@ -197,7 +197,7 @@ class IssueTest < ActiveSupport::TestCase
     p = Project.find(1)
     p.types.delete(Type.find(2))
 
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     issue.type_id = 2
     issue.subject = 'New subject'
     assert !issue.save
@@ -205,7 +205,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_category_based_assignment
-    (issue = Issue.new.tap do |i|
+    (issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 3,
@@ -219,20 +219,20 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_copy
-    issue = Issue.new.copy_from(1)
+    issue = WorkPackage.new.copy_from(1)
     assert issue.save
     issue.reload
-    orig = Issue.find(1)
+    orig = WorkPackage.find(1)
     assert_equal orig.subject, issue.subject
     assert_equal orig.type, issue.type
     assert_equal "125", issue.custom_value_for(2).value
   end
 
   def test_copy_should_copy_status
-    orig = Issue.find(8)
+    orig = WorkPackage.find(8)
     assert orig.status != IssueStatus.default
 
-    issue = Issue.new.copy_from(orig)
+    issue = WorkPackage.new.copy_from(orig)
     assert issue.save
     issue.reload
     assert_equal orig.status, issue.status
@@ -240,7 +240,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_should_close_duplicates
     # Create 3 issues
-    issue1 = Issue.new.tap do |i|
+    issue1 = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 1,
@@ -250,9 +250,9 @@ class IssueTest < ActiveSupport::TestCase
                              :description => 'Duplicates test' }
     end
     assert issue1.save
-    issue2 = Issue.new.copy_from(issue1)
+    issue2 = WorkPackage.new.copy_from(issue1)
     assert issue2.save
-    issue3 = Issue.new.copy_from(issue1)
+    issue3 = WorkPackage.new.copy_from(issue1)
     assert issue3.save
 
     # 2 is a dupe of 1
@@ -287,7 +287,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_should_not_close_duplicated_issue
     # Create 3 issues
-    issue1 = Issue.new.tap do |i|
+    issue1 = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 1,
@@ -298,7 +298,7 @@ class IssueTest < ActiveSupport::TestCase
     end
 
     assert issue1.save
-    issue2 = Issue.new.copy_from(issue1)
+    issue2 = WorkPackage.new.copy_from(issue1)
     assert issue2.save
 
     # 2 is a dupe of 1
@@ -315,7 +315,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_assignable_versions
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 1,
@@ -327,7 +327,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_not_be_able_to_assign_a_new_issue_to_a_closed_version
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 1,
@@ -341,7 +341,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_not_be_able_to_assign_a_new_issue_to_a_locked_version
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 1,
@@ -354,7 +354,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_be_able_to_assign_a_new_issue_to_an_open_version
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 1,
@@ -366,35 +366,35 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_be_able_to_update_an_issue_assigned_to_a_closed_version
-    issue = Issue.find(11)
+    issue = WorkPackage.find(11)
     assert_equal 'closed', issue.fixed_version.status
     issue.subject = 'Subject changed'
     assert issue.save
   end
 
   def test_should_not_be_able_to_reopen_an_issue_assigned_to_a_closed_version
-    issue = Issue.find(11)
+    issue = WorkPackage.find(11)
     issue.status_id = 1
     assert !issue.save
     refute_empty issue.errors[:base]
   end
 
   def test_should_be_able_to_reopen_and_reassign_an_issue_assigned_to_a_closed_version
-    issue = Issue.find(11)
+    issue = WorkPackage.find(11)
     issue.status_id = 1
     issue.fixed_version_id = 3
     assert issue.save
   end
 
   def test_should_be_able_to_reopen_an_issue_assigned_to_a_locked_version
-    issue = Issue.find(12)
+    issue = WorkPackage.find(12)
     assert_equal 'locked', issue.fixed_version.status
     issue.status_id = 1
     assert issue.save
   end
 
   def test_move_to_another_project_with_same_category
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     assert issue.move_to_project(Project.find(2))
     issue.reload
     assert_equal 2, issue.project_id
@@ -405,7 +405,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_move_to_another_project_without_same_category
-    issue = Issue.find(2)
+    issue = WorkPackage.find(2)
     assert issue.move_to_project(Project.find(2))
     issue.reload
     assert_equal 2, issue.project_id
@@ -414,7 +414,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     issue.update_attribute(:fixed_version_id, 1)
     issue.reload
     assert issue.move_to_project(Project.find(2))
@@ -425,7 +425,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_move_to_another_project_should_keep_fixed_version_when_shared_with_the_target_project
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     issue.update_attribute(:fixed_version_id, 4)
     issue.reload
     assert issue.move_to_project(Project.find(5))
@@ -436,7 +436,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared_with_the_target_project
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     issue.update_attribute(:fixed_version_id, 1)
     issue.reload
     assert issue.move_to_project(Project.find(5))
@@ -447,7 +447,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_move_to_another_project_should_keep_fixed_version_when_shared_systemwide
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     issue.update_attribute(:fixed_version_id, 7)
     issue.reload
     assert issue.move_to_project(Project.find(2))
@@ -458,7 +458,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_move_to_another_project_with_disabled_type
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     target = Project.find(2)
     target.type_ids = [3]
     target.save
@@ -468,9 +468,9 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_copy_to_the_same_project
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     copy = nil
-    assert_difference 'Issue.count' do
+    assert_difference 'WorkPackage.count' do
       copy = issue.move_to_project(issue.project, nil, :copy => true)
     end
     assert_kind_of Issue, copy
@@ -479,9 +479,9 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_copy_to_another_project_and_type
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     copy = nil
-    assert_difference 'Issue.count' do
+    assert_difference 'WorkPackage.count' do
       copy = issue.move_to_project(Project.find(3), Type.find(2), :copy => true)
     end
     copy.reload
@@ -495,7 +495,7 @@ class IssueTest < ActiveSupport::TestCase
   context "#move_to_project" do
     context "as a copy" do
       setup do
-        @issue = Issue.find(1)
+        @issue = WorkPackage.find(1)
         @copy = nil
       end
 
@@ -525,7 +525,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_recipients_should_not_include_users_that_cannot_view_the_issue
-    issue = Issue.find(12)
+    issue = WorkPackage.find(12)
     assert issue.recipients.include?(issue.author.mail)
     User.current = issue.author
     # move the issue to a private project
@@ -545,21 +545,21 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_issue_destroy
-    Issue.find(1).destroy
-    assert_nil Issue.find_by_id(1)
+    WorkPackage.find(1).destroy
+    assert_nil WorkPackage.find_by_id(1)
     assert_nil TimeEntry.find_by_work_package_id(1)
   end
 
   def test_blocked
-    blocked_issue = Issue.find(9)
-    blocking_issue = Issue.find(10)
+    blocked_issue = WorkPackage.find(9)
+    blocking_issue = WorkPackage.find(10)
 
     assert blocked_issue.blocked?
     assert !blocking_issue.blocked?
   end
 
   def test_blocked_issues_dont_allow_closed_statuses
-    blocked_issue = Issue.find(9)
+    blocked_issue = WorkPackage.find(9)
 
     allowed_statuses = blocked_issue.new_statuses_allowed_to(users(:users_002))
     assert !allowed_statuses.empty?
@@ -568,7 +568,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_unblocked_issues_allow_closed_statuses
-    blocking_issue = Issue.find(10)
+    blocking_issue = WorkPackage.find(10)
 
     allowed_statuses = blocking_issue.new_statuses_allowed_to(users(:users_002))
     assert !allowed_statuses.empty?
@@ -577,7 +577,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_rescheduling_an_issue_should_reschedule_following_issue
-    (issue1 = Issue.new.tap do |i|
+    (issue1 = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 1,
@@ -586,7 +586,7 @@ class IssueTest < ActiveSupport::TestCase
                              :start_date => Date.today,
                              :due_date => Date.today + 2 }
     end).save!
-    (issue2 = Issue.new.tap do |i|
+    (issue2 = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 1,
@@ -608,42 +608,42 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_overdue
-    assert Issue.new(:due_date => 1.day.ago.to_date).overdue?
-    assert !Issue.new(:due_date => Date.today).overdue?
-    assert !Issue.new(:due_date => 1.day.from_now.to_date).overdue?
-    assert !Issue.new(:due_date => nil).overdue?
-    assert !Issue.new(:due_date => 1.day.ago.to_date, :status => IssueStatus.find(:first, :conditions => {:is_closed => true})).overdue?
+    assert WorkPackage.new(:due_date => 1.day.ago.to_date).overdue?
+    assert !WorkPackage.new(:due_date => Date.today).overdue?
+    assert !WorkPackage.new(:due_date => 1.day.from_now.to_date).overdue?
+    assert !WorkPackage.new(:due_date => nil).overdue?
+    assert !WorkPackage.new(:due_date => 1.day.ago.to_date, :status => IssueStatus.find(:first, :conditions => {:is_closed => true})).overdue?
   end
 
   context "#behind_schedule?" do
     should "be false if the issue has no start_date" do
-      assert !Issue.new(:start_date => nil, :due_date => 1.day.from_now.to_date, :done_ratio => 0).behind_schedule?
+      assert !WorkPackage.new(:start_date => nil, :due_date => 1.day.from_now.to_date, :done_ratio => 0).behind_schedule?
     end
 
     should "be false if the issue has no due_date" do
-      assert !Issue.new(:start_date => 1.day.from_now.to_date, :due_date => nil, :done_ratio => 0).behind_schedule?
+      assert !WorkPackage.new(:start_date => 1.day.from_now.to_date, :due_date => nil, :done_ratio => 0).behind_schedule?
     end
 
     should "be false if the issue has more done than it's calendar time" do
-      assert !Issue.new(:start_date => 50.days.ago.to_date, :due_date => 50.days.from_now.to_date, :done_ratio => 90).behind_schedule?
+      assert !WorkPackage.new(:start_date => 50.days.ago.to_date, :due_date => 50.days.from_now.to_date, :done_ratio => 90).behind_schedule?
     end
 
     should "be true if the issue hasn't been started at all" do
-      assert Issue.new(:start_date => 1.day.ago.to_date, :due_date => 1.day.from_now.to_date, :done_ratio => 0).behind_schedule?
+      assert WorkPackage.new(:start_date => 1.day.ago.to_date, :due_date => 1.day.from_now.to_date, :done_ratio => 0).behind_schedule?
     end
 
     should "be true if the issue has used more calendar time than it's done ratio" do
-      assert Issue.new(:start_date => 100.days.ago.to_date, :due_date => Date.today, :done_ratio => 90).behind_schedule?
+      assert WorkPackage.new(:start_date => 100.days.ago.to_date, :due_date => Date.today, :done_ratio => 90).behind_schedule?
     end
   end
 
   context "#assignable_users" do
     should "be Users" do
-      assert_kind_of User, Issue.find(1).assignable_users.first
+      assert_kind_of User, WorkPackage.find(1).assignable_users.first
     end
 
     should "not show the issue author twice" do
-      assignable_user_ids = Issue.find(1).assignable_users.collect(&:id)
+      assignable_user_ids = WorkPackage.find(1).assignable_users.collect(&:id)
       assert_equal 2, assignable_user_ids.length
 
       assignable_user_ids.each do |user_id|
@@ -655,7 +655,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_create_should_send_email_notification
     Journal.delete_all
     ActionMailer::Base.deliveries.clear
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 3,
@@ -675,8 +675,8 @@ class IssueTest < ActiveSupport::TestCase
     i = FactoryGirl.create :issue
     i.add_journal(User.find(1))
 
-    issue = Issue.find(i.id)
-    stale = Issue.find(i.id)
+    issue = WorkPackage.find(i.id)
+    stale = WorkPackage.find(i.id)
 
     issue.subject = 'Subjet update'
     assert issue.save
@@ -694,7 +694,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_journalized_description
     WorkPackageCustomField.delete_all
 
-    i = Issue.first
+    i = WorkPackage.first
     i.recreate_initial_journal!
     i.reload
     old_description = i.description
@@ -719,101 +719,101 @@ class IssueTest < ActiveSupport::TestCase
   def test_all_dependent_issues
     IssueRelation.delete_all
     relation = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => Issue.find(1),
-                             :issue_to => Issue.find(2),
+      i.force_attributes = { :issue_from => WorkPackage.find(1),
+                             :issue_to => WorkPackage.find(2),
                              :relation_type => IssueRelation::TYPE_PRECEDES }
     end
     assert relation.save
 
     relation = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => Issue.find(2),
-                             :issue_to => Issue.find(3),
+      i.force_attributes = { :issue_from => WorkPackage.find(2),
+                             :issue_to => WorkPackage.find(3),
                              :relation_type => IssueRelation::TYPE_PRECEDES }
     end
     assert relation.save
 
     relation = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => Issue.find(3),
-                             :issue_to => Issue.find(8),
+      i.force_attributes = { :issue_from => WorkPackage.find(3),
+                             :issue_to => WorkPackage.find(8),
                              :relation_type => IssueRelation::TYPE_PRECEDES }
     end
     assert relation.save
 
-    assert_equal [2, 3, 8], Issue.find(1).all_dependent_issues.collect(&:id).sort
+    assert_equal [2, 3, 8], WorkPackage.find(1).all_dependent_issues.collect(&:id).sort
   end
 
   def test_all_dependent_issues_with_persistent_circular_dependency
     IssueRelation.delete_all
     relation = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => Issue.find(1),
-                             :issue_to => Issue.find(2),
+      i.force_attributes = { :issue_from => WorkPackage.find(1),
+                             :issue_to => WorkPackage.find(2),
                              :relation_type => IssueRelation::TYPE_PRECEDES }
     end
     assert relation.save
     relation = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => Issue.find(2),
-                             :issue_to => Issue.find(3),
+      i.force_attributes = { :issue_from => WorkPackage.find(2),
+                             :issue_to => WorkPackage.find(3),
                              :relation_type => IssueRelation::TYPE_PRECEDES }
     end
     assert relation.save
     # Validation skipping
     relation = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => Issue.find(3),
-                             :issue_to => Issue.find(1),
+      i.force_attributes = { :issue_from => WorkPackage.find(3),
+                             :issue_to => WorkPackage.find(1),
                              :relation_type => IssueRelation::TYPE_PRECEDES }
     end
     assert relation.save(:validate => false)
 
-    assert_equal [2, 3], Issue.find(1).all_dependent_issues.collect(&:id).sort
+    assert_equal [2, 3], WorkPackage.find(1).all_dependent_issues.collect(&:id).sort
   end
 
   def test_all_dependent_issues_with_persistent_multiple_circular_dependencies
     IssueRelation.delete_all
     relation = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => Issue.find(1),
-                             :issue_to => Issue.find(2),
+      i.force_attributes = { :issue_from => WorkPackage.find(1),
+                             :issue_to => WorkPackage.find(2),
                              :relation_type => IssueRelation::TYPE_RELATES }
     end
     assert relation.save
 
     relation = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => Issue.find(2),
-                             :issue_to => Issue.find(3),
+      i.force_attributes = { :issue_from => WorkPackage.find(2),
+                             :issue_to => WorkPackage.find(3),
                              :relation_type => IssueRelation::TYPE_RELATES }
     end
     assert relation.save
 
     relation = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => Issue.find(3),
-                             :issue_to => Issue.find(8),
+      i.force_attributes = { :issue_from => WorkPackage.find(3),
+                             :issue_to => WorkPackage.find(8),
                              :relation_type => IssueRelation::TYPE_RELATES }
     end
     assert relation.save
 
     # Validation skipping
     relation = IssueRelation.new.tap do |i|
-      i. force_attributes = { :issue_from => Issue.find(8),
-                              :issue_to => Issue.find(2),
+      i. force_attributes = { :issue_from => WorkPackage.find(8),
+                              :issue_to => WorkPackage.find(2),
                               :relation_type => IssueRelation::TYPE_RELATES }
     end
     assert relation.save(:validate => false)
 
     relation = IssueRelation.new.tap do |i|
-      i. force_attributes = { :issue_from => Issue.find(3),
-                              :issue_to => Issue.find(1),
+      i. force_attributes = { :issue_from => WorkPackage.find(3),
+                              :issue_to => WorkPackage.find(1),
                               :relation_type => IssueRelation::TYPE_RELATES }
     end
     assert relation.save(:validate => false)
 
-    assert_equal [2, 3, 8], Issue.find(1).all_dependent_issues.collect(&:id).sort
+    assert_equal [2, 3, 8], WorkPackage.find(1).all_dependent_issues.collect(&:id).sort
   end
 
   context "#done_ratio" do
     setup do
-      @issue = Issue.find(1)
+      @issue = WorkPackage.find(1)
       @issue_status = IssueStatus.find(1)
       @issue_status.update_attribute(:default_done_ratio, 50)
-      @issue2 = Issue.find(2)
+      @issue2 = WorkPackage.find(2)
       @issue_status2 = IssueStatus.find(2)
       @issue_status2.update_attribute(:default_done_ratio, 0)
     end
@@ -843,10 +843,10 @@ class IssueTest < ActiveSupport::TestCase
 
   context "#update_done_ratio_from_issue_status" do
     setup do
-      @issue = Issue.find(1)
+      @issue = WorkPackage.find(1)
       @issue_status = IssueStatus.find(1)
       @issue_status.update_attribute(:default_done_ratio, 50)
-      @issue2 = Issue.find(2)
+      @issue2 = WorkPackage.find(2)
       @issue_status2 = IssueStatus.find(2)
       @issue_status2.update_attribute(:default_done_ratio, 0)
     end
@@ -881,65 +881,65 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "#by_type" do
-    groups = Issue.by_type(Project.find(1))
+    groups = WorkPackage.by_type(Project.find(1))
     assert_equal 3, groups.size
     assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_version" do
-    groups = Issue.by_version(Project.find(1))
+    groups = WorkPackage.by_version(Project.find(1))
     assert_equal 3, groups.size
     assert_equal 3, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_priority" do
-    groups = Issue.by_priority(Project.find(1))
+    groups = WorkPackage.by_priority(Project.find(1))
     assert_equal 4, groups.size
     assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_category" do
-    groups = Issue.by_category(Project.find(1))
+    groups = WorkPackage.by_category(Project.find(1))
     assert_equal 2, groups.size
     assert_equal 3, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_assigned_to" do
-    groups = Issue.by_assigned_to(Project.find(1))
+    groups = WorkPackage.by_assigned_to(Project.find(1))
     assert_equal 2, groups.size
     assert_equal 2, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_author" do
-    groups = Issue.by_author(Project.find(1))
+    groups = WorkPackage.by_author(Project.find(1))
     assert_equal 4, groups.size
     assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_subproject" do
-    groups = Issue.by_subproject(Project.find(1))
+    groups = WorkPackage.by_subproject(Project.find(1))
     assert_equal 2, groups.size
     assert_equal 5, groups.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   def test_recently_updated_with_limit_scopes
     #should return the last updated issue
-    assert_equal 1, Issue.recently_updated.with_limit(1).length
-    assert_equal Issue.find(:first, :order => "updated_at DESC"), Issue.recently_updated.with_limit(1).first
+    assert_equal 1, WorkPackage.recently_updated.with_limit(1).length
+    assert_equal WorkPackage.find(:first, :order => "updated_at DESC"), WorkPackage.recently_updated.with_limit(1).first
   end
 
   def test_on_active_projects_scope
     assert Project.find(2).archive
 
-    before = Issue.on_active_project.length
+    before = WorkPackage.on_active_project.length
     # test inclusion to results
-    issue = Issue.generate_for_project!(Project.find(1), :type => Project.find(2).types.first)
-    assert_equal before + 1, Issue.on_active_project.length
+    issue = WorkPackage.generate_for_project!(Project.find(1), :type => Project.find(2).types.first)
+    assert_equal before + 1, WorkPackage.on_active_project.length
 
     # Move to an archived project
     issue.project = Project.find(2)
     assert issue.save
-    assert_equal before, Issue.on_active_project.length
+    assert_equal before, WorkPackage.on_active_project.length
   end
 
   context "Issue#recipients" do
@@ -947,7 +947,7 @@ class IssueTest < ActiveSupport::TestCase
       @project = Project.find(1)
       @author = User.generate_with_protected!
       @assignee = User.generate_with_protected!
-      @issue = Issue.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
+      @issue = WorkPackage.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
     end
 
     should "include project recipients" do
@@ -990,7 +990,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_create_should_not_send_email_notification_if_told_not_to
     Journal.delete_all
     ActionMailer::Base.deliveries.clear
-    issue = Issue.new.tap do |i|
+    issue = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 1,
                              :type_id => 1,
                              :author_id => 3,
@@ -1007,7 +1007,7 @@ class IssueTest < ActiveSupport::TestCase
 
   test 'changing the line endings in a description will not be recorded as a Journal' do
     User.current = User.find(1)
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     issue.update_attribute(:description, "Description with newlines\n\nembedded")
     issue.reload
     assert issue.description.include?("\n")

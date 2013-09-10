@@ -57,12 +57,12 @@ class IssuesControllerTest < ActionController::TestCase
     # Project specific custom field, date type
     field = CustomField.find(9)
     assert !field.is_for_all?
-    assert !field.project_ids.include?(Issue.find(6).project_id)
+    assert !field.project_ids.include?(WorkPackage.find(6).project_id)
     assert_no_tag :input, :attributes => {:name => 'issue[custom_field_values][9]'}
   end
 
   def test_bulk_update
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     issue.recreate_initial_journal!
 
     @request.session[:user_id] = 2
@@ -74,7 +74,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response 302
     # check that the issues were updated
-    assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
+    assert_equal [7, 7], WorkPackage.find_all_by_id([1, 2]).collect {|i| i.priority.id}
 
     issue.reload
     journal = issue.journals.reorder('created_at DESC').first
@@ -103,7 +103,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update_on_different_projects
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     issue.recreate_initial_journal!
 
     @request.session[:user_id] = 2
@@ -115,7 +115,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response 302
     # check that the issues were updated
-    assert_equal [7, 7, 7], Issue.find([1,2,6]).map(&:priority_id)
+    assert_equal [7, 7, 7], WorkPackage.find([1,2,6]).map(&:priority_id)
 
     issue.reload
     journal = issue.journals.reorder('created_at DESC').first
@@ -130,8 +130,8 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 3
     user = User.find(3)
     action = { :controller => "issues", :action => "bulk_update" }
-    assert user.allowed_to?(action, Issue.find(1).project)
-    assert ! user.allowed_to?(action, Issue.find(6).project)
+    assert user.allowed_to?(action, WorkPackage.find(1).project)
+    assert ! user.allowed_to?(action, WorkPackage.find(6).project)
     put :bulk_update, :ids => [1, 6], :notes => 'Bulk should fail',
                                      :issue => {:priority_id => 7,
                                                 :assigned_to_id => '',
@@ -170,7 +170,7 @@ class IssuesControllerTest < ActionController::TestCase
                                                 :status_id => '5'}
 
     assert_response 302
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     assert issue.closed?
   end
 
@@ -181,14 +181,14 @@ class IssuesControllerTest < ActionController::TestCase
       :issue => {:priority_id => '', :assigned_to_id => '', :status_id => '', :parent_id => '2'}
 
     assert_response 302
-    parent = Issue.find(2)
-    assert_equal parent.id, Issue.find(1).parent_id
-    assert_equal parent.id, Issue.find(3).parent_id
+    parent = WorkPackage.find(2)
+    assert_equal parent.id, WorkPackage.find(1).parent_id
+    assert_equal parent.id, WorkPackage.find(3).parent_id
     assert_equal [1, 3], parent.children.collect(&:id).sort
   end
 
   def test_bulk_update_custom_field
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     issue.recreate_initial_journal!
 
     @request.session[:user_id] = 2
@@ -209,13 +209,13 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_bulk_update_unassign
-    assert_not_nil Issue.find(2).assigned_to
+    assert_not_nil WorkPackage.find(2).assigned_to
     @request.session[:user_id] = 2
     # unassign issues
     put :bulk_update, :ids => [1, 2], :notes => 'Bulk unassigning', :issue => {:assigned_to_id => 'none'}
     assert_response 302
     # check that the issues were updated
-    assert_nil Issue.find(2).assigned_to
+    assert_nil WorkPackage.find(2).assigned_to
   end
 
   def test_post_bulk_update_should_allow_fixed_version_to_be_set_to_a_subproject
@@ -224,7 +224,7 @@ class IssuesControllerTest < ActionController::TestCase
     put :bulk_update, :ids => [1,2], :issue => {:fixed_version_id => 4}
 
     assert_response :redirect
-    issues = Issue.find([1,2])
+    issues = WorkPackage.find([1,2])
     issues.each do |issue|
       assert_equal 4, issue.fixed_version_id
       assert_not_equal issue.project_id, issue.fixed_version.project_id

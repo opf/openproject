@@ -187,7 +187,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_issue_by_anonymous_user_on_private_project
     Role.anonymous.add_permission!(:add_issues)
     assert_no_difference 'User.count' do
-      assert_no_difference 'Issue.count' do
+      assert_no_difference 'WorkPackage.count' do
         assert_equal false, submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'onlinestore'}, :unknown_user => 'accept')
       end
     end
@@ -195,7 +195,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_by_anonymous_user_on_private_project_without_permission_check
     assert_no_difference 'User.count' do
-      assert_difference 'Issue.count' do
+      assert_difference 'WorkPackage.count' do
         issue = submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'onlinestore'}, :no_permission_check => '1', :unknown_user => 'accept')
         assert issue.is_a?(Issue)
         assert issue.author.anonymous?
@@ -300,7 +300,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     User.find(2).lock!
 
     MailHandler.any_instance.expects(:dispatch).never
-    assert_no_difference 'Issue.count' do
+    assert_no_difference 'WorkPackage.count' do
       assert_equal false, submit_email('ticket_on_given_project.eml')
     end
   end
@@ -323,7 +323,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       raw = IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
       raw = header + "\n" + raw
 
-      assert_no_difference 'Issue.count' do
+      assert_no_difference 'WorkPackage.count' do
         assert_equal false, MailHandler.receive(raw), "email with #{header} header was not ignored"
       end
     end
@@ -342,7 +342,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
     assert_equal User.find_by_login('jsmith'), journal.user
-    assert_equal Issue.find(2), journal.journable
+    assert_equal WorkPackage.find(2), journal.journable
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
   end
@@ -356,7 +356,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     journal = submit_email('ticket_reply_by_message_id.eml')
     assert journal.data.is_a?(Journal::WorkPackageJournal), "Email was a #{journal.data.class}"
     assert_equal User.find_by_login('jsmith'), journal.user
-    assert_equal Issue.find(2), journal.journable
+    assert_equal WorkPackage.find(2), journal.journable
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
   end
@@ -366,9 +366,9 @@ class MailHandlerTest < ActiveSupport::TestCase
     # This email contains: 'Status: Resolved'
     journal = submit_email('ticket_reply_with_status.eml')
     assert journal.data.is_a?(Journal::WorkPackageJournal)
-    issue = Issue.find(journal.journable.id)
+    issue = WorkPackage.find(journal.journable.id)
     assert_equal User.find_by_login('jsmith'), journal.user
-    assert_equal Issue.find(2), journal.journable
+    assert_equal WorkPackage.find(2), journal.journable
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
     assert_equal IssueStatus.find_by_name("Resolved"), issue.status

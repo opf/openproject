@@ -34,7 +34,7 @@ class WatchersControllerTest < ActionController::TestCase
       assert @response.body.include? "$$(\"#watcher\").each"
       assert @response.body.include? "value.replace"
     end
-    assert Issue.find(1).watched_by?(User.find(3))
+    assert WorkPackage.find(1).watched_by?(User.find(3))
   end
 
   def test_watch_should_be_denied_without_permission
@@ -76,7 +76,7 @@ class WatchersControllerTest < ActionController::TestCase
       assert @response.body.include? "$$(\"#watcher\").each"
       assert @response.body.include? "value.replace"
     end
-    assert !Issue.find(1).watched_by?(User.find(3))
+    assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
   def test_unwatch_with_multiple_replacements
@@ -88,7 +88,7 @@ class WatchersControllerTest < ActionController::TestCase
       assert @response.body.include? "$$(\".watch_item_2\").each"
       assert @response.body.include? "value.replace"
     end
-    assert !Issue.find(1).watched_by?(User.find(3))
+    assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
   def test_unwatch_with_watchers_special_logic
@@ -100,7 +100,7 @@ class WatchersControllerTest < ActionController::TestCase
       assert @response.body.include? "$$(\".watcher\").each"
       assert @response.body.include? "value.replace"
     end
-    assert !Issue.find(1).watched_by?(User.find(3))
+    assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
   def test_new_watcher
@@ -111,7 +111,7 @@ class WatchersControllerTest < ActionController::TestCase
       assert_response :success
       assert_select_rjs :replace_html, 'watchers'
     end
-    assert Issue.find(2).watched_by?(User.find(3))
+    assert WorkPackage.find(2).watched_by?(User.find(3))
   end
 
   def test_remove_watcher
@@ -121,6 +121,6 @@ class WatchersControllerTest < ActionController::TestCase
       assert_response :success
       assert_select_rjs :replace_html, 'watchers'
     end
-    assert !Issue.find(2).watched_by?(User.find(3))
+    assert !WorkPackage.find(2).watched_by?(User.find(3))
   end
 end

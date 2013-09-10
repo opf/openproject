@@ -37,7 +37,7 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   end
 
   def test_possible_values_with_nil_project_resource
-    assert_equal [], @field.possible_values(Issue.new)
+    assert_equal [], @field.possible_values(WorkPackage.new)
   end
 
   def test_possible_values_options_with_no_arguments

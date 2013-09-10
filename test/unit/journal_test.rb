@@ -20,7 +20,7 @@ class JournalTest < ActiveSupport::TestCase
 
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
-    issue = Issue.find(:first)
+    issue = WorkPackage.find(:first)
     if issue.journals.empty?
       issue.add_journal(User.current, "This journal represents the creationa of journal version 1")
       issue.save
@@ -34,7 +34,7 @@ class JournalTest < ActiveSupport::TestCase
 
   def test_create_should_not_send_email_notification_if_told_not_to
     ActionMailer::Base.deliveries.clear
-    issue = Issue.find(:first)
+    issue = WorkPackage.find(:first)
     user = User.find(:first)
     journal = issue.add_journal(user, "A note")
     JournalObserver.instance.send_notification = false
@@ -48,7 +48,7 @@ class JournalTest < ActiveSupport::TestCase
   test "creating the initial journal should track the changes from creation" do
     Journal.delete_all
     @project = Project.generate!
-    issue = Issue.new do |i|
+    issue = WorkPackage.new do |i|
       i.project = @project
       i.subject = "Test initial journal"
       i.type = @project.types.first
@@ -69,7 +69,7 @@ class JournalTest < ActiveSupport::TestCase
   test "creating a journal should update the updated_on value of the parent record (touch)" do
     @user = User.generate!
     @project = Project.generate!
-    @issue = Issue.generate_for_project!(@project).reload
+    @issue = WorkPackage.generate_for_project!(@project).reload
     start = @issue.updated_at
     sleep(1) # TODO: massive hack to make sure the timestamps are different. switch to timecop later
 
@@ -89,7 +89,7 @@ class JournalTest < ActiveSupport::TestCase
   end
 
   test "setting journal fields through the journaled object for creation" do
-    @issue = Issue.generate_for_project!(Project.generate!)
+    @issue = WorkPackage.generate_for_project!(Project.generate!)
 
     @issue.add_journal @issue.author, 'Test setting fields on Journal from Issue'
     assert_difference('Journal.count') do

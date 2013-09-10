@@ -164,7 +164,7 @@ Given /^the [Uu]ser "([^\"]*)" has 1 time [eE]ntry$/ do |user|
   u = User.find_by_login user
   p = u.projects.last
   raise "This user must be member of a project to have issues" unless p
-  i = Issue.generate_for_project!(p)
+  i = WorkPackage.generate_for_project!(p)
   t = TimeEntry.generate
   t.user = u
   t.issue = i
@@ -178,7 +178,7 @@ Given /^the [Uu]ser "([^\"]*)" has 1 time entry with (\d+\.?\d*) hours? at the p
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin do
     t = TimeEntry.generate
-    i = Issue.generate_for_project!(p)
+    i = WorkPackage.generate_for_project!(p)
     t.project = p
     t.issue = i
     t.hours = hours.to_f
@@ -194,7 +194,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin count do
     t = TimeEntry.generate
-    i = Issue.generate_for_project!(p)
+    i = WorkPackage.generate_for_project!(p)
     t.project = p
     t.work_package = i
     t.activity.project = p
@@ -273,7 +273,7 @@ end
 
 
 Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the following:$/ do |issue, count, table|
-  i = Issue.find(:last, :conditions => ["subject = '#{issue}'"])
+  i = WorkPackage.find(:last, :conditions => ["subject = '#{issue}'"])
   raise "No such issue: #{issue}" unless i
   as_admin count do
     t = TimeEntry.generate

@@ -81,11 +81,11 @@ module NavigationHelpers
       "/activity"
 
     when /^the page (?:for|of) the issue "([^\"]+)"$/
-      issue = Issue.find_by_subject($1)
+      issue = WorkPackage.find_by_subject($1)
       "/work_packages/#{issue.id}"
 
     when /^the edit page (?:for|of) the issue "([^\"]+)"$/
-      issue = Issue.find_by_subject($1)
+      issue = WorkPackage.find_by_subject($1)
       "/issues/#{issue.id}/edit"
 
     when /^the copy page (?:for|of) the work package "([^\"]+)"$/
@@ -293,7 +293,7 @@ module NavigationHelpers
       "/admin/groups/#{id}/edit"
 
     when /^the time entry page of issue "(.+)"$/
-      issue_id = Issue.find_by_subject($1).id
+      issue_id = WorkPackage.find_by_subject($1).id
       "/issues/#{issue_id}/time_entries"
 
     when /^the move new page of the work package "(.+)"$/

@@ -91,7 +91,7 @@ class RepositoryTest < ActiveSupport::TestCase
     assert mail.body.encoded.include?("Status changed from #{old_status} to #{fixed_work_package.status}")
 
     # ignoring commits referencing an issue of another project
-    assert_equal [], Issue.find(4).changesets
+    assert_equal [], WorkPackage.find(4).changesets
   end
 
   def test_for_changeset_comments_strip

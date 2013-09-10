@@ -23,7 +23,7 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.default_language = 'en'
 
     User.delete_all
-    Issue.delete_all
+    WorkPackage.delete_all
     Project.delete_all
     Type.delete_all
     ActionMailer::Base.deliveries.clear

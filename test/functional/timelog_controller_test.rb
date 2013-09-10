@@ -80,7 +80,7 @@ class TimelogControllerTest < ActionController::TestCase
                                 :hours => '7.3'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
 
-    i = Issue.find(1)
+    i = WorkPackage.find(1)
     t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
     assert_not_nil t
     assert_equal 11, t.activity_id

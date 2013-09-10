@@ -45,7 +45,7 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH two one node trees" do
@@ -54,7 +54,7 @@ describe WorkPackage, "rebuilding nested set" do
         root_2
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issue deep tree" do
@@ -62,7 +62,7 @@ describe WorkPackage, "rebuilding nested set" do
         child_1_1
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a three issue deep tree" do
@@ -70,47 +70,47 @@ describe WorkPackage, "rebuilding nested set" do
         gchild_1_1_1
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issue deep tree
               WITH the left value of the child beeing invalid" do
 
       before do
-        Issue.update_all({ :lft => root_1.lft }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => root_1.lft }, { :id => child_1_1.id })
       end
 
-      it { Issue.should_not be_valid }
+      it { WorkPackage.should_not be_valid }
     end
 
     describe "WITH a two issue deep tree
               WITH the right value of the child beeing invalid" do
 
       before do
-        Issue.update_all({ :rgt => 18 }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => 18 }, { :id => child_1_1.id })
       end
 
-      it { Issue.should_not be_valid }
+      it { WorkPackage.should_not be_valid }
     end
 
     describe "WITH a two issue deep tree
               WITH the root_id of the child pointing to itself" do
 
       before do
-        Issue.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
       end
 
-      it { Issue.should_not be_valid }
+      it { WorkPackage.should_not be_valid }
     end
 
     describe "WITH a three issue deep tree
               WITH the root_id of the grand child pointing to the child" do
 
       before do
-        Issue.update_all({ :root_id => child_1_1.id }, { :id => gchild_1_1_1.id })
+        WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => gchild_1_1_1.id })
       end
 
-      it { Issue.should_not be_valid }
+      it { WorkPackage.should_not be_valid }
     end
   end
 
@@ -120,12 +120,12 @@ describe WorkPackage, "rebuilding nested set" do
               WITH the left value of the child beeing invalid" do
 
       before do
-        Issue.update_all({ :lft => root_1.lft }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => root_1.lft }, { :id => child_1_1.id })
 
-        Issue.rebuild!
+        WorkPackage.rebuild!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
   end
 
@@ -135,12 +135,12 @@ describe WorkPackage, "rebuilding nested set" do
               WITH the left value of the child beeing invalid" do
 
       before do
-        Issue.update_all({ :lft => root_1.lft }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => root_1.lft }, { :id => child_1_1.id })
 
-        Issue.rebuild_silently!
+        WorkPackage.rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -148,13 +148,13 @@ describe WorkPackage, "rebuilding nested set" do
               WITH an estimated_hours values set for the root after the tree got broken" do
 
       before do
-        Issue.update_all({ :lft => child_1_1.lft }, { :id => root_1.id })
-        Issue.update_all({ :estimated_hours => 1.0 }, { :id => root_1.id })
+        WorkPackage.update_all({ :lft => child_1_1.lft }, { :id => root_1.id })
+        WorkPackage.update_all({ :estimated_hours => 1.0 }, { :id => root_1.id })
 
-        Issue.rebuild_silently!
+        WorkPackage.rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -162,49 +162,49 @@ describe WorkPackage, "rebuilding nested set" do
               WITH an estimated_hours values set for the root after the tree got broken" do
 
       before do
-        Issue.update_all({ :rgt => child_1_1.lft }, { :id => root_1.id })
-        Issue.update_all({ :estimated_hours => 1.0 }, { :id => root_1.id })
+        WorkPackage.update_all({ :rgt => child_1_1.lft }, { :id => root_1.id })
+        WorkPackage.update_all({ :estimated_hours => 1.0 }, { :id => root_1.id })
 
-        Issue.rebuild_silently!
+        WorkPackage.rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
               WITH the root_id value of the child pointing to itself" do
 
       before do
-        Issue.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
 
-        Issue.rebuild_silently!
+        WorkPackage.rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a three issues deep tree
               WITH the root_id value of the grandchild pointing to itself" do
 
       before do
-        Issue.update_all({ :root_id => gchild_1_1_1.id }, { :id => gchild_1_1_1.id })
+        WorkPackage.update_all({ :root_id => gchild_1_1_1.id }, { :id => gchild_1_1_1.id })
 
-        Issue.rebuild_silently!
+        WorkPackage.rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a three issues deep tree
               WITH the root_id value of the grandchild pointing to the child" do
 
       before do
-        Issue.update_all({ :root_id => child_1_1.id }, { :id => gchild_1_1_1.id })
+        WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => gchild_1_1_1.id })
 
-        Issue.rebuild_silently!
+        WorkPackage.rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH two three issues deep trees
@@ -214,10 +214,10 @@ describe WorkPackage, "rebuilding nested set" do
       before do
         gchild_1_1_1
         gchild_2_1_1
-        Issue.update_all({ :root_id => child_1_1.id }, { :id => gchild_1_1_1.id })
-        Issue.update_all({ :root_id => child_2_1.id }, { :id => gchild_2_1_1.id })
+        WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => gchild_1_1_1.id })
+        WorkPackage.update_all({ :root_id => child_2_1.id }, { :id => gchild_2_1_1.id })
 
-        Issue.rebuild_silently!(root_1)
+        WorkPackage.rebuild_silently!(root_1)
       end
 
       it { gchild_1_1_1.reload.root_id.should == root_1.id }
@@ -231,10 +231,10 @@ describe WorkPackage, "rebuilding nested set" do
       before do
         gchild_1_1_1
         gchild_2_1_1
-        Issue.update_all({ :rgt => gchild_1_1_1.lft }, { :id => gchild_1_1_1.id })
-        Issue.update_all({ :rgt => gchild_2_1_1.lft }, { :id => gchild_2_1_1.id })
+        WorkPackage.update_all({ :rgt => gchild_1_1_1.lft }, { :id => gchild_1_1_1.id })
+        WorkPackage.update_all({ :rgt => gchild_2_1_1.lft }, { :id => gchild_2_1_1.id })
 
-        Issue.rebuild_silently!(root_1)
+        WorkPackage.rebuild_silently!(root_1)
       end
 
       it { gchild_1_1_1.reload.rgt.should == gchild_1_1_1.lft + 1 }
@@ -248,12 +248,12 @@ describe WorkPackage, "rebuilding nested set" do
               WITH the left value of the child beeing invalid" do
 
       before do
-        Issue.update_all({ :lft => root_1.lft }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => root_1.lft }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -261,13 +261,13 @@ describe WorkPackage, "rebuilding nested set" do
               WITH an estimated_hours values set for the root after the tree got broken" do
 
       before do
-        Issue.update_all({ :lft => child_1_1.lft }, { :id => root_1.id })
-        Issue.update_all({ :estimated_hours => 1.0 }, { :id => root_1.id })
+        WorkPackage.update_all({ :lft => child_1_1.lft }, { :id => root_1.id })
+        WorkPackage.update_all({ :estimated_hours => 1.0 }, { :id => root_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -275,49 +275,49 @@ describe WorkPackage, "rebuilding nested set" do
               WITH an estimated_hours values set for the root after the tree got broken" do
 
       before do
-        Issue.update_all({ :rgt => child_1_1.lft }, { :id => root_1.id })
-        Issue.update_all({ :estimated_hours => 1.0 }, { :id => root_1.id })
+        WorkPackage.update_all({ :rgt => child_1_1.lft }, { :id => root_1.id })
+        WorkPackage.update_all({ :estimated_hours => 1.0 }, { :id => root_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
               WITH the root_id value of the child pointing to itself" do
 
       before do
-        Issue.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a three issues deep tree
               WITH the root_id value of the grandchild pointing to itself" do
 
       before do
-        Issue.update_all({ :root_id => gchild_1_1_1.id }, { :id => gchild_1_1_1.id })
+        WorkPackage.update_all({ :root_id => gchild_1_1_1.id }, { :id => gchild_1_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a three issues deep tree
               WITH the root_id value of the grandchild pointing to the child" do
 
       before do
-        Issue.update_all({ :root_id => child_1_1.id }, { :id => gchild_1_1_1.id })
+        WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => gchild_1_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a one issue deep tree
@@ -325,12 +325,12 @@ describe WorkPackage, "rebuilding nested set" do
       before do
         root_1
 
-        Issue.update_all({ :root_id => nil }, { :id => root_1.id })
+        WorkPackage.update_all({ :root_id => nil }, { :id => root_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH two one issue deep trees
@@ -339,12 +339,12 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
         root_2
 
-        Issue.update_all({ :root_id => root_2.id }, { :id => root_1.id })
+        WorkPackage.update_all({ :root_id => root_2.id }, { :id => root_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issue deep tree
@@ -352,12 +352,12 @@ describe WorkPackage, "rebuilding nested set" do
       before do
         child_1_1
 
-        Issue.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a tree issue deep tree
@@ -366,13 +366,13 @@ describe WorkPackage, "rebuilding nested set" do
       before do
         gchild_1_1_1
 
-        Issue.update_all({ :root_id => 0 }, { :id => child_1_1.id })
-        Issue.update_all({ :root_id => 0 }, { :id => gchild_1_1_1.id })
+        WorkPackage.update_all({ :root_id => 0 }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :root_id => 0 }, { :id => gchild_1_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issue deep tree
@@ -382,24 +382,24 @@ describe WorkPackage, "rebuilding nested set" do
         child_1_1
         root_2
 
-        Issue.update_all({ :root_id => root_2.id }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :root_id => root_2.id }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a one issue deep tree
               WITH right > left" do
 
       before do
-        Issue.update_all({ :lft => 2, :rgt => 1 }, { :id => root_1.id })
+        WorkPackage.update_all({ :lft => 2, :rgt => 1 }, { :id => root_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -408,58 +408,58 @@ describe WorkPackage, "rebuilding nested set" do
       before do
         child_1_1
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
               WITH the child's right > left" do
 
       before do
-        Issue.update_all({ :lft => 4, :rgt => 3 }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => 4, :rgt => 3 }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
               WITH the child's right = left" do
 
       before do
-        Issue.update_all({ :lft => 3, :rgt => 3 }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => 3, :rgt => 3 }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
               WITH the child's right beeing null" do
 
       before do
-        Issue.update_all({ :rgt => nil }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => nil }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
               WITH the child's left beeing null" do
 
       before do
-        Issue.update_all({ :lft => nil }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => nil }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -467,12 +467,12 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :rgt => root_1.reload.rgt }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => root_1.reload.rgt }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -480,12 +480,12 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :rgt => root_1.reload.rgt + 1 }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => root_1.reload.rgt + 1 }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -493,12 +493,12 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :lft => root_1.reload.lft }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => root_1.reload.lft }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -506,12 +506,12 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :rgt => root_1.reload.lft - 1 }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => root_1.reload.lft - 1 }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a two issues deep tree
@@ -519,12 +519,12 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :lft => root_1.reload.lft }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => root_1.reload.lft }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
    describe "WITH a two issues deep tree
@@ -532,12 +532,12 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :rgt => root_1.reload.rgt }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => root_1.reload.rgt }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH a three issues deep tree
@@ -545,12 +545,12 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         gchild_1_1_1
-        Issue.update_all({ :rgt => gchild_1_1_1.reload.rgt }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => gchild_1_1_1.reload.rgt }, { :id => child_1_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH two one issues deep tree
@@ -561,12 +561,12 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
         root_2
 
-        Issue.update_all({ :lft => root_1.lft, :root_id => root_1.id }, { :id => root_2.id })
+        WorkPackage.update_all({ :lft => root_1.lft, :root_id => root_1.id }, { :id => root_2.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH two one issues deep tree
@@ -577,12 +577,12 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
         root_2
 
-        Issue.update_all({ :rgt => root_2.lft, :root_id => root_2.id }, { :id => root_1.id })
+        WorkPackage.update_all({ :rgt => root_2.lft, :root_id => root_2.id }, { :id => root_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH one one issue deep tree
@@ -594,12 +594,12 @@ describe WorkPackage, "rebuilding nested set" do
         child_1_1
         root_2
 
-        Issue.update_all({ :lft => child_1_1.lft, :root_id => root_1.id }, { :id => root_2.id })
+        WorkPackage.update_all({ :lft => child_1_1.lft, :root_id => root_1.id }, { :id => root_2.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
 
     describe "WITH one one issue deep tree
@@ -611,12 +611,12 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
         child_2_1
 
-        Issue.update_all({ :rgt => child_2_1.rgt, :root_id => root_2.id}, { :id => root_1.id })
+        WorkPackage.update_all({ :rgt => child_2_1.rgt, :root_id => root_2.id}, { :id => root_1.id })
 
-        Issue.selectively_rebuild_silently!
+        WorkPackage.selectively_rebuild_silently!
       end
 
-      it { Issue.should be_valid }
+      it { WorkPackage.should be_valid }
     end
   end
 
@@ -625,10 +625,10 @@ describe WorkPackage, "rebuilding nested set" do
               WITH right > left" do
 
       before do
-        Issue.update_all({ :lft => 2, :rgt => 1 }, { :id => root_1.id })
+        WorkPackage.update_all({ :lft => 2, :rgt => 1 }, { :id => root_1.id })
       end
 
-      it { Issue.invalid_left_and_rights.map(&:id).should =~ [root_1.id] }
+      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [root_1.id] }
     end
 
     describe "WITH a two issues deep tree
@@ -638,47 +638,47 @@ describe WorkPackage, "rebuilding nested set" do
         child_1_1
       end
 
-      it { Issue.invalid_left_and_rights.map(&:id).should =~ [] }
+      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [] }
     end
 
     describe "WITH a two issues deep tree
               WITH the child's right > left" do
 
       before do
-        Issue.update_all({ :lft => 4, :rgt => 3 }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => 4, :rgt => 3 }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
     end
 
     describe "WITH a two issues deep tree
               WITH the child's right = left" do
 
       before do
-        Issue.update_all({ :lft => 3, :rgt => 3 }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => 3, :rgt => 3 }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
     end
 
     describe "WITH a two issues deep tree
               WITH the child's right beeing null" do
 
       before do
-        Issue.update_all({ :rgt => nil }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => nil }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
     end
 
     describe "WITH a two issues deep tree
               WITH the child's left beeing null" do
 
       before do
-        Issue.update_all({ :lft => nil }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => nil }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
     end
 
     describe "WITH a two issues deep tree
@@ -686,10 +686,10 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :rgt => root_1.reload.rgt }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => root_1.reload.rgt }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
     end
 
     describe "WITH a two issues deep tree
@@ -697,10 +697,10 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :rgt => root_1.reload.rgt + 1 }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => root_1.reload.rgt + 1 }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
     end
 
     describe "WITH a two issues deep tree
@@ -708,10 +708,10 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :lft => root_1.reload.lft }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => root_1.reload.lft }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
     end
 
     describe "WITH a two issues deep tree
@@ -719,10 +719,10 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :rgt => root_1.reload.lft - 1 }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => root_1.reload.lft - 1 }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
+      it { WorkPackage.invalid_left_and_rights.map(&:id).should =~ [child_1_1.id] }
     end
   end
 
@@ -732,10 +732,10 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :lft => root_1.reload.lft }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :lft => root_1.reload.lft }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_duplicates_in_columns.map(&:id).should =~ [root_1.id, child_1_1.id] }
+      it { WorkPackage.invalid_duplicates_in_columns.map(&:id).should =~ [root_1.id, child_1_1.id] }
     end
 
    describe "WITH a two issues deep tree
@@ -743,10 +743,10 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         child_1_1
-        Issue.update_all({ :rgt => root_1.reload.rgt }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => root_1.reload.rgt }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_duplicates_in_columns.map(&:id).should =~ [root_1.id, child_1_1.id] }
+      it { WorkPackage.invalid_duplicates_in_columns.map(&:id).should =~ [root_1.id, child_1_1.id] }
     end
 
     describe "WITH two one issue deep tree
@@ -757,7 +757,7 @@ describe WorkPackage, "rebuilding nested set" do
         root_2
       end
 
-      it { Issue.invalid_duplicates_in_columns.map(&:id).should =~ [] }
+      it { WorkPackage.invalid_duplicates_in_columns.map(&:id).should =~ [] }
     end
 
     describe "WITH a three issues deep tree
@@ -765,10 +765,10 @@ describe WorkPackage, "rebuilding nested set" do
 
       before do
         gchild_1_1_1
-        Issue.update_all({ :rgt => gchild_1_1_1.reload.rgt }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :rgt => gchild_1_1_1.reload.rgt }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_duplicates_in_columns.map(&:id).should =~ [child_1_1.id, gchild_1_1_1.id] }
+      it { WorkPackage.invalid_duplicates_in_columns.map(&:id).should =~ [child_1_1.id, gchild_1_1_1.id] }
     end
   end
 
@@ -781,7 +781,7 @@ describe WorkPackage, "rebuilding nested set" do
         root_2
       end
 
-      it { Issue.invalid_roots.should be_empty }
+      it { WorkPackage.invalid_roots.should be_empty }
     end
 
     describe "WITH two one issues deep tree
@@ -792,10 +792,10 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
         root_2
 
-        Issue.update_all({ :lft => root_1.lft, :root_id => root_1.id }, { :id => root_2.id })
+        WorkPackage.update_all({ :lft => root_1.lft, :root_id => root_1.id }, { :id => root_2.id })
       end
 
-      it { Issue.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
+      it { WorkPackage.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
     end
 
     describe "WITH two one issues deep tree
@@ -806,10 +806,10 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
         root_2
 
-        Issue.update_all({ :rgt => root_2.lft, :root_id => root_2.id }, { :id => root_1.id })
+        WorkPackage.update_all({ :rgt => root_2.lft, :root_id => root_2.id }, { :id => root_1.id })
       end
 
-      it { Issue.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
+      it { WorkPackage.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
     end
 
     describe "WITH one one issue deep tree
@@ -821,10 +821,10 @@ describe WorkPackage, "rebuilding nested set" do
         child_1_1
         root_2
 
-        Issue.update_all({ :lft => child_1_1.lft, :root_id => root_1.id }, { :id => root_2.id })
+        WorkPackage.update_all({ :lft => child_1_1.lft, :root_id => root_1.id }, { :id => root_2.id })
       end
 
-      it { Issue.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
+      it { WorkPackage.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
     end
 
     describe "WITH one one issue deep tree
@@ -836,10 +836,10 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
         child_2_1
 
-        Issue.update_all({ :rgt => child_2_1.rgt, :root_id => root_2.id}, { :id => root_1.id })
+        WorkPackage.update_all({ :rgt => child_2_1.rgt, :root_id => root_2.id}, { :id => root_1.id })
       end
 
-      it { Issue.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
+      it { WorkPackage.invalid_roots.map(&:id).should =~ [root_1.id, root_2.id] }
     end
   end
 
@@ -850,7 +850,7 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
       end
 
-      it { Issue.invalid_root_ids.should be_empty }
+      it { WorkPackage.invalid_root_ids.should be_empty }
     end
 
     describe "WITH a two issue deep tree
@@ -859,7 +859,7 @@ describe WorkPackage, "rebuilding nested set" do
         child_1_1
       end
 
-      it { Issue.invalid_root_ids.should be_empty }
+      it { WorkPackage.invalid_root_ids.should be_empty }
     end
 
     describe "WITH a three issue deep tree
@@ -868,7 +868,7 @@ describe WorkPackage, "rebuilding nested set" do
         gchild_1_1_1
       end
 
-      it { Issue.invalid_root_ids.should be_empty }
+      it { WorkPackage.invalid_root_ids.should be_empty }
     end
 
     describe "WITH a one issue deep tree
@@ -876,10 +876,10 @@ describe WorkPackage, "rebuilding nested set" do
       before do
         root_1
 
-        Issue.update_all({ :root_id => nil }, { :id => root_1.id })
+        WorkPackage.update_all({ :root_id => nil }, { :id => root_1.id })
       end
 
-      it { Issue.invalid_root_ids.should be_empty }
+      it { WorkPackage.invalid_root_ids.should be_empty }
     end
 
     describe "WITH two one issue deep trees
@@ -888,10 +888,10 @@ describe WorkPackage, "rebuilding nested set" do
         root_1
         root_2
 
-        Issue.update_all({ :root_id => root_2.id }, { :id => root_1.id })
+        WorkPackage.update_all({ :root_id => root_2.id }, { :id => root_1.id })
       end
 
-      it { Issue.invalid_root_ids.map(&:id).should =~ [root_1.id] }
+      it { WorkPackage.invalid_root_ids.map(&:id).should =~ [root_1.id] }
     end
 
     describe "WITH a two issue deep tree
@@ -899,10 +899,10 @@ describe WorkPackage, "rebuilding nested set" do
       before do
         child_1_1
 
-        Issue.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :root_id => child_1_1.id }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_root_ids.map(&:id).should =~ [child_1_1.id] }
+      it { WorkPackage.invalid_root_ids.map(&:id).should =~ [child_1_1.id] }
     end
 
     describe "WITH a two issue deep tree
@@ -912,10 +912,10 @@ describe WorkPackage, "rebuilding nested set" do
         child_1_1
         root_2
 
-        Issue.update_all({ :root_id => root_2.id }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :root_id => root_2.id }, { :id => child_1_1.id })
       end
 
-      it { Issue.invalid_root_ids.map(&:id).should =~ [child_1_1.id] }
+      it { WorkPackage.invalid_root_ids.map(&:id).should =~ [child_1_1.id] }
     end
 
 
@@ -925,14 +925,14 @@ describe WorkPackage, "rebuilding nested set" do
       before do
         gchild_1_1_1
 
-        Issue.update_all({ :root_id => 0 }, { :id => child_1_1.id })
-        Issue.update_all({ :root_id => 0 }, { :id => gchild_1_1_1.id })
+        WorkPackage.update_all({ :root_id => 0 }, { :id => child_1_1.id })
+        WorkPackage.update_all({ :root_id => 0 }, { :id => gchild_1_1_1.id })
       end
 
       # As the sql statements do not work recursively
       # we are currently only able to spot the child
       # this is not how it should be
-      it { Issue.invalid_root_ids.map(&:id).should =~ [child_1_1.id] }
+      it { WorkPackage.invalid_root_ids.map(&:id).should =~ [child_1_1.id] }
     end
   end
 end

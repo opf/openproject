@@ -44,8 +44,8 @@ module ObjectDaddyHelpers
   end
 
   # Generate an issue for a project, using it's types
-  def Issue.generate_for_project!(project, attributes={})
-    issue = Issue.spawn(attributes) do |issue|
+  def WorkPackage.generate_for_project!(project, attributes={})
+    issue = WorkPackage.spawn(attributes) do |issue|
       issue.project = project
       issue.type = project.types.first unless project.types.empty?
       yield issue if block_given?
