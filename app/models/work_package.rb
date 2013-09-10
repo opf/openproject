@@ -412,6 +412,13 @@ class WorkPackage < ActiveRecord::Base
     notified.collect(&:mail)
   end
 
+  # Is the amount of work done less than it should for the due date
+  def behind_schedule?
+    return false if start_date.nil? || due_date.nil?
+    done_date = start_date + ((due_date - start_date+1)* done_ratio/100).floor
+    return done_date <= Date.today
+  end
+
   protected
 
   def recalculate_attributes_for(work_package_id)
