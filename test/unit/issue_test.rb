@@ -16,16 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_watcher_recipients_should_not_include_users_that_cannot_view_the_issue
-    issue = FactoryGirl.create :issue
-    user = FactoryGirl.create :user, :member_in_project => issue.project
-    Watcher.create!(:user => user, :watchable => issue)
-    issue.project.members.first.roles.first.remove_permission! :view_work_packages
-    issue.reload
-    assert issue.watched_by?(user)
-    assert !issue.watcher_recipients.include?(user.mail)
-  end
-
   def test_issue_destroy
     Issue.find(1).destroy
     assert_nil Issue.find_by_id(1)
