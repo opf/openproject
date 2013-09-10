@@ -21,7 +21,7 @@ describe WorkPackage do
 
   describe :assignable_users do
     it 'should return all users the project deems to be assignable' do
-      stub_work_package.project.stub!(:assignable_users).and_return([stub_user])
+      stub_work_package.project.stub(:assignable_users).and_return([stub_user])
 
       stub_work_package.assignable_users.should include(stub_user)
     end
@@ -38,7 +38,7 @@ describe WorkPackage do
         self
       end
 
-      stub_work_package.project.stub!(:shared_versions).and_return(versions)
+      stub_work_package.project.stub(:shared_versions).and_return(versions)
     end
 
     it "should return all the project's shared versions" do
@@ -50,8 +50,8 @@ describe WorkPackage do
     it "should return the current fixed_version" do
       stub_shared_versions
 
-      stub_work_package.stub!(:fixed_version_id_was).and_return(5)
-      Version.stub!(:find_by_id).with(5).and_return(stub_version)
+      stub_work_package.stub(:fixed_version_id_was).and_return(5)
+      Version.stub(:find_by_id).with(5).and_return(stub_version)
 
       stub_work_package.assignable_versions.should == [stub_version]
     end
@@ -146,7 +146,7 @@ describe WorkPackage do
       work_package = WorkPackage.create(:type => type,
                                         :status => status,
                                         :priority => priority,
-                                        :project_id => project.id)
+                                        :project => project)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1]]
     end
 
@@ -155,7 +155,7 @@ describe WorkPackage do
       work_package = WorkPackage.create(:type => type,
                                         :status => status,
                                         :priority => priority,
-                                        :project_id => project.id,
+                                        :project => project,
                                         :author => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2]]
     end
@@ -166,7 +166,7 @@ describe WorkPackage do
                                         :status => status,
                                         :subject => "test",
                                         :priority => priority,
-                                        :project_id => project.id,
+                                        :project => project,
                                         :assigned_to => user,
                                         :author => other_user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[3]]
@@ -178,7 +178,7 @@ describe WorkPackage do
                                         :status => status,
                                         :subject => "test",
                                         :priority => priority,
-                                        :project_id => project.id,
+                                        :project => project,
                                         :author => user,
                                         :assigned_to => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]]

@@ -81,6 +81,8 @@ host_name:
   default: localhost:3000
 protocol:
   default: http
+feeds_enabled:
+  default: 1
 feeds_limit:
   format: int
   default: 15

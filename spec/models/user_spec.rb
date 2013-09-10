@@ -95,8 +95,8 @@ describe User do
 
     before do
       user.save!
-      Setting.stub!(:brute_force_block_after_failed_logins).and_return(3)
-      Setting.stub!(:brute_force_block_minutes).and_return(30)
+      Setting.stub(:brute_force_block_after_failed_logins).and_return(3)
+      Setting.stub(:brute_force_block_minutes).and_return(30)
     end
 
     it 'should return the single blocked user' do
@@ -288,6 +288,28 @@ describe User do
       end
 
       it { User.default_admin_account_changed?.should be_true }
+    end
+  end
+
+  describe ".find_by_rss_key" do
+    before do
+      @rss_key = user.rss_key
+    end
+
+    context "feeds enabled" do
+      before do
+        Setting.stub(:feeds_enabled?).and_return(true)
+      end
+
+      it { User.find_by_rss_key(@rss_key).should == user }
+    end
+
+    context "feeds disabled" do
+      before do
+        Setting.stub(:feeds_enabled?).and_return(false)
+      end
+
+      it { User.find_by_rss_key(@rss_key).should == nil }
     end
   end
 end

@@ -127,8 +127,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-	<%= f.link_to 'PDF' %>
+  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'PDF' %>
 <% end %>
 
 <% html_title h("#{@issue.type.name} ##{@issue.id}: #{@issue.subject}") %>

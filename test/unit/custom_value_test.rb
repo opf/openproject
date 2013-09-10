@@ -85,7 +85,11 @@ class CustomValueTest < ActiveSupport::TestCase
   end
 
   def test_float_field_validation
+
     user = FactoryGirl.create :user
+    # There are cases, where the custom-value-table is not cleared completely,
+    # therefore making double sure, that we have a clean slate before we start
+    CustomField.destroy_all
     FactoryGirl.create :float_user_custom_field, :name => "Money"
     v = CustomValue.new(:customized => user, :custom_field => UserCustomField.find_by_name('Money'))
     v.value = '11.2'

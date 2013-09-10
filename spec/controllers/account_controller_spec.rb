@@ -57,7 +57,7 @@ describe AccountController do
   context "GET #register" do
     context "with self registration on" do
       before do
-        Setting.stub!(:self_registration).and_return("3")
+        Setting.stub(:self_registration).and_return("3")
         get :register
       end
 
@@ -70,8 +70,8 @@ describe AccountController do
 
     context "with self registration off" do
       before do
-        Setting.stub!(:self_registration).and_return("0")
-        Setting.stub!(:self_registration?).and_return(false)
+        Setting.stub(:self_registration).and_return("0")
+        Setting.stub(:self_registration?).and_return(false)
         get :register
       end
 
@@ -85,7 +85,7 @@ describe AccountController do
   context "POST #register" do
     context "with self registration on automatic" do
       before do
-        Setting.stub!(:self_registration).and_return("3")
+        Setting.stub(:self_registration).and_return("3")
         post :register, :user => {
           :login => 'register',
           :password => 'adminADMIN!',
@@ -112,7 +112,7 @@ describe AccountController do
 
     context "with self registration by email" do
       before do
-        Setting.stub!(:self_registration).and_return("1")
+        Setting.stub(:self_registration).and_return("1")
         Token.delete_all
         post :register, :user => {
           :login => 'register',
@@ -139,7 +139,7 @@ describe AccountController do
 
     context "with manual activation" do
       before do
-        Setting.stub!(:self_registration).and_return("2")
+        Setting.stub(:self_registration).and_return("2")
         post :register, :user => {
           :login => 'register',
           :password => 'adminADMIN!',
@@ -161,8 +161,8 @@ describe AccountController do
 
     context "with self registration off" do
       before do
-        Setting.stub!(:self_registration).and_return("0")
-        Setting.stub!(:self_registration?).and_return(false)
+        Setting.stub(:self_registration).and_return("0")
+        Setting.stub(:self_registration?).and_return(false)
         post :register, :user => {
           :login => 'register',
           :password => 'adminADMIN!',
@@ -181,9 +181,9 @@ describe AccountController do
     context "with on-the-fly registration" do
 
       before do
-        Setting.stub!(:self_registration).and_return("0")
-        Setting.stub!(:self_registration?).and_return(false)
-        AuthSource.stub!(:authenticate).and_return({:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
+        Setting.stub(:self_registration).and_return("0")
+        Setting.stub(:self_registration?).and_return(false)
+        AuthSource.stub(:authenticate).and_return({:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
         post :login, :username => 'foo', :password => 'bar'
       end
 

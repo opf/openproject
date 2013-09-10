@@ -46,7 +46,7 @@ describe AvatarHelper do
 
     it "should return a gravatar image tag with ssl if the request was ssl required" do
       digest = Digest::MD5.hexdigest(user.mail)
-      helper.request.stub!(:ssl?).and_return(true)
+      helper.request.stub(:ssl?).and_return(true)
 
       with_settings :gravatar_enabled => '1' do
         helper.avatar(user).should == expected_image_tag(digest, :ssl => true)
@@ -81,7 +81,7 @@ describe AvatarHelper do
     end
 
     it "should return an empty string if any error is produced in the lib" do
-      helper.stub!(:gravatar).and_raise(ArgumentError)
+      helper.stub(:gravatar).and_raise(ArgumentError)
 
       with_settings :gravatar_enabled => '1' do
         helper.avatar(user).should == ''

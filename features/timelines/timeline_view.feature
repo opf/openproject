@@ -54,7 +54,7 @@ Feature: Timeline View Tests
       And I go to the page of the project called "ecookbook"
       And I toggle the "Timelines" submenu
       And I follow "Timeline reports"
-      And I switch the timeline to "Testline2"
+      And I select "Testline2" from "Timeline report"
      Then I should see "New timeline report"
       And I should see "Testline2"
       And I should be on the page of the timeline "Testline2" of the project called "ecookbook"

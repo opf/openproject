@@ -20,7 +20,7 @@ describe MembersController do
                                              :roles => [role]) }
 
   before do
-    User.stub!(:current).and_return(user)
+    User.stub(:current).and_return(user)
   end
 
   describe :autocomplete_for_member do
