@@ -168,7 +168,7 @@ describe User, 'deletion' do
     let(:associated_instance) { FactoryGirl.build(:work_package, :type => project.types.first,
                                                                  :project => project,
                                                                  :status => issue_status) }
-    let(:associated_class) { Issue }
+    let(:associated_class) { WorkPackage }
     let(:associations) { [:author, :assigned_to] }
 
     it_should_behave_like "created journalized associated object"
@@ -178,7 +178,7 @@ describe User, 'deletion' do
     let(:associated_instance) { FactoryGirl.build(:work_package, :type => project.types.first,
                                                                  :project => project,
                                                                  :status => issue_status) }
-    let(:associated_class) { Issue }
+    let(:associated_class) { WorkPackage }
     let(:associations) { [:author, :assigned_to] }
 
     before do
