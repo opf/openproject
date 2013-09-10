@@ -203,6 +203,8 @@ class RepositoriesController < ApplicationController
   end
 
   def stats
+    @show_commits_per_author = current_user.allowed_to_in_project?(:view_commit_author_statistics,
+                                                                  @project)
   end
 
   def graph
@@ -211,6 +213,9 @@ class RepositoriesController < ApplicationController
     when "commits_per_month"
       data = graph_commits_per_month(@repository)
     when "commits_per_author"
+      unless current_user.allowed_to_in_project?(:view_commit_author_statistics, @project)
+        return deny_access
+      end
       data = graph_commits_per_author(@repository)
     end
     if data
