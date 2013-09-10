@@ -84,7 +84,10 @@ class WatcherTest < ActiveSupport::TestCase
 
   def test_unwatch
     assert @issue.add_watcher(@user)
+    @issue.save
     assert_equal 1, @issue.remove_watcher(@user)
+    @issue.save
+    @issue.reload
     refute @issue.watched_by?(@user)
   end
 

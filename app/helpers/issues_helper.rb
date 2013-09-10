@@ -50,18 +50,6 @@ module IssuesHelper
       <strong>#{@cached_label_priority}</strong>: #{h(issue.priority.name)}".html_safe)
   end
 
-  # TODO: deprecate and/or remove
-  def render_issue_subject_with_tree(issue)
-    s = ''
-    ancestors = issue.root? ? [] : issue.ancestors.all
-    ancestors.each do |ancestor|
-      s << '<div>' + content_tag('h2', link_to_issue(ancestor))
-    end
-    s << '<div class="subject">' + content_tag('h2', h(issue.subject))
-    s << '</div>' * (ancestors.size + 1)
-    s
-  end
-
   def render_descendants_tree(issue)
     s = '<form><table class="list issues">'
     issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
@@ -152,41 +140,6 @@ module IssuesHelper
           render_api_issue_children(child, api)
         end
       end
-    end
-  end
-
-  def render_issue_tree_row(issue, level, relation)
-    css_classes = ["issue"]
-    css_classes << "issue-#{issue.id}"
-    css_classes << "idnt" << "idnt-#{level}" if level > 0
-
-    if relation == "root"
-      issue_text = link_to("#{h(issue.type.name)} ##{issue.id}",
-                             'javascript:void(0)',
-                             :style => "color:inherit; font-weight: bold; text-decoration:none; cursor:default;",
-                             :class => issue.css_classes)
-    else
-      title = []
-
-      if relation == "parent"
-        title << content_tag(:span, l(:description_parent_work_package), :class => "hidden-for-sighted")
-      elsif relation == "child"
-        title << content_tag(:span, l(:description_sub_work_package), :class => "hidden-for-sighted")
-      end
-      title << h(issue.type.name)
-      title << "##{issue.id}"
-
-      issue_text = link_to(title.join(' ').html_safe, issue_path(issue), :class => issue.css_classes)
-    end
-    issue_text << ": "
-    issue_text << truncate(issue.subject, :length => 60)
-
-    content_tag :tr, :class => css_classes.join(' ') do
-      concat content_tag :td, check_box_tag("ids[]", issue.id, false, :id => nil), :class => 'checkbox'
-      concat content_tag :td, issue_text, :class => 'subject'
-      concat content_tag :td, h(issue.status)
-      concat content_tag :td, link_to_user(issue.assigned_to)
-      concat content_tag :td, link_to_version(issue.fixed_version)
     end
   end
 

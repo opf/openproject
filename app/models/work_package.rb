@@ -243,6 +243,13 @@ class WorkPackage < ActiveRecord::Base
     self.parent_id = work_package.parent_id if work_package.parent_id
     self.custom_field_values = work_package.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = work_package.status
+
+    work_package.watchers.each do |watcher|
+      # This might be a problem once this method is used on existing work packages
+      # then, the watchers are added, keeping preexisting watchers
+      self.add_watcher(watcher.user)
+    end
+
     self
   end
 

@@ -77,6 +77,15 @@ describe WorkPackage do
 
       sink.project_id.should == orig_project_id
     end
+
+    it "should copy over watchers" do
+      source.watchers.build(:user => stub_user)
+
+      sink.copy_from(source)
+
+      sink.should have(1).watchers
+      sink.watchers[0].user.should == stub_user
+    end
   end
 
   describe :new_statuses_allowed_to do
