@@ -1124,6 +1124,7 @@ en:
   setting_emails_footer: "Emails footer"
   setting_emails_header: "Emails header"
   setting_enabled_scm: "Enabled SCM"
+  setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_gravatar_default: "Default Gravatar image"

@@ -290,4 +290,26 @@ describe User do
       it { User.default_admin_account_changed?.should be_true }
     end
   end
+
+  describe ".find_by_rss_key" do
+    before do
+      @rss_key = user.rss_key
+    end
+
+    context "feeds enabled" do
+      before do
+        Setting.stub(:feeds_enabled?).and_return(true)
+      end
+
+      it { User.find_by_rss_key(@rss_key).should == user }
+    end
+
+    context "feeds disabled" do
+      before do
+        Setting.stub(:feeds_enabled?).and_return(false)
+      end
+
+      it { User.find_by_rss_key(@rss_key).should == nil }
+    end
+  end
 end
