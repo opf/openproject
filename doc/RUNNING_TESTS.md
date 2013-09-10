@@ -1,3 +1,15 @@
+<!---- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++-->
+
 # Testing OpenProject
 
 ## Cucumber
@@ -83,3 +95,4 @@ You let test unit display test names instead of anonymous dots with the followin
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
 * Assuming you do not have all Internet Explorer version installed on your computer, you can grab a VM with preinstalled IE's directly from Mircrosoft: http://www.modern.ie/en-us/virtualization-tools#downloads
+
