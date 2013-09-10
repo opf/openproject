@@ -706,11 +706,14 @@ class IssueTest < ActiveSupport::TestCase
       i.save!
     end
 
-    journal = Journal.first(:order => 'id DESC')
-    assert_equal i, journal.journable
-    assert journal.changed_data.has_key? :description
-    assert_equal old_description, journal.old_value_for("description")
-    assert_equal new_description, journal.new_value_for("description")
+    last_journal_entry = Journal.where(journable_id: i.id, journable_type: "WorkPackage")
+                                .order("version ASC")
+                                .last
+
+    assert_equal i, last_journal_entry.journable
+    assert last_journal_entry.changed_data.has_key? :description
+    assert_equal old_description, last_journal_entry.old_value_for("description")
+    assert_equal new_description, last_journal_entry.new_value_for("description")
   end
 
   def test_all_dependent_issues

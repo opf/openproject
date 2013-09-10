@@ -30,7 +30,7 @@ describe WikiMenuItemsController do
     it 'renders the edit action' do
       admin_user = FactoryGirl.create(:admin)
 
-      User.stub!(:current).and_return admin_user
+      User.stub(:current).and_return admin_user
       permission_role = FactoryGirl.create(:role, :name => "accessgranted", :permissions => [:manage_wiki_menu])
       member = FactoryGirl.create(:member, :principal => admin_user, :user => admin_user, :project => @project, :roles => [permission_role])
 
@@ -43,7 +43,7 @@ describe WikiMenuItemsController do
   describe 'w/o valid auth' do
 
     it 'be forbidden' do
-      User.stub!(:current).and_return FactoryGirl.create(:user)
+      User.stub(:current).and_return FactoryGirl.create(:user)
 
       get 'edit', @params
 

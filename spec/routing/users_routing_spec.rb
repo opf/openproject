@@ -27,7 +27,7 @@ describe UsersController do
       let(:user) { FactoryGirl.create(:user) }
 
       before do
-        User.stub!(:current).and_return(user)
+        User.stub(:current).and_return(user)
       end
 
       it { get('/my/deletion_info').should route_to(:controller => 'users',

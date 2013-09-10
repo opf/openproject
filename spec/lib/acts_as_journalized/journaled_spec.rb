@@ -16,7 +16,7 @@ describe "Journalized Objects" do
     @type ||= FactoryGirl.create(:type_feature)
     @project ||= FactoryGirl.create(:project_with_types)
     @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
-    User.stub!(:current).and_return(@current)
+    User.stub(:current).and_return(@current)
   end
 
 
