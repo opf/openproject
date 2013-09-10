@@ -656,7 +656,7 @@ class ApplicationController < ActionController::Base
   end
 
   def stop_if_feeds_disabled
-    if feed_request? && Setting.feeds_disabled?
+    if feed_request? && !Setting.feeds_enabled?
       render_404({:message => I18n.t('label_disabled')})
     end
   end

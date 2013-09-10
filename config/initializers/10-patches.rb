@@ -214,7 +214,7 @@ module ActionView
 
     module AssetTagHelper
       def auto_discovery_link_tag_with_no_atom_feeds(type = :rss, url_options = {}, tag_options = {})
-        return if (type == :atom) && Setting.table_exists? && Setting.feeds_disabled?
+        return if (type == :atom) && Setting.table_exists? && !Setting.feeds_enabled?
         auto_discovery_link_tag_without_no_atom_feeds(type, url_options, tag_options)
       end
       alias_method_chain :auto_discovery_link_tag, :no_atom_feeds

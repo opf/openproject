@@ -21,7 +21,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= User.human_attribute_name(:created_on) %>: <%= format_time(@user.created_on) %></p>
 
 
-<% unless Setting.feeds_disabled? %>
+<% if Setting.feeds_enabled? %>
   <h3><%= l(:label_feeds_access_key) %></h3>
 
   <p>

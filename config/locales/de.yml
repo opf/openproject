@@ -1148,7 +1148,7 @@ de:
   setting_emails_footer: "E-Mail-Fußzeile"
   setting_emails_header: "Emailkopf"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
-  setting_feeds_disabled: "Atom-Feeds deaktivieren"
+  setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_gravatar_default: "Standard-Gravatar-Bild"

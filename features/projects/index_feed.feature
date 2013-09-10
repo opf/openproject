@@ -28,6 +28,6 @@ Feature: Projects index feed
       And I should see "Atom" within ".other-formats span"
 
    Scenario: Atom feed disabled
-    Given the "feeds_disabled" setting is set to true
+    Given the "feeds_enabled" setting is set to false
      When I go to the projects page
      Then I should not see "Also available in"
