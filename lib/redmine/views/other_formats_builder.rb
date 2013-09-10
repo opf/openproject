@@ -18,6 +18,7 @@ module Redmine
       end
 
       def link_to(name, options={})
+        return if Setting.table_exists? && Setting.feeds_disabled? && name == "Atom"
         url = { :format => name.to_s.downcase }.merge(options.delete(:url) || {})
         caption = options.delete(:caption) || name
         html_options = { :class => name.to_s.downcase, :rel => 'nofollow' }.merge(options)

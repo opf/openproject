@@ -402,10 +402,11 @@ module ApplicationHelper
   end
 
   def other_formats_links(&block)
-    content_tag 'p', :class => 'other-formats' do
-      formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
-
-      (l(:label_export_to) + formats).html_safe
+    formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
+    unless formats.nil? || formats.strip.empty?
+      content_tag 'p', :class => 'other-formats' do
+        (l(:label_export_to) + formats).html_safe
+      end
     end
   end
 

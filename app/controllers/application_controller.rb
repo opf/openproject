@@ -69,7 +69,8 @@ class ApplicationController < ActionController::Base
                 :log_requesting_user,
                 :reset_i18n_fallbacks,
                 :set_localization,
-                :check_session_lifetime
+                :check_session_lifetime,
+                :check_if_feeds_enabled
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
 
@@ -644,6 +645,20 @@ class ApplicationController < ActionController::Base
       redirect_to(:controller => "account", :action => "login", :back_url => url)
     end
     session[:updated_at] = Time.now
+  end
+
+  def atom_request?
+    if params[:format].nil?
+      %w(application/rss+xml application/atom+xml).include? request.format.to_s
+    else
+      %w(atom).include? params[:format]
+    end
+  end
+
+  def check_if_feeds_enabled
+    if atom_request? && Setting.feeds_disabled?
+      render_404({:message => I18n.t('label_disabled')})
+    end
   end
 
   private
