@@ -1,10 +1,22 @@
+<!---- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.md for more details.
+
+++-->
+
 # OpenProject Plugins Plugin
 
 This plugin aims to make writing plugins easier. It provides a generator for creating a basic plugin structure and a module that simplifies setting up the plugin Rails engine. Thus, it is also a dependency for many plugins.
 
 ## Usage
 
-Make sure to include the plugins plugin before all other plugins in your Gemfile, otherwise the module used by the plugin Rails engines (`OpenProject::Plugins::ActsAsOpEngine`) is not available when the plugin is being loaded.
+Make sure to include the plugins plugin before all other plugins in your Gemfile, otherwise the module used by the plugin Rails engines (`OpenProject::Plugins::ActsAsOpEngine`) is not available when a plugin is being loaded.
 
 ### Generator
 
@@ -18,7 +30,9 @@ Example:
 
 ### ActsAsOpEngine
 
-The generated engine uses ActsAsOpEngine by default, so just have a look at this file. For more information on how to use ActsAsOpEngine, just see the comments in its [source code](lib/open_project/plugins/acts_as_op_engine.rb. It offers methods to load patches and register assets besides others.
+The generated engine uses `ActsAsOpEngine` by default, so just have a look at this file.
+For more information on how to use `ActsAsOpEngine`, just see the comments in its [source code](lib/open_project/plugins/acts_as_op_engine.rb).
+It offers methods to load patches and register assets besides others.
 
 #### Example
 ```ruby
@@ -36,3 +50,10 @@ module OpenProject::RepositoryAuthentication
   end
 end
 ```
+
+License
+-------
+
+(c) 2013 - Finn GmbH
+
+This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.md for details.
