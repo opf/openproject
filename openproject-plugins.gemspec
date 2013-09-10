@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     basic plugin structure and a module that simplifies setting up the plugin Rails engine.
     Thus, it is also a dependency for many openproject plugins.
   STR
+  s.license     = "GPLv3"
 
   s.files = Dir["{lib, doc}/**/*"] + %w(README.md)
 
