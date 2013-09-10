@@ -16,63 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_blocked
-    blocked_issue = Issue.find(9)
-    blocking_issue = Issue.find(10)
-
-    assert blocked_issue.blocked?
-    assert !blocking_issue.blocked?
-  end
-
-  def test_blocked_issues_dont_allow_closed_statuses
-    blocked_issue = Issue.find(9)
-
-    allowed_statuses = blocked_issue.new_statuses_allowed_to(users(:users_002))
-    assert !allowed_statuses.empty?
-    closed_statuses = allowed_statuses.select {|st| st.is_closed?}
-    assert closed_statuses.empty?
-  end
-
-  def test_unblocked_issues_allow_closed_statuses
-    blocking_issue = Issue.find(10)
-
-    allowed_statuses = blocking_issue.new_statuses_allowed_to(users(:users_002))
-    assert !allowed_statuses.empty?
-    closed_statuses = allowed_statuses.select {|st| st.is_closed?}
-    assert !closed_statuses.empty?
-  end
-
-  def test_rescheduling_an_issue_should_reschedule_following_issue
-    (issue1 = Issue.new.tap do |i|
-      i.force_attributes = { :project_id => 1,
-                             :type_id => 1,
-                             :author_id => 1,
-                             :status_id => 1,
-                             :subject => '-',
-                             :start_date => Date.today,
-                             :due_date => Date.today + 2 }
-    end).save!
-    (issue2 = Issue.new.tap do |i|
-      i.force_attributes = { :project_id => 1,
-                             :type_id => 1,
-                             :author_id => 1,
-                             :status_id => 1,
-                             :subject => '-',
-                             :start_date => Date.today,
-                             :due_date => Date.today + 2 }
-    end).save!
-    IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => issue1,
-                             :issue_to => issue2,
-                             :relation_type => IssueRelation::TYPE_PRECEDES }
-    end.save!
-    assert_equal issue1.due_date + 1, issue2.reload.start_date
-
-    issue1.due_date = Date.today + 5
-    issue1.save!
-    assert_equal issue1.due_date + 1, issue2.reload.start_date
-  end
-
   def test_overdue
     assert Issue.new(:due_date => 1.day.ago.to_date).overdue?
     assert !Issue.new(:due_date => Date.today).overdue?
