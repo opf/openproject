@@ -516,11 +516,9 @@ describe WorkPackagesController do
         Project.stub(:find_visible).and_return stub_project
       end
 
-
-      describe 'when the type is "Issue"' do
+      describe 'when we copy stuff' do
         before do
-          controller.params = { :sti_type => 'Issue',
-                                :work_package => {} }.merge(params)
+          controller.params = { :work_package => {} }.merge(params)
 
           controller.stub(:current_user).and_return(stub_user)
           controller.send(:permitted_params).should_receive(:new_work_package)
@@ -556,15 +554,6 @@ describe WorkPackagesController do
         it 'should return nil' do
           controller.work_package.should be_nil
 
-        end
-      end
-
-      describe 'when the sti_type is "Project"' do
-        it "should raise not allowed" do
-          controller.params = { :sti_type => 'Project',
-                                :project_id => stub_project.id }.merge(params)
-
-          expect { controller.work_package }.to raise_error ArgumentError
         end
       end
     end
