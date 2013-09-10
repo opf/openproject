@@ -14,7 +14,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if User.current.allowed_to?(:manage_subtasks, @project) %>
   <% if controller.work_package.is_a? Issue %>
     (<%= link_to(l(:label_add_subtask), new_project_work_package_path(:project_id => @project,
-                                                                      :sti_type => Issue.to_s,
+                                                                      :sti_type => WorkPackage.to_s,
                                                                       :work_package => { :parent_id => work_package })) %>)
   <% end %>
 <% end %>

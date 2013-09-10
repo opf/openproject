@@ -10,9 +10,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% watched = Issue.visible.on_active_project.watched_by(user.id).recently_updated.with_limit(10) %>
+<% watched = WorkPackage.visible.on_active_project.watched_by(user.id).recently_updated.with_limit(10) %>
 
-<% watched_count = Issue.visible.watched_by(user.id).count %>
+<% watched_count = WorkPackage.visible.watched_by(user.id).count %>
 
 <h3><%=l(:label_watched_work_packages)%> (<%= watched_count %>)</h3>
 

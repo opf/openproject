@@ -12,7 +12,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="contextual">
 <%= link_to l(:label_work_package_status_new), {:action => 'new'}, :class => 'icon icon-add' %>
-<%= link_to(l(:label_update_work_package_done_ratios), {:action => 'update_issue_done_ratio'}, :class => 'icon icon-multiple', :method => 'post', :confirm => l(:text_are_you_sure)) if Issue.use_status_for_done_ratio? %>
+<%= link_to(l(:label_update_work_package_done_ratios), {:action => 'update_issue_done_ratio'}, :class => 'icon icon-multiple', :method => 'post', :confirm => l(:text_are_you_sure)) if WorkPackage.use_status_for_done_ratio? %>
 </div>
 
 <h2><%=l(:label_work_package_status_plural)%></h2>
@@ -20,8 +20,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <table class="list">
   <thead><tr>
   <th><%= IssueStatus.model_name.human %></th>
-  <% if Issue.use_status_for_done_ratio? %>
-    <th><%= Issue.human_attribute_name(:done_ratio) %></th>
+  <% if WorkPackage.use_status_for_done_ratio? %>
+    <th><%= WorkPackage.human_attribute_name(:done_ratio) %></th>
   <% end %>
   <th><%= IssueStatus.human_attribute_name(:is_default) %></th>
   <th><%= IssueStatus.human_attribute_name(:is_closed) %></th>
@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% for status in @issue_statuses %>
   <tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to h(status.name), :action => 'edit', :id => status %></td>
-  <% if Issue.use_status_for_done_ratio? %>
+  <% if WorkPackage.use_status_for_done_ratio? %>
   <td align="center"><%= h status.default_done_ratio %></td>
   <% end %>
   <td align="center"><%= checked_image status.is_default? %></td>

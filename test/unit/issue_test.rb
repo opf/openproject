@@ -999,7 +999,7 @@ class IssueTest < ActiveSupport::TestCase
                              :subject => 'test_create',
                              :estimated_hours => '1:30' }
     end
-    IssueObserver.instance.send_notification = false
+    WorkPackageObserver.instance.send_notification = false
 
     assert issue.save
     assert_equal 0, ActionMailer::Base.deliveries.size

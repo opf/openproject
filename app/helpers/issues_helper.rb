@@ -34,12 +34,12 @@ module IssuesHelper
   #    </div>
   #
   def render_issue_tooltip(issue)
-    @cached_label_status ||= Issue.human_attribute_name(:status)
-    @cached_label_start_date ||= Issue.human_attribute_name(:start_date)
-    @cached_label_due_date ||= Issue.human_attribute_name(:due_date)
-    @cached_label_assigned_to ||= Issue.human_attribute_name(:assigned_to)
-    @cached_label_priority ||= Issue.human_attribute_name(:priority)
-    @cached_label_project ||= Issue.human_attribute_name(:project)
+    @cached_label_status ||= WorkPackage.human_attribute_name(:status)
+    @cached_label_start_date ||= WorkPackage.human_attribute_name(:start_date)
+    @cached_label_due_date ||= WorkPackage.human_attribute_name(:due_date)
+    @cached_label_assigned_to ||= WorkPackage.human_attribute_name(:assigned_to)
+    @cached_label_priority ||= WorkPackage.human_attribute_name(:priority)
+    @cached_label_project ||= WorkPackage.human_attribute_name(:project)
 
     (link_to_work_package(issue) + "<br /><br />
       <strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />
@@ -122,7 +122,7 @@ module IssuesHelper
 
   # Find the name of an associated record stored in the field attribute
   def find_name_by_reflection(field, id)
-    association = Issue.reflect_on_association(field.to_sym)
+    association = WorkPackage.reflect_on_association(field.to_sym)
     if association
       record = association.class_name.constantize.find_by_id(id)
       return record.name if record
@@ -144,7 +144,7 @@ module IssuesHelper
   end
 
   def entries_for_filter_select_sorted(query)
-    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || Issue.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
+    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || WorkPackage.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
       ActiveSupport::Inflector.transliterate(el[0]).downcase
     end
   end

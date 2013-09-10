@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="contextual">
         <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-comment') %>
       </div>
-      <p><strong><%= Issue.human_attribute_name(:description)%></strong></p>
+      <p><strong><%= WorkPackage.human_attribute_name(:description)%></strong></p>
       <div class="wiki wikicontent" data-user="<%= work_package.author %>">
         <%= textilizable work_package, :description, :attachments => work_package.attachments %>
       </div>

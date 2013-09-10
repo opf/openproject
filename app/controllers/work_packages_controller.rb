@@ -322,7 +322,7 @@ class WorkPackagesController < ApplicationController
       sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
 
       wp = case sti_type
-           when Issue.to_s
+           when WorkPackage.to_s
              project.add_issue(permitted)
            else
              raise ArgumentError, "sti_type #{ sti_type } is not supported"

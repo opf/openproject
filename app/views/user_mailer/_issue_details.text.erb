@@ -13,12 +13,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= issue.to_s %>
 <%= work_package_url(issue) %>
 
-<%= Issue.human_attribute_name(:author)        %>: <%= issue.author        %>
-<%= Issue.human_attribute_name(:status)        %>: <%= issue.status        %>
-<%= Issue.human_attribute_name(:priority)      %>: <%= issue.priority      %>
-<%= Issue.human_attribute_name(:assigned_to)   %>: <%= issue.assigned_to   %>
-<%= Issue.human_attribute_name(:category)      %>: <%= issue.category      %>
-<%= Issue.human_attribute_name(:fixed_version) %>: <%= issue.fixed_version %>
+<%= WorkPackage.human_attribute_name(:author)        %>: <%= issue.author        %>
+<%= WorkPackage.human_attribute_name(:status)        %>: <%= issue.status        %>
+<%= WorkPackage.human_attribute_name(:priority)      %>: <%= issue.priority      %>
+<%= WorkPackage.human_attribute_name(:assigned_to)   %>: <%= issue.assigned_to   %>
+<%= WorkPackage.human_attribute_name(:category)      %>: <%= issue.category      %>
+<%= WorkPackage.human_attribute_name(:fixed_version) %>: <%= issue.fixed_version %>
 
 <% issue.custom_field_values.each do |value| %>
   <%= value.custom_field.name %>: <%= show_value(value) %>
