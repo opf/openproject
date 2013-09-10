@@ -696,6 +696,34 @@ describe WorkPackage do
     end
   end
 
+  describe :destroy do
+    let(:time_entry_1) { FactoryGirl.create(:time_entry,
+                                            project: project,
+                                            work_package: work_package) }
+    let(:time_entry_2) { FactoryGirl.create(:time_entry,
+                                            project: project,
+                                            work_package: work_package) }
+
+    before do
+      time_entry_1
+      time_entry_2
+
+      work_package.destroy
+    end
+
+    context "work package" do
+      subject { WorkPackage.find_by_id(work_package.id) }
+
+      it { should be_nil }
+    end
+
+    context "time entries" do
+      subject { TimeEntry.find_by_work_package_id(work_package.id) }
+
+      it { should be_nil }
+    end
+  end
+
   describe :new_statuses_allowed_to do
 
     let(:role) { FactoryGirl.create(:role) }

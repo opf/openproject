@@ -16,12 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_issue_destroy
-    Issue.find(1).destroy
-    assert_nil Issue.find_by_id(1)
-    assert_nil TimeEntry.find_by_work_package_id(1)
-  end
-
   def test_blocked
     blocked_issue = Issue.find(9)
     blocking_issue = Issue.find(10)
