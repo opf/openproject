@@ -1230,4 +1230,28 @@ describe WorkPackage do
       end
     end
   end
+
+  describe :inherit_done_ratio_from_leaves do
+    describe 'with done ratio disabled' do
+      let(:project) { FactoryGirl.create(:project) }
+      let(:work_package) { FactoryGirl.create(:work_package, :project => project) }
+      let(:child) { FactoryGirl.create(:work_package, :parent => work_package,
+                                                      :project => project)}
+      let(:closed_issue_status) { FactoryGirl.create(:closed_issue_status) }
+
+      before do
+        Setting.stub(:issue_done_ratio).and_return('disabled')
+      end
+
+      it 'should not update the work package done_ratio' do
+        work_package.done_ratio.should == 0
+
+        child.status = closed_issue_status
+        child.save!
+
+        work_package.reload
+        work_package.done_ratio.should == 0
+      end
+    end
+  end
 end

@@ -648,6 +648,8 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def inherit_done_ratio_from_leaves
+    return if Setting.issue_done_ratio == 'disabled'
+
     # done ratio = weighted average ratio of leaves
     unless WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
       leaves_count = leaves.count
