@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= li_unless_nil(link_to_if_authorized l(:button_copy), {:controller => '/work_packages/moves', :action => 'new', :work_package_id => controller.work_package, :copy => ''}, :class => 'icon icon-copy') %>
   <%= li_unless_nil(link_to_if_authorized l(:button_move), {:controller => '/work_packages/moves', :action => 'new', :work_package_id => controller.work_package}, :class => 'icon icon-move') %>
 
-  <%= li_unless_nil(link_to_if_authorized l(:button_delete), 
+  <%= li_unless_nil(link_to_if_authorized l(:button_delete),
                                           { :controller => '/work_packages',
                                             :action => 'destroy',
                                             :id => controller.work_package,

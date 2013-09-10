@@ -26,7 +26,7 @@ module WorkPackagesHelper
 
   def work_package_index_link
     # TODO: will need to change to work_package index
-    link_to(t(:label_work_package_plural), {:controller => '/issues', :action => 'index'})
+    link_to(t(:label_work_package_plural), {controller: :work_packages, action: :index})
   end
 
   # Displays a link to +work_package+ with its subject.

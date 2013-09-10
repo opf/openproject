@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%- issues.each do |issue| -%>
       <tr class="hascontextmenu">
         <td class="checkbox"><%= check_box_tag 'ids[]', issue.id %></td>
-        <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+        <td><%= link_to_work_package(issue, :project => (@project != issue.project)) %></td>
       </tr>
     <%- end -%>
     </table>

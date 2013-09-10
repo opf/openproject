@@ -15,7 +15,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if !@issue.nil? -%>
   <li class="edit">
-    <%= context_menu_link l(:button_edit), edit_issue_path(@issue),
+    <%= context_menu_link l(:button_edit), edit_work_package_path(@issue),
 	                                         :class => 'icon-edit',
                                            :disabled => !@can[:edit] %>
   </li>
@@ -42,6 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% unless @types.nil? %>
   <% params = default_params.merge(:collection => @types,
                                    :attribute => 'type',
+                                   :title => WorkPackage.human_attribute_name(:type),
                                    :selected => lambda { |type| (@issue && type == @issue.type) },
                                    :disabled => lambda { |type| !@can[:edit] }) %>
   <%= context_menu_entry(params) %>
@@ -49,6 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% params = default_params.merge(:collection => @priorities,
                                    :attribute => 'priority',
+                                   :title => WorkPackage.human_attribute_name(:priority),
                                    :selected => lambda { |priority| (@issue && priority == @issue.priority) },
                                    :disabled => lambda { |priority| !@can[:edit] || @issues.detect { |i| !i.leaf? } }) %>
   <%= context_menu_entry(params) %>
@@ -67,6 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% assignables = @assignables.dup << [nil, l(:label_none)] %>
   <% params = default_params.merge(:collection => assignables,
                                    :attribute => 'assigned_to',
+                                   :title => WorkPackage.human_attribute_name(:assigned_to),
                                    :selected => lambda { |user| @issue && user == @issue.assigned_to },
                                    :disabled => lambda { |user| !@can[:update] }) %>
   <%= context_menu_entry(params) %>
@@ -76,6 +79,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% categories << [nil, l(:label_none)] %>
   <% params = default_params.merge(:collection => categories,
                                    :attribute => 'category',
+                                   :title => WorkPackage.human_attribute_name(:category),
                                    :selected => lambda { |category| @issue && category == @issue.category },
                                    :disabled => lambda { |category| !@can[:update] }) %>
   <%= context_menu_entry(params) %>
@@ -84,6 +88,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if Issue.use_field_for_done_ratio? %>
   <% params = default_params.merge(:collection => (0..10).map{ |x| x * 10 },
                                    :attribute => 'done_ratio',
+                                   :title => WorkPackage.human_attribute_name(:done_ratio),
                                    :db_attribute => 'done_ratio',
                                    :selected => lambda { |ratio| @issue && ratio == @issue.done_ratio },
                                    :disabled => lambda { |ratio| !@can[:edit] || @issues.detect { |i| !i.leaf? } }) %>
@@ -94,7 +99,7 @@ See doc/COPYRIGHT.rdoc for more details.
 	<% if @can[:log_time] -%>
     <li class="log_time">
       <%= context_menu_link l(:button_log_time),
-                            new_issue_time_entry_path(@issue),
+                            new_work_package_time_entry_path(@issue),
 	                          :class => 'context_item' %>
     </li>
   <% end %>
@@ -108,27 +113,27 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if @issue.present? %>
   <li>
-    <%= context_menu_link l(:button_duplicate), new_project_issue_path({ :project_id => @project,
-                                                                         :copy_from => @issue }),
+    <%= context_menu_link l(:button_duplicate), new_project_work_package_path({ :project_id => @project,
+                                                                                :copy_from => @issue }),
                                                 :class => 'icon-duplicate',
                                                 :disabled => !@can[:copy] %>
   </li>
 <% end %>
 
   <li class="move">
-    <%= context_menu_link l(:button_move), new_issues_move_path(:ids => @issues.collect(&:id)),
+    <%= context_menu_link l(:button_move), new_move_work_packages_path(:ids => @issues.collect(&:id)),
 	                                         :class => 'context_item',
                                            :disabled => !@can[:move] %>
   </li>
 
   <li class="copy">
-    <%= context_menu_link l(:button_copy), new_issues_move_path(:ids => @issues.collect(&:id),
-                                                                :copy_options => { :copy => 't' }),
-                                                                :class => 'context_item' %>
+    <%= context_menu_link l(:button_copy), new_move_work_packages_path(:ids => @issues.collect(&:id),
+                                           :copy_options => { :copy => 't' }),
+                                           :class => 'context_item' %>
   </li>
 
   <li class="delete">
-    <%= context_menu_link l(:button_delete), issues_path(:ids => @issues.collect(&:id)),
+    <%= context_menu_link l(:button_delete), work_packages_path(:ids => @issues.collect(&:id)),
                                              :method => :delete,
                                              :confirm => l(:text_work_packages_destroy_confirmation),
                                              :class => 'context_item',
