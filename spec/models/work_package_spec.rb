@@ -502,6 +502,91 @@ describe WorkPackage do
     end
   end
 
+  describe :done_ratio do
+    let(:status_new) { FactoryGirl.create(:issue_status,
+                                          name: 'New',
+                                          is_default: true,
+                                          is_closed: false,
+                                          default_done_ratio: 50) }
+    let(:status_assigned) { FactoryGirl.create(:issue_status,
+                                               name: 'Assigned',
+                                               is_default: true,
+                                               is_closed: false,
+                                               default_done_ratio: 0) }
+    let(:work_package_1) { FactoryGirl.create(:work_package,
+                                              status: status_new) }
+    let(:work_package_2) { FactoryGirl.create(:work_package,
+                                              project: work_package_1.project,
+                                              status: status_assigned,
+                                              done_ratio: 30) }
+
+    before { work_package_2 }
+
+    describe :value do
+      context "work package field" do
+        before { Setting.stub(:issue_done_ratio).and_return 'issue_field' }
+
+        context "work package 1" do
+          subject { work_package_1.done_ratio }
+
+          it { should eq(0) }
+        end
+
+        context "work package 2" do
+          subject { work_package_2.done_ratio }
+
+          it { should eq(30) }
+        end
+      end
+
+      context "work package status" do
+        before { Setting.stub(:issue_done_ratio).and_return 'issue_status' }
+
+        context "work package 1" do
+          subject { work_package_1.done_ratio }
+
+          it { should eq(50) }
+        end
+
+        context "work package 2" do
+          subject { work_package_2.done_ratio }
+
+          it { should eq(0) }
+        end
+      end
+    end
+
+    describe :update_done_ratio_from_issue_status do
+      context "work package field" do
+        before do
+          Setting.stub(:issue_done_ratio).and_return 'issue_field'
+
+          work_package_1.update_done_ratio_from_issue_status
+          work_package_2.update_done_ratio_from_issue_status
+        end
+
+        it "does not update the done ratio" do
+          work_package_1.done_ratio.should eq(0)
+          work_package_2.done_ratio.should eq(30)
+        end
+      end
+
+      context "work package status" do
+        before do
+          Setting.stub(:issue_done_ratio).and_return 'issue_status'
+
+          work_package_1.update_done_ratio_from_issue_status
+          work_package_2.update_done_ratio_from_issue_status
+        end
+
+        it "updates the done ratio" do
+          work_package_1.done_ratio.should eq(50)
+          work_package_2.done_ratio.should eq(0)
+        end
+      end
+    end
+  end
+
   describe :new_statuses_allowed_to do
 
     let(:role) { FactoryGirl.create(:role) }

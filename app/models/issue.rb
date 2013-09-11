@@ -149,24 +149,8 @@ class Issue < WorkPackage
     self.attributes = attrs
   end
 
-  def done_ratio
-    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio
-      status.default_done_ratio
-    else
-      read_attribute(:done_ratio)
-    end
-  end
-
   def self.use_field_for_done_ratio?
     Setting.issue_done_ratio == 'issue_field'
-  end
-
-  # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
-  # even if the user turns off the setting later
-  def update_done_ratio_from_issue_status
-    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio
-      self.done_ratio = status.default_done_ratio
-    end
   end
 
   def <=>(issue)

@@ -176,6 +176,22 @@ class WorkPackage < ActiveRecord::Base
     Setting.issue_done_ratio == 'issue_field'
   end
 
+  def done_ratio
+    if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
+      status.default_done_ratio
+    else
+      read_attribute(:done_ratio)
+    end
+  end
+
+  # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
+  # even if the user turns off the setting later
+  def update_done_ratio_from_issue_status
+    if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
+      self.done_ratio = status.default_done_ratio
+    end
+  end
+
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
     (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []
@@ -375,10 +391,6 @@ class WorkPackage < ActiveRecord::Base
     statuses << IssueStatus.default if include_default
     statuses = statuses.uniq.sort
     blocked? ? statuses.reject {|s| s.is_closed?} : statuses
-  end
-
-  def self.use_status_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_status'
   end
 
   # Returns the total number of hours spent on this issue and its descendants
