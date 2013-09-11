@@ -74,7 +74,7 @@ Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |projec
 
     type_attributes[:type] = type unless type.nil?
 
-    factory = FactoryGirl.create(:issue, type_attributes.merge(:project_id => project.id))
+    factory = FactoryGirl.create(:work_package, type_attributes.merge(:project_id => project.id))
 
     factory.reload
 
