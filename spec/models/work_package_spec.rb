@@ -231,6 +231,10 @@ describe WorkPackage do
 
         it { should eq(project_id) }
       end
+    end
+
+    shared_examples_for "work package copy with custom field" do
+      it_behaves_like "work package copy"
 
       context :custom_field do
         subject { sink.custom_value_for(custom_field.id).value }
@@ -244,13 +248,13 @@ describe WorkPackage do
 
       before { sink.copy_from(source) }
 
-      it_behaves_like "work package copy"
+      it_behaves_like "work package copy with custom field"
     end
 
     context "should not copy excluded project" do
       let(:project_id) { sink.project_id }
 
-      before { sink.copy_from(source, :exclude => [:project_id]) }
+      before { sink.copy_from(source, exclude: [:project_id]) }
 
       it_behaves_like "work package copy"
     end
