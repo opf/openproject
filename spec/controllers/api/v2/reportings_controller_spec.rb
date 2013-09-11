@@ -67,7 +67,7 @@ describe Api::V2::ReportingsController do
 
         it 'assigns a reportings array containing all three elements' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          assigns(:reportings).should == @created_reportings
+          assigns(:reportings).should =~ @created_reportings
         end
 
         it 'renders the index builder template' do
@@ -78,7 +78,7 @@ describe Api::V2::ReportingsController do
         describe 'w/ ?only=via_source' do
           it 'assigns a reportings array containg the two reportings where project.id is source' do
             get 'index', :project_id => project.identifier, :format => 'xml', :only => 'via_source'
-            assigns(:reportings).should == @created_reportings[0..1]
+            assigns(:reportings).should =~ @created_reportings[0..1]
           end
         end
 
