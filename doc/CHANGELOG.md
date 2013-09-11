@@ -13,9 +13,10 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#1418` Additional changes: Change links to issues/planning elements to use work_packages controller
+* `#1850` Disable atom feeds via setting
 * `#1898` Separate action for changing wiki parent page (was same as rename before)
 * `#1923` Add permission that allows hiding repository statistics on commits per author
-* `#1850` Disable atom feeds via setting
+* `#1950` Grey line near the lower end of the modal, cuts off a bit of the content 
 
 ## 3.0.0pre15
 
