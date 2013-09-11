@@ -358,6 +358,9 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
   def check_assumptions
 
+    # SQL finds all those journals whose has more or less predecessors than
+    # it's version would require. Ignores the first journal.
+    # e.g. a journal with version 5 would have to have 5 predecessors
     invalid_journals = ActiveRecord::Base.connection.select_values <<-SQL
       SELECT DISTINCT tmp.id
       FROM (
