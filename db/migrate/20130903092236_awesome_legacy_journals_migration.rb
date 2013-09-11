@@ -27,11 +27,19 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
     end
   end
 
+  class PreviousState < Struct.new(:journal, :journaled_id, :type)
+    def set(journal, journaled_id, type)
+      self.journal = journal
+      self.journaled_id = journaled_id
+      self.type = type
+    end
+  end
+
   def up
     check_assumptions
 
-    previous_journaled_id, previous_type = 0, ""
-    previous_journal = {}
+    previous = PreviousState.new(0, "", {})
+
     journal_classes = {
       "AttachmentJournal" => LegacyJournalMigrator.new("attachment_journals"),
       "ChangesetJournal" => LegacyJournalMigrator.new("changeset_journals"),
@@ -52,12 +60,15 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       legacy_journal["changed_data"] = YAML.load(legacy_journal["changed_data"])
 
       journaled_id, type, version = legacy_journal["journaled_id"], legacy_journal["type"], legacy_journal["version"]
-      table = journal_tables[type]
 
-      if table.nil?
+      journal_class = journal_classes[type]
+
+      if journal_class.nil?
         puts "Ignoring type `#{type}`"
         next
       end
+
+      table = journal_class.table_name
 
       # actually insert/update stuff in the database.
       journal = get_journal(journaled_id, type, version)
@@ -65,14 +76,12 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
       # compute the combined journal from current and all previous changesets.
       combined_journal = legacy_journal["changed_data"]
-      if previous_journaled_id == journaled_id && previous_type == type
-        combined_journal = previous_journal.merge(combined_journal)
+      if previous.journaled_id == journaled_id && previous.type == type
+        combined_journal = previous.journal.merge(combined_journal)
       end
 
       # remember the combined journal as the previous one for the next iteration.
-      previous_journal = combined_journal
-      previous_journaled_id = journaled_id
-      previous_type = type
+      previous.set(combined_journal, journaled_id, type)
 
       data = fetch_journal_data(journal_id, table)
 
