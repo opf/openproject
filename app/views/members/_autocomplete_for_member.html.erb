@@ -9,17 +9,22 @@ modify it under the terms of the GNU General Public License version 3.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<div class="principals splitcontentleft">
-  <% if principals.size > 20 %>
-    <p><%= simple_format(l('notice_to_many_principals_to_display'))%></p>
+<div style="display:inline-block;">
+  <div class="principals splitcontentleft">
+    <% if principals.size > 20 %>
+      <p><%= simple_format(l('notice_to_many_principals_to_display'))%></p>
+  </div>
 </div>
-  <% elsif principals.size == 0 %>
-    <p><%= l('notice_no_principals_found')%></p>
+    <% elsif principals.size == 0 %>
+      <p><%= l('notice_no_principals_found')%></p>
+  </div>
 </div>
-  <% else %>
-    <%= principals_check_box_tags 'member[user_ids][]', principals %>
-</div>
+    <% else %>
+      <p>
+        <%= "#{l(:label_user_plural)}/#{l(:label_group_plural)}" %>:
+        <%= principals_check_box_tags 'member[user_ids][]', principals %>
+      </p>
+  </div>
 
   <div class="roles splitcontentright">
     <p><%= l(:label_role_plural) %>:
@@ -30,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
     </p>
   </div>
-
+</div>
   <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
 <% end %>
 
