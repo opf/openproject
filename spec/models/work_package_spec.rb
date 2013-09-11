@@ -152,7 +152,7 @@ describe WorkPackage do
 
     it "should respect workflows w/o author and w/o assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type => type,
+      work_package = WorkPackage.create(:type_id => type.id,
                                         :status => status,
                                         :priority => priority,
                                         :project => project)
@@ -161,7 +161,7 @@ describe WorkPackage do
 
     it "should respect workflows w/ author and w/o assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type => type,
+      work_package = WorkPackage.create(:type_id => type.id,
                                         :status => status,
                                         :priority => priority,
                                         :project => project,
@@ -171,7 +171,7 @@ describe WorkPackage do
 
     it "should respect workflows w/o author and w/ assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type => type,
+      work_package = WorkPackage.create(:type_id => type.id,
                                         :status => status,
                                         :subject => "test",
                                         :priority => priority,
@@ -183,7 +183,7 @@ describe WorkPackage do
 
     it "should respect workflows w/ author and w/ assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type => type,
+      work_package = WorkPackage.create(:type_id => type.id,
                                         :status => status,
                                         :subject => "test",
                                         :priority => priority,
