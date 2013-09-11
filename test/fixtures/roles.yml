@@ -21,6 +21,8 @@ roles_001:
     - :move_work_packages
     - :delete_work_package
     - :delete_work_packages
+    - :delete_issue
+    - :delete_issues
     - :view_work_package_watchers
     - :add_work_package_watchers
     - :delete_work_package_watchers
