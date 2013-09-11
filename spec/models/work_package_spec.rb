@@ -587,6 +587,106 @@ describe WorkPackage do
     end
   end
 
+  describe :group_by do
+    let(:type_2) { FactoryGirl.create(:type) }
+    let(:priority_2) { FactoryGirl.create(:priority) }
+    let(:project) { FactoryGirl.create(:project, types: [type, type_2]) }
+    let(:version_1) { FactoryGirl.create(:version,
+                                         project: project) }
+    let(:version_2) { FactoryGirl.create(:version,
+                                         project: project) }
+    let(:category_1) { FactoryGirl.create(:issue_category,
+                                          project: project) }
+    let(:category_2) { FactoryGirl.create(:issue_category,
+                                          project: project) }
+    let(:user_2) { FactoryGirl.create(:user) }
+
+    let(:work_package_1) { FactoryGirl.create(:work_package,
+                                              author: user,
+                                              assigned_to: user,
+                                              project: project,
+                                              type: type,
+                                              priority: priority,
+                                              fixed_version: version_1,
+                                              category: category_1) }
+    let(:work_package_2) { FactoryGirl.create(:work_package,
+                                              author: user_2,
+                                              assigned_to: user_2,
+                                              project: project,
+                                              type: type_2,
+                                              priority: priority_2,
+                                              fixed_version: version_2,
+                                              category: category_2) }
+
+    before do
+      work_package_1
+      work_package_2
+    end
+
+    shared_examples_for "group by" do
+      context :size do
+        subject { groups.size }
+
+        it { should eq(2) }
+      end
+
+      context :total do
+        subject { groups.inject(0) {|sum, group| sum + group['total'].to_i} }
+
+        it { should eq(2) }
+      end
+    end
+
+    context "by type" do
+      let(:groups) { WorkPackage.by_type(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by version" do
+      let(:groups) { WorkPackage.by_version(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by priority" do
+      let(:groups) { WorkPackage.by_priority(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by category" do
+      let(:groups) { WorkPackage.by_category(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by assigned to" do
+      let(:groups) { WorkPackage.by_assigned_to(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by author" do
+      let(:groups) { WorkPackage.by_author(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by project" do
+      let(:project_2) { FactoryGirl.create(:project,
+                                           parent: project) }
+      let(:work_package_3) { FactoryGirl.create(:work_package,
+                                                project: project_2) }
+
+      before { work_package_3 }
+
+      let(:groups) { WorkPackage.by_author(project) }
+
+      it_behaves_like "group by"
+    end
+  end
+
   describe :new_statuses_allowed_to do
 
     let(:role) { FactoryGirl.create(:role) }

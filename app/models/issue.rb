@@ -223,57 +223,6 @@ class Issue < WorkPackage
     Issue.update_versions(["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
   end
 
-  # Extracted from the ReportsController.
-  def self.by_type(project)
-    count_and_group_by(:project => project,
-                       :field => 'type_id',
-                       :joins => Type.table_name)
-  end
-
-  def self.by_version(project)
-    count_and_group_by(:project => project,
-                       :field => 'fixed_version_id',
-                       :joins => Version.table_name)
-  end
-
-  def self.by_priority(project)
-    count_and_group_by(:project => project,
-                       :field => 'priority_id',
-                       :joins => IssuePriority.table_name)
-  end
-
-  def self.by_category(project)
-    count_and_group_by(:project => project,
-                       :field => 'category_id',
-                       :joins => IssueCategory.table_name)
-  end
-
-  def self.by_assigned_to(project)
-    count_and_group_by(:project => project,
-                       :field => 'assigned_to_id',
-                       :joins => User.table_name)
-  end
-
-  def self.by_author(project)
-    count_and_group_by(:project => project,
-                       :field => 'author_id',
-                       :joins => User.table_name)
-  end
-
-  def self.by_subproject(project)
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id,
-                                                s.is_closed as closed,
-                                                i.project_id as project_id,
-                                                count(i.id) as total
-                                              from
-                                                #{Issue.table_name} i, #{IssueStatus.table_name} s
-                                              where
-                                                i.status_id=s.id
-                                                and i.project_id IN (#{project.descendants.active.collect{|p| p.id}.join(',')})
-                                              group by s.id, s.is_closed, i.project_id") if project.descendants.active.any?
-  end
-  # End ReportsController extraction
-
   private
 
   # this removes all attachments separately before destroying the issue
@@ -309,32 +258,5 @@ class Issue < WorkPackage
     if assigned_to.nil? && category && category.assigned_to
       self.assigned_to = category.assigned_to
     end
-  end
-
-  # Query generator for selecting groups of issue counts for a project
-  # based on specific criteria
-  #
-  # Options
-  # * project - Project to search in.
-  # * field - String. Issue field to key off of in the grouping.
-  # * joins - String. The table name to join against.
-  def self.count_and_group_by(options)
-    project = options.delete(:project)
-    select_field = options.delete(:field)
-    joins = options.delete(:joins)
-
-    where = "i.#{select_field}=j.id"
-
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id,
-                                                s.is_closed as closed,
-                                                j.id as #{select_field},
-                                                count(i.id) as total
-                                              from
-                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{joins} j
-                                              where
-                                                i.status_id=s.id
-                                                and #{where}
-                                                and i.project_id=#{project.id}
-                                              group by s.id, s.is_closed, j.id")
   end
 end
