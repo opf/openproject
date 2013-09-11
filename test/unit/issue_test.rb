@@ -473,7 +473,7 @@ class IssueTest < ActiveSupport::TestCase
     assert_difference 'WorkPackage.count' do
       copy = issue.move_to_project(issue.project, nil, :copy => true)
     end
-    assert_kind_of Issue, copy
+    assert_kind_of WorkPackage, copy
     assert_equal issue.project, copy.project
     assert_equal "125", copy.custom_value_for(2).value
   end
@@ -485,7 +485,7 @@ class IssueTest < ActiveSupport::TestCase
       copy = issue.move_to_project(Project.find(3), Type.find(2), :copy => true)
     end
     copy.reload
-    assert_kind_of Issue, copy
+    assert_kind_of WorkPackage, copy
     assert_equal Project.find(3), copy.project
     assert_equal Type.find(2), copy.type
     # Custom field #2 is not associated with target type
@@ -535,7 +535,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_watcher_recipients_should_not_include_users_that_cannot_view_the_issue
-    issue = FactoryGirl.create :issue
+    issue = FactoryGirl.create :work_package
     user = FactoryGirl.create :user, :member_in_project => issue.project
     Watcher.create!(:user => user, :watchable => issue)
     issue.project.members.first.roles.first.remove_permission! :view_work_packages
@@ -672,7 +672,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_stale_issue_should_not_send_email_notification
     Journal.delete_all
     ActionMailer::Base.deliveries.clear
-    i = FactoryGirl.create :issue
+    i = FactoryGirl.create :work_package
     i.add_journal(User.find(1))
 
     issue = WorkPackage.find(i.id)
@@ -933,7 +933,7 @@ class IssueTest < ActiveSupport::TestCase
 
     before = WorkPackage.on_active_project.length
     # test inclusion to results
-    issue = WorkPackage.generate_for_project!(Project.find(1), :type => Project.find(2).types.first)
+    issue = FactoryGirl.create(:work_package, project: Project.find(1), type: Project.find(1).types.first)
     assert_equal before + 1, WorkPackage.on_active_project.length
 
     # Move to an archived project
@@ -947,7 +947,7 @@ class IssueTest < ActiveSupport::TestCase
       @project = Project.find(1)
       @author = User.generate_with_protected!
       @assignee = User.generate_with_protected!
-      @issue = WorkPackage.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
+      @issue = FactoryGirl.create(:work_package, project: @project, assigned_to: @assignee, author: @author)
     end
 
     should "include project recipients" do
