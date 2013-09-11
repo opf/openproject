@@ -349,11 +349,11 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
   end
 
   def quoted_legacy_journals_table_name
-    @@quoted_legacy_journals_table_name ||= quote_table_name 'legacy_journals'
+    @quoted_legacy_journals_table_name ||= quote_table_name 'legacy_journals'
   end
 
   def quoted_journals_table_name
-    @@quoted_journals_table_name ||= quote_table_name 'journals'
+    @quoted_journals_table_name ||= quote_table_name 'journals'
   end
 
   def check_assumptions
