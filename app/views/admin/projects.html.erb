@@ -75,8 +75,8 @@ See doc/COPYRIGHT.rdoc for more details.
                 :method => :put,
                 :class => 'icon icon-unlock') if !project.active? && (project.parent.nil? || project.parent.active?) %>
 
-    <%= link_to(l(:button_copy), copy_project_project_path(project),
-                :from => :admin,
+    <%= link_to(l(:button_copy),
+                copy_from_project_path(project, :admin),
                 :class => 'icon icon-copy') %>
 
     <%= link_to(l(:button_delete),

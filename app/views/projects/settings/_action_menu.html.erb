@@ -1,8 +1,8 @@
 <% content_for :action_menu_main do %>
-  <%= li_unless_nil(link_to(l(:button_copy), { :controller => '/projects',
-                                   :action => 'copy_project',
-                                   :from => :settings,
-                                   :id => project.id },
-                                   :class => 'copy icon icon-copy',
-                                   :accesskey => accesskey(:copy))) %>
+  <%= li_unless_nil(link_to_if_authorized(l(:button_copy),
+                                          { :controller => "projects",
+                                            :action => "copy_project",
+                                            :from => :settings },
+                                          :class => 'copy icon icon-copy',
+                                          :accesskey => accesskey(:copy))) %>
 <% end %>
