@@ -88,6 +88,7 @@ Redmine::AccessControl.map do |map|
   map.permission :manage_versions, {:projects => :settings, :versions => [:new, :create, :edit, :update, :close_completed, :destroy]}, :require => :member
   map.permission :manage_types, {:projects => :types}, :require => :member
   map.permission :add_subprojects, {:projects => [:new, :create]}, :require => :member
+  map.permission :copy_projects, {:projects => [:copy, :copy_project]}, :require => :member
 
   map.project_module :issue_tracking do |map|
     # Issue categories
