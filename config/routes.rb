@@ -156,7 +156,7 @@ OpenProject::Application.routes.draw do
       #
       get 'settings(/:tab)', :action => 'settings', :as => :settings
 
-      get :copy
+      get :copy_project
       post :copy
       put :modules
       put :archive

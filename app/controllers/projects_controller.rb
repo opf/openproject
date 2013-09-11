@@ -102,39 +102,43 @@ class ProjectsController < ApplicationController
   end
 
   def copy
+    UserMailer.with_deliveries(params[:notifications] == '1') do
+      @project = Project.new
+      @project.safe_attributes = params[:project]
+      @project.enabled_module_names = params[:enabled_modules]
+      if validate_parent_id && @project.copy(@source_project, :only => params[:only])
+        @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+        flash[:notice] = l(:notice_successful_create)
+        redirect_to :controller => '/projects', :action => 'settings', :id => @project
+      elsif !@project.new_record?
+        # Project was created
+        # But some objects were not copied due to validation failures
+        # (eg. issues from disabled types)
+        # TODO: inform about that
+        redirect_to :controller => '/projects', :action => 'settings', :id => @project
+      end
+    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to :back
+  end
+
+  def copy_project
+    from = params[:from] || :settings
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @types = Type.all
     @root_projects = Project.find(:all,
                                   :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
                                   :order => 'name')
     @source_project = Project.find(params[:id])
-    if request.get?
-      @project = Project.copy_from(@source_project)
-      if @project
-        @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
-      else
-        redirect_to :controller => '/admin', :action => 'projects'
-      end
+    @project = Project.copy_from(@source_project)
+    if @project
+      @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
     else
-      UserMailer.with_deliveries(params[:notifications] == '1') do
-        @project = Project.new
-        @project.safe_attributes = params[:project]
-        @project.enabled_module_names = params[:enabled_modules]
-        if validate_parent_id && @project.copy(@source_project, :only => params[:only])
-          @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-          flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => '/projects', :action => 'settings', :id => @project
-        elsif !@project.new_record?
-          # Project was created
-          # But some objects were not copied due to validation failures
-          # (eg. issues from disabled types)
-          # TODO: inform about that
-          redirect_to :controller => '/projects', :action => 'settings', :id => @project
-        end
-      end
+      redirect_to :back
     end
+    render :action => :"copy_from_#{from}"
   rescue ActiveRecord::RecordNotFound
-    redirect_to :controller => '/admin', :action => 'projects'
+    redirect_to :back
   end
 
   # Show @project
