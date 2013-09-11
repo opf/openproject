@@ -163,4 +163,92 @@ describe WorkPackage do
       end
     end
   end
+
+  shared_context "project with required custom field" do
+    before do
+      project.work_package_custom_fields << custom_field
+      type.custom_fields << custom_field
+
+      source.save
+    end
+  end
+
+  before do
+    def self.change_custom_field_value(work_package, value)
+      work_package.custom_field_values = { custom_field.id => value } unless value.nil?
+      work_package.save
+    end
+  end
+
+  let(:type) { FactoryGirl.create(:type_standard) }
+  let(:project) { FactoryGirl.create(:project, types: [type]) }
+  let (:custom_field) { FactoryGirl.create(:work_package_custom_field,
+                                           name: 'Database',
+                                           field_format: 'list',
+                                           possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
+                                           is_required: true) }
+
+  describe :copy_from do
+    include_context "project with required custom field"
+
+    let(:source) { FactoryGirl.build(:work_package) }
+    let(:sink) { FactoryGirl.build(:work_package) }
+
+    before do
+      source.project_id = project.id
+      change_custom_field_value(source, 'MySQL')
+    end
+
+    shared_examples_for "work package copy" do
+      context :subject do
+        subject { sink.subject }
+
+        it { should eq(source.subject) }
+      end
+
+      context :type do
+        subject { sink.type }
+
+        it { should eq(source.type) }
+      end
+
+      context :status do
+        subject { sink.status }
+
+        it { should eq(source.status) }
+      end
+
+      context :project do
+        subject { sink.project_id }
+
+        it { should eq(project_id) }
+      end
+    end
+
+    shared_examples_for "work package copy with custom field" do
+      it_behaves_like "work package copy"
+
+      context :custom_field do
+        subject { sink.custom_value_for(custom_field.id).value }
+
+        it { should eq('MySQL') }
+      end
+    end
+
+    context "should copy project" do
+      let(:project_id) { source.project_id }
+
+      before { sink.copy_from(source) }
+
+      it_behaves_like "work package copy with custom field"
+    end
+
+    context "should not copy excluded project" do
+      let(:project_id) { sink.project_id }
+
+      before { sink.copy_from(source, exclude: [:project_id]) }
+
+      it_behaves_like "work package copy"
+    end
+  end
 end
