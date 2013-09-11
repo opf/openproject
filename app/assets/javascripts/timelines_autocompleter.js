@@ -33,34 +33,41 @@
       if (!(this.element.attr("data-ajaxURL") === "" || this.element.attr("data-ajaxURL") === null || this.element.attr("data-ajaxURL") === undefined)) {
         this.opts.ajax.url = this.element.attr("data-ajaxURL");
       }
-
+      if (!($(this.element).attr("data-values") === "" || $(this.element).attr("data-values") === null || $(this.element).attr("data-values") === undefined)) {
+        this.opts.data.results = JSON.parse($(this.element).attr('data-values'));
+        delete this.opts.ajax;
+      }
     },
 
     setupInput: function () {
       var attrs_to_copy = {}, currentName, select2id, values = [];
 
-      $("input[name='" + $(this.element).attr("name")+"']").remove();
+      if ($(this.element).is("input")) {
+        this.fakeInput = $(this.element);
+      } else {
+        $("input[name='" + $(this.element).attr("name")+"']").remove();
 
-      for(var i = 0; i < $(this.element).get(0).attributes.length; i++) {
-        currentName = $(this.element).get(0).attributes[i].name;
-        if(currentName.indexOf("data-") === 0 || $.inArray(currentName, this.opts.allowedAttributes) !== -1) { //only ones starting with data-
-          attrs_to_copy[currentName] = $(this.element).attr(currentName);
+        for(var i = 0; i < $(this.element).get(0).attributes.length; i++) {
+          currentName = $(this.element).get(0).attributes[i].name;
+          if(currentName.indexOf("data-") === 0 || $.inArray(currentName, this.opts.allowedAttributes) !== -1) { //only ones starting with data-
+            attrs_to_copy[currentName] = $(this.element).attr(currentName);
+          }
         }
-      }
 
-      select2id = $(this.element).attr("id");
-      this.fakeInput = $(this.element).after("<input type='hidden' id='" + select2id + "'></input>").siblings(":input#" + select2id);
-      this.fakeInput.attr(attrs_to_copy);
-      if (!($(this.element).attr("data-selected") === "" || $(this.element).attr("data-selected") === null || $(this.element).attr("data-selected") === undefined)) {
-        JSON.parse($(this.element).attr('data-selected')).each(function (elem) {
-          values.push(elem[1]);
-        });
-        this.fakeInput.val(values);
+        select2id = $(this.element).attr("id");
+        this.fakeInput = $(this.element).after("<input type='hidden' id='" + select2id + "'></input>").siblings(":input#" + select2id);
+        this.fakeInput.attr(attrs_to_copy);
+        if (!($(this.element).attr("data-selected") === "" || $(this.element).attr("data-selected") === null || $(this.element).attr("data-selected") === undefined)) {
+          JSON.parse($(this.element).attr('data-selected')).each(function (elem) {
+            values.push(elem[1]);
+          });
+          this.fakeInput.val(values);
+        }
+        $(this.element).remove();
       }
     },
 
     initSelect2: function () {
-      $(this.element).remove();
       $(this.fakeInput).select2(this.opts);
 
       if (this.opts.sortable) {
@@ -85,10 +92,11 @@
     $(this).each(function () {
       autocompleter = new TimelinesAutocompleter($(this), args);
     });
-  }
+  };
 
   $.fn.timelinesAutocomplete.defaults = {
     multiple: true,
+    data: {},
     allowedAttributes: ["title", "placeholder", "id", "name"],
     minimumInputLength: 0,
     ajax: {
@@ -147,8 +155,22 @@
         JSON.parse($(element).attr('data-selected')).each(function (elem) {
           data.push({id: elem[1], name: elem[0]});
         });
+      } else if (element.is("input") && !(element.attr("data-values") === "" || element.attr("data-values") === null || element.attr("data-values") === undefined)) {
+        var possible = JSON.parse(element.attr('data-values'));
+        var vals = element.val().split(",");
+        var byID = {};
+
+        var i;
+        for (i = 0; i < possible.length; i += 1) {
+          byID[possible[i].id] = possible[i];
+        }
+
+        for (i = 0; i < vals.length; i += 1) {
+          data.push(byID[vals[i]]);
+        }
       }
-      return callback(data);
+
+      callback(data);
     }
-  }
+  };
 }(jQuery));
