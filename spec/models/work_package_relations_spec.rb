@@ -201,5 +201,90 @@ describe WorkPackage do
         it_behaves_like "following start date"
       end
     end
+
+    describe :all_dependant_issues do
+      let(:work_package_1) { FactoryGirl.create(:work_package) }
+      let(:work_package_2) { FactoryGirl.create(:work_package,
+                                                project: work_package_1.project) }
+      let(:work_package_3) { FactoryGirl.create(:work_package,
+                                                project: work_package_1.project) }
+      let(:work_package_4) { FactoryGirl.create(:work_package,
+                                                project: work_package_1.project) }
+
+      let(:relation_1) { FactoryGirl.create(:issue_relation,
+                                            issue_from: work_package_1,
+                                            issue_to: work_package_2,
+                                            relation_type: IssueRelation::TYPE_PRECEDES) }
+      let(:relation_2) { FactoryGirl.create(:issue_relation,
+                                            issue_from: work_package_2,
+                                            issue_to: work_package_3,
+                                            relation_type: IssueRelation::TYPE_PRECEDES) }
+
+      shared_examples_for "all dependant work packages visible" do
+        subject { work_package_1.all_dependent_issues.collect(&:id) }
+
+        it { should =~ expected_ids }
+      end
+
+      before do
+        relation_1
+        relation_2
+      end
+
+      context "w/o circular dependency" do
+        let(:expected_ids) { [work_package_2.id,
+                              work_package_3.id,
+                              work_package_4.id] }
+
+        let(:relation_3) { FactoryGirl.create(:issue_relation,
+                                              issue_from: work_package_3,
+                                              issue_to: work_package_4,
+                                              relation_type: IssueRelation::TYPE_PRECEDES) }
+        before { relation_3 }
+
+        it_behaves_like "all dependant work packages visible"
+      end
+
+      context "with circular dependency" do
+        let(:expected_ids) { [work_package_2.id,
+                              work_package_3.id] }
+
+        let(:relation_3) { FactoryGirl.build(:issue_relation,
+                                             issue_from: work_package_3,
+                                             issue_to: work_package_1,
+                                             relation_type: IssueRelation::TYPE_PRECEDES) }
+
+        before { relation_3.save(validate: false) }
+
+        it_behaves_like "all dependant work packages visible"
+      end
+
+      context "with multiple circular dependency" do
+        let(:expected_ids) { [work_package_2.id,
+                              work_package_3.id,
+                              work_package_4.id] }
+
+        let(:relation_3) { FactoryGirl.create(:issue_relation,
+                                              issue_from: work_package_3,
+                                              issue_to: work_package_4,
+                                              relation_type: IssueRelation::TYPE_PRECEDES) }
+        let(:relation_4) { FactoryGirl.build(:issue_relation,
+                                             issue_from: work_package_3,
+                                             issue_to: work_package_1,
+                                             relation_type: IssueRelation::TYPE_PRECEDES) }
+        let(:relation_5) { FactoryGirl.build(:issue_relation,
+                                             issue_from: work_package_4,
+                                             issue_to: work_package_2,
+                                             relation_type: IssueRelation::TYPE_PRECEDES) }
+
+        before do
+          relation_3.save(validate: false)
+          relation_4.save(validate: false)
+          relation_5.save(validate: false)
+        end
+
+        it_behaves_like "all dependant work packages visible"
+      end
+    end
   end
 end
