@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1876` Timelines do not show work packages when there is no status reporting
 * `#1896` Moved visibility-tests for issues into specs for workpackages
 * `#1912` Merge column project type with column planning element type
+* `#1918` Custom fields are not displayed when issue is created
 
 ## 3.0.0pre14
 
