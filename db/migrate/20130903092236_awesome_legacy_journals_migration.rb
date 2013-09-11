@@ -322,17 +322,24 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       SELECT DISTINCT tmp.id
       FROM (
         SELECT
-          a.id AS id, a.journaled_id, a.activity_type,
-          a.version AS version, count(b.id) AS count
+          a.id AS id,
+          a.journaled_id,
+          a.type,
+          a.version AS version,
+          count(b.id) AS count
         FROM
           #{quoted_legacy_journals_table_name} AS a
         LEFT JOIN
           #{quoted_legacy_journals_table_name} AS b
           ON a.version >= b.version
             AND a.journaled_id = b.journaled_id
-            AND a.activity_type = b.activity_type
+            AND a.type = b.type
         WHERE a.version > 1
-        GROUP BY a.id
+        GROUP BY
+          a.id,
+          a.journaled_id,
+          a.type,
+          a.version
       ) AS tmp
       WHERE
         NOT (tmp.version = tmp.count);
