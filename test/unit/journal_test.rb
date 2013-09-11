@@ -67,9 +67,9 @@ class JournalTest < ActiveSupport::TestCase
   end
 
   test "creating a journal should update the updated_on value of the parent record (touch)" do
-    @user = User.generate!
-    @project = Project.generate!
-    @issue = WorkPackage.generate_for_project!(@project).reload
+    @user = FactoryGirl.create(:user)
+    @project = FactoryGirl.create(:project)
+    @issue = FactoryGirl.create(:work_package, project: @project)
     start = @issue.updated_at
     sleep(1) # TODO: massive hack to make sure the timestamps are different. switch to timecop later
 
