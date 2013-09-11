@@ -209,6 +209,7 @@ var ModalHelper = (function() {
       //add closer
       modalDiv.parent().prepend('<div id="ui-dialog-closer" />').click(jQuery.proxy(this.close, this));
       jQuery('.ui-dialog-titlebar').hide();
+      jQuery('.ui-dialog-buttonpane').hide();
 
       this._firstLoad = false;
     }
