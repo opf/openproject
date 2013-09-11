@@ -28,6 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <h2><%=l(:label_settings)%></h2>
+<%= render :partial => 'projects/settings/action_menu', :locals => { project: @project } %>
 <% breadcrumb_paths(l(:label_settings)) %>
 
 <%= render_tabs project_settings_tabs %>
