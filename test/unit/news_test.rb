@@ -79,4 +79,16 @@ class NewsTest < ActiveSupport::TestCase
     10.times { projects(:projects_001).news.create(valid_news) }
     assert_equal 5, News.latest(users(:users_004)).size
   end
+
+  def test_to_param_should_include_id_and_title
+    title = "OpenProject now has a Twitter Account"
+    news  = News.create! valid_news.merge(:title => title)
+    slug  = "#{news.id}-openproject-now-has-a-twitter-account"
+
+    assert_equal news.to_param, slug
+  end
+
+  def test_to_param_should_return_nil_for_unsaved_news
+    assert_nil News.new.to_param
+  end
 end

@@ -65,6 +65,13 @@ class NewsControllerTest < ActionController::TestCase
     assert_tag :tag => 'h2', :content => /eCookbook first release/
   end
 
+  def test_show_with_slug
+    get :show, :id => '1-some-news-title'
+    assert_response :success
+    assert_template 'show'
+    assert_tag :tag => 'h2', :content => /eCookbook first release/
+  end
+
   def test_show_not_found
     get :show, :id => 999
     assert_response 404
