@@ -16,28 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_journalized_description
-    WorkPackageCustomField.delete_all
-
-    i = Issue.first
-    i.recreate_initial_journal!
-    i.reload
-    old_description = i.description
-    new_description = "This is the new description"
-
-    i.add_journal(User.find(2))
-    i.description = new_description
-    assert_difference 'Journal.count', 1 do
-      i.save!
-    end
-
-    journal = Journal.first(:order => 'id DESC')
-    assert_equal i, journal.journable
-    assert journal.changed_data.has_key? :description
-    assert_equal old_description, journal.old_value_for("description")
-    assert_equal new_description, journal.new_value_for("description")
-  end
-
   def test_all_dependent_issues
     IssueRelation.delete_all
     relation = IssueRelation.new.tap do |i|
