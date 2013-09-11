@@ -16,7 +16,7 @@ class EnumerationTest < ActiveSupport::TestCase
     super
     WorkPackage.delete_all
     @low_priority = FactoryGirl.create :priority_low
-    @issues = FactoryGirl.create_list :issue, 6, :priority => @low_priority
+    @issues = FactoryGirl.create_list :work_package, 6, :priority => @low_priority
     @default_enumeration = FactoryGirl.create :default_enumeration
   end
 

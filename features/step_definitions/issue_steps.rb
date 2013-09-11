@@ -99,7 +99,7 @@ Given (/^there are the following issues with attributes:$/) do |table|
     attributes.merge! :author_id => author.id if author
 
     watchers = attributes.delete("watched_by")
-    issue = FactoryGirl.create(:issue, attributes)
+    issue = FactoryGirl.create(:work_package, attributes)
 
     if watchers
       watchers.split(",").each {|w| issue.add_watcher User.find_by_login(w)}

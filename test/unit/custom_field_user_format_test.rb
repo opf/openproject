@@ -18,7 +18,7 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
     role   = FactoryGirl.create :role, :permissions => [:view_work_packages, :edit_work_packages]
     @users = FactoryGirl.create_list(:user, 5)
     @users.each {|user| @project.add_member!(user, role) }
-    @issue = FactoryGirl.create :issue,
+    @issue = FactoryGirl.create :work_package,
         :project => @project,
         :author => @users.first,
         :type => @project.types.first
