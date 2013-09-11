@@ -15,19 +15,31 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
   class IncompleteJournalsError < ::StandardError
   end
 
+  class LegacyJournalMigrator
+    attr_accessor :table_name
+
+    def initialize(table_name)
+      self.table_name = table_name
+    end
+
+    def column_names
+      @column_names ||= ActiveRecord::Base.connection.columns(table_name).map(&:name)
+    end
+  end
+
   def up
     check_assumptions
 
     previous_journaled_id, previous_type = 0, ""
     previous_journal = {}
-    journal_tables = {
-      "AttachmentJournal" => "attachment_journals",
-      "ChangesetJournal" => "changeset_journals",
-      "NewsJournal" => "news_journals",
-      "MessageJournal" => "message_journals",
-      "WorkPackageJournal" => "work_package_journals",
-      "TimeEntryJournal" => "time_entry_journals",
-      "WikiContentJournal" => "wiki_content_journals"
+    journal_classes = {
+      "AttachmentJournal" => LegacyJournalMigrator.new("attachment_journals"),
+      "ChangesetJournal" => LegacyJournalMigrator.new("changeset_journals"),
+      "NewsJournal" => LegacyJournalMigrator.new("news_journals"),
+      "MessageJournal" => LegacyJournalMigrator.new("message_journals"),
+      "WorkPackageJournal" => LegacyJournalMigrator.new("work_package_journals"),
+      "TimeEntryJournal" => LegacyJournalMigrator.new("time_entry_journals"),
+      "WikiContentJournal" => LegacyJournalMigrator.new("wiki_content_journals")
     }
 
     fetch_legacy_journals.each do |legacy_journal|
@@ -64,8 +76,19 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
       data = fetch_journal_data(journal_id, table)
 
-      keys = combined_journal.keys
-      values = combined_journal.values.map(&:last)
+      to_insert = combined_journal.inject({}) do |mem, (key, value)|
+        if journal_class.column_names.include?(key)
+          # The old journal's values attribute was structured like
+          # [old_value, new_value]
+          # We only need the new_value
+          mem[key] = value.last
+        end
+
+        mem
+      end
+
+      keys = to_insert.keys
+      values = to_insert.values
 
       migrate_key_value_pairs!(keys, values, table, legacy_journal, journal_id)
 
@@ -78,9 +101,8 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
         MESSAGE
 
       elsif data.size == 0
-
         execute <<-SQL
-          INSERT INTO #{quoted_table_name(table)}(journal_id#{", " + keys.join(", ") unless keys.empty? })
+          INSERT INTO #{quoted_table_name(table)} (journal_id#{", " + keys.collect{|k| map_key(k) }.join(", ") unless keys.empty? })
           VALUES (#{quote_value(journal_id)}#{", " + values.map{|d| quote_value(d)}.join(", ") unless values.empty?});
         SQL
 
@@ -102,7 +124,7 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
       sql_statements = <<-SQL + sql_statements unless keys.empty?
         UPDATE #{quoted_table_name(table)}
-           SET #{(keys.each_with_index.map {|k,i| "#{k} = #{quote_value(values[i])}"}).join(", ")}
+           SET #{(keys.each_with_index.map {|k,i| "#{map_key(k)} = #{quote_value(values[i])}"}).join(", ")}
          WHERE id = #{data["id"]};
       SQL
 
@@ -116,6 +138,15 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
   end
 
   private
+
+  def map_key(key)
+    case key
+    when "issue_id"
+      "work_package_id"
+    else
+      key
+    end
+  end
 
   def migrate_key_value_pairs!(keys, values, table, legacy_journal, journal_id)
     migrate_key_value_pairs_for_wiki_contents!(keys, values, table, legacy_journal, journal_id)
