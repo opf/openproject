@@ -474,8 +474,8 @@ class UserTest < ActiveSupport::TestCase
       should "authorize if user has at least one role that has this permission" do
         @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
         @anonymous = User.find(6)
-        assert @jsmith.allowed_to?(:delete_issue_watchers, nil, :global => true)
-        assert ! @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
+        assert @jsmith.allowed_to?(:delete_work_package_watchers, nil, :global => true)
+        assert ! @dlopper2.allowed_to?(:delete_work_package_watchers, nil, :global => true)
         assert @dlopper2.allowed_to?(:add_issues, nil, :global => true)
         assert ! @anonymous.allowed_to?(:add_issues, nil, :global => true)
         assert @anonymous.allowed_to?(:view_work_packages, nil, :global => true)
