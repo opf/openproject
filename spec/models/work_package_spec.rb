@@ -687,6 +687,30 @@ describe WorkPackage do
     end
   end
 
+  describe :recently_updated do
+    let(:work_package_1) { FactoryGirl.create(:work_package) }
+    let(:work_package_2) { FactoryGirl.create(:work_package) }
+
+    before do
+      work_package_1
+      work_package_2
+    end
+
+    context :with_limit do
+      context :length do
+        subject { WorkPackage.recently_updated.limit(1).length }
+
+        it { should eq(1) }
+      end
+
+      context :work_package do
+        subject { WorkPackage.recently_updated.limit(1).first }
+
+        it { should eq(work_package_2) }
+      end
+    end
+  end
+
   describe :new_statuses_allowed_to do
 
     let(:role) { FactoryGirl.create(:role) }

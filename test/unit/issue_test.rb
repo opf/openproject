@@ -16,12 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_recently_updated_with_limit_scopes
-    #should return the last updated issue
-    assert_equal 1, Issue.recently_updated.with_limit(1).length
-    assert_equal Issue.find(:first, :order => "updated_at DESC"), Issue.recently_updated.with_limit(1).first
-  end
-
   def test_on_active_projects_scope
     assert Project.find(2).archive
 
