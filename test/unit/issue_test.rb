@@ -16,45 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_create_should_send_email_notification
-    Journal.delete_all
-    ActionMailer::Base.deliveries.clear
-    issue = Issue.new.tap do |i|
-      i.force_attributes = { :project_id => 1,
-                             :type_id => 1,
-                             :author_id => 3,
-                             :status_id => 1,
-                             :priority => IssuePriority.all.first,
-                             :subject => 'test_create',
-                             :estimated_hours => '1:30' }
-    end
-
-    assert issue.save
-    assert_equal 2, ActionMailer::Base.deliveries.size
-  end
-
-  def test_stale_issue_should_not_send_email_notification
-    Journal.delete_all
-    ActionMailer::Base.deliveries.clear
-    i = FactoryGirl.create :issue
-    i.add_journal(User.find(1))
-
-    issue = Issue.find(i.id)
-    stale = Issue.find(i.id)
-
-    issue.subject = 'Subjet update'
-    assert issue.save
-    assert_equal 2, ActionMailer::Base.deliveries.size
-    ActionMailer::Base.deliveries.clear
-
-    stale.add_journal(User.find(1))
-    stale.subject = 'Another subjet update'
-    assert_raise ActiveRecord::StaleObjectError do
-      stale.save
-    end
-    assert ActionMailer::Base.deliveries.empty?
-  end
-
   def test_journalized_description
     WorkPackageCustomField.delete_all
 
