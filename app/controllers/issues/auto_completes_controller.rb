@@ -18,7 +18,7 @@ class Issues::AutoCompletesController < ApplicationController
     q = params[:q].to_s
 
     if q.present?
-      query = (params[:scope] == "all" && Setting.cross_project_issue_relations?) ? Issue : @project.work_packages
+      query = (params[:scope] == "all" && Setting.cross_project_issue_relations?) ? WorkPackage : @project.work_packages
 
       @issues |= query.visible.find_all_by_id(q.to_i) if q =~ /^\d+$/
 

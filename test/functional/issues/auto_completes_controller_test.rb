@@ -31,10 +31,10 @@ class Issues::AutoCompletesControllerTest < ActionController::TestCase
 
   test 'should return issues matching a given id' do
     @project = Project.find('subproject1')
-    @issue_21 = WorkPackage.generate_for_project!(@project, :id => 21)
-    @issue_2101 = WorkPackage.generate_for_project!(@project, :id => 2101)
-    @issue_2102 = WorkPackage.generate_for_project!(@project, :id => 2102)
-    @issue_with_subject = WorkPackage.generate_for_project!(@project, :subject => 'This has 21 in the subject')
+    @issue_21 = FactoryGirl.create(:work_package, project: @project, :id => 21)
+    @issue_2101 = FactoryGirl.create(:work_package, project: @project, :id => 2101)
+    @issue_2102 = FactoryGirl.create(:work_package, project: @project, :id => 2102)
+    @issue_with_subject = FactoryGirl.create(:work_package, project: @project, :subject => 'This has 21 in the subject')
 
     get :issues, :project_id => @project.id, :q => '21'
 

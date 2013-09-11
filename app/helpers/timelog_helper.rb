@@ -122,7 +122,7 @@ module TimelogHelper
       l(:label_none)
     elsif k = @available_criterias[criteria][:klass]
       obj = k.find_by_id(value.to_i)
-      if obj.is_a?(Issue)
+      if obj.is_a?(WorkPackage)
         obj.visible? ? h("#{obj.type} ##{obj.id}: #{obj.subject}") : h("##{obj.id}")
       else
         obj
