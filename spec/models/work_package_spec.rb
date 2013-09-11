@@ -13,7 +13,6 @@ require 'spec_helper'
 
 describe WorkPackage do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
-  let(:stub_user) { FactoryGirl.build_stubbed(:user) }
   let(:stub_version) { FactoryGirl.build_stubbed(:version) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:issue) { FactoryGirl.create(:issue) }
@@ -143,10 +142,26 @@ describe WorkPackage do
   end
 
   describe :assignable_users do
-    it 'should return all users the project deems to be assignable' do
-      stub_work_package.project.stub!(:assignable_users).and_return([stub_user])
+    let(:user) { FactoryGirl.build_stubbed(:user) }
 
-      stub_work_package.assignable_users.should include(stub_user)
+    context "single user" do
+      before { stub_work_package.project.stub(:assignable_users).and_return([user]) }
+
+      subject { stub_work_package.assignable_users }
+
+      it 'should return all users the project deems to be assignable' do
+        should include(user)
+      end
+    end
+
+    context "multiple users" do
+      let(:user_2) { FactoryGirl.build_stubbed(:user) }
+
+      before { stub_work_package.project.stub(:assignable_users).and_return([user, user_2]) }
+
+      subject { stub_work_package.assignable_users.uniq }
+
+      it { should eq(stub_work_package.assignable_users) }
     end
   end
 

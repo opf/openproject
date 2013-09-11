@@ -16,21 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  context "#assignable_users" do
-    should "be Users" do
-      assert_kind_of User, Issue.find(1).assignable_users.first
-    end
-
-    should "not show the issue author twice" do
-      assignable_user_ids = Issue.find(1).assignable_users.collect(&:id)
-      assert_equal 2, assignable_user_ids.length
-
-      assignable_user_ids.each do |user_id|
-        assert_equal 1, assignable_user_ids.select {|i| i == user_id}.length, "User #{user_id} appears more or less than once"
-      end
-    end
-  end
-
   def test_create_should_send_email_notification
     Journal.delete_all
     ActionMailer::Base.deliveries.clear
