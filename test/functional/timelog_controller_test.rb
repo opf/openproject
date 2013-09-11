@@ -227,7 +227,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
     assert_tag :form,
-      :attributes => {:action => issue_time_entries_path(1), :id => 'query_form'}
+      :attributes => {:action => work_package_time_entries_path(1), :id => 'query_form'}
   end
 
   def test_index_atom_feed
