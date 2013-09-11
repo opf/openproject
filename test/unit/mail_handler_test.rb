@@ -26,7 +26,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml', :allow_override => 'fixed_version')
-    assert issue.is_a?(Issue)
+    assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
     assert_equal Project.find(2), issue.project
@@ -56,7 +56,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_issue_with_default_type
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml', :issue => {:type => 'Support request'})
-    assert issue.is_a?(Issue)
+    assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
     assert_equal 'Support request', issue.type.name
@@ -65,7 +65,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_issue_with_status
     # This email contains: 'Project: onlinestore' and 'Status: Resolved'
     issue = submit_email('ticket_on_given_project.eml')
-    assert issue.is_a?(Issue)
+    assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
     assert_equal Project.find(2), issue.project
@@ -74,7 +74,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_with_attributes_override
     issue = submit_email('ticket_with_attributes.eml', :allow_override => 'type,category,priority')
-    assert issue.is_a?(Issue)
+    assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
@@ -88,7 +88,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_with_partial_attributes_override
     issue = submit_email('ticket_with_attributes.eml', :issue => {:priority => 'High'}, :allow_override => ['type'])
-    assert issue.is_a?(Issue)
+    assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
@@ -418,7 +418,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_should_strip_tags_of_html_only_emails
     issue = submit_email('ticket_html_only.eml', :issue => {:project => 'ecookbook'})
-    assert issue.is_a?(Issue)
+    assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
     assert_equal 'HTML email', issue.subject
@@ -505,7 +505,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_email_with_long_subject_line
     issue = submit_email('ticket_with_long_subject.eml')
-    assert issue.is_a?(Issue)
+    assert issue.is_a?(WorkPackage)
     assert_equal issue.subject, 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[0,255]
   end
 
@@ -577,7 +577,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def assert_issue_created(issue)
-    assert issue.is_a?(Issue)
+    assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
   end

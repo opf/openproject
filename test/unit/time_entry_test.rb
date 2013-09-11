@@ -83,7 +83,7 @@ class TimeEntryTest < ActiveSupport::TestCase
     setup do
       User.current = nil
       @public_project = Project.generate!(:is_public => true)
-      @issue = WorkPackage.generate_for_project!(@public_project)
+      @issue =FactoryGirl.create(:work_package, project: @public_project)
       TimeEntry.generate!(:spent_on => '2010-01-01',
                           :work_package => @issue,
                           :project => @public_project)
@@ -107,7 +107,7 @@ class TimeEntryTest < ActiveSupport::TestCase
     setup do
       User.current = nil
       @public_project = Project.generate!(:is_public => true)
-      @issue = WorkPackage.generate_for_project!(@public_project)
+      @issue = FactoryGirl.create(:work_package, project: @public_project)
       TimeEntry.generate!(:spent_on => '2010-01-01',
                           :work_package => @issue,
                           :project => @public_project)

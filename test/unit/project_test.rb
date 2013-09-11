@@ -777,7 +777,7 @@ class ProjectTest < ActiveSupport::TestCase
       assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open')
       @source_project.versions << assigned_version
       assert_equal 3, @source_project.versions.size
-      WorkPackage.generate_for_project!(@source_project,
+      FactoryGirl.create(:work_package, project: @source_project,
                                   :fixed_version_id => assigned_version.id,
                                   :subject => "change the new issues to use the copied version",
                                   :type_id => 1,
@@ -979,8 +979,8 @@ class ProjectTest < ActiveSupport::TestCase
 
     should "be the earliest start date of it's issues" do
       early = 7.days.ago.to_date
-      WorkPackage.generate_for_project!(@project, :start_date => Date.today)
-      WorkPackage.generate_for_project!(@project, :start_date => early)
+      FactoryGirl.create(:work_package, project: @project, :start_date => Date.today)
+      FactoryGirl.create(:work_package, project: @project, :start_date => early)
 
       assert_equal early, @project.start_date
     end
@@ -1002,8 +1002,8 @@ class ProjectTest < ActiveSupport::TestCase
 
     should "be the latest due date of it's issues" do
       future = 7.days.from_now.to_date
-      WorkPackage.generate_for_project!(@project, :due_date => future)
-      WorkPackage.generate_for_project!(@project, :due_date => Date.today)
+      FactoryGirl.create(:work_package, project: @project, :due_date => future)
+      FactoryGirl.create(:work_package, project: @project, :due_date => Date.today)
 
       assert_equal future, @project.due_date
     end
@@ -1021,7 +1021,7 @@ class ProjectTest < ActiveSupport::TestCase
     should "pick the latest date from it's issues and versions" do
       future = 7.days.from_now.to_date
       far_future = 14.days.from_now.to_date
-      WorkPackage.generate_for_project!(@project, :due_date => far_future)
+      FactoryGirl.create(:work_package, project: @project, :due_date => far_future)
       @project.versions << Version.generate!(:effective_date => future)
 
       assert_equal far_future, @project.due_date
@@ -1052,18 +1052,18 @@ class ProjectTest < ActiveSupport::TestCase
 
       should "return 100 if the version has only closed issues" do
         v1 = Version.generate!(:project => @project)
-        WorkPackage.generate_for_project!(@project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v1)
+        FactoryGirl.create(:work_package, project: @project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v1)
         v2 = Version.generate!(:project => @project)
-        WorkPackage.generate_for_project!(@project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v2)
+        FactoryGirl.create(:work_package, project: @project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v2)
 
         assert_equal 100, @project.completed_percent
       end
 
       should "return the averaged completed percent of the versions (not weighted)" do
         v1 = Version.generate!(:project => @project)
-        WorkPackage.generate_for_project!(@project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
+        FactoryGirl.create(:work_package, project: @project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
         v2 = Version.generate!(:project => @project)
-        WorkPackage.generate_for_project!(@project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
+        FactoryGirl.create(:work_package, project: @project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
 
         assert_equal 50, @project.completed_percent
       end

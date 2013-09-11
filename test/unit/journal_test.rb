@@ -89,7 +89,7 @@ class JournalTest < ActiveSupport::TestCase
   end
 
   test "setting journal fields through the journaled object for creation" do
-    @issue = WorkPackage.generate_for_project!(Project.generate!)
+    @issue = FactoryGirl.create(:work_package)
 
     @issue.add_journal @issue.author, 'Test setting fields on Journal from Issue'
     assert_difference('Journal.count') do
