@@ -759,6 +759,22 @@ $(window).bind('resizeEnd', function() {
     jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize();
 });
 
+  $.fn.mySlide = function(callback) {
+    if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
+      // no animations, just toggle
+      this.toggle();
+       if (typeof callback === 'function') {
+         callback.apply(this);
+       }
+      // this forces IE to redraw the menu area, un-bollocksing things
+      $("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
+    } else {
+      this.slideToggle(animationRate,callback);
+    }
+
+    return this;
+  };
+
 	$("#main-menu li:has(ul) > a").not("ul ul a")
 		// 1. unbind the current click functions
 		.unbind("click")
@@ -771,7 +787,7 @@ $(window).bind('resizeEnd', function() {
 
 			if ($(event.target).hasClass("toggler") ) {
                           var menuParent = $(this).toggleClass("open").parent().find("ul").not("ul ul ul");
-                          menuParent.mySlide(propagateOpenClose);
+                          menuParent.mySlide();
                           if ($(this).hasClass("open")) {
                             menuParent.find("li > a:first").focus();
                           }
