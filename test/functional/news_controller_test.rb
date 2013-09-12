@@ -105,8 +105,8 @@ class NewsControllerTest < ActionController::TestCase
   def test_put_update
     @request.session[:user_id] = 2
     put :update, :id => 1, :news => { :description => 'Description changed by test_post_edit' }
-    assert_redirected_to '/news/1'
     news = News.find(1)
+    assert_redirected_to news_path(news)
     assert_equal 'Description changed by test_post_edit', news.description
   end
 
