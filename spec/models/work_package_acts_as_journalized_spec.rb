@@ -73,7 +73,7 @@ describe WorkPackage do
     end
 
     context "on work package change" do
-      let(:parent_work_package) { FactoryGirl.create(:planning_element,
+      let(:parent_work_package) { FactoryGirl.create(:work_package,
                                                      :project_id => project.id,
                                                      :type => type,
                                                      :priority => priority) }

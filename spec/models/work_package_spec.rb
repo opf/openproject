@@ -837,15 +837,6 @@ describe WorkPackage do
         it_behaves_like "includes not expected users"
       end
     end
-
-    it "should copy over watchers" do
-      source.watchers.build(:user => stub_user)
-
-      sink.copy_from(source)
-
-      sink.should have(1).watchers
-      sink.watchers[0].user.should == stub_user
-    end
   end
 
   describe :new_statuses_allowed_to do
@@ -976,90 +967,84 @@ describe WorkPackage do
   end
 
   describe :update_by! do
-    #TODO remove once only WP exists
-    [:work_package].each do |subclass|
+    let(:instance) { FactoryGirl.create(:work_package) }
 
-      describe "for #{subclass}" do
-        let(:instance) { send(subclass) }
+    it "should return true" do
+      instance.update_by!(user, {}).should be_true
+    end
 
-        it "should return true" do
-          instance.update_by!(user, {}).should be_true
-        end
+    it "should set the values" do
+      instance.update_by!(user, { :subject => "New subject" })
 
-        it "should set the values" do
-          instance.update_by!(user, { :subject => "New subject" })
+      instance.subject.should == "New subject"
+    end
 
-          instance.subject.should == "New subject"
-        end
+    it "should create a journal with the journal's 'notes' attribute set to the supplied" do
+      instance.update_by!(user, { :notes => "blubs" })
 
-        it "should create a journal with the journal's 'notes' attribute set to the supplied" do
-          instance.update_by!(user, { :notes => "blubs" })
+      instance.journals.last.notes.should == "blubs"
+    end
 
-          instance.journals.last.notes.should == "blubs"
-        end
+    it "should attach an attachment" do
+      raw_attachments = [double('attachment')]
+      attachment = FactoryGirl.build(:attachment)
 
-        it "should attach an attachment" do
-          raw_attachments = [double('attachment')]
-          attachment = FactoryGirl.build(:attachment)
+      Attachment.should_receive(:attach_files)
+                .with(instance, raw_attachments)
+                .and_return(attachment)
 
-          Attachment.should_receive(:attach_files)
-                    .with(instance, raw_attachments)
-                    .and_return(attachment)
+      instance.update_by!(user, { :attachments => raw_attachments })
+    end
 
-          instance.update_by!(user, { :attachments => raw_attachments })
-        end
+    it "should only attach the attachment when saving was successful" do
+      raw_attachments = [double('attachment')]
 
-        it "should only attach the attachment when saving was successful" do
-          raw_attachments = [double('attachment')]
+      Attachment.should_not_receive(:attach_files)
 
-          Attachment.should_not_receive(:attach_files)
+      instance.update_by!(user, { :subject => "", :attachments => raw_attachments })
+    end
 
-          instance.update_by!(user, { :subject => "", :attachments => raw_attachments })
-        end
+    it "should add a time entry" do
+      activity = FactoryGirl.create(:time_entry_activity)
 
-        it "should add a time entry" do
-          activity = FactoryGirl.create(:time_entry_activity)
+      instance.update_by!(user, { :time_entry => { "hours" => "5",
+                                                  "activity_id" => activity.id.to_s,
+                                                  "comments" => "blubs" } } )
 
-          instance.update_by!(user, { :time_entry => { "hours" => "5",
-                                                      "activity_id" => activity.id.to_s,
-                                                      "comments" => "blubs" } } )
+      instance.should have(1).time_entries
 
-          instance.should have(1).time_entries
+      entry = instance.time_entries.first
 
-          entry = instance.time_entries.first
+      entry.should be_persisted
+      entry.work_package.should == instance
+      entry.user.should == user
+      entry.project.should == instance.project
+      entry.spent_on.should == Date.today
+    end
 
-          entry.should be_persisted
-          entry.work_package.should == instance
-          entry.user.should == user
-          entry.project.should == instance.project
-          entry.spent_on.should == Date.today
-        end
+    it "should not persist the time entry if the work package update fails" do
+      activity = FactoryGirl.create(:time_entry_activity)
 
-        it "should not persist the time entry if the #{subclass}'s update fails" do
-          activity = FactoryGirl.create(:time_entry_activity)
+      instance.update_by!(user, { :subject => '',
+                                 :time_entry => { "hours" => "5",
+                                                  "activity_id" => activity.id.to_s,
+                                                  "comments" => "blubs" } } )
 
-          instance.update_by!(user, { :subject => '',
-                                     :time_entry => { "hours" => "5",
-                                                      "activity_id" => activity.id.to_s,
-                                                      "comments" => "blubs" } } )
+      instance.should have(1).time_entries
 
-          instance.should have(1).time_entries
+      entry = instance.time_entries.first
 
-          entry = instance.time_entries.first
+      entry.should_not be_persisted
+    end
 
-          entry.should_not be_persisted
-        end
+    it "should not add a time entry if the time entry attributes are empty" do
+      time_attributes = { "hours" => "",
+                          "activity_id" => "",
+                          "comments" => "" }
 
-        it "should not add a time entry if the time entry attributes are empty" do
-          time_attributes = { "hours" => "",
-                              "activity_id" => "",
-                              "comments" => "" }
+      instance.update_by!(user, :time_entry => time_attributes)
 
-          instance.update_by!(user, :time_entry => time_attributes)
-
-          instance.should have(0).time_entries
-        end
-      end
+      instance.should have(0).time_entries
     end
   end
 

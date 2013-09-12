@@ -203,6 +203,13 @@ class WorkPackage < ActiveRecord::Base
   # after_save hook, we rely on after_save and a specific version here.
   after_save :reload_lock_and_timestamps, :if => Proc.new { |wp| wp.lock_version == 0 }
 
+  def description=(description)
+    # Bug #501: browsers might swap the line endings causing a Journal.
+    if description.nil? || description.gsub(/\r\n?/,"\n") != self.description
+      write_attribute :description, description
+    end
+  end
+
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_work_packages, options)
@@ -496,13 +503,6 @@ class WorkPackage < ActiveRecord::Base
         attrs.delete('parent_id')
       elsif !attrs['parent_id'].blank?
         attrs.delete('parent_id') unless WorkPackage.visible(user).exists?(attrs['parent_id'].to_i)
-      end
-    end
-
-    # Bug #501: browsers might swap the line endings causing a Journal.
-    if attrs.has_key?('description') && attrs['description'].present?
-      if attrs['description'].gsub(/\r\n?/,"\n") == self.description
-        attrs.delete('description')
       end
     end
 

@@ -223,6 +223,12 @@ describe WorkPackage do
 
         it { should eq(project_id) }
       end
+
+      context :watchers do
+        subject { sink.watchers.map(&:user_id) }
+
+        it { should =~ source.watchers.map(&:user_id) }
+      end
     end
 
     shared_examples_for "work package copy with custom field" do
@@ -235,20 +241,36 @@ describe WorkPackage do
       end
     end
 
-    context "should copy project" do
+    context "with project" do
       let(:project_id) { source.project_id }
 
-      before { sink.copy_from(source) }
+      describe "should copy project" do
 
-      it_behaves_like "work package copy with custom field"
-    end
+        before { sink.copy_from(source) }
 
-    context "should not copy excluded project" do
-      let(:project_id) { sink.project_id }
+        it_behaves_like "work package copy with custom field"
+      end
 
-      before { sink.copy_from(source, exclude: [:project_id]) }
+      describe "should not copy excluded project" do
+        let(:project_id) { sink.project_id }
 
-      it_behaves_like "work package copy"
+        before { sink.copy_from(source, exclude: [:project_id]) }
+
+        it_behaves_like "work package copy"
+      end
+
+      describe "should copy over watchers" do
+        let(:project_id) { sink.project_id }
+        let(:stub_user) { FactoryGirl.build_stubbed(:user) }
+
+        before do
+          source.watchers.build(user: stub_user)
+
+          sink.copy_from(source)
+        end
+
+        it_behaves_like "work package copy"
+      end
     end
   end
 end
