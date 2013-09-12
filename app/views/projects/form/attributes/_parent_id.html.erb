@@ -1,0 +1,6 @@
+<% unless project.allowed_parents.compact.empty? %>
+  <p>
+    <%= label(:project, :parent_id, Project.human_attribute_name(:parent)) %>
+    <%= parent_project_select_tag(project) %>
+  </p>
+<% end %>
