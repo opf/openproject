@@ -25,7 +25,7 @@ class QueryColumn
   end
 
   def caption
-    Issue.human_attribute_name(@caption_key)
+    WorkPackage.human_attribute_name(@caption_key)
   end
 
   # Returns true if the column is sortable, otherwise false

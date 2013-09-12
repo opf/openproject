@@ -73,19 +73,6 @@ module ApplicationHelper
     end
   end
 
-  def link_to_issue_preview(context = nil, options = {})
-    url = context.is_a?(Project) ?
-            preview_new_project_issues_path(:project_id => context) :
-            preview_issue_path(context)
-
-    id = options[:form_id] || 'issue-form-preview'
-
-    link_to l(:label_preview),
-            url,
-            :id => id,
-            :class => 'preview'
-  end
-
   def link_to_work_package_preview(context = nil, options = {})
     url = context.is_a?(Project) ?
             preview_project_work_packages_path(context) :

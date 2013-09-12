@@ -474,8 +474,8 @@ class UserTest < ActiveSupport::TestCase
       should "authorize if user has at least one role that has this permission" do
         @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
         @anonymous = User.find(6)
-        assert @jsmith.allowed_to?(:delete_issue_watchers, nil, :global => true)
-        assert ! @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
+        assert @jsmith.allowed_to?(:delete_work_package_watchers, nil, :global => true)
+        assert ! @dlopper2.allowed_to?(:delete_work_package_watchers, nil, :global => true)
         assert @dlopper2.allowed_to?(:add_issues, nil, :global => true)
         assert ! @anonymous.allowed_to?(:add_issues, nil, :global => true)
         assert @anonymous.allowed_to?(:view_work_packages, nil, :global => true)
@@ -489,7 +489,7 @@ class UserTest < ActiveSupport::TestCase
         @project = Project.find(1)
         @author = User.generate_with_protected!
         @assignee = User.generate_with_protected!
-        @issue = Issue.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
+        @issue = FactoryGirl.create(:work_package, project: @project, :assigned_to => @assignee, :author => @author)
       end
 
       should "be true for a user with :all" do

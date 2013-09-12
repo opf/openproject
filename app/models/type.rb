@@ -97,6 +97,6 @@ class Type < ActiveRecord::Base
 
 private
   def check_integrity
-    raise "Can't delete type" if Issue.find(:first, :conditions => ["type_id=?", self.id])
+    raise "Can't delete type" if WorkPackage.find(:first, :conditions => ["type_id=?", self.id])
   end
 end

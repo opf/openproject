@@ -26,7 +26,6 @@ Feature: Issue edit
       | name   | Immediate |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | add_issues         |
       | add_work_packages  |
       | view_work_packages |
       | edit_work_packages |

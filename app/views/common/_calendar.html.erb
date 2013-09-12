@@ -22,7 +22,7 @@ while day <= calendar.enddt %>
 <td class="<%= day.month==calendar.month ? 'even' : 'odd' %><%= ' today' if Date.today == day %>">
 <p class="day-num"><%= day.day %></p>
 <% calendar.events_on(day).each do |i| %>
-  <% if i.is_a? Issue %>
+  <% if i.is_a? WorkPackage %>
   <div class="<%= work_package_css_classes(i) %> tooltip">
   <%= h("#{i.project} -") unless @project && @project == i.project %>
   <%# date_img = '' %>

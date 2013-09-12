@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p><%= setting_text_field :commit_fix_keywords, :size => 30 %>
 &nbsp;<%= l(:label_applied_status) %>: <%= setting_select :commit_fix_status_id, [["", 0]] + IssueStatus.find(:all).collect{|status| [status.name, status.id.to_s]}, :label => false %>
-&nbsp;<%= Issue.human_attribute_name(:done_ratio) %>: <%= setting_select :commit_fix_done_ratio, (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, :blank => :label_no_change_option, :label => false %>
+&nbsp;<%= WorkPackage.human_attribute_name(:done_ratio) %>: <%= setting_select :commit_fix_done_ratio, (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, :blank => :label_no_change_option, :label => false %>
 <br /><em><%= l(:text_comma_separated) %></em></p>
 
 <p><%= setting_check_box :commit_logtime_enabled,

@@ -55,10 +55,10 @@ describe SystemUser do
                                               :roles => [role],
                                               :principal => user) }
     let(:issue_status) { FactoryGirl.create(:issue_status) }
-    let(:issue) { FactoryGirl.build(:issue, :type => project.types.first,
-                                            :author => user,
-                                            :project => project,
-                                            :status => issue_status) }
+    let(:issue) { FactoryGirl.build(:work_package, :type => project.types.first,
+                                                   :author => user,
+                                                   :project => project,
+                                                   :status => issue_status) }
 
     before do
       issue.save!

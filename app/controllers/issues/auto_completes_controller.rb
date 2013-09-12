@@ -18,14 +18,14 @@ class Issues::AutoCompletesController < ApplicationController
     q = params[:q].to_s
 
     if q.present?
-      query = (params[:scope] == "all" && Setting.cross_project_issue_relations?) ? Issue : @project.work_packages
+      query = (params[:scope] == "all" && Setting.cross_project_issue_relations?) ? WorkPackage : @project.work_packages
 
       @issues |= query.visible.find_all_by_id(q.to_i) if q =~ /^\d+$/
 
       @issues |= query.visible.find(:all,
                                     :limit => 10,
-                                    :order => "#{Issue.table_name}.id ASC",
-                                    :conditions => ["LOWER(#{Issue.table_name}.subject) LIKE :q OR CAST(#{Issue.table_name}.id AS CHAR(13)) LIKE :q", {:q => "%#{q.downcase}%" }])
+                                    :order => "#{WorkPackage.table_name}.id ASC",
+                                    :conditions => ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q", {:q => "%#{q.downcase}%" }])
     end
 
     render :layout => false

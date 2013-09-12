@@ -18,7 +18,7 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
     role   = FactoryGirl.create :role, :permissions => [:view_work_packages, :edit_work_packages]
     @users = FactoryGirl.create_list(:user, 5)
     @users.each {|user| @project.add_member!(user, role) }
-    @issue = FactoryGirl.create :issue,
+    @issue = FactoryGirl.create :work_package,
         :project => @project,
         :author => @users.first,
         :type => @project.types.first
@@ -37,7 +37,7 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   end
 
   def test_possible_values_with_nil_project_resource
-    assert_equal [], @field.possible_values(Issue.new)
+    assert_equal [], @field.possible_values(WorkPackage.new)
   end
 
   def test_possible_values_options_with_no_arguments

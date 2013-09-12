@@ -13,12 +13,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <h1><%= link_to issue.to_s, work_package_url(issue) %></h1>
 
 <ul>
-  <li><%= Issue.human_attribute_name(:author)        %>: <%= issue.author        %></li>
-  <li><%= Issue.human_attribute_name(:status)        %>: <%= issue.status        %></li>
-  <li><%= Issue.human_attribute_name(:priority)      %>: <%= issue.priority      %></li>
-  <li><%= Issue.human_attribute_name(:assigned_to)   %>: <%= issue.assigned_to   %></li>
-  <li><%= Issue.human_attribute_name(:category)      %>: <%= issue.category      %></li>
-  <li><%= Issue.human_attribute_name(:fixed_version) %>: <%= issue.fixed_version %></li>
+  <li><%= WorkPackage.human_attribute_name(:author)        %>: <%= issue.author        %></li>
+  <li><%= WorkPackage.human_attribute_name(:status)        %>: <%= issue.status        %></li>
+  <li><%= WorkPackage.human_attribute_name(:priority)      %>: <%= issue.priority      %></li>
+  <li><%= WorkPackage.human_attribute_name(:assigned_to)   %>: <%= issue.assigned_to   %></li>
+  <li><%= WorkPackage.human_attribute_name(:category)      %>: <%= issue.category      %></li>
+  <li><%= WorkPackage.human_attribute_name(:fixed_version) %>: <%= issue.fixed_version %></li>
 
   <% issue.custom_field_values.each do |value| %>
     <li><%= value.custom_field.name %>: <%= show_value(value) %></li>
