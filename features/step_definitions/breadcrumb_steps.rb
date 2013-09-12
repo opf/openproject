@@ -9,10 +9,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Then /^the breadcrumb should contain "(.+)"$/ do |string|
-  container = ChiliProject::VERSION::MAJOR < 2 ?  "p.breadcrumb a" : "#breadcrumb a"
-
-  steps %Q{ Then I should see "#{string}" within "#{container}" }
+Then /^the breadcrumbs should (not )?have the element "(.+)"$/ do |negation, string|
+  # find all descendants of an element with id 'breadcrumb' that have a child text node equalling
+  # string
+  selector = have_xpath("//*[@id='breadcrumb']//*[text()='#{string}']")
+  if negation == 'not '
+    should_not selector
+  else
+    should selector
+  end
 end
-
-

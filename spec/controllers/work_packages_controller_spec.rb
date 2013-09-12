@@ -16,14 +16,14 @@ describe WorkPackagesController do
   before do
     User.stub(:current).and_return current_user
     # disables sending mails
-    UserMailer.stub!(:new).and_return(double('mailer').as_null_object)
+    UserMailer.stub(:new).and_return(double('mailer').as_null_object)
   end
 
-  let(:planning_element) { FactoryGirl.create(:planning_element, :project_id => project.id) }
+  let(:planning_element) { FactoryGirl.create(:work_package, :project_id => project.id) }
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
-  let(:stub_planning_element) { FactoryGirl.build_stubbed(:planning_element, :project_id => stub_project.id) }
+  let(:stub_planning_element) { FactoryGirl.build_stubbed(:work_package, :project_id => stub_project.id) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project, :identifier => 'test_project', :is_public => false) }
-  let(:stub_issue) { FactoryGirl.build_stubbed(:issue, :project_id => stub_project.id) }
+  let(:stub_issue) { FactoryGirl.build_stubbed(:work_package, :project_id => stub_project.id) }
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
   let(:stub_work_package) { double("work_package", :id => 1337, :project => stub_project).as_null_object }
 
@@ -329,7 +329,7 @@ describe WorkPackagesController do
           params[:attachments] = 'attachment-blubs-data'
 
           Attachment.should_receive(:attach_files).with(stub_work_package, params[:attachments])
-          controller.stub!(:render_attachment_warning_if_needed)
+          controller.stub(:render_attachment_warning_if_needed)
 
           call_action
         end
@@ -516,39 +516,9 @@ describe WorkPackagesController do
         Project.stub(:find_visible).and_return stub_project
       end
 
-      describe 'when the type is "PlanningElement"' do
+      describe 'when we copy stuff' do
         before do
-          controller.params = { :sti_type => 'PlanningElement',
-                                :work_package => {} }.merge(params)
-
-          controller.stub(:current_user).and_return(stub_user)
-          controller.send(:permitted_params).should_receive(:new_work_package)
-                                            .with(:project => stub_project)
-                                            .and_return(wp_params)
-
-          stub_project.should_receive(:add_planning_element) do |args|
-
-            expect(args[:author]).to eql stub_user
-
-          end.and_return(stub_planning_element)
-        end
-
-        it 'should return a new planning element on the project' do
-          controller.work_package.should == stub_planning_element
-        end
-
-        it 'should copy over attributes from another work_package provided as the source' do
-          controller.params[:copy_from] = 2
-          stub_planning_element.should_receive(:copy_from).with(2, :exclude => [:project_id])
-
-          controller.work_package
-        end
-      end
-
-      describe 'when the type is "Issue"' do
-        before do
-          controller.params = { :sti_type => 'Issue',
-                                :work_package => {} }.merge(params)
+          controller.params = { :work_package => {} }.merge(params)
 
           controller.stub(:current_user).and_return(stub_user)
           controller.send(:permitted_params).should_receive(:new_work_package)
@@ -586,15 +556,6 @@ describe WorkPackagesController do
 
         end
       end
-
-      describe 'when the sti_type is "Project"' do
-        it "should raise not allowed" do
-          controller.params = { :sti_type => 'Project',
-                                :project_id => stub_project.id }.merge(params)
-
-          expect { controller.work_package }.to raise_error ArgumentError
-        end
-      end
     end
 
     describe 'when providing neither id nor project_id (error)' do
@@ -621,13 +582,13 @@ describe WorkPackagesController do
       planning_element.save
       planning_element.reload
 
-      controller.stub!(:work_package).and_return(planning_element)
+      controller.stub(:work_package).and_return(planning_element)
 
       controller.journals.should == [planning_element.journals.last]
     end
 
     it "should be empty if the work_package has only one journal" do
-      controller.stub!(:work_package).and_return(planning_element)
+      controller.stub(:work_package).and_return(planning_element)
 
       controller.journals.should be_empty
     end
@@ -639,13 +600,13 @@ describe WorkPackagesController do
     let(:changesets) { [change1, change2] }
 
     before do
-      planning_element.stub!(:changesets).and_return(changesets)
+      planning_element.stub(:changesets).and_return(changesets)
       # couldn't get stub_chain to work
       # https://www.relishapp.com/rspec/rspec-mocks/v/2-0/docs/stubs/stub-a-chain-of-methods
       [:visible, :all, :includes].each do |meth|
-        changesets.stub!(meth).and_return(changesets)
+        changesets.stub(meth).and_return(changesets)
       end
-      controller.stub!(:work_package).and_return(planning_element)
+      controller.stub(:work_package).and_return(planning_element)
     end
 
     it "should have all the work_package's changesets" do
@@ -653,9 +614,9 @@ describe WorkPackagesController do
     end
 
     it "should have all the work_package's changesets in reverse order if the user wan'ts it that way" do
-      controller.stub!(:current_user).and_return(stub_user)
+      controller.stub(:current_user).and_return(stub_user)
 
-      stub_user.stub!(:wants_comments_in_reverse_order?).and_return(true)
+      stub_user.stub(:wants_comments_in_reverse_order?).and_return(true)
 
       controller.changesets.should == [change2, change1]
     end
@@ -667,19 +628,19 @@ describe WorkPackagesController do
     let(:relations) { [relation] }
 
     before do
-      controller.stub!(:work_package).and_return(stub_issue)
+      controller.stub(:work_package).and_return(stub_issue)
       stub_issue.stub(:relations).and_return(relations)
-      relations.stub!(:includes).and_return(relations)
+      relations.stub(:includes).and_return(relations)
     end
 
     it "should return all the work_packages's relations visible to the user" do
-      stub_planning_element.stub!(:visible?).and_return(true)
+      stub_planning_element.stub(:visible?).and_return(true)
 
       controller.relations.should == relations
     end
 
     it "should not return relations invisible to the user" do
-      stub_planning_element.stub!(:visible?).and_return(false)
+      stub_planning_element.stub(:visible?).and_return(false)
 
       controller.relations.should == []
     end
@@ -687,27 +648,27 @@ describe WorkPackagesController do
 
   describe :ancestors do
     let(:project) { FactoryGirl.create(:project_with_types) }
-    let(:ancestor_issue) { FactoryGirl.create(:issue, :project => project) }
-    let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_id => ancestor_issue.id) }
+    let(:ancestor_issue) { FactoryGirl.create(:work_package, :project => project) }
+    let(:issue) { FactoryGirl.create(:work_package, :project => project, :parent_id => ancestor_issue.id) }
 
     become_member_with_view_planning_element_permissions
 
     describe "when work_package is an issue" do
-      let(:ancestor_issue) { FactoryGirl.create(:issue, :project => project) }
-      let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_id => ancestor_issue.id) }
+      let(:ancestor_issue) { FactoryGirl.create(:work_package, :project => project) }
+      let(:issue) { FactoryGirl.create(:work_package, :project => project, :parent_id => ancestor_issue.id) }
 
       it "should return the work_packages ancestors" do
-        controller.stub!(:work_package).and_return(issue)
+        controller.stub(:work_package).and_return(issue)
 
         controller.ancestors.should == [ancestor_issue]
       end
     end
 
     describe "when work_package is a planning element" do
-      let(:descendant_planning_element) { FactoryGirl.create(:planning_element, :project => project,
+      let(:descendant_planning_element) { FactoryGirl.create(:work_package, :project => project,
                                                                                 :parent_id => planning_element.id) }
       it "should return the work_packages ancestors" do
-        controller.stub!(:work_package).and_return(descendant_planning_element)
+        controller.stub(:work_package).and_return(descendant_planning_element)
 
         controller.ancestors.should == [planning_element]
       end
@@ -728,7 +689,7 @@ describe WorkPackagesController do
     it "should return all defined priorities" do
       expected = double('priorities')
 
-      IssuePriority.stub!(:all).and_return(expected)
+      IssuePriority.stub(:all).and_return(expected)
 
       controller.priorities.should == expected
     end
@@ -738,9 +699,9 @@ describe WorkPackagesController do
     it "should return all statuses allowed by the issue" do
       expected = double('statuses')
 
-      controller.stub!(:work_package).and_return(stub_issue)
+      controller.stub(:work_package).and_return(stub_issue)
 
-      stub_issue.stub!(:new_statuses_allowed_to).with(current_user).and_return(expected)
+      stub_issue.stub(:new_statuses_allowed_to).with(current_user).and_return(expected)
 
       controller.allowed_statuses.should == expected
     end
@@ -748,16 +709,37 @@ describe WorkPackagesController do
 
   describe :time_entry do
     before do
-      controller.stub!(:work_package).and_return(stub_planning_element)
+      controller.stub(:work_package).and_return(stub_planning_element)
     end
 
     it "should return a time entry" do
       expected = double('time_entry')
 
-      stub_planning_element.stub!(:add_time_entry).and_return(expected)
+      stub_planning_element.stub(:add_time_entry).and_return(expected)
 
       controller.time_entry.should == expected
     end
   end
 
+  describe "quotation" do
+    let(:call_action) { get :quoted }
+
+    requires_permission_in_project do
+      context "description" do
+        subject { get :quoted, id: planning_element.id }
+
+        it { should be_success }
+        it { should render_template('edit') }
+      end
+
+      context "journal" do
+        let(:journal_id) { planning_element.journals.first.id }
+
+        subject { get :quoted, id: planning_element.id, journal_id: journal_id }
+
+        it { should be_success }
+        it { should render_template('edit') }
+      end
+    end
+  end
 end

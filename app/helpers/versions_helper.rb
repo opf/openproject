@@ -20,12 +20,12 @@ module VersionsHelper
     h = Hash.new {|k,v| k[v] = [0, 0]}
     begin
       # Total issue count
-      Issue.count(:group => criteria,
-                  :conditions => ["#{Issue.table_name}.fixed_version_id = ?", version.id]).each {|c,s| h[c][0] = s}
+      WorkPackage.count(:group => criteria,
+                  :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ?", version.id]).each {|c,s| h[c][0] = s}
       # Open issues count
-      Issue.count(:group => criteria,
+      WorkPackage.count(:group => criteria,
                   :include => :status,
-                  :conditions => ["#{Issue.table_name}.fixed_version_id = ? AND #{IssueStatus.table_name}.is_closed = ?", version.id, false]).each {|c,s| h[c][1] = s}
+                  :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ? AND #{IssueStatus.table_name}.is_closed = ?", version.id, false]).each {|c,s| h[c][1] = s}
     rescue ActiveRecord::RecordNotFound
     # When grouping by an association, Rails throws this exception if there's no result (bug)
     end
@@ -36,6 +36,6 @@ module VersionsHelper
   end
 
   def status_by_options_for_select(value)
-    options_for_select(STATUS_BY_CRITERIAS.collect {|criteria| [Issue.human_attribute_name(criteria.to_sym), criteria]}, value)
+    options_for_select(STATUS_BY_CRITERIAS.collect {|criteria| [WorkPackage.human_attribute_name(criteria.to_sym), criteria]}, value)
   end
 end

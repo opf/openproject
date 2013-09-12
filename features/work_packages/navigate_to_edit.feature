@@ -1,3 +1,14 @@
+#-- copyright
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 Feature: Navigating to the work package edit page
 
   Background:
@@ -16,7 +27,7 @@ Feature: Navigating to the work package edit page
 
     And the user "manager" is a "manager"
 
-    And there are the following planning elements in project "ecookbook":
+    And there are the following work packages in project "ecookbook":
       | subject |
       | pe1     |
 

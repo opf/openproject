@@ -23,7 +23,7 @@ describe 'api/v2/planning_elements/show.api.rsb' do
     params[:format] = 'xml'
   end
 
-  let(:planning_element) { FactoryGirl.build(:planning_element) }
+  let(:planning_element) { FactoryGirl.build(:work_package) }
 
   describe 'with an assigned planning element' do
     it 'renders a planning_element document' do
@@ -73,7 +73,7 @@ describe 'api/v2/planning_elements/show.api.rsb' do
 
     it 'countains an array of journals' do
       # prevents problems related to the journal not having a user associated
-      User.stub!(:current).and_return(user)
+      User.stub(:current).and_return(user)
 
       journal_1.stub(:journable).and_return planning_element
       journal_2.stub(:journable).and_return planning_element

@@ -81,17 +81,17 @@ module NavigationHelpers
       "/activity"
 
     when /^the page (?:for|of) the issue "([^\"]+)"$/
-      issue = Issue.find_by_subject($1)
+      issue = WorkPackage.find_by_subject($1)
       "/work_packages/#{issue.id}"
 
     when /^the edit page (?:for|of) the issue "([^\"]+)"$/
-      issue = Issue.find_by_subject($1)
+      issue = WorkPackage.find_by_subject($1)
       "/issues/#{issue.id}/edit"
 
-    when /^the copy page (?:for|of) the issue "([^\"]+)"$/
-      issue = Issue.find_by_subject($1)
-      project = issue.project
-      "/projects/#{project.identifier}/issues/#{issue.id}/copy"
+    when /^the copy page (?:for|of) the work package "([^\"]+)"$/
+      package = WorkPackage.find_by_subject($1)
+      project = package.project
+      "/projects/#{project.identifier}/work_packages/new?copy_from=#{package.id}"
 
     when /^the work packages? index page (?:for|of) (the)? project(?: called)? (.+)$/
        project_identifier = $2.gsub("\"", "")
@@ -269,7 +269,7 @@ module NavigationHelpers
 
     when /^the page of the planning element "([^\"]+)" of the project called "([^\"]+)"$/
       planning_element_name = $1
-      planning_element = PlanningElement.find_by_subject(planning_element_name)
+      planning_element = WorkPackage.find_by_subject(planning_element_name)
       "/work_packages/#{planning_element.id}"
 
     when /^the (.+) page (?:for|of) the project called "([^\"]+)"$/
@@ -293,16 +293,16 @@ module NavigationHelpers
       "/admin/groups/#{id}/edit"
 
     when /^the time entry page of issue "(.+)"$/
-      issue_id = Issue.find_by_subject($1).id
-      "/issues/#{issue_id}/time_entries"
+      issue_id = WorkPackage.find_by_subject($1).id
+      "/work_packages/#{issue_id}/time_entries"
 
-    when /^the copy page of the work package "(.+)"$/
+    when /^the move new page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id
-      "/work_packages/#{work_package_id}/moves/new?copy="
+      "/work_packages/#{work_package_id}/move/new?copy="
 
     when /^the move page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id
-      "/work_packages/#{work_package_id}/moves/new"
+      "/work_packages/#{work_package_id}/move/new"
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

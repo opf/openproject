@@ -13,9 +13,9 @@
 require 'diff'
 
 class JournalsController < ApplicationController
-  before_filter :find_journal, :only => [:edit, :update, :diff]
+  before_filter :find_journal, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
-  before_filter :authorize, :only => [:edit, :update]
+  before_filter :authorize, :only => [:edit, :update, :preview]
   accept_key_auth :index
   menu_item :issues
 
@@ -82,6 +82,15 @@ class JournalsController < ApplicationController
       end
     else
       render_404
+    end
+  end
+
+  def preview
+    @journal.notes = params[:notes]
+
+    respond_to do |format|
+      format.any(:html, :js) { render locals: { journal: @journal },
+                                      layout: false }
     end
   end
 

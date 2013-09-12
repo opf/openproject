@@ -43,8 +43,8 @@ class SearchControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
 
-    assert assigns(:results).include?(Issue.find(2))
-    assert assigns(:results).include?(Issue.find(5))
+    assert assigns(:results).include?(WorkPackage.find(2))
+    assert assigns(:results).include?(WorkPackage.find(5))
     assert assigns(:results).include?(Changeset.find(101))
 
     assert assigns(:results_by_type).is_a?(Hash)
@@ -53,15 +53,15 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_issues
-    Issue.find(5).recreate_initial_journal!
-    Issue.find(8).recreate_initial_journal!
+    WorkPackage.find(5).recreate_initial_journal!
+    WorkPackage.find(8).recreate_initial_journal!
 
     get :index, :q => 'issue', :issues => 1
     assert_response :success
     assert_template 'index'
 
-    assert assigns(:results).include?(Issue.find(8))
-    assert assigns(:results).include?(Issue.find(5))
+    assert assigns(:results).include?(WorkPackage.find(8))
+    assert assigns(:results).include?(WorkPackage.find(5))
     assert_select "dt.work_package-edit" do
       assert_select "a", :text => /Closed/
     end
@@ -71,8 +71,8 @@ class SearchControllerTest < ActionController::TestCase
     get :index, :id => 1, :q => 'recipe subproject', :scope => 'subprojects', :submit => 'Search'
     assert_response :success
     assert_template 'index'
-    assert assigns(:results).include?(Issue.find(1))
-    assert assigns(:results).include?(Issue.find(5))
+    assert assigns(:results).include?(WorkPackage.find(1))
+    assert assigns(:results).include?(WorkPackage.find(5))
   end
 
   def test_search_without_searchable_custom_fields
@@ -94,7 +94,7 @@ class SearchControllerTest < ActionController::TestCase
     results = assigns(:results)
     assert_not_nil results
     assert_equal 1, results.size
-    assert results.include?(Issue.find(7))
+    assert results.include?(WorkPackage.find(7))
   end
 
   def test_search_all_words
@@ -103,7 +103,7 @@ class SearchControllerTest < ActionController::TestCase
     results = assigns(:results)
     assert_not_nil results
     assert_equal 1, results.size
-    assert results.include?(Issue.find(3))
+    assert results.include?(WorkPackage.find(3))
   end
 
   def test_search_one_of_the_words
@@ -111,7 +111,7 @@ class SearchControllerTest < ActionController::TestCase
     results = assigns(:results)
     assert_not_nil results
     assert_equal 3, results.size
-    assert results.include?(Issue.find(3))
+    assert results.include?(WorkPackage.find(3))
   end
 
   def test_search_titles_only_without_result
@@ -134,12 +134,12 @@ class SearchControllerTest < ActionController::TestCase
     assert_nil assigns(:results)
   end
 
-  def test_quick_jump_to_issue
-    # issue of a public project
+  def test_quick_jump_to_work_packages
+    # work_package of a public project
     get :index, :q => "3"
-    assert_redirected_to '/issues/3'
+    assert_redirected_to '/work_packages/3'
 
-    # issue of a private project
+    # work_package of a private project
     get :index, :q => "4"
     assert_response :success
     assert_template 'index'

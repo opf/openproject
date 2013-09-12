@@ -88,9 +88,11 @@ Redmine::AccessControl.map do |map|
                                  :'issues/previews' => :create}
     map.permission :add_work_packages, { :work_packages => [:new, :new_type, :preview, :create] }
     map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, :require => :loggedin
-    map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
-                                          :work_packages => [:edit, :update, :new_type, :preview],
-                                          :'issues/previews' => :create}
+    map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form],
+                                          :work_packages => [:edit, :update, :new_type, :preview, :quoted],
+                                          :journals => :preview }
+    map.permission :edit_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
+    map.permission :edit_own_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :delete_work_packages, {:work_packages => :destroy}, :require => :member
     map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
@@ -107,7 +109,7 @@ Redmine::AccessControl.map do |map|
     map.permission :view_issue_watchers, {}
     map.permission :view_work_package_watchers, {}
     map.permission :add_work_package_watchers, {:watchers => [:new, :create]}
-    map.permission :delete_issue_watchers, {:watchers => :destroy}
+    map.permission :delete_work_package_watchers, {:watchers => :destroy}
   end
 
   map.project_module :time_tracking do |map|
@@ -128,6 +130,8 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
     map.permission :manage_wiki_menu, {:wiki_menu_items => [:edit, :update]}, :require => :member
     map.permission :rename_wiki_pages, {:wiki => :rename}, :require => :member
+    map.permission :change_wiki_parent_page, {:wiki => [:edit_parent_page, :update_parent_page]},
+                   :require => :member
     map.permission :delete_wiki_pages, {:wiki => :destroy}, :require => :member
     map.permission :view_wiki_pages, :wiki => [:index, :show, :special, :date_index]
     map.permission :export_wiki_pages, :wiki => [:export]
@@ -143,6 +147,7 @@ Redmine::AccessControl.map do |map|
     map.permission :browse_repository, :repositories => [:show, :browse, :entry, :annotate, :changes, :diff, :stats, :graph]
     map.permission :view_changesets, :repositories => [:show, :revisions, :revision]
     map.permission :commit_access, {}
+    map.permission :view_commit_author_statistics, {}
   end
 
   map.project_module :boards do |map|

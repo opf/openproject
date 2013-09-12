@@ -23,7 +23,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% @queries.each do |query| %>
     <tr class="<%= cycle('odd', 'even') %>">
       <td>
-        <%= link_to h(query.name), :controller => '/issues', :action => 'index', :project_id => @project, :query_id => query %>
+        <%= link_to h(query.name), controller: :work_packages, action: :index, project_id: @project, query_id: query %>
       </td>
       <td align="right">
         <small>

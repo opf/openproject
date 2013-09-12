@@ -1,5 +1,4 @@
 #-- copyright
-#
 # OpenProject is a project management system.
 #
 # Copyright (C) 2012-2013 the OpenProject Team
@@ -47,7 +46,7 @@ Feature: Updating work packages
       | status2 |         |
     And the type "Phase1" has the default workflow for the role "manager"
     And the type "Phase2" has the default workflow for the role "manager"
-    And there are the following planning elements in project "ecookbook":
+    And there are the following work packages in project "ecookbook":
       | subject | type    | status  |
       | pe1     | Phase1  | status1 |
       | pe2     |         |         |

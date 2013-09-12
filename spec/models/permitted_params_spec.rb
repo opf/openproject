@@ -142,88 +142,6 @@ describe PermittedParams do
     end
   end
 
-  describe :planning_element do
-    it "should permit planning_element" do
-      hash = { "subject" => "blubs" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit description" do
-      hash = { "description" => "blubs" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit start_date" do
-      hash = { "start_date" => "2012-12-12" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit due_date" do
-      hash = { "due_date" => "2012-12-12" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit note" do
-      hash = { "note" => "lorem" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit planning_element_type_id" do
-      hash = { "planning_element_type_id" => "1" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit planning_element_status_comment" do
-      hash = { "planning_element_status_comment" => "lorem" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit planning_element_status_id" do
-      hash = { "planning_element_status_id" => "1" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit parent_id" do
-      hash = { "parent_id" => "1" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-
-    it "should permit responsible_id" do
-      hash = { "responsible_id" => "1" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-  end
 
   describe :new_work_package do
     it "should permit subject" do
@@ -349,7 +267,7 @@ describe PermittedParams do
     it "should permit watcher_user_ids when the user is allowed to add watchers" do
       project = double('project')
 
-      user.stub!(:allowed_to?).with(:add_work_package_watchers, project).and_return(true)
+      user.stub(:allowed_to?).with(:add_work_package_watchers, project).and_return(true)
 
       hash = { "watcher_user_ids" => ["1", "2"] }
 
@@ -361,7 +279,7 @@ describe PermittedParams do
     it "should not return watcher_user_ids when the user is not allowed to add watchers" do
       project = double('project')
 
-      user.stub!(:allowed_to?).with(:add_work_package_watchers, project).and_return(false)
+      user.stub(:allowed_to?).with(:add_work_package_watchers, project).and_return(false)
 
       hash = { "watcher_user_ids" => ["1", "2"] }
 

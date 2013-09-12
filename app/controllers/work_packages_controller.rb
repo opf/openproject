@@ -26,8 +26,6 @@ class WorkPackagesController < ApplicationController
       wp = controller.work_package
 
       case wp
-      when PlanningElement
-        :planning_elements
       when Issue
         :issues
       end
@@ -109,12 +107,12 @@ class WorkPackagesController < ApplicationController
   end
 
   def preview
-    safe_params = permitted_params.update_work_package(:project => project)
+    safe_params = permitted_params.update_work_package(project: project)
     work_package.update_by(current_user, safe_params)
 
     respond_to do |format|
-      format.any(:html, :js) { render 'preview', :locals => { :work_package => work_package },
-                                                 :layout => false }
+      format.any(:html, :js) { render 'preview', locals: { work_package: work_package },
+                                                 layout: false }
     end
   end
 
@@ -259,6 +257,34 @@ class WorkPackagesController < ApplicationController
     render_404
   end
 
+  def quoted
+    text, author = if params[:journal_id]
+                     journal = work_package.journals.find(params[:journal_id])
+
+                     [journal.notes, journal.user]
+                   else
+
+                     [work_package.description, work_package.author]
+                   end
+
+    work_package.journal_notes = "#{ll(Setting.default_language, :text_user_wrote, author)}\n> "
+
+    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
+    work_package.journal_notes << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+
+    locals = { :work_package => work_package,
+               :allowed_statuses => allowed_statuses,
+               :project => project,
+               :priorities => priorities,
+               :time_entry => time_entry,
+               :user => current_user }
+
+    respond_to do |format|
+      format.js { render :partial => 'edit', locals: locals }
+      format.html { render :action => 'edit', locals: locals }
+    end
+  end
+
   def work_package
     if params[:id]
       existing_work_package
@@ -293,20 +319,10 @@ class WorkPackagesController < ApplicationController
 
       permitted[:author] = current_user
 
-      sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
+      wp = project.add_issue(permitted)
+      wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
 
-      wp = case sti_type
-           when PlanningElement.to_s
-             project.add_planning_element(permitted)
-           when Issue.to_s
-             project.add_issue(permitted)
-           else
-             raise ArgumentError, "sti_type #{ sti_type } is not supported"
-           end
-
-       wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
-
-       wp
+      wp
     end
   end
 

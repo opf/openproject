@@ -9,24 +9,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-When /^I click on the Planning Element with name "(.*?)"$/ do |planning_element_subject|
+When (/^I click on the Planning Element with name "(.*?)"$/) do |planning_element_subject|
   click_link(planning_element_subject);
 end
-When /^I click on the Edit Link$/ do
+
+When (/^I click on the Edit Link$/) do
   click_link("Update")
 end
-When /^I click on the Save Link$/ do
+
+When (/^I click on the Save Link$/) do
   click_link("Save")
 end
-When(/^I switch the timeline to "(.*?)"$/) do |arg1|
-  within "div#s2id_timeline_select" do
-    click_link("Testline")
-  end
-  element = find('.select2-results', :text => 'Testline2')
-  element.click
-  element.native.send_keys(:return)
-end
-When(/^I hide empty projects for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |timeline_name, project_name|
+
+When (/^I hide empty projects for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
@@ -36,7 +31,8 @@ When(/^I hide empty projects for the timeline "([^"]*?)" of the project called "
   page.execute_script("jQuery('#timeline_options_exclude_empty').prop('checked', true)")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |planning_element_subject, timeline_name, project_name|
+
+When (/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |planning_element_subject, timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
@@ -47,7 +43,8 @@ When(/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?
   page.execute_script("jQuery('#timeline_options_vertical_planning_elements').val('#{planning_element.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |grouping_project_name, timeline_name, project_name|
+
+When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |grouping_project_name, timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
@@ -59,7 +56,8 @@ When(/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?
   page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{grouping_project.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
+
+When (/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
   timeline_name = @timeline_name
   project_name = @project.name
   steps %Q{
@@ -75,7 +73,8 @@ When(/^I show only projects which have a planning element which lies between "(.
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_two').val('#{due_date}')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |project_type_name, timeline_name, project_name|
+
+When (/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |project_type_name, timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
@@ -87,7 +86,8 @@ When(/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*
   page.execute_script("jQuery('#timeline_options_grouping_two_selection').val('#{project_type.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I set the first level grouping criteria to:$/) do |table|
+
+When (/^I set the first level grouping criteria to:$/) do |table|
   timeline_name = @timeline_name
   project_name = @project.name
   steps %Q{
@@ -110,7 +110,8 @@ When(/^I set the first level grouping criteria to:$/) do |table|
 
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I set the sortation of the first level grouping criteria to explicit order$/) do
+
+When (/^I set the sortation of the first level grouping criteria to explicit order$/) do
   timeline_name = @timeline_name
   project_name = @project.name
   steps %Q{
@@ -123,17 +124,19 @@ When(/^I set the sortation of the first level grouping criteria to explicit orde
   page.execute_script("jQuery('#content form').submit()")
 end
 
-When /^I click on the Restore Link$/ do
+When (/^I click on the Restore Link$/) do
   page.execute_script("jQuery('.input-as-link').click()")
 end
-When /^I wait (\d+) seconds?$/ do |seconds|
+
+When (/^I wait (\d+) seconds?$/) do |seconds|
   sleep seconds.to_i
 end
 
 When (/^I set duedate to "([^"]*)"$/) do |value|
   fill_in 'planning_element_due_date', :with => value
 end
-When /^I wait for timeline to load table$/ do
+
+When (/^I wait for timeline to load table$/) do
   page.should have_selector('.tl-left-main')
 end
 

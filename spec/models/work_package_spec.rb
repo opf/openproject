@@ -15,8 +15,7 @@ describe WorkPackage do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_version) { FactoryGirl.build_stubbed(:version) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
-  let(:issue) { FactoryGirl.create(:issue) }
-  let(:planning_element) { FactoryGirl.create(:planning_element).reload }
+  let(:work_package) { FactoryGirl.create(:work_package) }
   let(:user) { FactoryGirl.create(:user) }
 
   let(:type) { FactoryGirl.create(:type_standard) }
@@ -171,7 +170,7 @@ describe WorkPackage do
         self
       end
 
-      stub_work_package.project.stub!(:shared_versions).and_return(versions)
+      stub_work_package.project.stub(:shared_versions).and_return(versions)
     end
 
     it "should return all the project's shared versions" do
@@ -183,8 +182,8 @@ describe WorkPackage do
     it "should return the current fixed_version" do
       stub_shared_versions
 
-      stub_work_package.stub!(:fixed_version_id_was).and_return(5)
-      Version.stub!(:find_by_id).with(5).and_return(stub_version)
+      stub_work_package.stub(:fixed_version_id_was).and_return(5)
+      Version.stub(:find_by_id).with(5).and_return(stub_version)
 
       stub_work_package.assignable_versions.should == [stub_version]
     end
@@ -838,6 +837,15 @@ describe WorkPackage do
         it_behaves_like "includes not expected users"
       end
     end
+
+    it "should copy over watchers" do
+      source.watchers.build(:user => stub_user)
+
+      sink.copy_from(source)
+
+      sink.should have(1).watchers
+      sink.watchers[0].user.should == stub_user
+    end
   end
 
   describe :new_statuses_allowed_to do
@@ -904,30 +912,30 @@ describe WorkPackage do
 
     it "should respect workflows w/o author and w/o assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type => type,
+      work_package = WorkPackage.create(:type_id => type.id,
                                         :status => status,
                                         :priority => priority,
-                                        :project_id => project.id)
+                                        :project => project)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1]]
     end
 
     it "should respect workflows w/ author and w/o assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type => type,
+      work_package = WorkPackage.create(:type_id => type.id,
                                         :status => status,
                                         :priority => priority,
-                                        :project_id => project.id,
+                                        :project => project,
                                         :author => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2]]
     end
 
     it "should respect workflows w/o author and w/ assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type => type,
+      work_package = WorkPackage.create(:type_id => type.id,
                                         :status => status,
                                         :subject => "test",
                                         :priority => priority,
-                                        :project_id => project.id,
+                                        :project => project,
                                         :assigned_to => user,
                                         :author => other_user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[3]]
@@ -935,11 +943,11 @@ describe WorkPackage do
 
     it "should respect workflows w/ author and w/ assignee on work packages" do
       workflows
-      work_package = WorkPackage.create(:type => type,
+      work_package = WorkPackage.create(:type_id => type.id,
                                         :status => status,
                                         :subject => "test",
                                         :priority => priority,
-                                        :project_id => project.id,
+                                        :project => project,
                                         :author => user,
                                         :assigned_to => user)
       work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]]
@@ -969,7 +977,7 @@ describe WorkPackage do
 
   describe :update_by! do
     #TODO remove once only WP exists
-    [:issue, :planning_element].each do |subclass|
+    [:work_package].each do |subclass|
 
       describe "for #{subclass}" do
         let(:instance) { send(subclass) }
@@ -1092,7 +1100,7 @@ describe WorkPackage do
 
   describe :duration do
     #TODO remove once only WP exists
-    [:issue, :planning_element].each do |subclass|
+    [:work_package].each do |subclass|
 
       describe "for #{subclass}" do
         let(:instance) { send(subclass) }
@@ -1145,6 +1153,95 @@ describe WorkPackage do
           end
         end
 
+      end
+    end
+  end
+
+  describe 'Acts as journalized' do
+    before(:each) do
+      IssueStatus.delete_all
+      IssuePriority.delete_all
+
+      @status_resolved ||= FactoryGirl.create(:issue_status, :name => "Resolved", :is_default => false)
+      @status_open ||= FactoryGirl.create(:issue_status, :name => "Open", :is_default => true)
+      @status_rejected ||= FactoryGirl.create(:issue_status, :name => "Rejected", :is_default => false)
+
+      @priority_low ||= FactoryGirl.create(:priority_low, :is_default => true)
+      @priority_high ||= FactoryGirl.create(:priority_high)
+      @type ||= FactoryGirl.create(:type_feature)
+      @project ||= FactoryGirl.create(:project_with_types)
+
+      @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
+      User.stub(:current).and_return(@current)
+
+      @user2 = FactoryGirl.create(:user, :login => "user2", :mail => "user2@users.com")
+
+
+      @issue ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
+    end
+
+    describe 'ignore blank to blank transitions' do
+      it 'should not include the "nil to empty string"-transition' do
+        @issue.description = nil
+        @issue.save!
+
+        @issue.description = ""
+        @issue.send(:incremental_journal_changes).should be_empty
+      end
+    end
+
+    describe 'Acts as journalized recreate initial journal' do
+      it 'should not include certain attributes' do
+        recreated_journal = @issue.recreate_initial_journal!
+
+        recreated_journal.changed_data.include?('rgt').should == false
+        recreated_journal.changed_data.include?('lft').should == false
+        recreated_journal.changed_data.include?('lock_version').should == false
+        recreated_journal.changed_data.include?('updated_at').should == false
+        recreated_journal.changed_data.include?('updated_on').should == false
+        recreated_journal.changed_data.include?('id').should == false
+        recreated_journal.changed_data.include?('type').should == false
+        recreated_journal.changed_data.include?('root_id').should == false
+      end
+
+      it 'should not include useless transitions' do
+        recreated_journal = @issue.recreate_initial_journal!
+
+        recreated_journal.changed_data.values.each do |change|
+          change.first.should_not == change.last
+        end
+      end
+
+      it 'should not be different from the initially created journal by aaj' do
+        # Creating four journals total
+        @issue.status = @status_resolved
+        @issue.assigned_to = @user2
+        @issue.save!
+        @issue.reload
+
+        @issue.priority = @priority_high
+        @issue.save!
+        @issue.reload
+
+        @issue.status = @status_rejected
+        @issue.priority = @priority_low
+        @issue.estimated_hours = 3
+        @issue.save!
+
+        initial_journal = @issue.journals.first
+        recreated_journal = @issue.recreate_initial_journal!
+
+        initial_journal.should be_identical(recreated_journal)
+      end
+
+      it "should not validate with oddly set estimated_hours" do
+        @issue.estimated_hours = "this should not work"
+        @issue.should_not be_valid
+      end
+
+      it "should validate with sane estimated_hours" do
+        @issue.estimated_hours = "13h"
+        @issue.should be_valid
       end
     end
   end

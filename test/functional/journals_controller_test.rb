@@ -27,7 +27,7 @@ class JournalsControllerTest < ActionController::TestCase
   end
 
   def test_get_edit
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     journal = FactoryGirl.create :work_package_journal,
                                  journable_id: issue.id
     identifier = "journal-#{journal.id}"
@@ -42,7 +42,7 @@ class JournalsControllerTest < ActionController::TestCase
   end
 
   def test_post_edit
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     journal = FactoryGirl.create :work_package_journal,
                                  journable_id: issue.id,
                                  data: FactoryGirl.build(:journal_work_package_journal)
@@ -56,7 +56,7 @@ class JournalsControllerTest < ActionController::TestCase
   end
 
   def test_post_edit_with_empty_notes
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,
                        data: FactoryGirl.build(:journal_work_package_journal)

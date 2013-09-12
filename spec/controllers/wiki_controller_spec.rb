@@ -20,12 +20,12 @@ describe WikiController do
 
   describe 'actions' do
     before do
-      @controller.stub!(:set_localization)
+      @controller.stub(:set_localization)
 
       @role = FactoryGirl.create(:non_member)
       @user = FactoryGirl.create(:admin)
 
-      User.stub!(:current).and_return @user
+      User.stub(:current).and_return @user
 
       @project = FactoryGirl.create(:project)
       @project.reload # to get the wiki into the proxy
@@ -176,8 +176,8 @@ describe WikiController do
     render_views
 
     before :each do
-      @controller.stub!(:set_localization)
-      Setting.stub!(:login_required?).and_return(false)
+      @controller.stub(:set_localization)
+      Setting.stub(:login_required?).and_return(false)
 
       @role = FactoryGirl.create(:non_member)
       @user = FactoryGirl.create(:admin)
@@ -188,7 +188,7 @@ describe WikiController do
       Role.anonymous.update_attributes :name => I18n.t(:default_role_anonymous),
                                        :permissions => [:view_wiki_pages]
 
-      User.stub!(:current).and_return @user
+      User.stub(:current).and_return @user
 
       @project = FactoryGirl.create(:project)
       @project.reload # to get the wiki into the proxy
@@ -355,7 +355,7 @@ describe WikiController do
 
           describe "being unauthorized to configure menu items" do
             before do
-              User.stub!(:current).and_return @anon
+              User.stub(:current).and_return @anon
             end
 
             it 'is invisible' do
@@ -383,7 +383,7 @@ describe WikiController do
 
           describe "being unauthorized to edit wiki pages" do
             before do
-              User.stub!(:current).and_return @anon
+              User.stub(:current).and_return @anon
             end
 
             it 'is invisible' do
@@ -423,7 +423,7 @@ describe WikiController do
 
           describe "being unauthorized to edit wiki pages" do
             before do
-              User.stub!(:current).and_return @anon
+              User.stub(:current).and_return @anon
             end
 
             it 'is invisible' do
@@ -451,7 +451,7 @@ describe WikiController do
 
           describe "being unauthorized to edit wiki pages" do
             before do
-              User.stub!(:current).and_return @anon
+              User.stub(:current).and_return @anon
             end
 
             it 'is invisible' do
@@ -477,7 +477,7 @@ describe WikiController do
 
           describe "being unauthorized to edit wiki pages" do
             before do
-              User.stub!(:current).and_return @anon
+              User.stub(:current).and_return @anon
             end
 
             it 'is invisible' do

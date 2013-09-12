@@ -35,9 +35,6 @@ class Type < ActiveRecord::Base
   belongs_to :color, :class_name  => 'PlanningElementTypeColor',
                      :foreign_key => 'color_id'
 
-  has_many :planning_elements, :class_name  => 'PlanningElement',
-                               :foreign_key => 'type_id',
-                               :dependent   => :nullify
   acts_as_list
 
   validates_presence_of   :name
@@ -100,6 +97,6 @@ class Type < ActiveRecord::Base
 
 private
   def check_integrity
-    raise "Can't delete type" if Issue.find(:first, :conditions => ["type_id=?", self.id])
+    raise "Can't delete type" if WorkPackage.find(:first, :conditions => ["type_id=?", self.id])
   end
 end

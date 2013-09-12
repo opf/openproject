@@ -112,32 +112,33 @@ class Project < ActiveRecord::Base
 
   belongs_to :responsible,  :class_name => "User"
 
-  has_many :timelines,         :class_name => "::Timeline",
-                                         :dependent  => :destroy
-  has_many :planning_elements, :class_name => "::PlanningElement",
-                                         :dependent  => :destroy
+  has_many :timelines,  :class_name => "::Timeline",
+                        :dependent  => :destroy
 
   has_many :reportings_via_source, :class_name  => "::Reporting",
-                                             :foreign_key => 'project_id',
-                                             :dependent   => :delete_all
+                                   :foreign_key => 'project_id',
+                                   :dependent   => :delete_all
+
   has_many :reportings_via_target, :class_name  => "::Reporting",
-                                             :foreign_key => 'reporting_to_project_id',
-                                             :dependent   => :delete_all
+                                   :foreign_key => 'reporting_to_project_id',
+                                   :dependent   => :delete_all
 
   has_many :reporting_to_projects, :through => :reportings_via_source,
-                                             :source  => :reporting_to_project
+                                   :source  => :reporting_to_project
 
   has_many :project_a_associations, :class_name  => "::ProjectAssociation",
-                                              :foreign_key => 'project_a_id',
-                                              :dependent   => :delete_all
+                                    :foreign_key => 'project_a_id',
+                                    :dependent   => :delete_all
+
   has_many :project_b_associations, :class_name  => "::ProjectAssociation",
-                                              :foreign_key => 'project_b_id',
-                                              :dependent   => :delete_all
+                                    :foreign_key => 'project_b_id',
+                                    :dependent   => :delete_all
 
   has_many :associated_a_projects, :through => :project_a_associations,
-                                             :source  => :project_b
+                                   :source  => :project_b
+
   has_many :associated_b_projects, :through => :project_b_associations,
-                                             :source  => :project_a
+                                   :source  => :project_a
 
   include TimelinesCollectionProxy
 
@@ -201,10 +202,6 @@ class Project < ActiveRecord::Base
     else
       true
     end
-  end
-
-  def has_many_dependent_for_planning_elements
-    planning_elements.each {|element| element.destroy!}
   end
 
   def self.selectable_projects
@@ -430,9 +427,9 @@ class Project < ActiveRecord::Base
     # Check that there is no issue of a non descendant project that is assigned
     # to one of the project or descendant versions
     v_ids = self_and_descendants.collect {|p| p.version_ids}.flatten
-    if v_ids.any? && Issue.find(:first, :include => :project,
+    if v_ids.any? && WorkPackage.find(:first, :include => :project,
                                         :conditions => ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
-                                                        " AND #{Issue.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
+                                                        " AND #{WorkPackage.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
       return false
     end
     Project.transaction do
@@ -514,7 +511,7 @@ class Project < ActiveRecord::Base
         # move_to_child_of adds the project in last (ie.right) position
         move_to_child_of(p)
       end
-      Issue.update_versions_from_hierarchy_change(self)
+      WorkPackage.update_versions_from_hierarchy_change(self)
       true
     else
       # Can not move to the given target
@@ -862,20 +859,13 @@ class Project < ActiveRecord::Base
     list
   end
 
-  # TODO: merge with add_issue once type or similar is defined there
-  def add_planning_element(attributes = {})
-    attributes ||= {}
-
-    self.planning_elements.build do |pe|
-      pe.attributes = attributes
-    end
+  def add_issue(attributes = {})
+    ActiveSupport::Deprecation.warn "Project.add_issue is deprecated. Use Project.add_work_package instead."
+    add_work_package attributes
   end
 
-  # TODO: merge with add_planning_elemement once type or similar is defined there
-  def add_issue(attributes = {})
-    attributes ||= {}
-
-    Issue.new do |i|
+  def add_work_package(attributes = {})
+    WorkPackage.new do |i|
       i.project = self
 
       type_attribute = attributes.delete(:type) || attributes.delete(:type_id)
@@ -945,7 +935,7 @@ class Project < ActiveRecord::Base
     # Get issues sorted by root_id, lft so that parent issues
     # get copied before their children
     project.work_packages.reorder('root_id, lft').each do |issue|
-      new_issue = Issue.new
+      new_issue = WorkPackage.new
       new_issue.copy_from(issue)
       new_issue.project = self
       # Reassign fixed_versions by name, since names are unique per

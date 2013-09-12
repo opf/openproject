@@ -49,12 +49,12 @@ Feature: Viewing a work package
       | New         | false      | true        |
 
     And there are the following issues in project "omicronpersei8":
-      | subject | type |
-      | issue1  | Bug  |
-      | issue2  | Bug  |
-      | issue3  | Bug  |
+      | subject | type | description |
+      | issue1  | Bug  | "1"         |
+      | issue2  | Bug  | "2"         |
+      | issue3  | Bug  | "3"         |
 
-    And there are the following planning elements in project "omicronpersei8":
+    And there are the following work packages in project "omicronpersei8":
       | subject | start_date | due_date   |
       | pe1     | 2013-01-01 | 2013-12-31 |
       | pe2     | 2013-01-01 | 2013-12-31 |
@@ -72,31 +72,14 @@ Feature: Viewing a work package
     Then I should see "Bug #1: issue1"
     Then I should see "Bug #2: issue2" within ".idnt-1"
 
-  Scenario: Call the work package page for a planning element and view the planning element
-    When I go to the page of the planning element "pe1" of the project called "omicronpersei8"
-    Then I should see "#4: pe1"
-    Then I should see "#5: pe2" within ".idnt-1"
-
   Scenario: View child work package of type issue
     When I go to the page of the work package "issue1"
     When I click on "Bug #2" within ".idnt-1"
     Then I should see "Bug #2: issue2"
     Then I should see "Bug #1: issue1" within ".work-package-1"
 
-  Scenario: View child work package of type planning element
-    When I go to the page of the work package "pe1"
-    When I click on "#5" within ".idnt-1"
-    Then I should see "#5: pe2"
-    Then I should see "#4: pe1" within ".work-package-4"
-
   Scenario: Add subtask leads to issue creation page for a parent issue
     When I go to the page of the work package "issue1"
-    Then I should see "Add subtask"
-    When I click on "Add subtask"
-    Then I should be on the new work_package page of the project called "omicronpersei8"
-
-  Scenario: Add subtask leads to planning element creation page for a parent planning element
-    When I go to the page of the work package "pe1"
     Then I should see "Add subtask"
     When I click on "Add subtask"
     Then I should be on the new work_package page of the project called "omicronpersei8"
@@ -129,24 +112,9 @@ Feature: Viewing a work package
     Then I should see "Unwatch" within "#content > .action_menu_main"
 
   @javascript
-  Scenario: User adds herself as watcher to a planning element
-    When I go to the page of the work package "pe1"
-    Then I should see "Watch" within "#content > .action_menu_main"
-    When I click "Watch" within "#content > .action_menu_main"
-    Then I should see "Unwatch" within "#content > .action_menu_main"
-
-  @javascript
   Scenario: User removes herself as watcher from an issue
     Given user is already watching "issue1"
     When I go to the page of the work package "issue1"
-    Then I should see "Unwatch" within "#content > .action_menu_main"
-    When I click "Unwatch" within "#content > .action_menu_main"
-    Then I should see "Watch" within "#content > .action_menu_main"
-
-  @javascript
-  Scenario: User removes herself as watcher from a planning element
-    Given user is already watching "pe1"
-    When I go to the page of the work package "pe1"
     Then I should see "Unwatch" within "#content > .action_menu_main"
     When I click "Unwatch" within "#content > .action_menu_main"
     Then I should see "Watch" within "#content > .action_menu_main"
@@ -159,22 +127,8 @@ Feature: Viewing a work package
     Then I should see "Spent time"
 
   @javascript
-  Scenario: Log time leads to time entry creation page for planning element
-    When I go to the page of the work package "pe1"
-    When I select "Log time" from the action menu
-
-    Then I should see "Spent time"
-
-  @javascript
   Scenario: For an issue copy leads to work package copy page
     When I go to the page of the work package "issue1"
-    When I select "Copy" from the action menu
-
-    Then I should see "Copy"
-
-  @javascript
-  Scenario: For a planning element copy leads to work package copy page
-    When I go to the page of the work package "pe1"
     When I select "Copy" from the action menu
 
     Then I should see "Copy"
@@ -187,13 +141,6 @@ Feature: Viewing a work package
     Then I should see "Move"
 
   @javascript
-  Scenario: For a planning element move leads to work package copy page
-    When I go to the page of the work package "pe1"
-    When I select "Move" from the action menu
-
-    Then I should see "Move"
-
-  @javascript
   Scenario: For an issue deletion leads to the work package list
     When I go to the page of the work package "issue1"
     When I select "Delete" from the action menu
@@ -201,10 +148,13 @@ Feature: Viewing a work package
 
     Then I should see "Work packages"
 
-  @javascript
-  Scenario: For a planning element deletion leads to the work package list
-    When I go to the page of the work package "pe1"
-    When I select "Delete" from the action menu
-     And I confirm popups
+  Scenario: Description quoting link visible
+    When I go to the page of the work package "issue1"
+    Then I should see "Quote" within ".description"
 
-    Then I should see "Work packages"
+  @javascript
+  Scenario: Description quoting link sets edit note
+    When I go to the page of the work package "issue1"
+     And I click on "Quote" within ".description"
+
+    Then I should see "Bob Bobbit wrote:"

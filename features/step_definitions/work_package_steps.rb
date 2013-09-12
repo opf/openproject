@@ -15,8 +15,6 @@ require "rack_session_access/capybara"
 
 InstanceFinder.register(WorkPackage, Proc.new { |name| WorkPackage.find_by_subject(name) })
 RouteMap.register(WorkPackage, "/work_packages")
-RouteMap.register(PlanningElement, "/work_packages")
-RouteMap.register(Issue, "/work_packages")
 
 Given /^the work package "(.*?)" has the following children:$/ do |work_package_subject, table|
   parent = WorkPackage.find_by_subject(work_package_subject)

@@ -69,7 +69,8 @@ class ApplicationController < ActionController::Base
                 :log_requesting_user,
                 :reset_i18n_fallbacks,
                 :set_localization,
-                :check_session_lifetime
+                :check_session_lifetime,
+                :stop_if_feeds_disabled
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
 
@@ -353,7 +354,7 @@ class ApplicationController < ActionController::Base
 
   # Filter for bulk issue operations
   def find_issues
-    @issues = Issue.find_all_by_id(params[:id] || params[:ids])
+    @issues = WorkPackage.find_all_by_id(params[:id] || params[:ids])
     raise ActiveRecord::RecordNotFound if @issues.empty?
     @projects = @issues.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
@@ -644,6 +645,20 @@ class ApplicationController < ActionController::Base
       redirect_to(:controller => "account", :action => "login", :back_url => url)
     end
     session[:updated_at] = Time.now
+  end
+
+  def feed_request?
+    if params[:format].nil?
+      %w(application/rss+xml application/atom+xml).include? request.format.to_s
+    else
+      %w(atom rss).include? params[:format]
+    end
+  end
+
+  def stop_if_feeds_disabled
+    if feed_request? && !Setting.feeds_enabled?
+      render_404({:message => I18n.t('label_disabled')})
+    end
   end
 
   private

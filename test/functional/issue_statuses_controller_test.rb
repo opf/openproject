@@ -64,7 +64,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
   end
 
   def test_destroy
-    Issue.delete_all("status_id = 1")
+    WorkPackage.delete_all("status_id = 1")
 
     assert_difference 'IssueStatus.count', -1 do
       post :destroy, :id => '1'
@@ -74,7 +74,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_should_block_if_status_in_use
-    assert_not_nil Issue.find_by_status_id(1)
+    assert_not_nil WorkPackage.find_by_status_id(1)
 
     assert_no_difference 'IssueStatus.count' do
       post :destroy, :id => '1'

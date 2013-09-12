@@ -9,14 +9,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Given (/^there are the following planning elements(?: in project "([^"]*)")?:$/) do |project_name, table|
+Given (/^there are the following work packages(?: in project "([^"]*)")?:$/) do |project_name, table|
   project = get_project(project_name)
   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
 
     [
-      ["planning_element_status", PlanningElementStatus],
       ["author", User],
       ["responsible", User],
       ["assigned_to", User],
@@ -39,6 +38,6 @@ Given (/^there are the following planning elements(?: in project "([^"]*)")?:$/)
       type_attributes[:type] = Type.where(name: type_attributes[:type].to_s).first
     end
 
-    factory = FactoryGirl.create(:planning_element, type_attributes.merge(:project_id => project.id))
+    factory = FactoryGirl.create(:work_package, type_attributes.merge(:project_id => project.id))
   end
 end

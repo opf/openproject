@@ -54,9 +54,9 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="description">
       <hr />
       <div class="contextual">
-        <%= link_to_if_authorized(l(:button_quote), { :controller => '/issues', :action => 'quoted', :id => work_package }, :class => 'quote-link icon icon-comment') %>
+        <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-comment') %>
       </div>
-      <p><strong><%= Issue.human_attribute_name(:description)%></strong></p>
+      <p><strong><%= WorkPackage.human_attribute_name(:description)%></strong></p>
       <div class="wiki wikicontent" data-user="<%= work_package.author %>">
         <%= textilizable work_package, :description, :attachments => work_package.attachments %>
       </div>
@@ -122,14 +122,14 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-	<%= f.link_to 'PDF' %>
+  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'PDF' %>
 <% end %>
 
 <% html_title h(work_package.to_s) %>
 
 <% content_for :sidebar do %>
-  <%= render :partial => 'issues/sidebar' %>
+  <%= render :partial => 'sidebar' %>
 <% end %>
 
 <% content_for :header_tags do %>

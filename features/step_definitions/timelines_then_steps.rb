@@ -160,8 +160,8 @@ Then /^I should (not )?see the timeline "([^"]*)"$/ do |negate, timeline_name|
   timeline = Timeline.find_by_name(timeline_name)
 
   if (negate && page.has_css?(selector)) || !negate
-    timeline.project.planning_elements.each do |planning_element|
-      step %Q{I should #{negate}see "#{planning_element.subject}" within "#{selector}"}
+    timeline.project.work_packages.each do |work_package|
+      step %Q{I should #{negate}see "#{work_package.subject}" within "#{selector}"}
     end
   end
 end

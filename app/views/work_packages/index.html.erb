@@ -96,9 +96,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
-	<%= f.link_to 'CSV', :url => { :project_id => project } %>
-	<%= f.link_to 'PDF', :url => { :project_id => project } %>
+  <%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
+  <%= f.link_to 'CSV', :url => { :project_id => project } %>
+  <%= f.link_to 'PDF', :url => { :project_id => project } %>
   <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => project,
                                                                 :show_descriptions => true,
                                                                 :format => 'pdf' } %>
@@ -109,7 +109,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= call_hook(:view_issues_index_bottom, { :issues => work_packages, :project => project, :query => query }) %>
 
 <% content_for :sidebar do %>
-    <%= render :partial => 'issues/sidebar' %>
+    <%= render :partial => 'sidebar' %>
 <% end %>
 
 <% content_for :header_tags do %>

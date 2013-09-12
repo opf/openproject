@@ -15,14 +15,11 @@ require 'spec_helper'
 # independently. Once only WorkPackage exist, this can safely be consolidated.
 describe WorkPackage, "#reschedule_after" do
   let(:project) { FactoryGirl.build(:project_with_types) }
-  let(:issue) { FactoryGirl.create(:issue, :project => project, :type => project.types.first) }
-  let(:issue2) { FactoryGirl.create(:issue, :project => project, :type => project.types.first) }
-  let(:issue3) { FactoryGirl.create(:issue, :project => project, :type => project.types.first) }
-  let(:planning_element) { FactoryGirl.create(:planning_element, :project => project) }
-  let(:planning_element2) { FactoryGirl.create(:planning_element, :project => project) }
-  let(:planning_element3) { FactoryGirl.create(:planning_element, :project => project) }
+  let(:work_package) { FactoryGirl.create(:work_package, :project => project, :type => project.types.first) }
+  let(:work_package2) { FactoryGirl.create(:work_package, :project => project, :type => project.types.first) }
+  let(:work_package3) { FactoryGirl.create(:work_package, :project => project, :type => project.types.first) }
 
-  [:issue, :planning_element].each do |subclass|
+  [:work_package].each do |subclass|
 
     describe "for a #{subclass}" do
       let(:instance) { send(subclass) }

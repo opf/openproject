@@ -79,7 +79,7 @@ describe ApplicationHelper do
                                               :member_through_role => FactoryGirl.create(:role,
                                                                                          :permissions => [:view_work_packages, :edit_work_packages,
                                                                                          :browse_repository, :view_changesets, :view_wiki_pages]) }
-    let(:issue) { FactoryGirl.create :issue,
+    let(:issue) { FactoryGirl.create :work_package,
                                      :project => project,
                                      :author => project_member,
                                      :type => project.types.first }
@@ -140,7 +140,7 @@ describe ApplicationHelper do
                                               :member_through_role => FactoryGirl.create(:role,
                                                                                          :permissions => [:view_work_packages, :edit_work_packages,
                                                                                          :browse_repository, :view_changesets, :view_wiki_pages]) }
-    let(:issue) { FactoryGirl.create :issue,
+    let(:issue) { FactoryGirl.create :work_package,
                                      :project => project,
                                      :author => project_member,
                                      :type => project.types.first }
@@ -534,5 +534,23 @@ EXPECTED
 
       it { should eql(expected.gsub(%r{[\r\n\t]}, ''))}
     end
+  end
+
+  describe "other_formats_links" do
+    context "link given" do
+      before do
+        @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
+      end
+      it { @links.should == "<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"atom\" rel=\"nofollow\">Atom</a></span></p>"}
+    end
+
+    context "link given but disabled" do
+      before do
+        Setting.stub(:feeds_enabled?).and_return(false)
+        @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
+      end
+      it { @links.should be_nil}
+    end
+
   end
 end

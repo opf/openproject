@@ -138,9 +138,9 @@ describe Api::V2::PlanningElementsController do
         describe 'w/ 3 planning elements within the project' do
           before do
             @created_planning_elements = [
-              FactoryGirl.create(:planning_element, :project_id => project.id),
-              FactoryGirl.create(:planning_element, :project_id => project.id),
-              FactoryGirl.create(:planning_element, :project_id => project.id)
+              FactoryGirl.create(:work_package, :project_id => project.id),
+              FactoryGirl.create(:work_package, :project_id => project.id),
+              FactoryGirl.create(:work_package, :project_id => project.id)
             ]
           end
 
@@ -205,13 +205,13 @@ describe Api::V2::PlanningElementsController do
         describe 'w/ 1 planning element in project_a and 2 in project_b' do
           before do
             @created_planning_elements = [
-              FactoryGirl.create(:planning_element, :project_id => project_a.id),
-              FactoryGirl.create(:planning_element, :project_id => project_b.id),
-              FactoryGirl.create(:planning_element, :project_id => project_b.id)
+              FactoryGirl.create(:work_package, :project_id => project_a.id),
+              FactoryGirl.create(:work_package, :project_id => project_b.id),
+              FactoryGirl.create(:work_package, :project_id => project_b.id)
             ]
             # adding another planning element, just to make sure, that the
             # result set is properly filtered
-            FactoryGirl.create(:planning_element, :project_id => project_c.id)
+            FactoryGirl.create(:work_package, :project_id => project_c.id)
           end
 
           it 'assigns a planning_elements array containing all three elements' do
@@ -237,7 +237,7 @@ describe Api::V2::PlanningElementsController do
     def fetch
       post 'create', :project_id => project.identifier,
                      :format => 'xml',
-                     :planning_element => FactoryGirl.build(:planning_element,
+                     :planning_element => FactoryGirl.build(:work_package,
                                                             :author => author,
                                                             :project_id => project.id).attributes
                                                                                       .merge("planning_element_type_id" => project.types.first.id)
@@ -303,7 +303,7 @@ describe Api::V2::PlanningElementsController do
       become_admin
 
       let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
-      let(:planning_element) { FactoryGirl.create(:planning_element, :project_id => project.id) }
+      let(:planning_element) { FactoryGirl.create(:work_package, :project_id => project.id) }
 
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do
@@ -347,7 +347,7 @@ describe Api::V2::PlanningElementsController do
     it 'needs to be tested'
 
     let(:project) { FactoryGirl.create(:project, :is_public => false) }
-    let(:planning_element) { FactoryGirl.create(:planning_element,
+    let(:planning_element) { FactoryGirl.create(:work_package,
                                                 :project_id => project.id) }
 
     def fetch
@@ -410,7 +410,7 @@ describe Api::V2::PlanningElementsController do
 
     describe 'w/ a valid planning element id' do
       let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
-      let(:planning_element) { FactoryGirl.create(:planning_element, :project_id => project.id) }
+      let(:planning_element) { FactoryGirl.create(:work_package, :project_id => project.id) }
 
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do

@@ -18,11 +18,11 @@ describe ProjectsController do
   end
 
   before do
-    @controller.stub!(:set_localization)
+    @controller.stub(:set_localization)
 
     @role = FactoryGirl.create(:non_member)
     @user = FactoryGirl.create(:admin)
-    User.stub!(:current).and_return @user
+    User.stub(:current).and_return @user
 
     @params = {}
   end

@@ -14,9 +14,9 @@ require File.expand_path('../../test_helper', __FILE__)
 class EnumerationTest < ActiveSupport::TestCase
   def setup
     super
-    Issue.delete_all
+    WorkPackage.delete_all
     @low_priority = FactoryGirl.create :priority_low
-    @issues = FactoryGirl.create_list :issue, 6, :priority => @low_priority
+    @issues = FactoryGirl.create_list :work_package, 6, :priority => @low_priority
     @default_enumeration = FactoryGirl.create :default_enumeration
   end
 
@@ -70,7 +70,7 @@ class EnumerationTest < ActiveSupport::TestCase
   def test_destroy_with_reassign
     new_priority = FactoryGirl.create :priority
     Enumeration.find(@low_priority).destroy(new_priority)
-    assert_nil Issue.find(:first, :conditions => {:priority_id => @low_priority.id})
+    assert_nil WorkPackage.find(:first, :conditions => {:priority_id => @low_priority.id})
     assert_equal @issues.size, new_priority.objects_count
   end
 

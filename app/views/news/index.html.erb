@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= pagination_links_full @newss %>
 
 <%= other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => {:project_id => @project, :key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', :url => {:project_id => @project, :key => User.current.rss_key} %>
 <% end %>
 
 <% content_for :header_tags do %>

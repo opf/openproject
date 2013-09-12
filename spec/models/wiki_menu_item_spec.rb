@@ -16,7 +16,7 @@ describe WikiMenuItem do
       @project = FactoryGirl.create(:project, :enabled_module_names => %w[activity])
       @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
 
-      User.stub!(:current).and_return(@current)
+      User.stub(:current).and_return(@current)
     end
 
     it 'should create a default wiki menu item when enabling the wiki' do

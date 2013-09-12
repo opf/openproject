@@ -73,19 +73,6 @@ module ApplicationHelper
     end
   end
 
-  def link_to_issue_preview(context = nil, options = {})
-    url = context.is_a?(Project) ?
-            preview_new_project_issues_path(:project_id => context) :
-            preview_issue_path(context)
-
-    id = options[:form_id] || 'issue-form-preview'
-
-    link_to l(:label_preview),
-            url,
-            :id => id,
-            :class => 'preview'
-  end
-
   def link_to_work_package_preview(context = nil, options = {})
     url = context.is_a?(Project) ?
             preview_project_work_packages_path(context) :
@@ -402,10 +389,11 @@ module ApplicationHelper
   end
 
   def other_formats_links(&block)
-    content_tag 'p', :class => 'other-formats' do
-      formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
-
-      (l(:label_export_to) + formats).html_safe
+    formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
+    unless formats.nil? || formats.strip.empty?
+      content_tag 'p', :class => 'other-formats' do
+        (l(:label_export_to) + formats).html_safe
+      end
     end
   end
 

@@ -20,8 +20,8 @@
 #   end
 
 def as_logged_in_user(user, &block)
-  @controller.stub!(:user_setup).and_return(user)
-  User.stub!(:current).and_return(user)
+  @controller.stub(:user_setup).and_return(user)
+  User.stub(:current).and_return(user)
 
   yield
 end

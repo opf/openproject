@@ -14,7 +14,7 @@ require 'spec_helper'
 describe 'my/page' do
   let(:project)    { FactoryGirl.create :valid_project }
   let(:user)       { FactoryGirl.create :admin, :member_in_project => project }
-  let(:issue)      { FactoryGirl.create :issue, :project => project, :author => user }
+  let(:issue)      { FactoryGirl.create :work_package, :project => project, :author => user }
   let(:time_entry) { FactoryGirl.create :time_entry,
                                         :project => project,
                                         :user => user,
@@ -32,8 +32,7 @@ describe 'my/page' do
 
     render
 
-    assert_select 'tr.time-entry td.subject' do |td|
-      td.should have_link("#{issue.type.name} ##{issue.id}", :href => work_package_path(issue))
-    end
+    response.should have_selector("tr.time-entry td.subject a[href='#{work_package_path(issue)}']",
+                                  :text => "#{issue.type.name} ##{issue.id}")
   end
 end

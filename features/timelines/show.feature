@@ -33,7 +33,7 @@ Feature: View work packages in a timeline
           | Name      |
           | Phase1    |
 
-      And there are the following planning elements:
+      And there are the following work packages:
         | Subject               | Start date | Due date   | type   |
         | Some planning element | 2012-01-01 | 2012-01-31 | Phase1 |
 

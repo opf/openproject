@@ -9,13 +9,13 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 
 class WatcherTest < ActiveSupport::TestCase
   def setup
     super
     @user  = FactoryGirl.create :user
-    @issue = FactoryGirl.create :issue
+    @issue = FactoryGirl.create :work_package
     @role  = FactoryGirl.create :role, :permissions => [:view_work_packages]
     @issue.project.add_member! @user, @role
   end
@@ -33,7 +33,7 @@ class WatcherTest < ActiveSupport::TestCase
   def test_watched_by
     @issue.add_watcher(@user)
     assert @issue.watched_by?(@user)
-    assert_contains Issue.watched_by(@user), @issue
+    assert_contains WorkPackage.watched_by(@user), @issue
   end
 
   def test_watcher_users_contains_correct_classes
@@ -84,7 +84,10 @@ class WatcherTest < ActiveSupport::TestCase
 
   def test_unwatch
     assert @issue.add_watcher(@user)
+    @issue.save
     assert_equal 1, @issue.remove_watcher(@user)
+    @issue.save
+    @issue.reload
     refute @issue.watched_by?(@user)
   end
 

@@ -74,6 +74,15 @@ Feature: Membership
      When I am impaired
       And I go to the members tab of the settings page of the project "project1"
       And I add the principal "A-Team" as "Manager"
+      And I go to the members tab of the settings page of the project "project1"
+      Then I should not see "A-Team" within "#principal_results"
+      And I should see "A-Team" within ".members"
+
+  @javascript
+  Scenario: User should not appear in members form if he/she is already a member of the project, impaired
+     When I am impaired
+      And I go to the members tab of the settings page of the project "project1"
+      And I add the principal "A-Team" as "Manager"
      Then I should be on the members tab of the settings page of the project "project1"
       And I should see "Successful creation." within ".flash.notice"
       And I should see "A-Team" within ".members"

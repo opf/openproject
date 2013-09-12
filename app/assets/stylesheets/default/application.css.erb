@@ -600,7 +600,9 @@ input#user_search {width: 100%}
 
 * html div#tab-content-members fieldset div { height: 450px; }
 
-div#tab-content-members fieldset div.select-boxes label {
+div#tab-content-members fieldset div.select-boxes label,
+div#tab-content-members fieldset div#principal_results div.roles,
+div#tab-content-members fieldset div#principal_results div.principals {
   display: inline-block;
   width: 350px; /* max-width of select2boxes */
 }
@@ -1042,6 +1044,7 @@ a.close-icon:hover {
 .icon-folder { background-image: url(<%= asset_path 'folder.png' %>); }
 .open .icon-folder { background-image: url(<%= asset_path 'folder_open.png' %>); }
 .icon-package { background-image: url(<%= asset_path 'package.png' %>); }
+.icon-parent { background-image: url(<%= asset_path 'link.png' %>); }
 .icon-user { background-image: url(<%= asset_path 'user.png' %>); }
 .icon-projects { background-image: url(<%= asset_path 'latest_projects.png' %>); }
 .icon-help { background-image: url(<%= asset_path 'help.png' %>); }

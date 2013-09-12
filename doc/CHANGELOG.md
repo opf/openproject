@@ -1,4 +1,22 @@
+<!---- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++-->
+
 # Changelog
+
+* `#1418` Additional changes: Change links to issues/planning elements to use work_packages controller
+* `#1504` Initial selection of possible project members wrong (accessibility mode)
+* `#1898` Separate action for changing wiki parent page (was same as rename before)
+* `#1923` Add permission that allows hiding repository statistics on commits per author
+* `#1850` Disable atom feeds via setting
 
 ## 3.0.0pre15
 
@@ -15,6 +33,7 @@
 * `#1876` Timelines do not show work packages when there is no status reporting
 * `#1896` Moved visibility-tests for issues into specs for workpackages
 * `#1912` Merge column project type with column planning element type
+* `#1918` Custom fields are not displayed when issue is created
 
 ## 3.0.0pre14
 
@@ -110,3 +129,4 @@
 * `#778` Integrate ban of former passwords
 * `#1209` Fix adding watcher to issue
 * `#1034` Create changelog and document format
+

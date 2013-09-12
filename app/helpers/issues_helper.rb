@@ -34,12 +34,12 @@ module IssuesHelper
   #    </div>
   #
   def render_issue_tooltip(issue)
-    @cached_label_status ||= Issue.human_attribute_name(:status)
-    @cached_label_start_date ||= Issue.human_attribute_name(:start_date)
-    @cached_label_due_date ||= Issue.human_attribute_name(:due_date)
-    @cached_label_assigned_to ||= Issue.human_attribute_name(:assigned_to)
-    @cached_label_priority ||= Issue.human_attribute_name(:priority)
-    @cached_label_project ||= Issue.human_attribute_name(:project)
+    @cached_label_status ||= WorkPackage.human_attribute_name(:status)
+    @cached_label_start_date ||= WorkPackage.human_attribute_name(:start_date)
+    @cached_label_due_date ||= WorkPackage.human_attribute_name(:due_date)
+    @cached_label_assigned_to ||= WorkPackage.human_attribute_name(:assigned_to)
+    @cached_label_priority ||= WorkPackage.human_attribute_name(:priority)
+    @cached_label_project ||= WorkPackage.human_attribute_name(:project)
 
     (link_to_work_package(issue) + "<br /><br />
       <strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />
@@ -48,18 +48,6 @@ module IssuesHelper
       <strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />
       <strong>#{@cached_label_assigned_to}</strong>: #{h(issue.assigned_to)}<br />
       <strong>#{@cached_label_priority}</strong>: #{h(issue.priority.name)}".html_safe)
-  end
-
-  # TODO: deprecate and/or remove
-  def render_issue_subject_with_tree(issue)
-    s = ''
-    ancestors = issue.root? ? [] : issue.ancestors.all
-    ancestors.each do |ancestor|
-      s << '<div>' + content_tag('h2', link_to_issue(ancestor))
-    end
-    s << '<div class="subject">' + content_tag('h2', h(issue.subject))
-    s << '</div>' * (ancestors.size + 1)
-    s
   end
 
   def render_descendants_tree(issue)
@@ -134,7 +122,7 @@ module IssuesHelper
 
   # Find the name of an associated record stored in the field attribute
   def find_name_by_reflection(field, id)
-    association = Issue.reflect_on_association(field.to_sym)
+    association = WorkPackage.reflect_on_association(field.to_sym)
     if association
       record = association.class_name.constantize.find_by_id(id)
       return record.name if record
@@ -155,49 +143,14 @@ module IssuesHelper
     end
   end
 
-  def render_issue_tree_row(issue, level, relation)
-    css_classes = ["issue"]
-    css_classes << "issue-#{issue.id}"
-    css_classes << "idnt" << "idnt-#{level}" if level > 0
-
-    if relation == "root"
-      issue_text = link_to("#{h(issue.type.name)} ##{issue.id}",
-                             'javascript:void(0)',
-                             :style => "color:inherit; font-weight: bold; text-decoration:none; cursor:default;",
-                             :class => issue.css_classes)
-    else
-      title = []
-
-      if relation == "parent"
-        title << content_tag(:span, l(:description_parent_work_package), :class => "hidden-for-sighted")
-      elsif relation == "child"
-        title << content_tag(:span, l(:description_sub_work_package), :class => "hidden-for-sighted")
-      end
-      title << h(issue.type.name)
-      title << "##{issue.id}"
-
-      issue_text = link_to(title.join(' ').html_safe, issue_path(issue), :class => issue.css_classes)
-    end
-    issue_text << ": "
-    issue_text << truncate(issue.subject, :length => 60)
-
-    content_tag :tr, :class => css_classes.join(' ') do
-      concat content_tag :td, check_box_tag("ids[]", issue.id, false, :id => nil), :class => 'checkbox'
-      concat content_tag :td, issue_text, :class => 'subject'
-      concat content_tag :td, h(issue.status)
-      concat content_tag :td, link_to_user(issue.assigned_to)
-      concat content_tag :td, link_to_version(issue.fixed_version)
-    end
-  end
-
   def entries_for_filter_select_sorted(query)
-    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || Issue.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
+    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || WorkPackage.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
       ActiveSupport::Inflector.transliterate(el[0]).downcase
     end
   end
 
   def value_overridden_by_children?(attrib)
-    Issue::ATTRIBS_WITH_VALUES_FROM_CHILDREN.include? attrib
+    WorkPackage::ATTRIBS_WITH_VALUES_FROM_CHILDREN.include? attrib
   end
 
   def attrib_disabled?(issue, attrib)

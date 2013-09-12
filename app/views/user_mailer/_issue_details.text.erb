@@ -1,12 +1,24 @@
-<%= issue.to_s %>
-<%= issue_url(issue) %>
+<%#-- copyright
+OpenProject is a project management system.
 
-<%= Issue.human_attribute_name(:author)        %>: <%= issue.author        %>
-<%= Issue.human_attribute_name(:status)        %>: <%= issue.status        %>
-<%= Issue.human_attribute_name(:priority)      %>: <%= issue.priority      %>
-<%= Issue.human_attribute_name(:assigned_to)   %>: <%= issue.assigned_to   %>
-<%= Issue.human_attribute_name(:category)      %>: <%= issue.category      %>
-<%= Issue.human_attribute_name(:fixed_version) %>: <%= issue.fixed_version %>
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= issue.to_s %>
+<%= work_package_url(issue) %>
+
+<%= WorkPackage.human_attribute_name(:author)        %>: <%= issue.author        %>
+<%= WorkPackage.human_attribute_name(:status)        %>: <%= issue.status        %>
+<%= WorkPackage.human_attribute_name(:priority)      %>: <%= issue.priority      %>
+<%= WorkPackage.human_attribute_name(:assigned_to)   %>: <%= issue.assigned_to   %>
+<%= WorkPackage.human_attribute_name(:category)      %>: <%= issue.category      %>
+<%= WorkPackage.human_attribute_name(:fixed_version) %>: <%= issue.fixed_version %>
 
 <% issue.custom_field_values.each do |value| %>
   <%= value.custom_field.name %>: <%= show_value(value) %>

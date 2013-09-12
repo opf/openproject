@@ -34,6 +34,7 @@ In case you find a bug or need a feature, please report at https://www.openproje
 == License
 
 OpenProject is licensed under the terms of the GNU General Public License version 3.
+See doc/COPYRIGHT.rdoc for details.
 
 == Icons credits:
 Thanks to Le Moign Vincent and his fabulous Minicons icons on webalys.com[http://www.webalys.com/minicons/icons-free-pack.php].

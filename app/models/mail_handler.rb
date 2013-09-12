@@ -144,7 +144,7 @@ class MailHandler < ActionMailer::Base
       raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
     end
 
-    issue = Issue.new(:author => user, :project => project)
+    issue = WorkPackage.new(:author => user, :project => project)
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
     issue.subject = email.subject.to_s.chomp[0,255]
@@ -163,7 +163,7 @@ class MailHandler < ActionMailer::Base
 
   # Adds a note to an existing issue
   def receive_issue_reply(issue_id)
-    issue = Issue.find_by_id(issue_id)
+    issue = WorkPackage.find_by_id(issue_id)
     return unless issue
     # check permission
     unless @@handler_options[:no_permission_check]
@@ -184,7 +184,7 @@ class MailHandler < ActionMailer::Base
   # Reply will be added to the issue
   def receive_issue_journal_reply(journal_id)
     journal = Journal.find_by_id(journal_id)
-    if journal and journal.journable.is_a? Issue
+    if journal and journal.journable.is_a? WorkPackage
       receive_issue_reply(journal.journable_id)
     end
   end
