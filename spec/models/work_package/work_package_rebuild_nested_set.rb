@@ -10,7 +10,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe WorkPackage, "rebuilding nested set" do
   let(:project) { FactoryGirl.create(:valid_project) }
