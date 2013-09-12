@@ -694,20 +694,17 @@ describe WorkPackage do
     before do
       work_package_1
       work_package_2
+
+      without_timestamping do
+        work_package_1.updated_at = 1.minute.ago
+        work_package_1.save!
+      end
     end
 
-    context :with_limit do
-      context :length do
-        subject { WorkPackage.recently_updated.limit(1).length }
+    context :limit do
+      subject { WorkPackage.recently_updated.limit(1).first }
 
-        it { should eq(1) }
-      end
-
-      context :work_package do
-        subject { WorkPackage.recently_updated.limit(1).first }
-
-        it { should eq(work_package_2) }
-      end
+      it { should eq(work_package_2) }
     end
   end
 
