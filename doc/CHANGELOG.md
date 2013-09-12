@@ -62,6 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1800` Add settings to change software name and URL and add additional footer content
 * `#1808` Add option to log user for each request
 * `#1875` Added test steps to reuse steps for my page, my project page, and documents, no my page block lookup at class load time
+* `#1843` Editing Membership Duration in admin area fails
 * `#1876` Timelines do not show work packages when there is no status reporting
 * `#1896` Moved visibility-tests for issues into specs for workpackages
 # `#1911` Change mouse icon when hovering over drag&drop-enabled select2 entries
