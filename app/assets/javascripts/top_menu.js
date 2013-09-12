@@ -132,11 +132,11 @@
 
     closeOtherItems: function (dropdown) {
       var self = this;
-      this.openDropdowns().filter(function (ix, it) {
-        return $(it) != $(dropdown);
-      }).each(function (ix, it) {
-        self.close($(it));
-      })
+      this.openDropdowns().each(function (ix, it) {
+        if ($(it) != $(dropdown)) {
+          self.close($(it));
+        }
+      });
     },
 
     dontCloseWhenUsing: function (dropdown) {
