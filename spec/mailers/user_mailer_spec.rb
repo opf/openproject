@@ -17,7 +17,7 @@ describe UserMailer do
     let(:type_standard) { FactoryGirl.build_stubbed(:type_standard) }
     let(:user) { FactoryGirl.build_stubbed(:user) }
     let(:journal) { FactoryGirl.build_stubbed(:work_package_journal) }
-    let(:work_package) { FactoryGirl.build_stubbed(:issue,
+    let(:work_package) { FactoryGirl.build_stubbed(:work_package,
                                                    type: type_standard) }
 
     subject { UserMailer.issue_updated(user, journal).body.encoded }

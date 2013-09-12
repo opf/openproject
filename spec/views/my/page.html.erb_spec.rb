@@ -14,7 +14,7 @@ require 'spec_helper'
 describe 'my/page' do
   let(:project)    { FactoryGirl.create :valid_project }
   let(:user)       { FactoryGirl.create :admin, :member_in_project => project }
-  let(:issue)      { FactoryGirl.create :issue, :project => project, :author => user }
+  let(:issue)      { FactoryGirl.create :work_package, :project => project, :author => user }
   let(:time_entry) { FactoryGirl.create :time_entry,
                                         :project => project,
                                         :user => user,

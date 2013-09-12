@@ -17,7 +17,7 @@ describe WorkPackage do
                                      types: [type] }
   let(:status) { FactoryGirl.create :default_issue_status }
   let(:priority) { FactoryGirl.create :priority }
-  let(:work_package) { FactoryGirl.create(:issue,
+  let(:work_package) { FactoryGirl.create(:work_package,
                                           :project_id => project.id,
                                           :type => type,
                                           :priority => priority) }
@@ -179,7 +179,7 @@ describe WorkPackage do
     end
 
     context "custom value removed" do
-      before { 
+      before {
         work_package.custom_values.delete(custom_value)
         work_package.save!
       }

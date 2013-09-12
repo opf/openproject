@@ -15,8 +15,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for work_package,
                               :url => project_work_packages_path(project),
-                              # TODO: remove once Issue == PlanningElement
-                              :as => 'work_package',
                               :html => { :multipart => true,
                                          :id => 'work_package-form',
                                          :class => 'tabular new-work_package-form' } do |f| %>

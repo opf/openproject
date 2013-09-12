@@ -96,7 +96,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:total_hours)
     assert_equal "154.25", "%.2f" % assigns(:total_hours)
     assert_tag :form,
-      :attributes => {:action => issue_time_entries_report_path(1), :id => 'query_form'}
+      :attributes => {:action => work_package_time_entries_report_path(1), :id => 'query_form'}
   end
 
   def test_report_custom_field_criteria

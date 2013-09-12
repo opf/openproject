@@ -139,7 +139,7 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
 
   def test_call_hook_should_not_change_the_default_url_for_email_notifications
     user = User.find(1)
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
 
     ActionMailer::Base.deliveries.clear
     UserMailer.issue_added(user, issue).deliver

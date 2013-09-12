@@ -10,7 +10,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# While loading the Issue class below, we lazy load the Project class. Which itself need Issue.
+# While loading the Issue class below, we lazy load the Project class. Which itself need WorkPackage.
 # So we create an 'emtpy' Issue class first, to make Project happy.
 
 class WorkPackage < ActiveRecord::Base
@@ -18,11 +18,6 @@ class WorkPackage < ActiveRecord::Base
   include WorkPackage::Validations
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
-
-  #TODO Remove alternate inheritance column name once single table
-  # inheritance is no longer needed. The need for a different column name
-  # comes from Trackers becoming Types.
-  self.inheritance_column = :sti_type
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   include Redmine::SafeAttributes
@@ -456,7 +451,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def done_ratio
-    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio
+    if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
       status.default_done_ratio
     else
       read_attribute(:done_ratio)
@@ -472,7 +467,7 @@ class WorkPackage < ActiveRecord::Base
   # Safely sets attributes
   # Should be called from controllers instead of #attributes=
   # attr_accessible is too rough because we still want things like
-  # Issue.new(:project => foo) to work
+  # WorkPackage.new(:project => foo) to work
   # TODO: move workflow/permission checks from controllers to here
   def safe_attributes=(attrs, user=User.current)
     return unless attrs.is_a?(Hash)
@@ -517,7 +512,7 @@ class WorkPackage < ActiveRecord::Base
   # Saves an issue, time_entry, attachments, and a journal from the parameters
   # Returns false if save fails
   def save_issue_with_child_records(params, existing_time_entry=nil)
-    Issue.transaction do
+    WorkPackage.transaction do
       if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, project)
         @time_entry = existing_time_entry || TimeEntry.new
         @time_entry.project = project
@@ -596,7 +591,7 @@ class WorkPackage < ActiveRecord::Base
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
   def update_done_ratio_from_issue_status
-    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio
+    if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
       self.done_ratio = status.default_done_ratio
     end
   end
@@ -820,7 +815,7 @@ class WorkPackage < ActiveRecord::Base
   # Unassigns issues from +version+ if it's no longer shared with issue's project
   def self.update_versions_from_sharing_change(version)
     # Update issues assigned to the version
-    update_versions(["#{Issue.table_name}.fixed_version_id = ?", version.id])
+    update_versions(["#{WorkPackage.table_name}.fixed_version_id = ?", version.id])
   end
 
   # Unassigns issues from versions that are no longer shared
@@ -828,7 +823,7 @@ class WorkPackage < ActiveRecord::Base
   def self.update_versions_from_hierarchy_change(project)
     moved_project_ids = project.self_and_descendants.reload.collect(&:id)
     # Update issues of the moved projects and issues assigned to a version of a moved project
-    Issue.update_versions(["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
+    WorkPackage.update_versions(["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
   end
 
   # Extracted from the ReportsController.
@@ -874,7 +869,7 @@ class WorkPackage < ActiveRecord::Base
                                                 i.project_id as project_id,
                                                 count(i.id) as total
                                               from
-                                                #{Issue.table_name} i, #{IssueStatus.table_name} s
+                                                #{WorkPackage.table_name} i, #{IssueStatus.table_name} s
                                               where
                                                 i.status_id=s.id
                                                 and i.project_id IN (#{project.descendants.active.collect{|p| p.id}.join(',')})
@@ -916,8 +911,8 @@ class WorkPackage < ActiveRecord::Base
   def self.update_versions(conditions=nil)
     # Only need to update issues with a fixed_version from
     # a different project and that is not systemwide shared
-    Issue.all(:conditions => merge_conditions("#{Issue.table_name}.fixed_version_id IS NOT NULL" +
-                                                " AND #{Issue.table_name}.project_id <> #{Version.table_name}.project_id" +
+    WorkPackage.all(:conditions => merge_conditions("#{WorkPackage.table_name}.fixed_version_id IS NOT NULL" +
+                                                " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
                                                 " AND #{Version.table_name}.sharing <> 'system'",
                                                 conditions),
               :include => [:project, :fixed_version]
@@ -973,7 +968,7 @@ class WorkPackage < ActiveRecord::Base
                                                 j.id as #{select_field},
                                                 count(i.id) as total
                                               from
-                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{joins} j
+                                                  #{WorkPackage.table_name} i, #{IssueStatus.table_name} s, #{joins} j
                                               where
                                                 i.status_id=s.id
                                                 and #{where}

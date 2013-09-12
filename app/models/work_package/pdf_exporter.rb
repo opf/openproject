@@ -178,41 +178,41 @@ module WorkPackage::PdfExporter
     y0 = pdf.GetY
 
     pdf.SetFontStyle('B',9)
-    pdf.RDMCell(35,5, Issue.human_attribute_name(:status) + ":","LT")
+    pdf.RDMCell(35,5, WorkPackage.human_attribute_name(:status) + ":","LT")
     pdf.SetFontStyle('',9)
     pdf.RDMCell(60,5, work_package.status.to_s,"RT")
     pdf.SetFontStyle('B',9)
-    pdf.RDMCell(35,5, Issue.human_attribute_name(:priority) + ":","LT")
+    pdf.RDMCell(35,5, WorkPackage.human_attribute_name(:priority) + ":","LT")
     pdf.SetFontStyle('',9)
     pdf.RDMCell(60,5, work_package.priority.to_s,"RT")
     pdf.Ln
 
     pdf.SetFontStyle('B',9)
-    pdf.RDMCell(35,5, Issue.human_attribute_name(:author) + ":","L")
+    pdf.RDMCell(35,5, WorkPackage.human_attribute_name(:author) + ":","L")
     pdf.SetFontStyle('',9)
     pdf.RDMCell(60,5, work_package.author.to_s,"R")
     pdf.SetFontStyle('B',9)
-    pdf.RDMCell(35,5, Issue.human_attribute_name(:category) + ":","L")
+    pdf.RDMCell(35,5, WorkPackage.human_attribute_name(:category) + ":","L")
     pdf.SetFontStyle('',9)
     pdf.RDMCell(60,5, work_package.category.to_s,"R")
     pdf.Ln
 
     pdf.SetFontStyle('B',9)
-    pdf.RDMCell(35,5, Issue.human_attribute_name(:created_at) + ":","L")
+    pdf.RDMCell(35,5, WorkPackage.human_attribute_name(:created_at) + ":","L")
     pdf.SetFontStyle('',9)
     pdf.RDMCell(60,5, format_date(work_package.created_at),"R")
     pdf.SetFontStyle('B',9)
-    pdf.RDMCell(35,5, Issue.human_attribute_name(:assigned_to) + ":","L")
+    pdf.RDMCell(35,5, WorkPackage.human_attribute_name(:assigned_to) + ":","L")
     pdf.SetFontStyle('',9)
     pdf.RDMCell(60,5, work_package.assigned_to.to_s,"R")
     pdf.Ln
 
     pdf.SetFontStyle('B',9)
-    pdf.RDMCell(35,5, Issue.human_attribute_name(:updated_at) + ":","LB")
+    pdf.RDMCell(35,5, WorkPackage.human_attribute_name(:updated_at) + ":","LB")
     pdf.SetFontStyle('',9)
     pdf.RDMCell(60,5, format_date(work_package.updated_at),"RB")
     pdf.SetFontStyle('B',9)
-    pdf.RDMCell(35,5, Issue.human_attribute_name(:due_date) + ":","LB")
+    pdf.RDMCell(35,5, WorkPackage.human_attribute_name(:due_date) + ":","LB")
     pdf.SetFontStyle('',9)
     pdf.RDMCell(60,5, format_date(work_package.due_date),"RB")
     pdf.Ln
@@ -225,7 +225,7 @@ module WorkPackage::PdfExporter
     end
 
     pdf.SetFontStyle('B',9)
-    pdf.RDMCell(35,5, Issue.human_attribute_name(:description) + ":")
+    pdf.RDMCell(35,5, WorkPackage.human_attribute_name(:description) + ":")
     pdf.SetFontStyle('',9)
     pdf.RDMMultiCell(155,5, work_package.description.to_s,"BR")
 

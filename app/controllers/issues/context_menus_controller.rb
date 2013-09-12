@@ -13,7 +13,7 @@
 class Issues::ContextMenusController < ApplicationController
 
   def issues
-    @issues = Issue.visible.all(:conditions => {:id => params[:ids]}, :include => :project)
+    @issues = WorkPackage.visible.all(:conditions => {:id => params[:ids]}, :include => :project)
 
     if (@issues.size == 1)
       @issue = @issues.first

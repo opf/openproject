@@ -15,7 +15,7 @@ class AttachmentTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_create
-    a = Attachment.new(:container => Issue.find(1),
+    a = Attachment.new(:container => WorkPackage.find(1),
                        :file => uploaded_test_file("testfile.txt", "text/plain"),
                        :author => User.find(1))
     assert a.save
@@ -28,7 +28,7 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_create_should_auto_assign_content_type
-    a = Attachment.new(:container => Issue.find(1),
+    a = Attachment.new(:container => WorkPackage.find(1),
                        :file => uploaded_test_file("testfile.txt", ""),
                        :author => User.find(1))
     assert a.save
@@ -36,10 +36,10 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_identical_attachments_at_the_same_time_should_not_overwrite
-    a1 = Attachment.create!(:container => Issue.find(1),
+    a1 = Attachment.create!(:container => WorkPackage.find(1),
                             :file => uploaded_test_file("testfile.txt", ""),
                             :author => User.find(1))
-    a2 = Attachment.create!(:container => Issue.find(1),
+    a2 = Attachment.create!(:container => WorkPackage.find(1),
                             :file => uploaded_test_file("testfile.txt", ""),
                             :author => User.find(1))
     assert a1.disk_filename != a2.disk_filename
@@ -57,7 +57,7 @@ class AttachmentTest < ActiveSupport::TestCase
     should "add unsaved files to the object as unsaved attachments" do
       # Max size of 0 to force Attachment creation failures
       with_settings(:attachment_max_size => 0) do
-        @issue = Issue.find(1)
+        @issue = WorkPackage.find(1)
         response = Attachment.attach_files(@issue, {
                                              '1' => {'file' => mock_file, 'description' => 'test'},
                                              '2' => {'file' => mock_file, 'description' => 'test'}

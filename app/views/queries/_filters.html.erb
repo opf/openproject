@@ -94,7 +94,7 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
     <tr <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
     <td style="width:200px;">
         <%= check_box_tag 'f[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
-        <label for="cb_<%= field %>"><%= filter[1][:name] || Issue.human_attribute_name(field) %></label>
+        <label for="cb_<%= field %>"><%= filter[1][:name] || WorkPackage.human_attribute_name(field) %></label>
     </td>
     <td style="width:150px;">
         <%= label_tag "op_#{field}", l(:description_filter), :class => "hidden-for-sighted" %>
@@ -128,7 +128,7 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
 </td>
 <td class="add-filter">
 <%= label_tag('add_filter_select', l(:label_filter_add)) %>:
-<%= select_tag 'add_filter_select', 
+<%= select_tag 'add_filter_select',
   options_for_select(entries_for_filter_select_sorted(query)),
     :onchange => "add_filter();",
     :class => "select-small",

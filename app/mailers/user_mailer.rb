@@ -377,14 +377,14 @@ class DueIssuesReminder
   end
 
   def remind_users
-    s = ARCondition.new ["#{IssueStatus.table_name}.is_closed = ? AND #{Issue.table_name}.due_date <= ?", false, @days.days.from_now.to_date]
-    s << "#{Issue.table_name}.assigned_to_id IS NOT NULL"
-    s << ["#{Issue.table_name}.assigned_to_id IN (?)", @user_ids] if @user_ids.any?
+    s = ARCondition.new ["#{IssueStatus.table_name}.is_closed = ? AND #{WorkPackage.table_name}.due_date <= ?", false, @days.days.from_now.to_date]
+    s << "#{WorkPackage.table_name}.assigned_to_id IS NOT NULL"
+    s << ["#{WorkPackage.table_name}.assigned_to_id IN (?)", @user_ids] if @user_ids.any?
     s << "#{Project.table_name}.status = #{Project::STATUS_ACTIVE}"
-    s << "#{Issue.table_name}.project_id = #{@project.id}" if @project
-    s << "#{Issue.table_name}.type_id = #{@type.id}" if @type
+    s << "#{WorkPackage.table_name}.project_id = #{@project.id}" if @project
+    s << "#{WorkPackage.table_name}.type_id = #{@type.id}" if @type
 
-    issues_by_assignee = Issue.find(:all, :include => [:status, :assigned_to, :project, :type],
+    issues_by_assignee = WorkPackage.find(:all, :include => [:status, :assigned_to, :project, :type],
                                           :conditions => s.conditions
                                    ).group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|

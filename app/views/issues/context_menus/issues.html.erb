@@ -86,7 +86,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= context_menu_entry(params) %>
 <% end -%>
 
-<% if Issue.use_field_for_done_ratio? %>
+<% if WorkPackage.use_field_for_done_ratio? %>
   <% params = default_params.merge(:collection => (0..10).map{ |x| x * 10 },
                                    :attribute => 'done_ratio',
                                    :title => WorkPackage.human_attribute_name(:done_ratio),
