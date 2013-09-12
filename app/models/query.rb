@@ -244,7 +244,7 @@ class Query < ActiveRecord::Base
                             project.all_work_package_custom_fields :
                             WorkPackageCustomField.find(:all)
                            ).collect {|cf| ::QueryCustomFieldColumn.new(cf) }
-    if Setting.issue_done_ratio == 'disabled'
+    if WorkPackage.done_ratio_disabled?
       @available_columns.select! {|column| column.name != :done_ratio }.length
     end
     @available_columns
