@@ -45,6 +45,33 @@ describe WorkPackage do
       it { Journal.all.count.should eq(1) }
     end
 
+    context "line endings changed" do
+      let(:description) { "Description\n\nwith newlines\n\nembedded" }
+      let(:work_package_1) { FactoryGirl.create(:work_package,
+                                                project_id: project.id,
+                                                type: type,
+                                                description: description,
+                                                priority: priority) }
+
+      before do
+        work_package_1
+        work_package_1.description = "Description\r\n\r\nwith newlines\r\n\r\nembedded"
+        work_package_1.save!
+      end
+
+      describe "does not change journal count" do
+        subject { Journal.count }
+
+        it { should eq(2) } # work_package + work_package_1
+      end
+
+      describe "does not change work package description" do
+        subject { work_package_1.description }
+
+        it { should eq(description) }
+      end
+    end
+
     context "on work package change" do
       let(:parent_work_package) { FactoryGirl.create(:planning_element,
                                                      :project_id => project.id,

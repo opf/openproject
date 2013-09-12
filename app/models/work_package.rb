@@ -201,6 +201,13 @@ class WorkPackage < ActiveRecord::Base
     (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []
   end
 
+  def description=(description)
+    # Bug #501: browsers might swap the line endings causing a Journal.
+    if description.gsub(/\r\n?/,"\n") != self.description
+      write_attribute :description, description
+    end
+  end
+
   def estimated_hours=(h)
     converted_hours = (h.is_a?(String) ? h.to_hours : h)
     write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
