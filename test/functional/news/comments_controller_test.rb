@@ -22,7 +22,8 @@ class News::CommentsControllerTest < ActionController::TestCase
   def test_add_comment
     @request.session[:user_id] = 2
     post :create, :news_id => 1, :comment => { :comments => 'This is a test comment' }
-    assert_redirected_to '/news/1'
+    news = News.find(1)
+    assert_redirected_to news_path(news)
 
     comment = News.find(1).comments.reorder('created_on DESC').first
     assert_not_nil comment
@@ -34,8 +35,9 @@ class News::CommentsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     assert_no_difference 'Comment.count' do
       post :create, :news_id => 1, :comment => { :comments => '' }
+      news = News.find(1)
       assert_response :redirect
-      assert_redirected_to '/news/1'
+      assert_redirected_to news_path(news)
     end
   end
 
@@ -46,7 +48,8 @@ class News::CommentsControllerTest < ActionController::TestCase
       delete :destroy, :id => 2
     end
 
-    assert_redirected_to '/news/1'
+    news = News.find(1)
+    assert_redirected_to news_path(news)
     assert_nil Comment.find_by_id(2)
   end
 end
