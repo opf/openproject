@@ -56,6 +56,10 @@ class WorkPackage < ActiveRecord::Base
     {:conditions => {:project_id => projects}}
   }
 
+  scope :on_active_project, lambda { {
+    :include => [:status, :project, :type],
+    :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" }}
+
   after_initialize :set_default_values
 
   acts_as_watchable

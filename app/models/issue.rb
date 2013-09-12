@@ -26,10 +26,6 @@ class Issue < WorkPackage
 
   scope :with_limit, lambda { |limit| { :limit => limit} }
 
-  scope :on_active_project, lambda { {
-    :include => [:status, :project, :type],
-    :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" }}
-
   scope :without_version, lambda {
     {
       :conditions => { :fixed_version_id => nil}

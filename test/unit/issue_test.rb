@@ -16,20 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_on_active_projects_scope
-    assert Project.find(2).archive
-
-    before = Issue.on_active_project.length
-    # test inclusion to results
-    issue = Issue.generate_for_project!(Project.find(1), :type => Project.find(2).types.first)
-    assert_equal before + 1, Issue.on_active_project.length
-
-    # Move to an archived project
-    issue.project = Project.find(2)
-    assert issue.save
-    assert_equal before, Issue.on_active_project.length
-  end
-
   context "Issue#recipients" do
     setup do
       @project = Project.find(1)

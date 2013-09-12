@@ -711,6 +711,28 @@ describe WorkPackage do
     end
   end
 
+  describe :on_active_project do
+    let(:project_archived) { FactoryGirl.create(:project,
+                                                status: Project::STATUS_ARCHIVED) }
+    let(:work_package) { FactoryGirl.create(:work_package) }
+    let(:work_package_in_archived_project) { FactoryGirl.create(:work_package,
+                                                                project: project_archived) }
+
+    before { work_package }
+
+    subject { WorkPackage.on_active_project.length }
+
+    context "one work package in active projects" do
+      it { should eq(1) }
+
+      context "and one work package in archived projects" do
+        before { work_package_in_archived_project }
+
+        it { should eq(1) }
+      end
+    end
+  end
+
   describe :new_statuses_allowed_to do
 
     let(:role) { FactoryGirl.create(:role) }
