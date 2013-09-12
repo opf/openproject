@@ -41,7 +41,7 @@ module OpenProject::XlsExport
           sb = SpreadsheetBuilder.new("#{I18n.t(:label_work_package_plural)}")
 
           headers = columns.collect(&:caption).unshift("#")
-          headers << Issue.human_attribute_name(:description) if options[:show_descriptions]
+          headers << WorkPackage.human_attribute_name(:description) if options[:show_descriptions]
           sb.add_headers headers, 0
 
           issues.each do |issue|

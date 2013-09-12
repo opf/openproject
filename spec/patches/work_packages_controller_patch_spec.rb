@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe WorkPackagesController, "rendering to xls", :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
-  let!(:work_package) { FactoryGirl.create(:issue, :subject => '!SUBJECT!',
+  let!(:work_package) { FactoryGirl.create(:work_package, :subject => '!SUBJECT!',
                                                    :description => '!DESCRIPTION!') }
 
   before do
