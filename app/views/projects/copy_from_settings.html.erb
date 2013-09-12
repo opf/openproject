@@ -20,42 +20,35 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <fieldset class="copy box">
     <legend><%= l(:button_copy) %></legend>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'queries', true %>
-      <%= "#{l(:label_query_plural)} (#{@source_project.queries.count})" %>
-    </label>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'boards', false %>
-      <%= "#{l(:label_board_plural)} (#{@source_project.boards.count})" %>
-    </label>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'members', true %>
-      <%= "#{l(:label_member_plural)} (#{@source_project.members.count})" %>
-    </label>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'project_associations', true %>
-      <%= "#{l(:label_reporting_plural)} (#{@source_project.project_associations.count})" %>
-    </label>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'timelines', true %>
-      <%= "#{l(:'timelines.timelines')} (#{@source_project.timelines.count})" %>
-    </label>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'versions', true %>
-      <%= "#{l(:label_version_plural)} (#{@source_project.versions.count})" %>
-    </label>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'wiki', true %>
-      <%= "#{l(:label_wiki_page_plural)} (#{@source_project.wiki.nil? ? 0 : @source_project.wiki.pages.count})" %>
-    </label>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'work_packages', false %>
-      <%= "#{l(:label_work_package_plural)} (#{@source_project.work_packages.count})" %>
-    </label>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'issue_categories', true %>
-      <%= "#{l(:label_work_package_category_plural)} (#{@source_project.issue_categories.count})" %>
-    </label>
+    <%= render :partial => "projects/copy_settings/block_checkbox",
+               :locals => { :name => "queries", :checked => true, :label => l(:label_query_plural),
+                            :count => @source_project.queries.count } %>
+    <%= render :partial => "projects/copy_settings/block_checkbox",
+               :locals => { :name => "boards", :checked => false, :label => l(:label_board_plural),
+                            :count => @source_project.boards.count } %>
+    <%= render :partial => "projects/copy_settings/block_checkbox",
+               :locals => { :name => "members", :checked => true, :label => l(:label_member_plural),
+                            :count => @source_project.members.count } %>
+    <%= render :partial => "projects/copy_settings/block_checkbox",
+               :locals => { :name => "project_associations", :checked => true, :label => l(:label_reporting_plural),
+                            :count => @source_project.project_associations.count } %>
+    <%= render :partial => "projects/copy_settings/block_checkbox",
+               :locals => { :name => "timelines", :checked => true, :label => l(:'timelines.timelines'),
+                            :count => @source_project.timelines.count } %>
+    <%= render :partial => "projects/copy_settings/block_checkbox",
+               :locals => { :name => "versions", :checked => true, :label => l(:label_version_plural),
+                            :count => @source_project.versions.count } %>
+    <%= render :partial => "projects/copy_settings/block_checkbox",
+               :locals => { :name => "wiki", :checked => true, :label => l(:label_wiki_page_plural),
+                            :count => @source_project.wiki.nil? ? 0 : @source_project.wiki.pages.count } %>
+    <%= render :partial => "projects/copy_settings/block_checkbox",
+               :locals => { :name => "work_packages", :checked => false, :label => l(:label_work_package_plural),
+                            :count => @source_project.work_packages.count } %>
+    <%= render :partial => "projects/copy_settings/block_checkbox",
+               :locals => { :name => "issue_categories", :checked => true,
+                            :label => l(:label_work_package_category_plural),
+                            :count => @source_project.issue_categories.count } %>
+
     <%= hidden_field_tag 'only[]', '' %>
     <br />
     <label class="block">
