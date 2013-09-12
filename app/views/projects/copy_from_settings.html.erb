@@ -14,8 +14,21 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @project, :url => { :action => "copy" } do |f| %>
   <div class="copy box">
-    <%= render :partial => 'projects/form/project_attributes', :locals => { :form => f, :project => @project } %>
-    <%= render :partial => 'projects/form/timelines_attributes', :locals => { :form => f, :project => @project } %>
+    <%= render :partial => "projects/form/attributes/name", :locals => { :form => f } %>
+    <%= render :partial => "projects/form/attributes/identifier", :locals => { :form => f,
+                                                                               :project => @project } %>
+    <%= render :partial => "projects/form/attributes/description", :locals => { :form => f } %>
+    <%= render :partial => "projects/form/attributes/custom_fields", :locals => { :project => @project } %>
+    <%= render :partial => "projects/form/attributes/responsible_id", :locals => { :form => f,
+                                                                                   :project => @project } %>
+    <%= render :partial => "projects/form/attributes/hidden_field",
+               :locals => { :form => f, :name => :project_type_id, :value => @source_project.project_type_id } %>
+    <%= render :partial => "projects/form/attributes/hidden_field",
+               :locals => { :form => f, :name => :parent_id, :value => @source_project.parent_id } %>
+    <%= render :partial => "projects/form/attributes/hidden_field",
+               :locals => { :form => f, :name => :homepage, :value => @source_project.homepage } %>
+    <%= render :partial => "projects/form/attributes/hidden_field",
+               :locals => { :form => f, :name => :is_public, :value => @source_project.is_public } %>
   </div>
 
   <fieldset class="copy box">
