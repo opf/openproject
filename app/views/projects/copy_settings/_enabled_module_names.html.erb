@@ -1,0 +1,3 @@
+<% project.enabled_module_names.each do |m| %>
+  <%= hidden_field_tag "enabled_modules[]", m, :id => "enabled_module_names_#{m}" %>
+<% end %>

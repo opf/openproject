@@ -29,6 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
                :locals => { :form => f, :name => :homepage, :value => @source_project.homepage } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
                :locals => { :form => f, :name => :is_public, :value => @source_project.is_public } %>
+
+    <%= render :partial => "projects/copy_settings/enabled_module_names",
+               :locals => { :project => @source_project } %>
   </div>
 
   <fieldset class="copy box">
