@@ -4,8 +4,7 @@
 <%= render :partial => "projects/form/attributes/description", :locals => { :form => form } %>
 <%= render :partial => "projects/form/attributes/identifier", :locals => { :form => form, :project => project } %>
 <%= render :partial => "projects/form/attributes/homepage", :locals => { :form => form } %>
-
-<p><%= form.check_box :is_public %></p>
+<%= render :partial => "projects/form/attributes/is_public", :locals => { :form => form } %>
 
 <% project.custom_field_values.each do |value| %>
   <p><%= custom_field_tag_with_label :project, value %></p>
