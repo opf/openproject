@@ -19,9 +19,10 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1757` Rename Issues fixtures to Work Package fixtures
 * `#1759` Remove link_to_issue_preview, replace with link_to_workpackage_preview
 * `#1822` Replace Issue constant by WorkPackage constant
+* `#1850` Disable atom feeds via setting
 * `#1898` Separate action for changing wiki parent page (was same as rename before)
 * `#1923` Add permission that allows hiding repository statistics on commits per author
-* `#1850` Disable atom feeds via setting
+* `#1950` Grey line near the lower end of the modal, cuts off a bit of the content 
 
 ## 3.0.0pre15
 
