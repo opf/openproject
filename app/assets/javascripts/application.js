@@ -32,6 +32,7 @@
 //= require controls
 //= require i18n/translations
 //= require select2
+//= require top_menu
 //= require action_menu
 //= require openproject
 //= require breadcrumb
@@ -611,14 +612,6 @@ jQuery(document).ready(function($) {
     addClickEventToAllErrorMessages();
   });
 
-    var propagateOpenClose = function () {
-      if ($(this).is(":visible")) {
-        $(this).parents('li.drop-down').trigger("opened");
-      } else {
-        $(this).parents('li.drop-down').trigger("closed");
-      }
-    };
-
   $.extend($.fn.select2.defaults, {
     formatNoMatches: function () {
       return I18n.t("js.select2.no_matches");
@@ -655,15 +648,21 @@ jQuery(document).ready(function($) {
         containerCssClass : "select2-select",
       }).
       on('change', function (e) {
-          if (e.val) {
+        // this handles expected 'new-tab behaviour'
+        if (e.val) {
+          // jQuery sets metaKey to true when pressing ctrl
+          if (e.metaKey) {
+            window.open(select2.data().project.url);
+          } else {
             window.location = select2.data().project.url;
           }
-        }).
+        }
+      }).
       on('close', function () {
-          if (menu.is('.open')) {
-            menu.slideAndFocus(that.propagateOpenClose);
-          }
-        });
+        if (menu.is('.open')) {
+          menu.trigger("closeMenu");
+        }
+      });
 
     select2 = select.data('select2');
 
@@ -740,144 +739,6 @@ jQuery(document).ready(function($) {
 	  $(this).toggleClass("closed").next().slideToggle(animationRate);
 	});
 
-	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
-	$.fn.slideAndFocus = function(callback) {
-          this.toggleClass("open").find("> ul").mySlide(function() {
-              // actually a simple focus should be enough.
-              // The rest is only there to work around a rendering bug in webkit (as of Oct 2011) TODO: fix
-              if ($("input#username-pulldown").is(":visible")) {
-                var input = $("input#username-pulldown");
-              } else {
-                var input = $(this).find(".select2-search input");
-              }
-              if (input.is(":visible")) {
-                input.blur();
-                setTimeout(function() {
-                    input.focus();
-                  }, 100);
-              }
-              else {
-                $(this).find("li > a:first").focus();
-              }
-              if (typeof callback === 'function') {
-                callback.apply(this);
-              }
-            });
-            return false;
-          };
-	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
-	$.fn.mySlide = function(callback) {
-		if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
-			// no animations, just toggle
-			this.toggle();
-                        if (typeof callback === 'function') {
-                          callback.apply(this);
-                        }
-			// this forces IE to redraw the menu area, un-bollocksing things
-			$("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
-		} else {
-			this.slideToggle(animationRate,callback);
-		}
-
-		return this;
-	};
-
-  $.fn.onClickDropDown = function(){
-    var that = this;
-    $('html').click(function() {
-      that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide(propagateOpenClose);
-      that.removeClass("hover");
-    });
-
-    // Do not close the login window when using it
-    that.find("li li").click(function(event){
-       event.stopPropagation();
-    });
-
-    // trap all mouseevents inside dropdown menu items to prevent side effects
-    this.find(" > li.drop-down").bind("mousedown mouseup click", function (event) {
-      event.stopPropagation();
-    });
-
-    this.find(" > li.drop-down").click(function(event) {
-      // if an h2 tag follows the submenu should unfold out at the border
-      var menu_start_position;
-      if (that.next().get(0) != undefined && (that.next().get(0).tagName == 'H2')){
-        menu_start_position = that.next().innerHeight() + that.next().position().top;
-        that.find("ul.action_menu_more").css({ top: menu_start_position });
-      }
-      else if(that.next().hasClass("wiki-content") && that.next().children().next().first().get(0) != undefined && that.next().children().next().first().get(0).tagName == 'H1'){
-        var wiki_heading = that.next().children().next().first();
-        menu_start_position = wiki_heading.innerHeight() + wiki_heading.position().top;
-        that.find("ul.action_menu_more").css({ top: menu_start_position });
-      }
-
-      $(this).toggleSubmenu(that);
-      return false;
-    });
-  };
-
-  $.fn.toggleSubmenu = function(menu){
-    if (menu.find(" > li.drop-down.open").get(0) !== $(this).get(0)){
-      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide(propagateOpenClose);
-    }
-
-    $(this).slideAndFocus(propagateOpenClose);
-    menu.toggleClass("hover");
-  };
-
-
-	// open and close the main-menu sub-menus
-	$("#main-menu li:has(ul) > a").not("ul ul a")
-		.append("<span class='toggler'></span>")
-		.click(function() {
-
-			$(this).toggleClass("open").parent().find("ul").not("ul ul ul").mySlide(propagateOpenClose);
-
-			return false;
-	});
-
-	// submenu flyouts
-	$("#main-menu li li:has(ul)").hover(function() {
-		$(this).find(".profile-box").show();
-		$(this).find("ul").slideDown(animationRate);
-	}, function() {
-		$(this).find("ul").slideUp(animationRate);
-	});
-
-	// add filter dropdown menu
-	$(".button-large:has(ul) > a").click(function(event) {
-		var tgt = $(event.target);
-
-		// is this inside the title bar?
-		if (tgt.parents().is(".title-bar")) {
-			$(".title-bar-extras:hidden").slideDown(animationRate);
-		}
-
-		$(this).parent().find("ul").slideToggle(animationRate, propagateOpenClose);
-
-		return false;
-	});
-
-        jQuery("#account-nav > li").hover(function() {
-          if ($("#account-nav").hasClass("hover") && ($("#account-nav > li.drop-down.open").get(0) !== $(this).get(0))){
-                //Close all other open menus
-                //Used to work around the rendering bug  TODO: fix
-                jQuery("input#username-pulldown").blur();
-                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide(function () {
-                  $(this).parents("li.drop-down").trigger("closed");
-                });
-                $(this).slideAndFocus(function () {
-                  $(this).parents("li.drop-down").trigger("opened");
-                });
-                return false;
-            }
-        },
-        function(){
-          return false;
-          });
-        $("#account-nav").onClickDropDown();
-
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
 
@@ -898,6 +759,22 @@ $(window).bind('resizeEnd', function() {
     jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize();
 });
 
+  $.fn.mySlide = function(callback) {
+    if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
+      // no animations, just toggle
+      this.toggle();
+       if (typeof callback === 'function') {
+         callback.apply(this);
+       }
+      // this forces IE to redraw the menu area, un-bollocksing things
+      $("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
+    } else {
+      this.slideToggle(animationRate,callback);
+    }
+
+    return this;
+  };
+
 	$("#main-menu li:has(ul) > a").not("ul ul a")
 		// 1. unbind the current click functions
 		.unbind("click")
@@ -910,7 +787,7 @@ $(window).bind('resizeEnd', function() {
 
 			if ($(event.target).hasClass("toggler") ) {
                           var menuParent = $(this).toggleClass("open").parent().find("ul").not("ul ul ul");
-                          menuParent.mySlide(propagateOpenClose);
+                          menuParent.mySlide();
                           if ($(this).hasClass("open")) {
                             menuParent.find("li > a:first").focus();
                           }
