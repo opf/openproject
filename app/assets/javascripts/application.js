@@ -651,7 +651,7 @@ jQuery(document).ready(function($) {
         // this handles expected 'new-tab behaviour'
         if (e.val) {
           // jQuery sets metaKey to true when pressing ctrl
-          if (event.metaKey) {
+          if (e.metaKey) {
             window.open(select2.data().project.url);
           } else {
             window.location = select2.data().project.url;
