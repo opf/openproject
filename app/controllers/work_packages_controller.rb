@@ -15,24 +15,13 @@ class WorkPackagesController < ApplicationController
   DEFAULT_SORT_ORDER = ['parent', 'desc']
   EXPORT_FORMATS = %w[atom rss xls csv pdf]
 
+  menu_item :new_work_package, :only => [:new, :create]
+
   include QueriesHelper
   include SortHelper
   include PaginationHelper
 
   accept_key_auth :index, :show, :create, :update, :destroy
-
-  current_menu_item do |controller|
-    begin
-      wp = controller.work_package
-
-      case wp
-      when Issue
-        :issues
-      end
-    rescue
-      :issues
-    end
-  end
 
   before_filter :disable_api
   before_filter :not_found_unless_work_package,
@@ -87,10 +76,10 @@ class WorkPackagesController < ApplicationController
 
   def new
     respond_to do |format|
-      format.html { render :locals => { :work_package => work_package,
-                                        :project => project,
-                                        :priorities => priorities,
-                                        :user => current_user } }
+        format.html { render :locals => { :work_package => work_package,
+                                          :project => project,
+                                          :priorities => priorities,
+                                          :user => current_user } }
     end
   end
 
@@ -132,7 +121,10 @@ class WorkPackagesController < ApplicationController
       redirect_to(work_package_path(work_package))
     else
       respond_to do |format|
-        format.html { render :action => 'new' }
+        format.html { render :action => 'new', :locals => { :work_package => work_package,
+                                                            :project => project,
+                                                            :priorities => priorities,
+                                                            :user => current_user } }
       end
     end
   end
