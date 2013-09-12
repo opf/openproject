@@ -35,3 +35,14 @@ Feature: Project Settings
     When I am already logged in as "bob"
     And  I go to the members tab of the settings page of the project "project1"
     Then I should not see "Copy" within "#content"
+
+  Scenario: Check for differences in admin's and settings' copy
+    When I am already admin
+    And  I go to the admin page
+    And  I follow "Projects" within "#main-menu"
+    #just one project, so we should be fine
+    And  I click on "Copy" within "#content"
+    Then I should see "Modules" within "#content"
+    When I go to the members tab of the settings page of the project "project1"
+    And  I follow "Copy" within "#content"
+    Then I should not see "Modules" within "#content"
