@@ -3,8 +3,8 @@
 <%= render :partial => "projects/form/attributes/summary", :locals => { :form => form } %>
 <%= render :partial => "projects/form/attributes/description", :locals => { :form => form } %>
 <%= render :partial => "projects/form/attributes/identifier", :locals => { :form => form, :project => project } %>
+<%= render :partial => "projects/form/attributes/homepage", :locals => { :form => form } %>
 
-<p><%= form.text_field :homepage, :size => 60 %></p>
 <p><%= form.check_box :is_public %></p>
 
 <% project.custom_field_values.each do |value| %>
