@@ -13,29 +13,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <h2><%=l(:label_project_new)%></h2>
 
 <%= labelled_tabular_form_for @project, :url => { :action => "copy" } do |f| %>
-  <div class="box">
+  <div class="copy box">
     <%= render :partial => 'projects/form/project_attributes', :locals => { :form => f, :project => @project } %>
     <%= render :partial => 'projects/form/timelines_attributes', :locals => { :form => f, :project => @project } %>
   </div>
 
-  <fieldset class="box">
+  <fieldset class="copy box">
     <legend><%= l(:button_copy) %></legend>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'members', true %>
-      <%= "#{l(:label_member_plural)} (#{@source_project.members.count})" %>
-    </label>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'versions', true %>
-      <%= "#{l(:label_version_plural)} (#{@source_project.versions.count})" %>
-    </label>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'issue_categories', true %>
-      <%= "#{l(:label_work_package_category_plural)} (#{@source_project.issue_categories.count})" %>
-    </label>
-    <label class="block">
-      <%= check_box_tag 'only[]', 'work_packages', true %>
-      <%= "#{l(:label_work_package_plural)} (#{@source_project.work_packages.count})" %>
-    </label>
     <label class="block">
       <%= check_box_tag 'only[]', 'queries', true %>
       <%= "#{l(:label_query_plural)} (#{@source_project.queries.count})" %>
@@ -45,8 +29,32 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= "#{l(:label_board_plural)} (#{@source_project.boards.count})" %>
     </label>
     <label class="block">
+      <%= check_box_tag 'only[]', 'members', true %>
+      <%= "#{l(:label_member_plural)} (#{@source_project.members.count})" %>
+    </label>
+    <label class="block">
+      <%= check_box_tag 'only[]', 'project_associations', true %>
+      <%= "#{l(:label_reporting_plural)} (#{@source_project.project_associations.count})" %>
+    </label>
+    <label class="block">
+      <%= check_box_tag 'only[]', 'timelines', true %>
+      <%= "#{l(:'timelines.timelines')} (#{@source_project.timelines.count})" %>
+    </label>
+    <label class="block">
+      <%= check_box_tag 'only[]', 'versions', true %>
+      <%= "#{l(:label_version_plural)} (#{@source_project.versions.count})" %>
+    </label>
+    <label class="block">
       <%= check_box_tag 'only[]', 'wiki', true %>
       <%= "#{l(:label_wiki_page_plural)} (#{@source_project.wiki.nil? ? 0 : @source_project.wiki.pages.count})" %>
+    </label>
+    <label class="block">
+      <%= check_box_tag 'only[]', 'work_packages', true %>
+      <%= "#{l(:label_work_package_plural)} (#{@source_project.work_packages.count})" %>
+    </label>
+    <label class="block">
+      <%= check_box_tag 'only[]', 'issue_categories', true %>
+      <%= "#{l(:label_work_package_category_plural)} (#{@source_project.issue_categories.count})" %>
     </label>
     <%= hidden_field_tag 'only[]', '' %>
     <br />

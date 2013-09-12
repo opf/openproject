@@ -839,6 +839,8 @@ de:
   label_report: "Bericht"
   label_report_plural: "Berichte"
   label_reported_work_packages: "Gemeldete Arbeitspakete"
+  label_reporting: "Statusbericht"
+  label_reporting_plural: "Statusberichte"
   label_repository: "Projektarchiv"
   label_repository_plural: "Projektarchive"
   label_result_plural: "Resultate"
