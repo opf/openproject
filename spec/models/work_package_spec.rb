@@ -13,17 +13,149 @@ require 'spec_helper'
 
 describe WorkPackage do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
-  let(:stub_user) { FactoryGirl.build_stubbed(:user) }
   let(:stub_version) { FactoryGirl.build_stubbed(:version) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:work_package) { FactoryGirl.create(:work_package) }
   let(:user) { FactoryGirl.create(:user) }
 
-  describe :assignable_users do
-    it 'should return all users the project deems to be assignable' do
-      stub_work_package.project.stub(:assignable_users).and_return([stub_user])
+  let(:type) { FactoryGirl.create(:type_standard) }
+  let(:project) { FactoryGirl.create(:project, types: [type]) }
+  let(:status) { FactoryGirl.create(:issue_status) }
+  let(:priority) { FactoryGirl.create(:priority) }
+  let(:work_package) { WorkPackage.new.tap do |w|
+                         w.force_attributes = { project_id: project.id,
+                           type_id: type.id,
+                           author_id: user.id,
+                           status_id: status.id,
+                           priority: priority,
+                           subject: 'test_create',
+                           description: 'WorkPackage#create',
+                           estimated_hours: '1:30' }
+                       end }
 
-      stub_work_package.assignable_users.should include(stub_user)
+  describe "create" do
+    describe :save do
+      subject { work_package.save }
+
+      it { should be_true }
+    end
+
+    describe :estimated_hours do
+      before do
+        work_package.save!
+        work_package.reload
+      end
+
+      subject { work_package.estimated_hours }
+
+      it { should eq(1.5) }
+    end
+
+    describe "minimal" do
+      let(:work_package_minimal) { WorkPackage.new.tap do |w|
+                                     w.force_attributes = { project_id: project.id,
+                                       type_id: type.id,
+                                       author_id: user.id,
+                                       status_id: status.id,
+                                       priority: priority,
+                                       subject: 'test_create' }
+                                 end }
+
+      context :save do
+        subject { work_package_minimal.save }
+
+        it { should be_true }
+      end
+
+      context :description do
+        before do
+          work_package_minimal.save!
+          work_package_minimal.reload
+        end
+
+        subject { work_package_minimal.description }
+
+        it { should be_nil }
+      end
+    end
+  end
+
+  describe :type do
+    context "disabled type" do
+      describe "allows work package update" do
+        before do
+          work_package.save!
+
+          project.types.delete work_package.type
+
+          work_package.reload
+          work_package.subject = "New subject"
+        end
+
+        subject { work_package.save }
+
+        it { should be_true }
+      end
+
+      describe "must not be set on work package" do
+        before do
+          project.types.delete work_package.type
+        end
+
+        context :save do
+          subject { work_package.save }
+
+          it { should be_false }
+        end
+
+        context :errors do
+          before { work_package.save }
+
+          subject { work_package.errors[:type_id] }
+
+          it { should_not be_empty }
+        end
+      end
+    end
+  end
+
+  describe :category do
+    let(:user_2) { FactoryGirl.create(:user, member_in_project: project) }
+    let(:category) { FactoryGirl.create(:issue_category,
+                                        project: project,
+                                        assigned_to: user_2) }
+
+    before do
+      work_package.force_attributes = { category_id: category.id }
+      work_package.save!
+    end
+
+    subject { work_package.assigned_to }
+
+    it { should eq(category.assigned_to) }
+  end
+
+  describe :assignable_users do
+    let(:user) { FactoryGirl.build_stubbed(:user) }
+
+    context "single user" do
+      before { stub_work_package.project.stub(:assignable_users).and_return([user]) }
+
+      subject { stub_work_package.assignable_users }
+
+      it 'should return all users the project deems to be assignable' do
+        should include(user)
+      end
+    end
+
+    context "multiple users" do
+      let(:user_2) { FactoryGirl.build_stubbed(:user) }
+
+      before { stub_work_package.project.stub(:assignable_users).and_return([user, user_2]) }
+
+      subject { stub_work_package.assignable_users.uniq }
+
+      it { should eq(stub_work_package.assignable_users) }
     end
   end
 
@@ -57,34 +189,653 @@ describe WorkPackage do
     end
   end
 
-  describe :copy_from do
-    let(:source) { FactoryGirl.build(:work_package) }
-    let(:sink) { FactoryGirl.build(:work_package) }
+  describe :assignable_versions do
+    let(:work_package) { FactoryGirl.build(:work_package,
+                                           project: project,
+                                           fixed_version: version) }
+    let(:version_open) { FactoryGirl.create(:version,
+                                            status: 'open',
+                                            project: project) }
+    let(:version_locked) { FactoryGirl.create(:version,
+                                              status: 'locked',
+                                              project: project) }
+    let(:version_closed) { FactoryGirl.create(:version,
+                                              status: 'closed',
+                                              project: project) }
 
-    it "should copy project" do
-      source.project_id = 1
+    describe :assignment do
+      context "open version" do
+        let(:version) { version_open }
 
-      sink.copy_from(source)
+        subject { work_package.assignable_versions.collect(&:status).uniq }
 
-      sink.project_id.should == source.project_id
+        it { should include('open') }
+      end
+
+      shared_examples_for "invalid version" do
+        before { work_package.save }
+
+        subject { work_package.errors[:fixed_version_id] }
+
+        it { should_not be_empty }
+      end
+
+      context "closed version" do
+        let(:version) { version_closed }
+
+        it_behaves_like "invalid version"
+      end
+
+      context "locked version" do
+        let(:version) { version_locked }
+
+        it_behaves_like "invalid version"
+      end
+
+      context "open version" do
+        let(:version) { version_open }
+
+        before { work_package.save }
+
+        it { should be_true }
+      end
     end
 
-    it "should not copy project if explicitly excluded" do
-      source.project_id = 1
-      orig_project_id = sink.project_id
+    describe "work package update" do
+      let(:status_closed) { FactoryGirl.create(:issue_status,
+                                               is_closed: true) }
+      let(:status_open) { FactoryGirl.create(:issue_status,
+                                             is_closed: false) }
 
-      sink.copy_from(source, :exclude => [:project_id])
+      context "closed version" do
+        let(:version) { FactoryGirl.create(:version,
+                                           status: 'open',
+                                           project: project) }
 
-      sink.project_id.should == orig_project_id
+        before do
+          version_open
+
+          work_package.status = status_closed
+          work_package.save!
+        end
+
+        shared_context "in closed version" do
+          before do
+            version.status = 'closed'
+            version.save!
+          end
+        end
+
+        context "attribute update" do
+          include_context "in closed version"
+
+          before { work_package.subject = "Subject changed" }
+
+          subject { work_package.save }
+
+          it { should be_true }
+        end
+
+        context "status changed" do
+          shared_context "in locked version" do
+            before do
+              version.status = 'locked'
+              version.save!
+            end
+          end
+
+          shared_examples_for "save with open version" do
+            before do 
+              work_package.status = status_open
+              work_package.fixed_version = version_open
+            end
+
+            subject { work_package.save }
+
+            it { should be_true }
+          end
+
+          context "in closed version" do
+            include_context "in closed version"
+
+            before do 
+              work_package.status = status_open
+              work_package.save
+            end
+
+            subject { work_package.errors[:base] }
+
+            it { should_not be_empty }
+          end
+
+          context "from closed version" do
+            include_context "in closed version"
+
+            it_behaves_like "save with open version"
+          end
+
+          context "from locked version" do
+            include_context "in locked version"
+
+            it_behaves_like "save with open version"
+          end
+        end
+      end
+    end
+  end
+
+  describe :move do
+    let(:work_package) { FactoryGirl.create(:work_package,
+                                            project: project,
+                                            type: type) }
+    let(:target_project) { FactoryGirl.create(:project) }
+
+    shared_examples_for "moved work package" do
+      subject { work_package.project }
+
+      it { should eq(target_project) }
     end
 
-    it "should copy over watchers" do
-      source.watchers.build(:user => stub_user)
+    describe :time_entries do
+      let(:time_entry_1) { FactoryGirl.create(:time_entry,
+                                              project: project,
+                                              work_package: work_package) }
+      let(:time_entry_2) { FactoryGirl.create(:time_entry,
+                                              project: project,
+                                              work_package: work_package) }
 
-      sink.copy_from(source)
+      before do
+        time_entry_1
+        time_entry_2
 
-      sink.should have(1).watchers
-      sink.watchers[0].user.should == stub_user
+        work_package.reload
+        work_package.move_to_project(target_project)
+
+        time_entry_1.reload
+        time_entry_2.reload
+      end
+
+      context "time entry 1" do
+        subject { work_package.time_entries } 
+
+        it { should include(time_entry_1) }
+      end
+
+      context "time entry 2" do
+        subject { work_package.time_entries } 
+
+        it { should include(time_entry_2) }
+      end
+
+      it_behaves_like "moved work package"
+    end
+
+    describe :category do
+      let(:category) { FactoryGirl.create(:issue_category,
+                                          project: project) }
+
+      before do
+        work_package.category = category
+        work_package.save!
+
+        work_package.reload
+      end
+
+      context "with same category" do
+        let(:target_category) { FactoryGirl.create(:issue_category,
+                                                   name: category.name,
+                                                   project: target_project) }
+
+        before do
+          target_category
+
+          work_package.move_to_project(target_project)
+        end
+
+        describe "category moved" do
+          subject { work_package.category_id }
+
+          it { should eq(target_category.id) }
+        end
+        
+        it_behaves_like "moved work package"
+      end
+
+      context "w/o target category" do
+        before { work_package.move_to_project(target_project) }
+
+        describe "category discarded" do
+          subject { work_package.category_id }
+
+          it { should be_nil }
+        end
+
+        it_behaves_like "moved work package"
+      end
+    end
+
+    describe :version do
+      let(:sharing) { 'none' }
+      let(:version) { FactoryGirl.create(:version,
+                                         status: 'open',
+                                         project: project,
+                                         sharing: sharing) }
+      let(:work_package) { FactoryGirl.create(:work_package,
+                                              fixed_version: version,
+                                              project: project) }
+
+      before { work_package.move_to_project(target_project) }
+
+      it_behaves_like "moved work package"
+
+      context "unshared version" do
+        subject { work_package.fixed_version }
+
+        it { should be_nil }
+      end
+
+      context "system wide shared version" do
+        let(:sharing) { 'system' }
+
+        subject { work_package.fixed_version }
+
+        it { should eq(version) }
+      end
+
+      context "move work package in project hierarchy" do
+        let(:target_project) { FactoryGirl.create(:project,
+                                                  parent: project) }
+
+        context "unshared version" do
+          subject { work_package.fixed_version }
+
+          it { should be_nil }
+        end
+
+        context "shared version" do
+          let(:sharing) { 'tree' }
+
+          subject { work_package.fixed_version }
+
+          it { should eq(version) }
+        end
+      end
+    end
+
+    describe :type do
+      let(:target_type) { FactoryGirl.create(:type) }
+      let(:target_project) { FactoryGirl.create(:project,
+                                                types: [ target_type ]) }
+
+      subject { work_package.move_to_project(target_project) }
+
+      it { should be_false }
+    end
+  end
+
+  describe :destroy do
+    let(:time_entry_1) { FactoryGirl.create(:time_entry,
+                                            project: project,
+                                            work_package: work_package) }
+    let(:time_entry_2) { FactoryGirl.create(:time_entry,
+                                            project: project,
+                                            work_package: work_package) }
+
+    before do
+      time_entry_1
+      time_entry_2
+
+      work_package.destroy
+    end
+
+    context "work package" do
+      subject { WorkPackage.find_by_id(work_package.id) }
+
+      it { should be_nil }
+    end
+
+    context "time entries" do
+      subject { TimeEntry.find_by_work_package_id(work_package.id) }
+
+      it { should be_nil }
+    end
+  end
+
+  describe :done_ratio do
+    let(:status_new) { FactoryGirl.create(:issue_status,
+                                          name: 'New',
+                                          is_default: true,
+                                          is_closed: false,
+                                          default_done_ratio: 50) }
+    let(:status_assigned) { FactoryGirl.create(:issue_status,
+                                               name: 'Assigned',
+                                               is_default: true,
+                                               is_closed: false,
+                                               default_done_ratio: 0) }
+    let(:work_package_1) { FactoryGirl.create(:work_package,
+                                              status: status_new) }
+    let(:work_package_2) { FactoryGirl.create(:work_package,
+                                              project: work_package_1.project,
+                                              status: status_assigned,
+                                              done_ratio: 30) }
+
+    before { work_package_2 }
+
+    describe :value do
+      context "work package field" do
+        before { Setting.stub(:issue_done_ratio).and_return 'issue_field' }
+
+        context "work package 1" do
+          subject { work_package_1.done_ratio }
+
+          it { should eq(0) }
+        end
+
+        context "work package 2" do
+          subject { work_package_2.done_ratio }
+
+          it { should eq(30) }
+        end
+      end
+
+      context "work package status" do
+        before { Setting.stub(:issue_done_ratio).and_return 'issue_status' }
+
+        context "work package 1" do
+          subject { work_package_1.done_ratio }
+
+          it { should eq(50) }
+        end
+
+        context "work package 2" do
+          subject { work_package_2.done_ratio }
+
+          it { should eq(0) }
+        end
+      end
+    end
+
+    describe :update_done_ratio_from_issue_status do
+      context "work package field" do
+        before do
+          Setting.stub(:issue_done_ratio).and_return 'issue_field'
+
+          work_package_1.update_done_ratio_from_issue_status
+          work_package_2.update_done_ratio_from_issue_status
+        end
+
+        it "does not update the done ratio" do
+          work_package_1.done_ratio.should eq(0)
+          work_package_2.done_ratio.should eq(30)
+        end
+      end
+
+      context "work package status" do
+        before do
+          Setting.stub(:issue_done_ratio).and_return 'issue_status'
+
+          work_package_1.update_done_ratio_from_issue_status
+          work_package_2.update_done_ratio_from_issue_status
+        end
+
+        it "updates the done ratio" do
+          work_package_1.done_ratio.should eq(50)
+          work_package_2.done_ratio.should eq(0)
+        end
+      end
+    end
+  end
+
+  describe :group_by do
+    let(:type_2) { FactoryGirl.create(:type) }
+    let(:priority_2) { FactoryGirl.create(:priority) }
+    let(:project) { FactoryGirl.create(:project, types: [type, type_2]) }
+    let(:version_1) { FactoryGirl.create(:version,
+                                         project: project) }
+    let(:version_2) { FactoryGirl.create(:version,
+                                         project: project) }
+    let(:category_1) { FactoryGirl.create(:issue_category,
+                                          project: project) }
+    let(:category_2) { FactoryGirl.create(:issue_category,
+                                          project: project) }
+    let(:user_2) { FactoryGirl.create(:user) }
+
+    let(:work_package_1) { FactoryGirl.create(:work_package,
+                                              author: user,
+                                              assigned_to: user,
+                                              project: project,
+                                              type: type,
+                                              priority: priority,
+                                              fixed_version: version_1,
+                                              category: category_1) }
+    let(:work_package_2) { FactoryGirl.create(:work_package,
+                                              author: user_2,
+                                              assigned_to: user_2,
+                                              project: project,
+                                              type: type_2,
+                                              priority: priority_2,
+                                              fixed_version: version_2,
+                                              category: category_2) }
+
+    before do
+      work_package_1
+      work_package_2
+    end
+
+    shared_examples_for "group by" do
+      context :size do
+        subject { groups.size }
+
+        it { should eq(2) }
+      end
+
+      context :total do
+        subject { groups.inject(0) {|sum, group| sum + group['total'].to_i} }
+
+        it { should eq(2) }
+      end
+    end
+
+    context "by type" do
+      let(:groups) { WorkPackage.by_type(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by version" do
+      let(:groups) { WorkPackage.by_version(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by priority" do
+      let(:groups) { WorkPackage.by_priority(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by category" do
+      let(:groups) { WorkPackage.by_category(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by assigned to" do
+      let(:groups) { WorkPackage.by_assigned_to(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by author" do
+      let(:groups) { WorkPackage.by_author(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by project" do
+      let(:project_2) { FactoryGirl.create(:project,
+                                           parent: project) }
+      let(:work_package_3) { FactoryGirl.create(:work_package,
+                                                project: project_2) }
+
+      before { work_package_3 }
+
+      let(:groups) { WorkPackage.by_author(project) }
+
+      it_behaves_like "group by"
+    end
+  end
+
+  describe :recently_updated do
+    let(:work_package_1) { FactoryGirl.create(:work_package) }
+    let(:work_package_2) { FactoryGirl.create(:work_package) }
+
+    before do
+      work_package_1
+      work_package_2
+
+      without_timestamping do
+        work_package_1.updated_at = 1.minute.ago
+        work_package_1.save!
+      end
+    end
+
+    context :limit do
+      subject { WorkPackage.recently_updated.limit(1).first }
+
+      it { should eq(work_package_2) }
+    end
+  end
+
+  describe :on_active_project do
+    let(:project_archived) { FactoryGirl.create(:project,
+                                                status: Project::STATUS_ARCHIVED) }
+    let(:work_package) { FactoryGirl.create(:work_package) }
+    let(:work_package_in_archived_project) { FactoryGirl.create(:work_package,
+                                                                project: project_archived) }
+
+    before { work_package }
+
+    subject { WorkPackage.on_active_project.length }
+
+    context "one work package in active projects" do
+      it { should eq(1) }
+
+      context "and one work package in archived projects" do
+        before { work_package_in_archived_project }
+
+        it { should eq(1) }
+      end
+    end
+  end
+
+  describe :recipients do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:member) { FactoryGirl.create(:user) }
+    let(:author) { FactoryGirl.create(:user) }
+    let(:assignee) { FactoryGirl.create(:user) }
+    let(:role) { FactoryGirl.create(:role,
+                                    permissions: [:view_work_packages]) }
+    let(:project_member) { FactoryGirl.create(:member,
+                                              user: member,
+                                              project: project,
+                                              roles: [role]) }
+    let(:project_author) { FactoryGirl.create(:member,
+                                              user: author,
+                                              project: project,
+                                              roles: [role]) }
+    let(:project_assignee) { FactoryGirl.create(:member,
+                                                user: assignee,
+                                                project: project,
+                                                roles: [role]) }
+    let(:work_package) { FactoryGirl.create(:work_package,
+                                            author: author,
+                                            assigned_to: assignee,
+                                            project: project) }
+
+    shared_examples_for "includes expected users" do
+      subject { work_package.recipients }
+
+      it { should include(*expected_users) }
+    end
+
+    shared_examples_for "includes not expected users" do
+      subject { work_package.recipients }
+
+      it { should_not include(*expected_users) }
+    end
+
+    describe "includes project recipients" do
+      before { project_member }
+
+      context "pre-condition" do
+        subject { project.recipients }
+
+        it { should_not be_empty }
+      end
+
+      let(:expected_users) { project.recipients }
+
+      it_behaves_like "includes expected users"
+    end
+
+    describe "includes work package author" do
+      before { project_author }
+
+      context "pre-condition" do
+        subject { work_package.author }
+
+        it { should_not be_nil }
+      end
+
+      let(:expected_users) { work_package.author.mail }
+
+      it_behaves_like "includes expected users"
+    end
+
+    describe "includes work package assignee" do
+      before { project_assignee }
+
+      context "pre-condition" do
+        subject { work_package.assigned_to }
+
+        it { should_not be_nil }
+      end
+
+      let(:expected_users) { work_package.assigned_to.mail }
+
+      it_behaves_like "includes expected users"
+    end
+
+    context "mail notification settings" do
+      before do
+        project_author
+        project_assignee
+      end
+
+      describe :none do
+        before { author.update_attribute(:mail_notification, :none) }
+
+        let(:expected_users) { work_package.author.mail }
+
+        it_behaves_like "includes not expected users"
+      end
+
+      describe :only_assigned do
+        before { author.update_attribute(:mail_notification, :only_assigned) }
+
+        let(:expected_users) { work_package.author.mail }
+
+        it_behaves_like "includes not expected users"
+      end
+
+      describe :only_assigned do
+        before { assignee.update_attribute(:mail_notification, :only_owner) }
+
+        let(:expected_users) { work_package.assigned_to.mail }
+
+        it_behaves_like "includes not expected users"
+      end
     end
   end
 
@@ -216,90 +967,84 @@ describe WorkPackage do
   end
 
   describe :update_by! do
-    #TODO remove once only WP exists
-    [:work_package].each do |subclass|
+    let(:instance) { FactoryGirl.create(:work_package) }
 
-      describe "for #{subclass}" do
-        let(:instance) { send(subclass) }
+    it "should return true" do
+      instance.update_by!(user, {}).should be_true
+    end
 
-        it "should return true" do
-          instance.update_by!(user, {}).should be_true
-        end
+    it "should set the values" do
+      instance.update_by!(user, { :subject => "New subject" })
 
-        it "should set the values" do
-          instance.update_by!(user, { :subject => "New subject" })
+      instance.subject.should == "New subject"
+    end
 
-          instance.subject.should == "New subject"
-        end
+    it "should create a journal with the journal's 'notes' attribute set to the supplied" do
+      instance.update_by!(user, { :notes => "blubs" })
 
-        it "should create a journal with the journal's 'notes' attribute set to the supplied" do
-          instance.update_by!(user, { :notes => "blubs" })
+      instance.journals.last.notes.should == "blubs"
+    end
 
-          instance.journals.last.notes.should == "blubs"
-        end
+    it "should attach an attachment" do
+      raw_attachments = [double('attachment')]
+      attachment = FactoryGirl.build(:attachment)
 
-        it "should attach an attachment" do
-          raw_attachments = [double('attachment')]
-          attachment = FactoryGirl.build(:attachment)
+      Attachment.should_receive(:attach_files)
+                .with(instance, raw_attachments)
+                .and_return(attachment)
 
-          Attachment.should_receive(:attach_files)
-                    .with(instance, raw_attachments)
-                    .and_return(attachment)
+      instance.update_by!(user, { :attachments => raw_attachments })
+    end
 
-          instance.update_by!(user, { :attachments => raw_attachments })
-        end
+    it "should only attach the attachment when saving was successful" do
+      raw_attachments = [double('attachment')]
 
-        it "should only attach the attachment when saving was successful" do
-          raw_attachments = [double('attachment')]
+      Attachment.should_not_receive(:attach_files)
 
-          Attachment.should_not_receive(:attach_files)
+      instance.update_by!(user, { :subject => "", :attachments => raw_attachments })
+    end
 
-          instance.update_by!(user, { :subject => "", :attachments => raw_attachments })
-        end
+    it "should add a time entry" do
+      activity = FactoryGirl.create(:time_entry_activity)
 
-        it "should add a time entry" do
-          activity = FactoryGirl.create(:time_entry_activity)
+      instance.update_by!(user, { :time_entry => { "hours" => "5",
+                                                  "activity_id" => activity.id.to_s,
+                                                  "comments" => "blubs" } } )
 
-          instance.update_by!(user, { :time_entry => { "hours" => "5",
-                                                      "activity_id" => activity.id.to_s,
-                                                      "comments" => "blubs" } } )
+      instance.should have(1).time_entries
 
-          instance.should have(1).time_entries
+      entry = instance.time_entries.first
 
-          entry = instance.time_entries.first
+      entry.should be_persisted
+      entry.work_package.should == instance
+      entry.user.should == user
+      entry.project.should == instance.project
+      entry.spent_on.should == Date.today
+    end
 
-          entry.should be_persisted
-          entry.work_package.should == instance
-          entry.user.should == user
-          entry.project.should == instance.project
-          entry.spent_on.should == Date.today
-        end
+    it "should not persist the time entry if the work package update fails" do
+      activity = FactoryGirl.create(:time_entry_activity)
 
-        it "should not persist the time entry if the #{subclass}'s update fails" do
-          activity = FactoryGirl.create(:time_entry_activity)
+      instance.update_by!(user, { :subject => '',
+                                 :time_entry => { "hours" => "5",
+                                                  "activity_id" => activity.id.to_s,
+                                                  "comments" => "blubs" } } )
 
-          instance.update_by!(user, { :subject => '',
-                                     :time_entry => { "hours" => "5",
-                                                      "activity_id" => activity.id.to_s,
-                                                      "comments" => "blubs" } } )
+      instance.should have(1).time_entries
 
-          instance.should have(1).time_entries
+      entry = instance.time_entries.first
 
-          entry = instance.time_entries.first
+      entry.should_not be_persisted
+    end
 
-          entry.should_not be_persisted
-        end
+    it "should not add a time entry if the time entry attributes are empty" do
+      time_attributes = { "hours" => "",
+                          "activity_id" => "",
+                          "comments" => "" }
 
-        it "should not add a time entry if the time entry attributes are empty" do
-          time_attributes = { "hours" => "",
-                              "activity_id" => "",
-                              "comments" => "" }
+      instance.update_by!(user, :time_entry => time_attributes)
 
-          instance.update_by!(user, :time_entry => time_attributes)
-
-          instance.should have(0).time_entries
-        end
-      end
+      instance.should have(0).time_entries
     end
   end
 
