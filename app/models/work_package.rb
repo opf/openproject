@@ -203,7 +203,7 @@ class WorkPackage < ActiveRecord::Base
 
   def description=(description)
     # Bug #501: browsers might swap the line endings causing a Journal.
-    if description.gsub(/\r\n?/,"\n") != self.description
+    if description.nil? || description.gsub(/\r\n?/,"\n") != self.description
       write_attribute :description, description
     end
   end
