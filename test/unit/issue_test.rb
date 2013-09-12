@@ -16,24 +16,6 @@ class IssueTest < ActiveSupport::TestCase
 
   fixtures :all
 
-  def test_create_should_not_send_email_notification_if_told_not_to
-    Journal.delete_all
-    ActionMailer::Base.deliveries.clear
-    issue = Issue.new.tap do |i|
-      i.force_attributes = { :project_id => 1,
-                             :type_id => 1,
-                             :author_id => 3,
-                             :status_id => 1,
-                             :priority => IssuePriority.first,
-                             :subject => 'test_create',
-                             :estimated_hours => '1:30' }
-    end
-    IssueObserver.instance.send_notification = false
-
-    assert issue.save
-    assert_equal 0, ActionMailer::Base.deliveries.size
-  end
-
   test 'changing the line endings in a description will not be recorded as a Journal' do
     User.current = User.find(1)
     issue = Issue.find(1)

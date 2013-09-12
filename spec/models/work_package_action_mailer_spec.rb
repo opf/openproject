@@ -47,5 +47,17 @@ describe WorkPackage do
 
       it { should eq(0) }
     end
+
+    context "no notification" do
+      before do
+        ActionMailer::Base.deliveries.clear
+
+        WorkPackageObserver.instance.send_notification = false
+
+        work_package.save!
+      end
+
+      it { should eq(0) }
+    end
   end
 end
