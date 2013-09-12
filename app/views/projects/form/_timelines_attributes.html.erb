@@ -1,3 +1,3 @@
 <% extend TimelinesHelper %>
 <%= render :partial => "projects/form/attributes/project_type_id", :locals => { :form => form } %>
-<p><%= form.select :responsible_id, options_for_responsible(project), :include_blank => true %></p>
+<%= render :partial => "projects/form/attributes/responsible_id", :locals => { :form => form, :project => project } %>
