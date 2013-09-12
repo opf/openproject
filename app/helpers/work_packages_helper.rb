@@ -316,7 +316,7 @@ module WorkPackagesHelper
   def work_package_show_table_row(attribute, klass = nil, &block)
     klass = attribute.to_s.dasherize if klass.nil?
 
-    content = content_tag(:th, :class => klass) { "#{Issue.human_attribute_name(attribute)}:" }
+    content = content_tag(:th, :class => klass) { "#{WorkPackage.human_attribute_name(attribute)}:" }
     content << content_tag(:td, :class => klass, &block)
 
     WorkPackageAttribute.new(attribute, content)
@@ -431,12 +431,7 @@ module WorkPackagesHelper
 
   def work_package_form_parent_attribute(form, work_package, locals = {})
     if User.current.allowed_to?(:manage_subtasks, locals[:project])
-      field = if work_package.is_a?(Issue)
-                form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
-              else
-                form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
-              end
-
+      field = form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
       field += '<div id="parent_issue_candidates" class="autocomplete"></div>'.html_safe
       field += javascript_tag "observeWorkPackageParentField('#{issues_auto_complete_path(:id => work_package, :project_id => locals[:project], :escape => false) }')"
 
@@ -540,7 +535,7 @@ module WorkPackagesHelper
   end
 
   def work_package_form_done_ratio_attribute(form, work_package, locals = {})
-    if !attrib_disabled?(work_package, 'done_ratio') && Issue.use_field_for_done_ratio?
+    if !attrib_disabled?(work_package, 'done_ratio') && WorkPackage.use_field_for_done_ratio?
 
       field = form.select(:done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }))
 

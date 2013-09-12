@@ -18,7 +18,7 @@ class ActivitiesControllerTest < ActionController::TestCase
   def test_project_index
     Journal.delete_all
     project = Project.find(1)
-    issue = FactoryGirl.create :issue,
+    issue = FactoryGirl.create :work_package,
                                status_id: 2,
                                priority_id: 4,
                                author_id: 2,
@@ -57,7 +57,7 @@ class ActivitiesControllerTest < ActionController::TestCase
   end
 
   def test_previous_project_index
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,
                        created_at: 3.days.ago.to_date.to_s(:db),
@@ -82,7 +82,7 @@ class ActivitiesControllerTest < ActionController::TestCase
   end
 
   def test_global_index
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,
                        created_at: 3.days.ago.to_date.to_s(:db),
@@ -107,7 +107,7 @@ class ActivitiesControllerTest < ActionController::TestCase
   end
 
   def test_user_index
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,
                        user_id: 2,
@@ -126,14 +126,14 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /work_package/ },
                    :child => { :tag => "a",
-                     :content => /#{ERB::Util.html_escape(Issue.find(1).subject)}/
+                     :content => /#{ERB::Util.html_escape(WorkPackage.find(1).subject)}/
                    }
                  }
                }
   end
 
   def test_index_atom_feed
-    issue = Issue.find(11)
+    issue = WorkPackage.find(11)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,
                        version: 1,

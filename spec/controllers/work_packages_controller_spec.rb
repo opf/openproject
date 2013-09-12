@@ -23,7 +23,7 @@ describe WorkPackagesController do
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
   let(:stub_planning_element) { FactoryGirl.build_stubbed(:work_package, :project_id => stub_project.id) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project, :identifier => 'test_project', :is_public => false) }
-  let(:stub_issue) { FactoryGirl.build_stubbed(:issue, :project_id => stub_project.id) }
+  let(:stub_issue) { FactoryGirl.build_stubbed(:work_package, :project_id => stub_project.id) }
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
   let(:stub_work_package) { double("work_package", :id => 1337, :project => stub_project).as_null_object }
 
@@ -516,11 +516,9 @@ describe WorkPackagesController do
         Project.stub(:find_visible).and_return stub_project
       end
 
-
-      describe 'when the type is "Issue"' do
+      describe 'when we copy stuff' do
         before do
-          controller.params = { :sti_type => 'Issue',
-                                :work_package => {} }.merge(params)
+          controller.params = { :work_package => {} }.merge(params)
 
           controller.stub(:current_user).and_return(stub_user)
           controller.send(:permitted_params).should_receive(:new_work_package)
@@ -556,15 +554,6 @@ describe WorkPackagesController do
         it 'should return nil' do
           controller.work_package.should be_nil
 
-        end
-      end
-
-      describe 'when the sti_type is "Project"' do
-        it "should raise not allowed" do
-          controller.params = { :sti_type => 'Project',
-                                :project_id => stub_project.id }.merge(params)
-
-          expect { controller.work_package }.to raise_error ArgumentError
         end
       end
     end
@@ -659,14 +648,14 @@ describe WorkPackagesController do
 
   describe :ancestors do
     let(:project) { FactoryGirl.create(:project_with_types) }
-    let(:ancestor_issue) { FactoryGirl.create(:issue, :project => project) }
-    let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_id => ancestor_issue.id) }
+    let(:ancestor_issue) { FactoryGirl.create(:work_package, :project => project) }
+    let(:issue) { FactoryGirl.create(:work_package, :project => project, :parent_id => ancestor_issue.id) }
 
     become_member_with_view_planning_element_permissions
 
     describe "when work_package is an issue" do
-      let(:ancestor_issue) { FactoryGirl.create(:issue, :project => project) }
-      let(:issue) { FactoryGirl.create(:issue, :project => project, :parent_id => ancestor_issue.id) }
+      let(:ancestor_issue) { FactoryGirl.create(:work_package, :project => project) }
+      let(:issue) { FactoryGirl.create(:work_package, :project => project, :parent_id => ancestor_issue.id) }
 
       it "should return the work_packages ancestors" do
         controller.stub(:work_package).and_return(issue)

@@ -79,7 +79,7 @@ describe ApplicationHelper do
                                               :member_through_role => FactoryGirl.create(:role,
                                                                                          :permissions => [:view_work_packages, :edit_work_packages,
                                                                                          :browse_repository, :view_changesets, :view_wiki_pages]) }
-    let(:issue) { FactoryGirl.create :issue,
+    let(:issue) { FactoryGirl.create :work_package,
                                      :project => project,
                                      :author => project_member,
                                      :type => project.types.first }
@@ -140,7 +140,7 @@ describe ApplicationHelper do
                                               :member_through_role => FactoryGirl.create(:role,
                                                                                          :permissions => [:view_work_packages, :edit_work_packages,
                                                                                          :browse_repository, :view_changesets, :view_wiki_pages]) }
-    let(:issue) { FactoryGirl.create :issue,
+    let(:issue) { FactoryGirl.create :work_package,
                                      :project => project,
                                      :author => project_member,
                                      :type => project.types.first }

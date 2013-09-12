@@ -17,8 +17,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><label for="issue_status_name"><%= IssueStatus.human_attribute_name(:name) %><span class="required"> *</span></label>
 <%= text_field 'issue_status', 'name'  %></p>
 
-<% if Issue.use_status_for_done_ratio? %>
-<p><label for="issue_done_ratio"><%= Issue.human_attribute_name(:done_ratio) %></label>
+<% if WorkPackage.use_status_for_done_ratio? %>
+<p><label for="issue_done_ratio"><%= WorkPackage.human_attribute_name(:done_ratio) %></label>
 <%= select 'issue_status', :default_done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :include_blank => true %></p>
 <% end %>
 

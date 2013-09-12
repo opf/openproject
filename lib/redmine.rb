@@ -109,7 +109,7 @@ Redmine::AccessControl.map do |map|
     map.permission :view_issue_watchers, {}
     map.permission :view_work_package_watchers, {}
     map.permission :add_work_package_watchers, {:watchers => [:new, :create]}
-    map.permission :delete_issue_watchers, {:watchers => :destroy}
+    map.permission :delete_work_package_watchers, {:watchers => :destroy}
   end
 
   map.project_module :time_tracking do |map|

@@ -88,7 +88,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
     should "show only issues with the status_id" do
       get '/api/v1/issues.xml?status_id=5'
       assert_tag :tag => 'issues',
-                 :children => { :count => Issue.visible.count(:conditions => {:status_id => 5}),
+                 :children => { :count => WorkPackage.visible.count(:conditions => {:status_id => 5}),
                                 :only => { :tag => 'issue' } }
     end
   end
@@ -193,9 +193,9 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
 
     context "with subtasks" do
       setup do
-        @c1 = Issue.generate!(:status_id => 1, :subject => "child c1", :type_id => 1, :project_id => 1, :parent_id => 1)
-        @c2 = Issue.generate!(:status_id => 1, :subject => "child c2", :type_id => 1, :project_id => 1, :parent_id => 1)
-        @c3 = Issue.generate!(:status_id => 1, :subject => "child c3", :type_id => 1, :project_id => 1, :parent_id => @c1.id)
+        @c1 = WorkPackage.generate!(:status_id => 1, :subject => "child c1", :type_id => 1, :project_id => 1, :parent_id => 1)
+        @c2 = WorkPackage.generate!(:status_id => 1, :subject => "child c2", :type_id => 1, :project_id => 1, :parent_id => 1)
+        @c3 = WorkPackage.generate!(:status_id => 1, :subject => "child c3", :type_id => 1, :project_id => 1, :parent_id => @c1.id)
       end
 
       context ".xml" do
@@ -251,11 +251,11 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
                                     {:success_code => :created})
 
     should "create an issue with the attributes" do
-      assert_difference('Issue.count') do
+      assert_difference('WorkPackage.count') do
         post '/api/v1/issues.xml', {:issue => {:project_id => 1, :subject => 'API test', :type_id => 2, :status_id => 3}}, credentials('jsmith')
       end
 
-      issue = Issue.first(:order => 'id DESC')
+      issue = WorkPackage.first(:order => 'id DESC')
       assert_equal 1, issue.project_id
       assert_equal 2, issue.type_id
       assert_equal 3, issue.status_id
@@ -274,7 +274,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
                                     {:success_code => :unprocessable_entity})
 
     should "have an errors tag" do
-      assert_no_difference('Issue.count') do
+      assert_no_difference('WorkPackage.count') do
         post '/api/v1/issues.xml', {:issue => {:project_id => 1}}, credentials('jsmith')
       end
 
@@ -289,11 +289,11 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
                                     {:success_code => :created})
 
     should "create an issue with the attributes" do
-      assert_difference('Issue.count') do
+      assert_difference('WorkPackage.count') do
         post '/api/v1/issues.json', {:issue => {:project_id => 1, :subject => 'API test', :type_id => 2, :status_id => 3}}, credentials('jsmith')
       end
 
-      issue = Issue.first(:order => 'id DESC')
+      issue = WorkPackage.first(:order => 'id DESC')
       assert_equal 1, issue.project_id
       assert_equal 2, issue.type_id
       assert_equal 3, issue.status_id
@@ -309,7 +309,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
                                     {:success_code => :unprocessable_entity})
 
     should "have an errors element" do
-      assert_no_difference('Issue.count') do
+      assert_no_difference('WorkPackage.count') do
         post '/api/v1/issues.json', {:issue => {:project_id => 1}}, credentials('jsmith')
       end
 
@@ -331,7 +331,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
                                     {:success_code => :ok})
 
     should "not create a new issue" do
-      assert_no_difference('Issue.count') do
+      assert_no_difference('WorkPackage.count') do
         put '/api/v1/issues/6.xml', @parameters, @headers
       end
     end
@@ -352,7 +352,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
     should "update the issue" do
       put '/api/v1/issues/6.xml', @parameters, @headers
 
-      issue = Issue.find(6)
+      issue = WorkPackage.find(6)
       assert_equal "API update", issue.subject
     end
 
@@ -365,11 +365,11 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
     end
 
     should "update custom fields" do
-      assert_no_difference('Issue.count') do
+      assert_no_difference('WorkPackage.count') do
         put '/api/v1/issues/3.xml', @parameters, @headers
       end
 
-      issue = Issue.find(3)
+      issue = WorkPackage.find(3)
       assert_equal '150', issue.custom_value_for(2).value
       assert_equal 'PostgreSQL', issue.custom_value_for(1).value
     end
@@ -387,7 +387,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
                                     {:success_code => :unprocessable_entity})
 
     should "not create a new issue" do
-      assert_no_difference('Issue.count') do
+      assert_no_difference('WorkPackage.count') do
         put '/api/v1/issues/6.xml', @parameters, @headers
       end
     end
@@ -417,7 +417,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
                                     {:success_code => :ok})
 
     should "not create a new issue" do
-      assert_no_difference('Issue.count') do
+      assert_no_difference('WorkPackage.count') do
         put '/api/v1/issues/6.json', @parameters, @headers
       end
     end
@@ -438,7 +438,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
     should "update the issue" do
       put '/api/v1/issues/6.json', @parameters, @headers
 
-      issue = Issue.find(6)
+      issue = WorkPackage.find(6)
       assert_equal "API update", issue.subject
     end
 
@@ -456,7 +456,7 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
                                     {:success_code => :unprocessable_entity})
 
     should "not create a new issue" do
-      assert_no_difference('Issue.count') do
+      assert_no_difference('WorkPackage.count') do
         put '/api/v1/issues/6.json', @parameters, @headers
       end
     end
@@ -482,11 +482,11 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
                                     {:success_code => :ok})
 
     should "delete the issue" do
-      assert_difference('Issue.count',-1) do
+      assert_difference('WorkPackage.count',-1) do
         delete '/api/v1/issues/6.xml', {}, credentials('jsmith')
       end
 
-      assert_nil Issue.find_by_id(6)
+      assert_nil WorkPackage.find_by_id(6)
     end
   end
 
@@ -497,11 +497,11 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
                                     {:success_code => :ok})
 
     should "delete the issue" do
-      assert_difference('Issue.count',-1) do
+      assert_difference('WorkPackage.count',-1) do
         delete '/api/v1/issues/6.json', {}, credentials('jsmith')
       end
 
-      assert_nil Issue.find_by_id(6)
+      assert_nil WorkPackage.find_by_id(6)
     end
   end
 end

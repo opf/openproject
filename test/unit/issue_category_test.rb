@@ -16,7 +16,7 @@ class IssueCategoryTest < ActiveSupport::TestCase
     super
     @project = FactoryGirl.create :project
     @category = FactoryGirl.create :issue_category, :project => @project
-    @issue = FactoryGirl.create :issue, :category => @category
+    @issue = FactoryGirl.create :work_package, :category => @category
     assert_equal @issue.category, @category
     assert_equal @category.work_packages, [@issue]
   end

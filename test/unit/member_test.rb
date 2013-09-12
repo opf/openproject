@@ -93,13 +93,13 @@ class MemberTest < ActiveSupport::TestCase
       @watcher_user = FactoryGirl.create(:user)
 
       # watchers for public issue
-      public_issue = FactoryGirl.create :issue
+      public_issue = FactoryGirl.create :work_package
       public_issue.project.is_public = true
       public_issue.project.save!
       Watcher.create!(:watchable => public_issue, :user => @watcher_user)
 
       # watchers for private things
-      Watcher.create!(:watchable => FactoryGirl.create(:issue, :project => @private_project), :user => @watcher_user)
+      Watcher.create!(:watchable => FactoryGirl.create(:work_package, :project => @private_project), :user => @watcher_user)
       board = FactoryGirl.create :board, :project => @private_project
       @message = FactoryGirl.create :message, :board => board
       Watcher.create!(:watchable => @message, :user => @watcher_user)

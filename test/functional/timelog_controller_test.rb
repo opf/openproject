@@ -80,7 +80,7 @@ class TimelogControllerTest < ActionController::TestCase
                                 :hours => '7.3'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
 
-    i = Issue.find(1)
+    i = WorkPackage.find(1)
     t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
     assert_not_nil t
     assert_equal 11, t.activity_id
@@ -227,7 +227,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
     assert_tag :form,
-      :attributes => {:action => issue_time_entries_path(1), :id => 'query_form'}
+      :attributes => {:action => work_package_time_entries_path(1), :id => 'query_form'}
   end
 
   def test_index_atom_feed

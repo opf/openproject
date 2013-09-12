@@ -73,7 +73,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_category_in_use_with_reassignment
-    issue = Issue.find(:first, :conditions => {:category_id => 1})
+    issue = WorkPackage.find(:first, :conditions => {:category_id => 1})
     delete :destroy, :id => 1, :todo => 'reassign', :reassign_to_id => 2
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_nil IssueCategory.find_by_id(1)
@@ -82,7 +82,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_category_in_use_without_reassignment
-    issue = Issue.find(:first, :conditions => {:category_id => 1})
+    issue = WorkPackage.find(:first, :conditions => {:category_id => 1})
     delete :destroy, :id => 1, :todo => 'nullify'
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_nil IssueCategory.find_by_id(1)
