@@ -25,7 +25,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= "#{l(:label_query_plural)} (#{@source_project.queries.count})" %>
     </label>
     <label class="block">
-      <%= check_box_tag 'only[]', 'boards', true %>
+      <%= check_box_tag 'only[]', 'boards', false %>
       <%= "#{l(:label_board_plural)} (#{@source_project.boards.count})" %>
     </label>
     <label class="block">
@@ -49,7 +49,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= "#{l(:label_wiki_page_plural)} (#{@source_project.wiki.nil? ? 0 : @source_project.wiki.pages.count})" %>
     </label>
     <label class="block">
-      <%= check_box_tag 'only[]', 'work_packages', true %>
+      <%= check_box_tag 'only[]', 'work_packages', false %>
       <%= "#{l(:label_work_package_plural)} (#{@source_project.work_packages.count})" %>
     </label>
     <label class="block">
