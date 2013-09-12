@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1875` Added test steps to reuse steps for my page, my project page, and documents, no my page block lookup at class load time
 * `#1876` Timelines do not show work packages when there is no status reporting
 * `#1896` Moved visibility-tests for issues into specs for workpackages
+# `#1911` Change mouse icon when hovering over drag&drop-enabled select2 entries 
 * `#1912` Merge column project type with column planning element type
 * `#1918` Custom fields are not displayed when issue is created
 
