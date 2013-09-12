@@ -733,6 +733,116 @@ describe WorkPackage do
     end
   end
 
+  describe :recipients do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:member) { FactoryGirl.create(:user) }
+    let(:author) { FactoryGirl.create(:user) }
+    let(:assignee) { FactoryGirl.create(:user) }
+    let(:role) { FactoryGirl.create(:role,
+                                    permissions: [:view_work_packages]) }
+    let(:project_member) { FactoryGirl.create(:member,
+                                              user: member,
+                                              project: project,
+                                              roles: [role]) }
+    let(:project_author) { FactoryGirl.create(:member,
+                                              user: author,
+                                              project: project,
+                                              roles: [role]) }
+    let(:project_assignee) { FactoryGirl.create(:member,
+                                                user: assignee,
+                                                project: project,
+                                                roles: [role]) }
+    let(:work_package) { FactoryGirl.create(:work_package,
+                                            author: author,
+                                            assigned_to: assignee,
+                                            project: project) }
+
+    shared_examples_for "includes expected users" do
+      subject { work_package.recipients }
+
+      it { should include(*expected_users) }
+    end
+
+    shared_examples_for "includes not expected users" do
+      subject { work_package.recipients }
+
+      it { should_not include(*expected_users) }
+    end
+
+    describe "includes project recipients" do
+      before { project_member }
+
+      context "pre-condition" do
+        subject { project.recipients }
+
+        it { should_not be_empty }
+      end
+
+      let(:expected_users) { project.recipients }
+
+      it_behaves_like "includes expected users"
+    end
+
+    describe "includes work package author" do
+      before { project_author }
+
+      context "pre-condition" do
+        subject { work_package.author }
+
+        it { should_not be_nil }
+      end
+
+      let(:expected_users) { work_package.author.mail }
+
+      it_behaves_like "includes expected users"
+    end
+
+    describe "includes work package assignee" do
+      before { project_assignee }
+
+      context "pre-condition" do
+        subject { work_package.assigned_to }
+
+        it { should_not be_nil }
+      end
+
+      let(:expected_users) { work_package.assigned_to.mail }
+
+      it_behaves_like "includes expected users"
+    end
+
+    context "mail notification settings" do
+      before do
+        project_author
+        project_assignee
+      end
+
+      describe :none do
+        before { author.update_attribute(:mail_notification, :none) }
+
+        let(:expected_users) { work_package.author.mail }
+
+        it_behaves_like "includes not expected users"
+      end
+
+      describe :only_assigned do
+        before { author.update_attribute(:mail_notification, :only_assigned) }
+
+        let(:expected_users) { work_package.author.mail }
+
+        it_behaves_like "includes not expected users"
+      end
+
+      describe :only_assigned do
+        before { assignee.update_attribute(:mail_notification, :only_owner) }
+
+        let(:expected_users) { work_package.assigned_to.mail }
+
+        it_behaves_like "includes not expected users"
+      end
+    end
+  end
+
   describe :new_statuses_allowed_to do
 
     let(:role) { FactoryGirl.create(:role) }
