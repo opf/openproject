@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe WorkPackage do
   let(:project) { FactoryGirl.create(:project_with_types) }
