@@ -1,8 +1,8 @@
 <p><%= form.text_field :name, :required => true, :size => 60 %></p>
 
 <%= render :partial => "projects/form/attributes/parent_id", :locals => { :project => project } %>
+<%= render :partial => "projects/form/attributes/summary", :locals => { :form => form } %>
 
-<p><%= form.text_area :summary, :rows => 2, :class => 'wiki-edit' %></p>
 <p><%= form.text_area :description, :rows => 5, :class => 'wiki-edit' %></p>
 <%= wikitoolbar_for 'project_description' %>
 
