@@ -1,9 +1,7 @@
 <%= render :partial => "projects/form/attributes/name", :locals => { :form => form } %>
 <%= render :partial => "projects/form/attributes/parent_id", :locals => { :project => project } %>
 <%= render :partial => "projects/form/attributes/summary", :locals => { :form => form } %>
-
-<p><%= form.text_area :description, :rows => 5, :class => 'wiki-edit' %></p>
-<%= wikitoolbar_for 'project_description' %>
+<%= render :partial => "projects/form/attributes/description", :locals => { :form => form } %>
 
 <p>
   <%= form.text_field :identifier, :required => true, :size => 60, :disabled => project.identifier_frozen? %>
