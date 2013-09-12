@@ -188,10 +188,13 @@
       if (toFocus.length == 0) {
         toFocus = dropdown.find("ul a:visible:first");
       }
+      // actually a simple focus should be enough.
+      // The rest is only there to work around a rendering bug in webkit (as of Oct 2011),
+      // occuring mostly inside the login/signup dropdown.
       toFocus.blur();
       setTimeout(function() {
         toFocus.focus();
-      }, 100);
+      }, 10);
     },
 
     registerEventHandlers: function () {
