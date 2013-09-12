@@ -13,8 +13,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   available_principals = Principal.possible_members("", 100)
-
+   # Check if there is at least one principal that can be added to the project
+   principals_available = @project.possible_members("", 1)
    member_per_page = 20
 
    @members = @project.member_principals.includes(:roles, :principal, :member_roles)
@@ -23,12 +23,11 @@ See doc/COPYRIGHT.rdoc for more details.
                                         .per_page(per_page_param)
 %>
 <div>
-  <% if roles.any? && available_principals.any? %>
+  <% if roles.any? && principals_available.any? %>
     <%= render :partial => "members/member_form",
               :locals => { :project => @project,
                            :members => members,
-                           :roles => roles,
-                           :principals => available_principals } %>
+                           :roles => roles } %>
 
   <% end %>
 </div>
