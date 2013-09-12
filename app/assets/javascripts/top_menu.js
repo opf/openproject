@@ -15,6 +15,7 @@
       this.withHeadingFoldOutAtBorder();
       this.setupDropdownHoverAndClick();
       this.registerEventHandlers();
+      this.closeOnBodyClick();
     },
 
     toggleClick: function (dropdown) {
@@ -32,7 +33,6 @@
 
     // somebody opens the menu via click, hover possible afterwards
     opening: function () {
-      this.closeOnBodyClick();
       this.startHover();
       this.menuIsOpen = true;
       this.menu_container.trigger("openedMenu", this.menu_container);
