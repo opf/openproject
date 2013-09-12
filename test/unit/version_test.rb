@@ -38,7 +38,7 @@ class VersionTest < ActiveSupport::TestCase
           v.force_attributes = { :project => project, :name => 'Progress' }
         end).save!
         add_issue(v, :estimated_hours => 10, :start_date => '2010-03-01')
-        Issue.generate_for_project!(project, :subject => 'not assigned', :start_date => '2010-01-01')
+        FactoryGirl.create(:work_package, project: project, :subject => 'not assigned', :start_date => '2010-01-01')
 
         assert_equal '2010-03-01', v.start_date.to_s
       end
@@ -167,8 +167,8 @@ class VersionTest < ActiveSupport::TestCase
     should "be false if all of the issues are ahead of schedule" do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
-                               Issue.generate_for_project!(@project, :start_date => 7.days.ago, :done_ratio => 60), # 14 day span, 60% done, 50% time left
-                               Issue.generate_for_project!(@project, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
+                               FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
                               ]
       assert_equal 60, @version.completed_pourcent
       assert_equal false, @version.behind_schedule?
@@ -177,8 +177,8 @@ class VersionTest < ActiveSupport::TestCase
     should "be true if any of the issues are behind schedule" do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
-                               Issue.generate_for_project!(@project, :start_date => 7.days.ago, :done_ratio => 60), # 14 day span, 60% done, 50% time left
-                               Issue.generate_for_project!(@project, :start_date => 7.days.ago, :done_ratio => 20) # 14 day span, 20% done, 50% time left
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 7.days.ago, :done_ratio => 60), # 14 day span, 60% done, 50% time left
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 7.days.ago, :done_ratio => 20) # 14 day span, 20% done, 50% time left
                               ]
       assert_equal 40, @version.completed_pourcent
       assert_equal true, @version.behind_schedule?
@@ -187,8 +187,8 @@ class VersionTest < ActiveSupport::TestCase
     should "be false if all of the issues are complete" do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
-                               Issue.generate_for_project!(@project, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)), # 7 day span
-                               Issue.generate_for_project!(@project, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)), # 7 day span
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
                               ]
       assert_equal 100, @version.completed_pourcent
       assert_equal false, @version.behind_schedule?
@@ -231,16 +231,16 @@ class VersionTest < ActiveSupport::TestCase
 
     @version = Version.find(7)
     # Separate hierarchy
-    project_1_issue = Issue.find(1)
+    project_1_issue = WorkPackage.find(1)
     project_1_issue.fixed_version = @version
     assert project_1_issue.save, project_1_issue.errors.full_messages.to_s
 
-    project_5_issue = Issue.find(6)
+    project_5_issue = WorkPackage.find(6)
     project_5_issue.fixed_version = @version
     assert project_5_issue.save
 
     # Project
-    project_2_issue = Issue.find(4)
+    project_2_issue = WorkPackage.find(4)
     project_2_issue.fixed_version = @version
     assert project_2_issue.save
 
@@ -264,7 +264,7 @@ class VersionTest < ActiveSupport::TestCase
   private
 
   def add_issue(version, attributes={})
-    (v = Issue.new.tap do |v|
+    (v = WorkPackage.new.tap do |v|
       v.force_attributes = { :project => version.project,
                              :fixed_version => version,
                              :subject => 'Test',

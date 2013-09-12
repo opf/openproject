@@ -112,7 +112,7 @@ print "Creating objects for..."
 
   rand(10).times do
     print "."
-    Issue.create!(project: project,
+    WorkPackage.create!(project: project,
                   author: user,
                   status: statuses.sample,
                   subject: Faker::Lorem.words(8).join(" "),
@@ -314,7 +314,7 @@ end
 
 print "done."
 puts "\n"
-puts "#{Issue.where(:project_id => project.id).count} issues created."
+puts "#{WorkPackage.where(:project_id => project.id).count} issues created."
 puts "#{Message.joins(:board).where(boards: { :project_id => project.id }).count} messages created."
 puts "#{News.where(:project_id => project.id).count} news created."
 puts "#{WikiContent.joins(page: [ :wiki ]).where("wikis.project_id = ?", project.id).count} wiki contents created."

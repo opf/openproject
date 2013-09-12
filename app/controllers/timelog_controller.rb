@@ -172,7 +172,7 @@ private
 
   def find_project
     if (issue_id = (params[:issue_id] || params[:time_entry] && params[:time_entry][:issue_id])).present?
-      @issue = Issue.find(issue_id)
+      @issue = WorkPackage.find(issue_id)
       @project = @issue.project
     elsif (work_package_id = (params[:work_package_id] || params[:time_entry] && params[:time_entry][:work_package_id])).present?
       @issue = WorkPackage.find(work_package_id)
@@ -189,7 +189,7 @@ private
 
   def find_optional_project
     if !params[:issue_id].blank?
-      @issue = Issue.find(params[:issue_id])
+      @issue = WorkPackage.find(params[:issue_id])
       @project = @issue.project
     elsif !params[:work_package_id].blank?
       @issue = WorkPackage.find(params[:work_package_id])

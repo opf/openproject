@@ -104,7 +104,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_issue_attachment
-    issue = Issue.find(3)
+    issue = WorkPackage.find(3)
     issue.recreate_initial_journal!
 
     @request.session[:user_id] = 2

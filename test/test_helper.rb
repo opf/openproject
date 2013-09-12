@@ -213,7 +213,7 @@ class ActiveSupport::TestCase
   def self.should_show_the_old_and_new_values_for(prop_key, model, &block)
     context "" do
       setup do
-        FactoryGirl.create :issue if Issue.count == 0 # some tests use Issue.last
+        FactoryGirl.create :issue if WorkPackage.count == 0 # some tests use WorkPackage.last
         if block_given?
           instance_eval &block
         else
@@ -225,7 +225,7 @@ class ActiveSupport::TestCase
       should "use the new value's name" do
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journable).returns(Issue.last)
+        journal.stubs(:journable).returns(WorkPackage.last)
         journal.stubs(:details).returns({prop_key => [@old_value.id, @new_value.id]})
 
         assert_match @new_value.class.find(@new_value.id).name, journal.render_detail(prop_key, :no_html => true)
@@ -234,7 +234,7 @@ class ActiveSupport::TestCase
       should "use the old value's name" do
         journal = FactoryGirl.build :work_package_journal
 
-        journal.stubs(:journable).returns(Issue.last)
+        journal.stubs(:journable).returns(WorkPackage.last)
         journal.stubs(:details).returns({prop_key => [@old_value.id, @new_value.id]})
 
         assert_match @old_value.class.find(@old_value.id).name, journal.render_detail(prop_key, :no_html => true)

@@ -15,7 +15,7 @@ class ChangesetTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_ref_keywords_any
-    Issue.all.each { |m| m.recreate_initial_journal! }
+    WorkPackage.all.each { |m| m.recreate_initial_journal! }
 
     ActionMailer::Base.deliveries.clear
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
@@ -29,7 +29,7 @@ class ChangesetTest < ActiveSupport::TestCase
     c.scan_comment_for_work_package_ids
 
     assert_equal [1, 2], c.work_package_ids.sort
-    fixed = Issue.find(1)
+    fixed = WorkPackage.find(1)
     assert fixed.closed?
     assert_equal 90, fixed.done_ratio
     assert_equal 2, ActionMailer::Base.deliveries.size
@@ -114,8 +114,8 @@ class ChangesetTest < ActiveSupport::TestCase
     end
 
     assert_equal [1, 2], c.work_package_ids.sort
-    assert Issue.find(1).closed?
-    assert Issue.find(2).closed?
+    assert WorkPackage.find(1).closed?
+    assert WorkPackage.find(2).closed?
 
     times = TimeEntry.all(:order => 'id desc', :limit => 2)
     assert_equal [1, 2], times.collect(&:work_package_id).sort

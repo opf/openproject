@@ -103,7 +103,7 @@ module Api
 
       def create
         call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
-        IssueObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
+        WorkPackageObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
         if @issue.save
           attachments = Attachment.attach_files(@issue, params[:attachments])
           render_attachment_warning_if_needed(@issue)
@@ -178,7 +178,7 @@ module Api
       protected
 
       def find_issue
-        @issue = Issue.find(params[:id], :include => [{ :project => :enabled_modules },
+        @issue = WorkPackage.find(params[:id], :include => [{ :project => :enabled_modules },
                                                       { :type => :custom_fields },
                                                       :status,
                                                       :author,
@@ -218,7 +218,7 @@ module Api
       # TODO: Changing type on an existing issue should not trigger this
       def build_new_issue_from_params
         if params[:id].blank?
-          @issue = Issue.new
+          @issue = WorkPackage.new
           @issue.copy_from(params[:copy_from]) if params[:copy_from]
           @issue.project = @project
         else
@@ -243,7 +243,7 @@ module Api
 
         # Copy watchers if we're copying an issue
         if params[:copy_from] && User.current.allowed_to?(:add_work_package_watchers, @project)
-          @issue.watcher_user_ids = Issue.visible.find(params[:copy_from]).watcher_user_ids
+          @issue.watcher_user_ids = WorkPackage.visible.find(params[:copy_from]).watcher_user_ids
         end
 
         @issue.author = User.current

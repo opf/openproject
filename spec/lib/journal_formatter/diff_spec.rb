@@ -27,7 +27,7 @@ describe OpenProject::JournalFormatter::Diff do
   let(:klass) { OpenProject::JournalFormatter::Diff }
   let(:id) { 1 }
   let(:journal) do
-    Struct::TestJournal.new(id, Issue.new)
+    Struct::TestJournal.new(id, WorkPackage.new)
   end
   let(:instance) { klass.new(journal) }
   let(:key) { "description" }

@@ -18,10 +18,10 @@ describe JournalsController do
   let(:member) { FactoryGirl.build(:member, :project => project,
                                             :roles => [role],
                                             :principal => user) }
-  let(:issue) { FactoryGirl.build(:issue, :type => project.types.first,
-                                          :author => user,
-                                          :project => project,
-                                          :description => '') }
+  let(:issue) { FactoryGirl.build(:work_package, :type => project.types.first,
+                                                 :author => user,
+                                                 :project => project,
+                                                 :description => '') }
 
   describe "GET diff" do
     render_views

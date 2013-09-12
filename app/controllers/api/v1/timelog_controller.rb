@@ -27,7 +27,7 @@ module Api
 
         cond = ARCondition.new
         if @issue
-          cond << "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
+          cond << "#{WorkPackage.table_name}.root_id = #{@issue.root_id} AND #{WorkPackage.table_name}.lft >= #{@issue.lft} AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
         elsif @project
           cond << @project.project_condition(Setting.display_subprojects_issues?)
         end
