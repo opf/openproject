@@ -1,12 +1,19 @@
 class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
+
   class UnsupportedWikiContentJournalCompressionError < ::StandardError
+  end
+
+  class WikiContentJournalVersionError < ::StandardError
   end
 
   class AmbiguousJournalsError < ::StandardError
   end
 
   class AmbiguousAttachableJournalError < AmbiguousJournalsError
+  end
+
+  class InvalidAttachableJournalError < ::StandardError
   end
 
   class AmbiguousCustomizableJournalError < AmbiguousJournalsError
@@ -96,46 +103,82 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
   def work_package_migrator
     LegacyJournalMigrator.new "WorkPackageJournal", "work_package_journals" do
-      def migrate_key_value_pairs!(keys, values, legacy_journal, journal_id)
-        attachments = keys.select { |d| d =~ /attachments_.*/ }
-        attachments.each do |k|
+      def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
 
-          attachment_id = k.split("_").last.to_i
+        migrate_attachments(to_insert, legacy_journal, journal_id)
 
-          attachable = ActiveRecord::Base.connection.select_all <<-SQL
-            SELECT *
-            FROM #{attachable_table_name} AS a
-            WHERE a.journal_id = #{quote_value(journal_id)} AND a.attachment_id = #{attachment_id};
-          SQL
+        migrate_custom_values(to_insert, legacy_journal, journal_id)
+      end
 
-          if attachable.size > 1
+      def migrate_attachments(to_insert, legacy_journal, journal_id)
+        attachments = to_insert.keys.select { |d| d =~ attachment_key_regexp }
 
-            raise AmbiguousAttachableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
-              It appears there are ambiguous attachable journal data.
-              Please make sure attachable journal data are consistent and
-              that the unique constraint on journal_id and attachment_id
-              is met.
-            MESSAGE
+        attachments.each do |key|
 
-          elsif attachable.size == 0
+          attachment_id = attachment_key_regexp.match(key)[1]
 
-            db_execute <<-SQL
-              INSERT INTO #{attachable_table_name}(journal_id, attachment_id)
-              VALUES (#{quote_value(journal_id)}, #{quote_value(attachment_id)});
+          # if an attachment was added the value contains something like:
+          # [nil, "blubs.png"]
+          # if it was removed the value is something like
+          # ["blubs.png", nil]
+          removed_filename, added_filename = *to_insert[key]
+
+          if added_filename && !removed_filename
+            # The attachment was added
+
+            attachable = ActiveRecord::Base.connection.select_all <<-SQL
+              SELECT *
+              FROM #{attachable_table_name} AS a
+              WHERE a.journal_id = #{quote_value(journal_id)} AND a.attachment_id = #{attachment_id};
             SQL
+
+            if attachable.size > 1
+
+              raise AmbiguousAttachableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+                It appears there are ambiguous attachable journal data.
+                Please make sure attachable journal data are consistent and
+                that the unique constraint on journal_id and attachment_id
+                is met.
+              MESSAGE
+
+            elsif attachable.size == 0
+
+              db_execute <<-SQL
+                INSERT INTO #{attachable_table_name}(journal_id, attachment_id, filename)
+                VALUES (#{quote_value(journal_id)}, #{quote_value(attachment_id)}, #{quote_value(added_filename)});
+              SQL
+            end
+
+          elsif removed_filename && !added_filename
+            # The attachment was removed
+            # we need to make certain that no subsequent journal adds an attachable_journal
+            # for this attachment
+
+            to_insert.delete_if { |k, v| k =~ /attachments_?#{attachment_id}/ }
+
+          else
+            raise InvalidAttachableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+              There is a journal entry for an attachment but neither the old nor the new value contains anything:
+              #{to_insert}
+              #{legacy_journal}
+            MESSAGE
           end
 
-          j = keys.index(k)
-          [keys, values].each { |a| a.delete_at(j) }
         end
+
+      end
+
+      def migrate_custom_values(to_insert, legacy_journal, journal_id)
+        keys = to_insert.keys
+        values = to_insert.values
 
         custom_values = keys.select { |d| d =~ /custom_values.*/ }
         custom_values.each do |k|
 
           custom_field_id = k.split("_values").last.to_i
-          value = values[keys.index k]
+          value = values[keys.index k].last
 
-          customizable = ActiveRecord::Base.connection.select_all <<-SQL
+          customizable = db_select_all <<-SQL
             SELECT *
             FROM #{customizable_table_name} AS a
             WHERE a.journal_id = #{quote_value(journal_id)} AND a.custom_field_id = #{custom_field_id};
@@ -158,10 +201,23 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
             SQL
           end
 
-          j = keys.index(k)
-          [keys, values].each { |a| a.delete_at(j) }
-
         end
+      end
+
+      def customizable_table_name
+        quoted_table_name("customizable_journals")
+      end
+
+      def attachable_table_name
+        quoted_table_name("attachable_journals")
+      end
+
+      def attachment_key_regexp
+        # Attachment journal entries can be written in two ways:
+        # attachments123 if the attachment was added
+        # attachments_123 if the attachment was removed
+        #
+        @attachment_key_regexp ||= /attachments_?(\d+)$/
       end
     end
   end
@@ -174,18 +230,29 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
     LegacyJournalMigrator.new("WikiContentJournal", "wiki_content_journals") do
 
-      def migrate_key_value_pairs!(keys, values, legacy_journal, journal_id)
-        if keys.index("lock_version").nil?
-          keys.push "lock_version"
-          values.push legacy_journal["version"]
+      def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
+
+        # remove once lock_version is no longer a column in the wiki_content_journales table
+        if !to_insert.has_key?("lock_version")
+
+          if !legacy_journal.has_key?("version")
+            raise WikiContentJournalVersionError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+              There is a wiki content without a version.
+              The DB requires a version to be set
+              #{legacy_journal},
+              #{to_insert}
+            MESSAGE
+
+          end
+
+          # as the old journals used the format [old_value, new_value] we have to fake it here
+          to_insert["lock_version"] = [nil,legacy_journal["version"]]
         end
 
-        if !(data_index = keys.index("data")).nil?
+        if to_insert.has_key?("data")
 
-          compression_index = keys.index("compression")
-          compression = values[compression_index]
-
-          if !compression.empty?
+          # Why is that checked but than the compression is not used in any way to read the data
+          if !to_insert.has_key?("compression")
 
             raise UnsupportedWikiContentJournalCompressionError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
               There is a WikiContent journal that contains data in an
@@ -194,10 +261,8 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
           end
 
-          keys[data_index] = "text"
-
-          keys.delete_at(compression_index)
-          values.delete_at(compression_index)
+          # as the old journals used the format [old_value, new_value] we have to fake it here
+          to_insert["text"] = [nil, to_insert.delete("data")]
         end
       end
 
@@ -212,7 +277,7 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       FROM #{quoted_legacy_journals_table_name} AS j
       WHERE (j.activity_type = #{quote_value("attachments")})
         OR (j.activity_type = #{quote_value("custom_fields")})
-      ORDER BY j.journaled_id, j.activity_type, j.version;
+      ORDER BY j.journaled_id, j.type, j.version;
     SQL
 
     remainder = ActiveRecord::Base.connection.select_all <<-SQL
@@ -220,7 +285,7 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       FROM #{quoted_legacy_journals_table_name} AS j
       WHERE NOT ((j.activity_type = #{quote_value("attachments")})
         OR (j.activity_type = #{quote_value("custom_fields")}))
-      ORDER BY j.journaled_id, j.activity_type, j.version;
+      ORDER BY j.journaled_id, j.type, j.version;
     SQL
 
     attachments_and_changesets + remainder
@@ -304,7 +369,7 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
                   :type,
                   :journable_class
 
-    def initialize(type=nil, table_name=nil, &block)
+    def initialize(type, table_name, &block)
       self.table_name = table_name
       self.type = type
 
@@ -319,83 +384,11 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       self.journable_class = self.type.gsub(/Journal$/, "")
     end
 
-    def column_names
-      @column_names ||= db_columns(table_name).map(&:name)
-    end
-
     def migrate(legacy_journal)
-
-      journaled_id, version = legacy_journal["journaled_id"], legacy_journal["version"]
-
-      # turn id fields into integers.
-      ["id", "journaled_id", "user_id", "version"].each do |f|
-        legacy_journal[f] = legacy_journal[f].to_i
-      end
-
-      legacy_journal["changed_data"] = YAML.load(legacy_journal["changed_data"])
-
-      # actually insert/update stuff in the database.
-      journal = get_journal(journaled_id, version)
+      journal = set_journal(legacy_journal)
       journal_id = journal["id"]
 
-      combined_journal = combine_journal(journaled_id, legacy_journal)
-
-
-      existing_journal = fetch_existing_journal_data(journal_id)
-
-      to_insert = combined_journal.inject({}) do |mem, (key, value)|
-        if column_names.include?(key)
-          # The old journal's values attribute was structured like
-          # [old_value, new_value]
-          # We only need the new_value
-          mem[key] = value.last
-        end
-
-        mem
-      end
-
-      keys = to_insert.keys
-      values = to_insert.values
-
-      migrate_key_value_pairs!(keys, values, legacy_journal, journal_id)
-
-      if existing_journal.size > 1
-
-        raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
-          It appears there are ambiguous journal data. Please make sure
-          journal data are consistent and that the unique constraint on
-          journal_id is met.
-        MESSAGE
-
-      elsif existing_journal.size == 0
-        db_execute <<-SQL
-          INSERT INTO #{journal_table_name} (journal_id#{", " + keys.map{|k| map_key(k) }.join(", ") unless keys.empty? })
-          VALUES (#{quote_value(journal_id)}#{", " + values.map{|d| quote_value(d)}.join(", ") unless values.empty?});
-        SQL
-
-        existing_journal = fetch_existing_journal_data(journal_id)
-      end
-
-      existing_journal = existing_journal.first
-
-      sql_statements = <<-SQL
-        UPDATE journals
-           SET journable_data_id   = #{quote_value(journal_id)},
-               journable_data_type = #{quote_value(type)},
-               user_id             = #{quote_value(legacy_journal["user_id"])},
-               notes               = #{quote_value(legacy_journal["notes"])},
-               created_at          = #{quote_value(legacy_journal["created_at"])},
-               activity_type       = #{quote_value(legacy_journal["activity_type"])}
-         WHERE id = #{quote_value(journal_id)};
-      SQL
-
-      sql_statements = <<-SQL + sql_statements unless keys.empty?
-        UPDATE #{journal_table_name}
-           SET #{(keys.each_with_index.map {|k,i| "#{map_key(k)} = #{quote_value(values[i])}"}).join(", ")}
-         WHERE id = #{existing_journal["id"]};
-      SQL
-
-      db_execute sql_statements
+      set_journal_data(journal_id, legacy_journal)
     end
 
     protected
@@ -408,20 +401,20 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       end
 
       # remember the combined journal as the previous one for the next iteration.
-      previous.set(combined_journal, journaled_id, type)
+      previous.set(combined_journal, journaled_id)
 
       combined_journal
     end
 
     def previous
-      @previous ||= PreviousState.new({}, 0, "")
+      @previous ||= PreviousState.new({}, 0)
     end
 
     # here to be overwritten by instances
-    def migrate_key_value_pairs!(keys, values, legacy_journal, journal_id) end
+    def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id) end
 
     # fetches specific journal data row. might be empty.
-    def fetch_existing_journal_data(journal_id)
+    def fetch_existing_data_journal(journal_id)
       ActiveRecord::Base.connection.select_all <<-SQL
         SELECT *
         FROM #{journal_table_name} AS d
@@ -429,30 +422,11 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       SQL
     end
 
-    def map_key(key)
-      case key
-      when "issue_id"
-        "work_package_id"
-      else
-        key
-      end
-    end
-
-    def customizable_table_name
-      quoted_table_name("customizable_journals")
-    end
-
-    def attachable_table_name
-      quoted_table_name("attachable_journals")
-    end
-
-    def journal_table_name
-      quoted_table_name(table_name)
-    end
-
     # gets a journal row, and makes sure it has a valid id in the database.
-    def get_journal(id, version)
-      journal = fetch_journal(id, version)
+    # if the journal does not exist, it creates it
+    def set_journal(legacy_journal)
+
+      journal = fetch_journal(legacy_journal)
 
       if journal.size > 1
 
@@ -464,24 +438,17 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
       elsif journal.size == 0
 
-        db_execute <<-SQL
-          INSERT INTO #{quoted_journals_table_name}(journable_id, journable_type, version, created_at)
-          VALUES (
-            #{quote_value(id)},
-            #{quote_value(journable_class)},
-            #{quote_value(version)},
-            #{quote_value(Time.now)}
-          );
-        SQL
+        journal = create_journal(legacy_journal)
 
-        journal = fetch_journal(id, version)
       end
 
       journal.first
     end
 
     # fetches specific journal row. might be empty.
-    def fetch_journal(id, version)
+    def fetch_journal(legacy_journal)
+      id, version = legacy_journal["journaled_id"], legacy_journal["version"]
+
       db_select_all <<-SQL
         SELECT *
         FROM #{quoted_journals_table_name} AS j
@@ -491,16 +458,148 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       SQL
     end
 
+    # creates a valid journal.
+    # But might be not what is desired as an end result, yet.  It is e.g.
+    # created with created_at set to now. This will need to be set to an actual
+    # date
+    def create_journal(legacy_journal)
+
+      db_execute <<-SQL
+        INSERT INTO #{quoted_journals_table_name} (
+          id,
+          journable_id,
+          version,
+          user_id,
+          notes,
+          activity_type,
+          created_at,
+          journable_type
+        )
+        VALUES (
+          #{quote_value(legacy_journal["id"])},
+          #{quote_value(legacy_journal["journaled_id"])},
+          #{quote_value(legacy_journal["version"])},
+          #{quote_value(legacy_journal["user_id"])},
+          #{quote_value(legacy_journal["notes"])},
+          #{quote_value(legacy_journal["activity_type"])},
+          #{quote_value(legacy_journal["created_at"])},
+          #{quote_value(journable_class)}
+        );
+      SQL
+
+      fetch_journal(legacy_journal)
+    end
+
+    def set_journal_data(journal_id, legacy_journal)
+
+      deserialize_journal(legacy_journal)
+      journaled_id = legacy_journal["journaled_id"]
+
+      combined_journal = combine_journal(journaled_id, legacy_journal)
+      migrate_key_value_pairs!(combined_journal, legacy_journal, journal_id)
+
+      to_insert = insertable_data_journal(combined_journal)
+
+      existing_data_journal = fetch_existing_data_journal(journal_id)
+
+      if existing_data_journal.size > 1
+
+        raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+          It appears there are ambiguous journal data. Please make sure
+          journal data are consistent and that the unique constraint on
+          journal_id is met.
+        MESSAGE
+
+      elsif existing_data_journal.size == 0
+
+        existing_data_journal = create_data_journal(journal_id, to_insert)
+
+      end
+
+      existing_data_journal = existing_data_journal.first
+
+      update_data_journal(existing_data_journal["id"], to_insert)
+    end
+
+    def create_data_journal(journal_id, to_insert)
+      keys = to_insert.keys
+      values = to_insert.values
+
+      db_execute <<-SQL
+        INSERT INTO #{journal_table_name} (journal_id#{", " + keys.join(", ") unless keys.empty? })
+        VALUES (#{quote_value(journal_id)}#{", " + values.map{|d| quote_value(d)}.join(", ") unless values.empty?});
+      SQL
+
+      fetch_existing_data_journal(journal_id)
+    end
+
+    def update_data_journal(id, to_insert)
+      db_execute <<-SQL unless to_insert.empty?
+        UPDATE #{journal_table_name}
+           SET #{(to_insert.each.map { |key,value| "#{key} = #{quote_value(value)}"}).join(", ") }
+         WHERE id = #{id};
+      SQL
+
+    end
+
+    def deserialize_journal(journal)
+      integerize_ids(journal)
+
+      journal["changed_data"] = YAML.load(journal["changed_data"])
+    end
+
+    def insertable_data_journal(journal)
+      journal.inject({}) do |mem, (key, value)|
+        current_key = map_key(key)
+
+        if column_names.include?(current_key)
+          # The old journal's values attribute was structured like
+          # [old_value, new_value]
+          # We only need the new_value
+          mem[current_key] = value.last
+        end
+
+        mem
+      end
+    end
+
+    def map_key(key)
+      case key
+      when "issue_id"
+        "work_package_id"
+      when "tracker_id"
+        "type_id"
+      when "end_date"
+        "due_date"
+      else
+        key
+      end
+    end
+
+    def integerize_ids(journal)
+      # turn id fields into integers.
+      ["id", "journaled_id", "user_id", "version"].each do |f|
+        journal[f] = journal[f].to_i
+      end
+    end
+
+    def journal_table_name
+      quoted_table_name(table_name)
+    end
+
     def quoted_journals_table_name
       @quoted_journals_table_name ||= quoted_table_name 'journals'
     end
+
+    def column_names
+      @column_names ||= db_columns(table_name).map(&:name)
+    end
   end
 
-  class PreviousState < Struct.new(:journal, :journaled_id, :type)
-    def set(journal, journaled_id, type)
+  class PreviousState < Struct.new(:journal, :journaled_id)
+    def set(journal, journaled_id)
       self.journal = journal
       self.journaled_id = journaled_id
-      self.type = type
     end
   end
 
