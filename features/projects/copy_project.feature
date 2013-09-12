@@ -23,12 +23,12 @@ Feature: Project Settings
 
   Scenario: Check for the existence of a copy button
     When I am already admin
-    And  I go to the members tab of the settings page of the project "project1"
+    And  I go to the settings page of the project "project1"
     Then I should see "Copy" within "#content"
 
   Scenario: Permission test for copy button with authorized role
     When I am already logged in as "alice"
-    And  I go to the members tab of the settings page of the project "project1"
+    And  I go to the settings page of the project "project1"
     Then I should see "Copy" within "#content"
 
   Scenario: Permission test for copy button without authorized role
@@ -43,6 +43,6 @@ Feature: Project Settings
     #just one project, so we should be fine
     And  I click on "Copy" within "#content"
     Then I should see "Modules" within "#content"
-    When I go to the members tab of the settings page of the project "project1"
+    When I go to the settings page of the project "project1"
     And  I follow "Copy" within "#content"
     Then I should not see "Modules" within "#content"
