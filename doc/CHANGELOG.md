@@ -12,11 +12,21 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre16
+
 * `#1418` Additional changes: Change links to issues/planning elements to use work_packages controller
 * `#1504` Initial selection of possible project members wrong (accessibility mode)
+* `#1695` Cannot open links in Projects menu in new tab/window
+* `#1753` Remove Issue and replace with Work Package
+* `#1754` Migrate unit-tests for issues into specs for work_package
+* `#1757` Rename Issues fixtures to Work Package fixtures
+* `#1759` Remove link_to_issue_preview, replace with link_to_workpackage_preview
+* `#1822` Replace Issue constant by WorkPackage constant
+* `#1850` Disable atom feeds via setting
+* `#1874` Move Scopes from Issue into Workpackage
 * `#1898` Separate action for changing wiki parent page (was same as rename before)
 * `#1923` Add permission that allows hiding repository statistics on commits per author
-* `#1850` Disable atom feeds via setting
+* `#1950` Grey line near the lower end of the modal, cuts off a bit of the content
 
 ## 3.0.0pre15
 
@@ -32,6 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1875` Added test steps to reuse steps for my page, my project page, and documents, no my page block lookup at class load time
 * `#1876` Timelines do not show work packages when there is no status reporting
 * `#1896` Moved visibility-tests for issues into specs for workpackages
+# `#1911` Change mouse icon when hovering over drag&drop-enabled select2 entries
 * `#1912` Merge column project type with column planning element type
 * `#1918` Custom fields are not displayed when issue is created
 
