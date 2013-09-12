@@ -12,6 +12,12 @@
 #++
 
 module WorkPackagesHelper
+  def work_package_api_done_ratio_if_enabled(api, issue)
+    if Setting.issue_done_ratio != 'disabled'
+      api.done_ratio  issue.done_ratio
+    end
+  end
+
   def work_package_breadcrumb
     full_path = ancestors_links.unshift(work_package_index_link)
 
@@ -371,6 +377,8 @@ module WorkPackagesHelper
   end
 
   def work_package_show_progress_attribute(work_package)
+    return if WorkPackage.done_ratio_disabled?
+
     work_package_show_table_row(:progress, 'done-ratio') do
       progress_bar work_package.done_ratio, :width => '80px', :legend => work_package.done_ratio.to_s
     end

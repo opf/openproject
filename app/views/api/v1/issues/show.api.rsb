@@ -25,7 +25,7 @@ api.issue do
   api.description @issue.description
   api.start_date @issue.start_date
   api.due_date @issue.due_date
-  api.done_ratio @issue.done_ratio
+  work_package_api_done_ratio_if_enabled api, @issue
   api.estimated_hours @issue.estimated_hours
   api.spent_hours(@issue.spent_hours) if User.current.allowed_to?(:view_time_entries, @project)
 

@@ -27,6 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1898` Separate action for changing wiki parent page (was same as rename before)
 * `#1923` Add permission that allows hiding repository statistics on commits per author
 * `#1950` Grey line near the lower end of the modal, cuts off a bit of the content
+* `#1921` Allow disabling done ratio for work packages
 
 ## 3.0.0pre15
 

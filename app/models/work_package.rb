@@ -22,7 +22,7 @@ class WorkPackage < ActiveRecord::Base
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   include Redmine::SafeAttributes
 
-  DONE_RATIO_OPTIONS = %w(issue_field issue_status)
+  DONE_RATIO_OPTIONS = %w(issue_field issue_status disabled)
   ATTRIBS_WITH_VALUES_FROM_CHILDREN = %w(priority_id start_date due_date estimated_hours done_ratio)
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -213,6 +213,10 @@ class WorkPackage < ActiveRecord::Base
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_work_packages, options)
+  end
+
+  def self.done_ratio_disabled?
+    Setting.issue_done_ratio == 'disabled'
   end
 
   def self.use_status_for_done_ratio?
@@ -419,10 +423,6 @@ class WorkPackage < ActiveRecord::Base
     statuses << IssueStatus.default if include_default
     statuses = statuses.uniq.sort
     blocked? ? statuses.reject {|s| s.is_closed?} : statuses
-  end
-
-  def self.use_status_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_status'
   end
 
   # Returns the total number of hours spent on this issue and its descendants
@@ -652,6 +652,8 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def inherit_done_ratio_from_leaves
+    return if WorkPackage.done_ratio_disabled?
+
     # done ratio = weighted average ratio of leaves
     unless WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
       leaves_count = leaves.count
@@ -797,10 +799,6 @@ class WorkPackage < ActiveRecord::Base
     'fixed_version_id',
     'done_ratio',
     :if => lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
-
-  def self.use_field_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_field'
-  end
 
   def <=>(issue)
     if issue.nil?

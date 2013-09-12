@@ -29,7 +29,7 @@ api.array :issues, api_meta(:total_count => @issues.total_entries,
       api.description issue.description
       api.start_date 	issue.start_date
       api.due_date 		issue.due_date
-      api.done_ratio 	issue.done_ratio
+      work_package_api_done_ratio_if_enabled api, issue
       api.estimated_hours issue.estimated_hours
 
       render_api_custom_values issue.custom_field_values, api
