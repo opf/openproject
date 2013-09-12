@@ -14,6 +14,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#1418` Additional changes: Change links to issues/planning elements to use work_packages controller
 * `#1504` Initial selection of possible project members wrong (accessibility mode)
+* `#1695` Cannot open links in Projects menu in new tab/window
+* `#1753` Remove Issue and replace with Work Package
+* `#1757` Rename Issues fixtures to Work Package fixtures
+* `#1759` Remove link_to_issue_preview, replace with link_to_workpackage_preview
+* `#1822` Replace Issue constant by WorkPackage constant
 * `#1898` Separate action for changing wiki parent page (was same as rename before)
 * `#1923` Add permission that allows hiding repository statistics on commits per author
 * `#1850` Disable atom feeds via setting
