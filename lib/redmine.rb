@@ -178,7 +178,7 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :calendar do |map|
-    map.permission :view_calendar, :'issues/calendars' => [:index]
+    map.permission :view_calendar, :'work_packages/calendars' => [:index]
   end
 
   map.project_module :activity
@@ -293,7 +293,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :new_work_package, { :controller => '/work_packages', :action => 'new'}, :param => :project_id, :caption => :label_work_package_new, :parent => :work_packages,
                                                                                      :html => { :accesskey => Redmine::AccessKeys.key_for(:new_work_package) }
   menu.push :summary_field, {:controller => '/issues/reports', :action => 'report'}, :param => :project_id, :caption => :label_workflow_summary, :parent => :work_packages
-  menu.push :calendar, { :controller => '/issues/calendars', :action => 'index' }, :param => :project_id, :caption => :label_calendar
+  menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => '/news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
   menu.push :new_news, { :controller => '/news', :action => 'new' }, :param => :project_id, :caption => :label_news_new, :parent => :news,
               :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) }
