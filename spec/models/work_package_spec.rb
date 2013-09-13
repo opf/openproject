@@ -167,7 +167,7 @@ describe WorkPackage do
       let(:group) { FactoryGirl.create(:group) }
 
       before do
-        Setting.stub(:issue_group_assignment).and_return(true)
+        Setting.stub(:issue_group_assignment?).and_return(true)
       end
 
       subject { FactoryGirl.create(:work_package).assignable_users }
@@ -178,7 +178,7 @@ describe WorkPackage do
       let(:group) { FactoryGirl.create(:group) }
 
       before do
-        Setting.stub(:issue_group_assignment).and_return(false)
+        Setting.stub(:issue_group_assignment?).and_return(false)
       end
 
       subject { FactoryGirl.create(:work_package).assignable_users }
