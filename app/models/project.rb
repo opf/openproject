@@ -1094,7 +1094,7 @@ class Project < ActiveRecord::Base
 
   def self.assignable_members_condition
 
-    condition = Setting.issue_group_assignment? ?
+    condition = Setting.work_package_group_assignment? ?
                   ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
                   ["(#{Principal.table_name}.type=?)", 'User']
 

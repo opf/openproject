@@ -151,7 +151,7 @@ class Query < ActiveRecord::Base
                     principals_by_class[User].collect{ |s| [s.name, s.id.to_s] }.sort :
                     []
 
-    group_values = Setting.issue_group_assignment? && principals_by_class[Group].present? ?
+    group_values = Setting.work_package_group_assignment? && principals_by_class[Group].present? ?
                       principals_by_class[Group].collect{ |s| [s.name, s.id.to_s] }.sort :
                       []
 
