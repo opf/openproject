@@ -144,15 +144,14 @@ class Query < ActiveRecord::Base
                            "estimated_hours" => { :type => :integer, :order => 13 },
                            "done_ratio" =>  { :type => :integer, :order => 14 }}
 
-    user_values = []
-    user_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+    principals = []
     if project
-      user_values += project.users.sort.collect{|s| [s.name, s.id.to_s] }
+      principals += project.principals.sort
     else
       all_projects = Project.visible.all
       if all_projects.any?
         # members of visible projects
-        user_values += User.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", all_projects.collect(&:id)]).sort.collect{|s| [s.name, s.id.to_s] }
+        principals += Principal.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", all_projects.collect(&:id)]).sort
 
         # project filter
         project_values = []
@@ -163,8 +162,17 @@ class Query < ActiveRecord::Base
         @available_filters["project_id"] = { :type => :list, :order => 1, :values => project_values} unless project_values.empty?
       end
     end
-    @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values } unless user_values.empty?
-    @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values } unless user_values.empty?
+    users = principals.select {|p| p.is_a?(User)}
+
+    assigned_to_values = []
+    assigned_to_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+    assigned_to_values += (Setting.issue_group_assignment? ? principals : users).collect{|s| [s.name, s.id.to_s] }
+    @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => assigned_to_values } unless assigned_to_values.empty?
+
+    author_values = []
+    author_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+    author_values += users.collect{|s| [s.name, s.id.to_s] }
+    @available_filters["author_id"] = { :type => :list, :order => 5, :values => author_values } unless author_values.empty?
 
     group_values = Group.all.collect {|g| [g.name, g.id.to_s] }
     @available_filters["member_of_group"] = { :type => :list_optional, :order => 6, :values => group_values, :name => I18n.t('query_fields.member_of_group') } unless group_values.empty?

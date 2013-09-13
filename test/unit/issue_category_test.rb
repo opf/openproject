@@ -38,6 +38,19 @@ class IssueCategoryTest < ActiveSupport::TestCase
     assert_equal @category.work_packages, [@issue]
   end
 
+  def test_create
+    assert IssueCategory.new(:project_id => 2, :name => 'New category').save
+    category = IssueCategory.first(:order => 'id DESC')
+    assert_equal 'New category', category.name
+  end
+
+  def test_create_with_group_assignment
+    assert IssueCategory.new(:project_id => 2, :name => 'Group assignment', :assigned_to_id => 11).save
+    category = IssueCategory.first(:order => 'id DESC')
+    assert_kind_of Group, category.assigned_to
+    assert_equal Group.find(11), category.assigned_to
+  end
+
   # Make sure the category was nullified on the issue
   def test_destroy
     @category.destroy
