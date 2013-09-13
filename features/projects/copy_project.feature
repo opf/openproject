@@ -76,3 +76,15 @@ Feature: Project Settings
     And  I follow "Copy" within "#content"
     Then the "Identifier" field should not contain "project1" within "#content"
     And  the "Name" field should not contain "project1" within "#content"
+
+  @javascript
+  Scenario: Copy a project with some members
+    When I am already admin
+    When I go to the settings page of the project "project1"
+    And  I follow "Copy" within "#content"
+    And  I fill in "Name" with "Copied Project"
+    And  I click on "Copy"
+    Then I should see "Successful creation."
+    When I go to the members tab of the settings page of the project "copied-project"
+    Then I should see "Alice Alison" within ".members"
+    And  I should see "Bob Bobbit" within ".members"
