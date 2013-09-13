@@ -29,7 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#1770` New Comment Section layout errors 
+* `#1715` Group assigned work packages
+* `#1770` New Comment Section layout errors
 
 ## 3.0.0pre17
 
