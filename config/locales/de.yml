@@ -1219,7 +1219,7 @@ de:
   setting_users_deletable_by_self: "Nutzer können ihren Account löschen"
   setting_welcome_text: "Willkommenstext"
   setting_wiki_compression: "Wiki-Historie komprimieren"
-  setting_issue_group_assignment: Ticketzuweisung zu Gruppen erlauben
+  setting_work_package_group_assignment: "Zuweisung zu Gruppen erlauben"
 
   settings:
     general: "Allgemein"
