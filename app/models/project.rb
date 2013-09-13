@@ -174,10 +174,6 @@ class Project < ActiveRecord::Base
                                          :reportings_via_target],
                                          :leave_public => true
 
-  safe_attributes 'project_type_id',
-                  'type_ids',
-                  'responsible_id'
-
   def associated_project_candidates(user = User.current)
     # TODO: Check if admins shouldn't see all projects here
     projects = Project.visible.all
@@ -739,7 +735,10 @@ class Project < ActiveRecord::Base
     'custom_field_values',
     'custom_fields',
     'type_ids',
-    'work_package_custom_field_ids'
+    'work_package_custom_field_ids',
+    'project_type_id',
+    'type_ids',
+    'responsible_id'
 
   safe_attributes 'enabled_module_names',
     :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
