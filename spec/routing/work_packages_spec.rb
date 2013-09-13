@@ -62,19 +62,19 @@ describe WorkPackagesController do
 
   it "should connect GET /work_packages/:work_package_id/moves/new to work_packages/moves#new" do
     get("/work_packages/1/move/new").should route_to( :controller => 'work_packages/moves',
-                                                       :action => 'new',
-                                                       :work_package_id => '1' )
+                                                      :action => 'new',
+                                                      :work_package_id => '1' )
   end
 
   it "should connect POST /work_packages/:work_package_id/moves to work_packages/moves#create" do
     post("/work_packages/1/move/").should route_to( :controller => 'work_packages/moves',
-                                                     :action => 'create',
-                                                     :work_package_id => '1' )
+                                                    :action => 'create',
+                                                    :work_package_id => '1' )
   end
 
   it "should connect GET /work_packages/moves/new?ids=1,2,3 to work_packages/moves#new" do
     get("/work_packages/move/new?ids=1,2,3").should route_to( :controller => 'work_packages/moves',
-                                                               :action => 'new' )
+                                                              :action => 'new' )
   end
 
   it "should connect POST /work_packages/moves to work_packages/moves#create" do
@@ -100,4 +100,13 @@ describe WorkPackagesController do
                                                               :project_id => '1' )
   end
 
+  it "should connect GET /work_packages/auto_completes to work_package/auto_complete#index" do
+    get("/work_packages/auto_complete").should route_to( controller: 'work_packages/auto_completes',
+                                                         action: 'index' )
+  end
+
+  it "should connect PUT /work_packages/auto_completes to work_package/auto_complete#index" do
+    get("/work_packages/auto_complete").should route_to( controller: 'work_packages/auto_completes',
+                                                         action: 'index' )
+  end
 end

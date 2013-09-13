@@ -11,7 +11,7 @@
 #++
 
 class Issues::ReportsController < ApplicationController
-  menu_item :summary_field, :only => [:issue_report]
+  menu_item :summary_field, :only => [:report, :report_details]
   before_filter :find_project_by_project_id, :authorize, :find_issue_statuses
 
   def report

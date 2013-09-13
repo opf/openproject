@@ -11,11 +11,11 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <ul>
-<% if @issues.any? -%>
-  <% @issues.each do |issue| -%>
-    <%= content_tag 'li', h("#{issue.type} ##{issue.id}: #{issue.subject}"), :id => issue.id %>
+<% if @work_packages.any? -%>
+  <% @work_packages.each do |work_package| -%>
+    <%= content_tag 'li', h(work_package.to_s), id: work_package.id %>
   <% end -%>
 <% else -%>
-  <%= content_tag("li", l(:label_none), :style => 'display:none') %>
+  <%= content_tag("li", l(:label_none), style: 'display:none') %>
 <% end -%>
 </ul>

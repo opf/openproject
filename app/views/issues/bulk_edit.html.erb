@@ -76,7 +76,7 @@ See doc/COPYRIGHT.rdoc for more details.
 	<%= text_field_tag 'issue[parent_id]', '', :size => 10 %>
 </p>
 <div id="parent_issue_candidates" class="autocomplete"></div>
-<%= javascript_tag "observeParentIssueField('#{issues_auto_complete_path }')" %>
+<%= javascript_tag "observeParentIssueField('#{work_packages_auto_complete_path(project_id: @project.id)}')" %>
 <% end %>
 <p>
 	<label for='issue_start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
