@@ -10,22 +10,22 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2 class="page-layout-only"><%=l(:label_issue_tracking)%></h2>
-<h3><%=l(:label_issue_tracking)%></h3>
-<% if User.current.allowed_to?(:view_issues, project) %>
+<h2 class="page-layout-only"><%=l(:label_work_package_tracking)%></h2>
+<h3><%=l(:label_work_package_tracking)%></h3>
+<% if User.current.allowed_to?(:view_work_packages, project) %>
   <div class="issues overview">
     <ul>
-      <% for tracker in trackers %>
-        <li><%= link_to h(tracker.name), :controller => '/work_packages', :action => 'index', :project_id => project,
+      <% for type in types %>
+        <li><%= link_to h(type.name), :controller => '/work_packages', :action => 'index', :project_id => project,
                 :set_filter => 1,
-                "tracker_id" => tracker.id %>:
-          <%= l(:label_x_open_issues_abbr_on_total, :count => open_issues_by_tracker[tracker].to_i,
-                :total => total_issues_by_tracker[tracker].to_i) %>
+                "type_id" => type.id %>:
+          <%= l(:label_x_open_work_packages_abbr_on_total, :count => open_work_packages_by_type[type].to_i,
+                :total => total_work_packages_by_type[type].to_i) %>
         </li>
       <% end %>
     </ul>
     <p>
-      <%= link_to l(:label_issue_view_all), :controller => '/work_packages', :action => 'index', :project_id => project, :set_filter => 1 %>
+      <%= link_to l(:label_work_package_view_all), :controller => '/work_packages', :action => 'index', :project_id => project, :set_filter => 1 %>
       <% if User.current.allowed_to?(:view_calendar, project, :global => true) %>
         | <%= link_to(l(:label_calendar), :controller => '/calendars', :action => 'show', :project_id => project) %>
       <% end %>

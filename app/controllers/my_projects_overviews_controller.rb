@@ -142,10 +142,10 @@ class MyProjectsOverviewsController < ApplicationController
                 :count_users_by_role,
                 :childprojects,
                 :recent_news,
-                :trackers,
-                :open_issues_by_tracker,
-                :total_issues_by_tracker,
-                :assigned_issues,
+                :types,
+                :open_work_packages_by_type,
+                :total_work_packages_by_type,
+                :assigned_work_packages,
                 :total_hours,
                 :project,
                 :user,
@@ -167,29 +167,29 @@ class MyProjectsOverviewsController < ApplicationController
 
   end
 
-  def trackers
-    @trackers ||= project.rolled_up_trackers
+  def types
+    @types ||= project.rolled_up_types
   end
 
-  def open_issues_by_tracker
-    @open_issues_by_tracker ||= Issue.visible.count(:group => :tracker,
-                                                    :include => [:project, :status, :tracker],
-                                                    :conditions => ["(#{subproject_condition}) AND #{IssueStatus.table_name}.is_closed=?", false])
+  def open_work_packages_by_type
+    @open_work_packages_by_tracker ||= WorkPackage.visible.count(:group => :type,
+                                                          :include => [:project, :status, :type],
+                                                          :conditions => ["(#{subproject_condition}) AND #{IssueStatus.table_name}.is_closed=?", false])
   end
 
-  def total_issues_by_tracker
-    @total_issues_by_tracker ||= Issue.visible.count(:group => :tracker,
-                                                     :include => [:project, :status, :tracker],
-                                                     :conditions => subproject_condition)
+  def total_work_packages_by_type
+    @total_work_packages_by_tracker ||= WorkPackage.visible.count(:group => :type,
+                                                           :include => [:project, :status, :type],
+                                                           :conditions => subproject_condition)
 
   end
 
-  def assigned_issues
-    @assigned_issues ||= Issue.visible.open.find(:all,
-                                                 :conditions => { :assigned_to_id => User.current.id },
-                                                 :limit => 10,
-                                                 :include => [ :status, :project, :tracker, :priority ],
-                                                 :order => "#{IssuePriority.table_name}.position DESC, #{Issue.table_name}.updated_on DESC")
+  def assigned_work_packages
+    @assigned_issues ||= WorkPackage.visible.open.find(:all,
+                                                       :conditions => { :assigned_to_id => User.current.id },
+                                                       :limit => 10,
+                                                       :include => [ :status, :project, :type, :priority ],
+                                                       :order => "#{IssuePriority.table_name}.position DESC, #{WorkPackage.table_name}.updated_on DESC")
   end
 
   def users_by_role(limit = 100)
