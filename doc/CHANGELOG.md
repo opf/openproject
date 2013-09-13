@@ -12,6 +12,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1913` [Timelines] Enable drag&drop for select2 items in order to rearrange the order of the columns 
 * `#2019` Migrate auto completes controller tests
 
 ## 3.0.0pre16

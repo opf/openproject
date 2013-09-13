@@ -86,7 +86,28 @@ When (/^I set the second level grouping criteria to "(.*?)" for the timeline "(.
   page.execute_script("jQuery('#timeline_options_grouping_two_selection').val('#{project_type.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
+When(/^I set the columns shown in the timeline to:$/) do |table|
+  timeline_name = @timeline_name
+  project_name = @project.name
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+  result = []
+  table.raw.each do |_perm|
+    perm = _perm.first
+    unless perm.blank?
+      result.push(perm)
+    end
+  end
+  results = result.join(",");
 
+  #we need to wait for our submit form to load ...
+  page.should have_selector("#timeline_options_columns_", :visible => false)
+
+  page.execute_script("jQuery('#timeline_options_columns_').val('#{results}')")
+
+  page.execute_script("jQuery('#content form').submit()")
+end
 When (/^I set the first level grouping criteria to:$/) do |table|
   timeline_name = @timeline_name
   project_name = @project.name

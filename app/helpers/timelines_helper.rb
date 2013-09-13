@@ -270,6 +270,15 @@ module TimelinesHelper
     collection
   end
 
+  def internationalized_columns_select_object(collection)
+    collection.map do |t|
+      {
+        :name => l("timelines.filter.column." + t),
+        :id => t
+      }
+    end
+  end
+
   def internationalized_columns_select(collection)
     collection.map do |t|
       [l("timelines.filter.column." + t), t]
