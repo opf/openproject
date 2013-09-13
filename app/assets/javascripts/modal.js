@@ -99,8 +99,18 @@ var ModalHelper = (function() {
 
         modalDiv.data('changed', false);
 
+        var document_host = document.location.href.split("/")[2];
         body.on("click", "a", function (e) {
           var url = jQuery(e.target).attr("href");
+
+          var data = this.href.split("/");
+          var link_host = data[2];
+
+          if (link_host && link_host != document_host) {
+            window.open(this.href);
+            return false;
+          }
+
           if (url) {
             jQuery(e.target).attr("href", modalHelper.tweakLink(url));
           }
