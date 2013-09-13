@@ -36,14 +36,6 @@ Feature: Resetting filteres on work packages
      And I should see "No data to display"
 
   @javascript
-  Scenario: Clearing filters via the menu
-    When I toggle the "Work packages" submenu
-     And I follow "View all work packages"
-
-    Then I should be on the work package index page of the project called "project1"
-     And I should see "Some issue"
-
-  @javascript
   Scenario: Clearing filters via the filter buttons
     When I follow "Clear"
 
