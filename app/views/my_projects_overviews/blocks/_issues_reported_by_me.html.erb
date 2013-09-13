@@ -10,26 +10,26 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h3><%=l(:label_issues_reported_by_me)%> (<%= Issue.visible.count(:conditions => { :author_id => User.current.id, :project_id => @project.id }) %>)</h3>
+<h3><%=l(:label_work_package_view_all_reported_by_me)%> (<%= WorkPackage.visible.count(:conditions => { :author_id => User.current.id, :project_id => @project.id }) %>)</h3>
 
-<% reported_issues = Issue.visible.find(:all,
-                                        :conditions => { :author_id => User.current.id, :project_id => @project.id },
-                                        :limit => 10,
-                                        :include => [ :status, :project, :type ],
-                                        :order => "#{Issue.table_name}.updated_at DESC") %>
-<%= render :partial => 'issues/list_simple', :locals => { :issues => reported_issues } %>
-<% if reported_issues.length > 0 %>
-    <p class="small"><%= link_to l(:label_issue_view_all_reported_by_me), :controller => '/work_packages',
-                                 :action => 'index',
-                                 :set_filter => 1,
-                                 :status_id => '*',
-                                 :author_id => 'me',
-                                 :sort => 'updated_at:desc' %></p>
+<% reported_work_packages = WorkPackage.visible.find(:all,
+                                              :conditions => { :author_id => User.current.id, :project_id => @project.id },
+                                              :limit => 10,
+                                              :include => [ :status, :project, :type ],
+                                              :order => "#{WorkPackage.table_name}.updated_at DESC") %>
+<%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => reported_work_packages } %>
+<% if reported_work_packages.length > 0 %>
+    <p class="small"><%= link_to l(:label_work_package_view_all_reported_by_me), :controller => '/work_packages',
+                                   :action => 'index',
+                                   :set_filter => 1,
+                                   :status_id => '*',
+                                   :author_id => 'me',
+                                   :sort => 'updated_at:desc' %></p>
 <% end %>
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom,
                                 {:controller => '/work_packages', :action => 'index', :set_filter => 1,
                                  :author_id => 'me', :format => 'atom', :key => User.current.rss_key},
-                                {:title => l(:label_issues_reported_by_me)}) %>
+                                {:title => l(:label_work_packages_reported_by_me)}) %>
 <% end %>
