@@ -59,5 +59,18 @@ describe WorkPackage do
 
       it { should eq(0) }
     end
+
+    context :group_assigned_work_package do
+      let(:group) { FactoryGirl.create(:group) }
+
+      before do
+        group.users << user_1
+        work_package.assigned_to = group
+      end
+
+      subject { work_package.recipients }
+
+      it { should include(user_1.mail) }
+    end
   end
 end

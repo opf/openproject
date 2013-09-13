@@ -102,6 +102,22 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
 
+  def test_bulk_update_with_group_assignee
+    group = Group.find(11)
+    project = Project.find(1)
+    project.members << Member.new(:principal => group, :roles => [Role.first])
+
+    @request.session[:user_id] = 2
+    # update issues assignee
+    post :bulk_update, :ids => [1, 2], :notes => 'Bulk editing',
+                                     :issue => {:priority_id => '',
+                                                :assigned_to_id => group.id,
+                                                :custom_field_values => {'2' => ''}}
+
+    assert_response 302
+    assert_equal [group, group], Issue.find_all_by_id([1, 2]).collect {|i| i.assigned_to}
+  end
+
   def test_bulk_update_on_different_projects
     issue = WorkPackage.find(1)
     issue.recreate_initial_journal!

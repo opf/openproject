@@ -78,6 +78,21 @@ describe WorkPackage do
         it { should be_nil }
       end
     end
+
+    describe :assigned_to do
+      context :group_assignment do
+        let(:group) { FactoryGirl.create(:group) }
+
+        before do
+          Setting.stub(:issue_group_assignment).and_return(true)
+        end
+
+        subject { FactoryGirl.create(:work_package,
+                                     assigned_to: group).assigned_to }
+
+        it { should eq(group) }
+      end
+    end
   end
 
   describe :type do
@@ -146,6 +161,28 @@ describe WorkPackage do
       it 'should return all users the project deems to be assignable' do
         should include(user)
       end
+    end
+
+    context "with issue_group_assignment" do
+      let(:group) { FactoryGirl.create(:group) }
+
+      before do
+        Setting.stub(:issue_group_assignment).and_return(true)
+      end
+
+      subject { FactoryGirl.create(:work_package).assignable_users }
+      it { should include(group) }
+    end
+
+    context "without issue_group_assignment" do
+      let(:group) { FactoryGirl.create(:group) }
+
+      before do
+        Setting.stub(:issue_group_assignment).and_return(false)
+      end
+
+      subject { FactoryGirl.create(:work_package).assignable_users }
+      it { should_not include(group) }
     end
 
     context "multiple users" do
