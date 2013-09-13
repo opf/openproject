@@ -400,7 +400,14 @@ class Query < ActiveRecord::Base
 
       # "me" value subsitution
       if %w(assigned_to_id author_id watcher_id).include?(field)
-        v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
+        if v.delete("me")
+          if User.current.logged?
+            v.push(User.current.id.to_s)
+            v += User.current.group_ids.map(&:to_s) if field == 'assigned_to_id'
+          else
+            v.push("0")
+          end
+        end
       end
 
       sql = ''
