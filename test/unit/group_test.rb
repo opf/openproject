@@ -17,6 +17,7 @@ class GroupTest < ActiveSupport::TestCase
     super
     @group = FactoryGirl.create :group
     @member = FactoryGirl.build :member
+    @issue = FactoryGirl.create :issue
     @roles = FactoryGirl.create_list :role, 2
     @member.force_attributes = { :principal => @group, :role_ids => @roles.map(&:id) }
     @member.save!
@@ -83,12 +84,14 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_unassign_issues
-    group = Group.first
-    Issue.update_all(["assigned_to_id = ?", group.id], 'id = 1')
+    @issue.assigned_to_id = @group.id
 
-    assert group.destroy
-    assert group.destroyed?
+    assert @issue.save
+    assert @issue.assigned_to_id == @group.id
+    assert @group.destroy
+    assert @group.destroyed?
 
-    assert_equal nil, Issue.find(1).assigned_to_id
+    @issue.reload
+    assert_equal nil, @issue.assigned_to_id
   end
 end
