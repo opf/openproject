@@ -51,14 +51,13 @@ var ModalHelper = (function() {
       var body = jQuery(document.body);
       // whatever globals there are, they need to be added to the
       // prototype, so that all ModalHelper instances can share them.
-      if (ModalHelper._done !== true) {
+      if (ModalHelper._done !== true && top == self) {
         // one time initialization
         modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
         body.append(modalDiv);
 
         /** replace all data-modal links and all inside modal links */
         body.on("click", "[data-modal]", modalFunction);
-        modalDiv.on("click", "a", modalFunction);
 
         // close when body is clicked
         body.on("click", ".ui-widget-overlay", jQuery.proxy(modalHelper.close, modalHelper));
