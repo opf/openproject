@@ -779,7 +779,7 @@ class Project < ActiveRecord::Base
     project = self.class.find(project)
 
     to_be_copied = self.class.reflect_on_all_associations.map(&:name)
-    to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
+    to_be_copied = options[:only].to_a unless options[:only].nil?
 
     Project.transaction do
       if save
