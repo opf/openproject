@@ -1394,7 +1394,6 @@ de:
       parent: "Zeige Unterprojekte von"
       planning_element_filters: "Planungselemente filtern"
       planning_element_responsible: "Planungselemente von diesem Planungsverantwortlichen anzeigen"
-      planning_element_types: "Planungselement-Typ anzeigen"
 
       project_time_filter: "Projekte mit Planungselementen eines Typs in einem Zeitfenster"
       project_time_filter_historical: "von %{startdate} bis %{enddate}"
