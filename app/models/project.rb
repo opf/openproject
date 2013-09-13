@@ -576,7 +576,7 @@ class Project < ActiveRecord::Base
     Member.delete_all(['project_id = ?', id])
   end
 
-  # Users/groups issues can be assigned to
+  # Users/groups a work_package can be assigned to
   def assignable_users
     assignable_members.map(&:principal).compact.sort
   end
