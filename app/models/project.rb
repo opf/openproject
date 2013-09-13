@@ -40,6 +40,9 @@ class Project < ActiveRecord::Base
   # reserved identifiers
   RESERVED_IDENTIFIERS = %w( new level_list )
 
+  # things that are explicitly excluded when copying a project
+  NOT_TO_COPY = ['id', 'name', 'identifier', 'status', 'lft', 'rgt']
+
   # Specific overidden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUSES[:active]}"
@@ -791,27 +794,30 @@ class Project < ActiveRecord::Base
     end
   end
 
-
-  # Copies +project+ and returns the new instance.  This will not save
-  # the copy
-  def self.copy_from(project)
+  def copy_attributes(project)
     begin
       project = project.is_a?(Project) ? project : Project.find(project)
       if project
         # clear unique attributes
-        attributes = project.attributes.dup.except('id', 'name', 'identifier', 'status', 'lft', 'rgt')
-        copy = Project.new(attributes)
-        copy.enabled_modules = project.enabled_modules
-        copy.types = project.types
-        copy.custom_values = project.custom_values.collect {|v| v.clone}
-        copy.work_package_custom_fields = project.work_package_custom_fields
-        return copy
+        self.safe_attributes = project.attributes.dup.except(self.class::NOT_TO_COPY)
+        self.enabled_modules = project.enabled_modules
+        self.types = project.types
+        self.custom_values = project.custom_values.collect {|v| v.clone}
+        self.work_package_custom_fields = project.work_package_custom_fields
+        return self
       else
         return nil
       end
     rescue ActiveRecord::RecordNotFound
       return nil
     end
+  end
+
+
+  # Copies +project+ and returns the new instance.  This will not save
+  # the copy
+  def self.copy_attributes(project)
+    return Project.new.copy_attributes(project)
   end
 
   # builds up a project hierarchy helper structure for use with #project_tree_from_hierarchy
