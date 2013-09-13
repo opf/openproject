@@ -798,7 +798,7 @@ class Project < ActiveRecord::Base
       project = project.is_a?(Project) ? project : Project.find(project)
       if project
         # clear unique attributes
-        self.safe_attributes = project.attributes.dup.except(self.class::NOT_TO_COPY)
+        self.safe_attributes = project.attributes.dup.except(*self.class::NOT_TO_COPY)
         self.enabled_modules = project.enabled_modules
         self.types = project.types
         self.custom_values = project.custom_values.collect {|v| v.clone}
