@@ -22,16 +22,15 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render :partial => "projects/form/attributes/responsible_id", :locals => { :form => f,
                                                                                    :project => @project } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :project_type_id, :value => @source_project.project_type_id } %>
+               :locals => { :form => f, :name => :project_type_id, :value => @project.project_type_id } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :parent_id, :value => @source_project.parent_id } %>
+               :locals => { :form => f, :name => :parent_id, :value => @project.parent_id } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :homepage, :value => @source_project.homepage } %>
+               :locals => { :form => f, :name => :homepage, :value => @project.homepage } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :is_public, :value => @source_project.is_public } %>
-
+               :locals => { :form => f, :name => :is_public, :value => @project.is_public } %>
     <%= render :partial => "projects/copy_settings/enabled_module_names",
-               :locals => { :project => @source_project } %>
+               :locals => { :project => @project } %>
   </div>
 
   <fieldset class="copy box">
