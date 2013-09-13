@@ -47,16 +47,25 @@ Feature: Project Settings
     And  I follow "Copy" within "#content"
     Then I should not see "Modules" within "#content"
 
-  Scenario: Check for presence of the right copying parameters
+  Scenario: Check for presence and default status of the copying parameters
     When I am already admin
     When I go to the settings page of the project "project1"
     And  I follow "Copy" within "#content"
     Then I should see "Custom queries" within "#content"
+    And  the "Custom queries" checkbox should be checked within "#content"
     And  I should see "Forums" within "#content"
+    And  the "Forums" checkbox should not be checked within "#content"
     And  I should see "Members" within "#content"
+    And  the "Members" checkbox should be checked within "#content"
     And  I should see "Reportings" within "#content"
+    And  the "Reportings" checkbox should be checked within "#content"
     And  I should see "Timeline reports" within "#content"
+    And  the "Timeline reports" checkbox should be checked within "#content"
     And  I should see "Versions" within "#content"
+    And  the "Versions" checkbox should be checked within "#content"
     And  I should see "Wiki" within "#content"
+    And  the "Wiki" checkbox should be checked within "#content"
     And  I should see "Work packages" within "#content"
+    And  the "Work packages" checkbox should not be checked within "#content"
     And  I should see "Work package categories" within "#content"
+    And  the "Work package categories" checkbox should be checked within "#content"
