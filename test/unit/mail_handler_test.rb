@@ -86,15 +86,15 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  def test_add_issue_with_group_assignment
-    with_settings :issue_group_assignment => '1' do
-      issue = submit_email('ticket_on_given_project.eml') do |email|
+  def test_add_work_package_with_group_assignment
+    with_settings :work_package_group_assignment => '1' do
+      work_package = submit_email('ticket_on_given_project.eml') do |email|
         email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
       end
-      assert issue.is_a?(Issue)
-      assert !issue.new_record?
-      issue.reload
-      assert_equal Group.find(11), issue.assigned_to
+      assert work_package.is_a?(Issue)
+      assert !work_package.new_record?
+      work_package.reload
+      assert_equal Group.find(11), work_package.assigned_to
     end
   end
 

@@ -115,7 +115,7 @@ class IssuesControllerTest < ActionController::TestCase
                                                 :custom_field_values => {'2' => ''}}
 
     assert_response 302
-    assert_equal [group, group], Issue.find_all_by_id([1, 2]).collect {|i| i.assigned_to}
+    assert_equal [group, group], WorkPackage.find_all_by_id([1, 2]).collect {|i| i.assigned_to}
   end
 
   def test_bulk_update_on_different_projects
