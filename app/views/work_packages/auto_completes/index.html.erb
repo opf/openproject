@@ -1,0 +1,21 @@
+<%#-- copyright
+OpenProject is a project management system.
+
+Copyright (C) 2012-2013 the OpenProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<ul>
+<% if @work_packages.any? -%>
+  <% @work_packages.each do |work_package| -%>
+    <%= content_tag 'li', h(work_package.to_s), id: work_package.id %>
+  <% end -%>
+<% else -%>
+  <%= content_tag("li", l(:label_none), style: 'display:none') %>
+<% end -%>
+</ul>

@@ -277,6 +277,10 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  namespace :work_packages do
+    match 'auto_complete' => 'auto_completes#index', :via => [:get, :post], :format => false
+  end
+
   resources :work_packages, :only => [:show, :edit, :update, :index] do
     get :new_type, :on => :member
     put :preview, :on => :member
