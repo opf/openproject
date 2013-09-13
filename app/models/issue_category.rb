@@ -42,7 +42,7 @@ class IssueCategory < ActiveRecord::Base
   # validates that assignee is member of the issue category's project
   validates_each :assigned_to_id do |record, attr, value|
     if value # allow nil
-      record.errors.add(attr, l(:error_must_be_project_member)) unless record.project.user_ids.include?(value.to_i)
+      record.errors.add(attr, l(:error_must_be_project_member)) unless record.project.principals.map(&:id).include? value
     end
   end
 

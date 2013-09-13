@@ -39,16 +39,23 @@ class IssueCategoryTest < ActiveSupport::TestCase
   end
 
   def test_create
-    assert IssueCategory.new(:project_id => 2, :name => 'New category').save
-    category = IssueCategory.first(:order => 'id DESC')
-    assert_equal 'New category', category.name
+    (new_cat = IssueCategory.new).force_attributes = {:project_id => @project.id, :name => 'New category'}
+    assert new_cat.valid?
+    assert new_cat.save
+    assert_equal 'New category', new_cat.name
   end
 
   def test_create_with_group_assignment
-    assert IssueCategory.new(:project_id => 2, :name => 'Group assignment', :assigned_to_id => 11).save
-    category = IssueCategory.first(:order => 'id DESC')
-    assert_kind_of Group, category.assigned_to
-    assert_equal Group.find(11), category.assigned_to
+    group = FactoryGirl.create :group
+    role = FactoryGirl.create :role
+    (Member.new.tap do |m|
+      m.force_attributes = { :principal => group, :project => @project, :role_ids => [role.id] }
+    end).save!
+    (new_cat = IssueCategory.new).force_attributes = {:project_id => @project.id, :name => 'Group assignment', :assigned_to_id => group.id}
+    assert new_cat.valid?
+    assert new_cat.save
+    assert_kind_of Group, new_cat.assigned_to
+    assert_equal group, new_cat.assigned_to
   end
 
   # Make sure the category was nullified on the issue

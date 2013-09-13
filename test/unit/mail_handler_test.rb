@@ -171,10 +171,10 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_should_match_assignee_on_display_name # added from redmine  - not sure if it is ok here
-    user = User.generate!(:firstname => 'Foo Bar', :lastname => 'Foo Baz')
+    user = User.generate!(:firstname => 'Foo', :lastname => 'Bar')
     User.add_to_project(user, Project.find(2), Role.generate!(:name => 'Superhero'))
     issue = submit_email('ticket_on_given_project.eml') do |email|
-      email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar Foo baz')
+      email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')
     end
     assert issue.is_a?(WorkPackage)
     assert_equal user, issue.assigned_to

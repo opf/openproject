@@ -46,8 +46,7 @@ class Project < ActiveRecord::Base
   has_many :assignable_members,
            :class_name => 'Member',
            :include => [:principal, :roles],
-           :conditions => '#{ self.class.assignable_members_condition }'
-
+           :conditions => Proc.new { self.class.assignable_members_condition }
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
