@@ -136,11 +136,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
                                                                      :action => 'index',
                                                                      :project_id => 'project-name' )
 
-    should route(:get, "/issues/auto_complete").to( :controller => 'issues/auto_completes',
-                                                    :action => 'issues')
-    should route(:post, "/issues/auto_complete").to( :controller => 'issues/auto_completes',
-                                                     :action => 'issues')
-
     should route(:get, "/issues/context_menu").to( :controller => 'issues/context_menus',
                                                    :action => 'issues')
     should route(:post, "/issues/context_menu").to( :controller => 'issues/context_menus',

@@ -12,6 +12,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2019` Migrate auto completes controller tests
+
 ## 3.0.0pre16
 
 * `#1418` Additional changes: Change links to issues/planning elements to use work_packages controller
