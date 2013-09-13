@@ -69,3 +69,10 @@ Feature: Project Settings
     And  the "Work packages" checkbox should not be checked within "#content"
     And  I should see "Work package categories" within "#content"
     And  the "Work package categories" checkbox should be checked within "#content"
+
+  Scenario: Check for presence and default status of the copying parameters
+    When I am already admin
+    When I go to the settings page of the project "project1"
+    And  I follow "Copy" within "#content"
+    Then the "Identifier" field should not contain "project1" within "#content"
+    And  the "Name" field should not contain "project1" within "#content"
