@@ -86,7 +86,22 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
   end
 
   def attachment_migrator
-    LegacyJournalMigrator.new("AttachmentJournal", "attachment_journals")
+    LegacyJournalMigrator.new("AttachmentJournal", "attachment_journals") do
+
+      def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
+
+        rewrite_issue_container_to_work_package(to_insert)
+
+      end
+
+      def rewrite_issue_container_to_work_package(to_insert)
+        if to_insert['container_type'].last == 'Issue'
+
+          to_insert['container_type'][-1] = 'WorkPackage'
+
+        end
+      end
+    end
   end
 
   def changesets_migrator
