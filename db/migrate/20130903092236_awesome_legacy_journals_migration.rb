@@ -98,18 +98,90 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
   end
 
   def message_migrator
-    LegacyJournalMigrator.new("MessageJournal", "message_journals")
+    LegacyJournalMigrator.new("MessageJournal", "message_journals") do
+      extend MigratorConcern::Attachable
+
+      def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
+
+        migrate_attachments(to_insert, legacy_journal, journal_id)
+
+      end
+    end
   end
 
   def work_package_migrator
     LegacyJournalMigrator.new "WorkPackageJournal", "work_package_journals" do
+      extend MigratorConcern::Attachable
+      extend MigratorConcern::Customizable
+
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
 
         migrate_attachments(to_insert, legacy_journal, journal_id)
 
         migrate_custom_values(to_insert, legacy_journal, journal_id)
+
+      end
+    end
+  end
+
+  def time_entry_migrator
+    LegacyJournalMigrator.new("TimeEntryJournal", "time_entry_journals") do
+      extend MigratorConcern::Customizable
+
+      def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
+
+        migrate_custom_values(to_insert, legacy_journal, journal_id)
+
+      end
+    end
+  end
+
+  def wiki_content_migrator
+
+    LegacyJournalMigrator.new("WikiContentJournal", "wiki_content_journals") do
+
+      def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
+
+        # remove once lock_version is no longer a column in the wiki_content_journales table
+        if !to_insert.has_key?("lock_version")
+
+          if !legacy_journal.has_key?("version")
+            raise WikiContentJournalVersionError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+              There is a wiki content without a version.
+              The DB requires a version to be set
+              #{legacy_journal},
+              #{to_insert}
+            MESSAGE
+
+          end
+
+          # as the old journals used the format [old_value, new_value] we have to fake it here
+          to_insert["lock_version"] = [nil,legacy_journal["version"]]
+        end
+
+        if to_insert.has_key?("data")
+
+          # Why is that checked but than the compression is not used in any way to read the data
+          if !to_insert.has_key?("compression")
+
+            raise UnsupportedWikiContentJournalCompressionError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+              There is a WikiContent journal that contains data in an
+              unsupported compression: #{compression}
+            MESSAGE
+
+          end
+
+          # as the old journals used the format [old_value, new_value] we have to fake it here
+          to_insert["text"] = [nil, to_insert.delete("data")]
+        end
       end
 
+    end
+  end
+
+  module MigratorConcern
+
+    module Attachable
       def migrate_attachments(to_insert, legacy_journal, journal_id)
         attachments = to_insert.keys.select { |d| d =~ attachment_key_regexp }
 
@@ -168,6 +240,20 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
 
       end
 
+      def attachable_table_name
+        quoted_table_name("attachable_journals")
+      end
+
+      def attachment_key_regexp
+        # Attachment journal entries can be written in two ways:
+        # attachments123 if the attachment was added
+        # attachments_123 if the attachment was removed
+        #
+        @attachment_key_regexp ||= /attachments_?(\d+)$/
+      end
+    end
+
+    module Customizable
       def migrate_custom_values(to_insert, legacy_journal, journal_id)
         keys = to_insert.keys
         values = to_insert.values
@@ -207,67 +293,9 @@ class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
       def customizable_table_name
         quoted_table_name("customizable_journals")
       end
-
-      def attachable_table_name
-        quoted_table_name("attachable_journals")
-      end
-
-      def attachment_key_regexp
-        # Attachment journal entries can be written in two ways:
-        # attachments123 if the attachment was added
-        # attachments_123 if the attachment was removed
-        #
-        @attachment_key_regexp ||= /attachments_?(\d+)$/
-      end
     end
   end
 
-  def time_entry_migrator
-    LegacyJournalMigrator.new("TimeEntryJournal", "time_entry_journals")
-  end
-
-  def wiki_content_migrator
-
-    LegacyJournalMigrator.new("WikiContentJournal", "wiki_content_journals") do
-
-      def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
-
-        # remove once lock_version is no longer a column in the wiki_content_journales table
-        if !to_insert.has_key?("lock_version")
-
-          if !legacy_journal.has_key?("version")
-            raise WikiContentJournalVersionError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
-              There is a wiki content without a version.
-              The DB requires a version to be set
-              #{legacy_journal},
-              #{to_insert}
-            MESSAGE
-
-          end
-
-          # as the old journals used the format [old_value, new_value] we have to fake it here
-          to_insert["lock_version"] = [nil,legacy_journal["version"]]
-        end
-
-        if to_insert.has_key?("data")
-
-          # Why is that checked but than the compression is not used in any way to read the data
-          if !to_insert.has_key?("compression")
-
-            raise UnsupportedWikiContentJournalCompressionError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
-              There is a WikiContent journal that contains data in an
-              unsupported compression: #{compression}
-            MESSAGE
-
-          end
-
-          # as the old journals used the format [old_value, new_value] we have to fake it here
-          to_insert["text"] = [nil, to_insert.delete("data")]
-        end
-      end
-
-    end
-  end
 
   # fetches legacy journals. might me empty.
   def fetch_legacy_journals
