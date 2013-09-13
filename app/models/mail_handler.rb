@@ -428,9 +428,6 @@ class MailHandler < ActionMailer::Base
     if assignee.nil?
       assignee ||= assignable.detect {|a| a.is_a?(Group) && a.name.downcase == keyword}
     end
-    if assignee.nil?
-      assignee ||= assignable.detect {|a| a.name.downcase == keyword}
-    end
 
     assignee
   end
