@@ -800,7 +800,7 @@ class Project < ActiveRecord::Base
       project = project.is_a?(Project) ? project : Project.find(project)
       if project
         # clear unique attributes
-        attributes = project.attributes.dup.except('id', 'name', 'identifier', 'status', 'parent_id', 'lft', 'rgt')
+        attributes = project.attributes.dup.except('id', 'name', 'identifier', 'status', 'lft', 'rgt')
         copy = Project.new(attributes)
         copy.enabled_modules = project.enabled_modules
         copy.types = project.types
