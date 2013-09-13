@@ -156,7 +156,7 @@ OpenProject::Application.routes.draw do
       #
       get 'settings(/:tab)', :action => 'settings', :as => :settings
 
-      match "copy_project_from_(:from)" => "projects#copy_project", :via => :get, :as => :copy_from
+      match "copy_project_from_(:coming_from)" => "projects#copy_project", :via => :get, :as => :copy_from
       post :copy
       put :modules
       put :archive
