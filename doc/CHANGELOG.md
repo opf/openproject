@@ -12,6 +12,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1913` [Timelines] Enable drag&drop for select2 items in order to rearrange the order of the columns 
+
 ## 3.0.0pre16
 
 * `#1418` Additional changes: Change links to issues/planning elements to use work_packages controller
