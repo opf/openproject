@@ -12,17 +12,16 @@
 require 'spec_helper'
 
 describe WorkPackages::CalendarsController do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role,
-                                  permissions: [:view_work_packages]) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:member) { FactoryGirl.create(:member,
-                                    project: project,
-                                    principal: user,
-                                    roles: [role]) }
+  let(:role) { FactoryGirl.create(:role,
+                                  permissions: [:view_calendar]) }
+  let(:user) { FactoryGirl.create(:user,
+                                  member_in_project: project,
+                                  member_through_role: role) }
   let(:work_package) { FactoryGirl.create(:work_package,
                                           project: project) }
 
+  before { User.stub(:current).and_return(user) }
 
   describe :index do
     shared_examples_for "calendar#index" do
@@ -39,17 +38,88 @@ describe WorkPackages::CalendarsController do
       end
     end
 
+    context "cross-project" do
+      before { get :index }
+
+      it_behaves_like "calendar#index"
+    end
+
     context :project do
       before do
-        member
         work_package
-
-        User.stub(:current).and_return(user)
 
         get :index, project_id: project.id
       end
 
       it_behaves_like "calendar#index"
+    end
+
+    context "custom query" do
+      let (:query) { FactoryGirl.create(:query,
+                                        project: nil,
+                                        user: user) }
+
+      before { get :index, query_id: query.id }
+
+      it_behaves_like "calendar#index"
+    end
+
+    describe "start of week" do
+      context "Sunday" do
+        before do
+          Setting.stub(:start_of_week).and_return(7)
+
+          get :index, month: '1', year: '2010'
+        end
+
+        it_behaves_like "calendar#index"
+
+        describe :view do
+          render_views
+
+          subject { response }
+
+          it { assert_select("tr td.week-number", content: '53') }
+
+          it { assert_select("tr td.odd", content: '27') }
+
+          it { assert_select("tr td.even", content: '2') }
+
+          it { assert_select("tr td.week-number", content: '1') }
+
+          it { assert_select("tr td.odd", content: '3') }
+
+          it { assert_select("tr td.even", content: '9') }
+        end
+      end
+
+      context "Monday" do
+        before do
+          Setting.stub(:start_of_week).and_return(1)
+
+          get :index, month: '1', year: '2010'
+        end
+
+        it_behaves_like "calendar#index"
+
+        describe :view do
+          render_views
+
+          subject { response }
+
+          it { assert_select("tr td.week-number", content: '53') }
+
+          it { assert_select("tr td.even", content: '28') }
+
+          it { assert_select("tr td.even", content: '3') }
+
+          it { assert_select("tr td.week-number", content: '1') }
+
+          it { assert_select("tr td.even", content: '4') }
+
+          it { assert_select("tr td.even", content: '10') }
+        end
+      end
     end
   end
 end
