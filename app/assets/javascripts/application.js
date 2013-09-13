@@ -82,6 +82,7 @@ jQuery(document).ready(function ($) {
         inst = this._getInst(target[0]),
         dateStr = $.datepicker._formatDate(inst);
       target.val(dateStr);
+      $.datepicker._hideDatepicker();
     };
 
     var defaults = {
