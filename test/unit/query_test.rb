@@ -196,9 +196,9 @@ class QueryTest < ActiveSupport::TestCase
     user = User.find(2)
     group = Group.find(10)
     User.current = user
-    i1 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => user)
-    i2 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => group)
-    i3 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => Group.find(11))
+    i1 = Issue.generate!(:project_id => 1, :type_id => 1, :assigned_to => user)
+    i2 = Issue.generate!(:project_id => 1, :type_id => 1, :assigned_to => group)
+    i3 = Issue.generate!(:project_id => 1, :type_id => 1, :assigned_to => Group.find(11))
     group.users << user
 
     query = Query.new(:name => '_', :filters => { 'assigned_to_id' => {:operator => '=', :values => ['me']}})
