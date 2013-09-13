@@ -765,10 +765,11 @@ class Project < ActiveRecord::Base
   # Duplicates the source project's:
   # * Wiki
   # * Versions
-  # * Categories
-  # * Issues
+  # * Issue Categories
+  # * Work Packages
   # * Members
   # * Queries
+  # * Forums
   #
   # Accepts an +options+ argument to specify what to copy
   #
