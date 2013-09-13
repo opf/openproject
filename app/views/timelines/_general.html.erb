@@ -87,13 +87,21 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag 'timeline_options_columns',
                       l("timelines.filter.columns") %>
 
-        <%= select("timeline[options]",
-                   :columns,
-                   internationalized_columns_select(timeline.available_columns),
-                   {:selected => timeline.selected_columns},
-                   {:multiple => true,
-                    :size => 12}) %>
-
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :columns,
+                     internationalized_columns_select(timeline.available_columns),
+                     {:selected => timeline.selected_columns},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= hidden_field_tag("timeline[options][columns][]",
+                  timeline.selected_columns.join(","),
+                  {
+                    :"data-values" => internationalized_columns_select_object(timeline.available_columns).to_json
+                  }
+                ) %>
+        <% end %>
       </p>
 
       <p class="tl-form-overflow">

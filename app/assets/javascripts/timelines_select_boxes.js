@@ -15,7 +15,6 @@ jQuery(document).ready(function($) {
   [
     $("#reporting_reported_project_status_id"),
     $("#timeline_select"),
-    $("#timeline_options_columns"),
     $("#timeline_options_initial_outline_expansion"),
     $("#timeline_options_zoom_factor"),
     $("#timeline_options_compare_to_relative_unit"),
@@ -42,6 +41,11 @@ jQuery(document).ready(function($) {
     $("#timeline_options_grouping_two_selection")
   ].each(function (item) {
     $(item).timelinesAutocomplete({ ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.none")}} })
+  });
+
+  var item = $("#timeline_options_columns_");
+  item.timelinesAutocomplete({
+    sortable: true
   });
 
   [

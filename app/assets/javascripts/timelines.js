@@ -4079,7 +4079,7 @@ Timeline = {
   rebuildTree: function() {
     var where = this.getUiRoot().find('.tl-left-main');
     var tree = this.getLefthandTree();
-    var table = jQuery('<table></table>');
+    var table = jQuery('<table class="tl-main-table"></table>');
     var body = jQuery('<tbody></tbody>');
     var head = jQuery('<thead></thead>');
     var row, cell, link, span, text;

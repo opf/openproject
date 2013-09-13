@@ -48,6 +48,19 @@ Feature: Timeline View Tests
      Then the first table column should not take more than 25% of the space
 
   @javascript
+  Scenario: Select columns
+    Given I am working in the timeline "Testline" of the project called "ecookbook"
+    When there is a timeline "Testline" for project "ecookbook"
+      And I set the columns shown in the timeline to:
+        | start_date  |
+        | type        |
+        | end_date    |
+      Then I should see the column "Start date" before the column "End date" in the timelines table
+        And I should see the column "Start date" before the column "Type" in the timelines table
+        And I should see the column "Type" before the column "End date" in the timelines table
+
+
+  @javascript
   Scenario: switch timeline
     When there is a timeline "Testline" for project "ecookbook"
       And there is a timeline "Testline2" for project "ecookbook"

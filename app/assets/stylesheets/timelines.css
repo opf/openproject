@@ -50,7 +50,7 @@ li.select2-result.select2-visible-selected-parent {
   margin-bottom: 8px;
 }
 
-#s2id_timeline_options_grouping_one_selection .select2-search-choice {
+#content .ui-sortable .select2-search-choice {
   cursor: move;
 }
 

@@ -167,18 +167,18 @@ class Timeline < ActiveRecord::Base
     # that are reporting into the project that this timeline is
     # referencing.
 
-    PlanningElementType.find(:all, :order => :name)
+    Type.find(:all, :order => :name)
   end
 
   def selected_planning_element_types
     resolve_with_none_element(:planning_element_types) do |ary|
-      PlanningElementType.find(ary)
+      Type.find(ary)
     end
   end
 
   def selected_planning_element_time_types
     resolve_with_none_element(:planning_element_time_types) do |ary|
-      PlanningElementType.find(ary)
+      Type.find(ary)
     end
   end
 
