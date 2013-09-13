@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Issues::CalendarsController < ApplicationController
+class WorkPackages::CalendarsController < ApplicationController
   menu_item :calendar
   before_filter :find_optional_project
 
@@ -61,7 +61,7 @@ class Issues::CalendarsController < ApplicationController
     render :layout => !request.xhr?
   end
 
-private
+  private
 
   def default_breadcrumb
     l(:label_calendar)
