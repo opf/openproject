@@ -91,7 +91,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       work_package = submit_email('ticket_on_given_project.eml') do |email|
         email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
       end
-      assert work_package.is_a?(Issue)
+      assert work_package.is_a?(WorkPackage)
       assert !work_package.new_record?
       work_package.reload
       assert_equal Group.find(11), work_package.assigned_to
