@@ -212,20 +212,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
-    Project.allowed_to_condition(user, :view_work_packages, options) do |role, user|
-      case role.issues_visibility
-      when 'all'
-        nil
-      when 'default'
-        user_ids = [user.id] + user.groups.map(&:id)
-        "(#{table_name}.is_private = #{connection.quoted_false} OR #{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids}))"
-      when 'own'
-        user_ids = [user.id] + user.groups.map(&:id)
-        "(#{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids}))"
-      else
-        '1=0'
-      end
-    end
+    Project.allowed_to_condition(user, :view_work_packages, options)
   end
 
   def self.done_ratio_disabled?
@@ -242,18 +229,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns true if usr or current user is allowed to view the work_package
   def visible?(usr=nil)
-    (usr || User.current).allowed_to?(:view_work_packages, self.project) do |role, user|
-      case role.issues_visibility
-      when 'all'
-        true
-      when 'default'
-        !self.is_private? || self.author == user || user.is_or_belongs_to?(assigned_to)
-      when 'own'
-        self.author == user || user.is_or_belongs_to?(assigned_to)
-      else
-        false
-      end
-    end
+    (usr || User.current).allowed_to?(:view_work_packages, self.project)
   end
 
   def copy_from(arg, options = {})
