@@ -182,23 +182,27 @@ describe WorkPackage do
 
     context "with issue_group_assignment" do
       let(:group) { FactoryGirl.create(:group) }
+      let(:work_package) { FactoryGirl.create(:work_package) }
 
       before do
         Setting.stub(:issue_group_assignment?).and_return(true)
+        work_package.project.add_member! group, FactoryGirl.create(:role)
       end
 
-      subject { FactoryGirl.create(:work_package).assignable_users }
+      subject { work_package.assignable_users }
       it { should include(group) }
     end
 
     context "without issue_group_assignment" do
       let(:group) { FactoryGirl.create(:group) }
+      let(:work_package) { FactoryGirl.create(:work_package) }
 
       before do
         Setting.stub(:issue_group_assignment?).and_return(false)
+        work_package.project.add_member! group, FactoryGirl.create(:role)
       end
 
-      subject { FactoryGirl.create(:work_package).assignable_users }
+      subject { work_package.assignable_users }
       it { should_not include(group) }
     end
 
