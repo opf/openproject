@@ -34,7 +34,7 @@ class GroupTest < ActiveSupport::TestCase
     super
     @group = FactoryGirl.create :group
     @member = FactoryGirl.build :member
-    @issue = FactoryGirl.create :issue
+    @work_package = FactoryGirl.create :work_package
     @roles = FactoryGirl.create_list :role, 2
     @member.force_attributes = { :principal => @group, :role_ids => @roles.map(&:id) }
     @member.save!
@@ -101,14 +101,14 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_unassign_issues
-    @issue.assigned_to_id = @group.id
+    @work_package.assigned_to_id = @group.id
 
-    assert @issue.save
-    assert @issue.assigned_to_id == @group.id
+    assert @work_package.save
+    assert @work_package.assigned_to_id == @group.id
     assert @group.destroy
     assert @group.destroyed?
 
-    @issue.reload
-    assert_equal nil, @issue.assigned_to_id
+    @work_package.reload
+    assert_equal nil, @work_package.assigned_to_id
   end
 end
