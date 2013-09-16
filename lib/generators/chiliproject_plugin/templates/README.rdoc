@@ -1,3 +1,0 @@
-= <%= file_name %>
-
-Description goes here
