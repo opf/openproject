@@ -4,8 +4,7 @@ module OpenProject::<%= plugin_name.camelcase %>
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'OpenProject <%= plugin_name.gsub('_', ' ').titleize %>',
-             '<%= full_name %>',
+    register '<%= full_name %>',
              :author_url => 'http://finn.de',
              :requires_openproject => '>= 3.0.0pre13'
 
