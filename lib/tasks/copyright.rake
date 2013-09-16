@@ -122,6 +122,11 @@ namespace :copyright do
     rewrite_copyright("rake", [], :rb, args[:arg1])
   end
 
+  desc "Update the copyright on .yml source files"
+  task :update_yml, :arg1 do |task, args|
+    rewrite_copyright("yml", [], :rb, args[:arg1])
+  end
+
   desc "Update the copyright on .rjs source files"
   task :update_rjs, :arg1 do |task, args|
     rewrite_copyright("rjs", [], :rb, args[:arg1])
@@ -229,7 +234,7 @@ namespace :copyright do
   task :update, :arg1 do |task, args|
     %w{
       css rb js js_erb css_erb html_erb json_erb text_erb atom_builder api_rsb rake
-      feature rdoc rjs md sql html special_files
+      feature rdoc rjs md sql html yml special_files
     }.each do |t|
       Rake::Task['copyright:update_' + t.to_s].invoke(args[:arg1])
     end
