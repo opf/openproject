@@ -18,29 +18,10 @@ Feature: Work Package Query
     And the project "project" has the following types:
       | name | position |
       | Bug  |     1    |
-    And there is a role "member_with_privileges"
-    And there is a role "member_without_privileges"
-    And the role "member_with_privileges" may have the following rights:
-      | view_work_packages |
-      | save_queries       |
-    And the role "member_without_privileges" may have the following rights:
-      | view_work_packages |
-    And there is 1 user with the following:
-      | login     | bob    |
-      | firstname | Bob    |
-      | lastname  | Bobbit |
-    And there is 1 user with the following:
-      | login     | alice  |
-      | firstname | Alice  |
-      | lastname  | Alison |
-    And the project "project" has 1 issue with the following:
-      |  subject | issue1 |
-    And the user "bob" is a "member_with_privileges" in the project "project"    
-    And the user "alice" is a "member_without_privileges" in the project "project"    
 
   @javascript
   Scenario: Create a query and give it a name
-    When I am already logged in as "bob"
+    When I am already admin
      And I go to the work packages index page for the project "project"
      And I follow "Save" within "#query_form"
      And I fill in "Query" for "Name"
@@ -50,7 +31,9 @@ Feature: Work Package Query
   
   @javascript
   Scenario: Group on empty Value (Assignee)
-    When I am already logged in as "bob"
+    Given the project "project" has 1 issue with the following:
+      | subject | issue1 |
+     And I am already admin
      And I go to the work packages index page for the project "project"
      And I follow "Options" within "#query_form"
      And I select "Assignee" from "group_by"
@@ -63,11 +46,28 @@ Feature: Work Package Query
      And I should see "None" within "#content"
 
   Scenario: Save Button should be visible for users with the proper rights
+    Given there is 1 user with the following:
+      | login     | bob    |
+      | firstname | Bob    |
+      | lastname  | Bobbit |
+    And there is a role "member_with_privileges"
+    And the role "member_with_privileges" may have the following rights:
+      | view_work_packages |
+      | save_queries       |
+    And the user "bob" is a "member_with_privileges" in the project "project"
     When I am already logged in as "bob"
      And I go to the work packages index page for the project "project"
     Then I should see "Save" within "#query_form"
 
   Scenario: Save Button should be invisible for users without the proper rights
+    Given there is 1 user with the following:
+      | login     | alice  |
+      | firstname | Alice  |
+      | lastname  | Alison |
+    And there is a role "member_without_privileges"
+    And the role "member_without_privileges" may have the following rights:
+      | view_work_packages |
+    And the user "alice" is a "member_without_privileges" in the project "project"
     When I am already logged in as "alice"
      And I go to the work packages index page for the project "project"
     Then I should not see "Save" within "#query_form"
