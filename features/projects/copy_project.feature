@@ -111,3 +111,20 @@ Feature: Project Settings
     When I go to the members tab of the settings page of the project "copied-project"
     Then I should see "Alice Alison" within ".members"
     And  I should see "Bob Bobbit" within ".members"
+
+  @javascript
+  Scenario: Copy a project with some boards
+    When I am already admin
+    And  there is a board "Board 1" for project "project1"
+    And  there is a board "Board 2" for project "project1"
+    When I go to the settings page of the project "project1"
+    And  I follow "Copy" within "#content"
+    And  I fill in "Name" with "Copied Project"
+    And  I fill in "Identifier" with "cp"
+    And  I check "Forums"
+    And  I click on "Copy"
+    Then I should see "Successful creation."
+    And  I go to the overview page for the project "Copied Project"
+    And  I follow "Forums" within "#main-menu"
+    Then I should see "Board 1" within "#content"
+    Then I should see "Board 2" within "#content"
