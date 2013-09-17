@@ -28,33 +28,42 @@
 #++
 
 namespace :copyright do
-  def short_copyright(format)
+  def short_copyright(format, options = {})
     case format
     when :ruby, :rb
-      short_copyright_line("#")
+      short_copyright_line("#", options)
     when :js, :css
-      short_copyright_line("//")
+      short_copyright_line("//", options)
     when :sql
-      short_copyright_line("-- ")
+      short_copyright_line("-- ", options)
     when :erb
-      short_copyright_surrounding("<%#", "#%>")
+      short_copyright_surrounding("<%#", "#%>", options)
     when :rdoc
-      "----------\n#{short_copyright_line(' ')}\n----------\n".gsub(' -- copyright',"==== copyright\n")
+      "----------\n#{short_copyright_line(' ', options)}\n----------\n".gsub(' -- copyright',"==== copyright\n")
     when :md, :html
-      short_copyright_surrounding("<!--", "-->")
+      short_copyright_surrounding("<!--", "-->", options)
     else
       raise "Undefined format #{format}"
     end
   end
 
-  def short_copyright_surrounding(open, close)
-    short_copyright = File.read("doc/COPYRIGHT_short.rdoc")
+  def copyright_file(options = {})
+    path = 'doc/COPYRIGHT_short.rdoc'
+    if options[:path]
+      path = File.join(options[:path], 'doc/COPYRIGHT_short.rdoc') if File.exists?(File.join(options[:path], 'doc/COPYRIGHT_short.rdoc'))
+      path = File.join(options[:path], 'doc/COPYRIGHT_short.md')   if File.exists?(File.join(options[:path], 'doc/COPYRIGHT_short.md'))
+    end
+    path
+  end
+
+  def short_copyright_surrounding(open, close, options= {})
+    short_copyright = File.read copyright_file(options)
 
     "#{open}-- copyright\n#{short_copyright}\n++#{close}"
   end
 
-  def short_copyright_line(sign)
-    short_copyright = File.readlines("doc/COPYRIGHT_short.rdoc").collect do |line|
+  def short_copyright_line(sign, options= {})
+    short_copyright = File.readlines(copyright_file(options)).collect do |line|
       "#{sign} #{line}".rstrip
     end.join("\n")
 
@@ -82,8 +91,8 @@ namespace :copyright do
 
   def rewrite_copyright(ending, exclude, format, path, options = {})
     regexp = options[:regex] || copyright_regexp(format)
-    copyright = options[:copyright] || short_copyright(format)
     path = '.' if path.nil?
+    copyright = options[:copyright] || short_copyright(format, :path => path)
     file_list = options[:file_list] || Dir[File.absolute_path(path) + "/**/*.#{ending}"]
 
     raise "Path not found" unless Dir.exists?(path)
@@ -222,7 +231,11 @@ namespace :copyright do
 
   desc "Update the copyright on .md source files"
   task :update_md, :arg1 do |task, args|
-    rewrite_copyright("md", [], :md, args[:arg1])
+    excluded = ["README.md",
+                "doc/COPYRIGHT.md",
+                "doc/COPYRIGHT_short.md"]
+
+    rewrite_copyright("md", excluded, :md, args[:arg1])
   end
 
   desc "Update the copyright on .html.erb source files"
