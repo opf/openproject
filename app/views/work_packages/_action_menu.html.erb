@@ -1,0 +1,19 @@
+<% content_for :action_menu_main do %>
+  <%= li_unless_nil(link_to_if_authorized(l(:button_update), { :controller => '/work_packages',
+                                                               :action => 'edit',
+                                                               :id => @work_package },
+                                                               :class => 'edit icon icon-edit',
+                                                               :accesskey => accesskey(:edit))) %>
+  <%= li_unless_nil(watcher_link(@work_package,
+                       User.current,
+                       { :class => 'watcher_link',
+                         :replace => User.current.allowed_to?(:view_work_package_watchers, @project) ? ['#watchers', '.watcher_link'] : ['.watcher_link'] })) %>
+<% end %>
+<% content_for :action_menu_more do %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_log_time), {:controller => '/timelog', :action => 'new', :work_package_id => @work_package}, :class => 'icon icon-time-add') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'new', :work_package_id => @work_package}, :class => 'icon icon-pieces') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_duplicate), {:controller => '/work_packages', :action => 'new', :project_id => @project, :copy_from => @work_package }, :class => 'icon icon-duplicate') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_copy), {:controller => '/work_package_moves', :action => 'new', :id => @work_package, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_move), {:controller => '/work_package_moves', :action => 'new', :id => @work_package}, :class => 'icon icon-move') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_delete), {:controller => '/work_packages', :action => 'destroy', :id => @work_package}, :confirm => (@work_package.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)), :method => :post, :class => 'icon icon-del') %>
+<% end %>

@@ -5,7 +5,7 @@ Feature: Permission View Own hourly and cost rates
     Given there is a standard cost control project named "Standard Project"
     And the role "Supplier" may have the following rights:
       | view_own_hourly_rate  |
-      | view_issues           |
+      | view_work_packages           |
       | view_work_packages    |
       | view_own_time_entries |
       | view_own_cost_entries |
@@ -17,29 +17,29 @@ Feature: Permission View Own hourly and cost rates
       | Lastname 			| Bobbit 	|
       | default rate | 10.00 |
     And the user "testuser" is a "Supplier" in the project "Standard Project"
-    And the project "Standard Project" has 1 issue with the following:
-      | subject  | test_issue |
-    And the issue "test_issue" has 1 time entry with the following:
+    And the project "Standard Project" has 1 work_package with the following:
+      | subject  | test_work_package |
+    And the work_package "test_work_package" has 1 time entry with the following:
       | hours | 1.00  |
       | user  | testuser   |
     And there is 1 cost type with the following:
       | name | Translation |
       | cost rate | 7.00   |
-    And the issue "test_issue" has 1 cost entry with the following:
+    And the work_package "test_work_package" has 1 cost entry with the following:
       | units | 2.00  |
       | user  | testuser   |
 			| cost type | Translation |
     And the user "manager" has:
 			| hourly rate | 11.00 |
-		And the issue "test_issue" has 1 time entry with the following:
+		And the work_package "test_work_package" has 1 time entry with the following:
 			| hours | 3.00 |
 			| user | manager |
-		And the issue "test_issue" has 1 cost entry with the following:
+		And the work_package "test_work_package" has 1 cost entry with the following:
 			| units | 5.00 |
 			| user | manager |
 			| cost type | Translation |
     And I am already logged in as "testuser"
-    And I am on the page for the issue "test_issue"
+    And I am on the page for the work_package "test_work_package"
     Then I should see "1.00 hour"
 		And I should see "2.0 Translations"
 		And I should see "24.00 EUR"
@@ -47,7 +47,7 @@ Feature: Permission View Own hourly and cost rates
 		And I should not see "35.00 EUR" # material costs only of Manager
 		And I should not see "43.00 EUR" # labour costs of me and Manager
 		And I should not see "49.00 EUR" # material costs of me and Manager
-		And I am on the issues page for the project called "Standard Project"
+		And I am on the work_packages page for the project called "Standard Project"
     And I toggle the Options fieldset
 		And I select to see columns
       | Overall costs  |

@@ -1,7 +1,7 @@
 class CostlogController < ApplicationController
   unloadable
 
-  menu_item :issues
+  menu_item :work_packages
   before_filter :find_project, :authorize, :only => [:edit,
                                                      :new,
                                                      :create,
@@ -14,7 +14,7 @@ class CostlogController < ApplicationController
 
   helper :sort
   include SortHelper
-  helper :issues
+  helper :work_packages
   include CostlogHelper
   include PaginationHelper
 
@@ -23,7 +23,7 @@ class CostlogController < ApplicationController
     sort_update 'spent_on' => 'spent_on',
                 'user' => 'user_id',
                 'project' => "#{Project.table_name}.name",
-                'issue' => 'work_package_id',
+                'work_package' => 'work_package_id',
                 'cost_type' => 'cost_type_id',
                 'units' => 'units',
                 'costs' => 'costs'
@@ -31,11 +31,11 @@ class CostlogController < ApplicationController
     cond = ARCondition.new
     if @project.nil?
       cond << Project.allowed_to_condition(User.current, :view_cost_entries)
-    elsif @issue.nil?
-      cond << @project.project_condition(Setting.display_subprojects_issues?)
+    elsif @work_package.nil?
+      cond << @project.project_condition(Setting.display_subprojects_work_packages?)
     else
-      root_cond = "#{WorkPackage.table_name}.root_id #{(@issue.root_id.nil?) ? "IS NULL" : "= #{@issue.root_id}"}"
-      cond << "#{root_cond} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
+      root_cond = "#{WorkPackage.table_name}.root_id #{(@work_package.root_id.nil?) ? "IS NULL" : "= #{@work_package.root_id}"}"
+      cond << "#{root_cond} AND #{WorkPackage.table_name}.lft >= #{@work_package.lft} AND #{WorkPackage.table_name}.rgt <= #{@work_package.rgt}"
     end
 
     cond << Project.allowed_to_condition(User.current, :view_cost_entries, :project => @project)
@@ -135,12 +135,12 @@ private
     if params[:id]
       @cost_entry = CostEntry.find(params[:id])
       @project = @cost_entry.project
-    elsif params[:issue_id]
-      @issue = Issue.find(params[:issue_id])
-      @project = @issue.project
     elsif params[:work_package_id]
-      @issue = WorkPackage.find(params[:work_package_id])
-      @project = @issue.project
+      @work_package = WorkPackage.find(params[:work_package_id])
+      @project = @work_package.project
+    elsif params[:work_package_id]
+      @work_package = WorkPackage.find(params[:work_package_id])
+      @project = @work_package.project
     elsif params[:project_id]
       @project = Project.find(params[:project_id])
     else
@@ -152,12 +152,12 @@ private
   end
 
   def find_optional_project
-    if !params[:issue_id].blank?
-      @issue = Issue.find(params[:issue_id])
-      @project = @issue.project
+    if !params[:work_package_id].blank?
+      @work_package = WorkPackage.find(params[:work_package_id])
+      @project = @work_package.project
     elsif !params[:work_package_id].blank?
-      @issue = WorkPackage.find(params[:work_package_id])
-      @project = @issue.project
+      @work_package = WorkPackage.find(params[:work_package_id])
+      @project = @work_package.project
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])
     end
@@ -173,10 +173,10 @@ private
               @cost_entry.user :
               User.find_by_id(user_id)
 
-    issue_id = params[:cost_entry].delete(:work_package_id)
-    @issue = @cost_entry.present? && @cost_entry.work_package_id == issue_id ?
+    work_package_id = params[:cost_entry].delete(:work_package_id)
+    @work_package = @cost_entry.present? && @cost_entry.work_package_id == work_package_id ?
                @cost_entry.work_package :
-               WorkPackage.find_by_id(issue_id)
+               WorkPackage.find_by_id(work_package_id)
 
     cost_type_id = params[:cost_entry].delete(:cost_type_id)
     @cost_type = @cost_entry.present? && @cost_entry.cost_type_id == cost_type_id ?
@@ -233,7 +233,7 @@ private
   def new_default_cost_entry
     @cost_entry = CostEntry.new.tap do |ce|
       ce.project  = @project
-      ce.work_package = @issue
+      ce.work_package = @work_package
       ce.user = User.current
       ce.spent_on = Date.today
       # notice that cost_type is set to default cost_type in the model
@@ -242,7 +242,7 @@ private
 
   def update_cost_entry_from_params
     @cost_entry.user = @user
-    @cost_entry.work_package = @issue
+    @cost_entry.work_package = @work_package
     @cost_entry.cost_type = @cost_type
 
     @cost_entry.attributes = permitted_params.cost_entry

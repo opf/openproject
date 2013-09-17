@@ -3,9 +3,9 @@ module CostlogHelper
 
   def render_costlog_breadcrumb
     links = []
-    links << link_to(l(:label_project_all), {:project_id => nil, :issue_id => nil})
-    links << link_to(h(@project), {:project_id => @project, :issue_id => nil}) if @project
-    links << link_to_issue(@issue, :subject => false) if @issue
+    links << link_to(l(:label_project_all), {:project_id => nil, :work_package_id => nil})
+    links << link_to(h(@project), {:project_id => @project, :work_package_id => nil}) if @project
+    links << link_to_work_package(@work_package, :subject => false) if @work_package
     breadcrumb links
   end
 

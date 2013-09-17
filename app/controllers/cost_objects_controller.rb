@@ -35,7 +35,7 @@ class CostObjectsController < ApplicationController
   def index
     respond_to do |format|
       format.html { }
-      format.csv  { limit = Setting.issues_export_limit.to_i }
+      format.csv  { limit = Setting.work_packages_export_limit.to_i }
     end
 
     sort_columns = {'id' => "#{CostObject.table_name}.id",

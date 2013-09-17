@@ -1,15 +1,15 @@
 <%= render :partial => 'shared/costs_header' %>
 <div class="contextual">
-<%= link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-pieces' %>
+<%= link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'edit', :project_id => @project, :work_package_id => @work_package}, :class => 'icon icon-pieces' %>
 </div>
 
 <%= render_costlog_breadcrumb %>
 
-<h2><%= Issue.human_attribute_name(:spent_costs) %></h2>
+<h2><%= WorkPackage.human_attribute_name(:spent_costs) %></h2>
 
 <%= form_remote_tag( :url => {}, :method => :get, :update => 'content' ) do %>
 <%= hidden_field_tag('project_id', params[:project_id]) if @project %>
-<%= hidden_field_tag 'issue_id', params[:issue_id] if @issue %>
+<%= hidden_field_tag 'work_package_id', params[:work_package_id] if @work_package %>
 <%= hidden_field_tag 'cost_type_id', params[:cost_type_id] if @cost_type %>
 <%= render :partial => 'date_range' %>
 <% end %>
@@ -19,8 +19,8 @@
 <%= pagination_links_full @entries %>
 <% end %>
 
-<% html_title Issue.human_attribute_name(:spent_costs), l(:label_details) %>
+<% html_title WorkPackage.human_attribute_name(:spent_costs), l(:label_details) %>
 
 <% content_for :header_tags do %>
-	<%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => Issue.human_attribute_name(:spent_costs)) %>
+	<%= auto_discovery_link_tag(:atom, {:work_package_id => @work_package, :format => 'atom', :key => User.current.rss_key}, :title => WorkPackage.human_attribute_name(:spent_costs)) %>
 <% end %>

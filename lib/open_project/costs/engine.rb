@@ -10,7 +10,7 @@ module OpenProject::Costs
 
     initializer "costs.register_hooks" do
       require 'open_project/costs/hooks'
-      require 'open_project/costs/hooks/issue_hook'
+      require 'open_project/costs/hooks/work_package_hook'
       require 'open_project/costs/hooks/project_hook'
       require 'open_project/costs/hooks/work_package_action_menu'
     end
@@ -32,7 +32,7 @@ module OpenProject::Costs
 
     initializer 'costs.register_observers' do |app|
       # Observers
-      ActiveRecord::Base.observers.push :rate_observer, :default_hourly_rate_observer, :costs_issue_observer
+      ActiveRecord::Base.observers.push :rate_observer, :default_hourly_rate_observer, :costs_work_package_observer
     end
 
     config.before_configuration do |app|
@@ -66,7 +66,6 @@ module OpenProject::Costs
 
       # Model Patches
       require_dependency 'open_project/costs/patches/work_package_patch'
-      require_dependency 'open_project/costs/patches/issue_patch'
       require_dependency 'open_project/costs/patches/project_patch'
       require_dependency 'open_project/costs/patches/query_patch'
       require_dependency 'open_project/costs/patches/user_patch'
@@ -76,17 +75,15 @@ module OpenProject::Costs
 
       # Controller Patchesopen_project/costs/patches/
       require_dependency 'open_project/costs/patches/application_controller_patch'
-      require_dependency 'open_project/costs/patches/issues_controller_patch'
       require_dependency 'open_project/costs/patches/work_packages_controller_patch'
       require_dependency 'open_project/costs/patches/projects_controller_patch'
 
       # Helper Patches
       require_dependency 'open_project/costs/patches/application_helper_patch'
       require_dependency 'open_project/costs/patches/users_helper_patch'
-      require_dependency 'open_project/costs/patches/issues_helper_patch'
       require_dependency 'open_project/costs/patches/work_packages_helper_patch'
 
-      require_dependency 'open_project/costs/patches/issue_observer'
+      require_dependency 'open_project/costs/patches/work_package_observer'
 
       # loading the class so that acts_as_journalized gets registered
       VariableCostObject
@@ -178,8 +175,8 @@ module OpenProject::Costs
     end
 
     config.after_initialize do
-      # We are overwriting issues/_action_menu.html.erb so our view must be found first
-      IssuesController.view_paths.unshift("#{config.root}/app/views")
+      # We are overwriting work_packages/_action_menu.html.erb so our view must be found first
+      WorkPackagesController.view_paths.unshift("#{config.root}/app/views")
     end
 
   end

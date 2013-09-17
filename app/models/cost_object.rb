@@ -55,16 +55,16 @@ class CostObject < ActiveRecord::Base
     self[:type] = type
   end
 
-  # Assign all the issues with +version_id+ to this Cost Object
-  def assign_issues_by_version(version_id)
+  # Assign all the work_packages with +version_id+ to this Cost Object
+  def assign_work_packages_by_version(version_id)
     version = Version.find_by_id(version_id)
-    return 0 if version.nil? || version.fixed_issues.blank?
+    return 0 if version.nil? || version.fixed_work_packages.blank?
 
-    version.fixed_issues.each do |issue|
-      issue.update_attribute(:cost_object_id, self.id)
+    version.fixed_work_packages.each do |work_package|
+      work_package.update_attribute(:cost_object_id, self.id)
     end
 
-    return version.fixed_issues.size
+    return version.fixed_work_packages.size
   end
 
   # Change the Cost Object type to another type. Valid types are

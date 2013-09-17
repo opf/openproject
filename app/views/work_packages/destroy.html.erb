@@ -1,7 +1,7 @@
 <h2><%= l(:label_confirmation) %></h2>
 
 <%= form_tag do %>
-<%= @issues.collect {|i| hidden_field_tag 'ids[]', i.id } %>
+<%= @work_packages.collect {|i| hidden_field_tag 'ids[]', i.id } %>
 <div class="box">
 <p><strong><%=
   if @hours > 0 && !@entries.blank?

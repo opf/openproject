@@ -120,16 +120,16 @@ describe User, "#destroy" do
   end
 
   describe "WHEN the user has a cost entry" do
-    let(:issue) { FactoryGirl.create(:issue) }
+    let(:work_package) { FactoryGirl.create(:work_package) }
     let(:entry) { FactoryGirl.build(:cost_entry, :user => user,
-                                             :project => issue.project,
+                                             :project => work_package.project,
                                              :units => 100.0,
                                              :spent_on => Date.today,
-                                             :work_package => issue,
+                                             :work_package => work_package,
                                              :comments => "") }
 
     before do
-      FactoryGirl.create(:member, :project => issue.project,
+      FactoryGirl.create(:member, :project => work_package.project,
                               :user => user,
                               :roles => [FactoryGirl.build(:role)])
       entry.save!

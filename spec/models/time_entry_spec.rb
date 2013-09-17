@@ -4,10 +4,10 @@ describe TimeEntry do
   include Cost::PluginSpecHelper
   let(:project) { FactoryGirl.create(:project_with_trackers, is_public: false) }
   let(:project2) { FactoryGirl.create(:project_with_trackers, is_public: false) }
-  let(:issue) { FactoryGirl.create(:issue, :project => project,
+  let(:work_package) { FactoryGirl.create(:work_package, :project => project,
                                        :tracker => project.trackers.first,
                                        :author => user) }
-  let(:issue2) { FactoryGirl.create(:issue, :project => project2,
+  let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
                                        :tracker => project2.trackers.first,
                                        :author => user2) }
   let(:user) { FactoryGirl.create(:user) }
@@ -23,7 +23,7 @@ describe TimeEntry do
   let(:hours) { 5.0 }
   let(:time_entry) do
     FactoryGirl.create(:time_entry, :project => project,
-                               :work_package => issue,
+                               :work_package => work_package,
                                :spent_on => date,
                                :hours => hours,
                                :user => user,
@@ -33,7 +33,7 @@ describe TimeEntry do
 
   let(:time_entry2) do
     FactoryGirl.create(:time_entry, :project => project,
-                               :work_package => issue,
+                               :work_package => work_package,
                                :spent_on => date,
                                :hours => hours,
                                :user => user,

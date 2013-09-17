@@ -31,18 +31,18 @@ describe VariableCostObject do
   end
 
   describe "destroy" do
-    let(:issue) { FactoryGirl.create(:issue) }
+    let(:work_package) { FactoryGirl.create(:work_package) }
 
     before do
       cost_object.author = user
-      cost_object.work_packages = [issue]
+      cost_object.work_packages = [work_package]
       cost_object.save!
 
       cost_object.destroy
     end
 
     it { VariableCostObject.find_by_id(cost_object.id).should be_nil }
-    it { Issue.find_by_id(issue.id).should == issue }
-    it { issue.reload.cost_object.should be_nil }
+    it { WorkPackage.find_by_id(work_package.id).should == work_package }
+    it { work_package.reload.cost_object.should be_nil }
   end
 end

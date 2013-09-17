@@ -19,7 +19,7 @@ module OpenProject::Costs::Patches::WorkPackagesHelperPatch
                           summed_hours = @time_entries.sum(&:hours)
 
                           summed_hours > 0 ?
-                            link_to(l_hours(summed_hours), issue_time_entries_path(work_package)) :
+                            link_to(l_hours(summed_hours), work_package_time_entries_path(work_package)) :
                             "-"
                         end
 
@@ -45,6 +45,42 @@ module OpenProject::Costs::Patches::WorkPackagesHelperPatch
         end
 
         attributes
+      end
+
+      def summarized_cost_entries(cost_entries, create_link=true)
+        last_cost_type = ""
+
+        return "-" if cost_entries.blank?
+        result = cost_entries.sort_by(&:id).inject(Hash.new) do |result, entry|
+          if entry.cost_type == last_cost_type
+            result[last_cost_type][:units] += entry.units
+          else
+            last_cost_type = entry.cost_type
+
+            result[last_cost_type] = {}
+            result[last_cost_type][:units] = entry.units
+            result[last_cost_type][:unit] = entry.cost_type.unit
+            result[last_cost_type][:unit_plural] = entry.cost_type.unit_plural
+          end
+          result
+        end
+
+        str_array = []
+        result.each do |k, v|
+          txt = pluralize(v[:units], v[:unit], v[:unit_plural])
+          if create_link
+            # TODO why does this have project_id, work_package_id and cost_type_id params?
+            str_array << link_to(txt, { :controller => '/costlog',
+                                        :action => 'index',
+                                        :project_id => @work_package.project,
+                                        :work_package_id => @work_package,
+                                        :cost_type_id => k },
+                                       { :title => k.name })
+          else
+            str_array << "<span title=\"#{h(k.name)}\">#{txt}</span>"
+          end
+        end
+        str_array.join(", ").html_safe
       end
 
       def work_package_show_attributes_with_costs(work_package)
