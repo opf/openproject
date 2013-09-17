@@ -78,6 +78,29 @@ Feature: Project Settings
     And  the "Name" field should not contain "project1" within "#content"
 
   @javascript
+  Scenario: Copy a project with some queries
+    When I am already admin
+    And  the project "project1" has 10 work package queries with the following:
+      | is_public | true |
+    When I go to the settings page of the project "project1"
+    And  I follow "Copy" within "#content"
+    And  I fill in "Name" with "Copied Project"
+    And  I fill in "Identifier" with "cp"
+    And  I click on "Copy"
+    Then I should see "Successful creation."
+    When I go to the work package index page for the project "Copied Project"
+    Then I should see "Query 1" within "#sidebar"
+    Then I should see "Query 2" within "#sidebar"
+    Then I should see "Query 3" within "#sidebar"
+    Then I should see "Query 4" within "#sidebar"
+    Then I should see "Query 5" within "#sidebar"
+    Then I should see "Query 6" within "#sidebar"
+    Then I should see "Query 7" within "#sidebar"
+    Then I should see "Query 8" within "#sidebar"
+    Then I should see "Query 9" within "#sidebar"
+    Then I should see "Query 10" within "#sidebar"
+
+  @javascript
   Scenario: Copy a project with some members
     When I am already admin
     When I go to the settings page of the project "project1"
