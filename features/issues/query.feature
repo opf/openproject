@@ -34,6 +34,8 @@ Feature: Watch issues
       | login     | alice  |
       | firstname | Alice  |
       | lastname  | Alison |
+    And the project "project" has 1 issue with the following:
+      |  subject | issue1 |
     And the user "bob" is a "member_with_privileges" in the project "project"    
     And the user "alice" is a "member_without_privileges" in the project "project"    
 
@@ -47,6 +49,20 @@ Feature: Watch issues
     Then I should see "Query" within "#content"
      And I should see "Successful creation."
   
+  @javascript
+  Scenario: Group on empty Value (Assignee)
+    When I am already logged in as "bob"
+     And I go to the work packages index page for the project "project"
+     And I follow "Options" within "#query_form"
+     And I select "Assignee" from "group_by"
+     And I follow "Apply"
+     And I follow "Save"
+     And I fill in "Query" for "Name"
+     And I press "Save"
+    Then I should see "Query" within "#content"
+     And I should see "Successful creation."
+     And I should see "None" within "#content"
+
   Scenario: Save Button should be visible for users with the proper rights
     When I am already logged in as "bob"
      And I go to the work packages index page for the project "project"
