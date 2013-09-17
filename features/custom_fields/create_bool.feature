@@ -34,10 +34,10 @@ Feature: Localized boolean custom fields can be created
       | en |
       | de |
     And there are the following types:
-      | name    | position |  is_in_chlog |
-      | Bug     |    1     |  true        |
-      | Feature |    2     |  true        |
-      | Support |    3     |  false       |
+      | name    | position |
+      | Bug     |    1     |
+      | Feature |    2     |
+      | Support |    3     |
     When I go to the custom fields page
     When I follow "New custom field" within "#tab-content-WorkPackageCustomField"
 
