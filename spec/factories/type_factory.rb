@@ -36,12 +36,10 @@ FactoryGirl.define do
     name "None"
     is_standard true
     is_default true
-    is_in_chlog true
   end
 
   factory :type_bug, :class => Type do
     name "Bug"
-    is_in_chlog true
     position 1
 
     # reuse existing type with the given name
@@ -66,7 +64,6 @@ FactoryGirl.define do
   end
 
   factory :type_with_workflow, :class => Type do
-    is_in_chlog true
     sequence(:name) { |n| "Type #{n}" }
     sequence(:position) { |n| n }
     after :build do |t|

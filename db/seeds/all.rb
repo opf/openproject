@@ -42,7 +42,6 @@ Type.find_or_create_by_is_standard(true, name: 'none',
                                          position: 0,
                                          color_id: default_color.id,
                                          is_default: true,
-                                         is_in_chlog: true,
                                          is_in_roadmap: true,
                                          in_aggregation: true,
                                          is_milestone: false)

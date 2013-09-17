@@ -30,25 +30,21 @@
 types_001:
   name: Bug
   id: 1
-  is_in_chlog: true
   position: 1
   is_default: true
 types_002:
   name: Feature request
   id: 2
-  is_in_chlog: true
   position: 2
   is_default: true
 types_003:
   name: Support request
   id: 3
-  is_in_chlog: false
   position: 3
   is_default: true
 types_999:
   name: none
   id: 999
   is_standard: true
-  is_in_chlog: true
   position: 0
   is_default: true
