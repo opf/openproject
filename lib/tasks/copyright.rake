@@ -32,8 +32,10 @@ namespace :copyright do
     case format
     when :ruby, :rb
       short_copyright_line("#", options)
-    when :js, :css
+    when :js
       short_copyright_line("//", options)
+    when :css
+      short_copyright_surrounding("/*", "*/", options)
     when :sql
       short_copyright_line("-- ", options)
     when :erb
