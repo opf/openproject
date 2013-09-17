@@ -2,7 +2,7 @@
   <%= li_unless_nil(link_to_if_authorized(l(:button_copy),
                                           { :controller => "projects",
                                             :action => "copy_project",
-                                            :from => :settings },
+                                            :coming_from => :settings },
                                           :class => 'copy icon icon-copy',
                                           :accesskey => accesskey(:copy))) %>
 <% end %>
