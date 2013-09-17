@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -122,6 +139,21 @@ namespace :copyright do
     rewrite_copyright("rake", [], :rb, args[:arg1])
   end
 
+  desc "Update the copyright on .yml source files"
+  task :update_yml, :arg1 do |task, args|
+    rewrite_copyright("yml", [], :rb, args[:arg1])
+  end
+
+  desc "Update the copyright on .yml.example source files"
+  task :update_yml_example, :arg1 do |task, args|
+    rewrite_copyright("yml.example", [], :rb, args[:arg1])
+  end
+
+  desc "Update the copyright on .rb.example source files"
+  task :update_rb_example, :arg1 do |task, args|
+    rewrite_copyright("rb.example", [], :rb, args[:arg1])
+  end
+
   desc "Update the copyright on .rjs source files"
   task :update_rjs, :arg1 do |task, args|
     rewrite_copyright("rjs", [], :rb, args[:arg1])
@@ -229,7 +261,7 @@ namespace :copyright do
   task :update, :arg1 do |task, args|
     %w{
       css rb js js_erb css_erb html_erb json_erb text_erb atom_builder api_rsb rake
-      feature rdoc rjs md sql html special_files
+      feature rdoc rjs md sql html yml yml_example rb_example special_files
     }.each do |t|
       Rake::Task['copyright:update_' + t.to_s].invoke(args[:arg1])
     end
