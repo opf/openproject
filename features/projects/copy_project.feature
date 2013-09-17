@@ -101,16 +101,38 @@ Feature: Project Settings
     Then I should see "Query 10" within "#sidebar"
 
   @javascript
-  Scenario: Copy a project with some members
+  Scenario: Copy a project with some members (Users)
     When I am already admin
-    When I go to the settings page of the project "project1"
+    And  I go to the settings page of the project "project1"
     And  I follow "Copy" within "#content"
     And  I fill in "Name" with "Copied Project"
     And  I click on "Copy"
     Then I should see "Successful creation."
     When I go to the members tab of the settings page of the project "copied-project"
-    Then I should see "Alice Alison" within ".members"
-    And  I should see "Bob Bobbit" within ".members"
+    Then I should see the principal "Alice Alison" as a member with the roles:
+      | alpha |
+    And I should see the principal "Bob Bobbit" as a member with the roles:
+      | beta |
+
+  @javascript
+  Scenario: Copy a project with some members (Groups)
+    Given there is 1 group with the following:
+      | name | group1 |
+    And there is 1 group with the following:
+      | name | group2 |
+    And the group "group1" is a "alpha" in the project "project1"
+    And the group "group2" is a "alpha" in the project "project1"
+    When I am already admin
+    And  I go to the settings page of the project "project1"
+    And  I follow "Copy" within "#content"
+    And  I fill in "Name" with "Copied Project"
+    And  I click on "Copy"
+    Then I should see "Successful creation."
+    When I go to the members tab of the settings page of the project "copied-project"
+    Then I should see the principal "group1" as a member with the roles:
+      | alpha |
+    Then I should see the principal "group2" as a member with the roles:
+      | alpha |
 
   @javascript
   Scenario: Copy a project with some boards
