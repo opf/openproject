@@ -114,7 +114,6 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_work_packages, {:work_packages => :destroy}, :require => :member
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
-    map.permission :move_issues, {:'issues/moves' => [:new, :create]}, :require => :loggedin
     map.permission :delete_issues, {:issues => :destroy}, :require => :member
     # Queries
     map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
