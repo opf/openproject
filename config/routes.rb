@@ -206,15 +206,15 @@ OpenProject::Application.routes.draw do
     # work as a catchall for everything under /wiki
     get 'wiki' => "wiki#show"
 
-    namespace :issues do
-      resources :calendar, :controller => 'calendars', :only => [:index]
-    end
-
     resources :issues, :only => [] do
       collection do
         match '/report/:detail' => 'issues/reports#report_details', :via => :get
         match '/report' => 'issues/reports#report', :via => :get
       end
+    end
+
+    namespace :work_packages do
+      resources :calendar, :controller => 'calendars', :only => [:index]
     end
 
     resources :work_packages, :only => [:new, :create, :index] do
@@ -269,8 +269,6 @@ OpenProject::Application.routes.draw do
   # this is to support global actions on issues and
   # for backwards compatibility
   namespace :issues do
-    resources :calendar, :controller => 'calendars', :only => [:index]
-
     # have a global autocompleter for issues
     # TODO: make this ressourceful
     match 'auto_complete' => 'auto_completes#issues', :via => [:get, :post], :format => false
@@ -296,6 +294,7 @@ OpenProject::Application.routes.draw do
 
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', :via => [:get, :post], :format => false
+    resources :calendar, :controller => 'calendars', :only => [:index]
   end
 
   resources :work_packages, :only => [:show, :edit, :update, :index] do
