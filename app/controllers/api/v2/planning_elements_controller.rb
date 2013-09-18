@@ -169,6 +169,7 @@ module Api
       # is called as a before filter and as a method
       def assign_planning_elements(projects = (@projects || [@project]))
         @planning_elements = WorkPackage.for_projects(projects).without_deleted
+        @planning_elements = @planning_elements.where(type_id: params[:types].split(',')) if params[:types]
       end
 
       # remove this and replace by calls it with calls

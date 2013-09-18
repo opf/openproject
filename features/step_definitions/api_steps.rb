@@ -34,22 +34,33 @@ When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)"
   visit api_v2_project_planning_elements_path(project_id: project_name, format: format)
 end
 
-Then(/^the json\-response should( not)? contain a work_package "(.*?)"$/) do |negation, work_package_name|
-  json = ActiveSupport::JSON.decode last_json
-  work_package_names = json["planning_elements"].map{|wp| wp["name"]}
+Then(/^the json\-response should include (\d+) work packages$/) do |number_of_wps|
+  expect(work_package_names.size).to eql number_of_wps.to_i
+end
 
+Then(/^the json\-response should( not)? contain a work_package "(.*?)"$/) do |negation, work_package_name|
   if negation
     expect(work_package_names).not_to include work_package_name
   else
-    expect(work_package_names).not_to include work_package_name
+    expect(work_package_names).to include work_package_name
   end
 
 end
 
-Then(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for type "(.*?)"$/) do |project_name, format, type_name|
-  visit api_v2_project_planning_elements_path(project_id: project_name, format: format, type: type_name )
+Then(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for type "(.*?)"$/) do |project_name, format, type_names|
+  types = Project.find_by_identifier(project_name).types.where(name: type_names.split(","))
+
+  visit api_v2_project_planning_elements_path(project_id: project_name, format: format, types: types.map(&:id))
 end
 
+
+def work_package_names
+  decoded_json["planning_elements"].map{|wp| wp["name"]}
+end
+
+def decoded_json
+  @decoded_json ||= ActiveSupport::JSON.decode last_json
+end
 
 def last_json
   page.source
