@@ -703,7 +703,7 @@ en:
   label_work_package_new: "New work package"
   label_work_package_plural: "Work packages"
   label_work_package_status_new: "New status"
-  label_work_package_status_plural: "work package statuses"
+  label_work_package_status_plural: "Work package statuses"
   label_work_package_tracking: "Work package tracking"
   label_work_package_updated: "Work package updated"
   label_work_package_view_all: "View all work packages"
