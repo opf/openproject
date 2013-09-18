@@ -102,7 +102,7 @@ roles_002:
     - :move_work_packages
     - :delete_issues
     - :delete_work_packages
-    - :view_issue_watchers
+    - :view_work_package_watchers
     - :save_queries
     - :view_calendar
     - :log_time
@@ -140,7 +140,7 @@ roles_003:
     - :manage_work_package_relations
     - :add_work_package_notes
     - :move_work_packages
-    - :view_issue_watchers
+    - :view_work_package_watchers
     - :save_queries
     - :view_calendar
     - :log_time

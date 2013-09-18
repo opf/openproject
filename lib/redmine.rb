@@ -119,7 +119,6 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
     map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
     # Watchers
-    map.permission :view_issue_watchers, {}
     map.permission :view_work_package_watchers, {}
     map.permission :add_work_package_watchers, {:watchers => [:new, :create]}
     map.permission :delete_work_package_watchers, {:watchers => :destroy}
