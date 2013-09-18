@@ -171,7 +171,7 @@ Feature: Project Settings
     And  I go to the overview page for the project "Copied Project"
     And  I toggle the "Timelines" submenu
     And  I follow "Dependencies"
-    Then I should see "project2" below "Copy Project"
+    Then I should see "project2" within "#content"
 
   @javascript
   Scenario: Copy a project with project_b_associations
@@ -191,7 +191,7 @@ Feature: Project Settings
     And  I go to the overview page for the project "Copied Project"
     And  I toggle the "Timelines" submenu
     And  I follow "Dependencies"
-    Then I should see "project2" below "Copy Project"
+    Then I should see "project2" within "#content"
 
   @javascript
   Scenario: Copy a project with versions
