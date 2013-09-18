@@ -9,7 +9,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'migration_utils/utils'
+
 class PlanningElementTypesDataToTypes < ActiveRecord::Migration
+  include Migration::Utils
+
   def up
     add_new_id_column
 
@@ -37,7 +41,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def add_pe_types_to_types
-    say_with_time "Adding existing planning_element_types to types. Storing new id in legacy table." do
+    say_with_time_silently "Adding existing planning_element_types to types. Storing new id in legacy table." do
       max_position = get_max_position
 
       return if max_position.blank?
@@ -108,7 +112,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def add_workflow_for_former_pe_types
-    say_with_time "Creating default workflows for migrated types" do
+    say_with_time_silently "Creating default workflows for migrated types" do
       all_status_ids = select_all <<-SQL
         SELECT id
         FROM #{db_status_table}
@@ -168,7 +172,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def enable_types_in_projects
-    say_with_time "Enabling new types in those projects that had the former legacy_planning_element_types enabled" do
+    say_with_time_silently "Enabling new types in those projects that had the former legacy_planning_element_types enabled" do
       execute <<-SQL
         INSERT INTO #{db_projects_types_table}
           (
@@ -184,7 +188,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def remove_types_in_projects
-    say_with_time "Removing enabled types from projects" do
+    say_with_time_silently "Removing enabled types from projects" do
       execute <<-SQL
         DELETE FROM #{db_projects_types_table}
         WHERE
@@ -195,7 +199,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def remove_workflow_for_former_pe_types
-    say_with_time "Removing workflows from pe_types" do
+    say_with_time_silently "Removing workflows from pe_types" do
       execute <<-SQL
         DELETE FROM #{db_workflows_table}
         WHERE
@@ -206,7 +210,7 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
   end
 
   def remove_pe_types_from_types
-    say_with_time "Removing all types that are former planning_element_types" do
+    say_with_time_silently "Removing all types that are former planning_element_types" do
       execute <<-SQL
         DELETE FROM #{db_types_table}
         WHERE
@@ -246,13 +250,5 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
 
   def db_projects_types_table
     @db_projects_types_table ||= quote_table_name('projects_types')
-  end
-
-  def say_with_time message
-    super do
-      suppress_messages do
-        yield
-      end
-    end
   end
 end
