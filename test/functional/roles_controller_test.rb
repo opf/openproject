@@ -145,16 +145,16 @@ class RolesControllerTest < ActionController::TestCase
 
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'permissions[3][]',
-                                                 :value => 'delete_issues',
+                                                 :value => 'delete_work_packages',
                                                  :checked => nil }
   end
 
   def test_put_bulk_update
-    put :bulk_update, :permissions => { '0' => '', '1' => ['edit_work_packages'], '3' => ['add_work_packages', 'delete_issues']}
+    put :bulk_update, :permissions => { '0' => '', '1' => ['edit_work_packages'], '3' => ['add_work_packages', 'delete_work_packages']}
     assert_redirected_to roles_path
 
     assert_equal [:edit_work_packages], Role.find(1).permissions
-    assert_equal [:add_work_packages, :delete_issues], Role.find(3).permissions
+    assert_equal [:add_work_packages, :delete_work_packages], Role.find(3).permissions
     assert Role.find(2).permissions.empty?
   end
 

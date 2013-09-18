@@ -47,10 +47,7 @@ roles_001:
     - :add_work_package_notes
     - :move_work_package
     - :move_work_packages
-    - :delete_work_package
     - :delete_work_packages
-    - :delete_issue
-    - :delete_issues
     - :view_work_package_watchers
     - :add_work_package_watchers
     - :delete_work_package_watchers
@@ -100,7 +97,6 @@ roles_002:
     - :manage_subtasks
     - :add_work_package_notes
     - :move_work_packages
-    - :delete_issues
     - :delete_work_packages
     - :view_work_package_watchers
     - :save_queries

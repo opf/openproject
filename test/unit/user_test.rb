@@ -445,7 +445,7 @@ class UserTest < ActiveSupport::TestCase
         project = Project.find(1)
         project.enabled_module_names = ["issue_tracking", "news", "wiki", "repository"]
         assert ! @admin.member_of?(project)
-        %w(edit_work_packages delete_issues manage_news manage_repository manage_wiki).each do |p|
+        %w(edit_work_packages delete_work_packages manage_news manage_repository manage_wiki).each do |p|
           assert @admin.allowed_to?(p.to_sym, project)
         end
       end
@@ -483,7 +483,7 @@ class UserTest < ActiveSupport::TestCase
       end
 
       should "behave correctly with arrays of 1 project" do
-        assert ! User.anonymous.allowed_to?(:delete_issues, [Project.first])
+        assert ! User.anonymous.allowed_to?(:delete_work_packages, [Project.first])
       end
     end
 
