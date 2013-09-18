@@ -34,13 +34,11 @@ InstanceFinder.register(Version, Proc.new { |name| Version.find_by_name(name) })
 Given /^the [Pp]roject (.+) has 1 version with(?: the following)?:$/ do |project, table|
   project.gsub!("\"", "")
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
-  table.rows_hash["effective_date"] = eval(table.rows_hash["effective_date"]).to_date if table.rows_hash["effective_date"]
 
   as_admin do
     v = FactoryGirl.build(:version) do |v|
       v.project = p
     end
-
     send_table_to_object(v, table)
   end
 end
