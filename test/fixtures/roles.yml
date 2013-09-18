@@ -96,7 +96,7 @@ roles_002:
     - :view_work_packages
     - :add_issues
     - :edit_work_packages
-    - :manage_issue_relations
+    - :manage_work_package_relations
     - :manage_subtasks
     - :add_issue_notes
     - :move_issues
@@ -138,7 +138,7 @@ roles_003:
     - :view_work_packages
     - :add_issues
     - :edit_work_packages
-    - :manage_issue_relations
+    - :manage_work_package_relations
     - :add_issue_notes
     - :move_issues
     - :move_work_packages
@@ -169,7 +169,7 @@ roles_004:
     - :view_work_packages
     - :add_issues
     - :edit_work_packages
-    - :manage_issue_relations
+    - :manage_work_package_relations
     - :add_issue_notes
     - :move_issues
     - :save_queries

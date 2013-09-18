@@ -111,7 +111,6 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :edit_own_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :delete_work_packages, {:work_packages => :destroy}, :require => :member
-    map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     map.permission :add_issue_notes, {:issues => [:edit, :update], :journals => [:new]}

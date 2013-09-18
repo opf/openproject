@@ -64,7 +64,7 @@ module Redmine
                                                       :view_work_packages,
                                                       :add_issues,
                                                       :edit_issues,
-                                                      :manage_issue_relations,
+                                                      :manage_work_package_relations,
                                                       :manage_subtasks,
                                                       :add_issue_notes,
                                                       :save_queries,
