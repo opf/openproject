@@ -28,13 +28,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require "benchmark"
+
 When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" without any filters$/) do |project_name, format|
 
   @project = Project.find(project_name)
-  visit api_v2_project_planning_elements_path(project_id: project_name, format: format)
+  @unfiltered_benchmark = Benchmark.measure("Unfiltered Results") do
+    visit api_v2_project_planning_elements_path(project_id: project_name, format: format)
+  end
+
 end
 
-Then(/^the json\-response should include (\d+) work packages$/) do |number_of_wps|
+Then(/^the json\-response should include (\d+) work package(s?)$/) do |number_of_wps, plural|
   expect(work_package_names.size).to eql number_of_wps.to_i
 end
 
@@ -50,9 +55,33 @@ end
 Then(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for type "(.*?)"$/) do |project_name, format, type_names|
   types = Project.find_by_identifier(project_name).types.where(name: type_names.split(","))
 
-  visit api_v2_project_planning_elements_path(project_id: project_name, format: format, types: types.map(&:id))
+  @filtered_benchmark = Benchmark.measure("Filtered Results") do
+    visit api_v2_project_planning_elements_path(project_id: project_name, format: format, types: types.map(&:id))
+  end
+
 end
 
+And(/^there are (\d+) work packages of type "(.*?)" in project "(.*?)"$/) do |nr_of_wps, type_name, project_name|
+  project = Project.find_by_identifier(project_name)
+  type = project.types.find_by_name(type_name)
+
+  FactoryGirl.create_list(:work_package, nr_of_wps.to_i, project: project, type: type)
+
+end
+
+And(/^the time to get the unfiltered results should not exceed (\d+)\.(\d+)s$/) do |seconds,milliseconds|
+  puts @unfiltered_benchmark
+  @unfiltered_benchmark.total.should < "#{seconds}.#{milliseconds}".to_f
+end
+
+And(/^the time to get the filtered results should not exceed (\d+)\.(\d+)s$/) do |seconds, milliseconds|
+  puts @filtered_benchmark
+  @filtered_benchmark.total.should < "#{seconds}.#{milliseconds}".to_f
+end
+
+Then(/^the time to get the filtered results should be faster than the time to get the unfiltered results$/) do
+  @filtered_benchmark.total.should < @unfiltered_benchmark.total
+end
 
 def work_package_names
   decoded_json["planning_elements"].map{|wp| wp["name"]}
