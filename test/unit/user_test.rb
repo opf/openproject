@@ -479,7 +479,7 @@ class UserTest < ActiveSupport::TestCase
         assert @admin.allowed_to?(:view_project, Project.all)
         assert ! @dlopper.allowed_to?(:view_project, Project.all) #cannot see Project(2)
         assert @jsmith.allowed_to?(:edit_work_packages, @jsmith.projects) #Manager or Developer everywhere
-        assert ! @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects) #Dev cannot delete_issue_watchers
+        assert ! @jsmith.allowed_to?(:delete_work_package_watchers, @jsmith.projects) #Dev cannot delete_work_package_watchers
       end
 
       should "behave correctly with arrays of 1 project" do
