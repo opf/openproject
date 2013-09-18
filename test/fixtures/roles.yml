@@ -98,7 +98,7 @@ roles_002:
     - :edit_work_packages
     - :manage_work_package_relations
     - :manage_subtasks
-    - :add_issue_notes
+    - :add_work_package_notes
     - :move_issues
     - :move_work_packages
     - :delete_issues
@@ -139,7 +139,7 @@ roles_003:
     - :add_issues
     - :edit_work_packages
     - :manage_work_package_relations
-    - :add_issue_notes
+    - :add_work_package_notes
     - :move_issues
     - :move_work_packages
     - :view_issue_watchers
@@ -170,7 +170,7 @@ roles_004:
     - :add_issues
     - :edit_work_packages
     - :manage_work_package_relations
-    - :add_issue_notes
+    - :add_work_package_notes
     - :move_issues
     - :save_queries
     - :view_calendar
@@ -193,7 +193,7 @@ roles_005:
   permissions: |
     ---
     - :view_work_packages
-    - :add_issue_notes
+    - :add_work_package_notes
     - :view_calendar
     - :view_time_entries
     - :view_wiki_pages
