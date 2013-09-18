@@ -101,7 +101,9 @@ Redmine::AccessControl.map do |map|
                                          :work_packages => [:show, :index],
                                          :'issues/reports' => [:report, :report_details]}
     map.permission :export_work_packages, {:'work_packages' => [:index, :all]}
-    map.permission :add_work_packages, { :work_packages => [:new, :new_type, :preview, :create] }
+    map.permission :add_work_packages, { :issues => [:new, :create, :update_form],
+                                         :'issues/previews' => :create,
+                                         :work_packages => [:new, :new_type, :preview, :create] }
     map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, :require => :loggedin
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form],
                                           :work_packages => [:edit, :update, :new_type, :preview, :quoted],
@@ -109,7 +111,8 @@ Redmine::AccessControl.map do |map|
     map.permission :add_work_package_notes, {:work_packages => [:edit, :update], :journals => [:new]}
     map.permission :edit_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :edit_own_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
-    map.permission :delete_work_packages, {:work_packages => :destroy}, :require => :member
+    map.permission :delete_work_packages, {:issues => :destroy,
+                                           :work_packages => :destroy}, :require => :member
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     # Queries
@@ -197,11 +200,6 @@ Redmine::AccessControl.map do |map|
                    {:timelines => [:confirm_destroy, :destroy]},
                    {:require => :member}
 
-    map.permission :view_planning_elements,
-                   {:work_packages => [:show],
-                    :planning_elements => [:index, :all, :show,
-                                           :recycle_bin],
-                    :planning_element_journals => [:index]}
     map.permission :edit_planning_elements,
                    {:planning_elements => [:new, :create, :edit, :update],
                     :planning_element_journals => [:create]},
