@@ -56,14 +56,14 @@ Feature: Timeline View Tests with reporters
 
       And there is a role "manager"
       And the role "manager" may have the following rights:
-          | view_timelines           |
-          | edit_timelines           |
-          | view_planning_elements   |
-          | delete_planning_elements    |
-          | edit_planning_elements      |
-          | delete_planning_elements    |
-          | view_reportings             |
-          | view_project_associations   |
+          | view_timelines            |
+          | edit_timelines            |
+          | view_work_packages        |
+          | delete_planning_elements  |
+          | edit_planning_elements    |
+          | delete_planning_elements  |
+          | view_reportings           |
+          | view_project_associations |
 
       And there is a project named "ecookbook" of type "Standard Project"
 

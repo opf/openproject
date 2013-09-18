@@ -55,7 +55,7 @@ Feature: Timeline Wiki Macro
           | manage_wiki              |
           | view_wiki_pages          |
           | edit_wiki_pages          |
-          | view_planning_elements   |
+          | view_work_packages       |
           | edit_planning_elements   |
           | delete_planning_elements |
           | view_timelines           |
@@ -64,7 +64,7 @@ Feature: Timeline Wiki Macro
           | manage_wiki              |
           | view_wiki_pages          |
           | edit_wiki_pages          |
-          | view_planning_elements   |
+          | view_work_packages       |
           | edit_planning_elements   |
           | delete_planning_elements |
 
