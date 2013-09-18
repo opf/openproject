@@ -213,10 +213,13 @@ OpenProject::Application.routes.draw do
       end
     end
 
+    namespace :work_packages do
+      resources :calendar, :controller => 'calendars', :only => [:index]
+    end
+
     resources :work_packages, :only => [:new, :create, :index] do
       get :new_type, :on => :collection
       put :preview, :on => :collection
-      get :calendar, to: 'work_packages/calendars#index', on: :collection, only: [:index]
     end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
@@ -266,8 +269,6 @@ OpenProject::Application.routes.draw do
   # this is to support global actions on issues and
   # for backwards compatibility
   namespace :issues do
-    resources :calendar, :controller => 'calendars', :only => [:index]
-
     # have a global autocompleter for issues
     # TODO: make this ressourceful
     match 'auto_complete' => 'auto_completes#issues', :via => [:get, :post], :format => false
