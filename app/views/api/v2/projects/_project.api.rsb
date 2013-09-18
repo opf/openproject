@@ -34,7 +34,7 @@ api.project do
   api.permissions(
       :view_planning_elements => User.current.allowed_to?(:view_work_packages, project),
       :edit_planning_elements => User.current.allowed_to?(:edit_work_packages, project),
-      :delete_planning_elements => User.current.allowed_to?(:delete_planning_elements, project)
+      :delete_planning_elements => User.current.allowed_to?(:delete_work_packages, project)
     )
 
   # TODO: Evaluate html formatting of description instead of passing the raw

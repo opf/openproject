@@ -116,7 +116,12 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :edit_own_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :delete_work_packages, {:issues => :destroy,
-                                           :work_packages => :destroy}, :require => :member
+                                           :work_packages => :destroy,
+                                           :planning_elements => [:confirm_destroy,
+                                                                  :destroy,
+                                                                  :destroy_all,
+                                                                  :confirm_destroy_all]},
+                                           :require => :member
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     # Queries
@@ -202,12 +207,6 @@ Redmine::AccessControl.map do |map|
                    {:require => :member}
     map.permission :delete_timelines,
                    {:timelines => [:confirm_destroy, :destroy]},
-                   {:require => :member}
-
-    map.permission :delete_planning_elements,
-                   {:planning_elements => [:confirm_destroy, :destroy,
-                                           :destroy_all,
-                                           :confirm_destroy_all]},
                    {:require => :member}
 
     map.permission :view_reportings,

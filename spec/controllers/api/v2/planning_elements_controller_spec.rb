@@ -83,7 +83,7 @@ describe Api::V2::PlanningElementsController do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:delete_planning_elements])
+      role   = FactoryGirl.create(:role, :permissions => [:delete_work_packages])
 
       projects = block ? instance_eval(&block) : [project]
 
