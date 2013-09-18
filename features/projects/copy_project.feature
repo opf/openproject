@@ -1,8 +1,10 @@
 Feature: Project Settings
   Background:
-    Given there is 1 project with the following:
-      | name        | project1 |
-      | identifier  | project1 |
+    Given there are the following project types:
+      | Name         | Allows Association |
+      | Copy Project | true               |
+    And there are the following projects of type "Copy Project":
+      | project1 |
     And there is 1 user with the following:
       | login     | bob        |
       | firstname | Bob        |
@@ -150,3 +152,43 @@ Feature: Project Settings
     And  I follow "Forums" within "#main-menu"
     Then I should see "Board 1" within "#content"
     Then I should see "Board 2" within "#content"
+
+  @javascript
+  Scenario: Copy a project with project_a_associations
+    Given there are the following projects of type "Copy Project":
+      | project2 |
+    And there are the following project associations:
+      | Project A | Project B |
+      | project1  | project2  |
+    When I am already admin
+    And  I go to the settings page of the project "project1"
+    And  I follow "Copy" within "#content"
+    And  I fill in "Name" with "Copied Project"
+    And  I fill in "Identifier" with "cp"
+    And  I check "Reportings"
+    And  I click on "Copy"
+    Then I should see "Successful creation."
+    And  I go to the overview page for the project "Copied Project"
+    And  I toggle the "Timelines" submenu
+    And  I follow "Dependencies"
+    Then I should see "project2" below "Copy Project"
+
+  @javascript
+  Scenario: Copy a project with project_b_associations
+    Given there are the following projects of type "Copy Project":
+      | project2 |
+    And there are the following project associations:
+      | Project A | Project B |
+      | project2  | project1  |
+    When I am already admin
+    And  I go to the settings page of the project "project1"
+    And  I follow "Copy" within "#content"
+    And  I fill in "Name" with "Copied Project"
+    And  I fill in "Identifier" with "cp"
+    And  I check "Reportings"
+    And  I click on "Copy"
+    Then I should see "Successful creation."
+    And  I go to the overview page for the project "Copied Project"
+    And  I toggle the "Timelines" submenu
+    And  I follow "Dependencies"
+    Then I should see "project2" below "Copy Project"

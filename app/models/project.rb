@@ -1067,6 +1067,18 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # Copies project associations from +project+
+  def copy_project_associations(project)
+    [:project_a, :project_b].each do |association_type|
+      project.send(:"#{association_type}_associations").each do |association|
+        new_association = ProjectAssociation.new
+        new_association.force_attributes = association.attributes.dup.except("id", "#{association_type}_id")
+        new_association.send(:"#{association_type}=", self)
+        new_association.save
+      end
+    end
+  end
+
   def allowed_permissions
     @allowed_permissions ||= begin
       names = enabled_modules.loaded? ? enabled_module_names : enabled_modules.all(:select => :name).map(&:name)

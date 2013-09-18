@@ -124,7 +124,7 @@ class ProjectsController < ApplicationController
   end
 
   def copy_project
-    from = params[:coming_from] || :settings
+    from = params[:coming_from].to_sym || :settings
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @types = Type.all
     @root_projects = Project.find(:all,
