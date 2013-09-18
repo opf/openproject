@@ -32,7 +32,7 @@ api.project do
   api.identifier(project.identifier)
 
   api.permissions(
-      :view_planning_elements => User.current.allowed_to?(:view_planning_elements, project),
+      :view_planning_elements => User.current.allowed_to?(:view_work_packages, project),
       :edit_planning_elements => User.current.allowed_to?(:edit_planning_elements, project),
       :delete_planning_elements => User.current.allowed_to?(:delete_planning_elements, project)
     )

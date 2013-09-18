@@ -51,7 +51,7 @@ describe Api::V2::PlanningElementsController do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:view_planning_elements])
+      role   = FactoryGirl.create(:role, :permissions => [:view_work_packages])
 
       projects = block ? instance_eval(&block) : [project]
 
@@ -137,7 +137,7 @@ describe Api::V2::PlanningElementsController do
         end
       end
 
-      describe 'w/ the current user being a member with view_planning_elements permissions' do
+      describe 'w/ the current user being a member with view_work_packages permissions' do
         become_member_with_view_planning_element_permissions
 
         describe 'w/o any planning elements within the project' do
@@ -204,7 +204,7 @@ describe Api::V2::PlanningElementsController do
         end
       end
 
-      describe 'w/ the current user being a member with view_planning_elements permissions' do
+      describe 'w/ the current user being a member with view_work_packages permission' do
         become_member_with_view_planning_element_permissions { [project_a, project_b] }
 
         describe 'w/o any planning elements within the project' do
