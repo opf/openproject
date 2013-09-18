@@ -126,4 +126,15 @@ describe WorkPackagesController do
     get("/work_packages/auto_complete").should route_to( controller: 'work_packages/auto_completes',
                                                          action: 'index' )
   end
+
+  it "should connect GET /work_packages/calendar to work_package/calendar#index" do
+    get("/work_packages/calendar").should route_to( controller: 'work_packages/calendars',
+                                                    action: 'index' )
+  end
+
+  it "should connect GET /project/1/work_packages/calendar to work_package/calendar#index" do
+    get("/projects/1/work_packages/calendar").should route_to( controller: 'work_packages/calendars',
+                                                               action: 'index',
+                                                               project_id: '1')
+  end
 end
