@@ -114,6 +114,7 @@ group :test do
   gem 'ruby-prof'
   gem 'simplecov', ">= 0.8.pre"
   gem "shoulda-matchers"
+  gem "json_spec"
 end
 
 group :ldap do

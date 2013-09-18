@@ -35,6 +35,9 @@
 require 'cucumber/rails'
 require 'capybara-screenshot/cucumber'
 
+# json-spec is used to specifiy our json-apis
+require "json_spec/cucumber"
+
 # Load paths to ensure they are loaded before the plugin's paths.rbs.
 # Plugin's path_to functions rely on being loaded after the core's path_to
 # function, since they call super if they don't match and the core doesn't.
