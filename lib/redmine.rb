@@ -114,7 +114,6 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     map.permission :add_issue_notes, {:issues => [:edit, :update], :journals => [:new]}
-    map.permission :edit_own_issue_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :move_issues, {:'issues/moves' => [:new, :create]}, :require => :loggedin
     map.permission :delete_issues, {:issues => :destroy}, :require => :member
     # Queries
