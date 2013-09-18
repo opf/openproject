@@ -34,7 +34,7 @@ class HigherPrecisionForCurrency < ActiveRecord::Migration
           CostEntry.all.each {|e| e.update_costs!}
           TimeEntry.all.each {|e| e.update_costs!}
 
-          Issue.all.each{|i| i.update_costs!}
+          Issue.all.each{|i| i.update_costs!} if @issue_table_exists
         end
       end
     end
