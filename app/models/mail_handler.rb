@@ -158,7 +158,7 @@ class MailHandler < ActionMailer::Base
     project = target_project
     # check permission
     unless @@handler_options[:no_permission_check]
-      raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
+      raise UnauthorizedAction unless user.allowed_to?(:add_work_packages, project)
     end
 
     issue = WorkPackage.new(:author => user, :project => project)

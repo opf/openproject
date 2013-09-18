@@ -437,7 +437,7 @@ class UserTest < ActiveSupport::TestCase
       should "return false if related module is disabled" do
         project = Project.find(1)
         project.enabled_module_names = ["issue_tracking"]
-        assert @admin.allowed_to?(:add_issues, project)
+        assert @admin.allowed_to?(:add_work_packages, project)
         assert ! @admin.allowed_to?(:view_wiki_pages, project)
       end
 
@@ -493,8 +493,8 @@ class UserTest < ActiveSupport::TestCase
         @anonymous = User.find(6)
         assert @jsmith.allowed_to?(:delete_work_package_watchers, nil, :global => true)
         assert ! @dlopper2.allowed_to?(:delete_work_package_watchers, nil, :global => true)
-        assert @dlopper2.allowed_to?(:add_issues, nil, :global => true)
-        assert ! @anonymous.allowed_to?(:add_issues, nil, :global => true)
+        assert @dlopper2.allowed_to?(:add_work_packages, nil, :global => true)
+        assert ! @anonymous.allowed_to?(:add_work_packages, nil, :global => true)
         assert @anonymous.allowed_to?(:view_work_packages, nil, :global => true)
       end
     end

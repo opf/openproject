@@ -184,7 +184,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_by_anonymous_user
-    Role.anonymous.add_permission!(:add_issues)
+    Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
       issue = submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'accept')
       assert issue.is_a?(WorkPackage)
@@ -193,7 +193,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_by_anonymous_user_with_no_from_address
-    Role.anonymous.add_permission!(:add_issues)
+    Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
       issue = submit_email('ticket_by_empty_user.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'accept')
       assert issue.is_a?(WorkPackage)
@@ -202,7 +202,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_by_anonymous_user_on_private_project
-    Role.anonymous.add_permission!(:add_issues)
+    Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
       assert_no_difference 'WorkPackage.count' do
         assert_equal false, submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'onlinestore'}, :unknown_user => 'accept')
@@ -248,7 +248,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_without_from_header
-    Role.anonymous.add_permission!(:add_issues)
+    Role.anonymous.add_permission!(:add_work_packages)
     assert_equal false, submit_email('ticket_without_from_header.eml')
   end
 
@@ -323,7 +323,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_should_ignore_emails_from_emission_address
-    Role.anonymous.add_permission!(:add_issues)
+    Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
       assert !submit_email('ticket_from_emission_address.eml', :issue => { :project => 'ecookbook'}, :unknown_user => 'create')
     end

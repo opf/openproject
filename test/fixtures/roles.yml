@@ -40,7 +40,7 @@ roles_001:
     - :manage_versions
     - :manage_categories
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
     - :manage_work_package_relations
     - :manage_subtasks
@@ -94,7 +94,7 @@ roles_002:
     - :manage_versions
     - :manage_categories
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
     - :manage_work_package_relations
     - :manage_subtasks
@@ -135,7 +135,7 @@ roles_003:
     - :manage_versions
     - :manage_categories
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
     - :manage_work_package_relations
     - :add_work_package_notes
@@ -165,7 +165,7 @@ roles_004:
   permissions: |
     ---
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
     - :manage_work_package_relations
     - :add_work_package_notes
