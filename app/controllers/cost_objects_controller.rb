@@ -26,7 +26,7 @@ class CostObjectsController < ApplicationController
   include CostlogHelper
   helper :cost_objects
   include CostObjectsHelper
-  include Redmine::Export::PDF
+  include WorkPackage::PdfExporter
   include PaginationHelper
 
   menu_item :new_budget, :only => [:new]
