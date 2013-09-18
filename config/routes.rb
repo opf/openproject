@@ -216,6 +216,7 @@ OpenProject::Application.routes.draw do
     resources :work_packages, :only => [:new, :create, :index] do
       get :new_type, :on => :collection
       put :preview, :on => :collection
+      get :calendar, to: 'work_packages/calendars#index', on: :collection, only: [:index]
     end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
