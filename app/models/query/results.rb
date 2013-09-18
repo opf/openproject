@@ -41,7 +41,7 @@ class ::Query::Results
 
   # Returns the work package count
   def work_package_count
-    WorkPackage.count(:include => [:status, :project], :conditions => statement)
+    WorkPackage.count(:include => [:status, :project], :conditions => query.statement)
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end
