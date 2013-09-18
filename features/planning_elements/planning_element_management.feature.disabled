@@ -32,7 +32,7 @@ Feature: Planning Element Management
       And the role "manager" may have the following rights:
           | view_timelines           |
           | view_planning_elements   |
-          | edit_planning_elements   |
+          | edit_work_packages       |
           | delete_planning_elements |
           | view_work_packages       |
           | edit_work_packages       |

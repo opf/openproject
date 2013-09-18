@@ -60,7 +60,7 @@ Feature: Timeline View Tests with reporters
           | edit_timelines            |
           | view_work_packages        |
           | delete_planning_elements  |
-          | edit_planning_elements    |
+          | edit_work_packages        |
           | delete_planning_elements  |
           | view_reportings           |
           | view_project_associations |

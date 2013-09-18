@@ -109,7 +109,9 @@ Redmine::AccessControl.map do |map|
     map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, :require => :loggedin
     map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form],
                                           :work_packages => [:edit, :update, :new_type, :preview, :quoted],
-                                          :journals => :preview }
+                                          :journals => :preview,
+                                          :planning_elements => [:new, :create, :edit, :update],
+                                          :planning_element_journals => [ [:create], {:require => :member} ] }
     map.permission :add_work_package_notes, {:work_packages => [:edit, :update], :journals => [:new]}
     map.permission :edit_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :edit_own_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
@@ -202,10 +204,6 @@ Redmine::AccessControl.map do |map|
                    {:timelines => [:confirm_destroy, :destroy]},
                    {:require => :member}
 
-    map.permission :edit_planning_elements,
-                   {:planning_elements => [:new, :create, :edit, :update],
-                    :planning_element_journals => [:create]},
-                   {:require => :member}
     map.permission :delete_planning_elements,
                    {:planning_elements => [:confirm_destroy, :destroy,
                                            :destroy_all,

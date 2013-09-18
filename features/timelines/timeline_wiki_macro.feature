@@ -56,7 +56,7 @@ Feature: Timeline Wiki Macro
           | view_wiki_pages          |
           | edit_wiki_pages          |
           | view_work_packages       |
-          | edit_planning_elements   |
+          | edit_work_packages       |
           | delete_planning_elements |
           | view_timelines           |
       And there is a role "loser"
@@ -65,7 +65,7 @@ Feature: Timeline Wiki Macro
           | view_wiki_pages          |
           | edit_wiki_pages          |
           | view_work_packages       |
-          | edit_planning_elements   |
+          | edit_work_packages       |
           | delete_planning_elements |
 
       And there is a project named "ecookbook" of type "Standard Project"

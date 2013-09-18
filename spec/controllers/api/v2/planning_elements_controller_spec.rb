@@ -67,7 +67,7 @@ describe Api::V2::PlanningElementsController do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:edit_planning_elements])
+      role   = FactoryGirl.create(:role, :permissions => [:edit_work_packages])
 
       projects = block ? instance_eval(&block) : [project]
 
@@ -266,7 +266,7 @@ describe Api::V2::PlanningElementsController do
     def expect_redirect_to
       Regexp.new(project_planning_elements_path(project))
     end
-    let(:permission) { :edit_planning_elements }
+    let(:permission) { :edit_work_packages }
 
     it_should_behave_like "a controller action which needs project permissions"
   end
@@ -376,7 +376,7 @@ describe Api::V2::PlanningElementsController do
     def expect_no_content
       true
     end
-    let(:permission) { :edit_planning_elements }
+    let(:permission) { :edit_work_packages }
     it_should_behave_like "a controller action which needs project permissions"
   end
 
