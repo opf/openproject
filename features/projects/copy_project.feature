@@ -192,3 +192,26 @@ Feature: Project Settings
     And  I toggle the "Timelines" submenu
     And  I follow "Dependencies"
     Then I should see "project2" below "Copy Project"
+
+  @javascript
+  Scenario: Copy a project with versions
+    Given the project "project1" has 1 version with:
+      | name           | version1   |
+      | description    | yeah, boy  |
+      | start_date     | 2001-08-02 |
+      | effective_date | 2002-08-02 |
+      | status         | closed     |
+    When I am already admin
+    And  I go to the settings page of the project "project1"
+    And  I follow "Copy" within "#content"
+    And  I fill in "Name" with "Copied Project"
+    And  I fill in "Identifier" with "cp"
+    And  I check "Versions"
+    And  I click on "Copy"
+    Then I should see "Successful creation."
+    And  I go to the versions tab of the settings page for the project "cp"
+    Then I should see "version1" within "#content"
+    And  I should see "yeah, boy" within "#content"
+    And  I should see "08/02/2001" within "#content"
+    And  I should see "08/02/2002" within "#content"
+    And  I should see "closed" within "#content"
