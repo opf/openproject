@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1323` Wrong Calendarweek in Datepicker
 * `#1843` Editing Membership Duration in admin area fails
 * `#1913` [Timelines] Enable drag&drop for select2 items in order to rearrange the order of the columns
 * `#1978` Migrate legacy issues
