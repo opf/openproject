@@ -42,6 +42,9 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
   class AmbiguousJournalsError < ::StandardError
   end
 
+  class UnknownJournaledError < ::StandardError
+  end
+
   class AmbiguousAttachableJournalError < AmbiguousJournalsError
   end
 
@@ -172,10 +175,12 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
 
   def planning_element_migrator
     Migration::LegacyJournalMigrator.new "Timelines_PlanningElementJournal", "work_package_journals" do
-      extend Migration::JournalMigratorConcern::Attachable
-      extend Migration::JournalMigratorConcern::Customizable
+      extend Migration::JournalMigratorConcerns::Attachable
+      extend Migration::JournalMigratorConcerns::Customizable
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
+
+        update_journaled_id(legacy_journal)
 
         migrate_attachments(to_insert, legacy_journal, journal_id)
 
@@ -184,6 +189,20 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
       end
 
       private
+
+      def update_journaled_id(legacy_journal)
+        new_journaled_id = new_journaled_id_for_old(legacy_journal["journaled_id"])
+
+        if new_journaled_id.nil?
+          raise UnknownJournaledError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+          No new journaled_id could be found to replace the journaled_id value of
+          #{legacy_journal["journaled_id"]} for the legacy journal with the id
+          #{legacy_journal["id"]}
+          MESSAGE
+        end
+
+        legacy_journal["journaled_id"] = new_journaled_id
+      end
 
       def new_journaled_id_for_old(old_journaled_id)
         # We should be able to keep that in memory
