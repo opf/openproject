@@ -9,7 +9,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AwesomeLegacyJournalsMigration < ActiveRecord::Migration
+class AwesomeLegacyJournals < ActiveRecord::Migration
 
 
   class UnsupportedWikiContentJournalCompressionError < ::StandardError
