@@ -19,7 +19,7 @@ module OpenProject::Backlogs::TaskboardCard
     attr_reader :width
     attr_reader :across
     attr_reader :down
-    attr_reader :issues
+    attr_reader :work_packages
 
     def initialize(lang)
       set_language_if_valid lang
@@ -81,15 +81,15 @@ module OpenProject::Backlogs::TaskboardCard
       )
       @pdf.font "DejaVuSans"
 
-      @issues = []
+      @work_packages = []
     end
 
     def add_story(story, add_tasks = true)
-      add_issue(story)
+      add_work_package(story)
 
       if add_tasks
         story.tasks.each do |task|
-          add_issue(task)
+          add_work_package(task)
         end
       end
     end
@@ -101,18 +101,18 @@ module OpenProject::Backlogs::TaskboardCard
 
     private
 
-    def add_issue(story)
-      self.issues << story
+    def add_work_package(story)
+      self.work_packages << story
     end
 
     def render_cards
-      self.issues.each_with_index do |issue, i|
+      self.work_packages.each_with_index do |work_package, i|
         row = (i % self.down) + 1
         col = ((i / self.down) % self.across) + 1
 
         self.pdf.start_new_page if row == 1 and col == 1 and i != 0
 
-        Card.render(pdf, issue, {:height => self.height,
+        Card.render(pdf, work_package, {:height => self.height,
                                  :width => self.width,
                                  :at => card_top_left(row, col)})
       end

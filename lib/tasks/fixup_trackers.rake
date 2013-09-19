@@ -1,39 +1,39 @@
-desc 'Fix trackers after migration 011'
+desc 'Fix types after migration 011'
 
 namespace :redmine do
   namespace :backlogs do
-    task :fixup_trackers => :environment do
-      story_trackers = Story.trackers
-      story_tracker_id = story_trackers[0]
-      task_tracker_id = Task.tracker
+    task :fixup_types => :environment do
+      story_types = Story.types
+      story_type_id = story_types[0]
+      task_type_id = Task.type
 
       projects = EnabledModule.find(:all,
                                   :conditions => ["enabled_modules.name = 'backlogs' and status = ?", Project::STATUS_ACTIVE],
                                   :include => :project,
                                   :joins => :project).collect { |mod| mod.project }
 
-      story_tracker = story_tracker_id ?  Tracker.find_by_id(story_tracker_id) : nil
-      task_tracker = task_tracker_id ?  Tracker.find_by_id(task_tracker_id) : nil
+      story_type = story_type_id ?  type.find_by_id(story_type_id) : nil
+      task_type = task_type_id ?  type.find_by_id(task_type_id) : nil
 
-      raise 'No story tracker configured' unless story_tracker_id && story_tracker
-      raise 'No task tracker configured' unless task_tracker_id && task_tracker
+      raise 'No story type configured' unless story_type_id && story_type
+      raise 'No task type configured' unless task_type_id && task_type
       raise 'No projects are backlogs-enabled' unless projects.size > 0
 
-      puts "Story tracker: #{story_tracker.name} (#{story_tracker_id})"
-      puts "Task tracker: #{task_tracker.name} (#{task_tracker_id})"
+      puts "Story type: #{story_type.name} (#{story_type_id})"
+      puts "Task type: #{task_type.name} (#{task_type_id})"
 
       projects.each do |project|
-        Issue.find(:all, :conditions => ["not parent_id is null and project_id = #{project.id}"]).each do |issue|
-          if issue.tracker_id != task_tracker_id
-            puts "Making issue #{issue.subject} (#{issue.id}) into a task"
-            issue.tracker_id = task_tracker_id
-            issue.save!
+        Issue.find(:all, :conditions => ["not parent_id is null and project_id = #{project.id}"]).each do |work_package|
+          if work_package.type_id != task_type_id
+            puts "Making work_package #{work_package.subject} (#{work_package.id}) into a task"
+            work_package.type_id = task_type_id
+            work_package.save!
           end
 
-          parent = issue.parent
-          if !story_trackers.include?(parent.tracker_id)
-            puts "Making issue #{parent.subject} (#{parent.id}, #{parent.tracker.name}) into a story (#{story_tracker.name})"
-            parent.tracker_id = story_tracker_id
+          parent = work_package.parent
+          if !story_types.include?(parent.type_id)
+            puts "Making work_package #{parent.subject} (#{parent.id}, #{parent.type.name}) into a story (#{story_type.name})"
+            parent.type_id = story_type_id
             parent.save!
           end
         end

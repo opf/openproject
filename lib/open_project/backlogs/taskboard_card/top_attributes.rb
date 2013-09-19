@@ -16,25 +16,25 @@ module OpenProject::Backlogs::TaskboardCard
         9
       end
 
-      def render(pdf, issue, options)
+      def render(pdf, work_package, options)
          render_bounding_box(pdf, options.merge(:border => true, :margin => margin)) do
 
-           sprint_box = render_sprint(pdf, issue, {:at => [0, pdf.bounds.height],
+           sprint_box = render_sprint(pdf, work_package, {:at => [0, pdf.bounds.height],
                                                    :align => :right})
 
-           render_parent_issue(pdf, issue, {:at => [0, sprint_box.y],
+           render_parent_work_package(pdf, work_package, {:at => [0, sprint_box.y],
                                             :width => pdf.bounds.width - sprint_box.width})
 
-           effort_box = render_effort(pdf, issue, {:at => [0, pdf.bounds.height - sprint_box.height],
+           effort_box = render_effort(pdf, work_package, {:at => [0, pdf.bounds.height - sprint_box.height],
                                                    :align => :right})
 
-           render_subject(pdf, issue, {:at => [0, effort_box.y],
+           render_subject(pdf, work_package, {:at => [0, effort_box.y],
                                        :width => pdf.bounds.width - effort_box.width})
          end
        end
 
-      def render_parent_issue(pdf, issue, options)
-        parent_name = issue.parent.present? ? "#{issue.parent.tracker.name} ##{issue.parent.id}: #{issue.parent.subject}" : ""
+      def render_parent_work_package(pdf, work_package, options)
+        parent_name = work_package.parent.present? ? "#{work_package.parent.type.name} ##{work_package.parent.id}: #{work_package.parent.subject}" : ""
 
         text_box(pdf,
                  parent_name,
@@ -42,8 +42,8 @@ module OpenProject::Backlogs::TaskboardCard
                   :size => 12}.merge(options))
       end
 
-      def render_sprint(pdf, issue, options)
-        name = issue.fixed_version ? issue.fixed_version.name : "-"
+      def render_sprint(pdf, work_package, options)
+        name = work_package.fixed_version ? work_package.fixed_version.name : "-"
 
         text_box(pdf,
                  name,
@@ -51,16 +51,16 @@ module OpenProject::Backlogs::TaskboardCard
                   :size => 12}.merge(options))
       end
 
-      def render_subject(pdf, issue, options)
+      def render_subject(pdf, work_package, options)
         text_box(pdf,
-                 issue.subject,
+                 work_package.subject,
                  {:height => 20,
                   :size => 20}.merge(options))
       end
 
-      def render_effort(pdf, issue, options)
-        type = issue.is_task?
-        score = (type == :task ? issue.estimated_hours : issue.story_points)
+      def render_effort(pdf, work_package, options)
+        type = work_package.is_task?
+        score = (type == :task ? work_package.estimated_hours : work_package.story_points)
         score ||= '-'
         score = "#{score} #{type == :task ? l(:label_hours) : l(:label_points)}"
 

@@ -1,6 +1,6 @@
 require 'date'
 
-class Task < Issue
+class Task < WorkPackage
   unloadable
 
   extend OpenProject::Backlogs::Mixins::PreventIssueSti
@@ -66,7 +66,7 @@ class Task < Issue
   end
 
   def rank
-    @rank ||= Issue.count(:conditions => ['tracker_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.tracker, story_id, self.lft])
+    @rank ||= WorkPackage.count(:conditions => ['tracker_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.tracker, story_id, self.lft])
     return @rank
   end
 end

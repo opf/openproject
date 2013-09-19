@@ -10,15 +10,15 @@ module OpenProject::Backlogs::TaskboardCard
       [1.0, 0.05]
     end
 
-    def self.render(pdf, issue, options)
+    def self.render(pdf, work_package, options)
       render_bounding_box(pdf, options) do
 
         offset = [0, pdf.bounds.height]
 
-        issue_identification = "#{issue.tracker.name} ##{issue.id}"
+        work_package_identification = "#{work_package.type.name} ##{work_package.id}"
 
         box = text_box(pdf,
-                       issue_identification,
+                       work_package_identification,
                        {:height => 20,
                         :at => offset,
                         :size => 20,

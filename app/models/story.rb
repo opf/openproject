@@ -1,4 +1,4 @@
-class Story < Issue
+class Story < WorkPackage
   unloadable
 
   extend OpenProject::Backlogs::Mixins::PreventIssueSti
@@ -130,12 +130,12 @@ class Story < Issue
 
   def rank
     if self.position.blank?
-      extras = ["and ((#{Issue.table_name}.position is NULL and #{Issue.table_name}.id <= ?) or not #{Issue.table_name}.position is NULL)", self.id]
+      extras = ["and ((#{WorkPackage.table_name}.position is NULL and #{WorkPackage.table_name}.id <= ?) or not #{WorkPackage.table_name}.position is NULL)", self.id]
     else
-      extras = ["and not #{Issue.table_name}.position is NULL and #{Issue.table_name}.position <= ?", self.position]
+      extras = ["and not #{WorkPackage.table_name}.position is NULL and #{WorkPackage.table_name}.position <= ?", self.position]
     end
 
-    @rank ||= Issue.count(:conditions => Story.condition(self.project.id, self.fixed_version_id, extras), :joins => :status)
+    @rank ||= WorkPackage.count(:conditions => Story.condition(self.project.id, self.fixed_version_id, extras), :joins => :status)
 
     return @rank
   end
@@ -155,5 +155,5 @@ class Story < Issue
   end
 
   # This forces NULLS-LAST ordering
-  ORDER = "CASE WHEN #{Issue.table_name}.position IS NULL THEN 1 ELSE 0 END ASC, CASE WHEN #{Issue.table_name}.position IS NULL THEN #{Issue.table_name}.id ELSE #{Issue.table_name}.position END ASC"
+  ORDER = "CASE WHEN #{WorkPackage.table_name}.position IS NULL THEN 1 ELSE 0 END ASC, CASE WHEN #{WorkPackage.table_name}.position IS NULL THEN #{WorkPackage.table_name}.id ELSE #{WorkPackage.table_name}.position END ASC"
 end

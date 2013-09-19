@@ -34,12 +34,12 @@ module RbCommonHelper
     (id.length > 8 ? "#{id[0..1]}...#{id[-4..-1]}" : id)
   end
 
-  def issue_link_or_empty(issue)
-    link_to_issue_box(issue.id, issue, :class => 'prevent_edit') unless issue.new_record?
+  def work_package_link_or_empty(work_package)
+    link_to_work_package_box(work_package.id, work_package, :class => 'prevent_edit') unless work_package.new_record?
   end
 
-  def link_to_issue_box(title, issue, options = {})
-    modal_link_to(title, backlogs_issue_box_path(issue), options)
+  def link_to_work_package_box(title, work_package, options = {})
+    modal_link_to(title, backlogs_work_package_box_path(work_package), options)
   end
 
   def modal_link_to(title, path, options = {})
@@ -55,7 +55,7 @@ module RbCommonHelper
   end
 
   def mark_if_closed(story)
-    !story.new_record? && issue_status_for_id(story.status_id).is_closed? ? "closed" : ""
+    !story.new_record? && work_package_status_for_id(story.status_id).is_closed? ? "closed" : ""
   end
 
   def story_points_or_empty(story)
@@ -79,7 +79,7 @@ module RbCommonHelper
   end
 
   def status_label_or_default(story)
-    story.new_record? ? new_record_status.name : h(issue_status_for_id(story.status_id).name)
+    story.new_record? ? new_record_status.name : h(work_package_status_for_id(story.status_id).name)
   end
 
   def sprint_html_id_or_empty(sprint)
@@ -163,22 +163,22 @@ module RbCommonHelper
   private
 
   def new_record_status
-    @new_record_status ||= all_issue_status.first
+    @new_record_status ||= all_work_package_status.first
   end
 
-  def default_issue_status
-    @default_issue_status ||= all_issue_status.detect(&:is_default)
+  def default_work_package_status
+    @default_work_package_status ||= all_work_package_status.detect(&:is_default)
   end
 
-  def issue_status_for_id(id)
-    @all_issue_status_by_id ||= begin
-      all_issue_status.inject({}) do |mem, status|
+  def work_package_status_for_id(id)
+    @all_work_package_status_by_id ||= begin
+      all_work_package_status.inject({}) do |mem, status|
         mem[status.id] = status
         mem
       end
     end
 
-    @all_issue_status_by_id[id]
+    @all_work_package_status_by_id[id]
   end
 
   def all_workflows
@@ -187,8 +187,8 @@ module RbCommonHelper
                                                      :tracker_id => story_trackers.collect(&:id) })
   end
 
-  def all_issue_status
-    @all_issue_status ||= IssueStatus.all(:order => 'position ASC')
+  def all_work_package_status
+    @all_work_package_status ||= IssueStatus.all(:order => 'position ASC')
   end
 
   def backlogs_trackers

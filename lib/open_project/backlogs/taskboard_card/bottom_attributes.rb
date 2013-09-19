@@ -17,24 +17,24 @@ module OpenProject::Backlogs::TaskboardCard
         9
       end
 
-      def render(pdf, issue, options)
+      def render(pdf, work_package, options)
         render_bounding_box(pdf, options.merge(:border => true, :margin => margin)) do
 
-          category_box = render_category(pdf, issue, {:at => [0, pdf.bounds.height],
+          category_box = render_category(pdf, work_package, {:at => [0, pdf.bounds.height],
                                                       :align => :right})
 
-          assigned_to_box = render_assigned_to(pdf, issue, {:at => [0, category_box.y],
+          assigned_to_box = render_assigned_to(pdf, work_package, {:at => [0, category_box.y],
                                                             :width => pdf.bounds.width - category_box.width,
                                                             :padding_bottom => 20})
 
-          render_sub_issues(pdf, issue, {:at => [0, assigned_to_box.y - assigned_to_box.height]})
+          render_sub_work_packages(pdf, work_package, {:at => [0, assigned_to_box.y - assigned_to_box.height]})
         end
       end
 
 
-      def render_assigned_to(pdf, issue, options)
+      def render_assigned_to(pdf, work_package, options)
 
-        assigned_to = "#{Issue.human_attribute_name(:assigned_to)}: #{issue.assigned_to ? issue.assigned_to : "-"}"
+        assigned_to = "#{WorkPackage.human_attribute_name(:assigned_to)}: #{work_package.assigned_to ? work_package.assigned_to : "-"}"
 
         text_box(pdf,
                  assigned_to,
@@ -43,9 +43,9 @@ module OpenProject::Backlogs::TaskboardCard
                   :size => 12}.merge(options))
       end
 
-      def render_category(pdf, issue, options)
+      def render_category(pdf, work_package, options)
 
-        category = "#{Issue.human_attribute_name(:category)}: #{issue.category ? issue.category : "-"}"
+        category = "#{WorkPackage.human_attribute_name(:category)}: #{work_package.category ? work_package.category : "-"}"
 
         text_box(pdf,
                  category,
@@ -54,13 +54,13 @@ module OpenProject::Backlogs::TaskboardCard
 
       end
 
-      def render_sub_issues(pdf, issue, options)
+      def render_sub_work_packages(pdf, work_package, options)
         at = options.delete(:at)
         box = Box.new(at[0], at[1], 0, 0)
 
         pdf.font_size(12) do
           temp_box = text_box(pdf,
-                              "#{l(:label_subtask_plural)}: #{issue.children.size == 0 ? "-" : ""}",
+                              "#{l(:label_subtask_plural)}: #{work_package.children.size == 0 ? "-" : ""}",
                               {:height => pdf.font.height,
                                :at => box.at,
                                :paddint_bottom => 6})
@@ -68,17 +68,17 @@ module OpenProject::Backlogs::TaskboardCard
           box.height += temp_box.height
           box.width = temp_box.width
 
-          issue.children.each_with_index do |child, i|
+          work_package.children.each_with_index do |child, i|
 
-            if box.height + pdf.font.height > pdf.font.height ||  issue.children.size - i == 1
+            if box.height + pdf.font.height > pdf.font.height ||  work_package.children.size - i == 1
               temp_box = text_box(pdf,
-                                "#{child.tracker.name} ##{child.id}: #{child.subject}",
+                                "#{child.type.name} ##{child.id}: #{child.subject}",
                                 {:height => pdf.font.height,
                                  :at => [10, at[1] - box.height],
                                  :padding_bottom => 3})
             else
               temp_box = text_box(pdf,
-                                l('backlogs.x_more', :count => issue.children.size - i),
+                                l('backlogs.x_more', :count => work_package.children.size - i),
                                 :height => pdf.font.height,
                                 :at => [10, at[1] - box.height])
               break

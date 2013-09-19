@@ -5,7 +5,7 @@ OpenProject::Application.routes.draw do
   #scope "/rb" do
   scope "", as: "backlogs" do
 
-    resources :issue_boxes,          :controller => :issue_boxes,         :only => [:show, :edit, :update]
+    resources :work_package_boxes,          :controller => :work_package_boxes,         :only => [:show, :edit, :update]
 
     scope "projects/:project_id", as: 'project' do
 
@@ -34,6 +34,6 @@ OpenProject::Application.routes.draw do
   end
 
   get  'projects/:project_id/versions/:id/edit' => 'version_settings#edit'
-  post  'projects/:id/project_issue_statuses' => 'projects#project_issue_statuses'
+  post  'projects/:id/project_work_package_statuses' => 'projects#project_work_package_statuses'
   post 'projects/:id/rebuild_positions' => 'projects#rebuild_positions'
 end

@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Issue, "changing a story's fixed_version changes the fixed_version of all it's tasks (and the tasks beyond)" do
+describe WorkPackage, "changing a story's fixed_version changes the fixed_version of all it's tasks (and the tasks beyond)" do
   let(:tracker_feature) { FactoryGirl.build(:tracker_feature) }
   let(:tracker_task) { FactoryGirl.build(:tracker_task) }
   let(:tracker_bug) { FactoryGirl.build(:tracker_bug) }
@@ -25,7 +25,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
 
 
   let(:story) do
-    story = FactoryGirl.build(:issue,
+    story = FactoryGirl.build(:work_package,
                               :subject => "Story",
                               :project => project,
                               :tracker => tracker_feature,
@@ -37,7 +37,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
   end
 
   let(:story2) do
-    story = FactoryGirl.build(:issue,
+    story = FactoryGirl.build(:work_package,
                               :subject => "Story2",
                               :project => project,
                               :tracker => tracker_feature,
@@ -49,7 +49,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
   end
 
   let(:story3) do
-    story = FactoryGirl.build(:issue,
+    story = FactoryGirl.build(:work_package,
                               :subject => "Story3",
                               :project => project,
                               :tracker => tracker_feature,
@@ -60,7 +60,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
     story
   end
 
-  let(:task) { FactoryGirl.build(:issue,
+  let(:task) { FactoryGirl.build(:work_package,
                              :subject => "Task",
                              :tracker => tracker_task,
                              :fixed_version => version1,
@@ -69,7 +69,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                              :author => user,
                              :priority => issue_priority) }
 
-  let(:task2) { FactoryGirl.build(:issue,
+  let(:task2) { FactoryGirl.build(:work_package,
                               :subject => "Task2",
                               :tracker => tracker_task,
                               :fixed_version => version1,
@@ -78,7 +78,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                               :author => user,
                               :priority => issue_priority) }
 
-  let(:task3) { FactoryGirl.build(:issue,
+  let(:task3) { FactoryGirl.build(:work_package,
                               :subject => "Task3",
                               :tracker => tracker_task,
                               :fixed_version => version1,
@@ -87,7 +87,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                               :author => user,
                               :priority => issue_priority) }
 
-  let(:task4) { FactoryGirl.build(:issue,
+  let(:task4) { FactoryGirl.build(:work_package,
                               :subject => "Task4",
                               :tracker => tracker_task,
                               :fixed_version => version1,
@@ -96,7 +96,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                               :author => user,
                               :priority => issue_priority) }
 
-  let(:task5) { FactoryGirl.build(:issue,
+  let(:task5) { FactoryGirl.build(:work_package,
                               :subject => "Task5",
                               :tracker => tracker_task,
                               :fixed_version => version1,
@@ -105,7 +105,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                               :author => user,
                               :priority => issue_priority) }
 
-  let(:task6) { FactoryGirl.build(:issue,
+  let(:task6) { FactoryGirl.build(:work_package,
                               :subject => "Task6",
                               :tracker => tracker_task,
                               :fixed_version => version1,
@@ -114,7 +114,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                               :author => user,
                               :priority => issue_priority) }
 
-  let(:bug) { FactoryGirl.build(:issue,
+  let(:bug) { FactoryGirl.build(:work_package,
                             :subject => "Bug",
                             :tracker => tracker_bug,
                             :fixed_version => version1,
@@ -123,7 +123,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                             :author => user,
                             :priority => issue_priority) }
 
-  let(:bug2) { FactoryGirl.build(:issue,
+  let(:bug2) { FactoryGirl.build(:work_package,
                              :subject => "Bug2",
                              :tracker => tracker_bug,
                              :fixed_version => version1,
@@ -132,7 +132,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                              :author => user,
                              :priority => issue_priority) }
 
-  let(:bug3) { FactoryGirl.build(:issue,
+  let(:bug3) { FactoryGirl.build(:work_package,
                              :subject => "Bug3",
                              :tracker => tracker_bug,
                              :fixed_version => version1,
@@ -160,18 +160,18 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
     #   -> task5
     # -> story3
     #   -> task6
-    task3.parent_issue_id = child.id
+    task3.parent_id = child.id
     task3.save!
-    task4.parent_issue_id = child.id
+    task4.parent_id = child.id
     task4.save!
-    bug3.parent_issue_id = child.id
+    bug3.parent_id = child.id
     bug3.save!
-    story3.parent_issue_id = child.id
+    story3.parent_id = child.id
     story3.save!
 
-    task5.parent_issue_id = bug3.id
+    task5.parent_id = bug3.id
     task5.save!
-    task6.parent_issue_id = story3.id
+    task6.parent_id = story3.id
     task6.save!
 
     child.reload
@@ -184,7 +184,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
 
       it "SHOULD change the child's fixed version to the parent's fixed version" do
         subject.save!
-        child.parent_issue_id = subject.id
+        child.parent_id = subject.id
         child.save!
 
         standard_child_layout
@@ -209,7 +209,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
 
       it "SHOULD keep the child's version" do
         subject.save!
-        child.parent_issue_id = subject.id
+        child.parent_id = subject.id
         child.save!
 
         standard_child_layout
@@ -244,7 +244,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           it_should_behave_like "changing parent's fixed_version changes child's fixed version"
         end
 
-        describe "WITH a non backlogs issue as child" do
+        describe "WITH a non backlogs work_package as child" do
           let(:child) { bug2 }
 
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
@@ -266,14 +266,14 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           it_should_behave_like "changing parent's fixed_version changes child's fixed version"
         end
 
-        describe "WITH a non backlogs issue as child" do
+        describe "WITH a non backlogs work_package as child" do
           let(:child) { bug }
 
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
         end
       end
 
-      describe "WITH a non backlogs issue" do
+      describe "WITH a non backlogs work_package" do
         subject { bug }
 
         describe "WITH a task as child" do
@@ -282,7 +282,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
         end
 
-        describe "WITH a non backlogs issue as child" do
+        describe "WITH a non backlogs work_package as child" do
           let(:child) { bug2 }
 
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
@@ -310,7 +310,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
         end
 
-        describe "WITH a non backlogs issue as child" do
+        describe "WITH a non backlogs work_package as child" do
           let(:child) { bug2 }
 
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
@@ -326,7 +326,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
       describe "WITH a task" do
         before(:each) do
           bug2.save!
-          task.parent_issue_id = bug2.id # so that it is considered a task
+          task.parent_id = bug2.id # so that it is considered a task
           task.save!
         end
 
@@ -338,7 +338,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
         end
 
-        describe "WITH a non backlogs issue as child" do
+        describe "WITH a non backlogs work_package as child" do
           let(:child) { bug }
 
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
@@ -354,14 +354,14 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
         end
 
-        describe "WITH a non backlogs issue as child" do
+        describe "WITH a non backlogs work_package as child" do
           let(:child) { bug }
 
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
         end
       end
 
-      describe "WITH a non backlogs issue" do
+      describe "WITH a non backlogs work_package" do
         subject { bug }
 
         describe "WITH a task as child" do
@@ -370,7 +370,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
         end
 
-        describe "WITH a non backlogs issue as child" do
+        describe "WITH a non backlogs work_package as child" do
           let(:child) { bug2 }
 
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
@@ -385,7 +385,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
     end
   end
 
-  describe "WHEN changing the parent_issue_id" do
+  describe "WHEN changing the parent_id" do
     shared_examples_for "changing the child's parent_issue to the parent changes child's fixed version" do
 
       it "SHOULD change the child's fixed version to the parent's fixed version" do
@@ -394,7 +394,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
 
         parent.fixed_version = version2
         parent.save!
-        child.parent_issue_id = parent.id
+        child.parent_id = parent.id
         child.save!
 
         # due to performance, these assertions are all in one it statement
@@ -408,7 +408,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
       end
     end
 
-    shared_examples_for "changing the child's parent_issue to the parent leaves child's fixed version" do
+    shared_examples_for "changing the child's parent to the parent leaves child's fixed version" do
 
       it "SHOULD keep the child's version" do
         child.save!
@@ -416,7 +416,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
 
         parent.fixed_version = version2
         parent.save!
-        child.parent_issue_id = parent.id
+        child.parent_id = parent.id
         child.save!
 
         # due to performance, these assertions are all in one it statement
@@ -450,7 +450,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           it_should_behave_like "changing the child's parent_issue to the parent changes child's fixed version"
         end
 
-        describe "WITH a non-backlogs issue as child" do
+        describe "WITH a non-backlogs work_package as child" do
           let(:child) { bug2 }
 
           it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"
@@ -458,11 +458,11 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
       end
 
       describe "WITH a story as parent
-                WITH the story having a non backlogs issue as parent
+                WITH the story having a non backlogs work_package as parent
                 WITH a task as child" do
         before do
           bug2.save!
-          story.parent_issue_id = bug2.id
+          story.parent_id = bug2.id
           story.save!
         end
 
@@ -475,7 +475,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
       describe "WITH a task as parent" do
         before(:each) do
           story.save!
-          task.parent_issue_id = story.id
+          task.parent_id = story.id
           task.save!
           story.reload
           task.reload
@@ -489,7 +489,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           it_should_behave_like "changing the child's parent_issue to the parent changes child's fixed version"
         end
 
-        describe "WITH a non-backlogs issue as child" do
+        describe "WITH a non-backlogs work_package as child" do
           let(:child) { bug2 }
 
           it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"
@@ -505,14 +505,14 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           it_should_behave_like "changing the child's parent_issue to the parent changes child's fixed version"
         end
 
-        describe "WITH a non-backlogs issue as child" do
+        describe "WITH a non-backlogs work_package as child" do
           let(:child) { bug2 }
 
           it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"
         end
       end
 
-      describe "WITH a non-backlogs issue as parent" do
+      describe "WITH a non-backlogs work_package as parent" do
         let(:parent) { bug }
 
         describe "WITH a story as child" do
@@ -527,7 +527,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"
         end
 
-        describe "WITH a non-backlogs issue as child" do
+        describe "WITH a non-backlogs work_package as child" do
           let(:child) { bug2 }
 
           it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"

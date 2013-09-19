@@ -1,9 +1,0 @@
-<%
-  @issue      = issue      if defined? issue
-  @changesets = changesets if defined? changesets
-  @journals   = journals   if defined? journals
-%>
-<%= OpenProject::Backlogs::IssueActions.new(@issue).render(self) %>
-<%= OpenProject::Backlogs::IssueView.new(@issue).render(self) %>
-<%= OpenProject::Nissue::ChangesetView.new(@changesets, @issue).render(self) %>
-<%= OpenProject::Nissue::JournalView.new(@journals, @issue).render(self) %>

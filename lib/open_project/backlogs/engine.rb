@@ -6,8 +6,8 @@ module OpenProject::Backlogs
     engine_name :openproject_backlogs
 
     def self.settings
-      { :default => { "story_trackers"  => nil,
-                      "task_tracker"    => nil,
+      { :default => { "story_types"  => nil,
+                      "task_type"    => nil,
                       "card_spec"       => nil
       },
       :partial => 'shared/settings' }
@@ -48,20 +48,20 @@ module OpenProject::Backlogs
       Setting.create_setting("plugin_openproject_backlogs", {'default' => Engine.settings[:default], 'serialized' => true})
       Setting.create_setting_accessors("plugin_openproject_backlogs")
 
-      require_dependency 'issue'
+      require_dependency 'work_package'
       require_dependency 'task'
       require_dependency 'acts_as_silent_list'
 
-      if Issue.const_defined? "SAFE_ATTRIBUTES"
-        Issue::SAFE_ATTRIBUTES << "story_points"
-        Issue::SAFE_ATTRIBUTES << "remaining_hours"
-        Issue::SAFE_ATTRIBUTES << "position"
+      if WorkPackage.const_defined? "SAFE_ATTRIBUTES"
+        WorkPackage::SAFE_ATTRIBUTES << "story_points"
+        WorkPackage::SAFE_ATTRIBUTES << "remaining_hours"
+        WorkPackage::SAFE_ATTRIBUTES << "position"
       else
-        Issue.safe_attributes "story_points", "remaining_hours", "position"
+        WorkPackage.safe_attributes "story_points", "remaining_hours", "position"
       end
 
-      require_dependency 'open_project/backlogs/issue_view'
-      require_dependency 'open_project/backlogs/issue_form'
+      require_dependency 'open_project/backlogs/work_package_view'
+      require_dependency 'open_project/backlogs/work_package_form'
 
       # 'require_dependency' reloads the class with every request
       # in development mode which
@@ -93,7 +93,7 @@ module OpenProject::Backlogs
 
           requires_openproject ">= 3.0.0pre7"
 
-          Redmine::AccessControl.permission(:edit_project).actions << "projects/project_issue_statuses"
+          Redmine::AccessControl.permission(:edit_project).actions << "projects/project_work_package_statuses"
           Redmine::AccessControl.permission(:edit_project).actions << "projects/rebuild_positions"
 
           settings Engine.settings
@@ -110,7 +110,7 @@ module OpenProject::Backlogs
               :rb_queries          => :show,
               :rb_server_variables => :show,
               :rb_burndown_charts  => :show,
-              :issue_boxes         => :show
+              :work_package_boxes  => :show
             }
 
             permission :view_taskboards,     {
@@ -135,19 +135,19 @@ module OpenProject::Backlogs
             # :show_stories and :list_stories are implicit in :view_master_backlog permission
             permission :create_stories,         { :rb_stories => :create }
             permission :update_stories,         { :rb_stories => :update,
-                                                  :issue_boxes => [:edit, :update] }
+                                                  :work_package_boxes => [:edit, :update] }
 
             # Task permissions
             # :show_tasks and :list_tasks are implicit in :view_sprints
             permission :create_tasks,           { :rb_tasks => [:new, :create]  }
             permission :update_tasks,           { :rb_tasks => [:edit, :update],
-                                                  :issue_boxes => [:edit, :update] }
+                                                  :work_package_boxes => [:edit, :update] }
 
             # Impediment permissions
             # :show_impediments and :list_impediments are implicit in :view_sprints
             permission :create_impediments,     { :rb_impediments => [:new, :create]  }
             permission :update_impediments,     { :rb_impediments => [:edit, :update],
-                                                  :issue_boxes => [:edit, :update] }
+                                                  :work_package_boxes => [:edit, :update] }
           end
 
           menu :project_menu,

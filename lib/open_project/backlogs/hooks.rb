@@ -34,25 +34,25 @@ module OpenProject::Backlogs::Hooks
     end
 
     def view_issues_show_details_bottom(context = {})
-      return '' unless context[:issue].project.module_enabled? 'backlogs'
+      return '' unless context[:work_package].project.module_enabled? 'backlogs'
       return '' if context[:from] == 'OpenProject::Backlogs::IssueView::FieldsParagraph'
 
-      issue = context[:issue]
+      work_package = context[:work_package]
 
       snippet = ''
 
-      if issue.is_story?
+      if work_package.is_story?
         snippet += %Q{
           <tr>
-            <th class="story-points">#{Issue.human_attribute_name(:story_points)}:</th>
-            <td class="story-points">#{issue.story_points || '-'}</td>
+            <th class="story-points">#{WorkPackage.human_attribute_name(:story_points)}:</th>
+            <td class="story-points">#{work_package.story_points || '-'}</td>
           </tr>
         }
       end
       snippet += %Q{
         <tr>
-          <th class="remaining_hours">#{Issue.human_attribute_name(:remaining_hours)}:</th>
-          <td class="remaining_hours">#{l_hours(issue.remaining_hours)}</td>
+          <th class="remaining_hours">#{WorkPackage.human_attribute_name(:remaining_hours)}:</th>
+          <td class="remaining_hours">#{l_hours(work_package.remaining_hours)}</td>
         </tr>
       }
 
@@ -61,20 +61,20 @@ module OpenProject::Backlogs::Hooks
 
     def view_issues_form_details_bottom(context = {})
       snippet = ''
-      issue = context[:issue]
+      work_package = context[:work_package]
 
-      return '' unless issue.project.module_enabled? 'backlogs'
+      return '' unless work_package.project.module_enabled? 'backlogs'
 
       snippet << %(<p>)
       snippet << %(<div id="backlogs-attributes" class="attributes">)
       snippet << %(<div class="splitcontentleft">)
 
-      if issue.is_story?
+      if work_package.is_story?
         snippet << '<p>'
         snippet << context[:form].text_field(:story_points, :size => 3)
         snippet << '</p>'
 
-        if issue.descendants.length != 0
+        if work_package.descendants.length != 0
 
           snippet << javascript_tag(<<-JS)
             (function($) {
@@ -97,7 +97,7 @@ module OpenProject::Backlogs::Hooks
       snippet << '</p>'
 
       params = context[:controller].params
-      if issue.is_story? && params[:copy_from]
+      if work_package.is_story? && params[:copy_from]
         snippet << "<p><label for='link_to_original'>#{l(:rb_label_link_to_original)}</label>"
         snippet << "#{check_box_tag('link_to_original', params[:copy_from], true)}</p>"
 
@@ -147,16 +147,16 @@ module OpenProject::Backlogs::Hooks
 
     def controller_issues_new_after_save(context={ })
       params = context[:params]
-      issue = context[:issue]
+      work_package = context[:work_package]
 
-      return unless issue.project.module_enabled? 'backlogs'
+      return unless work_package.project.module_enabled? 'backlogs'
 
-      if issue.is_story?
+      if work_package.is_story?
         if params[:link_to_original]
           rel = IssueRelation.new
 
-          rel.issue_from_id = Integer(params[:link_to_original])
-          rel.issue_to_id = issue.id
+          rel.work_package_from_id = Integer(params[:link_to_original])
+          rel.work_package_to_id = work_package.id
           rel.relation_type = IssueRelation::TYPE_RELATES
           rel.save
         end
@@ -181,7 +181,7 @@ module OpenProject::Backlogs::Hooks
             tasks.each {|t|
               nt = Task.new
               nt.copy_from(t)
-              nt.parent_issue_id = issue.id
+              nt.parent_id = work_package.id
               nt.save
             }
           end

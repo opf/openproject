@@ -17,9 +17,9 @@ module OpenProject::Backlogs::TaskboardCard
         9
       end
 
-      def render(pdf, issue, options)
+      def render(pdf, work_package, options)
         render_bounding_box(pdf, options.merge(:border => true, :margin => margin)) do
-          description = issue.description ? issue.description : ""
+          description = work_package.description ? work_package.description : ""
 
           r = RedCloth3.new(description)
           line = r.to_html

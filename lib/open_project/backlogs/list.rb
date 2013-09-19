@@ -16,18 +16,18 @@ module OpenProject::Backlogs::List
       end
 
 
-      # reorder list, if issue is removed from sprint
-      before_update :fix_other_issues_positions
-      before_update :fix_own_issue_position
+      # reorder list, if work_package is removed from sprint
+      before_update :fix_other_work_package_positions
+      before_update :fix_own_work_package_position
 
 
       # Used by acts_as_silent_list to limit the list to a certain subset within
       # the table.
       # Also sanitize_sql seems to be unavailable in a sensible way. Therefore
-      # we're using send to circumvent visibility issues.
+      # we're using send to circumvent visibility work_packages.
       def scope_condition
-        self.class.send(:sanitize_sql, ['project_id = ? AND fixed_version_id = ? AND tracker_id IN (?)',
-                                        self.project_id, self.fixed_version_id, self.trackers])
+        self.class.send(:sanitize_sql, ['project_id = ? AND fixed_version_id = ? AND type_id IN (?)',
+                                        self.project_id, self.fixed_version_id, self.types])
       end
 
       include InstanceMethods
@@ -64,11 +64,11 @@ module OpenProject::Backlogs::List
 
     protected
 
-    def fix_other_issues_positions
-      if changes.slice('project_id', 'tracker_id', 'fixed_version_id').present?
+    def fix_other_work_package_positions
+      if changes.slice('project_id', 'type_id', 'fixed_version_id').present?
         if changes.slice('project_id', 'fixed_version_id').blank? and
-                            Story.trackers.include?(tracker_id.to_i) and
-                            Story.trackers.include?(tracker_id_was.to_i)
+                            Story.types.include?(type_id.to_i) and
+                            Story.types.include?(type_id_was.to_i)
           return
         end
 
@@ -78,10 +78,10 @@ module OpenProject::Backlogs::List
           self.fixed_version_id = fixed_version_id_was
         end
 
-        if tracker_id_changed?
-          restore_tracker_id = true
-          new_tracker_id = tracker_id
-          self.tracker_id = tracker_id_was
+        if type_id_changed?
+          restore_type_id = true
+          new_type_id = type_id
+          self.type_id = type_id_was
         end
 
         if project_id_changed?
@@ -98,8 +98,8 @@ module OpenProject::Backlogs::List
           self.project = new_project
         end
 
-        if restore_tracker_id
-          self.tracker_id = new_tracker_id
+        if restore_type_id
+          self.type_id = new_type_id
         end
 
         if restore_version_id
@@ -108,11 +108,11 @@ module OpenProject::Backlogs::List
       end
     end
 
-    def fix_own_issue_position
-      if changes.slice('project_id', 'tracker_id', 'fixed_version_id').present?
+    def fix_own_work_package_position
+      if changes.slice('project_id', 'type_id', 'fixed_version_id').present?
         if changes.slice('project_id', 'fixed_version_id').blank? and
-                            Story.trackers.include?(tracker_id.to_i) and
-                            Story.trackers.include?(tracker_id_was.to_i)
+                            Story.types.include?(type_id.to_i) and
+                            Story.types.include?(type_id_was.to_i)
           return
         end
 

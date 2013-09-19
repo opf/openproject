@@ -44,7 +44,7 @@ module OpenProject::Backlogs::TaskboardCard
       0
     end
 
-    def self.render(pdf, issue, offset)
+    def self.render(pdf, work_package, offset)
       raise NotImplementedError.new('Subclasses need to implement this methods')
     end
 

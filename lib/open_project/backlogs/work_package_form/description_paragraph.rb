@@ -5,12 +5,12 @@ class OpenProject::Backlogs::IssueForm::DescriptionParagraph < OpenProject::Niss
 
   def render(t)
     html_id = "issue_description_#{SecureRandom.hex(10)}"
-    content_tag(:p, content_tag(:strong, Issue.human_attribute_name(:description))) +
+    content_tag(:p, content_tag(:strong, WorkPackage.human_attribute_name(:description))) +
     content_tag(:div,
       content_tag(:p,
-        t.text_area_tag("issue[description]", issue.description.to_s,
+        t.text_area_tag("issue[description]", work_package.description.to_s,
              :cols => 60,
-             :rows => (issue.description.blank? ? 10 : [[10, issue.description.length / 50].max, 100].min),
+             :rows => (work_package.description.blank? ? 10 : [[10, work_package.description.length / 50].max, 100].min),
              :accesskey => t.accesskey(:edit),
              :class => 'wiki-edit',
              :id => html_id)

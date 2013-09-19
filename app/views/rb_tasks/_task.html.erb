@@ -1,7 +1,7 @@
 <% prevent_edit = User.current.allowed_to?(:update_tasks, defined?(project) ? project : task.project) ? '' : 'prevent_edit'%>
 <div class="model issue task <%= prevent_edit %><%= mark_if_closed(task) %>" id="issue_<%= task.id %>" <%= build_inline_style(task) %>>
   <div class="id">
-    <div class="t"><%= issue_link_or_empty(task) %></div>
+    <div class="t"><%= work_package_link_or_empty(task) %></div>
     <div class="v"><%= id_or_empty(task) %></div>
   </div>
   <div class="subject editable" fieldtype="textarea" fieldname="subject"><%= task.subject %></div>

@@ -13,7 +13,7 @@
 //= require backlogs/model
 //= require backlogs/editable_inplace
 //= require backlogs/sprint
-//= require backlogs/issue
+//= require backlogs/work_package
 //= require backlogs/story
 //= require backlogs/task
 //= require backlogs/impediment

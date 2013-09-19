@@ -91,7 +91,7 @@ class Sprint < Version
     # assume a sprint is active if it's only 2 days old
     return true if bd.remaining_hours.size <= 2
 
-    Issue.exists?(['fixed_version_id = ? and ((updated_on between ? and ?) or (created_on between ? and ?))',
+    WorkPackage.exists?(['fixed_version_id = ? and ((updated_on between ? and ?) or (created_on between ? and ?))',
                    self.id, -2.days.from_now, Time.now, -2.days.from_now, Time.now])
   end
 

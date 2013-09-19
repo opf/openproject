@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Issue, "fixed version restricted by an issues parents (if it's a task)" do
+describe WorkPackage, "fixed version restricted by an work_package parents (if it's a task)" do
   let(:tracker_feature) { FactoryGirl.build(:tracker_feature) }
   let(:tracker_task) { FactoryGirl.build(:tracker_task) }
   let(:tracker_bug) { FactoryGirl.build(:tracker_bug) }
@@ -25,7 +25,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
 
 
   let(:story) do
-    story = FactoryGirl.build(:issue,
+    story = FactoryGirl.build(:work_package,
                               :subject => "Story",
                               :project => project,
                               :tracker => tracker_feature,
@@ -38,7 +38,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
   end
 
   let(:story2) do
-    story = FactoryGirl.build(:issue,
+    story = FactoryGirl.build(:work_package,
                               :subject => "Story2",
                               :project => project,
                               :tracker => tracker_feature,
@@ -51,7 +51,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
   end
 
 
-  let(:task) { FactoryGirl.build(:issue,
+  let(:task) { FactoryGirl.build(:work_package,
                              :subject => "Task",
                              :tracker => tracker_task,
                              :fixed_version => version1,
@@ -60,7 +60,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
                              :author => user,
                              :priority => issue_priority) }
 
-  let(:task2) { FactoryGirl.build(:issue,
+  let(:task2) { FactoryGirl.build(:work_package,
                               :subject => "Task2",
                               :tracker => tracker_task,
                               :fixed_version => version1,
@@ -69,7 +69,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
                               :author => user,
                               :priority => issue_priority) }
 
-  let(:bug) { FactoryGirl.build(:issue,
+  let(:bug) { FactoryGirl.build(:work_package,
                             :subject => "Bug",
                             :tracker => tracker_bug,
                             :fixed_version => version1,
@@ -78,7 +78,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
                             :author => user,
                             :priority => issue_priority) }
 
-  let(:bug2) { FactoryGirl.build(:issue,
+  let(:bug2) { FactoryGirl.build(:work_package,
                              :subject => "Bug2",
                              :tracker => tracker_bug,
                              :fixed_version => version1,
@@ -91,7 +91,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
 
     before(:each) do
       parent.save!
-      subject.parent_issue_id = parent.id unless subject.parent_issue_id.present? #already set outside the example group?
+      subject.parent_id = parent.id unless subject.parent_id.present? #already set outside the example group?
       subject.save!
       parent.reload
     end
@@ -158,7 +158,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
 
     before(:each) do
       parent.save!
-      subject.parent_issue_id = parent.id unless subject.parent_issue_id.present? #already set outside the example group?
+      subject.parent_id = parent.id unless subject.parent_id.present? #already set outside the example group?
       subject.save!
       parent.reload
     end
@@ -254,7 +254,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
   describe "WITH a story" do
     subject { story }
 
-    describe "WITHOUT a parent issue" do
+    describe "WITHOUT a parent work_package" do
       it_should_behave_like "fixed version without restriction"
     end
 
@@ -264,7 +264,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
       it_should_behave_like "fixed version not beeing inherited from the parent"
     end
 
-    describe "WITH a non backlogs tracked issue as it's parent" do
+    describe "WITH a non backlogs tracked work_package as it's parent" do
       let(:parent) { bug }
 
       it_should_behave_like "fixed version not beeing inherited from the parent"
@@ -274,17 +274,17 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
   describe "WITH a task" do
     subject { task }
 
-    describe "WITHOUT a parent issue (would then be an impediment)" do
+    describe "WITHOUT a parent work_package (would then be an impediment)" do
       it_should_behave_like "fixed version without restriction"
     end
 
     describe "WITH a task as it's parent" do
       before(:each) do
         story.save!
-        task2.parent_issue_id = story.id # a task needs a parent
+        task2.parent_id = story.id # a task needs a parent
         task2.save!
         story.reload
-        task.parent_issue_id = task2.id
+        task.parent_id = task2.id
         task.save!
         task2.reload
       end
@@ -300,17 +300,17 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
       it_should_behave_like "fixed version beeing inherited from the parent"
     end
 
-    describe "WITH a non backlogs tracked issue as it's parent" do
+    describe "WITH a non backlogs tracked work_package as it's parent" do
       let(:parent) { bug }
 
       it_should_behave_like "fixed version not beeing inherited from the parent"
     end
   end
 
-  describe "WITH a non backlogs issue" do
+  describe "WITH a non backlogs work_package" do
     subject { bug }
 
-    describe "WITHOUT a parent issue" do
+    describe "WITHOUT a parent work_package" do
       it_should_behave_like "fixed version without restriction"
     end
 
@@ -326,7 +326,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
       it_should_behave_like "fixed version not beeing inherited from the parent"
     end
 
-    describe "WITH a non backlogs tracked issue as it's parent" do
+    describe "WITH a non backlogs tracked work_package as it's parent" do
       let(:parent) { bug2 }
 
       it_should_behave_like "fixed version not beeing inherited from the parent"

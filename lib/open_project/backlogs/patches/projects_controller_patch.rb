@@ -12,15 +12,15 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
   module InstanceMethods
     def settings_with_backlogs_settings
       settings_without_backlogs_settings
-      @issue_statuses = IssueStatus.all
+      @work_package_statuses = IssueStatus.all
     end
 
-    def project_issue_statuses
-      selected_statuses = (params[:issue_statuses] || []).map do |issue_status|
-        IssueStatus.find(issue_status[:status_id].to_i)
+    def project_work_package_statuses
+      selected_statuses = (params[:work_package_statuses] || []).map do |work_package_status|
+        IssueStatus.find(work_package_status[:status_id].to_i)
       end.compact
 
-      @project.issue_statuses = selected_statuses
+      @project.work_package_statuses = selected_statuses
       @project.save!
 
       flash[:notice] = l(:notice_successful_update)

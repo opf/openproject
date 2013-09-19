@@ -1,19 +1,19 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-def project_boundaries_spanning_issue_hierarchy_allowed?
-  issue = Issue.new
-  issue.project_id = 1
-  parent_issue = Issue.new
-  parent_issue.project_id = 2
-  issue.instance_eval do
-    @parent_issue = parent_issue
+def project_boundaries_spanning_work_package_hierarchy_allowed?
+  work_package = WorkPackage.new
+  work_package.project_id = 1
+  parent_work_package = WorkPackage.new
+  parent_work_package.project_id = 2
+  work_package.instance_eval do
+    @parent_work_package = parent_work_package
   end
-  issue.valid?
+  work_package.valid?
   # using not so good check on validity
-  issue.errors[:parent_issue_id] != "doesn't belong to the same project"
+  work_package.errors[:parent_id] != "doesn't belong to the same project"
 end
 
-describe Issue, 'parent-child relationships between backlogs stories and backlogs tasks are prohibited if they span project boundaries' do
+describe WorkPackage, 'parent-child relationships between backlogs stories and backlogs tasks are prohibited if they span project boundaries' do
   let(:tracker_feature) { FactoryGirl.build(:tracker_feature) }
   let(:tracker_task) { FactoryGirl.build(:tracker_task) }
   let(:tracker_bug) { FactoryGirl.build(:tracker_bug) }
@@ -50,42 +50,42 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
     p
   end
 
-  let(:story) { FactoryGirl.build(:issue,
+  let(:story) { FactoryGirl.build(:work_package,
                               :subject => "Story",
                               :tracker => tracker_feature,
                               :status => issue_status,
                               :author => user,
                               :priority => issue_priority) }
 
-  let(:story2) { FactoryGirl.build(:issue,
+  let(:story2) { FactoryGirl.build(:work_package,
                                :subject => "Story2",
                                :tracker => tracker_feature,
                                :status => issue_status,
                                :author => user,
                                :priority => issue_priority) }
 
-  let(:task) { FactoryGirl.build(:issue,
+  let(:task) { FactoryGirl.build(:work_package,
                              :subject => "Task",
                              :tracker => tracker_task,
                              :status => issue_status,
                              :author => user,
                              :priority => issue_priority) }
 
-   let(:task2) { FactoryGirl.build(:issue,
+   let(:task2) { FactoryGirl.build(:work_package,
                                :subject => "Task2",
                                :tracker => tracker_task,
                                :status => issue_status,
                                :author => user,
                                :priority => issue_priority) }
 
-   let(:bug) { FactoryGirl.build(:issue,
+   let(:bug) { FactoryGirl.build(:work_package,
                              :subject => "Bug",
                              :tracker => tracker_bug,
                              :status => issue_status,
                              :author => user,
                              :priority => issue_priority) }
 
-   let(:bug2) { FactoryGirl.build(:issue,
+   let(:bug2) { FactoryGirl.build(:work_package,
                               :subject => "Bug2",
                               :tracker => tracker_bug,
                               :status => issue_status,
@@ -113,7 +113,7 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
                                "task_tracker"          => tracker_task.id.to_s}
   end
 
-  if project_boundaries_spanning_issue_hierarchy_allowed?
+  if project_boundaries_spanning_work_package_hierarchy_allowed?
 
   describe "WHEN creating the child" do
 
@@ -122,7 +122,7 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
         parent.project = parent_project
         parent.save
 
-        child.parent_issue_id = parent.id
+        child.parent_id = parent.id
       end
 
       describe "WITH the child in a different project" do
@@ -147,7 +147,7 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
         parent.project = parent_project
         parent.save
 
-        child.parent_issue_id = parent.id
+        child.parent_id = parent.id
       end
 
       describe "WITH the child in a different project" do
@@ -177,7 +177,7 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
           it_should_behave_like "restricted hierarchy on creation"
         end
 
-        describe "WITH a non backlogs issue as child" do
+        describe "WITH a non backlogs work_package as child" do
           let(:child) { bug2 }
 
           it_should_behave_like "unrestricted hierarchy on creation"
@@ -199,7 +199,7 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
           it_should_behave_like "restricted hierarchy on creation"
         end
 
-        describe "WITH a non backlogs issue as child" do
+        describe "WITH a non backlogs work_package as child" do
           let(:child) { bug2 }
 
           it_should_behave_like "unrestricted hierarchy on creation"
@@ -212,7 +212,7 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
         end
       end
 
-      describe "WITH a non backlogs issue as parent" do
+      describe "WITH a non backlogs work_package as parent" do
         let(:parent) { bug }
 
         describe "WITH a task as child" do
@@ -221,7 +221,7 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
           it_should_behave_like "unrestricted hierarchy on creation"
         end
 
-        describe "WITH a non backlogs issue as child" do
+        describe "WITH a non backlogs work_package as child" do
           let(:child) { bug2 }
 
           it_should_behave_like "unrestricted hierarchy on creation"
@@ -242,7 +242,7 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
         parent.project = parent_project
         parent.save
 
-        child.parent_issue_id = parent.id
+        child.parent_id = parent.id
       end
 
       describe "WITH the child in a different project" do
@@ -281,7 +281,7 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
         parent.project = parent_project
         parent.save
 
-        child.parent_issue_id = parent.id
+        child.parent_id = parent.id
       end
 
       describe "WITH the child in a different project" do
@@ -322,7 +322,7 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
         it_should_behave_like "restricted hierarchy by enabling backlogs"
       end
 
-      describe "WITH a non backlogs issue as child" do
+      describe "WITH a non backlogs work_package as child" do
         let(:child) { bug2 }
 
         it_should_behave_like "unrestricted hierarchy even when enabling backlogs"

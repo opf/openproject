@@ -19,6 +19,6 @@ class RbQueriesController < RbApplicationController
     column_names = column_names + ['position'] unless column_names.include?('position')
 
     session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :column_names => column_names}
-    redirect_to :controller => '/issues', :action => 'index', :project_id => @project.id, :sort => 'position'
+    redirect_to :controller => '/work_packages', :action => 'index', :project_id => @project.id, :sort => 'position'
   end
 end

@@ -1,6 +1,6 @@
 <li class="model story <%= mark_if_closed(story) %> <%= cycle('odd', 'even', :name => "stories") %>" id="<%= story_html_id_or_empty(story) %>">
   <div class="id">
-    <div class="t"><%= issue_link_or_empty(story) %></div>
+    <div class="t"><%= work_package_link_or_empty(story) %></div>
     <div class="v"><%= id_or_empty(story) %></div>
   </div>
   <div class="story_points editable" fieldname="story_points" fieldorder="4"><%= story_points_or_empty(story) %></div>

@@ -35,7 +35,7 @@ class Impediment < Task
   end
 
   def blocks_ids
-    @blocks_ids_list ||= relations_from.select{ |rel| rel.relation_type == IssueRelation::TYPE_BLOCKS }.collect(&:issue_to_id)
+    @blocks_ids_list ||= relations_from.select{ |rel| rel.relation_type == IssueRelation::TYPE_BLOCKS }.collect(&:work_package_to_id)
   end
 
   private
@@ -47,25 +47,25 @@ class Impediment < Task
   end
 
   def remove_from_blocks_list
-    self.relations_from.delete(self.relations_from.select{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && !blocks_ids.include?(rel.issue_to_id) })
+    self.relations_from.delete(self.relations_from.select{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && !blocks_ids.include?(rel.work_package_to_id) })
   end
 
   def add_to_blocks_list
-    currently_blocking = relations_from.select{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS}.collect(&:issue_to_id)
+    currently_blocking = relations_from.select{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS}.collect(&:work_package_to_id)
 
     (self.blocks_ids - currently_blocking).each{ |id|
-      rel = IssueRelation.new(:relation_type => IssueRelation::TYPE_BLOCKS, :issue_from => self)
-      rel.issue_to_id = id #attr_protected
+      rel = IssueRelation.new(:relation_type => IssueRelation::TYPE_BLOCKS, :work_package_from => self)
+      rel.work_package_to_id = id #attr_protected
       self.relations_from << rel
     }
   end
 
   def validate_blocks_list
     if blocks_ids.size == 0
-      errors.add :blocks_ids, :must_block_at_least_one_issue
+      errors.add :blocks_ids, :must_block_at_least_one_work_package
     else
-      issues = Issue.find_all_by_id(blocks_ids)
-      errors.add :blocks_ids, :can_only_contain_issues_of_current_sprint if issues.size == 0 || issues.any?{|i| i.fixed_version != self.fixed_version }
+      work_packages = WorkPackage.find_all_by_id(blocks_ids)
+      errors.add :blocks_ids, :can_only_contain_work_packages_of_current_sprint if work_packages.size == 0 || work_packages.any?{|i| i.fixed_version != self.fixed_version }
     end
   end
 end

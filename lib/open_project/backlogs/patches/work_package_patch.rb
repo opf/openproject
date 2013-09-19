@@ -31,8 +31,8 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
                                                   :if => lambda { |i| i.project && i.project.module_enabled?('backlogs') }
 
 
-      validates_each :parent_issue_id do |record, attr, value|
-        validate_parent_issue_relation(record, attr, value)
+      validates_each :parent_id do |record, attr, value|
+        validate_parent_work_package_relation(record, attr, value)
 
         validate_children(record, attr, value) #not using validates_associated because the errors are not displayed nicely then
       end
@@ -64,26 +64,26 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     private
 
-    def validate_parent_issue_relation(issue, parent_attr, value)
+    def validate_parent_work_package_relation(work_package, parent_attr, value)
       parent = WorkPackage.find_by_id(value)
-      if parent_issue_relationship_spanning_projects?(parent, issue)
-        issue.errors.add(parent_attr,
+      if parent_work_package_relationship_spanning_projects?(parent, work_package)
+        work_package.errors.add(parent_attr,
                          :parent_child_relationship_across_projects,
-                         :issue_name => issue.subject,
+                         :work_package_name => work_package.subject,
                          :parent_name => parent.subject)
       end
     end
 
-    def parent_issue_relationship_spanning_projects?(parent, child)
+    def parent_work_package_relationship_spanning_projects?(parent, child)
       child.is_task? && parent.in_backlogs_tracker? && parent.project_id != child.project_id
     end
 
-    def validate_children(issue, attr, value)
-      if issue.in_backlogs_tracker?
-        issue.children.each do |child|
+    def validate_children(work_package, attr, value)
+      if work_package.in_backlogs_tracker?
+        work_package.children.each do |child|
           unless child.valid?
             child.errors.each do |key, value|
-              issue.errors.add(:children, value)
+              work_package.errors.add(:children, value)
             end
           end
         end
@@ -109,11 +109,11 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def is_task?
-      backlogs_enabled? && (self.parent_issue_id && self.tracker_id == Task.tracker && Task.tracker.present?)
+      backlogs_enabled? && (self.parent_id && self.tracker_id == Task.tracker && Task.tracker.present?)
     end
 
     def is_impediment?
-      backlogs_enabled? && (self.parent_issue_id.nil? && self.tracker_id == Task.tracker && Task.tracker.present?)
+      backlogs_enabled? && (self.parent_id.nil? && self.tracker_id == Task.tracker && Task.tracker.present?)
     end
 
     def trackers
@@ -133,20 +133,20 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       elsif self.is_task?
         # Make sure to get the closest ancestor that is a Story, i.e. the one with the highest lft
         # otherwise, the highest parent that is a Story is returned
-        story_issue = self.ancestors.find_by_tracker_id(Story.trackers, :order => 'lft DESC')
-        return Story.find(story_issue.id) if story_issue
+        story_work_package = self.ancestors.find_by_tracker_id(Story.trackers, :order => 'lft DESC')
+        return Story.find(story_work_package.id) if story_work_package
       end
       nil
     end
 
     def blocks
-      # return issues that I block that aren't closed
+      # return work_packages that I block that aren't closed
       return [] if closed?
       relations_from.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_to.closed? ? ir.issue_to : nil}.compact
     end
 
     def blockers
-      # return issues that block me
+      # return work_packages that block me
       return [] if closed?
       relations_to.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed? ? ir.issue_from : nil}.compact
     end
@@ -186,12 +186,12 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     # i.e. returns immediate ancestors first
     def ancestor_chain
       ancestors = []
-      unless self.parent_issue_id.nil?
+      unless self.parent_id.nil?
 
         # Unfortunately the nested set is only build on save hence, the #parent
         # method is not always correct. Therefore we go to the parent the hard
         # way and use nested set from there
-        real_parent = WorkPackage.find_by_id(self.parent_issue_id)
+        real_parent = WorkPackage.find_by_id(self.parent_id)
 
         # Sort immediate ancestors first
         ancestors = ([real_parent] + real_parent.ancestors.all(:include => { :project => :enabled_modules })).sort_by(&:right)
