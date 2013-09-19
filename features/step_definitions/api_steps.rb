@@ -62,6 +62,11 @@ And(/^the json\-response should say that "(.*?)" has no parent$/) do |child_name
   expect(child["parent"]).to be_nil
 end
 
+And(/^the json\-response should say that "(.*?)" has (\d+) child(ren)?$/) do |parent_name, nr_of_children,plural|
+  parent = decoded_json["planning_elements"].select {|wp| wp["name"] == parent_name}.first
+  expect(parent["children"].size).to eql nr_of_children.to_i
+end
+
 
 Then(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for type "(.*?)"$/) do |project_name, format, type_names|
   types = Project.find_by_identifier(project_name).types.where(name: type_names.split(","))

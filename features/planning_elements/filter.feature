@@ -144,6 +144,18 @@ Feature: Filtering work packages via the api
     And the json-response should contain a work_package "work_package#1.1.1"
     And the json-response should say that "work_package#1" is parent of "work_package#1.1.1"
 
+  Scenario: The parent should be rewired to the first ancestor present in the filtered set
+    Given there are the following work packages in project "sample_project":
+      | subject              | type       | parent             |
+      | work_package#1       | Epic       |                    |
+      | work_package#1.1     | Task       | work_package#1     |
+      | work_package#1.1.1   | Bug        | work_package#1.1   |
+      | work_package#1.1.1.1 | Task       | work_package#1.1.1 |
+
+    When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Epic,Task"
+    Then the json-response should include 3 work packages
+    And the json-response should say that "work_package#1.1" is parent of "work_package#1.1.1.1"
+
   Scenario: When all ancestors are filtered, the work_package should have no parent
     Given there are the following work packages in project "sample_project":
       | subject            | type       | parent           |
@@ -154,3 +166,11 @@ Feature: Filtering work packages via the api
     Then the json-response should include 1 work packages
     And the json-response should say that "work_package#1.1.1" has no parent
 
+  Scenario: Children are filtered out
+    Given there are the following work packages in project "sample_project":
+      | subject            | type       | parent           |
+      | work_package#1     | Epic       |                  |
+      | work_package#1.1   | Task       | work_package#1   |
+      | work_package#1.2   | Story      | work_package#1   |
+    When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Epic,Story"
+    And the json-response should say that "work_package#1" has 1 child

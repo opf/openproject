@@ -261,7 +261,7 @@ module Api
           # remove all children, that are not present in the filtered set
           pe.children = pe.children.select {|child| filtered_ids.include? child.id} unless pe.children.empty?
           # re-wire the parent of this pe to the first ancestor found in the filtered set
-          pe.parent = pe.ancestors.select {|ancestor| filtered_ids.include? ancestor.id}.first if pe.parent_id
+          pe.parent = pe.ancestors.select {|ancestor| filtered_ids.include? ancestor.id}.last if pe.parent_id
         end
       end
     end
