@@ -72,7 +72,15 @@ Then(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)"
   types = Project.find_by_identifier(project_name).types.where(name: type_names.split(","))
 
   @filtered_benchmark = Benchmark.measure("Filtered Results") do
-    visit api_v2_project_planning_elements_path(project_id: project_name, format: format, types: types.map(&:id))
+    filters = [:type_id]
+    operators = {type_id: "="}
+    values = {type_id: types.map(&:id)}
+
+    visit api_v2_project_planning_elements_path(project_id: project_name,
+                                                format: format,
+                                                f: filters,
+                                                op: operators,
+                                                v: values)
   end
 
 end

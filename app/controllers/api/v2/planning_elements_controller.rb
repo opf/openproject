@@ -172,7 +172,7 @@ module Api
         @planning_elements = WorkPackage.for_projects(projects).without_deleted
 
         query = Query.new
-        query.add_filter("type_id", "=", params[:types].split(',').flatten) if params[:types]
+        query.add_filters(params[:f], params[:op], params[:v]) if params[:f]
 
         @planning_elements = @planning_elements.with_query query
 
