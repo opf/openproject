@@ -51,6 +51,7 @@ module Api
 
       def index
         optimize_planning_elements_for_less_db_queries
+        rewire_ancestors
 
         respond_to do |format|
           format.api
@@ -242,6 +243,25 @@ module Api
           children = associations[children_refl.macro].new(pe, children_refl)
           children.target = children_hash[pe.id]
           pe.send(:association_instance_set, :children, children)
+        end
+      end
+
+      # Filtering work_packages can destroy the parent-child-relationships
+      # of work_packages. If parents are removed, the relationships need
+      # to be rewired to the first ancestor in the ancestor-chain.
+      #
+      # Before Filtering:
+      # A -> B -> c
+      # After Filtering:
+      # A ->
+      def rewire_ancestors
+        filtered_ids = @planning_elements.map(&:id)
+
+        @planning_elements.each do |pe|
+          # remove all children, that are not present in the filtered set
+          pe.children = pe.children.select {|child| filtered_ids.include? child.id} unless pe.children.empty?
+          # re-wire the parent of this pe to the first ancestor found in the filtered set
+          pe.parent = pe.ancestors.select {|ancestor| filtered_ids.include? ancestor.id}.first if pe.parent_id
         end
       end
     end

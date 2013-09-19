@@ -144,3 +144,13 @@ Feature: Filtering work packages via the api
     And the json-response should contain a work_package "work_package#1.1.1"
     And the json-response should say that "work_package#1" is parent of "work_package#1.1.1"
 
+  Scenario: When all ancestors are filtered, the work_package should have no parent
+    Given there are the following work packages in project "sample_project":
+      | subject            | type       | parent           |
+      | work_package#1     | Epic       |                  |
+      | work_package#1.1   | Story      | work_package#1   |
+      | work_package#1.1.1 | Task       | work_package#1.1 |
+    When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Task"
+    Then the json-response should include 1 work packages
+    And the json-response should say that "work_package#1.1.1" has no parent
+
