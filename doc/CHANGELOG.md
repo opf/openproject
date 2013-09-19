@@ -29,10 +29,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#1323` Wrong Calendarweek in Datepicker
+## 3.0.0pre17
+
+* `#1323` Wrong Calendarweek in Datepicker, replaced built in datepicker with jQuery UI datepicker
 * `#1843` Editing Membership Duration in admin area fails
 * `#1913` [Timelines] Enable drag&drop for select2 items in order to rearrange the order of the columns
-* `#1934` [Timelines] Table Loading takes really long 
+* `#1934` [Timelines] Table Loading takes really long
 * `#1978` Migrate legacy issues
 * `#1979` Migrate legacy planning elements
 * `#1982` Migrate planning element types
