@@ -153,6 +153,12 @@ module NavigationHelpers
       user_identifier = User.find_by_login(user_identifier).id
       "/users/#{user_identifier}/edit"
 
+    when /^the (.+) tab of the edit page (?:for |of )(the )?user(?: called)? (.+)$/
+      tab = $1
+      user_identifier = $3.gsub("\"", "")
+      user_identifier = User.find_by_login(user_identifier).id
+      "/users/#{user_identifier}/edit/#{tab}"
+
     when /^the show page (?:for |of )(the )?user(?: called)? (.+)$/
       user_identifier = $2.gsub("\"", "")
       user_identifier = User.find_by_login(user_identifier).id
