@@ -261,7 +261,15 @@ module Api
           # remove all children, that are not present in the filtered set
           pe.children = pe.children.select {|child| filtered_ids.include? child.id} unless pe.children.empty?
           # re-wire the parent of this pe to the first ancestor found in the filtered set
-          pe.parent = pe.ancestors.select {|ancestor| filtered_ids.include? ancestor.id}.last if pe.parent_id
+          # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
+          if pe.parent_id && !filtered_ids.include?(pe.parent_id)
+            ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt }
+            # the greatest lower boundary is the first ancestor not filtered
+            pe.parent = ancestors.sort_by{|ancestor| ancestor.lft }.last
+          end
+
+
+
         end
       end
     end
