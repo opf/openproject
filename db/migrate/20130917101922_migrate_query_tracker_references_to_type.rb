@@ -31,7 +31,7 @@ class MigrateQueryTrackerReferencesToType < ActiveRecord::Migration
 
   def update_tracker_reference(keys, columns)
     Proc.new do |row|
-      COLUMNS.each do |column|
+      columns.each do |column|
         unless row[column].nil?
           value = YAML.load row[column]
 
@@ -57,7 +57,8 @@ class MigrateQueryTrackerReferencesToType < ActiveRecord::Migration
   end
 
   def update_tracker_references_with_keys(keys)
-    filter = COLUMNS.join(" LIKE '%tracker%' OR ") + " LIKE '%tracker%'"
+    filter = COLUMNS.map{|c| "#{c} LIKE '%tracker%'"}
+                    .join(" OR ")
 
     update_column_values('queries', COLUMNS, update_tracker_reference(keys, COLUMNS), filter)
   end
