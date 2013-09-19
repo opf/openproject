@@ -170,7 +170,11 @@ module Api
       # is called as a before filter and as a method
       def assign_planning_elements(projects = (@projects || [@project]))
         @planning_elements = WorkPackage.for_projects(projects).without_deleted
-        @planning_elements = @planning_elements.where(type_id: params[:types].split(',')) if params[:types]
+
+        query = Query.new
+        query.add_filter("type_id", "=", params[:types].split(',').flatten) if params[:types]
+
+        @planning_elements = @planning_elements.with_query query
 
       end
 
@@ -251,9 +255,12 @@ module Api
       # to be rewired to the first ancestor in the ancestor-chain.
       #
       # Before Filtering:
-      # A -> B -> c
+      # A -> B -> C
       # After Filtering:
-      # A ->
+      # A -> C
+      #
+      # to see the respective cases that need to be handled properly by this rewiring,
+      # @see features/planning_elements/filter.feature
       def rewire_ancestors
         filtered_ids = @planning_elements.map(&:id)
 
@@ -267,8 +274,6 @@ module Api
             # the greatest lower boundary is the first ancestor not filtered
             pe.parent = ancestors.sort_by{|ancestor| ancestor.lft }.last
           end
-
-
 
         end
       end
