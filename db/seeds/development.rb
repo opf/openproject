@@ -129,13 +129,16 @@ print "Creating objects for..."
 
   rand(10).times do
     print "."
-    WorkPackage.create!(project: project,
-                  author: user,
-                  status: statuses.sample,
-                  subject: Faker::Lorem.words(8).join(" "),
-                  description: Faker::Lorem.paragraph(5, true, 3),
-                  type: types.sample
+    work_package = WorkPackage.new(project: project,
+                                   author: user,
+                                   status: statuses.sample,
+                                   subject: Faker::Lorem.words(8).join(" "),
+                                   description: Faker::Lorem.paragraph(5, true, 3),
+                                   start_date: s = Date.today - (25 - rand(50)).days,
+                                   due_date: s + (1 + rand(120)).days
     )
+    work_package.type = types.sample
+    work_package.save!
 
   end
 
