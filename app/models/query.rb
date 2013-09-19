@@ -173,9 +173,9 @@ class Query < ActiveRecord::Base
     @available_filters["assigned_to_role"] = { :type => :list_optional, :order => 7, :values => role_values, :name => I18n.t('query_fields.assigned_to_role') } unless role_values.empty?
 
     if User.current.logged?
-      # populate the watcher list with the same user list as other user filters if the user has the :view_issue_watchers permission in at least one project
+      # populate the watcher list with the same user list as other user filters if the user has the :view_work_package_watchers permission in at least one project
       # TODO: this could be differentiated more, e.g. all users could watch issues in public projects, but won't necessarily be shown here
-      watcher_values = User.current.allowed_to_globally?(:view_issue_watchers, {}) ? user_values : [["<< #{l(:label_me)} >>", "me"]]
+      watcher_values = User.current.allowed_to_globally?(:view_work_package_watchers, {}) ? user_values : [["<< #{l(:label_me)} >>", "me"]]
       @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => watcher_values }
     end
 
@@ -433,7 +433,7 @@ class Query < ActiveRecord::Base
             sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', [user_id], db_table, db_field})"
           end
           # filter watchers only in projects the user has the permission to view watchers in
-          project_ids = User.current.projects_by_role.collect {|r,p| p if r.permissions.include? :view_issue_watchers}.flatten.compact.collect(&:id).uniq
+          project_ids = User.current.projects_by_role.collect {|r,p| p if r.permissions.include? :view_work_package_watchers}.flatten.compact.collect(&:id).uniq
           sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', v, db_table, db_field})"\
                        " AND #{Project.table_name}.id IN (#{project_ids.join(',')})" unless project_ids.empty?
           sql << "(#{sql_parts.join(' OR ')})"

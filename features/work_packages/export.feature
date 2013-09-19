@@ -33,7 +33,7 @@ Feature: Exporting work packages
       | login | bob |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | view_issues   |
+      | view_work_packages |
     And there is 1 project with the following:
       | name       | project1 |
       | identifier | project1 |

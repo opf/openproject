@@ -34,8 +34,8 @@ Feature: View work packages in a timeline
 
       And there is a role "manager"
       And the role "manager" may have the following rights:
-          | view_timelines              |
-          | view_planning_elements      |
+          | view_timelines     |
+          | view_work_packages |
 
       And there is a project named "ecookbook"
 

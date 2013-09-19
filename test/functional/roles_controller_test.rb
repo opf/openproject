@@ -64,7 +64,7 @@ class RolesControllerTest < ActionController::TestCase
 
   def test_post_new_with_validaton_failure
     post :create, :role => { :name => '',
-                             :permissions => ['add_issues', 'edit_work_packages', 'log_time', ''],
+                             :permissions => ['add_work_packages', 'edit_work_packages', 'log_time', ''],
                              :assignable => '0' }
 
     assert_response :success
@@ -74,19 +74,19 @@ class RolesControllerTest < ActionController::TestCase
 
   def test_post_new_without_workflow_copy
     post :create, :role => { :name => 'RoleWithoutWorkflowCopy',
-                             :permissions => ['add_issues', 'edit_work_packages', 'log_time', ''],
+                             :permissions => ['add_work_packages', 'edit_work_packages', 'log_time', ''],
                              :assignable => '0' }
 
     assert_redirected_to roles_path
     role = Role.find_by_name('RoleWithoutWorkflowCopy')
     assert_not_nil role
-    assert_equal [:add_issues, :edit_work_packages, :log_time], role.permissions
+    assert_equal [:add_work_packages, :edit_work_packages, :log_time], role.permissions
     assert !role.assignable?
   end
 
   def test_post_new_with_workflow_copy
     post :create, :role => { :name => 'RoleWithWorkflowCopy',
-                             :permissions => ['add_issues', 'edit_work_packages', 'log_time', ''],
+                             :permissions => ['add_work_packages', 'edit_work_packages', 'log_time', ''],
                              :assignable => '0' },
                   :copy_workflow_from => '1'
 
@@ -140,21 +140,21 @@ class RolesControllerTest < ActionController::TestCase
 
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'permissions[3][]',
-                                                 :value => 'add_issues',
+                                                 :value => 'add_work_packages',
                                                  :checked => 'checked' }
 
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'permissions[3][]',
-                                                 :value => 'delete_issues',
+                                                 :value => 'delete_work_packages',
                                                  :checked => nil }
   end
 
   def test_put_bulk_update
-    put :bulk_update, :permissions => { '0' => '', '1' => ['edit_work_packages'], '3' => ['add_issues', 'delete_issues']}
+    put :bulk_update, :permissions => { '0' => '', '1' => ['edit_work_packages'], '3' => ['add_work_packages', 'delete_work_packages']}
     assert_redirected_to roles_path
 
     assert_equal [:edit_work_packages], Role.find(1).permissions
-    assert_equal [:add_issues, :delete_issues], Role.find(3).permissions
+    assert_equal [:add_work_packages, :delete_work_packages], Role.find(3).permissions
     assert Role.find(2).permissions.empty?
   end
 

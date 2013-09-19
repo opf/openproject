@@ -40,7 +40,7 @@ describe Api::V2::PlanningElementJournalsController do
                    :planning_element_id => planning_element.id,
                    :format              => 'xml'
     end
-    let(:permission) { :view_planning_elements }
+    let(:permission) { :view_work_packages }
 
     it_should_behave_like "a controller action which needs project permissions"
   end

@@ -32,6 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1913` [Timelines] Enable drag&drop for select2 items in order to rearrange the order of the columns
 * `#1978` Migrate legacy issues
 * `#1982` Migrate planning element types
+* `#1983` Migrate queries
+* `#1987` Migrate user rights
 * `#2019` Migrate auto completes controller tests
 * `#2078` Work package query produces 500 when grouping on exclusively empty values
 

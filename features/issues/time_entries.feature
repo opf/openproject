@@ -40,7 +40,7 @@ Feature: Tracking Time
     And there is an activity "Development"
     And there is an activity "Design"
     And the role "member" may have the following rights:
-      | add_issues  |
+      | add_work_packages  |
       | view_work_packages |
       | edit_work_packages |
     And there is 1 user with the following:
