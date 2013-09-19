@@ -149,7 +149,7 @@ module Api
           end
 
           # authorize
-          # Ignoring projects, where user has no view_planning_elements permission.
+          # Ignoring projects, where user has no view_work_packages permission.
           permission = params[:controller].sub api_version, ''
           @projects = @projects.select do |project|
             User.current.allowed_to?({:controller => permission,

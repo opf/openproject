@@ -52,21 +52,21 @@ Feature: Timeline Wiki Macro
 
       And there is a role "god"
       And the role "god" may have the following rights:
-          | manage_wiki              |
-          | view_wiki_pages          |
-          | edit_wiki_pages          |
-          | view_planning_elements   |
-          | edit_planning_elements   |
-          | delete_planning_elements |
-          | view_timelines           |
+          | manage_wiki          |
+          | view_wiki_pages      |
+          | edit_wiki_pages      |
+          | view_work_packages   |
+          | edit_work_packages   |
+          | delete_work_packages |
+          | view_timelines       |
       And there is a role "loser"
       And the role "loser" may have the following rights:
-          | manage_wiki              |
-          | view_wiki_pages          |
-          | edit_wiki_pages          |
-          | view_planning_elements   |
-          | edit_planning_elements   |
-          | delete_planning_elements |
+          | manage_wiki          |
+          | view_wiki_pages      |
+          | edit_wiki_pages      |
+          | view_work_packages   |
+          | edit_work_packages   |
+          | delete_work_packages |
 
       And there is a project named "ecookbook" of type "Standard Project"
       And the following types are enabled for projects of type "Standard Project"

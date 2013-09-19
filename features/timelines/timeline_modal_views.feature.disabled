@@ -32,7 +32,6 @@ Feature: Timeline View Tests
           | view_timelines                  |
           | edit_timelines                  |
           | view_work_packages              |
-          | view_planning_elements          |
 
       And there is a project named "ecookbook" of type "Standard Project"
       And I am working in project "ecookbook"

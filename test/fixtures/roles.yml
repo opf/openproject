@@ -40,17 +40,14 @@ roles_001:
     - :manage_versions
     - :manage_categories
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
     - :manage_work_package_relations
     - :manage_subtasks
     - :add_work_package_notes
     - :move_work_package
     - :move_work_packages
-    - :delete_work_package
     - :delete_work_packages
-    - :delete_issue
-    - :delete_issues
     - :view_work_package_watchers
     - :add_work_package_watchers
     - :delete_work_package_watchers
@@ -94,16 +91,14 @@ roles_002:
     - :manage_versions
     - :manage_categories
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
-    - :manage_issue_relations
+    - :manage_work_package_relations
     - :manage_subtasks
-    - :add_issue_notes
-    - :move_issues
+    - :add_work_package_notes
     - :move_work_packages
-    - :delete_issues
     - :delete_work_packages
-    - :view_issue_watchers
+    - :view_work_package_watchers
     - :save_queries
     - :view_calendar
     - :log_time
@@ -136,13 +131,12 @@ roles_003:
     - :manage_versions
     - :manage_categories
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
-    - :manage_issue_relations
-    - :add_issue_notes
-    - :move_issues
+    - :manage_work_package_relations
+    - :add_work_package_notes
     - :move_work_packages
-    - :view_issue_watchers
+    - :view_work_package_watchers
     - :save_queries
     - :view_calendar
     - :log_time
@@ -167,11 +161,11 @@ roles_004:
   permissions: |
     ---
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
-    - :manage_issue_relations
-    - :add_issue_notes
-    - :move_issues
+    - :manage_work_package_relations
+    - :add_work_package_notes
+    - :move_work_packages
     - :save_queries
     - :view_calendar
     - :log_time
@@ -193,7 +187,7 @@ roles_005:
   permissions: |
     ---
     - :view_work_packages
-    - :add_issue_notes
+    - :add_work_package_notes
     - :view_calendar
     - :view_time_entries
     - :view_wiki_pages

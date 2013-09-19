@@ -49,7 +49,7 @@ class Issues::ContextMenusController < ApplicationController
             :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
             :update => (User.current.allowed_to?(:edit_work_packages, @projects) || (User.current.allowed_to?(:change_status, @projects) && !@allowed_statuses.blank?)),
             :move => (@project && User.current.allowed_to?(:move_work_packages, @project)),
-            :copy => (@issue && @project.types.include?(@issue.type) && User.current.allowed_to?(:add_issues, @project)),
+            :copy => (@issue && @project.types.include?(@issue.type) && User.current.allowed_to?(:add_work_packages, @project)),
             :delete => User.current.allowed_to?(:delete_work_packages, @projects)
             }
     if @project
