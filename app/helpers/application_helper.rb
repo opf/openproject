@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -71,19 +88,6 @@ module ApplicationHelper
     else
       h(user.to_s)
     end
-  end
-
-  def link_to_issue_preview(context = nil, options = {})
-    url = context.is_a?(Project) ?
-            preview_new_project_issues_path(:project_id => context) :
-            preview_issue_path(context)
-
-    id = options[:form_id] || 'issue-form-preview'
-
-    link_to l(:label_preview),
-            url,
-            :id => id,
-            :class => 'preview'
   end
 
   def link_to_work_package_preview(context = nil, options = {})
@@ -385,7 +389,7 @@ module ApplicationHelper
   end
 
   def to_path_param(path)
-    path.to_s.split(%r{[/\\]}).select {|p| !p.blank?}
+    path.to_s
   end
 
 
@@ -402,10 +406,11 @@ module ApplicationHelper
   end
 
   def other_formats_links(&block)
-    content_tag 'p', :class => 'other-formats' do
-      formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
-
-      (l(:label_export_to) + formats).html_safe
+    formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
+    unless formats.nil? || formats.strip.empty?
+      content_tag 'p', :class => 'other-formats' do
+        (l(:label_export_to) + formats).html_safe
+      end
     end
   end
 

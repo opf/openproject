@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -83,26 +100,6 @@ describe Project do
         project.destroy
 
         expect { timeline.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
-
-    describe '#planning_elements' do
-      it 'can read planning elements w/ the help of the has_many association' do
-        project          = FactoryGirl.create(:project)
-        planning_element = FactoryGirl.create(:planning_element, :project_id => project.id)
-
-        project.reload
-
-        project.planning_elements.size.should  == 1
-        project.planning_elements.first.should == planning_element
-      end
-
-      it 'deletes associated planning elements' do
-        planning_element = FactoryGirl.create(:planning_element)
-
-        planning_element.project.destroy
-
-        expect { planning_element.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

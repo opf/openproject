@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -21,7 +38,13 @@ Feature: Timeline Wiki Macro
           | Standard Project      |
           | Extraordinary Project |
 
-      And there is 1 user with:
+      And there are the following status:
+          | name        | default |
+          | new         | true    |
+          | in progress | false   |
+          | closed      | false   |
+
+    And there is 1 user with:
           | login | manager |
 
       And there is 1 user with:
@@ -29,21 +52,21 @@ Feature: Timeline Wiki Macro
 
       And there is a role "god"
       And the role "god" may have the following rights:
-          | manage_wiki              |
-          | view_wiki_pages          |
-          | edit_wiki_pages          |
-          | view_planning_elements   |
-          | edit_planning_elements   |
-          | delete_planning_elements |
-          | view_timelines           |
+          | manage_wiki          |
+          | view_wiki_pages      |
+          | edit_wiki_pages      |
+          | view_work_packages   |
+          | edit_work_packages   |
+          | delete_work_packages |
+          | view_timelines       |
       And there is a role "loser"
       And the role "loser" may have the following rights:
-          | manage_wiki              |
-          | view_wiki_pages          |
-          | edit_wiki_pages          |
-          | view_planning_elements   |
-          | edit_planning_elements   |
-          | delete_planning_elements |
+          | manage_wiki          |
+          | view_wiki_pages      |
+          | edit_wiki_pages      |
+          | view_work_packages   |
+          | edit_work_packages   |
+          | delete_work_packages |
 
       And there is a project named "ecookbook" of type "Standard Project"
       And the following types are enabled for projects of type "Standard Project"
@@ -62,8 +85,8 @@ Feature: Timeline Wiki Macro
       And there are the following planning element statuses:
               | Name     |
               | closed   |
-      And there are the following planning elements:
-        | Subject  | Start date | Due date   | description         | planning_element_status | responsible |
+      And there are the following work packages:
+        | Subject  | Start date | Due date   | description         | status                  | responsible |
         | January  | 2012-01-01 | 2012-01-31 | Avocado Grande      | closed                  | manager     |
         | February | 2012-02-01 | 2012-02-24 | Avocado Sali        | closed                  | manager     |
         | March    | 2012-03-01 | 2012-03-30 | Sali Grande         | closed                  | manager     |

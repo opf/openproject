@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -67,7 +84,7 @@ class User < Principal
   has_many :issue_categories, :foreign_key => 'assigned_to_id',
                               :dependent => :nullify
   has_many :assigned_issues, :foreign_key => 'assigned_to_id',
-                             :class_name => 'Issue',
+                             :class_name => 'WorkPackage',
                              :dependent => :nullify
   has_many :watches, :class_name => 'Watcher',
                      :dependent => :delete_all
@@ -459,7 +476,7 @@ class User < Principal
 
   def self.find_by_rss_key(key)
     token = Token.find_by_value(key)
-    token && token.user.active? ? token.user : nil
+    token && token.user.active? && Setting.feeds_enabled? ? token.user : nil
   end
 
   def self.find_by_api_key(key)
@@ -634,15 +651,13 @@ class User < Principal
 
   # Utility method to help check if a user should be notified about an
   # event.
-  #
-  # TODO: only supports Issue events currently
   def notify_about?(object)
     case mail_notification
     when 'all'
       true
     when 'selected'
       # user receives notifications for created/assigned issues on unselected projects
-      if object.is_a?(Issue) && (object.author == self || object.assigned_to == self)
+      if object.is_a?(WorkPackage) && (object.author == self || object.assigned_to == self)
         true
       else
         false
@@ -650,19 +665,19 @@ class User < Principal
     when 'none'
       false
     when 'only_my_events'
-      if object.is_a?(Issue) && (object.author == self || object.assigned_to == self)
+      if object.is_a?(WorkPackage) && (object.author == self || object.assigned_to == self)
         true
       else
         false
       end
     when 'only_assigned'
-      if object.is_a?(Issue) && object.assigned_to == self
+      if object.is_a?(WorkPackage) && object.assigned_to == self
         true
       else
         false
       end
     when 'only_owner'
-      if object.is_a?(Issue) && object.author == self
+      if object.is_a?(WorkPackage) && object.author == self
         true
       else
         false
@@ -781,7 +796,7 @@ class User < Principal
   def reassign_associated
     substitute = DeletedUser.first
 
-    [Issue, Attachment, WikiContent, News, Comment, Message].each do |klass|
+    [WorkPackage, Attachment, WikiContent, News, Comment, Message].each do |klass|
       klass.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
     end
 

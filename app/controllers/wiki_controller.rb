@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -30,7 +47,16 @@ require 'htmldiff'
 class WikiController < ApplicationController
   default_search_scope :wiki_pages
   before_filter :find_wiki, :authorize
-  before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :list_attachments, :destroy]
+  before_filter :find_existing_page, :only => [:edit_parent_page,
+                                               :update_parent_page,
+                                               :rename,
+                                               :protect,
+                                               :history,
+                                               :diff,
+                                               :annotate,
+                                               :add_attachment,
+                                               :list_attachments,
+                                               :destroy]
 
   verify :method => :post, :only => [:protect], :redirect_to => { :action => :show }
   verify :method => :get,  :only => [:new, :new_child], :render => {:nothing => true, :status => :method_not_allowed}
@@ -100,7 +126,7 @@ class WikiController < ApplicationController
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, :params => params, :page => @page)
-      redirect_to :action => 'show', :project_id => @project, :id => @page.title
+      redirect_to_show
     else
       render :action => 'new'
     end
@@ -169,7 +195,7 @@ class WikiController < ApplicationController
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       # don't save if text wasn't changed
-      redirect_to :action => 'show', :project_id => @project, :id => @page.title
+      redirect_to_show
       return
     end
     params[:content].delete(:version) # The version count is automatically increased
@@ -181,7 +207,7 @@ class WikiController < ApplicationController
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
-      redirect_to :action => 'show', :project_id => @project, :id => @page.title
+      redirect_to_show
     else
       render :action => 'edit'
     end
@@ -200,13 +226,30 @@ class WikiController < ApplicationController
     @original_title = @page.pretty_title
     if request.put? && @page.update_attributes(params[:wiki_page])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'show', :project_id => @project, :id => @page.title
+      redirect_to_show
+    end
+  end
+
+  def edit_parent_page
+    return render_403 unless editable?
+    @parent_pages = @wiki.pages.all(:include => :parent) - @page.self_and_descendants
+  end
+
+  def update_parent_page
+    return render_403 unless editable?
+    @page.parent_id = params[:wiki_page][:parent_id]
+    if @page.save
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to_show
+    else
+      @parent_pages = @wiki.pages.all(:include => :parent) - @page.self_and_descendants
+      render 'edit_parent_page'
     end
   end
 
   def protect
     @page.update_attribute :protected, params[:protected]
-    redirect_to :action => 'show', :project_id => @project, :id => @page.title
+    redirect_to_show
   end
 
   # show page history
@@ -342,5 +385,9 @@ private
 
   def default_breadcrumb
     Wiki.name.humanize
+  end
+
+  def redirect_to_show
+    redirect_to :action => 'show', :project_id => @project, :id => @page.title
   end
 end

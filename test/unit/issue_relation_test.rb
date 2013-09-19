@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -17,8 +34,8 @@ class IssueRelationTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_create
-    from = Issue.find(1)
-    to = Issue.find(2)
+    from = WorkPackage.find(1)
+    to = WorkPackage.find(2)
 
     relation = IssueRelation.new :issue_from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_PRECEDES
     assert relation.save
@@ -29,8 +46,8 @@ class IssueRelationTest < ActiveSupport::TestCase
   end
 
   def test_follows_relation_should_be_reversed
-    from = Issue.find(1)
-    to = Issue.find(2)
+    from = WorkPackage.find(1)
+    to = WorkPackage.find(2)
 
     relation = IssueRelation.new :issue_from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_FOLLOWS
     assert relation.save
@@ -41,8 +58,8 @@ class IssueRelationTest < ActiveSupport::TestCase
   end
 
   def test_follows_relation_should_not_be_reversed_if_validation_fails
-    from = Issue.find(1)
-    to = Issue.find(2)
+    from = WorkPackage.find(1)
+    to = WorkPackage.find(2)
 
     relation = IssueRelation.new :issue_from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_FOLLOWS, :delay => 'xx'
     assert !relation.save
@@ -52,8 +69,8 @@ class IssueRelationTest < ActiveSupport::TestCase
   end
 
   def test_relation_type_for
-    from = Issue.find(1)
-    to = Issue.find(2)
+    from = WorkPackage.find(1)
+    to = WorkPackage.find(2)
 
     relation = IssueRelation.new :issue_from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_PRECEDES
     assert_equal IssueRelation::TYPE_PRECEDES, relation.relation_type_for(from)
@@ -61,7 +78,7 @@ class IssueRelationTest < ActiveSupport::TestCase
   end
 
   def test_set_issue_to_dates_without_issue_to
-    r = IssueRelation.new(:issue_from => Issue.new(:start_date => Date.today), :relation_type => IssueRelation::TYPE_PRECEDES, :delay => 1)
+    r = IssueRelation.new(:issue_from => WorkPackage.new(:start_date => Date.today), :relation_type => IssueRelation::TYPE_PRECEDES, :delay => 1)
     assert_nil r.set_issue_to_dates
   end
 
@@ -72,9 +89,9 @@ class IssueRelationTest < ActiveSupport::TestCase
 
   def test_validates_circular_dependency
     IssueRelation.delete_all
-    assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => IssueRelation::TYPE_PRECEDES)
-    assert IssueRelation.create!(:issue_from => Issue.find(2), :issue_to => Issue.find(3), :relation_type => IssueRelation::TYPE_PRECEDES)
-    r = IssueRelation.new(:issue_from => Issue.find(3), :issue_to => Issue.find(1), :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert IssueRelation.create!(:issue_from => WorkPackage.find(1), :issue_to => WorkPackage.find(2), :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert IssueRelation.create!(:issue_from => WorkPackage.find(2), :issue_to => WorkPackage.find(3), :relation_type => IssueRelation::TYPE_PRECEDES)
+    r = IssueRelation.new(:issue_from => WorkPackage.find(3), :issue_to => WorkPackage.find(1), :relation_type => IssueRelation::TYPE_PRECEDES)
     assert !r.save
     refute_empty r.errors[:base]
   end

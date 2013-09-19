@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -34,7 +51,7 @@ describe Api::V2::PlanningElementsController do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:view_planning_elements])
+      role   = FactoryGirl.create(:role, :permissions => [:view_work_packages])
 
       projects = block ? instance_eval(&block) : [project]
 
@@ -50,7 +67,7 @@ describe Api::V2::PlanningElementsController do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:edit_planning_elements])
+      role   = FactoryGirl.create(:role, :permissions => [:edit_work_packages])
 
       projects = block ? instance_eval(&block) : [project]
 
@@ -66,7 +83,7 @@ describe Api::V2::PlanningElementsController do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, :permissions => [:delete_planning_elements])
+      role   = FactoryGirl.create(:role, :permissions => [:delete_work_packages])
 
       projects = block ? instance_eval(&block) : [project]
 
@@ -120,7 +137,7 @@ describe Api::V2::PlanningElementsController do
         end
       end
 
-      describe 'w/ the current user being a member with view_planning_elements permissions' do
+      describe 'w/ the current user being a member with view_work_packages permissions' do
         become_member_with_view_planning_element_permissions
 
         describe 'w/o any planning elements within the project' do
@@ -138,9 +155,9 @@ describe Api::V2::PlanningElementsController do
         describe 'w/ 3 planning elements within the project' do
           before do
             @created_planning_elements = [
-              FactoryGirl.create(:planning_element, :project_id => project.id),
-              FactoryGirl.create(:planning_element, :project_id => project.id),
-              FactoryGirl.create(:planning_element, :project_id => project.id)
+              FactoryGirl.create(:work_package, :project_id => project.id),
+              FactoryGirl.create(:work_package, :project_id => project.id),
+              FactoryGirl.create(:work_package, :project_id => project.id)
             ]
           end
 
@@ -187,7 +204,7 @@ describe Api::V2::PlanningElementsController do
         end
       end
 
-      describe 'w/ the current user being a member with view_planning_elements permissions' do
+      describe 'w/ the current user being a member with view_work_packages permission' do
         become_member_with_view_planning_element_permissions { [project_a, project_b] }
 
         describe 'w/o any planning elements within the project' do
@@ -205,13 +222,13 @@ describe Api::V2::PlanningElementsController do
         describe 'w/ 1 planning element in project_a and 2 in project_b' do
           before do
             @created_planning_elements = [
-              FactoryGirl.create(:planning_element, :project_id => project_a.id),
-              FactoryGirl.create(:planning_element, :project_id => project_b.id),
-              FactoryGirl.create(:planning_element, :project_id => project_b.id)
+              FactoryGirl.create(:work_package, :project_id => project_a.id),
+              FactoryGirl.create(:work_package, :project_id => project_b.id),
+              FactoryGirl.create(:work_package, :project_id => project_b.id)
             ]
             # adding another planning element, just to make sure, that the
             # result set is properly filtered
-            FactoryGirl.create(:planning_element, :project_id => project_c.id)
+            FactoryGirl.create(:work_package, :project_id => project_c.id)
           end
 
           it 'assigns a planning_elements array containing all three elements' do
@@ -237,7 +254,7 @@ describe Api::V2::PlanningElementsController do
     def fetch
       post 'create', :project_id => project.identifier,
                      :format => 'xml',
-                     :planning_element => FactoryGirl.build(:planning_element,
+                     :planning_element => FactoryGirl.build(:work_package,
                                                             :author => author,
                                                             :project_id => project.id).attributes
                                                                                       .merge("planning_element_type_id" => project.types.first.id)
@@ -249,7 +266,7 @@ describe Api::V2::PlanningElementsController do
     def expect_redirect_to
       Regexp.new(project_planning_elements_path(project))
     end
-    let(:permission) { :edit_planning_elements }
+    let(:permission) { :edit_work_packages }
 
     it_should_behave_like "a controller action which needs project permissions"
   end
@@ -303,7 +320,7 @@ describe Api::V2::PlanningElementsController do
       become_admin
 
       let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
-      let(:planning_element) { FactoryGirl.create(:planning_element, :project_id => project.id) }
+      let(:planning_element) { FactoryGirl.create(:work_package, :project_id => project.id) }
 
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do
@@ -347,7 +364,7 @@ describe Api::V2::PlanningElementsController do
     it 'needs to be tested'
 
     let(:project) { FactoryGirl.create(:project, :is_public => false) }
-    let(:planning_element) { FactoryGirl.create(:planning_element,
+    let(:planning_element) { FactoryGirl.create(:work_package,
                                                 :project_id => project.id) }
 
     def fetch
@@ -359,7 +376,7 @@ describe Api::V2::PlanningElementsController do
     def expect_no_content
       true
     end
-    let(:permission) { :edit_planning_elements }
+    let(:permission) { :edit_work_packages }
     it_should_behave_like "a controller action which needs project permissions"
   end
 
@@ -410,7 +427,7 @@ describe Api::V2::PlanningElementsController do
 
     describe 'w/ a valid planning element id' do
       let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
-      let(:planning_element) { FactoryGirl.create(:planning_element, :project_id => project.id) }
+      let(:planning_element) { FactoryGirl.create(:work_package, :project_id => project.id) }
 
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do

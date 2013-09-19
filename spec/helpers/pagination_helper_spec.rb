@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -27,7 +44,7 @@ describe PaginationHelper do
     end
 
     # this is required in order to be able to produce a valid url
-    helper.stub!(:params).and_return( { :controller => 'issues', :action => 'index' }.with_indifferent_access )
+    helper.stub(:params).and_return( { :controller => 'work_packages', :action => 'index' }.with_indifferent_access )
 
     paginator
   end
@@ -59,7 +76,7 @@ describe PaginationHelper do
       (1..(total_entries / per_page)).each do |i|
         next if i == current_page
 
-        pagination.should have_selector("a[href='#{issues_path(:page => i)}']", :text => Regexp.new("^#{i}$"))
+        pagination.should have_selector("a[href='#{work_packages_path(:page => i)}']", :text => Regexp.new("^#{i}$"))
       end
     end
 
@@ -77,14 +94,14 @@ describe PaginationHelper do
     end
 
     it "should have different urls if the params are specified as options" do
-      params = { :controller => 'issues', :action => 'index' }
+      params = { :controller => 'work_packages', :action => 'index' }
 
       pagination = helper.pagination_links_full(paginator, { :params => params })
 
       (1..(total_entries / per_page)).each do |i|
         next if i == current_page
 
-        pagination.should have_selector("a[href='#{issues_path({:page => i}.merge(params))}']", :text => Regexp.new("^#{i}$"))
+        pagination.should have_selector("a[href='#{work_packages_path({:page => i}.merge(params))}']", :text => Regexp.new("^#{i}$"))
       end
     end
 
@@ -96,7 +113,7 @@ describe PaginationHelper do
       pagination.should have_selector("span.per_page_options")
 
       pagination.should have_selector(".per_page_options span.current", :text => per_page)
-      pagination.should have_selector(".per_page_options a[href='#{issues_path(:page => current_page, :per_page => Setting.per_page_options_array.last)}']")
+      pagination.should have_selector(".per_page_options a[href='#{work_packages_path(:page => current_page, :per_page => Setting.per_page_options_array.last)}']")
 
       Setting.per_page_options = ar
     end
@@ -109,7 +126,7 @@ describe PaginationHelper do
       end
 
       it "should have a link to the next page" do
-        pagination.should have_selector("a.next_page[href='#{issues_path({:page => current_page + 1})}']")
+        pagination.should have_selector("a.next_page[href='#{work_packages_path({:page => current_page + 1})}']")
       end
     end
 
@@ -121,7 +138,7 @@ describe PaginationHelper do
       end
 
       it "should have a link to the previous page" do
-        pagination.should have_selector("a.previous_page[href='#{issues_path({:page => current_page - 1})}']")
+        pagination.should have_selector("a.previous_page[href='#{work_packages_path({:page => current_page - 1})}']")
       end
     end
 

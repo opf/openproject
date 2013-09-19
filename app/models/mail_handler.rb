@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -141,10 +158,10 @@ class MailHandler < ActionMailer::Base
     project = target_project
     # check permission
     unless @@handler_options[:no_permission_check]
-      raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
+      raise UnauthorizedAction unless user.allowed_to?(:add_work_packages, project)
     end
 
-    issue = Issue.new(:author => user, :project => project)
+    issue = WorkPackage.new(:author => user, :project => project)
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
     issue.subject = email.subject.to_s.chomp[0,255]
@@ -163,11 +180,11 @@ class MailHandler < ActionMailer::Base
 
   # Adds a note to an existing issue
   def receive_issue_reply(issue_id)
-    issue = Issue.find_by_id(issue_id)
+    issue = WorkPackage.find_by_id(issue_id)
     return unless issue
     # check permission
     unless @@handler_options[:no_permission_check]
-      raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_work_packages, issue.project)
+      raise UnauthorizedAction unless user.allowed_to?(:add_work_package_notes, issue.project) || user.allowed_to?(:edit_work_packages, issue.project)
     end
     # ignore CLI-supplied defaults for new issues
     @@handler_options[:issue].clear
@@ -184,7 +201,7 @@ class MailHandler < ActionMailer::Base
   # Reply will be added to the issue
   def receive_issue_journal_reply(journal_id)
     journal = Journal.find_by_id(journal_id)
-    if journal and journal.journable.is_a? Issue
+    if journal and journal.journable.is_a? WorkPackage
       receive_issue_reply(journal.journable_id)
     end
   end

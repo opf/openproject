@@ -1,24 +1,44 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-When /^I click on the Planning Element with name "(.*?)"$/ do |planning_element_subject|
+When (/^I click on the Planning Element with name "(.*?)"$/) do |planning_element_subject|
   click_link(planning_element_subject);
 end
-When /^I click on the Edit Link$/ do
+
+When (/^I click on the Edit Link$/) do
   click_link("Update")
 end
-When /^I click on the Save Link$/ do
+
+When (/^I click on the Save Link$/) do
   click_link("Save")
 end
-When(/^I hide empty projects for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |timeline_name, project_name|
+
+When (/^I hide empty projects for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
@@ -28,7 +48,8 @@ When(/^I hide empty projects for the timeline "([^"]*?)" of the project called "
   page.execute_script("jQuery('#timeline_options_exclude_empty').prop('checked', true)")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |planning_element_subject, timeline_name, project_name|
+
+When (/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |planning_element_subject, timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
@@ -39,7 +60,8 @@ When(/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?
   page.execute_script("jQuery('#timeline_options_vertical_planning_elements').val('#{planning_element.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |grouping_project_name, timeline_name, project_name|
+
+When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |grouping_project_name, timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
@@ -51,7 +73,8 @@ When(/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?
   page.execute_script("jQuery('#timeline_options_grouping_one_selection').val('#{grouping_project.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
+
+When (/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
   timeline_name = @timeline_name
   project_name = @project.name
   steps %Q{
@@ -67,7 +90,8 @@ When(/^I show only projects which have a planning element which lies between "(.
   page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_two').val('#{due_date}')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |project_type_name, timeline_name, project_name|
+
+When (/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |project_type_name, timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
   }
@@ -79,7 +103,29 @@ When(/^I set the second level grouping criteria to "(.*?)" for the timeline "(.*
   page.execute_script("jQuery('#timeline_options_grouping_two_selection').val('#{project_type.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I set the first level grouping criteria to:$/) do |table|
+When(/^I set the columns shown in the timeline to:$/) do |table|
+  timeline_name = @timeline_name
+  project_name = @project.name
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+  result = []
+  table.raw.each do |_perm|
+    perm = _perm.first
+    unless perm.blank?
+      result.push(perm)
+    end
+  end
+  results = result.join(",");
+
+  #we need to wait for our submit form to load ...
+  page.should have_selector("#timeline_options_columns_", :visible => false)
+
+  page.execute_script("jQuery('#timeline_options_columns_').val('#{results}')")
+
+  page.execute_script("jQuery('#content form').submit()")
+end
+When (/^I set the first level grouping criteria to:$/) do |table|
   timeline_name = @timeline_name
   project_name = @project.name
   steps %Q{
@@ -102,7 +148,8 @@ When(/^I set the first level grouping criteria to:$/) do |table|
 
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I set the sortation of the first level grouping criteria to explicit order$/) do
+
+When (/^I set the sortation of the first level grouping criteria to explicit order$/) do
   timeline_name = @timeline_name
   project_name = @project.name
   steps %Q{
@@ -114,34 +161,21 @@ When(/^I set the sortation of the first level grouping criteria to explicit orde
   page.execute_script("jQuery('#timeline_options_grouping_one_sort').val('1')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When /^I click on the Restore Link$/ do
+
+When (/^I click on the Restore Link$/) do
   page.execute_script("jQuery('.input-as-link').click()")
 end
-When /^I wait (\d+) seconds?$/ do |seconds|
+
+When (/^I wait (\d+) seconds?$/) do |seconds|
   sleep seconds.to_i
 end
-When /^I wait for the modal to show$/ do
-  page.should have_selector('#planningElementDialog')
-end
-When /^I wait for the modal to close$/ do
-  page.should have_no_selector('#planningElementDialog')
-end
+
 When (/^I set duedate to "([^"]*)"$/) do |value|
   fill_in 'planning_element_due_date', :with => value
 end
-When /^I wait for timeline to load table$/ do
+
+When (/^I wait for timeline to load table$/) do
   page.should have_selector('.tl-left-main')
-end
-When (/^I open a modal for planning element "([^"]*)" of project "([^"]*)"$/) do |planning_element_subject, project_name|
-  planning_element = PlanningElement.find_by_subject(planning_element_subject)
-  project = Project.find_by_name(project_name)
-  page.execute_script <<-JS
-    Timeline.get().modalHelper.createPlanningModal(
-      'show',
-      #{project.id},
-      #{planning_element.id}
-    );
-  JS
 end
 
 When (/^I move "([^"]*)" to the top$/) do |name|

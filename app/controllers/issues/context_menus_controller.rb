@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -13,7 +30,7 @@
 class Issues::ContextMenusController < ApplicationController
 
   def issues
-    @issues = Issue.visible.all(:conditions => {:id => params[:ids]}, :include => :project)
+    @issues = WorkPackage.visible.all(:conditions => {:id => params[:ids]}, :include => :project)
 
     if (@issues.size == 1)
       @issue = @issues.first
@@ -31,9 +48,9 @@ class Issues::ContextMenusController < ApplicationController
     @can = {:edit => User.current.allowed_to?(:edit_work_packages, @projects),
             :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
             :update => (User.current.allowed_to?(:edit_work_packages, @projects) || (User.current.allowed_to?(:change_status, @projects) && !@allowed_statuses.blank?)),
-            :move => (@project && User.current.allowed_to?(:move_issues, @project)),
-            :copy => (@issue && @project.types.include?(@issue.type) && User.current.allowed_to?(:add_issues, @project)),
-            :delete => User.current.allowed_to?(:delete_issues, @projects)
+            :move => (@project && User.current.allowed_to?(:move_work_packages, @project)),
+            :copy => (@issue && @project.types.include?(@issue.type) && User.current.allowed_to?(:add_work_packages, @project)),
+            :delete => User.current.allowed_to?(:delete_work_packages, @projects)
             }
     if @project
       @assignables = @project.assignable_users

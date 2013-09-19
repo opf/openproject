@@ -1,13 +1,78 @@
+<!---- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++-->
+
 # Changelog
 
+* `#1913` [Timelines] Enable drag&drop for select2 items in order to rearrange the order of the columns
+* `#1978` Migrate legacy issues
+* `#1979` Migrate legacy planning elements
+* `#1982` Migrate planning element types
+* `#1983` Migrate queries
+* `#1987` Migrate user rights
+* `#2019` Migrate auto completes controller tests
+* `#2078` Work package query produces 500 when grouping on exclusively empty values
+
+## 3.0.0pre16
+
+* `#1418` Additional changes: Change links to issues/planning elements to use work_packages controller
+* `#1504` Initial selection of possible project members wrong (accessibility mode)
+* `#1695` Cannot open links in Projects menu in new tab/window
+* `#1753` Remove Issue and replace with Work Package
+* `#1754` Migrate unit-tests for issues into specs for work_package
+* `#1757` Rename Issues fixtures to Work Package fixtures
+* `#1759` Remove link_to_issue_preview, replace with link_to_workpackage_preview
+* `#1822` Replace Issue constant by WorkPackage constant
+* `#1850` Disable atom feeds via setting
+* `#1874` Move Scopes from Issue into Workpackage
+* `#1898` Separate action for changing wiki parent page (was same as rename before)
+* `#1923` Add permission that allows hiding repository statistics on commits per author
+* `#1950` Grey line near the lower end of the modal, cuts off a bit of the content
+* `#1921` Allow disabling done ratio for work packages
+
+## 3.0.0pre15
+
+* `#1301` Ajax call when logged out should open a popup window
+* `#1351` Generalize Modal Creation
+# `#1557` Timeline Report Selection Not Visible
 * `#1755` Migrate helper-tests for issues into specs for work package
 * `#1766` Fixed bug: Viewing diff of Work Package description results in error 500
+* `#1767` Fixed bug: Viewing changesets results in "page not found"
 * `#1789` Move validation to Work Package
 * `#1793` Data Migration Journals
 * `#1800` Add settings to change software name and URL and add additional footer content
 * `#1808` Add option to log user for each request
+* `#1875` Added test steps to reuse steps for my page, my project page, and documents, no my page block lookup at class load time
 * `#1876` Timelines do not show work packages when there is no status reporting
 * `#1896` Moved visibility-tests for issues into specs for workpackages
+# `#1911` Change mouse icon when hovering over drag&drop-enabled select2 entries
+* `#1912` Merge column project type with column planning element type
+* `#1918` Custom fields are not displayed when issue is created
 
 ## 3.0.0pre14
 
@@ -103,3 +168,4 @@
 * `#778` Integrate ban of former passwords
 * `#1209` Fix adding watcher to issue
 * `#1034` Create changelog and document format
+

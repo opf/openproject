@@ -1,10 +1,27 @@
 //-- copyright
 // OpenProject is a project management system.
-//
-// Copyright (C) 2012-2013 the OpenProject Team
+// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
@@ -274,7 +291,8 @@ Timeline = {
       // prerequisites (3rd party libs)
       this.checkPrerequisites();
 
-      this.modalHelper = new ModalHelper(
+      this.modalHelper = new ModalHelper();
+      this.modalHelper.setupTimeline(
         this,
         {
           api_prefix                : this.options.api_prefix,
@@ -282,7 +300,10 @@ Timeline = {
           project_prefix            : this.options.project_prefix
         }
       );
-      this.modalHelper.setup();
+
+      jQuery(this.modalHelper).on("closed", function () {
+        timeline.reload();
+      });
 
       timelineLoader = new Timeline.TimelineLoader(
         this,
@@ -1036,13 +1057,13 @@ Timeline = {
     TimelineLoader.prototype.registerPlanningElementsByID = function (ids) {
 
       this.inChunks(ids, function (planningElementIdsOfPacket, i) {
-        var planningElementPrefix = this.options.url_prefix +
-                            this.options.planning_element_prefix;
+        var projectPrefix = this.options.url_prefix +
+                            this.options.api_prefix;
 
         // load current planning elements.
         this.loader.register(
             Timeline.PlanningElement.identifier + '_IDS_' + i,
-            { url : planningElementPrefix +
+            { url : projectPrefix +
                     '/planning_elements.json?ids=' +
                     planningElementIdsOfPacket.join(',')},
             { storeIn: Timeline.PlanningElement.identifier }
@@ -3344,7 +3365,7 @@ Timeline = {
   PE_TEXT_OUTSIDE_PADDING: 6,       // space between planning element and text to its right.
   PE_TEXT_SCALE: 0.1875,            // 64 * (1/8 * 1.5) = 12
 
-  USE_MODALS: false,
+  USE_MODALS: true,
 
   scale: 1,
   zoomIndex: 0,
@@ -3585,14 +3606,21 @@ Timeline = {
     var timeline = this;
     return {
       all: ['end_date', 'planning_element_types', 'project_status', 'project_type', 'responsible', 'start_date'],
-      planning_element_types: function(data, pet, pt) {
-        if (pet === undefined) {
-          // nop
-        } else if (pet === null) {
-          return jQuery('<span class="tl-column">-</span>');
-        } else {
-          return jQuery('<span class="tl-column">' + timeline.escape(pet.name) + '</span>');
+      type: function (data, pet, pt) {
+        var ptName, petName;
+        if (pt !== undefined) {
+          if (pt !== null) {
+            ptName = pt.name;
+          }
         }
+
+        if (pet !== undefined) {
+          if (pet !== null) {
+            petName = pet.name;
+          }
+        }
+
+        return jQuery('<span class="tl-column">' + (ptName || petName || "-") + '</span>');
       },
       project_status: function(data) {
         var status;
@@ -3603,15 +3631,6 @@ Timeline = {
           return jQuery('<span class="tl-column">' + timeline.escape(status.name) + '</span>');
         } else {
           return jQuery('<span class="tl-column">-</span>');
-        }
-      },
-      project_type: function(data, pet, pt) {
-        if (pt === undefined) {
-          // nop
-        } else if (pt === null) {
-          return jQuery('<span class="tl-column">-</span>');
-        } else {
-          return jQuery('<span class="tl-column">' + timeline.escape(pt.name) + '</span>');
         }
       },
       responsible: function(data) {
@@ -4077,7 +4096,7 @@ Timeline = {
   rebuildTree: function() {
     var where = this.getUiRoot().find('.tl-left-main');
     var tree = this.getLefthandTree();
-    var table = jQuery('<table></table>');
+    var table = jQuery('<table class="tl-main-table"></table>');
     var body = jQuery('<tbody></tbody>');
     var head = jQuery('<thead></thead>');
     var row, cell, link, span, text;
@@ -4175,17 +4194,7 @@ Timeline = {
 
       text = timeline.escape(data.name);
       if (data.getUrl instanceof Function) {
-        text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank"/>').append(text).attr("title", text);
-        text.click(function(event) {
-          if (Timeline.USE_MODALS && !event.ctrlKey && !event.metaKey && data.is(Timeline.PlanningElement)) {
-            timeline.modalHelper.createPlanningModal(
-              'show',
-              data.project.identifier,
-              data.id
-            );
-            event.preventDefault();
-          }
-        });
+        text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" target="_blank" data-modal/>').append(text).attr("title", text);
       }
 
       if (data.is(Timeline.Project)) {
@@ -4868,11 +4877,7 @@ Timeline = {
     e.click(function(e) {
       if (Timeline.USE_MODALS) {
         var payload = node.getData();
-        timeline.modalHelper.createPlanningModal(
-          'show',
-          payload.project.identifier,
-          payload.id
-        );
+        timeline.modalHelper.createModal(payload.getUrl());
         e.stopPropagation();
       }
     });
@@ -4905,7 +4910,7 @@ Timeline = {
     }
 
     if (typeof projectID !== "undefined") {
-      this.modalHelper.createPlanningModal("new", projectID);
+      this.modalHelper.create(projectID);
     }
   }
 };

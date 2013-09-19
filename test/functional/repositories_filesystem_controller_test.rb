@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -51,7 +68,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
 
     def test_show_no_extension
-      get :entry, :id => PRJ_ID, :path => ['test']
+      get :entry, :id => PRJ_ID, :path => 'test'
       assert_response :success
       assert_template 'entry'
       assert_tag :tag => 'th',
@@ -61,14 +78,14 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
 
     def test_entry_download_no_extension
-      get :entry, :id => PRJ_ID, :path => ['test'], :format => 'raw'
+      get :entry, :id => PRJ_ID, :path => 'test', :format => 'raw'
       assert_response :success
       assert_equal 'application/octet-stream', @response.content_type
     end
 
     def test_show_non_ascii_contents
       with_settings :repositories_encodings => 'UTF-8,EUC-JP' do
-        get :entry, :id => PRJ_ID, :path => ['japanese', 'euc-jp.txt']
+        get :entry, :id => PRJ_ID, :path => 'japanese/euc-jp.txt'
         assert_response :success
         assert_template 'entry'
         assert_tag :tag => 'th',
@@ -80,7 +97,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
 
     def test_show_utf16
       with_settings :repositories_encodings => 'UTF-16' do
-        get :entry, :id => PRJ_ID, :path => ['japanese', 'utf-16.txt']
+        get :entry, :id => PRJ_ID, :path => 'japanese/utf-16.txt'
         assert_response :success
 
         assert_select "tr" do
@@ -95,7 +112,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
 
     def test_show_text_file_should_send_if_too_big
       with_settings :file_max_size_displayed => 1 do
-        get :entry, :id => PRJ_ID, :path => ['japanese', 'big-file.txt']
+        get :entry, :id => PRJ_ID, :path => 'japanese/big-file.txt'
         assert_response :success
         assert_equal 'text/plain', @response.content_type
       end

@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -58,58 +75,30 @@ describe Project do
     end
   end
 
-  describe "add_planning_element" do
+  describe "add_work_package" do
     let(:project) { FactoryGirl.create(:project_with_types) }
 
-    it 'should return a work package' do
-      project.add_planning_element.should be_a(PlanningElement)
-    end
-
-    it 'the object should be a new record' do
-      project.add_planning_element.should be_new_record
-    end
-
-    it 'should have the project associated' do
-      project.add_planning_element.project.should == project
-    end
-
-    it 'should assign the attributes' do
-      attributes = { :blubs => double('blubs') }
-
-      new_pe = FactoryGirl.build_stubbed(:planning_element)
-
-      project.planning_elements.should_receive(:build).and_yield(new_pe)
-
-      new_pe.should_receive(:attributes=).with(attributes)
-
-      project.add_planning_element(attributes)
-    end
-  end
-
-  describe "add_issue" do
-    let(:project) { FactoryGirl.create(:project_with_types) }
-
-    it "should return a new issue" do
-      project.add_issue.should be_a(Issue)
+    it "should return a new work_package" do
+      project.add_work_package.should be_a(WorkPackage)
     end
 
     it "should not be saved" do
-      project.add_issue.should be_new_record
+      project.add_work_package.should be_new_record
     end
 
-    it "returned issue should have project set to self" do
-      project.add_issue.project.should == project
+    it "returned work_package should have project set to self" do
+      project.add_work_package.project.should == project
     end
 
-    it "returned issue should have type set to project's first type" do
-      project.add_issue.type.should == project.types.first
+    it "returned work_package should have type set to project's first type" do
+      project.add_work_package.type.should == project.types.first
     end
 
-    it "returned issue should have type set to provided type" do
+    it "returned work_package should have type set to provided type" do
       specific_type = FactoryGirl.build(:type)
       project.types << specific_type
 
-      project.add_issue(:type => specific_type).type.should == specific_type
+      project.add_work_package(:type => specific_type).type.should == specific_type
     end
 
     it "should raise an error if the provided type is not one of the project's types" do
@@ -117,25 +106,25 @@ describe Project do
       project
       specific_type = FactoryGirl.create(:type)
 
-      expect { project.add_issue(:type => specific_type) }.to raise_error ActiveRecord::RecordNotFound
+      expect { project.add_work_package(:type => specific_type) }.to raise_error ActiveRecord::RecordNotFound
     end
 
-    it "returned issue should have type set to provided type_id" do
+    it "returned work_package should have type set to provided type_id" do
       specific_type = FactoryGirl.build(:type)
       project.types << specific_type
 
-      project.add_issue(:type_id => specific_type.id).type.should == specific_type
+      project.add_work_package(:type_id => specific_type.id).type.should == specific_type
     end
 
     it "should set all the other attributes" do
       attributes = { :blubs => double('blubs') }
 
-      new_issue = FactoryGirl.build_stubbed(:issue)
-      new_issue.should_receive(:attributes=).with(attributes)
+      new_work_package = FactoryGirl.build_stubbed(:work_package)
+      new_work_package.should_receive(:attributes=).with(attributes)
 
-      Issue.stub!(:new).and_yield(new_issue)
+      WorkPackage.stub(:new).and_yield(new_work_package)
 
-      project.add_issue(attributes)
+      project.add_work_package(attributes)
     end
   end
 

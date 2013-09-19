@@ -1,29 +1,47 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# While loading the Issue class below, we lazy load the Project class. Which itself need Issue.
+# While loading the Issue class below, we lazy load the Project class. Which itself need WorkPackage.
 # So we create an 'emtpy' Issue class first, to make Project happy.
 
 class WorkPackage < ActiveRecord::Base
+
   include WorkPackage::Validations
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
 
-  #TODO Remove alternate inheritance column name once single table
-  # inheritance is no longer needed. The need for a different column name
-  # comes from Trackers becoming Types.
-  self.inheritance_column = :sti_type
+  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  include Redmine::SafeAttributes
 
-  include NestedAttributesForApi
+  DONE_RATIO_OPTIONS = %w(issue_field issue_status disabled)
+  ATTRIBS_WITH_VALUES_FROM_CHILDREN = %w(priority_id start_date due_date estimated_hours done_ratio)
+  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   belongs_to :project
   belongs_to :type
@@ -35,15 +53,15 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
-  belongs_to :planning_element_status, :class_name  => "PlanningElementStatus",
-                                       :foreign_key => 'planning_element_status_id'
-
   has_many :time_entries, :dependent => :delete_all
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   has_and_belongs_to_many :changesets,
                           :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
 
+  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  attr_protected :project_id, :author_id, :lft, :rgt
+  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   scope :recently_updated, :order => "#{WorkPackage.table_name}.updated_at DESC"
   scope :visible, lambda {|*args| { :include => :project,
@@ -52,16 +70,42 @@ class WorkPackage < ActiveRecord::Base
   scope :without_deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NULL"
   scope :deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NOT NULL"
 
+  scope :in_status, lambda {|*args| where(:status_id => (args.first.respond_to?(:id) ? args.first.id : args.first))}
+
   scope :for_projects, lambda { |projects|
     {:conditions => {:project_id => projects}}
   }
+
+  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
+
+  scope :with_limit, lambda { |limit| { :limit => limit} }
+
+  scope :on_active_project, lambda { {
+    :include => [:status, :project, :type],
+    :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" }}
+
+  scope :without_version, lambda {
+    {
+      :conditions => { :fixed_version_id => nil}
+    }
+  }
+
+  scope :with_query, lambda {|query|
+    {
+      :conditions => ::Query.merge_conditions(query.statement)
+    }
+  }
+  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   after_initialize :set_default_values
 
   acts_as_watchable
 
   before_save :store_former_parent_id
+
   include OpenProject::NestedSet::WithRootIdScope
+
   after_save :reschedule_following_issues,
              :update_parent_attributes
 
@@ -69,6 +113,12 @@ class WorkPackage < ActiveRecord::Base
              :recalculate_attributes_for_former_parent
 
   after_destroy :update_parent_attributes
+
+  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  before_create :default_assign
+  before_save :close_duplicates, :update_done_ratio_from_issue_status
+  before_destroy :remove_attachments
+  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   acts_as_customizable
 
@@ -90,6 +140,16 @@ class WorkPackage < ActiveRecord::Base
   ###################################################
   acts_as_attachable :after_add => :attachments_changed,
                      :after_remove => :attachments_changed
+
+  # Mapping attributes, that are passed in as id's onto their respective associations
+  # (eg. type=4711 onto type=Type.find(4711))
+  include AssociationsMapper
+  # recovered this from planning-element: is it still needed?!
+  map_associations_for :parent,
+                       :status,
+                       :type,
+                       :project,
+                       :priority
 
   # This one is here only to ease reading
   module JournalizedProcs
@@ -160,9 +220,20 @@ class WorkPackage < ActiveRecord::Base
   # after_save hook, we rely on after_save and a specific version here.
   after_save :reload_lock_and_timestamps, :if => Proc.new { |wp| wp.lock_version == 0 }
 
+  def description=(description)
+    # Bug #501: browsers might swap the line endings causing a Journal.
+    if description.nil? || description.gsub(/\r\n?/,"\n") != self.description
+      write_attribute :description, description
+    end
+  end
+
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_work_packages, options)
+  end
+
+  def self.done_ratio_disabled?
+    Setting.issue_done_ratio == 'disabled'
   end
 
   def self.use_status_for_done_ratio?
@@ -195,6 +266,13 @@ class WorkPackage < ActiveRecord::Base
     self.parent_id = work_package.parent_id if work_package.parent_id
     self.custom_field_values = work_package.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = work_package.status
+
+    work_package.watchers.each do |watcher|
+      # This might be a problem once this method is used on existing work packages
+      # then, the watchers are added, keeping preexisting watchers
+      self.add_watcher(watcher.user)
+    end
+
     self
   end
 
@@ -364,10 +442,6 @@ class WorkPackage < ActiveRecord::Base
     blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
 
-  def self.use_status_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_status'
-  end
-
   # Returns the total number of hours spent on this issue and its descendants
   #
   # Example:
@@ -384,6 +458,166 @@ class WorkPackage < ActiveRecord::Base
     WorkPackage.transaction do
       move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
     end || false
+  end
+
+  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  # Returns the mail adresses of users that should be notified
+  def recipients
+    notified = project.notified_users
+    # Author and assignee are always notified unless they have been
+    # locked or don't want to be notified
+    notified << author if author && author.active? && author.notify_about?(self)
+    notified << assigned_to if assigned_to && assigned_to.active? && assigned_to.notify_about?(self)
+    notified.uniq!
+    # Remove users that can not view the issue
+    notified.reject! {|user| !visible?(user)}
+    notified.collect(&:mail)
+  end
+
+  def done_ratio
+    if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
+      status.default_done_ratio
+    else
+      read_attribute(:done_ratio)
+    end
+  end
+
+  def estimated_hours=(h)
+    converted_hours = (h.is_a?(String) ? h.to_hours : h)
+    write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
+  end
+  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+  # Safely sets attributes
+  # Should be called from controllers instead of #attributes=
+  # attr_accessible is too rough because we still want things like
+  # WorkPackage.new(:project => foo) to work
+  # TODO: move workflow/permission checks from controllers to here
+  def safe_attributes=(attrs, user=User.current)
+    return unless attrs.is_a?(Hash)
+
+    # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
+    attrs = delete_unsafe_attributes(attrs, user)
+    return if attrs.empty?
+
+    # Type must be set before since new_statuses_allowed_to depends on it.
+    if t = attrs.delete('type_id')
+      self.type_id = t
+    end
+
+    if attrs['status_id']
+      unless new_statuses_allowed_to(user).collect(&:id).include?(attrs['status_id'].to_i)
+        attrs.delete('status_id')
+      end
+    end
+
+    if parent.present?
+      attrs.reject! {|k,v| %w(priority_id done_ratio start_date due_date estimated_hours).include?(k)}
+    end
+
+    if attrs.has_key?('parent_id')
+      if !user.allowed_to?(:manage_subtasks, project)
+        attrs.delete('parent_id')
+      elsif !attrs['parent_id'].blank?
+        attrs.delete('parent_id') unless WorkPackage.visible(user).exists?(attrs['parent_id'].to_i)
+      end
+    end
+
+    self.attributes = attrs
+  end
+
+  # Saves an issue, time_entry, attachments, and a journal from the parameters
+  # Returns false if save fails
+  def save_issue_with_child_records(params, existing_time_entry=nil)
+    WorkPackage.transaction do
+      if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, project)
+        @time_entry = existing_time_entry || TimeEntry.new
+        @time_entry.project = project
+        @time_entry.work_package = self
+        @time_entry.user = User.current
+        @time_entry.spent_on = Date.today
+        @time_entry.attributes = params[:time_entry]
+        self.time_entries << @time_entry
+      end
+
+      if valid?
+        attachments = Attachment.attach_files(self, params[:attachments])
+
+        # TODO: Rename hook
+        Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => current_journal})
+        begin
+          if save
+            # TODO: Rename hook
+            Redmine::Hook.call_hook(:controller_issues_edit_after_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => current_journal})
+          else
+            raise ActiveRecord::Rollback
+          end
+        rescue ActiveRecord::StaleObjectError
+          attachments[:files].each(&:destroy)
+          error_message = l(:notice_locking_conflict)
+
+          journals_since = self.journals.after(lock_version)
+
+          if journals_since.any?
+            changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
+            error_message << " " << l(:notice_locking_conflict_additional_information, :users => changes.join(', '))
+          end
+
+          error_message << " " << l(:notice_locking_conflict_reload_page)
+
+          errors.add :base, error_message
+          raise ActiveRecord::Rollback
+        end
+      end
+    end
+  end
+
+  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
+  def available_custom_fields
+    (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []
+  end
+
+  def status_id=(sid)
+    self.status = nil
+    write_attribute(:status_id, sid)
+  end
+
+  def priority_id=(pid)
+    self.priority = nil
+    write_attribute(:priority_id, pid)
+  end
+
+  def type_id=(tid)
+    self.type = nil
+    result = write_attribute(:type_id, tid)
+    @custom_field_values = nil
+    result
+  end
+
+  # Overrides attributes= so that type_id gets assigned first
+  def attributes_with_type_first=(new_attributes)
+    return if new_attributes.nil?
+    new_type_id = new_attributes['type_id'] || new_attributes[:type_id]
+    if new_type_id
+      self.type_id = new_type_id
+    end
+    send :attributes_without_type_first=, new_attributes
+  end
+
+  # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
+  # even if the user turns off the setting later
+  def update_done_ratio_from_issue_status
+    if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
+      self.done_ratio = status.default_done_ratio
+    end
+  end
+
+  # Is the amount of work done less than it should for the due date
+  def behind_schedule?
+    return false if start_date.nil? || due_date.nil?
+    done_date = start_date + ((due_date - start_date+1)* done_ratio/100).floor
+    return done_date <= Date.today
   end
 
   protected
@@ -435,6 +669,8 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def inherit_done_ratio_from_leaves
+    return if WorkPackage.done_ratio_disabled?
+
     # done ratio = weighted average ratio of leaves
     unless WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
       leaves_count = leaves.count
@@ -522,8 +758,10 @@ class WorkPackage < ActiveRecord::Base
     end
     # Allow bulk setting of attributes on the work_package
     if options[:attributes]
-      work_package.attributes = options[:attributes]
-    end
+      # before setting the attributes, we need to remove the move-related fields
+      work_package.attributes = options[:attributes].except(:copy,:new_project_id, :new_type_id, :follow, :ids)
+                                                    .reject { |key, value| value.blank? }
+    end                                             # FIXME this eliminates the case, where values shall be bulk-assigned to null, but this needs to work together with the permit
     if options[:copy]
       work_package.author = User.current
       work_package.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
@@ -533,6 +771,7 @@ class WorkPackage < ActiveRecord::Base
                               self.status
                             end
     end
+
     if work_package.save
       unless options[:copy]
         # Manually update project_id on related time entries
@@ -551,6 +790,109 @@ class WorkPackage < ActiveRecord::Base
     work_package
   end
 
+  # Do not redefine alias chain on reload (see #4838)
+  alias_method_chain(:attributes=, :type_first) unless method_defined?(:attributes_without_type_first=)
+
+  safe_attributes 'type_id',
+    'status_id',
+    'parent_id',
+    'category_id',
+    'assigned_to_id',
+    'priority_id',
+    'fixed_version_id',
+    'subject',
+    'description',
+    'start_date',
+    'due_date',
+    'done_ratio',
+    'estimated_hours',
+    'custom_field_values',
+    'custom_fields',
+    'lock_version',
+    :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_work_packages, issue.project) }
+
+  safe_attributes 'status_id',
+    'assigned_to_id',
+    'fixed_version_id',
+    'done_ratio',
+    :if => lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
+
+  def <=>(issue)
+    if issue.nil?
+      -1
+    elsif root_id != issue.root_id
+      (root_id || 0) <=> (issue.root_id || 0)
+    else
+      (lft || 0) <=> (issue.lft || 0)
+    end
+  end
+
+  # Unassigns issues from +version+ if it's no longer shared with issue's project
+  def self.update_versions_from_sharing_change(version)
+    # Update issues assigned to the version
+    update_versions(["#{WorkPackage.table_name}.fixed_version_id = ?", version.id])
+  end
+
+  # Unassigns issues from versions that are no longer shared
+  # after +project+ was moved
+  def self.update_versions_from_hierarchy_change(project)
+    moved_project_ids = project.self_and_descendants.reload.collect(&:id)
+    # Update issues of the moved projects and issues assigned to a version of a moved project
+    WorkPackage.update_versions(["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
+  end
+
+  # Extracted from the ReportsController.
+  def self.by_type(project)
+    count_and_group_by(:project => project,
+                       :field => 'type_id',
+                       :joins => Type.table_name)
+  end
+
+  def self.by_version(project)
+    count_and_group_by(:project => project,
+                       :field => 'fixed_version_id',
+                       :joins => Version.table_name)
+  end
+
+  def self.by_priority(project)
+    count_and_group_by(:project => project,
+                       :field => 'priority_id',
+                       :joins => IssuePriority.table_name)
+  end
+
+  def self.by_category(project)
+    count_and_group_by(:project => project,
+                       :field => 'category_id',
+                       :joins => IssueCategory.table_name)
+  end
+
+  def self.by_assigned_to(project)
+    count_and_group_by(:project => project,
+                       :field => 'assigned_to_id',
+                       :joins => User.table_name)
+  end
+
+  def self.by_author(project)
+    count_and_group_by(:project => project,
+                       :field => 'author_id',
+                       :joins => User.table_name)
+  end
+
+  def self.by_subproject(project)
+    ActiveRecord::Base.connection.select_all("select    s.id as status_id,
+                                                s.is_closed as closed,
+                                                i.project_id as project_id,
+                                                count(i.id) as total
+                                              from
+                                                #{WorkPackage.table_name} i, #{IssueStatus.table_name} s
+                                              where
+                                                i.status_id=s.id
+                                                and i.project_id IN (#{project.descendants.active.collect{|p| p.id}.join(',')})
+                                              group by s.id, s.is_closed, i.project_id") if project.descendants.active.any?
+  end
+  # End ReportsController extraction
+  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
   private
 
   def set_default_values
@@ -560,8 +902,6 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
-  private
-
   def add_time_entry_for(user, attributes)
     return if attributes.nil? || attributes.values.all?(&:blank?)
 
@@ -570,4 +910,86 @@ class WorkPackage < ActiveRecord::Base
 
     time_entries.build(attributes)
   end
+
+  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  # this removes all attachments separately before destroying the issue
+  # avoids getting a ActiveRecord::StaleObjectError when deleting an issue
+  def remove_attachments
+    # immediately saves to the db
+    attachments.clear
+    reload # important
+  end
+
+
+  # Update issues so their versions are not pointing to a
+  # fixed_version that is not shared with the issue's project
+  def self.update_versions(conditions=nil)
+    # Only need to update issues with a fixed_version from
+    # a different project and that is not systemwide shared
+    WorkPackage.all(:conditions => merge_conditions("#{WorkPackage.table_name}.fixed_version_id IS NOT NULL" +
+                                                " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
+                                                " AND #{Version.table_name}.sharing <> 'system'",
+                                                conditions),
+              :include => [:project, :fixed_version]
+              ).each do |issue|
+      next if issue.project.nil? || issue.fixed_version.nil?
+      unless issue.project.shared_versions.include?(issue.fixed_version)
+        issue.fixed_version = nil
+        issue.save
+      end
+    end
+  end
+
+  # Default assignment based on category
+  def default_assign
+    if assigned_to.nil? && category && category.assigned_to
+      self.assigned_to = category.assigned_to
+    end
+  end
+
+  # Closes duplicates if the issue is being closed
+  def close_duplicates
+    if closing?
+      duplicates.each do |duplicate|
+        # Reload is need in case the duplicate was updated by a previous duplicate
+        duplicate.reload
+        # Don't re-close it if it's already closed
+        next if duplicate.closed?
+        # Implicitely creates a new journal
+        duplicate.update_attribute :status, self.status
+        # Same user and notes
+        duplicate.journals.last.user = current_journal.user
+        duplicate.journals.last.notes = current_journal.notes
+      end
+    end
+  end
+
+  # Query generator for selecting groups of issue counts for a project
+  # based on specific criteria
+  #
+  # Options
+  # * project - Project to search in.
+  # * field - String. Issue field to key off of in the grouping.
+  # * joins - String. The table name to join against.
+  def self.count_and_group_by(options)
+    project = options.delete(:project)
+    select_field = options.delete(:field)
+    joins = options.delete(:joins)
+
+    where = "i.#{select_field}=j.id"
+
+    ActiveRecord::Base.connection.select_all("select    s.id as status_id,
+                                                s.is_closed as closed,
+                                                j.id as #{select_field},
+                                                count(i.id) as total
+                                              from
+                                                  #{WorkPackage.table_name} i, #{IssueStatus.table_name} s, #{joins} j
+                                              where
+                                                i.status_id=s.id
+                                                and #{where}
+                                                and i.project_id=#{project.id}
+                                              group by s.id, s.is_closed, j.id")
+  end
+  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 end

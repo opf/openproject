@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -19,7 +36,7 @@ describe User do
                                         :roles => [role],
                                         :principal => user) }
   let(:issue_status) { FactoryGirl.create(:issue_status) }
-  let(:issue) { FactoryGirl.build(:issue, :type => project.types.first,
+  let(:issue) { FactoryGirl.build(:work_package, :type => project.types.first,
                                       :author => user,
                                       :project => project,
                                       :status => issue_status) }
@@ -95,8 +112,8 @@ describe User do
 
     before do
       user.save!
-      Setting.stub!(:brute_force_block_after_failed_logins).and_return(3)
-      Setting.stub!(:brute_force_block_minutes).and_return(30)
+      Setting.stub(:brute_force_block_after_failed_logins).and_return(3)
+      Setting.stub(:brute_force_block_minutes).and_return(30)
     end
 
     it 'should return the single blocked user' do
@@ -288,6 +305,28 @@ describe User do
       end
 
       it { User.default_admin_account_changed?.should be_true }
+    end
+  end
+
+  describe ".find_by_rss_key" do
+    before do
+      @rss_key = user.rss_key
+    end
+
+    context "feeds enabled" do
+      before do
+        Setting.stub(:feeds_enabled?).and_return(true)
+      end
+
+      it { User.find_by_rss_key(@rss_key).should == user }
+    end
+
+    context "feeds disabled" do
+      before do
+        Setting.stub(:feeds_enabled?).and_return(false)
+      end
+
+      it { User.find_by_rss_key(@rss_key).should == nil }
     end
   end
 end

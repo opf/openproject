@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -36,7 +53,7 @@ class IssueStatusTest < ActiveSupport::TestCase
 
   def test_destroy_status_in_use
     # Status assigned to an Issue
-    status = Issue.find(1).status
+    status = WorkPackage.find(1).status
     assert_raise(RuntimeError, "Can't delete status") { status.destroy }
   end
 
@@ -65,7 +82,7 @@ class IssueStatusTest < ActiveSupport::TestCase
 
   context "#update_done_ratios" do
     setup do
-      @issue = Issue.find(1)
+      @issue = WorkPackage.find(1)
       @issue_status = IssueStatus.find(1)
       @issue_status.update_attribute(:default_done_ratio, 50)
     end
@@ -78,7 +95,7 @@ class IssueStatusTest < ActiveSupport::TestCase
       should "change nothing" do
         IssueStatus.update_issue_done_ratios
 
-        assert_equal 0, Issue.count(:conditions => {:done_ratio => 50})
+        assert_equal 0, WorkPackage.count(:conditions => {:done_ratio => 50})
       end
     end
 
@@ -90,7 +107,7 @@ class IssueStatusTest < ActiveSupport::TestCase
       should "update all of the issue's done_ratios to match their Issue Status" do
         IssueStatus.update_issue_done_ratios
 
-        issues = Issue.find([1,3,4,5,6,7,9,10])
+        issues = WorkPackage.find([1,3,4,5,6,7,9,10])
         issues.each do |issue|
           assert_equal @issue_status, issue.status
           assert_equal 50, issue.read_attribute(:done_ratio)

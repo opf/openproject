@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 en:
   account:
     delete: "Delete account"
@@ -123,14 +151,6 @@ en:
       planning_element_type_color:
         name: Name
         hexcode: Hex code
-      planning_element:
-        description: Description
-        id: ID
-        name: Name
-        start_date: Start date
-        deleted_at: Deleted at
-        planning_element_status: "Status"
-        # parent: Subelement of
       project_association:
         description: Cause
       project_type:
@@ -153,7 +173,6 @@ en:
         progress: "% done"
         responsible: "Responsible"
         spent_time: "Spent time"
-
     errors:
       messages:
         accepted: "must be accepted"
@@ -187,16 +206,16 @@ en:
         before: "must be before %{date}"
         before_or_equal_to: "must be before or equal to %{date}"
       models:
-        planning_element:
+        project_association:
+          identical_projects: "can not be created from one project to itself"
+          project_association_not_allowed: "does not allow associations"
+        work_package:
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones"
             parent:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
-        project_association:
-          identical_projects: "can not be created from one project to itself"
-          project_association_not_allowed: "does not allow associations"
         user:
           attributes:
             password:
@@ -291,6 +310,7 @@ en:
   button_back: "Back"
   button_cancel: "Cancel"
   button_change: "Change"
+  button_change_parent_page: "Change parent page"
   button_change_password: "Change password"
   button_check_all: "Check all"
   button_clear: "Clear"
@@ -517,9 +537,6 @@ en:
       tooManyProjects: "More than %{count} Projects. Please use a better filter!"
       cancel: Cancel
       save: Save
-      really_delete_planning_element: >
-        Are you sure, you want to permanently delete the following planning element and all
-        its child elements?
       due_date: "Due date"
       name: "Name"
       project_status: "Project status"
@@ -683,7 +700,7 @@ en:
   label_work_package_new: "New work package"
   label_work_package_plural: "Work packages"
   label_work_package_status_new: "New status"
-  label_work_package_status_plural: "work package statuses"
+  label_work_package_status_plural: "Work package statuses"
   label_work_package_tracking: "Work package tracking"
   label_work_package_updated: "Work package updated"
   label_work_package_view_all: "View all work packages"
@@ -1027,13 +1044,13 @@ en:
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Add watchers"
   permission_browse_repository: "Browse repository"
+  permission_change_wiki_parent_page: "Change parent wiki page"
   permission_comment_news: "Comment news"
   permission_commit_access: "Commit access"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
   permission_delete_messages: "Delete messages"
   permission_delete_own_messages: "Delete own messages"
-  permission_delete_planning_elements: "Delete planning elements"
   permission_delete_project_associations: "Delete project dependencies"
   permission_delete_reportings: "Delete reportings"
   permission_delete_timelines: "Delete timelines"
@@ -1045,7 +1062,6 @@ en:
   permission_edit_own_work_package_notes: "Edit own notes"
   permission_edit_own_messages: "Edit own messages"
   permission_edit_own_time_entries: "Edit own time logs"
-  permission_edit_planning_elements: "Edit planning elements"
   permission_edit_project: "Edit project"
   permission_edit_project_associations: "Edit project dependencies"
   permission_edit_reportings: "Edit reportings"
@@ -1073,10 +1089,10 @@ en:
   permission_select_project_modules: "Select project modules"
   permission_view_calendar: "View calendar"
   permission_view_changesets: "View changesets"
+  permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
   permission_view_work_packages: "View Work Packages"
   permission_view_messages: "View messages"
-  permission_view_planning_elements: "View planning elements"
   permission_view_project_associations: "View project dependencies"
   permission_view_reportings: "View reportings"
   permission_view_time_entries: "View spent time"
@@ -1130,14 +1146,16 @@ en:
   setting_emails_footer: "Emails footer"
   setting_emails_header: "Emails header"
   setting_enabled_scm: "Enabled SCM"
+  setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_gravatar_default: "Default Gravatar image"
   setting_gravatar_enabled: "Use Gravatar user icons"
   setting_host_name: "Host name and path"
-  setting_work_package_done_ratio: "Calculate the work package done ratio with"
-  setting_work_package_done_ratio_work_package_field: "Use the work package field"
-  setting_work_package_done_ratio_work_package_status: "Use the work package status"
+  setting_issue_done_ratio: "Calculate the work package done ratio with"
+  setting_issue_done_ratio_issue_field: "Use the work package field"
+  setting_issue_done_ratio_issue_status: "Use the work package status"
+  setting_issue_done_ratio_disabled: "Disable (hide the progress)"
   setting_work_package_list_default_columns: "Display by default"
   setting_work_package_list_summable_columns: "Summable"
   setting_work_package_properties: "Work package properties"
@@ -1318,10 +1336,10 @@ en:
         date: "date"
         default: "default"
       column:
+        type: "Type"
         end_date: "End date"
         name: "Name"
         project_status: "Project status"
-        project_type: "Project type"
         responsible: "Responsible"
         start_date: "Start date"
       columns: "Columns"
@@ -1415,9 +1433,6 @@ en:
     really_delete_all_planning_elements: >
       Are you sure, you want to permanently delete all the following planning elements and all
       its child elements? You cannot undo this operation.
-    really_delete_planning_element: >
-      Are you sure, you want to permanently delete the following planning element and all
-      its child elements?
     really_delete_project_association_between_project_a_and_project_b: >
       Are you sure, you want to delete the dependency between “%{project_a}” and
       “%{project_b}”?

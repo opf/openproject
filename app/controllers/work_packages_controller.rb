@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -15,26 +32,13 @@ class WorkPackagesController < ApplicationController
   DEFAULT_SORT_ORDER = ['parent', 'desc']
   EXPORT_FORMATS = %w[atom rss xls csv pdf]
 
+  menu_item :new_work_package, :only => [:new, :create]
+
   include QueriesHelper
   include SortHelper
   include PaginationHelper
 
   accept_key_auth :index, :show, :create, :update, :destroy
-
-  current_menu_item do |controller|
-    begin
-      wp = controller.work_package
-
-      case wp
-      when PlanningElement
-        :planning_elements
-      when Issue
-        :issues
-      end
-    rescue
-      :issues
-    end
-  end
 
   before_filter :disable_api
   before_filter :not_found_unless_work_package,
@@ -109,12 +113,12 @@ class WorkPackagesController < ApplicationController
   end
 
   def preview
-    safe_params = permitted_params.update_work_package(:project => project)
+    safe_params = permitted_params.update_work_package(project: project)
     work_package.update_by(current_user, safe_params)
 
     respond_to do |format|
-      format.any(:html, :js) { render 'preview', :locals => { :work_package => work_package },
-                                                 :layout => false }
+      format.any(:html, :js) { render 'preview', locals: { work_package: work_package },
+                                                 layout: false }
     end
   end
 
@@ -134,7 +138,10 @@ class WorkPackagesController < ApplicationController
       redirect_to(work_package_path(work_package))
     else
       respond_to do |format|
-        format.html { render :action => 'new' }
+        format.html { render :action => 'new', :locals => { :work_package => work_package,
+                                                            :project => project,
+                                                            :priorities => priorities,
+                                                            :user => current_user } }
       end
     end
   end
@@ -259,6 +266,34 @@ class WorkPackagesController < ApplicationController
     render_404
   end
 
+  def quoted
+    text, author = if params[:journal_id]
+                     journal = work_package.journals.find(params[:journal_id])
+
+                     [journal.notes, journal.user]
+                   else
+
+                     [work_package.description, work_package.author]
+                   end
+
+    work_package.journal_notes = "#{ll(Setting.default_language, :text_user_wrote, author)}\n> "
+
+    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
+    work_package.journal_notes << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+
+    locals = { :work_package => work_package,
+               :allowed_statuses => allowed_statuses,
+               :project => project,
+               :priorities => priorities,
+               :time_entry => time_entry,
+               :user => current_user }
+
+    respond_to do |format|
+      format.js { render :partial => 'edit', locals: locals }
+      format.html { render :action => 'edit', locals: locals }
+    end
+  end
+
   def work_package
     if params[:id]
       existing_work_package
@@ -293,20 +328,10 @@ class WorkPackagesController < ApplicationController
 
       permitted[:author] = current_user
 
-      sti_type = params[:sti_type] || params[:work_package][:sti_type] || 'Issue'
+      wp = project.add_issue(permitted)
+      wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
 
-      wp = case sti_type
-           when PlanningElement.to_s
-             project.add_planning_element(permitted)
-           when Issue.to_s
-             project.add_issue(permitted)
-           else
-             raise ArgumentError, "sti_type #{ sti_type } is not supported"
-           end
-
-       wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
-
-       wp
+      wp
     end
   end
 

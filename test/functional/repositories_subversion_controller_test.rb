@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -68,7 +85,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_browse_directory
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => PRJ_ID, :path => ['subversion_test']
+      get :show, :id => PRJ_ID, :path => 'subversion_test'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -82,7 +99,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_browse_at_given_revision
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => PRJ_ID, :path => ['subversion_test'], :rev => 4
+      get :show, :id => PRJ_ID, :path => 'subversion_test', :rev => 4
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -92,7 +109,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_file_changes
       @repository.fetch_changesets
       @repository.reload
-      get :changes, :id => PRJ_ID, :path => ['subversion_test', 'folder', 'helloworld.rb' ]
+      get :changes, :id => PRJ_ID, :path => 'subversion_test/folder/helloworld.rb'
       assert_response :success
       assert_template 'changes'
 
@@ -114,7 +131,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_directory_changes
       @repository.fetch_changesets
       @repository.reload
-      get :changes, :id => PRJ_ID, :path => ['subversion_test', 'folder' ]
+      get :changes, :id => PRJ_ID, :path => 'subversion_test/folder'
       assert_response :success
       assert_template 'changes'
 
@@ -126,7 +143,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_entry
       @repository.fetch_changesets
       @repository.reload
-      get :entry, :id => PRJ_ID, :path => ['subversion_test', 'helloworld.c']
+      get :entry, :id => PRJ_ID, :path => 'subversion_test/helloworld.c'
       assert_response :success
       assert_template 'entry'
     end
@@ -136,7 +153,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.reload
       # no files in the test repo is larger than 1KB...
       with_settings :file_max_size_displayed => 0 do
-        get :entry, :id => PRJ_ID, :path => ['subversion_test', 'helloworld.c']
+        get :entry, :id => PRJ_ID, :path => 'subversion_test/helloworld.c'
         assert_response :success
         assert_template nil
         assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
@@ -146,7 +163,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_entry_at_given_revision
       @repository.fetch_changesets
       @repository.reload
-      get :entry, :id => PRJ_ID, :path => ['subversion_test', 'helloworld.rb'], :rev => 2
+      get :entry, :id => PRJ_ID, :path => 'subversion_test/helloworld.rb', :rev => 2
       assert_response :success
       assert_template 'entry'
       # this line was removed in r3 and file was moved in r6
@@ -157,7 +174,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_entry_not_found
       @repository.fetch_changesets
       @repository.reload
-      get :entry, :id => PRJ_ID, :path => ['subversion_test', 'zzz.c']
+      get :entry, :id => PRJ_ID, :path => 'subversion_test/zzz.c'
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
                                 :content => /The entry or revision was not found in the repository/
     end
@@ -165,7 +182,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_entry_download
       @repository.fetch_changesets
       @repository.reload
-      get :entry, :id => PRJ_ID, :path => ['subversion_test', 'helloworld.c'], :format => 'raw'
+      get :entry, :id => PRJ_ID, :path => 'subversion_test/helloworld.c', :format => 'raw'
       assert_response :success
       assert_template nil
       assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
@@ -174,7 +191,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_directory_entry
       @repository.fetch_changesets
       @repository.reload
-      get :entry, :id => PRJ_ID, :path => ['subversion_test', 'folder']
+      get :entry, :id => PRJ_ID, :path => 'subversion_test/folder'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entry)
@@ -192,7 +209,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
                  :child => { :tag => 'li',
                              # link to the entry at rev 2
                              :child => { :tag => 'a',
-                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/raw/test/some/path/in/the/repo'},
+                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo'},
                                          :content => 'repo',
                                          # link to partial diff
                                          :sibling =>  { :tag => 'a',
@@ -239,7 +256,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
                  :child => { :tag => 'li',
                              # link to the entry at rev 2
                              :child => { :tag => 'a',
-                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/raw/path/in/the/repo'},
+                                         :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/path/in/the/repo'},
                                          :content => 'repo',
                                          # link to partial diff
                                          :sibling =>  { :tag => 'a',
@@ -262,7 +279,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_directory_diff
       @repository.fetch_changesets
       @repository.reload
-      get :diff, :id => PRJ_ID, :rev => 6, :rev_to => 2, :path => ['subversion_test', 'folder']
+      get :diff, :id => PRJ_ID, :rev => 6, :rev_to => 2, :path => 'subversion_test/folder'
       assert_response :success
       assert_template 'diff'
 
@@ -277,7 +294,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_annotate
       @repository.fetch_changesets
       @repository.reload
-      get :annotate, :id => PRJ_ID, :path => ['subversion_test', 'helloworld.c']
+      get :annotate, :id => PRJ_ID, :path => 'subversion_test/helloworld.c'
       assert_response :success
       assert_template 'annotate'
     end
@@ -285,7 +302,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_annotate_at_given_revision
       @repository.fetch_changesets
       @repository.reload
-      get :annotate, :id => PRJ_ID, :rev => 8, :path => ['subversion_test', 'helloworld.c']
+      get :annotate, :id => PRJ_ID, :rev => 8, :path => 'subversion_test/helloworld.c'
       assert_response :success
       assert_template 'annotate'
       assert_tag :tag => 'h2', :content => /@ 8/

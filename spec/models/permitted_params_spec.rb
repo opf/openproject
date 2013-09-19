@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -142,88 +159,6 @@ describe PermittedParams do
     end
   end
 
-  describe :planning_element do
-    it "should permit planning_element" do
-      hash = { "subject" => "blubs" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit description" do
-      hash = { "description" => "blubs" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit start_date" do
-      hash = { "start_date" => "2012-12-12" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit due_date" do
-      hash = { "due_date" => "2012-12-12" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit note" do
-      hash = { "note" => "lorem" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit planning_element_type_id" do
-      hash = { "planning_element_type_id" => "1" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit planning_element_status_comment" do
-      hash = { "planning_element_status_comment" => "lorem" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit planning_element_status_id" do
-      hash = { "planning_element_status_id" => "1" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-    it "should permit parent_id" do
-      hash = { "parent_id" => "1" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-
-
-    it "should permit responsible_id" do
-      hash = { "responsible_id" => "1" }
-
-      params = ActionController::Parameters.new(:planning_element => hash)
-
-      PermittedParams.new(params, user).planning_element.should == hash
-    end
-  end
 
   describe :new_work_package do
     it "should permit subject" do
@@ -349,7 +284,7 @@ describe PermittedParams do
     it "should permit watcher_user_ids when the user is allowed to add watchers" do
       project = double('project')
 
-      user.stub!(:allowed_to?).with(:add_work_package_watchers, project).and_return(true)
+      user.stub(:allowed_to?).with(:add_work_package_watchers, project).and_return(true)
 
       hash = { "watcher_user_ids" => ["1", "2"] }
 
@@ -361,7 +296,7 @@ describe PermittedParams do
     it "should not return watcher_user_ids when the user is not allowed to add watchers" do
       project = double('project')
 
-      user.stub!(:allowed_to?).with(:add_work_package_watchers, project).and_return(false)
+      user.stub(:allowed_to?).with(:add_work_package_watchers, project).and_return(false)
 
       hash = { "watcher_user_ids" => ["1", "2"] }
 

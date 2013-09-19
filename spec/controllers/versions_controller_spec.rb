@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -29,7 +46,7 @@ describe VersionsController do
 
     context "without additional params" do
       before do
-        @controller.stub!(:find_current_user).and_return(user)
+        User.stub(:current).and_return(user)
         get :index, :project_id => project.id
       end
 
@@ -51,7 +68,7 @@ describe VersionsController do
 
     context "with showing completed versions" do
       before do
-        @controller.stub!(:find_current_user).and_return(user)
+        User.stub(:current).and_return(user)
         get :index, :project_id => project, :completed => '1'
       end
 
@@ -75,7 +92,7 @@ describe VersionsController do
       let(:version4) {FactoryGirl.create(:version, :project => sub_project)}
 
       before do
-        @controller.stub!(:find_current_user).and_return(user)
+        User.stub(:current).and_return(user)
         version4
         get :index, :project_id => project, :with_subprojects => '1'
       end
@@ -100,7 +117,7 @@ describe VersionsController do
     render_views
 
     before do
-      @controller.stub!(:find_current_user).and_return(user)
+      User.stub(:current).and_return(user)
       version2
       get :show, :id => version2.id
     end
@@ -116,7 +133,7 @@ describe VersionsController do
   describe "#create" do
     context "with vaild attributes" do
       before do
-        @controller.stub!(:find_current_user).and_return(user)
+        User.stub(:current).and_return(user)
         post :create, :project_id => project.id, :version => {:name => 'test_add_version'}
       end
 
@@ -130,7 +147,7 @@ describe VersionsController do
 
     context "from issue form" do
       before do
-        @controller.stub!(:find_current_user).and_return(user)
+        User.stub(:current).and_return(user)
         post :create, :project_id => project.id, :version => {:name => 'test_add_version_from_issue_form'}, :format => :js
       end
 
@@ -169,7 +186,7 @@ describe VersionsController do
     render_views
 
     before do
-      @controller.stub!(:find_current_user).and_return(user)
+      User.stub(:current).and_return(user)
       version2
       get :edit, :id => version2.id
     end
@@ -182,7 +199,7 @@ describe VersionsController do
 
   describe "#close_completed" do
     before do
-      @controller.stub!(:find_current_user).and_return(user)
+      User.stub(:current).and_return(user)
       version1.update_attribute :status, 'open'
       version2.update_attribute :status, 'open'
       version3.update_attribute :status, 'open'
@@ -196,7 +213,7 @@ describe VersionsController do
   describe "#update" do
     context "with valid params" do
       before do
-        @controller.stub!(:find_current_user).and_return(user)
+        User.stub(:current).and_return(user)
         put :update, :id => version1.id,
                      :version => { :name => 'New version name',
                                    :effective_date => Date.today.strftime("%Y-%m-%d")}
@@ -209,7 +226,7 @@ describe VersionsController do
 
     context "with invalid params" do
       before do
-        @controller.stub!(:find_current_user).and_return(user)
+        User.stub(:current).and_return(user)
         put :update, :id => version1.id,
                      :version => { :name => '',
                                    :effective_date => Date.today.strftime("%Y-%m-%d")}
@@ -222,7 +239,7 @@ describe VersionsController do
 
   describe "#destroy" do
     before do
-      @controller.stub!(:find_current_user).and_return(user)
+      User.stub(:current).and_return(user)
       @deleted = version3.id
       delete :destroy, :id => @deleted
     end
@@ -238,7 +255,7 @@ describe VersionsController do
     render_views
 
     before do
-      @controller.stub!(:find_current_user).and_return(user)
+      User.stub(:current).and_return(user)
     end
 
     context "status by version" do

@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -31,7 +48,7 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub!(:users_deletable_by_self?).and_return(true)
+        Setting.stub(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
           get :deletion_info, params
@@ -48,7 +65,7 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub!(:users_deletable_by_self?).and_return(false)
+        Setting.stub(:users_deletable_by_self?).and_return(false)
 
         as_logged_in_user user do
           get :deletion_info, params
@@ -78,7 +95,7 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub!(:users_deletable_by_admins?).and_return(true)
+        Setting.stub(:users_deletable_by_admins?).and_return(true)
 
         as_logged_in_user admin do
           get :deletion_info, params
@@ -95,7 +112,7 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub!(:users_deletable_by_admins?).and_return(false)
+        Setting.stub(:users_deletable_by_admins?).and_return(false)
 
         as_logged_in_user admin do
           get :deletion_info, params
@@ -112,8 +129,8 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub!(:sweep) }
-        Setting.stub!(:users_deletable_by_self?).and_return(true)
+        @controller.instance_eval{ flash.stub(:sweep) }
+        Setting.stub(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
           post :destroy, params
@@ -129,8 +146,8 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub!(:sweep) }
-        Setting.stub!(:users_deletable_by_self?).and_return(false)
+        @controller.instance_eval{ flash.stub(:sweep) }
+        Setting.stub(:users_deletable_by_self?).and_return(false)
 
         as_logged_in_user user do
           post :destroy, params
@@ -145,8 +162,8 @@ describe UsersController do
       let(:params) { { "id" => anonymous.id.to_s } }
 
       before do
-        @controller.stub!(:find_current_user).and_return(anonymous)
-        Setting.stub!(:login_required?).and_return(false)
+        @controller.stub(:find_current_user).and_return(anonymous)
+        Setting.stub(:login_required?).and_return(false)
 
         as_logged_in_user anonymous do
           post :destroy, params
@@ -163,8 +180,8 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub!(:sweep) }
-        Setting.stub!(:users_deletable_by_admins?).and_return(true)
+        @controller.instance_eval{ flash.stub(:sweep) }
+        Setting.stub(:users_deletable_by_admins?).and_return(true)
 
         as_logged_in_user admin do
           post :destroy, params
@@ -181,8 +198,8 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub!(:sweep) }
-        Setting.stub!(:users_deletable_by_admins).and_return(false)
+        @controller.instance_eval{ flash.stub(:sweep) }
+        Setting.stub(:users_deletable_by_admins).and_return(false)
 
         as_logged_in_user admin do
           post :destroy, params
@@ -255,7 +272,7 @@ describe UsersController do
 
       context "disabled" do
         before do
-          Setting.stub!(:session_ttl_enabled?).and_return(false)
+          Setting.stub(:session_ttl_enabled?).and_return(false)
           @controller.send(:logged_user=, admin)
           get :index
         end
@@ -265,8 +282,8 @@ describe UsersController do
 
       context "enabled " do
         before do
-          Setting.stub!(:session_ttl_enabled?).and_return(true)
-          Setting.stub!(:session_ttl).and_return("120")
+          Setting.stub(:session_ttl_enabled?).and_return(true)
+          Setting.stub(:session_ttl).and_return("120")
           @controller.send(:logged_user=, admin)
         end
 
@@ -289,7 +306,7 @@ describe UsersController do
 
         context "without last activity time in the session" do
           before do
-            Setting.stub!(:session_ttl).and_return("60")
+            Setting.stub(:session_ttl).and_return("60")
             session[:updated_at] = nil
             get :index
           end
@@ -298,7 +315,7 @@ describe UsersController do
 
         context "with ttl = 0" do
           before do
-            Setting.stub!(:session_ttl).and_return("0")
+            Setting.stub(:session_ttl).and_return("0")
             session[:updated_at] = Time.now - 1.hours
             get :index
           end
@@ -308,7 +325,7 @@ describe UsersController do
 
         context "with ttl < 0" do
           before do
-            Setting.stub!(:session_ttl).and_return("-60")
+            Setting.stub(:session_ttl).and_return("-60")
             session[:updated_at] = Time.now - 1.hours
             get :index
           end
@@ -318,7 +335,7 @@ describe UsersController do
 
         context "with ttl < 5 > 0" do
           before do
-            Setting.stub!(:session_ttl).and_return("4")
+            Setting.stub(:session_ttl).and_return("4")
             session[:updated_at] = Time.now - 1.hours
             get :index
           end

@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -294,13 +311,6 @@ class WikiControllerTest < ActionController::TestCase
     get :rename, :project_id => 1, :id => 'Another_page'
     assert_response :success
     assert_template 'rename'
-    assert_tag 'option',
-      :attributes => {:value => ''},
-      :content => '',
-      :parent => {:tag => 'select', :attributes => {:name => 'wiki_page[parent_id]'}}
-    assert_no_tag 'option',
-      :attributes => {:selected => 'selected'},
-      :parent => {:tag => 'select', :attributes => {:name => 'wiki_page[parent_id]'}}
   end
 
   def test_get_rename_child_page
@@ -308,17 +318,6 @@ class WikiControllerTest < ActionController::TestCase
     get :rename, :project_id => 1, :id => 'Child_1'
     assert_response :success
     assert_template 'rename'
-    assert_tag 'option',
-      :attributes => {:value => ''},
-      :content => '',
-      :parent => {:tag => 'select', :attributes => {:name => 'wiki_page[parent_id]'}}
-    assert_tag 'option',
-      :attributes => {:value => '2', :selected => 'selected'},
-      :content => /Another page/,
-      :parent => {
-        :tag => 'select',
-        :attributes => {:name => 'wiki_page[parent_id]'}
-      }
   end
 
   def test_rename_with_redirect
@@ -342,26 +341,6 @@ class WikiControllerTest < ActionController::TestCase
     wiki = Project.find(1).wiki
     # Check that there's no redirects
     assert_nil wiki.find_page('Another page')
-  end
-
-  def test_rename_with_parent_assignment
-    @request.session[:user_id] = 2
-    put :rename, :project_id => 1, :id => 'Another_page',
-                 :wiki_page => { :title => 'Another page',
-                                 :redirect_existing_links => "0",
-                                 :parent_id => '4' }
-    assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_page'
-    assert_equal WikiPage.find(4), WikiPage.find_by_title('Another_page').parent
-  end
-
-  def test_rename_with_parent_unassignment
-    @request.session[:user_id] = 2
-    put :rename, :project_id => 1, :id => 'Child_1',
-                 :wiki_page => { :title => 'Child 1',
-                                 :redirect_existing_links => "0",
-                                 :parent_id => '' }
-    assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Child_1'
-    assert_nil WikiPage.find_by_title('Child_1').parent
   end
 
   def test_destroy_child

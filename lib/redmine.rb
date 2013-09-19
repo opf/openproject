@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -82,32 +99,38 @@ Redmine::AccessControl.map do |map|
                                          :journals => [:index, :diff],
                                          :queries => :index,
                                          :work_packages => [:show, :index],
-                                         :'issues/reports' => [:report, :report_details]}
+                                         :'issues/reports' => [:report, :report_details],
+                                         :planning_elements => [:index, :all, :show, :recycle_bin],
+                                         :planning_element_journals => [:index]}
     map.permission :export_work_packages, {:'work_packages' => [:index, :all]}
-    map.permission :add_issues, {:issues => [:new, :create, :update_form],
-                                 :'issues/previews' => :create}
-    map.permission :add_work_packages, { :work_packages => [:new, :new_type, :preview, :create] }
+    map.permission :add_work_packages, { :issues => [:new, :create, :update_form],
+                                         :'issues/previews' => :create,
+                                         :work_packages => [:new, :new_type, :preview, :create] }
     map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, :require => :loggedin
-    map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form, :quoted],
-                                          :work_packages => [:edit, :update, :new_type, :preview],
-                                          :'issues/previews' => :create}
-    map.permission :delete_work_packages, {:work_packages => :destroy}, :require => :member
-    map.permission :manage_issue_relations, {:issue_relations => [:create, :destroy]}
+    map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form],
+                                          :work_packages => [:edit, :update, :new_type, :preview, :quoted],
+                                          :journals => :preview,
+                                          :planning_elements => [:new, :create, :edit, :update],
+                                          :planning_element_journals => [ [:create], {:require => :member} ] }
+    map.permission :add_work_package_notes, {:work_packages => [:edit, :update], :journals => [:new]}
+    map.permission :edit_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
+    map.permission :edit_own_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
+    map.permission :delete_work_packages, {:issues => :destroy,
+                                           :work_packages => :destroy,
+                                           :planning_elements => [:confirm_destroy,
+                                                                  :destroy,
+                                                                  :destroy_all,
+                                                                  :confirm_destroy_all]},
+                                           :require => :member
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
-    map.permission :add_issue_notes, {:issues => [:edit, :update], :journals => [:new]}
-    map.permission :edit_issue_notes, {:journals => [:edit, :update]}, :require => :loggedin
-    map.permission :edit_own_issue_notes, {:journals => [:edit, :update]}, :require => :loggedin
-    map.permission :move_issues, {:'issues/moves' => [:new, :create]}, :require => :loggedin
-    map.permission :delete_issues, {:issues => :destroy}, :require => :member
     # Queries
     map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
     map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
     # Watchers
-    map.permission :view_issue_watchers, {}
     map.permission :view_work_package_watchers, {}
     map.permission :add_work_package_watchers, {:watchers => [:new, :create]}
-    map.permission :delete_issue_watchers, {:watchers => :destroy}
+    map.permission :delete_work_package_watchers, {:watchers => :destroy}
   end
 
   map.project_module :time_tracking do |map|
@@ -128,6 +151,8 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
     map.permission :manage_wiki_menu, {:wiki_menu_items => [:edit, :update]}, :require => :member
     map.permission :rename_wiki_pages, {:wiki => :rename}, :require => :member
+    map.permission :change_wiki_parent_page, {:wiki => [:edit_parent_page, :update_parent_page]},
+                   :require => :member
     map.permission :delete_wiki_pages, {:wiki => :destroy}, :require => :member
     map.permission :view_wiki_pages, :wiki => [:index, :show, :special, :date_index]
     map.permission :export_wiki_pages, :wiki => [:export]
@@ -143,6 +168,7 @@ Redmine::AccessControl.map do |map|
     map.permission :browse_repository, :repositories => [:show, :browse, :entry, :annotate, :changes, :diff, :stats, :graph]
     map.permission :view_changesets, :repositories => [:show, :revisions, :revision]
     map.permission :commit_access, {}
+    map.permission :view_commit_author_statistics, {}
   end
 
   map.project_module :boards do |map|
@@ -156,7 +182,7 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :calendar do |map|
-    map.permission :view_calendar, :'issues/calendars' => [:index]
+    map.permission :view_calendar, :'work_packages/calendars' => [:index]
   end
 
   map.project_module :activity
@@ -181,21 +207,6 @@ Redmine::AccessControl.map do |map|
                    {:require => :member}
     map.permission :delete_timelines,
                    {:timelines => [:confirm_destroy, :destroy]},
-                   {:require => :member}
-
-    map.permission :view_planning_elements,
-                   {:work_packages => [:show],
-                    :planning_elements => [:index, :all, :show,
-                                           :recycle_bin],
-                    :planning_element_journals => [:index]}
-    map.permission :edit_planning_elements,
-                   {:planning_elements => [:new, :create, :edit, :update],
-                    :planning_element_journals => [:create]},
-                   {:require => :member}
-    map.permission :delete_planning_elements,
-                   {:planning_elements => [:confirm_destroy, :destroy,
-                                           :destroy_all,
-                                           :confirm_destroy_all]},
                    {:require => :member}
 
     map.permission :view_reportings,
@@ -268,11 +279,10 @@ Redmine::MenuManager.map :project_menu do |menu|
               :if => Proc.new { |p| p.shared_versions.any? }
 
   menu.push :work_packages, { :controller => '/work_packages', :action => 'index' }, :param => :project_id, :caption => :label_work_package_plural
-  menu.push :new_issue, { :controller => '/work_packages', :action => 'new', :sti_type => 'Issue' }, :param => :project_id, :caption => :label_work_package_new, :parent => :work_packages,
-              :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
-  menu.push :view_all_work_packages, { :controller => '/work_packages', :action => 'index', :set_filter => 1 }, :param => :project_id, :caption => :label_work_package_view_all, :parent => :work_packages
+  menu.push :new_work_package, { :controller => '/work_packages', :action => 'new'}, :param => :project_id, :caption => :label_work_package_new, :parent => :work_packages,
+                                                                                     :html => { :accesskey => Redmine::AccessKeys.key_for(:new_work_package) }
   menu.push :summary_field, {:controller => '/issues/reports', :action => 'report'}, :param => :project_id, :caption => :label_workflow_summary, :parent => :work_packages
-  menu.push :calendar, { :controller => '/issues/calendars', :action => 'index' }, :param => :project_id, :caption => :label_calendar
+  menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => '/news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
   menu.push :new_news, { :controller => '/news', :action => 'new' }, :param => :project_id, :caption => :label_news_new, :parent => :news,
               :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) }

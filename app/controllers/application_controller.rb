@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -69,7 +86,8 @@ class ApplicationController < ActionController::Base
                 :log_requesting_user,
                 :reset_i18n_fallbacks,
                 :set_localization,
-                :check_session_lifetime
+                :check_session_lifetime,
+                :stop_if_feeds_disabled
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
 
@@ -80,6 +98,10 @@ class ApplicationController < ActionController::Base
   # TODO: needed? redmine doesn't
   Redmine::Scm::Base.all.each do |scm|
     require "repository/#{scm.underscore}"
+  end
+
+  def default_url_options(options={})
+    { :layout => params["layout"] }
   end
 
   # the current user is a per-session kind of thing and session stuff is controller responsibility.
@@ -203,7 +225,7 @@ class ApplicationController < ActionController::Base
         end
         format.any(:xml, :js, :json)  {
           head :unauthorized,
-          "Reason" => "login needed",
+          "X-Reason" => "login needed",
           'WWW-Authenticate' => authentication_scheme + ' realm="OpenProject API"'
         }
       end
@@ -349,7 +371,7 @@ class ApplicationController < ActionController::Base
 
   # Filter for bulk issue operations
   def find_issues
-    @issues = Issue.find_all_by_id(params[:id] || params[:ids])
+    @issues = WorkPackage.find_all_by_id(params[:id] || params[:ids])
     raise ActiveRecord::RecordNotFound if @issues.empty?
     @projects = @issues.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
@@ -640,6 +662,20 @@ class ApplicationController < ActionController::Base
       redirect_to(:controller => "account", :action => "login", :back_url => url)
     end
     session[:updated_at] = Time.now
+  end
+
+  def feed_request?
+    if params[:format].nil?
+      %w(application/rss+xml application/atom+xml).include? request.format.to_s
+    else
+      %w(atom rss).include? params[:format]
+    end
+  end
+
+  def stop_if_feeds_disabled
+    if feed_request? && !Setting.feeds_enabled?
+      render_404({:message => I18n.t('label_disabled')})
+    end
   end
 
   private

@@ -1,10 +1,27 @@
 <%#-- copyright
 OpenProject is a project management system.
-
-Copyright (C) 2012-2013 the OpenProject Team
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See doc/COPYRIGHT.rdoc for more details.
 
@@ -94,7 +111,7 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
     <tr <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
     <td style="width:200px;">
         <%= check_box_tag 'f[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
-        <label for="cb_<%= field %>"><%= filter[1][:name] || Issue.human_attribute_name(field) %></label>
+        <label for="cb_<%= field %>"><%= filter[1][:name] || WorkPackage.human_attribute_name(field) %></label>
     </td>
     <td style="width:150px;">
         <%= label_tag "op_#{field}", l(:description_filter), :class => "hidden-for-sighted" %>
@@ -128,7 +145,7 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
 </td>
 <td class="add-filter">
 <%= label_tag('add_filter_select', l(:label_filter_add)) %>:
-<%= select_tag 'add_filter_select', 
+<%= select_tag 'add_filter_select',
   options_for_select(entries_for_filter_select_sorted(query)),
     :onchange => "add_filter();",
     :class => "select-small",

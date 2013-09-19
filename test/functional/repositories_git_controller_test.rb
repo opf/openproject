@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -101,7 +118,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_browse_directory
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => 3, :path => ['images']
+      get :show, :id => 3, :path => 'images'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -117,7 +134,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_browse_at_given_revision
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => 3, :path => ['images'], :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
+      get :show, :id => 3, :path => 'images', :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -127,14 +144,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_changes
-      get :changes, :id => 3, :path => ['images', 'edit.png']
+      get :changes, :id => 3, :path => 'images/edit.png'
       assert_response :success
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
     end
 
     def test_entry_show
-      get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb']
+      get :entry, :id => 3, :path => 'sources/watchers_controller.rb'
       assert_response :success
       assert_template 'entry'
       # Line 19
@@ -145,14 +162,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_entry_download
-      get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
+      get :entry, :id => 3, :path => 'sources/watchers_controller.rb', :format => 'raw'
       assert_response :success
       # File content
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
 
     def test_directory_entry
-      get :entry, :id => 3, :path => ['sources']
+      get :entry, :id => 3, :path => 'sources'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entry)
@@ -191,7 +208,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_annotate
-      get :annotate, :id => 3, :path => ['sources', 'watchers_controller.rb']
+      get :annotate, :id => 3, :path => 'sources/watchers_controller.rb'
       assert_response :success
       assert_template 'annotate'
       # Line 23, changeset 2f9c0091
@@ -204,14 +221,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_annotate_at_given_revision
       @repository.fetch_changesets
       @repository.reload
-      get :annotate, :id => 3, :rev => 'deff7', :path => ['sources', 'watchers_controller.rb']
+      get :annotate, :id => 3, :rev => 'deff7', :path => 'sources/watchers_controller.rb'
       assert_response :success
       assert_template 'annotate'
       assert_tag :tag => 'h2', :content => /@ deff712f/
     end
 
     def test_annotate_binary_file
-      get :annotate, :id => 3, :path => ['images', 'edit.png']
+      get :annotate, :id => 3, :path => 'images/edit.png'
       assert_response 500
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
                               :content => /cannot be annotated/

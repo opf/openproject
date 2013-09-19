@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 de:
   account:
     delete: "Account löschen"
@@ -88,14 +116,9 @@ de:
         issue: "Ticket"
         spent_on: "Datum"
         type: "Typ"
-      planning_element_type_color:
+      type_color:
         name: "Name"
         hexcode: "Hex-Code"
-      planning_element:
-        description: "Beschreibung"
-        id: "ID"
-        name: "Name"
-        start_date: "Startdatum"
       project_association:
         description: "Begründung"
       project_type:
@@ -148,7 +171,6 @@ de:
         progress: "% erledigt"
         responsible: "Planungsverantwortlicher"
         spent_time: "Aufgewendete Zeit"
-
     errors:
       messages:
         accepted: "muss akzeptiert werden"
@@ -183,7 +205,7 @@ de:
         before: "muss vor %{date} sein"
         before_or_equal_to: "muss vor oder gleich %{date} sein"
       models:
-        planning_element:
+        work_package:
           attributes:
             due_date:
               not_start_date: "ist nicht am Startdatum, obwohl die bei Meilensteinen Pflicht ist"
@@ -287,6 +309,7 @@ de:
   button_back: "Zurück"
   button_cancel: "Abbrechen"
   button_change: "Wechseln"
+  button_change_parent_page: "Übergeordnete Seite ändern"
   button_change_password: "Kennwort ändern"
   button_check_all: "Alles auswählen"
   button_clear: "Zurücksetzen"
@@ -542,9 +565,6 @@ de:
       responsible: "Planungsverantwortlicher"
       save: "Speichern"
       start_date: "Startdatum"
-      really_delete_planning_element: >
-        Möchten Sie wirklich das folgende Planungselement und seine Kind-Elemente
-        permanent löschen? Diese Operation kann nicht rückgängig gemacht werden.
       really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
 
   label_account: "Konto"
@@ -1048,13 +1068,13 @@ de:
   permission_add_subprojects: "Unterprojekte erstellen"
   permission_add_work_package_watchers: "Beobachter hinzufügen"
   permission_browse_repository: "Projektarchiv ansehen"
+  permission_change_wiki_parent_page: "Übergeordnete Wiki Seite ändern"
   permission_comment_news: "News kommentieren"
   permission_commit_access: "Commit-Zugriff (über WebDAV)"
   permission_delete_work_package_watchers: "Beobachter löschen"
   permission_delete_work_packages: "Arbeitspakete löschen"
   permission_delete_messages: "Forenbeiträge löschen"
   permission_delete_own_messages: "Eigene Forenbeiträge löschen"
-  permission_delete_planning_elements: "Planungselemente löschen"
   permission_delete_project_associations: "Projektabhängigkeiten löschen"
   permission_delete_reportings: "Statusberichte löschen"
   permission_delete_timelines: "Zeitplan-Reporte löschen"
@@ -1066,7 +1086,6 @@ de:
   permission_edit_own_work_package_notes: "Eigene Kommentare bearbeiten"
   permission_edit_own_messages: "Eigene Forenbeiträge bearbeiten"
   permission_edit_own_time_entries: "Selbstgebuchte Aufwände bearbeiten"
-  permission_edit_planning_elements: "Planungselemente bearbeiten"
   permission_edit_project: "Projekt bearbeiten"
   permission_edit_project_associations: "Projektabhängigkeiten bearbeiten"
   permission_edit_reportings: "Statusberichte bearbeiten"
@@ -1094,10 +1113,10 @@ de:
   permission_select_project_modules: "Projektmodule auswählen"
   permission_view_calendar: "Kalender ansehen"
   permission_view_changesets: "Changesets ansehen"
+  permission_view_commit_author_statistics: "Commit Autor Statistiken ansehen"
   permission_view_work_package_watchers: "Liste der Beobachter ansehen"
   permission_view_work_packages: "Arbeitspakete anzeigen"
   permission_view_messages: "Forenbeiträge ansehen"
-  permission_view_planning_elements: "Planungselemente ansehen"
   permission_view_project_associations: "Projektabhängigkeiten ansehen"
   permission_view_reportings: "Statusberichte ansehen"
   permission_view_time_entries: "Gebuchte Aufwände ansehen"
@@ -1151,14 +1170,16 @@ de:
   setting_emails_footer: "E-Mail-Fußzeile"
   setting_emails_header: "Emailkopf"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
+  setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_gravatar_default: "Standard-Gravatar-Bild"
   setting_gravatar_enabled: "Gravatar-Benutzerbilder benutzen"
   setting_host_name: "Hostname"
-  setting_work_package_done_ratio: "Berechne den Arbeitspaket-Fortschritt mittels"
-  setting_work_package_done_ratio_work_package_field: "Arbeitspaket-Feld %-erledigt"
-  setting_work_package_done_ratio_work_package_status: "Arbeitspaket-Status"
+  setting_issue_done_ratio: "Berechne den Arbeitspaket-Fortschritt mittels"
+  setting_issue_done_ratio_issue_field: "Arbeitspaket-Feld %-erledigt"
+  setting_issue_done_ratio_issue_status: "Arbeitspaket-Status"
+  setting_issue_done_ratio_disabled: "Deaktivieren (Fortschritt verstecken)"
   setting_work_package_list_default_columns: "Standardmäßig anzeigen"
   setting_work_package_list_summable_columns: "Summierbar"
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
@@ -1336,10 +1357,10 @@ de:
         date: "Datum"
         default: "Default"
       column:
+        type: "Typ"
         end_date: "Abschlussdatum"
         name: "Name"
         project_status: "Projekt-Status"
-        project_type: "Projekt-Typ"
         responsible: "Planungsverantwortlicher"
         start_date: "Startdatum"
       columns: "Spalten"
@@ -1439,9 +1460,6 @@ de:
       Möchten Sie wirklich alle folgenden Planungselemente und ihre
       Kind-Elemente permanent löschen? Diese Operation kann nicht rückgängig
       gemacht werden.
-    really_delete_planning_element: >
-      Möchten Sie wirklich das folgende Planungselement und seine Kind-Elemente
-      dauerhaft löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.
     really_delete_project_association_between_project_a_and_project_b: >
       Möchten Sie die Projekt-Abhängigkeit zwischen „%{project_a}“ und
       „%{project_b}“ wirklich löschen?

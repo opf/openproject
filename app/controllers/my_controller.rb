@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -18,13 +35,13 @@ class MyController < ApplicationController
   menu_item :account, :only => [:account]
   menu_item :password, :only => [:password]
 
-  BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
+  DEFAULT_BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
              'issuesreportedbyme' => :label_reported_work_packages,
              'issueswatched' => :label_watched_work_packages,
              'news' => :label_news_latest,
              'calendar' => :label_calendar,
              'timelog' => :label_spent_time
-           }.merge(Redmine::Views::MyPage::Block.additional_blocks).freeze
+           }.freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'],
                       'right' => ['issuesreportedbyme']
@@ -32,6 +49,11 @@ class MyController < ApplicationController
 
   verify :xhr => true,
          :only => [:add_block, :remove_block, :order_blocks]
+
+  def self.available_blocks
+    @available_blocks ||= DEFAULT_BLOCKS.merge(Redmine::Views::MyPage::Block.additional_blocks)
+  end
+
 
   # Show user's page
   def index
@@ -131,7 +153,7 @@ class MyController < ApplicationController
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
     @block_options = []
-    BLOCKS.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
+    MyController.available_blocks.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
   end
 
   # Add a block to user's page
@@ -139,7 +161,7 @@ class MyController < ApplicationController
   # params[:block] : id of the block to add
   def add_block
     block = params[:block].to_s.underscore
-    (render :nothing => true; return) unless block && (BLOCKS.keys.include? block)
+    (render :nothing => true; return) unless block && (MyController.available_blocks.keys.include? block)
     @user = User.current
     layout = @user.pref[:my_page_layout] || {}
     # remove if already present in a group

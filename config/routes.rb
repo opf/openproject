@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -81,7 +98,9 @@ OpenProject::Application.routes.draw do
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes
-  resources :journals, :only => [:edit, :update]
+  resources :journals, :only => [:edit, :update] do
+    get :preview, on: :member
+  end
 
   # REVIEW: review those wiki routes
   scope "projects/:project_id/wiki/:id" do
@@ -172,6 +191,8 @@ OpenProject::Application.routes.draw do
         get '/diff(/:version)' => 'wiki#diff', :as => 'wiki_diff'
         get '/annotate/:version' => 'wiki#annotate', :as => 'wiki_annotate'
         match :rename, :via => [:get, :put]
+        get :parent_page, :action => 'edit_parent_page'
+        put :parent_page, :action => 'update_parent_page'
         get :history
         post :preview
         post :protect
@@ -185,29 +206,20 @@ OpenProject::Application.routes.draw do
     # work as a catchall for everything under /wiki
     get 'wiki' => "wiki#show"
 
-    namespace :issues do
-      resources :calendar, :controller => 'calendars', :only => [:index]
-    end
-
-    resources :issues, :except => [:show, :edit, :update, :destroy] do
-      # should probably belong to :member, but requires :copy_from instead
-      # of the default :id
-      get ':copy_from/copy', :action => "new", :on => :collection, :as => "copy"
-
+    resources :issues, :only => [] do
       collection do
-        get :all
-
         match '/report/:detail' => 'issues/reports#report_details', :via => :get
         match '/report' => 'issues/reports#report', :via => :get
-
-        # get a preview of a new issue (i.e. one without an ID)
-        match '/new/preview' => 'issues/previews#create', :as => 'preview_new', :via => :post
       end
+    end
+
+    namespace :work_packages do
+      resources :calendar, :controller => 'calendars', :only => [:index]
     end
 
     resources :work_packages, :only => [:new, :create, :index] do
       get :new_type, :on => :collection
-      post :preview, :on => :collection
+      put :preview, :on => :collection
     end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
@@ -257,20 +269,15 @@ OpenProject::Application.routes.draw do
   # this is to support global actions on issues and
   # for backwards compatibility
   namespace :issues do
-    resources :calendar, :controller => 'calendars', :only => [:index]
-
     # have a global autocompleter for issues
     # TODO: make this ressourceful
     match 'auto_complete' => 'auto_completes#issues', :via => [:get, :post], :format => false
 
     # TODO: separate routes and action for get and post
     match 'context_menu' => 'context_menus#issues', :via => [:get, :post], :format => false
-
-    resource :move, :controller => 'moves', :only => [:new, :create]
   end
 
-  # TODO: remove create as issues should be created scoped under project
-  resources :issues, :except => [:new] do
+  resources :issues, :only => [] do
     namespace :time_entries do
       resource :report, :controller => 'reports', :only => [:show]
     end
@@ -279,31 +286,34 @@ OpenProject::Application.routes.draw do
 
     resources :relations, :controller => 'issue_relations', :only => [:create, :destroy]
 
-    member do
-      match '/preview' => 'issues/previews#create', :via => :post
-      # this route is defined so that it has precedence of the one defined on the collection
-      delete :destroy
-      get :quoted
-    end
-
     collection do
       get :bulk_edit, :format => false
       put :bulk_update, :format => false
-
-      delete :destroy
     end
+  end
+
+  namespace :work_packages do
+    match 'auto_complete' => 'auto_completes#index', :via => [:get, :post], :format => false
+    resources :calendar, :controller => 'calendars', :only => [:index]
   end
 
   resources :work_packages, :only => [:show, :edit, :update, :index] do
     get :new_type, :on => :member
-    post :preview, :on => :member
+    put :preview, :on => :member
 
     resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
 
-    resource :moves, :controller => 'work_packages/moves', :only => [:new, :create]
+    # move bulk of wps
+    get 'move/new' => 'work_packages/moves#new', :on => :collection, :as => 'new_move'
+    post 'move' => 'work_packages/moves#create', :on => :collection, :as => 'move'
+    # move individual wp
+    resource :move, :controller => 'work_packages/moves', :only => [:new, :create]
 
-    resources :time_entries, :controller => 'timelog',
-                             :only => [:new]
+    resources :time_entries, :controller => 'timelog'
+    # this duplicate mapping is required for the timelog_helper
+    namespace :time_entries do
+      resource :report, :controller => 'reports'
+    end
   end
 
   resources :versions, :only => [:show, :edit, :update, :destroy] do
@@ -311,9 +321,6 @@ OpenProject::Application.routes.draw do
       get :status_by
     end
   end
-
-  # Misc issue routes. TODO: move into resources
-  match '/issues/:id/destroy' => 'issues#destroy', :via => :post # legacy
 
   # Misc journal routes. TODO: move into resources
   match '/journals/:id/diff/:field' => 'journals#diff', :via => :get, :as => 'journal_diff'
@@ -368,13 +375,14 @@ OpenProject::Application.routes.draw do
       match '/projects/:id/repository/statistics', :action => :stats
       match '/projects/:id/repository/committers', :action => :committers
       match '/projects/:id/repository/graph', :action => :graph
+      match '/projects/:id/repository/diff', :action => :diff
       match '/projects/:id/repository/revisions', :action => :revisions
       match '/projects/:id/repository/revisions.:format', :action => :revisions
       match '/projects/:id/repository/revisions/:rev', :action => :revision
       match '/projects/:id/repository/revisions/:rev/diff/*path(.:format)', :action => :diff
-      match '/projects/:id/repository/revisions/:rev/raw/*path', :action => :entry, :format => 'raw', :rev => /[a-z0-9\.\-_]+/
+      match '/projects/:id/repository/revisions/:rev/raw/*path', :action => :entry, :kind => 'raw', :rev => /[a-z0-9\.\-_]+/
       match '/projects/:id/repository/revisions/:rev/:action/*path', :rev => /[a-z0-9\.\-_]+/
-      match '/projects/:id/repository/raw/*path', :action => :entry, :format => 'raw'
+      match '/projects/:id/repository/raw/*path', :action => :entry, :kind => 'raw'
       # TODO: why the following route is required?
       match '/projects/:id/repository/entry/*path', :action => :entry
       match '/projects/:id/repository/:action/*path'

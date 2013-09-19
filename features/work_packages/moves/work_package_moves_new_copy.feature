@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -61,38 +78,17 @@ Feature: Copying a work package
       | issue1  | Bug  |
       | issue2  | Bug  |
 
-    And there are the following planning elements in project "project_1":
-      | subject | start_date | due_date   | type |
-      | pe1     | 2013-01-01 | 2013-12-31 | Bug  |
-      | pe2     | 2013-01-01 | 2013-12-31 | Bug  |
-
     And there are the following issues in project "project_2":
       | subject | type    |
       | issue3  | Feature |
 
-    And there are the following planning elements in project "project_2":
-      | subject | type    |
-      | pe3     | Feature |
-
     And the work package "issue1" has the following children:
       | issue2 |
-
-    And the work package "pe1" has the following children:
-      | pe2    |
 
     And I am already logged in as "bob"
 
   Scenario: Copy an issue
-    When I go to the copy page of the work package "issue1"
-     And I select "project_2" from "Project"
-
-    When I click "Copy and follow"
-
-    Then I should see "Successful creation."
-     And I should see "project_2" within ".breadcrumb"
-
-  Scenario: Copy a planning element
-    When I go to the copy page of the work package "pe1"
+    When I go to the move new page of the work package "issue1"
      And I select "project_2" from "Project"
 
     When I click "Copy and follow"
@@ -109,30 +105,12 @@ Feature: Copying a work package
     Then I should see "Successful update."
      And I should see "project_2" within ".breadcrumb"
 
-  Scenario: Move a planning element
-    When I go to the move page of the work package "pe1"
-     And I select "project_2" from "Project"
-
-    When I click "Move and follow"
-
-    Then I should see "Successful update."
-     And I should see "project_2" within ".breadcrumb"
-
   Scenario: Issue children are moved
     When I go to the move page of the work package "issue1"
      And I select "project_2" from "Project"
 
     When I click "Move and follow"
     When I go to the page of the work package "issue2"
-
-     And I should see "project_2" within ".breadcrumb"
-
-  Scenario: Planning element children are moved
-    When I go to the move page of the work package "pe1"
-     And I select "project_2" from "Project"
-
-    When I click "Move and follow"
-    When I go to the page of the work package "pe2"
 
      And I should see "project_2" within ".breadcrumb"
 

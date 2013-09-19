@@ -1,13 +1,31 @@
-//-- copyright
-// OpenProject is a project management system.
-//
-// Copyright (C) 2012-2013 the OpenProject Team
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License version 3.
-//
-// See doc/COPYRIGHT.rdoc for more details.
-//++
+/*-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++*/
 
 /* ╭───────────────────────────────────────────────────────────────────╮ *
  * │ General and initialization                                        │ *
@@ -48,6 +66,10 @@ li.select2-result.select2-visible-selected-parent {
 #timeline_select {
   margin-top: 2px;
   margin-bottom: 8px;
+}
+
+#content .ui-sortable .select2-search-choice {
+  cursor: move;
 }
 
 /* ╭───────────────────────────────────────────────────────────────────╮ *
@@ -542,19 +564,6 @@ a:hover.tl-project, a.tl-project, .tl-project {
 
 dt.timelines\2F planning-element {
   background-image: url(../assets/new_planning_element.png);
-}
-
-.ui-dialog { overflow: visible; }
-
-#ui-dialog-closer {
-    background-image: url("../assets/modal_close.png");
-    cursor: pointer;
-    height: 33px;
-    position: absolute;
-    right: -15px;
-    top: -15px;
-    width: 33px;
-    z-index: 5000;
 }
 
 #history .journal {

@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -203,6 +220,8 @@ class RepositoriesController < ApplicationController
   end
 
   def stats
+    @show_commits_per_author = current_user.allowed_to_in_project?(:view_commit_author_statistics,
+                                                                  @project)
   end
 
   def graph
@@ -211,6 +230,9 @@ class RepositoriesController < ApplicationController
     when "commits_per_month"
       data = graph_commits_per_month(@repository)
     when "commits_per_author"
+      unless current_user.allowed_to_in_project?(:view_commit_author_statistics, @project)
+        return deny_access
+      end
       data = graph_commits_per_author(@repository)
     end
     if data
@@ -229,8 +251,13 @@ class RepositoriesController < ApplicationController
     @project = Project.find(params[:id])
     @repository = @project.repository
     (render_404; return false) unless @repository
-    @path = params[:path].join('/') unless params[:path].nil?
-    @path ||= ''
+    @path = ''
+    if params.has_key? :path
+      format_valid = params.has_key?(:format) && params[:format] != 'raw' && params[:format] != 'diff'
+
+      @path = params[:path]
+      @path += ".#{params[:format]}" if format_valid
+    end
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
     @rev_to = params[:rev_to]
 

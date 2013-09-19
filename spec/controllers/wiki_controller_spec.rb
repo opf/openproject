@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -20,12 +37,12 @@ describe WikiController do
 
   describe 'actions' do
     before do
-      @controller.stub!(:set_localization)
+      @controller.stub(:set_localization)
 
       @role = FactoryGirl.create(:non_member)
       @user = FactoryGirl.create(:admin)
 
-      User.stub!(:current).and_return @user
+      User.stub(:current).and_return @user
 
       @project = FactoryGirl.create(:project)
       @project.reload # to get the wiki into the proxy
@@ -176,8 +193,8 @@ describe WikiController do
     render_views
 
     before :each do
-      @controller.stub!(:set_localization)
-      Setting.stub!(:login_required?).and_return(false)
+      @controller.stub(:set_localization)
+      Setting.stub(:login_required?).and_return(false)
 
       @role = FactoryGirl.create(:non_member)
       @user = FactoryGirl.create(:admin)
@@ -188,7 +205,7 @@ describe WikiController do
       Role.anonymous.update_attributes :name => I18n.t(:default_role_anonymous),
                                        :permissions => [:view_wiki_pages]
 
-      User.stub!(:current).and_return @user
+      User.stub(:current).and_return @user
 
       @project = FactoryGirl.create(:project)
       @project.reload # to get the wiki into the proxy
@@ -355,7 +372,7 @@ describe WikiController do
 
           describe "being unauthorized to configure menu items" do
             before do
-              User.stub!(:current).and_return @anon
+              User.stub(:current).and_return @anon
             end
 
             it 'is invisible' do
@@ -383,7 +400,7 @@ describe WikiController do
 
           describe "being unauthorized to edit wiki pages" do
             before do
-              User.stub!(:current).and_return @anon
+              User.stub(:current).and_return @anon
             end
 
             it 'is invisible' do
@@ -423,7 +440,7 @@ describe WikiController do
 
           describe "being unauthorized to edit wiki pages" do
             before do
-              User.stub!(:current).and_return @anon
+              User.stub(:current).and_return @anon
             end
 
             it 'is invisible' do
@@ -451,7 +468,7 @@ describe WikiController do
 
           describe "being unauthorized to edit wiki pages" do
             before do
-              User.stub!(:current).and_return @anon
+              User.stub(:current).and_return @anon
             end
 
             it 'is invisible' do
@@ -477,7 +494,7 @@ describe WikiController do
 
           describe "being unauthorized to edit wiki pages" do
             before do
-              User.stub!(:current).and_return @anon
+              User.stub(:current).and_return @anon
             end
 
             it 'is invisible' do

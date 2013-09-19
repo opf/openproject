@@ -1,27 +1,67 @@
 #encoding: utf-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Then /^I should see the planning element edit modal$/ do
- steps 'Then I should see a modal window with selector "#planningElementDialog"'
-end
 Then /^I should see a modal window with selector "(.*?)"$/ do |selector|
   page.should have_selector(selector)
   dialog = find(selector)
 
   dialog["class"].include?("ui-dialog-content").should be_true
 end
-Then /^I should see a modal window$/ do
-  steps 'Then I should see a modal window with selector ".ui-dialog-content"'
+Then(/^I should see the column "(.*?)" before the column "(.*?)" in the timelines table$/) do |content1, content2|
+  steps %Q{
+    Then I should see the column "#{content1}" before the column "#{content2}" in ".tl-main-table"
+  }
 end
+Then(/^I should see the column "(.*?)" before the column "(.*?)" in "(.*?)"$/) do |content1, content2, table|
+  #Check that the things really exist and wait until the exist
+  steps %Q{
+    Then I should see "#{content1}" within "#{table}"
+    Then I should see "#{content2}" within "#{table}"
+  }
+
+  elements = find_lowest_containing_element content2, table
+  elements[-1].should have_xpath("preceding::th/descendant-or-self::*[text()='#{content1}']")
+end
+Then /^I should see a modal window$/ do
+  steps 'Then I should see a modal window with selector "#modalDiv"'
+end
+
+Then /^(.*) in the modal$/ do |step|
+  step(step + ' in the iframe "modalIframe"')
+end
+
+Then(/^I should not see the planning element "(.*?)"$/) do |planning_element_name|
+  steps %Q{
+    Then I should not see "#{planning_element_name}" within ".tl-left-main"
+  }
+end
+
 Then(/^the project "(.*?)" should have an indent of (\d+)$/) do |project_name, indent|
   find(".tl-indent-#{indent}", :text => project_name).should_not be_nil
 end
@@ -152,8 +192,8 @@ Then /^I should (not )?see the timeline "([^"]*)"$/ do |negate, timeline_name|
   timeline = Timeline.find_by_name(timeline_name)
 
   if (negate && page.has_css?(selector)) || !negate
-    timeline.project.planning_elements.each do |planning_element|
-      step %Q{I should #{negate}see "#{planning_element.subject}" within "#{selector}"}
+    timeline.project.work_packages.each do |work_package|
+      step %Q{I should #{negate}see "#{work_package.subject}" within "#{selector}"}
     end
   end
 end

@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -20,13 +37,13 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   def setup
     super
-    Issue.delete_all
+    WorkPackage.delete_all
   end
 
   def test_creating_a_child_in_different_project_should_not_validate_unless_allowed
     Setting.cross_project_issue_relations = "0"
     issue = create_issue!
-    child = Issue.new.tap do |i|
+    child = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 2,
                              :type_id => 1,
                              :author_id => 1,
@@ -40,7 +57,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   def test_creating_a_child_in_different_project_should_validate_if_allowed
     Setting.cross_project_issue_relations = "1"
     issue = create_issue!
-    child = Issue.new.tap do |i|
+    child = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 2,
                              :type_id => 1,
                              :author_id => 1,
@@ -79,7 +96,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal [1, parent1.id, 5], [parent1.project_id, parent1.root_id, parent1.nested_set_span]
 
     # child can not be moved to Project 2 because its child is on a disabled type
-    assert_equal false, Issue.find(child.id).move_to_project(Project.find(2))
+    assert_equal false, WorkPackage.find(child.id).move_to_project(Project.find(2))
     child.reload
     grandchild.reload
     parent1.reload
@@ -140,16 +157,16 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue3.subject = 'child with journal'
     issue3.save!
 
-    assert_difference 'Issue.count', -2 do
+    assert_difference 'WorkPackage.count', -2 do
       assert_difference 'Journal.count', -3 do
-        Issue.find(issue2.id).destroy
+        WorkPackage.find(issue2.id).destroy
       end
     end
 
     issue1.reload
     issue4.reload
-    assert !Issue.exists?(issue2.id)
-    assert !Issue.exists?(issue3.id)
+    assert !WorkPackage.exists?(issue2.id)
+    assert !WorkPackage.exists?(issue3.id)
     assert_equal [issue1.id, 3], [issue1.root_id, issue1.nested_set_span]
     assert_equal [issue1.id, 1], [issue4.root_id, issue4.nested_set_span]
   end
@@ -159,8 +176,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     create_issue!(:start_date => Date.today, :parent_id => parent.id)
     create_issue!(:start_date => 2.days.from_now, :parent_id => parent.id)
 
-    assert_difference 'Issue.count', -3 do
-      Issue.find(parent.id).destroy
+    assert_difference 'WorkPackage.count', -3 do
+      WorkPackage.find(parent.id).destroy
     end
   end
 
@@ -173,13 +190,13 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     leaf.save!
 
     total_journals_on_children = leaf.reload.journals.count + child.reload.journals.count
-    assert_difference 'Issue.count', -2 do
+    assert_difference 'WorkPackage.count', -2 do
       assert_difference 'Journal.count', -total_journals_on_children do
-        Issue.find(child.id).destroy
+        WorkPackage.find(child.id).destroy
       end
     end
 
-    root = Issue.find(root.id)
+    root = WorkPackage.find(root.id)
     assert root.leaf?, "Root issue is not a leaf (lft: #{root.lft}, rgt: #{root.rgt})"
   end
 
@@ -190,8 +207,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     grandchild1 = create_issue!(:parent_id => child.id)
     grandchild2 = create_issue!(:parent_id => child.id)
 
-    assert_difference 'Issue.count', -4 do
-      Issue.find(issue.id).destroy
+    assert_difference 'WorkPackage.count', -4 do
+      WorkPackage.find(issue.id).destroy
       parent.reload
       assert_equal [1, 2], [parent.lft, parent.rgt], 'parent should not have children'
     end
@@ -294,7 +311,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   # Helper that creates an issue with default attributes
   def create_issue!(attributes={})
-    (i = Issue.new.tap do |i|
+    (i = WorkPackage.new.tap do |i|
       attr = { :project_id => 1, :type_id => 1, :author_id => 1, :subject => 'test' }.merge(attributes)
       i.force_attributes = attr
     end).save!

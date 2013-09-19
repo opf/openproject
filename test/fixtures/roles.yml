@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 ---
 roles_001:
   name: Manager
@@ -12,16 +40,17 @@ roles_001:
     - :manage_versions
     - :manage_categories
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
-    - :manage_issue_relations
+    - :manage_work_package_relations
     - :manage_subtasks
-    - :add_issue_notes
-    - :move_issues
-    - :delete_issues
-    - :view_issue_watchers
+    - :add_work_package_notes
+    - :move_work_package
+    - :move_work_packages
+    - :delete_work_packages
+    - :view_work_package_watchers
     - :add_work_package_watchers
-    - :delete_issue_watchers
+    - :delete_work_package_watchers
     - :manage_public_queries
     - :save_queries
     - :view_calendar
@@ -62,14 +91,14 @@ roles_002:
     - :manage_versions
     - :manage_categories
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
-    - :manage_issue_relations
+    - :manage_work_package_relations
     - :manage_subtasks
-    - :add_issue_notes
-    - :move_issues
-    - :delete_issues
-    - :view_issue_watchers
+    - :add_work_package_notes
+    - :move_work_packages
+    - :delete_work_packages
+    - :view_work_package_watchers
     - :save_queries
     - :view_calendar
     - :log_time
@@ -102,12 +131,12 @@ roles_003:
     - :manage_versions
     - :manage_categories
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
-    - :manage_issue_relations
-    - :add_issue_notes
-    - :move_issues
-    - :view_issue_watchers
+    - :manage_work_package_relations
+    - :add_work_package_notes
+    - :move_work_packages
+    - :view_work_package_watchers
     - :save_queries
     - :view_calendar
     - :log_time
@@ -132,11 +161,11 @@ roles_004:
   permissions: |
     ---
     - :view_work_packages
-    - :add_issues
+    - :add_work_packages
     - :edit_work_packages
-    - :manage_issue_relations
-    - :add_issue_notes
-    - :move_issues
+    - :manage_work_package_relations
+    - :add_work_package_notes
+    - :move_work_packages
     - :save_queries
     - :view_calendar
     - :log_time
@@ -158,7 +187,7 @@ roles_005:
   permissions: |
     ---
     - :view_work_packages
-    - :add_issue_notes
+    - :add_work_package_notes
     - :view_calendar
     - :view_time_entries
     - :view_wiki_pages

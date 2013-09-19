@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -58,7 +75,7 @@ class Version < ActiveRecord::Base
     # when self.id is nil (e.g. when self is a new_record),
     # minimum('start_date') works on all issues with :fixed_version => nil
     # but we expect only issues belonging to this version
-    read_attribute(:start_date) || fixed_issues.where(Issue.arel_table[:fixed_version_id].not_eq(nil)).minimum('start_date')
+    read_attribute(:start_date) || fixed_issues.where(WorkPackage.arel_table[:fixed_version_id].not_eq(nil)).minimum('start_date')
   end
 
   def due_date
@@ -73,7 +90,7 @@ class Version < ActiveRecord::Base
 
   # Returns the total reported time for this version
   def spent_hours
-    @spent_hours ||= TimeEntry.sum(:hours, :include => :work_package, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
+    @spent_hours ||= TimeEntry.sum(:hours, :include => :work_package, :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ?", id]).to_f
   end
 
   def closed?
@@ -133,12 +150,12 @@ class Version < ActiveRecord::Base
 
   # Returns the total amount of open issues for this version.
   def open_issues_count
-    @open_issues_count ||= Issue.where(["#{Issue.table_name}.fixed_version_id = ? AND #{IssueStatus.table_name}.is_closed = ?", self.id, false]).includes(:status).size
+    @open_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{IssueStatus.table_name}.is_closed = ?", self.id, false]).includes(:status).size
   end
 
   # Returns the total amount of closed issues for this version.
   def closed_issues_count
-    @closed_issues_count ||= Issue.where(["#{Issue.table_name}.fixed_version_id = ? AND #{IssueStatus.table_name}.is_closed = ?", self.id, true]).includes(:status).size
+    @closed_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{IssueStatus.table_name}.is_closed = ?", self.id, true]).includes(:status).size
   end
 
   def wiki_page
@@ -211,7 +228,7 @@ class Version < ActiveRecord::Base
       if VERSION_SHARINGS.index(sharing_was).nil? ||
           VERSION_SHARINGS.index(sharing).nil? ||
           VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
-        Issue.update_versions_from_sharing_change self
+        WorkPackage.update_versions_from_sharing_change self
       end
     end
   end
@@ -245,7 +262,7 @@ class Version < ActiveRecord::Base
 
         done = fixed_issues.where(["#{IssueStatus.table_name}.is_closed = ?", !open]).
                            includes(:status).
-                           sum("COALESCE(#{Issue.table_name}.estimated_hours, #{estimated_average}) * #{ratio}")
+                           sum("COALESCE(#{WorkPackage.table_name}.estimated_hours, #{estimated_average}) * #{ratio}")
         progress = done.to_f / (estimated_average * issues_count)
       end
       progress

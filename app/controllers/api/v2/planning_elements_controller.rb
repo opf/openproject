@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -73,7 +90,7 @@ module Api
       end
 
       def show
-        @planning_element = @project.planning_elements.find(params[:id])
+        @planning_element = @project.work_packages.find(params[:id])
 
         respond_to do |format|
           format.api
@@ -132,7 +149,7 @@ module Api
           end
 
           # authorize
-          # Ignoring projects, where user has no view_planning_elements permission.
+          # Ignoring projects, where user has no view_work_packages permission.
           permission = params[:controller].sub api_version, ''
           @projects = @projects.select do |project|
             User.current.allowed_to?({:controller => permission,
@@ -157,7 +174,7 @@ module Api
       # remove this and replace by calls it with calls
       # to assign_planning_elements once WorkPackages can be created
       def planning_element_scope
-        @project.planning_elements.without_deleted
+        @project.work_packages.without_deleted
       end
 
       # Helpers

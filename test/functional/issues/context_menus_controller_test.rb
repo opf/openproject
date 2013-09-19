@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -21,7 +38,7 @@ class Issues::ContextMenusControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'context_menu'
     assert_tag :tag => 'a', :content => 'Edit',
-                            :attributes => { :href => '/issues/1/edit',
+                            :attributes => { :href => '/work_packages/1/edit',
                                              :class => 'icon-edit' }
     assert_tag :tag => 'a', :content => 'Closed',
                             :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bstatus_id%5D=5',
@@ -41,14 +58,14 @@ class Issues::ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bassigned_to_id%5D=3',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Duplicate',
-                            :attributes => { :href => '/projects/ecookbook/issues/new?copy_from=1',
+                            :attributes => { :href => '/projects/ecookbook/work_packages/new?copy_from=1',
                                              :class => 'icon-duplicate' }
     assert_tag :tag => 'a', :content => 'Copy',
-               :attributes => { :href => '/issues/move/new?copy_options%5Bcopy%5D=t&amp;ids%5B%5D=1' }
+               :attributes => { :href => '/work_packages/move/new?copy_options%5Bcopy%5D=t&amp;ids%5B%5D=1' }
     assert_tag :tag => 'a', :content => 'Move',
-               :attributes => { :href => '/issues/move/new?ids%5B%5D=1'}
+               :attributes => { :href => '/work_packages/move/new?ids%5B%5D=1'}
     assert_tag :tag => 'a', :content => 'Delete',
-               :attributes => { :href => '/issues?ids%5B%5D=1' }
+               :attributes => { :href => '/work_packages?ids%5B%5D=1' }
   end
 
   def test_context_menu_one_issue_by_anonymous
@@ -80,11 +97,11 @@ class Issues::ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bassigned_to_id%5D=3",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Copy',
-               :attributes => { :href => "/issues/move/new?copy_options%5Bcopy%5D=t&amp;#{ids}"}
+               :attributes => { :href => "/work_packages/move/new?copy_options%5Bcopy%5D=t&amp;#{ids}"}
     assert_tag :tag => 'a', :content => 'Move',
-               :attributes => { :href => "/issues/move/new?#{ids}"}
+               :attributes => { :href => "/work_packages/move/new?#{ids}"}
     assert_tag :tag => 'a', :content => 'Delete',
-               :attributes => { :href => "/issues?#{ids}"}
+               :attributes => { :href => "/work_packages?#{ids}"}
   end
 
   def test_context_menu_multiple_issues_of_different_projects
@@ -109,7 +126,7 @@ class Issues::ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => "/issues/bulk_update?#{ids}&amp;issue%5Bassigned_to_id%5D=2",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Delete',
-               :attributes => { :href => "/issues?#{ids}"}
+               :attributes => { :href => "/work_packages?#{ids}"}
   end
 
   def test_context_menu_issue_visibility

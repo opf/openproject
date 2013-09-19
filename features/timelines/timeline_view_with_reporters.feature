@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -28,19 +45,24 @@ Feature: Timeline View Tests with reporters
           | Standard Project      |
           | Extraordinary Project |
 
+      And there are the following status:
+          | name        | default |
+          | new         | true    |
+          | in progress | false   |
+          | closed      | false   |
+
       And there is 1 user with:
           | login | manager |
 
       And there is a role "manager"
       And the role "manager" may have the following rights:
-          | view_timelines           |
-          | edit_timelines           |
-          | view_planning_elements   |
-          | delete_planning_elements    |
-          | edit_planning_elements      |
-          | delete_planning_elements    |
-          | view_reportings             |
-          | view_project_associations   |
+          | view_timelines            |
+          | edit_timelines            |
+          | view_work_packages        |
+          | edit_work_packages        |
+          | delete_work_packages      |
+          | view_reportings           |
+          | view_project_associations |
 
       And there is a project named "ecookbook" of type "Standard Project"
 
@@ -67,8 +89,8 @@ Feature: Timeline View Tests with reporters
       And the project uses the following modules:
           | timelines |
 
-      And there are the following planning elements:
-        | Subject  | Start date | Due date   | description       | planning_element_status | responsible | type   |
+      And there are the following work packages:
+        | Subject  | Start date | Due date   | description       | status                  | responsible | type   |
         | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed                  | manager     | Phase1 |
         | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed                  | manager     | Phase2 |
         | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed                  | manager     | Phase3 |
@@ -82,8 +104,8 @@ Feature: Timeline View Tests with reporters
       And the project uses the following modules:
           | timelines |
 
-      And there are the following planning elements:
-       | Subject    | Start date | Due date   | description       | planning_element_status | responsible    |
+      And there are the following work packages:
+       | Subject    | Start date | Due date   | description       | status                  | responsible    |
        | January13  | 2013-01-01 | 2013-01-31 | Aioli Grande      | closed                  | manager        |
        | February13 | 2013-02-01 | 2013-02-24 | Aioli Sali        | closed                  | manager        |
        | March13    | 2013-03-01 | 2013-03-30 | Sali Grande       | closed                  | manager        |
@@ -104,8 +126,8 @@ Feature: Timeline View Tests with reporters
       And the project uses the following modules:
           | timelines |
 
-      And there are the following planning elements:
-        | Subject   | Start date | Due date   | description       | planning_element_status | responsible    |
+      And there are the following work packages:
+        | Subject   | Start date | Due date   | description       | status                  | responsible    |
         | July      | 2012-07-01 | 2013-07-31 | Aioli Grande      | closed                  | manager        |
         | August    | 2012-08-01 | 2013-08-31 | Aioli Sali        | closed                  | manager        |
         | Septembre | 2012-09-01 | 2013-09-30 | Sali Grande       | closed                  | manager        |

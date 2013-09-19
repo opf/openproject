@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -23,7 +40,7 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.default_language = 'en'
 
     User.delete_all
-    Issue.delete_all
+    WorkPackage.delete_all
     Project.delete_all
     Type.delete_all
     ActionMailer::Base.deliveries.clear
@@ -45,7 +62,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_issue_add
     user  = FactoryGirl.create(:user, :mail => 'foo@bar.de')
-    issue = FactoryGirl.create(:issue, :subject => 'some issue title')
+    issue = FactoryGirl.create(:work_package, :subject => 'some issue title')
 
     # creating an issue actually sends an email, ohoh
     ActionMailer::Base.deliveries.clear
@@ -75,7 +92,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_select_email do
       # link to the main ticket
       assert_select 'a[href=?]',
-                    "https://mydomain.foo/issues/#{issue.id}",
+                    "https://mydomain.foo/work_packages/#{issue.id}",
                     :text => "My Type ##{issue.id}: My awesome Ticket"
       # link to a description diff
       assert_select 'li', :text => /Description changed/
@@ -113,7 +130,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_select_email do
       # link to the main ticket
       assert_select 'a[href=?]',
-                    "http://mydomain.foo/rdm/issues/#{issue.id}",
+                    "http://mydomain.foo/rdm/work_packages/#{issue.id}",
                     :text => "My Type ##{issue.id}: My awesome Ticket"
       # link to a description diff
       assert_select 'li', :text => /Description changed/
@@ -154,7 +171,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_select_email do
       # link to the main ticket
       assert_select 'a[href=?]',
-                    "http://mydomain.foo/rdm/issues/#{issue.id}",
+                    "http://mydomain.foo/rdm/work_packages/#{issue.id}",
                     :text => "My Type ##{issue.id}: My awesome Ticket"
       # link to a description diff
       assert_select 'li', :text => /Description changed/
@@ -183,7 +200,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_email_headers
     user  = FactoryGirl.create(:user)
-    issue = FactoryGirl.create(:issue)
+    issue = FactoryGirl.create(:work_package)
     mail = UserMailer.issue_added(user, issue)
     assert mail.deliver
     assert_not_nil mail
@@ -194,7 +211,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_plain_text_mail
     Setting.plain_text_mail = 1
     user  = FactoryGirl.create(:user)
-    issue = FactoryGirl.create(:issue)
+    issue = FactoryGirl.create(:work_package)
     UserMailer.issue_added(user, issue).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_match /text\/plain/, mail.content_type
@@ -205,7 +222,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_html_mail
     Setting.plain_text_mail = 0
     user  = FactoryGirl.create(:user)
-    issue = FactoryGirl.create(:issue)
+    issue = FactoryGirl.create(:work_package)
     UserMailer.issue_added(user, issue).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_match /multipart\/alternative/, mail.content_type
@@ -246,7 +263,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_issue_add_message_id
     user  = FactoryGirl.create(:user)
-    issue = FactoryGirl.create(:issue)
+    issue = FactoryGirl.create(:work_package)
     mail = UserMailer.issue_added(user, issue)
     mail.deliver
     assert_not_nil mail
@@ -256,7 +273,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_issue_updated_message_id
     user  = FactoryGirl.create(:user)
-    issue = FactoryGirl.create(:issue)
+    issue = FactoryGirl.create(:work_package)
     journal = issue.journals.first
     UserMailer.issue_updated(user, journal).deliver
     mail = ActionMailer::Base.deliveries.last
@@ -297,7 +314,7 @@ class UserMailerTest < ActionMailer::TestCase
   context("#issue_add") do
     should "send one email per recipient" do
       user  = FactoryGirl.create(:user, :mail => 'foo@bar.de')
-      issue = FactoryGirl.create(:issue)
+      issue = FactoryGirl.create(:work_package)
       ActionMailer::Base.deliveries.clear
       assert UserMailer.issue_added(user, issue).deliver
       assert_equal 1, ActionMailer::Base.deliveries.size
@@ -305,7 +322,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
 
     should "change mail language depending on recipient language" do
-      issue = FactoryGirl.create(:issue)
+      issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, :mail => 'foo@bar.de', :language => 'de')
       ActionMailer::Base.deliveries.clear
       with_settings :available_languages => ['en', 'de'] do
@@ -324,7 +341,7 @@ class UserMailerTest < ActionMailer::TestCase
       # 1. user's language
       # 2. Setting.default_language
       # 3. I18n.default_locale
-      issue = FactoryGirl.create(:issue)
+      issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, :mail => 'foo@bar.de', :language => '') # (auto)
       ActionMailer::Base.deliveries.clear
       with_settings :available_languages => ['en', 'de'],
@@ -343,13 +360,13 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_issue_add
     user  = FactoryGirl.create(:user)
-    issue = FactoryGirl.create(:issue)
+    issue = FactoryGirl.create(:work_package)
     assert UserMailer.issue_added(user, issue).deliver
   end
 
   def test_issue_updated
     user    = FactoryGirl.create(:user)
-    issue   = FactoryGirl.create(:issue)
+    issue   = FactoryGirl.create(:work_package)
     journal = issue.journals.first
     assert UserMailer.issue_updated(user, journal).deliver
   end
@@ -409,7 +426,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_reminders
     user  = FactoryGirl.create(:user, :mail => 'foo@bar.de')
-    issue = FactoryGirl.create(:issue, :due_date => Date.tomorrow, :assigned_to => user, :subject => 'some issue')
+    issue = FactoryGirl.create(:work_package, :due_date => Date.tomorrow, :assigned_to => user, :subject => 'some issue')
     ActionMailer::Base.deliveries.clear
     DueIssuesReminder.new(42).remind_users
     assert_equal 1, ActionMailer::Base.deliveries.size
@@ -422,7 +439,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_reminders_for_users
     user1  = FactoryGirl.create(:user, :mail => 'foo1@bar.de')
     user2  = FactoryGirl.create(:user, :mail => 'foo2@bar.de')
-    issue = FactoryGirl.create(:issue, :due_date => Date.tomorrow, :assigned_to => user1, :subject => 'some issue')
+    issue = FactoryGirl.create(:work_package, :due_date => Date.tomorrow, :assigned_to => user1, :subject => 'some issue')
     ActionMailer::Base.deliveries.clear
 
     DueIssuesReminder.new(42, nil, nil, [user2.id]).remind_users
@@ -493,12 +510,12 @@ private
     project.types << type
     project.save
 
-    related_issue = FactoryGirl.create(:issue,
+    related_issue = FactoryGirl.create(:work_package,
         :subject => 'My related Ticket',
         :type => type,
         :project => project)
 
-    issue   = FactoryGirl.create(:issue,
+    issue   = FactoryGirl.create(:work_package,
         :subject => 'My awesome Ticket',
         :type => type,
         :project => project,

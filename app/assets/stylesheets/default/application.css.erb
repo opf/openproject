@@ -1,13 +1,31 @@
-//-- copyright
-// OpenProject is a project management system.
-//
-// Copyright (C) 2012-2013 the OpenProject Team
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License version 3.
-//
-// See doc/COPYRIGHT.rdoc for more details.
-//++
+/*-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++*/
 
 html {overflow-y: scroll;}
 body {
@@ -600,7 +618,9 @@ input#user_search {width: 100%}
 
 * html div#tab-content-members fieldset div { height: 450px; }
 
-div#tab-content-members fieldset div.select-boxes label {
+div#tab-content-members fieldset div.select-boxes label,
+div#tab-content-members fieldset div#principal_results div.roles,
+div#tab-content-members fieldset div#principal_results div.principals {
   display: inline-block;
   width: 350px; /* max-width of select2boxes */
 }
@@ -1042,6 +1062,7 @@ a.close-icon:hover {
 .icon-folder { background-image: url(<%= asset_path 'folder.png' %>); }
 .open .icon-folder { background-image: url(<%= asset_path 'folder_open.png' %>); }
 .icon-package { background-image: url(<%= asset_path 'package.png' %>); }
+.icon-parent { background-image: url(<%= asset_path 'link.png' %>); }
 .icon-user { background-image: url(<%= asset_path 'user.png' %>); }
 .icon-projects { background-image: url(<%= asset_path 'latest_projects.png' %>); }
 .icon-help { background-image: url(<%= asset_path 'help.png' %>); }
@@ -2249,6 +2270,15 @@ tr.context-menu-selection td.priority {
   background: none !important;
 }
 
+.nomenus #content {
+  margin: 0px;
+  padding: 0px;
+}
+
+.nomenus #main {
+  padding-bottom: 0px;
+}
+
 /* Blue dots killed */
 .nosidebar ul li {
   background: none;
@@ -3387,4 +3417,17 @@ input::-webkit-input-placeholder {
 }
 :-moz-placeholder {
   color:    #000000;
+}
+
+.ui-dialog { overflow: visible; }
+
+#ui-dialog-closer {
+    background-image: url(<%= asset_path 'modal_close.png' %>);
+    cursor: pointer;
+    height: 33px;
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    width: 33px;
+    z-index: 5000;
 }

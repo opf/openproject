@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -61,10 +78,6 @@ module JournalsHelper
   end
 
   def render_notes(model, journal, options={})
-    controller = "/#{model.class.name.downcase.pluralize}"
-    action = 'edit'
-    reply_links = authorize_for(controller, action)
-
     if User.current.logged?
       editable = User.current.allowed_to?(options[:edit_permission], journal.project) if options[:edit_permission]
       if journal.user == User.current && options[:edit_own_permission]
@@ -73,10 +86,16 @@ module JournalsHelper
     end
 
     unless journal.notes.blank?
+
       links = [].tap do |l|
-        if reply_links
+        if options[:quote_permission] && User.current.allowed_to?(options[:quote_permission], journal.project)
+          # TODO: This is a hack.
+          # it assumes that there is a quoted action on the controller
+          # currently rendering the view
+          # the quote link should somehow be supplied
+          controller_name = controller.class.to_s.underscore.gsub(/_controller$/,"").to_sym
           l << link_to(image_tag('quote.png', :alt => l(:button_quote), :title => l(:button_quote)),
-                                                { :controller => controller,
+                                                { :controller => controller_name,
                                                   :action => 'quoted',
                                                   :id => model,
                                                   :journal_id => journal }, :class => 'quote-link')

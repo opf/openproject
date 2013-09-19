@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -81,17 +98,17 @@ module NavigationHelpers
       "/activity"
 
     when /^the page (?:for|of) the issue "([^\"]+)"$/
-      issue = Issue.find_by_subject($1)
+      issue = WorkPackage.find_by_subject($1)
       "/work_packages/#{issue.id}"
 
     when /^the edit page (?:for|of) the issue "([^\"]+)"$/
-      issue = Issue.find_by_subject($1)
+      issue = WorkPackage.find_by_subject($1)
       "/issues/#{issue.id}/edit"
 
-    when /^the copy page (?:for|of) the issue "([^\"]+)"$/
-      issue = Issue.find_by_subject($1)
-      project = issue.project
-      "/projects/#{project.identifier}/issues/#{issue.id}/copy"
+    when /^the copy page (?:for|of) the work package "([^\"]+)"$/
+      package = WorkPackage.find_by_subject($1)
+      project = package.project
+      "/projects/#{project.identifier}/work_packages/new?copy_from=#{package.id}"
 
     when /^the work packages? index page (?:for|of) (the)? project(?: called)? (.+)$/
        project_identifier = $2.gsub("\"", "")
@@ -201,6 +218,9 @@ module NavigationHelpers
     when /^the My page$/
       '/my/page'
 
+    when /^the My page personalization page$/
+      "/my/page_layout"
+
     when /^the [mM]y account page$/
       '/my/account'
 
@@ -266,7 +286,7 @@ module NavigationHelpers
 
     when /^the page of the planning element "([^\"]+)" of the project called "([^\"]+)"$/
       planning_element_name = $1
-      planning_element = PlanningElement.find_by_subject(planning_element_name)
+      planning_element = WorkPackage.find_by_subject(planning_element_name)
       "/work_packages/#{planning_element.id}"
 
     when /^the (.+) page (?:for|of) the project called "([^\"]+)"$/
@@ -290,16 +310,16 @@ module NavigationHelpers
       "/admin/groups/#{id}/edit"
 
     when /^the time entry page of issue "(.+)"$/
-      issue_id = Issue.find_by_subject($1).id
-      "/issues/#{issue_id}/time_entries"
+      issue_id = WorkPackage.find_by_subject($1).id
+      "/work_packages/#{issue_id}/time_entries"
 
-    when /^the copy page of the work package "(.+)"$/
+    when /^the move new page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id
-      "/work_packages/#{work_package_id}/moves/new?copy="
+      "/work_packages/#{work_package_id}/move/new?copy="
 
     when /^the move page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id
-      "/work_packages/#{work_package_id}/moves/new"
+      "/work_packages/#{work_package_id}/move/new"
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

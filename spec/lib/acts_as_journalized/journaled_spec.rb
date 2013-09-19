@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -16,13 +33,13 @@ describe "Journalized Objects" do
     @type ||= FactoryGirl.create(:type_feature)
     @project ||= FactoryGirl.create(:project_with_types)
     @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
-    User.stub!(:current).and_return(@current)
+    User.stub(:current).and_return(@current)
   end
 
 
   it 'should work with issues' do
     @status_open ||= FactoryGirl.create(:issue_status, :name => "Open", :is_default => true)
-    @issue ||= FactoryGirl.create(:issue, :project => @project, :status => @status_open, :type => @type, :author => @current)
+    @issue ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
 
     initial_journal = @issue.journals.first
     recreated_journal = @issue.recreate_initial_journal!
@@ -60,7 +77,7 @@ describe "Journalized Objects" do
 
   it 'should work with time entries' do
     @status_open ||= FactoryGirl.create(:issue_status, :name => "Open", :is_default => true)
-    @issue ||= FactoryGirl.create(:issue, :project => @project, :status => @status_open, :type => @type, :author => @current)
+    @issue ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
 
     @time_entry ||= FactoryGirl.create(:time_entry, :work_package => @issue, :project => @project, :spent_on => Time.now, :hours => 5, :user => @current, :activity => FactoryGirl.create(:time_entry_activity))
 
@@ -71,7 +88,7 @@ describe "Journalized Objects" do
   end
 
   it 'should work with attachments' do
-    @attachment ||= FactoryGirl.create(:attachment, :container => FactoryGirl.create(:issue), :author => @current)
+    @attachment ||= FactoryGirl.create(:attachment, :container => FactoryGirl.create(:work_package), :author => @current)
 
     initial_journal = @attachment.journals.first
     recreated_journal = @attachment.recreate_initial_journal!

@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -37,7 +54,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def find_issues_with_query(query)
-    Issue.find :all,
+    WorkPackage.find :all,
       :include => [ :assigned_to, :status, :type, :project, :priority ],
       :conditions => query.statement
   end
@@ -57,7 +74,7 @@ class QueryTest < ActiveSupport::TestCase
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('fixed_version_id', '=', [subproject_version.id.to_s])
 
-    assert query.statement.include?("#{Issue.table_name}.fixed_version_id IN ('4')")
+    assert query.statement.include?("#{WorkPackage.table_name}.fixed_version_id IN ('4')")
   end
 
   def test_query_with_multiple_custom_fields
@@ -66,14 +83,14 @@ class QueryTest < ActiveSupport::TestCase
     assert query.statement.include?("#{CustomValue.table_name}.value IN ('MySQL')")
     issues = find_issues_with_query(query)
     assert_equal 1, issues.length
-    assert_equal Issue.find(3), issues.first
+    assert_equal WorkPackage.find(3), issues.first
   end
 
   def test_operator_none
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('fixed_version_id', '!*', [''])
     query.add_filter('cf_1', '!*', [''])
-    assert query.statement.include?("#{Issue.table_name}.fixed_version_id IS NULL")
+    assert query.statement.include?("#{WorkPackage.table_name}.fixed_version_id IS NULL")
     assert query.statement.include?("#{CustomValue.table_name}.value IS NULL OR #{CustomValue.table_name}.value = ''")
     find_issues_with_query(query)
   end
@@ -90,7 +107,7 @@ class QueryTest < ActiveSupport::TestCase
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('fixed_version_id', '*', [''])
     query.add_filter('cf_1', '*', [''])
-    assert query.statement.include?("#{Issue.table_name}.fixed_version_id IS NOT NULL")
+    assert query.statement.include?("#{WorkPackage.table_name}.fixed_version_id IS NOT NULL")
     assert query.statement.include?("#{CustomValue.table_name}.value IS NOT NULL AND #{CustomValue.table_name}.value <> ''")
     find_issues_with_query(query)
   end
@@ -98,12 +115,12 @@ class QueryTest < ActiveSupport::TestCase
   def test_operator_greater_than
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('done_ratio', '>=', ['40'])
-    assert query.statement.include?("#{Issue.table_name}.done_ratio >= 40")
+    assert query.statement.include?("#{WorkPackage.table_name}.done_ratio >= 40")
     find_issues_with_query(query)
   end
 
   def test_operator_in_more_than
-    Issue.find(7).update_attribute(:due_date, (Date.today + 15))
+    WorkPackage.find(7).update_attribute(:due_date, (Date.today + 15))
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', '>t+', ['15'])
     issues = find_issues_with_query(query)
@@ -120,7 +137,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_less_than_ago
-    Issue.find(7).update_attribute(:due_date, (Date.today - 3))
+    WorkPackage.find(7).update_attribute(:due_date, (Date.today - 3))
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', '>t-', ['3'])
     issues = find_issues_with_query(query)
@@ -129,17 +146,17 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_more_than_ago
-    Issue.find(7).update_attribute(:due_date, (Date.today - 10))
+    WorkPackage.find(7).update_attribute(:due_date, (Date.today - 10))
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', '<t-', ['10'])
-    assert query.statement.include?("#{Issue.table_name}.due_date <=")
+    assert query.statement.include?("#{WorkPackage.table_name}.due_date <=")
     issues = find_issues_with_query(query)
     assert !issues.empty?
     issues.each {|issue| assert(issue.due_date <= (Date.today - 10))}
   end
 
   def test_operator_in
-    Issue.find(7).update_attribute(:due_date, (Date.today + 2))
+    WorkPackage.find(7).update_attribute(:due_date, (Date.today + 2))
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 't+', ['2'])
     issues = find_issues_with_query(query)
@@ -148,7 +165,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_ago
-    Issue.find(7).update_attribute(:due_date, (Date.today - 3))
+    WorkPackage.find(7).update_attribute(:due_date, (Date.today - 3))
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 't-', ['3'])
     issues = find_issues_with_query(query)
@@ -179,7 +196,7 @@ class QueryTest < ActiveSupport::TestCase
   def test_operator_contains
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('subject', '~', ['uNable'])
-    assert query.statement.include?("LOWER(#{Issue.table_name}.subject) LIKE '%unable%'")
+    assert query.statement.include?("LOWER(#{WorkPackage.table_name}.subject) LIKE '%unable%'")
     result = find_issues_with_query(query)
     assert result.empty?
     result.each {|issue| assert issue.subject.downcase.include?('unable') }
@@ -188,7 +205,7 @@ class QueryTest < ActiveSupport::TestCase
   def test_operator_does_not_contains
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('subject', '!~', ['uNable'])
-    assert query.statement.include?("LOWER(#{Issue.table_name}.subject) NOT LIKE '%unable%'")
+    assert query.statement.include?("LOWER(#{WorkPackage.table_name}.subject) NOT LIKE '%unable%'")
     find_issues_with_query(query)
   end
 
@@ -198,7 +215,7 @@ class QueryTest < ActiveSupport::TestCase
     result = find_issues_with_query(query)
     assert_not_nil result
     assert !result.empty?
-    assert_equal Issue.visible.watched_by(User.current).sort_by(&:id), result.sort_by(&:id)
+    assert_equal WorkPackage.visible.watched_by(User.current).sort_by(&:id), result.sort_by(&:id)
     User.current = nil
   end
 
@@ -208,7 +225,7 @@ class QueryTest < ActiveSupport::TestCase
     result = find_issues_with_query(query)
     assert_not_nil result
     assert !result.empty?
-    assert_equal((Issue.visible - Issue.watched_by(User.current)).sort_by(&:id).size, result.sort_by(&:id).size)
+    assert_equal((WorkPackage.visible - WorkPackage.watched_by(User.current)).sort_by(&:id).size, result.sort_by(&:id).size)
     User.current = nil
   end
 
@@ -276,7 +293,7 @@ class QueryTest < ActiveSupport::TestCase
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
-    issues = Issue.find :all,
+    issues = WorkPackage.find :all,
                         :include => [ :assigned_to, :status, :type, :project, :priority ],
                         :conditions => q.statement,
                         :order => "#{c.sortable} ASC"
@@ -290,7 +307,7 @@ class QueryTest < ActiveSupport::TestCase
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
-    issues = Issue.find :all,
+    issues = WorkPackage.find :all,
                         :include => [ :assigned_to, :status, :type, :project, :priority ],
                         :conditions => q.statement,
                         :order => "#{c.sortable} DESC"
@@ -304,7 +321,7 @@ class QueryTest < ActiveSupport::TestCase
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'float' }
     assert c
     assert c.sortable
-    issues = Issue.find :all,
+    issues = WorkPackage.find :all,
                         :include => [ :assigned_to, :status, :type, :project, :priority ],
                         :conditions => q.statement,
                         :order => "#{c.sortable} ASC"
@@ -563,7 +580,7 @@ class QueryTest < ActiveSupport::TestCase
         @query = Query.new(:name => '_')
         @query.add_filter('member_of_group', '=', [@group.id.to_s])
 
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}')"
+        assert_query_statement_includes @query, "#{WorkPackage.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 
@@ -572,7 +589,7 @@ class QueryTest < ActiveSupport::TestCase
         @query.add_filter('member_of_group', '!*', [''])
 
         # Users not in a group
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IS NULL OR #{Issue.table_name}.assigned_to_id NOT IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
+        assert_query_statement_includes @query, "#{WorkPackage.table_name}.assigned_to_id IS NULL OR #{WorkPackage.table_name}.assigned_to_id NOT IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 
@@ -581,7 +598,7 @@ class QueryTest < ActiveSupport::TestCase
         @query.add_filter('member_of_group', '*', [''])
 
         # Only users in a group
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
+        assert_query_statement_includes @query, "#{WorkPackage.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 
@@ -626,7 +643,7 @@ class QueryTest < ActiveSupport::TestCase
         @query = Query.new(:name => '_')
         @query.add_filter('assigned_to_role', '=', [@manager_role.id.to_s])
 
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@manager.id}','#{@boss.id}')"
+        assert_query_statement_includes @query, "#{WorkPackage.table_name}.assigned_to_id IN ('#{@manager.id}','#{@boss.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 
@@ -634,7 +651,7 @@ class QueryTest < ActiveSupport::TestCase
         @query = Query.new(:name => '_')
         @query.add_filter('assigned_to_role', '!*', [''])
 
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IS NULL OR #{Issue.table_name}.assigned_to_id NOT IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
+        assert_query_statement_includes @query, "#{WorkPackage.table_name}.assigned_to_id IS NULL OR #{WorkPackage.table_name}.assigned_to_id NOT IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 
@@ -642,7 +659,7 @@ class QueryTest < ActiveSupport::TestCase
         @query = Query.new(:name => '_')
         @query.add_filter('assigned_to_role', '*', [''])
 
-        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
+        assert_query_statement_includes @query, "#{WorkPackage.table_name}.assigned_to_id IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 

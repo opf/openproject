@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -45,11 +62,11 @@ module Redmine
                                       :permissions => [:manage_versions,
                                                       :manage_categories,
                                                       :view_work_packages,
-                                                      :add_issues,
-                                                      :edit_issues,
-                                                      :manage_issue_relations,
+                                                      :add_work_packages,
+                                                      :edit_work_packages,
+                                                      :manage_work_package_relations,
                                                       :manage_subtasks,
-                                                      :add_issue_notes,
+                                                      :add_work_package_notes,
                                                       :save_queries,
                                                       :view_calendar,
                                                       :log_time,
@@ -63,13 +80,14 @@ module Redmine
                                                       :edit_own_messages,
                                                       :browse_repository,
                                                       :view_changesets,
-                                                      :commit_access]
+                                                      :commit_access,
+                                                      :view_commit_author_statistics]
 
             reporter = Role.create! :name => l(:default_role_reporter),
                                     :position => 3,
                                     :permissions => [:view_work_packages,
-                                                    :add_issues,
-                                                    :add_issue_notes,
+                                                    :add_work_packages,
+                                                    :add_work_package_notes,
                                                     :save_queries,
                                                     :view_calendar,
                                                     :log_time,
@@ -80,12 +98,13 @@ module Redmine
                                                     :add_messages,
                                                     :edit_own_messages,
                                                     :browse_repository,
-                                                    :view_changesets]
+                                                    :view_changesets,
+                                                    :view_commit_author_statistics]
 
             Role.non_member.update_attributes :name => l(:default_role_non_member),
                                               :permissions => [:view_work_packages,
-                                                            :add_issues,
-                                                            :add_issue_notes,
+                                                            :add_work_packages,
+                                                            :add_work_package_notes,
                                                             :save_queries,
                                                             :view_calendar,
                                                             :view_time_entries,
@@ -94,7 +113,8 @@ module Redmine
                                                             :view_wiki_edits,
                                                             :add_messages,
                                                             :browse_repository,
-                                                            :view_changesets]
+                                                            :view_changesets,
+                                                            :view_commit_author_statistics]
 
             Role.anonymous.update_attributes :name => l(:default_role_anonymous),
                                              :permissions => [:view_work_packages,
@@ -103,7 +123,8 @@ module Redmine
                                                            :view_wiki_pages,
                                                            :view_wiki_edits,
                                                            :browse_repository,
-                                                           :view_changesets]
+                                                           :view_changesets,
+                                                           :view_commit_author_statistics]
 
             # Colors
             colors_list = PlanningElementTypeColor.ms_project_colors
@@ -117,7 +138,6 @@ module Redmine
             Type.create! :name           => l(:default_type_bug),
                          :color_id       => colors[:pjRed],
                          :is_default     => true,
-                         :is_in_chlog    => true,
                          :is_in_roadmap  => false,
                          :in_aggregation => true,
                          :is_milestone   => false,
@@ -126,7 +146,6 @@ module Redmine
             Type.create! :name           => l(:default_type_feature),
                          :is_default     => true,
                          :color_id       => colors[:pjLime],
-                         :is_in_chlog    => true,
                          :is_in_roadmap  => true,
                          :in_aggregation => true,
                          :is_milestone   => false,
@@ -135,7 +154,6 @@ module Redmine
             Type.create! :name           => l(:default_type_support),
                          :is_default     => true,
                          :color_id       => colors[:pjBlue],
-                         :is_in_chlog    => false,
                          :is_in_roadmap  => false,
                          :in_aggregation => true,
                          :is_milestone   => false,
@@ -144,7 +162,6 @@ module Redmine
             Type.create! :name           => l(:default_type_phase),
                          :is_default     => true,
                          :color_id       => colors[:pjSilver],
-                         :is_in_chlog    => false,
                          :is_in_roadmap  => false,
                          :in_aggregation => true,
                          :is_milestone   => false,
@@ -153,7 +170,6 @@ module Redmine
             Type.create! :name           => l(:default_type_milestone),
                          :is_default     => true,
                          :color_id       => colors[:pjPurple],
-                         :is_in_chlog    => false,
                          :is_in_roadmap  => true,
                          :in_aggregation => true,
                          :is_milestone   => true,

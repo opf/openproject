@@ -2,11 +2,28 @@
 
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -87,17 +104,6 @@ Then /^the project "([^"]*)" is( not)? public$/ do |project_name, negation|
   p.update_attribute(:is_public, !negation)
 end
 
-Given /^the [Pp]roject "([^\"]*)" has 1 [wW]iki(?: )?[pP]age with the following:$/ do |project, table|
-  p = Project.find_by_name(project)
-
-  p.wiki.create! unless p.wiki
-
-  page = FactoryGirl.create(:wiki_page, :wiki => p.wiki)
-  content = FactoryGirl.create(:wiki_content, :page => page)
-
-  send_table_to_object(page, table)
-end
-
 Given /^the plugin (.+) is loaded$/ do |plugin_name|
   plugin_name = plugin_name.gsub("\"", "")
   Redmine::Plugin.all.detect {|x| x.id == plugin_name.to_sym}.present? ? nil : pending("Plugin #{plugin_name} not loaded")
@@ -175,7 +181,7 @@ Given /^the [Uu]ser "([^\"]*)" has 1 time [eE]ntry$/ do |user|
   u = User.find_by_login user
   p = u.projects.last
   raise "This user must be member of a project to have issues" unless p
-  i = Issue.generate_for_project!(p)
+  i = WorkPackage.generate_for_project!(p)
   t = TimeEntry.generate
   t.user = u
   t.issue = i
@@ -189,7 +195,7 @@ Given /^the [Uu]ser "([^\"]*)" has 1 time entry with (\d+\.?\d*) hours? at the p
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin do
     t = TimeEntry.generate
-    i = Issue.generate_for_project!(p)
+    i = WorkPackage.generate_for_project!(p)
     t.project = p
     t.issue = i
     t.hours = hours.to_f
@@ -205,7 +211,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin count do
     t = TimeEntry.generate
-    i = Issue.generate_for_project!(p)
+    i = WorkPackage.generate_for_project!(p)
     t.project = p
     t.work_package = i
     t.activity.project = p
@@ -284,7 +290,7 @@ end
 
 
 Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the following:$/ do |issue, count, table|
-  i = Issue.find(:last, :conditions => ["subject = '#{issue}'"])
+  i = WorkPackage.find(:last, :conditions => ["subject = '#{issue}'"])
   raise "No such issue: #{issue}" unless i
   as_admin count do
     t = TimeEntry.generate

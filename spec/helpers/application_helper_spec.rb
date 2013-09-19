@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -79,7 +96,7 @@ describe ApplicationHelper do
                                               :member_through_role => FactoryGirl.create(:role,
                                                                                          :permissions => [:view_work_packages, :edit_work_packages,
                                                                                          :browse_repository, :view_changesets, :view_wiki_pages]) }
-    let(:issue) { FactoryGirl.create :issue,
+    let(:issue) { FactoryGirl.create :work_package,
                                      :project => project,
                                      :author => project_member,
                                      :type => project.types.first }
@@ -140,7 +157,7 @@ describe ApplicationHelper do
                                               :member_through_role => FactoryGirl.create(:role,
                                                                                          :permissions => [:view_work_packages, :edit_work_packages,
                                                                                          :browse_repository, :view_changesets, :view_wiki_pages]) }
-    let(:issue) { FactoryGirl.create :issue,
+    let(:issue) { FactoryGirl.create :work_package,
                                      :project => project,
                                      :author => project_member,
                                      :type => project.types.first }
@@ -534,5 +551,23 @@ EXPECTED
 
       it { should eql(expected.gsub(%r{[\r\n\t]}, ''))}
     end
+  end
+
+  describe "other_formats_links" do
+    context "link given" do
+      before do
+        @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
+      end
+      it { @links.should == "<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"atom\" rel=\"nofollow\">Atom</a></span></p>"}
+    end
+
+    context "link given but disabled" do
+      before do
+        Setting.stub(:feeds_enabled?).and_return(false)
+        @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
+      end
+      it { @links.should be_nil}
+    end
+
   end
 end

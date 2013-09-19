@@ -2,16 +2,39 @@
 #
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 module WorkPackagesHelper
+  def work_package_api_done_ratio_if_enabled(api, issue)
+    if Setting.issue_done_ratio != 'disabled'
+      api.done_ratio  issue.done_ratio
+    end
+  end
+
   def work_package_breadcrumb
     full_path = ancestors_links.unshift(work_package_index_link)
 
@@ -26,7 +49,7 @@ module WorkPackagesHelper
 
   def work_package_index_link
     # TODO: will need to change to work_package index
-    link_to(t(:label_work_package_plural), {:controller => '/issues', :action => 'index'})
+    link_to(t(:label_work_package_plural), {controller: :work_packages, action: :index})
   end
 
   # Displays a link to +work_package+ with its subject.
@@ -316,7 +339,7 @@ module WorkPackagesHelper
   def work_package_show_table_row(attribute, klass = nil, &block)
     klass = attribute.to_s.dasherize if klass.nil?
 
-    content = content_tag(:th, :class => klass) { "#{Issue.human_attribute_name(attribute)}:" }
+    content = content_tag(:th, :class => klass) { "#{WorkPackage.human_attribute_name(attribute)}:" }
     content << content_tag(:td, :class => klass, &block)
 
     WorkPackageAttribute.new(attribute, content)
@@ -371,6 +394,8 @@ module WorkPackagesHelper
   end
 
   def work_package_show_progress_attribute(work_package)
+    return if WorkPackage.done_ratio_disabled?
+
     work_package_show_table_row(:progress, 'done-ratio') do
       progress_bar work_package.done_ratio, :width => '80px', :legend => work_package.done_ratio.to_s
     end
@@ -431,14 +456,9 @@ module WorkPackagesHelper
 
   def work_package_form_parent_attribute(form, work_package, locals = {})
     if User.current.allowed_to?(:manage_subtasks, locals[:project])
-      field = if work_package.is_a?(Issue)
-                form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
-              else
-                form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
-              end
-
+      field = form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
       field += '<div id="parent_issue_candidates" class="autocomplete"></div>'.html_safe
-      field += javascript_tag "observeWorkPackageParentField('#{issues_auto_complete_path(:id => work_package, :project_id => locals[:project], :escape => false) }')"
+      field += javascript_tag "observeWorkPackageParentField('#{work_packages_auto_complete_path(:id => work_package, :project_id => locals[:project], :escape => false) }')"
 
       WorkPackageAttribute.new(:parent_issue, field)
     end
@@ -540,7 +560,7 @@ module WorkPackagesHelper
   end
 
   def work_package_form_done_ratio_attribute(form, work_package, locals = {})
-    if !attrib_disabled?(work_package, 'done_ratio') && Issue.use_field_for_done_ratio?
+    if !attrib_disabled?(work_package, 'done_ratio') && WorkPackage.use_field_for_done_ratio?
 
       field = form.select(:done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }))
 

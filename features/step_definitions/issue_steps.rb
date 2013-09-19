@@ -1,46 +1,63 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 Given /^there are no issues$/ do
-  Issue.destroy_all
+  WorkPackage.destroy_all
 end
 
 Given /^the issue "(.*?)" is watched by:$/ do |issue_subject, watchers|
-  issue = Issue.find(:last, :conditions => {:subject => issue_subject}, :order => :created_at)
+  issue = WorkPackage.find(:last, :conditions => {:subject => issue_subject}, :order => :created_at)
   watchers.raw.flatten.each {|w| issue.add_watcher User.find_by_login(w)}
   issue.save
 end
 
 Then /^the issue "(.*?)" should have (\d+) watchers$/ do |issue_subject, watcher_count|
-  Issue.find_by_subject(issue_subject).watchers.count.should == watcher_count.to_i
+  WorkPackage.find_by_subject(issue_subject).watchers.count.should == watcher_count.to_i
 end
 
 Given(/^the issue "(.*?)" has an attachment "(.*?)"$/) do |issue_subject, file_name|
-  issue = Issue.find(:last, :conditions => {:subject => issue_subject}, :order => :created_at)
+  issue = WorkPackage.find(:last, :conditions => {:subject => issue_subject}, :order => :created_at)
   attachment = FactoryGirl.create :attachment,
-        :author => issue.author,
-        :content_type => 'image/gif',
-        :filename => file_name,
-        :disk_filename => "#{rand(10000000..99999999)}_#{file_name}",
-        :digest => Digest::MD5.hexdigest(file_name),
-        :container => issue,
-        :filesize => rand(100..10000),
-        :description => 'This is an attachment description'
+                                  :author => issue.author,
+                                  :content_type => 'image/gif',
+                                  :filename => file_name,
+                                  :disk_filename => "#{rand(10000000..99999999)}_#{file_name}",
+                                  :digest => Digest::MD5.hexdigest(file_name),
+                                  :container => issue,
+                                  :filesize => rand(100..10000),
+                                  :description => 'This is an attachment description'
 end
 
 Given /^the [Uu]ser "([^\"]*)" has (\d+) [iI]ssue(?:s)? with(?: the following)?:$/ do |user, count, table|
   u = User.find_by_login user
   raise "This user must be member of a project to have issues" unless u.projects.last
   as_admin count do
-    i = Issue.generate_for_project!(u.projects.last)
+    i = FactoryGirl.create(:work_package, project: u.projects.last)
     i.author = u
     i.assigned_to = u
     i.type = Type.find_by_name(table.rows_hash.delete("type")) if table.rows_hash["type"]
@@ -52,8 +69,8 @@ end
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [iI]ssue(?:s)? with(?: the following)?:$/ do |project, count, table|
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin count do
-    i = FactoryGirl.build(:issue, :project => p,
-                                  :type => p.types.first)
+    i = FactoryGirl.build(:work_package, :project => p,
+                                         :type => p.types.first)
     send_table_to_object(i, table, {}, method(:add_custom_value_to_issue))
   end
 end
@@ -74,7 +91,7 @@ Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |projec
 
     type_attributes[:type] = type unless type.nil?
 
-    factory = FactoryGirl.create(:issue, type_attributes.merge(:project_id => project.id))
+    factory = FactoryGirl.create(:work_package, type_attributes.merge(:project_id => project.id))
 
     factory.reload
 
@@ -99,7 +116,7 @@ Given (/^there are the following issues with attributes:$/) do |table|
     attributes.merge! :author_id => author.id if author
 
     watchers = attributes.delete("watched_by")
-    issue = FactoryGirl.create(:issue, attributes)
+    issue = FactoryGirl.create(:work_package, attributes)
 
     if watchers
       watchers.split(",").each {|w| issue.add_watcher User.find_by_login(w)}

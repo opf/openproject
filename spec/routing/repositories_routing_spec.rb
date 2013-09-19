@@ -1,10 +1,27 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -31,30 +48,33 @@ describe RepositoriesController do
     it { get("/projects/testproject/repository/revisions/2457").should route_to( :controller => 'repositories', :action => 'revision', :id => 'testproject', :rev => '2457')}
   end
 
-  pending describe "diff" do
-    it { get("/projects/testproject/repository/revisions/2457/diff").should             route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :rev => '2457')}
-    it { get("/projects/testproject/repository/revisions/2457/diff.diff").should        route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :rev => '2457', :format => 'diff')}
-    it { get("/projects/testproject/repository/diff/path/to/file.c").should             route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :path => %w[path to file.c])}
-    it { get("/projects/testproject/repository/revisions/2/diff/path/to/file.c").should route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :path => %w[path to file.c], :rev => '2')}
+  describe "diff" do
+    pending describe "unknown diff roots" do
+      it { get("/projects/testproject/repository/revisions/2457/diff").should             route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :rev => '2457')}
+      it { get("/projects/testproject/repository/revisions/2457/diff.diff").should        route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :rev => '2457', :format => 'diff')}
+    end
+    it { get("/projects/testproject/repository/diff").should route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject')}
+    it { get("/projects/testproject/repository/diff/path/to/file.c").should             route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :path => "path/to/file", :format => 'c')}
+    it { get("/projects/testproject/repository/revisions/2/diff/path/to/file.c").should route_to( :controller => 'repositories', :action => 'diff', :id => 'testproject', :path => "path/to/file.c", :rev => '2')}
   end
 
-  pending describe "browse" do
-    it { get("/projects/testproject/repository/browse/path/to/file.c").should route_to( :controller => 'repositories', :action => 'browse', :id => 'testproject', :path => %w[path to file.c])}
+  describe "browse" do
+    it { get("/projects/testproject/repository/browse/path/to/file.c").should route_to( :controller => 'repositories', :action => 'browse', :id => 'testproject', :path => "path/to/file", :format => 'c')}
   end
 
-  pending describe "entry" do
-    it { get("/projects/testproject/repository/entry/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c])}
-    it { get("/projects/testproject/repository/revisions/2/entry/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c], :rev => '2')}
-    it { get("/projects/testproject/repository/raw/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c], :format => 'raw')}
-    it { get("/projects/testproject/repository/revisions/2/raw/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => %w[path to file.c], :rev => '2', :format => 'raw')}
+  describe "entry" do
+    it { get("/projects/testproject/repository/entry/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => "path/to/file", :format => 'c')}
+    it { get("/projects/testproject/repository/revisions/2/entry/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => "path/to/file", :rev => '2', :format => 'c')}
+    it { get("/projects/testproject/repository/raw/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => "path/to/file", :format => 'c', :kind => 'raw')}
+    it { get("/projects/testproject/repository/revisions/2/raw/path/to/file.c").should route_to( :controller => 'repositories', :action => 'entry', :id => 'testproject', :path => "path/to/file", :rev => '2', :format => 'c', :kind => 'raw')}
   end
 
-  pending describe "annotate" do
-    it { get("/projects/testproject/repository/annotate/path/to/file.c").should route_to( :controller => 'repositories', :action => 'annotate', :id => 'testproject', :path => %w[path to file.c])}
+  describe "annotate" do
+    it { get("/projects/testproject/repository/annotate/path/to/file.c").should route_to( :controller => 'repositories', :action => 'annotate', :id => 'testproject', :path => "path/to/file", :format => 'c')}
   end
 
-  pending describe "changes" do
-    it { get("/projects/testproject/repository/changes/path/to/file.c").should route_to( :controller => 'repositories', :action => 'changes', :id => 'testproject', :path => %w[path to file.c])}
+  describe "changes" do
+    it { get("/projects/testproject/repository/changes/path/to/file.c").should route_to( :controller => 'repositories', :action => 'changes', :id => 'testproject', :path => "path/to/file", :format => 'c')}
   end
 
   describe "stats" do

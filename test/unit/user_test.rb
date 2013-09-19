@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -420,7 +437,7 @@ class UserTest < ActiveSupport::TestCase
       should "return false if related module is disabled" do
         project = Project.find(1)
         project.enabled_module_names = ["issue_tracking"]
-        assert @admin.allowed_to?(:add_issues, project)
+        assert @admin.allowed_to?(:add_work_packages, project)
         assert ! @admin.allowed_to?(:view_wiki_pages, project)
       end
 
@@ -428,7 +445,7 @@ class UserTest < ActiveSupport::TestCase
         project = Project.find(1)
         project.enabled_module_names = ["issue_tracking", "news", "wiki", "repository"]
         assert ! @admin.member_of?(project)
-        %w(edit_work_packages delete_issues manage_news manage_repository manage_wiki).each do |p|
+        %w(edit_work_packages delete_work_packages manage_news manage_repository manage_wiki).each do |p|
           assert @admin.allowed_to?(p.to_sym, project)
         end
       end
@@ -462,11 +479,11 @@ class UserTest < ActiveSupport::TestCase
         assert @admin.allowed_to?(:view_project, Project.all)
         assert ! @dlopper.allowed_to?(:view_project, Project.all) #cannot see Project(2)
         assert @jsmith.allowed_to?(:edit_work_packages, @jsmith.projects) #Manager or Developer everywhere
-        assert ! @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects) #Dev cannot delete_issue_watchers
+        assert ! @jsmith.allowed_to?(:delete_work_package_watchers, @jsmith.projects) #Dev cannot delete_work_package_watchers
       end
 
       should "behave correctly with arrays of 1 project" do
-        assert ! User.anonymous.allowed_to?(:delete_issues, [Project.first])
+        assert ! User.anonymous.allowed_to?(:delete_work_packages, [Project.first])
       end
     end
 
@@ -474,10 +491,10 @@ class UserTest < ActiveSupport::TestCase
       should "authorize if user has at least one role that has this permission" do
         @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
         @anonymous = User.find(6)
-        assert @jsmith.allowed_to?(:delete_issue_watchers, nil, :global => true)
-        assert ! @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
-        assert @dlopper2.allowed_to?(:add_issues, nil, :global => true)
-        assert ! @anonymous.allowed_to?(:add_issues, nil, :global => true)
+        assert @jsmith.allowed_to?(:delete_work_package_watchers, nil, :global => true)
+        assert ! @dlopper2.allowed_to?(:delete_work_package_watchers, nil, :global => true)
+        assert @dlopper2.allowed_to?(:add_work_packages, nil, :global => true)
+        assert ! @anonymous.allowed_to?(:add_work_packages, nil, :global => true)
         assert @anonymous.allowed_to?(:view_work_packages, nil, :global => true)
       end
     end
@@ -489,7 +506,7 @@ class UserTest < ActiveSupport::TestCase
         @project = Project.find(1)
         @author = User.generate_with_protected!
         @assignee = User.generate_with_protected!
-        @issue = Issue.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
+        @issue = FactoryGirl.create(:work_package, project: @project, :assigned_to => @assignee, :author => @author)
       end
 
       should "be true for a user with :all" do

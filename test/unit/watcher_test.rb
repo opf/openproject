@@ -1,21 +1,38 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 
 class WatcherTest < ActiveSupport::TestCase
   def setup
     super
     @user  = FactoryGirl.create :user
-    @issue = FactoryGirl.create :issue
+    @issue = FactoryGirl.create :work_package
     @role  = FactoryGirl.create :role, :permissions => [:view_work_packages]
     @issue.project.add_member! @user, @role
   end
@@ -33,7 +50,7 @@ class WatcherTest < ActiveSupport::TestCase
   def test_watched_by
     @issue.add_watcher(@user)
     assert @issue.watched_by?(@user)
-    assert_contains Issue.watched_by(@user), @issue
+    assert_contains WorkPackage.watched_by(@user), @issue
   end
 
   def test_watcher_users_contains_correct_classes
@@ -84,7 +101,10 @@ class WatcherTest < ActiveSupport::TestCase
 
   def test_unwatch
     assert @issue.add_watcher(@user)
+    @issue.save
     assert_equal 1, @issue.remove_watcher(@user)
+    @issue.save
+    @issue.reload
     refute @issue.watched_by?(@user)
   end
 
