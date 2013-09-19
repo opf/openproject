@@ -57,7 +57,6 @@
 //= require findDomElement
 //= require context_menu
 //= require jstoolbar
-//= require calendar
 //= require ajaxappender
 //= require issues
 //= require work_packages
@@ -82,6 +81,7 @@ jQuery(document).ready(function ($) {
         inst = this._getInst(target[0]),
         dateStr = $.datepicker._formatDate(inst);
       target.val(dateStr);
+      target.blur();
       $.datepicker._hideDatepicker();
     };
 
