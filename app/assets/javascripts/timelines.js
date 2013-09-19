@@ -2098,7 +2098,6 @@ Timeline = {
     },
     filteredOut: function() {
       var filtered = this.filteredOutForProjectFilter() ||
-                     this.filteredOutForPlanningElementTypes() ||
                      this.filteredOutForResponsibles();
 
       this.filteredOut = function() { return filtered; };
@@ -2115,12 +2114,6 @@ Timeline = {
       return Timeline.filterOutBasedOnArray(
         this.timeline.options.planning_element_responsibles,
         this.getResponsible()
-      );
-    },
-    filteredOutForPlanningElementTypes: function() {
-      return Timeline.filterOutBasedOnArray(
-        this.timeline.options.planning_element_types,
-        this.getPlanningElementType()
       );
     },
     all: function(timeline) {
