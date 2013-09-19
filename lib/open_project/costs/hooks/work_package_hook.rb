@@ -1,17 +1,17 @@
 # Hooks to attach to the Redmine WorkPackages.
 class OpenProject::Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
   # Renders the Cost Object subject and basic costs information
-  render_on :view_work_packages_show_details_bottom, :partial => 'hooks/view_work_packages_show_details_bottom'
+  render_on :view_issues_show_details_bottom, :partial => 'hooks/view_work_packages_show_details_bottom'
 
   # Renders a select tag with all the Cost Objects
-  render_on :view_work_packages_form_details_bottom, :partial => 'hooks/view_work_packages_form_details_bottom'
+  render_on :view_issues_packages_form_details_bottom, :partial => 'hooks/view_work_packages_form_details_bottom'
 
   # Renders a select tag with all the Cost Objects for the bulk edit page
-  render_on :view_work_packages_bulk_edit_details_bottom, :partial => 'hooks/view_work_packages_bulk_edit_details_bottom'
+  render_on :view_issues_bulk_edit_details_bottom, :partial => 'hooks/view_work_packages_bulk_edit_details_bottom'
 
-  render_on :view_work_packages_move_bottom, :partial => 'hooks/view_work_packages_move_bottom'
+  render_on :view_issues_move_bottom, :partial => 'hooks/view_work_packages_move_bottom'
 
-  render_on :view_work_packages_context_menu_end, :partial => 'hooks/view_work_packages_context_menu_end'
+  render_on :view_issues_context_menu_end, :partial => 'hooks/view_work_packages_context_menu_end'
 
 
   # Updates the cost object after a move
