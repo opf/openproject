@@ -43,7 +43,6 @@ Feature: Viewing a planning_element
       And there is a role "manager"
       And the role "manager" may have the following rights:
           | view_timelines           |
-          | view_planning_elements   |
           | view_work_packages       |
 
       And there is a project named "ecookbook" of type "Standard Project"

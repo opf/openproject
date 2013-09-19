@@ -63,7 +63,7 @@ module Redmine
                                                       :manage_categories,
                                                       :view_work_packages,
                                                       :add_work_packages,
-                                                      :edit_issues,
+                                                      :edit_work_packages,
                                                       :manage_work_package_relations,
                                                       :manage_subtasks,
                                                       :add_work_package_notes,

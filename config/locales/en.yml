@@ -537,9 +537,6 @@ en:
       tooManyProjects: "More than %{count} Projects. Please use a better filter!"
       cancel: Cancel
       save: Save
-      really_delete_planning_element: >
-        Are you sure, you want to permanently delete the following planning element and all
-        its child elements?
       due_date: "Due date"
       name: "Name"
       project_status: "Project status"
@@ -1054,7 +1051,6 @@ en:
   permission_delete_work_packages: "Delete work packages"
   permission_delete_messages: "Delete messages"
   permission_delete_own_messages: "Delete own messages"
-  permission_delete_planning_elements: "Delete planning elements"
   permission_delete_project_associations: "Delete project dependencies"
   permission_delete_reportings: "Delete reportings"
   permission_delete_timelines: "Delete timelines"
@@ -1437,9 +1433,6 @@ en:
     really_delete_all_planning_elements: >
       Are you sure, you want to permanently delete all the following planning elements and all
       its child elements? You cannot undo this operation.
-    really_delete_planning_element: >
-      Are you sure, you want to permanently delete the following planning element and all
-      its child elements?
     really_delete_project_association_between_project_a_and_project_b: >
       Are you sure, you want to delete the dependency between “%{project_a}” and
       “%{project_b}”?

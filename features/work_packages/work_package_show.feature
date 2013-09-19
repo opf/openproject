@@ -53,8 +53,7 @@ Feature: Viewing a work package
       | view_work_packages            |
       | edit_work_packages            |
       | move_work_packages            |
-      | add_issues                    |
-      | add_work_package              |
+      | add_work_packages             |
       | edit_work_packages            |
       | log_time                      |
       | delete_work_packages          |

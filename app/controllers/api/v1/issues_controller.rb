@@ -111,7 +111,7 @@ module Api
                                                                    :fixed_version,
                                                                    :project])
 
-        @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
+        @edit_allowed = User.current.allowed_to?(:edit_work_packages, @project)
         @time_entry = TimeEntry.new(:work_package => @issue, :project => @issue.project)
         respond_to do |format|
           format.api
@@ -279,7 +279,7 @@ module Api
         return true unless EXPORT_FORMATS.include? params[:format]
 
         find_optional_project if @project.nil?
-        return true if User.current.allowed_to? :export_issues, @project, :global => @project.nil?
+        return true if User.current.allowed_to? :export_work_packages, @project, :global => @project.nil?
 
         # otherwise deny access
         params[:format] = 'html'

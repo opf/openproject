@@ -31,7 +31,6 @@ Feature: Planning Element Management
       And there is a role "manager"
       And the role "manager" may have the following rights:
           | view_timelines         |
-          | view_planning_elements |
           | edit_work_packages     |
           | delete_work_packages   |
           | view_work_packages     |

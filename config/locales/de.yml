@@ -565,9 +565,6 @@ de:
       responsible: "Planungsverantwortlicher"
       save: "Speichern"
       start_date: "Startdatum"
-      really_delete_planning_element: >
-        Möchten Sie wirklich das folgende Planungselement und seine Kind-Elemente
-        permanent löschen? Diese Operation kann nicht rückgängig gemacht werden.
       really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
 
   label_account: "Konto"
@@ -1078,7 +1075,6 @@ de:
   permission_delete_work_packages: "Arbeitspakete löschen"
   permission_delete_messages: "Forenbeiträge löschen"
   permission_delete_own_messages: "Eigene Forenbeiträge löschen"
-  permission_delete_planning_elements: "Planungselemente löschen"
   permission_delete_project_associations: "Projektabhängigkeiten löschen"
   permission_delete_reportings: "Statusberichte löschen"
   permission_delete_timelines: "Zeitplan-Reporte löschen"
@@ -1464,9 +1460,6 @@ de:
       Möchten Sie wirklich alle folgenden Planungselemente und ihre
       Kind-Elemente permanent löschen? Diese Operation kann nicht rückgängig
       gemacht werden.
-    really_delete_planning_element: >
-      Möchten Sie wirklich das folgende Planungselement und seine Kind-Elemente
-      dauerhaft löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.
     really_delete_project_association_between_project_a_and_project_b: >
       Möchten Sie die Projekt-Abhängigkeit zwischen „%{project_a}“ und
       „%{project_b}“ wirklich löschen?
