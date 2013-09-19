@@ -29,8 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#1557` Timeline Report Selection Not Visible
 * `#1913` [Timelines] Enable drag&drop for select2 items in order to rearrange the order of the columns
+* `#1934` [Timelines] Table Loading takes really long 
 * `#1978` Migrate legacy issues
 * `#1982` Migrate planning element types
 * `#2019` Migrate auto completes controller tests
@@ -69,11 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1896` Moved visibility-tests for issues into specs for workpackages
 # `#1911` Change mouse icon when hovering over drag&drop-enabled select2 entries
 * `#1912` Merge column project type with column planning element type
-<<<<<<< HEAD
 * `#1918` Custom fields are not displayed when issue is created
-=======
-* `#1934` [Timelines] Table Loading takes really long 
->>>>>>> speed improvements.
 
 ## 3.0.0pre14
 
