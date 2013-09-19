@@ -17,6 +17,7 @@ class CostObject < ActiveRecord::Base
   unless respond_to? :acts_as_journalized
     acts_as_event :title => Proc.new {|o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}"},
                   :url => Proc.new {|o| {:controller => '/cost_objects', :action => 'show', :id => o.id}}
+  acts_as_journalized
 
     acts_as_activity_provider :find_options => {:include => [:project, :author]},
                               :timestamp => "#{table_name}.updated_on",
