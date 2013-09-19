@@ -50,7 +50,7 @@ module Migration
         values = column_list.map {|c| "#{c}=#{quote(row[c])}"}
                             .join(', ')
 
-        insert <<-SQL
+        update <<-SQL
           UPDATE #{table}
           SET #{values}
           WHERE id = #{row['id']}
