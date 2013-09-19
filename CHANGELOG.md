@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0.pre3
+
+* Set Gem homepage to openproject.org project
+* Rename issue to work_package
+
 ## 1.0.0.pre2
 
 * `#1907` Adapt XLS export to WorkPackagesController.index
