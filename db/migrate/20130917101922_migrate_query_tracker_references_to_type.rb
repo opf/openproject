@@ -20,11 +20,15 @@ class MigrateQueryTrackerReferencesToType < ActiveRecord::Migration
   KEY = { 'tracker_id' => 'type_id', 'tracker' => 'type' }
 
   def up
-    update_tracker_references_with_keys(KEY)
+    say_with_time_silently "Update tracker references in queries" do
+      update_tracker_references_with_keys(KEY)
+    end
   end
 
   def down
-    update_tracker_references_with_keys(KEY.invert)
+    say_with_time_silently "Restore tracker references in queries" do
+      update_tracker_references_with_keys(KEY.invert)
+    end
   end
 
   private
