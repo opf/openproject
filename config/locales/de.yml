@@ -89,7 +89,7 @@ de:
       issue_relation:
         delay: "Pufferzeit"
         from: "Ticket"
-        issue_to: "Zugehöriges Ticket"
+        to: "Zugehöriges Ticket"
       issue_status:
         is_closed: "Ticket geschlossen"
       journal:

@@ -420,14 +420,14 @@ function observeWorkPackageParentField(url) {
 }
 
 function observeRelatedIssueField(url) {
-  new Ajax.Autocompleter('relation_issue_to_id',
+  new Ajax.Autocompleter('relation_to_id',
                          'related_issue_candidates',
                          url,
                          { minChars: 1,
                            frequency: 0.5,
                            paramName: 'q',
                            updateElement: function(value) {
-                             document.getElementById('relation_issue_to_id').value = value.id;
+                             document.getElementById('relation_to_id').value = value.id;
                            },
                            parameters: 'scope=all'
                            });

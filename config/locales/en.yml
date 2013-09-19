@@ -88,7 +88,7 @@ en:
       issue_relation:
         delay: "Delay"
         from: "Work Package"
-        issue_to: "Related work package"
+        to: "Related work package"
       issue_status:
         is_closed: "Work package closed"
       journal:

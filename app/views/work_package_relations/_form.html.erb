@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p>
   <%= f.select :relation_type, collection_for_relation_type_select, {}, :onchange => "setPredecessorFieldsVisibility();" %>
-  <%= WorkPackage.model_name.human %> #<%= f.text_field :issue_to_id, :size => 10 %>
+  <%= WorkPackage.model_name.human %> #<%= f.text_field :to_id, :size => 10 %>
   <div id="related_issue_candidates" class="autocomplete"></div>
   <%= javascript_tag "observeRelatedIssueField('#{work_packages_auto_complete_path(:id => controller.work_package, :project_id => @project, :escape => false) }')" %>
   <span id="predecessor_fields" style="display:none;">

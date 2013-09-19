@@ -55,7 +55,7 @@ class WorkPackage < ActiveRecord::Base
 
   has_many :time_entries, :dependent => :delete_all
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'from_id', :dependent => :delete_all
-  has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
+  has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'to_id', :dependent => :delete_all
   has_and_belongs_to_many :changesets,
                           :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
 
@@ -335,9 +335,9 @@ class WorkPackage < ActiveRecord::Base
     except << self
     dependencies = []
     relations_from.each do |relation|
-      if relation.issue_to && !except.include?(relation.issue_to)
-        dependencies << relation.issue_to
-        dependencies += relation.issue_to.all_dependent_issues(except)
+      if relation.to && !except.include?(relation.to)
+        dependencies << relation.to
+        dependencies += relation.to.all_dependent_issues(except)
       end
     end
     dependencies
@@ -359,7 +359,7 @@ class WorkPackage < ActiveRecord::Base
   def reschedule_following_issues
     if start_date_changed? || due_date_changed?
       relations_from.each do |relation|
-        relation.set_issue_to_dates
+        relation.set_dates_of_target
       end
     end
   end

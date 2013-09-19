@@ -992,9 +992,9 @@ class Project < ActiveRecord::Base
       issue.relations_from.each do |source_relation|
         new_issue_relation = IssueRelation.new
         new_issue_relation.force_attributes = source_relation.attributes.dup.except("id", "work_package_from_id", "work_package_to_id")
-        new_issue_relation.issue_to = work_packages_map[source_relation.issue_to_id]
-        if new_issue_relation.issue_to.nil? && Setting.cross_project_issue_relations?
-          new_issue_relation.issue_to = source_relation.issue_to
+        new_issue_relation.to = work_packages_map[source_relation.to_id]
+        if new_issue_relation.to.nil? && Setting.cross_project_issue_relations?
+          new_issue_relation.to = source_relation.to
         end
         new_issue.relations_from << new_issue_relation
       end

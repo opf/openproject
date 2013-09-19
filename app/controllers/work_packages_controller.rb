@@ -381,7 +381,7 @@ class WorkPackagesController < ApplicationController
                                                                    :priority,
                                                                    :type,
                                                                    { :project => :enabled_modules }],
-                                                   :issue_to => [:status,
+                                                   :to => [:status,
                                                                  :priority,
                                                                  :type,
                                                                  { :project => :enabled_modules }])
