@@ -22,7 +22,7 @@ module Migration
     def update_column_values(table, column_list, updater, conditions)
       updated_rows = []
       
-      select_rows_for_update(table, column_list, conditions).each do |row|
+      select_rows_from_database(table, column_list, conditions).each do |row|
         updated_rows << updater.call(row)
       end
 
@@ -31,7 +31,7 @@ module Migration
 
     private
 
-    def select_rows_for_update(table, column_list, conditions)
+    def select_rows_from_database(table, column_list, conditions)
       columns = (column_list.nil?) ? '' : ', ' + column_list.join(', ')
       from_clause = table
       where_clause =  conditions.nil? ? '1 = 1' : conditions
