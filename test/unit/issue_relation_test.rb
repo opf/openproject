@@ -37,11 +37,11 @@ class IssueRelationTest < ActiveSupport::TestCase
     from = WorkPackage.find(1)
     to = WorkPackage.find(2)
 
-    relation = IssueRelation.new :issue_from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_PRECEDES
+    relation = IssueRelation.new :from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_PRECEDES
     assert relation.save
     relation.reload
     assert_equal IssueRelation::TYPE_PRECEDES, relation.relation_type
-    assert_equal from, relation.issue_from
+    assert_equal from, relation.from
     assert_equal to, relation.issue_to
   end
 
@@ -49,11 +49,11 @@ class IssueRelationTest < ActiveSupport::TestCase
     from = WorkPackage.find(1)
     to = WorkPackage.find(2)
 
-    relation = IssueRelation.new :issue_from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_FOLLOWS
+    relation = IssueRelation.new :from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_FOLLOWS
     assert relation.save
     relation.reload
     assert_equal IssueRelation::TYPE_PRECEDES, relation.relation_type
-    assert_equal to, relation.issue_from
+    assert_equal to, relation.from
     assert_equal from, relation.issue_to
   end
 
@@ -61,10 +61,10 @@ class IssueRelationTest < ActiveSupport::TestCase
     from = WorkPackage.find(1)
     to = WorkPackage.find(2)
 
-    relation = IssueRelation.new :issue_from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_FOLLOWS, :delay => 'xx'
+    relation = IssueRelation.new :from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_FOLLOWS, :delay => 'xx'
     assert !relation.save
     assert_equal IssueRelation::TYPE_FOLLOWS, relation.relation_type
-    assert_equal from, relation.issue_from
+    assert_equal from, relation.from
     assert_equal to, relation.issue_to
   end
 
@@ -72,13 +72,13 @@ class IssueRelationTest < ActiveSupport::TestCase
     from = WorkPackage.find(1)
     to = WorkPackage.find(2)
 
-    relation = IssueRelation.new :issue_from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_PRECEDES
+    relation = IssueRelation.new :from => from, :issue_to => to, :relation_type => IssueRelation::TYPE_PRECEDES
     assert_equal IssueRelation::TYPE_PRECEDES, relation.relation_type_for(from)
     assert_equal IssueRelation::TYPE_FOLLOWS, relation.relation_type_for(to)
   end
 
   def test_set_issue_to_dates_without_issue_to
-    r = IssueRelation.new(:issue_from => WorkPackage.new(:start_date => Date.today), :relation_type => IssueRelation::TYPE_PRECEDES, :delay => 1)
+    r = IssueRelation.new(:from => WorkPackage.new(:start_date => Date.today), :relation_type => IssueRelation::TYPE_PRECEDES, :delay => 1)
     assert_nil r.set_issue_to_dates
   end
 
@@ -89,9 +89,9 @@ class IssueRelationTest < ActiveSupport::TestCase
 
   def test_validates_circular_dependency
     IssueRelation.delete_all
-    assert IssueRelation.create!(:issue_from => WorkPackage.find(1), :issue_to => WorkPackage.find(2), :relation_type => IssueRelation::TYPE_PRECEDES)
-    assert IssueRelation.create!(:issue_from => WorkPackage.find(2), :issue_to => WorkPackage.find(3), :relation_type => IssueRelation::TYPE_PRECEDES)
-    r = IssueRelation.new(:issue_from => WorkPackage.find(3), :issue_to => WorkPackage.find(1), :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert IssueRelation.create!(:from => WorkPackage.find(1), :issue_to => WorkPackage.find(2), :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert IssueRelation.create!(:from => WorkPackage.find(2), :issue_to => WorkPackage.find(3), :relation_type => IssueRelation::TYPE_PRECEDES)
+    r = IssueRelation.new(:from => WorkPackage.find(3), :issue_to => WorkPackage.find(1), :relation_type => IssueRelation::TYPE_PRECEDES)
     assert !r.save
     refute_empty r.errors[:base]
   end

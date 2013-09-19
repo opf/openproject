@@ -288,7 +288,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal type, issue.type
   end
 
-  def test_add_issue_from_apple_mail
+  def test_add_from_apple_mail
     issue = submit_email(
               'apple_mail_with_attachment.eml',
               :issue => {:project => 'ecookbook'}

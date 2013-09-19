@@ -818,10 +818,10 @@ class ProjectTest < ActiveSupport::TestCase
                                      :type_id => 1,
                                      :assigned_to_id => 2,
                                      :project_id => @source_project.id)
-      source_relation = IssueRelation.generate!(:issue_from => WorkPackage.find(4),
+      source_relation = IssueRelation.generate!(:from => WorkPackage.find(4),
                                                 :issue_to => second_issue,
                                                 :relation_type => "relates")
-      source_relation_cross_project = IssueRelation.generate!(:issue_from => WorkPackage.find(1),
+      source_relation_cross_project = IssueRelation.generate!(:from => WorkPackage.find(1),
                                                               :issue_to => second_issue,
                                                               :relation_type => "duplicates")
 
@@ -841,7 +841,7 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal 2, copied_second_issue.relations.size, "Relation not copied"
       copied_relation = copied_second_issue.relations.select {|r| r.relation_type == 'duplicates'}.first
       assert_equal "duplicates", copied_relation.relation_type
-      assert_equal 1, copied_relation.issue_from_id, "Cross project relation not kept"
+      assert_equal 1, copied_relation.from_id, "Cross project relation not kept"
       assert_not_equal source_relation_cross_project.id, copied_relation.id
     end
 

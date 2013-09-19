@@ -125,17 +125,17 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue3 = create_issue!(:parent_id => issue2.id)
     issue4 = create_issue!
     (r1 = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => issue1,
+      i.force_attributes = { :from => issue1,
                              :issue_to => issue2,
                              :relation_type => IssueRelation::TYPE_PRECEDES }
     end).save!
     (r2 = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => issue1,
+      i.force_attributes = { :from => issue1,
                              :issue_to => issue3,
                              :relation_type => IssueRelation::TYPE_PRECEDES }
     end).save!
     (r3 = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => issue2,
+      i.force_attributes = { :from => issue2,
                              :issue_to => issue4,
                              :relation_type => IssueRelation::TYPE_PRECEDES }
     end).save!

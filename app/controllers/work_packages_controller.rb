@@ -377,7 +377,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def relations
-    @relations ||= work_package.relations.includes(:issue_from => [:status,
+    @relations ||= work_package.relations.includes(:from => [:status,
                                                                    :priority,
                                                                    :type,
                                                                    { :project => :enabled_modules }],

@@ -87,7 +87,7 @@ en:
         watcher: "Watcher"
       issue_relation:
         delay: "Delay"
-        issue_from: "Work Package"
+        from: "Work Package"
         issue_to: "Related work package"
       issue_status:
         is_closed: "Work package closed"

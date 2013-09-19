@@ -38,7 +38,7 @@ describe WorkPackage do
       let(:dup_1) { FactoryGirl.create(:work_package,
                                        project: original.project) }
       let(:relation_org_dup_1) { FactoryGirl.create(:issue_relation,
-                                                    issue_from: dup_1,
+                                                    from: dup_1,
                                                     issue_to: original,
                                                     relation_type: IssueRelation::TYPE_DUPLICATES) }
 
@@ -47,12 +47,12 @@ describe WorkPackage do
         let(:dup_2) { FactoryGirl.create(:work_package,
                                          project: original.project) }
         let(:relation_dup_1_dup_2) { FactoryGirl.create(:issue_relation,
-                                                        issue_from: dup_2,
+                                                        from: dup_2,
                                                         issue_to: dup_1,
                                                         relation_type: IssueRelation::TYPE_DUPLICATES) }
         # circular dependency
         let(:relation_dup_2_org) { FactoryGirl.create(:issue_relation,
-                                                      issue_from: dup_2,
+                                                      from: dup_2,
                                                       issue_to: original,
                                                       relation_type: IssueRelation::TYPE_DUPLICATES) }
 
@@ -107,7 +107,7 @@ describe WorkPackage do
                                          type: blocks.type,
                                          status: status) }
       let(:relation_blocks) { FactoryGirl.create(:issue_relation,
-                                                 issue_from: blocks,
+                                                 from: blocks,
                                                  issue_to: blocked,
                                                  relation_type: IssueRelation::TYPE_BLOCKS) }
 
@@ -195,7 +195,7 @@ describe WorkPackage do
                                            start_date: start_date,
                                            due_date: due_date) }
       let(:relation_precedes) { FactoryGirl.create(:issue_relation,
-                                                   issue_from: preceding,
+                                                   from: preceding,
                                                    issue_to: following,
                                                    relation_type: IssueRelation::TYPE_PRECEDES) }
 
@@ -229,11 +229,11 @@ describe WorkPackage do
                                                 project: work_package_1.project) }
 
       let(:relation_1) { FactoryGirl.create(:issue_relation,
-                                            issue_from: work_package_1,
+                                            from: work_package_1,
                                             issue_to: work_package_2,
                                             relation_type: IssueRelation::TYPE_PRECEDES) }
       let(:relation_2) { FactoryGirl.create(:issue_relation,
-                                            issue_from: work_package_2,
+                                            from: work_package_2,
                                             issue_to: work_package_3,
                                             relation_type: IssueRelation::TYPE_PRECEDES) }
 
@@ -254,7 +254,7 @@ describe WorkPackage do
                               work_package_4.id] }
 
         let(:relation_3) { FactoryGirl.create(:issue_relation,
-                                              issue_from: work_package_3,
+                                              from: work_package_3,
                                               issue_to: work_package_4,
                                               relation_type: IssueRelation::TYPE_PRECEDES) }
         before { relation_3 }
@@ -267,7 +267,7 @@ describe WorkPackage do
                               work_package_3.id] }
 
         let(:relation_3) { FactoryGirl.build(:issue_relation,
-                                             issue_from: work_package_3,
+                                             from: work_package_3,
                                              issue_to: work_package_1,
                                              relation_type: IssueRelation::TYPE_PRECEDES) }
 
@@ -282,15 +282,15 @@ describe WorkPackage do
                               work_package_4.id] }
 
         let(:relation_3) { FactoryGirl.create(:issue_relation,
-                                              issue_from: work_package_3,
+                                              from: work_package_3,
                                               issue_to: work_package_4,
                                               relation_type: IssueRelation::TYPE_PRECEDES) }
         let(:relation_4) { FactoryGirl.build(:issue_relation,
-                                             issue_from: work_package_3,
+                                             from: work_package_3,
                                              issue_to: work_package_1,
                                              relation_type: IssueRelation::TYPE_PRECEDES) }
         let(:relation_5) { FactoryGirl.build(:issue_relation,
-                                             issue_from: work_package_4,
+                                             from: work_package_4,
                                              issue_to: work_package_2,
                                              relation_type: IssueRelation::TYPE_PRECEDES) }
 

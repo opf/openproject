@@ -88,7 +88,7 @@ de:
         watcher: "Beobachter"
       issue_relation:
         delay: "Pufferzeit"
-        issue_from: "Ticket"
+        from: "Ticket"
         issue_to: "Zugehöriges Ticket"
       issue_status:
         is_closed: "Ticket geschlossen"

@@ -28,10 +28,10 @@
 #++
 
 class IssueRelation < ActiveRecord::Base
-  belongs_to :issue_from, :class_name => 'WorkPackage', :foreign_key => 'issue_from_id'
+  belongs_to :from, :class_name => 'WorkPackage', :foreign_key => 'from_id'
   belongs_to :issue_to, :class_name => 'WorkPackage', :foreign_key => 'issue_to_id'
 
-  scope :of_issue, ->(issue) { where('issue_from_id = ? OR issue_to_id = ?', issue, issue) }
+  scope :of_issue, ->(issue) { where('from_id = ? OR issue_to_id = ?', issue, issue) }
 
   TYPE_RELATES      = "relates"
   TYPE_DUPLICATES   = "duplicates"
@@ -50,34 +50,34 @@ class IssueRelation < ActiveRecord::Base
             TYPE_FOLLOWS =>     { :name => :label_follows, :sym_name => :label_precedes, :order => 7, :sym => TYPE_PRECEDES, :reverse => TYPE_PRECEDES }
           }.freeze
 
-  validates_presence_of :issue_from, :issue_to, :relation_type
+  validates_presence_of :from, :issue_to, :relation_type
   validates_inclusion_of :relation_type, :in => TYPES.keys
   validates_numericality_of :delay, :allow_nil => true
-  validates_uniqueness_of :issue_to_id, :scope => :issue_from_id
+  validates_uniqueness_of :issue_to_id, :scope => :from_id
 
   validate :validate_sanity_of_relation
 
   before_save :update_schedule
 
-  attr_protected :issue_from_id, :issue_to_id
+  attr_protected :from_id, :issue_to_id
 
   def validate_sanity_of_relation
-    if issue_from && issue_to
-      errors.add :issue_to_id, :invalid if issue_from_id == issue_to_id
-      errors.add :issue_to_id, :not_same_project unless issue_from.project_id == issue_to.project_id || Setting.cross_project_issue_relations?
-      errors.add :base, :circular_dependency if issue_to.all_dependent_issues.include? issue_from
-      errors.add :base, :cant_link_a_work_package_with_a_descendant if issue_from.is_descendant_of?(issue_to) || issue_from.is_ancestor_of?(issue_to)
+    if from && issue_to
+      errors.add :issue_to_id, :invalid if from_id == issue_to_id
+      errors.add :issue_to_id, :not_same_project unless from.project_id == issue_to.project_id || Setting.cross_project_issue_relations?
+      errors.add :base, :circular_dependency if issue_to.all_dependent_issues.include? from
+      errors.add :base, :cant_link_a_work_package_with_a_descendant if from.is_descendant_of?(issue_to) || from.is_ancestor_of?(issue_to)
     end
   end
 
   def other_issue(issue)
-    (self.issue_from_id == issue.id) ? issue_to : issue_from
+    (self.from_id == issue.id) ? issue_to : from
   end
 
   # Returns the relation type for +issue+
   def relation_type_for(issue)
     if TYPES[relation_type]
-      if self.issue_from_id == issue.id
+      if self.from_id == issue.id
         relation_type
       else
         TYPES[relation_type][:sym]
@@ -86,7 +86,7 @@ class IssueRelation < ActiveRecord::Base
   end
 
   def label_for(issue)
-    TYPES[relation_type] ? TYPES[relation_type][(self.issue_from_id == issue.id) ? :name : :sym_name] : :unknow
+    TYPES[relation_type] ? TYPES[relation_type][(self.from_id == issue.id) ? :name : :sym_name] : :unknow
   end
 
   def update_schedule
@@ -108,8 +108,8 @@ class IssueRelation < ActiveRecord::Base
   end
 
   def successor_soonest_start
-    if (TYPE_PRECEDES == self.relation_type) && delay && issue_from && (issue_from.start_date || issue_from.due_date)
-      (issue_from.due_date || issue_from.start_date) + 1 + delay
+    if (TYPE_PRECEDES == self.relation_type) && delay && from && (from.start_date || from.due_date)
+      (from.due_date || from.start_date) + 1 + delay
     end
   end
 
@@ -130,8 +130,8 @@ class IssueRelation < ActiveRecord::Base
   def reverse_if_needed
     if TYPES.has_key?(relation_type) && TYPES[relation_type][:reverse]
       issue_tmp = issue_to
-      self.issue_to = issue_from
-      self.issue_from = issue_tmp
+      self.issue_to = from
+      self.from = issue_tmp
       self.relation_type = TYPES[relation_type][:reverse]
     end
   end

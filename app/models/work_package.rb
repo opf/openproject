@@ -54,7 +54,7 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
   has_many :time_entries, :dependent => :delete_all
-  has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
+  has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   has_and_belongs_to_many :changesets,
                           :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
@@ -311,7 +311,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns true if this work package is blocked by another work package that is still open
   def blocked?
-    !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
+    !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.from.closed?}.nil?
   end
 
   def relations
@@ -345,7 +345,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns an array of issues that duplicate this one
   def duplicates
-    relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
+    relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.from}
   end
 
   def soonest_start
