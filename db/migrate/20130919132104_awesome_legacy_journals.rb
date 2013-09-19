@@ -39,7 +39,7 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
 
     legacy_journals = fetch_legacy_journals
 
-    puts "Migrating #{legacy_journals.count} legacy journals."
+    say "Migrating #{legacy_journals.count} legacy journals."
 
     legacy_journals.each_with_index do |legacy_journal, count|
 
@@ -56,12 +56,12 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
       migrator.migrate(legacy_journal)
 
       if count > 0 && (count % 1000 == 0)
-        puts "#{count} journals migrated"
+        say "#{count} journals migrated"
       end
     end
 
     ignored.each do |type, amount|
-      puts "#{type} was ignored #{amount} times"
+      say "#{type} was ignored #{amount} times"
     end
   end
 
@@ -125,7 +125,7 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
 
   def message_migrator
     LegacyJournalMigrator.new("MessageJournal", "message_journals") do
-      extend MigratorConcern::Attachable
+      extend Migrator::JournalMigratorConcern::Attachable
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
 
@@ -137,8 +137,8 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
 
   def work_package_migrator
     LegacyJournalMigrator.new "WorkPackageJournal", "work_package_journals" do
-      extend MigratorConcern::Attachable
-      extend MigratorConcern::Customizable
+      extend Migration::JournalMigratorConcern::Attachable
+      extend Migration::JournalMigratorConcern::Customizable
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
 
@@ -152,7 +152,7 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
 
   def time_entry_migrator
     LegacyJournalMigrator.new("TimeEntryJournal", "time_entry_journals") do
-      extend MigratorConcern::Customizable
+      extend Migrator::JournalMigratorConcern::Customizable
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
 
@@ -204,124 +204,6 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
 
     end
   end
-
-  module MigratorConcern
-
-    module Attachable
-      def migrate_attachments(to_insert, legacy_journal, journal_id)
-        attachments = to_insert.keys.select { |d| d =~ attachment_key_regexp }
-
-        attachments.each do |key|
-
-          attachment_id = attachment_key_regexp.match(key)[1]
-
-          # if an attachment was added the value contains something like:
-          # [nil, "blubs.png"]
-          # if it was removed the value is something like
-          # ["blubs.png", nil]
-          removed_filename, added_filename = *to_insert[key]
-
-          if added_filename && !removed_filename
-            # The attachment was added
-
-            attachable = ActiveRecord::Base.connection.select_all <<-SQL
-              SELECT *
-              FROM #{attachable_table_name} AS a
-              WHERE a.journal_id = #{quote_value(journal_id)} AND a.attachment_id = #{attachment_id};
-            SQL
-
-            if attachable.size > 1
-
-              raise AmbiguousAttachableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
-                It appears there are ambiguous attachable journal data.
-                Please make sure attachable journal data are consistent and
-                that the unique constraint on journal_id and attachment_id
-                is met.
-              MESSAGE
-
-            elsif attachable.size == 0
-
-              db_execute <<-SQL
-                INSERT INTO #{attachable_table_name}(journal_id, attachment_id, filename)
-                VALUES (#{quote_value(journal_id)}, #{quote_value(attachment_id)}, #{quote_value(added_filename)});
-              SQL
-            end
-
-          elsif removed_filename && !added_filename
-            # The attachment was removed
-            # we need to make certain that no subsequent journal adds an attachable_journal
-            # for this attachment
-
-            to_insert.delete_if { |k, v| k =~ /attachments_?#{attachment_id}/ }
-
-          else
-            raise InvalidAttachableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
-              There is a journal entry for an attachment but neither the old nor the new value contains anything:
-              #{to_insert}
-              #{legacy_journal}
-            MESSAGE
-          end
-
-        end
-
-      end
-
-      def attachable_table_name
-        quoted_table_name("attachable_journals")
-      end
-
-      def attachment_key_regexp
-        # Attachment journal entries can be written in two ways:
-        # attachments123 if the attachment was added
-        # attachments_123 if the attachment was removed
-        #
-        @attachment_key_regexp ||= /attachments_?(\d+)$/
-      end
-    end
-
-    module Customizable
-      def migrate_custom_values(to_insert, legacy_journal, journal_id)
-        keys = to_insert.keys
-        values = to_insert.values
-
-        custom_values = keys.select { |d| d =~ /custom_values.*/ }
-        custom_values.each do |k|
-
-          custom_field_id = k.split("_values").last.to_i
-          value = values[keys.index k].last
-
-          customizable = db_select_all <<-SQL
-            SELECT *
-            FROM #{customizable_table_name} AS a
-            WHERE a.journal_id = #{quote_value(journal_id)} AND a.custom_field_id = #{custom_field_id};
-          SQL
-
-          if customizable.size > 1
-
-            raise AmbiguousCustomizableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
-              It appears there are ambiguous customizable journal
-              data. Please make sure customizable journal data are
-              consistent and that the unique constraint on journal_id and
-              custom_field_id is met.
-            MESSAGE
-
-          elsif customizable.size == 0
-
-            db_execute <<-SQL
-              INSERT INTO #{customizable_table_name}(journal_id, custom_field_id, value)
-              VALUES (#{quote_value(journal_id)}, #{quote_value(custom_field_id)}, #{quote_value(value)});
-            SQL
-          end
-
-        end
-      end
-
-      def customizable_table_name
-        quoted_table_name("customizable_journals")
-      end
-    end
-  end
-
 
   # fetches legacy journals. might me empty.
   def fetch_legacy_journals
