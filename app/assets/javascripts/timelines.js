@@ -317,6 +317,7 @@ Timeline = {
           project_statuses          : this.options.project_status,
           project_responsibles      : this.options.project_responsibles,
           project_parents           : this.options.parents,
+          planning_element_types    : this.options.planning_element_types,
           grouping_one              : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
           grouping_two              : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
           ajax_defaults             : this.ajax_defaults,
@@ -348,6 +349,7 @@ Timeline = {
   },
   reload: function() {
     delete this.lefthandTree;
+
     var timelineLoader = new Timeline.TimelineLoader(
         this,
         {
@@ -360,6 +362,7 @@ Timeline = {
           project_statuses          : this.options.project_status,
           project_responsibles      : this.options.project_responsibles,
           project_parents           : this.options.parents,
+          planning_element_types    : this.options.planning_element_types,
           grouping_one              : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
           grouping_two              : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
           ajax_defaults             : this.ajax_defaults,
@@ -1035,6 +1038,7 @@ Timeline = {
             Timeline.PlanningElement.identifier + '_' + i,
             { url : projectPrefix +
                     '/planning_elements.json?exclude=scenarios' +
+                    this.serversideFilterUrlSuffix() +
                     this.comparisonCurrentUrlSuffix()},
             { storeIn: Timeline.PlanningElement.identifier }
           );
@@ -1097,6 +1101,14 @@ Timeline = {
         current_elements = elements.splice(0, Timeline.PROJECT_ID_BLOCK_SIZE);
 
         iter.call(this, current_elements, i);
+      }
+    };
+
+    TimelineLoader.prototype.serversideFilterUrlSuffix = function() {
+      if (this.options.planning_element_types !== undefined) {
+        return "&types=" + this.options.planning_element_types.join();
+      } else {
+        return "";
       }
     };
 
