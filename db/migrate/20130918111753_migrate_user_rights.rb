@@ -39,8 +39,6 @@ class MigrateUserRights < ActiveRecord::Migration
     edit_planning_elements: :edit_work_packages,
     delete_planning_elements: :delete_work_packages,
 
-    issue_form_issue: nil,
-    manage_issue_forms: nil,
     edit_own_issue_notes: nil,
     move_planning_elements_to_trash: nil
   }
