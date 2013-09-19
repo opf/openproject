@@ -77,9 +77,9 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
     Given there is 1 project with the following:
       | Name | #{name} |
       | Identifier | #{name.gsub(' ', '_').downcase} |
-    And the project "#{name}" has the following trackers:
+    And the project "#{name}" has the following types:
       | name     |
-      | tracker1 |
+      | type1 |
     And the project "#{name}" has 1 subproject
     And the project "#{name}" has 1 work_package with:
       | subject | #{name}work_package |

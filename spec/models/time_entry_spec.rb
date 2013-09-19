@@ -2,13 +2,13 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe TimeEntry do
   include Cost::PluginSpecHelper
-  let(:project) { FactoryGirl.create(:project_with_trackers, is_public: false) }
-  let(:project2) { FactoryGirl.create(:project_with_trackers, is_public: false) }
+  let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
+  let(:project2) { FactoryGirl.create(:project_with_types, is_public: false) }
   let(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                       :tracker => project.trackers.first,
+                                       :type => project.types.first,
                                        :author => user) }
   let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
-                                       :tracker => project2.trackers.first,
+                                       :type => project2.types.first,
                                        :author => user2) }
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }

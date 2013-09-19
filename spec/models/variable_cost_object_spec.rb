@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe VariableCostObject do
   let(:cost_object) { FactoryGirl.build(:variable_cost_object) }
-  let(:tracker) { FactoryGirl.create(:tracker_feature) }
-  let(:project) { FactoryGirl.create(:project_with_trackers) }
+  let(:type) { FactoryGirl.create(:type_feature) }
+  let(:project) { FactoryGirl.create(:project_with_types) }
   let(:user) { FactoryGirl.create(:user) }
 
   describe 'recreate initial journal' do

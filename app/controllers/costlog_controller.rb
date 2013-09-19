@@ -49,7 +49,7 @@ class CostlogController < ApplicationController
 
     respond_to do |format|
       format.html {
-        @entries = CostEntry.includes(:project, :cost_type, :user, {:work_package => :tracker})
+        @entries = CostEntry.includes(:project, :cost_type, :user, {:work_package => :type})
                             .where(cond.conditions)
                             .order(sort_clause)
                             .page(page_param)

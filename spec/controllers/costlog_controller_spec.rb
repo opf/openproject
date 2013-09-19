@@ -2,10 +2,10 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
 describe CostlogController do
   include Cost::PluginSpecHelper
-  let (:project) { FactoryGirl.create(:project_with_trackers) }
+  let (:project) { FactoryGirl.create(:project_with_types) }
   let (:work_package) { FactoryGirl.create(:work_package, :project => project,
                                        :author => user,
-                                       :tracker => project.trackers.first) }
+                                       :type => project.types.first) }
   let (:user) { FactoryGirl.create(:user) }
   let (:user2) { FactoryGirl.create(:user) }
   let (:controller) { FactoryGirl.build(:role, :permissions => [:log_costs, :edit_cost_entries]) }
@@ -199,9 +199,9 @@ describe CostlogController do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        cost_entry.project = FactoryGirl.create(:project_with_trackers)
+        cost_entry.project = FactoryGirl.create(:project_with_types)
         cost_entry.work_package = FactoryGirl.create(:work_package, :project => cost_entry.project,
-                                                  :tracker => cost_entry.project.trackers.first,
+                                                  :type => cost_entry.project.types.first,
                                                   :author => user)
         cost_entry.save!
       end
@@ -411,9 +411,9 @@ describe CostlogController do
     describe "WHEN the user is allowed to create cost_entries
               WHEN the id of an work_package not included in the provided project is provided" do
 
-      let(:project2) { FactoryGirl.create(:project_with_trackers) }
+      let(:project2) { FactoryGirl.create(:project_with_types) }
       let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
-                                            :tracker => project2.trackers.first,
+                                            :type => project2.types.first,
                                             :author => user) }
       let(:expected_work_package) { work_package2 }
 
@@ -522,7 +522,7 @@ describe CostlogController do
                 spent_on" do
 
       let(:expected_work_package) { FactoryGirl.create(:work_package, :project => project,
-                                                    :tracker => project.trackers.first,
+                                                    :type => project.types.first,
                                                     :author => user) }
       let(:expected_user) { FactoryGirl.create(:user) }
       let(:expected_spent_on) { cost_entry.spent_on + 4.days }
@@ -588,9 +588,9 @@ describe CostlogController do
               WHEN updating the work_package
               WHEN the new work_package isn't an work_package of the current project" do
 
-      let(:project2) { FactoryGirl.create(:project_with_trackers) }
+      let(:project2) { FactoryGirl.create(:project_with_types) }
       let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
-                                            :tracker => project2.trackers.first) }
+                                            :type => project2.types.first) }
       let(:expected_work_package) { work_package2 }
 
       before do

@@ -4,14 +4,14 @@ describe WorkPackage do
   let(:user) { FactoryGirl.create(:admin)}
   let(:role) { FactoryGirl.create(:role) }
   let(:project) do
-      project = FactoryGirl.create(:project_with_trackers)
+      project = FactoryGirl.create(:project_with_types)
       project.add_member!(user, role)
       project
   end
 
-  let(:project2) { FactoryGirl.create(:project_with_trackers) }
+  let(:project2) { FactoryGirl.create(:project_with_types) }
   let(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                       :tracker => project.trackers.first,
+                                       :type => project.types.first,
                                        :author => user) }
   let!(:cost_entry) { FactoryGirl.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user, comments: "test entry") }
   let!(:cost_object) { FactoryGirl.create(:cost_object, project: project) }
