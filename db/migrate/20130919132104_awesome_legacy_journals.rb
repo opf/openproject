@@ -27,6 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'migration_utils/legacy_journal_migrator'
+require_relative 'migration_utils/journal_migrator_concerns'
+
 class AwesomeLegacyJournals < ActiveRecord::Migration
 
 
@@ -142,7 +145,7 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
 
   def message_migrator
     Migration::LegacyJournalMigrator.new("MessageJournal", "message_journals") do
-      extend Migraton::JournalMigratorConcern::Attachable
+      extend Migration::JournalMigratorConcerns::Attachable
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
 
@@ -154,8 +157,8 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
 
   def work_package_migrator
     Migration::LegacyJournalMigrator.new "WorkPackageJournal", "work_package_journals" do
-      extend Migration::JournalMigratorConcern::Attachable
-      extend Migration::JournalMigratorConcern::Customizable
+      extend Migration::JournalMigratorConcerns::Attachable
+      extend Migration::JournalMigratorConcerns::Customizable
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
 
@@ -206,7 +209,7 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
 
   def time_entry_migrator
     Migration::LegacyJournalMigrator.new("TimeEntryJournal", "time_entry_journals") do
-      extend Migraton::JournalMigratorConcern::Customizable
+      extend Migration::JournalMigratorConcerns::Customizable
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
 
@@ -328,5 +331,5 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
     end
   end
 
-  include Migration::DbWorker
+  include ::Migration::DbWorker
 end

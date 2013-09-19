@@ -27,9 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'db_worker'
+
 module Migration
   class LegacyJournalMigrator
-    include Migration::DbWorker
+    include DbWorker
 
     attr_accessor :table_name,
                   :type,
