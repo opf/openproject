@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p><%= setting_check_box :work_package_startdate_is_adddate %></p>
 
-<p><%= setting_select :issue_done_ratio, WorkPackage::DONE_RATIO_OPTIONS.collect {|i| [l("setting_issue_done_ratio_#{i}"), i]} %></p>
+<p><%= setting_select :work_package_done_ratio, WorkPackage::DONE_RATIO_OPTIONS.collect {|i| [l("setting_work_package_done_ratio_#{i}"), i]} %></p>
 
 <p><%= setting_text_field :work_packages_export_limit, :size => 6 %></p>
 </div>
