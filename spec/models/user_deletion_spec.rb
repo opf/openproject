@@ -39,13 +39,13 @@ describe User, "#destroy" do
     it { associated_instance.journals.first.user.should == user2 }
     it "should update first journal changed_data" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data[association.to_s + "_id"].last.should == user2.id
+        associated_instance.journals.first.changed_data["#{association}_id".to_sym].last.should == user2.id
       end
     end
     it { associated_instance.journals.last.user.should == substitute_user }
     it "should update second journal changed_data" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data[association.to_s + "_id"].last.should == substitute_user.id
+        associated_instance.journals.last.changed_data["#{association}_id".to_sym].last.should == substitute_user.id
       end
     end
   end
@@ -78,14 +78,14 @@ describe User, "#destroy" do
     it { associated_instance.journals.first.user.should == substitute_user }
     it "should update the first journal" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data[association.to_s + "_id"].last.should == substitute_user.id
+        associated_instance.journals.first.changed_data["#{association}_id".to_sym].last.should == substitute_user.id
       end
     end
     it { associated_instance.journals.last.user.should == user2 }
     it "should update the last journal" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data[association.to_s + "_id"].first.should == substitute_user.id
-        associated_instance.journals.last.changed_data[association.to_s + "_id"].last.should == user2.id
+        associated_instance.journals.last.changed_data["#{association}_id".to_sym].first.should == substitute_user.id
+        associated_instance.journals.last.changed_data["#{association}_id".to_sym].last.should == user2.id
       end
     end
   end
