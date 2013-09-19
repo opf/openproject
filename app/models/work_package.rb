@@ -233,15 +233,15 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def self.done_ratio_disabled?
-    Setting.issue_done_ratio == 'disabled'
+    Setting.work_package_done_ratio == 'disabled'
   end
 
   def self.use_status_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_status'
+    Setting.work_package_done_ratio == 'issue_status'
   end
 
   def self.use_field_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_field'
+    Setting.work_package_done_ratio == 'issue_field'
   end
 
   # Returns true if usr or current user is allowed to view the work_package
@@ -295,7 +295,7 @@ class WorkPackage < ActiveRecord::Base
 
   # RELATIONS
   def delete_relations(work_package)
-    unless Setting.cross_project_issue_relations?
+    unless Setting.cross_project_work_package_relations?
       work_package.relations_from.clear
       work_package.relations_to.clear
     end
@@ -747,7 +747,7 @@ class WorkPackage < ActiveRecord::Base
       end
       work_package.project = new_project
 
-      if !Setting.cross_project_issue_relations? &&
+      if !Setting.cross_project_work_package_relations? &&
          parent && parent.project_id != project_id
         self.parent_id = nil
       end

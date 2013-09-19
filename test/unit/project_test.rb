@@ -811,7 +811,7 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     should "copy issue relations" do
-      Setting.cross_project_issue_relations = '1'
+      Setting.cross_project_work_package_relations = '1'
 
       second_issue = WorkPackage.generate!(:status_id => 5,
                                      :subject => "copy issue relation",

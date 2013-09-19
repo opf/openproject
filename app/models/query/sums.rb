@@ -109,6 +109,6 @@ module ::Query::Sums
   end
 
   def should_be_summed_up?(column)
-    Setting.issue_list_summable_columns.include?(column.name.to_s)
+    Setting.work_package_list_summable_columns.include?(column.name.to_s)
   end
 end

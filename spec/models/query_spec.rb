@@ -32,15 +32,15 @@ describe Query do
   describe 'available_columns'
     let(:query) { FactoryGirl.build(:query) }
 
-    context 'with issue_done_ratio NOT disabled' do
+    context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do
         query.available_columns.find {|column| column.name == :done_ratio}.should be_true
       end
     end
 
-    context 'with issue_done_ratio disabled' do
+    context 'with work_package_done_ratio disabled' do
       before do
-        Setting.stub(:issue_done_ratio).and_return('disabled')
+        Setting.stub(:work_package_done_ratio).and_return('disabled')
       end
 
       it 'should NOT include the done_ratio column' do

@@ -51,7 +51,7 @@ module Api
         @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
         @types = @project.rolled_up_types
 
-        cond = @project.project_condition(Setting.display_subprojects_issues?)
+        cond = @project.project_condition(Setting.display_subprojects_work_packages?)
 
         @open_issues_by_type = WorkPackage.visible.count(:group => :type,
                                                 :include => [:project, :status, :type],

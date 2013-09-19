@@ -47,7 +47,7 @@ Feature: Disabled done ratio on the work package index
 
   @javascript
   Scenario: Column should not be available when done ratio is disabled
-    Given the "issue_done_ratio" setting is set to disabled
+    Given the "work_package_done_ratio" setting is set to disabled
     When I go to the work packages index page of the project "project1"
     And I click "Options"
     Then I should not see "% done" within "#available_columns"
@@ -58,6 +58,6 @@ Feature: Disabled done ratio on the work package index
     And I select to see columns
       | % done |
     Then I should see "% done" within ".list"
-    Given the "issue_done_ratio" setting is set to disabled
+    Given the "work_package_done_ratio" setting is set to disabled
     When I go to the work packages index page of the project "project1"
     Then I should not see "% done" within ".list"

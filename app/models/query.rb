@@ -292,7 +292,7 @@ class Query < ActiveRecord::Base
     if has_default_columns?
       available_columns.select do |c|
         # Adds the project column by default for cross-project lists
-        Setting.issue_list_default_columns.include?(c.name.to_s) || (c.name == :project && project.nil?)
+        Setting.work_package_list_default_columns.include?(c.name.to_s) || (c.name == :project && project.nil?)
       end
     else
       # preserve the column_names order
@@ -306,7 +306,7 @@ class Query < ActiveRecord::Base
       names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
       names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym }
       # Set column_names to nil if default columns
-      if names.map(&:to_s) == Setting.issue_list_default_columns
+      if names.map(&:to_s) == Setting.work_package_list_default_columns
         names = nil
       end
     end
@@ -361,7 +361,7 @@ class Query < ActiveRecord::Base
   end
 
   def any_summable_columns?
-    Setting.issue_list_summable_columns.any?
+    Setting.work_package_list_summable_columns.any?
   end
 
   def group_by_column
@@ -387,7 +387,7 @@ class Query < ActiveRecord::Base
           # all subprojects
           ids += project.descendants.collect(&:id)
         end
-      elsif Setting.display_subprojects_issues?
+      elsif Setting.display_subprojects_work_packages?
         ids += project.descendants.collect(&:id)
       end
       project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')

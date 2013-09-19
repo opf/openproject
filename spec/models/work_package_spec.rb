@@ -540,7 +540,7 @@ describe WorkPackage do
 
     describe :value do
       context "work package field" do
-        before { Setting.stub(:issue_done_ratio).and_return 'issue_field' }
+        before { Setting.stub(:work_package_done_ratio).and_return 'issue_field' }
 
         context "work package 1" do
           subject { work_package_1.done_ratio }
@@ -556,7 +556,7 @@ describe WorkPackage do
       end
 
       context "work package status" do
-        before { Setting.stub(:issue_done_ratio).and_return 'issue_status' }
+        before { Setting.stub(:work_package_done_ratio).and_return 'issue_status' }
 
         context "work package 1" do
           subject { work_package_1.done_ratio }
@@ -575,7 +575,7 @@ describe WorkPackage do
     describe :update_done_ratio_from_issue_status do
       context "work package field" do
         before do
-          Setting.stub(:issue_done_ratio).and_return 'issue_field'
+          Setting.stub(:work_package_done_ratio).and_return 'issue_field'
 
           work_package_1.update_done_ratio_from_issue_status
           work_package_2.update_done_ratio_from_issue_status
@@ -589,7 +589,7 @@ describe WorkPackage do
 
       context "work package status" do
         before do
-          Setting.stub(:issue_done_ratio).and_return 'issue_status'
+          Setting.stub(:work_package_done_ratio).and_return 'issue_status'
 
           work_package_1.update_done_ratio_from_issue_status
           work_package_2.update_done_ratio_from_issue_status
@@ -1257,7 +1257,7 @@ describe WorkPackage do
       let(:closed_issue_status) { FactoryGirl.create(:closed_issue_status) }
 
       before do
-        Setting.stub(:issue_done_ratio).and_return('disabled')
+        Setting.stub(:work_package_done_ratio).and_return('disabled')
       end
 
       it 'should not update the work package done_ratio' do

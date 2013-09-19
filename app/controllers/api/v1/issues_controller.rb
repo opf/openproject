@@ -249,7 +249,7 @@ module Api
           render_error l(:error_no_type_in_project)
           return false
         end
-        @issue.start_date ||= User.current.today if Setting.issue_startdate_is_adddate?
+        @issue.start_date ||= User.current.today if Setting.work_package_startdate_is_adddate?
         if params[:issue].is_a?(Hash)
           @issue.safe_attributes = params[:issue]
           @issue.priority_id = params[:issue][:priority_id] unless params[:issue][:priority_id].nil?

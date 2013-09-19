@@ -54,7 +54,7 @@ class TimeEntries::ReportsController < ApplicationController
       if @project.nil?
         sql_condition = Project.allowed_to_condition(User.current, :view_time_entries)
       elsif @issue.nil?
-        sql_condition = @project.project_condition(Setting.display_subprojects_issues?)
+        sql_condition = @project.project_condition(Setting.display_subprojects_work_packages?)
       else
         sql_condition = "#{WorkPackage.table_name}.root_id = #{@issue.root_id} AND #{WorkPackage.table_name}.lft >= #{@issue.lft} AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
       end
