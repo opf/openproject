@@ -11,6 +11,10 @@ describe User, "#destroy" do
     user2
   end
 
+  after do
+    User.current = nil
+  end
+
   shared_examples_for "costs updated journalized associated object" do
     before do
       User.current = user2
