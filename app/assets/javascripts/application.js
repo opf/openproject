@@ -71,7 +71,9 @@ if (typeof []._reverse == 'undefined') {
 
 jQuery(document).ready(function ($) {
   if (typeof CS !== "undefined") {
-    $.datepicker.setDefaults($.datepicker.regional[CS.lang]);
+    var regions = $.datepicker.regional;
+    var regional = regions[CS.lang] || regions[""];
+    $.datepicker.setDefaults(regional);
 
     var gotoToday = $.datepicker._gotoToday;
 
