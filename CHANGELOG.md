@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0.pre4
+
+* Fix/rename issues to work packages
+
 ## 3.0.0.pre3
 
 * `#1875` removed the documents-block, that now resides in the documents-plugin
