@@ -81,7 +81,7 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
       | name     |
       | type1 |
     And the project "#{name}" has 1 subproject
-    And the project "#{name}" has 1 work_package with:
+    And the project "#{name}" has 1 issue with:
       | subject | #{name}work_package |
     And there is a role "Manager"
     And the role "Manager" may have the following rights:
@@ -127,13 +127,13 @@ Given /^users have times and the cost type "([^\"]*)" logged on the work_package
     user = k.split.first
     if k.end_with? "hours"
       steps %Q{
-        And the work_package "#{work_package}" has 1 time entry with the following:
+        And the issue "#{work_package}" has 1 time entry with the following:
           | hours     | #{v}    |
           | user      | #{user} |
       }
     elsif k.end_with? "units"
       steps %Q{
-        And the work_package "#{work_package}" has 1 cost entry with the following:
+        And the issue "#{work_package}" has 1 cost entry with the following:
         | units     | #{v}         |
         | user      | #{user}      |
         | cost type | #{cost_type} |
