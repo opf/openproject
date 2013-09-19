@@ -39,7 +39,7 @@ class MigrateUserRights < ActiveRecord::Migration
     edit_planning_elements: :edit_work_packages,
     delete_planning_elements: :delete_work_packages,
 
-    edit_own_issue_notes: nil,
+    edit_own_issue_notes: :edit_own_work_package_notes,
     move_planning_elements_to_trash: nil
   }
 
