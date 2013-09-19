@@ -170,6 +170,7 @@ module Api
       def assign_planning_elements(projects = (@projects || [@project]))
         @planning_elements = WorkPackage.for_projects(projects).without_deleted
         @planning_elements = @planning_elements.where(type_id: params[:types].split(',')) if params[:types]
+
       end
 
       # remove this and replace by calls it with calls
@@ -204,7 +205,7 @@ module Api
         return if @planning_elements.class == Array
 
         # triggering full load to avoid separate queries for count or related models
-        @planning_elements = @planning_elements.all(:include => [:type, :project])
+        @planning_elements = @planning_elements.all(:include => [:type, :status, :project])
 
         # Replacing association proxies with already loaded instances to avoid
         # further db calls.

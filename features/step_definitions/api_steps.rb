@@ -52,6 +52,12 @@ Then(/^the json\-response should( not)? contain a work_package "(.*?)"$/) do |ne
 
 end
 
+And(/^the json\-response should say that "(.*?)" is parent of "(.*?)"$/) do |parent_name, child_name|
+  child = decoded_json["planning_elements"].select {|wp| wp["name"] == child_name}.first
+  expect(child["parent"]["name"]).to eql parent_name
+end
+
+
 Then(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for type "(.*?)"$/) do |project_name, format, type_names|
   types = Project.find_by_identifier(project_name).types.where(name: type_names.split(","))
 
@@ -69,12 +75,15 @@ And(/^there are (\d+) work packages of type "(.*?)" in project "(.*?)"$/) do |nr
 
 end
 
+
 And(/^the time to get the unfiltered results should not exceed (\d+)\.(\d+)s$/) do |seconds,milliseconds|
+  puts "----Unfiltered Benchmark----"
   puts @unfiltered_benchmark
   @unfiltered_benchmark.total.should < "#{seconds}.#{milliseconds}".to_f
 end
 
 And(/^the time to get the filtered results should not exceed (\d+)\.(\d+)s$/) do |seconds, milliseconds|
+  puts "----Filtered Benchmark----"
   puts @filtered_benchmark
   @filtered_benchmark.total.should < "#{seconds}.#{milliseconds}".to_f
 end

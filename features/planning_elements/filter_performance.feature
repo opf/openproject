@@ -66,17 +66,19 @@ Feature: Filtering work packages via the api
 
     And I am already logged in as "bob"
 
+  @benchmark
   Scenario: Benchmarking without filters
     When I call the work_package-api on project "sample_project" requesting format "json" without any filters
     Then the json-response should include 23 work packages
     And the time to get the unfiltered results should not exceed 0.1s
 
-
+  @benchmark
   Scenario: Benchmarking the filtering for type
     When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Story"
     Then the json-response should include 3 work packages
     And the time to get the filtered results should not exceed 0.1s
 
+  @benchmark
   Scenario: Filtering should be faster than not filtering
     When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Story"
     When I call the work_package-api on project "sample_project" requesting format "json" without any filters
