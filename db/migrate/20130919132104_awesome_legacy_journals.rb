@@ -274,32 +274,10 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
     end
   end
 
-  module DbWorker
-    def quote_value(name)
-      ActiveRecord::Base.connection.quote name
-    end
-
-    def quoted_table_name(name)
-      ActiveRecord::Base.connection.quote_table_name name
-    end
-
-    def db_columns(table_name)
-      ActiveRecord::Base.connection.columns table_name
-    end
-
-    def db_select_all(statement)
-      ActiveRecord::Base.connection.select_all statement
-    end
-
-    def db_execute(statement)
-      ActiveRecord::Base.connection.execute statement
-    end
-  end
-
-  include DbWorker
+  include Migration::DbWorker
 
   class LegacyJournalMigrator
-    include DbWorker
+    include Migration::DbWorker
 
     attr_accessor :table_name,
                   :type,
