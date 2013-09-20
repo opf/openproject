@@ -33,29 +33,28 @@ Feature: Filtering work packages via the api
       | name       | sample_project |
     And I am working in project "sample_project"
     And the project "sample_project" has the following types:
-      | name    | position |
-      | Bug     |     1    |
-      | Story   |     2    |
-      | Epic    |     3    |
+      | name  | position |
+      | Bug   | 1        |
+      | Story | 2        |
+      | Epic  | 3        |
     And there is a default issuepriority with:
-      | name   | Normal |
+      | name | Normal |
     And there is a issuepriority with:
-      | name   | High |
+      | name | High |
     And there is a issuepriority with:
-      | name   | Immediate |
+      | name | Immediate |
     And there are the following issue status:
-      | name        | is_closed  | is_default  |
-      | New         | false      | true        |
+      | name | is_closed | is_default |
+      | New  | false     | true       |
     And the project uses the following modules:
       | timelines |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | view_projects                 |
-      | view_work_packages            |
-      | view_timelines                |
-      | view_planning_elements        |
-      | edit_planning_elements        |
-      | view_reportings               |
+      | edit_work_packages |
+      | view_projects      |
+      | view_reportings    |
+      | view_timelines     |
+      | view_work_packages |
 
     And there is 1 user with the following:
       | login | bob |
