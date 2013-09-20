@@ -33,30 +33,29 @@ Feature: Filtering work packages via the api
       | name       | sample_project |
     And I am working in project "sample_project"
     And the project "sample_project" has the following types:
-      | name    | position |
-      | Bug     |     1    |
-      | Task    |     2    |
-      | Story   |     3    |
-      | Epic    |     4    |
+      | name  | position |
+      | Bug   | 1        |
+      | Task  | 2        |
+      | Story | 3        |
+      | Epic  | 4        |
     And there is a default issuepriority with:
-      | name   | Normal |
+      | name | Normal |
     And there is a issuepriority with:
-      | name   | High |
+      | name | High |
     And there is a issuepriority with:
-      | name   | Immediate |
+      | name | Immediate |
     And there are the following issue status:
-      | name        | is_closed  | is_default  |
-      | New         | false      | true        |
+      | name | is_closed | is_default |
+      | New  | false     | true       |
     And the project uses the following modules:
       | timelines |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | view_projects                 |
-      | view_work_packages            |
-      | view_timelines                |
-      | view_planning_elements        |
-      | edit_planning_elements        |
-      | view_reportings               |
+      | edit_work_packages |
+      | view_projects      |
+      | view_reportings    |
+      | view_timelines     |
+      | view_work_packages |
 
     And there is 1 user with the following:
       | login | bob |
@@ -65,9 +64,9 @@ Feature: Filtering work packages via the api
 
   Scenario: Call the endpoint of the api without filters
     Given  there are the following work packages in project "sample_project":
-      | subject            | type       |
-      | work_package#1     | Bug        |
-      | work_package#2     | Story      |
+      | subject        | type  |
+      | work_package#1 | Bug   |
+      | work_package#2 | Story |
     When I call the work_package-api on project "sample_project" requesting format "json" without any filters
     Then the json-response should include 2 work packages
     And the json-response should contain a work_package "work_package#1"
@@ -75,13 +74,13 @@ Feature: Filtering work packages via the api
 
   Scenario: Call the api filtering for type
     Given there are the following work packages in project "sample_project":
-      | subject            | type       | parent          |
-      | work_package#1     | Bug        |                 |
-      | work_package#1.1   | Bug        | work_package#1  |
-      | work_package#2     | Story      |                 |
-      | work_package#2.1   | Story      | work_package#2  |
-      | work_package#3     | Epic       |                 |
-      | work_package#3.1   | Story      | work_package#3  |
+      | subject          | type  | parent         |
+      | work_package#1   | Bug   |                |
+      | work_package#1.1 | Bug   | work_package#1 |
+      | work_package#2   | Story |                |
+      | work_package#2.1 | Story | work_package#2 |
+      | work_package#3   | Epic  |                |
+      | work_package#3.1 | Story | work_package#3 |
     When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Bug"
     Then the json-response should include 2 work packages
     Then the json-response should not contain a work_package "work_package#2"
@@ -89,11 +88,11 @@ Feature: Filtering work packages via the api
 
   Scenario: Filtering multiple types
     Given there are the following work packages in project "sample_project":
-      | subject            | type       | parent          |
-      | work_package#1     | Bug        |                 |
-      | work_package#1.1   | Bug        | work_package#1  |
-      | work_package#3     | Epic       |                 |
-      | work_package#3.1   | Story      | work_package#3  |
+      | subject          | type  | parent         |
+      | work_package#1   | Bug   |                |
+      | work_package#1.1 | Bug   | work_package#1 |
+      | work_package#3   | Epic  |                |
+      | work_package#3.1 | Story | work_package#3 |
     When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Bug,Epic"
     Then the json-response should include 3 work packages
     And the json-response should contain a work_package "work_package#1"
@@ -102,9 +101,9 @@ Feature: Filtering work packages via the api
 
  Scenario:  Filter out children of work packages, if they don't have the right type
    Given there are the following work packages in project "sample_project":
-     | subject            | type       | parent         |
-     | work_package#3     | Epic       |                |
-     | work_package#3.1   | Story      | work_package#3 |
+     | subject          | type  | parent         |
+     | work_package#3   | Epic  |                |
+     | work_package#3.1 | Story | work_package#3 |
    When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Epic"
    Then the json-response should include 1 work package
    And the json-response should contain a work_package "work_package#3"
@@ -112,9 +111,9 @@ Feature: Filtering work packages via the api
 
   Scenario:  Filter out parents of work packages, if they don't have the right type
     Given there are the following work packages in project "sample_project":
-      | subject            | type       |
-      | work_package#1     | Bug        |
-      | work_package#2     | Story      |
+      | subject        | type  |
+      | work_package#1 | Bug   |
+      | work_package#2 | Story |
     When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Story"
     Then the json-response should include 1 work package
     And the json-response should not contain a work_package "work_package#1"
@@ -123,20 +122,20 @@ Feature: Filtering work packages via the api
 
   Scenario: correctly export parent-child-relations
     Given there are the following work packages in project "sample_project":
-      | subject            | type       | parent           |
-      | work_package#1     | Epic       |                  |
-      | work_package#1.1   | Story      | work_package#1   |
-      | work_package#2     | Task       | work_package#1.1 |
+      | subject          | type  | parent           |
+      | work_package#1   | Epic  |                  |
+      | work_package#1.1 | Story | work_package#1   |
+      | work_package#2   | Task  | work_package#1.1 |
     When I call the work_package-api on project "sample_project" requesting format "json" without any filters
     Then the json-response should include 3 work packages
     And the json-response should say that "work_package#1" is parent of "work_package#1.1"
 
   Scenario: Move parent-relations up the ancestor-chain, when intermediate packages are fitered
     Given there are the following work packages in project "sample_project":
-      | subject            | type       | parent           |
-      | work_package#1     | Epic       |                  |
-      | work_package#1.1   | Story      | work_package#1   |
-      | work_package#1.1.1 | Task       | work_package#1.1 |
+      | subject            | type  | parent           |
+      | work_package#1     | Epic  |                  |
+      | work_package#1.1   | Story | work_package#1   |
+      | work_package#1.1.1 | Task  | work_package#1.1 |
     When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Epic,Task"
     Then the json-response should include 2 work packages
     And the json-response should not contain a work_package "work_package#1.1"
@@ -146,11 +145,11 @@ Feature: Filtering work packages via the api
 
   Scenario: The parent should be rewired to the first ancestor present in the filtered set
     Given there are the following work packages in project "sample_project":
-      | subject              | type       | parent             |
-      | work_package#1       | Epic       |                    |
-      | work_package#1.1     | Task       | work_package#1     |
-      | work_package#1.1.1   | Bug        | work_package#1.1   |
-      | work_package#1.1.1.1 | Task       | work_package#1.1.1 |
+      | subject              | type | parent             |
+      | work_package#1       | Epic |                    |
+      | work_package#1.1     | Task | work_package#1     |
+      | work_package#1.1.1   | Bug  | work_package#1.1   |
+      | work_package#1.1.1.1 | Task | work_package#1.1.1 |
 
     When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Epic,Task"
     Then the json-response should include 3 work packages
@@ -158,19 +157,19 @@ Feature: Filtering work packages via the api
 
   Scenario: When all ancestors are filtered, the work_package should have no parent
     Given there are the following work packages in project "sample_project":
-      | subject            | type       | parent           |
-      | work_package#1     | Epic       |                  |
-      | work_package#1.1   | Story      | work_package#1   |
-      | work_package#1.1.1 | Task       | work_package#1.1 |
+      | subject            | type  | parent           |
+      | work_package#1     | Epic  |                  |
+      | work_package#1.1   | Story | work_package#1   |
+      | work_package#1.1.1 | Task  | work_package#1.1 |
     When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Task"
     Then the json-response should include 1 work packages
     And the json-response should say that "work_package#1.1.1" has no parent
 
   Scenario: Children are filtered out
     Given there are the following work packages in project "sample_project":
-      | subject            | type       | parent           |
-      | work_package#1     | Epic       |                  |
-      | work_package#1.1   | Task       | work_package#1   |
-      | work_package#1.2   | Story      | work_package#1   |
+      | subject          | type  | parent         |
+      | work_package#1   | Epic  |                |
+      | work_package#1.1 | Task  | work_package#1 |
+      | work_package#1.2 | Story | work_package#1 |
     When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Epic,Story"
     And the json-response should say that "work_package#1" has 1 child
