@@ -76,7 +76,6 @@ Feature: Timeline View Tests
         And I should see the column "Start date" before the column "Type" in the timelines table
         And I should see the column "Type" before the column "End date" in the timelines table
 
-
   @javascript
   Scenario: switch timeline
     When there is a timeline "Testline" for project "ecookbook"

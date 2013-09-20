@@ -216,7 +216,7 @@ Feature: Timeline View Tests with reporters
         | ecookbook13 |
       And I wait for timeline to load table
 
-    Then I should see the project "ecookbook_empty"
+     Then I should see the project "ecookbook_empty"
       And I should see the project "ecookbook_q3"
       And I should see the project "ecookbook13"
       And I should see the project "ecookbook0"
@@ -232,7 +232,7 @@ Feature: Timeline View Tests with reporters
         | ecookbook   |
       And I wait for timeline to load table
 
-    Then I should see the project "ecookbook_empty"
+     Then I should see the project "ecookbook_empty"
       And I should see the project "ecookbook_q3"
       And I should see the project "ecookbook13"
       And I should see the project "ecookbook0"
