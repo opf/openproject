@@ -71,9 +71,9 @@ end
 Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|
   custom_field = WorkPackageCustomField.find_by_name(field_name)
 
-  Setting.issue_list_summable_columns = negative ?
-                                          Setting.issue_list_summable_columns - ["cf_#{custom_field.id}"] :
-                                          Setting.issue_list_summable_columns << "cf_#{custom_field.id}"
+  Setting.work_package_list_summable_columns = negative ?
+                                          Setting.work_package_list_summable_columns - ["cf_#{custom_field.id}"] :
+                                          Setting.work_package_list_summable_columns << "cf_#{custom_field.id}"
 end
 
 Given /^the custom field "(.*?)" is activated for type "(.*?)"$/ do |field_name, type_name|
