@@ -17,7 +17,6 @@ class CostObject < ActiveRecord::Base
   acts_as_journalized :event_type => 'cost-object',
     :event_title => Proc.new {|o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}"},
     :event_url => Proc.new {|o| {:controller => 'cost_objects', :action => 'show', :id => o.id}},
-    :activity_type => superclass.plural_name,
     :activity_find_options => {:include => [:project, :author]},
     :activity_timestamp => "#{table_name}.updated_on",
     :activity_author_key => :author_id,
