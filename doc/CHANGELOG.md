@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1560` WorkPackage/update does not retain some fields when validations fail 
 * `#1946` Modal shown within in Modal
 * `#1949` External links within modals do not work
 * `#1992` Prepare schema migrations table
