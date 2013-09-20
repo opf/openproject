@@ -74,6 +74,20 @@ When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*
   page.execute_script("jQuery('#content form').submit()")
 end
 
+When (/^I show only work packages which have the type "(.*?)"$/) do |type|
+  timeline_name = @timeline_name
+  project_name = @project.name
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+
+  type = Type.find_by_name(type)
+  page.execute_script(<<-JavaScript)
+    jQuery('#timeline_options_planning_element_types').val('#{type.id}')
+    jQuery('#content form').submit()
+  JavaScript
+end
+
 When (/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
   timeline_name = @timeline_name
   project_name = @project.name
@@ -103,7 +117,7 @@ When (/^I set the second level grouping criteria to "(.*?)" for the timeline "(.
   page.execute_script("jQuery('#timeline_options_grouping_two_selection').val('#{project_type.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end
-When(/^I set the columns shown in the timeline to:$/) do |table|
+When (/^I set the columns shown in the timeline to:$/) do |table|
   timeline_name = @timeline_name
   project_name = @project.name
   steps %Q{
@@ -125,6 +139,7 @@ When(/^I set the columns shown in the timeline to:$/) do |table|
 
   page.execute_script("jQuery('#content form').submit()")
 end
+
 When (/^I set the first level grouping criteria to:$/) do |table|
   timeline_name = @timeline_name
   project_name = @project.name
