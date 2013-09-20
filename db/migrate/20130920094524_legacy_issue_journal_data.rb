@@ -46,6 +46,8 @@ class LegacyIssueJournalData < ActiveRecord::Migration
       extend Migration::JournalMigratorConcerns::Attachable
       extend Migration::JournalMigratorConcerns::Customizable
 
+      self.journable_class = "WorkPackage"
+
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
 
         migrate_attachments(to_insert, legacy_journal, journal_id)
