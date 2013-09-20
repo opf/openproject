@@ -1070,6 +1070,14 @@ Timeline = {
       });
     };
 
+    TimelineLoader.prototype.provideServerSideFilterHash = function() {
+      if (this.options.planning_element_types !== undefined) {
+        return {"type_id": this.options.planning_element_types};
+      } else {
+        return {};
+      }
+    }
+
     TimelineLoader.prototype.registerPlanningElements = function (ids) {
 
       this.inChunks(ids, function (projectIdsOfPacket, i) {
@@ -1079,27 +1087,31 @@ Timeline = {
                             "/" +
                             projectIdsOfPacket.join(',');
 
+        var qsb = new Timeline.FilterQueryStringBuilder(
+          this.provideServerSideFilterHash());
+
+        var url = qsb.build(projectPrefix + '/planning_elements.json');
+
         // load current planning elements.
         this.loader.register(
             Timeline.PlanningElement.identifier + '_' + i,
-            { url : projectPrefix +
-                    '/planning_elements.json?exclude=scenarios' +
-                    this.serversideFilterUrlSuffix() +
-                    this.comparisonCurrentUrlSuffix()},
+            { url : url },
             { storeIn: Timeline.PlanningElement.identifier }
           );
 
+        /* TODO!
         // load historical planning elements.
         if (this.options.target_time) {
           this.loader.register(
               Timeline.HistoricalPlanningElement.identifier + '_' + i,
               { url : projectPrefix +
-                      '/planning_elements.json?exclude=scenarios' +
+                      '/planning_elements.json' +
                       this.comparisonTargetUrlSuffix() },
               { storeIn: Timeline.HistoricalPlanningElement.identifier,
                 readFrom: Timeline.PlanningElement.identifier }
             );
         }
+        */
       });
     };
 
@@ -1147,14 +1159,6 @@ Timeline = {
         current_elements = elements.splice(0, Timeline.PROJECT_ID_BLOCK_SIZE);
 
         iter.call(this, current_elements, i);
-      }
-    };
-
-    TimelineLoader.prototype.serversideFilterUrlSuffix = function() {
-      if (this.options.planning_element_types !== undefined) {
-        return "&types=" + this.options.planning_element_types.join();
-      } else {
-        return "";
       }
     };
 
