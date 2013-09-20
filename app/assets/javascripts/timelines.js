@@ -430,7 +430,9 @@ Timeline = {
      * Example:
      *   fqsb = (new FilterQueryStringBuilder({
      *     'type_id': [4, 5]
-     *   })).build('/api/v2/projects/sample_project/planning_elements.json')
+     *   })).build(
+     *     '/api/v2/projects/sample_project/planning_elements.json'
+     *   );
      *
      *   => /api/v2/projects/sample_project/planning_elements.json?f[]=type_id&op[type_id]==&v[type_id][]=4&v[type_id][]=5
      *
@@ -439,43 +441,57 @@ Timeline = {
       this.filterHash = filterHash;
     };
 
-    FilterQueryStringBuilder.prototype.build = function(url) {
-      var queryStringParts = [];
-      var resultUrl = url;
+    FilterQueryStringBuilder.prototype.buildMetaDataForKey = function(key) {
+      this.queryStringParts.push(
+        {name: 'f[]', value: key},
+        {name: 'op[' + key + ']', value: '='}
+      );
+    };
 
-      jQuery.each(this.filterHash, function(key, value) {
+    FilterQueryStringBuilder.prototype.buildFilterDataForKeyAndValue = function(key, value) {
+      this.queryStringParts.push(
+        {name: 'v[' + key + '][]', value: value}
+      );
+    };
 
-        queryStringParts.push(
-          {name: 'f[]', value: key},
-          {name: 'op[' + key + ']', value: '='}
-        );
+    FilterQueryStringBuilder.prototype.buildFilterDataForKeyAndArrayOfValues = function(key, value) {
+      jQuery.each(value, jQuery.proxy( function(i, e) {
+         this.buildFilterDataForKeyAndValue(key, e)
+      }, this));
+    };
 
-        if (value instanceof Array) {
+    FilterQueryStringBuilder.prototype.buildFilterDataForValue = function(key, value) {
+      value instanceof Array ?
+        this.buildFilterDataForKeyAndArrayOfValues(key, value) :
+        this.buildFilterDataForKeyAndValue(key, value);
+    };
 
-          jQuery.each(value, function(i, e) {
+    FilterQueryStringBuilder.prototype.registerKeyAndValue = function(key, value) {
+      this.buildMetaDataForKey(key);
+      this.buildFilterDataForValue(key, value);
+    };
 
-            queryStringParts.push(
-              {name: 'v[' + key + '][]', value: e}
-            );
+    FilterQueryStringBuilder.prototype.buildQueryStringParts = function() {
+      this.queryStringParts = [];
+      jQuery.each(this.filterHash, jQuery.proxy(this.registerKeyAndValue, this));
+    }
 
-          });
-
-        } else {
-
-          queryStringParts.push(
-            {name: 'v[' + key + '][]', value: value}
-          );
-
-        }
-      });
-
-      resultUrl += "?";
-
-      resultUrl += jQuery.map(queryStringParts, function(e, i) {
+    FilterQueryStringBuilder.prototype.buildQueryStringFromQueryStringParts = function(url) {
+      return jQuery.map(this.queryStringParts, function(e, i) {
         return e.name + "=" + encodeURIComponent(e.value);
       }).join('&');
+    };
 
+    FilterQueryStringBuilder.prototype.buildUrlFromQueryStringParts = function(url) {
+      var resultUrl = url;
+      resultUrl += "?";
+      resultUrl += this.buildQueryStringFromQueryStringParts();
       return resultUrl;
+    };
+
+    FilterQueryStringBuilder.prototype.build = function(url) {
+      this.buildQueryStringParts();
+      return this.buildUrlFromQueryStringParts(url);
     };
 
     return FilterQueryStringBuilder;
