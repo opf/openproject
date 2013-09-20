@@ -76,7 +76,7 @@ module WorkPackage::CsvExporter
                   work_package.author.name,
                   format_date(work_package.start_date),
                   format_date(work_package.due_date),
-                  (Setting.issue_done_ratio != 'disabled' ? work_package.done_ratio : ''),
+                  (Setting.work_package_done_ratio != 'disabled' ? work_package.done_ratio : ''),
                   work_package.estimated_hours.to_s.gsub('.', decimal_separator),
                   work_package.parent_id,
                   format_time(work_package.created_at),

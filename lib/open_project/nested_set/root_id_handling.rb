@@ -86,7 +86,7 @@ module OpenProject::NestedSet
       def validate_correct_parent
         # Checks parent issue assignment
         if parent
-          if !Setting.cross_project_issue_relations? && parent.project_id != self.project_id
+          if !Setting.cross_project_work_package_relations? && parent.project_id != self.project_id
             errors.add :parent_id, :not_a_valid_parent
           elsif !new_record?
             # moving an existing issue

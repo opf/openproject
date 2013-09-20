@@ -87,9 +87,9 @@ class IssueStatusTest < ActiveSupport::TestCase
       @issue_status.update_attribute(:default_done_ratio, 50)
     end
 
-    context "with Setting.issue_done_ratio using the issue_field" do
+    context "with Setting.work_package_done_ratio using the issue_field" do
       setup do
-        Setting.issue_done_ratio = 'issue_field'
+        Setting.work_package_done_ratio = 'issue_field'
       end
 
       should "change nothing" do
@@ -99,9 +99,9 @@ class IssueStatusTest < ActiveSupport::TestCase
       end
     end
 
-    context "with Setting.issue_done_ratio using the issue_status" do
+    context "with Setting.work_package_done_ratio using the issue_status" do
       setup do
-        Setting.issue_done_ratio = 'issue_status'
+        Setting.work_package_done_ratio = 'issue_status'
       end
 
       should "update all of the issue's done_ratios to match their Issue Status" do

@@ -39,7 +39,7 @@ class VersionsController < ApplicationController
   def index
     @types = @project.types.find(:all, :order => 'position')
     retrieve_selected_type_ids(@types, @types.select {|t| t.is_in_roadmap?})
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects].to_i == 1)
+    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
     project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
 
     @versions = @project.shared_versions || []

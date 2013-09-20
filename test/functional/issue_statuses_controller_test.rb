@@ -100,10 +100,10 @@ class IssueStatusesControllerTest < ActionController::TestCase
     assert_not_nil IssueStatus.find_by_id(1)
   end
 
-  context "on POST to :update_issue_done_ratio" do
-    context "with Setting.issue_done_ratio using the issue_field" do
+  context "on POST to :update_work_package_done_ratio" do
+    context "with Setting.work_package_done_ratio using the issue_field" do
       setup do
-        Setting.issue_done_ratio = 'issue_field'
+        Setting.work_package_done_ratio = 'issue_field'
         post :update_issue_done_ratio
       end
 
@@ -111,9 +111,9 @@ class IssueStatusesControllerTest < ActionController::TestCase
       should redirect_to('the index') { '/issue_statuses' }
     end
 
-    context "with Setting.issue_done_ratio using the issue_status" do
+    context "with Setting.work_package_done_ratio using the issue_status" do
       setup do
-        Setting.issue_done_ratio = 'issue_status'
+        Setting.work_package_done_ratio = 'issue_status'
         post :update_issue_done_ratio
       end
 
