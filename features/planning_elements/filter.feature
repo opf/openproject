@@ -45,8 +45,11 @@ Feature: Filtering work packages via the api
     And there is a issuepriority with:
       | name | Immediate |
     And there are the following issue status:
-      | name | is_closed | is_default |
-      | New  | false     | true       |
+      | name         | is_closed | is_default |
+      | New          | false     | true       |
+      | In Progress  | false     | true       |
+      | Closed       | false     | true       |
+
     And the project uses the following modules:
       | timelines |
     And there is a role "member"
@@ -85,6 +88,18 @@ Feature: Filtering work packages via the api
     Then the json-response should include 2 work packages
     Then the json-response should not contain a work_package "work_package#2"
     And the json-response should contain a work_package "work_package#1"
+
+  Scenario: Call the api filtering for status
+    Given there are the following work packages in project "sample_project":
+      | subject          | type  | status         |
+      | work_package#1   | Bug   | New            |
+      | work_package#2   | Story | In Progress    |
+      | work_package#3   | Epic  | Closed         |
+
+    When I call the work_package-api on project "sample_project" requesting format "json" filtering for status "In Progress"
+    Then the json-response should include 1 work package
+    Then the json-response should contain a work_package "work_package#2"
+    And the json-response should not contain a work_package "work_package#1"
 
   Scenario: Filtering multiple types
     Given there are the following work packages in project "sample_project":

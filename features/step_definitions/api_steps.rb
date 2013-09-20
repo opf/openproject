@@ -68,20 +68,25 @@ And(/^the json\-response should say that "(.*?)" has (\d+) child(ren)?$/) do |pa
 end
 
 
+When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for status "(.*?)"$/) do |project_name, format, status_names|
+  statuses = IssueStatus.where(name: status_names.split(','))
+
+  get_filtered_json(project_name: project_name,
+                    format: format,
+                    filters: [:status_id],
+                    operators:  {status_id: "="},
+                    values: {status_id: statuses.map(&:id)} )
+end
+
 Then(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for type "(.*?)"$/) do |project_name, format, type_names|
   types = Project.find_by_identifier(project_name).types.where(name: type_names.split(","))
 
-  @filtered_benchmark = Benchmark.measure("Filtered Results") do
-    filters = [:type_id]
-    operators = {type_id: "="}
-    values = {type_id: types.map(&:id)}
+  get_filtered_json(project_name: project_name,
+                    format: format,
+                    filters: [:type_id],
+                    operators:  {type_id: "="},
+                    values: {type_id: types.map(&:id)} )
 
-    visit api_v2_project_planning_elements_path(project_id: project_name,
-                                                format: format,
-                                                f: filters,
-                                                op: operators,
-                                                v: values)
-  end
 
 end
 
@@ -120,4 +125,14 @@ end
 
 def last_json
   page.source
+end
+
+def get_filtered_json(params)
+  @filtered_benchmark = Benchmark.measure("Filtered Results") do
+    visit api_v2_project_planning_elements_path(project_id: params[:project_name],
+                                                format: params[:format],
+                                                f: params[:filters],
+                                                op: params[:operators],
+                                                v: params[:values])
+  end
 end
