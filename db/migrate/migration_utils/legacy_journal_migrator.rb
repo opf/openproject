@@ -30,6 +30,9 @@
 require_relative 'db_worker'
 
 module Migration
+  class AmbiguousJournalsError < ::StandardError
+  end
+
   class LegacyJournalMigrator
     include DbWorker
 
@@ -49,7 +52,7 @@ module Migration
         MESSAGE
       end
 
-      self.journable_class = self.type.gsub(/Journal$/, "")
+      self.journable_class ||= self.type.gsub(/Journal$/, "")
     end
 
     def migrate(legacy_journal)
@@ -83,7 +86,7 @@ module Migration
 
     # fetches specific journal data row. might be empty.
     def fetch_existing_data_journal(journal_id)
-      ActiveRecord::Base.connection.select_all <<-SQL
+      db_select_all <<-SQL
         SELECT *
         FROM #{journal_table_name} AS d
         WHERE d.journal_id = #{quote_value(journal_id)};
@@ -98,7 +101,7 @@ module Migration
 
       if journal.size > 1
 
-        raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+        raise Migration::AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
           It appears there are ambiguous journals. Please make sure
           journals are consistent and that the unique constraint on id,
           type and version is met.
@@ -172,7 +175,7 @@ module Migration
 
       if existing_data_journal.size > 1
 
-        raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+        raise Migration::AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
           It appears there are ambiguous journal data. Please make sure
           journal data are consistent and that the unique constraint on
           journal_id is met.

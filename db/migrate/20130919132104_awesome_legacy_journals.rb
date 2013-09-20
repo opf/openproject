@@ -29,8 +29,10 @@
 
 require_relative 'migration_utils/legacy_journal_migrator'
 require_relative 'migration_utils/journal_migrator_concerns'
+require_relative 'migration_utils/utils'
 
 class AwesomeLegacyJournals < ActiveRecord::Migration
+  include Migration::Utils
 
 
   class UnsupportedWikiContentJournalCompressionError < ::StandardError
@@ -39,19 +41,19 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
   class WikiContentJournalVersionError < ::StandardError
   end
 
-  class AmbiguousJournalsError < ::StandardError
-  end
-
   class UnknownJournaledError < ::StandardError
   end
 
-  class AmbiguousAttachableJournalError < AmbiguousJournalsError
+  class UnknownTypeError < ::StandardError
+  end
+
+  class AmbiguousAttachableJournalError < Migration::AmbiguousJournalsError
   end
 
   class InvalidAttachableJournalError < ::StandardError
   end
 
-  class AmbiguousCustomizableJournalError < AmbiguousJournalsError
+  class AmbiguousCustomizableJournalError < Migration::AmbiguousJournalsError
   end
 
   class IncompleteJournalsError < ::StandardError
@@ -59,7 +61,9 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
 
 
   def up
-    check_assumptions
+    say_with_time_silently "Checking preconditions" do
+      check_assumptions
+    end
 
     legacy_journals = fetch_legacy_journals
 
@@ -110,7 +114,7 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
         "MessageJournal" => message_migrator,
         "WorkPackageJournal" => work_package_migrator,
         "IssueJournal" => work_package_migrator,
-        "Timelines_PlanningElementJournal" => work_package_migrator,
+        "Timelines_PlanningElementJournal" => planning_element_migrator,
         "TimeEntryJournal" => time_entry_migrator,
         "WikiContentJournal" => wiki_content_migrator
       }
@@ -178,17 +182,23 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
       extend Migration::JournalMigratorConcerns::Attachable
       extend Migration::JournalMigratorConcerns::Customizable
 
+      self.journable_class = "WorkPackage"
+
+      def migrate(legacy_journal)
+        update_journaled_id(legacy_journal)
+
+        super
+      end
+
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
 
-        update_journaled_id(legacy_journal)
+        update_type_id(to_insert)
 
         migrate_attachments(to_insert, legacy_journal, journal_id)
 
         migrate_custom_values(to_insert, legacy_journal, journal_id)
 
       end
-
-      private
 
       def update_journaled_id(legacy_journal)
         new_journaled_id = new_journaled_id_for_old(legacy_journal["journaled_id"])
@@ -204,10 +214,26 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
         legacy_journal["journaled_id"] = new_journaled_id
       end
 
+      def update_type_id(to_insert)
+        return if to_insert["planning_element_type_id"].nil? ||
+                  to_insert["planning_element_type_id"].last.nil?
+
+        new_type_id = new_type_id_for_old(to_insert["planning_element_type_id"].last)
+
+        if new_type_id.nil?
+          raise UnknownTypeError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+          No new type_id could be found to replace the type_id value of
+          #{to_insert["planning_element_type_id"].last}
+          MESSAGE
+        end
+
+        to_insert["type_id"] = [nil, new_type_id]
+      end
+
       def new_journaled_id_for_old(old_journaled_id)
         # We should be able to keep that in memory
         @new_journaled_ids ||= begin
-          old_new = select_all <<-SQL
+          old_new = db_select_all <<-SQL
             SELECT journaled_id AS old_id, new_id
             FROM legacy_journals
             LEFT JOIN legacy_planning_elements
@@ -222,6 +248,25 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
         end
 
         @new_journaled_ids[old_journaled_id]
+      end
+
+      def new_type_id_for_old(old_type_id)
+        # We should be able to keep that in memory
+        @new_type_ids ||= begin
+          old_new = db_select_all <<-SQL
+            SELECT id AS old_id, new_id
+            FROM legacy_planning_element_types
+          SQL
+
+          old_new.inject({}) do |mem, entry|
+            # the old_type_id was casted to a fixnum
+            # cheaper to change this here
+            mem[entry['old_id'].to_i] = entry['new_id'].to_i
+            mem
+          end
+        end
+
+        @new_type_ids[old_type_id]
       end
     end
   end
