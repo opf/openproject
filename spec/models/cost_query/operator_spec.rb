@@ -78,18 +78,18 @@ describe CostQuery, :reporting_query_helper => true do
       query('projects', 'name', '!~', 'child').size.should == Project.all.select { |p| p.name !~ /child/ }.count
     end
 
-    it "does c (closed issue)" do
-      query('work_packages', 'status_id', 'c') { |s| s.join IssueStatus => [Issue, :status] }.size.should >= 0
+    it "does c (closed work_package)" do
+      query('work_packages', 'status_id', 'c') { |s| s.join IssueStatus => [WorkPackage, :status] }.size.should >= 0
     end
 
-    it "does o (open issue)" do
-      query('work_packages', 'status_id', 'o') { |s| s.join IssueStatus => [Issue, :status] }.size.should >= 0
+    it "does o (open work_package)" do
+      query('work_packages', 'status_id', 'o') { |s| s.join IssueStatus => [WorkPackage, :status] }.size.should >= 0
     end
 
-    it "does give the correct number of results when counting closed and open issues" do
-      a = query('work_packages', 'status_id', 'o') { |s| s.join IssueStatus => [Issue, :status] }.size
-      b = query('work_packages', 'status_id', 'c') { |s| s.join IssueStatus => [Issue, :status] }.size
-      Issue.count.should == a + b
+    it "does give the correct number of results when counting closed and open work_packages" do
+      a = query('work_packages', 'status_id', 'o') { |s| s.join IssueStatus => [WorkPackage, :status] }.size
+      b = query('work_packages', 'status_id', 'c') { |s| s.join IssueStatus => [WorkPackage, :status] }.size
+      WorkPackage.count.should == a + b
     end
 
     it "does w (this week)" do

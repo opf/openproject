@@ -5,8 +5,8 @@ Given /^there is a standard permission test project named "([^\"]*)"$/ do |name|
     And the project "#{name}" has the following trackers:
       | name | position |
       | Bug  |     1    |
-    And the project "#{name}" has 1 issue with:
-      | subject | #{name}issue   |
+    And the project "#{name}" has 1 work_package with:
+      | subject | #{name}work_package   |
       And there is a role "Testuser"
     And the role "Testuser" may have the following rights:
       | view_own_hourly_rate     |
@@ -34,17 +34,17 @@ Given /^there is a standard permission test project named "([^\"]*)"$/ do |name|
     And there is 1 cost type with the following:
       | name         | ten       |
       | cost rate    | 10.00     |
-    And the issue "#{name}issue" has 1 time entry with the following:
+    And the work_package "#{name}work_package" has 1 time entry with the following:
       | hours        | 1         |
       | user         | testuser  |
-    And the issue "#{name}issue" has 1 time entry with the following:
+    And the work_package "#{name}work_package" has 1 time entry with the following:
       | hours        | 2         |
       | user         | otheruser |
-    And the issue "#{name}issue" has 1 cost entry with the following:
+    And the work_package "#{name}work_package" has 1 cost entry with the following:
       | units        | 1         |
       | user         | testuser  |
       | cost type    | one       |
-    And the issue "#{name}issue" has 1 cost entry with the following:
+    And the work_package "#{name}work_package" has 1 cost entry with the following:
       | units        | 1         |
       | user         | otheruser |
       | cost type    | ten       |

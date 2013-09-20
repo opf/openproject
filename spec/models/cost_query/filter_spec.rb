@@ -6,19 +6,19 @@ describe CostQuery, :reporting_query_helper => true do
   let!(:project) { FactoryGirl.create(:project_with_trackers) }
   let!(:user) { FactoryGirl.create(:user, :member_in_project => project) }
 
-  def create_issue_with_entry(entry_type, issue_params={}, entry_params = {})
-      issue_params = {:project => project}.merge!(issue_params)
-      issue = FactoryGirl.create(:issue, issue_params)
-      entry_params = {:work_package => issue,
-                      :project => issue_params[:project],
+  def create_work_package_with_entry(entry_type, work_package_params={}, entry_params = {})
+      work_package_params = {:project => project}.merge!(work_package_params)
+      work_package = FactoryGirl.create(:work_package, work_package_params)
+      entry_params = {:work_package => work_package,
+                      :project => work_package_params[:project],
                       :user => user}.merge!(entry_params)
       FactoryGirl.create(entry_type, entry_params)
-      issue
+      work_package
   end
 
   describe CostQuery::Filter do
-    def create_issue_with_time_entry(issue_params={}, entry_params = {})
-      create_issue_with_entry(:time_entry, issue_params, entry_params)
+    def create_work_package_with_time_entry(work_package_params={}, entry_params = {})
+      create_work_package_with_entry(:time_entry, work_package_params, entry_params)
     end
 
     it "shows all entries when no filter is applied" do
@@ -42,22 +42,22 @@ describe CostQuery, :reporting_query_helper => true do
       [CostQuery::Filter::UserId,           'user',       "user_id",         2],
       [CostQuery::Filter::AuthorId,         'author',     "author_id",       2],
       [CostQuery::Filter::CostTypeId,       'cost_type',  "cost_type_id",    1],
-      [CostQuery::Filter::WorkPackageId,    'issue',      "work_package_id", 2],
+      [CostQuery::Filter::WorkPackageId,    'work_package',      "work_package_id", 2],
       [CostQuery::Filter::ActivityId, 'activity',   "activity_id",     1],
     ].each do |filter, object_name, field, expected_count|
       describe filter do
         let!(:non_matching_entry) { FactoryGirl.create(:cost_entry) }
         let!(:object) { send(object_name) }
         let!(:author) { FactoryGirl.create(:user, :member_in_project => project) }
-        let!(:issue) { FactoryGirl.create(:issue, :project => project,
+        let!(:work_package) { FactoryGirl.create(:work_package, :project => project,
                                                   :author => author) }
         let!(:cost_type) { FactoryGirl.create(:cost_type) }
-        let!(:cost_entry) { FactoryGirl.create(:cost_entry, :work_package => issue,
+        let!(:cost_entry) { FactoryGirl.create(:cost_entry, :work_package => work_package,
                                                             :user => user,
                                                             :project => project,
                                                             :cost_type => cost_type) }
         let!(:activity) { FactoryGirl.create(:time_entry_activity) }
-        let!(:time_entry) { FactoryGirl.create(:time_entry, :work_package => issue,
+        let!(:time_entry) { FactoryGirl.create(:time_entry, :work_package => work_package,
                                                             :user => user,
                                                             :project => project,
                                                             :activity => activity) }
@@ -111,23 +111,23 @@ describe CostQuery, :reporting_query_helper => true do
       old_user = User.current
       # create non-matching entry
       anonymous = FactoryGirl.create(:anonymous)
-      create_issue_with_time_entry({}, {:user => anonymous})
+      create_work_package_with_time_entry({}, {:user => anonymous})
       # create matching entry
-      create_issue_with_time_entry()
+      create_work_package_with_time_entry()
       @query.filter :user_id, :value => user.id, :operator => '='
       @query.result.count.should == 1
     end
 
-    describe "issue-based filters" do
-      def create_issues_and_time_entries(entry_count, issue_params={}, entry_params={})
+    describe "work_package-based filters" do
+      def create_work_packages_and_time_entries(entry_count, work_package_params={}, entry_params={})
         entry_count.times do
-          create_issue_with_entry(:cost_entry, issue_params, entry_params)
+          create_work_package_with_entry(:cost_entry, work_package_params, entry_params)
         end
       end
 
-      def create_matching_object_with_time_entries(factory, issue_field, entry_count)
+      def create_matching_object_with_time_entries(factory, work_package_field, entry_count)
         object = FactoryGirl.create(factory)
-        create_issues_and_time_entries(entry_count, {issue_field => object})
+        create_work_packages_and_time_entries(entry_count, {work_package_field => object})
         object
       end
 
@@ -137,20 +137,20 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "filters status" do
-        matching_status = FactoryGirl.create(:issue_status, :is_closed => true)
-        create_issues_and_time_entries(3, :status => matching_status)
+        matching_status = FactoryGirl.create(:work_package_status, :is_closed => true)
+        create_work_packages_and_time_entries(3, :status => matching_status)
         @query.filter :status_id, :operator => 'c'
         @query.result.count.should == 3
       end
 
       it "filters tracker" do
         matching_tracker = project.trackers.first
-        create_issues_and_time_entries(3, :tracker => matching_tracker)
+        create_work_packages_and_time_entries(3, :tracker => matching_tracker)
         @query.filter :tracker_id, :operator => '=', :value => matching_tracker.id
         @query.result.count.should == 3
       end
 
-      it "filters issue authors" do
+      it "filters work_package authors" do
         matching_author = create_matching_object_with_time_entries(:user, :author, 3)
         @query.filter :author_id, :operator => '=', :value => matching_author.id
         @query.result.count.should == 3
@@ -169,39 +169,39 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "filters category" do
-        category = create_matching_object_with_time_entries(:issue_category, :category, 3)
+        category = create_matching_object_with_time_entries(:work_package_category, :category, 3)
         @query.filter :category_id, :operator => '=', :value => category.id
         @query.result.count.should == 3
       end
 
       it "filters target version" do
         matching_version = FactoryGirl.create(:version, :project => project)
-        create_issues_and_time_entries(3, :fixed_version => matching_version)
+        create_work_packages_and_time_entries(3, :fixed_version => matching_version)
 
         @query.filter :fixed_version_id, :operator => '=', :value => matching_version.id
         @query.result.count.should == 3
       end
 
       it "filters subject" do
-        matching_issue = create_issue_with_time_entry(:subject => 'matching subject')
+        matching_work_package = create_work_package_with_time_entry(:subject => 'matching subject')
         @query.filter :subject, :operator => '=', :value => 'matching subject'
         @query.result.count.should == 1
       end
 
       it "filters start" do
         start_date = Date.new(2013, 1, 1)
-        matching_issue = create_issue_with_time_entry(:start_date => start_date)
+        matching_work_package = create_work_package_with_time_entry(:start_date => start_date)
         @query.filter :start_date, :operator => '=d', :value => start_date
         @query.result.count.should == 1
-        #Entry.all.select { |e| e.issue.start_date == Issue.all(:order => "id ASC").first.start_date }.count
+        #Entry.all.select { |e| e.work_package.start_date == WorkPackage.all(:order => "id ASC").first.start_date }.count
       end
 
       it "filters due date" do
         due_date = Date.new(2013, 1, 1)
-        matching_issue = create_issue_with_time_entry(:due_date => due_date)
+        matching_work_package = create_work_package_with_time_entry(:due_date => due_date)
         @query.filter :due_date, :operator => '=d', :value => due_date
         @query.result.count.should == 1
-        #Entry.all.select { |e| e.issue.due_date == Issue.all(:order => "id ASC").first.due_date }.count
+        #Entry.all.select { |e| e.work_package.due_date == WorkPackage.all(:order => "id ASC").first.due_date }.count
       end
 
       it "raises an error if operator is not supported" do
@@ -250,7 +250,7 @@ describe CostQuery, :reporting_query_helper => true do
 
     describe CostQuery::Filter::CustomFieldEntries do
       let!(:custom_field) do
-        cf = FactoryGirl.create(:issue_custom_field,
+        cf = FactoryGirl.create(:work_package_custom_field,
                                 :name => 'My custom field')
         clear_cache
         cf
@@ -265,12 +265,12 @@ describe CostQuery, :reporting_query_helper => true do
         CostQuery::Filter::CustomFieldEntries.all
       end
 
-      def delete_issue_custom_field(name)
+      def delete_work_package_custom_field(name)
         WorkPackageCustomField.find_by_name(name).destroy
         clear_cache
       end
 
-      def update_issue_custom_field(name, options)
+      def update_work_package_custom_field(name, options)
         fld = WorkPackageCustomField.find_by_name(name)
         options.each_pair {|k, v| fld.send(:"#{k}=", v) }
         fld.save!
@@ -289,12 +289,12 @@ describe CostQuery, :reporting_query_helper => true do
       it "should remove the custom field classes after it is deleted" do
         custom_field
         class_name = class_name_for('My custom field')
-        delete_issue_custom_field("My custom field")
+        delete_work_package_custom_field("My custom field")
         CostQuery::Filter.all.should_not include class_name.constantize
       end
 
       it "should provide the correct available values" do
-        FactoryGirl.create(:issue_custom_field, :name => 'Database',
+        FactoryGirl.create(:work_package_custom_field, :name => 'Database',
                                                 :field_format => "list",
                                                 :possible_values => ['value'])
         clear_cache
@@ -305,15 +305,15 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "should update the available values on change" do
-        FactoryGirl.create(:issue_custom_field, :name => 'Database',
+        FactoryGirl.create(:work_package_custom_field, :name => 'Database',
                                                 :field_format => "list",
                                                 :possible_values => ['value'])
-        update_issue_custom_field("Database", :field_format => "string")
+        update_work_package_custom_field("Database", :field_format => "string")
         ao = class_name_for('Database').constantize.available_operators.map(&:name)
         CostQuery::Operator.string_operators.each do |o|
           ao.should include o.name
         end
-        update_issue_custom_field("Database", :field_format => "int")
+        update_work_package_custom_field("Database", :field_format => "int")
         ao = class_name_for('Database').constantize.available_operators.map(&:name)
         CostQuery::Operator.integer_operators.each do |o|
           ao.should include o.name
@@ -333,17 +333,17 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       def create_searchable_fields_and_values
-        searchable_field = FactoryGirl.create(:issue_custom_field,
+        searchable_field = FactoryGirl.create(:work_package_custom_field,
                                               :field_format => "text",
                                               :name => "Searchable Field")
         2.times do
-          issue = create_issue_with_entry(:cost_entry)
-          FactoryGirl.create(:issue_custom_value,
+          work_package = create_work_package_with_entry(:cost_entry)
+          FactoryGirl.create(:work_package_custom_value,
                              :custom_field => searchable_field,
-                             :customized => issue,
+                             :customized => work_package,
                              :value => "125")
         end
-        issue = create_issue_with_entry(:cost_entry)
+        work_package = create_work_package_with_entry(:cost_entry)
         FactoryGirl.create(:custom_value,
                            :custom_field => searchable_field,
                            :value => "non-matching value")

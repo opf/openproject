@@ -1,6 +1,6 @@
 class CostQuery::Filter::CostObjectId < Report::Filter::Base
   join_table Project
-  applies_for :label_issue_attributes
+  applies_for :label_work_package_attributes
 
   def self.label
     CostObject.model_name.human
