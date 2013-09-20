@@ -418,6 +418,69 @@ Timeline = {
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ Loading                                                           │
   // ╰───────────────────────────────────────────────────────────────────╯
+
+  FilterQueryStringBuilder: (function() {
+
+    /**
+     * FilterQueryStringBuilder
+     *
+     * Simple serializer of query strings that satisfies OpenProject's filter
+     * API. Transforms hashes of desired filterings into the proper query strings.
+     *
+     * Example:
+     *   fqsb = (new FilterQueryStringBuilder({
+     *     'type_id': [4, 5]
+     *   })).build('/api/v2/projects/sample_project/planning_elements.json')
+     *
+     *   => /api/v2/projects/sample_project/planning_elements.json?f[]=type_id&op[type_id]==&v[type_id][]=4&v[type_id][]=5
+     *
+     */
+    var FilterQueryStringBuilder = function (filterHash) {
+      this.filterHash = filterHash;
+    };
+
+    FilterQueryStringBuilder.prototype.build = function(url) {
+      var queryStringParts = [];
+      var resultUrl = url;
+
+      jQuery.each(this.filterHash, function(key, value) {
+
+        queryStringParts.push(
+          {name: 'f[]', value: key},
+          {name: 'op[' + key + ']', value: '='}
+        );
+
+        if (value instanceof Array) {
+
+          jQuery.each(value, function(i, e) {
+
+            queryStringParts.push(
+              {name: 'v[' + key + '][]', value: e}
+            );
+
+          });
+
+        } else {
+
+          queryStringParts.push(
+            {name: 'v[' + key + '][]', value: value}
+          );
+
+        }
+      });
+
+      resultUrl += "?";
+
+      resultUrl += jQuery.map(queryStringParts, function(e, i) {
+        return e.name + "=" + encodeURIComponent(e.value);
+      }).join('&');
+
+      return resultUrl;
+    };
+
+    return FilterQueryStringBuilder;
+  })(),
+
   TimelineLoader : (function () {
 
     /**
