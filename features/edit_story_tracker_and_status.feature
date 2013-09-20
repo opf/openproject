@@ -1,6 +1,6 @@
-Feature: Edit story tracker and status
+Feature: Edit story type and status
   As a user
-  I want to edit the tracker and the status of a story
+  I want to edit the type and the status of a story
   In consideration of existing workflows
   So that I can not make changes that are not permitted by the system
 
@@ -10,12 +10,12 @@ Feature: Edit story tracker and status
     And I am working in project "ecookbook"
     And the project uses the following modules:
         | backlogs |
-    And the following trackers are configured to track stories:
+    And the following types are configured to track stories:
         | Story |
         | Epic  |
         | Bug   |
-    And the tracker "Task" is configured to track tasks
-    And the project uses the following trackers:
+    And the type "Task" is configured to track tasks
+    And the project uses the following types:
         | Story |
         | Bug   |
         | Task  |
@@ -42,7 +42,7 @@ Feature: Edit story tracker and status
     And there is a default issuepriority with:
         | name   | Normal |
     And the project has the following stories in the following sprints:
-        | subject | sprint     | tracker | story_points |
+        | subject | sprint     | type | story_points |
         | Story A | Sprint 001 | Bug     | 10           |
         | Story B | Sprint 001 | Story   | 20           |
         | Story C | Sprint 001 | Bug     | 20           |
@@ -78,7 +78,7 @@ Feature: Edit story tracker and status
         | Closed |
 
   @javascript
-  Scenario: Select a status and change to a tracker that does not offer the status
+  Scenario: Select a status and change to a type that does not offer the status
      When I click on the text "Story B"
 
      Then the available status of the story called "Story B" should be the following:
@@ -86,7 +86,7 @@ Feature: Edit story tracker and status
         | Rejected |
 
      When I select "Rejected" from "status_id"
-      And I select "Bug" from "tracker_id"
+      And I select "Bug" from "type_id"
 
      Then the editable attributes of the story called "Story B" should be the following:
         | Status | |

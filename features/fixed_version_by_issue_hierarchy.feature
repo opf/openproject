@@ -37,15 +37,15 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
     And there is a default issuepriority with:
         | name   | Normal |
     And the backlogs module is initialized
-    And the following trackers are configured to track stories:
+    And the following types are configured to track stories:
         | Story |
-    And the tracker "Task" is configured to track tasks
-    And the project uses the following trackers:
+    And the type "Task" is configured to track tasks
+    And the project uses the following types:
         | Story |
         | Epic  |
         | Task  |
         | Bug   |
-    And the tracker "Task" has the default workflow for the role "scrum master"
+    And the type "Task" has the default workflow for the role "scrum master"
     And there is 1 user with:
         | login | markus |
         | firstname | Markus |
@@ -106,14 +106,14 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
   Scenario: Creating a task, via subtask, as a subtask to a story sets the new task's fixed version to the parent's fixed version
      When I go to the page of the issue "Story A"
       And I follow the link to add a subtask
-      And I select "Task" from "work_package_tracker_id"
+      And I select "Task" from "work_package_type_id"
       And I fill in "Task 0815" for "work_package_subject"
       And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
   Scenario: Creating a task, via new work_package, as a subtask to a story set´s the new task´s fixed version to the parent´s fixed version
      When I go to the new work_package page of the project called "ecookbook"
-      And I select "Task" from "work_package_tracker_id"
+      And I select "Task" from "work_package_type_id"
       And I fill in "Task 0815" for "work_package_subject"
       And I fill in the id of the issue "Story A" as the parent issue
       And I click on the first button matching "Create"
@@ -121,7 +121,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
 
   Scenario: Creating a task, via new work_package, as a subtask to a story and setting a fixed version is overriden by the parent´s fixed version (bug 8904)
      When I go to the new work_package page of the project called "ecookbook"
-      And I select "Task" from "work_package_tracker_id"
+      And I select "Task" from "work_package_type_id"
       And I fill in "Task 0815" for "work_package_subject"
       And I fill in the id of the issue "Story A" as the parent issue
       And I select "Sprint 003" from "work_package_fixed_version_id"
@@ -139,7 +139,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
 
   Scenario: Changing the fixed_version of a task with a non backlogs parent issue (bug 8354)
     Given the project has the following issues:
-      | subject      | sprint     | tracker    |
+      | subject      | sprint     | type    |
       | Epic 1       | Sprint 001 | Epic       |
       And the project has the following tasks:
       | subject | parent |
@@ -151,7 +151,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
 
   Scenario: Changing the fixed_version of an epic should not change the target version of the child (bug 8903)
     Given the project has the following issues:
-      | subject      | sprint     | tracker    | parent |
+      | subject      | sprint     | type    | parent |
       | Epic 1       | Sprint 001 | Epic       |        |
       | Task 1       | Sprint 002 | Task       | Epic 1 |
    When I go to the edit page of the issue "Epic 1"

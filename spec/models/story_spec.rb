@@ -4,27 +4,27 @@ describe Story do
   let(:user) { @user ||= FactoryGirl.create(:user) }
   let(:role) { @role ||= FactoryGirl.create(:role) }
   let(:issue_status1) { @status1 ||= FactoryGirl.create(:issue_status, :name => "status 1", :is_default => true) }
-  let(:tracker_feature) { @tracker_feature ||= FactoryGirl.create(:tracker_feature) }
+  let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
   let(:version) { @version ||= FactoryGirl.create(:version, :project => project) }
   let(:version2) { FactoryGirl.create(:version, :project => project) }
   let(:sprint) { @sprint ||= FactoryGirl.create(:sprint, :project => project) }
   let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority) }
-  let(:task_tracker) { FactoryGirl.create(:tracker_task) }
+  let(:task_type) { FactoryGirl.create(:type_task) }
   let(:task) { FactoryGirl.create(:story, :fixed_version => version,
                                       :project => project,
                                       :status => issue_status1,
-                                      :tracker => task_tracker,
+                                      :type => task_type,
                                       :priority => issue_priority) }
   let(:story1) { FactoryGirl.create(:story, :fixed_version => version,
                                         :project => project,
                                         :status => issue_status1,
-                                        :tracker => tracker_feature,
+                                        :type => type_feature,
                                         :priority => issue_priority) }
 
   let(:story2) { FactoryGirl.create(:story, :fixed_version => version,
                                         :project => project,
                                         :status => issue_status1,
-                                        :tracker => tracker_feature,
+                                        :type => type_feature,
                                         :priority => issue_priority) }
 
   let(:project) do
@@ -43,8 +43,8 @@ describe Story do
     Setting.plugin_openproject_backlogs = {"points_burn_direction" => "down",
                                "wiki_template"         => "",
                                "card_spec"             => "Sattleford VM-5040",
-                               "story_trackers"        => [tracker_feature.id.to_s],
-                               "task_tracker"          => task_tracker.id.to_s }
+                               "story_types"        => [type_feature.id.to_s],
+                               "task_type"          => task_type.id.to_s }
   end
 
   describe "Class methods" do
@@ -176,11 +176,11 @@ describe Story do
       @story = FactoryGirl.create(:story, :fixed_version => version,
                                        :project => project,
                                        :status => issue_status1,
-                                       :tracker => tracker_feature,
+                                       :type => type_feature,
                                        :priority => issue_priority)
       @story.project.enabled_module_names += ["backlogs"]
 
-      @issue ||= FactoryGirl.create(:issue, :project => project, :status => issue_status1, :tracker => tracker_feature, :author => @current)
+      @issue ||= FactoryGirl.create(:issue, :project => project, :status => issue_status1, :type => type_feature, :author => @current)
     end
 
     it "should create a journal when adding a subtask which has remaining hours set" do

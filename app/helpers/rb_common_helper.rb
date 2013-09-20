@@ -94,12 +94,12 @@ module RbCommonHelper
     story.new_record? ? "" : h(story.description).gsub(/&lt;(\/?pre)&gt;/, '<\1>')
   end
 
-  def tracker_id_or_empty(story)
-    story.new_record? ? "" : story.tracker_id
+  def type_id_or_empty(story)
+    story.new_record? ? "" : story.type_id
   end
 
-  def tracker_name_or_empty(story)
-    story.new_record? ? "" : h(backlogs_trackers_by_id[story.tracker_id].name)
+  def type_name_or_empty(story)
+    story.new_record? ? "" : h(backlogs_types_by_id[story.type_id].name)
   end
 
   def updated_on_with_milliseconds(story)
@@ -116,18 +116,18 @@ module RbCommonHelper
     item.remaining_hours.blank? || item.remaining_hours==0 ? "" : item.remaining_hours
   end
 
-  def available_story_trackers
-    @available_story_trackers ||= begin
-      trackers = story_trackers & @project.trackers if @project
+  def available_story_types
+    @available_story_types ||= begin
+      types = story_types & @project.types if @project
 
-      trackers
+      types
     end
   end
 
-  def available_statuses_by_tracker
-    @available_statuses_by_tracker ||= begin
-      available_statuses_by_tracker = Hash.new do |tracker_hash, tracker|
-        tracker_hash[tracker] = Hash.new do |status_hash, status|
+  def available_statuses_by_type
+    @available_statuses_by_type ||= begin
+      available_statuses_by_type = Hash.new do |type_hash, type|
+        type_hash[type] = Hash.new do |status_hash, status|
           status_hash[status] = [status]
         end
       end
@@ -135,12 +135,12 @@ module RbCommonHelper
       workflows = all_workflows
 
       workflows.each do |w|
-        tracker_status = available_statuses_by_tracker[story_trackers_by_id[w.tracker_id]][w.old_status]
+        type_status = available_statuses_by_type[story_types_by_id[w.type_id]][w.old_status]
 
-        tracker_status << w.new_status unless tracker_status.include?(w.new_status)
+        type_status << w.new_status unless type_status.include?(w.new_status)
       end
 
-      available_statuses_by_tracker
+      available_statuses_by_type
     end
   end
 
@@ -184,45 +184,45 @@ module RbCommonHelper
   def all_workflows
     @all_workflows ||= Workflow.all(:include => [:new_status, :old_status],
                                     :conditions => { :role_id => User.current.roles_for_project(@project).collect(&:id),
-                                                     :tracker_id => story_trackers.collect(&:id) })
+                                                     :type_id => story_types.collect(&:id) })
   end
 
   def all_work_package_status
     @all_work_package_status ||= IssueStatus.all(:order => 'position ASC')
   end
 
-  def backlogs_trackers
-    @backlogs_trackers ||= begin
-      backlogs_ids = Setting.plugin_openproject_backlogs["story_trackers"]
-      backlogs_ids << Setting.plugin_openproject_backlogs["task_tracker"]
+  def backlogs_types
+    @backlogs_types ||= begin
+      backlogs_ids = Setting.plugin_openproject_backlogs["story_types"]
+      backlogs_ids << Setting.plugin_openproject_backlogs["task_type"]
 
-      Tracker.find(:all,
+      Type.find(:all,
                    :conditions => { :id => backlogs_ids },
                    :order => 'position ASC')
     end
   end
 
-  def backlogs_trackers_by_id
-    @backlogs_trackers_by_id ||= begin
-      backlogs_trackers.inject({}) do |mem, tracker|
-        mem[tracker.id] = tracker
+  def backlogs_types_by_id
+    @backlogs_types_by_id ||= begin
+      backlogs_types.inject({}) do |mem, type|
+        mem[type.id] = type
         mem
       end
     end
   end
 
-  def story_trackers
-    @story_trackers ||= begin
-      backlogs_tracker_ids = Setting.plugin_openproject_backlogs["story_trackers"].map(&:to_i)
+  def story_types
+    @story_types ||= begin
+      backlogs_type_ids = Setting.plugin_openproject_backlogs["story_types"].map(&:to_i)
 
-      backlogs_trackers.select{ |t| backlogs_tracker_ids.include?(t.id) }
+      backlogs_types.select{ |t| backlogs_type_ids.include?(t.id) }
     end
   end
 
-  def story_trackers_by_id
-    @story_trackers_by_id ||= begin
-      story_trackers.inject({}) do |mem, tracker|
-        mem[tracker.id] = tracker
+  def story_types_by_id
+    @story_types_by_id ||= begin
+      story_types.inject({}) do |mem, type|
+        mem[type.id] = type
         mem
       end
     end

@@ -19,10 +19,10 @@ describe Version do
     let(:priority) { FactoryGirl.create(:priority_normal) }
     let(:project)  { FactoryGirl.create(:project)         }
 
-    let(:epic_tracker)  { FactoryGirl.create(:tracker, :name => 'Epic') }
-    let(:story_tracker) { FactoryGirl.create(:tracker, :name => 'Story') }
-    let(:task_tracker)  { FactoryGirl.create(:tracker, :name => 'Task')  }
-    let(:other_tracker) { FactoryGirl.create(:tracker, :name => 'Other') }
+    let(:epic_type)  { FactoryGirl.create(:type, :name => 'Epic') }
+    let(:story_type) { FactoryGirl.create(:type, :name => 'Story') }
+    let(:task_type)  { FactoryGirl.create(:type, :name => 'Task')  }
+    let(:other_type) { FactoryGirl.create(:type, :name => 'Other') }
 
     let(:version) { FactoryGirl.create(:version, :project_id => project.id, :name => 'Version') }
 
@@ -35,18 +35,18 @@ describe Version do
       IssuePriority.delete_all
       IssueStatus.delete_all
       Project.delete_all
-      Tracker.delete_all
+      Type.delete_all
       Version.delete_all
 
       # enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ["backlogs"]
-      Setting.plugin_openproject_backlogs = {"story_trackers" => [epic_tracker.id, story_tracker.id],
-                                 "task_tracker"   => task_tracker.id}
+      Setting.plugin_openproject_backlogs = {"story_types" => [epic_type.id, story_type.id],
+                                 "task_type"   => task_type.id}
 
-      # otherwise the tracker id's from the previous test are still active
-      Issue.instance_variable_set(:@backlogs_trackers, nil)
+      # otherwise the type id's from the previous test are still active
+      Issue.instance_variable_set(:@backlogs_types, nil)
 
-      project.trackers = [epic_tracker, story_tracker, task_tracker, other_tracker]
+      project.types = [epic_type, story_type, task_type, other_type]
       version
     end
 
@@ -56,9 +56,9 @@ describe Version do
       project2.save!
       project2.reload
 
-      issue1 = FactoryGirl.create(:issue, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
-      issue2 = FactoryGirl.create(:issue, :parent_issue_id => issue1.id, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
-      issue3 = FactoryGirl.create(:issue, :parent_issue_id => issue2.id, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
+      issue1 = FactoryGirl.create(:issue, :type_id => task_type.id, :status_id => status.id, :project_id => project.id)
+      issue2 = FactoryGirl.create(:issue, :parent_issue_id => issue1.id, :type_id => task_type.id, :status_id => status.id, :project_id => project.id)
+      issue3 = FactoryGirl.create(:issue, :parent_issue_id => issue2.id, :type_id => task_type.id, :status_id => status.id, :project_id => project.id)
 
       issue1.reload
       issue1.fixed_version_id = version.id
@@ -90,13 +90,13 @@ describe Version do
     end
 
     it 'rebuilds postions' do
-      e1 = create_issue(:tracker_id => epic_tracker.id)
-      s2 = create_issue(:tracker_id => story_tracker.id)
-      s3 = create_issue(:tracker_id => story_tracker.id)
-      s4 = create_issue(:tracker_id => story_tracker.id)
-      s5 = create_issue(:tracker_id => story_tracker.id)
-      t3 = create_issue(:tracker_id => task_tracker.id)
-      o9 = create_issue(:tracker_id => other_tracker.id)
+      e1 = create_issue(:type_id => epic_type.id)
+      s2 = create_issue(:type_id => story_type.id)
+      s3 = create_issue(:type_id => story_type.id)
+      s4 = create_issue(:type_id => story_type.id)
+      s5 = create_issue(:type_id => story_type.id)
+      t3 = create_issue(:type_id => task_type.id)
+      o9 = create_issue(:type_id => other_type.id)
 
       [e1, s2, s3, s4, s5].each(&:move_to_bottom)
 

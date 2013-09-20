@@ -18,7 +18,7 @@ module OpenProject::Backlogs::Burndown
     end
 
     def out_names
-      @out_names ||= ["project_id", "fixed_version_id", "tracker_id", "status_id"]
+      @out_names ||= ["project_id", "fixed_version_id", "type_id", "status_id"]
     end
 
     def unit_for(name)
@@ -92,16 +92,16 @@ module OpenProject::Backlogs::Burndown
       fixed_version_query = "(#{Issue.table_name}.fixed_version_id = ? OR journals.changed_data LIKE '%fixed_version_id: - ? - [0-9]+%' OR journals.changed_data LIKE '%fixed_version_id: - [0-9]+ - ?%')"
       project_id_query = "(#{Issue.table_name}.project_id = ? OR journals.changed_data LIKE '%project_id: - ? - [0-9]+%' OR journals.changed_data LIKE '%project_id: - [0-9]+ - ?%')"
 
-      trackers_string = "(#{collected_trackers.map{|i| "(#{i})"}.join("|")})"
-      tracker_id_query = "(#{Issue.table_name}.tracker_id in (?) OR journals.changed_data LIKE '%tracker_id: - #{trackers_string} - [0-9]+%' OR journals.changed_data LIKE '%tracker_id: - [0-9]+ - #{trackers_string}%')"
+      types_string = "(#{collected_types.map{|i| "(#{i})"}.join("|")})"
+      type_id_query = "(#{Issue.table_name}.type_id in (?) OR journals.changed_data LIKE '%type_id: - #{types_string} - [0-9]+%' OR journals.changed_data LIKE '%type_id: - [0-9]+ - #{types_string}%')"
 
       stories = Issue.all(:include    => :journals,
                           :conditions => ["#{ fixed_version_query }" +
                                           " AND #{ project_id_query }" +
-                                          " AND #{ tracker_id_query }",
+                                          " AND #{ type_id_query }",
                                           sprint.id, sprint.id, sprint.id,
                                           project.id, project.id, project.id,
-                                          collected_trackers],
+                                          collected_types],
                           :order => "#{Issue.table_name}.id")
 
       stories.delete_if do |s|
@@ -115,8 +115,8 @@ module OpenProject::Backlogs::Burndown
       end
 
       stories.delete_if do |s|
-        !collected_trackers.include?(s.tracker_id) and
-          s.journals.none? { |j| j.changed_data['tracker_id'] && collected_trackers.map(&:to_s).include?(j.changed_data['tracker_id'].first.to_s) }
+        !collected_types.include?(s.type_id) and
+          s.journals.none? { |j| j.changed_data['type_id'] && collected_types.map(&:to_s).include?(j.changed_data['type_id'].first.to_s) }
       end
 
       stories
@@ -139,7 +139,7 @@ module OpenProject::Backlogs::Burndown
       (collect_names.include?(key) &&
         not_in_project?(story, date, details_by_prop, current_prop_index) ||
         not_in_sprint?(story, date, details_by_prop, current_prop_index) ||
-        not_in_tracker?(story, date, details_by_prop, current_prop_index)
+        not_in_type?(story, date, details_by_prop, current_prop_index)
       ) ||
       ((key == "story_points") && story_is_closed?(story, date, details_by_prop, current_prop_index)) ||
       ((key == "story_points") && story_is_done?(story, date, details_by_prop, current_prop_index)) ||
@@ -156,8 +156,8 @@ module OpenProject::Backlogs::Burndown
         sprint.id != value_for_prop(date, details_by_prop["fixed_version_id"], current_prop_index["fixed_version_id"], story.send("fixed_version_id")).to_i
     end
 
-    def not_in_tracker?(story, date, details_by_prop, current_prop_index)
-      !collected_trackers.include?(value_for_prop(date, details_by_prop["tracker_id"], current_prop_index["tracker_id"], story.send("tracker_id")).to_i)
+    def not_in_type?(story, date, details_by_prop, current_prop_index)
+      !collected_types.include?(value_for_prop(date, details_by_prop["type_id"], current_prop_index["type_id"], story.send("type_id")).to_i)
     end
 
     def story_is_closed?(story, date, details_by_prop, current_prop_index)
@@ -184,8 +184,8 @@ module OpenProject::Backlogs::Burndown
       value
     end
 
-    def collected_trackers
-      @collected_trackers ||= Story.trackers << Task.tracker
+    def collected_types
+      @collected_types ||= Story.types << Task.type
     end
 
     def issue_status_by_id(status_id)

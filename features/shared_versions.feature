@@ -13,14 +13,14 @@ Feature: Shared Versions
         | name  | child |
     And the project "child" uses the following modules:
         | backlogs |
-    And the following trackers are configured to track stories:
+    And the following types are configured to track stories:
         | story |
         | epic  |
-    And the tracker "task" is configured to track tasks
-    And the project "parent" uses the following trackers:
+    And the type "task" is configured to track tasks
+    And the project "parent" uses the following types:
         | story |
         | task  |
-    And the project "child" uses the following trackers:
+    And the project "child" uses the following types:
         | story |
         | task  |
     And I am working in project "child"

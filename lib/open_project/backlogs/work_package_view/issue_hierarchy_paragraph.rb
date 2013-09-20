@@ -49,7 +49,7 @@ class OpenProject::Backlogs::IssueView::IssueHierarchyParagraph < OpenProject::N
     css_classes << "idnt" << "idnt-#{level}" if level > 0
 
     if @issue == issue
-      issue_text = t.link_to("#{issue.tracker.name} ##{issue.id}",
+      issue_text = t.link_to("#{issue.type.name} ##{issue.id}",
                              'javascript:void(0)',
                              :style => "color:inherit; font-weight: bold",
                              :class => issue.css_classes)
@@ -61,7 +61,7 @@ class OpenProject::Backlogs::IssueView::IssueHierarchyParagraph < OpenProject::N
       elsif relation == "child"
         title << content_tag(:span, l(:description_sub_issue), :class => "hidden-for-sighted")
       end
-      title << " #{issue.tracker.name} ##{issue.id}"
+      title << " #{issue.type.name} ##{issue.id}"
 
       issue_text = t.link_to_issue_box(title.html_safe, issue, :class => issue.css_classes)
     end

@@ -51,11 +51,11 @@ class Story < WorkPackage
                       :offset => rank - 1)
   end
 
-  def self.trackers
-    trackers = Setting.plugin_openproject_backlogs["story_trackers"]
-    return [] if trackers.blank?
+  def self.types
+    types = Setting.plugin_openproject_backlogs["story_types"]
+    return [] if types.blank?
 
-    trackers.map { |tracker| Integer(tracker) }
+    types.map { |type| Integer(type) }
   end
 
   def tasks
@@ -63,13 +63,13 @@ class Story < WorkPackage
   end
 
   def tasks_and_subtasks
-    return [] unless Task.tracker
-    self.descendants.find_all_by_tracker_id(Task.tracker)
+    return [] unless Task.type
+    self.descendants.find_all_by_type_id(Task.type)
   end
 
   def direct_tasks_and_subtasks
-    return [] unless Task.tracker
-    self.children.find_all_by_tracker_id(Task.tracker).collect { |t| [t] + t.descendants }.flatten
+    return [] unless Task.type
+    self.children.find_all_by_type_id(Task.type).collect { |t| [t] + t.descendants }.flatten
   end
 
   def set_points(p)
@@ -143,8 +143,8 @@ class Story < WorkPackage
   private
 
   def self.condition(project_id, sprint_ids, extras = [])
-    c = ["project_id = ? AND tracker_id in (?) AND fixed_version_id in (?)",
-         project_id, Story.trackers, sprint_ids]
+    c = ["project_id = ? AND type_id in (?) AND fixed_version_id in (?)",
+         project_id, Story.types, sprint_ids]
 
     if extras.size > 0
       c[0] += ' ' + extras.shift

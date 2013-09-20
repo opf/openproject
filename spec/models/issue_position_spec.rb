@@ -40,7 +40,7 @@ describe WorkPackage do
                                                                :tracker_id => other_tracker.id) }
 
     let(:task_1)  { create_work_package(:subject => 'Task 1', :fixed_version_id => sprint_1.id,
-                                                       :tracker_id => task_tracker.id) }
+                                                       :type_id => task_type.id) }
 
     before do
       # had problems while writing these specs, that some elements kept creaping
@@ -51,18 +51,18 @@ describe WorkPackage do
       IssuePriority.delete_all
       IssueStatus.delete_all
       Project.delete_all
-      Tracker.delete_all
+      Type.delete_all
       Version.delete_all
 
       # enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ["backlogs"]
-      Setting.plugin_openproject_backlogs = {"story_trackers" => [story_tracker.id, epic_tracker.id],
-                                 "task_tracker"   => task_tracker.id}
+      Setting.plugin_openproject_backlogs = {"story_types" => [story_type.id, epic_type.id],
+                                 "task_type"   => task_type.id}
 
-      # otherwise the tracker id's from the previous test are still active
-      WorkPackage.instance_variable_set(:@backlogs_trackers, nil)
+      # otherwise the type id's from the previous test are still active
+      WorkPackage.instance_variable_set(:@backlogs_types, nil)
 
-      project.trackers = [story_tracker, epic_tracker, task_tracker, other_tracker]
+      project.types = [story_type, epic_type, task_type, other_type]
       sprint_1
       sprint_2
 
@@ -127,74 +127,74 @@ describe WorkPackage do
       end
     end
 
-    describe '- Changing the tracker' do
-      describe 'by moving a story to another story tracker' do
+    describe '- Changing the type' do
+      describe 'by moving a story to another story type' do
         it 'keeps all positions in the sprint in tact' do
-          work_package_3.tracker = epic_tracker
+          work_package_3.type = epic_type
           work_package_3.save!
 
           [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5]
         end
       end
 
-      describe 'by moving a story to a non-backlogs tracker' do
+      describe 'by moving a story to a non-backlogs type' do
         it 'removes it from any list' do
-          work_package_3.tracker = other_tracker
+          work_package_3.type = other_type
           work_package_3.save!
 
           work_package_3.should_not be_in_list
         end
 
         it 'reorders the remaining stories' do
-          work_package_3.tracker = other_tracker
+          work_package_3.type = other_type
           work_package_3.save!
 
           [work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4]
         end
       end
 
-      describe 'by moving a story to the task tracker' do
+      describe 'by moving a story to the task type' do
         it 'removes it from any list' do
-          work_package_3.tracker = task_tracker
+          work_package_3.type = task_type
           work_package_3.save!
 
           work_package_3.should_not be_in_list
         end
 
         it 'reorders the remaining stories' do
-          work_package_3.tracker = task_tracker
+          work_package_3.type = task_type
           work_package_3.save!
 
           [work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4]
         end
       end
 
-      describe 'by moving a task to the story tracker' do
+      describe 'by moving a task to the story type' do
         it 'adds it to the top of the list' do
-          task_1.tracker = story_tracker
+          task_1.type = story_type
           task_1.save!
 
           task_1.should be_first
         end
 
         it 'reorders the existing stories' do
-          task_1.tracker = story_tracker
+          task_1.type = story_type
           task_1.save!
 
           [task_1, work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5, 6]
         end
       end
 
-      describe 'by moving a non-backlogs work_package to a story tracker' do
+      describe 'by moving a non-backlogs work_package to a story type' do
         it 'adds it to the top of the list' do
-          feedback_1.tracker = story_tracker
+          feedback_1.type = story_type
           feedback_1.save!
 
           feedback_1.should be_first
         end
 
         it 'reorders the existing stories' do
-          feedback_1.tracker = story_tracker
+          feedback_1.type = story_type
           feedback_1.save!
 
           [feedback_1, work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5, 6]
@@ -224,8 +224,8 @@ describe WorkPackage do
         project_wo_backlogs.enabled_module_names = project_wo_backlogs.enabled_module_names - ["backlogs"]
         sub_project_wo_backlogs.enabled_module_names = sub_project_wo_backlogs.enabled_module_names - ["backlogs"]
 
-        project_wo_backlogs.trackers = [story_tracker, task_tracker, other_tracker]
-        sub_project_wo_backlogs.trackers = [story_tracker, task_tracker, other_tracker]
+        project_wo_backlogs.types = [story_type, task_type, other_type]
+        sub_project_wo_backlogs.types = [story_type, task_type, other_type]
 
         sub_project_wo_backlogs.move_to_child_of(project)
 

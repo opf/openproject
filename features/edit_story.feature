@@ -9,12 +9,12 @@ Feature: Edit story on backlogs view
     And I am working in project "ecookbook"
     And the project uses the following modules:
         | backlogs |
-    And the following trackers are configured to track stories:
+    And the following types are configured to track stories:
         | Story |
         | Epic  |
         | Bug   |
-    And the tracker "Task" is configured to track tasks
-    And the project uses the following trackers:
+    And the type "Task" is configured to track tasks
+    And the project uses the following types:
         | Story |
         | Bug   |
         | Task  |
@@ -45,7 +45,7 @@ Feature: Edit story on backlogs view
         | Resolved    | false      | false       |
         | Closed      | true       | false       |
         | Rejected    | true       | false       |
-    And the tracker "Story" has the default workflow for the role "team member"
+    And the type "Story" has the default workflow for the role "team member"
     And there is a default issuepriority with:
         | name   | Normal |
     And the project has the following stories in the following owner backlogs:
@@ -107,21 +107,21 @@ Feature: Edit story on backlogs view
       And the velocity of "Sprint 001" should be "31"
 
   @javascript
-  Scenario: Setting trackers of a story
+  Scenario: Setting types of a story
     Given I am on the master backlog
      When I open the "Sprint 001" menu
       And I follow "New Story" of the "Sprint 001" menu
       And I close the "Sprint 001" menu
       And I fill in "The Wizard of Oz" for "subject"
-      And I select "Bug" from "tracker_id"
+      And I select "Bug" from "type_id"
       And I confirm the story form
      Then the 1st story in "Sprint 001" should be "The Wizard of Oz"
-      And the 1st story in "Sprint 001" should be in the "Bug" tracker
+      And the 1st story in "Sprint 001" should be in the "Bug" type
 
   @javascript
-  Scenario: Hiding trackers, that are not active in the project
+  Scenario: Hiding types, that are not active in the project
     Given I am on the master backlog
      When I open the "Sprint 001" menu
       And I follow "New Story" of the "Sprint 001" menu
       And I close the "Sprint 001" menu
-     Then I should not see "Epic" within_hidden ".tracker_id.helper"
+     Then I should not see "Epic" within_hidden ".type_id.helper"

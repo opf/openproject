@@ -24,10 +24,10 @@ Feature: Scrum Master
         | edit_work_packages      |
         | manage_subtasks         |
     And the backlogs module is initialized
-    And the following trackers are configured to track stories:
+    And the following types are configured to track stories:
         | Story |
-    And the tracker "Task" is configured to track tasks
-    And the project uses the following trackers:
+    And the type "Task" is configured to track tasks
+    And the project uses the following types:
         | Story |
         | Epic  |
         | Task  |
@@ -41,7 +41,7 @@ Feature: Scrum Master
         | Rejected    | true       | false       |
     And there is a default issuepriority with:
         | name   | Normal |
-    And the tracker "Task" has the default workflow for the role "scrum master"
+    And the type "Task" has the default workflow for the role "scrum master"
     And there is 1 user with:
         | login | markus |
         | firstname | Markus |
@@ -75,7 +75,7 @@ Feature: Scrum Master
         | subject      | sprint     | blocks     |
         | Impediment 1 | Sprint 001 | Story A    |
     And the project has the following issues:
-        | subject      | sprint     | tracker    |
+        | subject      | sprint     | type    |
         | Epic 1       | Sprint 005 | Epic       |
     And the project has the following stories in the following sprints:
         | subject      | sprint     | parent     |
@@ -89,7 +89,7 @@ Feature: Scrum Master
         | Subtask 2    | Sprint 005 | Task 10    |
         | Subtask 3    | Sprint 005 | Task 11    |
     And the project has the following issues:
-        | subject      | sprint     | parent     | tracker    |
+        | subject      | sprint     | parent     | type    |
         | Subfeature   | Sprint 005 | Task 10    | Bug        |
         | Subsubtask   | Sprint 005 | Subfeature | Task       |
     And I am already logged in as "markus"

@@ -99,12 +99,12 @@ Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should be "(.+)"$/ do 
   story.subject.should == subject
 end
 
-Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should be in the "(.+?)" tracker$/ do |position, version_name, tracker_name|
+Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should be in the "(.+?)" type$/ do |position, version_name, type_name|
   version = Version.find_by_name(version_name)
-  tracker = Tracker.find_by_name(tracker_name)
+  type = Type.find_by_name(type_name)
   story = Story.at_rank(@project.id, version.id, position.to_i)
   story.should_not be_nil
-  story.tracker.should == tracker
+  story.type.should == type
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should have the ID of "(.+?)"$/ do |position, version_name, subject|
@@ -190,9 +190,9 @@ end
 
 Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
   @story.reload
-  if attribute=="tracker"
-    attribute="tracker_id"
-    value = Tracker.find(:first, :conditions => ["name=?", value]).id
+  if attribute=="type"
+    attribute="type_id"
+    value = Type.find(:first, :conditions => ["name=?", value]).id
   end
   @story[attribute].should == value
 end

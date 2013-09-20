@@ -18,8 +18,8 @@ describe Burndown do
 
   let(:user) { @user ||= FactoryGirl.create(:user) }
   let(:role) { @role ||= FactoryGirl.create(:role) }
-  let(:tracker_feature) { @tracker_feature ||= FactoryGirl.create(:tracker_feature) }
-  let(:tracker_task) { @tracker_task ||= FactoryGirl.create(:tracker_task) }
+  let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
+  let(:type_task) { @type_task ||= FactoryGirl.create(:type_task) }
   let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, :is_default => true) }
   let(:version) { @version ||= FactoryGirl.create(:version, :project => project) }
   let(:sprint) { @sprint ||= Sprint.find(version.id) }
@@ -45,8 +45,8 @@ describe Burndown do
     Setting.plugin_openproject_backlogs = {"points_burn_direction" => "down",
                                "wiki_template"         => "",
                                "card_spec"             => "Sattleford VM-5040",
-                               "story_trackers"        => [tracker_feature.id.to_s],
-                               "task_tracker"          => tracker_task.id.to_s }
+                               "story_types"        => [type_feature.id.to_s],
+                               "task_type"          => type_task.id.to_s }
 
 
     project.save!
@@ -71,7 +71,7 @@ describe Burndown do
             @story = FactoryGirl.build(:story, :subject => "Story 1",
                                            :project => project,
                                            :fixed_version => version,
-                                           :tracker => tracker_feature,
+                                           :type => type_feature,
                                            :status => issue_open,
                                            :priority => issue_priority,
                                            :created_at => Date.today - 20.days,
@@ -135,13 +135,13 @@ describe Burndown do
               it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
             end
 
-            describe "WITH the story being moved to another tracker within the sprint duration and also moved back in" do
+            describe "WITH the story being moved to another type within the sprint duration and also moved back in" do
               before(:each) do
-                other_tracker = FactoryGirl.create(:tracker_bug)
-                project.trackers << other_tracker
+                other_type = FactoryGirl.create(:type_bug)
+                project.types << other_type
 
-                set_attribute_journalized @story, :tracker_id=, other_tracker.id, Time.now - 6.days
-                set_attribute_journalized @story, :tracker_id=, tracker_feature.id, Time.now - 3.days
+                set_attribute_journalized @story, :type_id=, other_type.id, Time.now - 6.days
+                set_attribute_journalized @story, :type_id=, type_feature.id, Time.now - 3.days
 
                 @burndown = Burndown.new(sprint, project)
               end
@@ -161,7 +161,7 @@ describe Burndown do
               @task = FactoryGirl.build(:task, :subject => "Task 1",
                                            :project => project,
                                            :fixed_version => version,
-                                           :tracker => tracker_task,
+                                           :type => type_task,
                                            :status => issue_open,
                                            :remaining_hours => 18,
                                            :parent_issue_id => @story.id,
@@ -240,7 +240,7 @@ describe Burndown do
               @stories[i] = FactoryGirl.create(:story, :subject => "Story #{i}",
                                                    :project => project,
                                                    :fixed_version => version,
-                                                   :tracker => tracker_feature,
+                                                   :type => type_feature,
                                                    :status => issue_open,
                                                    :priority => issue_priority,
                                                    :created_at => Date.today - (20 - i).days,

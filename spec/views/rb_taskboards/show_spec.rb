@@ -12,11 +12,11 @@ describe 'rb_taskboards/show' do
                     FactoryGirl.create(:issue_status),
                     FactoryGirl.create(:issue_status)] }
 
-  let(:tracker_task) { FactoryGirl.create(:tracker_task) }
-  let(:tracker_feature) { FactoryGirl.create(:tracker_feature) }
+  let(:type_task) { FactoryGirl.create(:type_task) }
+  let(:type_feature) { FactoryGirl.create(:type_feature) }
   let(:issue_priority) { FactoryGirl.create(:priority) }
   let(:project) do
-    project = FactoryGirl.create(:project, :trackers => [tracker_feature, tracker_task])
+    project = FactoryGirl.create(:project, :types => [type_feature, type_task])
     project.members = [FactoryGirl.create(:member, :principal => user1,:project => project,:roles => [role_allowed]),
                        FactoryGirl.create(:member, :principal => user2,:project => project,:roles => [role_forbidden])]
     project
@@ -24,36 +24,36 @@ describe 'rb_taskboards/show' do
 
   let(:story_a) { FactoryGirl.create(:story, :status => statuses[0],
                                              :project => project,
-                                             :tracker => tracker_feature,
+                                             :type => type_feature,
                                              :fixed_version => sprint,
                                              :priority => issue_priority
                                              )}
   let(:story_b) { FactoryGirl.create(:story, :status => statuses[1],
                                              :project => project,
-                                             :tracker => tracker_feature,
+                                             :type => type_feature,
                                              :fixed_version => sprint,
                                              :priority => issue_priority
                                              )}
   let(:story_c) { FactoryGirl.create(:story, :status => statuses[2],
                                              :project => project,
-                                             :tracker => tracker_feature,
+                                             :type => type_feature,
                                              :fixed_version => sprint,
                                              :priority => issue_priority
                                              )}
   let(:stories) { [story_a, story_b, story_c] }
   let(:sprint)   { FactoryGirl.create(:sprint, :project => project) }
   let(:task) do
-    task = FactoryGirl.create(:task, :project => project, :status => statuses[0], :fixed_version => sprint, :tracker => tracker_task)
+    task = FactoryGirl.create(:task, :project => project, :status => statuses[0], :fixed_version => sprint, :type => type_task)
     #this is necessary as for some unknown reason passing the parent directly leads to the task searching for
     #the parent with 'root_id' is NULL, which is not the case as the story has its own id as root_id
     task.parent_id = story_a.id
     task
   end
-  let(:impediment) { FactoryGirl.create(:impediment, :project => project, :status => statuses[0], :fixed_version => sprint, :blocks_ids => task.id.to_s, :tracker => tracker_task) }
+  let(:impediment) { FactoryGirl.create(:impediment, :project => project, :status => statuses[0], :fixed_version => sprint, :blocks_ids => task.id.to_s, :type => type_task) }
 
   before :each do
-    Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("task_tracker" => tracker_task.id)
-    Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("story_trackers" => [tracker_feature.id])
+    Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("task_type" => type_task.id)
+    Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("story_types" => [type_feature.id])
     view.extend RbCommonHelper
     view.extend TaskboardsHelper
 

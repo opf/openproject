@@ -46,15 +46,15 @@ module OpenProject::Backlogs::Patches::QueryPatch
         selected_values = values_for(field)
         selected_values = ['story', 'task'] if selected_values.include?('any')
 
-        story_trackers = Story.trackers.collect { |val| "#{val}" }.join(",")
-        all_trackers = (Story.trackers + [Task.tracker]).collect { |val| "#{val}" }.join(",")
+        story_types = Story.types.collect { |val| "#{val}" }.join(",")
+        all_types = (Story.types + [Task.type]).collect { |val| "#{val}" }.join(",")
 
         selected_values.each do |val|
           case val
           when "story"
-            sql << "(#{db_table}.tracker_id IN (#{story_trackers}))"
+            sql << "(#{db_table}.type_id IN (#{story_types}))"
           when "task"
-            sql << "(#{db_table}.tracker_id = #{Task.tracker} AND NOT #{db_table}.parent_id IS NULL)"
+            sql << "(#{db_table}.type_id = #{Task.type} AND NOT #{db_table}.parent_id IS NULL)"
           when "impediment"
             sql << "(#{db_table}.id IN (
                   select issue_from_id
@@ -62,7 +62,7 @@ module OpenProject::Backlogs::Patches::QueryPatch
                   JOIN issues blocked
                   ON
                     blocked.id = ir.issue_to_id
-                    AND blocked.tracker_id IN (#{all_trackers})
+                    AND blocked.type_id IN (#{all_types})
                   WHERE ir.relation_type = 'blocks'
                 ) AND #{db_table}.parent_id IS NULL)"
           end
@@ -84,7 +84,7 @@ module OpenProject::Backlogs::Patches::QueryPatch
     protected
 
     def backlogs_configured?
-      Story.trackers.present? and Task.tracker.present?
+      Story.types.present? and Task.type.present?
     end
 
     def backlogs_enabled?

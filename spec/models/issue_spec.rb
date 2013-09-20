@@ -108,7 +108,7 @@ describe WorkPackage do
 
       @work_package = FactoryGirl.build(:work_package, :project => @project,
                                         :status  => @status_open,
-                                        :tracker => FactoryGirl.build(:tracker_feature))
+                                        :type => FactoryGirl.build(:type_feature))
     end
 
     it 'should not be done when having the initial status "open"' do

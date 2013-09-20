@@ -24,14 +24,14 @@ Feature: Edit issue via modal box
     And the following trackers are configured to track stories:
         | Story |
     And the tracker "Task" is configured to track tasks
-    And the project uses the following trackers:
+    And the project uses the following types:
         | Story |
         | Task  |
     And there is a default issuestatus with:
         | name | new |
     And there is a default issuepriority with:
         | name   | Normal |
-    And the tracker "Task" has the default workflow for the role "scrum master"
+    And the type "Task" has the default workflow for the role "scrum master"
     And there is 1 user with:
         | login | markus |
         | firstname | Markus |

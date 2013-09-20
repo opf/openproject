@@ -14,9 +14,9 @@ def project_boundaries_spanning_work_package_hierarchy_allowed?
 end
 
 describe WorkPackage, 'parent-child relationships between backlogs stories and backlogs tasks are prohibited if they span project boundaries' do
-  let(:tracker_feature) { FactoryGirl.build(:tracker_feature) }
-  let(:tracker_task) { FactoryGirl.build(:tracker_task) }
-  let(:tracker_bug) { FactoryGirl.build(:tracker_bug) }
+  let(:type_feature) { FactoryGirl.build(:type_feature) }
+  let(:type_task) { FactoryGirl.build(:type_task) }
+  let(:type_bug) { FactoryGirl.build(:type_bug) }
   let(:version1) { project.versions.first }
   let(:version2) { project.versions.last }
   let(:role) { FactoryGirl.build(:role) }
@@ -29,7 +29,7 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
                                 :members => [FactoryGirl.build(:member,
                                                            :principal => user,
                                                            :roles => [role])],
-                                :trackers => [tracker_feature, tracker_task, tracker_bug])
+                                :types => [type_feature, type_task, type_bug])
 
     p.versions << FactoryGirl.build(:version, :name => "Version1", :project => p)
     p.versions << FactoryGirl.build(:version, :name => "Version2", :project => p)
@@ -42,7 +42,7 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
                                 :members => [FactoryGirl.build(:member,
                                                            :principal => user,
                                                            :roles => [role])],
-                                :trackers => [tracker_feature, tracker_task, tracker_bug])
+                                :types => [type_feature, type_task, type_bug])
 
     p.versions << FactoryGirl.build(:version, :name => "Version1", :project => p)
     p.versions << FactoryGirl.build(:version, :name => "Version2", :project => p)
@@ -52,42 +52,42 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
 
   let(:story) { FactoryGirl.build(:work_package,
                               :subject => "Story",
-                              :tracker => tracker_feature,
+                              :type => type_feature,
                               :status => issue_status,
                               :author => user,
                               :priority => issue_priority) }
 
   let(:story2) { FactoryGirl.build(:work_package,
                                :subject => "Story2",
-                               :tracker => tracker_feature,
+                               :type => type_feature,
                                :status => issue_status,
                                :author => user,
                                :priority => issue_priority) }
 
   let(:task) { FactoryGirl.build(:work_package,
                              :subject => "Task",
-                             :tracker => tracker_task,
+                             :type => type_task,
                              :status => issue_status,
                              :author => user,
                              :priority => issue_priority) }
 
    let(:task2) { FactoryGirl.build(:work_package,
                                :subject => "Task2",
-                               :tracker => tracker_task,
+                               :type => type_task,
                                :status => issue_status,
                                :author => user,
                                :priority => issue_priority) }
 
    let(:bug) { FactoryGirl.build(:work_package,
                              :subject => "Bug",
-                             :tracker => tracker_bug,
+                             :type => type_bug,
                              :status => issue_status,
                              :author => user,
                              :priority => issue_priority) }
 
    let(:bug2) { FactoryGirl.build(:work_package,
                               :subject => "Bug2",
-                              :tracker => tracker_bug,
+                              :type => type_bug,
                               :status => issue_status,
                               :author => user,
                               :priority => issue_priority) }
@@ -109,8 +109,8 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
     Setting.plugin_openproject_backlogs = {"points_burn_direction" => "down",
                                "wiki_template"         => "",
                                "card_spec"             => "Sattleford VM-5040",
-                               "story_trackers"        => [tracker_feature.id],
-                               "task_tracker"          => tracker_task.id.to_s}
+                               "story_types"        => [type_feature.id],
+                               "task_type"          => type_task.id.to_s}
   end
 
   if project_boundaries_spanning_work_package_hierarchy_allowed?

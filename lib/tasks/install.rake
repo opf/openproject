@@ -43,15 +43,15 @@ namespace :redmine do
 
       settings["card_spec"] ||= Cards::TaskboardCards::LABELS.keys[0] unless Cards::TaskboardCards::LABELS.size == 0
 
-      trackers = Tracker.find(:all)
+      types = Type.find(:all)
 
-      if Story.trackers.length == 0
-        puts "Configuring story and task trackers..."
+      if Story.types.length == 0
+        puts "Configuring story and task types..."
         invalid = true
         while invalid
           puts "-----------------------------------------------------"
-          puts "Which trackers do you want to use for your stories?"
-          trackers.each_with_index { |t, i| puts "  #{ i + 1 }. #{ t.name }" }
+          puts "Which types do you want to use for your stories?"
+          types.each_with_index { |t, i| puts "  #{ i + 1 }. #{ t.name }" }
           print "Separate values with a space (e.g. 1 3): "
           STDOUT.flush
           selection = (STDIN.gets.chomp!).split(/\D+/)
@@ -59,52 +59,52 @@ namespace :redmine do
           # Check that all values correspond to an items in the list
           invalid = false
           invalid_value = nil
-          tracker_names = []
+          type_names = []
           selection.each do |s|
-            if s.to_i > trackers.length
+            if s.to_i > types.length
               invalid = true
               invalid_value = s
               break
             else
-              tracker_names << trackers[s.to_i-1].name
+              type_names << types[s.to_i-1].name
             end
           end
 
           if invalid
             puts "Oooops! You entered an invalid value (#{invalid_value}). Please try again."
           else
-            print "You selected the following trackers: #{tracker_names.join(', ')}. Is this correct? (y/n) "
+            print "You selected the following types: #{type_names.join(', ')}. Is this correct? (y/n) "
             STDOUT.flush
             invalid = !(STDIN.gets.chomp!).match("y")
           end
         end
 
-        settings["story_trackers"] = selection.map{ |s| trackers[s.to_i-1].id }
+        settings["story_types"] = selection.map{ |s| types[s.to_i-1].id }
       end
 
 
-      if !Task.tracker
-        # Check if there is at least one tracker available
+      if !Task.type
+        # Check if there is at least one type available
         puts "-----------------------------------------------------"
-        if settings["story_trackers"].length < trackers.length
+        if settings["story_types"].length < types.length
           invalid = true
           while invalid
             # If there's at least one, ask the user to pick one
-            puts "Which tracker do you want to use for your tasks?"
-            available_trackers = trackers.select{|t| !settings["story_trackers"].include? t.id}
+            puts "Which type do you want to use for your tasks?"
+            available_types = types.select{|t| !settings["story_types"].include? t.id}
             j = 0
-            available_trackers.each_with_index { |t, i| puts "  #{ j = i + 1 }. #{ t.name }" }
+            available_types.each_with_index { |t, i| puts "  #{ j = i + 1 }. #{ t.name }" }
 
             print "Choose one from above: "
             STDOUT.flush
             selection = (STDIN.gets.chomp!).split(/\D+/)
 
-            if selection.length > 0 and selection.first.to_i <= available_trackers.length
+            if selection.length > 0 and selection.first.to_i <= available_types.length
               # If the user picked one, use that
-              print "You selected #{available_trackers[selection.first.to_i-1].name}. Is this correct? (y/n) "
+              print "You selected #{available_types[selection.first.to_i-1].name}. Is this correct? (y/n) "
               STDOUT.flush
               if (STDIN.gets.chomp!).match("y")
-                settings["task_tracker"] = available_trackers[selection.first.to_i-1].id
+                settings["task_type"] = available_types[selection.first.to_i-1].id
                 invalid = false
               end
             else
@@ -113,8 +113,8 @@ namespace :redmine do
           end
         else
           # If there's none, ask to create one
-          puts "You don't have any trackers available for use with tasks."
-          puts "Please create a new tracker via the Redmine admin interface,"
+          puts "You don't have any types available for use with tasks."
+          puts "Please create a new type via the Redmine admin interface,"
           puts "then re-run this installer. Press any key to continue."
           STDOUT.flush
           STDIN.gets
@@ -124,7 +124,7 @@ namespace :redmine do
       # Necessary because adding key-value pairs one by one doesn't seem to work
       Setting.plugin_openproject_backlogs = settings
 
-      puts "Story and task trackers are now set."
+      puts "Story and task types are now set."
 
       puts "Migrating the database..."
       STDOUT.flush

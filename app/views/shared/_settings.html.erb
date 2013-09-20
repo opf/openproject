@@ -2,17 +2,17 @@
   <script type="text/javascript">
     jQuery(function($) {
       var enable_apply = function () {
-        var tasktracker,
+        var tasktype,
             submit,
             disable;
 
-        tasktracker = $("#settings_task_tracker").val();
+        tasktype = $("#settings_task_type").val();
         submit = $('input[type=submit]');
 
         disable = false;
 
-        $("#settings_story_trackers :selected").each(function(i, selected) {
-          disable = disable || ($(selected).attr('value') === tasktracker);
+        $("#settings_story_types :selected").each(function(i, selected) {
+          disable = disable || ($(selected).attr('value') === tasktype);
         });
 
         if (disable) {
@@ -23,8 +23,8 @@
         }
       };
 
-      $("#settings_task_tracker").change(enable_apply);
-      $("#settings_story_trackers").change(enable_apply);
+      $("#settings_task_type").change(enable_apply);
+      $("#settings_story_types").change(enable_apply);
 
       enable_apply();
     });
@@ -32,14 +32,14 @@
 <% end %>
 
 <p>
-  <%= label_tag("settings[story_trackers]", l(:backlogs_story_tracker)) %>
-  <%= select_tag("settings[story_trackers]",
-                 options_from_collection_for_select(Tracker.all, :id, :name, Story.trackers), :multiple => true) %>
+  <%= label_tag("settings[story_types]", l(:backlogs_story_type)) %>
+  <%= select_tag("settings[story_types]",
+                 options_from_collection_for_select(Tracker.all, :id, :name, Story.types), :multiple => true) %>
 </p>
 <p>
-  <%= label_tag("settings[task_tracker]", l(:backlogs_task_tracker)) %>
-  <%= select_tag("settings[task_tracker]",
-                 options_from_collection_for_select(Tracker.all, :id, :name, Task.tracker)) %>
+  <%= label_tag("settings[task_type]", l(:backlogs_task_type)) %>
+  <%= select_tag("settings[task_type]",
+                 options_from_collection_for_select(Type.all, :id, :name, Task.type)) %>
 </p>
 <p>
   <%= label_tag("settings[points_burn_direction]", l(:backlogs_points_burn_direction)) %>

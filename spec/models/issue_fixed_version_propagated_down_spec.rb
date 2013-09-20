@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe WorkPackage, "changing a story's fixed_version changes the fixed_version of all it's tasks (and the tasks beyond)" do
   let(:tracker_feature) { FactoryGirl.build(:tracker_feature) }
   let(:tracker_task) { FactoryGirl.build(:tracker_task) }
-  let(:tracker_bug) { FactoryGirl.build(:tracker_bug) }
+  let(:type_bug) { FactoryGirl.build(:type_bug) }
   let(:version1) { project.versions.first }
   let(:version2) { project.versions.last }
   let(:role) { FactoryGirl.build(:role) }
@@ -15,7 +15,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
     p = FactoryGirl.build(:project, :members => [FactoryGirl.build(:member,
                                                            :principal => user,
                                                            :roles => [role])],
-                                :trackers => [tracker_feature, tracker_task, tracker_bug])
+                                :types => [type_feature, type_task, type_bug])
 
     p.versions << FactoryGirl.build(:version, :name => "Version1", :project => p)
     p.versions << FactoryGirl.build(:version, :name => "Version2", :project => p)
@@ -28,7 +28,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
     story = FactoryGirl.build(:work_package,
                               :subject => "Story",
                               :project => project,
-                              :tracker => tracker_feature,
+                              :type => type_feature,
                               :fixed_version => version1,
                               :status => issue_status,
                               :author => user,
@@ -40,7 +40,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
     story = FactoryGirl.build(:work_package,
                               :subject => "Story2",
                               :project => project,
-                              :tracker => tracker_feature,
+                              :type => type_feature,
                               :fixed_version => version1,
                               :status => issue_status,
                               :author => user,
@@ -52,7 +52,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
     story = FactoryGirl.build(:work_package,
                               :subject => "Story3",
                               :project => project,
-                              :tracker => tracker_feature,
+                              :type => type_feature,
                               :fixed_version => version1,
                               :status => issue_status,
                               :author => user,
@@ -62,7 +62,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
   let(:task) { FactoryGirl.build(:work_package,
                              :subject => "Task",
-                             :tracker => tracker_task,
+                             :type => type_task,
                              :fixed_version => version1,
                              :project => project,
                              :status => issue_status,
@@ -71,7 +71,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
   let(:task2) { FactoryGirl.build(:work_package,
                               :subject => "Task2",
-                              :tracker => tracker_task,
+                              :type => type_task,
                               :fixed_version => version1,
                               :project => project,
                               :status => issue_status,
@@ -80,7 +80,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
   let(:task3) { FactoryGirl.build(:work_package,
                               :subject => "Task3",
-                              :tracker => tracker_task,
+                              :type => type_task,
                               :fixed_version => version1,
                               :project => project,
                               :status => issue_status,
@@ -89,7 +89,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
   let(:task4) { FactoryGirl.build(:work_package,
                               :subject => "Task4",
-                              :tracker => tracker_task,
+                              :type => type_task,
                               :fixed_version => version1,
                               :project => project,
                               :status => issue_status,
@@ -98,7 +98,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
   let(:task5) { FactoryGirl.build(:work_package,
                               :subject => "Task5",
-                              :tracker => tracker_task,
+                              :type => type_task,
                               :fixed_version => version1,
                               :project => project,
                               :status => issue_status,
@@ -107,7 +107,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
   let(:task6) { FactoryGirl.build(:work_package,
                               :subject => "Task6",
-                              :tracker => tracker_task,
+                              :type => type_task,
                               :fixed_version => version1,
                               :project => project,
                               :status => issue_status,
@@ -116,7 +116,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
   let(:bug) { FactoryGirl.build(:work_package,
                             :subject => "Bug",
-                            :tracker => tracker_bug,
+                            :type => type_bug,
                             :fixed_version => version1,
                             :project => project,
                             :status => issue_status,
@@ -125,7 +125,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
   let(:bug2) { FactoryGirl.build(:work_package,
                              :subject => "Bug2",
-                             :tracker => tracker_bug,
+                             :type => type_bug,
                              :fixed_version => version1,
                              :project => project,
                              :status => issue_status,
@@ -134,7 +134,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
   let(:bug3) { FactoryGirl.build(:work_package,
                              :subject => "Bug3",
-                             :tracker => tracker_bug,
+                             :type => type_bug,
                              :fixed_version => version1,
                              :project => project,
                              :status => issue_status,
@@ -147,8 +147,8 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
     Setting.plugin_openproject_backlogs  = {"points_burn_direction" => "down",
                                 "wiki_template"         => "",
                                 "card_spec"             => "Sattleford VM-5040",
-                                "story_trackers"        => [tracker_feature.id],
-                                "task_tracker"          => tracker_task.id.to_s}
+                                "story_types"        => [type_feature.id],
+                                "task_type"          => type_task.id.to_s}
   end
 
   def standard_child_layout

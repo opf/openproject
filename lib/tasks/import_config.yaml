@@ -4,10 +4,10 @@ roles: {member: Teamlid}
 issue_types:
   Impediment:
     states: {closed: Closed, open: New}
-    tracker: Impediment
+    type: Impediment
   Story:
     states: {Accepted: Accepted, Completed: RFI, Defined: New, Failed: Failed, In Progress: RFI, Specified: RFI}
-    tracker: Story
+    type: Story
   Task:
     states: {Done: Done, Defined: New, In Progress: In Progress}
-    tracker: Task
+    type: Task

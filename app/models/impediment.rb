@@ -17,12 +17,12 @@ class Impediment < Task
     if args[1] && args[1][:conditions]
       if args[1][:conditions].is_a?(Hash)
         args[1][:conditions][:parent_id] = nil
-        args[1][:conditions][:tracker_id] = self.tracker
+        args[1][:conditions][:type_id] = self.type
       elsif args[1][:conditions].is_a?(Array)
-        args[1][:conditions][0] += " AND parent_id is NULL AND tracker_id = #{self.tracker}"
+        args[1][:conditions][0] += " AND parent_id is NULL AND type_id = #{self.type}"
       end
     else
-      args << {:conditions => {:parent_id => nil, :tracker_id => self.tracker}}
+      args << {:conditions => {:parent_id => nil, :type_id => self.type}}
     end
 
     super

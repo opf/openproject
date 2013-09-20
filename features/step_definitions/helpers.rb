@@ -1,6 +1,6 @@
 def initialize_story_params(project, user = User.find(:first))
   story = HashWithIndifferentAccess.new(Story.new.attributes)
-  story['tracker_id'] = Story.trackers.first
+  story['type_id'] = Story.types.first
 
   # unsafe attributes that will not be used directly but added for your
   # convenience
@@ -13,7 +13,7 @@ end
 
 def initialize_task_params(project, story, user = User.find(:first))
   params = HashWithIndifferentAccess.new
-  params['tracker_id'] = Task.tracker
+  params['type_id'] = Task.type
   params['parent_issue_id']  = story.id if story
   params['status_id'] = IssueStatus.find(:first).id
 
@@ -26,9 +26,9 @@ def initialize_task_params(project, story, user = User.find(:first))
   params
 end
 
-def initialize_issue_params(project, tracker = Tracker.find(:first), parent = nil, user = User.find(:first))
+def initialize_issue_params(project, type = Type.find(:first), parent = nil, user = User.find(:first))
   params = HashWithIndifferentAccess.new
-  params['tracker_id'] = tracker.id
+  params['type_id'] = type.id
   params['parent_issue_id']  = parent.id if parent
   params['status_id'] = IssueStatus.find(:first).id
 
@@ -43,7 +43,7 @@ end
 
 def initialize_impediment_params(project, sprint, user = User.find(:first))
   params = HashWithIndifferentAccess.new(Task.new.attributes)
-  params['tracker_id'] = Task.tracker
+  params['type_id'] = Task.type
   params['fixed_version_id'] = sprint.id
   params['status_id'] = IssueStatus.find(:first).id
 

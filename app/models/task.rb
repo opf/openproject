@@ -5,15 +5,15 @@ class Task < WorkPackage
 
   extend OpenProject::Backlogs::Mixins::PreventIssueSti
 
-  def self.tracker
-    task_tracker = Setting.plugin_openproject_backlogs["task_tracker"]
-    task_tracker.blank? ? nil : task_tracker.to_i
+  def self.type
+    task_type = Setting.plugin_openproject_backlogs["task_type"]
+    task_type.blank? ? nil : task_type.to_i
   end
 
   # This method is used by Backlogs::List.
   # It ensures, that tasks and stories follow a similar interface
-  def self.trackers
-    [self.tracker]
+  def self.types
+    [self.type]
   end
 
   def self.create_with_relationships(params, project_id)
@@ -21,7 +21,7 @@ class Task < WorkPackage
 
     task.author = User.current
     task.project_id = project_id
-    task.tracker_id = Task.tracker
+    task.type_id = Task.type
 
     task.safe_attributes = params
 
@@ -66,7 +66,7 @@ class Task < WorkPackage
   end
 
   def rank
-    @rank ||= WorkPackage.count(:conditions => ['tracker_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.tracker, story_id, self.lft])
+    @rank ||= WorkPackage.count(:conditions => ['type_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.type, story_id, self.lft])
     return @rank
   end
 end

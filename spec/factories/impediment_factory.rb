@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :impediment do
-    association :tracker, :factory => :tracker_task
+    association :type, :factory => :type_task
     subject "Impeding progress"
     description "Unable to print recipes"
     association :priority, :factory => :priority

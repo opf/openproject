@@ -3,15 +3,15 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Impediment do
   let(:user) { @user ||= FactoryGirl.create(:user) }
   let(:role) { @role ||= FactoryGirl.create(:role) }
-  let(:tracker_feature) { @tracker_feature ||= FactoryGirl.create(:tracker_feature) }
-  let(:tracker_task) { @tracker_task ||= FactoryGirl.create(:tracker_task) }
+  let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
+  let(:type_task) { @type_task ||= FactoryGirl.create(:type_task) }
   let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, :is_default => true) }
-  let(:task) { FactoryGirl.build(:task, :tracker => tracker_task,
+  let(:task) { FactoryGirl.build(:task, :type => type_task,
                                     :project => project,
                                     :author => user,
                                     :priority => issue_priority,
                                     :status => issue_status1) }
-  let(:feature) { FactoryGirl.build(:issue, :tracker => tracker_feature,
+  let(:feature) { FactoryGirl.build(:issue, :type => type_feature,
                                         :project => project,
                                         :author => user,
                                         :priority => issue_priority,
@@ -30,7 +30,7 @@ describe Impediment do
 
   let(:issue_status1) { @status1 ||= FactoryGirl.create(:issue_status, :name => "status 1", :is_default => true) }
   let(:issue_status2) { @status2 ||= FactoryGirl.create(:issue_status, :name => "status 2") }
-  let(:tracker_workflow) { @workflow ||= Workflow.create(:tracker_id => tracker_task.id,
+  let(:type_workflow) { @workflow ||= Workflow.create(:type_id => type_task.id,
                                                  :old_status => issue_status1,
                                                  :new_status => issue_status2,
                                                  :role => role) }
@@ -39,7 +39,7 @@ describe Impediment do
                                                 :assigned_to => user,
                                                 :priority => issue_priority,
                                                 :project => project,
-                                                :tracker => tracker_task,
+                                                :type => type_task,
                                                 :status => issue_status1)}
 
   before(:each) do
@@ -48,14 +48,14 @@ describe Impediment do
     Setting.plugin_openproject_backlogs = {"points_burn_direction" => "down",
                                "wiki_template"         => "",
                                "card_spec"             => "Sattleford VM-5040",
-                               "story_trackers"        => [tracker_feature.id.to_s],
-                               "task_tracker"          => tracker_task.id.to_s }
+                               "story_types"        => [type_feature.id.to_s],
+                               "task_type"          => type_task.id.to_s }
 
     User.stub!(:current).and_return(user)
     issue_priority.save
     issue_status1.save
     project.save
-    tracker_workflow.save
+    type_workflow.save
   end
 
   describe "class methods" do
@@ -73,7 +73,7 @@ describe Impediment do
         it { @impediment.fixed_version.should eql version }
         it { @impediment.priority.should eql issue_priority}
         it { @impediment.status.should eql issue_status1 }
-        it { @impediment.tracker.should eql tracker_task }
+        it { @impediment.type.should eql type_task }
         it { @impediment.assigned_to.should eql user }
       end
 
@@ -178,7 +178,7 @@ describe Impediment do
         it { @impediment.fixed_version.should eql version }
         it { @impediment.priority.should eql issue_priority}
         it { @impediment.status.should eql issue_status1 }
-        it { @impediment.tracker.should eql tracker_task }
+        it { @impediment.type.should eql type_task }
         it { @impediment.blocks_ids.should eql @blocks.split(/\D+/).map{|id| id.to_i} }
       end
 
@@ -201,7 +201,7 @@ describe Impediment do
       describe "WHEN changing the blocking relationship to another story" do
         before(:each) do
           @story = FactoryGirl.build(:issue, :subject => "another story",
-                                         :tracker => tracker_feature,
+                                         :type => type_feature,
                                          :project => project,
                                          :author => user,
                                          :priority => issue_priority,

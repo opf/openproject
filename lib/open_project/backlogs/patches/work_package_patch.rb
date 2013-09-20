@@ -133,7 +133,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       elsif self.is_task?
         # Make sure to get the closest ancestor that is a Story, i.e. the one with the highest lft
         # otherwise, the highest parent that is a Story is returned
-        story_work_package = self.ancestors.find_by_tracker_id(Story.trackers, :order => 'lft DESC')
+        story_work_package = self.ancestors.find_by_type_id(Story.types, :order => 'lft DESC')
         return Story.find(story_work_package.id) if story_work_package
       end
       nil
@@ -178,8 +178,8 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       !!self.project.try(:module_enabled?, "backlogs")
     end
 
-    def in_backlogs_tracker?
-      backlogs_enabled? && WorkPackage.backlogs_trackers.include?(self.tracker.try(:id))
+    def in_backlogs_type?
+      backlogs_enabled? && WorkPackage.backlogs_types.include?(self.type.try(:id))
     end
 
     # ancestors array similar to Module#ancestors
@@ -200,12 +200,12 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def closest_story_or_impediment
-      return nil unless in_backlogs_tracker?
+      return nil unless in_backlogs_type?
       return self if (self.is_story? || self.is_impediment?)
       closest = nil
       ancestor_chain.each do |i|
         # break if we found an element in our chain that is not relevant in backlogs
-        break unless i.in_backlogs_tracker?
+        break unless i.in_backlogs_type?
         if (i.is_story? || i.is_impediment?)
           closest = i
           break
@@ -217,7 +217,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     private
 
     def backlogs_before_validation
-      if self.tracker_id == Task.tracker
+      if self.type_id == Task.type
         self.estimated_hours = self.remaining_hours if self.estimated_hours.blank? && ! self.remaining_hours.blank?
         self.remaining_hours = self.estimated_hours if self.remaining_hours.blank? && ! self.estimated_hours.blank?
       end

@@ -28,15 +28,15 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
         | add_issues              |
         | add_work_packages       |
     And the backlogs module is initialized
-    And the following trackers are configured to track stories:
+    And the following types are configured to track stories:
         | Story |
-    And the tracker "Task" is configured to track tasks
-    And the project uses the following trackers:
+    And the type "Task" is configured to track tasks
+    And the project uses the following types:
         | Story |
         | Epic  |
         | Task  |
         | Bug   |
-    And the tracker "Task" has the default workflow for the role "scrum master"
+    And the type "Task" has the default workflow for the role "scrum master"
     And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
@@ -62,10 +62,10 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
   @javascript
   Scenario: Adding a task in the child project as a child to the story is inhibited
    Given the project "parent_project" has the following issues:
-        | subject      | tracker    |
+        | subject      | type    |
         | Story A      | Story      |
    When I go to the issues/new page of the project called "child_project"
-    And I select "Task" from "issue_tracker_id"
+    And I select "Task" from "issue_type_id"
     And I fill in "Task 0815" for "issue_subject"
     And I fill in the id of the issue "Story A" as the parent issue
     And I click on the first button matching "Create"

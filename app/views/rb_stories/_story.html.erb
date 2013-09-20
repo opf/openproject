@@ -9,8 +9,8 @@
     <div class="v"><%= status_id_or_default(story) %></div>
   </div>
   <div class="tracker_id editable" fieldtype="select" fieldname="tracker_id" fieldorder="1">
-    <div class="t"><%= tracker_name_or_empty(story) %>: </div>
-    <div class="v"><%= tracker_id_or_empty(story) %></div>
+    <div class="t"><%= type_name_or_empty(story) %>: </div>
+    <div class="v"><%= type_id_or_empty(story) %></div>
   </div>
   <div class="subject editable ellipsis" fieldname="subject" fieldorder="2" title="<%= h story.subject %>"><%=h story.subject %></div>
   <div class="fixed_version_id"><%= story.fixed_version_id %></div>

@@ -4,10 +4,10 @@ Feature: Product Owner
   So that they get done according to my requirements
 
   Background:
-    Given the following trackers are configured to track stories:
+    Given the following types are configured to track stories:
           | Story |
           | Epic  |
-      And the tracker "Task" is configured to track tasks
+      And the type "Task" is configured to track tasks
       And there are the following issue status:
           | name        | is_closed  | is_default  |
           | New         | false      | true        |
@@ -22,9 +22,9 @@ Feature: Product Owner
           | edit_work_packages    |
           | manage_subtasks       |
 
-      And the tracker "Story" has the default workflow for the role "product owner"
-      And the tracker "Epic" has the default workflow for the role "product owner"
-      And the tracker "Task" has the default workflow for the role "product owner"
+      And the type "Story" has the default workflow for the role "product owner"
+      And the type "Epic" has the default workflow for the role "product owner"
+      And the type "Task" has the default workflow for the role "product owner"
 
       And there is 1 project with:
           | name  | ecookbook |
@@ -33,7 +33,7 @@ Feature: Product Owner
           | name   | Normal |
       And the project uses the following modules:
           | backlogs |
-      And the project uses the following trackers:
+      And the project uses the following types:
           | Story |
           | Epic  |
           | Task  |
@@ -83,10 +83,10 @@ Feature: Product Owner
     Given I am on the master backlog
       And I want to edit the story with subject Story 3
       And I set the subject of the story to Relaxdiego was here
-      And I set the tracker of the story to Epic
+      And I set the type of the story to Epic
      When I update the story
      Then the story should have a subject of Relaxdiego was here
-      And the story should have a tracker of Epic
+      And the story should have a type of Epic
       And the story should be at position 3
 
   Scenario: Close a story

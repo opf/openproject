@@ -19,7 +19,7 @@ de:
               task_version_must_be_the_same_as_story_version: "muss der Version der Story entsprechen"
             parent_issue_id:
               parent_child_relationship_across_projects: "ist ungültig da '%{issue_name}' ein backlogs Task und das gewünschte Eltern-Ticket '%{parent_name}' ein Backlogs-Element in einem anderen Projekt ist"
-              tracker_must_be_one_of_the_following: "muss aus einem der folgenden Trackern sein: %{tracker_names}"
+              tracker_must_be_one_of_the_following: "muss aus einem der folgenden Typen sein: %{tracker_names}"
         sprint:
           cannot_end_before_it_starts: "Sprint kann nicht enden, bevor er begonnen hat"
 
@@ -68,9 +68,9 @@ de:
   backlogs_sprint_unsized: "Das Projekt hat Stories auf aktiven oder vor kurzem geschlossenen Sprints welche keine Aufwandsangaben enthalten"
   backlogs_sprints: "Sprints"
   backlogs_story: "Story"
-  backlogs_story_tracker: "Story Tracker"
+  backlogs_story_type: "Story Type"
   backlogs_task: "Aufgabe"
-  backlogs_task_tracker: "Aufgaben Tracker"
+  backlogs_task_type: "Aufgaben Type"
   backlogs_velocity_missing: "Es konnte keine Geschwindigkeit für dieses Projekt berechnet werden"
   backlogs_velocity_varies: "Die Geschwindigkeit variiert stark zwischen den Sprints"
   backlogs_wiki_template: "Vorlage für das Sprint-Wiki"

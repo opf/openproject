@@ -9,11 +9,11 @@ Feature: Team Member
     And I am working in project "ecookbook"
     And the project uses the following modules:
         | backlogs |
-    And the following trackers are configured to track stories:
+    And the following types are configured to track stories:
         | Story |
         | Epic  |
-    And the tracker "Task" is configured to track tasks
-    And the project uses the following trackers:
+    And the type "Task" is configured to track tasks
+    And the project uses the following types:
         | Story |
         | Task  |
     And there is a default issuestatus with:

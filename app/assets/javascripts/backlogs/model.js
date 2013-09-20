@@ -116,7 +116,7 @@ RB.Model = (function ($) {
 
       this.$.find('.editable').each(function (index) {
         var field, fieldType, fieldLabel, fieldName, fieldOrder, input, newInput,
-            trackerId, statusId ;
+            typeId, statusId ;
 
         field = $(this);
         fieldName = field.attr('fieldname');
@@ -130,25 +130,25 @@ RB.Model = (function ($) {
 
         $("<label></label>").text(fieldLabel).appendTo(editor);
         if (fieldType === 'select') {
-          // Special handling for status_id => they are dependent of tracker_id
+          // Special handling for status_id => they are dependent of type_id
           if (fieldName === 'status_id') {
-            trackerId = $.trim(self.$.find('.tracker_id .v').html());
+            typeId = $.trim(self.$.find('.type_id .v').html());
             // when creating stories we need to query the select directly
-            if (trackerId == '') {
-                trackerId = $('#tracker_id_options').val();
+            if (typeId == '') {
+                typeId = $('#type_id_options').val();
             }
             statusId = $.trim(self.$.find('.status_id .v').html());
-            input = self.findFactory(trackerId, statusId, fieldName);
+            input = self.findFactory(typeId, statusId, fieldName);
           }
-          else if (fieldName === 'tracker_id'){
+          else if (fieldName === 'type_id'){
             input = $('#' + fieldName + '_options').clone(true);
-            // if the tracker changes the status dropdown has to be modified
+            // if the type changes the status dropdown has to be modified
             input.change(function(){
-              trackerId = $(this).val();
+              typeId = $(this).val();
               statusId = $.trim(self.$.find('.status_id .v').html());
-              newInput = self.findFactory(trackerId, statusId, 'status_id');
+              newInput = self.findFactory(typeId, statusId, 'status_id');
               newInput = self.prepareInputFromFactory(newInput,'status_id',fieldOrder,maxTabIndex);
-              newInput = self.replaceStatusForNewTracker(input, newInput, $(this).parent().find('.status_id').val(), editor);
+              newInput = self.replaceStatusForNewType(input, newInput, $(this).parent().find('.status_id').val(), editor);
             });
           }
           else {
@@ -214,9 +214,9 @@ RB.Model = (function ($) {
       return editor;
     },
 
-    findFactory: function (trackerId, statusId, fieldName){
+    findFactory: function (typeId, statusId, fieldName){
       // Find a factory
-      newInput = $('#' + fieldName + '_options_' + trackerId + '_' + statusId);
+      newInput = $('#' + fieldName + '_options_' + typeId + '_' + statusId);
       if (newInput.length === 0) {
         // when no list found, only offer the default status
         // no list = combination is not valid / user has no rights -> workflow
@@ -237,7 +237,7 @@ RB.Model = (function ($) {
       return input;
     },
 
-    replaceStatusForNewTracker: function (input,newInput, statusId, editor) {
+    replaceStatusForNewType: function (input,newInput, statusId, editor) {
       // Append an empty field and select it in case the old status is not available
       newInput.val(statusId); // try to set the status
       if (newInput.val() !== statusId){
@@ -399,7 +399,7 @@ RB.Model = (function ($) {
         editor = $(this);
         fieldName = editor.attr('name');
         if (this.type.match(/select/)) {
-          // if the user changes the tracker and that tracker does not offer the status
+          // if the user changes the type and that type does not offer the status
           // of the current story, the status field is set to blank
           // if the user saves this edit we will receive a validation error
           // the following 3 lines will prevent the override of the status id

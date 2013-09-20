@@ -3,9 +3,9 @@ Given /^I am logged out$/ do
 end
 
 Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
-  if attribute == "tracker"
-    attribute = "tracker_id"
-    value = Tracker.find(:first, :conditions => ["name=?", value]).id
+  if attribute == "type"
+    attribute = "type_id"
+    value = Type.find(:first, :conditions => ["name=?", value]).id
   elsif attribute == "status"
     attribute = "status_id"
     value = IssueStatus.find(:first, :conditions => ["name=?", value]).id
@@ -81,9 +81,9 @@ end
 Given /^the backlogs module is initialized(?: in [pP]roject "(.*)")?$/ do |project_name|
   project = get_project(project_name)
 
-  step 'the following trackers are configured to track stories:', Cucumber::Ast::Table.new([['Story'], ['Epic']])
-  step 'the tracker "Task" is configured to track tasks'
-  step "the project \"#{project.name}\" uses the following trackers:", Cucumber::Ast::Table.new([['Story', 'Task']])
+  step 'the following types are configured to track stories:', Cucumber::Ast::Table.new([['Story'], ['Epic']])
+  step 'the type "Task" is configured to track tasks'
+  step "the project \"#{project.name}\" uses the following types:", Cucumber::Ast::Table.new([['Story', 'Task']])
 end
 
 Given /^the [pP]roject(?: "([^\"]*)")? has the following sprints:$/ do |project_name, table|
@@ -139,7 +139,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params['fixed_version_id'] = Version.find_by_name(story['sprint'] || story['backlog']).id
     params['story_points'] = story['story_points']
     params['status_id'] = IssueStatus.find_by_name(story['status']).id if story['status']
-    params['tracker_id'] = Tracker.find_by_name(story['tracker']).id if story['tracker']
+    params['type_id'] = Type.find_by_name(story['type']).id if story['type']
 
     params.delete "position"
     # NOTE: We're bypassing the controller here because we're just
@@ -177,8 +177,8 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following issues:$/ do |project_n
   as_admin do
     table.hashes.each do |task|
       parent = Issue.find(:first, :conditions => { :subject => task['parent'] })
-      tracker = Tracker.find_by_name(task['tracker'])
-      params = initialize_issue_params(project, tracker, parent)
+      type = Type.find_by_name(task['type'])
+      params = initialize_issue_params(project, type, parent)
       params['subject'] = task['subject']
       version = Version.find_by_name(task['sprint'] || task['backlog'])
       params['fixed_version_id'] = version.id if version
@@ -262,40 +262,40 @@ Given /^there are no stories in the [pP]roject$/ do
   @project.work_packages.delete_all
 end
 
-Given /^the tracker "(.+?)" is configured to track tasks$/ do |tracker_name|
-  tracker = Tracker.find_by_name(tracker_name)
-  tracker = FactoryGirl.create(:tracker, :name => tracker_name) if tracker.blank?
+Given /^the type "(.+?)" is configured to track tasks$/ do |type_name|
+  type = Type.find_by_name(type_name)
+  type = FactoryGirl.create(:type, :name => type_name) if type.blank?
 
-  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("task_tracker" => tracker.id)
+  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("task_type" => type.id)
 end
 
-Given /^the following trackers are configured to track stories:$/ do |table|
-  story_trackers = []
+Given /^the following types are configured to track stories:$/ do |table|
+  story_types = []
   table.raw.each do |line|
     name = line.first
-    tracker = Tracker.find_by_name(name)
+    type = Type.find_by_name(name)
 
-    tracker = FactoryGirl.create(:tracker, :name => name) if tracker.blank?
-    story_trackers << tracker
+    type = FactoryGirl.create(:type, :name => name) if type.blank?
+    story_types << type
   end
 
-  # otherwise the tracker id's from the previous test are still active
-  Issue.instance_variable_set(:@backlogs_trackers, nil)
+  # otherwise the type id's from the previous test are still active
+  Issue.instance_variable_set(:@backlogs_types, nil)
 
-  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("story_trackers" => story_trackers.map(&:id))
+  Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("story_types" => story_types.map(&:id))
 end
 
-Given /^the [tT]racker(?: "([^\"]*)")? has for the Role "(.+?)" the following workflows:$/ do |tracker_name, role_name, table|
+Given /^the [tT]racker(?: "([^\"]*)")? has for the Role "(.+?)" the following workflows:$/ do |type_name, role_name, table|
   role = Role.find_by_name(role_name)
-  tracker = Tracker.find_by_name(tracker_name)
+  type = Type.find_by_name(type_name)
 
-  tracker.workflows = []
+  type.workflows = []
   table.hashes.each do |workflow|
     old_status = IssueStatus.find_by_name(workflow['old_status']).id
     new_status = IssueStatus.find_by_name(workflow['new_status']).id
-    tracker.workflows.build(:old_status_id => old_status , :new_status_id => new_status , :role => role)
+    type.workflows.build(:old_status_id => old_status , :new_status_id => new_status , :role => role)
   end
-  tracker.save!
+  type.save!
 end
 
 Given /^the status of "([^"]*)" is "([^"]*)"$/ do |issue_subject, status_name|
