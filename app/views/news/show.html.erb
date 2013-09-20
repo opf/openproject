@@ -76,7 +76,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                                        :title   => l(:button_delete),
                                                        :alt     => l(:button_delete) %>
     </div>
-    <h4><%= avatar(comment.author, :size => "24") %><%= authoring comment.created_on, comment.author %></h4>
+    <h4 class="comment"><%= avatar(comment.author, :size => "24") %><%= authoring comment.created_on, comment.author %></h4>
     <%= textilizable(comment.comments) %>
 <% end %>
 </div>
