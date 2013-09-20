@@ -28,6 +28,7 @@
 #++
 
 require_relative 'db_worker'
+require_relative 'legacy_table_checker'
 
 module Migration
   class IncompleteJournalsError < ::StandardError
@@ -38,6 +39,7 @@ module Migration
 
   class LegacyJournalMigrator
     include DbWorker
+    include LegacyTableChecker
 
     attr_accessor :table_name,
                   :type,
@@ -59,7 +61,13 @@ module Migration
     end
 
     def run
-      check_assumptions
+      unless preconditions_met?
+        puts <<-MESSAGE
+        There is no legacy_journals table from which to derive the new journals. Doing noting ...
+        MESSAGE
+
+        return
+      end
 
       legacy_journals = fetch_legacy_journals
 
@@ -75,22 +83,34 @@ module Migration
       end
     end
 
-    def remove_journals_derived_from_legacy_journals
+    def remove_journals_derived_from_legacy_journals(*table_names)
 
-      db_delete <<-SQL
-      DELETE
-      FROM #{table_name}
-      WHERE journal_id in (SELECT id
-                           FROM #{quoted_legacy_journals_table_name})
-      SQL
+      table_names << table_name
 
-      db_delete <<-SQL
-      DELETE
-      FROM journals
-      WHERE id in (SELECT id
-                   FROM #{quoted_legacy_journals_table_name}
-                   WHERE type=#{quote_value(type)})
-      SQL
+      if legacy_table_exists?
+
+        table_names.each do |table_name|
+
+          db_delete <<-SQL
+          DELETE
+          FROM #{quoted_table_name(table_name)}
+          WHERE journal_id in (SELECT id
+                               FROM #{quoted_legacy_journals_table_name}
+                               WHERE type=#{quote_value(type)})
+          SQL
+
+        end
+
+        db_delete <<-SQL
+        DELETE
+        FROM journals
+        WHERE id in (SELECT id
+                     FROM #{quoted_legacy_journals_table_name}
+                     WHERE type=#{quote_value(type)})
+        SQL
+      else
+        puts "No legacy table exists. Doing nothing"
+      end
     end
 
     protected
@@ -302,7 +322,17 @@ module Migration
       SQL
     end
 
-    def check_assumptions
+    def preconditions_met?
+      if legacy_table_exists?
+        check_legacy_journal_completeness
+
+        true
+      else
+        false
+      end
+    end
+
+    def check_legacy_journal_completeness
 
       # SQL finds all those journals whose has more or less predecessors than
       # it's version would require. Ignores the first journal.

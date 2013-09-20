@@ -37,18 +37,7 @@ class LegacyTimeEntryJournalData < ActiveRecord::Migration
   end
 
   def down
-    suppress_messages do
-      delete <<-SQL
-      DELETE
-      FROM #{quote_table_name('customizable_journals')}
-      WHERE journal_id in (SELECT id
-                           FROM #{quote_table_name('legacy_journals')}
-                           WHERE type=#{quote_value(migrator.type)})
-      SQL
-
-    end
-
-    migrator.remove_journals_derived_from_legacy_journals
+    migrator.remove_journals_derived_from_legacy_journals 'customizable_journals'
   end
 
   private
