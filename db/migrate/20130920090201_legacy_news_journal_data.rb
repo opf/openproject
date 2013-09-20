@@ -26,31 +26,22 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+#
 
-module Migration
-  module DbWorker
-    def quote_value(name)
-      ActiveRecord::Base.connection.quote name
-    end
+require_relative 'migration_utils/legacy_journal_migrator'
 
-    def quoted_table_name(name)
-      ActiveRecord::Base.connection.quote_table_name name
-    end
+class LegacyNewsJournalData < ActiveRecord::Migration
+  def up
+    migrator.run
+  end
 
-    def db_columns(table_name)
-      ActiveRecord::Base.connection.columns table_name
-    end
+  def down
+    migrator.remove_journals_derived_from_legacy_journals
+  end
 
-    def db_select_all(statement)
-      ActiveRecord::Base.connection.select_all statement
-    end
+  private
 
-    def db_execute(statement)
-      ActiveRecord::Base.connection.execute statement
-    end
-
-    def db_delete(statement)
-      ActiveRecord::Base.connection.delete statement
-    end
+  def migrator
+    @migrator ||= Migration::LegacyJournalMigrator.new("NewsJournal", "news_journals")
   end
 end

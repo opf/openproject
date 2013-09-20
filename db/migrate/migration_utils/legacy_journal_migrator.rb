@@ -30,6 +30,9 @@
 require_relative 'db_worker'
 
 module Migration
+  class IncompleteJournalsError < ::StandardError
+  end
+
   class AmbiguousJournalsError < ::StandardError
   end
 
@@ -55,14 +58,49 @@ module Migration
       self.journable_class ||= self.type.gsub(/Journal$/, "")
     end
 
+    def run
+      check_assumptions
+
+      legacy_journals = fetch_legacy_journals
+
+      puts "Migrating #{legacy_journals.count} legacy journals."
+
+      legacy_journals.each_with_index do |legacy_journal, count|
+
+        migrate(legacy_journal)
+
+        if count > 0 && (count % 1000 == 0)
+          puts "#{count} journals migrated"
+        end
+      end
+    end
+
+    def remove_journals_derived_from_legacy_journals
+
+      db_delete <<-SQL
+      DELETE
+      FROM #{table_name}
+      WHERE journal_id in (SELECT id
+                           FROM #{quoted_legacy_journals_table_name})
+      SQL
+
+      db_delete <<-SQL
+      DELETE
+      FROM journals
+      WHERE id in (SELECT id
+                   FROM #{quoted_legacy_journals_table_name}
+                   WHERE type=#{quote_value(type)})
+      SQL
+    end
+
+    protected
+
     def migrate(legacy_journal)
       journal = set_journal(legacy_journal)
       journal_id = journal["id"]
 
       set_journal_data(journal_id, legacy_journal)
     end
-
-    protected
 
     def combine_journal(journaled_id, legacy_journal)
       # compute the combined journal from current and all previous changesets.
@@ -101,7 +139,7 @@ module Migration
 
       if journal.size > 1
 
-        raise Migration::AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+        raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
           It appears there are ambiguous journals. Please make sure
           journals are consistent and that the unique constraint on id,
           type and version is met.
@@ -175,7 +213,7 @@ module Migration
 
       if existing_data_journal.size > 1
 
-        raise Migration::AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+        raise AmbiguousJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
           It appears there are ambiguous journal data. Please make sure
           journal data are consistent and that the unique constraint on
           journal_id is met.
@@ -254,8 +292,66 @@ module Migration
       end
     end
 
+    # fetches legacy journals. might me empty.
+    def fetch_legacy_journals
+      db_select_all <<-SQL
+        SELECT *
+        FROM #{quoted_legacy_journals_table_name} AS j
+        WHERE (j.type = #{quote_value(type)})
+        ORDER BY j.journaled_id, j.type, j.version;
+      SQL
+    end
+
+    def check_assumptions
+
+      # SQL finds all those journals whose has more or less predecessors than
+      # it's version would require. Ignores the first journal.
+      # e.g. a journal with version 5 would have to have 5 predecessors
+      invalid_journals = db_select_all <<-SQL
+        SELECT DISTINCT tmp.id
+        FROM (
+          SELECT
+            a.id AS id,
+            a.journaled_id,
+            a.type,
+            a.version AS version,
+            count(b.id) AS count
+          FROM
+            #{quoted_legacy_journals_table_name} AS a
+          LEFT JOIN
+            #{quoted_legacy_journals_table_name} AS b
+            ON a.version >= b.version
+              AND a.journaled_id = b.journaled_id
+              AND a.type = b.type
+          WHERE a.version > 1
+          AND (a.type = #{quote_value(type)})
+          GROUP BY
+            a.id,
+            a.journaled_id,
+            a.type,
+            a.version
+        ) AS tmp
+        WHERE
+          NOT (tmp.version = tmp.count);
+      SQL
+
+      unless invalid_journals.empty?
+
+        raise IncompleteJournalsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+          It appears there are incomplete journals. Please make sure
+          journals are consistent and that for every journal, there is an
+          initial journal containing all attribute values at the time of
+          creation. The offending journal ids are: #{invalid_journals}
+        MESSAGE
+      end
+    end
+
     def journal_table_name
-      quoted_table_name(table_name)
+      @journal_table_name ||= quoted_table_name(table_name)
+    end
+
+    def quoted_legacy_journals_table_name
+      @quoted_legacy_journals_table_name ||= quoted_table_name 'legacy_journals'
     end
 
     def quoted_journals_table_name

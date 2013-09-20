@@ -26,31 +26,42 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+#
 
-module Migration
-  module DbWorker
-    def quote_value(name)
-      ActiveRecord::Base.connection.quote name
+require_relative 'migration_utils/legacy_journal_migrator'
+require_relative 'migration_utils/journal_migrator_concerns'
+
+class LegacyTimeEntryJournalData < ActiveRecord::Migration
+  def up
+    migrator.run
+  end
+
+  def down
+    suppress_messages do
+      delete <<-SQL
+      DELETE
+      FROM #{quote_table_name('customizable_journals')}
+      WHERE journal_id in (SELECT id
+                           FROM #{quote_table_name('legacy_journals')}
+                           WHERE type=#{quote_value(migrator.type)})
+      SQL
+
     end
 
-    def quoted_table_name(name)
-      ActiveRecord::Base.connection.quote_table_name name
-    end
+    migrator.remove_journals_derived_from_legacy_journals
+  end
 
-    def db_columns(table_name)
-      ActiveRecord::Base.connection.columns table_name
-    end
+  private
 
-    def db_select_all(statement)
-      ActiveRecord::Base.connection.select_all statement
-    end
+  def migrator
+    @migrator ||= Migration::LegacyJournalMigrator.new("TimeEntryJournal", "time_entry_journals") do
+      extend Migration::JournalMigratorConcerns::Customizable
 
-    def db_execute(statement)
-      ActiveRecord::Base.connection.execute statement
-    end
+      def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
 
-    def db_delete(statement)
-      ActiveRecord::Base.connection.delete statement
+        migrate_custom_values(to_insert, legacy_journal, journal_id)
+
+      end
     end
   end
 end
