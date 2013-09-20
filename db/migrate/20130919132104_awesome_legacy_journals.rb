@@ -94,9 +94,38 @@ class AwesomeLegacyJournals < ActiveRecord::Migration
   end
 
   def down
+    remove_journals_induced_from_legacy_journals
   end
 
   private
+
+  def remove_journals_induced_from_legacy_journals
+    %w{ attachable_journals
+        attachment_journals
+        changeset_journals
+        customizable_journals
+        message_journals
+        news_journals
+        time_entry_journals
+        wiki_content_journals
+        work_package_journals }.each do |table_name|
+
+      delete <<-SQL
+      DELETE
+      FROM #{table_name}
+      WHERE journal_id in (SELECT id
+                           FROM legacy_journals)
+      SQL
+    end
+
+    delete <<-SQL
+    DELETE
+    FROM journals
+    WHERE id in (SELECT id
+                 FROM legacy_journals)
+    SQL
+
+  end
 
   def ignored
     @ignored ||= Hash.new do |k, v|
