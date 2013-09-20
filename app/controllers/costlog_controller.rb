@@ -32,7 +32,7 @@ class CostlogController < ApplicationController
     if @project.nil?
       cond << Project.allowed_to_condition(User.current, :view_cost_entries)
     elsif @work_package.nil?
-      cond << @project.project_condition(Setting.display_subprojects_issues?)
+      cond << @project.project_condition(Setting.display_subprojects_work_packages?)
     else
       root_cond = "#{WorkPackage.table_name}.root_id #{(@work_package.root_id.nil?) ? "IS NULL" : "= #{@work_package.root_id}"}"
       cond << "#{root_cond} AND #{WorkPackage.table_name}.lft >= #{@work_package.lft} AND #{WorkPackage.table_name}.rgt <= #{@work_package.rgt}"

@@ -13,7 +13,7 @@ module OpenProject::Costs::Patches::ProjectsControllerPatch
   module InstanceMethods
     def own_total_hours
       if User.current.allowed_to?(:view_own_time_entries, @project)
-        cond = @project.project_condition(Setting.display_subprojects_issues?)
+        cond = @project.project_condition(Setting.display_subprojects_work_packages?)
         @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
       end
     end
