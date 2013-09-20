@@ -36,6 +36,15 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1990` Migrate issue relation
 * `#1997` Migrate journal activities
 * `#2008` Migrate attachments
+* `#2087` Write tests for server-side type filter
+* `#2088` Implement server-side filter for type
+* `#2101` fixed: Multiple Selections of type, status etc. in work_package-search
+* `#2083` Extend APIv2 to evaluate filter arguments
+* `#2087` Write tests for server-side type filter
+* `#2088` Implement server-side filter for type
+* `#2138` Added responsible to work_package-search
+* `#2104` Handle incomplete trees on server-side
+* `#2105` Call PE-API with type filters
 
 ## 3.0.0pre17
 
