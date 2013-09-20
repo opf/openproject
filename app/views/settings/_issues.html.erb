@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <fieldset class="box settings"><legend><%= l(:setting_column_options) %></legend>
 <%= settings_multiselect([:work_package_list_default_columns, :work_package_list_summable_columns],
-  Query.new.available_columns.collect {|c| [c.caption, c.name.to_s]}, :label_choices => :setting_issue_properties) %>
+  Query.new.available_columns.collect {|c| [c.caption, c.name.to_s]}, :label_choices => :setting_work_package_properties) %>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>
