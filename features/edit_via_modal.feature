@@ -21,9 +21,9 @@ Feature: Edit issue via modal box
         | edit_work_packages      |
         | manage_subtasks         |
     And the backlogs module is initialized
-    And the following trackers are configured to track stories:
+    And the following types are configured to track stories:
         | Story |
-    And the tracker "Task" is configured to track tasks
+    And the type "Task" is configured to track tasks
     And the project uses the following types:
         | Story |
         | Task  |

@@ -7,7 +7,7 @@ describe WorkPackage do
                                                   :priority_id      => priority.id,
                                                   :project_id       => project.id,
                                                   :status_id        => status.id,
-                                                  :tracker_id       => story_tracker.id))
+                                                  :type_id       => story_type.id))
     end
 
     def create_work_package(options)
@@ -18,10 +18,10 @@ describe WorkPackage do
     let(:priority) { FactoryGirl.create(:priority_normal) }
     let(:project)  { FactoryGirl.create(:project)         }
 
-    let(:story_tracker) { FactoryGirl.create(:tracker, :name => 'Story')    }
-    let(:epic_tracker)  { FactoryGirl.create(:tracker, :name => 'Epic')     }
-    let(:task_tracker)  { FactoryGirl.create(:tracker, :name => 'Task')     }
-    let(:other_tracker) { FactoryGirl.create(:tracker, :name => 'Feedback') }
+    let(:story_type) { FactoryGirl.create(:type, :name => 'Story')    }
+    let(:epic_type)  { FactoryGirl.create(:type, :name => 'Epic')     }
+    let(:task_type)  { FactoryGirl.create(:type, :name => 'Task')     }
+    let(:other_type) { FactoryGirl.create(:type, :name => 'Feedback') }
 
     let(:sprint_1) { FactoryGirl.create(:version, :project_id => project.id, :name => 'Sprint 1') }
     let(:sprint_2) { FactoryGirl.create(:version, :project_id => project.id, :name => 'Sprint 2') }
@@ -37,7 +37,7 @@ describe WorkPackage do
     let(:work_package_c) { create_work_package(:subject => 'WorkPackage c', :fixed_version_id => sprint_2.id) }
 
     let(:feedback_1)  { create_work_package(:subject => 'Feedback 1', :fixed_version_id => sprint_1.id,
-                                                               :tracker_id => other_tracker.id) }
+                                                               :type_id => other_type.id) }
 
     let(:task_1)  { create_work_package(:subject => 'Task 1', :fixed_version_id => sprint_1.id,
                                                        :type_id => task_type.id) }

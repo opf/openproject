@@ -1,8 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe WorkPackage, "changing a story's fixed_version changes the fixed_version of all it's tasks (and the tasks beyond)" do
-  let(:tracker_feature) { FactoryGirl.build(:tracker_feature) }
-  let(:tracker_task) { FactoryGirl.build(:tracker_task) }
+  let(:type_feature) { FactoryGirl.build(:type_feature) }
+  let(:type_task) { FactoryGirl.build(:type_task) }
   let(:type_bug) { FactoryGirl.build(:type_bug) }
   let(:version1) { project.versions.first }
   let(:version2) { project.versions.last }

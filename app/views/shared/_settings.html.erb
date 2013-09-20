@@ -34,7 +34,7 @@
 <p>
   <%= label_tag("settings[story_types]", l(:backlogs_story_type)) %>
   <%= select_tag("settings[story_types]",
-                 options_from_collection_for_select(Tracker.all, :id, :name, Story.types), :multiple => true) %>
+                 options_from_collection_for_select(Type.all, :id, :name, Story.types), :multiple => true) %>
 </p>
 <p>
   <%= label_tag("settings[task_type]", l(:backlogs_task_type)) %>

@@ -42,12 +42,12 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
   end
 
   module ClassMethods
-    def backlogs_trackers
+    def backlogs_types
       # Unfortunately, this is not cachable so the following line would be wrong
-      # @backlogs_trackers ||= Story.trackers << Task.tracker
-      # Caching like in the line above would prevent the trackers selected
+      # @backlogs_types ||= Story.types << Task.type
+      # Caching like in the line above would prevent the types selected
       # for backlogs to be changed without restarting all app server.
-      (Story.trackers << Task.tracker).compact
+      (Story.types << Task.type).compact
     end
 
     def take_child_update_semaphore
@@ -75,11 +75,11 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def parent_work_package_relationship_spanning_projects?(parent, child)
-      child.is_task? && parent.in_backlogs_tracker? && parent.project_id != child.project_id
+      child.is_task? && parent.in_backlogs_type? && parent.project_id != child.project_id
     end
 
     def validate_children(work_package, attr, value)
-      if work_package.in_backlogs_tracker?
+      if work_package.in_backlogs_type?
         work_package.children.each do |child|
           unless child.valid?
             child.errors.each do |key, value|
@@ -101,7 +101,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def is_story?
-      backlogs_enabled? && Story.trackers.include?(self.tracker_id)
+      backlogs_enabled? && Story.types.include?(self.type_id)
     end
 
     def to_task
@@ -109,19 +109,19 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def is_task?
-      backlogs_enabled? && (self.parent_id && self.tracker_id == Task.tracker && Task.tracker.present?)
+      backlogs_enabled? && (self.parent_id && self.type_id == Task.type && Task.type.present?)
     end
 
     def is_impediment?
-      backlogs_enabled? && (self.parent_id.nil? && self.tracker_id == Task.tracker && Task.tracker.present?)
+      backlogs_enabled? && (self.parent_id.nil? && self.type_id == Task.type && Task.type.present?)
     end
 
-    def trackers
+    def types
       case
       when is_story?
-        Story.trackers
+        Story.types
       when is_task?
-        Task.trackers
+        Task.types
       else
         []
       end

@@ -19,7 +19,7 @@ de:
               task_version_must_be_the_same_as_story_version: "muss der Version der Story entsprechen"
             parent_issue_id:
               parent_child_relationship_across_projects: "ist ungültig da '%{issue_name}' ein backlogs Task und das gewünschte Eltern-Ticket '%{parent_name}' ein Backlogs-Element in einem anderen Projekt ist"
-              tracker_must_be_one_of_the_following: "muss aus einem der folgenden Typen sein: %{tracker_names}"
+              type_must_be_one_of_the_following: "muss aus einem der folgenden Typen sein: %{type_names}"
         sprint:
           cannot_end_before_it_starts: "Sprint kann nicht enden, bevor er begonnen hat"
 

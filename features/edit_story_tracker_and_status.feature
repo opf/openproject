@@ -47,12 +47,12 @@ Feature: Edit story type and status
         | Story B | Sprint 001 | Story   | 20           |
         | Story C | Sprint 001 | Bug     | 20           |
     And the status of "Story C" is "Resolved"
-    And the Tracker "Story" has for the Role "manager" the following workflows:
+    And the Type "Story" has for the Role "manager" the following workflows:
         | old_status | new_status |
         | New        | Rejected   |
         | Rejected   | Closed     |
         | Rejected   | New        |
-    And the Tracker "Bug" has for the Role "manager" the following workflows:
+    And the Type "Bug" has for the Role "manager" the following workflows:
         | old_status | new_status |
         | New        | Closed     |
     And I am already logged in as "romano"
