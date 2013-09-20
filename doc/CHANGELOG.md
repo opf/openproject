@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1717` [Timelines] Project Settings Tab Unnecessary and Buggy 
+
 ## 3.0.0pre17
 
 * `#1323` Wrong Calendarweek in Datepicker, replaced built in datepicker with jQuery UI datepicker
