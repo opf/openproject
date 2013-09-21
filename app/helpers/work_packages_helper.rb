@@ -30,7 +30,7 @@
 
 module WorkPackagesHelper
   def work_package_api_done_ratio_if_enabled(api, issue)
-    if Setting.issue_done_ratio != 'disabled'
+    if Setting.work_package_done_ratio != 'disabled'
       api.done_ratio  issue.done_ratio
     end
   end

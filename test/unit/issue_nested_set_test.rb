@@ -41,7 +41,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_creating_a_child_in_different_project_should_not_validate_unless_allowed
-    Setting.cross_project_issue_relations = "0"
+    Setting.cross_project_work_package_relations = "0"
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 2,
@@ -55,7 +55,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_creating_a_child_in_different_project_should_validate_if_allowed
-    Setting.cross_project_issue_relations = "1"
+    Setting.cross_project_work_package_relations = "1"
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
       i.force_attributes = { :project_id => 2,
@@ -70,7 +70,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
 
   def test_move_a_child_with_descendants_to_another_project
-    Setting.cross_project_issue_relations = "0"
+    Setting.cross_project_work_package_relations = "0"
 
     parent1 = create_issue!
     child =   create_issue!(:parent_id => parent1.id)

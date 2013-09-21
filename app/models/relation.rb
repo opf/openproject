@@ -64,7 +64,7 @@ class Relation < ActiveRecord::Base
   def validate_sanity_of_relation
     if from && to
       errors.add :to_id, :invalid if from_id == to_id
-      errors.add :to_id, :not_same_project unless from.project_id == to.project_id || Setting.cross_project_issue_relations?
+      errors.add :to_id, :not_same_project unless from.project_id == to.project_id || Setting.cross_project_work_package_relations?
       errors.add :base, :circular_dependency if to.all_dependent_issues.include? from
       errors.add :base, :cant_link_a_work_package_with_a_descendant if from.is_descendant_of?(to) || from.is_ancestor_of?(to)
     end

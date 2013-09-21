@@ -55,7 +55,7 @@ describe '/api/v1/issues/index', :type => :api do
 
   context 'with done_ratio disabled' do
     before do
-      Setting.stub(:issue_done_ratio).and_return('disabled')
+      Setting.stub(:work_package_done_ratio).and_return('disabled')
       render
     end
 

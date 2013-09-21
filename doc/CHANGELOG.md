@@ -29,13 +29,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre17
+
+* `#1323` Wrong Calendarweek in Datepicker, replaced built in datepicker with jQuery UI datepicker
 * `#1843` Editing Membership Duration in admin area fails
 * `#1913` [Timelines] Enable drag&drop for select2 items in order to rearrange the order of the columns
+* `#1934` [Timelines] Table Loading takes really long
 * `#1978` Migrate legacy issues
 * `#1979` Migrate legacy planning elements
 * `#1982` Migrate planning element types
 * `#1983` Migrate queries
 * `#1987` Migrate user rights
+* `#1988` Migrate settings
 * `#1990` Migrate issue relation
 * `#2019` Migrate auto completes controller tests
 * `#2078` Work package query produces 500 when grouping on exclusively empty values

@@ -165,7 +165,7 @@ module WorkPackage::PdfExporter
       end
     end
 
-    if work_packages.size == Setting.issues_export_limit.to_i
+    if work_packages.size == Setting.work_packages_export_limit.to_i
       pdf.SetFontStyle('B',10)
       pdf.RDMCell(0, row_height, '...')
     end
