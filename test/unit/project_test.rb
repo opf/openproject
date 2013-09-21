@@ -212,7 +212,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Journal.count, "Journals were not deleted: #{Journal.all.inspect}"
     assert_equal 0, EnabledModule.count
     assert_equal 0, IssueCategory.count
-    assert_equal 0, IssueRelation.count
+    assert_equal 0, Relation.count
     assert_equal 0, Board.count
     assert_equal 0, Message.count
     assert_equal 0, News.count
@@ -818,10 +818,10 @@ class ProjectTest < ActiveSupport::TestCase
                                      :type_id => 1,
                                      :assigned_to_id => 2,
                                      :project_id => @source_project.id)
-      source_relation = IssueRelation.generate!(:from => WorkPackage.find(4),
+      source_relation = Relation.generate!(:from => WorkPackage.find(4),
                                                 :to => second_issue,
                                                 :relation_type => "relates")
-      source_relation_cross_project = IssueRelation.generate!(:from => WorkPackage.find(1),
+      source_relation_cross_project = Relation.generate!(:from => WorkPackage.find(1),
                                                               :to => second_issue,
                                                               :relation_type => "duplicates")
 

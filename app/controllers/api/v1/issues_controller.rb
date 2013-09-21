@@ -38,7 +38,7 @@ module Api
       include JournalsHelper
       include ProjectsHelper
       include CustomFieldsHelper
-      include IssueRelationsHelper
+      include RelationsHelper
       include WatchersHelper
       include AttachmentsHelper
       include QueriesHelper

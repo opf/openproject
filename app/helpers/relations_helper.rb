@@ -27,9 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module IssueRelationsHelper
+module RelationsHelper
   def collection_for_relation_type_select
-    values = IssueRelation::TYPES
+    values = Relation::TYPES
     values.keys.sort{|x,y| values[x][:order] <=> values[y][:order]}.collect{|k| [l(values[k][:name]), k]}
   end
 end

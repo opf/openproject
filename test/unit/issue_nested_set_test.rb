@@ -124,27 +124,27 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue2 = create_issue!
     issue3 = create_issue!(:parent_id => issue2.id)
     issue4 = create_issue!
-    (r1 = IssueRelation.new.tap do |i|
+    (r1 = Relation.new.tap do |i|
       i.force_attributes = { :from => issue1,
                              :to => issue2,
-                             :relation_type => IssueRelation::TYPE_PRECEDES }
+                             :relation_type => Relation::TYPE_PRECEDES }
     end).save!
-    (r2 = IssueRelation.new.tap do |i|
+    (r2 = Relation.new.tap do |i|
       i.force_attributes = { :from => issue1,
                              :to => issue3,
-                             :relation_type => IssueRelation::TYPE_PRECEDES }
+                             :relation_type => Relation::TYPE_PRECEDES }
     end).save!
-    (r3 = IssueRelation.new.tap do |i|
+    (r3 = Relation.new.tap do |i|
       i.force_attributes = { :from => issue2,
                              :to => issue4,
-                             :relation_type => IssueRelation::TYPE_PRECEDES }
+                             :relation_type => Relation::TYPE_PRECEDES }
     end).save!
     issue2.reload
     issue2.parent_id = issue1.id
     issue2.save!
-    assert !IssueRelation.exists?(r1.id)
-    assert !IssueRelation.exists?(r2.id)
-    assert IssueRelation.exists?(r3.id)
+    assert !Relation.exists?(r1.id)
+    assert !Relation.exists?(r2.id)
+    assert Relation.exists?(r3.id)
   end
 
   def test_destroy_should_destroy_children
