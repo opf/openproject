@@ -85,7 +85,7 @@ en:
         time_entries: "Log time"
         type: "Type"
         watcher: "Watcher"
-      issue_relation:
+      relation:
         delay: "Delay"
         from: "Work Package"
         to: "Related work package"

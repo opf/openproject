@@ -990,23 +990,23 @@ class Project < ActiveRecord::Base
 
       # Relations
       issue.relations_from.each do |source_relation|
-        new_issue_relation = Relation.new
-        new_issue_relation.force_attributes = source_relation.attributes.dup.except("id", "work_package_from_id", "work_package_to_id")
-        new_issue_relation.to = work_packages_map[source_relation.to_id]
-        if new_issue_relation.to.nil? && Setting.cross_project_issue_relations?
-          new_issue_relation.to = source_relation.to
+        new_relation = Relation.new
+        new_relation.force_attributes = source_relation.attributes.dup.except("id", "work_package_from_id", "work_package_to_id")
+        new_relation.to = work_packages_map[source_relation.to_id]
+        if new_relation.to.nil? && Setting.cross_project_relations?
+          new_relation.to = source_relation.to
         end
-        new_issue.relations_from << new_issue_relation
+        new_issue.relations_from << new_relation
       end
 
       issue.relations_to.each do |source_relation|
-        new_issue_relation = Relation.new
-        new_issue_relation.force_attributes = source_relation.attributes.dup.except("id", "work_package_from_id", "work_package_to_id")
-        new_issue_relation.from = work_packages_map[source_relation.from_id]
-        if new_issue_relation.from.nil? && Setting.cross_project_issue_relations?
-          new_issue_relation.from = source_relation.from
+        new_relation = Relation.new
+        new_relation.force_attributes = source_relation.attributes.dup.except("id", "work_package_from_id", "work_package_to_id")
+        new_relation.from = work_packages_map[source_relation.from_id]
+        if new_relation.from.nil? && Setting.cross_project_issue_relations?
+          new_relation.from = source_relation.from
         end
-        new_issue.relations_to << new_issue_relation
+        new_issue.relations_to << new_relation
       end
     end
   end

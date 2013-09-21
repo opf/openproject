@@ -86,7 +86,7 @@ de:
         time_entries: "Logzeit"
         type: "Typ"
         watcher: "Beobachter"
-      issue_relation:
+      relation:
         delay: "Pufferzeit"
         from: "Ticket"
         to: "Zugehöriges Ticket"
