@@ -26,13 +26,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-issue_relation_001:
+relation_001:
   id: 1
   from_id: 10
   to_id: 9
   relation_type: blocks
   delay:
-issue_relation_002:
+relation_002:
   id: 2
   from_id: 2
   to_id: 3

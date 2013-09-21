@@ -27,8 +27,8 @@
 #++
 
 FactoryGirl.define do
-  factory :issue_relation do
-    from :factory => :issue
+  factory :relation do
+    from :factory => :work_package
     to { FactoryGirl.build(:work_package, :project => from.project) }
     relation_type 'relates' # "relates", "duplicates", "duplicated", "blocks", "blocked", "precedes", "follows"
     delay nil
