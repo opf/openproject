@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery, :reporting_query_helper => true do
-  let!(:project1){ FactoryGirl.create(:project_with_trackers) }
+  let!(:project1){ FactoryGirl.create(:project_with_types) }
   let!(:work_package1) { FactoryGirl.create(:work_package, project: project1) }
   let!(:time_entry1) { FactoryGirl.create(:time_entry, work_package: work_package1, project: project1, spent_on: Date.new(2012, 1, 1)) }
   let!(:time_entry2) do
@@ -17,7 +17,7 @@ describe CostQuery, :reporting_query_helper => true do
     cost_entry2
   end
 
-  let!(:project2) { FactoryGirl.create(:project_with_trackers) }
+  let!(:project2) { FactoryGirl.create(:project_with_types) }
   let!(:work_package2) { FactoryGirl.create(:work_package, project: project2) }
   let!(:time_entry3) { FactoryGirl.create(:time_entry, work_package: work_package2, project: project2, spent_on: Date.new(2013, 2, 3)) }
   let!(:time_entry4) do
@@ -195,7 +195,7 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     describe CostQuery::GroupBy::CustomFieldEntries do
-      let!(:project){ FactoryGirl.create(:project_with_trackers) }
+      let!(:project){ FactoryGirl.create(:project_with_types) }
 
       before do
         create_work_package_custom_field("Searchable Field")

@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, :reporting_query_helper => true do
   before do
     FactoryGirl.create(:admin)
-    project = FactoryGirl.create(:project_with_trackers)
+    project = FactoryGirl.create(:project_with_types)
     work_package = FactoryGirl.create(:work_package, project: project)
     FactoryGirl.create(:time_entry, work_package: work_package, project: project)
     FactoryGirl.create(:cost_entry, work_package: work_package, project: project)

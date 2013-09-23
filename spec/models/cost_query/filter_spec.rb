@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, :reporting_query_helper => true do
   minimal_query
 
-  let!(:project) { FactoryGirl.create(:project_with_trackers) }
+  let!(:project) { FactoryGirl.create(:project_with_types) }
   let!(:user) { FactoryGirl.create(:user, :member_in_project => project) }
 
   def create_work_package_with_entry(entry_type, work_package_params={}, entry_params = {})
