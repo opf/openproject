@@ -99,16 +99,4 @@ class GroupTest < ActiveSupport::TestCase
     @project.reload
     assert !@user.member_of?(@project)
   end
-
-  def test_destroy_should_unassign_issues
-    @work_package.assigned_to_id = @group.id
-
-    assert @work_package.save
-    assert @work_package.assigned_to_id == @group.id
-    assert @group.destroy
-    assert @group.destroyed?
-
-    @work_package.reload
-    assert_equal nil, @work_package.assigned_to_id
-  end
 end
