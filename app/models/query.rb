@@ -189,13 +189,12 @@ class Query < ActiveRecord::Base
     role_values = Role.givable.collect {|r| [r.name, r.id.to_s] }
     @available_filters["assigned_to_role"] = { :type => :list_optional, :order => 7, :values => role_values, :name => I18n.t('query_fields.assigned_to_role') } unless role_values.empty?
 
-    @available_filters["responsible_id"] = { :type => :list_optional, :order => 8, :values => user_values } unless user_values.empty?
+
 
     if User.current.logged?
       # populate the watcher list with the same user list as other user filters if the user has the :view_work_package_watchers permission in at least one project
       # TODO: this could be differentiated more, e.g. all users could watch issues in public projects, but won't necessarily be shown here
-      watcher_values = [["<< #{l(:label_me)} >>", "me"]]
-      user_values.each { |v| watcher_values << v } if User.current.allowed_to_globally?(:view_work_packages_watchers, {})
+      watcher_values = User.current.allowed_to_globally?(:view_work_package_watchers, {}) ? user_values : [["<< #{l(:label_me)} >>", "me"]]
       @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => watcher_values }
     end
 
@@ -266,7 +265,8 @@ class Query < ActiveRecord::Base
   end
 
   def values_for(field)
-    has_filter?(field) ? filters[field][:values] : nil
+    # special handling for serialized values inside fields (e.g. ["me,3"] for user_ids)
+    has_filter?(field) ? filters[field][:values].map{|values| values.split(',')}.flatten : nil
   end
 
   def label_for(field)
@@ -428,7 +428,7 @@ class Query < ActiveRecord::Base
       operator = operator_for(field)
 
       # "me" value subsitution
-      if %w(assigned_to_id author_id watcher_id).include?(field)
+      if %w(assigned_to_id author_id watcher_id responsible_id).include?(field)
         v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
       end
 
