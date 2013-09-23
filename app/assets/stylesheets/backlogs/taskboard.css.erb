@@ -27,7 +27,7 @@ determine the unit width of the swimlanes.
 See RB.Taskboard.initialize()
 */
 #rb .swimlane {
-  min-width:105px; /* width + (2*margin) + (2*padding) + (2*border) of .issue */
+  min-width:105px; /* width + (2*margin) + (2*padding) + (2*border) of .work_package */
   padding:5px;
   width:105px; /* Must be the same as min-width */
 }
@@ -146,7 +146,7 @@ See RB.Taskboard.initialize()
 }
 
 /* item styles used by .task and .impediment */
-#rb .issue,
+#rb .work_package,
 #rb .placeholder {
   background-color:#AFAFAF;
   border:none;
@@ -160,7 +160,7 @@ See RB.Taskboard.initialize()
   position:relative;
   width:85px;
 }
-#rb .issue.prevent_edit {
+#rb .work_package.prevent_edit {
   cursor:default;
 }
 #rb .placeholder {
@@ -169,7 +169,7 @@ See RB.Taskboard.initialize()
   height:78px;
   width:83px;
 }
-#rb .issue .id {
+#rb .work_package .id {
   background-color:#FFFFFF;
   font-size:9px;
   height:12px;
@@ -181,14 +181,14 @@ See RB.Taskboard.initialize()
   text-align:right;
   width:82px;
 }
-#rb .issue .id a {
+#rb .work_package .id a {
   opacity: 1.0;
   filter: alpha(opacity = 100);
 }
-#rb .issue .editable:hover {
+#rb .work_package .editable:hover {
   background-color:transparent;
 }
-#rb .issue .subject.editable {
+#rb .work_package .subject.editable {
   height:52px;
   line-height:13px;
   margin-top:0;
@@ -196,11 +196,11 @@ See RB.Taskboard.initialize()
   padding:2px;
   width:81px;
 }
-#rb .issue.closed .subject.editable {
+#rb .work_package.closed .subject.editable {
   text-decoration:line-through;
 }
 #rb .story .assigned_to_id,
-#rb .issue .assigned_to_id.editable {
+#rb .work_package .assigned_to_id.editable {
   font-size:9px;
   height:10px;
   margin-top:2px;
@@ -213,10 +213,10 @@ See RB.Taskboard.initialize()
   width: auto;
 }
 
-#rb .issue .v {
+#rb .work_package .v {
   display:none;
 }
-#rb .issue .remaining_hours.editable {
+#rb .work_package .remaining_hours.editable {
   border:2px solid #FFFFFF;
   background-color:#EE0000;
   bottom:-5px;
@@ -228,13 +228,13 @@ See RB.Taskboard.initialize()
   position:absolute;
   right:-5px;
 }
-#rb .issue .blocks {
+#rb .work_package .blocks {
   display:none;
 }
-#rb .issue .remaining_hours.editable.empty {
+#rb .work_package .remaining_hours.editable.empty {
   display:none;
 }
-#rb .issue .indicator {
+#rb .work_package .indicator {
   background-color:#FFFFFF;
   background-position:center;
   background-repeat:no-repeat;
@@ -247,17 +247,17 @@ See RB.Taskboard.initialize()
   top:38px;
   width:16px;
 }
-#rb .issue.saving .indicator {
+#rb .work_package.saving .indicator {
   background-image:url(<%= asset_path 'loading.gif' %>);
   display:block;
 }
-#rb .issue.error .indicator {
+#rb .work_package.error .indicator {
   background-image:url(<%= asset_path 'warning.png' %>);
   background-position:2px 0;
   border-color:#CC0000;
   display:block;
 }
-#rb .issue .editors {
+#rb .work_package .editors {
   display:none;
 }
 
@@ -315,12 +315,12 @@ See RB.Taskboard.initialize()
 #rb .compact .story .subject {
   display:none;
 }
-#rb .compact .issue {
+#rb .compact .work_package {
   height:21px;
   padding:0;
   width:21px;
 }
-#rb .compact .issue * {
+#rb .compact .work_package * {
   display:none;
 }
 #rb .compact .placeholder {

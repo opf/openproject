@@ -1,7 +1,7 @@
-Feature: The issue hierarchy defines the allowed versions for each issue dependent on the type
+Feature: The work_package hierarchy defines the allowed versions for each work_package dependent on the type
   As a team member
-  I want to CRUD issues with a reliable target version system
-  So that I know what target version an issue can have or will be assigned
+  I want to CRUD work_packages with a reliable target version system
+  So that I know what target version an work_package can have or will be assigned
 
   Background:
     Given there is 1 project with:
@@ -25,9 +25,8 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
         | edit_work_packages      |
         | manage_subtasks         |
         | create_tasks            |
-        | add_issues              |
         | add_work_packages       |
-    And there are the following issue status:
+    And there are the following work_package status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
         | In Progress | false      | false       |
@@ -104,7 +103,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
 
   @javascript
   Scenario: Creating a task, via subtask, as a subtask to a story sets the new task's fixed version to the parent's fixed version
-     When I go to the page of the issue "Story A"
+     When I go to the page of the work_package "Story A"
       And I follow the link to add a subtask
       And I select "Task" from "work_package_type_id"
       And I fill in "Task 0815" for "work_package_subject"
@@ -115,7 +114,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
      When I go to the new work_package page of the project called "ecookbook"
       And I select "Task" from "work_package_type_id"
       And I fill in "Task 0815" for "work_package_subject"
-      And I fill in the id of the issue "Story A" as the parent issue
+      And I fill in the id of the work_package "Story A" as the parent work_package
       And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
@@ -123,39 +122,39 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
      When I go to the new work_package page of the project called "ecookbook"
       And I select "Task" from "work_package_type_id"
       And I fill in "Task 0815" for "work_package_subject"
-      And I fill in the id of the issue "Story A" as the parent issue
+      And I fill in the id of the work_package "Story A" as the parent work_package
       And I select "Sprint 003" from "work_package_fixed_version_id"
       And I click on the first button matching "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
 
-  Scenario: Moving a task between stories via issue/edit (bug 9324)
+  Scenario: Moving a task between stories via work_package/edit (bug 9324)
     Given the project has the following tasks:
           | subject | parent  |
           | Task 1  | Story 1 |
-    When I go to the edit page of the issue "Task 1"
-     And I fill in the id of the issue "Story C" as the parent issue
+    When I go to the edit page of the work_package "Task 1"
+     And I fill in the id of the work_package "Story C" as the parent work_package
      And I press "Submit"
     Then I should see "Sprint 002" within "td.fixed-version"
 
-  Scenario: Changing the fixed_version of a task with a non backlogs parent issue (bug 8354)
-    Given the project has the following issues:
+  Scenario: Changing the fixed_version of a task with a non backlogs parent work_package (bug 8354)
+    Given the project has the following work_packages:
       | subject      | sprint     | type    |
       | Epic 1       | Sprint 001 | Epic       |
       And the project has the following tasks:
       | subject | parent |
       | Task 1  | Epic 1 |
-    When I go to the edit page of the issue "Task 1"
-     And I select "Sprint 002" from "issue_fixed_version_id"
+    When I go to the edit page of the work_package "Task 1"
+     And I select "Sprint 002" from "work_package_fixed_version_id"
      And I press "Submit"
     Then I should see "Successful update." within "div.flash"
 
   Scenario: Changing the fixed_version of an epic should not change the target version of the child (bug 8903)
-    Given the project has the following issues:
+    Given the project has the following work_packages:
       | subject      | sprint     | type    | parent |
       | Epic 1       | Sprint 001 | Epic       |        |
       | Task 1       | Sprint 002 | Task       | Epic 1 |
-   When I go to the edit page of the issue "Epic 1"
-    And I select "Sprint 003" from "issue_fixed_version_id"
+   When I go to the edit page of the work_package "Epic 1"
+    And I select "Sprint 003" from "work_package_fixed_version_id"
     And I press "Submit"
    Then I should see "Successful update." within "div.flash"
     And the task "Task 1" should have "Sprint 002" as its target version
@@ -165,8 +164,8 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       | subject | parent  |
       | Task 1  | Story A |
       | Task 2  | Story A |
-    When I go to the edit page of the issue "Story A"
-     And I select "Sprint 002" from "issue_fixed_version_id"
+    When I go to the edit page of the work_package "Story A"
+     And I select "Sprint 002" from "work_package_fixed_version_id"
      And I press "Submit"
     Then I should not see "Data has been updated by another user." within "div.flash"
      And the story "Story A" should have "Sprint 002" as its target version

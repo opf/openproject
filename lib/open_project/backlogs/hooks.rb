@@ -2,10 +2,10 @@ module OpenProject::Backlogs::Hooks
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
 
-    # this ought to be view_issues_sidebar_queries_bottom, but
+    # this ought to be view_work_packages_sidebar_queries_bottom, but
     # the entire queries toolbar is disabled if you don't have
     # custom queries
-    def view_issues_sidebar_planning_bottom(context={ })
+    def view_work_packages_sidebar_planning_bottom(context={ })
       locals = {}
       locals[:sprints] = context[:project] ? Sprint.open_sprints(context[:project]) : []
       locals[:project] = context[:project]
@@ -35,7 +35,7 @@ module OpenProject::Backlogs::Hooks
 
     def view_issues_show_details_bottom(context = {})
       return '' unless context[:work_package].project.module_enabled? 'backlogs'
-      return '' if context[:from] == 'OpenProject::Backlogs::IssueView::FieldsParagraph'
+      return '' if context[:from] == 'OpenProject::Backlogs::WorkPackageView::FieldsParagraph'
 
       work_package = context[:work_package]
 

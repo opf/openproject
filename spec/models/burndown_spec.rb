@@ -164,7 +164,7 @@ describe Burndown do
                                            :type => type_task,
                                            :status => issue_open,
                                            :remaining_hours => 18,
-                                           :parent_issue_id => @story.id,
+                                           :parent_id => @story.id,
                                            :priority => issue_priority,
                                            :created_at => Date.today - 20.days,
                                            :updated_at => Date.today - 20.days)

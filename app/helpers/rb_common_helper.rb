@@ -43,7 +43,7 @@ module RbCommonHelper
   end
 
   def modal_link_to(title, path, options = {})
-    html_id = "modal_issue_#{SecureRandom.hex(10)}"
+    html_id = "modal_work_package_#{SecureRandom.hex(10)}"
     link_to(title, path, options.merge(:id => html_id)) +
       javascript_tag("new Backlogs.ModalLink('#{html_id}')")
   end

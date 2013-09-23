@@ -5,7 +5,7 @@
   STORY
 ***************************************/
 RB.Story = (function ($) {
-  return RB.Object.create(RB.Issue, RB.EditableInplace, {
+  return RB.Object.create(RB.WorkPackage, RB.EditableInplace, {
     initialize: function (el) {
       this.$ = $(el);
       this.el = el;

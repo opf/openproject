@@ -1,7 +1,7 @@
 class Impediment < Task
   unloadable
 
-  extend OpenProject::Backlogs::Mixins::PreventIssueSti
+  extend OpenProject::Backlogs::Mixins::PreventWorkPackageSti
 
   after_save :update_blocks_list
 

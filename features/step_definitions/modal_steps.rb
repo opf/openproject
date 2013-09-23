@@ -17,6 +17,6 @@ When(/^I switch the modal window into edit mode$/) do
 end
 
 def safeguard_backlogs_modal_in_edit_mode
-  find_field("issue[description]", :visible => true)
+  find_field("work_package[description]", :visible => true)
 end
 

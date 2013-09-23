@@ -7,25 +7,25 @@ module OpenProject::Backlogs::Patches::QueryPatch
 
       include InstanceMethods
 
-      add_available_column(QueryColumn.new(:story_points, :sortable => "#{Issue.table_name}.story_points"))
-      add_available_column(QueryColumn.new(:remaining_hours, :sortable => "#{Issue.table_name}.remaining_hours"))
+      add_available_column(QueryColumn.new(:story_points, :sortable => "#{WorkPackage.table_name}.story_points"))
+      add_available_column(QueryColumn.new(:remaining_hours, :sortable => "#{WorkPackage.table_name}.remaining_hours"))
 
       add_available_column(QueryColumn.new(:position,
                                            :default_order => 'asc',
-                                           # Sort by position only, always show issues without a position at the end
-                                           :sortable => "CASE WHEN #{Issue.table_name}.position IS NULL THEN 1 ELSE 0 END ASC, #{Issue.table_name}.position"
+                                           # Sort by position only, always show work_packages without a position at the end
+                                           :sortable => "CASE WHEN #{WorkPackage.table_name}.position IS NULL THEN 1 ELSE 0 END ASC, #{WorkPackage.table_name}.position"
                                           ))
 
-      alias_method_chain :available_filters, :backlogs_issue_type
-      alias_method_chain :sql_for_field, :backlogs_issue_type
+      alias_method_chain :available_filters, :backlogs_work_package_type
+      alias_method_chain :sql_for_field, :backlogs_work_package_type
     end
   end
 
   module InstanceMethods
-    def available_filters_with_backlogs_issue_type
-      available_filters_without_backlogs_issue_type.tap do |filters|
+    def available_filters_with_backlogs_work_package_type
+      available_filters_without_backlogs_work_package_type.tap do |filters|
         if backlogs_configured? and backlogs_enabled?
-          filters["backlogs_issue_type"] = {
+          filters["backlogs_work_package_type"] = {
             :type => :list,
             :values => [[l(:story, :scope => [:backlogs]), "story"],
                         [l(:task, :scope => [:backlogs]), "task"],
@@ -37,9 +37,9 @@ module OpenProject::Backlogs::Patches::QueryPatch
       end
     end
 
-    def sql_for_field_with_backlogs_issue_type(field, operator, v, db_table, db_field, is_custom_filter=false)
-      if field == "backlogs_issue_type"
-        db_table = Issue.table_name
+    def sql_for_field_with_backlogs_work_package_type(field, operator, v, db_table, db_field, is_custom_filter=false)
+      if field == "backlogs_work_package_type"
+        db_table = WorkPackage.table_name
 
         sql = []
 
@@ -57,9 +57,9 @@ module OpenProject::Backlogs::Patches::QueryPatch
             sql << "(#{db_table}.type_id = #{Task.type} AND NOT #{db_table}.parent_id IS NULL)"
           when "impediment"
             sql << "(#{db_table}.id IN (
-                  select issue_from_id
+                  select work_package_from_id
                   FROM issue_relations ir
-                  JOIN issues blocked
+                  JOIN work_packages blocked
                   ON
                     blocked.id = ir.issue_to_id
                     AND blocked.type_id IN (#{all_types})
@@ -77,7 +77,7 @@ module OpenProject::Backlogs::Patches::QueryPatch
 
         sql
       else
-        sql_for_field_without_backlogs_issue_type(field, operator, v, db_table, db_field, is_custom_filter)
+        sql_for_field_without_backlogs_work_package_type(field, operator, v, db_table, db_field, is_custom_filter)
       end
     end
 

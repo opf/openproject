@@ -24,8 +24,8 @@ This plugin aims to be compatible with
 * ChiliProject 1.x
 * ChiliProject 2.1 and later
 
-If you are running into compatibility issues, please report a bug in the
-project's issue type.
+If you are running into compatibility work_packages, please report a bug in the
+project's work_package type.
 
 
 *Note:* ChiliProject Backlogs currently needs a core patch, to run on
@@ -85,7 +85,7 @@ You should be able to execute the tests with
     rake redmine:rspec:backlogs
     rake redmine:cucumber:backlogs RAILS_ENV=test
 
-If these instructions are insufficient, please open a ticket in the GitHub issue
+If these instructions are insufficient, please open a ticket in the GitHub work_package
 type with information, where you are stuck.
 
 

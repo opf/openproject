@@ -1,6 +1,6 @@
-Feature: The issue hierarchy between backlogs stories and backlogs tasks can not span project boundaries
+Feature: The work_package hierarchy between backlogs stories and backlogs tasks can not span project boundaries
   As a scrum user
-  I want to limit the issue hierarchy to not span project boundaries between backlogs stories and backlogs tasks
+  I want to limit the work_package hierarchy to not span project boundaries between backlogs stories and backlogs tasks
   So that I can manage stories more securely
 
   Background:
@@ -25,7 +25,7 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
         | edit_work_packages      |
         | manage_subtasks         |
         | create_tasks            |
-        | add_issues              |
+        | add_work_packages              |
         | add_work_packages       |
     And the backlogs module is initialized
     And the following types are configured to track stories:
@@ -37,7 +37,7 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
         | Task  |
         | Bug   |
     And the type "Task" has the default workflow for the role "scrum master"
-    And there are the following issue status:
+    And there are the following work_package status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
         | In Progress | false      | false       |
@@ -61,12 +61,12 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
 
   @javascript
   Scenario: Adding a task in the child project as a child to the story is inhibited
-   Given the project "parent_project" has the following issues:
+   Given the project "parent_project" has the following work_packages:
         | subject      | type    |
         | Story A      | Story      |
-   When I go to the issues/new page of the project called "child_project"
-    And I select "Task" from "issue_type_id"
-    And I fill in "Task 0815" for "issue_subject"
-    And I fill in the id of the issue "Story A" as the parent issue
+   When I go to the work_packages/new page of the project called "child_project"
+    And I select "Task" from "work_package_type_id"
+    And I fill in "Task 0815" for "work_package_subject"
+    And I fill in the id of the work_package "Story A" as the parent work_package
     And I click on the first button matching "Create"
-   Then I should be notified that the issue "Story A" is an invalid parent to the issue "Task 0815" because of cross project limitations
+   Then I should be notified that the work_package "Story A" is an invalid parent to the work_package "Task 0815" because of cross project limitations

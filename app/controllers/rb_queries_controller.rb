@@ -8,11 +8,11 @@ class RbQueriesController < RbApplicationController
     if params[:sprint_id]
         @query.add_filter("status_id", '*', ['']) # All statuses
         @query.add_filter("fixed_version_id", '=', [params[:sprint_id]])
-        @query.add_filter("backlogs_issue_type", '=', ['any'])
+        @query.add_filter("backlogs_work_package_type", '=', ['any'])
     else
         @query.add_filter("status_id", 'o', ['']) # only open
         @query.add_filter("fixed_version_id", '!*', ['']) # only unassigned
-        @query.add_filter("backlogs_issue_type", '=', ['story'])
+        @query.add_filter("backlogs_work_package_type", '=', ['story'])
     end
 
     column_names = @query.columns.collect{|col| col.name}

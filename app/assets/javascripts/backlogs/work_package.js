@@ -4,7 +4,7 @@
 /**************************************
   ISSUE
 ***************************************/
-RB.Issue = (function ($) {
+RB.WorkPackage = (function ($) {
   return RB.Object.create(RB.Model, {
 
     initialize: function (el) {
@@ -17,7 +17,7 @@ RB.Issue = (function ($) {
     },
 
     getType: function () {
-      return "Issue";
+      return "WorkPackage";
     },
 
     saveDragResult: function () {

@@ -4,15 +4,15 @@ describe Version do
   it { should have_many :version_settings }
 
   describe 'rebuild positions' do
-    def build_issue(options = {})
-      FactoryGirl.build(:issue, options.reverse_merge(:fixed_version_id => version.id,
+    def build_work_package(options = {})
+      FactoryGirl.build(:work_package, options.reverse_merge(:fixed_version_id => version.id,
                                                   :priority_id      => priority.id,
                                                   :project_id       => project.id,
                                                   :status_id        => status.id))
     end
 
-    def create_issue(options = {})
-      build_issue(options).tap { |i| i.save! }
+    def create_work_package(options = {})
+      build_work_package(options).tap { |i| i.save! }
     end
 
     let(:status)   { FactoryGirl.create(:issue_status)    }
@@ -31,7 +31,7 @@ describe Version do
       # around between tests. This should be fast enough to not harm anybody
       # while adding an additional safety net to make sure, that everything runs
       # in isolation.
-      Issue.delete_all
+      WorkPackage.delete_all
       IssuePriority.delete_all
       IssueStatus.delete_all
       Project.delete_all
@@ -44,59 +44,59 @@ describe Version do
                                  "task_type"   => task_type.id}
 
       # otherwise the type id's from the previous test are still active
-      Issue.instance_variable_set(:@backlogs_types, nil)
+      WorkPackage.instance_variable_set(:@backlogs_types, nil)
 
       project.types = [epic_type, story_type, task_type, other_type]
       version
     end
 
-    it 'moves an issue to a project where backlogs is disabled while using versions' do
+    it 'moves an work_package to a project where backlogs is disabled while using versions' do
       project2 = FactoryGirl.create(:project, :name => "Project 2")
       project2.enabled_module_names = project2.enabled_module_names - ["backlogs"]
       project2.save!
       project2.reload
 
-      issue1 = FactoryGirl.create(:issue, :type_id => task_type.id, :status_id => status.id, :project_id => project.id)
-      issue2 = FactoryGirl.create(:issue, :parent_issue_id => issue1.id, :type_id => task_type.id, :status_id => status.id, :project_id => project.id)
-      issue3 = FactoryGirl.create(:issue, :parent_issue_id => issue2.id, :type_id => task_type.id, :status_id => status.id, :project_id => project.id)
+      work_package1 = FactoryGirl.create(:work_package, :type_id => task_type.id, :status_id => status.id, :project_id => project.id)
+      work_package2 = FactoryGirl.create(:work_package, :parent_id => work_package1.id, :type_id => task_type.id, :status_id => status.id, :project_id => project.id)
+      work_package3 = FactoryGirl.create(:work_package, :parent_id => work_package2.id, :type_id => task_type.id, :status_id => status.id, :project_id => project.id)
 
-      issue1.reload
-      issue1.fixed_version_id = version.id
-      issue1.save!
+      work_package1.reload
+      work_package1.fixed_version_id = version.id
+      work_package1.save!
 
-      issue1.reload
-      issue2.reload
-      issue3.reload
+      work_package1.reload
+      work_package2.reload
+      work_package3.reload
 
-      issue3.move_to_project(project2)
+      work_package3.move_to_project(project2)
 
-      issue1.reload
-      issue2.reload
-      issue3.reload
+      work_package1.reload
+      work_package2.reload
+      work_package3.reload
 
-      issue2.move_to_project(project2)
+      work_package2.move_to_project(project2)
 
-      issue1.reload
-      issue2.reload
-      issue3.reload
+      work_package1.reload
+      work_package2.reload
+      work_package3.reload
 
-      issue3.project.should == project2
-      issue2.project.should == project2
-      issue1.project.should == project
+      work_package3.project.should == project2
+      work_package2.project.should == project2
+      work_package1.project.should == project
 
-      issue3.fixed_version_id.should be_nil
-      issue2.fixed_version_id.should be_nil
-      issue1.fixed_version_id.should == version.id
+      work_package3.fixed_version_id.should be_nil
+      work_package2.fixed_version_id.should be_nil
+      work_package1.fixed_version_id.should == version.id
     end
 
     it 'rebuilds postions' do
-      e1 = create_issue(:type_id => epic_type.id)
-      s2 = create_issue(:type_id => story_type.id)
-      s3 = create_issue(:type_id => story_type.id)
-      s4 = create_issue(:type_id => story_type.id)
-      s5 = create_issue(:type_id => story_type.id)
-      t3 = create_issue(:type_id => task_type.id)
-      o9 = create_issue(:type_id => other_type.id)
+      e1 = create_work_package(:type_id => epic_type.id)
+      s2 = create_work_package(:type_id => story_type.id)
+      s3 = create_work_package(:type_id => story_type.id)
+      s4 = create_work_package(:type_id => story_type.id)
+      s5 = create_work_package(:type_id => story_type.id)
+      t3 = create_work_package(:type_id => task_type.id)
+      o9 = create_work_package(:type_id => other_type.id)
 
       [e1, s2, s3, s4, s5].each(&:move_to_bottom)
 
@@ -109,12 +109,12 @@ describe Version do
 
       version.rebuild_positions(project)
 
-      issues = version.fixed_issues.find(:all, :conditions => {:project_id => project}, :order => 'COALESCE(position, 0) ASC, id ASC')
+      work_packages = version.fixed_work_packages.find(:all, :conditions => {:project_id => project}, :order => 'COALESCE(position, 0) ASC, id ASC')
 
-      issues.map(&:position).should == [nil, nil, 1, 2, 3, 4, 5]
-      issues.map(&:subject).should == [t3, o9, e1, s2, s5, s3, s4].map(&:subject)
+      work_packages.map(&:position).should == [nil, nil, 1, 2, 3, 4, 5]
+      work_packages.map(&:subject).should == [t3, o9, e1, s2, s5, s3, s4].map(&:subject)
 
-      issues.map(&:subject).uniq.size.should == 7 # makes sure, that all issue
+      work_packages.map(&:subject).uniq.size.should == 7 # makes sure, that all work_package
             # subjects are uniq, so that the above assertion works as expected
     end
   end

@@ -17,7 +17,7 @@ Feature: Backlog Settings
         | edit_project              |
         | manage_project_activities |
     And the user "padme" is a "project admin"
-    And there are the following issue status:
+    And there are the following work_package status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
         | In Progress | false      | false       |
@@ -27,7 +27,7 @@ Feature: Backlog Settings
     And I am already logged in as "padme"
 
   @javascript
-  Scenario: One can select which status indicate that an issue is done
+  Scenario: One can select which status indicate that an work_package is done
     Given there is 1 project with:
         | name  | parent  |
     And I am working in project "parent"

@@ -89,20 +89,20 @@ module OpenProject::Backlogs::Burndown
     end
 
     def find_interesting_stories
-      fixed_version_query = "(#{Issue.table_name}.fixed_version_id = ? OR journals.changed_data LIKE '%fixed_version_id: - ? - [0-9]+%' OR journals.changed_data LIKE '%fixed_version_id: - [0-9]+ - ?%')"
-      project_id_query = "(#{Issue.table_name}.project_id = ? OR journals.changed_data LIKE '%project_id: - ? - [0-9]+%' OR journals.changed_data LIKE '%project_id: - [0-9]+ - ?%')"
+      fixed_version_query = "(#{WorkPackage.table_name}.fixed_version_id = ? OR journals.changed_data LIKE '%fixed_version_id: - ? - [0-9]+%' OR journals.changed_data LIKE '%fixed_version_id: - [0-9]+ - ?%')"
+      project_id_query = "(#{WorkPackage.table_name}.project_id = ? OR journals.changed_data LIKE '%project_id: - ? - [0-9]+%' OR journals.changed_data LIKE '%project_id: - [0-9]+ - ?%')"
 
       types_string = "(#{collected_types.map{|i| "(#{i})"}.join("|")})"
-      type_id_query = "(#{Issue.table_name}.type_id in (?) OR journals.changed_data LIKE '%type_id: - #{types_string} - [0-9]+%' OR journals.changed_data LIKE '%type_id: - [0-9]+ - #{types_string}%')"
+      type_id_query = "(#{WorkPackage.table_name}.type_id in (?) OR journals.changed_data LIKE '%type_id: - #{types_string} - [0-9]+%' OR journals.changed_data LIKE '%type_id: - [0-9]+ - #{types_string}%')"
 
-      stories = Issue.all(:include    => :journals,
+      stories = WorkPackage.all(:include    => :journals,
                           :conditions => ["#{ fixed_version_query }" +
                                           " AND #{ project_id_query }" +
                                           " AND #{ type_id_query }",
                                           sprint.id, sprint.id, sprint.id,
                                           project.id, project.id, project.id,
                                           collected_types],
-                          :order => "#{Issue.table_name}.id")
+                          :order => "#{WorkPackage.table_name}.id")
 
       stories.delete_if do |s|
         s.fixed_version_id != sprint.id and
@@ -161,11 +161,11 @@ module OpenProject::Backlogs::Burndown
     end
 
     def story_is_closed?(story, date, details_by_prop, current_prop_index)
-      issue_status_by_id(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id"))).is_closed
+      work_package_status_by_id(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id"))).is_closed
     end
 
     def story_is_done?(story, date, details_by_prop, current_prop_index)
-      issue_status_done_for_project(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id")), project)
+      work_package_status_done_for_project(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id")), project)
     end
 
     def collected_from_children?(key, story)
@@ -188,20 +188,20 @@ module OpenProject::Backlogs::Burndown
       @collected_types ||= Story.types << Task.type
     end
 
-    def issue_status_by_id(status_id)
-      @issue_status_by_id ||= Hash.new do |hash, key|
+    def work_package_status_by_id(status_id)
+      @work_package_status_by_id ||= Hash.new do |hash, key|
         hash[key] = IssueStatus.find(key)
       end
 
-      @issue_status_by_id[status_id]
+      @work_package_status_by_id[status_id]
     end
 
-    def issue_status_done_for_project(status_id, project)
-      @issue_status_done_for_project ||= Hash.new do |hash, key|
-        hash[key] = issue_status_by_id(key).is_done?(project)
+    def work_package_status_done_for_project(status_id, project)
+      @work_package_status_done_for_project ||= Hash.new do |hash, key|
+        hash[key] = work_package_status_by_id(key).is_done?(project)
       end
 
-      @issue_status_done_for_project[status_id]
+      @work_package_status_done_for_project[status_id]
     end
 
     def story_has_children?(story)

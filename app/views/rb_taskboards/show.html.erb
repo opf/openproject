@@ -107,7 +107,7 @@
       <%= render :partial => "rb_impediments/impediment", :object => Impediment.new, :locals => {:project => @project} %>
     </div>
 
-    <div id="issue_editor"> </div>
+    <div id="work_package_editor"> </div>
     <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.blank? ? Time.now : @last_updated.updated_at) )  %></div>
     <div id="charts"> </div>
     <div id="preloader">

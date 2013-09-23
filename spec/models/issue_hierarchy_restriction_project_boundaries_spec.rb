@@ -95,7 +95,7 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
   before(:all) do
     @are_settings_cached = ActionController::Base.perform_caching
     ActionController::Base.perform_caching = false
-    Setting.cross_project_issue_relations = "1"
+    Setting.cross_project_work_package_relations = "1"
   end
 
   after(:all) do
@@ -344,7 +344,7 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
         it_should_behave_like "restricted hierarchy by enabling backlogs"
       end
 
-      describe "WITH a non backlogs issue as child" do
+      describe "WITH a non backlogs work_package as child" do
         let(:child) { bug2 }
 
         it_should_behave_like "unrestricted hierarchy even when enabling backlogs"
@@ -357,7 +357,7 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
       end
     end
 
-    describe "WITH a non-backlogs-issue as parent" do
+    describe "WITH a non-backlogs-work_package as parent" do
       let(:parent) { bug }
 
       describe "WITH a task as child" do
@@ -366,7 +366,7 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
         it_should_behave_like "unrestricted hierarchy even when enabling backlogs"
       end
 
-      describe "WITH a non backlogs issue as child" do
+      describe "WITH a non backlogs work_package as child" do
         let(:child) { bug2 }
 
         it_should_behave_like "unrestricted hierarchy even when enabling backlogs"

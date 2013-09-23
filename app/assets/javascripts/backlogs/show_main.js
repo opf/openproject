@@ -13,7 +13,7 @@ jQuery(function ($) {
     var selected = $(this).children(':selected');
     if (!defaultDialogColor) {
       // fetch the color from the task rendered as a prototype/template for new tasks
-      defaultDialogColor = $('#issue_').css('background-color');
+      defaultDialogColor = $('#work_package_').css('background-color');
     }
     $(this).parents('.ui-dialog').css('background-color', selected.attr('color') || defaultDialogColor);
   });

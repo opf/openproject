@@ -33,11 +33,11 @@ Feature: Shared Versions
     And there is a role "project admin"
     And the role "project admin" may have the following rights:
         | manage_versions   |
-        | view_issues       |
+        | view_work_packages    |
         | view_master_backlog   |
         | create_stories        |
         | update_stories        |
-        | edit_issues           |
+        | edit_work_packages    |
         | manage_subtasks       |
     And the user "padme" is a "project admin"
     And the project has the following sprints:

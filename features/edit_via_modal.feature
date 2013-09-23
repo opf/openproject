@@ -1,4 +1,4 @@
-Feature: Edit issue via modal box
+Feature: Edit work_package via modal box
 
   Background:
     Given there is 1 project with:
@@ -46,11 +46,11 @@ Feature: Edit issue via modal box
     And I am already logged in as "markus"
 
   @javascript
-  Scenario: Edit issue via modal box
+  Scenario: Edit work_package via modal box
     When I go to the master backlog
     And I open the modal window for the story "Story A"
     And I switch the modal window into edit mode
-    And fill in "Story A changed" for "issue_subject"
+    And fill in "Story A changed" for "work_package_subject"
     And I follow "Save"
     And I go to the master backlog
 

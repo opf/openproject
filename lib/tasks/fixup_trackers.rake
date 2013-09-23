@@ -23,7 +23,7 @@ namespace :redmine do
       puts "Task type: #{task_type.name} (#{task_type_id})"
 
       projects.each do |project|
-        Issue.find(:all, :conditions => ["not parent_id is null and project_id = #{project.id}"]).each do |work_package|
+        WorkPackage.find(:all, :conditions => ["not parent_id is null and project_id = #{project.id}"]).each do |work_package|
           if work_package.type_id != task_type_id
             puts "Making work_package #{work_package.subject} (#{work_package.id}) into a task"
             work_package.type_id = task_type_id

@@ -133,7 +133,7 @@ describe Story do
                 WITH one beeing the child of the other" do
 
         before(:each) do
-          story1.parent_issue_id = story2.id
+          story1.parent_id = story2.id
 
           story1.save
         end
@@ -146,7 +146,7 @@ describe Story do
                 WITH the story having a child task" do
 
         before(:each) do
-          task.parent_issue_id = story1.id
+          task.parent_id = story1.id
 
           task.save
         end
@@ -180,20 +180,20 @@ describe Story do
                                        :priority => issue_priority)
       @story.project.enabled_module_names += ["backlogs"]
 
-      @issue ||= FactoryGirl.create(:issue, :project => project, :status => issue_status1, :type => type_feature, :author => @current)
+      @work_package ||= FactoryGirl.create(:work_package, :project => project, :status => issue_status1, :type => type_feature, :author => @current)
     end
 
     it "should create a journal when adding a subtask which has remaining hours set" do
-      @issue.remaining_hours = 15.0
-      @issue.parent_issue_id = @story.id
-      @issue.save!
+      @work_package.remaining_hours = 15.0
+      @work_package.parent_id = @story.id
+      @work_package.save!
 
       @story.journals.last["changed_data"]["remaining_hours"].should == [nil, 15]
     end
 
     it "should not create an empty journal when adding a subtask without remaining hours set" do
-      @issue.parent_issue_id  = @story.id
-      @issue.save!
+      @work_package.parent_id  = @story.id
+      @work_package.save!
 
       @story.journals.last["changed_data"]["remaining_hours"].should be_nil
     end

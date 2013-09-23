@@ -11,7 +11,7 @@ describe Impediment do
                                     :author => user,
                                     :priority => issue_priority,
                                     :status => issue_status1) }
-  let(:feature) { FactoryGirl.build(:issue, :type => type_feature,
+  let(:feature) { FactoryGirl.build(:work_package, :type => type_feature,
                                         :project => project,
                                         :author => user,
                                         :priority => issue_priority,
@@ -122,7 +122,7 @@ describe Impediment do
 
           it_should_behave_like "impediment creation with no blocking relationship"
           it { @impediment.should be_new_record }
-          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
 
         describe "WITH the story being non existent" do
@@ -137,7 +137,7 @@ describe Impediment do
 
           it_should_behave_like "impediment creation with no blocking relationship"
           it { @impediment.should be_new_record }
-          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
       end
 
@@ -153,7 +153,7 @@ describe Impediment do
 
         it_should_behave_like "impediment creation with no blocking relationship"
         it { @impediment.should be_new_record }
-        it { @impediment.errors[:blocks_ids].should include I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+        it { @impediment.errors[:blocks_ids].should include I18n.t(:must_block_at_least_one_work_package, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
       end
     end
   end
@@ -200,7 +200,7 @@ describe Impediment do
 
       describe "WHEN changing the blocking relationship to another story" do
         before(:each) do
-          @story = FactoryGirl.build(:issue, :subject => "another story",
+          @story = FactoryGirl.build(:work_package, :subject => "another story",
                                          :type => type_feature,
                                          :project => project,
                                          :author => user,
@@ -234,7 +234,7 @@ describe Impediment do
           it "should not be saved successfully" do
             @saved.should be_false
           end
-          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
 
         describe "WITH the story beeing non existent" do
@@ -248,7 +248,7 @@ describe Impediment do
           it "should not be saved successfully" do
             @saved.should be_false
           end
-          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
       end
 
@@ -264,7 +264,7 @@ describe Impediment do
           @saved.should be_false
         end
 
-        it { @impediment.errors[:blocks_ids].should include I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
+        it { @impediment.errors[:blocks_ids].should include I18n.t(:must_block_at_least_one_work_package, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
       end
     end
 

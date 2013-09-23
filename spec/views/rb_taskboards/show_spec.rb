@@ -172,7 +172,7 @@ describe 'rb_taskboards/show' do
       impediment
       render
 
-      assert_select ".model.issue.task" do |task|
+      assert_select ".model.work_package.task" do |task|
         task.should_not have_css '.task.prevent_edit'
       end
     end
@@ -184,7 +184,7 @@ describe 'rb_taskboards/show' do
 
       render
 
-      assert_select ".model.issue.task" do |task|
+      assert_select ".model.work_package.task" do |task|
         task.should have_css '.task.prevent_edit'
       end
     end
@@ -196,7 +196,7 @@ describe 'rb_taskboards/show' do
 
       render
 
-      assert_select ".model.issue.impediment" do |impediment|
+      assert_select ".model.work_package.impediment" do |impediment|
         impediment.should_not have_css '.impediment.prevent_edit'
       end
     end
@@ -208,7 +208,7 @@ describe 'rb_taskboards/show' do
 
       render
 
-      assert_select ".model.issue.impediment" do |impediment|
+      assert_select ".model.work_package.impediment" do |impediment|
         impediment.should have_css '.impediment.prevent_edit'
       end
     end

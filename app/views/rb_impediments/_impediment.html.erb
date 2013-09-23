@@ -1,5 +1,5 @@
 <% prevent_edit = User.current.allowed_to?(:update_impediments, defined?(project) ? project : impediment.project) ? '' : 'prevent_edit'%>
-<div class="model issue impediment <%= prevent_edit %><%= mark_if_closed(impediment) %>" id="issue_<%= impediment.id %>" <%= build_inline_style(impediment) %>>
+<div class="model work_package impediment <%= prevent_edit %><%= mark_if_closed(impediment) %>" id="work_package_<%= impediment.id %>" <%= build_inline_style(impediment) %>>
   <div class="id">
     <div class="t"><%= work_package_link_or_empty(impediment) %></div>
     <div class="v"><%= id_or_empty(impediment) %></div>

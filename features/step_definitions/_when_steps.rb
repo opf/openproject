@@ -14,10 +14,10 @@ When /^I create the task$/ do
 end
 
 When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subject, prev_subject|
-  issue_class, controller_name =
+  work_package_class, controller_name =
     if type.strip == "task" then [Task, "rb_tasks"] else [Story, "rb_stories"] end
-  story = issue_class.find(:first, :conditions => ["subject=?", story_subject.strip])
-  prev  = issue_class.find(:first, :conditions => ["subject=?", prev_subject.strip])
+  story = work_package_class.find(:first, :conditions => ["subject=?", story_subject.strip])
+  prev  = work_package_class.find(:first, :conditions => ["subject=?", prev_subject.strip])
 
   attributes = story.attributes
   attributes[:prev]             = prev.id
@@ -97,12 +97,12 @@ When /^I view the master backlog$/ do
   click_link("Backlogs")
 end
 
-When /^I view the stories of (.+) in the issues tab/ do |sprint_name|
+When /^I view the stories of (.+) in the work_packages tab/ do |sprint_name|
   sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
   visit url_for(:controller => '/rb_queries', :action => :show, :project_id => sprint.project, :sprint_id => sprint)
 end
 
-When /^I view the stories in the issues tab/ do
+When /^I view the stories in the work_packages tab/ do
   visit url_for(:controller => '/rb_queries', :action => :show, :project_id => @project)
 end
 
@@ -147,7 +147,7 @@ When /^I confirm the story form$/ do
   step 'I should not see ".saving"'
 end
 
-When /^I fill in the ids of the (tasks|issues|stories) "(.+?)" for "(.+?)"$/ do |model_name, subjects, field|
+When /^I fill in the ids of the (tasks|work_packages|stories) "(.+?)" for "(.+?)"$/ do |model_name, subjects, field|
   model = Kernel.const_get(model_name.classify)
   ids = subjects.split(/,/).collect { |subject| model.find_by_subject(subject).id }
 
@@ -164,13 +164,13 @@ When /^I click to add a new task for story "(.+?)"$/ do |story_name|
   page.all(:css, "tr.story_#{story.id} td.add_new").last.click
 end
 
-When /^I fill in the id of the issue "(.+?)" as the parent issue$/ do |issue_name|
-  issue = Issue.find_by_subject(issue_name)
+When /^I fill in the id of the work_package "(.+?)" as the parent work_package$/ do |work_package_name|
+  work_package = Issue.find_by_subject(work_package_name)
 
   # simplify once the work_package#edit/update action is implemented
-  find('#work_package_parent_issue_id, #issue_parent_issue_id', visible: false).set(issue.id)
+  find('#work_package_parent_id, #work_package_parent_id', visible: false).set(work_package.id)
 
-  #step %Q{I fill in "#{issue.id}" for "work_package_parent_issue_id"}
+  #step %Q{I fill in "#{work_package.id}" for "work_package_parent_id"}
 end
 
 When /^the request on task "(.+?)" is finished$/ do |task_name|
@@ -185,6 +185,6 @@ When /^I follow the link to add a subtask$/ do
     step 'I follow "Add subtask"'
   rescue Capybara::ElementNotFound
     # old layout
-    step 'I follow "Add" within "#issue_tree"'
+    step 'I follow "Add" within "#work_package_tree"'
   end
 end

@@ -1,7 +1,7 @@
 activities: {Other: Development, Undefined: Development}
 clear: true
 roles: {member: Teamlid}
-issue_types:
+work_package_types:
   Impediment:
     states: {closed: Closed, open: New}
     type: Impediment

@@ -3,7 +3,7 @@
 
 /***************************************
   MODEL
-  Common methods for sprint, issue,
+  Common methods for sprint, work_package,
   story, task, and impediment
 ***************************************/
 
@@ -417,7 +417,7 @@ RB.Model = (function ($) {
         }
       });
 
-      // Mark the issue as closed if so
+      // Mark the work_package as closed if so
       self.markIfClosed();
 
       // Get the save directives.

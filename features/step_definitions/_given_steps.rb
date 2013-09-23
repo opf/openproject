@@ -133,7 +133,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
 
   table.hashes.each do |story|
     params = initialize_story_params(project)
-    params['parent'] = Issue.find_by_subject(story['parent'])
+    params['parent'] = WorkPackage.find_by_subject(story['parent'])
     params['subject'] = story['subject']
     params['prev_id'] = prev_id
     params['fixed_version_id'] = Version.find_by_name(story['sprint'] || story['backlog']).id
@@ -169,16 +169,16 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following tasks:$/ do |project_na
   end
 end
 
-Given /^the [pP]roject(?: "([^\"]*)")? has the following issues:$/ do |project_name, table|
+Given /^the [pP]roject(?: "([^\"]*)")? has the following work_packages:$/ do |project_name, table|
   project = get_project(project_name)
 
   User.current = User.find(:first)
 
   as_admin do
     table.hashes.each do |task|
-      parent = Issue.find(:first, :conditions => { :subject => task['parent'] })
+      parent = WorkPackage.find(:first, :conditions => { :subject => task['parent'] })
       type = Type.find_by_name(task['type'])
-      params = initialize_issue_params(project, type, parent)
+      params = initialize_work_package_params(project, type, parent)
       params['subject'] = task['subject']
       version = Version.find_by_name(task['sprint'] || task['backlog'])
       params['fixed_version_id'] = version.id if version
@@ -186,9 +186,9 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following issues:$/ do |project_n
       # NOTE: We're bypassing the controller here because we're just
       # setting up the database for the actual tests. The actual tests,
       # however, should NOT bypass the controller
-      issue = Issue.new
-      issue.force_attributes = params
-      issue.save!
+      work_package = WorkPackage.new
+      work_package.force_attributes = params
+      work_package.save!
     end
   end
 end
@@ -280,7 +280,7 @@ Given /^the following types are configured to track stories:$/ do |table|
   end
 
   # otherwise the type id's from the previous test are still active
-  Issue.instance_variable_set(:@backlogs_types, nil)
+  WorkPackage.instance_variable_set(:@backlogs_types, nil)
 
   Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("story_types" => story_types.map(&:id))
 end
@@ -298,8 +298,8 @@ Given /^the [tT]racker(?: "([^\"]*)")? has for the Role "(.+?)" the following wo
   type.save!
 end
 
-Given /^the status of "([^"]*)" is "([^"]*)"$/ do |issue_subject, status_name|
-  s = Issue.find_by_subject(issue_subject)
+Given /^the status of "([^"]*)" is "([^"]*)"$/ do |work_package_subject, status_name|
+  s = WorkPackage.find_by_subject(work_package_subject)
   s.status = IssueStatus.find_by_name(status_name)
   s.save!
 end

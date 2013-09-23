@@ -81,11 +81,11 @@ Feature: Team Member
      Then I should see the burndown chart for sprint "Sprint 002"
 
   @javascript
-  Scenario: View the burndown chart from the issue index page
-  #using this way because there is a bug in the issues page:
+  Scenario: View the burndown chart from the work_package index page
+  #using this way because there is a bug in the work_packages page:
   #the sidebar is not updated on applying filters
   #hence the parameters needed for showing the "Burndown Chart" link
-  #do not apply when issue index is initially opened and the bug prevent the link
+  #do not apply when work_package index is initially opened and the bug prevent the link
   #from appearing when they do
     Given I am on the master backlog
       And I open the "Sprint 002" backlogs menu
@@ -100,15 +100,15 @@ Feature: Team Member
      When I follow "Burndown Chart"
      Then I should see the burndown chart for sprint "Sprint 002"
 
-  Scenario: View sprint stories in the issues tab
+  Scenario: View sprint stories in the work_packages tab
     Given I am on the master backlog
-     When I view the stories of Sprint 001 in the issues tab
-     Then I should see the Issues page
+     When I view the stories of Sprint 001 in the work_packages tab
+     Then I should see the WorkPackages page
 
-  Scenario: View the project stories in the issues tab
+  Scenario: View the project stories in the work_packages tab
     Given I am on the master backlog
-     When I view the stories in the issues tab
-     Then I should see the Issues page
+     When I view the stories in the work_packages tab
+     Then I should see the WorkPackages page
 
   Scenario: Copy estimate to remaining
     Given I am on the taskboard for "Sprint 001"

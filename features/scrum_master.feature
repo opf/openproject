@@ -32,7 +32,7 @@ Feature: Scrum Master
         | Epic  |
         | Task  |
         | Bug   |
-    And there are the following issue status:
+    And there are the following work_package status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
         | In Progress | false      | false       |
@@ -74,7 +74,7 @@ Feature: Scrum Master
     And the project has the following impediments:
         | subject      | sprint     | blocks     |
         | Impediment 1 | Sprint 001 | Story A    |
-    And the project has the following issues:
+    And the project has the following work_packages:
         | subject      | sprint     | type    |
         | Epic 1       | Sprint 005 | Epic       |
     And the project has the following stories in the following sprints:
@@ -88,7 +88,7 @@ Feature: Scrum Master
         | Subtask 1    | Sprint 005 | Task 10    |
         | Subtask 2    | Sprint 005 | Task 10    |
         | Subtask 3    | Sprint 005 | Task 11    |
-    And the project has the following issues:
+    And the project has the following work_packages:
         | subject      | sprint     | parent     | type    |
         | Subfeature   | Sprint 005 | Task 10    | Bug        |
         | Subsubtask   | Sprint 005 | Subfeature | Task       |
@@ -116,7 +116,7 @@ Feature: Scrum Master
     And the impediment "Bad Company" should signal successful saving
 
   @javascript
-  Scenario: Create an impediment blocking an issue of another sprint
+  Scenario: Create an impediment blocking an work_package of another sprint
     Given I am on the taskboard for "Sprint 001"
     When I click on the element with class "add_new" within "#impediments"
     And I fill in "Bad Company" for "subject"
@@ -128,7 +128,7 @@ Feature: Scrum Master
     And the error alert should show "Blocks can only contain the IDs of current sprint's tickets"
 
   @javascript
-  Scenario: Create an impediment blocking a non existent issue
+  Scenario: Create an impediment blocking a non existent work_package
     Given I am on the taskboard for "Sprint 001"
     When I click on the element with class "add_new" within "#impediments"
     And I fill in "Bad Company" for "subject"
@@ -162,7 +162,7 @@ Feature: Scrum Master
     And the impediment "Bad Company" should signal successful saving
 
   @javascript
-  Scenario: Update an impediment to block an issue of another sprint
+  Scenario: Update an impediment to block an work_package of another sprint
     Given I am on the taskboard for "Sprint 001"
     When I click on the impediment called "Impediment 1"
     And I fill in "Bad Company" for "subject"
@@ -173,7 +173,7 @@ Feature: Scrum Master
     And the error alert should show "Blocks can only contain the IDs of current sprint's tickets"
 
   @javascript
-  Scenario: Update an impediment to block a non existent issue
+  Scenario: Update an impediment to block a non existent work_package
     Given I am on the taskboard for "Sprint 001"
     When I click on the impediment called "Impediment 1"
     And I fill in "Bad Company" for "subject"
@@ -232,7 +232,7 @@ Feature: Scrum Master
   Scenario: Download printable cards for the task board
     Given I have selected card label stock Avery 8435B
       And I move the story named Story 4 up to the 1st position of the sprint named Sprint 001
-      And I am on the issues index page
+      And I am on the work_packages index page
       And I follow "Sprint 001"
      Then the request should complete successfully
      When I follow "Export cards"
@@ -272,8 +272,8 @@ Feature: Scrum Master
      And Story D should be in the 2nd position of the sprint named Sprint 005
      And Story E should be the higher item of Story D
 
-  Scenario: View epic, stories, tasks, subtasks in the issue list
-   Given I am on the issues index page
+  Scenario: View epic, stories, tasks, subtasks in the work_package list
+   Given I am on the work_packages index page
     Then I should see "Epic 1" within "#content"
      And I should see "Story D" within "#content"
      And I should see "Story E" within "#content"

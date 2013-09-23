@@ -2,23 +2,23 @@
 en:
   activerecord:
     attributes:
-      issue:
+      work_package:
         position: "Position"
         remaining_hours: "Remaining Hours"
         story_points: "Story Points"
-        backlogs_issue_type: "Backlog type"
+        backlogs_work_package_type: "Backlog type"
 
     errors:
       models:
-        issue:
+        work_package:
           attributes:
             blocks_ids:
-              can_only_contain_issues_of_current_sprint: "can only contain the IDs of current sprint's tickets"
-              must_block_at_least_one_issue: "must contain the ID of at least one ticket"
+              can_only_contain_work_packages_of_current_sprint: "can only contain the IDs of current sprint's tickets"
+              must_block_at_least_one_work_package: "must contain the ID of at least one ticket"
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the story's version"
-            parent_issue_id:
-              parent_child_relationship_across_projects: "is invalid because the issue '%{issue_name}' is a backlogs task and as such can not have the backlogs story '%{parent_name}' as it´s parent as long as the story is in a different project"
+            parent_id:
+              parent_child_relationship_across_projects: "is invalid because the work_package '%{work_package_name}' is a backlogs task and as such can not have the backlogs story '%{parent_name}' as it´s parent as long as the story is in a different project"
               type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}"
         sprint:
           cannot_end_before_it_starts: "Sprint cannot end before it starts"
@@ -37,7 +37,7 @@ en:
     generating_chart: "Generating Graph..."
     hours: "Hours"
     impediment: "Impediment"
-    issue_is_closed: "Issue is done, when"
+    work_package_is_closed: "Issue is done, when"
     no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
     points: "Points"
     positions_could_not_be_rebuilt: "Positions could not be rebuild."
@@ -97,7 +97,7 @@ en:
   label_chart_options: "Chart Options"
   label_column_in_backlog: "Column in backlog"
   label_hours: "hours"
-  label_issue_hierarchy: "Issue Hierarchy"
+  label_work_package_hierarchy: "Issue Hierarchy"
   label_master_backlog: "Master Backlog"
   label_not_prioritized: "not prioritized"
   label_points: "points"
@@ -136,8 +136,8 @@ en:
   required_burn_rate_hours: "required burn rate (hours)"
   required_burn_rate_points: "required burn rate (points)"
 
-  todo_issue_description: "%{summary}: %{url}\n%{description}"
-  todo_issue_summary: "%{type}: %{summary}"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_summary: "%{type}: %{summary}"
 
   version_settings_display_label: "Column in backlog"
   version_settings_display_option_left: "left"

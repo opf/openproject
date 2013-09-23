@@ -6,7 +6,7 @@
 ***************************************/
 
 RB.Task = (function ($) {
-  return RB.Object.create(RB.Issue, {
+  return RB.Object.create(RB.WorkPackage, {
 
     initialize: function (el) {
       this.$ = $(el);
@@ -49,7 +49,7 @@ RB.Task = (function ($) {
       cellId = this.$.parent('td').first().attr('id').split("_");
 
       data = this.$.find('.editor').serialize() +
-                 "&parent_issue_id=" + cellId[0] +
+                 "&parent_id=" + cellId[0] +
                  "&status_id=" + cellId[1] +
                  "&prev=" + (prev.length === 1 ? prev.data('this').getID() : '') +
                  (this.isNew() ? "" : "&id=" + this.$.children('.id').text());

@@ -21,7 +21,7 @@ Then /^I should see the burndown chart for sprint "(.+?)"$/ do |sprint|
   page.should have_css("#burndown_#{sprint.id.to_s}")
 end
 
-Then /^I should see the Issues page$/ do
+Then /^I should see the WorkPackages page$/ do
   page.should have_css("#query_form")
 end
 
@@ -69,12 +69,12 @@ Then /^show me the list of stories$/ do
 end
 
 Then /^(.+) should be the higher (story|item|task) of (.+)$/ do |higher_subject, type, lower_subject|
-  issue_class = (type == 'task') ? Task : Story
+  work_package_class = (type == 'task') ? Task : Story
 
-  higher = issue_class.find(:all, :conditions => { :subject => higher_subject })
+  higher = work_package_class.find(:all, :conditions => { :subject => higher_subject })
   higher.length.should == 1
 
-  lower = issue_class.find(:all, :conditions => { :subject => lower_subject })
+  lower = work_package_class.find(:all, :conditions => { :subject => lower_subject })
   lower.length.should == 1
 
   if type == "task"
@@ -109,12 +109,12 @@ end
 
 Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should have the ID of "(.+?)"$/ do |position, version_name, subject|
   version = Version.find_by_name(version_name)
-  actual_story = Issue.find_by_subject_and_fixed_version_id(subject, version)
+  actual_story = WorkPackage.find_by_subject_and_fixed_version_id(subject, version)
   step %%I should see "#{actual_story.id}" within "#backlog_#{version.id} .story:nth-child(#{position}) .id div.t"%
 end
 
 Then /^all positions should be unique for each version$/ do
-  Story.find_by_sql("select project_id, fixed_version_id, position, count(*) as dups from #{Issue.table_name} where not position is NULL group by project_id, fixed_version_id, position having count(*) > 1").length.should == 0
+  Story.find_by_sql("select project_id, fixed_version_id, position, count(*) as dups from #{WorkPackage.table_name} where not position is NULL group by project_id, fixed_version_id, position having count(*) > 1").length.should == 0
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, story_subject, task_subject|
@@ -205,9 +205,9 @@ Then /^the wiki page (.+) should contain (.+)$/ do |title, content|
   raise "\"#{content}\" not found on page \"#{title}\"" unless page.content.text.match(/#{content}/)
 end
 
-Then /^(issue|task|story) (.+) should have (.+) set to (.+)$/ do |type, subject, attribute, value|
-  issue = Issue.find_by_subject(subject)
-  issue[attribute].should == value.to_i
+Then /^(work_package|task|story) (.+) should have (.+) set to (.+)$/ do |type, subject, attribute, value|
+  work_package = WorkPackage.find_by_subject(subject)
+  work_package[attribute].should == value.to_i
 end
 
 Then /^the error alert should show "(.+?)"$/ do |msg|
@@ -226,11 +226,11 @@ Then /^I should see "(.+?)" as a task to story "(.+?)"$/ do |task_name, story_na
   step %{I should see "#{task_name}" within "tr.story_#{story.id}"}
 end
 
-Then /^the (?:issue|task|story) "(.+?)" should have "(.+?)" as its target version$/ do |task_name, version_name|
-  issue = Issue.find_by_subject(task_name)
+Then /^the (?:work_package|task|story) "(.+?)" should have "(.+?)" as its target version$/ do |task_name, version_name|
+  work_package = WorkPackage.find_by_subject(task_name)
   version = Version.find_by_name(version_name)
 
-  issue.fixed_version.should eql version
+  work_package.fixed_version.should eql version
 end
 
 Then /^there should not be a saving error on task "(.+?)"$/ do |task_name|
@@ -239,6 +239,6 @@ Then /^there should not be a saving error on task "(.+?)"$/ do |task_name|
   task_div[:class].should_not include("error")
 end
 
-Then /^I should be notified that the issue "(.+?)" is an invalid parent to the issue "(.+?)" because of cross project limitations$/ do |parent_name, child_name|
-  step %Q{I should see "#{Issue.human_attribute_name(:parent_issue)} is invalid because the issue '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it´s parent as long as the story is in a different project" within "#errorExplanation"}
+Then /^I should be notified that the work_package "(.+?)" is an invalid parent to the work_package "(.+?)" because of cross project limitations$/ do |parent_name, child_name|
+  step %Q{I should see "#{WorkPackage.human_attribute_name(:parent_work_package)} is invalid because the work_package '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it´s parent as long as the story is in a different project" within "#errorExplanation"}
 end

@@ -14,7 +14,7 @@ end
 def initialize_task_params(project, story, user = User.find(:first))
   params = HashWithIndifferentAccess.new
   params['type_id'] = Task.type
-  params['parent_issue_id']  = story.id if story
+  params['parent_id']  = story.id if story
   params['status_id'] = IssueStatus.find(:first).id
 
   # unsafe attributes that will not be used directly but added for your
@@ -26,10 +26,10 @@ def initialize_task_params(project, story, user = User.find(:first))
   params
 end
 
-def initialize_issue_params(project, type = Type.find(:first), parent = nil, user = User.find(:first))
+def initialize_work_package_params(project, type = Type.find(:first), parent = nil, user = User.find(:first))
   params = HashWithIndifferentAccess.new
   params['type_id'] = type.id
-  params['parent_issue_id']  = parent.id if parent
+  params['parent_id']  = parent.id if parent
   params['status_id'] = IssueStatus.find(:first).id
 
   # unsafe attributes that will not be used directly but added for your
