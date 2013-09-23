@@ -143,10 +143,10 @@ describe CostQuery, :reporting_query_helper => true do
         @query.result.count.should == 3
       end
 
-      it "filters tracker" do
-        matching_tracker = project.trackers.first
-        create_work_packages_and_time_entries(3, :tracker => matching_tracker)
-        @query.filter :tracker_id, :operator => '=', :value => matching_tracker.id
+      it "filters types" do
+        matching_type = project.types.first
+        create_work_packages_and_time_entries(3, :type => matching_type)
+        @query.filter :type_id, :operator => '=', :value => matching_type
         @query.result.count.should == 3
       end
 
@@ -217,7 +217,7 @@ describe CostQuery, :reporting_query_helper => true do
       CostQuery::Filter::AuthorId,
       CostQuery::Filter::ActivityId,
       CostQuery::Filter::PriorityId,
-      CostQuery::Filter::TrackerId
+      CostQuery::Filter::TypeId
     ].each do |filter|
       it "should only allow default operators for #{filter}" do
         filter.new.available_operators.uniq.sort.should == CostQuery::Operator.default_operators.uniq.sort

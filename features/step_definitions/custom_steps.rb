@@ -2,7 +2,7 @@ Given /^there is a standard permission test project named "([^\"]*)"$/ do |name|
   steps %Q{
     Given there is 1 project with the following:
       | Name | #{name}           |
-    And the project "#{name}" has the following trackers:
+    And the project "#{name}" has the following types:
       | name | position |
       | Bug  |     1    |
     And the project "#{name}" has 1 work_package with:

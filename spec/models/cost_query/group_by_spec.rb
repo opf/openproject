@@ -92,8 +92,8 @@ describe CostQuery, :reporting_query_helper => true do
       @query.result.size.should == 4
     end
 
-    it "should compute group_by Tracker" do
-      @query.group_by :tracker_id
+    it "should compute group_by Type" do
+      @query.group_by :type_id
       @query.result.size.should == 1
     end
 
@@ -122,14 +122,14 @@ describe CostQuery, :reporting_query_helper => true do
     # TODO: ?
     it "should compute multiple group_by with joins" do
       @query.group_by :project_id
-      @query.group_by :tracker_id
+      @query.group_by :type_id
       sql_result = @query.result
       sql_result.size.should == 1
-      # for each tracker the number of projects should be correct
+      # for each type the number of projects should be correct
       sql_sizes = []
       sql_result.each do |sub_result|
-        # tracker should be the outmost group_by
-        sub_result.fields.should include(:tracker_id)
+        # type should be the outmost group_by
+        sub_result.fields.should include(:type_id)
         sql_sizes.push sub_result.size
         sub_result.each { |sub_sub_result| sub_sub_result.fields.should include(:project_id) }
       end
@@ -143,7 +143,7 @@ describe CostQuery, :reporting_query_helper => true do
       @query.group_by :activity_id
       @query.group_by :spent_on
       @query.group_by :tweek
-      @query.group_by :tracker_id
+      @query.group_by :type_id
       @query.group_by :tmonth
       @query.group_by :tyear
 
