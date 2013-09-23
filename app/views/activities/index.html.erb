@@ -37,8 +37,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <h3><%= format_activity_day(day) %></h3>
     <dl>
       <% @events_by_day[day].sort {|x,y| y.data.event_datetime <=> x.data.event_datetime }.each do |e| -%>
-        <dt class="<%= e.data.event_type %>  <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
-          <%= avatar(e.event_author, :size => "24") if e.respond_to?(:event_author) %>
+        <dt class="<%= e.data.event_type %>  <%= User.current.logged? && e.data.respond_to?(:event_author) && User.current == e.data.event_author ? 'me' : nil %>">
+          <%= avatar(e.data.event_author, :size => "24") if e.data.respond_to?(:event_author) %>
           <span class="time"><%= format_time(e.data.event_datetime, false) %></span>
           <%= content_tag('span', h(e.project), :class => 'project') if @project.nil? || @project != e.project %>
           <%= link_to format_activity_title(e.data.event_title), e.data.event_url %>
