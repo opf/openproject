@@ -18,7 +18,6 @@ class CreateMeetingJournals < ActiveRecord::Migration
       t.string   :location
       t.datetime :start_time
       t.float    :duration
-      t.timestamps
     end
 
     create_table :meeting_content_journals do |t|
@@ -26,9 +25,6 @@ class CreateMeetingJournals < ActiveRecord::Migration
       t.integer  :meeting_id
       t.integer  :author_id
       t.text     :text
-      t.integer  :lock_version
-      t.boolean  :locked
-      t.timestamps
     end
   end
 end

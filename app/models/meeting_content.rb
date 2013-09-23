@@ -25,6 +25,7 @@ class MeetingContent < ActiveRecord::Base
   acts_as_journalized :activity_type => 'meetings',
     :activity_permission => :view_meetings,
     :activity_find_options => {:include => {:meeting => :project}},
+    :event_type => Proc.new {|o| "#{o.journal.journable.class.to_s.underscore.dasherize}"},
     :event_title => Proc.new {|o| "#{o.journal.journable.class.model_name.human}: #{o.journal.journable.meeting.title}"},
     :event_url => Proc.new {|o| {:controller => '/meetings', :action => 'show', :id => o.journal.journable.meeting}}
 
@@ -52,10 +53,10 @@ class MeetingContent < ActiveRecord::Base
   end
 
   def at_version(version)
-    # TODO: instead of retrieving all versions and filtering them, we should just select the single version
-    # from the db - as a start, something using find_by_version could be used
-    versions = journals.select {|journal| journal.journable.type == self.class.to_s }
-    versions[version.to_i - 1].data
+    journals
+    .joins("JOIN meeting_contents ON meeting_contents.id = journals.journable_id AND meeting_contents.type='#{self.class.to_s}'")
+    .where(:version => 1)
+    .first.data
   end
 
   # Compatibility for mailer.rb

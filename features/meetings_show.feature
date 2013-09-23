@@ -122,7 +122,6 @@ Feature: Show meetings
         And I should see "Some minutes!" within "#meeting_minutes_text"
         And I should not see "Text formatting" within "#edit-meeting_minutes"
 
-@firebug
   Scenario: Navigate to a meeting page and view an older version of an agenda
       Given the role "user" may have the following rights:
             | view_meetings |
@@ -134,8 +133,5 @@ Feature: Show meetings
        When I go to the show page for the meeting called "Bobs Meeting"
         And I follow "History" within ".meeting_agenda"
         And I follow "1" within "table.list"
-
-        And I start debugging
-
        Then I should see "Agenda" within ".meeting_agenda"
         And I should see "blah" within ".meeting_agenda"

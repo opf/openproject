@@ -25,24 +25,7 @@ module PluginSpecHelper
         end
 
         it { journal.changed_data[:text][1].should == text }
-      #  it { journal.changed_data["compression"].should be_blank }
       end
-
-      # describe "WITH gzip compression" do
-      #   before do
-      #     Setting.stub(:wiki_compression).and_return("gzip")
-
-      #     journal.changed_data = changed_data
-      #     journal.save!
-
-      #     journal.reload
-      #   end
-
-      #   it { journal.changed_data["data"].should == Zlib::Deflate.deflate(text, Zlib::BEST_COMPRESSION) }
-      #   it { journal.changed_data["compression"].should == Setting.wiki_compression }
-      # end
     end
-
   end
-
 end

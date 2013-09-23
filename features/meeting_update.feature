@@ -42,7 +42,6 @@ Feature: Updating meetings
             | start_time | 2011-02-11 12:30:00 |
           And "bob" is invited to the Meeting "Meeting 1"
 
-@firebug
   Scenario: Adding a new invitee
        When I am already logged in as "alice"
         And I go to the edit page of the meeting called "Meeting 1"
@@ -51,7 +50,6 @@ Feature: Updating meetings
        Then I should see "Successful update."
         And I should see "chuck testa"
 
-@firebug
   Scenario: Removing an invitee
       When I am already logged in as "alice"
         And I go to the edit page of the meeting called "Meeting 1"

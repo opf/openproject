@@ -19,12 +19,13 @@ class Journal::MeetingContentJournal < ActiveRecord::Base
 
   @@journaled_attributes = [:meeting_id,
                             :author_id,
-                            :text,
-                            :lock_version,
-                            :created_at,
-                            :locked]
+                            :text]
 
   def journaled_attributes
     attributes.symbolize_keys.select{|k,_| @@journaled_attributes.include? k}
+  end
+
+  def editable?
+    false
   end
 end

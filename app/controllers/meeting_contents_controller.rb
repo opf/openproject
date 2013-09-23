@@ -26,21 +26,16 @@ class MeetingContentsController < ApplicationController
   before_filter :authorize
 
   def show
-    # Redirect links to the last version
-    (redirect_to :controller => '/meetings', :action => :show, :id => @meeting, :tab => @content_type.sub(/^meeting_/, '') and return) if params[:id].present? && @content.version == params[:id].to_i
-    #require 'pry'; binding.pry
-    #require 'ruby-debug'
-    #debugger
+    if params[:id].present? && @content.version == params[:id].to_i
+      # Redirect links to the last version
+      redirect_to :controller => '/meetings',
+                  :action => :show,
+                  :id => @meeting,
+                  :tab => @content_type.sub(/^meeting_/, '')
+      return
+    end
+    #go to an old version if a version id is given
     @content = @content.at_version params[:id] unless params[:id].blank?
-    #v1
-    # if !params[:id].blank?
-    #   versions = @content.journals.select {|journal| journal.journable.type == @content_type.classify}
-    #   @content = @content_type.classify.constantize.new
-    #   attributes = (versions.at params[:id].to_i - 1).data.attributes.reject { |key,_| !@content.attributes.has_key? key}
-    #   @content.assign_attributes attributes, :without_protection => true
-    # end
-    #v2
-    #@content = (versions.at params[:id].to_i).data unless params[:id].blank?
     render 'meeting_contents/show'
   end
 

@@ -15,7 +15,7 @@ describe "MeetingAgenda" do
   before(:each) do
     @a = FactoryGirl.build :meeting_agenda, :text => "Some content...\n\nMore content!\n\nExtraordinary content!!"
   end
-  
+
   # TODO: Test the right user and messages are set in the history
   describe "#lock!" do
     it "locks the agenda" do
@@ -26,7 +26,7 @@ describe "MeetingAgenda" do
       @a.locked.should be_true
     end
   end
-  
+
   describe "#unlock!" do
     it "unlocks the agenda" do
       @a.locked = true
@@ -37,7 +37,7 @@ describe "MeetingAgenda" do
       @a.locked.should be_false
     end
   end
-  
+
   # a meeting agenda is editable when it is not locked
   describe "#editable?" do
     it "is editable when not locked" do

@@ -37,7 +37,8 @@ class Meeting < ActiveRecord::Base
                       :event_title => Proc.new {|o| "#{l :label_meeting}: #{o.journal.journable.title} \
                       (#{format_date o.journal.journable.start_time} \
                         #{format_time o.journal.journable.start_time, false}-#{format_time o.journal.journable.end_time, false})"},
-                      :event_url => Proc.new {|o| {:controller => '/meetings', :action => 'show', :id => o.journal.journable}}
+                      :event_url => Proc.new {|o| {:controller => '/meetings', :action => 'show', :id => o.journal.journable}},
+                      :event_author => Proc.new {|o| o.journal.user}
 
   register_on_journal_formatter(:plaintext, 'title')
   register_on_journal_formatter(:fraction, 'duration')

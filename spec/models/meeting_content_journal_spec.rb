@@ -20,7 +20,3 @@ describe Journal do
 
   it_should_behave_like "customized journal class"
 end
-
-# journal = FactoryGirl.create :work_package_journal,
-#                                  journable_id: issue.id,
-#                                  data: FactoryGirl.build(:journal_work_package_journal)

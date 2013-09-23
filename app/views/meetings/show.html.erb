@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div id="history">
   <h3><%=l(:label_history)%></h3>
   <% @meeting.journals.each do |journal| %>
-    <%= render_journal @meeting, journal %>
+    <%= render_meeting_journal @meeting, journal %>
   <% end %>
 </div>
 <% end %>

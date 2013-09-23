@@ -14,15 +14,14 @@ class Journal::MeetingJournal < ActiveRecord::Base
   self.table_name = "meeting_journals"
 
   belongs_to :journal
+  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
 
   @@journaled_attributes = [:title,
                             :author_id,
                             :project_id,
                             :location,
                             :start_time,
-                            :duration,
-                            :created_at,
-                            :updated_at]
+                            :duration]
 
   def journaled_attributes
     attributes.symbolize_keys.select{|k,_| @@journaled_attributes.include? k}

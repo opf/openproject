@@ -17,12 +17,6 @@ describe User, "#destroy" do
   let(:substitute_user) { DeletedUser.first }
   let(:project) do
     project = FactoryGirl.create(:valid_project)
-#    FactoryGirl.create(:member, :project => project,
-#                            :user => user,
-#                            :roles => [FactoryGirl.build(:role)])
-#    FactoryGirl.create(:member, :project => project,
-#                            :user => user2,
-#                            :roles => [FactoryGirl.build(:role)])
     project
   end
 
