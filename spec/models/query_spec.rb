@@ -47,4 +47,31 @@ describe Query do
         query.available_columns.find {|column| column.name == :done_ratio}.should be_nil
       end
     end
+
+    context 'filtering responsibles' do
+      let (:project){FactoryGirl.create(:project)}
+      let (:responsible_1){FactoryGirl.create(:user)}
+      let (:responsible_2){FactoryGirl.create(:user)}
+
+      before do
+
+        wp_1 = FactoryGirl.create(:work_package, project: project, responsible_id: responsible_1.id)
+        wp_2 = FactoryGirl.create(:work_package, project: project, responsible_id: responsible_2.id)
+      end
+
+      it "should return only the workpackage for the responsible given in the filter" do
+        responsible_query = Query.new
+        responsible_query.project = project
+        #responsible_query.add_filter "responsible_id", "=", responsible_1.id
+
+        puts WorkPackage.with_query(responsible_query).to_sql
+
+        result = WorkPackage.with_query(responsible_query).all
+
+
+        expect(result.size).to eql 1
+        expect(result).to include wp_1
+      end
+
+    end
 end

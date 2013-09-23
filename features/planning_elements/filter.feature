@@ -62,7 +62,13 @@ Feature: Filtering work packages via the api
 
     And there is 1 user with the following:
       | login | bob |
+    And there is 1 user with the following:
+      | login | peter |
+    And there is 1 user with the following:
+      | login | pamela |
     And the user "bob" is a "member" in the project "sample_project"
+    And the user "peter" is a "member" in the project "sample_project"
+    And the user "pamela" is a "member" in the project "sample_project"
    And I am already logged in as "bob"
 
   Scenario: Call the endpoint of the api without filters
@@ -188,3 +194,16 @@ Feature: Filtering work packages via the api
       | work_package#1.2 | Story | work_package#1 |
     When I call the work_package-api on project "sample_project" requesting format "json" filtering for type "Epic,Story"
     And the json-response should say that "work_package#1" has 1 child
+
+  Scenario: Filtering for responsibles
+    Given there are the following work packages in project "sample_project":
+      | subject          | type  | responsible |
+      | work_package#1   | Task  | bob         |
+      | work_package#2   | Task  | peter       |
+      | work_package#3   | Task  | pamela      |
+    When I call the work_package-api on project "sample_project" requesting format "json" filtering for responsible "peter"
+    Then the json-response should include 1 work package
+    And the json-response should not contain a work_package "work_package#1"
+    And the json-response should contain a work_package "work_package#2"
+
+

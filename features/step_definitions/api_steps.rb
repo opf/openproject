@@ -90,6 +90,18 @@ Then(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)"
 
 end
 
+When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for responsible "(.*?)"$/) do |project_name, format, responsible_names|
+  responsibles = User.where(login: responsible_names.split(','))
+
+  get_filtered_json(project_name: project_name,
+                    format: format,
+                    filters: [:responsible_id],
+                    operators:  {responsible_id: "="},
+                    values: {responsible_id: responsibles.map(&:id)} )
+
+end
+
+
 And(/^there are (\d+) work packages of type "(.*?)" in project "(.*?)"$/) do |nr_of_wps, type_name, project_name|
   project = Project.find_by_identifier(project_name)
   type = project.types.find_by_name(type_name)
