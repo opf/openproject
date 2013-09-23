@@ -79,12 +79,6 @@ en:
         value: "Value"
       enumeration:
         active: "Active"
-      issue:
-        parent_issue: "Parent"
-        subproject: "Subproject"
-        time_entries: "Log time"
-        type: "Type"
-        watcher: "Watcher"
       issue_relation:
         delay: "Delay"
         issue_from: "Work Package"
@@ -98,7 +92,6 @@ en:
       project:
         homepage: "Homepage"
         identifier: "Identifier"
-        work_packages: "Work Packages"
         parent: "Subproject of"
         versions: "Versions"
         project_type: "Project type"
@@ -239,7 +232,6 @@ en:
       comment: "Comment"
       custom_field: "Custom field"
       group: "Group"
-      issue: "Issue"
       issue_category: "Category"
       issue_status: "Issue status"
       member: "Member"
@@ -256,6 +248,7 @@ en:
       version: "Version"
       wiki: "Wiki"
       wiki_page: "Wiki page"
+      work_package: "Work package"
       workflow: "Workflow"
 
   activity:
@@ -300,7 +293,9 @@ en:
     updated_on: "Updated on"
     user: "User"
     version: "Version"
+    watcher: "Watcher"
     work_package: "Work package"
+    work_packages: "Work packages"
 
   button_add: "Add"
   button_add_watcher: "Add watcher"

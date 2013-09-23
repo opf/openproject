@@ -80,12 +80,6 @@ de:
         value: "Wert"
       enumeration:
         active: "Aktiv"
-      issue:
-        parent_issue: "Übergeordnete Aufgabe"
-        subproject: "Unterprojekt von"
-        time_entries: "Logzeit"
-        type: "Typ"
-        watcher: "Beobachter"
       issue_relation:
         delay: "Pufferzeit"
         issue_from: "Ticket"
@@ -99,7 +93,6 @@ de:
       project:
         homepage: "Projekt-Homepage"
         identifier: "Kennung"
-        issues: "Tickets"
         parent: "Unterprojekt von"
         versions: "Versionen"
         types: "Typen"
@@ -113,7 +106,6 @@ de:
       time_entry:
         activity: "Aktivität"
         hours: "Stunden"
-        issue: "Ticket"
         spent_on: "Datum"
         type: "Typ"
       type_color:
@@ -238,7 +230,6 @@ de:
       comment: "Kommentar"
       custom_field: "Benutzerdefiniertes Feld"
       group: "Gruppe"
-      issue: "Ticket"
       issue_category: "Ticket-Kategorie"
       issue_status: "Ticket-Status"
       member: "Mitglied"
@@ -255,6 +246,7 @@ de:
       version: "Version"
       wiki: "Wiki"
       wiki_page: "Wiki-Seite"
+      work_package: "Arbeitspaket"
       workflow: "Workflow"
 
   activity:
@@ -299,7 +291,9 @@ de:
     updated_on: "Aktualisiert"
     user: "Benutzer"
     version: "Version"
-    work_package: "Arbeitspacket"
+    watcher: "Beobachter"
+    work_package: "Arbeitspaket"
+    work_packages: "Arbeitspakete"
 
   button_add: "Hinzufügen"
   button_add_watcher: "Beobachter hinzufügen"
