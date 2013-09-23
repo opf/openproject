@@ -1,8 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery, :reporting_query_helper => true do
-  let!(:project1){ FactoryGirl.create(:project_with_types) }
-  let!(:work_package1) { FactoryGirl.create(:work_package, project: project1) }
+  let!(:type) { FactoryGirl.create(:type) }
+  let!(:project1){ FactoryGirl.create(:project_with_types, types: [type]) }
+  let!(:work_package1) { FactoryGirl.create(:work_package, project: project1, type: type)}
   let!(:time_entry1) { FactoryGirl.create(:time_entry, work_package: work_package1, project: project1, spent_on: Date.new(2012, 1, 1)) }
   let!(:time_entry2) do
     time_entry2 = time_entry1.dup
@@ -17,8 +18,8 @@ describe CostQuery, :reporting_query_helper => true do
     cost_entry2
   end
 
-  let!(:project2) { FactoryGirl.create(:project_with_types) }
-  let!(:work_package2) { FactoryGirl.create(:work_package, project: project2) }
+  let!(:project2) { FactoryGirl.create(:project_with_types, types: [type]) }
+  let!(:work_package2) { FactoryGirl.create(:work_package, project: project2, type: type) }
   let!(:time_entry3) { FactoryGirl.create(:time_entry, work_package: work_package2, project: project2, spent_on: Date.new(2013, 2, 3)) }
   let!(:time_entry4) do
     time_entry4 = time_entry3.dup
@@ -209,16 +210,16 @@ describe CostQuery, :reporting_query_helper => true do
 
       def create_work_package_custom_field(name)
         WorkPackageCustomField.create(:name => name,
-          :min_length => 1,
-          :regexp => "",
-          :is_for_all => true,
-          :max_length => 100,
-          :possible_values => "",
-          :is_required => false,
-          :field_format => "string",
-          :searchable => true,
-          :default_value => "Default string",
-          :editable => true)
+                                      :min_length => 1,
+                                      :regexp => "",
+                                      :is_for_all => true,
+                                      :max_length => 100,
+                                      :possible_values => "",
+                                      :is_required => false,
+                                      :field_format => "string",
+                                      :searchable => true,
+                                      :default_value => "Default string",
+                                      :editable => true)
         check_cache
       end
 
