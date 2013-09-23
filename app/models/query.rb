@@ -29,6 +29,8 @@
 
 class Query < ActiveRecord::Base
 
+  @@user_filters = %w{assigned_to_id author_id watcher_id responsible_id}.freeze
+
   belongs_to :project
   belongs_to :user
   serialize :filters
@@ -195,7 +197,7 @@ class Query < ActiveRecord::Base
       # populate the watcher list with the same user list as other user filters if the user has the :view_work_package_watchers permission in at least one project
       # TODO: this could be differentiated more, e.g. all users could watch issues in public projects, but won't necessarily be shown here
       watcher_values = User.current.allowed_to_globally?(:view_work_package_watchers, {}) ? user_values : [["<< #{l(:label_me)} >>", "me"]]
-      @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => watcher_values }
+      @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => watcher_values, :user_filter => true }
     end
 
     if project
@@ -265,8 +267,12 @@ class Query < ActiveRecord::Base
   end
 
   def values_for(field)
-    # special handling for serialized values inside fields (e.g. ["me,3"] for user_ids)
-    has_filter?(field) ? filters[field][:values].map{|values| values.split(',')}.flatten : nil
+    # special handling for user-filters(e.g. ["me,3"] where me stands for the currently logged in user)
+    if available_filters[field] && available_filters[field][:user_filter]
+      has_filter?(field) ? filters[field][:values].map{|values| values.split(',')}.flatten : nil
+    else
+      has_filter?(field) ? filters[field][:values] : nil
+    end
   end
 
   def label_for(field)
