@@ -25,7 +25,7 @@ Feature: Permission View Own hourly and cost rates
     And there is 1 cost type with the following:
       | name | Translation |
       | cost rate | 7.00   |
-    And the work_package "test_work_package" has 1 cost entry with the following:
+    And the work package "test_work_package" has 1 cost entry with the following:
       | units | 2.00  |
       | user  | testuser   |
       | cost type | Translation |
@@ -34,7 +34,7 @@ Feature: Permission View Own hourly and cost rates
     And the issue "test_work_package" has 1 time entry with the following:
       | hours | 3.00 |
       | user | manager |
-    And the work_package "test_work_package" has 1 cost entry with the following:
+    And the work package "test_work_package" has 1 cost entry with the following:
       | units | 5.00 |
       | user | manager |
       | cost type | Translation |

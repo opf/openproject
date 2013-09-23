@@ -56,7 +56,7 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the 
   end
 end
 
-Given /^the work_package "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |work_package, count, table|
+Given /^the work package "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |work_package, count, table|
   i = WorkPackage.find(:last, :conditions => ["subject = '#{work_package}'"])
   as_admin count do
     ce = FactoryGirl.build(:cost_entry, :spent_on => (table.rows_hash["date"] ? table.rows_hash["date"].to_date : Date.today),
@@ -99,7 +99,7 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
       | View own cost entries |
     And there is a role "Reporter"
     And the role "Reporter" may have the following rights:
-      | Create work_packages |
+      | Create work packages |
     And there is a role "Supplier"
     And the role "Supplier" may have the following rights:
       | View own hourly rate |
@@ -119,7 +119,7 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
   }
 end
 
-Given /^users have times and the cost type "([^\"]*)" logged on the work_package "([^\"]*)" with:$/ do |cost_type, work_package, table|
+Given /^users have times and the cost type "([^\"]*)" logged on the work package "([^\"]*)" with:$/ do |cost_type, work_package, table|
   i = WorkPackage.find(:last, :conditions => ["subject = '#{work_package}'"])
   raise "No such work_package: #{work_package}" unless i
 
