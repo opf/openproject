@@ -86,6 +86,7 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:subject, :sortable => "#{WorkPackage.table_name}.subject"),
     QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
+    QueryColumn.new(:responsible, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
     QueryColumn.new(:updated_at, :sortable => "#{WorkPackage.table_name}.updated_at", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
@@ -428,14 +429,7 @@ class Query < ActiveRecord::Base
 
       # "me" value subsitution
       if %w(assigned_to_id author_id watcher_id).include?(field)
-        if v.delete("me")
-          if User.current.logged?
-            v.push(User.current.id.to_s)
-            v += User.current.group_ids.map(&:to_s) if field == 'assigned_to_id'
-          else
-            v.push("0")
-          end
-        end
+        v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
       end
 
       sql = ''
