@@ -36,6 +36,7 @@ gem "rdoc", ">= 2.4.2"
 # Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
 gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 gem 'globalize'
+gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 gem 'request_store'
 
