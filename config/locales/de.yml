@@ -88,8 +88,8 @@ de:
         watcher: "Beobachter"
       relation:
         delay: "Pufferzeit"
-        from: "Ticket"
-        to: "Zugehöriges Ticket"
+        from: "Arbeitspaket"
+        to: "Zugehöriges Arbeitspaket"
       issue_status:
         is_closed: "Ticket geschlossen"
       journal:
