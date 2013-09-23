@@ -137,7 +137,7 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "filters status" do
-        matching_status = FactoryGirl.create(:work_package_status, :is_closed => true)
+        matching_status = FactoryGirl.create(:issue_status, :is_closed => true)
         create_work_packages_and_time_entries(3, :status => matching_status)
         @query.filter :status_id, :operator => 'c'
         @query.result.count.should == 3
@@ -169,7 +169,7 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "filters category" do
-        category = create_matching_object_with_time_entries(:work_package_category, :category, 3)
+        category = create_matching_object_with_time_entries(:issue_category, :category, 3)
         @query.filter :category_id, :operator => '=', :value => category.id
         @query.result.count.should == 3
       end
