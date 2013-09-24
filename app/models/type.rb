@@ -83,21 +83,17 @@ class Type < ActiveRecord::Base
     find(:all, :order => 'position')
   end
 
-  # Returns an array of IssueStatus that are used
-  # in the type's workflows
-  def issue_statuses
-    if @issue_statuses
-      return @issue_statuses
-    elsif new_record?
-      return []
+  def self.issue_statuses(types)
+    workflow_table, status_table = [Workflow, IssueStatus].map(&:arel_table)
+    old_id_subselect, new_id_subselect = [:old_status_id, :new_status_id].map do |foreign_key|
+      workflow_table.project(workflow_table[foreign_key]).where(workflow_table[:type_id].in(types))
     end
+    IssueStatus.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
+  end
 
-    ids = Workflow.
-            connection.select_rows("SELECT DISTINCT old_status_id, new_status_id FROM #{Workflow.table_name} WHERE type_id = #{id}").
-            flatten.
-            uniq
-
-    @issue_statuses = IssueStatus.find_all_by_id(ids).sort
+  def issue_statuses
+    return [] if new_record?
+    @issue_statuses ||= Type.issue_statuses([id])
   end
 
   def self.search_scope(query)
