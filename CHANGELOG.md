@@ -1,3 +1,5 @@
+* `#2050` Migrate to new data model.
+
 = 5.0.1.pre4 - 2013-07-11
 
 * Allows for assigning budgets to work_packages
