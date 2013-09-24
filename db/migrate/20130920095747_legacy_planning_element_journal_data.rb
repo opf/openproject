@@ -101,7 +101,6 @@ class LegacyPlanningElementJournalData < ActiveRecord::Migration
       end
 
       def new_journaled_id_for_old(old_journaled_id)
-        # We should be able to keep that in memory
         @new_journaled_ids ||= begin
           old_new = db_select_all <<-SQL
             SELECT journaled_id AS old_id, new_id
@@ -121,7 +120,6 @@ class LegacyPlanningElementJournalData < ActiveRecord::Migration
       end
 
       def new_type_id_for_old(old_type_id)
-        # We should be able to keep that in memory
         @new_type_ids ||= begin
           old_new = db_select_all <<-SQL
             SELECT id AS old_id, new_id
