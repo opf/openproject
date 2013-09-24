@@ -10,7 +10,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h3><%=l(:label_issues_assigned_to_me)%> (<%= WorkPackage.visible.open.count(:conditions => {:assigned_to_id => User.current.id, :project_id => @project.id})%>)</h3>
+<h3><%=l(:label_work_packages_assigned_to_me)%> (<%= WorkPackage.visible.open.count(:conditions => {:assigned_to_id => User.current.id, :project_id => @project.id})%>)</h3>
 
 <% assigned_work_packages = WorkPackage.visible.open.find(:all,
                                                           :conditions => {:assigned_to_id => User.current.id, :project_id => @project.id},
@@ -30,5 +30,5 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= auto_discovery_link_tag(:atom,
                                 {:controller => '/work_packages', :action => 'index', :set_filter => 1,
                                  :assigned_to_id => 'me', :format => 'atom', :key => User.current.rss_key},
-                                {:title => l(:label_issues_assigned_to_me)}) %>
+                                {:title => l(:label_work_packages_assigned_to_me)}) %>
 <% end %>

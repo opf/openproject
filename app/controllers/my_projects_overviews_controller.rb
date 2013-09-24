@@ -293,7 +293,7 @@ class MyProjectsOverviewsController < ApplicationController
   private
 
   def subproject_condition
-    @subproject_condition ||= project.project_condition(Setting.display_subprojects_issues?)
+    @subproject_condition ||= project.project_condition(Setting.display_subprojects_work_packages?)
   end
 
   def find_user

@@ -24,7 +24,7 @@ Feature: Adding widgets to the page
 
   @javascript
   Scenario: Adding a "Watched work packages" widget
-   When I select "Watched issues" from the available widgets drop down
+   When I select "Watched work packages" from the available widgets drop down
     And I wait for the AJAX requests to finish
     Then the "watched work packages" widget should be in the hidden block
-    And "Watched issues" should be disabled in the my project page available widgets drop down
+    And "Watched work packages" should be disabled in the my project page available widgets drop down

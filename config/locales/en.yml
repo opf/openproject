@@ -7,10 +7,10 @@ en:
   info_custom_text: Custom text
   label_confirm_delete: Really delete this element?
   label_save_or_reset_teaser: Save changes made to the teaser?
-  label_issues_reported_by_me: Issues reported by me
-  label_issues_assigned_to_me: Issues assigned to me
-  label_issues_watched: Watched issues
-  label_issue_tracking: Issue tracking
+  label_work_packages_reported_by_me: Work packages reported by me
+  label_work_packages_assigned_to_me: Work packages assigned to me
+  label_work_packages_watched: Watched work packages
+  label_work_package_tracking:  Work package tracking
   label_members: Members
   label_subprojects: Subprojects
 

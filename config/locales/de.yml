@@ -7,10 +7,10 @@ de:
   info_custom_text: Benutzerdefinierter Text
   label_confirm_delete: Dieses Element wirklich löschen?
   label_save_or_reset_teaser: Änderungen am Teaser speichern?
-  label_issues_reported_by_me: Von mir gemeldete Tickets
-  label_issues_assigned_to_me: Mir zugewiesene Tickets
-  label_issues_watched: Beobachtete Tickets
-  label_issue_tracking: Ticketverfolgung
+  label_work_packages_reported_by_me: Von mir gemeldete Arbeitspakete
+  label_work_packages_assigned_to_me: Mir zugewiesene Tickets
+  label_work_packages_watched: Beobachtete Arbeitspakete
+  label_work_package_tracking: Arbeitspakete-Verfolgung
   label_members: Mitglieder
   label_subprojects: Unterprojekte
 
