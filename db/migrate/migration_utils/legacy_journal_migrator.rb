@@ -324,13 +324,7 @@ module Migration
     end
 
     def preconditions_met?
-      if legacy_table_exists?
-        check_legacy_journal_completeness
-
-        true
-      else
-        false
-      end
+      legacy_table_exists? && check_legacy_journal_completeness
     end
 
     def check_legacy_journal_completeness
@@ -375,6 +369,8 @@ module Migration
           creation. The offending journal ids are: #{invalid_journals}
         MESSAGE
       end
+
+      true
     end
 
     def journal_table_name
