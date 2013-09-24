@@ -53,7 +53,8 @@ module Migration
 
       if table_name.nil? || type.nil?
         raise ArgumentError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
-        table_name and type have to be provided. Either as parameters or set within the block.
+          table_name and type have to be provided. Either as parameters
+          or set within the block.
         MESSAGE
       end
 
@@ -63,9 +64,9 @@ module Migration
     def run
       unless preconditions_met?
         puts <<-MESSAGE
-        There is no legacy_journals table from which to derive the new journals. Doing noting ...
+          There is no legacy_journals table from which to derive the new
+          journals. Doing nothing ...
         MESSAGE
-
         return
       end
 
