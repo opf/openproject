@@ -65,7 +65,8 @@ Feature: Cost Reporting Linkage
     Then I should see "Successful deletion."
     And I should see "No data to display"
 
-  #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/work_packages/work_package/77
+  #have to use annotation capybara due to
+  #https://github.com/aslakhellesoy/cucumber-rails/issues/issues/77
   @javascript
   Scenario: Going from an WorkPackage to the cost report should set the filter on this work_package
     Given there is a standard cost control project named "Standard Project"
@@ -94,7 +95,7 @@ Feature: Cost Reporting Linkage
     And I should not see "50.00"
     And I should not see "150.00"
 
-  #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/work_packages/work_package/77
+  #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/issues/issues/77
   @javascript
   Scenario: Going from an WorkPackage to the cost report should set the filter on this work_package
     Given there is a standard cost control project named "Standard Project"

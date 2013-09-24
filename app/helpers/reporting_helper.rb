@@ -82,7 +82,7 @@ module ReportingHelper
     when :spent_on                              then format_date(value.to_date)
     when :type_id                               then Type.find(value.to_i).name
     when :week                                  then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
-    when :priority_id                           then WorkPackagePriority.find(value.to_i).name
+    when :priority_id                           then IssuePriority.find(value.to_i).name
     when :fixed_version_id                      then Version.find(value.to_i).name
     when :singleton_value                       then ""
     when :status_id                             then IssueStatus.find(value.to_i).name
