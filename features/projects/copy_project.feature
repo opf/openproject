@@ -267,3 +267,19 @@ Feature: Project Settings
     And  I go to the settings page of the project "cp"
     Then the "Phase1" checkbox should be checked
     And  the "Phase2" checkbox should be checked
+
+  @javascript
+  Scenario: Copy a project with Custom Fields
+    Given the following work package custom fields are defined:
+      | name  | type | editable | is_for_all |
+      | cfBug | int  | true     | false      |
+    And  I am already admin
+    And  I go to the settings page of the project "project1"
+    And  I check "cfBug" within "#content"
+    And  I press "Save" within "#content"
+    And  I follow "Copy" within "#content"
+    And  I fill in "Name" with "Copied Project"
+    And  I fill in "Identifier" with "cp"
+    And  I click on "Copy"
+    And  I go to the settings page of the project "cp"
+    Then the "cfBug" checkbox should be checked
