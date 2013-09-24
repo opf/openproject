@@ -71,15 +71,18 @@ module Migration
       end
 
       legacy_journals = fetch_legacy_journals
+      total_count = legacy_journals.count
 
-      puts "Migrating #{legacy_journals.count} legacy journals."
+      if total_count > 1
+        progress_bar = ProgressBar.create(format: '%a <%B> %P%% %e',
+                                          total: total_count,
+                                          throttle_rate: 1,
+                                          smoothing: 0.5)
+        progress_bar.log "Migrating #{total_count} legacy journals."
 
-      legacy_journals.each_with_index do |legacy_journal, count|
-
-        migrate(legacy_journal)
-
-        if count > 0 && (count % 1000 == 0)
-          puts "#{count} journals migrated"
+        legacy_journals.each_with_index do |legacy_journal, count|
+          migrate(legacy_journal)
+          progress_bar.increment
         end
       end
     end
