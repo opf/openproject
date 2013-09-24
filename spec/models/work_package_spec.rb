@@ -95,6 +95,21 @@ describe WorkPackage do
         it { should be_nil }
       end
     end
+
+    describe :assigned_to do
+      context :group_assignment do
+        let(:group) { FactoryGirl.create(:group) }
+
+        before do
+          Setting.stub(:work_package_group_assignment).and_return(true)
+        end
+
+        subject { FactoryGirl.create(:work_package,
+                                     assigned_to: group).assigned_to }
+
+        it { should eq(group) }
+      end
+    end
   end
 
   describe :type do
@@ -163,6 +178,32 @@ describe WorkPackage do
       it 'should return all users the project deems to be assignable' do
         should include(user)
       end
+    end
+
+    context "with work_package_group_assignment" do
+      let(:group) { FactoryGirl.create(:group) }
+      let(:work_package) { FactoryGirl.create(:work_package) }
+
+      before do
+        Setting.stub(:work_package_group_assignment?).and_return(true)
+        work_package.project.add_member! group, FactoryGirl.create(:role)
+      end
+
+      subject { work_package.assignable_users }
+      it { should include(group) }
+    end
+
+    context "without work_package_group_assignment" do
+      let(:group) { FactoryGirl.create(:group) }
+      let(:work_package) { FactoryGirl.create(:work_package) }
+
+      before do
+        Setting.stub(:work_package_group_assignment?).and_return(false)
+        work_package.project.add_member! group, FactoryGirl.create(:role)
+      end
+
+      subject { work_package.assignable_users }
+      it { should_not include(group) }
     end
 
     context "multiple users" do
@@ -302,7 +343,7 @@ describe WorkPackage do
           end
 
           shared_examples_for "save with open version" do
-            before do 
+            before do
               work_package.status = status_open
               work_package.fixed_version = version_open
             end
@@ -315,7 +356,7 @@ describe WorkPackage do
           context "in closed version" do
             include_context "in closed version"
 
-            before do 
+            before do
               work_package.status = status_open
               work_package.save
             end
@@ -373,13 +414,13 @@ describe WorkPackage do
       end
 
       context "time entry 1" do
-        subject { work_package.time_entries } 
+        subject { work_package.time_entries }
 
         it { should include(time_entry_1) }
       end
 
       context "time entry 2" do
-        subject { work_package.time_entries } 
+        subject { work_package.time_entries }
 
         it { should include(time_entry_2) }
       end
@@ -414,7 +455,7 @@ describe WorkPackage do
 
           it { should eq(target_category.id) }
         end
-        
+
         it_behaves_like "moved work package"
       end
 

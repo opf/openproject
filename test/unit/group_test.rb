@@ -34,6 +34,7 @@ class GroupTest < ActiveSupport::TestCase
     super
     @group = FactoryGirl.create :group
     @member = FactoryGirl.build :member
+    @work_package = FactoryGirl.create :work_package
     @roles = FactoryGirl.create_list :role, 2
     @member.force_attributes = { :principal => @group, :role_ids => @roles.map(&:id) }
     @member.save!
