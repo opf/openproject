@@ -47,7 +47,7 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :type
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
+  belongs_to :assigned_to, :class_name => 'Principal', :foreign_key => 'assigned_to_id'
   belongs_to :responsible, :class_name => "User", :foreign_key => "responsible_id"
   belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
@@ -467,7 +467,13 @@ class WorkPackage < ActiveRecord::Base
     # Author and assignee are always notified unless they have been
     # locked or don't want to be notified
     notified << author if author && author.active? && author.notify_about?(self)
-    notified << assigned_to if assigned_to && assigned_to.active? && assigned_to.notify_about?(self)
+    if assigned_to
+      if assigned_to.is_a?(Group)
+        notified += assigned_to.users.select {|u| u.active? && u.notify_about?(self)}
+      else
+        notified << assigned_to if assigned_to.active? && assigned_to.notify_about?(self)
+      end
+    end
     notified.uniq!
     # Remove users that can not view the issue
     notified.reject! {|user| !visible?(user)}

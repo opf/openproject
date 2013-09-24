@@ -1195,6 +1195,7 @@ en:
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
   setting_welcome_text: "Welcome text"
   setting_wiki_compression: "Wiki history compression"
+  setting_work_package_group_assignment: "Allow assignment to groups"
 
   settings:
     general: "General"
