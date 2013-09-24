@@ -95,30 +95,38 @@ module Migration
       text
     end
 
-    REL_WORK_PACKAGE_LINK_REGEX = /(?<title>"(\w|\s)*"):(\/timelines)?(\/projects\/(\w|-)*)?\/(issues|planning_elements)\/(?<id>\w*)/
-
     def update_issue_planning_element_links(text, id_map)
       unless text.nil?
         text.gsub!(work_package_link_regex) {|_| update_issue_planning_element_link_match $~, id_map}
-        text.gsub!(REL_WORK_PACKAGE_LINK_REGEX) {|_| update_issue_planning_element_link_match $~, id_map}
+        text.gsub!(rel_work_package_link_regex) {|_| update_issue_planning_element_link_match $~, id_map}
       end
 
       text
     end
 
     def work_package_link_regex
-      @work_package_link_regex ||= Regexp.new "(?<host>http(s)?:\/\/#{Regexp.escape(host_name)})(\/timelines)?(\/projects\/(\w|-)*)?\/(issues|planning_elements)\/(?<id>\w*)"
+      @work_package_link_regex ||= Regexp.new "(?<host>http(s)?:\/\/#{Regexp.escape(host_name)})(\/timelines)?(\/projects\/(\\w|-)*)?\/(issues|planning_elements)\/(?<id>\\w*)"
     end
 
-    RESTORE_REL_WORK_PACKAGE_LINK_REGEX = /(?<title>"(\w|\s)*"):\/work_packages\/(?<id>\w*)/
+    def rel_work_package_link_regex
+      @rel_work_package_link_regex ||= Regexp.new "(?<title>\"(\\w|\\s)*\"):#{Regexp.escape(host_postfix)}(\/timelines)?(\/projects\/(\\w|-)*)?\/(issues|planning_elements)\/(?<id>\\w*)"
+    end
 
     def restore_issue_planning_element_links(text, id_map)
-      text.gsub!(restore_work_package_link_regex) {|_| restore_issue_planning_element_link_match $~, id_map}
-      text.gsub!(RESTORE_REL_WORK_PACKAGE_LINK_REGEX) {|_| restore_issue_planning_element_link_match $~, id_map}
+      unless text.nil?
+        text.gsub!(restore_work_package_link_regex) {|_| restore_issue_planning_element_link_match $~, id_map}
+        text.gsub!(restore_rel_work_package_link_regex) {|_| restore_issue_planning_element_link_match $~, id_map}
+      end
+
+      text
     end
 
     def restore_work_package_link_regex
-      @restore_work_package_link_regex ||= Regexp.new "(?<host>http(s)?:\/\/#{Regexp.escape(host_name)})\/work_packages\/(?<id>\w*)"
+      @restore_work_package_link_regex ||= Regexp.new "(?<host>http(s)?:\/\/#{Regexp.escape(host_name)})\/work_packages\/(?<id>\\w*)"
+    end
+
+    def restore_rel_work_package_link_regex
+      @restore_rel_work_package_link_regex ||= Regexp.new "(?<title>\"(\\w|\\s)*\"):#{Regexp.escape(host_postfix)}\/work_packages\/(?<id>\\w*)"
     end
 
     def update_issue_planning_element_link_match(match, id_map)
@@ -135,7 +143,7 @@ module Migration
     end
 
     def link_prefix(match)
-      match.names.include?('host') ? match[:host] : "#{match[:title]}:"
+      match.names.include?('host') ? match[:host] : "#{match[:title]}:#{host_postfix}"
     end
 
     def element_id(match, id_map)
@@ -148,12 +156,24 @@ module Migration
       @host_name ||= select_host_name
     end
 
+    def host_postfix
+      @host_postfix ||= select_host_postfix.to_s
+    end
+
     def select_host_name
       settings = select_all <<-SQL
         SELECT value FROM settings WHERE name = 'host_name'
       SQL
 
       settings.first['value']
+    end
+
+    def select_host_postfix
+      host_postfix = /[a-z|\.|-]*(\/(?<host_postfix>.*))?/.match(host_name)[:host_postfix]
+
+      host_postfix = "/#{host_postfix}" unless host_postfix.nil?
+
+      host_postfix
     end
 
     def update_filter(columns)
