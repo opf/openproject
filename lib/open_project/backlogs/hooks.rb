@@ -34,10 +34,11 @@ module OpenProject::Backlogs::Hooks
     end
 
     def view_issues_show_details_bottom(context = {})
-      return '' unless context[:work_package].project.module_enabled? 'backlogs'
+      work_package = context[:issue]
+
+      return '' unless work_package.backlogs_enabled?
       return '' if context[:from] == 'OpenProject::Backlogs::WorkPackageView::FieldsParagraph'
 
-      work_package = context[:work_package]
 
       snippet = ''
 
@@ -147,9 +148,9 @@ module OpenProject::Backlogs::Hooks
 
     def controller_issues_new_after_save(context={ })
       params = context[:params]
-      work_package = context[:work_package]
+      work_package = context[:issue]
 
-      return unless work_package.project.module_enabled? 'backlogs'
+      return unless work_package.backlogs_enabled?
 
       if work_package.is_story?
         if params[:link_to_original]
