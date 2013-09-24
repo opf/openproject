@@ -267,12 +267,7 @@ class Query < ActiveRecord::Base
   end
 
   def values_for(field)
-    if has_filter?(field)
-      # special handling for user-filters(e.g. ["me,3"] where me stands for the currently logged in user)
-      @@user_filters.include?(field) ? filters[field][:values].map{|values| values.split(',')}.flatten : filters[field][:values]
-    else
-      nil
-    end
+    has_filter?(field) ? filters[field][:values] : nil
   end
 
   def label_for(field)
