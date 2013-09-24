@@ -13,7 +13,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MyProjectsOverview do
   before do
-    @enabled_module_names = %w[activity issue_tracking news wiki]
+    @enabled_module_names = %w[activity work_package_tracking news wiki]
     FactoryGirl.create(:project, :enabled_module_names => @enabled_module_names)
     @project = Project.find(:first)
     @overview = MyProjectsOverview.create(:project_id => @project.id)
@@ -21,7 +21,7 @@ describe MyProjectsOverview do
 
   it 'sets default elements for new records if no elements are provided' do
     o = MyProjectsOverview.new
-    o.left.should =~ ["project_description", "project_details", "issue_tracking"]
+    o.left.should =~ ["project_description", "project_details", "work_package_tracking"]
     o.right.should =~ ["members", "news_latest"]
     o.top.should =~ []
     o.hidden.should =~ []

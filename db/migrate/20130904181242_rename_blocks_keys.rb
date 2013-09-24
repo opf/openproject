@@ -11,10 +11,10 @@
 
 class RenameBlocksKeys < ActiveRecord::Migration
   REPLACED = {
-    "issuesassignedtome" => "issues_assigned_to_me",
-    "issuesreportedbyme" => "issues_reported_by_me",
-    "issuetracking" => "issue_tracking",
-    "issueswatched" => "issues_watched",
+    "issuesassignedtome" => "work_packages_assigned_to_me",
+    "issuesreportedbyme" => "work_packages_reported_by_me",
+    "issuetracking" => "work_package_tracking",
+    "issueswatched" => "work_packages_watched",
     "news" => "news_latest",
     "timelog" => "spent_time",
     "projectdetails" => "project_details",

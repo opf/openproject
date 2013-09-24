@@ -16,7 +16,7 @@ class MyProjectsOverview < ActiveRecord::Base
   after_initialize :initialize_default_values
 
   DEFAULTS = {
-    "left" => ["project_description", "project_details", "issue_tracking"],
+    "left" => ["project_description", "project_details", "work_package_tracking"],
     "right" => ["members", "news_latest"],
     "top" => [],
     "hidden" => [] }

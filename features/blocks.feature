@@ -28,7 +28,7 @@ Feature: Behavior of specific blocks (news, issues - this is currently not compl
     And there is a role "member"
     And the role "member" may have the following rights:
       | view_work_packages |
-      | create_issues |
+      | create_work_packages |
     And the user "bob" is a "member" in the project "tested_project"
     And the user "bob" is a "member" in the project "other_project"
     And I am logged in as "bob"
@@ -48,38 +48,38 @@ Feature: Behavior of specific blocks (news, issues - this is currently not compl
     And I should see the news-headline "test-headline"
     And I should not see the news-headline "NO-SHOW"
 
-  Scenario: In the 'Issues reported by me'-Section, I should only see issues for the selected project
+  Scenario: In the 'Work packages reported by me'-Section, I should only see work packages for the selected project
     And there are the following issues with attributes:
       | subject     | project        | author  |
       | Test-Issue  | tested_project | bob     |
       | NO-SHOW     | other_project  | bob     |
     And the following widgets are selected for the overview page of the "tested_project" project:
-      | top        | issues_reported_by_me |
+      | top        | work_packages_reported_by_me |
     And I am on the homepage for the project "tested_project"
-    Then I should see the widget "issues_reported_by_me"
-    And I should see the issue-subject "Test-Issue" in the 'Issues reported by me'-section
-    And I should not see the issue-subject "NO-SHOW" in the 'Issues reported by me'-section
+    Then I should see the widget "work_packages_reported_by_me"
+    And I should see the work-package-subject "Test-Issue" in the 'Work packages reported by me'-section
+    And I should not see the work-package-subject "NO-SHOW" in the 'Work packages reported by me'-section
 
-  Scenario: In the 'Issues assigned to me'-Section, I should only see issues for the selected project
+  Scenario: In the 'Work packages assigned to me'-Section, I should only see work packages for the selected project
     And there are the following issues with attributes:
       | subject     | project        | author  | assignee  |
       | Test-Issue  | tested_project | bob     | bob       |
       | NO-SHOW     | tested_project | bob     | mary      |
     And the following widgets are selected for the overview page of the "tested_project" project:
-      | top        | issues_assigned_to_me |
+      | top        | work_packages_assigned_to_me |
     And I am on the homepage for the project "tested_project"
-    Then I should see the widget "issues_assigned_to_me"
-    And I should see the issue-subject "Test-Issue" in the 'Issues assigned to me'-section
-    And I should not see the issue-subject "NO-SHOW" in the 'Issues assigned to me'-section
+    Then I should see the widget "work_packages_assigned_to_me"
+    And I should see the work-package-subject "Test-Issue" in the 'Work packages assigned to me'-section
+    And I should not see the work-package-subject "NO-SHOW" in the 'Work packages assigned to me'-section
 
-  Scenario: In the 'Issues watched by me'-Section, I should only see issues for the selected project
+  Scenario: In the 'Work packages watched by me'-Section, I should only see work packages for the selected project
     And there are the following issues with attributes:
       | subject     | project        | author  | watched_by |
       | Test-Issue  | tested_project | bob     | bob        |
       | NOT-WATCHED | other_project  | bob     | bob,mary   |
     And the following widgets are selected for the overview page of the "tested_project" project:
-      | top        | issues_watched |
+      | top        | work_packages_watched |
     And I am on the homepage for the project "tested_project"
-    Then I should see the widget "issues_watched"
-    And I should see the issue-subject "Test-Issue" in the 'Issues watched'-section
-    And I should not see the issue-subject "NOT-WATCHED" in the 'Issues watched'-section
+    Then I should see the widget "work_packages_watched"
+    And I should see the work-package-subject "Test-Issue" in the 'Work packages watched'-section
+    And I should not see the work-package-subject "NOT-WATCHED" in the 'Work packages watched'-section

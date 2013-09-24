@@ -2,7 +2,7 @@
 
 ## 3.0.0.pre4
 
-* Fix/rename issues to work packages
+* `#2027` Fix/rename issues to work packages
 
 ## 3.0.0.pre3
 

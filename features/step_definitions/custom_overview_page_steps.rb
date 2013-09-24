@@ -16,7 +16,7 @@ Given /^I start editing the overview page(?: again)?$/ do
 end
 
 Then /^I should be able to change things and see my changes when I finish$/ do
-  driver.find_element(:css, "#list-top > #block_issuetracking").should be_displayed
+  driver.find_element(:css, "#list-top > #block_workpackagetracking").should be_displayed
   # ERROR: Caught exception [ERROR: Unsupported command [dragAndDropToObject]]
   !60.times{ break unless (driver.find_element(:css, "#ajax-indicator").displayed? rescue true); sleep 1 }
   driver.find_element(:css, "#list-hidden > #block_members").should be_displayed
