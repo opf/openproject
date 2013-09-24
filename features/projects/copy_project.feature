@@ -236,3 +236,18 @@ Feature: Project Settings
     And  I go to the categories tab of the settings page for the project "cp"
     Then I should see "Issue category 1" within "#content"
     And  I should see "Issue category 2" within "#content"
+
+  @javascript
+  Scenario: Copy a project with parent
+    Given there are the following projects of type "Copy Project":
+      | project2 |
+    When I am already admin
+    And  I go to the settings page of the project "project1"
+    And  I select "project2" from "Subproject of"
+    And  I click on "Save" within "#content"
+    And  I follow "Copy" within "#content"
+    And  I fill in "Name" with "Copied Project"
+    And  I fill in "Identifier" with "cp"
+    And  I click on "Copy"
+    And  I go to the settings page of the project "cp"
+    And  I should see "project2" within "#project_parent_id"
