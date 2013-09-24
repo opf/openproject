@@ -122,11 +122,11 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
-      assert_equal ['edit.png'], assigns(:entries).collect(&:name)
-      entry = assigns(:entries).detect {|e| e.name == 'edit.png'}
+      assert_equal ['webalys/edit.png'], assigns(:entries).collect(&:name)
+      entry = assigns(:entries).detect {|e| e.name == 'webalys/edit.png'}
       assert_not_nil entry
       assert_equal 'file', entry.kind
-      assert_equal 'images/edit.png', entry.path
+      assert_equal 'images/webalys/edit.png', entry.path
       assert_not_nil assigns(:changesets)
       assigns(:changesets).size > 0
     end
@@ -138,16 +138,16 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
-      assert_equal ['delete.png'], assigns(:entries).collect(&:name)
+      assert_equal ['webalys/delete.png'], assigns(:entries).collect(&:name)
       assert_not_nil assigns(:changesets)
       assigns(:changesets).size > 0
     end
 
     def test_changes
-      get :changes, :id => 3, :path => 'images/edit.png'
+      get :changes, :id => 3, :path => 'images/webalys/edit.png'
       assert_response :success
       assert_template 'changes'
-      assert_tag :tag => 'h2', :content => 'edit.png'
+      assert_tag :tag => 'h2', :content => 'webalys/edit.png'
     end
 
     def test_entry_show
@@ -228,7 +228,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_annotate_binary_file
-      get :annotate, :id => 3, :path => 'images/edit.png'
+      get :annotate, :id => 3, :path => 'images/webalys/edit.png'
       assert_response 500
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
                               :content => /cannot be annotated/

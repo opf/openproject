@@ -511,7 +511,7 @@ module WorkPackagesHelper
                           (locals[:project].categories.collect {|c| [c.name, c.id]}),
                           :include_blank => true)
 
-      field += prompt_to_remote(image_tag('plus.png', :style => 'vertical-align: middle;'),
+      field += prompt_to_remote(image_tag('webalys/plus.png', :style => 'vertical-align: middle;'),
                                          t(:label_work_package_category_new),
                                          'category[name]',
                                          project_categories_path(locals[:project]),
@@ -526,7 +526,7 @@ module WorkPackagesHelper
       field = form.select(:fixed_version_id,
                           version_options_for_select(work_package.assignable_versions, work_package.fixed_version),
                           :include_blank => true)
-      field += prompt_to_remote(image_tag('plus.png', :style => 'vertical-align: middle;'),
+      field += prompt_to_remote(image_tag('webalys/plus.png', :style => 'vertical-align: middle;'),
                              l(:label_version_new),
                              'version[name]',
                              new_project_version_path(locals[:project]),

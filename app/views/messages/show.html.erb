@@ -64,16 +64,16 @@ See doc/COPYRIGHT.rdoc for more details.
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <div class="contextual">
-      <%= link_to_remote_if_authorized(image_tag('quote.png'),
+      <%= link_to_remote_if_authorized(image_tag('webalys/quote.png'),
                                        { :url => {:action => 'quote', :id => message},
                                          :method => :get },
                                        :title => l(:button_quote),
                                        :alt => l(:button_quote)) unless @topic.locked? %>
-      <%= link_to(image_tag('edit.png'),
+      <%= link_to(image_tag('webalys/edit.png'),
                   { :action => 'edit', :id => message },
                   :title => l(:button_edit),
                   :alt => l(:button_edit)) if message.editable_by?(User.current) %>
-      <%= link_to(image_tag('delete.png'),
+      <%= link_to(image_tag('webalys/delete.png'),
                   { :action => 'destroy', :id => message},
                   :method => :delete,
                   :confirm => l(:text_are_you_sure),

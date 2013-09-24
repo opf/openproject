@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div id="roadmap">
 <% @versions.each do |version| %>
     <h3 class="version">
-      <%= image_tag "package.png", :title => Version.model_name.human, :alt => Version.model_name.human %>
+      <%= image_tag "webalys/package.png", :title => Version.model_name.human, :alt => Version.model_name.human %>
       <%= link_to_version version, :name => h(version.name) %>
     </h3>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>

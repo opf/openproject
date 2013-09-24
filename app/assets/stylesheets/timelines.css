@@ -205,14 +205,14 @@ not be applied in anything that is not display:table-cell */
 }
 .tl-icon-deleted {
   cursor: default;
-  background: url("../assets/deleted.png") no-repeat center;
+  background: url("../assets/webalys/deleted.png") no-repeat center;
   display: inline;
   width: 16px;
   background-position: 2px 2px;
 }
 .tl-icon-changed {
   cursor: default;
-  background: url("../assets/arrow_left_right.png") no-repeat center;
+  background: url("../assets/webalys/arrow_left_right.png") no-repeat center;
   display: inline;
   width: 16px;
   background-position: 2px 2px;
@@ -220,21 +220,21 @@ not be applied in anything that is not display:table-cell */
 
 .tl-icon-calendar {
   cursor: default;
-  background: url("../assets/calendar.png") no-repeat center;
+  background: url("../assets/webalys/calendar.png") no-repeat center;
   display: inline;
   width: 16px;
 }
 
 .tl-icon-zoomin {
-  background: url("../../../assets/zoom_in.png") no-repeat center;
+  background: url("../../../assets/webalys/zoom_in.png") no-repeat center;
 }
 
 .tl-icon-zoomout {
-  background: url("../../../assets/zoom_out.png") no-repeat center;
+  background: url("../../../assets/webalys/zoom_out.png") no-repeat center;
 }
 
 .tl-icon-outline {
-  background: url("../assets/outline.png") no-repeat center;
+  background: url("../assets/webalys/outline.png") no-repeat center;
 }
 
 /* ╭───────────────────────────────────────────────────────────────────╮ *
@@ -563,7 +563,7 @@ a:hover.tl-project, a.tl-project, .tl-project {
 /* Icons for activity view */
 
 dt.timelines\2F planning-element {
-  background-image: url(../assets/new_planning_element.png);
+  background-image: url(../assets/webalys/new_planning_element.png);
 }
 
 #history .journal {

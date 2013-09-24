@@ -60,7 +60,7 @@ while day <= calendar.enddt %>
   <% else %>
   <span>
     <%= h("#{i.project} -") unless @project && @project == i.project %>
-    <%= link_to_version i, {}, {:before_text => image_tag("package.png", :title => Version.model_name.human, :alt => Version.model_name.human, :class => "imgtag-icon") }%>
+    <%= link_to_version i, {}, {:before_text => image_tag("webalys/package.png", :title => Version.model_name.human, :alt => Version.model_name.human, :class => "imgtag-icon") }%>
   </span>
   <% end %>
 <% end %>

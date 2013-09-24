@@ -56,9 +56,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
 <td align="center">
 <% if entry.editable_by?(User.current) -%>
-    <%= link_to image_tag('edit.png'), edit_time_entry_path(entry),
+    <%= link_to image_tag('webalys/edit.png'), edit_time_entry_path(entry),
                                        :title => l(:button_edit) %>
-    <%= link_to image_tag('delete.png'), time_entry_path(entry),
+    <%= link_to image_tag('webalys/delete.png'), time_entry_path(entry),
                                          :confirm => l(:text_are_you_sure),
                                          :method => :delete,
                                          :title => l(:button_delete) %>
