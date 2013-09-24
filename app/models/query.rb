@@ -267,11 +267,11 @@ class Query < ActiveRecord::Base
   end
 
   def values_for(field)
-    # special handling for user-filters(e.g. ["me,3"] where me stands for the currently logged in user)
-    if available_filters[field] && available_filters[field][:user_filter]
-      has_filter?(field) ? filters[field][:values].map{|values| values.split(',')}.flatten : nil
+    if has_filter?(field)
+      # special handling for user-filters(e.g. ["me,3"] where me stands for the currently logged in user)
+      @@user_filters.include?(field) ? filters[field][:values].map{|values| values.split(',')}.flatten : filters[field][:values]
     else
-      has_filter?(field) ? filters[field][:values] : nil
+      nil
     end
   end
 
@@ -434,7 +434,7 @@ class Query < ActiveRecord::Base
       operator = operator_for(field)
 
       # "me" value subsitution
-      if %w(assigned_to_id author_id watcher_id responsible_id).include?(field)
+      if @@user_filters.include? field
         v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
       end
 
