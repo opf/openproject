@@ -66,6 +66,6 @@ In case you find a bug or need a feature, please report at https://www.openproje
 
 ## License
 
-(c) 2013 - Finn GmbH
+Copyright (C) 2013 the OpenProject Foundation (OPF)
 
 This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.md for details.
