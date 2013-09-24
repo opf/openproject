@@ -15,6 +15,10 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 3.0.3
+
+* `#1790` Adapt Meeting Plugin to the acts_as_journalized changes
+
 ## 3.0.2
 
 * `#1602` Copyright notice updates and wiring to specific Core versions because of coming update to acts_as_journalized

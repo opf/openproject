@@ -63,7 +63,6 @@ describe User, "#destroy" do
     it { associated_instance.journals.first.user.should == user2 }
     it "should update first journal changes" do
       associations.each do |association|
-        #require 'ruby-debug';debugger
         associated_instance.journals.first.changed_data[(association.to_s + "_id").to_sym].last.should == user2.id
       end
     end

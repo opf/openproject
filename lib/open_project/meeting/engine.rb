@@ -28,7 +28,7 @@ module OpenProject::Meeting
         version spec.version
         url spec.homepage
 
-        requires_openproject ">= 3.0.0pre13"
+        requires_openproject ">= 3.0.0pre17"
 
         project_module :meetings do
           permission :create_meetings, {:meetings => [:new, :create, :copy]}, :require => :member
