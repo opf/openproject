@@ -30,6 +30,8 @@
 class Project < ActiveRecord::Base
   include Redmine::SafeAttributes
 
+  include CopyModel
+
   # Project statuses
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
@@ -761,64 +763,19 @@ class Project < ActiveRecord::Base
     p.nil? ? nil : p.identifier.to_s.succ
   end
 
-  # Copies and saves the Project instance based on the +project+.
-  # Duplicates the source project's associations that CAN be copied,
-  # i.e. responds to something called 'copy_association_name'.
-  #
-  # For example: Project has a method #copy_work_packages,
-  #              so the WorkPackages from the has_many work_packages
-  #              association can be copied.
-  #
-  # Accepts an +options+ argument to specify what to copy
-  #
-  # Examples:
-  #   project.copy(1)                                    # => copies everything
-  #   project.copy(1, :only => 'members')                # => copies members only
-  #   project.copy(1, :only => ['members', 'versions'])  # => copies members and versions
-  def copy(project, options={})
-    project = self.class.find(project)
-
-    to_be_copied = self.class.reflect_on_all_associations.map(&:name)
-    to_be_copied = options[:only].to_a unless options[:only].nil?
-
-    Project.transaction do
-      if save
-        reload
-        to_be_copied.each do |name|
-          if (self.respond_to?(:"copy_#{name}") || self.private_methods.include?(:"copy_#{name}"))
-            send(:"copy_#{name}", project)
-          end
-        end
-        Redmine::Hook.call_hook(:model_project_copy_before_save, :source_project => project, :destination_project => self)
-        save
-      end
-    end
-  end
-
   def copy_attributes(project)
     begin
-      project = project.is_a?(Project) ? project : Project.find(project)
-      if project
-        # clear unique attributes
-        self.safe_attributes = project.attributes.dup.except(*self.class::NOT_TO_COPY)
+      super
+      with_model(project) do |project|
         self.enabled_modules = project.enabled_modules
         self.types = project.types
         self.custom_values = project.custom_values.collect {|v| v.clone}
         self.work_package_custom_fields = project.work_package_custom_fields
-        return self
-      else
-        return nil
       end
+      return self
     rescue ActiveRecord::RecordNotFound
       return nil
     end
-  end
-
-
-  # Copies +project+ and returns the new instance.  This will not save
-  # the copy
-  def self.copy_attributes(project)
-    return Project.new.copy_attributes(project)
   end
 
   # builds up a project hierarchy helper structure for use with #project_tree_from_hierarchy
@@ -910,6 +867,10 @@ class Project < ActiveRecord::Base
 
       i.attributes = attributes
     end
+  end
+
+  def copy_associations(from_model, options = {})
+    super(from_model, options) if self.save
   end
 
   private
