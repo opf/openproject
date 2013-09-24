@@ -15,6 +15,10 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 1.0.3
+
+* Harmonize copyright and copyright header
+
 ## 1.0.2
 
-* `#1900` Release openproject-plugins gem 
+* `#1900` Release openproject-plugins gem
