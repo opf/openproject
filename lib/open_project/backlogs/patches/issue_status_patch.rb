@@ -11,7 +11,7 @@ module OpenProject::Backlogs::Patches::IssueStatusPatch
 
   module InstanceMethods
     def is_done?(project)
-      project.work_package_statuses.include?(self)
+      project.issue_statuses.include?(self)
     end
   end
 end

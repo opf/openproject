@@ -1,6 +1,6 @@
 <h2><%=l('backlogs.definition_of_done')%></h2>
 
-<%= form_tag(:controller => '/projects', :action => "project_work_package_statuses", :id => @project) do %>
+<%= form_tag(:controller => '/projects', :action => "project_issue_statuses", :id => @project) do %>
 
 <table class="list">
   <thead>
@@ -10,10 +10,10 @@
     </tr>
   </thead>
   <tbody>
-<% for status in @work_package_statuses %>
+<% for status in @issue_statuses %>
   <tr class="<%= cycle("odd", "even") %>">
     <td><%= status.name %></td>
-    <td align="center"><%= (check_box_tag 'work_package_statuses[][status_id]', status.id.to_s, @project.work_package_statuses.include?(status), :id => status.name)%></td>
+    <td align="center"><%= (check_box_tag 'issue_statuses[][status_id]', status.id.to_s, @project.issue_statuses.include?(status), :id => status.name)%></td>
   </tr>
 <% end %>
   </tbody>

@@ -1,7 +1,7 @@
 class Story < WorkPackage
   unloadable
 
-  extend OpenProject::Backlogs::Mixins::PreventWorkPackageSti
+  extend OpenProject::Backlogs::Mixins::PreventIssueSti
 
   def self.backlogs(project_id, sprint_ids, options = {})
 

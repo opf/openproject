@@ -61,9 +61,9 @@ module OpenProject::Backlogs::Hooks
 
     def view_issues_form_details_bottom(context = {})
       snippet = ''
-      work_package = context[:work_package]
+      work_package = context[:issue]
 
-      return '' unless work_package.project.module_enabled? 'backlogs'
+      return '' unless work_package.backlogs_enabled?
 
       snippet << %(<p>)
       snippet << %(<div id="backlogs-attributes" class="attributes">)

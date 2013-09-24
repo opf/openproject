@@ -6,7 +6,7 @@ class RbTaskboardsController < RbApplicationController
   helper :taskboards
 
   def show
-    @statuses     = Type.find_by_id(Task.type).work_package_statuses
+    @statuses     = Type.find_by_id(Task.type).issue_statuses
     @story_ids    = @sprint.stories(@project).map{|s| s.id}
     @last_updated = Task.find(:first,
                               :conditions => ["parent_id in (?)", @story_ids],

@@ -3,7 +3,7 @@ require 'date'
 class Task < WorkPackage
   unloadable
 
-  extend OpenProject::Backlogs::Mixins::PreventWorkPackageSti
+  extend OpenProject::Backlogs::Mixins::PreventIssueSti
 
   def self.type
     task_type = Setting.plugin_openproject_backlogs["task_type"]

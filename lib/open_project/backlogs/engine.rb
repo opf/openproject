@@ -1,5 +1,5 @@
 require 'acts_as_silent_list'
-require 'openproject-nissue'
+#require 'openproject-nissue'
 
 module OpenProject::Backlogs
   class Engine < ::Rails::Engine
@@ -93,7 +93,7 @@ module OpenProject::Backlogs
 
           requires_openproject ">= 3.0.0pre7"
 
-          Redmine::AccessControl.permission(:edit_project).actions << "projects/project_work_package_statuses"
+          Redmine::AccessControl.permission(:edit_project).actions << "projects/project_issue_statuses"
           Redmine::AccessControl.permission(:edit_project).actions << "projects/rebuild_positions"
 
           settings Engine.settings

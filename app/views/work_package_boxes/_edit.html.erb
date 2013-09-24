@@ -9,5 +9,5 @@
 <% form = OpenProject::Backlogs::WorkPackageForm.new(@work_package) %>
 <%= OpenProject::Backlogs::WorkPackageEditActions.new(@work_package, html_id, form.form_id).render(self) %>
 <%= form.render(self) %>
-<%= OpenProject::Nissue::JournalView.new(@journals, @work_package).render(self) %>
+<%# OpenProject::Nissue::JournalView.new(@journals, @work_package).render(self) %>
 </div>
