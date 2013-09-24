@@ -58,7 +58,7 @@ class MeetingContent < ActiveRecord::Base
   def at_version(version)
     journals
     .joins("JOIN meeting_contents ON meeting_contents.id = journals.journable_id AND meeting_contents.type='#{self.class.to_s}'")
-    .where(:version => 1)
+    .where(:version => version)
     .first.data
   end
 

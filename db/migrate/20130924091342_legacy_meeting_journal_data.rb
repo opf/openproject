@@ -12,24 +12,20 @@
 #
 # See doc/COPYRIGHT.md for more details.
 #++
+#
 
-class Journal::MeetingContentJournal < ActiveRecord::Base
-  self.table_name = "meeting_content_journals"
+require_relative 'migration_utils/legacy_journal_migrator'
 
-  belongs_to :journal
-  belongs_to :meeting
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-
-  @@journaled_attributes = [:meeting_id,
-                            :author_id,
-                            :text,
-                            :locked]
-
-  def journaled_attributes
-    attributes.symbolize_keys.select{|k,_| @@journaled_attributes.include? k}
+class LegacyMeetingJournalData < ActiveRecord::Migration
+  def up
+    migrator.run
   end
 
-  def editable?
-    false
+  def down
+    migrator.remove_journals_derived_from_legacy_journals 'meeting_journals'
+  end
+
+  def migrator
+    @migrator ||= Migration::LegacyJournalMigrator.new "MeetingJournal", "meeting_journals"
   end
 end

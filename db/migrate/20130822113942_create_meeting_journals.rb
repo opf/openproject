@@ -28,6 +28,7 @@ class CreateMeetingJournals < ActiveRecord::Migration
       t.integer  :meeting_id
       t.integer  :author_id
       t.text     :text
+      t.boolean  :locked
     end
   end
 end
