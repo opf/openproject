@@ -215,3 +215,24 @@ Feature: Project Settings
     And  I should see "08/02/2001" within "#content"
     And  I should see "08/02/2002" within "#content"
     And  I should see "closed" within "#content"
+
+  @javascript
+  Scenario: Copy a project with issue categories
+    Given there is 1 user with the following:
+      | login     | carl        |
+      | firstname | Carl        |
+      | Lastname  | Carlson     |
+    And the user "carl" is a "alpha" in the project "project1"
+    And the project "project1" has 2 issue categories with:
+      | assigned_to | Carl |
+    When I am already admin
+    And  I go to the settings page of the project "project1"
+    And  I follow "Copy" within "#content"
+    And  I fill in "Name" with "Copied Project"
+    And  I fill in "Identifier" with "cp"
+    And  I check "Work package categories"
+    And  I click on "Copy"
+    Then I should see "Successful creation."
+    And  I go to the categories tab of the settings page for the project "cp"
+    Then I should see "Issue category 1" within "#content"
+    And  I should see "Issue category 2" within "#content"
