@@ -20,15 +20,15 @@ Feature: Cost Reporting Linkage
     And the user "manager" has:
       | hourly rate  | 10 |
       | default rate | 10 |
-    And the user "manager" has 1 work_package with:
+    And the user "manager" has 1 issue with:
       | subject | manager work_package |
-    And the work_package "manager work_package" has 1 time entry with the following:
+    And the issue "manager work_package" has 1 time entry with the following:
       | user  | manager |
       | hours | 10      |
     And there is 1 cost type with the following:
       | name      | word |
       | cost rate | 1.01 |
-    And the work_package "manager work_package" has 1 cost entry with the following:
+    And the work package "manager work_package" has 1 cost entry with the following:
       | units     | 7       |
       | user      | manager |
       | cost type | word    |
@@ -42,15 +42,18 @@ Feature: Cost Reporting Linkage
   @javascript
   Scenario: If
     Given there is a standard cost control project named "Standard Project"
-    And the user "manager" has 1 work_package with:
+    And the user "manager" has 1 issue with:
       | subject | manager work_package |
     And there is 1 cost type with the following:
       | name      | word |
       | cost rate | 1.01 |
-    And the work_package "manager work_package" has 1 cost entry with the following:
+    And the work package "manager work_package" has 1 cost entry with the following:
       | units     | 7       |
       | user      | manager |
       | cost type | word    |
+    And there is 1 user with:
+        | login | admin |
+        | admin | true |
     And I am already logged in as "admin"
     And I am on the Cost Reports page for the project called "Standard Project"
 
@@ -68,18 +71,18 @@ Feature: Cost Reporting Linkage
     Given there is a standard cost control project named "Standard Project"
     And the user "manager" has:
       | default rate | 10 |
-    And the user "manager" has 1 work_package with:
+    And the user "manager" has 1 issue with:
       | subject | manager work_package |
-    And the user "manager" has 1 work_package with:
+    And the user "manager" has 1 issue with:
       | subject | another work_package |
-    And the work_package "manager work_package" has 1 time entry with the following:
+    And the issue "manager work_package" has 1 time entry with the following:
       | user  | manager |
       | hours | 10      |
-    And the work_package "another work_package" has 1 time entry with the following:
+    And the issue "another work_package" has 1 time entry with the following:
       | user  | manager |
       | hours | 5       |
     And I am already logged in as "manager"
-    And I am on the page for the work_package "manager work_package"
+    And I am on the page for the issue "manager work_package"
 
     Then I should see "10.00 hours"
     When I follow "10.00 hours"
@@ -98,20 +101,20 @@ Feature: Cost Reporting Linkage
     And there is 1 cost type with the following:
       | name      | word |
       | cost rate | 10   |
-    And the user "manager" has 1 work_package with:
+    And the user "manager" has 1 issue with:
       | subject | manager work_package |
-    And the user "manager" has 1 work_package with:
+    And the user "manager" has 1 issue with:
       | subject | another work_package |
-    And the work_package "manager work_package" has 1 cost entry with the following:
+    And the work package "manager work_package" has 1 cost entry with the following:
       | user      | manager |
       | units     | 10      |
       | cost type | word    |
-    And the work_package "another work_package" has 1 cost entry with the following:
+    And the work package "another work_package" has 1 cost entry with the following:
       | user      | manager |
       | units     | 5       |
       | cost type | word    |
     And I am already logged in as "manager"
-    And I am on the page for the work_package "manager work_package"
+    And I am on the page for the work package "manager work_package"
 
     Then I should see "10.0 words"
 
@@ -127,9 +130,9 @@ Feature: Cost Reporting Linkage
   @javascript
   Scenario: Reporting on the project page should be accessible from the spent time
     Given there is a standard cost control project named "Standard Project"
-    And the project "Standard Project" has 1 work_package with the following:
+    And the project "Standard Project" has 1 issue with the following:
       | subject  | test_work_package |
-    And the work_package "test_work_package" has 1 time entry with the following:
+    And the issue "test_work_package" has 1 time entry with the following:
       | hours | 1.00    |
       | user  | manager |
     And I am already logged in as "manager"

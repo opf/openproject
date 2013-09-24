@@ -22,6 +22,9 @@ Feature: Permissions
 
   Scenario: Admin sees everything
     Given there is a standard permission test project named "Permission_Test"
+    And there is 1 user with:
+        | login | admin |
+        | admin | true |
     And I am already logged in as "admin"
     And I am on the overall Cost Reports page without filters or groups
     Then I should see "Cost Report" within "#content"
