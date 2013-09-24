@@ -1,6 +1,6 @@
 module BurndownChartsHelper
   def yaxis_labels(burndown)
-    max = [burndown.max[:hours], burndown.max[:points]].max
+    max = burndown.max[:points]
 
     mvalue = (max / 25) + 1
 
@@ -8,7 +8,7 @@ module BurndownChartsHelper
 
     mvalue = mvalue + 1 if mvalue == 1 || ((max % 25) == 0)
 
-    labels << "[#{(mvalue) * 25}, '<span class=\"axislabel\">#{l('backlogs.hours')}/<br>#{l('backlogs.points')}</span>']"
+    labels << "[#{(mvalue) * 25}, '<span class=\"axislabel\">#{l('backlogs.points')}</span>']"
 
     result = labels.join(', ')
 

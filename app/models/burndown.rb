@@ -6,12 +6,11 @@ class Burndown
 
     @sprint_id = sprint.id
 
-    days = make_date_series sprint
+    make_date_series sprint
 
     series_data = OpenProject::Backlogs::Burndown::SeriesRawData.new(project,
-                                                        sprint,
-                                                        :hours => ["remaining_hours"],
-                                                        :points => ["story_points"])
+                                                                     sprint,
+                                                                     :points => ["story_points"])
 
     series_data.collect
 
@@ -23,9 +22,6 @@ class Burndown
   attr_reader :days
   attr_reader :sprint_id
   attr_reader :max
-
-  attr_reader :remaining_hours
-  attr_reader :remaining_hours_ideal
 
   attr_reader :story_points
   attr_reader :story_points_ideal
@@ -50,7 +46,7 @@ class Burndown
   end
 
   def calculate_ideals(data)
-    (["remaining_hours", "story_points"] & data.collect_names).each do |ideal|
+    (["story_points"] & data.collect_names).each do |ideal|
       calculate_ideal(ideal, data.unit_for(ideal))
     end
   end
