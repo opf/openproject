@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   # FIXME
   # s.description = ""
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.rdoc)
+  s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "API_CHANGES.md", "README.md"]
   s.test_files = Dir["test/**/*_test.rb"]
 
   s.add_dependency "rails", "~> 3.2.9"
