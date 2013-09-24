@@ -235,30 +235,6 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
-  def test_add_issue_by_created_user
-    Setting.default_language = 'en'
-    assert_difference 'User.count' do
-      issue = submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'create')
-      assert issue.is_a?(WorkPackage)
-      assert issue.author.active?
-      assert_equal 'john.doe@somenet.foo', issue.author.mail
-      assert_equal 'John', issue.author.firstname
-      assert_equal 'Doe', issue.author.lastname
-
-      # account information
-      email = ActionMailer::Base.deliveries.first
-      assert_not_nil email
-      assert email.subject.include?('account activation')
-      login = email.body.encoded.match(/\* Login: (\S+)\s?$/)[1]
-      password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
-
-      # Can't log in here since randomly assigned password must be changed
-      found_user = User.find_by_login(login)
-      assert_equal issue.author, found_user
-      assert found_user.check_password?(password)
-    end
-  end
-
   def test_add_issue_without_from_header
     Role.anonymous.add_permission!(:add_work_packages)
     assert_equal false, submit_email('ticket_without_from_header.eml')
