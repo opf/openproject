@@ -31,7 +31,7 @@ class Relation < ActiveRecord::Base
   belongs_to :from, :class_name => 'WorkPackage', :foreign_key => 'from_id'
   belongs_to :to, :class_name => 'WorkPackage', :foreign_key => 'to_id'
 
-  scope :of_issue, ->(issue) { where('from_id = ? OR to_id = ?', issue, issue) }
+  scope :of_work_package, ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }
 
   TYPE_RELATES      = "relates"
   TYPE_DUPLICATES   = "duplicates"
@@ -65,19 +65,19 @@ class Relation < ActiveRecord::Base
     if from && to
       errors.add :to_id, :invalid if from_id == to_id
       errors.add :to_id, :not_same_project unless from.project_id == to.project_id || Setting.cross_project_work_package_relations?
-      errors.add :base, :circular_dependency if to.all_dependent_issues.include? from
+      errors.add :base, :circular_dependency if to.all_dependent_packages.include? from
       errors.add :base, :cant_link_a_work_package_with_a_descendant if from.is_descendant_of?(to) || from.is_ancestor_of?(to)
     end
   end
 
-  def other_issue(issue)
-    (self.from_id == issue.id) ? to : from
+  def other_work_package(work_package)
+    (self.from_id == work_package.id) ? to : from
   end
 
-  # Returns the relation type for +issue+
-  def relation_type_for(issue)
+  # Returns the relation type for +work_package+
+  def relation_type_for(work_package)
     if TYPES[relation_type]
-      if self.from_id == issue.id
+      if self.from_id == work_package.id
         relation_type
       else
         TYPES[relation_type][:sym]
@@ -85,8 +85,8 @@ class Relation < ActiveRecord::Base
     end
   end
 
-  def label_for(issue)
-    TYPES[relation_type] ? TYPES[relation_type][(self.from_id == issue.id) ? :name : :sym_name] : :unknow
+  def label_for(work_package)
+    TYPES[relation_type] ? TYPES[relation_type][(self.from_id == work_package.id) ? :name : :sym_name] : :unknow
   end
 
   def update_schedule
@@ -129,9 +129,9 @@ class Relation < ActiveRecord::Base
   # Reverses the relation if needed so that it gets stored in the proper way
   def reverse_if_needed
     if TYPES.has_key?(relation_type) && TYPES[relation_type][:reverse]
-      issue_tmp = to
+      work_package_tmp = to
       self.to = from
-      self.from = issue_tmp
+      self.from = work_package_tmp
       self.relation_type = TYPES[relation_type][:reverse]
     end
   end

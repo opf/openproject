@@ -96,7 +96,7 @@ module Api
                                                              :priority,
                                                              :type,
                                                              { :project => :enabled_modules }])
-                                     .select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
+                                     .select{ |r| r.other_work_package(@issue) && r.other_work_package(@issue).visible? }
 
         @ancestors = @issue.ancestors.visible.all(:include => [:type,
                                                                :assigned_to,

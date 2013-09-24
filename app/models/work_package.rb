@@ -315,11 +315,11 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def relations
-    Relation.of_issue(self)
+    Relation.of_work_package(self)
   end
 
   def relation(id)
-    Relation.of_issue(self).find(id)
+    Relation.of_work_package(self).find(id)
   end
 
   def new_relation
@@ -331,13 +331,13 @@ class WorkPackage < ActiveRecord::Base
                        :work_package => self)
   end
 
-  def all_dependent_issues(except=[])
+  def all_dependent_packages(except=[])
     except << self
     dependencies = []
     relations_from.each do |relation|
       if relation.to && !except.include?(relation.to)
         dependencies << relation.to
-        dependencies += relation.to.all_dependent_issues(except)
+        dependencies += relation.to.all_dependent_packages(except)
       end
     end
     dependencies

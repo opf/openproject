@@ -385,7 +385,7 @@ class WorkPackagesController < ApplicationController
                                                                  :priority,
                                                                  :type,
                                                                  { :project => :enabled_modules }])
-                                         .select{ |r| r.other_issue(work_package) && r.other_issue(work_package).visible? }
+                                         .select{ |r| r.other_work_package(work_package) && r.other_work_package(work_package).visible? }
   end
 
   def priorities
