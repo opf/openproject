@@ -29,7 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#1770` New Comment Section layout errors 
+* `#1770` New Comment Section layout errors
+* `#1990` Migrate issue relation
 
 ## 3.0.0pre17
 
@@ -43,7 +44,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1983` Migrate queries
 * `#1987` Migrate user rights
 * `#1988` Migrate settings
-* `#1990` Migrate issue relation
 * `#2019` Migrate auto completes controller tests
 * `#2078` Work package query produces 500 when grouping on exclusively empty values
 
