@@ -219,9 +219,9 @@ Feature: Project Settings
   @javascript
   Scenario: Copy a project with issue categories
     Given there is 1 user with the following:
-      | login     | carl        |
-      | firstname | Carl        |
-      | Lastname  | Carlson     |
+      | login     | carl    |
+      | firstname | Carl    |
+      | Lastname  | Carlson |
     And the user "carl" is a "alpha" in the project "project1"
     And the project "project1" has 2 issue categories with:
       | assigned_to | Carl |
