@@ -146,7 +146,7 @@ describe CostQuery, :reporting_query_helper => true do
       it "filters types" do
         matching_type = project.types.first
         create_work_packages_and_time_entries(3, :type => matching_type)
-        @query.filter :type_id, :operator => '=', :value => matching_type
+        @query.filter :type_id, :operator => '=', :value => matching_type.id
         @query.result.count.should == 3
       end
 
