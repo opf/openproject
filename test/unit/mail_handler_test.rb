@@ -103,6 +103,18 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
+  def test_add_work_package_with_group_assignment
+    with_settings :work_package_group_assignment => '1' do
+      work_package = submit_email('ticket_on_given_project.eml') do |email|
+        email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
+      end
+      assert work_package.is_a?(WorkPackage)
+      assert !work_package.new_record?
+      work_package.reload
+      assert_equal Group.find(11), work_package.assigned_to
+    end
+  end
+
   def test_add_issue_with_partial_attributes_override
     issue = submit_email('ticket_with_attributes.eml', :issue => {:priority => 'High'}, :allow_override => ['type'])
     assert issue.is_a?(WorkPackage)
@@ -159,10 +171,10 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_should_match_assignee_on_display_name # added from redmine  - not sure if it is ok here
-    user = User.generate!(:firstname => 'Foo Bar', :lastname => 'Foo Baz')
+    user = User.generate!(:firstname => 'Foo', :lastname => 'Bar')
     User.add_to_project(user, Project.find(2), Role.generate!(:name => 'Superhero'))
     issue = submit_email('ticket_on_given_project.eml') do |email|
-      email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar Foo baz')
+      email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')
     end
     assert issue.is_a?(WorkPackage)
     assert_equal user, issue.assigned_to

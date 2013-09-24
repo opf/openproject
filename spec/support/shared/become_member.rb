@@ -38,7 +38,7 @@ module BecomeMember
 
       role = FactoryGirl.create(:role, :permissions => permissions)
 
-      member = FactoryGirl.build(:member, :user => user, :project => project)
+      member = FactoryGirl.build(:member, :principal => user, :project => project)
       member.roles = [role]
       member.save!
     end
