@@ -55,13 +55,13 @@ test:
   password:
   encoding: utf8
 
-test_pgsql:
-  adapter: postgresql
-  encoding: unicode
-  database: openproject_test
-  pool: 5
-  username: openproject
-  password:
+#test_pgsql:
+  #adapter: postgresql
+  #encoding: unicode
+  #database: openproject_test
+  #pool: 5
+  #username: openproject
+  #password:
 
 #test_sqlite3:
   #adapter: sqlite3

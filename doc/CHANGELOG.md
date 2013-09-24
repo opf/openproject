@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#1715` Group assigned work packages
 * `#1770` New Comment Section layout errors
+* `#1790` Fix activity view bug coming up during the meeting adaptions to acts_as_journalized
 
 ## 3.0.0pre17
 
