@@ -441,7 +441,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         describe "WITH a story as child" do
           let(:child) { story2 }
 
-          it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"
+          it_should_behave_like "changing the child's parent to the parent leaves child's fixed version"
         end
 
         describe "WITH a task as child" do
@@ -453,7 +453,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         describe "WITH a non-backlogs work_package as child" do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"
+          it_should_behave_like "changing the child's parent to the parent leaves child's fixed version"
         end
       end
 
@@ -492,7 +492,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         describe "WITH a non-backlogs work_package as child" do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"
+          it_should_behave_like "changing the child's parent to the parent leaves child's fixed version"
         end
       end
 
@@ -508,7 +508,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         describe "WITH a non-backlogs work_package as child" do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"
+          it_should_behave_like "changing the child's parent to the parent leaves child's fixed version"
         end
       end
 
@@ -518,19 +518,19 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         describe "WITH a story as child" do
           let(:child) { story2 }
 
-          it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"
+          it_should_behave_like "changing the child's parent to the parent leaves child's fixed version"
         end
 
         describe "WITH a task as child" do
           let(:child) { task2 }
 
-          it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"
+          it_should_behave_like "changing the child's parent to the parent leaves child's fixed version"
         end
 
         describe "WITH a non-backlogs work_package as child" do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing the child's parent_issue to the parent leaves child's fixed version"
+          it_should_behave_like "changing the child's parent to the parent leaves child's fixed version"
         end
       end
     end
