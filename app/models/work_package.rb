@@ -54,8 +54,8 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
   has_many :time_entries, :dependent => :delete_all
-  has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
-  has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
+  has_many :relations_from, :class_name => 'Relation', :foreign_key => 'from_id', :dependent => :delete_all
+  has_many :relations_to, :class_name => 'Relation', :foreign_key => 'to_id', :dependent => :delete_all
   has_and_belongs_to_many :changesets,
                           :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
 
@@ -311,15 +311,15 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns true if this work package is blocked by another work package that is still open
   def blocked?
-    !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
+    !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.from.closed?}.nil?
   end
 
   def relations
-    IssueRelation.of_issue(self)
+    Relation.of_work_package(self)
   end
 
   def relation(id)
-    IssueRelation.of_issue(self).find(id)
+    Relation.of_work_package(self).find(id)
   end
 
   def new_relation
@@ -331,13 +331,13 @@ class WorkPackage < ActiveRecord::Base
                        :work_package => self)
   end
 
-  def all_dependent_issues(except=[])
+  def all_dependent_packages(except=[])
     except << self
     dependencies = []
     relations_from.each do |relation|
-      if relation.issue_to && !except.include?(relation.issue_to)
-        dependencies << relation.issue_to
-        dependencies += relation.issue_to.all_dependent_issues(except)
+      if relation.to && !except.include?(relation.to)
+        dependencies << relation.to
+        dependencies += relation.to.all_dependent_packages(except)
       end
     end
     dependencies
@@ -345,7 +345,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns an array of issues that duplicate this one
   def duplicates
-    relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
+    relations_to.select {|r| r.relation_type == Relation::TYPE_DUPLICATES}.collect {|r| r.from}
   end
 
   def soonest_start
@@ -359,7 +359,7 @@ class WorkPackage < ActiveRecord::Base
   def reschedule_following_issues
     if start_date_changed? || due_date_changed?
       relations_from.each do |relation|
-        relation.set_issue_to_dates
+        relation.set_dates_of_target
       end
     end
   end

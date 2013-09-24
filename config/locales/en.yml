@@ -85,10 +85,10 @@ en:
         time_entries: "Log time"
         type: "Type"
         watcher: "Watcher"
-      issue_relation:
+      relation:
         delay: "Delay"
-        issue_from: "Work Package"
-        issue_to: "Related work package"
+        from: "Work Package"
+        to: "Related work package"
       issue_status:
         is_closed: "Work package closed"
       journal:

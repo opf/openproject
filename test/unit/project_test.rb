@@ -212,7 +212,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Journal.count, "Journals were not deleted: #{Journal.all.inspect}"
     assert_equal 0, EnabledModule.count
     assert_equal 0, IssueCategory.count
-    assert_equal 0, IssueRelation.count
+    assert_equal 0, Relation.count
     assert_equal 0, Board.count
     assert_equal 0, Message.count
     assert_equal 0, News.count
@@ -818,11 +818,11 @@ class ProjectTest < ActiveSupport::TestCase
                                      :type_id => 1,
                                      :assigned_to_id => 2,
                                      :project_id => @source_project.id)
-      source_relation = IssueRelation.generate!(:issue_from => WorkPackage.find(4),
-                                                :issue_to => second_issue,
+      source_relation = Relation.generate!(:from => WorkPackage.find(4),
+                                                :to => second_issue,
                                                 :relation_type => "relates")
-      source_relation_cross_project = IssueRelation.generate!(:issue_from => WorkPackage.find(1),
-                                                              :issue_to => second_issue,
+      source_relation_cross_project = Relation.generate!(:from => WorkPackage.find(1),
+                                                              :to => second_issue,
                                                               :relation_type => "duplicates")
 
       assert @project.copy(@source_project)
@@ -834,14 +834,14 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal 1, copied_issue.relations.size, "Relation not copied"
       copied_relation = copied_issue.relations.first
       assert_equal "relates", copied_relation.relation_type
-      assert_equal copied_second_issue.id, copied_relation.issue_to_id
+      assert_equal copied_second_issue.id, copied_relation.to_id
       assert_not_equal source_relation.id, copied_relation.id
 
       # Second issue with a cross project relation
       assert_equal 2, copied_second_issue.relations.size, "Relation not copied"
       copied_relation = copied_second_issue.relations.select {|r| r.relation_type == 'duplicates'}.first
       assert_equal "duplicates", copied_relation.relation_type
-      assert_equal 1, copied_relation.issue_from_id, "Cross project relation not kept"
+      assert_equal 1, copied_relation.from_id, "Cross project relation not kept"
       assert_not_equal source_relation_cross_project.id, copied_relation.id
     end
 

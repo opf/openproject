@@ -377,15 +377,15 @@ class WorkPackagesController < ApplicationController
   end
 
   def relations
-    @relations ||= work_package.relations.includes(:issue_from => [:status,
+    @relations ||= work_package.relations.includes(:from => [:status,
                                                                    :priority,
                                                                    :type,
                                                                    { :project => :enabled_modules }],
-                                                   :issue_to => [:status,
+                                                   :to => [:status,
                                                                  :priority,
                                                                  :type,
                                                                  { :project => :enabled_modules }])
-                                         .select{ |r| r.other_issue(work_package) && r.other_issue(work_package).visible? }
+                                         .select{ |r| r.other_work_package(work_package) && r.other_work_package(work_package).visible? }
   end
 
   def priorities

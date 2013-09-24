@@ -86,10 +86,10 @@ de:
         time_entries: "Logzeit"
         type: "Typ"
         watcher: "Beobachter"
-      issue_relation:
+      relation:
         delay: "Pufferzeit"
-        issue_from: "Ticket"
-        issue_to: "Zugehöriges Ticket"
+        from: "Arbeitspaket"
+        to: "Zugehöriges Arbeitspaket"
       issue_status:
         is_closed: "Ticket geschlossen"
       journal:

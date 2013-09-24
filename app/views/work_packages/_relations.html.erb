@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <p>
   <strong><%=l(:label_related_work_packages)%></strong>
   <% if authorize_for('work_package_relations', 'create') %>
-    (<%= toggle_link l(:label_add_related_work_packages), 'new-relation-form', {:focus => 'relation_issue_to_id'} %>)
+    (<%= toggle_link l(:label_add_related_work_packages), 'new-relation-form', {:focus => 'relation_to_id'} %>)
   <% end %>
 </p>
 
@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
              :url => work_package_relations_path(work_package),
              :method => :post,
              :remote => true,
-             :complete => "Form.Element.focus('relation_issue_to_id');",
+             :complete => "Form.Element.focus('relation_to_id');",
              :html => {:id => 'new-relation-form', :style => (@relation ? '' : 'display: none;')}) do |f| %>
 
   <%= render :partial => 'work_package_relations/form', :locals => {:f => f}%>
