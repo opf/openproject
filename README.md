@@ -76,7 +76,7 @@ Special thanks go to
 License
 -------
 
-(c) 2011 - 2013 - Finn GmbH
+(c) 2011 - 2013 - the OpenProject Foundation (OPF)
 
-This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.rdoc and
+This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.md and
 doc/GPL.txt for details.
