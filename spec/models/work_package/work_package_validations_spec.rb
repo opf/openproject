@@ -84,7 +84,7 @@ describe WorkPackage do
     let(:successor)  {FactoryGirl.create(:work_package, author: user, project: project, start_date: "31/01/13")}
 
     it "validate, that the start date of a work-package is no sooner than the start_dates of preceding work_packages" do
-      relation = IssueRelation.new(:issue_from => predecessor, :issue_to => successor, :relation_type => IssueRelation::TYPE_PRECEDES)
+      relation = Relation.new(:from => predecessor, :to => successor, :relation_type => Relation::TYPE_PRECEDES)
       relation.save!
 
 

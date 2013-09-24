@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -26,16 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-issue_relation_001:
-  id: 1
-  issue_from_id: 10
-  issue_to_id: 9
-  relation_type: blocks
-  delay:
-issue_relation_002:
-  id: 2
-  issue_from_id: 2
-  issue_to_id: 3
-  relation_type: relates
-  delay:
-
+module RelationsHelper
+  def collection_for_relation_type_select
+    values = Relation::TYPES
+    values.keys.sort{|x,y| values[x][:order] <=> values[y][:order]}.collect{|k| [l(values[k][:name]), k]}
+  end
+end

@@ -640,8 +640,8 @@ describe WorkPackagesController do
   end
 
   describe :relations do
-    let(:relation) { FactoryGirl.build_stubbed(:issue_relation, :issue_from => stub_issue,
-                                                                :issue_to => stub_planning_element) }
+    let(:relation) { FactoryGirl.build_stubbed(:relation, :from => stub_issue,
+                                                                :to => stub_planning_element) }
     let(:relations) { [relation] }
 
     before do

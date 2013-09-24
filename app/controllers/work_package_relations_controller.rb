@@ -32,7 +32,7 @@ class WorkPackageRelationsController < ApplicationController
 
   def create
     @relation = @work_package.new_relation.tap do |r|
-      r.issue_to = WorkPackage.visible.find_by_id(params[:relation][:issue_to_id].match(/\d+/).to_s)
+      r.to = WorkPackage.visible.find_by_id(params[:relation][:to_id].match(/\d+/).to_s)
       r.relation_type = params[:relation][:relation_type]
       r.delay = params[:relation][:delay]
     end

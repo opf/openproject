@@ -107,7 +107,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal [1, parent1.id, 1], [grandchild.project_id, grandchild.root_id, grandchild.nested_set_span]
   end
 
-  def test_moving_an_issue_to_a_descendant_should_not_validate
+  def test_moving_an_to_a_descendant_should_not_validate
     parent1 = create_issue!
     parent2 = create_issue!
     child =   create_issue!(:parent_id => parent1.id)
@@ -124,27 +124,27 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue2 = create_issue!
     issue3 = create_issue!(:parent_id => issue2.id)
     issue4 = create_issue!
-    (r1 = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => issue1,
-                             :issue_to => issue2,
-                             :relation_type => IssueRelation::TYPE_PRECEDES }
+    (r1 = Relation.new.tap do |i|
+      i.force_attributes = { :from => issue1,
+                             :to => issue2,
+                             :relation_type => Relation::TYPE_PRECEDES }
     end).save!
-    (r2 = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => issue1,
-                             :issue_to => issue3,
-                             :relation_type => IssueRelation::TYPE_PRECEDES }
+    (r2 = Relation.new.tap do |i|
+      i.force_attributes = { :from => issue1,
+                             :to => issue3,
+                             :relation_type => Relation::TYPE_PRECEDES }
     end).save!
-    (r3 = IssueRelation.new.tap do |i|
-      i.force_attributes = { :issue_from => issue2,
-                             :issue_to => issue4,
-                             :relation_type => IssueRelation::TYPE_PRECEDES }
+    (r3 = Relation.new.tap do |i|
+      i.force_attributes = { :from => issue2,
+                             :to => issue4,
+                             :relation_type => Relation::TYPE_PRECEDES }
     end).save!
     issue2.reload
     issue2.parent_id = issue1.id
     issue2.save!
-    assert !IssueRelation.exists?(r1.id)
-    assert !IssueRelation.exists?(r2.id)
-    assert IssueRelation.exists?(r3.id)
+    assert !Relation.exists?(r1.id)
+    assert !Relation.exists?(r2.id)
+    assert Relation.exists?(r3.id)
   end
 
   def test_destroy_should_destroy_children
