@@ -3,7 +3,7 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |pro
   as_admin count do
     ce = CostEntry.generate
     ce.project = p
-    ce.work_package = WorkPackage.generate_for_project!(p)
+    ce.work_package = FactoryGirl.create(:work_package, project: p)
     ce.save!
   end
 end
@@ -34,7 +34,7 @@ end
 Given /^the [Uu]ser "([^\"]*)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |user, count|
   u = User.find_by_login user
   p = u.projects.last
-  i = WorkPackage.generate_for_project!(p)
+  i = FactoryGirl.create(:work_package, project: p)
   as_admin count do
     ce = FactoryGirl.create(:cost_entry)
     ce.user = u
@@ -46,7 +46,7 @@ end
 
 Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |project, count, table|
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
-  i = WorkPackage.generate_for_project!(p)
+  i = FactoryGirl.create(:work_package, project: p)
   as_admin count do
     ce = CostEntry.generate
     ce.project = p
