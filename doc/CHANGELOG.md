@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1793` Data Migration Journals
 * `#1913` [Timelines] Enable drag&drop for select2 items in order to rearrange the order of the columns
 * `#1978` Migrate legacy issues
 * `#1979` Migrate legacy planning elements
@@ -64,7 +65,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1766` Fixed bug: Viewing diff of Work Package description results in error 500
 * `#1767` Fixed bug: Viewing changesets results in "page not found"
 * `#1789` Move validation to Work Package
-* `#1793` Data Migration Journals
 * `#1800` Add settings to change software name and URL and add additional footer content
 * `#1808` Add option to log user for each request
 * `#1875` Added test steps to reuse steps for my page, my project page, and documents, no my page block lookup at class load time
