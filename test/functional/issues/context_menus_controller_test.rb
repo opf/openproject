@@ -29,12 +29,12 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class Issues::ContextMenusControllerTest < ActionController::TestCase
+class WorkPackages::ContextMenusControllerTest < ActionController::TestCase
   fixtures :all
 
   def test_context_menu_one_issue
     @request.session[:user_id] = 2
-    get :issues, :ids => [1]
+    get :index, :ids => [1]
     assert_response :success
     assert_template 'context_menu'
     assert_tag :tag => 'a', :content => 'Edit',
@@ -69,7 +69,7 @@ class Issues::ContextMenusControllerTest < ActionController::TestCase
   end
 
   def test_context_menu_one_issue_by_anonymous
-    get :issues, :ids => [1]
+    get :index, :ids => [1]
     assert_response :success
     assert_template 'context_menu'
     assert_select "a.disabled", :text => /Delete/
@@ -77,13 +77,13 @@ class Issues::ContextMenusControllerTest < ActionController::TestCase
 
   def test_context_menu_multiple_issues_of_same_project
     @request.session[:user_id] = 2
-    get :issues, :ids => [1, 2]
+    get :index, :ids => [1, 2]
     assert_response :success
     assert_template 'context_menu'
-    assert_not_nil assigns(:issues)
-    assert_equal [1, 2], assigns(:issues).map(&:id).sort
+    assert_not_nil assigns(:work_packages)
+    assert_equal [1, 2], assigns(:work_packages).map(&:id).sort
 
-    ids = assigns(:issues).map(&:id).map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
+    ids = assigns(:work_packages).map(&:id).map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
     assert_tag :tag => 'a', :content => 'Edit',
                             :attributes => { :href => "/issues/bulk_edit?#{ids}",
                                              :class => 'icon-edit' }
@@ -106,13 +106,13 @@ class Issues::ContextMenusControllerTest < ActionController::TestCase
 
   def test_context_menu_multiple_issues_of_different_projects
     @request.session[:user_id] = 2
-    get :issues, :ids => [1, 2, 6]
+    get :index, :ids => [1, 2, 6]
     assert_response :success
     assert_template 'context_menu'
-    assert_not_nil assigns(:issues)
-    assert_equal [1, 2, 6], assigns(:issues).map(&:id).sort
+    assert_not_nil assigns(:work_packages)
+    assert_equal [1, 2, 6], assigns(:work_packages).map(&:id).sort
 
-    ids = assigns(:issues).map(&:id).map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
+    ids = assigns(:work_packages).map(&:id).map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
     assert_tag :tag => 'a', :content => 'Edit',
                             :attributes => { :href => "/issues/bulk_edit?#{ids}",
                                              :class => 'icon-edit' }
@@ -130,9 +130,9 @@ class Issues::ContextMenusControllerTest < ActionController::TestCase
   end
 
   def test_context_menu_issue_visibility
-    get :issues, :ids => [1, 4]
+    get :index, :ids => [1, 4]
     assert_response :success
     assert_template 'context_menu'
-    assert_equal [1], assigns(:issues).collect(&:id)
+    assert_equal [1], assigns(:work_packages).collect(&:id)
   end
 end
