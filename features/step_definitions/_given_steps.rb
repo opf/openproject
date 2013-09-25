@@ -285,7 +285,7 @@ Given /^the following types are configured to track stories:$/ do |table|
   Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge("story_types" => story_types.map(&:id))
 end
 
-Given /^the [tT]racker(?: "([^\"]*)")? has for the Role "(.+?)" the following workflows:$/ do |type_name, role_name, table|
+Given /^the [tT]ype(?: "([^\"]*)")? has for the Role "(.+?)" the following workflows:$/ do |type_name, role_name, table|
   role = Role.find_by_name(role_name)
   type = Type.find_by_name(type_name)
 

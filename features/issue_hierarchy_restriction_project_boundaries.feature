@@ -56,7 +56,7 @@ Feature: The work_package hierarchy between backlogs stories and backlogs tasks 
         | backlogs |
     And the user "markus" is a "scrum master" in the project "parent_project"
     And the user "markus" is a "scrum master" in the project "child_project"
-    And the "cross_project_issue_relations" setting is set to true
+    And the "cross_project_work_package_relations" setting is set to true
     And I am already logged in as "markus"
 
   @javascript
