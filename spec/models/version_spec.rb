@@ -40,8 +40,7 @@ describe Version do
 
       # enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ["backlogs"]
-      Setting.plugin_openproject_backlogs = {"story_types" => [epic_type.id, story_type.id],
-                                 "task_type"   => task_type.id}
+      Setting.stub(:plugin_openproject_backlogs).and_return({"story_types" => [epic_type.id, story_type.id], "task_type" => task_type.id})
 
       # otherwise the type id's from the previous test are still active
       WorkPackage.instance_variable_set(:@backlogs_types, nil)

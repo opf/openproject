@@ -92,25 +92,19 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
                               :author => user,
                               :priority => issue_priority) }
 
-  before(:all) do
-    @are_settings_cached = ActionController::Base.perform_caching
-    ActionController::Base.perform_caching = false
-    Setting.cross_project_work_package_relations = "1"
-  end
-
-  after(:all) do
-    ActionController::Base.perform_caching = @are_settings_cached
+  before do
+    Setting.stub(:cross_project_work_package_relations).and_return("1")
   end
 
   before(:each) do
     parent_project.save!
     child_project.save!
 
-    Setting.plugin_openproject_backlogs = {"points_burn_direction" => "down",
-                               "wiki_template"         => "",
-                               "card_spec"             => "Sattleford VM-5040",
-                               "story_types"        => [type_feature.id],
-                               "task_type"          => type_task.id.to_s}
+    Setting.stub(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
+                                                            "wiki_template"         => "",
+                                                            "card_spec"             => "Sattleford VM-5040",
+                                                            "story_types"           => [type_feature.id],
+                                                            "task_type"             => type_task.id.to_s})
   end
 
   if project_boundaries_spanning_work_package_hierarchy_allowed?

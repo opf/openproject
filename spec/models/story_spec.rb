@@ -40,11 +40,11 @@ describe Story do
   before(:each) do
     ActionController::Base.perform_caching = false
 
-    Setting.plugin_openproject_backlogs = {"points_burn_direction" => "down",
-                               "wiki_template"         => "",
-                               "card_spec"             => "Sattleford VM-5040",
-                               "story_types"        => [type_feature.id.to_s],
-                               "task_type"          => task_type.id.to_s }
+    Setting.stub(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
+                                                            "wiki_template"         => "",
+                                                            "card_spec"             => "Sattleford VM-5040",
+                                                            "story_types"           => [type_feature.id.to_s],
+                                                            "task_type"             => task_type.id.to_s })
   end
 
   describe "Class methods" do
