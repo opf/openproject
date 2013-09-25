@@ -29,10 +29,14 @@
 class RemoveFilesAttachedToProjectsAndVersions < ActiveRecord::Migration
   def up
     if  Attachment.where(:container_type => ['Version','Project']).any?
-      raise "There are still attachments attached to Versions or Projects, please remove them."
+      raise "Error: There are still attachments attached to Versions or Projects!"\
+            "\n\n"\
+            "Consider possible solutions under the rake namespace 'migrations:attachments'."\
+            "\n\n"\
+            "If you don't need those attachments, use the following rake task:\n"\
+            "'migrations:attachments:delete_from_projects_and_versions'."\
+            "\n\n\n"
     end
-    #uncomment this code if you want do delete all existing files attached to projects and versions
-    #Attachment.where(:container_type => ['Version','Project']).destroy_all
   end
 
   def down

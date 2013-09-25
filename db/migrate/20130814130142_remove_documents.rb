@@ -30,7 +30,16 @@ class RemoveDocuments < ActiveRecord::Migration
   def up
     unless Redmine::Plugin.registered_plugins.include?(:openproject_documents)
       if  Document.any? || Attachment.where(:container_type => ['Document']).any?
-        raise "There are still documents and/or attachments attached to documents, please remove them."
+        raise "Error: There are still documents and/or attachments attached to documents!"\
+              "\n\n"\
+              "You have the following options:"\
+              "\n\n"\
+              "(1) Install plug-in 'openproject-documents'\n"\
+              "    This option prevents data loss and allows you to continue using documents."\
+              "\n\n"\
+              "(2) Remove all documents from database\n"\
+              "    Consider using the rake task 'migrations:documents:delete'."\
+              "\n\n\n"
       else
         drop_table :documents
         DocumentCategory.destroy_all
