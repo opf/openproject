@@ -626,6 +626,65 @@ class WorkPackage < ActiveRecord::Base
     return done_date <= Date.today
   end
 
+  def move_to_project_without_transaction(new_project, new_type = nil, options = {})
+    options ||= {}
+    work_package = options[:copy] ? self.class.new.copy_from(self) : self
+
+    if new_project && work_package.project_id != new_project.id
+      delete_relations(work_package)
+      # work_package is moved to another project
+      # reassign to the category with same name if any
+      new_category = work_package.category.nil? ? nil : new_project.issue_categories.find_by_name(work_package.category.name)
+      work_package.category = new_category
+      # Keep the fixed_version if it's still valid in the new_project
+      unless new_project.shared_versions.include?(work_package.fixed_version)
+        work_package.fixed_version = nil
+      end
+      work_package.project = new_project
+
+      if !Setting.cross_project_work_package_relations? &&
+         parent && parent.project_id != project_id
+        self.parent_id = nil
+      end
+    end
+    if new_type
+      work_package.type = new_type
+      work_package.reset_custom_values!
+    end
+    # Allow bulk setting of attributes on the work_package
+    if options[:attributes]
+      # before setting the attributes, we need to remove the move-related fields
+      work_package.attributes = options[:attributes].except(:copy,:new_project_id, :new_type_id, :follow, :ids)
+                                                    .reject { |key, value| value.blank? }
+    end                                             # FIXME this eliminates the case, where values shall be bulk-assigned to null, but this needs to work together with the permit
+    if options[:copy]
+      work_package.author = User.current
+      work_package.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
+      work_package.status = if options[:attributes] && options[:attributes][:status_id]
+                              IssueStatus.find_by_id(options[:attributes][:status_id])
+                            else
+                              self.status
+                            end
+    end
+
+    if work_package.save
+      unless options[:copy]
+        # Manually update project_id on related time entries
+        TimeEntry.update_all("project_id = #{new_project.id}", {:work_package_id => id})
+
+        work_package.children.each do |child|
+          unless child.move_to_project_without_transaction(new_project)
+            # Move failed and transaction was rollback'd
+            return false
+          end
+        end
+      end
+    else
+      return false
+    end
+    work_package
+  end
+
   protected
 
   def recalculate_attributes_for(work_package_id)
@@ -735,65 +794,6 @@ class WorkPackage < ActiveRecord::Base
       end
     end
     projects
-  end
-
-  def move_to_project_without_transaction(new_project, new_type = nil, options = {})
-    options ||= {}
-    work_package = options[:copy] ? self.class.new.copy_from(self) : self
-
-    if new_project && work_package.project_id != new_project.id
-      delete_relations(work_package)
-      # work_package is moved to another project
-      # reassign to the category with same name if any
-      new_category = work_package.category.nil? ? nil : new_project.issue_categories.find_by_name(work_package.category.name)
-      work_package.category = new_category
-      # Keep the fixed_version if it's still valid in the new_project
-      unless new_project.shared_versions.include?(work_package.fixed_version)
-        work_package.fixed_version = nil
-      end
-      work_package.project = new_project
-
-      if !Setting.cross_project_work_package_relations? &&
-         parent && parent.project_id != project_id
-        self.parent_id = nil
-      end
-    end
-    if new_type
-      work_package.type = new_type
-      work_package.reset_custom_values!
-    end
-    # Allow bulk setting of attributes on the work_package
-    if options[:attributes]
-      # before setting the attributes, we need to remove the move-related fields
-      work_package.attributes = options[:attributes].except(:copy,:new_project_id, :new_type_id, :follow, :ids)
-                                                    .reject { |key, value| value.blank? }
-    end                                             # FIXME this eliminates the case, where values shall be bulk-assigned to null, but this needs to work together with the permit
-    if options[:copy]
-      work_package.author = User.current
-      work_package.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
-      work_package.status = if options[:attributes] && options[:attributes][:status_id]
-                              IssueStatus.find_by_id(options[:attributes][:status_id])
-                            else
-                              self.status
-                            end
-    end
-
-    if work_package.save
-      unless options[:copy]
-        # Manually update project_id on related time entries
-        TimeEntry.update_all("project_id = #{new_project.id}", {:work_package_id => id})
-
-        work_package.children.each do |child|
-          unless child.move_to_project_without_transaction(new_project)
-            # Move failed and transaction was rollback'd
-            return false
-          end
-        end
-      end
-    else
-      return false
-    end
-    work_package
   end
 
   # Do not redefine alias chain on reload (see #4838)
