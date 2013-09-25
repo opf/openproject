@@ -29,7 +29,24 @@
 Feature: User session
   Background:
     Given there is 1 user with the following:
-      | login | bob |
+      | login    | bob        |
+
+  Scenario: A user will be forwarded to the login page from the my page
+    When I go to the My page
+    Then I should be on the login page
+    When I fill in "bob" for "username" within "#login-form"
+    And I fill in "adminADMIN!" for "password" within "#login-form"
+    And I click on "Login" within "#login-form"
+    And I go to the my account page
+    Then I should be on the my account page
+
+  Scenario: A user logging in will be forwarded to the original page
+    When I go to the my account page
+    Then I should be on the login page
+    When I fill in "bob" for "username" within "#login-form"
+    And I fill in "adminADMIN!" for "password" within "#login-form"
+    And I click on "Login" within "#login-form"
+    Then I should be on the my account page
 
   Scenario: A user can log in
     When I login as "bob"

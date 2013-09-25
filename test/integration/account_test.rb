@@ -31,26 +31,6 @@ require File.expand_path('../../test_helper', __FILE__)
 class AccountTest < ActionDispatch::IntegrationTest
   fixtures :all
 
-  # Replace this with your real tests.
-  def test_login
-    get "my/page"
-    assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fmy%2Fpage"
-    log_user('jsmith', 'jsmith')
-
-    get "my/account"
-    assert_response :success
-    assert_template "my/account"
-  end
-
-  def test_redirect_after_login
-    target_url =  "/my/account?q=%C3%A4"
-
-    get target_url
-    post @response.redirect_url, :username => 'jsmith', :password => 'jsmith'
-
-    assert_redirected_to target_url
-  end
-
   def test_autologin
     user = User.find(1)
     Setting.autologin = "7"
