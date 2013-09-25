@@ -69,6 +69,7 @@ module OpenProject::Backlogs
       require 'open_project/backlogs/hooks'
 
       require_dependency 'open_project/backlogs/patches'
+      require_dependency 'open_project/backlogs/patches/permitted_params_patch'
       require_dependency 'open_project/backlogs/patches/work_package_patch'
       require_dependency 'open_project/backlogs/patches/issue_status_patch'
       require_dependency 'open_project/backlogs/patches/my_controller_patch'

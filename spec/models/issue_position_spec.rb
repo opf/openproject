@@ -98,8 +98,8 @@ describe WorkPackage do
         work_package_2.fixed_version = sprint_2
         work_package_2.save!
 
-        sprint_1.fixed_work_packages.all(:order => 'id').should == [work_package_1, work_package_3, work_package_4, work_package_5]
-        sprint_1.fixed_work_packages.all(:order => 'id').each(&:reload).map(&:position).should == [1, 2, 3, 4]
+        sprint_1.fixed_issues.all(:order => 'id').should == [work_package_1, work_package_3, work_package_4, work_package_5]
+        sprint_1.fixed_issues.all(:order => 'id').each(&:reload).map(&:position).should == [1, 2, 3, 4]
       end
     end
 

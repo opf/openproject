@@ -19,7 +19,7 @@ describe Backlog do
         before(:each) do
           @project = project
           @work_packages = [FactoryGirl.create(:work_package, :subject => "work_package1", :project => @project, :type => @feature, :status => @status)]
-          @version = FactoryGirl.create(:version, :project => project, :fixed_work_packages => @work_packages)
+          @version = FactoryGirl.create(:version, :project => project, :fixed_issues => @work_packages)
           @version_settings = @version.version_settings.create(:display => VersionSetting::DISPLAY_RIGHT, :project => project)
         end
 
