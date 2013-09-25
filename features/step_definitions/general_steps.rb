@@ -181,7 +181,7 @@ Given /^the [Uu]ser "([^\"]*)" has 1 time [eE]ntry$/ do |user|
   u = User.find_by_login user
   p = u.projects.last
   raise "This user must be member of a project to have issues" unless p
-  i = WorkPackage.generate_for_project!(p)
+  i = FactoryGirl.create(:work_package, project: p)
   t = TimeEntry.generate
   t.user = u
   t.issue = i
@@ -195,7 +195,7 @@ Given /^the [Uu]ser "([^\"]*)" has 1 time entry with (\d+\.?\d*) hours? at the p
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin do
     t = TimeEntry.generate
-    i = WorkPackage.generate_for_project!(p)
+    i = FactoryGirl.create(:work_package, project: p)
     t.project = p
     t.issue = i
     t.hours = hours.to_f
@@ -211,7 +211,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin count do
     t = TimeEntry.generate
-    i = WorkPackage.generate_for_project!(p)
+    i = FactoryGirl.create(:work_package, project: p)
     t.project = p
     t.work_package = i
     t.activity.project = p

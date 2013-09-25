@@ -33,7 +33,7 @@ class Journal < ActiveRecord::Base
 
   def self.generate_issue
     project = Project.generate!
-    WorkPackage.generate_for_project!(project)
+    FactoryGirl.create(:work_package, project: project)
   end
 
   def self.generate_user
