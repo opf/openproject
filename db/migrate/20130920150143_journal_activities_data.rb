@@ -40,7 +40,6 @@ class JournalActivitiesData < ActiveRecord::Migration
     end
 
     say_with_time_silently "Changing activity type from 'work_packages' to 'issues'" do
-
       update <<-SQL
       UPDATE #{journals_table}
       SET activity_type = #{issue_activity}
@@ -58,26 +57,26 @@ class JournalActivitiesData < ActiveRecord::Migration
   end
 
   def journals_table
-    quote_table_name('journals')
+    ActiveRecord::Base.connection.quote_table_name('journals')
   end
 
   def legacy_planning_elements_table
-    quote_table_name('legacy_planning_elements')
+    ActiveRecord::Base.connection.quote_table_name('legacy_planning_elements')
   end
 
   def work_package_type
-    quote_value('WorkPackage')
+    ActiveRecord::Base.connection.quote('WorkPackage')
   end
 
   def work_package_activity
-    quote_value('work_packages')
+    ActiveRecord::Base.connection.quote('work_packages')
   end
 
   def planning_element_activity
-    quote_value('timelines_planning_elements')
+    ActiveRecord::Base.connection.quote('timelines_planning_elements')
   end
 
   def issue_activity
-    quote_value('issues')
+    ActiveRecord::Base.connection.quote('issues')
   end
 end
