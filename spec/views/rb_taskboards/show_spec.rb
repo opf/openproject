@@ -52,7 +52,7 @@ describe 'rb_taskboards/show' do
   let(:impediment) { FactoryGirl.create(:impediment, :project => project, :status => statuses[0], :fixed_version => sprint, :blocks_ids => task.id.to_s, :type => type_task) }
 
   before :each do
-    Setting.stub(:plugin_openproject_backlogs).and_return({"story_types" => [type_feature.id], "task_type" => task_type.id})
+    Setting.stub(:plugin_openproject_backlogs).and_return({"story_types" => [type_feature.id], "task_type" => type_task.id})
     view.extend RbCommonHelper
     view.extend TaskboardsHelper
 

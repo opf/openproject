@@ -142,13 +142,13 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     def blocks
       # return work_packages that I block that aren't closed
       return [] if closed?
-      relations_from.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_to.closed? ? ir.issue_to : nil}.compact
+      relations_from.collect {|ir| ir.relation_type == 'blocks' && !ir.to.closed? ? ir.to : nil}.compact
     end
 
     def blockers
       # return work_packages that block me
       return [] if closed?
-      relations_to.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed? ? ir.issue_from : nil}.compact
+      relations_to.collect {|ir| ir.relation_type == 'blocks' && !ir.from.closed? ? ir.from : nil}.compact
     end
 
     def recalculate_attributes_for_with_remaining_hours(work_package_id)

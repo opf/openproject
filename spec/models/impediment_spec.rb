@@ -81,7 +81,7 @@ describe Impediment do
         it_should_behave_like "impediment creation"
         it { @impediment.should have(1).relations_from }
         it { @impediment.relations_from[0].issue_to.should eql feature }
-        it { @impediment.relations_from[0].relation_type.should eql IssueRelation::TYPE_BLOCKS }
+        it { @impediment.relations_from[0].relation_type.should eql Relation::TYPE_BLOCKS }
       end
 
       shared_examples_for "impediment creation with no blocking relationship" do
@@ -187,7 +187,7 @@ describe Impediment do
         it { @impediment.should have(1).relations_from }
         it { @impediment.relations_from[0].should_not be_new_record }
         it { @impediment.relations_from[0].issue_to.should eql @story }
-        it { @impediment.relations_from[0].relation_type.should eql IssueRelation::TYPE_BLOCKS }
+        it { @impediment.relations_from[0].relation_type.should eql Relation::TYPE_BLOCKS }
       end
 
       shared_examples_for "impediment update with unchanged blocking relationship" do
@@ -195,7 +195,7 @@ describe Impediment do
         it { @impediment.should have(1).relations_from }
         it { @impediment.relations_from[0].should_not be_changed }
         it { @impediment.relations_from[0].issue_to.should eql feature }
-        it { @impediment.relations_from[0].relation_type.should eql IssueRelation::TYPE_BLOCKS }
+        it { @impediment.relations_from[0].relation_type.should eql Relation::TYPE_BLOCKS }
       end
 
       describe "WHEN changing the blocking relationship to another story" do
@@ -297,8 +297,8 @@ describe Impediment do
           task.fixed_version = version
           task.save
 
-          impediment.relations_from = [IssueRelation.new(:issue_from => impediment, :issue_to => feature, :relation_type => IssueRelation::TYPE_BLOCKS),
-                                       IssueRelation.new(:issue_from => impediment, :issue_to => task, :relation_type => IssueRelation::TYPE_BLOCKS)]
+          impediment.relations_from = [Relation.new(:from => impediment, :to => feature, :relation_type => Relation::TYPE_BLOCKS),
+                                       Relation.new(:from => impediment, :to => task, :relation_type => Relation::TYPE_BLOCKS)]
           true
         end
 
