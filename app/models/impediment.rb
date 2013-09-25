@@ -35,7 +35,7 @@ class Impediment < Task
   end
 
   def blocks_ids
-    @blocks_ids_list ||= relations_from.select{ |rel| rel.relation_type == IssueRelation::TYPE_BLOCKS }.collect(&:work_package_to_id)
+    @blocks_ids_list ||= relations_from.select{ |rel| rel.relation_type == Relation::TYPE_BLOCKS }.collect(&:to_id)
   end
 
   private
@@ -47,15 +47,15 @@ class Impediment < Task
   end
 
   def remove_from_blocks_list
-    self.relations_from.delete(self.relations_from.select{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && !blocks_ids.include?(rel.work_package_to_id) })
+    self.relations_from.delete(self.relations_from.select{|rel| rel.relation_type == Relation::TYPE_BLOCKS && !blocks_ids.include?(rel.to_id) })
   end
 
   def add_to_blocks_list
-    currently_blocking = relations_from.select{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS}.collect(&:work_package_to_id)
+    currently_blocking = relations_from.select{|rel| rel.relation_type == Relation::TYPE_BLOCKS}.collect(&:to_id)
 
     (self.blocks_ids - currently_blocking).each{ |id|
-      rel = IssueRelation.new(:relation_type => IssueRelation::TYPE_BLOCKS, :work_package_from => self)
-      rel.work_package_to_id = id #attr_protected
+      rel = Relation.new(:relation_type => Relation::TYPE_BLOCKS, :from => self)
+      rel.to_id = id #attr_protected
       self.relations_from << rel
     }
   end

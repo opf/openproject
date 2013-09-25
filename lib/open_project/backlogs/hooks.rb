@@ -154,11 +154,11 @@ module OpenProject::Backlogs::Hooks
 
       if work_package.is_story?
         if params[:link_to_original]
-          rel = IssueRelation.new
+          rel = Relation.new
 
-          rel.work_package_from_id = Integer(params[:link_to_original])
-          rel.work_package_to_id = work_package.id
-          rel.relation_type = IssueRelation::TYPE_RELATES
+          rel.from_id = Integer(params[:link_to_original])
+          rel.to_id = work_package.id
+          rel.relation_type = Relation::TYPE_RELATES
           rel.save
         end
 

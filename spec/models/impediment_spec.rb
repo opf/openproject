@@ -80,7 +80,7 @@ describe Impediment do
       shared_examples_for "impediment creation with 1 blocking relationship" do
         it_should_behave_like "impediment creation"
         it { @impediment.should have(1).relations_from }
-        it { @impediment.relations_from[0].issue_to.should eql feature }
+        it { @impediment.relations_from[0].to.should eql feature }
         it { @impediment.relations_from[0].relation_type.should eql Relation::TYPE_BLOCKS }
       end
 
@@ -186,7 +186,7 @@ describe Impediment do
         it_should_behave_like "impediment update"
         it { @impediment.should have(1).relations_from }
         it { @impediment.relations_from[0].should_not be_new_record }
-        it { @impediment.relations_from[0].issue_to.should eql @story }
+        it { @impediment.relations_from[0].to.should eql @story }
         it { @impediment.relations_from[0].relation_type.should eql Relation::TYPE_BLOCKS }
       end
 
@@ -194,7 +194,7 @@ describe Impediment do
         it_should_behave_like "impediment update"
         it { @impediment.should have(1).relations_from }
         it { @impediment.relations_from[0].should_not be_changed }
-        it { @impediment.relations_from[0].issue_to.should eql feature }
+        it { @impediment.relations_from[0].to.should eql feature }
         it { @impediment.relations_from[0].relation_type.should eql Relation::TYPE_BLOCKS }
       end
 

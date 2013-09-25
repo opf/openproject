@@ -57,11 +57,11 @@ module OpenProject::Backlogs::Patches::QueryPatch
             sql << "(#{db_table}.type_id = #{Task.type} AND NOT #{db_table}.parent_id IS NULL)"
           when "impediment"
             sql << "(#{db_table}.id IN (
-                  select work_package_from_id
+                  select from_id
                   FROM issue_relations ir
                   JOIN work_packages blocked
                   ON
-                    blocked.id = ir.issue_to_id
+                    blocked.id = ir.to_id
                     AND blocked.type_id IN (#{all_types})
                   WHERE ir.relation_type = 'blocks'
                 ) AND #{db_table}.parent_id IS NULL)"
