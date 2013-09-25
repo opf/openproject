@@ -28,12 +28,6 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-begin
-  require 'mocha/setup'
-rescue
-  # Won't run some tests
-end
-
 class AccountTest < ActionDispatch::IntegrationTest
   fixtures :all
 
@@ -137,26 +131,5 @@ class AccountTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal "/", current_path
 
-  end
-
-
-  if Object.const_defined?(:Mocha)
-
-  def test_onthefly_registration
-    # disable registration
-    Setting.self_registration = '0'
-    AuthSource.expects(:authenticate).returns({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
-
-    post 'account/login', :username => 'foo', :password => 'bar'
-    assert_redirected_to '/my/first_login'
-
-    user = User.find_by_login('foo')
-    assert user.is_a?(User)
-    assert_equal 66, user.auth_source_id
-    assert user.current_password.nil?
-  end
-
-  else
-    puts 'Mocha is missing. Skipping tests.'
   end
 end

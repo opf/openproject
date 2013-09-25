@@ -49,6 +49,18 @@ describe AccountController do
         expect(response).to redirect_to '/my/page'
       end
 
+      it "should create users on the fly" do
+        Setting.self_registration = '0'
+        AuthSource.stub(:authenticate).and_return({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
+        post :login , {:username => 'foo', :password => 'bar'}
+
+        expect(response).to redirect_to '/my/first_login'
+        user = User.find_by_login('foo')
+        user.should be_an_instance_of User
+        user.auth_source_id.should == 66
+        user.current_password.should be_nil
+      end
+
     end
   end
 
