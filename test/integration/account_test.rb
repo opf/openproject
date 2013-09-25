@@ -63,33 +63,6 @@ class AccountTest < ActionDispatch::IntegrationTest
     assert user.last_login_on.utc > 20.second.ago.utc
   end
 
-  def test_lost_password
-    Token.delete_all
-
-    get "account/lost_password"
-    assert_response :success
-    assert_template "account/lost_password"
-
-    post "account/lost_password", :mail => 'jSmith@somenet.foo'
-    assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2F"
-
-    token = Token.find(:first)
-    assert_equal 'recovery', token.action
-    assert_equal 'jsmith@somenet.foo', token.user.mail
-    assert !token.expired?
-
-    get "account/lost_password", :token => token.value
-    assert_response :success
-    assert_template "account/password_recovery"
-
-    post "account/lost_password", :token => token.value, :new_password => 'newpassPASS!', :new_password_confirmation => 'newpassPASS!'
-    assert_redirected_to "/login"
-    assert_equal 'Password was successfully updated.', flash[:notice]
-
-    log_user('jsmith', 'newpassPASS!')
-    assert_equal 0, Token.count
-  end
-
   should_eventually "login after losing password should redirect back to home" do
     visit "/login"
     assert_response :success
