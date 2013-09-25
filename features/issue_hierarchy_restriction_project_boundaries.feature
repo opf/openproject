@@ -37,7 +37,7 @@ Feature: The work_package hierarchy between backlogs stories and backlogs tasks 
         | Task  |
         | Bug   |
     And the type "Task" has the default workflow for the role "scrum master"
-    And there are the following work_package status:
+    And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
         | In Progress | false      | false       |

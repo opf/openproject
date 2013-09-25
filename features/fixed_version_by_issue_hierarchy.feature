@@ -26,7 +26,7 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
         | manage_subtasks         |
         | create_tasks            |
         | add_work_packages       |
-    And there are the following work_package status:
+    And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
         | In Progress | false      | false       |

@@ -32,7 +32,7 @@ Feature: Scrum Master
         | Epic  |
         | Task  |
         | Bug   |
-    And there are the following work_package status:
+    And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
         | In Progress | false      | false       |

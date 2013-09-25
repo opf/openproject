@@ -17,7 +17,7 @@ Feature: Backlog Settings
         | edit_project              |
         | manage_project_activities |
     And the user "padme" is a "project admin"
-    And there are the following work_package status:
+    And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
         | In Progress | false      | false       |

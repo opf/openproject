@@ -21,7 +21,7 @@ Feature: Common
         | view_work_packages  |
         | edit_work_packages  |
         | manage_subtasks     |
-    And there are the following work_package status:
+    And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
         | In Progress | false      | false       |

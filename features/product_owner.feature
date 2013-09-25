@@ -8,7 +8,7 @@ Feature: Product Owner
           | Story |
           | Epic  |
       And the type "Task" is configured to track tasks
-      And there are the following work_package status:
+      And there are the following issue status:
           | name        | is_closed  | is_default  |
           | New         | false      | true        |
           | Closed      | true       | false       |
