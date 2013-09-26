@@ -1,12 +1,15 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2011-2013 the OpenProject Team
+# Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.md for more details.
 #++
 module OpenProject::Meeting
   class Engine < ::Rails::Engine
@@ -25,7 +28,7 @@ module OpenProject::Meeting
         version spec.version
         url spec.homepage
 
-        requires_openproject ">= 3.0.0pre9", "<= 3.0.0pre12"
+        requires_openproject ">= 3.0.0pre17"
 
         project_module :meetings do
           permission :create_meetings, {:meetings => [:new, :create, :copy]}, :require => :member

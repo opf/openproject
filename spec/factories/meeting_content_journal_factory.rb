@@ -12,8 +12,7 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-module OpenProject
-  module Meeting
-    VERSION = "3.0.3"
+FactoryGirl.define do
+  factory :journal_meeting_content_journal, :class => Journal::MeetingContentJournal do
   end
 end

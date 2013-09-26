@@ -1,3 +1,17 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.md for more details.
+#++
+
 # English strings go here for Rails i18n
 en:
   activerecord:
@@ -9,6 +23,9 @@ en:
         participants_attended: "Attendants"
         participants_invited: "Invitees"
         start_time: "Time"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Minutes"
 
   description_attended: "attended"
   description_invite: "invited"

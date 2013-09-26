@@ -1,12 +1,15 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2011-2013 the OpenProject Team
+# Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.md for more details.
 #++
 
 class MeetingContentsController < ApplicationController
@@ -26,10 +29,16 @@ class MeetingContentsController < ApplicationController
   before_filter :authorize
 
   def show
-    # Redirect links to the last version
-    (redirect_to :controller => '/meetings', :action => :show, :id => @meeting, :tab => @content_type.sub(/^meeting_/, '') and return) if params[:id].present? && @content.version == params[:id].to_i
-
-    @content = @content.journals.at params[:id].to_i unless params[:id].blank?
+    if params[:id].present? && @content.version == params[:id].to_i
+      # Redirect links to the last version
+      redirect_to :controller => '/meetings',
+                  :action => :show,
+                  :id => @meeting,
+                  :tab => @content_type.sub(/^meeting_/, '')
+      return
+    end
+    #go to an old version if a version id is given
+    @content = @content.at_version params[:id] unless params[:id].blank?
     render 'meeting_contents/show'
   end
 

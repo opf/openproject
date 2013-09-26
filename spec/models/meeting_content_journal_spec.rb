@@ -12,8 +12,14 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-module OpenProject
-  module Meeting
-    VERSION = "3.0.3"
-  end
+require File.dirname(__FILE__) + '/../spec_helper'
+
+require 'journal/meeting_content_journal'
+
+describe Journal do
+  include PluginSpecHelper
+
+  let(:journal) { FactoryGirl.build(:meeting_content_journal) }
+
+  it_should_behave_like "customized journal class"
 end

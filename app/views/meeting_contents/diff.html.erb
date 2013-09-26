@@ -1,12 +1,15 @@
 <%#-- copyright
 OpenProject is a project management system.
-
-Copyright (C) 2011-2013 the OpenProject Team
+Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
 
-See doc/COPYRIGHT.rdoc for more details.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
@@ -15,13 +18,12 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <h2><%= l(:"label_#{@content_type}") %>: <%= link_to @meeting, @meeting %></h2>
-
 <p>
 <%= l(:label_version) %> <%= link_to @diff.content_from.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_from.version) %>
-<em>(<%= link_to_user(@diff.content_from.author) %>, <%= format_time(@diff.content_from.updated_at) %>)</em>
+<em>(<%= link_to_user(@diff.content_from.user) %>, <%= format_time(@diff.content_from.created_at) %>)</em>
 &#8594;
 <%= l(:label_version) %> <%= link_to @diff.content_to.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_to.version) %>/<%= @content.version %>
-<em>(<%= link_to_user(@diff.content_to.author) %>, <%= format_time(@diff.content_to.updated_at) %>)</em>
+<em>(<%= link_to_user(@diff.content_to.user) %>, <%= format_time(@diff.content_to.created_at) %>)</em>
 </p>
 
 <hr />

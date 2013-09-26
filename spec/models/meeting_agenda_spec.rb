@@ -1,12 +1,15 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2011-2013 the OpenProject Team
+# Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.md for more details.
 #++
 
 require File.dirname(__FILE__) + '/../spec_helper'
@@ -15,7 +18,7 @@ describe "MeetingAgenda" do
   before(:each) do
     @a = FactoryGirl.build :meeting_agenda, :text => "Some content...\n\nMore content!\n\nExtraordinary content!!"
   end
-  
+
   # TODO: Test the right user and messages are set in the history
   describe "#lock!" do
     it "locks the agenda" do
@@ -26,7 +29,7 @@ describe "MeetingAgenda" do
       @a.locked.should be_true
     end
   end
-  
+
   describe "#unlock!" do
     it "unlocks the agenda" do
       @a.locked = true
@@ -37,7 +40,7 @@ describe "MeetingAgenda" do
       @a.locked.should be_false
     end
   end
-  
+
   # a meeting agenda is editable when it is not locked
   describe "#editable?" do
     it "is editable when not locked" do

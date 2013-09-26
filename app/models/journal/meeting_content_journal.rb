@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
@@ -12,23 +13,23 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-module PluginSpecHelper
-  shared_examples_for "customized journal class" do
-    describe :save do
-      let(:text) { "Lorem ipsum" }
-      let(:changed_data) { { :text => [nil, text] } }
+class Journal::MeetingContentJournal < ActiveRecord::Base
+  self.table_name = "meeting_content_journals"
 
-      describe "WITHOUT compression" do
-        before do
-          #we have to save here because changed_data will update (and save) attributes and miss an ID
-          journal.save!
-          journal.changed_data = changed_data
+  belongs_to :journal
+  belongs_to :meeting
+  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
 
-          journal.reload
-        end
+  @@journaled_attributes = [:meeting_id,
+                            :author_id,
+                            :text,
+                            :locked]
 
-        it { journal.changed_data[:text][1].should == text }
-      end
-    end
+  def journaled_attributes
+    attributes.symbolize_keys.select{|k,_| @@journaled_attributes.include? k}
+  end
+
+  def editable?
+    false
   end
 end

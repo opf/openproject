@@ -1,12 +1,15 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2011-2013 the OpenProject Team
+# Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.md for more details.
 #++
 
 class Meeting < ActiveRecord::Base
@@ -34,8 +37,11 @@ class Meeting < ActiveRecord::Base
                      :date_column => "#{table_name}.created_at"
 
   acts_as_journalized :activity_find_options => {:include => [:agenda, :author, :project]},
-                      :event_title => Proc.new {|o| "#{l :label_meeting}: #{o.title} (#{format_date o.start_time} #{format_time o.start_time, false}-#{format_time o.end_time, false})"},
-                      :event_url => Proc.new {|o| {:controller => '/meetings', :action => 'show', :id => o.journaled}}
+                      :event_title => Proc.new {|o| "#{l :label_meeting}: #{o.journal.journable.title} \
+                      (#{format_date o.journal.journable.start_time} \
+                        #{format_time o.journal.journable.start_time, false}-#{format_time o.journal.journable.end_time, false})"},
+                      :event_url => Proc.new {|o| {:controller => '/meetings', :action => 'show', :id => o.journal.journable}},
+                      :event_author => Proc.new {|o| o.journal.user}
 
   register_on_journal_formatter(:plaintext, 'title')
   register_on_journal_formatter(:fraction, 'duration')

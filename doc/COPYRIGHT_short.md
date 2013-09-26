@@ -1,4 +1,3 @@
-<%#-- copyright
 OpenProject is a project management system.
 Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
 
@@ -10,7 +9,3 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See doc/COPYRIGHT.md for more details.
-
-++#%>
-
-<%= render(:partial => "meeting_contents/show", :locals => {:content => @content, :content_type => @content_type, :title => "#{l(:"label_#{@content_type}")}: #{link_to @meeting, @meeting}"}) %>

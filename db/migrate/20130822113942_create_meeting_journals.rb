@@ -11,24 +11,24 @@
 #
 # See doc/COPYRIGHT.md for more details.
 #++
+class CreateMeetingJournals < ActiveRecord::Migration
+  def change
+    create_table :meeting_journals do |t|
+      t.integer  :journal_id, :null => false
+      t.string   :title
+      t.integer  :author_id
+      t.integer  :project_id
+      t.string   :location
+      t.datetime :start_time
+      t.float    :duration
+    end
 
-module PluginSpecHelper
-  shared_examples_for "customized journal class" do
-    describe :save do
-      let(:text) { "Lorem ipsum" }
-      let(:changed_data) { { :text => [nil, text] } }
-
-      describe "WITHOUT compression" do
-        before do
-          #we have to save here because changed_data will update (and save) attributes and miss an ID
-          journal.save!
-          journal.changed_data = changed_data
-
-          journal.reload
-        end
-
-        it { journal.changed_data[:text][1].should == text }
-      end
+    create_table :meeting_content_journals do |t|
+      t.integer  :journal_id, :null => false
+      t.integer  :meeting_id
+      t.integer  :author_id
+      t.text     :text
+      t.boolean  :locked
     end
   end
 end

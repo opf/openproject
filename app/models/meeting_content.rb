@@ -1,12 +1,15 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2011-2013 the OpenProject Team
+# Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.md for more details.
 #++
 
 class MeetingContent < ActiveRecord::Base
@@ -22,8 +25,19 @@ class MeetingContent < ActiveRecord::Base
 
   before_save :comment_to_journal_notes
 
+  acts_as_journalized :activity_type => 'meetings',
+    :activity_permission => :view_meetings,
+    :activity_find_options => {:include => {:meeting => :project}},
+    :event_type => Proc.new {|o| "#{o.journal.journable.class.to_s.underscore.dasherize}"},
+    :event_title => Proc.new {|o| "#{o.journal.journable.class.model_name.human}: #{o.journal.journable.meeting.title}"},
+    :event_url => Proc.new {|o| {:controller => '/meetings', :action => 'show', :id => o.journal.journable.meeting}}
+
   User.before_destroy do |user|
     MeetingContent.update_all ['author_id = ?', DeletedUser.first], ['author_id = ?', user.id]
+  end
+
+  def activity_type
+    'meetings'
   end
 
   def editable?
@@ -39,6 +53,13 @@ class MeetingContent < ActiveRecord::Base
     content_from = self.journals.find_by_version(version_from)
 
     (content_to && content_from) ? WikiPage::WikiDiff.new(content_to, content_from) : nil
+  end
+
+  def at_version(version)
+    journals
+    .joins("JOIN meeting_contents ON meeting_contents.id = journals.journable_id AND meeting_contents.type='#{self.class.to_s}'")
+    .where(:version => version)
+    .first.data
   end
 
   # Compatibility for mailer.rb
@@ -62,6 +83,6 @@ class MeetingContent < ActiveRecord::Base
   private
 
   def comment_to_journal_notes
-    init_journal(author, comment) unless changes.empty?
+    add_journal(author, comment) unless changes.empty?
   end
 end

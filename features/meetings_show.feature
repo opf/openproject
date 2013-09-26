@@ -1,12 +1,15 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2011-2013 the OpenProject Team
+# Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.md for more details.
 #++
 
 Feature: Show meetings
@@ -133,6 +136,5 @@ Feature: Show meetings
        When I go to the show page for the meeting called "Bobs Meeting"
         And I follow "History" within ".meeting_agenda"
         And I follow "1" within "table.list"
-
        Then I should see "Agenda" within ".meeting_agenda"
         And I should see "blah" within ".meeting_agenda"

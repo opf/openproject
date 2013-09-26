@@ -1,12 +1,15 @@
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2011-2013 the OpenProject Team
+# Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.md for more details.
 #++
 
 require File.dirname(__FILE__) + '/../spec_helper'
@@ -17,12 +20,6 @@ describe User, "#destroy" do
   let(:substitute_user) { DeletedUser.first }
   let(:project) do
     project = FactoryGirl.create(:valid_project)
-#    FactoryGirl.create(:member, :project => project,
-#                            :user => user,
-#                            :roles => [FactoryGirl.build(:role)])
-#    FactoryGirl.create(:member, :project => project,
-#                            :user => user2,
-#                            :roles => [FactoryGirl.build(:role)])
     project
   end
 
@@ -66,13 +63,13 @@ describe User, "#destroy" do
     it { associated_instance.journals.first.user.should == user2 }
     it "should update first journal changes" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data[association.to_s + "_id"].last.should == user2.id
+        associated_instance.journals.first.changed_data[(association.to_s + "_id").to_sym].last.should == user2.id
       end
     end
     it { associated_instance.journals.last.user.should == substitute_user }
     it "should update second journal changes" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data[association.to_s + "_id"].last.should == substitute_user.id
+        associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].last.should == substitute_user.id
       end
     end
   end
@@ -105,14 +102,14 @@ describe User, "#destroy" do
     it { associated_instance.journals.first.user.should == substitute_user }
     it "should update the first journal" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data[association.to_s + "_id"].last.should == substitute_user.id
+        associated_instance.journals.first.changed_data[(association.to_s + "_id").to_sym].last.should == substitute_user.id
       end
     end
     it { associated_instance.journals.last.user.should == user2 }
     it "should update the last journal" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data[association.to_s + "_id"].first.should == substitute_user.id
-        associated_instance.journals.last.changed_data[association.to_s + "_id"].last.should == user2.id
+        associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].first.should == substitute_user.id
+        associated_instance.journals.last.changed_data[(association.to_s + "_id").to_sym].last.should == user2.id
       end
     end
   end
