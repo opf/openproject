@@ -1,25 +1,25 @@
-<% if @project.module_enabled? :costs_module && @work_package%>
+<% if @project.module_enabled?(:costs_module) && issue %>
   <%# Only render this partial, if the plugin is enabled for the current project %>
   <style>
     <%# disables core's spent-time as it is not displayed if the user has just the view_own_time_entries permission %>
     .spent-time { display: none }
   </style>
 
-  <% attributes_array = cost_work_packages_attributes(@work_package) %>
+  <% attributes_array = cost_work_package_attributes(issue) %>
   <% (0..(attributes_array.size - 1)).step(2) do |i| %>
     <tr>
       <th>
         <%= attributes_array[i].first %>:
       </th>
       <td>
-        <%= attributes_array[i].last %>
+        <%= attributes_array[i].to_a.last %>
       </td>
       <% if i + 1 < attributes_array.size %>
         <th>
           <%= attributes_array[i + 1].first %>:
         </th>
         <td>
-          <%= attributes_array[i + 1].last %>
+          <%= attributes_array[i + 1].to_a.last %>
         </td>
       <% end %>
     </tr>

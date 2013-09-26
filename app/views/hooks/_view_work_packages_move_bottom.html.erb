@@ -1,4 +1,4 @@
-<% if not project.nil? and project.module_enabled? :costs_module %>
+<% if @project && @project.module_enabled?(:costs_module) %>
 <p>
   <label><%= CostObject.model_name.human %></label>
   <%= select_tag('cost_object_id', (@target_project == @project ? content_tag('option', l(:label_no_change_option), :value => '') : "") +

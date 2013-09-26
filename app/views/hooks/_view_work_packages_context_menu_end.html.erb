@@ -1,24 +1,24 @@
-<% if not project.nil? and project.module_enabled? :costs_module %>
-<%
-cost_objects_any = false
-possible_cost_objects = work_packages.inject(work_packages.first.project.cost_objects) do |intersect, work_package|
-  cost_objects_any |= work_package.project.cost_objects.any?
-  work_package.project.cost_objects & intersect
-end
+<% if @project && @project.module_enabled?(:costs_module) %>
+  <%
+      cost_objects_any = false
+  possible_cost_objects = work_packages.inject(work_packages.first.project.cost_objects) do |intersect, work_package|
+    cost_objects_any |= work_package.project.cost_objects.any?
+    work_package.project.cost_objects & intersect
+  end
 %>
   <li class="folder">
-	<a href="#" class="submenu"><%= l(:label_cost_object) %></a>
-	<ul>
-	<% unless possible_cost_objects.empty? -%>
-		<% possible_cost_objects.each do |co| -%>
-		    <li>
-		      <%= context_menu_link co.subject, {:controller => '/work_packages', :action => 'bulk_edit', :ids => work_packages.collect(&:id), 'cost_object_id' => co, :back_url => back}, :method => :post,
-		                              :selected => (@work_package && co == @work_package.cost_object), :disabled => !can[:edit] %>
-		    </li>
-		<% end -%>
-	<% else -%>
-	  <li><%= l(cost_objects_any ? :notice_cost_object_conflict : :notice_no_cost_objects_available)%></li>
-	<% end -%>
-	</ul>
-</li>
+  <a href="#" class="submenu"><%= l(:label_cost_object) %></a>
+  <ul>
+    <% unless possible_cost_objects.empty? -%>
+      <% possible_cost_objects.each do |co| -%>
+        <li>
+        <%= context_menu_link co.subject, {:controller => '/work_packages', :action => 'bulk_edit', :ids => work_packages.collect(&:id), 'cost_object_id' => co, :back_url => back}, :method => :post,
+          :selected => (issue && co == issue.cost_object), :disabled => !can[:edit] %>
+        </li>
+      <% end -%>
+    <% else -%>
+      <li><%= l(cost_objects_any ? :notice_cost_object_conflict : :notice_no_cost_objects_available)%></li>
+    <% end -%>
+  </ul>
+  </li>
 <% end %>

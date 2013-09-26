@@ -9,10 +9,10 @@ module OpenProject::Costs
     end
 
     initializer "costs.register_hooks" do
-      require 'open_project/costs/hooks'
-      require 'open_project/costs/hooks/work_package_hook'
-      require 'open_project/costs/hooks/project_hook'
-      require 'open_project/costs/hooks/work_package_action_menu'
+      require_dependency 'open_project/costs/hooks'
+      require_dependency 'open_project/costs/hooks/work_package_hook'
+      require_dependency 'open_project/costs/hooks/project_hook'
+      require_dependency 'open_project/costs/hooks/work_package_action_menu'
     end
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
