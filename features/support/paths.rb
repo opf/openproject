@@ -54,7 +54,7 @@ module NavigationHelpers
 
       project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
 
-      if tab.nil?
+      if tab == ""
         "/projects/#{project_identifier}/settings"
       else
         "/projects/#{project_identifier}/settings/#{tab}"
