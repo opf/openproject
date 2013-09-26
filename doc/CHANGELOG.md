@@ -73,15 +73,16 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1850` Disable atom feeds via setting
 * `#1874` Move Scopes from Issue into Workpackage
 * `#1898` Separate action for changing wiki parent page (was same as rename before)
+* `#1921` Allow disabling done ratio for work packages
 * `#1923` Add permission that allows hiding repository statistics on commits per author
 * `#1950` Grey line near the lower end of the modal, cuts off a bit of the content
-* `#1921` Allow disabling done ratio for work packages
 
 ## 3.0.0pre15
 
+* `#1557` Timeline Report Selection Not Visible
+* `#1911` Change mouse icon when hovering over drag&drop-enabled select2 entries
 * `#1301` Ajax call when logged out should open a popup window
 * `#1351` Generalize Modal Creation
-# `#1557` Timeline Report Selection Not Visible
 * `#1755` Migrate helper-tests for issues into specs for work package
 * `#1766` Fixed bug: Viewing diff of Work Package description results in error 500
 * `#1767` Fixed bug: Viewing changesets results in "page not found"
@@ -91,15 +92,13 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1875` Added test steps to reuse steps for my page, my project page, and documents, no my page block lookup at class load time
 * `#1876` Timelines do not show work packages when there is no status reporting
 * `#1896` Moved visibility-tests for issues into specs for workpackages
-# `#1911` Change mouse icon when hovering over drag&drop-enabled select2 entries
 * `#1912` Merge column project type with column planning element type
 * `#1918` Custom fields are not displayed when issue is created
 
 ## 3.0.0pre14
 
-* `#1873` Move Validations from Issue into Workpackage
-* `#825` Migrate Duration
-* `#828` Remove Alternate Dates
+* `#825`  Migrate Duration
+* `#828`  Remove Alternate Dates
 * `#1421` Adapt issue created/updated wording to apply to work packages
 * `#1610` Move Planning Element Controller to API V2
 * `#1686` Issues not accessible in public projects when not a member
@@ -107,6 +106,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1787` Remove Scenarios
 * `#1813` Run Data Generator on old AAJ schema
 * `#1859` Fix 20130814130142 down-migration (remove_documents)
+* `#1873` Move Validations from Issue into Workpackage
 
 ## 3.0.0pre13
 
@@ -128,16 +128,14 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1418` Change links to issues/planning elements to use work_packages controller
 * `#1541` Use Rails 3.2.14 instead of Git Branch
 * `#1595` Cleanup action menu for work packages
-* `#1598` Switching type of work package looses inserted data
 * `#1596` Copy/Move work packages between projects
+* `#1598` Switching type of work package looses inserted data
 * `#1618` Deactivate modal dialogs and respective cukes
 * `#1637` Removed files module
 * `#1648` Arbitrarily failing cuke: Navigating to the timeline page
 
 ## 3.0.0pre10
 
-* `#1536` Fixed bug: Reposman.rb receives xml response for json request
-* `#1520` PlanningElements are created without the root_id attribute being set
 * `#1246` Implement uniform "edit" action/view for pe & issues
 * `#1247` Implement uniform "update" action for pe & issues
 * `#1411` Migrate database tables into the new model
@@ -150,43 +148,45 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1437` Update seed data
 * `#1512` Merge PlanningElementTypes model with Types model
 * `#1520` PlanningElements are created without the root_id attribute being set
+* `#1520` PlanningElements are created without the root_id attribute being set
+* `#1536` Fixed bug: Reposman.rb receives xml response for json request
 * `#1577` Searching for project member candidates is only possible when using "firstname lastname" (or parts of it)
 
 ## 3.0.0pre9
 
-* `#1517` Journal changed_data cannot contain the changes of a wiki_content content
 * `#779`  Integrate password expiration
-* `#1461` Integration Activity Plugin
-* `#1505` Removing all roles from a membership removes the project membership
-* `#1405` Incorrect message when trying to login with a permanently blocked account
-* `#1488` Fixes multiple and missing error messages on project settings' member tab (now with support for success messages)
-* `#1409` Changing pagination limit on members view looses members tab
-* `#1371` Changing pagination per_page_param does not change page
 * `#1314` Always set last activity timestamp and check session expiry if ttl-setting is enabled
+* `#1371` Changing pagination per_page_param does not change page
+* `#1405` Incorrect message when trying to login with a permanently blocked account
+* `#1409` Changing pagination limit on members view looses members tab
 * `#1414` Remove start & due date requirement from planning elements
+* `#1461` Integration Activity Plugin
+* `#1488` Fixes multiple and missing error messages on project settings' member tab (now with support for success messages)
 * `#1493` Exporting work packages to pdf returns 406
+* `#1505` Removing all roles from a membership removes the project membership
+* `#1517` Journal changed_data cannot contain the changes of a wiki_content content
 
 ## 3.0.0pre8
 
+* `#377`  Some usability fixes for members selection with select2
+* `#1024` Add 'assign random password' option to user settings
+* `#1063` Added helper to format the time as a date in the current user or the system time zone
+* `#1391` Opening the new issue form in a project with an issue category defined produces 500 response
+* `#1406` Creating a work package w/o responsible or assignee results in 500
 * `#1420` Allow for seeing work package description changes inside of the page
 * `#1488` Fixes multiple and missing error messages on project settings' member tab
-* `#377`  Some usability fixes for members selection with select2
-* `#1406` Creating a work package w/o responsible or assignee results in 500
-* `#1391` Opening the new issue form in a project with an issue category defined produces 500 response
-* `#1063` Added helper to format the time as a date in the current user or the system time zone
-* `#1024` Add 'assign random password' option to user settings
 
 ## 3.0.0pre7
 
-* `#820` Implement awesome nested set on work packages
-* `#1119` Creates a unified view for work_package show, new and create
+* `#778` Integrate ban of former passwords
 * `#780` Add password brute force prevention
+* `#820` Implement awesome nested set on work packages
+* `#1034` Create changelog and document format
+* `#1119` Creates a unified view for work_package show, new and create
+* `#1209` Fix adding watcher to issue
 * `#1214` Fix pagination label and 'entries_per_page' setting
-* `#1303` Watcherlist contains unescaped HTML
-* `#1315` Correct spelling mistakes in German translation
 * `#1299` Refactor user status
 * `#1301` Ajax call when logged out should open a popup window
-* `#778` Integrate ban of former passwords
-* `#1209` Fix adding watcher to issue
-* `#1034` Create changelog and document format
+* `#1303` Watcherlist contains unescaped HTML
+* `#1315` Correct spelling mistakes in German translation
 
