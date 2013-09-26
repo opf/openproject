@@ -148,6 +148,9 @@ module NavigationHelpers
       role_identifier = Role.find_by_name(role_identifier).id
       "/roles/edit/#{role_identifier}"
 
+    when /^the new user page$/
+      "/users/new"
+
     when /^the edit page (?:for |of )(the )?user(?: called)? (.+)$/
       user_identifier = $2.gsub("\"", "")
       user_identifier = User.find_by_login(user_identifier).id
