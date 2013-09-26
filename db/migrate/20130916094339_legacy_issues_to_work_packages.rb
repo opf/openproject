@@ -19,14 +19,12 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration
 
   def up
     raise_on_existing_work_package_entries
-
     copy_legacy_issues_to_work_packages
-    ActiveRecord::Base.connection.reset_pk_sequence!('work_packages')
+    reset_public_key_sequence_in_postgres
   end
 
   def down
     raise_on_existing_legacy_issue_entries
-
     copy_work_packages_to_legacy_issues
   end
 
@@ -44,6 +42,11 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration
         This migration assumes that there are none.
       MESSAGE
     end
+  end
+
+  def reset_public_key_sequence_in_postgres
+    return unless ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgres"
+    ActiveRecord::Base.connection.reset_pk_sequence!('work_packages')
   end
 
   def copy_legacy_issues_to_work_packages
