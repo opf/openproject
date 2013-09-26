@@ -2,11 +2,11 @@
 require_dependency 'cost_query/operator'
 class CostQuery::Filter::StatusId < Report::Filter::Base
   available_operators 'c', 'o'
-  join_table Issue, IssueStatus => [Issue, :status]
-  applies_for :label_issue_attributes
+  join_table WorkPackage, IssueStatus => [WorkPackage, :status]
+  applies_for :label_work_package_attributes
 
   def self.label
-    Issue.human_attribute_name(:status)
+    WorkPackage.human_attribute_name(:status)
   end
 
   def self.available_values(*)

@@ -1,32 +1,33 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery, :reporting_query_helper => true do
-  let!(:project1){ FactoryGirl.create(:project_with_trackers) }
-  let!(:issue1) { FactoryGirl.create(:issue, project: project1) }
-  let!(:time_entry1) { FactoryGirl.create(:time_entry, work_package: issue1, project: project1, spent_on: Date.new(2012, 1, 1)) }
+  let!(:type) { FactoryGirl.create(:type) }
+  let!(:project1){ FactoryGirl.create(:project_with_types, types: [type]) }
+  let!(:work_package1) { FactoryGirl.create(:work_package, project: project1, type: type)}
+  let!(:time_entry1) { FactoryGirl.create(:time_entry, work_package: work_package1, project: project1, spent_on: Date.new(2012, 1, 1)) }
   let!(:time_entry2) do
     time_entry2 = time_entry1.dup
     time_entry2.save!
     time_entry2
   end
   let!(:cost_object1) { FactoryGirl.create(:cost_object, project: project1) }
-  let!(:cost_entry1) { FactoryGirl.create(:cost_entry, work_package: issue1, project: project1, spent_on: Date.new(2013, 2, 3)) }
+  let!(:cost_entry1) { FactoryGirl.create(:cost_entry, work_package: work_package1, project: project1, spent_on: Date.new(2013, 2, 3)) }
   let!(:cost_entry2) do
     cost_entry2 =  cost_entry1.dup
     cost_entry2.save!
     cost_entry2
   end
 
-  let!(:project2) { FactoryGirl.create(:project_with_trackers) }
-  let!(:issue2) { FactoryGirl.create(:issue, project: project2) }
-  let!(:time_entry3) { FactoryGirl.create(:time_entry, work_package: issue2, project: project2, spent_on: Date.new(2013, 2, 3)) }
+  let!(:project2) { FactoryGirl.create(:project_with_types, types: [type]) }
+  let!(:work_package2) { FactoryGirl.create(:work_package, project: project2, type: type) }
+  let!(:time_entry3) { FactoryGirl.create(:time_entry, work_package: work_package2, project: project2, spent_on: Date.new(2013, 2, 3)) }
   let!(:time_entry4) do
     time_entry4 = time_entry3.dup
     time_entry4.save!
     time_entry4
   end
   let!(:cost_object2) { FactoryGirl.create(:cost_object, project: project2) }
-  let!(:cost_entry3) { FactoryGirl.create(:cost_entry, work_package: issue2, project: project2, spent_on: Date.new(2012, 1, 1)) }
+  let!(:cost_entry3) { FactoryGirl.create(:cost_entry, work_package: work_package2, project: project2, spent_on: Date.new(2012, 1, 1)) }
   let!(:cost_entry4) do
     cost_entry4 =  cost_entry3.dup
     cost_entry4.save!
@@ -50,7 +51,7 @@ describe CostQuery, :reporting_query_helper => true do
       @query.child.child.all_group_fields.should == %w[entries.cost_type_id entries.work_package_id entries.project_id]
     end
 
-    it "should compute group_by Issue" do
+    it "should compute group_by WorkPackage" do
       @query.group_by :work_package_id
       @query.result.size.should == 2
     end
@@ -92,8 +93,8 @@ describe CostQuery, :reporting_query_helper => true do
       @query.result.size.should == 4
     end
 
-    it "should compute group_by Tracker" do
-      @query.group_by :tracker_id
+    it "should compute group_by Type" do
+      @query.group_by :type_id
       @query.result.size.should == 1
     end
 
@@ -122,14 +123,14 @@ describe CostQuery, :reporting_query_helper => true do
     # TODO: ?
     it "should compute multiple group_by with joins" do
       @query.group_by :project_id
-      @query.group_by :tracker_id
+      @query.group_by :type_id
       sql_result = @query.result
       sql_result.size.should == 1
-      # for each tracker the number of projects should be correct
+      # for each type the number of projects should be correct
       sql_sizes = []
       sql_result.each do |sub_result|
-        # tracker should be the outmost group_by
-        sub_result.fields.should include(:tracker_id)
+        # type should be the outmost group_by
+        sub_result.fields.should include(:type_id)
         sql_sizes.push sub_result.size
         sub_result.each { |sub_sub_result| sub_sub_result.fields.should include(:project_id) }
       end
@@ -143,7 +144,7 @@ describe CostQuery, :reporting_query_helper => true do
       @query.group_by :activity_id
       @query.group_by :spent_on
       @query.group_by :tweek
-      @query.group_by :tracker_id
+      @query.group_by :type_id
       @query.group_by :tmonth
       @query.group_by :tyear
 
@@ -195,10 +196,10 @@ describe CostQuery, :reporting_query_helper => true do
     end
 
     describe CostQuery::GroupBy::CustomFieldEntries do
-      let!(:project){ FactoryGirl.create(:project_with_trackers) }
+      let!(:project){ FactoryGirl.create(:project_with_types) }
 
       before do
-        create_issue_custom_field("Searchable Field")
+        create_work_package_custom_field("Searchable Field")
         CostQuery::GroupBy.all.merge CostQuery::GroupBy::CustomFieldEntries.all
       end
 
@@ -207,22 +208,22 @@ describe CostQuery, :reporting_query_helper => true do
         CostQuery::GroupBy::CustomFieldEntries.all
       end
 
-      def create_issue_custom_field(name)
+      def create_work_package_custom_field(name)
         WorkPackageCustomField.create(:name => name,
-          :min_length => 1,
-          :regexp => "",
-          :is_for_all => true,
-          :max_length => 100,
-          :possible_values => "",
-          :is_required => false,
-          :field_format => "string",
-          :searchable => true,
-          :default_value => "Default string",
-          :editable => true)
+                                      :min_length => 1,
+                                      :regexp => "",
+                                      :is_for_all => true,
+                                      :max_length => 100,
+                                      :possible_values => "",
+                                      :is_required => false,
+                                      :field_format => "string",
+                                      :searchable => true,
+                                      :default_value => "Default string",
+                                      :editable => true)
         check_cache
       end
 
-      def delete_issue_custom_field(name)
+      def delete_work_package_custom_field(name)
         WorkPackageCustomField.find_by_name(name).destroy
         check_cache
       end
@@ -237,16 +238,16 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "should create new classes for custom fields that get added after starting the server" do
-        create_issue_custom_field("AFreshCustomField")
+        create_work_package_custom_field("AFreshCustomField")
         # Would raise a name error
         expect { class_name_for('AFreshCustomField').constantize }.to_not raise_error
         WorkPackageCustomField.find_by_name("AFreshCustomField").destroy
       end
 
       it "should remove the custom field classes after it is deleted" do
-        create_issue_custom_field("AFreshCustomField")
+        create_work_package_custom_field("AFreshCustomField")
         name = class_name_for('AFreshCustomField')
-        delete_issue_custom_field("AFreshCustomField")
+        delete_work_package_custom_field("AFreshCustomField")
         CostQuery::GroupBy.all.should_not include name.constantize
       end
 
@@ -261,7 +262,7 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "is usable as filter" do
-        create_issue_custom_field("Database")
+        create_work_package_custom_field("Database")
         id = WorkPackageCustomField.find_by_name('Database').id
         @query.group_by "custom_field_#{id}".to_sym
         footprint = @query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort

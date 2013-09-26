@@ -1,9 +1,9 @@
 class CostQuery::Filter::StartDate < Report::Filter::Base
   use :time_operators
-  join_table Issue
-  applies_for :label_issue_attributes
+  join_table WorkPackage
+  applies_for :label_work_package_attributes
 
   def self.label
-    Issue.human_attribute_name(:start_date)
+    WorkPackage.human_attribute_name(:start_date)
   end
 end

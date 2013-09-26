@@ -5,9 +5,9 @@ describe CostQuery, :reporting_query_helper => true do
 
   before do
     FactoryGirl.create(:admin)
-    project = FactoryGirl.create(:project_with_trackers)
-    issue = FactoryGirl.create(:issue, project: project)
-    FactoryGirl.create(:time_entry, work_package: issue, project: project)
+    project = FactoryGirl.create(:project_with_types)
+    work_package = FactoryGirl.create(:work_package, project: project)
+    FactoryGirl.create(:time_entry, work_package: work_package, project: project)
   end
 
   describe CostQuery::Transformer do

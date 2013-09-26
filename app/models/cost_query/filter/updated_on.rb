@@ -3,6 +3,6 @@ class CostQuery::Filter::UpdatedOn < Report::Filter::Base
   use :time_operators
 
   def self.label
-    Issue.human_attribute_name(:updated_on)
+    WorkPackage.human_attribute_name(:updated_on)
   end
 end

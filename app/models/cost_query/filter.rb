@@ -19,7 +19,7 @@ class CostQuery::Filter < Report::Filter
        CostQuery::Filter::StartDate,
        CostQuery::Filter::StatusId,
        CostQuery::Filter::Subject,
-       CostQuery::Filter::TrackerId,
+       CostQuery::Filter::TypeId,
        CostQuery::Filter::UpdatedOn,
        CostQuery::Filter::UserId,
        CostQuery::Filter::PermissionFilter,

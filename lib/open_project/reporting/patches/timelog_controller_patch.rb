@@ -32,15 +32,15 @@ module OpenProject::Reporting::Patches::TimelogControllerPatch
       end
       filters = {:operators => {}, :values => {}}
 
-      if @issue
-        if @issue.respond_to?("lft")
-          issue_ids = Issue.all(:select => :id, :conditions => ["root_id = ? AND lft >= ? AND rgt <= ?", @issue.root_id, @issue.lft, @issue.rgt]).collect{|i| i.id.to_s}
+      if @work_package
+        if @work_package.respond_to?("lft")
+          work_package_ids = WorkPackage.all(:select => :id, :conditions => ["root_id = ? AND lft >= ? AND rgt <= ?", @work_package.root_id, @work_package.lft, @work_package.rgt]).collect{|i| i.id.to_s}
         else
-          issue_ids = [@issue.id.to_s]
+          work_package_ids = [@work_package.id.to_s]
         end
 
         filters[:operators][:work_package_id] = "="
-        filters[:values][:work_package_id] = [issue_ids]
+        filters[:values][:work_package_id] = [work_package_ids]
       end
 
       filters[:operators][:project_id] = "="
@@ -59,12 +59,12 @@ module OpenProject::Reporting::Patches::TimelogControllerPatch
     end
 
     def find_optional_project_with_own
-      if !params[:issue_id].blank?
-        @issue = Issue.find(params[:issue_id])
-        @project = @issue.project
+      if !params[:work_package_id].blank?
+        @work_package = WorkPackage.find(params[:work_package_id])
+        @project = @work_package.project
       elsif !params[:work_package_id].blank?
-        @issue = WorkPackage.find(params[:work_package_id])
-        @project = @issue.project
+        @work_package = WorkPackage.find(params[:work_package_id])
+        @project = @work_package.project
       elsif !params[:project_id].blank?
         @project = Project.find(params[:project_id])
       end

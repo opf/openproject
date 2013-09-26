@@ -1,3 +1,5 @@
+* `#2061` Migrate to new data model.
+
 = 4.0.0.pre3 - 2013-06-27
 
 Adapt to OpenProject core

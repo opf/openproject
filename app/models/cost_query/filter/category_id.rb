@@ -1,10 +1,10 @@
 class CostQuery::Filter::CategoryId < Report::Filter::Base
   use :null_operators
-  join_table Issue
-  applies_for :label_issue_attributes
+  join_table WorkPackage
+  applies_for :label_work_package_attributes
 
   def self.label
-    Issue.human_attribute_name(:category)
+    WorkPackage.human_attribute_name(:category)
   end
 
   def self.available_values(*)

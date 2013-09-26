@@ -26,6 +26,9 @@ Feature: Cost Reporting Calculations
       | hours    | 10            |
       | user     | manager       |
       | spent on | 30 months ago |
+    And there is 1 user with:
+        | login | admin |
+        | admin | true |
     And I am already logged in as "admin"
     And I am on the Cost Reports page for the project called "Cost Project" without filters or groups
     Then I should see "10.00" # 1 EUR x 10 (hours)

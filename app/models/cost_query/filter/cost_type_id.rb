@@ -3,7 +3,7 @@ class CostQuery::Filter::CostTypeId < Report::Filter::Base
   selectable false
 
   def self.label
-    Issue.human_attribute_name(:cost_type)
+    WorkPackage.human_attribute_name(:cost_type)
   end
 
   def initialize(child = nil, options = {})

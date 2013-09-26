@@ -13,8 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "OpenProject plugin that creates table reports with custom fields and grouping"
   # FIXME
   #s.description = "This plugin adds features enabling agile teams to work with OpenProject in Scrum projects."
-  # FIXME
-  # s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "README.md"]
   # FIXME
   # s.test_files = Dir["spec/**/*"]
 

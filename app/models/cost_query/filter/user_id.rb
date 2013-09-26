@@ -1,6 +1,6 @@
 class CostQuery::Filter::UserId < Report::Filter::Base
   def self.label
-    Issue.human_attribute_name(:user)
+    WorkPackage.human_attribute_name(:user)
   end
 
   def self.available_values(*)

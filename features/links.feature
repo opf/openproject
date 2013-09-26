@@ -21,14 +21,14 @@ Feature: Cost Reporting Linkage
       | hourly rate  | 10 |
       | default rate | 10 |
     And the user "manager" has 1 issue with:
-      | subject | manager issue |
-    And the issue "manager issue" has 1 time entry with the following:
+      | subject | manager work_package |
+    And the issue "manager work_package" has 1 time entry with the following:
       | user  | manager |
       | hours | 10      |
     And there is 1 cost type with the following:
       | name      | word |
       | cost rate | 1.01 |
-    And the issue "manager issue" has 1 cost entry with the following:
+    And the work package "manager work_package" has 1 cost entry with the following:
       | units     | 7       |
       | user      | manager |
       | cost type | word    |
@@ -43,14 +43,17 @@ Feature: Cost Reporting Linkage
   Scenario: If
     Given there is a standard cost control project named "Standard Project"
     And the user "manager" has 1 issue with:
-      | subject | manager issue |
+      | subject | manager work_package |
     And there is 1 cost type with the following:
       | name      | word |
       | cost rate | 1.01 |
-    And the issue "manager issue" has 1 cost entry with the following:
+    And the work package "manager work_package" has 1 cost entry with the following:
       | units     | 7       |
       | user      | manager |
       | cost type | word    |
+    And there is 1 user with:
+        | login | admin |
+        | admin | true |
     And I am already logged in as "admin"
     And I am on the Cost Reports page for the project called "Standard Project"
 
@@ -62,24 +65,25 @@ Feature: Cost Reporting Linkage
     Then I should see "Successful deletion."
     And I should see "No data to display"
 
-  #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/issues/issue/77
+  #have to use annotation capybara due to
+  #https://github.com/aslakhellesoy/cucumber-rails/issues/issues/77
   @javascript
-  Scenario: Going from an Issue to the cost report should set the filter on this issue
+  Scenario: Going from an WorkPackage to the cost report should set the filter on this work_package
     Given there is a standard cost control project named "Standard Project"
     And the user "manager" has:
       | default rate | 10 |
     And the user "manager" has 1 issue with:
-      | subject | manager issue |
+      | subject | manager work_package |
     And the user "manager" has 1 issue with:
-      | subject | another issue |
-    And the issue "manager issue" has 1 time entry with the following:
+      | subject | another work_package |
+    And the issue "manager work_package" has 1 time entry with the following:
       | user  | manager |
       | hours | 10      |
-    And the issue "another issue" has 1 time entry with the following:
+    And the issue "another work_package" has 1 time entry with the following:
       | user  | manager |
       | hours | 5       |
     And I am already logged in as "manager"
-    And I am on the page for the issue "manager issue"
+    And I am on the page for the issue "manager work_package"
 
     Then I should see "10.00 hours"
     When I follow "10.00 hours"
@@ -91,27 +95,27 @@ Feature: Cost Reporting Linkage
     And I should not see "50.00"
     And I should not see "150.00"
 
-  #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/issues/issue/77
+  #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/issues/issues/77
   @javascript
-  Scenario: Going from an Issue to the cost report should set the filter on this issue
+  Scenario: Going from an WorkPackage to the cost report should set the filter on this work_package
     Given there is a standard cost control project named "Standard Project"
     And there is 1 cost type with the following:
       | name      | word |
       | cost rate | 10   |
     And the user "manager" has 1 issue with:
-      | subject | manager issue |
+      | subject | manager work_package |
     And the user "manager" has 1 issue with:
-      | subject | another issue |
-    And the issue "manager issue" has 1 cost entry with the following:
+      | subject | another work_package |
+    And the work package "manager work_package" has 1 cost entry with the following:
       | user      | manager |
       | units     | 10      |
       | cost type | word    |
-    And the issue "another issue" has 1 cost entry with the following:
+    And the work package "another work_package" has 1 cost entry with the following:
       | user      | manager |
       | units     | 5       |
       | cost type | word    |
     And I am already logged in as "manager"
-    And I am on the page for the issue "manager issue"
+    And I am on the page for the work package "manager work_package"
 
     Then I should see "10.0 words"
 
@@ -128,8 +132,8 @@ Feature: Cost Reporting Linkage
   Scenario: Reporting on the project page should be accessible from the spent time
     Given there is a standard cost control project named "Standard Project"
     And the project "Standard Project" has 1 issue with the following:
-      | subject  | test_issue |
-    And the issue "test_issue" has 1 time entry with the following:
+      | subject  | test_work_package |
+    And the issue "test_work_package" has 1 time entry with the following:
       | hours | 1.00    |
       | user  | manager |
     And I am already logged in as "manager"

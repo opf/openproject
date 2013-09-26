@@ -2,11 +2,11 @@ Given /^there is a standard permission test project named "([^\"]*)"$/ do |name|
   steps %Q{
     Given there is 1 project with the following:
       | Name | #{name}           |
-    And the project "#{name}" has the following trackers:
+    And the project "#{name}" has the following types:
       | name | position |
       | Bug  |     1    |
     And the project "#{name}" has 1 issue with:
-      | subject | #{name}issue   |
+      | subject | #{name}work_package   |
       And there is a role "Testuser"
     And the role "Testuser" may have the following rights:
       | view_own_hourly_rate     |
@@ -34,17 +34,17 @@ Given /^there is a standard permission test project named "([^\"]*)"$/ do |name|
     And there is 1 cost type with the following:
       | name         | ten       |
       | cost rate    | 10.00     |
-    And the issue "#{name}issue" has 1 time entry with the following:
+    And the issue "#{name}work_package" has 1 time entry with the following:
       | hours        | 1         |
       | user         | testuser  |
-    And the issue "#{name}issue" has 1 time entry with the following:
+    And the issue "#{name}work_package" has 1 time entry with the following:
       | hours        | 2         |
       | user         | otheruser |
-    And the issue "#{name}issue" has 1 cost entry with the following:
+    And the work package "#{name}work_package" has 1 cost entry with the following:
       | units        | 1         |
       | user         | testuser  |
       | cost type    | one       |
-    And the issue "#{name}issue" has 1 cost entry with the following:
+    And the work package "#{name}work_package" has 1 cost entry with the following:
       | units        | 1         |
       | user         | otheruser |
       | cost type    | ten       |
