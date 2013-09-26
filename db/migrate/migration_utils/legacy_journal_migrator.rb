@@ -275,10 +275,15 @@ module Migration
 
     end
 
+    def deserialize_changed_data(journal)
+      changed_data = journal["changed_data"]
+      return Hash.new if changed_data.nil?
+      YAML.load(changed_data)
+    end
+
     def deserialize_journal(journal)
       integerize_ids(journal)
-
-      journal["changed_data"] = YAML.load(journal["changed_data"])
+      journal["changed_data"] = deserialize_changed_data(journal)
     end
 
     def insertable_data_journal(journal)
