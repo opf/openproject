@@ -388,6 +388,7 @@ describe WorkPackagesController do
       before do
         controller.stub(:work_package).and_return(stub_work_package)
         controller.send(:permitted_params).should_receive(:update_work_package)
+                                          .at_most(:twice)
                                           .with(:project => stub_work_package.project)
                                           .and_return(wp_params)
       end
