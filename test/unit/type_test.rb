@@ -48,7 +48,7 @@ class TypeTest < ActiveSupport::TestCase
     Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 2, :new_status_id => 3)
     Workflow.create!(:role_id => 2, :type_id => 1, :old_status_id => 3, :new_status_id => 5)
 
-    assert_kind_of Array, type.issue_statuses
+    assert_kind_of Array, type.issue_statuses.all
     assert_kind_of IssueStatus, type.issue_statuses.first
     assert_equal [2, 3, 5], Type.find(1).issue_statuses.collect(&:id)
   end

@@ -1,4 +1,3 @@
-#encoding: utf-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,15 +26,5 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Merge those two once Issue == PlanningElement == WorkPackage
-Then(/^I should (not )?see the planning element "(.*?)" in the timeline$/) do |negate, planning_element_name|
-  steps %Q{
-    Then I should #{negate}see "#{planning_element_name}" within ".timeline .tl-left-main"
-  }
-end
-
-Then(/^I should (not )?see the issue "(.*?)" in the timeline$/) do |negate, issue_name|
-  steps %Q{
-    Then I should #{negate}see "#{issue_name}" within ".timeline .tl-left-main"
-  }
-end
+render(:partial => '/api/v2/reported_project_statuses/status.api',
+       :object  => @status)

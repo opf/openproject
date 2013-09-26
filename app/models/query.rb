@@ -29,6 +29,8 @@
 
 class Query < ActiveRecord::Base
 
+  @@user_filters = %w{assigned_to_id author_id watcher_id responsible_id}.freeze
+
   belongs_to :project
   belongs_to :user
   serialize :filters
@@ -86,6 +88,7 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:subject, :sortable => "#{WorkPackage.table_name}.subject"),
     QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
+    QueryColumn.new(:responsible, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
     QueryColumn.new(:updated_at, :sortable => "#{WorkPackage.table_name}.updated_at", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
@@ -181,11 +184,14 @@ class Query < ActiveRecord::Base
     author_values += user_values
     @available_filters["author_id"] = { :type => :list, :order => 5, :values => author_values } unless author_values.empty?
 
+
     group_values = Group.all.collect {|g| [g.name, g.id.to_s] }
     @available_filters["member_of_group"] = { :type => :list_optional, :order => 6, :values => group_values, :name => I18n.t('query_fields.member_of_group') } unless group_values.empty?
 
     role_values = Role.givable.collect {|r| [r.name, r.id.to_s] }
     @available_filters["assigned_to_role"] = { :type => :list_optional, :order => 7, :values => role_values, :name => I18n.t('query_fields.assigned_to_role') } unless role_values.empty?
+
+    @available_filters["responsible_id"] = { :type => :list_optional, :order => 4, :values => assigned_to_values } unless assigned_to_values.empty?
 
     if User.current.logged?
       # populate the watcher list with the same user list as other user filters if the user has the :view_work_package_watchers permission in at least one project
@@ -424,7 +430,7 @@ class Query < ActiveRecord::Base
       operator = operator_for(field)
 
       # "me" value subsitution
-      if %w(assigned_to_id author_id watcher_id).include?(field)
+      if @@user_filters.include? field
         if v.delete("me")
           if User.current.logged?
             v.push(User.current.id.to_s)

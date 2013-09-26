@@ -81,7 +81,7 @@ See doc/COPYRIGHT.rdoc for more details.
                          :update => "content",
                          :method => :get,
                          :complete => "apply_filters_observer()",
-                         :with => "Form.serialize('query_form')"
+                         :with => "jQuery('#query_form').serialize()"
                        }, :class => 'icon icon-checked' %>
 
     <%= link_to_remote l(:button_clear),
@@ -91,7 +91,7 @@ See doc/COPYRIGHT.rdoc for more details.
                        }, :class => 'icon icon-reload'  %>
 
     <% if query.new_record? && User.current.allowed_to?(:save_queries, project, :global => true) %>
-    <%= link_to l(:button_save), {}, :onclick => "selectAllOptions('selected_columns'); $('query_form').submit(); return false;", :class => 'icon icon-save' %>
+    <%= link_to l(:button_save), {}, :onclick => "selectAllOptions('selected_columns'); jQuery('#query_form').submit(); return false;", :class => 'icon icon-save' %>
     <% end %>
     </p>
 <% end %>

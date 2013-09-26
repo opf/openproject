@@ -305,26 +305,7 @@ Timeline = {
         timeline.reload();
       });
 
-      timelineLoader = new Timeline.TimelineLoader(
-        this,
-        {
-          api_prefix                : this.options.api_prefix,
-          url_prefix                : this.options.url_prefix,
-          project_prefix            : this.options.project_prefix,
-          planning_element_prefix   : this.options.planning_element_prefix,
-          project_id                : this.options.project_id,
-          project_types             : this.options.project_types,
-          project_statuses          : this.options.project_status,
-          project_responsibles      : this.options.project_responsibles,
-          project_parents           : this.options.parents,
-          grouping_one              : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
-          grouping_two              : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
-          ajax_defaults             : this.ajax_defaults,
-          current_time              : this.comparisonCurrentTime(),
-          target_time               : this.comparisonTarget(),
-          include_planning_elements : this.verticalPlanningElementIds()
-        }
-      );
+      timelineLoader = this.provideTimelineLoader()
 
       jQuery(timelineLoader).on('complete', jQuery.proxy(function(e, data) {
         jQuery.extend(this, data);
@@ -348,26 +329,8 @@ Timeline = {
   },
   reload: function() {
     delete this.lefthandTree;
-    var timelineLoader = new Timeline.TimelineLoader(
-        this,
-        {
-          api_prefix                : this.options.api_prefix,
-          url_prefix                : this.options.url_prefix,
-          project_prefix            : this.options.project_prefix,
-          planning_element_prefix   : this.options.planning_element_prefix,
-          project_id                : this.options.project_id,
-          project_types             : this.options.project_types,
-          project_statuses          : this.options.project_status,
-          project_responsibles      : this.options.project_responsibles,
-          project_parents           : this.options.parents,
-          grouping_one              : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
-          grouping_two              : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
-          ajax_defaults             : this.ajax_defaults,
-          current_time              : this.comparisonCurrentTime(),
-          target_time               : this.comparisonTarget(),
-          include_planning_elements : this.verticalPlanningElementIds()
-        }
-    );
+
+    var timelineLoader = this.provideTimelineLoader()
 
     jQuery(timelineLoader).on('complete', jQuery.proxy(function (e, data) {
 
@@ -385,6 +348,29 @@ Timeline = {
     }, this));
 
     timelineLoader.load();
+  },
+  provideTimelineLoader: function() {
+    return new Timeline.TimelineLoader(
+      this,
+      {
+        api_prefix                : this.options.api_prefix,
+        url_prefix                : this.options.url_prefix,
+        project_prefix            : this.options.project_prefix,
+        planning_element_prefix   : this.options.planning_element_prefix,
+        project_id                : this.options.project_id,
+        project_types             : this.options.project_types,
+        project_statuses          : this.options.project_status,
+        project_responsibles      : this.options.project_responsibles,
+        project_parents           : this.options.parents,
+        planning_element_types    : this.options.planning_element_types,
+        grouping_one              : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
+        grouping_two              : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
+        ajax_defaults             : this.ajax_defaults,
+        current_time              : this.comparisonCurrentTime(),
+        target_time               : this.comparisonTarget(),
+        include_planning_elements : this.verticalPlanningElementIds()
+      }
+    );
   },
   defer: function(action, delay) {
     var timeline = this;
@@ -432,6 +418,85 @@ Timeline = {
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ Loading                                                           │
   // ╰───────────────────────────────────────────────────────────────────╯
+
+  FilterQueryStringBuilder: (function() {
+
+    /**
+     * FilterQueryStringBuilder
+     *
+     * Simple serializer of query strings that satisfies OpenProject's filter
+     * API. Transforms hashes of desired filterings into the proper query strings.
+     *
+     * Example:
+     *   fqsb = (new FilterQueryStringBuilder({
+     *     'type_id': [4, 5]
+     *   })).build(
+     *     '/api/v2/projects/sample_project/planning_elements.json'
+     *   );
+     *
+     *   => /api/v2/projects/sample_project/planning_elements.json?f[]=type_id&op[type_id]==&v[type_id][]=4&v[type_id][]=5
+     *
+     */
+    var FilterQueryStringBuilder = function (filterHash) {
+      this.filterHash = filterHash;
+    };
+
+    FilterQueryStringBuilder.prototype.buildMetaDataForKey = function(key) {
+      this.queryStringParts.push(
+        {name: 'f[]', value: key},
+        {name: 'op[' + key + ']', value: '='}
+      );
+    };
+
+    FilterQueryStringBuilder.prototype.buildFilterDataForKeyAndValue = function(key, value) {
+      this.queryStringParts.push(
+        {name: 'v[' + key + '][]', value: value}
+      );
+    };
+
+    FilterQueryStringBuilder.prototype.buildFilterDataForKeyAndArrayOfValues = function(key, value) {
+      jQuery.each(value, jQuery.proxy( function(i, e) {
+         this.buildFilterDataForKeyAndValue(key, e)
+      }, this));
+    };
+
+    FilterQueryStringBuilder.prototype.buildFilterDataForValue = function(key, value) {
+      value instanceof Array ?
+        this.buildFilterDataForKeyAndArrayOfValues(key, value) :
+        this.buildFilterDataForKeyAndValue(key, value);
+    };
+
+    FilterQueryStringBuilder.prototype.registerKeyAndValue = function(key, value) {
+      this.buildMetaDataForKey(key);
+      this.buildFilterDataForValue(key, value);
+    };
+
+    FilterQueryStringBuilder.prototype.buildQueryStringParts = function() {
+      this.queryStringParts = [];
+      jQuery.each(this.filterHash, jQuery.proxy(this.registerKeyAndValue, this));
+    }
+
+    FilterQueryStringBuilder.prototype.buildQueryStringFromQueryStringParts = function(url) {
+      return jQuery.map(this.queryStringParts, function(e, i) {
+        return e.name + "=" + encodeURIComponent(e.value);
+      }).join('&');
+    };
+
+    FilterQueryStringBuilder.prototype.buildUrlFromQueryStringParts = function(url) {
+      var resultUrl = url;
+      resultUrl += "?";
+      resultUrl += this.buildQueryStringFromQueryStringParts();
+      return resultUrl;
+    };
+
+    FilterQueryStringBuilder.prototype.build = function(url) {
+      this.buildQueryStringParts();
+      return this.buildUrlFromQueryStringParts(url);
+    };
+
+    return FilterQueryStringBuilder;
+  })(),
+
   TimelineLoader : (function () {
 
     /**
@@ -1021,6 +1086,14 @@ Timeline = {
       });
     };
 
+    TimelineLoader.prototype.provideServerSideFilterHash = function() {
+      if (this.options.planning_element_types !== undefined) {
+        return {"type_id": this.options.planning_element_types};
+      } else {
+        return {};
+      }
+    }
+
     TimelineLoader.prototype.registerPlanningElements = function (ids) {
 
       this.inChunks(ids, function (projectIdsOfPacket, i) {
@@ -1030,26 +1103,31 @@ Timeline = {
                             "/" +
                             projectIdsOfPacket.join(',');
 
+        var qsb = new Timeline.FilterQueryStringBuilder(
+          this.provideServerSideFilterHash());
+
+        var url = qsb.build(projectPrefix + '/planning_elements.json');
+
         // load current planning elements.
         this.loader.register(
             Timeline.PlanningElement.identifier + '_' + i,
-            { url : projectPrefix +
-                    '/planning_elements.json?exclude=scenarios' +
-                    this.comparisonCurrentUrlSuffix()},
+            { url : url },
             { storeIn: Timeline.PlanningElement.identifier }
           );
 
+        /* TODO!
         // load historical planning elements.
         if (this.options.target_time) {
           this.loader.register(
               Timeline.HistoricalPlanningElement.identifier + '_' + i,
               { url : projectPrefix +
-                      '/planning_elements.json?exclude=scenarios' +
+                      '/planning_elements.json' +
                       this.comparisonTargetUrlSuffix() },
               { storeIn: Timeline.HistoricalPlanningElement.identifier,
                 readFrom: Timeline.PlanningElement.identifier }
             );
         }
+        */
       });
     };
 
@@ -2086,7 +2164,6 @@ Timeline = {
     },
     filteredOut: function() {
       var filtered = this.filteredOutForProjectFilter() ||
-                     this.filteredOutForPlanningElementTypes() ||
                      this.filteredOutForResponsibles();
 
       this.filteredOut = function() { return filtered; };
@@ -2103,12 +2180,6 @@ Timeline = {
       return Timeline.filterOutBasedOnArray(
         this.timeline.options.planning_element_responsibles,
         this.getResponsible()
-      );
-    },
-    filteredOutForPlanningElementTypes: function() {
-      return Timeline.filterOutBasedOnArray(
-        this.timeline.options.planning_element_types,
-        this.getPlanningElementType()
       );
     },
     all: function(timeline) {
