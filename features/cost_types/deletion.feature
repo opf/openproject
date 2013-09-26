@@ -3,7 +3,7 @@ Feature: Cost type deletion
   Background:
     Given there is 1 cost type with the following:
       | name | cost_type1 |
-    And I am already logged in as "admin"
+    And I am already admin
 
   Scenario: Deleting a cost type
     When I delete the cost type "cost_type1"

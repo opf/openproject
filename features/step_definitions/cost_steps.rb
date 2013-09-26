@@ -3,7 +3,7 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |pro
   as_admin count do
     ce = CostEntry.generate
     ce.project = p
-    ce.work_package = Issue.generate_for_project!(p)
+    ce.work_package = FactoryGirl.create(:work_package, project: p)
     ce.save!
   end
 end
@@ -34,7 +34,7 @@ end
 Given /^the [Uu]ser "([^\"]*)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |user, count|
   u = User.find_by_login user
   p = u.projects.last
-  i = Issue.generate_for_project!(p)
+  i = FactoryGirl.create(:work_package, project: p)
   as_admin count do
     ce = FactoryGirl.create(:cost_entry)
     ce.user = u
@@ -46,7 +46,7 @@ end
 
 Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |project, count, table|
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
-  i = Issue.generate_for_project!(p)
+  i = FactoryGirl.create(:work_package, project: p)
   as_admin count do
     ce = CostEntry.generate
     ce.project = p
@@ -56,8 +56,8 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the 
   end
 end
 
-Given /^the issue "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |issue, count, table|
-  i = Issue.find(:last, :conditions => ["subject = '#{issue}'"])
+Given /^the work package "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |work_package, count, table|
+  i = WorkPackage.find(:last, :conditions => ["subject = '#{work_package}'"])
   as_admin count do
     ce = FactoryGirl.build(:cost_entry, :spent_on => (table.rows_hash["date"] ? table.rows_hash["date"].to_date : Date.today),
                                     :units => table.rows_hash["units"],
@@ -77,16 +77,16 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
     Given there is 1 project with the following:
       | Name | #{name} |
       | Identifier | #{name.gsub(' ', '_').downcase} |
-    And the project "#{name}" has the following trackers:
+    And the project "#{name}" has the following types:
       | name     |
-      | tracker1 |
+      | type1 |
     And the project "#{name}" has 1 subproject
     And the project "#{name}" has 1 issue with:
-      | subject | #{name}issue |
+      | subject | #{name}work_package |
     And there is a role "Manager"
     And the role "Manager" may have the following rights:
       | view_own_hourly_rate |
-      | view_issues |
+      | view_work_packages |
       | view_work_packages |
       | view_own_time_entries |
       | view_own_cost_entries |
@@ -99,7 +99,7 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
       | View own cost entries |
     And there is a role "Reporter"
     And the role "Reporter" may have the following rights:
-      | Create issues |
+      | Create work packages |
     And there is a role "Supplier"
     And the role "Supplier" may have the following rights:
       | View own hourly rate |
@@ -119,21 +119,21 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
   }
 end
 
-Given /^users have times and the cost type "([^\"]*)" logged on the issue "([^\"]*)" with:$/ do |cost_type, issue, table|
-  i = Issue.find(:last, :conditions => ["subject = '#{issue}'"])
-  raise "No such issue: #{issue}" unless i
+Given /^users have times and the cost type "([^\"]*)" logged on the work package "([^\"]*)" with:$/ do |cost_type, work_package, table|
+  i = WorkPackage.find(:last, :conditions => ["subject = '#{work_package}'"])
+  raise "No such work_package: #{work_package}" unless i
 
   table.rows_hash.collect do |k,v|
     user = k.split.first
     if k.end_with? "hours"
       steps %Q{
-        And the issue "#{issue}" has 1 time entry with the following:
+        And the issue "#{work_package}" has 1 time entry with the following:
           | hours     | #{v}    |
           | user      | #{user} |
       }
     elsif k.end_with? "units"
       steps %Q{
-        And the issue "#{issue}" has 1 cost entry with the following:
+        And the issue "#{work_package}" has 1 cost entry with the following:
         | units     | #{v}         |
         | user      | #{user}      |
         | cost type | #{cost_type} |

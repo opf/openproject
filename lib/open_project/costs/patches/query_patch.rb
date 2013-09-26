@@ -6,12 +6,12 @@ module OpenProject::Costs::Patches::QueryPatch
     include ActionView::Helpers::NumberHelper
     alias :super_value :value
 
-    def value(issue)
-      number_to_currency(issue.send(name))
+    def value(work_package)
+      number_to_currency(work_package.send(name))
     end
 
-    def real_value(issue)
-      super_value issue
+    def real_value(work_package)
+      super_value work_package
     end
   end
 

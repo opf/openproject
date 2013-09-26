@@ -11,6 +11,10 @@ describe User, "#destroy" do
     user2
   end
 
+  after do
+    User.current = nil
+  end
+
   shared_examples_for "costs updated journalized associated object" do
     before do
       User.current = user2
@@ -39,13 +43,13 @@ describe User, "#destroy" do
     it { associated_instance.journals.first.user.should == user2 }
     it "should update first journal changed_data" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data[association.to_s + "_id"].last.should == user2.id
+        associated_instance.journals.first.changed_data["#{association}_id".to_sym].last.should == user2.id
       end
     end
     it { associated_instance.journals.last.user.should == substitute_user }
     it "should update second journal changed_data" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data[association.to_s + "_id"].last.should == substitute_user.id
+        associated_instance.journals.last.changed_data["#{association}_id".to_sym].last.should == substitute_user.id
       end
     end
   end
@@ -78,14 +82,14 @@ describe User, "#destroy" do
     it { associated_instance.journals.first.user.should == substitute_user }
     it "should update the first journal" do
       associations.each do |association|
-        associated_instance.journals.first.changed_data[association.to_s + "_id"].last.should == substitute_user.id
+        associated_instance.journals.first.changed_data["#{association}_id".to_sym].last.should == substitute_user.id
       end
     end
     it { associated_instance.journals.last.user.should == user2 }
     it "should update the last journal" do
       associations.each do |association|
-        associated_instance.journals.last.changed_data[association.to_s + "_id"].first.should == substitute_user.id
-        associated_instance.journals.last.changed_data[association.to_s + "_id"].last.should == user2.id
+        associated_instance.journals.last.changed_data["#{association}_id".to_sym].first.should == substitute_user.id
+        associated_instance.journals.last.changed_data["#{association}_id".to_sym].last.should == user2.id
       end
     end
   end
@@ -120,16 +124,16 @@ describe User, "#destroy" do
   end
 
   describe "WHEN the user has a cost entry" do
-    let(:issue) { FactoryGirl.create(:issue) }
+    let(:work_package) { FactoryGirl.create(:work_package) }
     let(:entry) { FactoryGirl.build(:cost_entry, :user => user,
-                                             :project => issue.project,
+                                             :project => work_package.project,
                                              :units => 100.0,
                                              :spent_on => Date.today,
-                                             :work_package => issue,
+                                             :work_package => work_package,
                                              :comments => "") }
 
     before do
-      FactoryGirl.create(:member, :project => issue.project,
+      FactoryGirl.create(:member, :project => work_package.project,
                               :user => user,
                               :roles => [FactoryGirl.build(:role)])
       entry.save!

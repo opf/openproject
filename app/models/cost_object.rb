@@ -14,14 +14,13 @@ class CostObject < ActiveRecord::Base
 
   acts_as_attachable :after_remove => :attachment_removed
 
-  unless respond_to? :acts_as_journalized
-    acts_as_event :title => Proc.new {|o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}"},
-                  :url => Proc.new {|o| {:controller => '/cost_objects', :action => 'show', :id => o.id}}
-
-    acts_as_activity_provider :find_options => {:include => [:project, :author]},
-                              :timestamp => "#{table_name}.updated_on",
-                              :author_key => :author_id
-  end
+  acts_as_journalized :event_type => 'cost-object',
+    :event_title => Proc.new {|o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}"},
+    :event_url => Proc.new {|o| {:controller => 'cost_objects', :action => 'show', :id => o.id}},
+    :activity_find_options => {:include => [:project, :author]},
+    :activity_timestamp => "#{table_name}.updated_on",
+    :activity_author_key => :author_id,
+    :activity_permission => :view_cost_objects
 
   validates_presence_of :subject, :project, :author, :kind
   validates_length_of :subject, :maximum => 255
@@ -55,16 +54,16 @@ class CostObject < ActiveRecord::Base
     self[:type] = type
   end
 
-  # Assign all the issues with +version_id+ to this Cost Object
-  def assign_issues_by_version(version_id)
+  # Assign all the work_packages with +version_id+ to this Cost Object
+  def assign_work_packages_by_version(version_id)
     version = Version.find_by_id(version_id)
-    return 0 if version.nil? || version.fixed_issues.blank?
+    return 0 if version.nil? || version.fixed_work_packages.blank?
 
-    version.fixed_issues.each do |issue|
-      issue.update_attribute(:cost_object_id, self.id)
+    version.fixed_work_packages.each do |work_package|
+      work_package.update_attribute(:cost_object_id, self.id)
     end
 
-    return version.fixed_issues.size
+    return version.fixed_work_packages.size
   end
 
   # Change the Cost Object type to another type. Valid types are

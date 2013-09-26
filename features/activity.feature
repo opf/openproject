@@ -2,7 +2,7 @@ Feature: Cost Object activities
 
   Background:
     Given there is a standard cost control project named "project1"
-    And I am already logged in as "admin"
+    And I am already admin
 
   Scenario: cost object is a selectable activity type
     When I go to the activity page of the project "project1"

@@ -2,22 +2,22 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
 describe CostlogController do
   include Cost::PluginSpecHelper
-  let (:project) { FactoryGirl.create(:project_with_trackers) }
-  let (:issue) { FactoryGirl.create(:issue, :project => project,
+  let (:project) { FactoryGirl.create(:project_with_types) }
+  let (:work_package) { FactoryGirl.create(:work_package, :project => project,
                                        :author => user,
-                                       :tracker => project.trackers.first) }
+                                       :type => project.types.first) }
   let (:user) { FactoryGirl.create(:user) }
   let (:user2) { FactoryGirl.create(:user) }
   let (:controller) { FactoryGirl.build(:role, :permissions => [:log_costs, :edit_cost_entries]) }
   let (:cost_type) { FactoryGirl.build(:cost_type) }
-  let (:cost_entry) { FactoryGirl.build(:cost_entry, :work_package => issue,
+  let (:cost_entry) { FactoryGirl.build(:cost_entry, :work_package => work_package,
                                                  :project => project,
                                                  :spent_on => Date.today,
                                                  :overridden_costs => 400,
                                                  :units => 100,
                                                  :user => user,
                                                  :comments => "") }
-  let(:issue_status) { FactoryGirl.create(:issue_status, :is_default => true) }
+  let(:work_package_status) { FactoryGirl.create(:work_package_status, :is_default => true) }
 
   def grant_current_user_permissions user, permissions
     member = FactoryGirl.build(:member, :project => project,
@@ -35,7 +35,7 @@ describe CostlogController do
 
   shared_examples_for "assigns" do
     it { assigns(:cost_entry).project.should == expected_project }
-    it { assigns(:cost_entry).work_package.should == expected_issue }
+    it { assigns(:cost_entry).work_package.should == expected_work_package }
     it { assigns(:cost_entry).user.should == expected_user }
     it { assigns(:cost_entry).spent_on.should == expected_spent_on }
     it { assigns(:cost_entry).cost_type.should == expected_cost_type }
@@ -53,10 +53,10 @@ describe CostlogController do
   end
 
   describe "GET new" do
-    let(:params) { { "work_package_id" => issue.id.to_s } }
+    let(:params) { { "work_package_id" => work_package.id.to_s } }
 
     let(:expected_project) { project }
-    let(:expected_issue) { issue }
+    let(:expected_work_package) { work_package }
     let(:expected_user) { user }
     let(:expected_spent_on) { Date.today }
     let(:expected_cost_type) { nil }
@@ -199,9 +199,9 @@ describe CostlogController do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        cost_entry.project = FactoryGirl.create(:project_with_trackers)
-        cost_entry.work_package = FactoryGirl.create(:issue, :project => cost_entry.project,
-                                                  :tracker => cost_entry.project.trackers.first,
+        cost_entry.project = FactoryGirl.create(:project_with_types)
+        cost_entry.work_package = FactoryGirl.create(:work_package, :project => cost_entry.project,
+                                                  :type => cost_entry.project.types.first,
                                                   :author => user)
         cost_entry.save!
       end
@@ -226,14 +226,14 @@ describe CostlogController do
   describe "POST create" do
     let (:params) { { "project_id" => project.id.to_s,
                       "cost_entry" => { "user_id" => user.id.to_s,
-                                        "work_package_id" => (issue.present? ? issue.id.to_s : "") ,
+                                        "work_package_id" => (work_package.present? ? work_package.id.to_s : "") ,
                                         "units" => units.to_s,
                                         "cost_type_id" => (cost_type.present? ? cost_type.id.to_s : "" ),
                                         "comments" => "lorem",
                                         "spent_on" => date.to_s,
                                         "overridden_costs" => overridden_costs.to_s } } }
     let(:expected_project) { project }
-    let(:expected_issue) { issue }
+    let(:expected_work_package) { work_package }
     let(:expected_user) { user }
     let(:expected_overridden_costs) { overridden_costs }
     let(:expected_spent_on) { date }
@@ -254,7 +254,7 @@ describe CostlogController do
         post :create, params
       end
 
-      # is this really usefull, shouldn't it redirect to the creating issue by default?
+      # is this really usefull, shouldn't it redirect to the creating work_package by default?
       it { response.should redirect_to(:controller => "costlog", :action => "index", :project_id => project) }
       it { assigns(:cost_entry).should_not be_new_record }
       it_should_behave_like "assigns"
@@ -409,27 +409,27 @@ describe CostlogController do
     end
 
     describe "WHEN the user is allowed to create cost_entries
-              WHEN the id of an issue not included in the provided project is provided" do
+              WHEN the id of an work_package not included in the provided project is provided" do
 
-      let(:project2) { FactoryGirl.create(:project_with_trackers) }
-      let(:issue2) { FactoryGirl.create(:issue, :project => project2,
-                                            :tracker => project2.trackers.first,
+      let(:project2) { FactoryGirl.create(:project_with_types) }
+      let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
+                                            :type => project2.types.first,
                                             :author => user) }
-      let(:expected_issue) { issue2 }
+      let(:expected_work_package) { work_package2 }
 
       before do
         grant_current_user_permissions user, [:log_costs]
 
-        params["cost_entry"]["work_package_id"] = issue2.id
+        params["cost_entry"]["work_package_id"] = work_package2.id
       end
 
       it_should_behave_like "invalid create"
     end
 
     describe "WHEN the user is allowed to create cost_entries
-              WHEN no issue_id is provided" do
+              WHEN no work_package_id is provided" do
 
-      let(:expected_issue) { nil }
+      let(:expected_work_package) { nil }
 
       before do
         grant_current_user_permissions user, [:log_costs]
@@ -476,7 +476,7 @@ describe CostlogController do
       cost_entry.save(:validate => false)
     end
 
-    let(:expected_issue) { cost_entry.work_package }
+    let(:expected_work_package) { cost_entry.work_package }
     let(:expected_user) { cost_entry.user }
     let(:expected_project) { cost_entry.project }
     let(:expected_cost_type) { cost_entry.cost_type }
@@ -514,15 +514,15 @@ describe CostlogController do
 
     describe "WHEN the user is allowed to update cost_entries
               WHEN updating:
-                issue_id
+                work_package_id
                 user_id
                 units
                 cost_type
                 overridden_costs
                 spent_on" do
 
-      let(:expected_issue) { FactoryGirl.create(:issue, :project => project,
-                                                    :tracker => project.trackers.first,
+      let(:expected_work_package) { FactoryGirl.create(:work_package, :project => project,
+                                                    :type => project.types.first,
                                                     :author => user) }
       let(:expected_user) { FactoryGirl.create(:user) }
       let(:expected_spent_on) { cost_entry.spent_on + 4.days }
@@ -534,7 +534,7 @@ describe CostlogController do
         grant_current_user_permissions expected_user, []
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        params["cost_entry"]["work_package_id"] = expected_issue.id.to_s
+        params["cost_entry"]["work_package_id"] = expected_work_package.id.to_s
         params["cost_entry"]["user_id"] = expected_user.id.to_s
         params["cost_entry"]["spent_on"] = expected_spent_on.to_s
         params["cost_entry"]["units"] = expected_units.to_s
@@ -585,33 +585,33 @@ describe CostlogController do
     end
 
     describe "WHEN the user is allowed to update cost_entries
-              WHEN updating the issue
-              WHEN the new issue isn't an issue of the current project" do
+              WHEN updating the work_package
+              WHEN the new work_package isn't an work_package of the current project" do
 
-      let(:project2) { FactoryGirl.create(:project_with_trackers) }
-      let(:issue2) { FactoryGirl.create(:issue, :project => project2,
-                                            :tracker => project2.trackers.first) }
-      let(:expected_issue) { issue2 }
+      let(:project2) { FactoryGirl.create(:project_with_types) }
+      let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
+                                            :type => project2.types.first) }
+      let(:expected_work_package) { work_package2 }
 
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        params["cost_entry"]["work_package_id"] = issue2.id.to_s
+        params["cost_entry"]["work_package_id"] = work_package2.id.to_s
       end
 
       it_should_behave_like "invalid update"
     end
 
     describe "WHEN the user is allowed to update cost_entries
-              WHEN updating the issue
-              WHEN the new issue_id isn't existing" do
+              WHEN updating the work_package
+              WHEN the new work_package_id isn't existing" do
 
-      let(:expected_issue) { nil }
+      let(:expected_work_package) { nil }
 
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        params["cost_entry"]["work_package_id"] = (issue.id + 1).to_s
+        params["cost_entry"]["work_package_id"] = (work_package.id + 1).to_s
       end
 
       it_should_behave_like "invalid update"

@@ -41,9 +41,9 @@ module OpenProject::Costs::Patches::WorkPackagePatch
 
   module InstanceMethods
     def validate_cost_object
-      if cost_object_id_changed?
-        unless (cost_object_id.blank? || project.cost_object_ids.include?(cost_object_id))
-          errors.add :cost_object_id, :invalid
+      if cost_object && cost_object.changed?
+        unless (cost_object.blank? || project.cost_object_ids.include?(cost_object.id))
+          errors.add :cost_object, :invalid
         end
       end
     end

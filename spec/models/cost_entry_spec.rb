@@ -3,13 +3,13 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe CostEntry do
   include Cost::PluginSpecHelper
 
-  let(:project) { FactoryGirl.create(:project_with_trackers) }
-  let(:project2) { FactoryGirl.create(:project_with_trackers) }
-  let(:issue) { FactoryGirl.create(:issue, :project => project,
-                                       :tracker => project.trackers.first,
+  let(:project) { FactoryGirl.create(:project_with_types) }
+  let(:project2) { FactoryGirl.create(:project_with_types) }
+  let(:work_package) { FactoryGirl.create(:work_package, :project => project,
+                                       :type => project.types.first,
                                        :author => user) }
-  let(:issue2) { FactoryGirl.create(:issue, :project => project2,
-                                        :tracker => project2.trackers.first,
+  let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
+                                        :type => project2.types.first,
                                         :author => user) }
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
@@ -18,7 +18,7 @@ describe CostEntry do
     member
     FactoryGirl.build(:cost_entry, :cost_type => cost_type,
                                :project => project,
-                               :work_package => issue,
+                               :work_package => work_package,
                                :spent_on => date,
                                :units => units,
                                :user => user,
@@ -28,7 +28,7 @@ describe CostEntry do
   let(:cost_entry2) do
     FactoryGirl.build(:cost_entry, :cost_type => cost_type,
                                :project => project,
-                               :work_package => issue,
+                               :work_package => work_package,
                                :spent_on => date,
                                :units => units,
                                :user => user,
@@ -237,7 +237,7 @@ describe CostEntry do
       describe "WHEN no project is provided" do
         before do
           cost_entry.project = nil
-          # unfortunately the project get's set to the issue's project if no project is provided
+          # unfortunately the project get's set to the work_package's project if no project is provided
           # TODO: check if that is necessary
           cost_entry.work_package = nil
         end
@@ -245,14 +245,14 @@ describe CostEntry do
         it { cost_entry.should_not be_valid }
       end
 
-      describe "WHEN no issue is provided" do
+      describe "WHEN no work_package is provided" do
         before { cost_entry.work_package = nil }
 
         it { cost_entry.should_not be_valid }
       end
 
-      describe "WHEN the issue is not in the project" do
-        before { cost_entry.work_package = issue2 }
+      describe "WHEN the work_package is not in the project" do
+        before { cost_entry.work_package = work_package2 }
 
         it { cost_entry.should_not be_valid }
       end

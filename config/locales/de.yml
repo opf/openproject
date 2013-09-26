@@ -3,7 +3,7 @@ de:
   activerecord:
     attributes:
       cost_entry:
-        issue: "Ticket"
+        work_package: "Ticket"
         work_package: "Arbeitspacket"
         overridden_costs: "Überschriebene Kosten"
         spent: "Gebucht"
@@ -24,7 +24,7 @@ de:
       cost_type:
         unit: "Einheit"
         unit_plural: "Einheit plural"
-      issue:
+      work_package:
         cost_object_subject: "Budgettitel"
         labor_costs: "Personaleinzelkosten"
         material_costs: "Stückkosten"
@@ -121,7 +121,7 @@ de:
   label_group_by_add: "Gruppierungsfeld hinzufügen"
   label_hourly_rate: "Stundensatz"
   label_include_deleted: "Gelöschte anzeigen"
-  label_issue_filter_add: "Ticketfilter hinzufügen"
+  label_work_package_filter_add: "Ticketfilter hinzufügen"
   label_kind: "Art"
   label_less_or_equal: "<="
   label_log_costs: "Stückkosten buchen"

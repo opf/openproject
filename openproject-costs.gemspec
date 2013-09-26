@@ -11,9 +11,9 @@ Gem::Specification.new do |s|
   s.email = "info@finn.de"
   s.homepage = "http://www.finn.de"
   s.summary     = "A OpenProject plugin to manage costs"
-  s.description = "This plugin allows to track labor and units cost associated with issues."
+  s.description = "This plugin allows to track labor and units cost associated with work packages."
 
-  s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"

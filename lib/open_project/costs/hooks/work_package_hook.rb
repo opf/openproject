@@ -1,58 +1,58 @@
-# Hooks to attach to the Redmine Issues.
-class OpenProject::Costs::Hooks::IssueHook < Redmine::Hook::ViewListener
+# Hooks to attach to the Redmine WorkPackages.
+class OpenProject::Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
   # Renders the Cost Object subject and basic costs information
-  render_on :view_issues_show_details_bottom, :partial => 'hooks/view_issues_show_details_bottom'
+  # render_on :view_issues_show_details_bottom, :partial => 'hooks/view_work_packages_show_details_bottom'
 
   # Renders a select tag with all the Cost Objects
-  render_on :view_issues_form_details_bottom, :partial => 'hooks/view_issues_form_details_bottom'
+  render_on :view_issues_form_details_bottom, :partial => 'hooks/view_work_packages_form_details_bottom'
 
   # Renders a select tag with all the Cost Objects for the bulk edit page
-  render_on :view_issues_bulk_edit_details_bottom, :partial => 'hooks/view_issues_bulk_edit_details_bottom'
+  render_on :view_issues_bulk_edit_details_bottom, :partial => 'hooks/view_work_packages_bulk_edit_details_bottom'
 
-  render_on :view_issues_move_bottom, :partial => 'hooks/view_issues_move_bottom'
+  render_on :view_issues_move_bottom, :partial => 'hooks/view_work_packages_move_bottom'
 
-  render_on :view_issues_context_menu_end, :partial => 'hooks/view_issues_context_menu_end'
+  render_on :view_issues_context_menu_end, :partial => 'hooks/view_work_packages_context_menu_end'
 
 
   # Updates the cost object after a move
   #
   # Context:
   # * params => Request parameters
-  # * issue => Issue to move
+  # * work_package => WorkPackage to move
   # * target_project => Target of the move
-  # * copy => true, if the issues are copied rather than moved
-  def controller_issues_move_before_save(context={})
-    # FIXME: In case of copy==true, this will break stuff if the original issue is saved
+  # * copy => true, if the work_packages are copied rather than moved
+  def controller_work_packages_move_before_save(context={})
+    # FIXME: In case of copy==true, this will break stuff if the original work_package is saved
 
     cost_object_id = context[:params] && context[:params][:cost_object_id]
     case cost_object_id
     when "" # a.k.a "(No change)"
       # cost objects HAVE to be changed if move is performed across project boundaries
       # as the are project specific
-      context[:issue].cost_object_id = nil unless (context[:issue].project == context[:target_project])
+      context[:work_package].cost_object_id = nil unless (context[:work_package].project == context[:target_project])
     when "none"
-      context[:issue].cost_object_id = nil
+      context[:work_package].cost_object_id = nil
     else
-      context[:issue].cost_object_id = cost_object_id
+      context[:work_package].cost_object_id = cost_object_id
     end
   end
 
-  # Saves the Cost Object assignment to the issue
+  # Saves the Cost Object assignment to the work_package
   #
   # Context:
-  # * :issue => Issue being saved
+  # * :work_package => WorkPackage being saved
   # * :params => HTML parameters
   #
-  def controller_issues_bulk_edit_before_save(context = { })
+  def controller_work_packages_bulk_edit_before_save(context = { })
     case true
 
     when context[:params][:cost_object_id].blank?
       # Do nothing
     when context[:params][:cost_object_id] == 'none'
       # Unassign cost_object
-      context[:issue].cost_object = nil
+      context[:work_package].cost_object = nil
     else
-      context[:issue].cost_object = CostObject.find(context[:params][:cost_object_id])
+      context[:work_package].cost_object = CostObject.find(context[:params][:cost_object_id])
     end
 
     return ''
@@ -64,7 +64,7 @@ class OpenProject::Costs::Hooks::IssueHook < Redmine::Hook::ViewListener
   # Context:
   # * :detail => Detail about the journal change
   #
-  def helper_issues_show_detail_after_setting(context = { })
+  def helper_work_packages_show_detail_after_setting(context = { })
     # FIXME: Overwritting the caller is bad juju
     if (context[:detail].prop_key == 'cost_object_id')
       if context[:detail].value.to_i.to_s == context[:detail].value.to_s

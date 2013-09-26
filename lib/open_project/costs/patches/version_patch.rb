@@ -12,7 +12,7 @@ module OpenProject::Costs::Patches::VersionPatch
   module InstanceMethods
     def spent_hours_with_inheritance
       # overwritten method
-      @spent_hours ||= TimeEntry.visible.sum(:hours, :include => :work_package, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
+      @spent_hours ||= TimeEntry.visible.sum(:hours, :include => :work_package, :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ?", id]).to_f
     end
   end
 end

@@ -26,7 +26,7 @@ class CostObjectsController < ApplicationController
   include CostlogHelper
   helper :cost_objects
   include CostObjectsHelper
-  include Redmine::Export::PDF
+  include WorkPackage::PdfExporter
   include PaginationHelper
 
   menu_item :new_budget, :only => [:new]
@@ -35,7 +35,7 @@ class CostObjectsController < ApplicationController
   def index
     respond_to do |format|
       format.html { }
-      format.csv  { limit = Setting.issues_export_limit.to_i }
+      format.csv  { limit = Setting.work_packages_export_limit.to_i }
     end
 
     sort_columns = {'id' => "#{CostObject.table_name}.id",

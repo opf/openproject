@@ -3,10 +3,10 @@ Feature: Credit unit costs
   Background:
     Given there is a standard cost control project named "project1"
     And the project "project1" has 1 issue with the following:
-      | subject | issue1 |
+      | subject | work_package1 |
     And the role "Manager" may have the following rights:
-      | view_issues        |
-      | edit_issues        |
+      | view_work_packages        |
+      | edit_work_packages        |
       | view_work_packages |
       | edit_work_packages |
       | log_costs          |
@@ -16,11 +16,11 @@ Feature: Credit unit costs
       | unit_plural | multi_unit  |
 
   @javascript
-  Scenario: Crediting units costs to an issue
+  Scenario: Crediting units costs to an work_package
     When I am already logged in as "manager"
-    And I go to the page of the issue "issue1"
+    And I go to the page of the issue "work_package1"
     And I select "Log unit costs" from the action menu
     And I fill in "cost_entry_units" with "100"
     And I select "cost_type_1" from "Cost type"
     And I press "Save"
-    Then I should be on the page of the issue "issue1"
+    Then I should be on the page of the issue "work_package1"
