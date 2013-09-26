@@ -16,7 +16,7 @@ class CostReportsMigration < ActiveRecord::Migration
 
   private
 
-  def migrate_cost_queries(&mapping)
+  def migrate_cost_queries(mapping)
     CostQuery.find_each do |cost_query|
       query = cost_query.serialized
       [query[:filters], query[:group_bys]].each do |expression|
