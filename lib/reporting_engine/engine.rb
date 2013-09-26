@@ -40,18 +40,5 @@ module ReportingEngine
       #as Object::Date and Rails wont autoload Widget::Filters::Date
       require_dependency 'widget/filters/date'
     end
-
-    config.after_initialize do
-      Redmine::Plugin.register :reportingengine do
-        name 'ReportingEngine'
-        author 'Finn GmbH'
-        description 'A plugin to support creating reports'
-
-        url 'https://www.openproject.org/projects/plugin-reportingengine/'
-        author_url 'http://www.finn.de/'
-
-        version ReportingEngine::VERSION
-      end
-    end
   end
 end
