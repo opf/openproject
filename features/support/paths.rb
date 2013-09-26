@@ -265,6 +265,9 @@ module NavigationHelpers
     when /^the enumerations page$/
       '/admin/enumerations'
 
+    when /^the projects page$/
+      '/admin/projects'
+
     when /^the authentication modes page$/
       '/auth_sources'
 
