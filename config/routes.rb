@@ -76,6 +76,7 @@ OpenProject::Application.routes.draw do
           get :paginate_reported_project_statuses
         end
       end
+      resources :statuses, :only => [:index, :show]
       resources :timelines
 
       resources :projects do
@@ -86,6 +87,7 @@ OpenProject::Application.routes.draw do
         resources :project_associations do
           get :available_projects, :on => :collection
         end
+        resources :statuses, :only => [:index, :show]
       end
 
     end

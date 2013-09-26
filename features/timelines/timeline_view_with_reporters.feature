@@ -90,12 +90,11 @@ Feature: Timeline View Tests with reporters
           | timelines |
 
       And there are the following work packages:
-        | Subject  | Start date | Due date   | description       | status                  | responsible | type   |
-        | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed                  | manager     | Phase1 |
-        | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed                  | manager     | Phase2 |
-        | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed                  | manager     | Phase3 |
-        | April    | 2012-04-01 | 2012-04-30 | Aioli Sali Grande | closed                  | manager     | Phase4 |
-
+          | Subject  | Start date | Due date   | description       | status | responsible | type   |
+          | January  | 2012-01-01 | 2012-01-31 | Aioli Grande      | closed | manager     | Phase1 |
+          | February | 2012-02-01 | 2012-02-24 | Aioli Sali        | closed | manager     | Phase2 |
+          | March    | 2012-03-01 | 2012-03-30 | Sali Grande       | closed | manager     | Phase3 |
+          | April    | 2012-04-01 | 2012-04-30 | Aioli Sali Grande | closed | manager     | Phase4 |
 
       And there is a project named "ecookbook13" of type "Standard Project"
       And I am working in project "ecookbook13"
@@ -105,11 +104,11 @@ Feature: Timeline View Tests with reporters
           | timelines |
 
       And there are the following work packages:
-       | Subject    | Start date | Due date   | description       | status                  | responsible    |
-       | January13  | 2013-01-01 | 2013-01-31 | Aioli Grande      | closed                  | manager        |
-       | February13 | 2013-02-01 | 2013-02-24 | Aioli Sali        | closed                  | manager        |
-       | March13    | 2013-03-01 | 2013-03-30 | Sali Grande       | closed                  | manager        |
-       | April13    | 2013-04-01 | 2013-04-30 | Aioli Sali Grande | closed                  | manager        |
+          | Subject    | Start date | Due date   | description       | status | responsible |
+          | January13  | 2013-01-01 | 2013-01-31 | Aioli Grande      | closed | manager     |
+          | February13 | 2013-02-01 | 2013-02-24 | Aioli Sali        | closed | manager     |
+          | March13    | 2013-03-01 | 2013-03-30 | Sali Grande       | closed | manager     |
+          | April13    | 2013-04-01 | 2013-04-30 | Aioli Sali Grande | closed | manager     |
 
       And there is a project named "ecookbook_q3" of type "Extraordinary Project"
       And the following types are enabled for projects of type "Extraordinary Project"
@@ -127,12 +126,10 @@ Feature: Timeline View Tests with reporters
           | timelines |
 
       And there are the following work packages:
-        | Subject   | Start date | Due date   | description       | status                  | responsible    |
-        | July      | 2012-07-01 | 2013-07-31 | Aioli Grande      | closed                  | manager        |
-        | August    | 2012-08-01 | 2013-08-31 | Aioli Sali        | closed                  | manager        |
-        | Septembre | 2012-09-01 | 2013-09-30 | Sali Grande       | closed                  | manager        |
-
-
+          | Subject   | Start date | Due date   | description  | status | responsible |
+          | July      | 2012-07-01 | 2013-07-31 | Aioli Grande | closed | manager     |
+          | August    | 2012-08-01 | 2013-08-31 | Aioli Sali   | closed | manager     |
+          | Septembre | 2012-09-01 | 2013-09-30 | Sali Grande  | closed | manager     |
 
       And there is a project named "ecookbook_empty" of type "Standard Project"
       And I am working in project "ecookbook_empty"
@@ -141,7 +138,6 @@ Feature: Timeline View Tests with reporters
       And the project uses the following modules:
           | timelines |
 
-
       And  there are the following reportings:
           | Project         | Reporting To Project |
           | ecookbook_empty | ecookbook            |
@@ -149,11 +145,9 @@ Feature: Timeline View Tests with reporters
           | ecookbook13     | ecookbook            |
           | ecookbook0      | ecookbook            |
 
-
       And there are the following project associations:
-          | Project A  | Project B   |
+          | Project A  | Project B    |
           | ecookbook0 | ecookbook_q3 |
-
 
       And I am already logged in as "manager"
 
@@ -202,9 +196,9 @@ Feature: Timeline View Tests with reporters
       And I should not see the project "ecookbook_empty"
       And I should not see the project "ecookbook_q3"
       And I should not see the project "ecookbook13"
-      And I should see the planning element "March" in the timeline
-      And I should not see the planning element "August" in the timeline
-      And I should not see the planning element "March13" in the timeline
+      And I should see the work package "March" in the timeline
+      And I should not see the work package "August" in the timeline
+      And I should not see the work package "March13" in the timeline
 
   @javascript
   Scenario: First level grouping and sortation
@@ -212,11 +206,11 @@ Feature: Timeline View Tests with reporters
     When there is a timeline "Testline" for project "ecookbook"
       And I set the sortation of the first level grouping criteria to explicit order
       And I set the first level grouping criteria to:
-        | ecookbook         |
+        | ecookbook   |
         | ecookbook13 |
       And I wait for timeline to load table
 
-    Then I should see the project "ecookbook_empty"
+     Then I should see the project "ecookbook_empty"
       And I should see the project "ecookbook_q3"
       And I should see the project "ecookbook13"
       And I should see the project "ecookbook0"
@@ -232,7 +226,7 @@ Feature: Timeline View Tests with reporters
         | ecookbook   |
       And I wait for timeline to load table
 
-    Then I should see the project "ecookbook_empty"
+     Then I should see the project "ecookbook_empty"
       And I should see the project "ecookbook_q3"
       And I should see the project "ecookbook13"
       And I should see the project "ecookbook0"

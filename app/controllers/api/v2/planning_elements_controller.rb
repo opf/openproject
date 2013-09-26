@@ -51,6 +51,7 @@ module Api
 
       def index
         optimize_planning_elements_for_less_db_queries
+        rewire_ancestors
 
         respond_to do |format|
           format.api
@@ -169,6 +170,12 @@ module Api
       # is called as a before filter and as a method
       def assign_planning_elements(projects = (@projects || [@project]))
         @planning_elements = WorkPackage.for_projects(projects).without_deleted
+
+        query = Query.new
+        query.add_filters(params[:f], params[:op], params[:v]) if params[:f]
+
+        @planning_elements = @planning_elements.with_query query
+
       end
 
       # remove this and replace by calls it with calls
@@ -203,7 +210,7 @@ module Api
         return if @planning_elements.class == Array
 
         # triggering full load to avoid separate queries for count or related models
-        @planning_elements = @planning_elements.all(:include => [:type, :project])
+        @planning_elements = @planning_elements.all(:include => [:type, :status, :project])
 
         # Replacing association proxies with already loaded instances to avoid
         # further db calls.
@@ -240,6 +247,34 @@ module Api
           children = associations[children_refl.macro].new(pe, children_refl)
           children.target = children_hash[pe.id]
           pe.send(:association_instance_set, :children, children)
+        end
+      end
+
+      # Filtering work_packages can destroy the parent-child-relationships
+      # of work_packages. If parents are removed, the relationships need
+      # to be rewired to the first ancestor in the ancestor-chain.
+      #
+      # Before Filtering:
+      # A -> B -> C
+      # After Filtering:
+      # A -> C
+      #
+      # to see the respective cases that need to be handled properly by this rewiring,
+      # @see features/planning_elements/filter.feature
+      def rewire_ancestors
+        filtered_ids = @planning_elements.map(&:id)
+
+        @planning_elements.each do |pe|
+          # remove all children, that are not present in the filtered set
+          pe.children = pe.children.select {|child| filtered_ids.include? child.id} unless pe.children.empty?
+          # re-wire the parent of this pe to the first ancestor found in the filtered set
+          # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
+          if pe.parent_id && !filtered_ids.include?(pe.parent_id)
+            ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt }
+            # the greatest lower boundary is the first ancestor not filtered
+            pe.parent = ancestors.sort_by{|ancestor| ancestor.lft }.last
+          end
+
         end
       end
     end

@@ -26,28 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-describe Query do
-  describe 'available_columns' do
-    let(:query) { FactoryGirl.build(:query) }
-
-    context 'with work_package_done_ratio NOT disabled' do
-      it 'should include the done_ratio column' do
-        query.available_columns.find {|column| column.name == :done_ratio}.should be_true
-      end
-    end
-
-    context 'with work_package_done_ratio disabled' do
-      before do
-        Setting.stub(:work_package_done_ratio).and_return('disabled')
-      end
-
-      it 'should NOT include the done_ratio column' do
-        query.available_columns.find {|column| column.name == :done_ratio}.should be_nil
-      end
-    end
-
+api.array :statuses, :size => @statuses.size do
+  @statuses.each do |status|
+    render(:partial => '/api/v2/statuses/status.api',
+           :object  => status)
   end
-
 end
