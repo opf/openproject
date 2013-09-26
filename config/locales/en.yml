@@ -85,10 +85,10 @@ en:
         time_entries: "Log time"
         type: "Type"
         watcher: "Watcher"
-      issue_relation:
+      relation:
         delay: "Delay"
-        issue_from: "Work Package"
-        issue_to: "Related work package"
+        from: "Work Package"
+        to: "Related work package"
       issue_status:
         is_closed: "Work package closed"
       journal:
@@ -1152,10 +1152,10 @@ en:
   setting_gravatar_default: "Default Gravatar image"
   setting_gravatar_enabled: "Use Gravatar user icons"
   setting_host_name: "Host name and path"
-  setting_issue_done_ratio: "Calculate the work package done ratio with"
-  setting_issue_done_ratio_issue_field: "Use the work package field"
-  setting_issue_done_ratio_issue_status: "Use the work package status"
-  setting_issue_done_ratio_disabled: "Disable (hide the progress)"
+  setting_work_package_done_ratio: "Calculate the work package done ratio with"
+  setting_work_package_done_ratio_issue_field: "Use the work package field"
+  setting_work_package_done_ratio_issue_status: "Use the work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the progress)"
   setting_work_package_list_default_columns: "Display by default"
   setting_work_package_list_summable_columns: "Summable"
   setting_work_package_properties: "Work package properties"
@@ -1195,6 +1195,7 @@ en:
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
   setting_welcome_text: "Welcome text"
   setting_wiki_compression: "Wiki history compression"
+  setting_work_package_group_assignment: "Allow assignment to groups"
 
   settings:
     general: "General"

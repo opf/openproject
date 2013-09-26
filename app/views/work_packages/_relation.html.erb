@@ -30,21 +30,21 @@ See doc/COPYRIGHT.rdoc for more details.
 <tr id="work_package_relation_<%= relation.id %>">
   <td>
     <%= l(relation.label_for(work_package)) %> <%= "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)})" if relation.delay && relation.delay != 0 %>
-    <%= h(relation.other_issue(work_package).project) + ' - ' if Setting.cross_project_issue_relations? %>
-    <%= link_to_work_package(relation.other_issue(work_package), :truncate => 60) %>
+    <%= h(relation.other_work_package(work_package).project) + ' - ' if Setting.cross_project_work_package_relations? %>
+    <%= link_to_work_package(relation.other_work_package(work_package), :truncate => 60) %>
   </td>
-  <% unless relation.other_issue(work_package).type.is_standard %>
+  <% unless relation.other_work_package(work_package).type.is_standard %>
     <td>
-      <%= h(relation.other_issue(work_package).kind.name) %>
+      <%= h(relation.other_work_package(work_package).kind.name) %>
     </td>
   <% else %>
     <td></td>
   <% end %>
   <td>
-    <%= format_date(relation.other_issue(work_package).start_date) %>
+    <%= format_date(relation.other_work_package(work_package).start_date) %>
   </td>
   <td>
-    <%= format_date(relation.other_issue(work_package).due_date) %>
+    <%= format_date(relation.other_work_package(work_package).due_date) %>
   </td>
   <td>
     <%= link_to(image_tag('delete.png'), work_package_relation_path(work_package, relation),

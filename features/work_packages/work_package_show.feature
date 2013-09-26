@@ -90,7 +90,7 @@ Feature: Viewing a work package
     And I should see "0 Total progress"
 
   Scenario: View work package with issue done ratio disabled
-    Given the "issue_done_ratio" setting is set to disabled
+    Given the "work_package_done_ratio" setting is set to disabled
     When I go to the page of the work package "issue1"
     Then I should see "Bug #1: issue1"
     And I should not see "Total progress"
@@ -111,7 +111,7 @@ Feature: Viewing a work package
   Scenario: Adding a relation will add it to the list of related work packages through AJAX instantly
     When I go to the page of the work package "issue1"
     And I click on "Add related work package"
-    And I fill in "relation_issue_to_id" with "3"
+    And I fill in "relation_to_id" with "3"
     And I press "Add"
     And I wait for the AJAX requests to finish
     Then I should be on the page of the work package "issue1"

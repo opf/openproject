@@ -38,7 +38,7 @@ module Api
       include JournalsHelper
       include ProjectsHelper
       include CustomFieldsHelper
-      include IssueRelationsHelper
+      include RelationsHelper
       include WatchersHelper
       include AttachmentsHelper
       include QueriesHelper
@@ -54,7 +54,7 @@ module Api
       before_filter :authorize, :except => :index
       before_filter :check_for_default_issue_status, :only => [:new, :create]
       before_filter :protect_from_unauthorized_export, :only => :index
-      before_filter :build_new_issue_from_params, :only => [:new, :create]
+      before_filter :build_new_from_params, :only => [:new, :create]
       before_filter :retrieve_query, :only => :index
 
       accept_key_auth :index, :show, :create, :update, :destroy
@@ -88,15 +88,15 @@ module Api
         @journals.reverse! if User.current.wants_comments_in_reverse_order?
         @changesets = @issue.changesets.visible.all(:include => [{ :repository => {:project => :enabled_modules} }, :user])
         @changesets.reverse! if User.current.wants_comments_in_reverse_order?
-        @relations = @issue.relations.includes(:issue_from => [:status,
+        @relations = @issue.relations.includes(:from => [:status,
                                                                :priority,
                                                                :type,
                                                                { :project => :enabled_modules }],
-                                               :issue_to => [:status,
+                                               :to => [:status,
                                                              :priority,
                                                              :type,
                                                              { :project => :enabled_modules }])
-                                     .select{ |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
+                                     .select{ |r| r.other_work_package(@issue) && r.other_work_package(@issue).visible? }
 
         @ancestors = @issue.ancestors.visible.all(:include => [:type,
                                                                :assigned_to,
@@ -138,7 +138,7 @@ module Api
       end
 
       def update
-        update_issue_from_params
+        update_from_params
         JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
         if @issue.save_issue_with_child_records(params, @time_entry)
           render_attachment_warning_if_needed(@issue)
@@ -218,7 +218,7 @@ module Api
       # Used by #edit and #update to set some common instance variables
       # from the params
       # TODO: Refactor, not everything in here is needed by #edit
-      def update_issue_from_params
+      def update_from_params
         @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
         @priorities = IssuePriority.all
         @edit_allowed = User.current.allowed_to?(:edit_work_packages, @project)
@@ -233,7 +233,7 @@ module Api
 
       # TODO: Refactor, lots of extra code in here
       # TODO: Changing type on an existing issue should not trigger this
-      def build_new_issue_from_params
+      def build_new_from_params
         if params[:id].blank?
           @issue = WorkPackage.new
           @issue.copy_from(params[:copy_from]) if params[:copy_from]
@@ -249,7 +249,7 @@ module Api
           render_error l(:error_no_type_in_project)
           return false
         end
-        @issue.start_date ||= User.current.today if Setting.issue_startdate_is_adddate?
+        @issue.start_date ||= User.current.today if Setting.work_package_startdate_is_adddate?
         if params[:issue].is_a?(Hash)
           @issue.safe_attributes = params[:issue]
           @issue.priority_id = params[:issue][:priority_id] unless params[:issue][:priority_id].nil?

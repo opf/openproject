@@ -27,24 +27,44 @@
 #++
 
 require 'spec_helper'
+require_relative '../support/shared/become_member'
 
-describe Query do
-  describe 'available_columns'
-    let(:query) { FactoryGirl.build(:query) }
+describe Group do
+  include BecomeMember
 
-    context 'with work_package_done_ratio NOT disabled' do
-      it 'should include the done_ratio column' do
-        query.available_columns.find {|column| column.name == :done_ratio}.should be_true
-      end
-    end
+  let(:group) { FactoryGirl.build(:group) }
+  let(:user) { FactoryGirl.build(:user) }
+  let(:project) { FactoryGirl.create(:project_with_types) }
+  let(:issue_status) { FactoryGirl.create(:issue_status) }
+  let(:package) { FactoryGirl.build(:work_package, :type => project.types.first,
+                                                   :author => user,
+                                                   :project => project,
+                                                   :status => issue_status) }
 
-    context 'with work_package_done_ratio disabled' do
+  describe :destroy do
+    describe 'work packages assigned to the group' do
       before do
-        Setting.stub(:work_package_done_ratio).and_return('disabled')
+        become_member_with_permissions project, group, [:view_work_packages]
+        package.assigned_to = group
+
+        package.save!
       end
 
-      it 'should NOT include the done_ratio column' do
-        query.available_columns.find {|column| column.name == :done_ratio}.should be_nil
+      it 'should reassign the work package to nobody' do
+        group.destroy
+
+        package.reload
+
+        package.assigned_to.should == DeletedUser.first
+      end
+
+      it 'should update all journals to have the deleted user as assigned' do
+        group.destroy
+
+        package.reload
+
+        package.journals.all?{ |j| j.data.assigned_to_id == DeletedUser.first.id }.should be_true
       end
     end
+  end
 end

@@ -32,7 +32,7 @@ jQuery('#relations #errorExplanation').remove();
 <% if relation.errors.empty? %>
   jQuery('#relations tbody').append("<%= escape_javascript(render :partial => 'work_packages/relation', :locals => { :relation => relation, :work_package => work_package }) %>");
 
-  jQuery('#relation_issue_to_id').val('');
+  jQuery('#relation_to_id').val('');
 <% else %>
   jQuery('#relations table').after("<%= escape_javascript(error_messages_for(relation)) %>");
 <% end %>

@@ -284,7 +284,7 @@ OpenProject::Application.routes.draw do
 
     resources :time_entries, :controller => 'timelog'
 
-    resources :relations, :controller => 'issue_relations', :only => [:create, :destroy]
+    resources :relations, :controller => 'relations', :only => [:create, :destroy]
 
     collection do
       get :bulk_edit, :format => false

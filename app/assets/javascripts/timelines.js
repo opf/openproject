@@ -4260,16 +4260,23 @@ Timeline = {
 
     where.empty().append(table);
 
+    var change = [];
+
     var maxWidth = jQuery("#content").width() * 0.25;
-    jQuery(".tl-word-ellipsis").each(function (i, e) {
+    table.find(".tl-word-ellipsis").each(function (i, e) {
       e = jQuery(e);
 
-      if (e.parent().width() > maxWidth) {
-        var indent = e.offset().left - e.parent().offset().left;
+      var indent = e.offset().left - e.parent().offset().left;
 
-        e.css("width", maxWidth - indent);
+      if (e.width() > maxWidth - indent) {
+        change.push({e: e, w: maxWidth - indent});
       }
     });
+
+    var i;
+    for (i = 0; i < change.length; i += 1) {
+      change[i].e.css("width", change[i].w);
+    }
   },
   scrollbarBox: function() {
     var scrollbar_height = this.getMeasuredScrollbarHeight();

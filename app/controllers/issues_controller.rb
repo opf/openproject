@@ -35,7 +35,7 @@ class IssuesController < ApplicationController
   include JournalsHelper
   include ProjectsHelper
   include CustomFieldsHelper
-  include IssueRelationsHelper
+  include RelationsHelper
   include QueriesHelper
   include IssuesHelper
 

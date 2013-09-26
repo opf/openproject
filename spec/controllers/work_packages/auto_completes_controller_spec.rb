@@ -117,7 +117,7 @@ describe WorkPackages::AutoCompletesController do
       end
     end
 
-    describe :cross_project_issue_relations do
+    describe :cross_project_work_package_relations do
       let(:project_2) { FactoryGirl.create(:project,
                                            parent: project) }
       let(:member_2) { FactoryGirl.create(:member,
@@ -137,7 +137,7 @@ describe WorkPackages::AutoCompletesController do
         let(:expected_values) { work_package_4 }
 
         before do
-          Setting.stub(:cross_project_issue_relations?).and_return(true)
+          Setting.stub(:cross_project_work_package_relations?).and_return(true)
 
           get :index,
               project_id: project.id,
@@ -152,7 +152,7 @@ describe WorkPackages::AutoCompletesController do
 
       context "with scope all but w/o cross project relations" do
         before do
-          Setting.stub(:cross_project_issue_relations?).and_return(false)
+          Setting.stub(:cross_project_work_package_relations?).and_return(false)
           
           get :index,
               project_id: project.id,

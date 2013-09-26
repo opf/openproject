@@ -40,6 +40,7 @@
 //
 //= require jquery
 //= require jquery.ui.all
+//= require jquery-ui-i18n
 //= require jquery.menu_expand
 //= require jquery_ujs
 //= require jquery_noconflict
@@ -56,7 +57,6 @@
 //= require findDomElement
 //= require context_menu
 //= require jstoolbar
-//= require calendar
 //= require ajaxappender
 //= require issues
 //= require work_packages
@@ -68,6 +68,46 @@ if (typeof []._reverse == 'undefined') {
 } else {
     jQuery.fn.reverse = Array.prototype._reverse;
 }
+
+jQuery(document).ready(function ($) {
+  if (typeof CS !== "undefined") {
+    var regions = $.datepicker.regional;
+    var regional = regions[CS.lang] || regions[""];
+    $.datepicker.setDefaults(regional);
+
+    var gotoToday = $.datepicker._gotoToday;
+
+    $.datepicker._gotoToday = function (id) {
+      gotoToday.call(this, id);
+      var target = $(id),
+        inst = this._getInst(target[0]),
+        dateStr = $.datepicker._formatDate(inst);
+      target.val(dateStr);
+      target.blur();
+      $.datepicker._hideDatepicker();
+    };
+
+    var defaults = {
+      showWeek: true,
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: 'yy-mm-dd',
+      showButtonPanel: true,
+      calculateWeek: function (d) {
+        if (d.getDay() !== 1) {
+          d.setDate(d.getDate() - d.getDay() + 1);
+        }
+        return $.datepicker.iso8601Week(d);
+      }
+    };
+
+    if (CS.firstWeekDay && CS.firstWeekDay !== "") {
+      defaults.firstDay = parseInt(CS.firstWeekDay, 10);
+    }
+
+    $.datepicker.setDefaults(defaults);
+  }
+});
 
 jQuery(document).ajaxError(function(event, request, settings) {
   if (request.status === 401 && /X-Reason: login needed/.match(request.getAllResponseHeaders())) {
@@ -420,14 +460,14 @@ function observeWorkPackageParentField(url) {
 }
 
 function observeRelatedIssueField(url) {
-  new Ajax.Autocompleter('relation_issue_to_id',
+  new Ajax.Autocompleter('relation_to_id',
                          'related_issue_candidates',
                          url,
                          { minChars: 1,
                            frequency: 0.5,
                            paramName: 'q',
                            updateElement: function(value) {
-                             document.getElementById('relation_issue_to_id').value = value.id;
+                             document.getElementById('relation_to_id').value = value.id;
                            },
                            parameters: 'scope=all'
                            });

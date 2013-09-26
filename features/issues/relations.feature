@@ -53,7 +53,7 @@ Feature: Relating issues to each other
   Scenario: Adding a relation will add it to the list of related issues through AJAX instantly
     When I go to the page of the issue "Some Issue"
     And I click on "Add related work package"
-    And I fill in "relation_issue_to_id" with "2"
+    And I fill in "relation_to_id" with "2"
     And I press "Add"
     And I wait for the AJAX requests to finish
     Then I should be on the page of the issue "Some Issue"
@@ -66,7 +66,7 @@ Feature: Relating issues to each other
       | type    | Bug              |
     When I go to the page of the issue "Some Issue"
     And I click on "Add related work package"
-    And I fill in "relation_issue_to_id" with "3"
+    And I fill in "relation_to_id" with "3"
     And I press "Add"
     And I wait for the AJAX requests to finish
     Then I should be on the page of the issue "Some Issue"

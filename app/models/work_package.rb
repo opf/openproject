@@ -47,15 +47,15 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :type
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
+  belongs_to :assigned_to, :class_name => 'Principal', :foreign_key => 'assigned_to_id'
   belongs_to :responsible, :class_name => "User", :foreign_key => "responsible_id"
   belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
   has_many :time_entries, :dependent => :delete_all
-  has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
-  has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
+  has_many :relations_from, :class_name => 'Relation', :foreign_key => 'from_id', :dependent => :delete_all
+  has_many :relations_to, :class_name => 'Relation', :foreign_key => 'to_id', :dependent => :delete_all
   has_and_belongs_to_many :changesets,
                           :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
 
@@ -233,15 +233,15 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def self.done_ratio_disabled?
-    Setting.issue_done_ratio == 'disabled'
+    Setting.work_package_done_ratio == 'disabled'
   end
 
   def self.use_status_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_status'
+    Setting.work_package_done_ratio == 'issue_status'
   end
 
   def self.use_field_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_field'
+    Setting.work_package_done_ratio == 'issue_field'
   end
 
   # Returns true if usr or current user is allowed to view the work_package
@@ -295,7 +295,7 @@ class WorkPackage < ActiveRecord::Base
 
   # RELATIONS
   def delete_relations(work_package)
-    unless Setting.cross_project_issue_relations?
+    unless Setting.cross_project_work_package_relations?
       work_package.relations_from.clear
       work_package.relations_to.clear
     end
@@ -311,15 +311,15 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns true if this work package is blocked by another work package that is still open
   def blocked?
-    !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
+    !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.from.closed?}.nil?
   end
 
   def relations
-    IssueRelation.of_issue(self)
+    Relation.of_work_package(self)
   end
 
   def relation(id)
-    IssueRelation.of_issue(self).find(id)
+    Relation.of_work_package(self).find(id)
   end
 
   def new_relation
@@ -331,13 +331,13 @@ class WorkPackage < ActiveRecord::Base
                        :work_package => self)
   end
 
-  def all_dependent_issues(except=[])
+  def all_dependent_packages(except=[])
     except << self
     dependencies = []
     relations_from.each do |relation|
-      if relation.issue_to && !except.include?(relation.issue_to)
-        dependencies << relation.issue_to
-        dependencies += relation.issue_to.all_dependent_issues(except)
+      if relation.to && !except.include?(relation.to)
+        dependencies << relation.to
+        dependencies += relation.to.all_dependent_packages(except)
       end
     end
     dependencies
@@ -345,7 +345,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns an array of issues that duplicate this one
   def duplicates
-    relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
+    relations_to.select {|r| r.relation_type == Relation::TYPE_DUPLICATES}.collect {|r| r.from}
   end
 
   def soonest_start
@@ -359,7 +359,7 @@ class WorkPackage < ActiveRecord::Base
   def reschedule_following_issues
     if start_date_changed? || due_date_changed?
       relations_from.each do |relation|
-        relation.set_issue_to_dates
+        relation.set_dates_of_target
       end
     end
   end
@@ -467,7 +467,13 @@ class WorkPackage < ActiveRecord::Base
     # Author and assignee are always notified unless they have been
     # locked or don't want to be notified
     notified << author if author && author.active? && author.notify_about?(self)
-    notified << assigned_to if assigned_to && assigned_to.active? && assigned_to.notify_about?(self)
+    if assigned_to
+      if assigned_to.is_a?(Group)
+        notified += assigned_to.users.select {|u| u.active? && u.notify_about?(self)}
+      else
+        notified << assigned_to if assigned_to.active? && assigned_to.notify_about?(self)
+      end
+    end
     notified.uniq!
     # Remove users that can not view the issue
     notified.reject! {|user| !visible?(user)}
@@ -620,6 +626,65 @@ class WorkPackage < ActiveRecord::Base
     return done_date <= Date.today
   end
 
+  def move_to_project_without_transaction(new_project, new_type = nil, options = {})
+    options ||= {}
+    work_package = options[:copy] ? self.class.new.copy_from(self) : self
+
+    if new_project && work_package.project_id != new_project.id
+      delete_relations(work_package)
+      # work_package is moved to another project
+      # reassign to the category with same name if any
+      new_category = work_package.category.nil? ? nil : new_project.issue_categories.find_by_name(work_package.category.name)
+      work_package.category = new_category
+      # Keep the fixed_version if it's still valid in the new_project
+      unless new_project.shared_versions.include?(work_package.fixed_version)
+        work_package.fixed_version = nil
+      end
+      work_package.project = new_project
+
+      if !Setting.cross_project_work_package_relations? &&
+         parent && parent.project_id != project_id
+        self.parent_id = nil
+      end
+    end
+    if new_type
+      work_package.type = new_type
+      work_package.reset_custom_values!
+    end
+    # Allow bulk setting of attributes on the work_package
+    if options[:attributes]
+      # before setting the attributes, we need to remove the move-related fields
+      work_package.attributes = options[:attributes].except(:copy,:new_project_id, :new_type_id, :follow, :ids)
+                                                    .reject { |key, value| value.blank? }
+    end                                             # FIXME this eliminates the case, where values shall be bulk-assigned to null, but this needs to work together with the permit
+    if options[:copy]
+      work_package.author = User.current
+      work_package.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
+      work_package.status = if options[:attributes] && options[:attributes][:status_id]
+                              IssueStatus.find_by_id(options[:attributes][:status_id])
+                            else
+                              self.status
+                            end
+    end
+
+    if work_package.save
+      unless options[:copy]
+        # Manually update project_id on related time entries
+        TimeEntry.update_all("project_id = #{new_project.id}", {:work_package_id => id})
+
+        work_package.children.each do |child|
+          unless child.move_to_project_without_transaction(new_project)
+            # Move failed and transaction was rollback'd
+            return false
+          end
+        end
+      end
+    else
+      return false
+    end
+    work_package
+  end
+
   protected
 
   def recalculate_attributes_for(work_package_id)
@@ -729,65 +794,6 @@ class WorkPackage < ActiveRecord::Base
       end
     end
     projects
-  end
-
-  def move_to_project_without_transaction(new_project, new_type = nil, options = {})
-    options ||= {}
-    work_package = options[:copy] ? self.class.new.copy_from(self) : self
-
-    if new_project && work_package.project_id != new_project.id
-      delete_relations(work_package)
-      # work_package is moved to another project
-      # reassign to the category with same name if any
-      new_category = work_package.category.nil? ? nil : new_project.issue_categories.find_by_name(work_package.category.name)
-      work_package.category = new_category
-      # Keep the fixed_version if it's still valid in the new_project
-      unless new_project.shared_versions.include?(work_package.fixed_version)
-        work_package.fixed_version = nil
-      end
-      work_package.project = new_project
-
-      if !Setting.cross_project_issue_relations? &&
-         parent && parent.project_id != project_id
-        self.parent_id = nil
-      end
-    end
-    if new_type
-      work_package.type = new_type
-      work_package.reset_custom_values!
-    end
-    # Allow bulk setting of attributes on the work_package
-    if options[:attributes]
-      # before setting the attributes, we need to remove the move-related fields
-      work_package.attributes = options[:attributes].except(:copy,:new_project_id, :new_type_id, :follow, :ids)
-                                                    .reject { |key, value| value.blank? }
-    end                                             # FIXME this eliminates the case, where values shall be bulk-assigned to null, but this needs to work together with the permit
-    if options[:copy]
-      work_package.author = User.current
-      work_package.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
-      work_package.status = if options[:attributes] && options[:attributes][:status_id]
-                              IssueStatus.find_by_id(options[:attributes][:status_id])
-                            else
-                              self.status
-                            end
-    end
-
-    if work_package.save
-      unless options[:copy]
-        # Manually update project_id on related time entries
-        TimeEntry.update_all("project_id = #{new_project.id}", {:work_package_id => id})
-
-        work_package.children.each do |child|
-          unless child.move_to_project_without_transaction(new_project)
-            # Move failed and transaction was rollback'd
-            return false
-          end
-        end
-      end
-    else
-      return false
-    end
-    work_package
   end
 
   # Do not redefine alias chain on reload (see #4838)
