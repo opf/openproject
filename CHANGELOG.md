@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0.pre5
+
+* Renamed issue to work package where applicable
+
 ## 3.0.0.pre4
 
 * `#2027` Fix/rename issues to work packages
