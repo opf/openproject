@@ -30,7 +30,8 @@
 class WorkPackages::ContextMenusController < ApplicationController
 
   def index
-    @work_packages = WorkPackage.visible.all(conditions: {id: params[:ids]},
+    @work_packages = WorkPackage.visible.all(order: "#{WorkPackage.table_name}.id",
+                                             conditions: {id: params[:ids]},
                                              include: :project)
 
     if (@work_packages.size == 1)
