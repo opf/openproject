@@ -21,6 +21,7 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration
     raise_on_existing_work_package_entries
 
     copy_legacy_issues_to_work_packages
+    ActiveRecord::Base.connection.reset_pk_sequence!('work_packages')
   end
 
   def down
