@@ -78,6 +78,10 @@ class LegacyWikiContentJournalData < ActiveRecord::Migration
 
           # as the old journals used the format [old_value, new_value] we have to fake it here
           to_insert["text"] = [nil, to_insert.delete("data")]
+
+          # fix non null constraint violation on page_id.
+          to_insert["page_id"] = [nil, journal_id]
+
         end
       end
 
