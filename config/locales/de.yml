@@ -1111,6 +1111,7 @@ de:
   permission_rename_wiki_pages: "Wiki-Seiten umbenennen"
   permission_save_queries: "Filter speichern"
   permission_select_project_modules: "Projektmodule auswählen"
+  permission_manage_types: "Typen auswählen"
   permission_view_calendar: "Kalender ansehen"
   permission_view_changesets: "Changesets ansehen"
   permission_view_commit_author_statistics: "Commit Autor Statistiken ansehen"
