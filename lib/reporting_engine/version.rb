@@ -1,3 +1,3 @@
 module ReportingEngine
-  VERSION = '0.0.1.pre3'
+  VERSION = '0.0.1.pre4'
 end
