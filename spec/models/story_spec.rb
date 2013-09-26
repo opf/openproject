@@ -45,6 +45,7 @@ describe Story do
                                                             "card_spec"             => "Sattleford VM-5040",
                                                             "story_types"           => [type_feature.id.to_s],
                                                             "task_type"             => task_type.id.to_s })
+    project.types << task_type
   end
 
   describe "Class methods" do
