@@ -59,19 +59,6 @@ var ModalHelper = (function() {
         /** replace all data-modal links and all inside modal links */
         body.on("click", "[data-modal]", modalFunction);
 
-        body.on("click", "a", function (e) {
-          if (top != self && e.ctrlKey) {
-            if (e.target && e.target.href) {
-              var url = e.target.href;
-              if (url.match(/(&)?layout=false/)) {
-                url = url.replace(/(&)?layout=false/g, "").replace(/\?$/, "");
-                window.open(url);
-                e.preventDefault();
-              }
-            }
-          }
-        });
-
         // close when body is clicked
         body.on("click", ".ui-widget-overlay", jQuery.proxy(modalHelper.close, modalHelper));
 

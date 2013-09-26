@@ -47,13 +47,13 @@ Feature: Timeline View Tests
 
       And I am already logged in as "manager"
 
-      And there are the following planning elements:
-          | Start date | Due date   | description       | planning_element_status | responsible | Subject                                                                                                                       |
-          | 2012-01-01 | 2012-01-31 | Avocado Hall      | closed                  | manager     | January                                                                                                                       |
-          | 2012-02-01 | 2012-02-24 | Avocado Rincon    | closed                  | manager     | February                                                                                                                      |
-          | 2012-03-01 | 2012-03-30 | Hass              | closed                  | manager     | March                                                                                                                         |
-          | 2012-04-01 | 2012-04-30 | Avocado Choquette | closed                  | manager     | April                                                                                                                         |
-          | 2012-04-01 | 2012-04-30 | Relish            | closed                  | manager     | Loremipsumdolorsitamet,consecteturadipisicingelit,seddoeiusmodtemporincididuntutlaboreetdoloremagnaaliqua.Utenimadminimveniam |
+      And there are the following work packages:
+          | Start date | Due date   | description          | responsible | Subject  |
+          | 2012-01-01 | 2012-01-31 | #2 http://google.de  | manager     | January  |
+          | 2012-02-01 | 2012-02-24 | Avocado Rincon       | manager     | February |
+          | 2012-03-01 | 2012-03-30 | Hass                 | manager     | March    |
+          | 2012-04-01 | 2012-04-30 | Avocado Choquette    | manager     | April    |
+          | 2012-04-01 | 2012-04-30 | Relish               | manager     | Test2    |
 
   @javascript
   Scenario: planning element click should show modal window
@@ -63,8 +63,11 @@ Feature: Timeline View Tests
       And I click on the Planning Element with name "January"
      Then I should see a modal window
       And I should see "#1: January" in the modal
-      And I should see "Avocado Hall" in the modal
+      And I should see "http://google.de" in the modal
       And I should see "01/01/2012" in the modal
       And I should see "01/31/2012" in the modal
       And I should see "New timeline report"
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"
+    When I ctrl-click on "#2" in the modal
+      Then I should see "February" in the new window
+      Then I should see "Avocado Rincon" in the new window
