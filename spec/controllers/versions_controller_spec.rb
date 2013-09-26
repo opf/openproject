@@ -52,7 +52,7 @@ describe VersionsController do
 
       it { response.should be_success }
       it { response.should render_template("index") }
-      it { assert_select "script", :text => Regexp.new(Regexp.escape("new ContextMenu('/issues/context_menu')")) }
+      it { assert_select "script", :text => Regexp.new(Regexp.escape("new ContextMenu('/work_packages/context_menu')")) }
 
       subject { assigns(:versions) }
       it "shows Version with no date set" do
