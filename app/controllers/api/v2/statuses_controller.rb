@@ -34,12 +34,15 @@ module Api
 
     class StatusesController < ApplicationController
       include ::Api::V2::ApiController
+      rescue_from ActiveRecord::RecordNotFound, with: lambda{render_404}
 
       unloadable
 
       before_filter :require_login
       before_filter :resolve_project
       accept_key_auth :index, :show
+
+
 
       def index
         if @project

@@ -55,9 +55,8 @@ describe Api::V2::StatusesController do
     let(:closed){FactoryGirl.create(:issue_status, name: "Closed")}
 
     it 'that does not exist should raise an error' do
-      expect{
-        get 'show', :id => '0', :format => 'json'
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      get 'show', :id => '0', :format => 'json'
+      response.response_code.should == 404
     end
     it 'that exists should return the proper status' do
       get 'show', :id => closed.id, :format => 'json'
@@ -104,9 +103,8 @@ describe Api::V2::StatusesController do
 
     describe 'with project-scope' do
       it 'with unknown project raises ActiveRecord::RecordNotFound errors' do
-        expect{
-          get 'index', :project_id => '0', :format => 'json'
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        get 'index', :project_id => '0', :format => 'json'
+        expect(response.response_code).to eql 404
       end
 
       it "should return the available statuses _only_ for the given project" do
