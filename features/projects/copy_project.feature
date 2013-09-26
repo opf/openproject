@@ -283,3 +283,29 @@ Feature: Project Settings
     And  I click on "Copy"
     And  I go to the settings page of the project "cp"
     Then the "cfBug" checkbox should be checked
+
+  @javascript
+  Scenario: Copying a non-public project
+    Given I am already admin
+    And   I go to the settings page of the project "project1"
+    And   I uncheck "Public" within "#content"
+    And   I press "Save" within "#content"
+    And   I follow "Copy" within "#content"
+    And   I fill in "Name" with "Copied Project"
+    And   I fill in "Identifier" with "cp"
+    And   I click on "Copy"
+    And   I go to the settings page of the project "cp"
+    Then  the "Public" checkbox should not be checked within "#content"
+
+  @javascript
+  Scenario: Copying a public project
+    Given I am already admin
+    And   I go to the settings page of the project "project1"
+    And   I check "Public" within "#content"
+    And   I press "Save" within "#content"
+    And   I follow "Copy" within "#content"
+    And   I fill in "Name" with "Copied Project"
+    And   I fill in "Identifier" with "cp"
+    And   I click on "Copy"
+    And   I go to the settings page of the project "cp"
+    Then  the "Public" checkbox should be checked within "#content"
