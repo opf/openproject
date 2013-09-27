@@ -353,22 +353,23 @@ Timeline = {
     return new Timeline.TimelineLoader(
       this,
       {
-        api_prefix                : this.options.api_prefix,
-        url_prefix                : this.options.url_prefix,
-        project_prefix            : this.options.project_prefix,
-        planning_element_prefix   : this.options.planning_element_prefix,
-        project_id                : this.options.project_id,
-        project_types             : this.options.project_types,
-        project_statuses          : this.options.project_status,
-        project_responsibles      : this.options.project_responsibles,
-        project_parents           : this.options.parents,
-        planning_element_types    : this.options.planning_element_types,
-        grouping_one              : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
-        grouping_two              : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
-        ajax_defaults             : this.ajax_defaults,
-        current_time              : this.comparisonCurrentTime(),
-        target_time               : this.comparisonTarget(),
-        include_planning_elements : this.verticalPlanningElementIds()
+        api_prefix                    : this.options.api_prefix,
+        url_prefix                    : this.options.url_prefix,
+        project_prefix                : this.options.project_prefix,
+        planning_element_prefix       : this.options.planning_element_prefix,
+        project_id                    : this.options.project_id,
+        project_types                 : this.options.project_types,
+        project_statuses              : this.options.project_status,
+        project_responsibles          : this.options.project_responsibles,
+        project_parents               : this.options.parents,
+        planning_element_types        : this.options.planning_element_types,
+        planning_element_responsibles : this.options.planning_element_responsibles,
+        grouping_one                  : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
+        grouping_two                  : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
+        ajax_defaults                 : this.ajax_defaults,
+        current_time                  : this.comparisonCurrentTime(),
+        target_time                   : this.comparisonTarget(),
+        include_planning_elements     : this.verticalPlanningElementIds()
       }
     );
   },
@@ -456,12 +457,12 @@ Timeline = {
 
     FilterQueryStringBuilder.prototype.buildFilterDataForKeyAndArrayOfValues = function(key, value) {
       jQuery.each(value, jQuery.proxy( function(i, e) {
-         this.buildFilterDataForKeyAndValue(key, e)
+         this.buildFilterDataForKeyAndValue(key, e);
       }, this));
     };
 
     FilterQueryStringBuilder.prototype.buildFilterDataForValue = function(key, value) {
-      value instanceof Array ?
+      return value instanceof Array ?
         this.buildFilterDataForKeyAndArrayOfValues(key, value) :
         this.buildFilterDataForKeyAndValue(key, value);
     };
@@ -474,7 +475,7 @@ Timeline = {
     FilterQueryStringBuilder.prototype.buildQueryStringParts = function() {
       this.queryStringParts = [];
       jQuery.each(this.filterHash, jQuery.proxy(this.registerKeyAndValue, this));
-    }
+    };
 
     FilterQueryStringBuilder.prototype.buildQueryStringFromQueryStringParts = function(url) {
       return jQuery.map(this.queryStringParts, function(e, i) {
@@ -1086,13 +1087,24 @@ Timeline = {
       });
     };
 
-    TimelineLoader.prototype.provideServerSideFilterHash = function() {
+    TimelineLoader.prototype.provideServerSideFilterHashTypes = function (hash) {
       if (this.options.planning_element_types !== undefined) {
-        return {"type_id": this.options.planning_element_types};
-      } else {
-        return {};
+        hash.type_id = this.options.planning_element_types;
       }
-    }
+    };
+
+    TimelineLoader.prototype.provideServerSideFilterHashResponsibles = function (hash) {
+      if (this.options.planning_element_responsibles !== undefined) {
+        hash.responsible_id = this.options.planning_element_responsibles;
+      }
+    };
+
+    TimelineLoader.prototype.provideServerSideFilterHash = function() {
+      var result = {};
+      this.provideServerSideFilterHashTypes(result);
+      this.provideServerSideFilterHashResponsibles(result);
+      return result;
+    };
 
     TimelineLoader.prototype.registerPlanningElements = function (ids) {
 
