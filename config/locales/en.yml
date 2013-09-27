@@ -1340,7 +1340,7 @@ en:
         type: "Type"
         end_date: "End date"
         name: "Name"
-        project_status: "Project status"
+        status: "Status"
         responsible: "Responsible"
         start_date: "Start date"
       columns: "Columns"

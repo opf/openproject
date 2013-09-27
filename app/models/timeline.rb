@@ -106,7 +106,7 @@ class Timeline < ActiveRecord::Base
     "start_date",
     "end_date",
     "responsible",
-    "project_status"
+    "status"
   ]
 
   @@available_zoom_factors = [

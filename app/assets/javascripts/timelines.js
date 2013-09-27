@@ -364,6 +364,7 @@ Timeline = {
         project_parents               : this.options.parents,
         planning_element_types        : this.options.planning_element_types,
         planning_element_responsibles : this.options.planning_element_responsibles,
+        planning_element_status       : this.options.planning_element_status,
         grouping_one                  : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
         grouping_two                  : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
         ajax_defaults                 : this.ajax_defaults,
@@ -1093,6 +1094,12 @@ Timeline = {
       }
     };
 
+    TimelineLoader.prototype.provideServerSideFilterHashStatus = function (hash) {
+      if (this.options.planning_element_status !== undefined) {
+        hash.status_id = this.options.planning_element_status;
+      }
+    };
+
     TimelineLoader.prototype.provideServerSideFilterHashResponsibles = function (hash) {
       if (this.options.planning_element_responsibles !== undefined) {
         hash.responsible_id = this.options.planning_element_responsibles;
@@ -1103,6 +1110,7 @@ Timeline = {
       var result = {};
       this.provideServerSideFilterHashTypes(result);
       this.provideServerSideFilterHashResponsibles(result);
+      this.provideServerSideFilterHashStatus(result);
       return result;
     };
 
@@ -3688,7 +3696,7 @@ Timeline = {
   getAvailableRows: function() {
     var timeline = this;
     return {
-      all: ['end_date', 'planning_element_types', 'project_status', 'project_type', 'responsible', 'start_date'],
+      all: ['end_date', 'type', 'status', 'responsible', 'start_date'],
       type: function (data, pet, pt) {
         var ptName, petName;
         if (pt !== undefined) {
@@ -3705,8 +3713,13 @@ Timeline = {
 
         return jQuery('<span class="tl-column">' + (ptName || petName || "-") + '</span>');
       },
-      project_status: function(data) {
+      status: function(data) {
         var status;
+
+        if (data.planning_element_status) {
+          status = data.planning_element_status;
+        }
+
         if (data.getProjectStatus instanceof Function) {
           status = data.getProjectStatus();
         }
