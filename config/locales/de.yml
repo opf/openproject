@@ -1402,6 +1402,8 @@ de:
       project_responsible: "Projekte von diesem Planungsverantwortlichen anzeigen"
       project_status: "Projekt-Status anzeigen"
       project_types: "Projekt-Typ anzeigen"
+      types: "Typ anzeigen"
+      status: "Status anzeigen"
       timeframe: "Zeitausschnitt bestimmen"
       timeframe_end: "bis"
       timeframe_start: "von"

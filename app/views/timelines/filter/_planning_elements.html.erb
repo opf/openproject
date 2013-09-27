@@ -61,8 +61,8 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select("timeline[options]", :planning_element_status,
                      options_for_select([]),
                      {},
-                     { :'data-ajaxURL' => url_for({:controller => "/api/v2/planning_element_status",
-                                                   :action     => "paginate_planning_element_status"}),
+                     { :'data-ajaxURL' => url_for({:controller => "/api/v2/statuses",
+                                                   :action     => "paginate_issue_statuses"}),
                        :multiple => true,
                        :'data-selected' => filter_select(
                                              timeline.selected_planning_element_status,

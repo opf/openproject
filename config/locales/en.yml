@@ -1374,6 +1374,7 @@ en:
       planning_element_filters: "Filter planning elements"
       planning_element_responsible: "Show planning elements with responsible"
       types: "Show types"
+      status: "Show status"
 
       project_time_filter: "Projects with a Planning Element of a certain type in a certain timeframe"
       project_time_filter_historical: "from %{startdate} to %{enddate}"
