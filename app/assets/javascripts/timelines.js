@@ -2175,11 +2175,8 @@ Timeline = {
       return false;
     },
     filteredOut: function() {
-      var filtered = this.filteredOutForProjectFilter() ||
-                     this.filteredOutForResponsibles();
-
+      var filtered = this.filteredOutForProjectFilter();
       this.filteredOut = function() { return filtered; };
-
       return filtered;
     },
     inTimeFrame: function () {
@@ -2187,12 +2184,6 @@ Timeline = {
     },
     filteredOutForProjectFilter: function() {
       return this.project.filteredOut();
-    },
-    filteredOutForResponsibles: function() {
-      return Timeline.filterOutBasedOnArray(
-        this.timeline.options.planning_element_responsibles,
-        this.getResponsible()
-      );
     },
     all: function(timeline) {
       // collect all planning elements
