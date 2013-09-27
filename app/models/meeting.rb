@@ -139,7 +139,7 @@ class Meeting < ActiveRecord::Base
 
   def close_agenda_and_copy_to_minutes!
     self.agenda.lock!
-    self.create_minutes(:text => agenda.text)
+    self.create_minutes(:text => agenda.text, :comment => "Minutes created")
   end
 
   alias :original_participants_attributes= :participants_attributes=
