@@ -14,7 +14,15 @@ namespace :migrations do
   namespace :attachments do
     desc "Removes all attachments from versions and projects"
     task :delete_from_projects_and_versions => :environment do |task|
-      Attachment.where(:container_type => ['Version','Project']).destroy_all if !$stdout.isatty || user_agrees
+      try_delete_attachments_from_projects_and_versions
+    end
+
+    def try_delete_attachments_from_projects_and_versions
+      begin
+        Attachment.where(:container_type => ['Version','Project']).destroy_all if !$stdout.isatty || user_agrees
+      rescue
+        raise "Cannot delete attachments from projects and versions! There may be migrations missing...?"
+      end
     end
 
     def user_agrees

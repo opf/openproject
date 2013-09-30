@@ -19,9 +19,17 @@ namespace :migrations do
 
     desc "Removes all documents"
     task :delete => :environment do |task|
-      if !$stdout.isatty || user_agrees
-        Document.destroy_all
-        Attachment.where(:container_type => ['Document']).destroy_all
+      try_delete_documents
+    end
+
+    def try_delete_documents
+      begin
+        if !$stdout.isatty || user_agrees
+          Document.destroy_all
+          Attachment.where(:container_type => ['Document']).destroy_all
+        end
+      rescue
+        raise "Cannot delete documents! There may be migrations missing...?"
       end
     end
 
