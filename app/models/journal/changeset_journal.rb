@@ -27,22 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::ChangesetJournal < ActiveRecord::Base
+class Journal::ChangesetJournal < Journal::BaseJournal
   self.table_name = "changeset_journals"
-
-  belongs_to :journal
-
-  @@journaled_attributes = [:repository_id,
-                            :revision,
-                            :commiter,
-                            :commited_on,
-                            :comments,
-                            :commit_data,
-                            :scmid,
-                            :user_id]
-
-  def journaled_attributes
-    attributes.symbolize_keys.select{|k,_| @@journaled_attributes.include? k}
-  end
-
 end

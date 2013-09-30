@@ -27,22 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::MessageJournal < ActiveRecord::Base
+class Journal::MessageJournal < Journal::BaseJournal
   self.table_name = "message_journals"
-
-  belongs_to :journal
-
-  @@journaled_attributes = [:board_id,
-                            :parent_id,
-                            :subject,
-                            :content,
-                            :author_id,
-                            :replies_count,
-                            :last_reply_id,
-                            :sticky]
-
-  def journaled_attributes
-    attributes.symbolize_keys.select{|k,_| @@journaled_attributes.include? k}
-  end
-
 end
