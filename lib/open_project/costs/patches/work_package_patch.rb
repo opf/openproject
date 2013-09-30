@@ -16,8 +16,8 @@ module OpenProject::Costs::Patches::WorkPackagePatch
       # disabled for now, implements part of ticket blocking
       validate :validate_cost_object
 
-      register_journal_formatter(:cost_association) do |value, journaled, field|
-        association = journaled.class.reflect_on_association(field.to_sym)
+      register_journal_formatter(:cost_association) do |value, journable, field|
+        association = journable.class.reflect_on_association(field.to_sym)
         if association
           record = association.class_name.constantize.find_by_id(value.to_i)
           record.subject if record

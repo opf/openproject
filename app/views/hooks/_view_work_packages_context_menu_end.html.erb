@@ -1,7 +1,7 @@
 <% if @project && @project.module_enabled?(:costs_module) %>
   <%
       cost_objects_any = false
-  possible_cost_objects = work_packages.inject(work_packages.first.project.cost_objects) do |intersect, work_package|
+  possible_cost_objects = issues.inject(issues.first.project.cost_objects) do |intersect, work_package|
     cost_objects_any |= work_package.project.cost_objects.any?
     work_package.project.cost_objects & intersect
   end
@@ -12,7 +12,7 @@
     <% unless possible_cost_objects.empty? -%>
       <% possible_cost_objects.each do |co| -%>
         <li>
-        <%= context_menu_link co.subject, {:controller => '/work_packages', :action => 'bulk_edit', :ids => work_packages.collect(&:id), 'cost_object_id' => co, :back_url => back}, :method => :post,
+        <%= context_menu_link co.subject, {:controller => '/issues', :action => 'bulk_edit', :ids => issues.collect(&:id), 'cost_object_id' => co, :back_url => back}, :method => :post,
           :selected => (issue && co == issue.cost_object), :disabled => !can[:edit] %>
         </li>
       <% end -%>
