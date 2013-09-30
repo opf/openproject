@@ -104,37 +104,4 @@ describe WorkPackagesController do
                                              :action => 'update',
                                              :id => '1' )
   end
-
-  it "should connect PUT /work_packages/1/preview to work_packages#preview" do
-    put("/work_packages/1/preview").should route_to( :controller => 'work_packages',
-                                                     :action => 'preview',
-                                                     :id => '1' )
-  end
-
-  it "should connect PUT /project/1/work_packages/preview to work_packages#preview" do
-    put("/projects/1/work_packages/preview").should route_to( :controller => 'work_packages',
-                                                              :action => 'preview',
-                                                              :project_id => '1' )
-  end
-
-  it "should connect GET /work_packages/auto_completes to work_package/auto_complete#index" do
-    get("/work_packages/auto_complete").should route_to( controller: 'work_packages/auto_completes',
-                                                         action: 'index' )
-  end
-
-  it "should connect PUT /work_packages/auto_completes to work_package/auto_complete#index" do
-    get("/work_packages/auto_complete").should route_to( controller: 'work_packages/auto_completes',
-                                                         action: 'index' )
-  end
-
-  it "should connect GET /work_packages/calendar to work_package/calendar#index" do
-    get("/work_packages/calendar").should route_to( controller: 'work_packages/calendars',
-                                                    action: 'index' )
-  end
-
-  it "should connect GET /project/1/work_packages/calendar to work_package/calendar#index" do
-    get("/projects/1/work_packages/calendar").should route_to( controller: 'work_packages/calendars',
-                                                               action: 'index',
-                                                               project_id: '1')
-  end
 end

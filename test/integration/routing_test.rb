@@ -147,11 +147,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
                                                       :format => 'xml')
 
     # Extra actions
-    should route(:get, "/issues/context_menu").to( :controller => 'issues/context_menus',
-                                                   :action => 'issues')
-    should route(:post, "/issues/context_menu").to( :controller => 'issues/context_menus',
-                                                    :action => 'issues')
-
     should route(:get, "/issues/changes").to( :controller => 'journals',
                                               :action => 'index')
 
