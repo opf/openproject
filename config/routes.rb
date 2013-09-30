@@ -58,7 +58,11 @@ OpenProject::Application.routes.draw do
 
       resources :authentication
       resources :planning_element_journals
-      resources :planning_element_statuses
+      resources :statuses do
+        collection do
+          get :paginate_issue_statuses
+        end
+      end
       resources :colors, :controller => 'planning_element_type_colors'
       resources :planning_element_types do
         collection do

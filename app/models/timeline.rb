@@ -66,9 +66,9 @@ class Timeline < ActiveRecord::Base
     "compare_to_relative",
     "compare_to_relative_unit",
     "comparison",
+    "exclude_empty",
     "exclude_own_planning_elements",
     "exclude_reporters",
-    "exclude_empty",
     "exist",
     "grouping_one_enabled",
     "grouping_one_selection",
@@ -81,19 +81,20 @@ class Timeline < ActiveRecord::Base
     "initial_outline_expansion",
     "parents",
     "planning_element_responsibles",
-    "planning_element_types",
-    "planning_element_time_types",
+    "planning_element_status",
+    "planning_element_time",
     "planning_element_time_absolute_one",
     "planning_element_time_absolute_two",
     "planning_element_time_relative_one",
-    "planning_element_time_relative_two",
     "planning_element_time_relative_one_unit",
+    "planning_element_time_relative_two",
     "planning_element_time_relative_two_unit",
-    "planning_element_time",
+    "planning_element_time_types",
+    "planning_element_types",
     "project_responsibles",
+    "project_sort",
     "project_status",
     "project_types",
-    "project_sort",
     "timeframe_end",
     "timeframe_start",
     "vertical_planning_elements",
@@ -105,7 +106,7 @@ class Timeline < ActiveRecord::Base
     "start_date",
     "end_date",
     "responsible",
-    "project_status"
+    "status"
   ]
 
   @@available_zoom_factors = [
@@ -185,6 +186,17 @@ class Timeline < ActiveRecord::Base
     # referencing.
 
     Type.find(:all, :order => :name)
+  end
+
+  def available_planning_element_status
+    types = Project.visible.includes(:types).map(&:types).flatten.uniq
+    types.map(&:issue_statuses).flatten.uniq
+  end
+
+  def selected_planning_element_status
+    resolve_with_none_element(:planning_element_status) do |ary|
+      IssueStatus.find(ary)
+    end
   end
 
   def selected_planning_element_types

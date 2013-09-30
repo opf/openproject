@@ -554,8 +554,12 @@ class Query < ActiveRecord::Base
     sql = ''
     case operator
     when "="
-      if value.present?
-        sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
+      if value.present? then
+        if (value.include?("-1")) then
+          sql = "#{db_table}.#{db_field} IS NULL OR "
+        end
+
+        sql += "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
       else
         # empty set of allowed values produces no result
         sql = "0=1"
