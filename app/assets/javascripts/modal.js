@@ -58,7 +58,6 @@ var ModalHelper = (function() {
 
         /** replace all data-modal links and all inside modal links */
         body.on("click", "[data-modal]", modalFunction);
-        modalDiv.on("click", "a", modalFunction);
 
         // close when body is clicked
         body.on("click", ".ui-widget-overlay", jQuery.proxy(modalHelper.close, modalHelper));
@@ -99,8 +98,18 @@ var ModalHelper = (function() {
 
         modalDiv.data('changed', false);
 
+        var document_host = document.location.href.split("/")[2];
         body.on("click", "a", function (e) {
           var url = jQuery(e.target).attr("href");
+
+          var data = this.href.split("/");
+          var link_host = data[2];
+
+          if (link_host && link_host != document_host) {
+            window.open(this.href);
+            return false;
+          }
+
           if (url) {
             jQuery(e.target).attr("href", modalHelper.tweakLink(url));
           }
@@ -195,6 +204,11 @@ var ModalHelper = (function() {
    * @param callback called when done. called with modal div.
    */
   ModalHelper.prototype.createModal = function(url, callback) {
+    if (top != self) {
+      window.open(url.replace(/(&)?layout=false/g, ""));
+      return;
+    }
+
     var modalHelper = this, modalDiv = this.modalDiv, counter = 0;
 
     url = this.tweakLink(url);

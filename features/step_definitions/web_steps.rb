@@ -63,6 +63,28 @@ When /^(.*) within (.*[^:])$/ do |step_name, parent|
   with_scope(parent) { step step_name }
 end
 
+When(/^I ctrl\-click on "([^\"]+)"$/) do |text|
+    builder = page.driver.browser.action
+
+    #Hold control key down
+    builder.key_down(:control)
+
+    #Click all elements that you want, in this case we click all lis
+    #Note that you can retrieve the elements using capybara's
+    #  standard methods. When passing them to the builder
+    #  make sure to do .native
+    elements = page.all('a', :text => text)
+    elements.each do |e|        
+      builder.click(e.native)
+    end
+
+    #Release control key
+    builder.key_up(:control)
+
+    #Do the action setup
+    builder.perform
+end
+
 # Single-line step scoper
 When /^(.*) within_hidden (.*[^:])$/ do |step_name, parent|
   with_scope(parent, visible: false) { step step_name }
@@ -385,6 +407,13 @@ end
 Given /^I (accept|dismiss) the alert dialog$/ do |method|
   if Capybara.current_driver.to_s.include?("selenium")
     page.driver.browser.switch_to.alert.send(method.to_s)
+  end
+end
+
+Then(/^(.*) in the new window$/) do |step|
+  new_window=page.driver.browser.window_handles.last 
+  page.within_window new_window do
+    step(step)
   end
 end
 
