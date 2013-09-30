@@ -1,5 +1,7 @@
 # Changelog
 
+* Additional namespacing of hook partials to prevent clashes on activity view
+
 ## 1.0.0.pre4
 
 * `#1875` Added document block to my project page
