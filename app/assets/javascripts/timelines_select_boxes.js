@@ -53,14 +53,14 @@ jQuery(document).ready(function($) {
     $("#timeline_options_project_status"),
     $("#timeline_options_project_types"),
     $("#timeline_options_planning_element_responsibles"),
-    $("#timeline_options_planning_element_types"),
-    $("#timeline_options_planning_element_time_types"),
     $("#timeline_options_grouping_two_selection")
   ].each(function (item) {
     $(item).timelinesAutocomplete({ ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.none")}} });
   });
 
   [
+    $("#timeline_options_planning_element_types"),
+    $("#timeline_options_planning_element_time_types"),
     $("#timeline_options_planning_element_status")
   ].each(function (item) {
     $(item).timelinesAutocomplete({});
