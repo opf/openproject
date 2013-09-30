@@ -100,7 +100,7 @@ Redmine::AccessControl.map do |map|
                                          :journals => [:index, :diff],
                                          :queries => :index,
                                          :work_packages => [:show, :index],
-                                         :'issues/reports' => [:report, :report_details],
+                                         :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
                                          :planning_element_journals => [:index]}
     map.permission :export_work_packages, {:'work_packages' => [:index, :all]}
