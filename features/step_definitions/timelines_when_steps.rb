@@ -61,6 +61,14 @@ When (/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*
   page.execute_script("jQuery('#content form').submit()")
 end
 
+When (/^I edit the settings of the current timeline$/) do
+  timeline_name = @timeline_name
+  project_name = @project.name
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+end
+
 When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*?)" of the project called "(.*?)"$/) do |grouping_project_name, timeline_name, project_name|
   steps %Q{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
@@ -75,10 +83,8 @@ When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*
 end
 
 When (/^I show only work packages which have the responsible "(.*?)"$/) do |responsible|
-  timeline_name = @timeline_name
-  project_name = @project.name
   steps %Q{
-    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+    When I edit the settings of the current timeline
   }
 
   responsible = User.find_by_login(responsible)
@@ -88,11 +94,20 @@ When (/^I show only work packages which have the responsible "(.*?)"$/) do |resp
   JavaScript
 end
 
-When (/^I show only work packages which have the type "(.*?)"$/) do |type|
-  timeline_name = @timeline_name
-  project_name = @project.name
+When (/^I show only work packages which have no responsible$/) do
   steps %Q{
-    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+    When I edit the settings of the current timeline
+  }
+
+  page.execute_script(<<-JavaScript)
+    jQuery('#timeline_options_planning_element_responsibles').val('-1')
+    jQuery('#content form').submit()
+  JavaScript
+end
+
+When (/^I show only work packages which have the type "(.*?)"$/) do |type|
+  steps %Q{
+    When I edit the settings of the current timeline
   }
 
   type = Type.find_by_name(type)
@@ -103,10 +118,8 @@ When (/^I show only work packages which have the type "(.*?)"$/) do |type|
 end
 
 When (/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
-  timeline_name = @timeline_name
-  project_name = @project.name
   steps %Q{
-    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+    When I edit the settings of the current timeline
   }
 
   page.should have_selector("#timeline_options_planning_element_time_types", :visible => false)
@@ -132,10 +145,8 @@ When (/^I set the second level grouping criteria to "(.*?)" for the timeline "(.
   page.execute_script("jQuery('#content form').submit()")
 end
 When (/^I set the columns shown in the timeline to:$/) do |table|
-  timeline_name = @timeline_name
-  project_name = @project.name
   steps %Q{
-    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+    When I edit the settings of the current timeline
   }
   result = []
   table.raw.each do |_perm|
@@ -155,10 +166,8 @@ When (/^I set the columns shown in the timeline to:$/) do |table|
 end
 
 When (/^I set the first level grouping criteria to:$/) do |table|
-  timeline_name = @timeline_name
-  project_name = @project.name
   steps %Q{
-    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+    When I edit the settings of the current timeline
   }
   result = []
   table.raw.each do |_perm|
@@ -179,10 +188,8 @@ When (/^I set the first level grouping criteria to:$/) do |table|
 end
 
 When (/^I set the sortation of the first level grouping criteria to explicit order$/) do
-  timeline_name = @timeline_name
-  project_name = @project.name
   steps %Q{
-    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+    When I edit the settings of the current timeline
   }
 
   page.should have_selector("#timeline_options_grouping_one_sort", :visible => false)

@@ -108,7 +108,28 @@ Feature: Timeline view with filter tests
       And I show only work packages which have the responsible "hubert"
       And I wait for timeline to load table
      Then I should see the work package "Hubert Farnsworth's Birthday" in the timeline
-     Then I should see the work package "Hubert Farnsworth's second Birthday" in the timeline
-     Then I should see the work package "Hubert Farnsworth's third Birthday" in the timeline
+      And I should see the work package "Hubert Farnsworth's second Birthday" in the timeline
+      And I should see the work package "Hubert Farnsworth's third Birthday" in the timeline
       And I should not see the work package "Second year" in the timeline
+
+  @javascript
+  Scenario: The timeline w/ responsibles filters renders properly
+    Given there is 1 user with:
+          | Login     | hubert     |
+          | Firstname | Hubert     |
+          | Lastname  | Farnsworth |
+      And there are the following work packages in project "Space Pilot 3000":
+          | Subject                             | Start date | Due date   | Responsible | Parent      |
+          | Hubert Farnsworth's Birthday        | 2841-04-09 | 2841-04-09 | hubert      |             |
+          | Second year                         | 3000-01-01 | 3000-01-05 |             |             |
+          | Hubert Farnsworth's second Birthday | 2842-04-09 | 2842-04-09 | hubert      | Second year |
+          | Hubert Farnsworth's third Birthday  | 2843-04-09 | 2843-04-09 | hubert      | Second year |
+      And I am working in the timeline "Storyboard" of the project called "Space Pilot 3000"
+     When I go to the page of the timeline of the project called "Space Pilot 3000"
+      And I show only work packages which have no responsible
+      And I wait for timeline to load table
+     Then I should not see the work package "Hubert Farnsworth's Birthday" in the timeline
+      And I should not see the work package "Hubert Farnsworth's second Birthday" in the timeline
+      And I should not see the work package "Hubert Farnsworth's third Birthday" in the timeline
+      And I should see the work package "Second year" in the timeline
 
