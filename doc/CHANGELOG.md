@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1949` External links within modals do not work
 * `#1992` Prepare schema migrations table
 * `#2125` All AJAX actions on work package not working after update
+* `#2237` Migrate reports controller tests
 * `#2262` Migrate issue statuses controller tests
 
 ## 3.0.0pre19
