@@ -61,6 +61,7 @@
 //= require issues
 //= require work_packages
 //= require settings
+//= require modal
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
