@@ -238,3 +238,4 @@ var ModalHelper = (function() {
 
   return ModalHelper;
 })();
+var modalHelperInstance = new ModalHelper();

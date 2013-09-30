@@ -290,8 +290,7 @@ Timeline = {
 
       // prerequisites (3rd party libs)
       this.checkPrerequisites();
-
-      this.modalHelper = new ModalHelper();
+      this.modalHelper = modalHelperInstance;
       this.modalHelper.setupTimeline(
         this,
         {
