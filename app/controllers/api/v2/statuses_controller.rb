@@ -33,16 +33,19 @@ module Api
   module V2
 
     class StatusesController < ApplicationController
+      include PaginationHelper
+
       include ::Api::V2::ApiController
       rescue_from ActiveRecord::RecordNotFound, with: lambda{render_404}
+
+      extend Pagination::Controller
+      paginate_model IssueStatus
 
       unloadable
 
       before_filter :require_login
       before_filter :resolve_project
       accept_key_auth :index, :show
-
-
 
       def index
         if @project

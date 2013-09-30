@@ -29,6 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2203` Use server-side responsible filter
+* `#2204` Implement server-side status filter.
+
 ## 3.0.0pre18
 
 * `#1715` Group assigned work packages

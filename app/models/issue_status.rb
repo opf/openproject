@@ -28,6 +28,8 @@
 #++
 
 class IssueStatus < ActiveRecord::Base
+  extend Pagination::Model
+
   before_destroy :check_integrity
   has_many :workflows, :foreign_key => "old_status_id"
   acts_as_list
@@ -40,6 +42,12 @@ class IssueStatus < ActiveRecord::Base
   validates_inclusion_of :default_done_ratio, :in => 0..100, :allow_nil => true
 
   after_save :unmark_old_default_value, :if => :is_default?
+
+  scope :like, lambda { |q|
+    s = "%#{q.to_s.strip.downcase}%"
+    { :conditions => ["LOWER(name) LIKE :s", {:s => s}],
+    :order => "name" }
+  }
 
   def unmark_old_default_value
     IssueStatus.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id])
@@ -93,6 +101,10 @@ class IssueStatus < ActiveRecord::Base
     else
       []
     end
+  end
+
+  def self.search_scope(query)
+    like(query)
   end
 
   def <=>(status)
