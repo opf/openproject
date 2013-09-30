@@ -245,19 +245,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
     end
   end
 
-  context "issue reports" do
-    context "issue_scoped" do
-      should route(:get, "/projects/567/issues/report").to( :controller => 'issues/reports',
-                                                            :action => 'report',
-                                                            :project_id => '567' )
-
-      should route(:get, "/projects/567/issues/report/assigned_to").to( :controller => 'issues/reports',
-                                                                        :action => 'report_details',
-                                                                        :project_id => '567',
-                                                                        :detail => 'assigned_to' )
-    end
-  end
-
   context "members" do
     context "project scoped" do
       should route(:post, "/projects/5234/members").to( :controller => 'members',
