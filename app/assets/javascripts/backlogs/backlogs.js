@@ -6,7 +6,6 @@
 //= require backlogs/livepipe-ui/livepipe
 //= require backlogs/livepipe-ui/window
 //= require backlogs/common
-//= require backlogs/modal
 //= require backlogs/master_backlog
 //= require backlogs/backlog
 //= require backlogs/burndown

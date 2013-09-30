@@ -1,7 +1,7 @@
-= ChiliProject Backlogs Plugin
+= OpenProject Backlogs Plugin
 
 This Plugin adds features, that enable agile teams to work efficiently with
-ChiliProject in Scrum projects.
+OpenProject in Scrum projects.
 
 It is largely based on {Redmine Backlogs}[http://www.redminebacklogs.net/].
 Development was separated from Redmine Backlogs in March 2011. At this time
@@ -11,41 +11,10 @@ port from Redmine to ChiliProject.
 
 == Requirements
 
-This plugin depends on the {ChiliProject NIssue
-Plugin}[https://github.com/finnlabs/chiliproject_nissue]. Make sure, to have a
-current version of that Plugin installed into your ChiliProject.
-
 This plugin requires some additional RubyGems. After you have extracted the
 plugin into `vendor/plugins`, make sure to run `bundle install` to install these
 additional dependencies.
 
-This plugin aims to be compatible with
-
-* ChiliProject 1.x
-* ChiliProject 2.1 and later
-
-If you are running into compatibility work_packages, please report a bug in the
-project's work_package type.
-
-
-*Note:* ChiliProject Backlogs currently needs a core patch, to run on
-ChiliProject version 2.1 and later. You may find the relevant changes at
-
-    https://github.com/finnlabs/chiliproject/commit/260f4d13f138d69ca23866c5772f54020d171dca
-
-Add them to your ChiliProject with
-
-    curl https://github.com/finnlabs/chiliproject/commit/260f4d13f138d69ca23866c5772f54020d171dca.patch | git am
-
-if you are running from a git repository or
-
-    curl https://github.com/finnlabs/chiliproject/commit/260f4d13f138d69ca23866c5772f54020d171dca.diff | patch -p1
-
-if you are using a tarball installation.
-
-We have submitted a pull request to ChiliProject and we hope, it will be part of
-the next ChiliProject releases. You may track the progress by watching {#708 in
-ChiliProject}[https://www.chiliproject.org/issues/708].
 
 == Supported Databases
 

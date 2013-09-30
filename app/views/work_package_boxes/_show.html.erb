@@ -1,9 +1,0 @@
-<%
-  @work_package = work_package if defined? work_package
-  @changesets = changesets if defined? changesets
-  @journals   = journals   if defined? journals
-%>
-<%= OpenProject::Backlogs::WorkPackageActions.new(@work_package).render(self) %>
-<%= OpenProject::Backlogs::WorkPackageView.new(@work_package).render(self) %>
-<%# OpenProject::Nissue::ChangesetView.new(@changesets, @work_package).render(self) %>
-<%# OpenProject::Nissue::JournalView.new(@journals, @work_package).render(self) %>

@@ -1,5 +1,4 @@
 require 'acts_as_silent_list'
-#require 'openproject-nissue'
 
 module OpenProject::Backlogs
   class Engine < ::Rails::Engine
@@ -59,9 +58,6 @@ module OpenProject::Backlogs
       else
         WorkPackage.safe_attributes "story_points", "remaining_hours", "position"
       end
-
-      require_dependency 'open_project/backlogs/work_package_view'
-      require_dependency 'open_project/backlogs/work_package_form'
 
       # 'require_dependency' reloads the class with every request
       # in development mode which
