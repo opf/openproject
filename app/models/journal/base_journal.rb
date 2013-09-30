@@ -27,6 +27,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::MessageJournal < Journal::BaseJournal
-  self.table_name = "message_journals"
+class Journal::BaseJournal < ActiveRecord::Base
+  self.abstract_class = true
+
+  belongs_to :journal
+
+  def journaled_attributes
+    attributes.symbolize_keys.select{|k,_| self.class.journaled_attributes.include? k}
+  end
+
+private
+
+  def self.journaled_attributes
+    @journaled_attributes ||= column_names.map{ |n| n.to_sym} - excluded_attributes
+  end
+
+  def self.column_names
+    db_columns(table_name).map(&:name)
+  end
+
+  def self.excluded_attributes
+    [primary_key.to_sym, inheritance_column.to_sym, :journal_id, :lock_version, :created_at, :root_id, :lft, :rgt]
+  end
+
+  def self.db_columns(table_name)
+    ActiveRecord::Base.connection.columns table_name
+  end
+
 end

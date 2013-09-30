@@ -27,17 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::WikiContentJournal < ActiveRecord::Base
+class Journal::WikiContentJournal < Journal::BaseJournal
   self.table_name = "wiki_content_journals"
-
-  belongs_to :journal
-
-  @@journaled_attributes = [:page_id,
-                            :author_id,
-                            :text]
-
-  def journaled_attributes
-    attributes.symbolize_keys.select{|k,_| @@journaled_attributes.include? k}
-  end
-
 end
