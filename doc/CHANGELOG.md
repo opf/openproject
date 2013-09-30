@@ -32,6 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2203` Use server-side responsible filter
 * `#2204` Implement server-side status filter
 * `#2218` Migrate context menus controller tests
+* `#2204` Implement server-side status filter.
+* `#2055` More dynamic attribute determination for journals for extending journals by plugins
 
 ## 3.0.0pre18
 
