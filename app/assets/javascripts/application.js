@@ -71,6 +71,20 @@ if (typeof []._reverse == 'undefined') {
 }
 
 jQuery(document).ready(function ($) {
+  //remove modal layout=false if we ctrl-click!
+  $(document.body).on("click", "a", function (e) {
+    if (top != self && e.ctrlKey) {
+      if (e.target && e.target.href) {
+        var url = e.target.href;
+        if (url.match(/(&)?layout=false/)) {
+          url = url.replace(/(&)?layout=false/g, "").replace(/\?$/, "");
+          window.open(url);
+          e.preventDefault();
+        }
+      }
+    }
+  });
+
   if (typeof CS !== "undefined") {
     var regions = $.datepicker.regional;
     var regional = regions[CS.lang] || regions[""];
