@@ -38,22 +38,22 @@ Feature: Navigating to reports page
 @javascript
   Scenario: Archiving and unarchiving a project with a subproject
     Given I am already admin
-    When I go to the projects page
-    Then I should be on the projects page
+    When I go to the projects admin page
+    Then I should be on the projects admin page
     And I should see "Projects"
     And I click on "Archive" within "tr.odd"
     And I confirm popups
-    Then I should be on the projects page
+    Then I should be on the projects admin page
     And I should not see "ParentProject"
     And I should not see "SubProject"
     When I go to the page of the project called "ParentProject"
     Then I should see "403"
     When I go to the page of the project called "SubProject"
     Then I should see "403"
-    When I go to the projects page
+    When I go to the projects admin page
     When I select "all" from "status"
     And I click on "Unarchive" within "tr.odd"
-    Then I should be on the projects page
+    Then I should be on the projects admin page
     And I should see "ParentProject"
     When I go to the page of the project called "ParentProject"
     Then I should see "ParentProject"
