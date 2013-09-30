@@ -27,20 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::NewsJournal < ActiveRecord::Base
+class Journal::NewsJournal < Journal::BaseJournal
   self.table_name = "news_journals"
-
-  belongs_to :journal
-
-  @@journaled_attributes = [:project_id,
-                            :title,
-                            :summary,
-                            :description,
-                            :author_id,
-                            :comments_count]
-
-  def journaled_attributes
-    attributes.symbolize_keys.select{|k,_| @@journaled_attributes.include? k}
-  end
-
 end

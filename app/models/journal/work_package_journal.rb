@@ -27,33 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::WorkPackageJournal < ActiveRecord::Base
+class Journal::WorkPackageJournal < Journal::BaseJournal
   self.table_name = "work_package_journals"
-
-  belongs_to :journal
-
-  @@journaled_attributes = [:type_id,
-                            :project_id,
-                            :subject,
-                            :description,
-                            :start_date,
-                            :due_date,
-                            :category_id,
-                            :status_id,
-                            :assigned_to_id,
-                            :priority_id,
-                            :fixed_version_id,
-                            :author_id,
-                            :done_ratio,
-                            :estimated_hours,
-                            :planning_element_status_comment,
-                            :deleted_at,
-                            :parent_id,
-                            :responsible_id,
-                            :planning_element_status_id]
-
-  def journaled_attributes
-    attributes.symbolize_keys.select{|k,_| @@journaled_attributes.include? k}
-  end
-
 end
