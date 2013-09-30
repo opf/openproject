@@ -74,6 +74,20 @@ When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*
   page.execute_script("jQuery('#content form').submit()")
 end
 
+When (/^I show only work packages which have the responsible "(.*?)"$/) do |responsible|
+  timeline_name = @timeline_name
+  project_name = @project.name
+  steps %Q{
+    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
+  }
+
+  responsible = User.find_by_login(responsible)
+  page.execute_script(<<-JavaScript)
+    jQuery('#timeline_options_planning_element_responsibles').val('#{responsible.id}')
+    jQuery('#content form').submit()
+  JavaScript
+end
+
 When (/^I show only work packages which have the type "(.*?)"$/) do |type|
   timeline_name = @timeline_name
   project_name = @project.name
