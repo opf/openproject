@@ -19,7 +19,7 @@ namespace :migrations do
 
     desc "Removes all documents"
     task :delete => :environment do |task|
-      if user_agrees
+      if !$stdout.isatty || user_agrees
         Document.destroy_all
         Attachment.where(:container_type => ['Document']).destroy_all
       end
