@@ -44,7 +44,7 @@ Feature: Navigating from reports to index
     And the user "bob" is a "member" in the project "parent"
     And I am already logged in as "bob"
 
-  Scenario: Navigating from issue reports back to issue overview
-    When I go to the issues/report page of the project called "parent"
+  Scenario: Navigating from work package reports back to work package overview
+    When I go to the work_packages/report page of the project called "parent"
     And I follow "Work packages" within "#main-menu"
     Then I should be on the work packages index page of the project called "parent"
