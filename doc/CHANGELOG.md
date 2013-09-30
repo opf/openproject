@@ -30,7 +30,8 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2203` Use server-side responsible filter
-* `#2204` Implement server-side status filter.
+* `#2204` Implement server-side status filter
+* `#2218` Migrate context menus controller tests
 
 ## 3.0.0pre18
 
