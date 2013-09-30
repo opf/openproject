@@ -231,7 +231,7 @@ OpenProject::Application.routes.draw do
 
     resources :boards
 
-    resources :issue_categories, :except => [:index, :show], :shallow => true
+    resources :categories, :except => [:index, :show], :shallow => true
 
     resources :members, :only => [:create, :update, :destroy], :shallow => true do
       get :autocomplete, :on => :collection

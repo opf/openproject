@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class IssueCategoriesController < ApplicationController
+class CategoriesController < ApplicationController
   menu_item :settings
   model_object IssueCategory
   before_filter :find_model_object, :except => [:new, :create]

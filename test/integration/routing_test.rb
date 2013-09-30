@@ -221,30 +221,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
                                                              :field => 'description' )
   end
 
-  context "issue categories" do
-    context "project scoped" do
-      should route(:get, "/projects/test/issue_categories/new").to( :controller => 'issue_categories',
-                                                                    :action => 'new',
-                                                                    :project_id => 'test' )
-
-      should route(:post, "/projects/test/issue_categories").to( :controller => 'issue_categories',
-                                                                 :action => 'create',
-                                                                 :project_id => 'test' )
-
-      should route(:get, "/issue_categories/5/edit").to( :controller => 'issue_categories',
-                                                         :action => 'edit',
-                                                         :id => '5' )
-
-      should route(:put, "/issue_categories/5").to( :controller => 'issue_categories',
-                                                    :action => 'update',
-                                                    :id => '5' )
-
-      should route(:delete, "/issue_categories/5").to( :controller => 'issue_categories',
-                                                       :action => 'destroy',
-                                                       :id => '5' )
-    end
-  end
-
   context "members" do
     context "project scoped" do
       should route(:post, "/projects/5234/members").to( :controller => 'members',
