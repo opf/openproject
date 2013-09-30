@@ -34,12 +34,20 @@ describe "Planning Comparison" do
 
   let(:journalized_work_package) do
     wp = nil
-    Timecop.freeze(1.week.ago) do
+    # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
+    Timecop.freeze(2.weeks.ago) do
       wp = FactoryGirl.create(:work_package, project: project, start_date: "01/01/2020", due_date: "01/03/2020")
       wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
     end
 
-    wp.due_date = "01/04/2020"
+    Timecop.freeze(1.week.ago) do
+      wp.reload
+      wp.due_date = "01/04/2020"
+      wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
+    end
+
+    wp.reload
+    wp.due_date = "01/05/2020"
     wp.save # adds another journal-entry
     wp
   end
@@ -57,7 +65,7 @@ describe "Planning Comparison" do
 
     # beware of these date-conversions: 1.week.ago does not catch the change, as created_at is stored as a timestamp
     old_work_package = PlanningComparisonService.compare(project, 5.days.ago).first
-    expect(old_work_package.due_date).to eql Date.parse "01/03/2020"
+    expect(old_work_package.due_date).to eql Date.parse "01/04/2020"
   end
 
 
