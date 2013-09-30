@@ -4,6 +4,7 @@ require 'date'
 module ReportingHelper
   # ======================= SHARED CODE START
   include ApplicationHelper
+  include WorkPackagesHelper
 
   def with_project(project)
     project = Project.find(project) unless project.is_a? Project
@@ -78,7 +79,7 @@ module ReportingHelper
     when :category_id                           then IssueCategory.find(value.to_i).name
     when :cost_type_id                          then mapped value, CostType, l(:caption_labor)
     when :cost_object_id                        then cost_object_link value
-    when :work_package_id                       then link_to_work_package_preview WorkPackage.find(value.to_i)
+    when :work_package_id                       then link_to_work_package(WorkPackage.find(value.to_i))
     when :spent_on                              then format_date(value.to_date)
     when :type_id                               then Type.find(value.to_i).name
     when :week                                  then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
