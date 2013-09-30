@@ -29,7 +29,11 @@
 
 class WorkPackages::ReportsController < ApplicationController
   menu_item :summary_field, :only => [:report, :report_details]
+<<<<<<< HEAD:app/controllers/work_packages/reports_controller.rb
   before_filter :find_project_by_project_id, :authorize, :find_statuses
+=======
+  before_filter :find_project_by_project_id, :authorize, :find_work_package_statuses
+>>>>>>> Moves reports controller to work package:app/controllers/work_packages/reports_controller.rb
 
   def report
     @types = @project.types
