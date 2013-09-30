@@ -27,9 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::CustomizableJournal < ActiveRecord::Base
+class Journal::CustomizableJournal < Journal::BaseJournal
   self.table_name = "customizable_journals"
 
-  belongs_to :journal
   belongs_to :custom_field, foreign_key: :custom_field_id
 end
