@@ -44,25 +44,6 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
   end
 
-  def test_get_new
-    @request.session[:user_id] = 2 # manager
-    get :new, :project_id => '1'
-    assert_response :success
-    assert_template 'new'
-  end
-
-  def test_post_new
-    @request.session[:user_id] = 2 # manager
-    assert_difference 'IssueCategory.count' do
-      post :create, :project_id => '1', :category => {:name => 'New category', :assigned_to_id => 3}
-    end
-    assert_redirected_to '/projects/ecookbook/settings/categories'
-    category = IssueCategory.find_by_name('New category')
-    assert_not_nil category
-    assert_equal 1, category.project_id
-    assert_equal 3, category.assigned_to_id
-  end
-
   def test_post_edit
     assert_no_difference 'IssueCategory.count' do
       post :update, :id => 2, :category => { :name => 'Testing' }
