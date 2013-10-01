@@ -882,6 +882,7 @@ class Project < ActiveRecord::Base
       self.wiki = self.build_wiki(project.wiki.attributes.dup.except("id", "project_id"))
       wiki_pages_map = {}
       project.wiki.pages.each do |page|
+        self.reload
         # Skip pages without content
         next if page.content.nil?
         new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id", "updated_at"))
