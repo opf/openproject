@@ -44,6 +44,14 @@ describe CategoriesController do
     User.stub(:current).and_return user
   end
 
+  shared_examples_for :redirect do
+    subject { response }
+
+    it { should be_redirect }
+
+    it { should redirect_to("/projects/#{project.identifier}/settings/categories") }
+  end
+
   describe :new do
     before { get :new, project_id: project.id }
 
@@ -62,14 +70,6 @@ describe CategoriesController do
                   category: { name: category_name,
                               assigned_to_id: user.id } }
 
-    describe :response do
-      subject { response }
-
-      it { should be_redirect }
-
-      it { should redirect_to("/projects/#{project.identifier}/settings/categories") }
-    end
-
     describe :categories do
       subject { IssueCategory.find_by_name(category_name) }
 
@@ -77,6 +77,8 @@ describe CategoriesController do
 
       it { subject.assigned_to_id.should eq(user.id) }
     end
+
+    it_behaves_like :redirect
   end
 
   describe :edit do
@@ -94,19 +96,13 @@ describe CategoriesController do
 
       it { should eq(name) }
 
-      describe :response do
-        subject { response }
-
-        it { should be_redirect }
-
-        it { should redirect_to("/projects/#{project.identifier}/settings/categories") }
-      end
-
       describe :category_count do
         subject { IssueCategory.count }
 
         it { should eq(1) }
       end
+
+      it_behaves_like :redirect
     end
 
     context "invalid category" do
@@ -117,6 +113,89 @@ describe CategoriesController do
       subject { response.response_code }
 
       it { should eq(404) }
+    end
+  end
+
+  describe :destroy do
+    let(:category) { FactoryGirl.create(:issue_category,
+                                        project: project) }
+    let(:work_package) { FactoryGirl.create(:work_package,
+                                            project: project,
+                                            category: category) }
+
+    before { category }
+
+    shared_examples_for :delete do
+      subject { IssueCategory.find_by_id(category.id) }
+
+      it { should be_nil }
+    end
+
+    context "unused" do
+      before { delete :destroy, id: category.id }
+
+      it_behaves_like :redirect
+
+      it_behaves_like :delete
+    end
+
+    context "in use" do
+      before do
+        work_package
+
+        delete :destroy, id: category.id
+      end
+
+      subject { IssueCategory.find_by_id(category.id) }
+
+      it { should_not be_nil }
+
+      describe :response do
+        subject { response }
+
+        it { should be_success }
+
+        it { should render_template('destroy') }
+      end
+    end
+
+    describe :reassign do
+      let(:target) { FactoryGirl.create(:issue_category,
+                                        project: project) }
+      before do
+        work_package
+
+        delete :destroy,
+               id: category.id,
+               todo: 'reassign',
+               reassign_to_id: target.id
+      end
+
+      subject { work_package.reload.category_id }
+
+      it { should eq(target.id) }
+
+      it_behaves_like :delete
+
+      it_behaves_like :redirect
+    end
+
+    describe :nullify do
+      before do
+        work_package
+
+        delete :destroy,
+               id: category.id,
+               todo: 'nullify'
+      end
+
+      subject { work_package.reload.category_id }
+
+      it { should be_nil }
+
+      it_behaves_like :delete
+
+      it_behaves_like :redirect
     end
   end
 end
