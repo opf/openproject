@@ -65,19 +65,19 @@ end
 Given /^(?:|I )am [aA]dmin$/ do
   admin = User.find_by_admin(true)
 
-  login(admin.login, 'adminADMIN!')
+  login(admin.login, 'adminADMIN!') if admin.present?
 end
 
 Given /^(?:|I )am already [aA]dmin$/ do
   admin = User.find_by_admin(true)
   # see https://github.com/railsware/rack_session_access
-  page.set_rack_session(:user_id => admin.id)
+  page.set_rack_session(:user_id => admin.id) if admin.present?
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
   user = User.find_by_login(login)
   # see https://github.com/railsware/rack_session_access
-  page.set_rack_session(:user_id => user.id)
+  page.set_rack_session(:user_id => user.id) if user.present?
 end
 
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
