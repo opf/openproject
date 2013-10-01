@@ -147,3 +147,7 @@ Given /^the user "(.+)" is(not |) forced to change his password$/ do |login, dis
   set_user_attribute(login, :force_password_change, (disable == 'not ') ? false : true)
 end
 
+Given /^I use the first existing token to request a password reset$/ do
+  token = Token.first
+  visit account_lost_password_path(:token=>token.value)
+end

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -26,30 +25,27 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../test_helper', __FILE__)
 
-class ProjectsTest < ActionDispatch::IntegrationTest
-  fixtures :all
+Feature: Lost Password
 
-  def test_archive_project
-    subproject = Project.find(1).children.first
-    log_user("admin", "adminADMIN!")
-    get "admin/projects"
-    assert_response :success
-    assert_template "admin/projects"
-    post "projects/archive", :id => 1
-    assert_redirected_to "/admin/projects"
-    assert !Project.find(1).active?
+  Background:
+    Given there is 1 User with:
+      | Login | johndoe |
+      | Mail | johndoe@example.com |
+      | Firstname | John |
+      | Lastname | Doe |
 
-    get 'projects/1'
-    assert_response 403
-    get "projects/#{subproject.id}"
-    assert_response 403
-
-    post "projects/unarchive", :id => 1
-    assert_redirected_to "/admin/projects"
-    assert Project.find(1).active?
-    get "projects/1"
-    assert_response :success
-  end
-end
+  Scenario: Set a new password using lost password link
+    And I am on the login page
+    When I follow "Lost password" within "#login-form"
+    And I fill in "johndoe@example.com" for "Email"
+    And I press "Submit"
+    Then I should see "has been sent to you"
+    When I use the first existing token to request a password reset
+    Then I should see "New password"
+    When I fill in "adminAdmin!" for "new_password"
+    And I fill in "adminAdmin!" for "new_password_confirmation"
+    And I click on "Save"
+    Then I should see "Password was successfully updated"
+    When I login as "johndoe" with password "adminAdmin!"
+    Then I should be logged in as "johndoe"

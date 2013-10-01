@@ -47,7 +47,7 @@ class JournalFormatter::Proc < JournalFormatter::Attribute
     field = key.to_s.gsub(/\_id$/, "")
 
     values.map do |value|
-      self.class.proc.call value, @journal.journaled, field
+      self.class.proc.call value, @journal.journable, field
     end
   end
 end

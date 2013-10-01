@@ -359,4 +359,13 @@ describe UsersController do
       expect(user.check_password?('newpassPASS!')).to be_true
     end
   end
+
+  describe "Anonymous should not be able to create a user" do
+
+    it "should redirect to the login page" do
+      post :create, :user => { :login => 'psmith', :firstname => 'Paul', :lastname => 'Smith'}, :password => "psmithPSMITH09", :password_confirmation => "psmithPSMITH09"
+      expect(response).to redirect_to '/login?back_url=http%3A%2F%2Ftest.host%2Fusers'
+    end
+
+  end
 end

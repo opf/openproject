@@ -48,7 +48,7 @@ class Attachment < ActiveRecord::Base
   acts_as_journalized :event_title => :filename,
        :event_url => (Proc.new do |o|
          { :controller => '/attachments', :action => 'download',
-           :id => o.journaled_id, :filename => o.filename }
+           :id => o.journable_id, :filename => o.filename }
        end), :acts_as_activity => false
 
   cattr_accessor :storage_path
