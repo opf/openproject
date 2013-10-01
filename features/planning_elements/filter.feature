@@ -227,7 +227,7 @@ Feature: Filtering work packages via the api
       | type        | Story       |
       | responsible | bob         |
     Given the date is "2010/03/01"
-    And I call the work_package-api on project "sample_project" with compare-date "2010/01/03" and filter for types "Story"
+    And I call the work_package-api on project "sample_project" at time "2010/01/03" and filter for types "Story"
     Then the json-response should include 1 work package
     And the json-response for work_package "work_package#3" should have the type "Task"
     And the json-response for work_package "work_package#3" should have the responsible "Pamela Anderson"

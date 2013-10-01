@@ -4,7 +4,7 @@ class PlanningComparisonService
         from journals
          inner join (select journable_id, max(created_at) as latest_date
                        from #{Journal.table_name}
-                      where #{Journal.table_name}.created_at <= '#compare_date'
+                      where #{Journal.table_name}.created_at <= '#at_time'
                    group by #{Journal.table_name}.journable_id) as latest
                  on #{Journal.table_name}.journable_id=latest.journable_id
            and #{Journal.table_name}.created_at=latest.latest_date
@@ -27,7 +27,7 @@ SQL
   # the comparison always works on the current date, filters the current workpackages
   # and returns the state of these work_packages at the given time
   # filters are given in the format expected by Query and are just passed through to query
-  def self.compare(project, compare_date, filter={})
+  def self.compare(project, at_time, filter={})
 
     # The query uses three steps to find the journalized entries for the filtered workpackages
     # at the given point in time:
@@ -56,7 +56,7 @@ SQL
 
     # 2 fetch latest journal-entries for the given time
     sql = @@journal_sql.gsub("#work_package_ids", work_package_ids.join(','))
-                       .gsub("#compare_date", compare_date.strftime("%Y-%m-%d"))
+                       .gsub("#at_time", at_time.strftime("%Y-%m-%d"))
 
     journal_ids = ActiveRecord::Base.connection.execute(sql)
                                                .map{|result| result["id"]}
@@ -64,7 +64,7 @@ SQL
     # use the journaled attributes to make the journal-entry appear like a real(tm) WorkPackage
     attributes = Journal::WorkPackageJournal::journaled_attributes_keys.map{|attribute| "#{Journal::WorkPackageJournal.table_name}.#{attribute}"}.join ','
 
-    # 3 fetch the journaled data and make rails think it is actually a work_package
+    # 3&4 fetch the journaled data and make rails think it is actually a work_package
     work_packages = WorkPackage.find_by_sql(@@work_package_select.gsub('#journal_ids',journal_ids.join(',')))
   end
 end

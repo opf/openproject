@@ -170,7 +170,7 @@ module Api
       # is called as a before filter and as a method
       def assign_planning_elements(projects = (@projects || [@project]))
 
-        @planning_elements = if params[:compare_date]
+        @planning_elements = if params[:at_time]
                                historical_work_packages
                              else
                                current_work_packages
@@ -190,9 +190,9 @@ module Api
       end
 
       def historical_work_packages
-        compare_date = Date.parse(params[:compare_date])
+        at_time = Date.parse(params[:at_time])
         filter = {f: params[:f], op: params[:op], v: params[:v]}
-        historical = PlanningComparisonService.compare(@project, compare_date, filter)
+        historical = PlanningComparisonService.compare(@project, at_time, filter)
       end
 
       # remove this and replace by calls it with calls
