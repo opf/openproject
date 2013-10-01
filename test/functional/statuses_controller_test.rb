@@ -46,60 +46,6 @@ class StatusesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1 # admin
   end
 
-  def test_index
-    get :index
-    assert_response :success
-    assert_template 'index'
-  end
-
-  def test_new
-    get :new
-    assert_response :success
-    assert_template 'new'
-  end
-
-  def test_create
-    assert_difference 'Status.count' do
-      post :create, :status => {:name => 'New status'}
-    end
-    assert_redirected_to :action => 'index'
-    status = Status.find(:first, :order => 'id DESC')
-    assert_equal 'New status', status.name
-  end
-
-  def test_edit
-    get :edit, :id => '3'
-    assert_response :success
-    assert_template 'edit'
-  end
-
-  def test_update
-    post :update, :id => '3', :status => {:name => 'Renamed status'}
-    assert_redirected_to :action => 'index'
-    status = Status.find(3)
-    assert_equal 'Renamed status', status.name
-  end
-
-  def test_destroy
-    WorkPackage.delete_all("status_id = 1")
-
-    assert_difference 'Status.count', -1 do
-      post :destroy, :id => '1'
-    end
-    assert_redirected_to :action => 'index'
-    assert_nil Status.find_by_id(1)
-  end
-
-  def test_destroy_should_block_if_status_in_use
-    assert_not_nil WorkPackage.find_by_status_id(1)
-
-    assert_no_difference 'Status.count' do
-      post :destroy, :id => '1'
-    end
-    assert_redirected_to :action => 'index'
-    assert_not_nil Status.find_by_id(1)
-  end
-
   context "on POST to :update_work_package_done_ratio" do
     context "with Setting.work_package_done_ratio using the issue_field" do
       setup do
