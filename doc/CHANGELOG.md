@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1992` Prepare schema migrations table
 * `#2125` All AJAX actions on work package not working after update
 * `#2237` Migrate reports controller tests
+* `#2246` Migrate issue categories controller tests
 * `#2262` Migrate issue statuses controller tests
 
 ## 3.0.0pre19
