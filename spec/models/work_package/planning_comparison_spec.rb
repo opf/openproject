@@ -130,14 +130,6 @@ describe "Planning Comparison" do
       expect(filtered_packages).to include work_package
       expect(filtered_packages).not_to include filtered_work_package
     end
-
-
-
-
-
-
-
-
   end
 
 end

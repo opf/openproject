@@ -50,7 +50,7 @@ SQL
                          work_package_scope.with_query(query)
                                            .map(&:id)
                        else
-                         project.work_packages.pluck(:id)
+                         WorkPackage.for_projects(projects).pluck(:id)
                        end
 
     # 2 fetch latest journal-entries for the given time
