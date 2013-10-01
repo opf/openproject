@@ -35,11 +35,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## 3.0.0pre19
 
-* `#2203` Use server-side responsible filter
-* `#2204` Implement server-side status filter
-* `#2218` Migrate context menus controller tests
-* `#2204` Implement server-side status filter.
 * `#2055` More dynamic attribute determination for journals for extending journals by plugins
+* `#2203` Use server-side responsible filter
+* `#2204` Implement server-side status filter.
+* `#2218` Migrate context menus controller tests
 
 ## 3.0.0pre18
 
@@ -93,10 +92,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## 3.0.0pre15
 
-* `#1557` Timeline Report Selection Not Visible
-* `#1911` Change mouse icon when hovering over drag&drop-enabled select2 entries
 * `#1301` Ajax call when logged out should open a popup window
 * `#1351` Generalize Modal Creation
+* `#1557` Timeline Report Selection Not Visible
 * `#1755` Migrate helper-tests for issues into specs for work package
 * `#1766` Fixed bug: Viewing diff of Work Package description results in error 500
 * `#1767` Fixed bug: Viewing changesets results in "page not found"
@@ -106,6 +104,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1875` Added test steps to reuse steps for my page, my project page, and documents, no my page block lookup at class load time
 * `#1876` Timelines do not show work packages when there is no status reporting
 * `#1896` Moved visibility-tests for issues into specs for workpackages
+* `#1911` Change mouse icon when hovering over drag&drop-enabled select2 entries
 * `#1912` Merge column project type with column planning element type
 * `#1918` Custom fields are not displayed when issue is created
 
