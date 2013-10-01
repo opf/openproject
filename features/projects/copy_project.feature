@@ -309,3 +309,21 @@ Feature: Project Settings
     And   I click on "Copy"
     And   I go to the settings page of the project "cp"
     Then  the "Public" checkbox should be checked within "#content"
+
+  @javascript
+  Scenario: Copying a project with a wiki
+    Given the wiki page "Projektwiki" of the project "project1" has the following contents:
+      | yeah boy! |
+    And   I am already admin
+    And   I go to the settings page of the project "project1"
+    And   I press "Save" within "#content"
+    And   I follow "Copy" within "#content"
+    And   I fill in "Name" with "Copied Project"
+    And   I fill in "Identifier" with "cp"
+    And   I click on "Copy"
+    And   I go to the overview page for the project "Copied Project"
+    And   I toggle the "Wiki" submenu
+    And   I follow "Table of Contents" within "#main-menu"
+    Then  I should see "Projektwiki" within "#content"
+    And   I follow "Projektwiki" within "#content"
+    Then  I should see "yeah boy!" within "#content"
