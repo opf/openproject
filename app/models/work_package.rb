@@ -39,7 +39,7 @@ class WorkPackage < ActiveRecord::Base
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   include Redmine::SafeAttributes
 
-  DONE_RATIO_OPTIONS = %w(issue_field status disabled)
+  DONE_RATIO_OPTIONS = %w(field status disabled)
   ATTRIBS_WITH_VALUES_FROM_CHILDREN = %w(priority_id start_date due_date estimated_hours done_ratio)
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -241,7 +241,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def self.use_field_for_done_ratio?
-    Setting.work_package_done_ratio == 'issue_field'
+    Setting.work_package_done_ratio == 'field'
   end
 
   # Returns true if usr or current user is allowed to view the work_package

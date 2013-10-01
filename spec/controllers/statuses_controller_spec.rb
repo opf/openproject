@@ -156,7 +156,7 @@ describe StatusesController do
       let(:message) { /not updated/ } 
 
       before do
-        Setting.stub(:work_package_done_ratio).and_return 'issue_field'
+        Setting.stub(:work_package_done_ratio).and_return 'field'
 
         post :update_work_package_done_ratio
       end

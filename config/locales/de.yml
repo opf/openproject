@@ -1177,7 +1177,7 @@ de:
   setting_gravatar_enabled: "Gravatar-Benutzerbilder benutzen"
   setting_host_name: "Hostname"
   setting_work_package_done_ratio: "Berechne den Arbeitspaket-Fortschritt mittels"
-  setting_work_package_done_ratio_issue_field: "Arbeitspaket-Feld %-erledigt"
+  setting_work_package_done_ratio_field: "Arbeitspaket-Feld %-erledigt"
   setting_work_package_done_ratio_status: "Arbeitspaket-Status"
   setting_work_package_done_ratio_disabled: "Deaktivieren (Fortschritt verstecken)"
   setting_work_package_list_default_columns: "Standardmäßig anzeigen"

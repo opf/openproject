@@ -581,7 +581,7 @@ describe WorkPackage do
 
     describe :value do
       context "work package field" do
-        before { Setting.stub(:work_package_done_ratio).and_return 'issue_field' }
+        before { Setting.stub(:work_package_done_ratio).and_return 'field' }
 
         context "work package 1" do
           subject { work_package_1.done_ratio }
@@ -616,7 +616,7 @@ describe WorkPackage do
     describe :update_done_ratio_from_status do
       context "work package field" do
         before do
-          Setting.stub(:work_package_done_ratio).and_return 'issue_field'
+          Setting.stub(:work_package_done_ratio).and_return 'field'
 
           work_package_1.update_done_ratio_from_status
           work_package_2.update_done_ratio_from_status
