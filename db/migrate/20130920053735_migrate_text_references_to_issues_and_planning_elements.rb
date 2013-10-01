@@ -18,7 +18,6 @@ class MigrateTextReferencesToIssuesAndPlanningElements < ActiveRecord::Migration
 
   COLUMNS_PER_TABLE = {
     'boards' => ['description'],
-    'changesets' => ['comments'],
     'journals' => ['notes'],
     'messages' => ['content'],
     'news' => ['summary', 'description'],
@@ -26,7 +25,6 @@ class MigrateTextReferencesToIssuesAndPlanningElements < ActiveRecord::Migration
     'wiki_contents' => ['text'],
     'work_packages' => ['description'],
 
-    'changeset_journals' => ['comments'],
     'message_journals' => ['content'],
     'news_journals' => ['summary', 'description'],
     'wiki_content_journals' => ['text'],
