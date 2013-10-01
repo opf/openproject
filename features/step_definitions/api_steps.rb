@@ -61,7 +61,10 @@ And(/^the json\-response for work_package "(.*?)" should have the responsible "(
   work_package = lookup_work_package(work_package_name)
   expect(work_package["responsible"]["name"]).to eql responsible_name
 end
-
+Then(/^the json\-response for work_package "(.*?)" should have the due_date "(.*?)"$/) do |work_package_name, due_date|
+  work_package = lookup_work_package(work_package_name)
+  expect(work_package["end_date"]).to eql due_date.gsub('/','-') # normalize the date-format
+end
 
 And(/^the json\-response should say that "(.*?)" is parent of "(.*?)"$/) do |parent_name, child_name|
   child = lookup_work_package(child_name)
@@ -76,6 +79,11 @@ end
 And(/^the json\-response should say that "(.*?)" has (\d+) child(ren)?$/) do |parent_name, nr_of_children,plural|
   parent = child = lookup_work_package(parent_name)
   expect(parent["children"].size).to eql nr_of_children.to_i
+end
+
+And(/^the work package "(.*?)" has the due_date "(.*?)"$/) do |work_package_name, due_date|
+  wp = WorkPackage.where(:subject => work_package_name).first
+  expect(wp.due_date).to eql Date.parse(due_date)
 end
 
 

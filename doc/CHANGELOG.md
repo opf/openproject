@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#1560` WorkPackage/update does not retain some fields when validations fail
 * `#1771` Refactor Types Project Settings into new Tab
+* `#1878` Project Plan Comparison(server-side implementation): api/v2 can now resolve historical data for work_packages
 * `#1929` Too many lines in work package view
 * `#1946` Modal shown within in Modal
 * `#1949` External links within modals do not work
