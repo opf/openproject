@@ -46,8 +46,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </p>
 
-  <hr />
-
   <div class="issue details">
     <div class="meta">
       <table class="attributes">
@@ -66,10 +64,9 @@ See doc/COPYRIGHT.rdoc for more details.
       </table>
     </div>
   </div>
-
   <% if work_package.description? %>
-    <div class="description">
-      <hr />
+    <hr />
+    <div class="description work_package_part">
       <div class="contextual">
         <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-comment') %>
       </div>
@@ -77,7 +74,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="wiki wikicontent" data-user="<%= work_package.author %>">
         <%= textilizable work_package, :description, :attachments => work_package.attachments %>
       </div>
-      <hr />
     </div>
   <% end %>
 
@@ -87,15 +83,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= call_hook(:view_issues_show_description_bottom, :issue => work_package) %>
 
-  <hr />
 
   <%= render :partial => 'subwork_packages_paragraph', :locals => { :work_package => work_package,
                                                                     :ancestors => ancestors,
                                                                     :descendants => descendants } %>
 
   <% if authorize_for('work_package_relations', 'create') || relations.present? %>
-    <div id="relations">
-    <hr />
+    <div id="relations" class="work_package_part">
     <%= render :partial => 'relations', :locals => { :work_package => work_package,
                                                      :relations => relations } %>
     </div>
@@ -103,8 +97,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% if User.current.allowed_to?(:add_work_package_watchers, project) ||
     (work_package.watchers.present? && User.current.allowed_to?(:view_work_package_watchers, project)) %>
-    <div id="watchers">
-      <hr />
+    <div id="watchers" class="work_package_part">
       <%= render :partial => 'watchers/watchers', :locals => {:watched => work_package} %>
     </div>
   <% end %>
