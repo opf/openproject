@@ -35,11 +35,11 @@ module RbCommonHelper
   end
 
   def work_package_link_or_empty(work_package)
-    link_to_work_package_box(work_package.id, work_package, :class => 'prevent_edit') unless work_package.new_record?
+    modal_link_to_work_package(work_package.id, work_package, :class => 'prevent_edit') unless work_package.new_record?
   end
 
-  def link_to_work_package_box(title, work_package, options = {})
-    modal_link_to(title, backlogs_work_package_box_path(work_package), options)
+  def modal_link_to_work_package(title, work_package, options = {})
+    modal_link_to(title, work_package_path(work_package), options)
   end
 
   def modal_link_to(title, path, options = {})

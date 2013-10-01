@@ -106,8 +106,7 @@ module OpenProject::Backlogs
               :rb_stories          => [:index, :show],
               :rb_queries          => :show,
               :rb_server_variables => :show,
-              :rb_burndown_charts  => :show,
-              :work_package_boxes  => :show
+              :rb_burndown_charts  => :show
             }
 
             permission :view_taskboards,     {
@@ -131,20 +130,17 @@ module OpenProject::Backlogs
             # Story permissions
             # :show_stories and :list_stories are implicit in :view_master_backlog permission
             permission :create_stories,         { :rb_stories => :create }
-            permission :update_stories,         { :rb_stories => :update,
-                                                  :work_package_boxes => [:edit, :update] }
+            permission :update_stories,         { :rb_stories => :update }
 
             # Task permissions
             # :show_tasks and :list_tasks are implicit in :view_sprints
             permission :create_tasks,           { :rb_tasks => [:new, :create]  }
-            permission :update_tasks,           { :rb_tasks => [:edit, :update],
-                                                  :work_package_boxes => [:edit, :update] }
+            permission :update_tasks,           { :rb_tasks => [:edit, :update] }
 
             # Impediment permissions
             # :show_impediments and :list_impediments are implicit in :view_sprints
             permission :create_impediments,     { :rb_impediments => [:new, :create]  }
-            permission :update_impediments,     { :rb_impediments => [:edit, :update],
-                                                  :work_package_boxes => [:edit, :update] }
+            permission :update_impediments,     { :rb_impediments => [:edit, :update] }
           end
 
           menu :project_menu,

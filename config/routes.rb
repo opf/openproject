@@ -5,8 +5,6 @@ OpenProject::Application.routes.draw do
   #scope "/rb" do
   scope "", as: "backlogs" do
 
-    resources :work_package_boxes,          :controller => :work_package_boxes,         :only => [:show, :edit, :update]
-
     scope "projects/:project_id", as: 'project' do
 
       resources   :backlogs,         :controller => :rb_master_backlogs,  :only => :index
