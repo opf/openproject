@@ -326,9 +326,12 @@ class WorkPackage < ActiveRecord::Base
     self.relations_from.build
   end
 
-  def add_time_entry
-    time_entries.build(:project => project,
-                       :work_package => self)
+  def add_time_entry(attributes={})
+    attributes.reverse_merge!({
+        :project => project,
+        :work_package => self
+      })
+    time_entries.build(attributes)
   end
 
   def all_dependent_packages(except=[])

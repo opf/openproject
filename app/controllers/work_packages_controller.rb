@@ -397,7 +397,18 @@ class WorkPackagesController < ApplicationController
   end
 
   def time_entry
-    work_package.add_time_entry
+    attributes = {}
+    permitted = {}
+
+    if params[:work_package]
+      permitted = permitted_params.update_work_package(:project => project)
+    end
+
+    if permitted.has_key?("time_entry")
+      attributes = permitted["time_entry"]
+    end
+
+    work_package.add_time_entry(attributes)
   end
 
   protected
