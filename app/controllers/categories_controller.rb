@@ -29,18 +29,18 @@
 
 class CategoriesController < ApplicationController
   menu_item :settings
-  model_object IssueCategory
+  model_object Category
   before_filter :find_model_object, :except => [:new, :create]
   before_filter :find_project_from_association, :except => [:new, :create]
   before_filter :find_project, :only => [:new, :create]
   before_filter :authorize
 
   def new
-    @category = @project.issue_categories.build
+    @category = @project.categories.build
   end
 
   def create
-    @category = @project.issue_categories.build
+    @category = @project.categories.build
     @category.safe_attributes = params[:category]
 
     if @category.save
@@ -85,17 +85,17 @@ class CategoriesController < ApplicationController
       redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'categories'
       return
     elsif params[:todo]
-      reassign_to = @project.issue_categories.find_by_id(params[:reassign_to_id]) if params[:todo] == 'reassign'
+      reassign_to = @project.categories.find_by_id(params[:reassign_to_id]) if params[:todo] == 'reassign'
       @category.destroy(reassign_to)
       redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'categories'
       return
     end
-    @categories = @project.issue_categories - [@category]
+    @categories = @project.categories - [@category]
   end
 
 private
   # Wrap ApplicationController's find_model_object method to set
-  # @category instead of just @issue_category
+  # @category instead of just @category
   def find_model_object
     super
     @category = @object

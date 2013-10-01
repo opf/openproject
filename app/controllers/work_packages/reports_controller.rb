@@ -35,7 +35,7 @@ class WorkPackages::ReportsController < ApplicationController
     @types = @project.types
     @versions = @project.shared_versions.sort
     @priorities = IssuePriority.all
-    @categories = @project.issue_categories
+    @categories = @project.categories
     @assignees = @project.members.collect { |m| m.user }.sort
     @authors = @project.members.collect { |m| m.user }.sort
     @subprojects = @project.descendants.visible
@@ -68,7 +68,7 @@ class WorkPackages::ReportsController < ApplicationController
       @report_title = WorkPackage.human_attribute_name(:priority)
     when "category"
       @field = "category_id"
-      @rows = @project.issue_categories
+      @rows = @project.categories
       @data = WorkPackage.by_category(@project)
       @report_title = WorkPackage.human_attribute_name(:category)
     when "assigned_to"

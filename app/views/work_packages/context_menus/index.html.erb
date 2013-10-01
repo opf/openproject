@@ -93,7 +93,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= context_menu_entry(params) %>
 <% end %>
 
-<% unless @project.nil? || (categories = @project.issue_categories.to_a).empty? -%>
+<% unless @project.nil? || (categories = @project.categories.to_a).empty? -%>
   <% categories << [nil, l(:label_none)] %>
   <% params = default_params.merge(:collection => categories,
                                    :attribute => 'category',

@@ -71,7 +71,7 @@ describe CategoriesController do
                               assigned_to_id: user.id } }
 
     describe :categories do
-      subject { IssueCategory.find_by_name(category_name) }
+      subject { Category.find_by_name(category_name) }
 
       it { subject.project_id.should eq(project.id) }
 
@@ -85,19 +85,19 @@ describe CategoriesController do
     let(:name) { 'Testing' }
 
     context "valid category" do
-      let(:category) { FactoryGirl.create(:issue_category,
+      let(:category) { FactoryGirl.create(:category,
                                           project: project) }
 
       before { post :update,
                     id: category.id,
                     category: { name: name } }
 
-      subject { IssueCategory.find(category.id).name }
+      subject { Category.find(category.id).name }
 
       it { should eq(name) }
 
       describe :category_count do
-        subject { IssueCategory.count }
+        subject { Category.count }
 
         it { should eq(1) }
       end
@@ -117,7 +117,7 @@ describe CategoriesController do
   end
 
   describe :destroy do
-    let(:category) { FactoryGirl.create(:issue_category,
+    let(:category) { FactoryGirl.create(:category,
                                         project: project) }
     let(:work_package) { FactoryGirl.create(:work_package,
                                             project: project,
@@ -126,7 +126,7 @@ describe CategoriesController do
     before { category }
 
     shared_examples_for :delete do
-      subject { IssueCategory.find_by_id(category.id) }
+      subject { Category.find_by_id(category.id) }
 
       it { should be_nil }
     end
@@ -146,7 +146,7 @@ describe CategoriesController do
         delete :destroy, id: category.id
       end
 
-      subject { IssueCategory.find_by_id(category.id) }
+      subject { Category.find_by_id(category.id) }
 
       it { should_not be_nil }
 
@@ -160,7 +160,7 @@ describe CategoriesController do
     end
 
     describe :reassign do
-      let(:target) { FactoryGirl.create(:issue_category,
+      let(:target) { FactoryGirl.create(:category,
                                         project: project) }
       before do
         work_package

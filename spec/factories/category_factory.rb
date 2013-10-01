@@ -26,25 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
----
-issue_categories_001:
-  name: Printing
-  project_id: 1
-  assigned_to_id: 2
-  id: 1
-issue_categories_002:
-  name: Recipes
-  project_id: 1
-  assigned_to_id:
-  id: 2
-issue_categories_003:
-  name: Stock management
-  project_id: 2
-  assigned_to_id:
-  id: 3
-issue_categories_004:
-  name: Printing
-  project_id: 2
-  assigned_to_id:
-  id: 4
+FactoryGirl.define do
+  factory :category do
+    sequence(:name) { |n| "Issue category #{n}" }
+    project
+
+    after :build do |issue|
+      issue.assigned_to = issue.project.users.first unless issue.assigned_to
+    end
+  end
+end
 

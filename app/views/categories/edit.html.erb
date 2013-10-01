@@ -27,9 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= IssueCategory.model_name.human %></h2>
+<h2><%= Category.model_name.human %></h2>
 
 <%= labelled_tabular_form_for @category, :as => :category do |f| %>
-<%= render :partial => 'issue_categories/form', :locals => { :f => f } %>
+<%= render :partial => 'categories/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
 <% end %>

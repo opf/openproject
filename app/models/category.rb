@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class IssueCategory < ActiveRecord::Base
+class Category < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :assigned_to, :class_name => 'Principal', :foreign_key => 'assigned_to_id'
@@ -53,7 +53,7 @@ class IssueCategory < ActiveRecord::Base
   # Destroy the category
   # If a category is specified, issues are reassigned to this category
   def destroy(reassign_to = nil)
-    if reassign_to && reassign_to.is_a?(IssueCategory) && reassign_to.project == self.project
+    if reassign_to && reassign_to.is_a?(Category) && reassign_to.project == self.project
       WorkPackage.update_all("category_id = #{reassign_to.id}", "category_id = #{id}")
     end
     destroy_without_reassign

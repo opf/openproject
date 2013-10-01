@@ -81,7 +81,7 @@ class User < Principal
   has_many :groups, :through => :group_users,
                     :after_add => Proc.new {|user, group| group.user_added(user)},
                     :after_remove => Proc.new {|user, group| group.user_removed(user)}
-  has_many :issue_categories, :foreign_key => 'assigned_to_id',
+  has_many :categories, :foreign_key => 'assigned_to_id',
                               :dependent => :nullify
   has_many :assigned_issues, :foreign_key => 'assigned_to_id',
                              :class_name => 'WorkPackage',
