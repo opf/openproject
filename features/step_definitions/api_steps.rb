@@ -112,10 +112,14 @@ When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)"
 
 end
 
-And(/^I call the work_package\-api on project "(.*?)" with compare\-date "(.*?)"$/) do |project_name, compare_date|
-  puts "looking up historical data at #{compare_date} for project #{project_name}"
+And(/^I call the work_package\-api on project "(.*?)" with compare\-date "(.*?)" and filter for types "(.*?)"$/) do |project_name, compare_date, type_names|
+  types = Project.find_by_identifier(project_name).types.where(name: type_names.split(','))
+
   get_filtered_json(project_name: project_name,
-                    format: "json",
+                    format: 'json',
+                    filters: [:type_id],
+                    operators:  {type_id: '='},
+                    values: {type_id: types.map(&:id)},
                     compare_date: compare_date)
 end
 
