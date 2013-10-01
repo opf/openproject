@@ -146,4 +146,38 @@ describe StatusesController do
       it_behaves_like :redirect
     end
   end
+
+  describe :update_work_package_done_ratio do
+    shared_examples_for :flash do
+      it { should set_the_flash.to(message) }
+    end
+
+    context "with 'work_package_done_ratio' using 'field'" do
+      let(:message) { /not updated/ } 
+
+      before do
+        Setting.stub(:work_package_done_ratio).and_return 'issue_field'
+
+        post :update_work_package_done_ratio
+      end
+
+      it_behaves_like :flash
+
+      it_behaves_like :redirect
+    end
+
+    context "with 'work_package_done_ratio' using 'status'" do
+      let(:message) { /Work package done ratios updated/ } 
+
+      before do
+        Setting.stub(:work_package_done_ratio).and_return 'status'
+
+        post :update_work_package_done_ratio
+      end
+
+      it_behaves_like :flash
+
+      it_behaves_like :redirect
+    end
+  end
 end
