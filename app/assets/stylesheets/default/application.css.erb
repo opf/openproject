@@ -1909,7 +1909,7 @@ table.files {
 #history .journal {
   position: relative;
   margin: 0 0 15px;
-  margin-bottom: 45px;
+  margin-bottom: 20px;
   min-height: 40px;
   clear: left;
   margin-left: 3px;
@@ -1923,6 +1923,7 @@ table.files {
   padding-right: 4px;
 }
 .journal h4 {
+  padding-right: 5px;
   font-size: 12px;
   font-weight: normal;
   position: relative;
@@ -1935,7 +1936,7 @@ table.files {
   color: #999;
 }
 .journal .wiki {
-  padding: 10px 10px 5px 0px;
+  padding: 0;
   overflow: auto;
   margin-left: 50px;
 }
@@ -2740,9 +2741,15 @@ fieldset#attachments input, fieldset#attachments span.add_another_file {
 #watchers .contextual {
   margin-top: 0px;
 }
-div.description, div.issue_tree, div.relations {
-  padding-left: 3px;
+
+div.work_package_part {
+  margin-top: 15px;
 }
+
+div.work_package_part strong {
+  text-decoration: underline
+}
+
 div.box-actions {
   float: right;
   margin-right: 16px;
@@ -3212,10 +3219,6 @@ a.sort.desc {
 
 #history .journal, #content .wiki-content p, #content .wiki-content li {
   width: 700px;
-}
-
-#history .journal {
-  background: url(<%= asset_path 'dotted-separator.gif' %>) repeat-x scroll 0 0   transparent;
 }
 
 .my-project {
