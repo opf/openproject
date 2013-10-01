@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1946` Modal shown within in Modal
 * `#1949` External links within modals do not work
 * `#1992` Prepare schema migrations table
+* `#2125` All AJAX actions on work package not working after update
 
 ## 3.0.0pre19
 
