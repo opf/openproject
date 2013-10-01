@@ -173,12 +173,12 @@ module Api
         @planning_elements = if params[:at_time]
                                historical_work_packages
                              else
-                               current_work_packages
+                               current_work_packages(projects)
                              end
       end
 
-      def current_work_packages
-        work_packages = WorkPackage.for_projects([@project]).without_deleted
+      def current_work_packages(projects)
+        work_packages = WorkPackage.for_projects(projects).without_deleted
 
         if params[:f]
           query = Query.new
@@ -189,10 +189,10 @@ module Api
         work_packages
       end
 
-      def historical_work_packages
+      def historical_work_packages(project=@project )
         at_time = Date.parse(params[:at_time])
         filter = {f: params[:f], op: params[:op], v: params[:v]}
-        historical = PlanningComparisonService.compare(@project, at_time, filter)
+        historical = PlanningComparisonService.compare(project, at_time, filter)
       end
 
       # remove this and replace by calls it with calls
