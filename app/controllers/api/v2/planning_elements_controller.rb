@@ -169,13 +169,30 @@ module Api
 
       # is called as a before filter and as a method
       def assign_planning_elements(projects = (@projects || [@project]))
-        @planning_elements = WorkPackage.for_projects(projects).without_deleted
 
-        query = Query.new
-        query.add_filters(params[:f], params[:op], params[:v]) if params[:f]
+        @planning_elements = if params[:compare_date]
+                               historical_work_packages
+                             else
+                               current_work_packages
+                             end
+      end
 
-        @planning_elements = @planning_elements.with_query query
+      def current_work_packages
+        work_packages = WorkPackage.for_projects([@project]).without_deleted
 
+        if params[:f]
+          query = Query.new
+          query.add_filters(params[:f], params[:op], params[:v])
+          work_packages = work_packages.with_query query
+        end
+
+        work_packages
+      end
+
+      def historical_work_packages
+        compare_date = Date.parse(params[:compare_date])
+        filter = {f: params[:f], op: params[:op], v: params[:v]}
+        historical = PlanningComparisonService.compare(@project, compare_date, filter)
       end
 
       # remove this and replace by calls it with calls

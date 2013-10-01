@@ -13,7 +13,10 @@ SQL
   @@mapped_attributes = Journal::WorkPackageJournal::journaled_attributes_keys.map{|attribute| "#{Journal::WorkPackageJournal.table_name}.#{attribute}"}.join ','
 
   @@work_package_select = <<SQL
-      Select #{Journal.table_name}.journable_id as id, #{@@mapped_attributes}
+      Select #{Journal.table_name}.journable_id as id,
+             #{Journal.table_name}.created_at as created_at,
+             #{Journal.table_name}.created_at as updated_at,
+             #{@@mapped_attributes}
         from #{Journal::WorkPackageJournal.table_name}
         left join #{Journal.table_name}
                on #{Journal.table_name}.id = #{Journal::WorkPackageJournal.table_name}.journal_id
