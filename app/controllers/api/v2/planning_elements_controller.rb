@@ -270,6 +270,29 @@ module Api
         end
       end
 
+      def get_first_unfiltered_ancestor(pe)
+        ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt }
+        # the greatest lower boundary is the first ancestor not filtered
+        ancestors.sort_by{|ancestor| ancestor.lft }.last
+      end
+
+      def pe_remove_filtered_children(pe)
+        # remove all children, that are not present in the filtered set
+        pe.children = pe.children.select {|child| @filtered_ids.include? child.id} unless pe.children.empty?
+      end
+
+      def pe_rewrite_parent(pe)
+        # re-wire the parent of this pe to the first ancestor found in the filtered set
+        if pe.parent_id && !@filtered_ids.include?(pe.parent_id)
+          pe.parent = get_first_unfiltered_ancestor(pe)
+        end
+      end
+
+      def pe_rewire_ancestors(pe)
+        pe_remove_filtered_children(pe)
+        pe_rewrite_parent(pe)
+      end
+
       # Filtering work_packages can destroy the parent-child-relationships
       # of work_packages. If parents are removed, the relationships need
       # to be rewired to the first ancestor in the ancestor-chain.
@@ -282,19 +305,10 @@ module Api
       # to see the respective cases that need to be handled properly by this rewiring,
       # @see features/planning_elements/filter.feature
       def rewire_ancestors
-        filtered_ids = @planning_elements.map(&:id)
+        @filtered_ids = @planning_elements.map(&:id)
 
         @planning_elements.each do |pe|
-          # remove all children, that are not present in the filtered set
-          pe.children = pe.children.select {|child| filtered_ids.include? child.id} unless pe.children.empty?
-          # re-wire the parent of this pe to the first ancestor found in the filtered set
-          # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
-          if pe.parent_id && !filtered_ids.include?(pe.parent_id)
-            ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt }
-            # the greatest lower boundary is the first ancestor not filtered
-            pe.parent = ancestors.sort_by{|ancestor| ancestor.lft }.last
-          end
-
+          pe_rewire_ancestors(pe)
         end
       end
     end
