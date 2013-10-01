@@ -31,42 +31,113 @@ require 'spec_helper'
 describe "Planning Comparison" do
 
   let (:project){FactoryGirl.create(:project)}
+  let (:admin)  {FactoryGirl.create(:admin)}
+  let (:user)  {FactoryGirl.create(:user)}
+  let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_packages]) }
+  let(:member) { FactoryGirl.build(:member, :project => project,
+                                   :roles => [role],
+                                   :principal => user) }
 
-  let(:journalized_work_package) do
-    wp = nil
-    # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
-    Timecop.freeze(2.weeks.ago) do
-      wp = FactoryGirl.create(:work_package, project: project, start_date: "01/01/2020", due_date: "01/03/2020")
-      wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
-    end
 
-    Timecop.freeze(1.week.ago) do
+  before do
+    # query implicitly uses the logged in user to check for allowed work_packages/projects
+    member
+    User.stub(:current).and_return(admin)
+  end
+
+  describe "going back in history" do
+    let(:journalized_work_package) do
+      #TODO are these actually unit-tests?!
+      wp = nil
+      # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
+      Timecop.freeze(2.weeks.ago) do
+        wp = FactoryGirl.create(:work_package, project: project, start_date: "01/01/2020", due_date: "01/03/2020")
+        wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
+      end
+
+      Timecop.freeze(1.week.ago) do
+        wp.reload
+        wp.due_date = "01/04/2020"
+        wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
+      end
+
       wp.reload
-      wp.due_date = "01/04/2020"
-      wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
+      wp.due_date = "01/05/2020"
+      wp.save # adds another journal-entry
+      wp
     end
 
-    wp.reload
-    wp.due_date = "01/05/2020"
-    wp.save # adds another journal-entry
-    wp
+    before { wp = journalized_work_package }
+
+    it "should return the changes as a work_package" do
+       # beware of these date-conversions: 1.week.ago does not catch the change, as created_at is stored as a timestamp
+      expect(PlanningComparisonService.compare(project, 5.days.ago).size).to eql 1
+      expect(PlanningComparisonService.compare(project, 5.days.ago).first).to be_instance_of WorkPackage
+    end
+
+    it "should return the old due_date in the comparison" do
+      # beware of these date-conversions: 1.week.ago does not catch the change, as created_at is stored as a timestamp
+      old_work_package = PlanningComparisonService.compare(project, 5.days.ago).first
+      expect(old_work_package.due_date).to eql Date.parse "01/04/2020"
+    end
   end
 
-  it "should return the changes as a work_package" do
-    wp = journalized_work_package
 
-    # beware of these date-conversions: 1.week.ago does not catch the change, as created_at is stored as a timestamp
-    expect(PlanningComparisonService.compare(project, 5.days.ago).size).to eql 1
-    expect(PlanningComparisonService.compare(project, 5.days.ago).first).to be_instance_of WorkPackage
+  describe "filtering work_packages also applies to the history" do
+    let(:assigned_to_user) {FactoryGirl.create(:user)}
+    let (:filter) do
+      { f: ["assigned_to_id"],
+        op: {"assigned_to_id" => "="},
+        v: {"assigned_to_id" => ["#{assigned_to_user.id}"]} }
+    end
+
+    let (:work_package) do
+      wp = nil
+      # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
+      Timecop.freeze(1.week.ago) do
+        wp = FactoryGirl.create(:work_package, project: project, due_date: "01/03/2020", assigned_to_id: assigned_to_user.id)
+        wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
+      end
+
+      wp.reload
+      wp.due_date = "01/05/2020"
+      wp.save # adds another journal-entry
+      wp
+    end
+
+    let (:filtered_work_package) do
+      other_user = FactoryGirl.create(:user)
+      wp = nil
+      # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
+      Timecop.freeze(1.week.ago) do
+        wp = FactoryGirl.create(:work_package, project: project, due_date: "01/03/2020", assigned_to_id: other_user.id)
+        wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
+      end
+
+      wp.reload
+      wp.due_date = "01/05/2020"
+      wp.save # adds another journal-entry
+      wp
+    end
+
+    before do
+      work_package
+      filtered_work_package
+    end
+
+    it "should filter out the work_package assigned to the wrong person" do
+      filtered_packages = PlanningComparisonService.compare(project, 5.days.ago, filter)
+      expect(filtered_packages).to include work_package
+      expect(filtered_packages).not_to include filtered_work_package
+    end
+
+
+
+
+
+
+
+
   end
-
-  it "should return the old due_date in the comaprison" do
-    wp = journalized_work_package
-
-    # beware of these date-conversions: 1.week.ago does not catch the change, as created_at is stored as a timestamp
-    old_work_package = PlanningComparisonService.compare(project, 5.days.ago).first
-    expect(old_work_package.due_date).to eql Date.parse "01/04/2020"
-  end
-
 
 end
