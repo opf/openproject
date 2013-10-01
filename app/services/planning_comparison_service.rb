@@ -27,7 +27,7 @@ SQL
   # the comparison always works on the current date, filters the current workpackages
   # and returns the state of these work_packages at the given time
   # filters are given in the format expected by Query and are just passed through to query
-  def self.compare(project, at_time, filter={})
+  def self.compare(projects, at_time, filter={})
 
     # The query uses three steps to find the journalized entries for the filtered workpackages
     # at the given point in time:
@@ -41,11 +41,10 @@ SQL
                          work_package_scope = WorkPackage.scoped
                                                          .joins(:status)
                                                          .joins(:project) #no idea, why query doesn't provide these joins itself...
-                                                         .for_projects(project)
+                                                         .for_projects(projects)
                                                          .without_deleted
 
                          query = Query.new
-                         query.project = project
                          query.add_filters(filter[:f], filter[:op], filter[:v])
                          #TODO teach query to fetch only ids
                          work_package_scope.with_query(query)
