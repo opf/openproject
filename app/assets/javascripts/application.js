@@ -58,7 +58,6 @@
 //= require context_menu
 //= require jstoolbar
 //= require ajaxappender
-//= require work_packages
 //= require settings
 //= require modal
 

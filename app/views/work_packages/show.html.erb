@@ -28,6 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= header_tags %>
+<%= javascript_include_tag("work_packages.js") %>
 <%= render :partial => 'work_packages/action_menu', :locals => { work_package: work_package } %>
 
 <% work_package_breadcrumb %>
