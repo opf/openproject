@@ -28,23 +28,23 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <ul class="menu">
-  <%= call_hook(:view_issues_context_menu_start, {:issues => @issues, :can => @can, :back => @back }) %>
+  <%= call_hook(:view_issues_context_menu_start, {:issues => @work_packages, :can => @can, :back => @back }) %>
 
-<% if !@issue.nil? -%>
+<% if !@work_package.nil? -%>
   <li class="edit">
-    <%= context_menu_link l(:button_edit), edit_work_package_path(@issue),
+    <%= context_menu_link l(:button_edit), edit_work_package_path(@work_package),
 	                                         :class => 'icon-edit',
                                            :disabled => !@can[:edit] %>
   </li>
 <% else %>
   <li class="edit">
-    <%= context_menu_link l(:button_edit), bulk_edit_issues_path(:ids => @issues.collect(&:id)),
+    <%= context_menu_link l(:button_edit), bulk_edit_issues_path(:ids => @work_packages.collect(&:id)),
 	                                         :class => 'icon-edit',
                                            :disabled => !@can[:edit] %>
   </li>
 <% end %>
 
-<% updated_issues = @issues.collect(&:id) %>
+<% updated_issues = @work_packages.collect(&:id) %>
 <% default_params = { :back_url => @back,
                       :updated_object_ids => updated_issues } %>
 
@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% params = default_params.merge(:collection => @statuses,
                                    :attribute => 'status',
                                    :title => WorkPackage.human_attribute_name(:status),
-                                   :selected => lambda { |status| (@issue && status == @issue.status) },
+                                   :selected => lambda { |status| (@work_package && status == @work_package.status) },
                                    :disabled => lambda { |status| !(@can[:update] && @allowed_statuses.include?(status)) }) %>
   <%= context_menu_entry(params) %>
 <% end %>
@@ -61,7 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% params = default_params.merge(:collection => @types,
                                    :attribute => 'type',
                                    :title => WorkPackage.human_attribute_name(:type),
-                                   :selected => lambda { |type| (@issue && type == @issue.type) },
+                                   :selected => lambda { |type| (@work_package && type == @work_package.type) },
                                    :disabled => lambda { |type| !@can[:edit] }) %>
   <%= context_menu_entry(params) %>
 <% end %>
@@ -69,8 +69,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <% params = default_params.merge(:collection => @priorities,
                                    :attribute => 'priority',
                                    :title => WorkPackage.human_attribute_name(:priority),
-                                   :selected => lambda { |priority| (@issue && priority == @issue.priority) },
-                                   :disabled => lambda { |priority| !@can[:edit] || @issues.detect { |i| !i.leaf? } }) %>
+                                   :selected => lambda { |priority| (@work_package && priority == @work_package.priority) },
+                                   :disabled => lambda { |priority| !@can[:edit] || @work_packages.detect { |i| !i.leaf? } }) %>
   <%= context_menu_entry(params) %>
 
 <% #TODO: allow editing versions when multiple projects %>
@@ -78,7 +78,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% versions = versions.map{ |v| [v, format_version_name(v)] } << [nil, l(:label_none)]%>
   <% params = default_params.merge(:collection => versions,
                                    :attribute => 'fixed_version',
-                                   :selected => lambda { |version| (@issue && version == @issue.fixed_version) },
+                                   :selected => lambda { |version| (@work_package && version == @work_package.fixed_version) },
                                    :disabled => lambda { |version| !@can[:update] }) %>
   <%= context_menu_entry(params) %>
 <% end %>
@@ -88,7 +88,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% params = default_params.merge(:collection => assignables,
                                    :attribute => 'assigned_to',
                                    :title => WorkPackage.human_attribute_name(:assigned_to),
-                                   :selected => lambda { |user| @issue && user == @issue.assigned_to },
+                                   :selected => lambda { |user| @work_package && user == @work_package.assigned_to },
                                    :disabled => lambda { |user| !@can[:update] }) %>
   <%= context_menu_entry(params) %>
 <% end %>
@@ -98,7 +98,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% params = default_params.merge(:collection => categories,
                                    :attribute => 'category',
                                    :title => WorkPackage.human_attribute_name(:category),
-                                   :selected => lambda { |category| @issue && category == @issue.category },
+                                   :selected => lambda { |category| @work_package && category == @work_package.category },
                                    :disabled => lambda { |category| !@can[:update] }) %>
   <%= context_menu_entry(params) %>
 <% end -%>
@@ -108,55 +108,55 @@ See doc/COPYRIGHT.rdoc for more details.
                                    :attribute => 'done_ratio',
                                    :title => WorkPackage.human_attribute_name(:done_ratio),
                                    :db_attribute => 'done_ratio',
-                                   :selected => lambda { |ratio| @issue && ratio == @issue.done_ratio },
-                                   :disabled => lambda { |ratio| !@can[:edit] || @issues.detect { |i| !i.leaf? } }) %>
+                                   :selected => lambda { |ratio| @work_package && ratio == @work_package.done_ratio },
+                                   :disabled => lambda { |ratio| !@can[:edit] || @work_packages.detect { |i| !i.leaf? } }) %>
   <%= context_menu_entry(params) %>
 <% end -%>
 
-<% if !@issue.nil? %>
+<% if !@work_package.nil? %>
 	<% if @can[:log_time] -%>
     <li class="log_time">
       <%= context_menu_link l(:button_log_time),
-                            new_work_package_time_entry_path(@issue),
+                            new_work_package_time_entry_path(@work_package),
 	                          :class => 'context_item' %>
     </li>
   <% end %>
 
   <% if User.current.logged? %>
     <li class="watch">
-      <%= watcher_link(@issue, User.current) %>
+      <%= watcher_link(@work_package, User.current) %>
     </li>
 	<% end %>
 <% end %>
 
-<% if @issue.present? %>
+<% if @work_package.present? %>
   <li>
     <%= context_menu_link l(:button_duplicate), new_project_work_package_path({ :project_id => @project,
-                                                                                :copy_from => @issue }),
+                                                                                :copy_from => @work_package }),
                                                 :class => 'icon-duplicate',
                                                 :disabled => !@can[:copy] %>
   </li>
 <% end %>
 
   <li class="move">
-    <%= context_menu_link l(:button_move), new_move_work_packages_path(:ids => @issues.collect(&:id)),
+    <%= context_menu_link l(:button_move), new_move_work_packages_path(:ids => @work_packages.collect(&:id)),
 	                                         :class => 'context_item',
                                            :disabled => !@can[:move] %>
   </li>
 
   <li class="copy">
-    <%= context_menu_link l(:button_copy), new_move_work_packages_path(:ids => @issues.collect(&:id),
+    <%= context_menu_link l(:button_copy), new_move_work_packages_path(:ids => @work_packages.collect(&:id),
                                            :copy_options => { :copy => 't' }),
                                            :class => 'context_item' %>
   </li>
 
   <li class="delete">
-    <%= context_menu_link l(:button_delete), work_packages_path(:ids => @issues.collect(&:id)),
+    <%= context_menu_link l(:button_delete), work_packages_path(:ids => @work_packages.collect(&:id)),
                                              :method => :delete,
                                              :confirm => l(:text_work_packages_destroy_confirmation),
                                              :class => 'context_item',
                                              :disabled => !@can[:delete] %>
   </li>
 
-  <%= call_hook(:view_issues_context_menu_end, {:issues => @issues, :can => @can, :back => @back }) %>
+  <%= call_hook(:view_issues_context_menu_end, {:issues => @work_packages, :can => @can, :back => @back }) %>
 </ul>

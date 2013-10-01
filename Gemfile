@@ -48,6 +48,8 @@ gem 'awesome_nested_set'
 
 gem 'color-tools', '~> 1.3.0', :require => 'color'
 
+gem "ruby-progressbar"
+
 gem 'tinymce-rails'
 gem 'tinymce-rails-langs'
 
@@ -114,6 +116,7 @@ group :test do
   gem 'ruby-prof'
   gem 'simplecov', ">= 0.8.pre"
   gem "shoulda-matchers"
+  gem "json_spec"
 end
 
 group :ldap do

@@ -58,7 +58,11 @@ OpenProject::Application.routes.draw do
 
       resources :authentication
       resources :planning_element_journals
-      resources :planning_element_statuses
+      resources :statuses do
+        collection do
+          get :paginate_issue_statuses
+        end
+      end
       resources :colors, :controller => 'planning_element_type_colors'
       resources :planning_element_types do
         collection do
@@ -76,6 +80,7 @@ OpenProject::Application.routes.draw do
           get :paginate_reported_project_statuses
         end
       end
+      resources :statuses, :only => [:index, :show]
       resources :timelines
 
       resources :projects do
@@ -86,6 +91,7 @@ OpenProject::Application.routes.draw do
         resources :project_associations do
           get :available_projects, :on => :collection
         end
+        resources :statuses, :only => [:index, :show]
       end
 
     end
@@ -294,6 +300,7 @@ OpenProject::Application.routes.draw do
 
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', :via => [:get, :post], :format => false
+    match 'context_menu' => 'context_menus#index', :via => [:get, :post], :format => false
     resources :calendar, :controller => 'calendars', :only => [:index]
   end
 

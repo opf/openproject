@@ -65,5 +65,5 @@ Feature: View work packages in a timeline
      When I go to the page of the timeline "Testline" of the project called "ecookbook"
       And I wait for timeline to load table
 
-     Then I should see the planning element "Some planning element" in the timeline
-     Then I should see the issue "Some issue" in the timeline
+     Then I should see the work package "Some planning element" in the timeline
+     Then I should see the work package "Some issue" in the timeline

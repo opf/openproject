@@ -27,9 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::AttachableJournal < ActiveRecord::Base
+class Journal::AttachableJournal < Journal::BaseJournal
   self.table_name = "attachable_journals"
 
-  belongs_to :journal
   belongs_to :attachment
 end

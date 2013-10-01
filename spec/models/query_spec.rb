@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Query do
-  describe 'available_columns'
+  describe 'available_columns' do
     let(:query) { FactoryGirl.build(:query) }
 
     context 'with work_package_done_ratio NOT disabled' do
@@ -47,4 +47,7 @@ describe Query do
         query.available_columns.find {|column| column.name == :done_ratio}.should be_nil
       end
     end
+
+  end
+
 end

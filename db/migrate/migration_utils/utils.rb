@@ -21,7 +21,7 @@ module Migration
 
     def update_column_values(table, column_list, updater, conditions)
       updated_rows = []
-      
+
       select_rows_from_database(table, column_list, conditions).each do |row|
         updated_rows << updater.call(row)
       end

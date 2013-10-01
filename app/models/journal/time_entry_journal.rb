@@ -27,24 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::TimeEntryJournal < ActiveRecord::Base
+class Journal::TimeEntryJournal < Journal::BaseJournal
   self.table_name = "time_entry_journals"
-
-  belongs_to :journal
-
-  @@journaled_attributes = [:project_id,
-                            :user_id,
-                            :work_package_id,
-                            :hours,
-                            :comments,
-                            :activity_id,
-                            :spent_on,
-                            :tyear,
-                            :tmonth,
-                            :tweek]
-
-  def journaled_attributes
-    attributes.symbolize_keys.select{|k,_| @@journaled_attributes.include? k}
-  end
-
 end

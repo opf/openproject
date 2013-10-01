@@ -144,7 +144,7 @@ ContextMenu.prototype = {
       {asynchronous:true,
        method: 'get',
        evalScripts:true,
-       parameters:Form.serialize(Event.findElement(e, 'form')),
+       parameters:jQuery(e.srcElement).closest("form").serialize(),
        onComplete:function(request){
 				 dims = $('context-menu').getDimensions();
 				 menu_width = dims.width;
