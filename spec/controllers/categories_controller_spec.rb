@@ -37,26 +37,11 @@ describe CategoriesController do
                                     project: project,
                                     principal: user,
                                     roles: [role]) }
-  let(:work_package_1) { FactoryGirl.create(:work_package,
-                                            id: 21,
-                                            subject: "Can't print recipes",
-                                            project: project) }
-  let(:work_package_2) { FactoryGirl.create(:work_package,
-                                            id: 2101,
-                                            subject: "Error 281 when updating a recipe",
-                                            project: project) }
-  let(:work_package_3) { FactoryGirl.create(:work_package,
-                                            id: 2102,
-                                            project: project) }
 
   before do
     member
 
     User.stub(:current).and_return user
-
-    work_package_1
-    work_package_2
-    work_package_3
   end
 
   describe :new do
@@ -91,6 +76,47 @@ describe CategoriesController do
       it { subject.project_id.should eq(project.id) }
 
       it { subject.assigned_to_id.should eq(user.id) }
+    end
+  end
+
+  describe :edit do
+    let(:name) { 'Testing' }
+
+    context "valid category" do
+      let(:category) { FactoryGirl.create(:issue_category,
+                                          project: project) }
+
+      before { post :update,
+                    id: category.id,
+                    category: { name: name } }
+
+      subject { IssueCategory.find(category.id).name }
+
+      it { should eq(name) }
+
+      describe :response do
+        subject { response }
+
+        it { should be_redirect }
+
+        it { should redirect_to("/projects/#{project.identifier}/settings/categories") }
+      end
+
+      describe :category_count do
+        subject { IssueCategory.count }
+
+        it { should eq(1) }
+      end
+    end
+
+    context "invalid category" do
+      before { post :update,
+                    id: 404,
+                    category: { name: name } }
+
+      subject { response.response_code }
+
+      it { should eq(404) }
     end
   end
 end

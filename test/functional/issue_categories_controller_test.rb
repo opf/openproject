@@ -44,19 +44,6 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
   end
 
-  def test_post_edit
-    assert_no_difference 'IssueCategory.count' do
-      post :update, :id => 2, :category => { :name => 'Testing' }
-    end
-    assert_redirected_to '/projects/ecookbook/settings/categories'
-    assert_equal 'Testing', IssueCategory.find(2).name
-  end
-
-  def test_edit_not_found
-    post :update, :id => 97, :category => { :name => 'Testing' }
-    assert_response 404
-  end
-
   def test_destroy_category_not_in_use
     delete :destroy, :id => 2
     assert_redirected_to '/projects/ecookbook/settings/categories'
