@@ -28,8 +28,6 @@ namespace :migrations do
     def user_agrees
       questions = []
 
-      a = true
-
       questions << "CAUTION: This rake task will delete ALL attachments attached to versions or projects!"
       questions << "DISCLAIMER: This is the final warning: You're going to lose information!"
 
