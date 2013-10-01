@@ -29,7 +29,42 @@
 Feature: User session
   Background:
     Given there is 1 user with the following:
-      | login | bob |
+      | login    | bob        |
+
+  Scenario: A user will be forwarded to the login page from the my page
+    When I go to the My page
+    Then I should be on the login page
+    When I fill in "bob" for "username" within "#login-form"
+    And I fill in "adminADMIN!" for "password" within "#login-form"
+    And I click on "Login" within "#login-form"
+    And I go to the my account page
+    Then I should be on the my account page
+
+  Scenario: A user logging in will be forwarded to the original page
+    When I go to the my account page
+    Then I should be on the login page
+    When I fill in "bob" for "username" within "#login-form"
+    And I fill in "adminADMIN!" for "password" within "#login-form"
+    And I click on "Login" within "#login-form"
+    Then I should be on the my account page
+
+  Scenario: Autologin works if enabled
+    Given the "autologin" setting is set to 1
+    Given the "session_ttl_enabled" setting is set to true
+    And the "session_ttl" setting is set to 5
+    When I login with autologin enabled as "bob"
+    And I wait for "10" minutes
+    And I go to the home page
+    Then I should be logged in as "bob"
+
+  Scenario: Autologin does not work if disabled
+    Given the "autologin" setting is set to 0
+    Given the "session_ttl_enabled" setting is set to true
+    And the "session_ttl" setting is set to 5
+    When I login with autologin enabled as "bob"
+    And I wait for "10" minutes
+    And I go to the home page
+    Then I should be logged out
 
   Scenario: A user can log in
     When I login as "bob"

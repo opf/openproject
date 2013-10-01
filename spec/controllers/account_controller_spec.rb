@@ -34,6 +34,36 @@ describe AccountController do
     User.current = nil
   end
 
+  context "POST #login" do
+    let(:admin) { FactoryGirl.create(:admin) }
+
+    describe "User logging in with back_url" do
+
+      it "should redirect to the same host" do
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http%3A%2F%2Ftest.host%2Fwork_packages%2Fshow%2F1'}
+        expect(response).to redirect_to '/work_packages/show/1'
+      end
+
+      it "should not redirect to another host" do
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http%3A%2F%2Ftest.foo%2Ffake'}
+        expect(response).to redirect_to '/my/page'
+      end
+
+      it "should create users on the fly" do
+        Setting.self_registration = '0'
+        AuthSource.stub(:authenticate).and_return({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
+        post :login , {:username => 'foo', :password => 'bar'}
+
+        expect(response).to redirect_to '/my/first_login'
+        user = User.find_by_login('foo')
+        user.should be_an_instance_of User
+        user.auth_source_id.should == 66
+        user.current_password.should be_nil
+      end
+
+    end
+  end
+
   describe "Login for user with forced password change" do
     let(:user) do
       FactoryGirl.create(:admin, force_password_change: true)

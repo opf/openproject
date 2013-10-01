@@ -38,6 +38,10 @@ Then /^there should be no menu item selected$/ do
   page.should_not have_css("#main-menu .selected")
 end
 
+Then /^there should not be a main menu$/ do
+  page.should_not have_css("#main-menu")
+end
+
 When /^I select "(.+?)" from the action menu$/ do |entry_name|
   within(action_menu_selector) do
     if !find_link(entry_name, :visible => false).visible?

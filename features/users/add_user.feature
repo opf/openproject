@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,44 +26,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../test_helper', __FILE__)
+Feature: Adding a user
 
-class LayoutTest < ActionDispatch::IntegrationTest
-  fixtures :all
-
-  test "browsing to a missing page should render the base layout" do
-    get "/users/100000000"
-
-    assert_response :not_found
-
-    # UsersController uses the admin layout by default
-    assert_select "#main-menu", :count => 0
-  end
-
-  def test_top_menu_navigation_not_visible_when_login_required
-    with_settings :login_required => '1' do
-      get '/'
-      assert_select "#account-nav", 0
-    end
-  end
-
-  def test_top_menu_navigation_visible_when_login_not_required
-    with_settings :login_required => '0' do
-      get '/'
-      assert_select "#account-nav"
-    end
-  end
-
-  test "page titles should be properly escaped" do
-    project = Project.generate(:name => "C&A")
-
-    with_settings :app_title => '<3' do
-      get "/projects/#{project.to_param}"
-
-      html_node = HTML::Document.new(@response.body)
-
-      assert_select html_node.root, "title", /C&amp;A/
-      assert_select html_node.root, "title", /&lt;3/
-    end
-  end
-end
+  Scenario: as an admin a user can be created
+    Given I am already admin
+    When I go to the new user page
+    And I fill in "psmith" for "user_login"
+    And I fill in "Paul" for "user_firstname"
+    And I fill in "Smith" for "user_lastname"
+    And I fill in "psmith@somenet.foo" for "user_mail"
+    And I fill in "psmithPSMITH09" for "user_password"
+    And I fill in "psmithPSMITH09" for "user_password_confirmation"
+    And I submit the form by the "Create" button
+    Then I should see "Successful creation"
+    And I should be on the edit page of the user "psmith"
+    When I logout
+    And I login as "psmith" with password "psmithPSMITH09"
+    Then I should be logged in as "psmith"

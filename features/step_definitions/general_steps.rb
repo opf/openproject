@@ -345,6 +345,12 @@ When /^(?:|I )login as (.+?)(?: with password (.+))?$/ do |username, password|
   login(username, password)
 end
 
+When /^(?:|I )login with autologin enabled as (.+?)(?: with password (.+))?$/ do |username, password|
+  username = username.gsub("\"", "")
+  password = password.nil? ? "adminADMIN!" : password.gsub("\"", "")
+  page.driver.post signin_path(:username => username, :password => password, :autologin => 1)
+end
+
 When "I logout" do
   visit "/logout"
 end
