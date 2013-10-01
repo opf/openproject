@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1281` I18n.js Not working correctly. Always returns English Translations
 * `#1560` WorkPackage/update does not retain some fields when validations fail 
 * `#1929` Too many lines in work package view
 * `#1946` Modal shown within in Modal
