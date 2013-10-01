@@ -29,7 +29,7 @@
 
 class Issues::ReportsController < ApplicationController
   menu_item :summary_field, :only => [:report, :report_details]
-  before_filter :find_project_by_project_id, :authorize, :find_issue_statuses
+  before_filter :find_project_by_project_id, :authorize, :find_statuses
 
   def report
     @types = @project.types
@@ -99,8 +99,8 @@ class Issues::ReportsController < ApplicationController
 
   private
 
-  def find_issue_statuses
-    @statuses = IssueStatus.find(:all, :order => 'position')
+  def find_statuses
+    @statuses = Status.find(:all, :order => 'position')
   end
 
   def default_breadcrumb

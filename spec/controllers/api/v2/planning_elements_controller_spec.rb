@@ -99,7 +99,7 @@ describe Api::V2::PlanningElementsController do
     User.stub(:current).and_return current_user
 
     FactoryGirl.create :priority, is_default: true
-    FactoryGirl.create :default_issue_status
+    FactoryGirl.create :default_status
   end
 
   # ===========================================================

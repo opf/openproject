@@ -46,7 +46,7 @@ describe WorkPackages::ContextMenusController do
                                       project: project_1,
                                       principal: user,
                                       roles: [role]) }
-  let(:status_1) { FactoryGirl.create(:issue_status) }
+  let(:status_1) { FactoryGirl.create(:status) }
   let(:work_package_1) { FactoryGirl.create(:work_package,
                                             author: user,
                                             type: type,
@@ -106,8 +106,8 @@ describe WorkPackages::ContextMenusController do
     end
 
     shared_examples_for :status do
-      let(:status_2) { FactoryGirl.create(:issue_status) }
-      let(:status_3) { FactoryGirl.create(:issue_status) }
+      let(:status_2) { FactoryGirl.create(:status) }
+      let(:status_3) { FactoryGirl.create(:status) }
       let(:workflow_1) { FactoryGirl.create(:workflow,
                                             role: role,
                                             type_id: type.id,

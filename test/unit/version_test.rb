@@ -99,7 +99,7 @@ class VersionTest < ActiveSupport::TestCase
 
   def test_progress_should_be_100_with_closed_assigned_issues
     project = Project.find(1)
-    status = IssueStatus.find(:first, :conditions => {:is_closed => true})
+    status = Status.find(:first, :conditions => {:is_closed => true})
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
     end).save!
@@ -130,7 +130,7 @@ class VersionTest < ActiveSupport::TestCase
     end).save!
     add_issue(v)
     add_issue(v, :done_ratio => 20)
-    add_issue(v, :status => IssueStatus.find(:first, :conditions => {:is_closed => true}))
+    add_issue(v, :status => Status.find(:first, :conditions => {:is_closed => true}))
     assert_progress_equal (0.0 + 20.0 + 100.0)/3, v.completed_pourcent
     assert_progress_equal (100.0)/3, v.closed_pourcent
   end
@@ -143,7 +143,7 @@ class VersionTest < ActiveSupport::TestCase
     add_issue(v, :estimated_hours => 10)
     add_issue(v, :estimated_hours => 20, :done_ratio => 30)
     add_issue(v, :estimated_hours => 40, :done_ratio => 10)
-    add_issue(v, :estimated_hours => 25, :status => IssueStatus.find(:first, :conditions => {:is_closed => true}))
+    add_issue(v, :estimated_hours => 25, :status => Status.find(:first, :conditions => {:is_closed => true}))
     assert_progress_equal (10.0*0 + 20.0*0.3 + 40*0.1 + 25.0*1)/95.0*100, v.completed_pourcent
     assert_progress_equal 25.0/95.0*100, v.closed_pourcent
   end
@@ -154,7 +154,7 @@ class VersionTest < ActiveSupport::TestCase
       v.force_attributes = { :project => project, :name => 'Progress' }
     end).save!
     add_issue(v, :done_ratio => 20)
-    add_issue(v, :status => IssueStatus.find(:first, :conditions => {:is_closed => true}))
+    add_issue(v, :status => Status.find(:first, :conditions => {:is_closed => true}))
     add_issue(v, :estimated_hours => 10, :done_ratio => 30)
     add_issue(v, :estimated_hours => 40, :done_ratio => 10)
     assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_pourcent
@@ -204,8 +204,8 @@ class VersionTest < ActiveSupport::TestCase
     should "be false if all of the issues are complete" do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
-                               FactoryGirl.create(:work_package, project: @project, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)), # 7 day span
-                               FactoryGirl.create(:work_package, project: @project, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 14.days.ago, :done_ratio => 100, :status => Status.find(5)), # 7 day span
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 14.days.ago, :done_ratio => 100, :status => Status.find(5)) # 7 day span
                               ]
       assert_equal 100, @version.completed_pourcent
       assert_equal false, @version.behind_schedule?

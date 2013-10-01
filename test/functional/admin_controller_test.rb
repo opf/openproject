@@ -82,7 +82,7 @@ class AdminControllerTest < ActionController::TestCase
     post :default_configuration, :lang => 'de'
     assert_response :redirect
     assert_nil flash[:error]
-    assert IssueStatus.find_by_name('Neu')
+    assert Status.find_by_name('Neu')
   end
 
   def test_test_email
@@ -152,7 +152,7 @@ class AdminControllerTest < ActionController::TestCase
   def delete_configuration_data
     Role.delete_all('builtin = 0')
     Type.delete_all
-    IssueStatus.delete_all
+    Status.delete_all
     Enumeration.delete_all
   end
 end

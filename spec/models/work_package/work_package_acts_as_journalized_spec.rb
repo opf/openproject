@@ -33,7 +33,7 @@ describe WorkPackage do
     let(:type) { FactoryGirl.create :type }
     let(:project) { FactoryGirl.create :project,
                                        types: [type] }
-    let(:status) { FactoryGirl.create :default_issue_status }
+    let(:status) { FactoryGirl.create :default_status }
     let(:priority) { FactoryGirl.create :priority }
     let(:work_package) { FactoryGirl.create(:work_package,
                                             project_id: project.id,
@@ -95,7 +95,7 @@ describe WorkPackage do
                                                      :type => type,
                                                      :priority => priority) }
       let(:type_2) { FactoryGirl.create :type }
-      let(:status_2) { FactoryGirl.create :issue_status }
+      let(:status_2) { FactoryGirl.create :status }
       let(:priority_2) { FactoryGirl.create :priority }
 
       before do

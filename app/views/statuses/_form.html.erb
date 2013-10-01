@@ -27,9 +27,25 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= link_to l(:label_work_package_status_plural), :controller => '/issue_statuses', :action => 'index' %> &#187; <%=l(:label_work_package_status_new)%></h2>
+<%= error_messages_for 'status' %>
 
-<%= form_tag({:action => 'create'}, :class => "tabular") do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag l(:button_create) %>
+<div class="box">
+<!--[form:status]-->
+<p><label for="status_name"><%= Status.human_attribute_name(:name) %><span class="required"> *</span></label>
+<%= text_field 'status', 'name'  %></p>
+
+<% if WorkPackage.use_status_for_done_ratio? %>
+<p><label for="issue_done_ratio"><%= WorkPackage.human_attribute_name(:done_ratio) %></label>
+<%= select 'status', :default_done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :include_blank => true %></p>
 <% end %>
+
+<p><label for="status_is_closed"><%=Status.human_attribute_name(:is_closed) %></label>
+<%= check_box 'status', 'is_closed' %></p>
+
+<p><label for="status_is_default"><%= Status.human_attribute_name(:is_default) %></label>
+<%= check_box 'status', 'is_default' %></p>
+
+<%= call_hook(:view_statuses_form, :status => @status) %>
+
+<!--[eoform:status]-->
+</div>

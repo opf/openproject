@@ -67,7 +67,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                  :child => { :tag => "dt",
                    :attributes => { :class => /work_package/ },
                    :child => { :tag => "a",
-                     :content => /#{ERB::Util.html_escape(IssueStatus.find(2).name)}/
+                     :content => /#{ERB::Util.html_escape(Status.find(2).name)}/
                    }
                  }
                }

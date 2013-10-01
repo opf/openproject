@@ -28,11 +28,11 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class IssueStatusTest < ActiveSupport::TestCase
+class StatusTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_create
-    status = IssueStatus.new :name => "Assigned"
+    status = Status.new :name => "Assigned"
     assert !status.save
     # status name uniqueness
     assert_equal 1, status.errors.count
@@ -43,8 +43,8 @@ class IssueStatusTest < ActiveSupport::TestCase
   end
 
   def test_destroy
-    status = IssueStatus.find(3)
-    assert_difference 'IssueStatus.count', -1 do
+    status = Status.find(3)
+    assert_difference 'Status.count', -1 do
       assert status.destroy
     end
     assert_nil Workflow.first(:conditions => {:old_status_id => status.id})
@@ -58,23 +58,23 @@ class IssueStatusTest < ActiveSupport::TestCase
   end
 
   def test_default
-    status = IssueStatus.default
-    assert_kind_of IssueStatus, status
+    status = Status.default
+    assert_kind_of Status, status
   end
 
   def test_change_default
-    status = IssueStatus.find(2)
+    status = Status.find(2)
     assert !status.is_default
     status.is_default = true
     assert status.save
     status.reload
 
-    assert_equal status, IssueStatus.default
-    assert !IssueStatus.find(1).is_default
+    assert_equal status, Status.default
+    assert !Status.find(1).is_default
   end
 
   def test_reorder_should_not_clear_default_status
-    status = IssueStatus.default
+    status = Status.default
     status.move_to_bottom
     status.reload
     assert status.is_default?
@@ -83,8 +83,8 @@ class IssueStatusTest < ActiveSupport::TestCase
   context "#update_done_ratios" do
     setup do
       @issue = WorkPackage.find(1)
-      @issue_status = IssueStatus.find(1)
-      @issue_status.update_attribute(:default_done_ratio, 50)
+      @status = Status.find(1)
+      @status.update_attribute(:default_done_ratio, 50)
     end
 
     context "with Setting.work_package_done_ratio using the issue_field" do
@@ -93,23 +93,23 @@ class IssueStatusTest < ActiveSupport::TestCase
       end
 
       should "change nothing" do
-        IssueStatus.update_issue_done_ratios
+        Status.update_work_package_done_ratios
 
         assert_equal 0, WorkPackage.count(:conditions => {:done_ratio => 50})
       end
     end
 
-    context "with Setting.work_package_done_ratio using the issue_status" do
+    context "with Setting.work_package_done_ratio using the status" do
       setup do
-        Setting.work_package_done_ratio = 'issue_status'
+        Setting.work_package_done_ratio = 'status'
       end
 
       should "update all of the issue's done_ratios to match their Issue Status" do
-        IssueStatus.update_issue_done_ratios
+        Status.update_work_package_done_ratios
 
         issues = WorkPackage.find([1,3,4,5,6,7,9,10])
         issues.each do |issue|
-          assert_equal @issue_status, issue.status
+          assert_equal @status, issue.status
           assert_equal 50, issue.read_attribute(:done_ratio)
         end
       end

@@ -115,7 +115,7 @@ describe WorkPackage do
         end
 
         context :status do
-          let(:target_status) { FactoryGirl.create(:issue_status) }
+          let(:target_status) { FactoryGirl.create(:status) }
           let(:attributes) { { status_id: target_status.id } }
 
           it_behaves_like "copied work package"

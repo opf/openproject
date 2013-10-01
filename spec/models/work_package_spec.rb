@@ -37,7 +37,7 @@ describe WorkPackage do
 
   let(:type) { FactoryGirl.create(:type_standard) }
   let(:project) { FactoryGirl.create(:project, types: [type]) }
-  let(:status) { FactoryGirl.create(:issue_status) }
+  let(:status) { FactoryGirl.create(:status) }
   let(:priority) { FactoryGirl.create(:priority) }
   let(:work_package) { WorkPackage.new.tap do |w|
                          w.force_attributes = { project_id: project.id,
@@ -300,9 +300,9 @@ describe WorkPackage do
     end
 
     describe "work package update" do
-      let(:status_closed) { FactoryGirl.create(:issue_status,
+      let(:status_closed) { FactoryGirl.create(:status,
                                                is_closed: true) }
-      let(:status_open) { FactoryGirl.create(:issue_status,
+      let(:status_open) { FactoryGirl.create(:status,
                                              is_closed: false) }
 
       context "closed version" do
@@ -560,12 +560,12 @@ describe WorkPackage do
   end
 
   describe :done_ratio do
-    let(:status_new) { FactoryGirl.create(:issue_status,
+    let(:status_new) { FactoryGirl.create(:status,
                                           name: 'New',
                                           is_default: true,
                                           is_closed: false,
                                           default_done_ratio: 50) }
-    let(:status_assigned) { FactoryGirl.create(:issue_status,
+    let(:status_assigned) { FactoryGirl.create(:status,
                                                name: 'Assigned',
                                                is_default: true,
                                                is_closed: false,
@@ -597,7 +597,7 @@ describe WorkPackage do
       end
 
       context "work package status" do
-        before { Setting.stub(:work_package_done_ratio).and_return 'issue_status' }
+        before { Setting.stub(:work_package_done_ratio).and_return 'status' }
 
         context "work package 1" do
           subject { work_package_1.done_ratio }
@@ -613,13 +613,13 @@ describe WorkPackage do
       end
     end
 
-    describe :update_done_ratio_from_issue_status do
+    describe :update_done_ratio_from_status do
       context "work package field" do
         before do
           Setting.stub(:work_package_done_ratio).and_return 'issue_field'
 
-          work_package_1.update_done_ratio_from_issue_status
-          work_package_2.update_done_ratio_from_issue_status
+          work_package_1.update_done_ratio_from_status
+          work_package_2.update_done_ratio_from_status
         end
 
         it "does not update the done ratio" do
@@ -630,10 +630,10 @@ describe WorkPackage do
 
       context "work package status" do
         before do
-          Setting.stub(:work_package_done_ratio).and_return 'issue_status'
+          Setting.stub(:work_package_done_ratio).and_return 'status'
 
-          work_package_1.update_done_ratio_from_issue_status
-          work_package_2.update_done_ratio_from_issue_status
+          work_package_1.update_done_ratio_from_status
+          work_package_2.update_done_ratio_from_status
         end
 
         it "updates the done ratio" do
@@ -903,7 +903,7 @@ describe WorkPackage do
     let(:type) { FactoryGirl.create(:type) }
     let(:user) { FactoryGirl.create(:user) }
     let(:other_user) { FactoryGirl.create(:user) }
-    let(:statuses) { (1..5).map{ |i| FactoryGirl.create(:issue_status)}}
+    let(:statuses) { (1..5).map{ |i| FactoryGirl.create(:status)}}
     let(:priority) { FactoryGirl.create :priority, is_default: true }
     let(:status) { statuses[0] }
     let(:project) do
@@ -1202,12 +1202,12 @@ describe WorkPackage do
 
   describe 'Acts as journalized' do
     before(:each) do
-      IssueStatus.delete_all
+      Status.delete_all
       IssuePriority.delete_all
 
-      @status_resolved ||= FactoryGirl.create(:issue_status, :name => "Resolved", :is_default => false)
-      @status_open ||= FactoryGirl.create(:issue_status, :name => "Open", :is_default => true)
-      @status_rejected ||= FactoryGirl.create(:issue_status, :name => "Rejected", :is_default => false)
+      @status_resolved ||= FactoryGirl.create(:status, :name => "Resolved", :is_default => false)
+      @status_open ||= FactoryGirl.create(:status, :name => "Open", :is_default => true)
+      @status_rejected ||= FactoryGirl.create(:status, :name => "Rejected", :is_default => false)
 
       @priority_low ||= FactoryGirl.create(:priority_low, :is_default => true)
       @priority_high ||= FactoryGirl.create(:priority_high)
@@ -1295,7 +1295,7 @@ describe WorkPackage do
       let(:work_package) { FactoryGirl.create(:work_package, :project => project) }
       let(:child) { FactoryGirl.create(:work_package, :parent => work_package,
                                                       :project => project)}
-      let(:closed_issue_status) { FactoryGirl.create(:closed_issue_status) }
+      let(:closed_status) { FactoryGirl.create(:closed_status) }
 
       before do
         Setting.stub(:work_package_done_ratio).and_return('disabled')
@@ -1304,7 +1304,7 @@ describe WorkPackage do
       it 'should not update the work package done_ratio' do
         work_package.done_ratio.should == 0
 
-        child.status = closed_issue_status
+        child.status = closed_status
         child.save!
 
         work_package.reload

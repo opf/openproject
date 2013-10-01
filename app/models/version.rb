@@ -150,12 +150,12 @@ class Version < ActiveRecord::Base
 
   # Returns the total amount of open issues for this version.
   def open_issues_count
-    @open_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{IssueStatus.table_name}.is_closed = ?", self.id, false]).includes(:status).size
+    @open_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", self.id, false]).includes(:status).size
   end
 
   # Returns the total amount of closed issues for this version.
   def closed_issues_count
-    @closed_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{IssueStatus.table_name}.is_closed = ?", self.id, true]).includes(:status).size
+    @closed_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", self.id, true]).includes(:status).size
   end
 
   def wiki_page
@@ -260,7 +260,7 @@ class Version < ActiveRecord::Base
       if issues_count > 0
         ratio = open ? 'done_ratio' : 100
 
-        done = fixed_issues.where(["#{IssueStatus.table_name}.is_closed = ?", !open]).
+        done = fixed_issues.where(["#{Status.table_name}.is_closed = ?", !open]).
                            includes(:status).
                            sum("COALESCE(#{WorkPackage.table_name}.estimated_hours, #{estimated_average}) * #{ratio}")
         progress = done.to_f / (estimated_average * issues_count)

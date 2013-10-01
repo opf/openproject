@@ -76,8 +76,8 @@ describe WorkPackagesHelper do
   end
 
   describe :link_to_work_package do
-    let(:open_status) { FactoryGirl.build_stubbed(:issue_status, :is_closed => false) }
-    let(:closed_status) { FactoryGirl.build_stubbed(:issue_status, :is_closed => true) }
+    let(:open_status) { FactoryGirl.build_stubbed(:status, :is_closed => false) }
+    let(:closed_status) { FactoryGirl.build_stubbed(:status, :is_closed => true) }
 
     before do
       stub_work_package.status = open_status
@@ -255,7 +255,7 @@ describe WorkPackagesHelper do
   end
 
   describe :work_package_css_classes do
-    let(:statuses) { (1..5).map{ |i| FactoryGirl.build_stubbed(:issue_status)}}
+    let(:statuses) { (1..5).map{ |i| FactoryGirl.build_stubbed(:status)}}
     let(:priority) { FactoryGirl.build_stubbed :priority, is_default: true }
     let(:status) { statuses[0] }
     let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package,
@@ -405,8 +405,8 @@ describe WorkPackagesHelper do
   end
 
   describe :work_package_form_status_attribute do
-    let(:status1) { FactoryGirl.build_stubbed(:issue_status) }
-    let(:status2) { FactoryGirl.build_stubbed(:issue_status) }
+    let(:status1) { FactoryGirl.build_stubbed(:status) }
+    let(:status2) { FactoryGirl.build_stubbed(:status) }
 
     it "should return a select with every available status as an option" do
       stub_work_package.stub(:new_statuses_allowed_to)

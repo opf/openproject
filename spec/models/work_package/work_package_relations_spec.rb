@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe WorkPackage do
   describe :relation do
-    let(:closed_state) { FactoryGirl.create(:issue_status,
+    let(:closed_state) { FactoryGirl.create(:status,
                                             is_closed: true) }
 
     describe :duplicate do
@@ -98,7 +98,7 @@ describe WorkPackage do
       let(:type) { FactoryGirl.create(:type) }
       let(:project) { FactoryGirl.create(:project,
                                          types: [type]) }
-      let(:status) { FactoryGirl.create(:issue_status) }
+      let(:status) { FactoryGirl.create(:status) }
       let(:blocks) { FactoryGirl.create(:work_package,
                                         project: project,
                                         status: status) }

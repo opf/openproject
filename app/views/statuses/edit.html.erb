@@ -27,25 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for 'issue_status' %>
+<h2><%= link_to l(:label_work_package_status_plural), :controller => '/statuses', :action => 'index' %> &#187; <%=h @status %></h2>
 
-<div class="box">
-<!--[form:issue_status]-->
-<p><label for="issue_status_name"><%= IssueStatus.human_attribute_name(:name) %><span class="required"> *</span></label>
-<%= text_field 'issue_status', 'name'  %></p>
-
-<% if WorkPackage.use_status_for_done_ratio? %>
-<p><label for="issue_done_ratio"><%= WorkPackage.human_attribute_name(:done_ratio) %></label>
-<%= select 'issue_status', :default_done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :include_blank => true %></p>
+<%= form_tag({:action => 'update', :id => @status}, :class => "tabular") do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag l(:button_save) %>
 <% end %>
-
-<p><label for="issue_status_is_closed"><%=IssueStatus.human_attribute_name(:is_closed) %></label>
-<%= check_box 'issue_status', 'is_closed' %></p>
-
-<p><label for="issue_status_is_default"><%= IssueStatus.human_attribute_name(:is_default) %></label>
-<%= check_box 'issue_status', 'is_default' %></p>
-
-<%= call_hook(:view_issue_statuses_form, :issue_status => @issue_status) %>
-
-<!--[eoform:issue_status]-->
-</div>
