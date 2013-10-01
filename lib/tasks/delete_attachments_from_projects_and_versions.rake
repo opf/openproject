@@ -43,9 +43,9 @@ namespace :migrations do
     def ask_question(question)
       puts "\n\n"
       puts question
-      puts "\nDo you want to continue? (Y/n)"
+      puts "\nDo you want to continue? [y/N]"
 
-      STDIN.gets.chomp == 'Y'
+      STDIN.gets.chomp == 'y'
     end
   end
 end
