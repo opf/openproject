@@ -172,7 +172,7 @@ describe Story do
   describe "journals created after adding a subtask to a story" do
     before(:each) do
       @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
-      User.stub!(:current).and_return(@current)
+      User.stub(:current).and_return(@current)
 
       @story = FactoryGirl.create(:story, :fixed_version => version,
                                        :project => project,

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe VersionsController do
   before do
-    @controller.stub!(:authorize)
+    @controller.stub(:authorize)
 
 #create a version assigned to a project
     @version = FactoryGirl.create(:version)
