@@ -40,7 +40,7 @@ class Task < WorkPackage
 
   def status_id=(id)
     super
-    self.remaining_hours = 0 if IssueStatus.find(id).is_closed?
+    self.remaining_hours = 0 if Status.find(id).is_closed?
   end
 
   def update_with_relationships(params, is_impediment = false)

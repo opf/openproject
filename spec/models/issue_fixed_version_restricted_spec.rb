@@ -9,7 +9,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
   let(:role) { FactoryGirl.build(:role) }
   let(:user) { FactoryGirl.build(:user) }
   let(:issue_priority) { FactoryGirl.build(:priority) }
-  let(:issue_status) { FactoryGirl.build(:issue_status, :name => "status 1", :is_default => true) }
+  let(:status) { FactoryGirl.build(:status, :name => "status 1", :is_default => true) }
 
   let(:project) do
     p = FactoryGirl.build(:project, :members => [FactoryGirl.build(:member,
@@ -30,7 +30,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
                               :project => project,
                               :type => type_feature,
                               :fixed_version => version1,
-                              :status => issue_status,
+                              :status => status,
                               :author => user,
                               :priority => issue_priority)
     story.project.enabled_module_names += ["backlogs"]
@@ -43,7 +43,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
                               :project => project,
                               :type => type_feature,
                               :fixed_version => version1,
-                              :status => issue_status,
+                              :status => status,
                               :author => user,
                               :priority => issue_priority)
     story.project.enabled_module_names += ["backlogs"]
@@ -56,7 +56,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
                              :type => type_task,
                              :fixed_version => version1,
                              :project => project,
-                             :status => issue_status,
+                             :status => status,
                              :author => user,
                              :priority => issue_priority) }
 
@@ -65,7 +65,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
                               :type => type_task,
                               :fixed_version => version1,
                               :project => project,
-                              :status => issue_status,
+                              :status => status,
                               :author => user,
                               :priority => issue_priority) }
 
@@ -74,7 +74,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
                             :type => type_bug,
                             :fixed_version => version1,
                             :project => project,
-                            :status => issue_status,
+                            :status => status,
                             :author => user,
                             :priority => issue_priority) }
 
@@ -83,7 +83,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
                              :type => type_bug,
                              :fixed_version => version1,
                              :project => project,
-                             :status => issue_status,
+                             :status => status,
                              :author => user,
                              :priority => issue_priority) }
 

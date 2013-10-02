@@ -1,8 +1,8 @@
 <!-- story helper tags -->
-<% available_statuses_by_type.each do |type, issue_statuses| %>
-  <% issue_statuses.each do |old_status, allowed_issue_statuses| %>
+<% available_statuses_by_type.each do |type, statuses| %>
+  <% statuses.each do |old_status, allowed_statuses| %>
     <select class="status_id helper" id="status_id_options_<%= type.id %>_<%= old_status.id %>">
-      <% allowed_issue_statuses.sort_by(&:position).each do |status| %>
+      <% allowed_statuses.sort_by(&:position).each do |status| %>
         <option value="<%= status.id %>" class="<%= (status.is_closed? ?  l(:label_closed_work_packages) + ' ' : "") %>">
           <%= status.name %>
         </option>

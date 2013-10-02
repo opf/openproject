@@ -5,7 +5,7 @@ module OpenProject::Backlogs::Patches::ProjectPatch
     base.class_eval do
       unloadable
 
-      has_and_belongs_to_many :issue_statuses, :join_table => :issue_done_statuses_for_project
+      has_and_belongs_to_many :done_statuses, :join_table => :done_statuses_for_project
 
       include InstanceMethods
     end

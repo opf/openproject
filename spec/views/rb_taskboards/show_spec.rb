@@ -8,9 +8,9 @@ describe 'rb_taskboards/show' do
   }
   let(:role_forbidden) { FactoryGirl.create(:role) }
   #we need to create these as some view helpers access the database
-  let(:statuses) { [FactoryGirl.create(:issue_status),
-                    FactoryGirl.create(:issue_status),
-                    FactoryGirl.create(:issue_status)] }
+  let(:statuses) { [FactoryGirl.create(:status),
+                    FactoryGirl.create(:status),
+                    FactoryGirl.create(:status)] }
 
   let(:type_task) { FactoryGirl.create(:type_task) }
   let(:type_feature) { FactoryGirl.create(:type_feature) }

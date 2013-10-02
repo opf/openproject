@@ -35,9 +35,9 @@ describe Burndown do
     @project
   end
 
-  let(:issue_open) { @status1 ||= FactoryGirl.create(:issue_status, :name => "status 1", :is_default => true) }
-  let(:issue_closed) { @status2 ||= FactoryGirl.create(:issue_status, :name => "status 2", :is_closed => true) }
-  let(:issue_resolved) { @status3 ||= FactoryGirl.create(:issue_status, :name => "status 3", :is_closed => false) }
+  let(:issue_open) { @status1 ||= FactoryGirl.create(:status, :name => "status 1", :is_default => true) }
+  let(:issue_closed) { @status2 ||= FactoryGirl.create(:status, :name => "status 2", :is_closed => true) }
+  let(:issue_resolved) { @status3 ||= FactoryGirl.create(:status, :name => "status 3", :is_closed => false) }
 
   before(:each) do
     Rails.cache.clear
@@ -105,7 +105,7 @@ describe Burndown do
               before(:each) do
                 set_attribute_journalized @story, :status_id=, issue_resolved.id, Time.now - 6.days
                 set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.days
-                project.issue_statuses << issue_resolved
+                project.done_statuses << issue_resolved
                 @burndown = Burndown.new(sprint, project)
               end
 

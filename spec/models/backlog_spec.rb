@@ -10,7 +10,7 @@ describe Backlog do
                                 "card_spec"             => "Sattleford VM-5040",
                                 "story_types"        => [@feature.id.to_s],
                                 "task_type"          => "0"}
-    @status = FactoryGirl.create(:issue_status)
+    @status = FactoryGirl.create(:status)
   end
 
   describe "Class Methods" do

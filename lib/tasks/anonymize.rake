@@ -122,7 +122,7 @@ $UNIQUE = [
         'IssuePriority#name',
         'ActsAsTaggableOn::Tag#name',
         'Version#name',
-        'IssueStatus#name'
+        'Status#name'
         ]
 
 $UNIQUE = {}
@@ -141,7 +141,7 @@ def random_string(model_attr, v)
   return nil if !v
 
   return $PASSWORD if model_attr.match(/#password$/)
-  
+
   # these are required to be unique
   return unique(model_attr) if $UNIQUE.include?(model_attr) || model_attr.match(/#mail$/)
 

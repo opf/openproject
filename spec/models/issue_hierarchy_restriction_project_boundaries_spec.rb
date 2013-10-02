@@ -22,7 +22,7 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
   let(:role) { FactoryGirl.build(:role) }
   let(:user) { FactoryGirl.build(:user) }
   let(:issue_priority) { FactoryGirl.build(:priority) }
-  let(:issue_status) { FactoryGirl.build(:issue_status, :name => "status 1", :is_default => true) }
+  let(:status) { FactoryGirl.build(:status, :name => "status 1", :is_default => true) }
 
   let(:parent_project) do
     p = FactoryGirl.build(:project, :name => "parent_project",
@@ -53,42 +53,42 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
   let(:story) { FactoryGirl.build(:work_package,
                               :subject => "Story",
                               :type => type_feature,
-                              :status => issue_status,
+                              :status => status,
                               :author => user,
                               :priority => issue_priority) }
 
   let(:story2) { FactoryGirl.build(:work_package,
                                :subject => "Story2",
                                :type => type_feature,
-                               :status => issue_status,
+                               :status => status,
                                :author => user,
                                :priority => issue_priority) }
 
   let(:task) { FactoryGirl.build(:work_package,
                              :subject => "Task",
                              :type => type_task,
-                             :status => issue_status,
+                             :status => status,
                              :author => user,
                              :priority => issue_priority) }
 
    let(:task2) { FactoryGirl.build(:work_package,
                                :subject => "Task2",
                                :type => type_task,
-                               :status => issue_status,
+                               :status => status,
                                :author => user,
                                :priority => issue_priority) }
 
    let(:bug) { FactoryGirl.build(:work_package,
                              :subject => "Bug",
                              :type => type_bug,
-                             :status => issue_status,
+                             :status => status,
                              :author => user,
                              :priority => issue_priority) }
 
    let(:bug2) { FactoryGirl.build(:work_package,
                               :subject => "Bug2",
                               :type => type_bug,
-                              :status => issue_status,
+                              :status => status,
                               :author => user,
                               :priority => issue_priority) }
 

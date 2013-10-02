@@ -16,7 +16,7 @@ Feature: Team Member
     And the project uses the following types:
         | Story |
         | Task  |
-    And there is a default issuestatus with:
+    And there is a default Status with:
         | name | new |
     And there is a default issuepriority with:
         | name   | Normal |

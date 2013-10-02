@@ -32,6 +32,6 @@ OpenProject::Application.routes.draw do
   end
 
   get  'projects/:project_id/versions/:id/edit' => 'version_settings#edit'
-  post  'projects/:id/project_issue_statuses' => 'projects#project_issue_statuses'
+  post  'projects/:id/project_done_statuses' => 'projects#project_done_statuses'
   post 'projects/:id/rebuild_positions' => 'projects#rebuild_positions'
 end

@@ -101,10 +101,10 @@ describe WorkPackage do
 
   describe 'definition of done' do
     before(:each) do
-      @status_resolved = FactoryGirl.build(:issue_status, :name => "Resolved", :is_default => false)
-      @status_open = FactoryGirl.build(:issue_status, :name => "Open", :is_default => true)
+      @status_resolved = FactoryGirl.build(:status, :name => "Resolved", :is_default => false)
+      @status_open = FactoryGirl.build(:status, :name => "Open", :is_default => true)
       @project = FactoryGirl.build(:project)
-      @project.issue_statuses = [@status_resolved]
+      @project.done_statuses = [@status_resolved]
 
       @work_package = FactoryGirl.build(:work_package, :project => @project,
                                         :status  => @status_open,
@@ -122,7 +122,7 @@ describe WorkPackage do
 
    it 'should not be done when removing done status from "resolved"' do
      @work_package.status = @status_resolved
-     @project.issue_statuses = Array.new
+     @project.done_statuses = Array.new
      @work_package.done?.should be_false
     end
   end

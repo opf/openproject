@@ -10,12 +10,12 @@ describe Impediment do
                                     :project => project,
                                     :author => user,
                                     :priority => issue_priority,
-                                    :status => issue_status1) }
+                                    :status => status1) }
   let(:feature) { FactoryGirl.build(:work_package, :type => type_feature,
                                         :project => project,
                                         :author => user,
                                         :priority => issue_priority,
-                                        :status => issue_status1) }
+                                        :status => status1) }
   let(:version) { FactoryGirl.create(:version, :project => project) }
 
   let(:project) do
@@ -28,11 +28,11 @@ describe Impediment do
     @project
   end
 
-  let(:issue_status1) { @status1 ||= FactoryGirl.create(:issue_status, :name => "status 1", :is_default => true) }
-  let(:issue_status2) { @status2 ||= FactoryGirl.create(:issue_status, :name => "status 2") }
+  let(:status1) { @status1 ||= FactoryGirl.create(:status, :name => "status 1", :is_default => true) }
+  let(:status2) { @status2 ||= FactoryGirl.create(:status, :name => "status 2") }
   let(:type_workflow) { @workflow ||= Workflow.create(:type_id => type_task.id,
-                                                 :old_status => issue_status1,
-                                                 :new_status => issue_status2,
+                                                 :old_status => status1,
+                                                 :new_status => status2,
                                                  :role => role) }
   let(:impediment) { FactoryGirl.build(:impediment, :author => user,
                                                 :fixed_version => version,
@@ -40,7 +40,7 @@ describe Impediment do
                                                 :priority => issue_priority,
                                                 :project => project,
                                                 :type => type_task,
-                                                :status => issue_status1)}
+                                                :status => status1)}
 
   before(:each) do
     ActionController::Base.perform_caching = false
@@ -53,7 +53,7 @@ describe Impediment do
 
     User.stub(:current).and_return(user)
     issue_priority.save
-    issue_status1.save
+    status1.save
     project.save
     type_workflow.save
   end
@@ -72,7 +72,7 @@ describe Impediment do
         it { @impediment.project.should eql project }
         it { @impediment.fixed_version.should eql version }
         it { @impediment.priority.should eql issue_priority}
-        it { @impediment.status.should eql issue_status1 }
+        it { @impediment.status.should eql status1 }
         it { @impediment.type.should eql type_task }
         it { @impediment.assigned_to.should eql user }
       end
@@ -97,7 +97,7 @@ describe Impediment do
             @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
                                                                 :assigned_to_id => user.id,
                                                                 :blocks_ids => feature.id.to_s,
-                                                                :status_id => issue_status1.id,
+                                                                :status_id => status1.id,
                                                                 :fixed_version_id => version.id},
                                                                 project.id)
 
@@ -115,7 +115,7 @@ describe Impediment do
             @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
                                                                 :assigned_to_id => user.id,
                                                                 :blocks_ids => feature.id.to_s,
-                                                                :status_id => issue_status1.id,
+                                                                :status_id => status1.id,
                                                                 :fixed_version_id => version.id},
                                                                 project.id)
           end
@@ -130,7 +130,7 @@ describe Impediment do
             @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
                                                                 :assigned_to_id => user.id,
                                                                 :blocks_ids => "0",
-                                                                :status_id => issue_status1.id,
+                                                                :status_id => status1.id,
                                                                 :fixed_version_id => version.id},
                                                                 project.id)
           end
@@ -146,7 +146,7 @@ describe Impediment do
           @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
                                                               :assigned_to_id => user.id,
                                                               :blocks_ids => "",
-                                                              :status_id => issue_status1.id,
+                                                              :status_id => status1.id,
                                                               :fixed_version_id => version.id},
                                                               project.id)
         end
@@ -177,7 +177,7 @@ describe Impediment do
         it { @impediment.project.should eql project }
         it { @impediment.fixed_version.should eql version }
         it { @impediment.priority.should eql issue_priority}
-        it { @impediment.status.should eql issue_status1 }
+        it { @impediment.status.should eql status1 }
         it { @impediment.type.should eql type_task }
         it { @impediment.blocks_ids.should eql @blocks.split(/\D+/).map{|id| id.to_i} }
       end
@@ -205,7 +205,7 @@ describe Impediment do
                                          :project => project,
                                          :author => user,
                                          :priority => issue_priority,
-                                         :status => issue_status1)
+                                         :status => status1)
         end
 
         describe "WITH the story having the same version" do
@@ -214,7 +214,7 @@ describe Impediment do
             @story.save
             @blocks = @story.id.to_s
             @impediment.update_with_relationships({:blocks_ids => @blocks,
-                                                   :status_id => issue_status1.id.to_s})
+                                                   :status_id => status1.id.to_s})
           end
 
           it_should_behave_like "impediment update with changed blocking relationship"
@@ -227,7 +227,7 @@ describe Impediment do
             @story.save
             @blocks = @story.id.to_s
             @saved = @impediment.update_with_relationships({:blocks_ids => @blocks,
-                                                            :status_id => issue_status1.id.to_s})
+                                                            :status_id => status1.id.to_s})
           end
 
           it_should_behave_like "impediment update with unchanged blocking relationship"
@@ -241,7 +241,7 @@ describe Impediment do
           before(:each) do
             @blocks = "0"
             @saved = @impediment.update_with_relationships({:blocks_ids => @blocks,
-                                                            :status_id => issue_status1.id.to_s})
+                                                            :status_id => status1.id.to_s})
           end
 
           it_should_behave_like "impediment update with unchanged blocking relationship"
@@ -256,7 +256,7 @@ describe Impediment do
         before(:each) do
           @blocks = ""
           @saved = @impediment.update_with_relationships({:blocks_ids => @blocks,
-                                                          :status_id => issue_status1.id.to_s})
+                                                          :status_id => status1.id.to_s})
         end
 
         it_should_behave_like "impediment update with unchanged blocking relationship"

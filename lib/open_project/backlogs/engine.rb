@@ -67,7 +67,7 @@ module OpenProject::Backlogs
       require_dependency 'open_project/backlogs/patches'
       require_dependency 'open_project/backlogs/patches/permitted_params_patch'
       require_dependency 'open_project/backlogs/patches/work_package_patch'
-      require_dependency 'open_project/backlogs/patches/issue_status_patch'
+      require_dependency 'open_project/backlogs/patches/status_patch'
       require_dependency 'open_project/backlogs/patches/my_controller_patch'
       require_dependency 'open_project/backlogs/patches/project_patch'
       require_dependency 'open_project/backlogs/patches/projects_controller_patch'
@@ -90,7 +90,7 @@ module OpenProject::Backlogs
 
           requires_openproject ">= 3.0.0pre7"
 
-          Redmine::AccessControl.permission(:edit_project).actions << "projects/project_issue_statuses"
+          Redmine::AccessControl.permission(:edit_project).actions << "projects/project_done_statuses"
           Redmine::AccessControl.permission(:edit_project).actions << "projects/rebuild_positions"
 
           settings Engine.settings

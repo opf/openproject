@@ -15,7 +15,7 @@ describe Version do
       build_work_package(options).tap { |i| i.save! }
     end
 
-    let(:status)   { FactoryGirl.create(:issue_status)    }
+    let(:status)   { FactoryGirl.create(:status)    }
     let(:priority) { FactoryGirl.create(:priority_normal) }
     let(:project)  { FactoryGirl.create(:project)         }
 
@@ -33,7 +33,7 @@ describe Version do
       # in isolation.
       WorkPackage.delete_all
       IssuePriority.delete_all
-      IssueStatus.delete_all
+      Status.delete_all
       Project.delete_all
       Type.delete_all
       Version.delete_all

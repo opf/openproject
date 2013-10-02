@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Story do
   let(:user) { @user ||= FactoryGirl.create(:user) }
   let(:role) { @role ||= FactoryGirl.create(:role) }
-  let(:issue_status1) { @status1 ||= FactoryGirl.create(:issue_status, :name => "status 1", :is_default => true) }
+  let(:status1) { @status1 ||= FactoryGirl.create(:status, :name => "status 1", :is_default => true) }
   let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
   let(:version) { @version ||= FactoryGirl.create(:version, :project => project) }
   let(:version2) { FactoryGirl.create(:version, :project => project) }
@@ -12,18 +12,18 @@ describe Story do
   let(:task_type) { FactoryGirl.create(:type_task) }
   let(:task) { FactoryGirl.create(:story, :fixed_version => version,
                                       :project => project,
-                                      :status => issue_status1,
+                                      :status => status1,
                                       :type => task_type,
                                       :priority => issue_priority) }
   let(:story1) { FactoryGirl.create(:story, :fixed_version => version,
                                         :project => project,
-                                        :status => issue_status1,
+                                        :status => status1,
                                         :type => type_feature,
                                         :priority => issue_priority) }
 
   let(:story2) { FactoryGirl.create(:story, :fixed_version => version,
                                         :project => project,
-                                        :status => issue_status1,
+                                        :status => status1,
                                         :type => type_feature,
                                         :priority => issue_priority) }
 
@@ -176,12 +176,12 @@ describe Story do
 
       @story = FactoryGirl.create(:story, :fixed_version => version,
                                        :project => project,
-                                       :status => issue_status1,
+                                       :status => status1,
                                        :type => type_feature,
                                        :priority => issue_priority)
       @story.project.enabled_module_names += ["backlogs"]
 
-      @work_package ||= FactoryGirl.create(:work_package, :project => project, :status => issue_status1, :type => type_feature, :author => @current)
+      @work_package ||= FactoryGirl.create(:work_package, :project => project, :status => status1, :type => type_feature, :author => @current)
     end
 
     it "should create a journal when adding a subtask which has remaining hours set" do

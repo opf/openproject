@@ -8,7 +8,7 @@ Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
     value = Type.find(:first, :conditions => ["name=?", value]).id
   elsif attribute == "status"
     attribute = "status_id"
-    value = IssueStatus.find(:first, :conditions => ["name=?", value]).id
+    value = Status.find(:first, :conditions => ["name=?", value]).id
   elsif %w[backlog sprint].include? attribute
     attribute = 'fixed_version_id'
     value = Version.find_by_name(value).id
@@ -138,7 +138,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params['prev_id'] = prev_id
     params['fixed_version_id'] = Version.find_by_name(story['sprint'] || story['backlog']).id
     params['story_points'] = story['story_points']
-    params['status_id'] = IssueStatus.find_by_name(story['status']).id if story['status']
+    params['status_id'] = Status.find_by_name(story['status']).id if story['status']
     params['type_id'] = Type.find_by_name(story['type']).id if story['type']
 
     params.delete "position"
@@ -291,8 +291,8 @@ Given /^the [tT]ype(?: "([^\"]*)")? has for the Role "(.+?)" the following workf
 
   type.workflows = []
   table.hashes.each do |workflow|
-    old_status = IssueStatus.find_by_name(workflow['old_status']).id
-    new_status = IssueStatus.find_by_name(workflow['new_status']).id
+    old_status = Status.find_by_name(workflow['old_status']).id
+    new_status = Status.find_by_name(workflow['new_status']).id
     type.workflows.build(:old_status_id => old_status , :new_status_id => new_status , :role => role)
   end
   type.save!
@@ -300,6 +300,6 @@ end
 
 Given /^the status of "([^"]*)" is "([^"]*)"$/ do |work_package_subject, status_name|
   s = WorkPackage.find_by_subject(work_package_subject)
-  s.status = IssueStatus.find_by_name(status_name)
+  s.status = Status.find_by_name(status_name)
   s.save!
 end
