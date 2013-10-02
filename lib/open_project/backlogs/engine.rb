@@ -155,10 +155,5 @@ module OpenProject::Backlogs
       end
 
     end
-
-    config.after_initialize do
-      # We are overwriting versions/_form.html.erb so our view must be found first
-      VersionsController.view_paths.unshift("#{config.root}/app/views")
-    end
   end
 end
