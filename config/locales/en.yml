@@ -596,6 +596,7 @@ en:
   label_bulk_edit_selected_issues: "Bulk edit selected issues"
   label_calendar: "Calendar"
   label_calendar_show: "Show Calendar"
+  label_category: "Category"
   label_change_plural: "Changes"
   label_change_properties: "Change properties"
   label_change_status: "Change status"
