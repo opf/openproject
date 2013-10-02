@@ -174,7 +174,7 @@ class MyProjectsOverviewsController < ApplicationController
   def open_work_packages_by_type
     @open_work_packages_by_tracker ||= WorkPackage.visible.count(:group => :type,
                                                           :include => [:project, :status, :type],
-                                                          :conditions => ["(#{subproject_condition}) AND #{IssueStatus.table_name}.is_closed=?", false])
+                                                          :conditions => ["(#{subproject_condition}) AND #{Status.table_name}.is_closed=?", false])
   end
 
   def total_work_packages_by_type
