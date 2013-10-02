@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre20
+
 * `#1560` WorkPackage/update does not retain some fields when validations fail
 * `#1771` Refactor Types Project Settings into new Tab
 * `#1929` Too many lines in work package view
