@@ -43,41 +43,6 @@ class IssuesControllerTest < ActionController::TestCase
     User.current = nil
   end
 
-  def test_get_bulk_edit
-    @request.session[:user_id] = 2
-    get :bulk_edit, :ids => [1, 2]
-    assert_response :success
-    assert_template 'bulk_edit'
-
-    assert_tag :input, :attributes => {:name => 'issue[parent_id]'}
-
-    # Project specific custom field, date type
-    field = CustomField.find(9)
-    assert !field.is_for_all?
-    assert_equal 'date', field.field_format
-    assert_tag :input, :attributes => {:name => 'issue[custom_field_values][9]'}
-
-    # System wide custom field
-    assert CustomField.find(1).is_for_all?
-    assert_tag :select, :attributes => {:name => 'issue[custom_field_values][1]'}
-  end
-
-  def test_get_bulk_edit_on_different_projects
-    @request.session[:user_id] = 2
-    get :bulk_edit, :ids => [1, 2, 6]
-    assert_response :success
-    assert_template 'bulk_edit'
-
-    # Can not set issues from different projects as children of an issue
-    assert_no_tag :input, :attributes => {:name => 'issue[parent_id]'}
-
-    # Project specific custom field, date type
-    field = CustomField.find(9)
-    assert !field.is_for_all?
-    assert !field.project_ids.include?(WorkPackage.find(6).project_id)
-    assert_no_tag :input, :attributes => {:name => 'issue[custom_field_values][9]'}
-  end
-
   def test_bulk_update
     issue = WorkPackage.find(1)
     issue.recreate_initial_journal!
