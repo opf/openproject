@@ -26,25 +26,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
----
-issue_categories_001:
-  name: Printing
-  project_id: 1
-  assigned_to_id: 2
-  id: 1
-issue_categories_002:
-  name: Recipes
-  project_id: 1
-  assigned_to_id:
-  id: 2
-issue_categories_003:
-  name: Stock management
-  project_id: 2
-  assigned_to_id:
-  id: 3
-issue_categories_004:
-  name: Printing
-  project_id: 2
-  assigned_to_id:
-  id: 4
+require 'spec_helper'
 
+describe WorkPackagesController do
+
+  it "should connect GET /project/1/work_packages/report to work_package/report#report" do
+    get("/projects/1/work_packages/report").should route_to( controller: 'work_packages/reports',
+                                                             action: 'report',
+                                                             project_id: '1')
+  end
+
+  it "should connect GET /project/1/work_packages/report/assigned_to to work_package/report#report_details" do
+    get("/projects/1/work_packages/report/assigned_to").should route_to( controller: 'work_packages/reports',
+                                                                         action: 'report_details',
+                                                                         project_id: '1',
+                                                                         detail: 'assigned_to')
+  end
+end

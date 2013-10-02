@@ -27,9 +27,4 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= IssueCategory.model_name.human %></h2>
-
-<%= labelled_tabular_form_for @category, :as => :category do |f| %>
-<%= render :partial => 'issue_categories/form', :locals => { :f => f } %>
-<%= submit_tag l(:button_save) %>
-<% end %>
+jQuery('#work_package_category_id').empty().append("<%= escape_javascript(options_from_collection_for_select(project.categories, 'id', 'name', category.id)) %>");

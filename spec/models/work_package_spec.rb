@@ -153,7 +153,7 @@ describe WorkPackage do
 
   describe :category do
     let(:user_2) { FactoryGirl.create(:user, member_in_project: project) }
-    let(:category) { FactoryGirl.create(:issue_category,
+    let(:category) { FactoryGirl.create(:category,
                                         project: project,
                                         assigned_to: user_2) }
 
@@ -429,7 +429,7 @@ describe WorkPackage do
     end
 
     describe :category do
-      let(:category) { FactoryGirl.create(:issue_category,
+      let(:category) { FactoryGirl.create(:category,
                                           project: project) }
 
       before do
@@ -440,7 +440,7 @@ describe WorkPackage do
       end
 
       context "with same category" do
-        let(:target_category) { FactoryGirl.create(:issue_category,
+        let(:target_category) { FactoryGirl.create(:category,
                                                    name: category.name,
                                                    project: target_project) }
 
@@ -652,9 +652,9 @@ describe WorkPackage do
                                          project: project) }
     let(:version_2) { FactoryGirl.create(:version,
                                          project: project) }
-    let(:category_1) { FactoryGirl.create(:issue_category,
+    let(:category_1) { FactoryGirl.create(:category,
                                           project: project) }
-    let(:category_2) { FactoryGirl.create(:issue_category,
+    let(:category_2) { FactoryGirl.create(:category,
                                           project: project) }
     let(:user_2) { FactoryGirl.create(:user) }
 

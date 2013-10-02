@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class IssueCategory < ActiveRecord::Base
+class Category < ActiveRecord::Base
   generator_for :name, :method => :next_name
 
   def self.next_name

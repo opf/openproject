@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,5 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module IssueCategoriesHelper
+FactoryGirl.define do
+  factory :category do
+    sequence(:name) { |n| "Issue category #{n}" }
+    project
+
+    after :build do |issue|
+      issue.assigned_to = issue.project.users.first unless issue.assigned_to
+    end
+  end
 end
+

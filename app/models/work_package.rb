@@ -51,7 +51,7 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :responsible, :class_name => "User", :foreign_key => "responsible_id"
   belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
-  belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
+  belongs_to :category, :class_name => 'Category', :foreign_key => 'category_id'
 
   has_many :time_entries, :dependent => :delete_all
   has_many :relations_from, :class_name => 'Relation', :foreign_key => 'from_id', :dependent => :delete_all
@@ -637,7 +637,7 @@ class WorkPackage < ActiveRecord::Base
       delete_relations(work_package)
       # work_package is moved to another project
       # reassign to the category with same name if any
-      new_category = work_package.category.nil? ? nil : new_project.issue_categories.find_by_name(work_package.category.name)
+      new_category = work_package.category.nil? ? nil : new_project.categories.find_by_name(work_package.category.name)
       work_package.category = new_category
       # Keep the fixed_version if it's still valid in the new_project
       unless new_project.shared_versions.include?(work_package.fixed_version)
@@ -872,7 +872,7 @@ class WorkPackage < ActiveRecord::Base
   def self.by_category(project)
     count_and_group_by(:project => project,
                        :field => 'category_id',
-                       :joins => IssueCategory.table_name)
+                       :joins => Category.table_name)
   end
 
   def self.by_assigned_to(project)

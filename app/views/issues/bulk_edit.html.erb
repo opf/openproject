@@ -60,10 +60,10 @@ See doc/COPYRIGHT.rdoc for more details.
 </p>
 <% if @project %>
 <p>
-	<label for='issue_category_id'><%= WorkPackage.human_attribute_name(:category) %></label>
+	<label for='category_id'><%= WorkPackage.human_attribute_name(:category) %></label>
 	<%= select_tag('issue[category_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                 content_tag('option', l(:label_none), :value => 'none') +
-                                options_from_collection_for_select(@project.issue_categories, :id, :name)) %>
+                                options_from_collection_for_select(@project.categories, :id, :name)) %>
 </p>
 <% end %>
 <% #TODO: allow editing versions when multiple projects %>

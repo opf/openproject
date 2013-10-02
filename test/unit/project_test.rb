@@ -56,7 +56,7 @@ class ProjectTest < ActiveSupport::TestCase
     should have_many :time_entries
     should have_many :queries
     should have_many :news
-    should have_many :issue_categories
+    should have_many :categories
     should have_many :boards
     should have_many(:changesets).through(:repository)
 
@@ -211,7 +211,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, WorkPackage.count
     assert_equal 0, Journal.count, "Journals were not deleted: #{Journal.all.inspect}"
     assert_equal 0, EnabledModule.count
-    assert_equal 0, IssueCategory.count
+    assert_equal 0, Category.count
     assert_equal 0, Relation.count
     assert_equal 0, Board.count
     assert_equal 0, Message.count
@@ -939,9 +939,9 @@ class ProjectTest < ActiveSupport::TestCase
     should "copy issue categories" do
       assert @project.copy(@source_project)
 
-      assert_equal 2, @project.issue_categories.size
-      @project.issue_categories.each do |issue_category|
-        assert !@source_project.issue_categories.include?(issue_category)
+      assert_equal 2, @project.categories.size
+      @project.categories.each do |category|
+        assert !@source_project.categories.include?(category)
       end
     end
 
@@ -963,19 +963,19 @@ class ProjectTest < ActiveSupport::TestCase
       @project.work_packages.each do |issue|
         assert issue.category
         assert_equal "Stock management", issue.category.name # Same name
-        assert_not_equal IssueCategory.find(3), issue.category # Different record
+        assert_not_equal Category.find(3), issue.category # Different record
       end
     end
 
     should "limit copy with :only option" do
       assert @project.members.empty?
-      assert @project.issue_categories.empty?
+      assert @project.categories.empty?
       assert @source_project.work_packages.any?
 
-      assert @project.copy(@source_project, :only => ['members', 'issue_categories'])
+      assert @project.copy(@source_project, :only => ['members', 'categories'])
 
       assert @project.members.any?
-      assert @project.issue_categories.any?
+      assert @project.categories.any?
       assert @project.work_packages.empty?
     end
 
