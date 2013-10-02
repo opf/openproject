@@ -44,7 +44,7 @@
         <% if sprint.has_burndown? %>
           <%= render :partial => 'shared/backlogs_header' %>
 
-          <%= javascript_include_tag 'backlogs/burndown', :plugin => 'chiliproject_backlogs' %>
+          <%= javascript_include_tag 'backlogs/burndown' %>
 
           <%= javascript_include_tag url_for(:controller => '/rb_server_variables',
                                              :action => 'show',
