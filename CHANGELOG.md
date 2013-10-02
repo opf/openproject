@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.0.pre5
+
+* Rename IssueCategory to Category
+
 ## 4.0.0.pre4
 
 * `#2061` Migrate to new data model.
