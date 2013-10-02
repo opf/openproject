@@ -59,7 +59,7 @@ Feature: Project creation with support for project type
      When the following types are enabled for projects of type "Standard Project"
           | Phase     |
           | Milestone |
-      And I go to the settings page of the project called "Fancy Pants"
+      And I go to the "types" tab of the settings page of the project called "Fancy Pants"
 
      Then the "Phase" checkbox should be checked
       And the "Milestone" checkbox should be checked

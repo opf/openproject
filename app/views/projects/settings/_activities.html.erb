@@ -31,17 +31,21 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <table class="list">
   <thead><tr>
+    <th style="width:90px;" class='center'><%= Enumeration.human_attribute_name(:active) %></th>
     <th><%= Enumeration.human_attribute_name(:name) %></th>
-    <th><%= l(:enumeration_system_activity) %></th>
+    <th class='center'><%= l(:enumeration_system_activity) %></th>
     <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
       <th><%= h value.name %></th>
     <% end %>
-    <th style="width:15%;"><%= Enumeration.human_attribute_name(:active) %></th>
   </tr></thead>
 
   <% @project.activities(true).each do |enumeration| %>
   <%= fields_for "enumerations[#{enumeration.id}]", enumeration do |ff| %>
   <tr class="<%= cycle('odd', 'even') %>">
+    <td align="center">
+      <%= label_tag "enumerations_#{enumeration.id}_active", l(:description_active), :class => "hidden-for-sighted" %>
+      <%= ff.check_box :active %>
+    </td>
     <td>
       <%= ff.hidden_field :parent_id, :value => enumeration.id unless enumeration.project %>
       <%= h(enumeration) %>
@@ -52,10 +56,6 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= custom_field_tag "enumerations[#{enumeration.id}]", value %>
       </td>
     <% end %>
-    <td align="center" style="width:15%;">
-      <%= label_tag "enumerations_#{enumeration.id}_active", l(:description_active), :class => "hidden-for-sighted" %>
-      <%= ff.check_box :active %>
-    </td>
   </tr>
   <% end %>
   <% end %>

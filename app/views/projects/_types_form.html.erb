@@ -1,0 +1,42 @@
+<table class='list'>
+  <thead>
+    <tr>
+      <th width="90px" class='center'><%= Type.human_attribute_name(:active) %></th>
+      <th><%= Type.human_attribute_name(:name) %></th>
+      <th class='center'><%= Type.human_attribute_name(:in_aggregation) %></th>
+      <th class='center'><%= Type.human_attribute_name(:is_in_roadmap) %></th>
+      <th class='center'><%= Type.human_attribute_name(:is_milestone) %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% Type.all.each do |type| %>
+      <tr class="<%= cycle('odd', 'even', :name => "pet_table") %>">
+        <td class='center'>
+          <%= check_box_tag "project[type_ids][]",
+                            type.id,
+                            @project.types.include?(type),
+                            :id => "project_planning_element_type_ids_#{type.id}" %>
+          <label class='hidden-for-sighted' for="project_planning_element_type_ids_<%= type.id %>">
+            <%= l('timelines.enable_planning_element_in_project', :type => type.name) %>
+          </label>
+        </td>
+        <td>
+          <label for="project_planning_element_type_ids_<%= type.id %>">
+            <%= icon_for_type(type) %>
+            <%=h type.name %>
+          </label>
+        </td>
+        <td class='center'>
+          <%= checked_image(type.in_aggregation) %>
+        </td>
+        <td class='center'>
+          <%= checked_image(type.is_in_roadmap) %>
+        </td>
+        <td class='center'>
+          <%= checked_image(type.is_milestone) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
