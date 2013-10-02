@@ -69,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
 					</tr>
 					<% end %>
 				</table>
-      <%= call_hook(:view_issue_query_form_options_bottom, :query => query) %>
+      <%= call_hook(:view_work_package_query_form_options_bottom, :query => query) %>
 			</div>
 		</fieldset>
 		</div>
@@ -119,11 +119,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => project,
                                                                 :show_descriptions => true,
                                                                 :format => 'pdf' } %>
-  <%= call_hook(:view_issues_index_other_formats, :link_formatter => f, :project => project) %>
+  <%= call_hook(:view_work_packages_index_other_formats, :link_formatter => f, :project => project) %>
 <% end if User.current.allowed_to? :export_work_packages, project, :global => project.nil? %>
 
 <% end %>
-<%= call_hook(:view_issues_index_bottom, { :issues => work_packages, :project => project, :query => query }) %>
+<%= call_hook(:view_work_packages_index_bottom, { :issues => work_packages, :project => project, :query => query }) %>
 
 <% content_for :sidebar do %>
     <%= render :partial => 'sidebar' %>

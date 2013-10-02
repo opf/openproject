@@ -85,7 +85,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                                                            :rows => 10,
                                                                            :class => 'wiki-edit' %>
       <%= wikitoolbar_for 'work_package_notes' %>
-      <%= call_hook(:view_issues_edit_notes_bottom, { :issue => work_package,
+      <%= call_hook(:view_work_packages_edit_notes_bottom, { :issue => work_package,
                                                       :notes => work_package.journal_notes,
                                                       :form => f }) %>
 

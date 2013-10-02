@@ -244,7 +244,7 @@ class UserMailer < ActionMailer::Base
     @issues = issues
     @days   = days
 
-    @assigned_issues_url = url_for(:controller     => :issues,
+    @assigned_issues_url = url_for(:controller     => :work_packages,
                                    :action         => :index,
                                    :set_filter     => 1,
                                    :assigned_to_id => user.id,
