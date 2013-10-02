@@ -1,4 +1,4 @@
 <% if @project && @project.module_enabled?(:costs_module) %>
   <hr />
-  <%= li_unless_nil(link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'new', :work_package_id => issue}, :class => 'icon icon-pieces') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'new', :work_package_id => work_package}, :class => 'icon icon-pieces') %>
 <% end %>
