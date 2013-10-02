@@ -83,17 +83,17 @@ class Type < ActiveRecord::Base
     find(:all, :order => 'position')
   end
 
-  def self.issue_statuses(types)
-    workflow_table, status_table = [Workflow, IssueStatus].map(&:arel_table)
+  def self.statuses(types)
+    workflow_table, status_table = [Workflow, Status].map(&:arel_table)
     old_id_subselect, new_id_subselect = [:old_status_id, :new_status_id].map do |foreign_key|
       workflow_table.project(workflow_table[foreign_key]).where(workflow_table[:type_id].in(types))
     end
-    IssueStatus.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
+    Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
   end
 
-  def issue_statuses
+  def statuses
     return [] if new_record?
-    @issue_statuses ||= Type.issue_statuses([id])
+    @statuses ||= Type.statuses([id])
   end
 
   def self.search_scope(query)

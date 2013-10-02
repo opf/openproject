@@ -35,7 +35,7 @@ class ChangesetTest < ActiveSupport::TestCase
     WorkPackage.all.each { |m| m.recreate_initial_journal! }
 
     ActionMailer::Base.deliveries.clear
-    Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = Status.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = '90'
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
@@ -117,7 +117,7 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_ref_keywords_closing_with_timelog
-    Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = Status.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
     Setting.commit_logtime_enabled = '1'

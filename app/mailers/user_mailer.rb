@@ -394,7 +394,7 @@ class DueIssuesReminder
   end
 
   def remind_users
-    s = ARCondition.new ["#{IssueStatus.table_name}.is_closed = ? AND #{WorkPackage.table_name}.due_date <= ?", false, @days.days.from_now.to_date]
+    s = ARCondition.new ["#{Status.table_name}.is_closed = ? AND #{WorkPackage.table_name}.due_date <= ?", false, @days.days.from_now.to_date]
     s << "#{WorkPackage.table_name}.assigned_to_id IS NOT NULL"
     s << ["#{WorkPackage.table_name}.assigned_to_id IN (?)", @user_ids] if @user_ids.any?
     s << "#{Project.table_name}.status = #{Project::STATUS_ACTIVE}"

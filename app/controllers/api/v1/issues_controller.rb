@@ -52,7 +52,7 @@ module Api
       before_filter :find_project, :only => [:new, :create]
       before_filter :find_optional_project, :only => :index
       before_filter :authorize, :except => :index
-      before_filter :check_for_default_issue_status, :only => [:new, :create]
+      before_filter :check_for_default_status, :only => [:new, :create]
       before_filter :protect_from_unauthorized_export, :only => :index
       before_filter :build_new_from_params, :only => [:new, :create]
       before_filter :retrieve_query, :only => :index
@@ -268,8 +268,8 @@ module Api
         @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
       end
 
-      def check_for_default_issue_status
-        if IssueStatus.default.nil?
+      def check_for_default_status
+        if Status.default.nil?
           render_error l(:error_no_default_work_package_status)
           return false
         end

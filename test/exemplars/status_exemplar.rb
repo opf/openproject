@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -26,18 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :issue_status do
-    sequence(:name) { |n| "status #{n}" }
-    is_closed false
+class Status < ActiveRecord::Base
+  generator_for :name, :method => :next_name
 
-    factory :closed_issue_status do
-      is_closed true
-    end
-
-    factory :default_issue_status do
-      is_default true
-    end
-
+  def self.next_name
+    @last_name ||= 'Status 0'
+    @last_name.succ!
+    @last_name
   end
 end

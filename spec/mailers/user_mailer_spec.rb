@@ -138,19 +138,19 @@ describe UserMailer do
       end
 
       describe 'attribute issue status' do
-        let(:issue_status_1) { FactoryGirl.create(:issue_status) }
-        let(:issue_status_2) { FactoryGirl.create(:issue_status) }
+        let(:status_1) { FactoryGirl.create(:status) }
+        let(:status_2) { FactoryGirl.create(:status) }
 
         before do
-          journal.stub(:details).and_return({"status_id" => [issue_status_1.id, issue_status_2.id]})
+          journal.stub(:details).and_return({"status_id" => [status_1.id, status_2.id]})
         end
 
         it "shows the old status' name" do
-          should match(issue_status_1.name)
+          should match(status_1.name)
         end
 
         it "shows the new status' name" do
-          should match(issue_status_2.name)
+          should match(status_2.name)
         end
       end
 

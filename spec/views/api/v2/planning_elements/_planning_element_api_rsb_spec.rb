@@ -200,7 +200,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
   end
 
   describe 'with a planning element having a planning element status' do
-    let(:planning_element_status) { FactoryGirl.create(:issue_status,
+    let(:planning_element_status) { FactoryGirl.create(:status,
                                                    :id => 1343,
                                                    :name => 'All well') }
     let(:planning_element) { FactoryGirl.build(:work_package,

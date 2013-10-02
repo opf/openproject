@@ -38,7 +38,7 @@ describe "Journalized Objects" do
 
 
   it 'should work with issues' do
-    @status_open ||= FactoryGirl.create(:issue_status, :name => "Open", :is_default => true)
+    @status_open ||= FactoryGirl.create(:status, :name => "Open", :is_default => true)
     @issue ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
 
     initial_journal = @issue.journals.first
@@ -76,7 +76,7 @@ describe "Journalized Objects" do
   end
 
   it 'should work with time entries' do
-    @status_open ||= FactoryGirl.create(:issue_status, :name => "Open", :is_default => true)
+    @status_open ||= FactoryGirl.create(:status, :name => "Open", :is_default => true)
     @issue ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
 
     @time_entry ||= FactoryGirl.create(:time_entry, :work_package => @issue, :project => @project, :spent_on => Time.now, :hours => 5, :user => @current, :activity => FactoryGirl.create(:time_entry_activity))

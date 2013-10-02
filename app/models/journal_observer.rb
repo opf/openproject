@@ -40,7 +40,7 @@ class JournalObserver < ActiveRecord::Observer
   def after_create_issue_journal(journal)
     if Setting.notified_events.include?('issue_updated') ||
         (Setting.notified_events.include?('issue_note_added') && journal.notes.present?) ||
-        (Setting.notified_events.include?('issue_status_updated') && journal.changed_data.has_key?(:status_id)) ||
+        (Setting.notified_events.include?('status_updated') && journal.changed_data.has_key?(:status_id)) ||
         (Setting.notified_events.include?('issue_priority_updated') && journal.changed_data.has_key?(:priority_id))
       issue = journal.journable
       recipients = issue.recipients + issue.watcher_recipients

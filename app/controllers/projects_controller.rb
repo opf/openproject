@@ -152,7 +152,7 @@ class ProjectsController < ApplicationController
 
     @open_issues_by_type = WorkPackage.visible.count(:group => :type,
                                             :include => [:project, :status, :type],
-                                            :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
+                                            :conditions => ["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
     @total_issues_by_type = WorkPackage.visible.count(:group => :type,
                                             :include => [:project, :status, :type],
                                             :conditions => cond)

@@ -31,7 +31,7 @@ module VersionsHelper
 
   STATUS_BY_CRITERIAS = %w(category type status priority author assigned_to)
 
-  def render_issue_status_by(version, criteria)
+  def render_status_by(version, criteria)
     criteria = 'category' unless STATUS_BY_CRITERIAS.include?(criteria)
 
     h = Hash.new {|k,v| k[v] = [0, 0]}
@@ -42,7 +42,7 @@ module VersionsHelper
       # Open issues count
       WorkPackage.count(:group => criteria,
                   :include => :status,
-                  :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ? AND #{IssueStatus.table_name}.is_closed = ?", version.id, false]).each {|c,s| h[c][1] = s}
+                  :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false]).each {|c,s| h[c][1] = s}
     rescue ActiveRecord::RecordNotFound
     # When grouping by an association, Rails throws this exception if there's no result (bug)
     end

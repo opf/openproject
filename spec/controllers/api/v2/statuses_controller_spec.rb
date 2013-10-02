@@ -31,7 +31,7 @@ require File.expand_path('../../../../spec_helper', __FILE__)
 describe Api::V2::StatusesController do
 
   let(:valid_user) { FactoryGirl.create(:user) }
-  let(:status)     {FactoryGirl.create(:issue_status)}
+  let(:status)     {FactoryGirl.create(:status)}
 
   before do
     User.stub(:current).and_return valid_user
@@ -52,7 +52,7 @@ describe Api::V2::StatusesController do
   end
 
   describe 'looking up a singular status' do
-    let(:closed){FactoryGirl.create(:issue_status, name: "Closed")}
+    let(:closed){FactoryGirl.create(:status, name: "Closed")}
 
     it 'that does not exist should raise an error' do
       get 'show', :id => '0', :format => 'json'
@@ -67,10 +67,10 @@ describe Api::V2::StatusesController do
 
   describe 'looking up statuses' do
 
-    let(:open) {FactoryGirl.create(:issue_status, name: "Open")}
-    let(:in_progress) {FactoryGirl.create(:issue_status, name: "In Progress")}
-    let(:closed){FactoryGirl.create(:issue_status, name: "Closed")}
-    let(:no_see_status){FactoryGirl.create(:issue_status, name: "You don't see me.")}
+    let(:open) {FactoryGirl.create(:status, name: "Open")}
+    let(:in_progress) {FactoryGirl.create(:status, name: "In Progress")}
+    let(:closed){FactoryGirl.create(:status, name: "Closed")}
+    let(:no_see_status){FactoryGirl.create(:status, name: "You don't see me.")}
 
     let(:workflows) do
       workflows = [FactoryGirl.create(:workflow, old_status: open, new_status: in_progress, role: role),

@@ -77,17 +77,17 @@ class WorkflowsControllerTest < ActionController::TestCase
 
     # allowed transitions
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[3][5][]',
+                                                 :name => 'status[3][5][]',
                                                  :value => 'always',
                                                  :checked => 'checked' }
     # not allowed
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[3][2][]',
+                                                 :name => 'status[3][2][]',
                                                  :value => 'always',
                                                  :checked => nil }
     # unused
     assert_no_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                    :name => 'issue_status[1][1][]' }
+                                                    :name => 'status[1][1][]' }
   end
 
   def test_get_edit_with_role_and_type_and_all_statuses
@@ -98,17 +98,17 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_template 'edit'
 
     assert_not_nil assigns(:statuses)
-    assert_equal IssueStatus.count, assigns(:statuses).size
+    assert_equal Status.count, assigns(:statuses).size
 
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[1][1][]',
+                                                 :name => 'status[1][1][]',
                                                  :value => 'always',
                                                  :checked => nil }
   end
 
   def test_post_edit
     post :edit, :role_id => 2, :type_id => 1,
-      :issue_status => {
+      :status => {
         '4' => {'5' => ['always']},
         '3' => {'1' => ['always'], '2' => ['always']}
       }
@@ -121,7 +121,7 @@ class WorkflowsControllerTest < ActionController::TestCase
 
   def test_post_edit_with_additional_transitions
     post :edit, :role_id => 2, :type_id => 1,
-      :issue_status => {
+      :status => {
         '4' => {'5' => ['always']},
         '3' => {'1' => ['author'], '2' => ['assignee'], '4' => ['author', 'assignee']}
       }

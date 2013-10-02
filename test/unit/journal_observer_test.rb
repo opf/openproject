@@ -77,12 +77,12 @@ class JournalObserverTest < ActiveSupport::TestCase
     end
   end
 
-  context "#after_create for 'issue_status_updated'" do
+  context "#after_create for 'status_updated'" do
     should "should send a notification when configured as a notification" do
-      Setting.notified_events = ['issue_status_updated']
+      Setting.notified_events = ['status_updated']
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
         @issue.add_journal(@user)
-        @issue.status = IssueStatus.generate!
+        @issue.status = Status.generate!
         assert @issue.save
       end
     end
@@ -91,7 +91,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       Setting.notified_events = []
       assert_no_difference('ActionMailer::Base.deliveries.size') do
         @issue.add_journal(@user)
-        @issue.status = IssueStatus.generate!
+        @issue.status = Status.generate!
         assert @issue.save
       end
     end

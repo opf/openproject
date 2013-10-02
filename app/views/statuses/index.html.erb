@@ -29,24 +29,24 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="contextual">
 <%= link_to l(:label_work_package_status_new), {:action => 'new'}, :class => 'icon icon-add' %>
-<%= link_to(l(:label_update_work_package_done_ratios), {:action => 'update_issue_done_ratio'}, :class => 'icon icon-multiple', :method => 'post', :confirm => l(:text_are_you_sure)) if WorkPackage.use_status_for_done_ratio? %>
+<%= link_to(l(:label_update_work_package_done_ratios), {:action => 'update_work_package_done_ratio'}, :class => 'icon icon-multiple', :method => 'post', :confirm => l(:text_are_you_sure)) if WorkPackage.use_status_for_done_ratio? %>
 </div>
 
 <h2><%=l(:label_work_package_status_plural)%></h2>
 
 <table class="list">
   <thead><tr>
-  <th><%= IssueStatus.model_name.human %></th>
+  <th><%= Status.model_name.human %></th>
   <% if WorkPackage.use_status_for_done_ratio? %>
     <th><%= WorkPackage.human_attribute_name(:done_ratio) %></th>
   <% end %>
-  <th><%= IssueStatus.human_attribute_name(:is_default) %></th>
-  <th><%= IssueStatus.human_attribute_name(:is_closed) %></th>
+  <th><%= Status.human_attribute_name(:is_default) %></th>
+  <th><%= Status.human_attribute_name(:is_closed) %></th>
   <th><%=l(:button_sort)%></th>
   <th></th>
   </tr></thead>
   <tbody>
-<% for status in @issue_statuses %>
+<% for status in @statuses %>
   <tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to h(status.name), :action => 'edit', :id => status %></td>
   <% if WorkPackage.use_status_for_done_ratio? %>
@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
   <td align="center"><%= checked_image status.is_default? %></td>
   <td align="center"><%= checked_image status.is_closed? %></td>
-  <td align="center" style="width:15%;"><%= reorder_links('issue_status', {:action => 'update', :id => status}) %></td>
+  <td align="center" style="width:15%;"><%= reorder_links('status', {:action => 'update', :id => status}) %></td>
   <td class="buttons">
     <%= link_to(l(:button_delete), { :action => 'destroy', :id => status },
                                    :method => :post,
@@ -66,6 +66,6 @@ See doc/COPYRIGHT.rdoc for more details.
   </tbody>
 </table>
 
-<%= pagination_links_full @issue_statuses %>
+<%= pagination_links_full @statuses %>
 
 <% html_title(l(:label_work_package_status_plural)) -%>

@@ -267,8 +267,8 @@ end
 Given /^there are the following issue status:$/ do |table|
 
   table.hashes.each_with_index do |t, i|
-    status = IssueStatus.find_by_name(t['name'])
-    status = IssueStatus.new :name => t['name'] if status.nil?
+    status = Status.find_by_name(t['name'])
+    status = Status.new :name => t['name'] if status.nil?
     status.is_closed = t['is_closed'] == 'true' ? true : false
     status.is_default = t['is_default'] == 'true' ? true : false
     status.position = t['position'] ? t['position'] : i
@@ -282,7 +282,7 @@ Given /^the type "(.+?)" has the default workflow for the role "(.+?)"$/ do |typ
   type = Type.find_by_name(type_name)
   type.workflows = []
 
-  IssueStatus.all(:order => "id ASC").collect(&:id).combination(2).each do |c|
+  Status.all(:order => "id ASC").collect(&:id).combination(2).each do |c|
     type.workflows.build(:old_status_id => c[0], :new_status_id => c[1], :role => role)
   end
   type.save!

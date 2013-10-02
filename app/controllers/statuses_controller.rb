@@ -27,18 +27,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class IssueStatusesController < ApplicationController
+class StatusesController < ApplicationController
   include PaginationHelper
 
   layout 'admin'
 
   before_filter :require_admin
 
-  verify :method => :post, :only => [ :destroy, :create, :update, :move, :update_issue_done_ratio ],
+  verify :method => :post, :only => [ :destroy, :create, :update, :move, :update_work_package_done_ratio ],
          :redirect_to => { :action => :index }
 
   def index
-    @issue_statuses = IssueStatus.order('position')
+    @statuses = Status.order('position')
                                  .page(params[:page])
                                  .per_page(per_page_param)
 
@@ -46,12 +46,12 @@ class IssueStatusesController < ApplicationController
   end
 
   def new
-    @issue_status = IssueStatus.new
+    @status = Status.new
   end
 
   def create
-    @issue_status = IssueStatus.new(params[:issue_status])
-    if @issue_status.save
+    @status = Status.new(params[:status])
+    if @status.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
     else
@@ -60,12 +60,12 @@ class IssueStatusesController < ApplicationController
   end
 
   def edit
-    @issue_status = IssueStatus.find(params[:id])
+    @status = Status.find(params[:id])
   end
 
   def update
-    @issue_status = IssueStatus.find(params[:id])
-    if @issue_status.update_attributes(params[:issue_status])
+    @status = Status.find(params[:id])
+    if @status.update_attributes(params[:status])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else
@@ -74,15 +74,15 @@ class IssueStatusesController < ApplicationController
   end
 
   def destroy
-    IssueStatus.find(params[:id]).destroy
+    Status.find(params[:id]).destroy
     redirect_to :action => 'index'
   rescue
-    flash[:error] = l(:error_unable_delete_issue_status)
+    flash[:error] = l(:error_unable_delete_status)
     redirect_to :action => 'index'
   end
 
-  def update_issue_done_ratio
-    if IssueStatus.update_issue_done_ratios
+  def update_work_package_done_ratio
+    if Status.update_work_package_done_ratios
       flash[:notice] = l(:notice_work_package_done_ratios_updated)
     else
       flash[:error] =  l(:error_work_package_done_ratios_not_updated)
