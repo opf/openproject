@@ -31,6 +31,54 @@ class WorkPackages::ReportsController < ApplicationController
   menu_item :summary_field, :only => [:report, :report_details]
   before_filter :find_project_by_project_id, :authorize, :find_statuses
 
+  class << self; attr_accessor :report_types end
+  def self.add_report(params)
+    self.report_types ||= {}
+    self.report_types[params[:type]] = params
+  end
+
+  add_report type: "subproject",
+             field: "project_id",
+             rows: lambda{|project| project.descendants.visible},
+             data: lambda{|project| WorkPackage.by_subproject(project) || []},
+             report_title: l(:label_subproject_plural)
+
+  add_report type: "author",
+             field: "author_id",
+             rows: lambda{|project| project.members.collect { |m| m.user }.sort},
+             data: lambda{|project| WorkPackage.by_author(project)},
+             report_title: WorkPackage.human_attribute_name(:author)
+
+  add_report type: "assigned_to",
+             field: "assigned_to_id",
+             rows: lambda{|project| project.members.collect { |m| m.user }.sort},
+             data: lambda{|project| WorkPackage.by_assigned_to(project)},
+             report_title: WorkPackage.human_attribute_name(:assigned_to)
+
+  add_report type: "type",
+             field: "type_id",
+             rows: lambda{|project| project.types},
+             data: lambda{|project| WorkPackage.by_type(project)},
+             report_title: WorkPackage.human_attribute_name(:type)
+
+  add_report type: "version",
+             field: "fixed_version_id",
+             rows: lambda{|project| project.shared_versions.sort},
+             data: lambda{|project| WorkPackage.by_version(project)},
+             report_title: WorkPackage.human_attribute_name(:version)
+
+  add_report type: "priority",
+             field: "priority_id",
+             rows: lambda{|project| IssuePriority.all},
+             data: lambda{|project| WorkPackage.by_priority(project)},
+             report_title: WorkPackage.human_attribute_name(:priority)
+
+  add_report type: "category",
+             field: "category_id",
+             rows: lambda{|project| project.categories},
+             data: lambda{|project| WorkPackage.by_category(project)},
+             report_title: WorkPackage.human_attribute_name(:category)
+
   def report
     @types = @project.types
     @versions = @project.shared_versions.sort
@@ -50,46 +98,14 @@ class WorkPackages::ReportsController < ApplicationController
   end
 
   def report_details
-    case params[:detail]
-    when "type"
-      @field = "type_id"
-      @rows = @project.types
-      @data = WorkPackage.by_type(@project)
-      @report_title = WorkPackage.human_attribute_name(:type)
-    when "version"
-      @field = "fixed_version_id"
-      @rows = @project.shared_versions.sort
-      @data = WorkPackage.by_version(@project)
-      @report_title = WorkPackage.human_attribute_name(:version)
-    when "priority"
-      @field = "priority_id"
-      @rows = IssuePriority.all
-      @data = WorkPackage.by_priority(@project)
-      @report_title = WorkPackage.human_attribute_name(:priority)
-    when "category"
-      @field = "category_id"
-      @rows = @project.categories
-      @data = WorkPackage.by_category(@project)
-      @report_title = WorkPackage.human_attribute_name(:category)
-    when "assigned_to"
-      @field = "assigned_to_id"
-      @rows = @project.members.collect { |m| m.user }.sort
-      @data = WorkPackage.by_assigned_to(@project)
-      @report_title = WorkPackage.human_attribute_name(:assigned_to)
-    when "author"
-      @field = "author_id"
-      @rows = @project.members.collect { |m| m.user }.sort
-      @data = WorkPackage.by_author(@project)
-      @report_title = WorkPackage.human_attribute_name(:author)
-    when "subproject"
-      @field = "project_id"
-      @rows = @project.descendants.visible
-      @data = WorkPackage.by_subproject(@project) || []
-      @report_title = l(:label_subproject_plural)
-    end
+    report = self.class.report_types[params[:detail]]
 
     respond_to do |format|
-      if @field
+      if report
+        @field = report[:field]
+        @rows = report[:rows].call(@project)
+        @data = report[:data].call(@project)
+        @report_title = report[:title]
         format.html {}
       else
         format.html { redirect_to report_project_work_packages_path(@project) }
@@ -100,10 +116,12 @@ class WorkPackages::ReportsController < ApplicationController
   private
 
   def find_statuses
-    @statuses = Status.find(:all, :order => 'position')
+    @statuses = Status.order('position')
   end
 
   def default_breadcrumb
     l(:label_summary)
   end
+
+
 end
