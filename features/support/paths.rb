@@ -47,6 +47,19 @@ module NavigationHelpers
     when /^the login page$/
       '/login'
 
+    when /^the(?: "(.+?)" tab of the)? settings page (?:of|for) the project called "(.+?)"$/
+      tab = $1 || ""
+      project_identifier = $2.gsub("\"", "")
+      tab.gsub("\"", "")
+
+      project_identifier = Project.find_by_name(project_identifier).identifier.gsub(' ', '%20')
+
+      if tab == ""
+        "/projects/#{project_identifier}/settings"
+      else
+        "/projects/#{project_identifier}/settings/#{tab}"
+      end
+
     when /^the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
       wiki_page = Wiki.titleize($1)
       project_identifier = $2.gsub("\"", "")

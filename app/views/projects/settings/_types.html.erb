@@ -27,7 +27,17 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= labelled_tabular_form_for @project do |f| %>
-<%= render :partial => 'form', :locals => { :f => f, :renderTypes => false } %>
-<%= submit_tag l(:button_save) %>
+<% extend TimelinesHelper %>
+<%= header_tags %>
+
+<%= form_for @project,
+             :url => { :action => 'types', :id => @project },
+             :method => :put,
+             :html => {:id => 'types-form'} do |f| %>
+  <%=l(:label_type_plural)%> <span style="font-size:0.9em">(<%= check_all_links 'project_types' %>)</span>
+  <%= render :partial => 'projects/types_form', :locals => { :f => f } %>
+
+  <p><%= submit_tag l(:button_save) %></p>
 <% end %>
+
+<br/>
