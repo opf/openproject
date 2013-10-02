@@ -28,12 +28,12 @@ module OpenProject::Backlogs::Hooks
       end
 
       context[:controller].send(:render_to_string, {
-          :partial => 'shared/view_issues_sidebar',
+          :partial => 'shared/view_work_packages_sidebar',
           :locals => locals
       })
     end
 
-    def view_issues_show_details_bottom(context = {})
+    def view_work_packages_show_details_bottom(context = {})
       work_package = context[:issue]
 
       return '' unless work_package.backlogs_enabled?
@@ -60,7 +60,7 @@ module OpenProject::Backlogs::Hooks
       snippet
     end
 
-    def view_issues_form_details_bottom(context = {})
+    def view_work_packages_form_details_bottom(context = {})
       snippet = ''
       work_package = context[:issue]
 
