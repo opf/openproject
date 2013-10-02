@@ -217,7 +217,7 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "filters category" do
-        category = create_matching_object_with_time_entries(:issue_category, :category, 3)
+        category = create_matching_object_with_time_entries(:category, :category, 3)
         @query.filter :category_id, :operator => '=', :value => category.id
         @query.result.count.should == 3
       end

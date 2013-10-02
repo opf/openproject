@@ -76,7 +76,7 @@ module ReportingHelper
     when :tyear, :units                         then value.to_s
     when :tweek                                 then "#{l(:label_week)} ##{value}"
     when :tmonth                                then month_name(value.to_i)
-    when :category_id                           then IssueCategory.find(value.to_i).name
+    when :category_id                           then Category.find(value.to_i).name
     when :cost_type_id                          then mapped value, CostType, l(:caption_labor)
     when :cost_object_id                        then cost_object_link value
     when :work_package_id                       then link_to_work_package(WorkPackage.find(value.to_i))
