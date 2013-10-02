@@ -1,3 +1,12 @@
+= 3.0.4.pre6
+
+* Adapt to OpenProject core changes
+** Renamed Issue 2 WorkPackage
+** Renamed IssueStatus 2 Status
+** Renamed Tracker 2 Type
+** Adaptions for group assigned work packages
+** Adaptions for new journal handling
+
 = 3.0.4.pre5 - 2013-07-11
 
 * Adapt to OpenProject core changes
