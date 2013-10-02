@@ -61,7 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <% end %>
 
         <%= render_custom_fields_rows(work_package) %>
-        <%= call_hook(:view_issues_show_details_bottom, :issue => work_package) %>
+        <%= call_hook(:view_work_packages_show_details_bottom, :issue => work_package) %>
       </table>
     </div>
   </div>
@@ -82,7 +82,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= link_to_attachments work_package %>
   <% end -%>
 
-  <%= call_hook(:view_issues_show_description_bottom, :issue => work_package) %>
+  <%= call_hook(:view_work_packages_show_description_bottom, :issue => work_package) %>
 
 
   <%= render :partial => 'subwork_packages_paragraph', :locals => { :work_package => work_package,
