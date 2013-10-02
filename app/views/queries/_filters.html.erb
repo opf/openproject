@@ -92,7 +92,9 @@ function apply_filters_observer() {
     if(e.keyCode == Event.KEY_RETURN) {
       <%= remote_function(:url => { :set_filter => 1},
                           :update => "content",
-                          :with => "Form.serialize('query_form')",
+                          :before => 'selectAllOptions("selected_columns");',
+                          :method => :get,
+                          :with => "jQuery('#query_form').serialize()",
                           :complete => "e.stop(); apply_filters_observer()") %>
     }
   });
