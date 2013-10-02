@@ -272,7 +272,7 @@ private
 
   def load_project_settings
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @issue_category ||= IssueCategory.new
+    @category ||= Category.new
     @member ||= @project.members.new
     @types = Type.all
     @repository ||= @project.repository

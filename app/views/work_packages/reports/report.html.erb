@@ -31,10 +31,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="splitcontentleft">
 <%
-{ 'type' => { :rows => @types, :data => @issues_by_type, :name => "type_id" },
-  'priority' => { :rows => @priorities, :data => @issues_by_priority, :name => "priority_id" },
-  'assigned_to' => { :rows => @assignees, :data => @issues_by_assigned_to, :name => "assigned_to_id" },
-  'author' => { :rows => @authors, :data => @issues_by_author, :name => "author_id" }
+{ 'type' => { :rows => @types, :data => @work_packages_by_type, :name => "type_id" },
+  'priority' => { :rows => @priorities, :data => @work_packages_by_priority, :name => "priority_id" },
+  'assigned_to' => { :rows => @assignees, :data => @work_packages_by_assigned_to, :name => "assigned_to_id" },
+  'author' => { :rows => @authors, :data => @work_packages_by_author, :name => "author_id" }
 }.each do |detail, variables| %>
 
   <%= render :partial => 'report_category', :locals => { :detail => detail,
@@ -49,9 +49,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%
 details = {'version' => { :rows => @versions, :data => @version, :name => "fixed_version_id" } }
 if @project.children.any?
-  details['subproject'] = { :data => @issues_by_subproject, :name => "project_id", :rows => @subprojects }
+  details['subproject'] = { :data => @work_packages_by_subproject, :name => "project_id", :rows => @subprojects }
 end
-details['category'] = { :data => @issues_by_category, :name => "category_id", :rows => @categories }
+details['category'] = { :data => @work_packages_by_category, :name => "category_id", :rows => @categories }
 %>
 
 <% details.each do |detail, variables| %>

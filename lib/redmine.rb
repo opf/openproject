@@ -91,7 +91,7 @@ Redmine::AccessControl.map do |map|
 
   map.project_module :issue_tracking do |map|
     # Issue categories
-    map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :create, :edit, :update, :destroy]}, :require => :member
+    map.permission :manage_categories, {:projects => :settings, :categories => [:new, :create, :edit, :update, :destroy]}, :require => :member
     # Issues
     map.permission :view_work_packages, {:'issues' => [:index, :all, :show],
                                          :auto_complete => [:issues],
@@ -100,7 +100,7 @@ Redmine::AccessControl.map do |map|
                                          :journals => [:index, :diff],
                                          :queries => :index,
                                          :work_packages => [:show, :index],
-                                         :'issues/reports' => [:report, :report_details],
+                                         :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
                                          :planning_element_journals => [:index]}
     map.permission :export_work_packages, {:'work_packages' => [:index, :all]}

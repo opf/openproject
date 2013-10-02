@@ -206,8 +206,8 @@ describe UserMailer do
       end
 
       describe 'attribute category' do
-        let(:category_1) { FactoryGirl.create(:issue_category) }
-        let(:category_2) { FactoryGirl.create(:issue_category) }
+        let(:category_1) { FactoryGirl.create(:category) }
+        let(:category_2) { FactoryGirl.create(:category) }
 
         before do
           journal.stub(:details).and_return({"category_id" => [category_1.id, category_2.id]})

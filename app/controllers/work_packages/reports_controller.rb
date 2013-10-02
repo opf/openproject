@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Issues::ReportsController < ApplicationController
+class WorkPackages::ReportsController < ApplicationController
   menu_item :summary_field, :only => [:report, :report_details]
   before_filter :find_project_by_project_id, :authorize, :find_statuses
 
@@ -35,18 +35,18 @@ class Issues::ReportsController < ApplicationController
     @types = @project.types
     @versions = @project.shared_versions.sort
     @priorities = IssuePriority.all
-    @categories = @project.issue_categories
+    @categories = @project.categories
     @assignees = @project.members.collect { |m| m.user }.sort
     @authors = @project.members.collect { |m| m.user }.sort
     @subprojects = @project.descendants.visible
 
-    @issues_by_type = WorkPackage.by_type(@project)
-    @issues_by_version = WorkPackage.by_version(@project)
-    @issues_by_priority = WorkPackage.by_priority(@project)
-    @issues_by_category = WorkPackage.by_category(@project)
-    @issues_by_assigned_to = WorkPackage.by_assigned_to(@project)
-    @issues_by_author = WorkPackage.by_author(@project)
-    @issues_by_subproject = WorkPackage.by_subproject(@project) || []
+    @work_packages_by_type = WorkPackage.by_type(@project)
+    @work_packages_by_version = WorkPackage.by_version(@project)
+    @work_packages_by_priority = WorkPackage.by_priority(@project)
+    @work_packages_by_category = WorkPackage.by_category(@project)
+    @work_packages_by_assigned_to = WorkPackage.by_assigned_to(@project)
+    @work_packages_by_author = WorkPackage.by_author(@project)
+    @work_packages_by_subproject = WorkPackage.by_subproject(@project) || []
   end
 
   def report_details
@@ -68,7 +68,7 @@ class Issues::ReportsController < ApplicationController
       @report_title = WorkPackage.human_attribute_name(:priority)
     when "category"
       @field = "category_id"
-      @rows = @project.issue_categories
+      @rows = @project.categories
       @data = WorkPackage.by_category(@project)
       @report_title = WorkPackage.human_attribute_name(:category)
     when "assigned_to"
@@ -92,7 +92,7 @@ class Issues::ReportsController < ApplicationController
       if @field
         format.html {}
       else
-        format.html { redirect_to report_project_issues_path(@project) }
+        format.html { redirect_to report_project_work_packages_path(@project) }
       end
     end
   end

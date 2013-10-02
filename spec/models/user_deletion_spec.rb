@@ -428,16 +428,16 @@ describe User, 'deletion' do
   end
 
   describe "WHEN the user is assigned an issue category" do
-    let(:issue_category) { FactoryGirl.build(:issue_category, :assigned_to => user,
+    let(:category) { FactoryGirl.build(:category, :assigned_to => user,
                                                           :project => project) }
 
     before do
-      issue_category.save!
+      category.save!
       user.destroy
-      issue_category.reload
+      category.reload
     end
 
-    it { IssueCategory.find_by_id(issue_category.id).should == issue_category }
-    it { issue_category.assigned_to.should be_nil }
+    it { Category.find_by_id(category.id).should == category }
+    it { category.assigned_to.should be_nil }
   end
 end

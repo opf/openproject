@@ -213,13 +213,6 @@ OpenProject::Application.routes.draw do
     # work as a catchall for everything under /wiki
     get 'wiki' => "wiki#show"
 
-    resources :issues, :only => [] do
-      collection do
-        match '/report/:detail' => 'issues/reports#report_details', :via => :get
-        match '/report' => 'issues/reports#report', :via => :get
-      end
-    end
-
     namespace :work_packages do
       resources :calendar, :controller => 'calendars', :only => [:index]
     end
@@ -227,13 +220,18 @@ OpenProject::Application.routes.draw do
     resources :work_packages, :only => [:new, :create, :index] do
       get :new_type, :on => :collection
       put :preview, :on => :collection
+
+      collection do
+        match '/report/:detail' => 'work_packages/reports#report_details', :via => :get
+        match '/report' => 'work_packages/reports#report', :via => :get
+      end
     end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
 
     resources :boards
 
-    resources :issue_categories, :except => [:index, :show], :shallow => true
+    resources :categories, :except => [:index, :show], :shallow => true
 
     resources :members, :only => [:create, :update, :destroy], :shallow => true do
       get :autocomplete, :on => :collection
