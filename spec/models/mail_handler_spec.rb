@@ -18,8 +18,8 @@ describe MailHandler do
   # let(:member2)  { FactoryGirl.build(:member, :project => project,
   #                                        :roles => [role],
   #                                        :principal => user2) }
-  # let(:status_open)     {project.types.third.issue_statuses.first}
-  # let(:status_resolved) {project.types.third.issue_statuses.second}
+  # let(:status_open)     {project.types.third.statuses.first}
+  # let(:status_resolved) {project.types.third.statuses.second}
   # let(:workflow)        {project.types.third.workflows.first}
   # let(:type_support) {project.types.second}
   # let(:type_feature) {project.types.third}

@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </p>
 <% if @available_statuses.any? %>
 <p>
-	<label for='issue_status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
+	<label for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
 	<%= select_tag('issue[status_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@available_statuses, :id, :name)) %>
 </p>
 <% end %>

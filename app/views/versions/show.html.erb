@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <div id="status_by">
-    <%= render_issue_status_by(@version, params[:status_by]) if @version.fixed_issues.count > 0 %>
+    <%= render_status_by(@version, params[:status_by]) if @version.fixed_issues.count > 0 %>
   </div>
 </div>
 

@@ -30,7 +30,7 @@ FactoryGirl.define do
   factory :work_package do
     priority
     project :factory => :project_with_types
-    status :factory => :issue_status
+    status :factory => :status
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author :factory => :user

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class IssueStatus < ActiveRecord::Base
+class Status < ActiveRecord::Base
   extend Pagination::Model
 
   before_destroy :check_integrity
@@ -50,7 +50,7 @@ class IssueStatus < ActiveRecord::Base
   }
 
   def unmark_old_default_value
-    IssueStatus.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id])
+    Status.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id])
   end
 
   # Returns the default status for new issues
@@ -58,10 +58,10 @@ class IssueStatus < ActiveRecord::Base
     find(:first, :conditions =>["is_default=?", true])
   end
 
-  # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
-  def self.update_issue_done_ratios
+  # Update all the +Issues+ setting their done_ratio to the value of their +Status+
+  def self.update_work_package_done_ratios
     if WorkPackage.use_status_for_done_ratio?
-      IssueStatus.find(:all, :conditions => ["default_done_ratio >= 0"]).each do |status|
+      Status.find(:all, :conditions => ["default_done_ratio >= 0"]).each do |status|
         WorkPackage.update_all(["done_ratio = ?", status.default_done_ratio],
                          ["status_id = ?", status.id])
       end

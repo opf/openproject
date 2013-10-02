@@ -69,7 +69,7 @@ end
 
 
 When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for status "(.*?)"$/) do |project_name, format, status_names|
-  statuses = IssueStatus.where(name: status_names.split(','))
+  statuses = Status.where(name: status_names.split(','))
 
   get_filtered_json(project_name: project_name,
                     format: format,

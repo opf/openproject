@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,12 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class IssueStatus < ActiveRecord::Base
-  generator_for :name, :method => :next_name
-
-  def self.next_name
-    @last_name ||= 'Status 0'
-    @last_name.succ!
-    @last_name
-  end
-end
+---
+statuses_001:
+  id: 1
+  name: New
+  is_default: true
+  is_closed: false
+  position: 1
+statuses_002:
+  id: 2
+  name: Assigned
+  is_default: false
+  is_closed: false
+  position: 2
+statuses_003:
+  id: 3
+  name: Resolved
+  is_default: false
+  is_closed: false
+  position: 3
+statuses_004:
+  name: Feedback
+  id: 4
+  is_default: false
+  is_closed: false
+  position: 4
+statuses_005:
+  id: 5
+  name: Closed
+  is_default: false
+  is_closed: true
+  position: 5
+statuses_006:
+  id: 6
+  name: Rejected
+  is_default: false
+  is_closed: true
+  position: 6

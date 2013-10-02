@@ -44,7 +44,7 @@ class WorkflowsController < ApplicationController
 
     if request.post?
       Workflow.destroy_all( ["role_id=? and type_id=?", @role.id, @type.id])
-      (params[:issue_status] || []).each { |status_id, transitions|
+      (params[:status] || []).each { |status_id, transitions|
         transitions.each { |new_status_id, options|
           author = options.is_a?(Array) && options.include?('author') && !options.include?('always')
           assignee = options.is_a?(Array) && options.include?('assignee') && !options.include?('always')
@@ -59,10 +59,10 @@ class WorkflowsController < ApplicationController
     end
 
     @used_statuses_only = (params[:used_statuses_only] == '0' ? false : true)
-    if @type && @used_statuses_only && @type.issue_statuses.any?
-      @statuses = @type.issue_statuses
+    if @type && @used_statuses_only && @type.statuses.any?
+      @statuses = @type.statuses
     end
-    @statuses ||= IssueStatus.find(:all, :order => 'position')
+    @statuses ||= Status.find(:all, :order => 'position')
 
     if @type && @role && @statuses.any?
       workflows = Workflow.all(:conditions => {:role_id => @role.id, :type_id => @type.id})

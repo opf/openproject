@@ -203,7 +203,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def fix_work_package(work_package)
-    status = IssueStatus.find_by_id(Setting.commit_fix_status_id.to_i)
+    status = Status.find_by_id(Setting.commit_fix_status_id.to_i)
     if status.nil?
       logger.warn("No status matches commit_fix_status_id setting (#{Setting.commit_fix_status_id})") if logger
       return work_package

@@ -306,7 +306,7 @@ class MailHandler < ActionMailer::Base
 
     attrs = {
       'type_id' => (k = get_keyword(:type)) && issue.project.types.find_by_name(k).try(:id),
-      'status_id' =>  (k = get_keyword(:status)) && IssueStatus.find_by_name(k).try(:id),
+      'status_id' =>  (k = get_keyword(:status)) && Status.find_by_name(k).try(:id),
       'priority_id' => (k = get_keyword(:priority)) && IssuePriority.find_by_name(k).try(:id),
       'category_id' => (k = get_keyword(:category)) && issue.project.issue_categories.find_by_name(k).try(:id),
       'assigned_to_id' => assigned_to.try(:id),

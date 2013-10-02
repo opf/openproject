@@ -50,7 +50,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal issue.project.types.first, issue.type
     assert_equal 'New ticket on a given project', issue.subject
     assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal IssueStatus.find_by_name('Resolved'), issue.status
+    assert_equal Status.find_by_name('Resolved'), issue.status
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
@@ -86,7 +86,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.new_record?
     issue.reload
     assert_equal Project.find(2), issue.project
-    assert_equal IssueStatus.find_by_name("Resolved"), issue.status
+    assert_equal Status.find_by_name("Resolved"), issue.status
   end
 
   def test_add_issue_with_attributes_override
@@ -376,7 +376,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal WorkPackage.find(2), journal.journable
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
-    assert_equal IssueStatus.find_by_name("Resolved"), issue.status
+    assert_equal Status.find_by_name("Resolved"), issue.status
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
     assert_equal User.find_by_login('jsmith'), issue.assigned_to

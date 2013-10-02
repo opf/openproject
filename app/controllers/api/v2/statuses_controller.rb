@@ -39,7 +39,7 @@ module Api
       rescue_from ActiveRecord::RecordNotFound, with: lambda{render_404}
 
       extend Pagination::Controller
-      paginate_model IssueStatus
+      paginate_model Status
 
       unloadable
 
@@ -49,13 +49,13 @@ module Api
 
       def index
         if @project
-          @statuses = Type.issue_statuses(@project.types.map(&:id))
+          @statuses = Type.statuses(@project.types.map(&:id))
         else
           visible_type_ids = Project.visible
                                     .includes(:types)
                                     .map(&:types).flatten
                                     .map(&:id)
-          @statuses = Type.issue_statuses(visible_type_ids)
+          @statuses = Type.statuses(visible_type_ids)
         end
 
         respond_to do |format|
@@ -64,7 +64,7 @@ module Api
       end
 
       def show
-        @status = IssueStatus.find(params[:id])
+        @status = Status.find(params[:id])
 
         respond_to do |format|
           format.api

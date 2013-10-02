@@ -190,12 +190,12 @@ class Timeline < ActiveRecord::Base
 
   def available_planning_element_status
     types = Project.visible.includes(:types).map(&:types).flatten.uniq
-    types.map(&:issue_statuses).flatten.uniq
+    types.map(&:statuses).flatten.uniq
   end
 
   def selected_planning_element_status
     resolve_with_none_element(:planning_element_status) do |ary|
-      IssueStatus.find(ary)
+      Status.find(ary)
     end
   end
 

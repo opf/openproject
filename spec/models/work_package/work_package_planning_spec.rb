@@ -34,7 +34,7 @@ describe WorkPackage do
 
   before do
     FactoryGirl.create :priority, is_default: true
-    FactoryGirl.create :default_issue_status
+    FactoryGirl.create :default_status
   end
 
   describe '- Relations ' do
@@ -71,7 +71,7 @@ describe WorkPackage do
       end
 
       it 'can read the planning_element_status w/ the help of the belongs_to association' do
-        status = FactoryGirl.create(:issue_status)
+        status = FactoryGirl.create(:status)
         work_package = FactoryGirl.create(:work_package,
                                           :status_id => status.id)
 
@@ -242,7 +242,7 @@ describe WorkPackage do
     let(:type)        { project.types.first } # The type-validation, that now lives on work-package is more
                                               # strict than the previous validation on the planning-element
                                               # it also checks, that the type is available for the project the pe lives in.
-    let(:pe_status)   { FactoryGirl.create(:issue_status) }
+    let(:pe_status)   { FactoryGirl.create(:status) }
 
     let(:pe) { FactoryGirl.create(:work_package,
                                   :subject                         => "Plan A",

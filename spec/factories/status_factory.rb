@@ -26,40 +26,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
----
-issue_statuses_001:
-  id: 1
-  name: New
-  is_default: true
-  is_closed: false
-  position: 1
-issue_statuses_002:
-  id: 2
-  name: Assigned
-  is_default: false
-  is_closed: false
-  position: 2
-issue_statuses_003:
-  id: 3
-  name: Resolved
-  is_default: false
-  is_closed: false
-  position: 3
-issue_statuses_004:
-  name: Feedback
-  id: 4
-  is_default: false
-  is_closed: false
-  position: 4
-issue_statuses_005:
-  id: 5
-  name: Closed
-  is_default: false
-  is_closed: true
-  position: 5
-issue_statuses_006:
-  id: 6
-  name: Rejected
-  is_default: false
-  is_closed: true
-  position: 6
+FactoryGirl.define do
+  factory :status do
+    sequence(:name) { |n| "status #{n}" }
+    is_closed false
+
+    factory :closed_status do
+      is_closed true
+    end
+
+    factory :default_status do
+      is_default true
+    end
+
+  end
+end
