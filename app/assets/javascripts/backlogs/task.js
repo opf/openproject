@@ -21,7 +21,10 @@ RB.Task = (function ($) {
       this.defaultColor =  $('#rb .task').css('background-color');
     },
 
-    beforeSave: function () {
+    beforeSave: function name() {
+      if (this.el.hasClassName('dragging')){
+        return;
+      }
       var c = this.$.find('select.assigned_to_id').children(':selected').attr('color') || this.defaultColor;
       this.$.css('background-color', c);
     },
