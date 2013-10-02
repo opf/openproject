@@ -2,7 +2,7 @@
 require_dependency 'cost_query/operator'
 class CostQuery::Filter::StatusId < Report::Filter::Base
   available_operators 'c', 'o'
-  join_table WorkPackage, IssueStatus => [WorkPackage, :status]
+  join_table WorkPackage, Status => [WorkPackage, :status]
   applies_for :label_work_package_attributes
 
   def self.label
@@ -10,6 +10,6 @@ class CostQuery::Filter::StatusId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    IssueStatus.find(:all, :order => 'name').map { |i| [i.name, i.id] }
+    Status.find(:all, :order => 'name').map { |i| [i.name, i.id] }
   end
 end
