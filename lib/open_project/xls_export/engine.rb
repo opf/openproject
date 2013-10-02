@@ -17,7 +17,7 @@ module OpenProject::XlsExport
       # disabled since not yet migrated
       # require 'open_project/xls_export/hooks/cost_report_hook.rb'
 
-      require 'open_project/xls_export/hooks/issue_hook.rb'
+      require 'open_project/xls_export/hooks/work_package_hook.rb'
     end
 
     initializer 'xls_export.register_mimetypes' do

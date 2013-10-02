@@ -1,5 +1,7 @@
 # Changelog
 
+* `#2267` Rename view issue hooks
+
 ## 1.0.0.pre3
 
 * Set Gem homepage to openproject.org project
