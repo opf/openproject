@@ -1,8 +1,8 @@
 class RenameIssueStatusToStatus < ActiveRecord::Migration
   def initialize
     super
-    @issue_done_statuses_for_project_exists
-      = ActiveRecord::Base.connection.tables.include? 'issue_done_statuses_for_project'
+    @issue_done_statuses_for_project_exists = \
+      ActiveRecord::Base.connection.tables.include? 'issue_done_statuses_for_project'
   end
 
   def change
