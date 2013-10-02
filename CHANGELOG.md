@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0.pre6
+
+* Renamed IssueStatus to Status
+
 ## 3.0.0.pre5
 
 * Renamed issue to work package where applicable
