@@ -40,6 +40,7 @@ class WorkPackagesController < ApplicationController
 
   accept_key_auth :index, :show, :create, :update, :destroy
 
+  before_filter :find_work_packages, :only => [:destroy]
   before_filter :disable_api
   before_filter :not_found_unless_work_package,
                 :project,
