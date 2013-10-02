@@ -185,7 +185,7 @@ describe CostQuery, :reporting_query_helper => true do
       end
 
       it "filters status" do
-        matching_status = FactoryGirl.create(:issue_status, :is_closed => true)
+        matching_status = FactoryGirl.create(:status, :is_closed => true)
         create_work_packages_and_time_entries(3, :status => matching_status)
         @query.filter :status_id, :operator => 'c'
         @query.result.count.should == 3
