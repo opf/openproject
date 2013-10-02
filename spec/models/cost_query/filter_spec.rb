@@ -7,13 +7,13 @@ describe CostQuery, :reporting_query_helper => true do
   let!(:user) { FactoryGirl.create(:user, :member_in_project => project) }
 
   def create_work_package_with_entry(entry_type, work_package_params={}, entry_params = {})
-      work_package_params = {:project => project}.merge!(work_package_params)
-      work_package = FactoryGirl.create(:work_package, work_package_params)
-      entry_params = {:work_package => work_package,
-                      :project => work_package_params[:project],
-                      :user => user}.merge!(entry_params)
-      FactoryGirl.create(entry_type, entry_params)
-      work_package
+    work_package_params = {:project => project}.merge!(work_package_params)
+    work_package = FactoryGirl.create(:work_package, work_package_params)
+    entry_params = {:work_package => work_package,
+                    :project => work_package_params[:project],
+                    :user => user}.merge!(entry_params)
+    FactoryGirl.create(entry_type, entry_params)
+    work_package
   end
 
   describe CostQuery::Filter do
@@ -37,10 +37,11 @@ describe CostQuery, :reporting_query_helper => true do
       end
     end
 
+    # Test Work Package attributes that are included in of the result set
+
     [
       [CostQuery::Filter::ProjectId,        'project',    "project_id",      2],
       [CostQuery::Filter::UserId,           'user',       "user_id",         2],
-      [CostQuery::Filter::AuthorId,         'author',     "author_id",       2],
       [CostQuery::Filter::CostTypeId,       'cost_type',  "cost_type_id",    1],
       [CostQuery::Filter::WorkPackageId,    'work_package',      "work_package_id", 2],
       [CostQuery::Filter::ActivityId, 'activity',   "activity_id",     1],
@@ -50,17 +51,17 @@ describe CostQuery, :reporting_query_helper => true do
         let!(:object) { send(object_name) }
         let!(:author) { FactoryGirl.create(:user, :member_in_project => project) }
         let!(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                                  :author => author) }
+                                                 :author => author) }
         let!(:cost_type) { FactoryGirl.create(:cost_type) }
         let!(:cost_entry) { FactoryGirl.create(:cost_entry, :work_package => work_package,
-                                                            :user => user,
-                                                            :project => project,
-                                                            :cost_type => cost_type) }
+                                               :user => user,
+                                               :project => project,
+                                               :cost_type => cost_type) }
         let!(:activity) { FactoryGirl.create(:time_entry_activity) }
         let!(:time_entry) { FactoryGirl.create(:time_entry, :work_package => work_package,
-                                                            :user => user,
-                                                            :project => project,
-                                                            :activity => activity) }
+                                               :user => user,
+                                               :project => project,
+                                               :activity => activity) }
 
         it "should only return entries from the given #{filter.to_s}" do
           @query.filter field, :value => object.id
@@ -87,6 +88,53 @@ describe CostQuery, :reporting_query_helper => true do
           @query.filter field, :value => object.id
           @query.result.count.should == expected_count
         end
+      end
+    end
+
+    # Test author attribute separately as it is not included in the result set
+
+    describe CostQuery::Filter::AuthorId do
+      let!(:non_matching_entry) { FactoryGirl.create(:cost_entry) }
+      let!(:author) { FactoryGirl.create(:user, :member_in_project => project) }
+      let!(:work_package) { FactoryGirl.create(:work_package, :project => project,
+                                               :author => author) }
+      let!(:cost_type) { FactoryGirl.create(:cost_type) }
+      let!(:cost_entry) { FactoryGirl.create(:cost_entry, :work_package => work_package,
+                                             :user => user,
+                                             :project => project,
+                                             :cost_type => cost_type) }
+      let!(:activity) { FactoryGirl.create(:time_entry_activity) }
+      let!(:time_entry) { FactoryGirl.create(:time_entry, :work_package => work_package,
+                                             :user => user,
+                                             :project => project,
+                                             :activity => activity) }
+
+      it "should only return entries from the given CostQuery::Filter::AuthorId" do
+        @query.filter 'author_id', :value => author.id
+        @query.result.each do |result|
+          work_package_id = result["work_package_id"]
+          WorkPackage.find(work_package_id).author.id.should == author.id
+        end
+      end
+
+      it "should allow chaining the same filter" do
+        @query.filter 'author_id', :value => author.id
+        @query.filter 'author_id', :value => author.id
+        @query.result.each do |result|
+          work_package_id = result["work_package_id"]
+          WorkPackage.find(work_package_id).author.id.should == author.id
+        end
+      end
+
+      it "should return no results for excluding filters" do
+        @query.filter 'author_id', :value => author.id
+        @query.filter 'author_id', :value => author.id + 1
+        @query.result.count.should == 0
+      end
+
+      it "should compute the correct number of results" do
+        @query.filter 'author_id', :value => author.id
+        @query.result.count.should == 2
       end
     end
 
@@ -283,7 +331,7 @@ describe CostQuery, :reporting_query_helper => true do
 
       it "should create classes for custom fields that get added after starting the server" do
         custom_field
-        expect { class_name_for('My custom field').constantize }.to_not raise_error
+        expect { class_name_for('My custom field').constantize }.not_to raise_error
       end
 
       it "should remove the custom field classes after it is deleted" do

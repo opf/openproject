@@ -5,6 +5,21 @@ class CostQuery::SqlStatement < Report::SqlStatement
     costs overridden_costs type
   ]
 
+  # flag to mark a reporting query consisting of a union of cost and time entries
+  attr_accessor :entry_union
+
+  def initialize(table, desc = "")
+    super(table, desc)
+    @entry_union = false
+  end
+
+  # this is a hack to ensure that additional joins added by filters do not result
+  # in additional columns being selected.
+  def to_s
+    select(['entries.*']) if select == ['*'] && group_by.empty? && self.entry_union
+    super
+  end
+
   ##
   # Generates SqlStatement that maps time_entries and cost_entries to a common structure.
   #
@@ -78,7 +93,9 @@ class CostQuery::SqlStatement < Report::SqlStatement
   #
   # @return [CostQuery::SqlStatement] Generated statement
   def self.for_entries
-    new unified_entry(TimeEntry).union(unified_entry(CostEntry), "entries")
+    sql = new unified_entry(TimeEntry).union(unified_entry(CostEntry), "entries")
+    sql.entry_union = true
+    sql
   end
 end
 
