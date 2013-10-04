@@ -217,13 +217,13 @@ Feature: Project Settings
     And  I should see "closed" within "#content"
 
   @javascript
-  Scenario: Copy a project with issue categories
+  Scenario: Copy a project with categories
     Given there is 1 user with the following:
       | login     | carl    |
       | firstname | Carl    |
       | Lastname  | Carlson |
     And the user "carl" is a "alpha" in the project "project1"
-    And the project "project1" has 2 issue categories with:
+    And the project "project1" has 2 categories with:
       | assigned_to | Carl |
     When I am already admin
     And  I go to the settings page of the project "project1"
