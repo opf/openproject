@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
              :method => :put,
              :html => {:id => 'types-form'} do |f| %>
   <%=l(:label_type_plural)%> <span style="font-size:0.9em">(<%= check_all_links 'project_types' %>)</span>
-  <%= render :partial => 'projects/types_form', :locals => { :f => f } %>
+  <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => @project } %>
 
   <p><%= submit_tag l(:button_save) %></p>
 <% end %>
