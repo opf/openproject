@@ -45,6 +45,9 @@ end
 Given /^the date is "(.*?)"$/ do |date|
   new_time = Time.parse date
   Timecop.freeze(new_time)
+
+  # Ensure timecop returns after each scenario
+  Support::ResetTimecop.reset_after
 end
 
 module Support
