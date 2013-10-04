@@ -1,6 +1,3 @@
-require 'tree'
-
-
 module CopyModel
   module InstanceMethods
 
