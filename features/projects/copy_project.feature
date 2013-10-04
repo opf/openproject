@@ -363,3 +363,16 @@ Feature: Project Settings
     Then  I should see "pe1" within "#content"
     And   I go to the page of the planning element "pe2" of the project called "Copied Project"
     Then  I should see "pe2" within "#content"
+
+  @javascript
+  Scenario: Copying a project with a timeline
+    Given there is a timeline "Testline" for project "project1"
+    When  I am already admin
+    And   I go to the settings page of the project "project1"
+    And   I follow "Copy" within "#content"
+    And   I fill in "Name" with "Copied Project"
+    And   I fill in "Identifier" with "cp"
+    And   I check "Timeline reports"
+    And   I click on "Copy"
+    And   I go to the page of the timeline "Testline" of the project called "Copied Project"
+    Then  I should see "Testline" within "#content"

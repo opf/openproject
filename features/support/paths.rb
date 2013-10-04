@@ -290,8 +290,9 @@ module NavigationHelpers
     when /the page of the timeline(?: "([^\"]+)")? of the project called "([^\"]+)"$/
       timeline_name = $1
       project_name = $2
-      project_identifier = Project.find_by_name(project_name).identifier.gsub(' ', '%20')
-      timeline = Timeline.find_by_name(timeline_name)
+      project = Project.find_by_name(project_name)
+      project_identifier = project.identifier.gsub(' ', '%20')
+      timeline = project.timelines.detect { |t| t.name == timeline_name }
 
       timeline_id = timeline ?
                       "/#{timeline.id}" :

@@ -1041,6 +1041,16 @@ class Project < ActiveRecord::Base
     end
   end
 
+  #copies timeline associations from +project+
+  def copy_timelines(project)
+    project.timelines.each do |timeline|
+      copied_timeline = Timeline.new
+      copied_timeline.force_attributes = timeline.attributes.dup.except("id", "project_id")
+      copied_timeline.project = self
+      copied_timeline.save
+    end
+  end
+
   def allowed_permissions
     @allowed_permissions ||= begin
       names = enabled_modules.loaded? ? enabled_module_names : enabled_modules.all(:select => :name).map(&:name)
