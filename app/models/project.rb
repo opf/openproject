@@ -1004,7 +1004,7 @@ class Project < ActiveRecord::Base
       next if role_ids.empty?
       new_member.role_ids = role_ids
       new_member.project = self
-      self.members << new_member
+      self.memberships << new_member
     end
   end
 
