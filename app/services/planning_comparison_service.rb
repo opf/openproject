@@ -4,11 +4,11 @@ class PlanningComparisonService
         from journals
          inner join (select journable_id, max(created_at) as latest_date
                        from #{Journal.table_name}
-                      where #{Journal.table_name}.created_at <= '#at_time'
+                      where #{Journal.table_name}.created_at <= ?
                    group by #{Journal.table_name}.journable_id) as latest
                  on #{Journal.table_name}.journable_id=latest.journable_id
            and #{Journal.table_name}.created_at=latest.latest_date
-           and #{Journal.table_name}.journable_id in (#work_package_ids);
+           and #{Journal.table_name}.journable_id in (?);
 SQL
   @@mapped_attributes = Journal::WorkPackageJournal.journaled_attributes.map{|attribute| "#{Journal::WorkPackageJournal.table_name}.#{attribute}"}.join ','
 
@@ -20,7 +20,7 @@ SQL
         from #{Journal::WorkPackageJournal.table_name}
         left join #{Journal.table_name}
                on #{Journal.table_name}.id = #{Journal::WorkPackageJournal.table_name}.journal_id
-       where #{Journal::WorkPackageJournal.table_name}.id in (#journal_ids)
+       where #{Journal::WorkPackageJournal.table_name}.id in (?)
 SQL
 
   # there is currently no possibility to compare two given dates:
@@ -57,10 +57,11 @@ SQL
     sql = @@journal_sql.gsub("#work_package_ids", work_package_ids.join(','))
                        .gsub("#at_time", at_time.strftime("%Y-%m-%d"))
 
-    journal_ids = ActiveRecord::Base.connection.execute(sql)
-                                               .map{|result| result["id"]}
+    results = Journal.find_by_sql([@@journal_sql, at_time, work_package_ids.join(",")])
+    journal_ids = results.map(&:id)
 
+    puts "found these journals: #{journal_ids}"
     # 3&4 fetch the journaled data and make rails think it is actually a work_package
-    work_packages = WorkPackage.find_by_sql(@@work_package_select.gsub('#journal_ids',journal_ids.join(',')))
+    work_packages = WorkPackage.find_by_sql([@@work_package_select,journal_ids.join(',')])
   end
 end
