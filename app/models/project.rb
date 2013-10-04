@@ -882,16 +882,16 @@ class Project < ActiveRecord::Base
       self.wiki = self.build_wiki(project.wiki.attributes.dup.except("id", "project_id"))
       wiki_pages_map = {}
       project.wiki.pages.each do |page|
-        self.reload
         # Skip pages without content
         next if page.content.nil?
         new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id", "updated_at"))
         new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_on", "parent_id"))
         new_wiki_page.content = new_wiki_content
-        wiki.pages << new_wiki_page
+
+        self.wiki.pages << new_wiki_page
         wiki_pages_map[page.id] = new_wiki_page
       end
-      wiki.save
+      self.wiki.save
       # Reproduce page hierarchy
       project.wiki.pages.each do |page|
         if page.parent_id && wiki_pages_map[page.id]

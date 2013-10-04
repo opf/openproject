@@ -56,13 +56,14 @@ module CopyModel
     def copy_associations(from_model, options={})
       to_be_copied = self.class.reflect_on_all_associations.map(&:name)
       to_be_copied = options[:only].to_a unless options[:only].nil?
-      to_be_copied = to_be_copied.map(&:to_sym)
+      to_be_copied = to_be_copied.map(&:to_s).sort.map(&:to_sym)
 
       with_model(from_model) do |model|
         self.class.transaction do
 
           to_be_copied.each do |name|
             if (self.respond_to?(:"copy_#{name}") || self.private_methods.include?(:"copy_#{name}"))
+              self.reload
               self.send(:"copy_#{name}", model)
             end
           end
@@ -75,6 +76,7 @@ module CopyModel
     # +from_model+ and saves the instance.
     def copy(from_model, options = {})
       self.save if (self.copy_attributes(from_model) && self.copy_associations(from_model, options))
+      return self
     end
 
     # resolves +model+ and returns it,
@@ -105,7 +107,7 @@ module CopyModel
       end
     end
 
-    # Copies +from_model+ and returns the new instance.  This will not save
+    # Copies +from_model+ and returns the new instance. This will not save
     # the copy
     def copy_attributes(from_model)
       return self.new.copy_attributes(from_model)
