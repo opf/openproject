@@ -327,3 +327,20 @@ Feature: Project Settings
     Then  I should see "Projektwiki" within "#content"
     And   I follow "Projektwiki" within "#content"
     Then  I should see "yeah boy!" within "#content"
+
+  @javascript
+  Scenario: Copying a project with some issues
+    Given the project "project1" has 1 issue with the following:
+      | subject | issue1 |
+    And   the project "project1" has 1 issue with the following:
+      | subject | issue2 |
+    And   I am already admin
+    And   I go to the settings page of the project "project1"
+    And   I follow "Copy" within "#content"
+    And   I fill in "Name" with "Copied Project"
+    And   I fill in "Identifier" with "cp"
+    And   I check "Work packages"
+    And   I click on "Copy"
+    And   I go to the work packages index page for the project "Copied Project"
+    Then  I should see "issue1" within "#content"
+    And   I should see "issue2" within "#content"
