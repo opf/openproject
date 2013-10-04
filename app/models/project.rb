@@ -762,14 +762,12 @@ class Project < ActiveRecord::Base
   end
 
   # Copies and saves the Project instance based on the +project+.
-  # Duplicates the source project's:
-  # * Wiki
-  # * Versions
-  # * Issue Categories
-  # * Work Packages
-  # * Members
-  # * Queries
-  # * Forums
+  # Duplicates the source project's associations that CAN be copied,
+  # i.e. responds to something called 'copy_association_name'.
+  #
+  # For example: Project has a method #copy_work_packages,
+  #              so the WorkPackages from the has_many work_packages
+  #              association can be copied.
   #
   # Accepts an +options+ argument to specify what to copy
   #
@@ -778,16 +776,16 @@ class Project < ActiveRecord::Base
   #   project.copy(1, :only => 'members')                # => copies members only
   #   project.copy(1, :only => ['members', 'versions'])  # => copies members and versions
   def copy(project, options={})
-    project = project.is_a?(Project) ? project : Project.find(project)
+    project = self.class.find(project)
 
-    to_be_copied = %w(wiki versions categories work_packages members queries boards)
+    to_be_copied = self.class.reflect_on_all_associations.map(&:name)
     to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
 
     Project.transaction do
       if save
         reload
         to_be_copied.each do |name|
-          send "copy_#{name}", project
+          send "copy_#{name}", project if project.respond_to?("copy_#{name}")
         end
         Redmine::Hook.call_hook(:model_project_copy_before_save, :source_project => project, :destination_project => self)
         save
