@@ -20,7 +20,7 @@ describe Impediment do
 
   let(:project) do
     unless @project
-      @project = FactoryGirl.build(:project)
+      @project = FactoryGirl.build(:project, :types => [type_feature, type_task])
       @project.members = [FactoryGirl.build(:member, :principal => user,
                                                  :project => @project,
                                                  :roles => [role])]

@@ -2,16 +2,14 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe WorkPackage do
   describe 'behavior for #3200' do
-    before(:each) do
-      @example = WorkPackage.new
+    let(:empty_work_package) { WorkPackage.new }
+
+    it do
+      empty_work_package.move_to_project_without_transaction(nil).should be_false
     end
 
     it do
-      @example.move_to_project_without_transaction(nil).should be_false
-    end
-
-    it do
-      lambda { @example.move_to_project_without_transaction(nil) }.should_not raise_error(NoMethodError)
+      lambda { empty_work_package.move_to_project_without_transaction(nil) }.should_not raise_error(NoMethodError)
     end
   end
 

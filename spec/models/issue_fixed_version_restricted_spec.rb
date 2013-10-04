@@ -287,6 +287,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
         task.parent_id = task2.id
         task.save!
         task2.reload
+        story.reload
       end
 
       let(:parent) { story } # it's actually the grandparent but it makes no difference for the test

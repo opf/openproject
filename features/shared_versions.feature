@@ -24,7 +24,7 @@ Feature: Shared Versions
         | story |
         | task  |
     And I am working in project "child"
-    And there is a default Status with:
+    And there is a default status with:
         | name | new |
     And there is a default issuepriority with:
         | name   | Normal |

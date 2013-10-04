@@ -17,7 +17,7 @@ describe Version do
 
     let(:status)   { FactoryGirl.create(:status)    }
     let(:priority) { FactoryGirl.create(:priority_normal) }
-    let(:project)  { FactoryGirl.create(:project)         }
+    let(:project)  { FactoryGirl.create(:project, :name => "Project 1", :types => [epic_type, story_type, task_type, other_type])}
 
     let(:epic_type)  { FactoryGirl.create(:type, :name => 'Epic') }
     let(:story_type) { FactoryGirl.create(:type, :name => 'Story') }
@@ -50,7 +50,7 @@ describe Version do
     end
 
     it 'moves an work_package to a project where backlogs is disabled while using versions' do
-      project2 = FactoryGirl.create(:project, :name => "Project 2")
+      project2 = FactoryGirl.create(:project, :name => "Project 2", :types => [epic_type, story_type, task_type, other_type])
       project2.enabled_module_names = project2.enabled_module_names - ["backlogs"]
       project2.save!
       project2.reload

@@ -5,12 +5,9 @@ def project_boundaries_spanning_work_package_hierarchy_allowed?
   work_package.project_id = 1
   parent_work_package = WorkPackage.new
   parent_work_package.project_id = 2
-  work_package.instance_eval do
-    @parent_work_package = parent_work_package
-  end
+  work_package.parent = parent_work_package
   work_package.valid?
-  # using not so good check on validity
-  work_package.errors[:parent_id] != "doesn't belong to the same project"
+  work_package.errors[:parent_id].blank?
 end
 
 describe WorkPackage, 'parent-child relationships between backlogs stories and backlogs tasks are prohibited if they span project boundaries' do
