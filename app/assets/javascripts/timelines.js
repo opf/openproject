@@ -1134,19 +1134,17 @@ Timeline = {
             { storeIn: Timeline.PlanningElement.identifier }
           );
 
-        /* TODO!
         // load historical planning elements.
         if (this.options.target_time) {
           this.loader.register(
-              Timeline.HistoricalPlanningElement.identifier + '_' + i,
-              { url : projectPrefix +
-                      '/planning_elements.json' +
-                      this.comparisonTargetUrlSuffix() },
-              { storeIn: Timeline.HistoricalPlanningElement.identifier,
-                readFrom: Timeline.PlanningElement.identifier }
-            );
+            Timeline.HistoricalPlanningElement.identifier + '_' + i,
+            { url : projectPrefix +
+                    '/planning_elements.json' +
+                    this.comparisonTargetUrlSuffix() },
+            { storeIn: Timeline.HistoricalPlanningElement.identifier,
+              readFrom: Timeline.PlanningElement.identifier }
+          );
         }
-        */
       });
     };
 
@@ -1166,19 +1164,17 @@ Timeline = {
             { storeIn: Timeline.PlanningElement.identifier }
           );
 
-        /* TODO!
         // load historical planning elements.
         if (this.options.target_time) {
           this.loader.register(
-              Timeline.HistoricalPlanningElement.identifier + '_IDS_' + i,
-              { url : planningElementPrefix +
-                      '/planning_elements.json?ids=' +
-                      planningElementIdsOfPacket.join(',') },
-              { storeIn: Timeline.HistoricalPlanningElement.identifier,
-                readFrom: Timeline.PlanningElement.identifier }
-            );
+            Timeline.HistoricalPlanningElement.identifier + '_IDS_' + i,
+            { url : planningElementPrefix +
+                    '/planning_elements.json?ids=' +
+                    planningElementIdsOfPacket.join(',') },
+            { storeIn: Timeline.HistoricalPlanningElement.identifier,
+              readFrom: Timeline.PlanningElement.identifier }
+          );
         }
-        */
       });
     };
 
