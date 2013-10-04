@@ -333,7 +333,7 @@ Feature: Project Settings
       | subject | issue1 |
     And   the project "project1" has 1 issue with the following:
       | subject | issue2 |
-    And   I am already admin
+    When  I am already admin
     And   I go to the settings page of the project "project1"
     And   I follow "Copy" within "#content"
     And   I fill in "Name" with "Copied Project"
@@ -343,3 +343,23 @@ Feature: Project Settings
     And   I go to the work packages index page for the project "Copied Project"
     Then  I should see "issue1" within "#content"
     And   I should see "issue2" within "#content"
+
+  @javascript
+  Scenario: Copying a project with some planning elements
+    Given there are the following work packages in project "project1":
+      | subject | start_date | due_date   |
+      | pe1     | 2013-01-01 | 2013-12-31 |
+    And   there are the following work packages in project "project1":
+      | subject | start_date | due_date   |
+      | pe2     | 2013-01-01 | 2013-12-31 |
+    When  I am already admin
+    And   I go to the settings page of the project "project1"
+    And   I follow "Copy" within "#content"
+    And   I fill in "Name" with "Copied Project"
+    And   I fill in "Identifier" with "cp"
+    And   I check "Work packages"
+    And   I click on "Copy"
+    And   I go to the page of the planning element "pe1" of the project called "Copied Project"
+    Then  I should see "pe1" within "#content"
+    And   I go to the page of the planning element "pe2" of the project called "Copied Project"
+    Then  I should see "pe2" within "#content"
