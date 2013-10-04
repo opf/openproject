@@ -20,6 +20,10 @@ class AddDenormalizedCostsFields < ActiveRecord::Migration
       add_column :issues, :overall_costs, :decimal, :precision => 15, :scale => 2, :null => false, :default => 0.0
     end
 
+    #necessary because the User table might have been changed
+    User.reset_column_information
+    #Users have associated custom fields which are also changed during migrations
+    CustomField.reset_column_information
     u = User.system
 
     # update the new denormalized columns
