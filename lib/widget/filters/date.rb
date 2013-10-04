@@ -3,14 +3,9 @@
 require_dependency 'widget/filters/base'
 class Widget::Filters::Date < Widget::Filters::Base
 
-  def calendar_for(field_id)
-    image_tag("calendar.png", { :id => "#{field_id}_trigger",
-                                :class => "calendar-trigger",
-                                :alt => l(:label_calendar) }) +
-    javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
-  end
-
   def render
+    @calendar_headers_tags_included = true
+
     name = "values[#{filter_class.underscore_name}][]"
     id_prefix = "#{filter_class.underscore_name}_"
 
