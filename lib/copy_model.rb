@@ -56,7 +56,9 @@ module CopyModel
     def copy_associations(from_model, options={})
       to_be_copied = self.class.reflect_on_all_associations.map(&:name)
       to_be_copied = options[:only].to_a unless options[:only].nil?
-      to_be_copied = to_be_copied.map(&:to_s).sort.map(&:to_sym)
+      to_be_copied = to_be_copied.map(&:to_s).sort do |a,b|
+        (self.copy_precedence.index(a) || -1) <=> (self.copy_precedence.index(b) || -1)
+      end.map(&:to_sym)
 
       with_model(from_model) do |model|
         self.class.transaction do
@@ -93,6 +95,10 @@ module CopyModel
         nil
       end
     end
+
+    def copy_precedence
+      self.class.copy_precedence
+    end
   end
 
   module ClassMethods
@@ -102,6 +108,14 @@ module CopyModel
     def not_to_copy
       begin
         self::NOT_TO_COPY
+      rescue NameError
+        []
+      end
+    end
+
+    def copy_precedence
+      begin
+        self::COPY_PRECEDENCE
       rescue NameError
         []
       end

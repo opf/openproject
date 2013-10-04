@@ -45,6 +45,9 @@ class Project < ActiveRecord::Base
   # things that are explicitly excluded when copying a project
   NOT_TO_COPY = ['id', 'name', 'identifier', 'status', 'lft', 'rgt']
 
+  # specify the order of associations to copy
+  COPY_PRECEDENCE = ['members', 'versions', 'categories', 'work_packages', 'wiki']
+
   # Specific overidden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUSES[:active]}"
