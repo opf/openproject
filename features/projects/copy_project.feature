@@ -316,7 +316,6 @@ Feature: Project Settings
       | yeah boy! |
     And   I am already admin
     And   I go to the settings page of the project "project1"
-    And   I press "Save" within "#content"
     And   I follow "Copy" within "#content"
     And   I fill in "Name" with "Copied Project"
     And   I fill in "Identifier" with "cp"
