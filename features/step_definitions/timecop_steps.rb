@@ -44,7 +44,7 @@ end
 
 Given /^the date is "(.*?)"$/ do |date|
   new_time = Time.parse date
-  Timecop.freeze(new_time)
+  Timecop.travel(new_time)
 
   # Ensure timecop returns after each scenario
   Support::ResetTimecop.reset_after
@@ -54,9 +54,7 @@ module Support
   module ResetTimecop
     def self.reset_after
       Support::Cleanup.to_clean do
-        Proc.new do
-          Timecop.return
-        end
+        Timecop.return
       end
     end
   end
