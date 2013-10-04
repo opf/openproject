@@ -28,6 +28,6 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= labelled_tabular_form_for @project do |f| %>
-<%= render :partial => 'form', :locals => { :f => f, :renderTypes => false } %>
+<%= render :partial => 'form', :locals => { :f => f, :project => @project, :renderTypes => false } %>
 <%= submit_tag l(:button_save) %>
 <% end %>

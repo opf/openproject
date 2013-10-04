@@ -12,57 +12,57 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%=l(:label_project_new)%></h2>
 
-<%= labelled_tabular_form_for @project, :url => { :action => "copy" } do |f| %>
+<%= labelled_tabular_form_for @copy_project, :url => { :action => "copy" } do |f| %>
   <div class="copy box">
     <%= render :partial => "projects/form/attributes/name", :locals => { :form => f } %>
     <%= render :partial => "projects/form/attributes/identifier", :locals => { :form => f,
-                                                                               :project => @project } %>
+                                                                               :project => @copy_project } %>
     <%= render :partial => "projects/form/attributes/description", :locals => { :form => f } %>
-    <%= render :partial => "projects/form/attributes/custom_fields", :locals => { :project => @project } %>
+    <%= render :partial => "projects/form/attributes/custom_fields", :locals => { :project => @copy_project } %>
     <%= render :partial => "projects/form/attributes/responsible_id", :locals => { :form => f,
-                                                                                   :project => @project } %>
+                                                                                   :project => @copy_project } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :project_type_id, :value => @project.project_type_id } %>
+               :locals => { :form => f, :name => :project_type_id, :value => @copy_project.project_type_id } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :parent_id, :value => @project.parent_id } %>
+               :locals => { :form => f, :name => :parent_id, :value => @copy_project.parent_id } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :homepage, :value => @project.homepage } %>
+               :locals => { :form => f, :name => :homepage, :value => @copy_project.homepage } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :is_public, :value => @project.is_public } %>
+               :locals => { :form => f, :name => :is_public, :value => @copy_project.is_public } %>
     <%= render :partial => "projects/copy_settings/enabled_module_names",
-               :locals => { :project => @project } %>
+               :locals => { :project => @copy_project } %>
   </div>
 
   <fieldset class="copy box">
     <legend><%= l(:button_copy) %></legend>
     <%= render :partial => "projects/copy_settings/block_checkbox",
                :locals => { :name => "queries", :checked => true, :label => l(:label_query_plural),
-                            :count => @source_project.queries.count } %>
+                            :count => @project.queries.count } %>
     <%= render :partial => "projects/copy_settings/block_checkbox",
                :locals => { :name => "boards", :checked => false, :label => l(:label_board_plural),
-                            :count => @source_project.boards.count } %>
+                            :count => @project.boards.count } %>
     <%= render :partial => "projects/copy_settings/block_checkbox",
                :locals => { :name => "members", :checked => true, :label => l(:label_member_plural),
-                            :count => @source_project.members.count } %>
+                            :count => @project.members.count } %>
     <%= render :partial => "projects/copy_settings/block_checkbox",
                :locals => { :name => "project_associations", :checked => true, :label => l(:label_reporting_plural),
-                            :count => @source_project.project_associations.count } %>
+                            :count => @project.project_associations.count } %>
     <%= render :partial => "projects/copy_settings/block_checkbox",
                :locals => { :name => "timelines", :checked => true, :label => l(:'timelines.timelines'),
-                            :count => @source_project.timelines.count } %>
+                            :count => @project.timelines.count } %>
     <%= render :partial => "projects/copy_settings/block_checkbox",
                :locals => { :name => "versions", :checked => true, :label => l(:label_version_plural),
-                            :count => @source_project.versions.count } %>
+                            :count => @project.versions.count } %>
     <%= render :partial => "projects/copy_settings/block_checkbox",
                :locals => { :name => "wiki", :checked => true, :label => l(:label_wiki_page_plural),
-                            :count => @source_project.wiki.nil? ? 0 : @source_project.wiki.pages.count } %>
+                            :count => @project.wiki.nil? ? 0 : @project.wiki.pages.count } %>
     <%= render :partial => "projects/copy_settings/block_checkbox",
                :locals => { :name => "work_packages", :checked => false, :label => l(:label_work_package_plural),
-                            :count => @source_project.work_packages.count } %>
+                            :count => @project.work_packages.count } %>
     <%= render :partial => "projects/copy_settings/block_checkbox",
                :locals => { :name => "issue_categories", :checked => true,
                             :label => l(:label_work_package_category_plural),
-                            :count => @source_project.issue_categories.count } %>
+                            :count => @project.issue_categories.count } %>
 
     <%= hidden_field_tag 'only[]', '' %>
     <br />

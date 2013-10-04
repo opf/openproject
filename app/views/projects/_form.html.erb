@@ -32,30 +32,29 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="box">
   <!--[form:project]-->
 
-  <%= render :partial => "projects/form/project_attributes", :locals => { :project => @project, :form => f } %>
+  <%= render :partial => "projects/form/project_attributes", :locals => { :project => project, :form => f } %>
 
   <%# former timelines hook: %>
-  <%= render :partial => 'projects/form/timelines_attributes', :locals => { :project => @project, :form => f } %>
+  <%= render :partial => 'projects/form/timelines_attributes', :locals => { :project => project, :form => f } %>
 
-  <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
+  <%= call_hook(:view_projects_form, :project => project, :form => f) %>
 </div>
 
-<% if @project.new_record? %>
-  <%= render :partial => "projects/form/modules", :locals => { :project => @project } %>
+<% if project.new_record? %>
+  <%= render :partial => "projects/form/modules", :locals => { :project => project } %>
 <% end %>
 
-<% if (@project.new_record? || @project.module_enabled?('issue_tracking')) %>
-<% unless @types.empty? %>
+<% if (project.new_record? || project.module_enabled?('issue_tracking')) %>
   <% if renderTypes %>
     <fieldset class="box" id="project_types"><legend><%=l(:label_type_plural)%> <span style="font-size:0.9em">(<%= check_all_links 'project_types' %>)</span></legend>
-      <%= render :partial => 'projects/form/types', :locals => { :f => f } %>
+      <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => project } %>
       <%= hidden_field_tag 'project[type_ids][]', '' %>
     </fieldset>
   <% end %>
 <% end %>
 
 <% unless @issue_custom_fields.empty? %>
-  <%= render :partial => "projects/form/custom_fields", :locals => { :project => @project,
+  <%= render :partial => "projects/form/custom_fields", :locals => { :project => project,
                                                        :issue_custom_fields => @issue_custom_fields } %>
 <% end %>
 <!--[eoform:project]-->
