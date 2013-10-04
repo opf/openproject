@@ -107,8 +107,3 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 #     Capybara::Selenium::Driver.new(app, :browser => :chrome)
 # end
 #
-
-# Make sure, that scenarios that involve time-travelling are cleaned up properly
-After '@timetravel' do
-  Timecop.return
-end

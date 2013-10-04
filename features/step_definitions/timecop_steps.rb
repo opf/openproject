@@ -42,6 +42,11 @@ Given /^the time is ([0-9]+) days later$/ do |duration|
   Support::ResetTimecop.reset_after
 end
 
+Given /^the date is "(.*?)"$/ do |date|
+  new_time = Time.parse date
+  Timecop.freeze(new_time)
+end
+
 module Support
   module ResetTimecop
     def self.reset_after

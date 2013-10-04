@@ -214,7 +214,6 @@ Feature: Filtering work packages via the api
 
   # Always make sure, that historical tests are tagged with @timetravel:
   # otherwise the time remains frozen for other features!!!
-  @timetravel
   Scenario: looking up historical data
     Given the date is "2010/01/01"
     And there are the following work packages in project "sample_project":
@@ -232,7 +231,6 @@ Feature: Filtering work packages via the api
     And the json-response for work_package "work_package#3" should have the type "Task"
     And the json-response for work_package "work_package#3" should have the responsible "Pamela Anderson"
 
-  @timetravel
   Scenario: comparing due dates
     Given the date is "2010/01/01"
     And there are the following work packages in project "sample_project":

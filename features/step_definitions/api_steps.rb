@@ -157,11 +157,6 @@ Then(/^the time to get the filtered results should be faster than the time to ge
   @filtered_benchmark.total.should < @unfiltered_benchmark.total
 end
 
-Given /^the date is "(.*?)"$/ do |date|
-  new_time = Time.parse date
-  Timecop.freeze(new_time)
-end
-
 def lookup_work_package(work_package_name)
   work_package = decoded_json["planning_elements"].select {|wp| wp["name"] == work_package_name}.first
 end

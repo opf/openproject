@@ -10,7 +10,7 @@ class PlanningComparisonService
            and #{Journal.table_name}.created_at=latest.latest_date
            and #{Journal.table_name}.journable_id in (#work_package_ids);
 SQL
-  @@mapped_attributes = Journal::WorkPackageJournal::journaled_attributes_keys.map{|attribute| "#{Journal::WorkPackageJournal.table_name}.#{attribute}"}.join ','
+  @@mapped_attributes = Journal::WorkPackageJournal.journaled_attributes.map{|attribute| "#{Journal::WorkPackageJournal.table_name}.#{attribute}"}.join ','
 
   @@work_package_select = <<SQL
       Select #{Journal.table_name}.journable_id as id,
@@ -59,9 +59,6 @@ SQL
 
     journal_ids = ActiveRecord::Base.connection.execute(sql)
                                                .map{|result| result["id"]}
-
-    # use the journaled attributes to make the journal-entry appear like a real(tm) WorkPackage
-    attributes = Journal::WorkPackageJournal::journaled_attributes_keys.map{|attribute| "#{Journal::WorkPackageJournal.table_name}.#{attribute}"}.join ','
 
     # 3&4 fetch the journaled data and make rails think it is actually a work_package
     work_packages = WorkPackage.find_by_sql(@@work_package_select.gsub('#journal_ids',journal_ids.join(',')))
