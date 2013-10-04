@@ -32,16 +32,9 @@ describe "Planning Comparison" do
 
   let (:project){FactoryGirl.create(:project)}
   let (:admin)  {FactoryGirl.create(:admin)}
-  let (:user)  {FactoryGirl.create(:user)}
-  let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_packages]) }
-  let(:member) { FactoryGirl.build(:member, :project => project,
-                                   :roles => [role],
-                                   :principal => user) }
-
 
   before do
     # query implicitly uses the logged in user to check for allowed work_packages/projects
-    member
     User.stub(:current).and_return(admin)
   end
 
@@ -50,12 +43,12 @@ describe "Planning Comparison" do
       #TODO are these actually unit-tests?!
       wp = nil
       # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
-      Timecop.freeze(2.weeks.ago) do
+      Timecop.travel(2.weeks.ago) do
         wp = FactoryGirl.create(:work_package, project: project, start_date: "01/01/2020", due_date: "01/03/2020")
         wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
       end
 
-      Timecop.freeze(1.week.ago) do
+      Timecop.travel(1.week.ago) do
         wp.reload
         wp.due_date = "01/04/2020"
         wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
@@ -94,7 +87,7 @@ describe "Planning Comparison" do
     let (:work_package) do
       wp = nil
       # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
-      Timecop.freeze(1.week.ago) do
+      Timecop.travel(1.week.ago) do
         wp = FactoryGirl.create(:work_package, project: project, due_date: "01/03/2020", assigned_to_id: assigned_to_user.id)
         wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
       end
@@ -109,7 +102,7 @@ describe "Planning Comparison" do
       other_user = FactoryGirl.create(:user)
       wp = nil
       # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
-      Timecop.freeze(1.week.ago) do
+      Timecop.travel(1.week.ago) do
         wp = FactoryGirl.create(:work_package, project: project, due_date: "01/03/2020", assigned_to_id: other_user.id)
         wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
       end

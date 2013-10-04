@@ -190,7 +190,7 @@ module Api
       end
 
       def historical_work_packages(projects)
-        at_time = DateTime.parse(params[:at_time])
+        at_time = Time.at(params[:at_time].to_i).to_datetime
         filter = params[:f] ? {f: params[:f], op: params[:op], v: params[:v]}: {}
         historical = PlanningComparisonService.compare(projects, at_time, filter)
       end

@@ -57,11 +57,10 @@ SQL
     sql = @@journal_sql.gsub("#work_package_ids", work_package_ids.join(','))
                        .gsub("#at_time", at_time.strftime("%Y-%m-%d"))
 
-    results = Journal.find_by_sql([@@journal_sql, at_time, work_package_ids.join(",")])
+    results = Journal.find_by_sql([@@journal_sql, at_time, work_package_ids])
     journal_ids = results.map(&:id)
 
-    puts "found these journals: #{journal_ids}"
     # 3&4 fetch the journaled data and make rails think it is actually a work_package
-    work_packages = WorkPackage.find_by_sql([@@work_package_select,journal_ids.join(',')])
+    work_packages = WorkPackage.find_by_sql([@@work_package_select,journal_ids])
   end
 end
