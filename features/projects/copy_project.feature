@@ -249,6 +249,7 @@ Feature: Project Settings
     And  I fill in "Name" with "Copied Project"
     And  I fill in "Identifier" with "cp"
     And  I click on "Copy"
+    Then I should see "Successful creation."
     And  I go to the settings page of the project "cp"
     And  I should see "project2" within "#project_parent_id"
 
@@ -264,6 +265,7 @@ Feature: Project Settings
     And  I fill in "Name" with "Copied Project"
     And  I fill in "Identifier" with "cp"
     And  I click on "Copy"
+    Then I should see "Successful creation."
     And  I go to the settings page of the project "cp"
     Then the "Phase1" checkbox should be checked
     And  the "Phase2" checkbox should be checked
@@ -281,6 +283,7 @@ Feature: Project Settings
     And  I fill in "Name" with "Copied Project"
     And  I fill in "Identifier" with "cp"
     And  I click on "Copy"
+    Then I should see "Successful creation."
     And  I go to the settings page of the project "cp"
     Then the "cfBug" checkbox should be checked
 
@@ -294,6 +297,7 @@ Feature: Project Settings
     And   I fill in "Name" with "Copied Project"
     And   I fill in "Identifier" with "cp"
     And   I click on "Copy"
+    Then I should see "Successful creation."
     And   I go to the settings page of the project "cp"
     Then  the "Public" checkbox should not be checked within "#content"
 
@@ -307,6 +311,7 @@ Feature: Project Settings
     And   I fill in "Name" with "Copied Project"
     And   I fill in "Identifier" with "cp"
     And   I click on "Copy"
+    Then  I should see "Successful creation."
     And   I go to the settings page of the project "cp"
     Then  the "Public" checkbox should be checked within "#content"
 
@@ -320,6 +325,7 @@ Feature: Project Settings
     And   I fill in "Name" with "Copied Project"
     And   I fill in "Identifier" with "cp"
     And   I click on "Copy"
+    Then  I should see "Successful creation."
     And   I go to the overview page for the project "Copied Project"
     And   I toggle the "Wiki" submenu
     And   I follow "Table of Contents" within "#main-menu"
@@ -340,6 +346,7 @@ Feature: Project Settings
     And   I fill in "Identifier" with "cp"
     And   I check "Work packages"
     And   I click on "Copy"
+    Then  I should see "Successful creation."
     And   I go to the work packages index page for the project "Copied Project"
     Then  I should see "issue1" within "#content"
     And   I should see "issue2" within "#content"
@@ -359,6 +366,7 @@ Feature: Project Settings
     And   I fill in "Identifier" with "cp"
     And   I check "Work packages"
     And   I click on "Copy"
+    Then  I should see "Successful creation."
     And   I go to the page of the planning element "pe1" of the project called "Copied Project"
     Then  I should see "pe1" within "#content"
     And   I go to the page of the planning element "pe2" of the project called "Copied Project"
@@ -374,5 +382,6 @@ Feature: Project Settings
     And   I fill in "Identifier" with "cp"
     And   I check "Timeline reports"
     And   I click on "Copy"
+    Then  I should see "Successful creation."
     And   I go to the page of the timeline "Testline" of the project called "Copied Project"
     Then  I should see "Testline" within "#content"
