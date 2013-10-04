@@ -1,0 +1,3 @@
+<% extend TimelinesHelper %>
+<p><%= form.select :project_type_id, options_for_project_types, :include_blank => true %></p>
+<p><%= form.select :responsible_id, options_for_responsible(project), :include_blank => true %></p>

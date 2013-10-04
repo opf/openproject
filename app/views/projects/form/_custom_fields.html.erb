@@ -1,0 +1,18 @@
+<fieldset class="box" id="project_issue_custom_fields">
+  <legend>
+    <%=l(:label_custom_field_plural)%>
+    <span style="font-size:0.9em">
+      (<%= check_all_links 'project_issue_custom_fields' %>)
+    </span>
+  </legend>
+  <% issue_custom_fields.each do |custom_field| %>
+    <label class="floating">
+      <%= check_box_tag 'project[work_package_custom_field_ids][]',
+                        custom_field.id,
+                        @project.all_work_package_custom_fields.include?(custom_field),
+                        custom_field.is_for_all? ? {:disabled => "disabled"} : {} %>
+      <%= h(custom_field.name) %>
+    </label>
+  <% end %>
+  <%= hidden_field_tag 'project[work_package_custom_field_ids][]', '' %>
+</fieldset>

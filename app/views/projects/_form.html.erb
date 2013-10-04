@@ -30,76 +30,32 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'project' %>
 
 <div class="box">
-<!--[form:project]-->
-<p><%= f.text_field :name, :required => true, :size => 60 %></p>
+  <!--[form:project]-->
 
-<% unless @project.allowed_parents.compact.empty? %>
-  <p><%= label(:project, :parent_id, Project.human_attribute_name(:parent)) %><%= parent_project_select_tag(@project) %></p>
-<% end %>
+  <%= render :partial => "projects/form/project_attributes", :locals => { :project => @project, :form => f } %>
 
-<p><%= f.text_area :summary, :rows => 2, :class => 'wiki-edit' %></p>
-<p><%= f.text_area :description, :rows => 5, :class => 'wiki-edit' %></p>
-<p><%= f.text_field :identifier, :required => true, :size => 60, :disabled => @project.identifier_frozen? %>
-<% unless @project.identifier_frozen? %>
-<script type="text/javascript" charset="utf-8">
-  projectIdentifierMaxLength = <%= Project::IDENTIFIER_MAX_LENGTH %>;
-  projectIdentifierDefault = '<%= @project.identifier %>';
-  projectIdentifierLocked = <%= !@project.identifier.blank? %>;
-  observeProjectIdentifier();
-  observeProjectName();
-</script>
-<br /><em><%= l(:text_length_between, :min => 1, :max => Project::IDENTIFIER_MAX_LENGTH) %> <%= l(:text_project_identifier_info).html_safe %></em>
-<% end %></p>
-<p><%= f.text_field :homepage, :size => 60 %></p>
-<p><%= f.check_box :is_public %></p>
-<%= wikitoolbar_for 'project_description' %>
+  <%# former timelines hook: %>
+  <%= render :partial => 'projects/form/timelines_attributes', :locals => { :project => @project, :form => f } %>
 
-<% @project.custom_field_values.each do |value| %>
-	<p><%= custom_field_tag_with_label :project, value %></p>
-<% end %>
-
-<%# former timelines hook: %>
-<% extend TimelinesHelper %>
-<p><%= f.select :project_type_id, options_for_project_types, :include_blank => true %></p>
-<p><%= f.select :responsible_id, options_for_responsible(@project), :include_blank => true %></p>
-
-<%= call_hook(:view_projects_form, :project => @project, :form => f) %>
-
+  <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
 </div>
 
 <% if @project.new_record? %>
-<fieldset class="box" id="project_modules"><legend><%= l(:label_module_plural) %> <span style="font-size:0.9em">(<%= check_all_links 'project_modules' %>)</span></legend>
-<% Redmine::AccessControl.available_project_modules.each do |m| %>
-    <label class="floating">
-    <%= check_box_tag 'project[enabled_module_names][]', m, @project.module_enabled?(m), :id => "project_enabled_module_names_#{m}" %>
-    <%= l_or_humanize(m, :prefix => "project_module_") %>
-    </label>
-<% end %>
-<%= hidden_field_tag 'project[enabled_module_names][]', '' %>
-<%= javascript_tag 'observeProjectModules()' %>
-</fieldset>
+  <%= render :partial => "projects/form/modules", :locals => { :project => @project } %>
 <% end %>
 
 <% if (@project.new_record? || @project.module_enabled?('issue_tracking')) %>
 <% unless @types.empty? %>
   <% if renderTypes %>
     <fieldset class="box" id="project_types"><legend><%=l(:label_type_plural)%> <span style="font-size:0.9em">(<%= check_all_links 'project_types' %>)</span></legend>
-      <%= render :partial => 'projects/types_form', :locals => { :f => f } %>
+      <%= render :partial => 'projects/form/types', :locals => { :f => f } %>
       <%= hidden_field_tag 'project[type_ids][]', '' %>
     </fieldset>
   <% end %>
 <% end %>
 
 <% unless @issue_custom_fields.empty? %>
-<fieldset class="box" id="project_issue_custom_fields"><legend><%=l(:label_custom_field_plural)%> <span style="font-size:0.9em">(<%= check_all_links 'project_issue_custom_fields' %>)</span></legend>
-<% @issue_custom_fields.each do |custom_field| %>
-    <label class="floating">
-	<%= check_box_tag 'project[work_package_custom_field_ids][]', custom_field.id, (@project.all_work_package_custom_fields.include? custom_field), (custom_field.is_for_all? ? {:disabled => "disabled"} : {}) %>
-	<%= h(custom_field.name) %>
-	</label>
-<% end %>
-<%= hidden_field_tag 'project[work_package_custom_field_ids][]', '' %>
-</fieldset>
-<% end %>
+  <%= render :partial => "projects/form/custom_fields", :locals => { :project => @project,
+                                                       :issue_custom_fields => @issue_custom_fields } %>
 <% end %>
 <!--[eoform:project]-->
