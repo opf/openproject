@@ -267,6 +267,7 @@ Feature: Project Settings
     And  I click on "Copy"
     Then I should see "Successful creation."
     And  I go to the settings page of the project "cp"
+    And  I follow "Types" within "#content"
     Then the "Phase1" checkbox should be checked
     And  the "Phase2" checkbox should be checked
 
