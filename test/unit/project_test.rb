@@ -650,7 +650,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_copy_from_existing_project
     source_project = Project.find(1)
-    copied_project = Project.copy_from(1)
+    copied_project = Project.copy(1)
 
     assert copied_project
     # Cleared attributes
