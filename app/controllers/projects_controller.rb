@@ -35,7 +35,7 @@ class ProjectsController < ApplicationController
   helper :timelines
 
   before_filter :disable_api
-  before_filter :find_project, :except => [ :index, :level_list, :new, :create, :copy ]
+  before_filter :find_project, :except => [ :index, :level_list, :new, :create ]
   before_filter :authorize, :only => [ :show, :settings, :edit, :update, :modules, :types, :copy, :copy_project ]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
