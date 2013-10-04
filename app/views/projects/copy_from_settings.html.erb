@@ -16,21 +16,23 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="copy box">
     <%= render :partial => "projects/form/attributes/name", :locals => { :form => f } %>
     <%= render :partial => "projects/form/attributes/identifier", :locals => { :form => f,
-                                                                               :project => @copy_project } %>
+                                                                               :project => @project } %>
     <%= render :partial => "projects/form/attributes/description", :locals => { :form => f } %>
-    <%= render :partial => "projects/form/attributes/custom_fields", :locals => { :project => @copy_project } %>
+    <%= render :partial => "projects/form/attributes/custom_fields", :locals => { :project => @project } %>
     <%= render :partial => "projects/form/attributes/responsible_id", :locals => { :form => f,
-                                                                                   :project => @copy_project } %>
+                                                                                   :project => @project } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :project_type_id, :value => @copy_project.project_type_id } %>
+               :locals => { :form => f, :name => :project_type_id, :value => @project.project_type_id } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :parent_id, :value => @copy_project.parent_id } %>
+               :locals => { :form => f, :name => :parent_id, :value => @project.parent_id } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :homepage, :value => @copy_project.homepage } %>
+               :locals => { :form => f, :name => :homepage, :value => @project.homepage } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
-               :locals => { :form => f, :name => :is_public, :value => @copy_project.is_public } %>
+               :locals => { :form => f, :name => :is_public, :value => @project.is_public } %>
+    <%= render :partial => "projects/form/hidden_types",
+               :locals => { :form => f, :types => @types, :project => @project } %>
     <%= render :partial => "projects/copy_settings/enabled_module_names",
-               :locals => { :project => @copy_project } %>
+               :locals => { :project => @project } %>
   </div>
 
   <fieldset class="copy box">

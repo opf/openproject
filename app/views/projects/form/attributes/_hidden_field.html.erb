@@ -1,1 +1,2 @@
-<%= form.hidden_field name, :value => (value || "") %>
+<% options ||= {}  %>
+<%= form.hidden_field name, {:value => (value || "")}.merge(options) %>
