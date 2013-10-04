@@ -130,7 +130,7 @@ class ProjectsController < ApplicationController
     @root_projects = Project.find(:all,
                                   :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
                                   :order => 'name')
-    @copy_project = Project.new
+    @copy_project = Project.copy_attributes(@project)
     if @copy_project
       @copy_project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
     else
