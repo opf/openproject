@@ -435,19 +435,18 @@ class ProjectsControllerTest < ActionController::TestCase
 
   def test_copy_with_project
     @request.session[:user_id] = 1 # admin
-    get :copy, :id => 1
+    get :copy_project, :id => 1, :coming_from => "settings"
     assert_response :success
-    assert_template 'copy'
+    assert_template 'copy_from_settings'
     assert assigns(:project)
     assert_equal Project.find(1).description, assigns(:project).description
-    assert_nil assigns(:project).id
+    assert_nil assigns(:copy_project).id
   end
 
   def test_copy_without_project
     @request.session[:user_id] = 1 # admin
-    get :copy
-    assert_response :redirect
-    assert_redirected_to :controller => 'admin', :action => 'projects'
+    get :copy_project
+    assert_response 404
   end
 
   context "POST :copy" do
