@@ -29,6 +29,11 @@ module Migration
       update_rows_in_database(table, column_list, updated_rows)
     end
 
+    def reset_public_key_sequence_in_postgres(table)
+      return unless ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
+      ActiveRecord::Base.connection.reset_pk_sequence!(table)
+    end
+
     private
 
     def select_rows_from_database(table, column_list, conditions)

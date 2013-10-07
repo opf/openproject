@@ -9,7 +9,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'migration_utils/utils'
+
 class LegacyIssuesToWorkPackages < ActiveRecord::Migration
+  include Migration::Utils
 
   class ExistingWorkPackagesError < ::StandardError
   end
@@ -20,7 +23,7 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration
   def up
     raise_on_existing_work_package_entries
     copy_legacy_issues_to_work_packages
-    reset_public_key_sequence_in_postgres
+    reset_public_key_sequence_in_postgres 'work_packages'
   end
 
   def down
@@ -42,11 +45,6 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration
         This migration assumes that there are none.
       MESSAGE
     end
-  end
-
-  def reset_public_key_sequence_in_postgres
-    return unless ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
-    ActiveRecord::Base.connection.reset_pk_sequence!('work_packages')
   end
 
   def copy_legacy_issues_to_work_packages
