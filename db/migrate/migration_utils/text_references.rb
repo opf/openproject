@@ -57,23 +57,35 @@ module Migration
 
     def process_text_update(columns, id_map)
       Proc.new do |row|
+        updated = false
+
         columns.each do |column|
+          original = row[column]
+
           row[column] = update_work_package_macros row[column], id_map, MACRO_REGEX, /\*/, '#'
           row[column] = update_issue_planning_element_links row[column], id_map
+
+          updated ||= original != row[column]
         end
 
-        row
+        UpdateResult.new(row, updated)
       end
     end
 
     def process_text_restore(columns, id_map)
       Proc.new do |row|
+        updated = false
+
         columns.each do |column|
+          original = row[column]
+
           row[column] = update_work_package_macros row[column], id_map, RESTORE_MACRO_REGEX, /#/, '*'
           row[column] = restore_issue_planning_element_links row[column], id_map
+
+          updated ||= original != row[column]
         end
 
-        row
+        UpdateResult.new(row, updated)
       end
     end
 

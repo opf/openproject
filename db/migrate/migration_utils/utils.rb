@@ -11,6 +11,8 @@
 
 module Migration
   module Utils
+    UpdateResult = Struct.new(:row, :updated)
+
     def say_with_time_silently message
       say_with_time message do
         suppress_messages do
@@ -20,13 +22,19 @@ module Migration
     end
 
     def update_column_values(table, column_list, updater, conditions)
-      updated_rows = []
+      update_column_values_and_journals(table, column_list, updater, false, conditions)
+    end
+
+    def update_column_values_and_journals(table, column_list, updater, update_journal, conditions)
+      processed_rows = []
 
       select_rows_from_database(table, column_list, conditions).each do |row|
-        updated_rows << updater.call(row)
+        processed_rows << updater.call(row)
       end
 
-      update_rows_in_database(table, column_list, updated_rows)
+      updated_rows = processed_rows.select(&:updated)
+
+      update_rows_in_database(table, column_list, updated_rows.collect(&:row))
     end
 
     def reset_public_key_sequence_in_postgres(table)
