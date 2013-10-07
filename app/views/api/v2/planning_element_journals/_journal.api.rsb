@@ -37,7 +37,7 @@ api.journal do
     journal.changed_data.each do |attribute, changes|
       api.change do
         api.technical do
-          api.name(attribute)
+          api.name(attribute.to_s)
           api.old(changes.first)
           api.new(changes.last)
         end
