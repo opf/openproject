@@ -211,7 +211,10 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |proj
       # NOTE: We're bypassing the controller here because we're just
       # setting up the database for the actual tests. The actual tests,
       # however, should NOT bypass the controller
-      Impediment.create_with_relationships(params, project.id)
+      imp = Impediment.create_with_relationships(params, project.id)
+      imp.blocks_ids += blocks
+      imp.save
+      imp
     end
   end
 end

@@ -141,6 +141,7 @@ Then /^the impediment "(.+)" should signal( | un)successful saving$/ do |impedim
   negative = !negative.blank?
 
   element = {}
+
   begin
     element = page.find(:xpath, "//div[contains(concat(' ',normalize-space(@class),' '),' impediment ') and contains(., '#{impediment_subject}')]")
     !element[:class].include?('saving') || element[:class].include?('error')

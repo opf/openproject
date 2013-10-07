@@ -112,8 +112,8 @@ Feature: Scrum Master
     And I fill in the ids of the tasks "Task 1" for "blocks_ids"
     And I select "Markus Master" from "assigned_to_id"
     And I press "OK"
-    Then I should see "Bad Company" within "#impediments"
     And the impediment "Bad Company" should signal successful saving
+    Then I should see "Bad Company" within "#impediments"
 
   @javascript
   Scenario: Create an impediment blocking an work_package of another sprint
