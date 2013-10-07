@@ -49,9 +49,11 @@ Feature: Edit work_package via modal box
   Scenario: Edit work_package via modal box
     When I go to the master backlog
     And I open the modal window for the story "Story A"
+    And I should see a modal window
     And I switch the modal window into edit mode
     And fill in "Story A changed" for "work_package_subject"
-    And I follow "Save"
+    And I click "Submit"
+    And I switch out of the modal
     And I go to the master backlog
 
     Then I should see "Story A changed"
