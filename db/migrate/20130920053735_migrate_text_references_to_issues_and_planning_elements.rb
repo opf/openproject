@@ -18,17 +18,11 @@ class MigrateTextReferencesToIssuesAndPlanningElements < ActiveRecord::Migration
 
   COLUMNS_PER_TABLE = {
     'boards' => ['description'],
-    'journals' => ['notes'],
     'messages' => ['content'],
     'news' => ['summary', 'description'],
     'projects' => ['description'],
     'wiki_contents' => ['text'],
     'work_packages' => ['description'],
-
-    'message_journals' => ['content'],
-    'news_journals' => ['summary', 'description'],
-    'wiki_content_journals' => ['text'],
-    'work_package_journals' => ['description']
   }
 
   def up
