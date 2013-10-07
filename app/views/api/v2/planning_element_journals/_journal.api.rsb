@@ -51,6 +51,6 @@ api.journal do
     end
   end
 
-  api.created_on(journal.created_at.utc)
+  api.created_on(journal.created_at.utc.iso8601)
 end
 
