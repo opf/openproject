@@ -48,7 +48,7 @@ module Api
       accept_key_auth :index, :show
 
       def index
-        @statuses = @project ? resolve_types_from_project : resolve_global_types
+        @statuses = @project ? resolve_statuses_from_project : resolve_global_statuses
 
         respond_to do |format|
           format.api
@@ -68,11 +68,11 @@ module Api
           @project = Project.find(params[:project_id]) if params[:project_id]
         end
 
-        def resolve_types_from_project
+        def resolve_statuses_from_project
           @statuses = Type.statuses(@project.types.map(&:id))
         end
 
-        def resolve_global_types
+        def resolve_global_statuses
           visible_type_ids = Project.visible
                                     .includes(:types)
                                     .map(&:types).flatten
