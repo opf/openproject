@@ -60,5 +60,40 @@ SQL
 
     # 3&4 fetch the journaled data and make rails think it is actually a work_package
     work_packages = WorkPackage.find_by_sql([@@work_package_select,journal_ids])
+    restore_references(work_packages)
   end
+
+  protected
+    # This is a very crude way to work around n+1-issues, that are
+    # introduced by the json/xml-rendering
+    def self.restore_references(work_packages)
+      project_ids, parent_ids, type_ids, status_ids = resolve_reference_ids(work_packages)
+
+      projects  = Hash[Project.find(project_ids).map {|wp| [wp.id,wp]}]
+      types     = Hash[Type.find(type_ids).map{|type| [type.id,type]}]
+      statuses  = Hash[Status.find(status_ids).map{|status| [status.id,status]}]
+      parents   = parent_ids.empty? ? {} : Hash[WorkPackage.find(parent_ids).map{|parent| [parent.id, parent]}]
+
+      work_packages.each do |wp|
+        wp.project = projects[wp.project_id]
+        wp.parent  = parents[wp.parent_id]
+        wp.type    = types[wp.type_id]
+        wp.status  = statuses[wp.status_id]
+      end
+
+      work_packages
+
+    end
+
+    def self.resolve_reference_ids(work_packages)
+      # TODO faster ways to do this without stepping numerous times through the workpackages?!
+      # Or simply wait unti we finally throw out the redundant references out of the json/xml-rendering??!
+      project_ids = work_packages.map(&:project_id).uniq.compact
+      type_ids = work_packages.map(&:type_id).uniq.compact
+      status_ids = work_packages.map(&:status_id).uniq.compact
+      parent_ids = work_packages.map(&:parent_id).uniq.compact
+
+      return project_ids, parent_ids, type_ids,status_ids
+
+    end
 end
