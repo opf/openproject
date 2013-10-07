@@ -48,15 +48,7 @@ module Api
       accept_key_auth :index, :show
 
       def index
-        if @project
-          @statuses = Type.statuses(@project.types.map(&:id))
-        else
-          visible_type_ids = Project.visible
-                                    .includes(:types)
-                                    .map(&:types).flatten
-                                    .map(&:id)
-          @statuses = Type.statuses(visible_type_ids)
-        end
+        @statuses = @project ? resolve_types_from_project : resolve_global_types
 
         respond_to do |format|
           format.api
@@ -74,6 +66,18 @@ module Api
       protected
         def resolve_project
           @project = Project.find(params[:project_id]) if params[:project_id]
+        end
+
+        def resolve_types_from_project
+          @statuses = Type.statuses(@project.types.map(&:id))
+        end
+
+        def resolve_global_types
+          visible_type_ids = Project.visible
+                                    .includes(:types)
+                                    .map(&:types).flatten
+                                    .map(&:id)
+          Type.statuses(visible_type_ids)
         end
     end
   end
