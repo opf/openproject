@@ -996,6 +996,8 @@ module ApplicationHelper
         urlRoot : '#{Redmine::Utils.relative_url_root}',
         loginUrl: '#{url_for :controller => "/account", :action => "login"}'
       });
+      I18n.defaultLocale = "#{I18n.default_locale}";
+      I18n.locale = "#{I18n.locale}";
     })
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       tags += javascript_tag("jQuery(function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
