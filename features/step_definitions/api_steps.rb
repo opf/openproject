@@ -128,7 +128,7 @@ And(/^I call the work_package\-api on project "(.*?)" at time "(.*?)" and filter
                     filters: [:type_id],
                     operators:  {type_id: '='},
                     values: {type_id: types.map(&:id)},
-                    at_time: at_time)
+                    at_time: DateTime.parse(at_time).to_i)  # the api accepts the time as unix-timestamps(epoch)
 end
 
 
