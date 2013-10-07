@@ -94,14 +94,16 @@ module Migration
 
     def update_work_package_macros(text, id_map, regex, macro_regex, new_macro)
       unless text.nil?
-        text.gsub!(regex) do |match|
-          if id_map.has_key? $~[:id].to_s
-            new_id = id_map[$~[:id].to_s][:new_id]
-            hash_macro = $~[:dots].gsub(macro_regex, new_macro)
+        text = parse_non_pre_blocks(text) do |block|
+          block.gsub!(regex) do |match|
+            if id_map.has_key? $~[:id].to_s
+              new_id = id_map[$~[:id].to_s][:new_id]
+              hash_macro = $~[:dots].gsub(macro_regex, new_macro)
 
-            " #{hash_macro}#{new_id} "
-          else
-            match
+              " #{hash_macro}#{new_id} "
+            else
+              match
+            end
           end
         end
       end
@@ -111,8 +113,10 @@ module Migration
 
     def update_issue_planning_element_links(text, id_map)
       unless text.nil?
-        text.gsub!(work_package_link_regex) {|_| update_issue_planning_element_link_match $~, id_map}
-        text.gsub!(rel_work_package_link_regex) {|_| update_issue_planning_element_link_match $~, id_map}
+        text = parse_non_pre_blocks(text) do |block|
+          block.gsub!(work_package_link_regex) {|_| update_issue_planning_element_link_match $~, id_map}
+          block.gsub!(rel_work_package_link_regex) {|_| update_issue_planning_element_link_match $~, id_map}
+        end
       end
 
       text
@@ -128,8 +132,10 @@ module Migration
 
     def restore_issue_planning_element_links(text, id_map)
       unless text.nil?
-        text.gsub!(restore_work_package_link_regex) {|_| restore_issue_planning_element_link_match $~, id_map}
-        text.gsub!(restore_rel_work_package_link_regex) {|_| restore_issue_planning_element_link_match $~, id_map}
+        text = parse_non_pre_blocks(text) do |block|
+          text.gsub!(restore_work_package_link_regex) {|_| restore_issue_planning_element_link_match $~, id_map}
+          text.gsub!(restore_rel_work_package_link_regex) {|_| restore_issue_planning_element_link_match $~, id_map}
+        end
       end
 
       text
@@ -165,6 +171,37 @@ module Migration
       id = id_map[id][:new_id] if id_map.has_key? id
       id
     end
+
+    # taken from app/helper/application_helper.rb
+    def parse_non_pre_blocks(text)
+      s = StringScanner.new(text)
+      tags = []
+      parsed = ''
+      while !s.eos?
+        s.scan(/(.*?)(<(\/)?(pre|code)(.*?)>|\z)/im)
+        text, full_tag, closing, tag = s[1], s[2], s[3], s[4]
+        if tags.empty?
+          yield text
+        end
+        parsed << text
+        if tag
+          if closing
+            if tags.last == tag.downcase
+              tags.pop
+            end
+          else
+            tags << tag.downcase
+          end
+          parsed << full_tag
+        end
+      end
+      # Close any non closing tags
+      while tag = tags.pop
+        parsed << "</#{tag}>"
+      end
+      parsed
+    end
+
 
     def host_name
       @host_name ||= select_host_name
