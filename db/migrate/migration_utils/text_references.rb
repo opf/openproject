@@ -12,22 +12,24 @@ require_relative 'utils'
 
 module Migration
   module Utils
-    def update_text_references(table, columns)
+    def update_text_references(table, columns, update_journal)
       id_update_map = planning_element_to_work_package_id_map
 
-      update_column_values(table,
-                           columns,
-                           process_text_update(columns, id_update_map),
-                           update_filter(columns))
+      update_column_values_and_journals(table,
+                                        columns,
+                                        process_text_update(columns, id_update_map),
+                                        update_journal,
+                                        update_filter(columns))
     end
 
-    def restore_text_references(table, columns)
+    def restore_text_references(table, columns, update_journal)
       id_restore_map = work_package_to_planning_element_id_map
 
-      update_column_values(table,
-                           columns,
-                           process_text_restore(columns, id_restore_map),
-                           restore_filter(columns))
+      update_column_values_and_journals(table,
+                                        columns,
+                                        process_text_restore(columns, id_restore_map),
+                                        update_journal,
+                                        restore_filter(columns))
     end
 
     private

@@ -15,26 +15,26 @@ class MigrateTextReferencesToIssuesAndPlanningElements < ActiveRecord::Migration
   include Migration::Utils
 
   COLUMNS_PER_TABLE = {
-    'boards' => ['description'],
-    'messages' => ['content'],
-    'news' => ['summary', 'description'],
-    'projects' => ['description'],
-    'wiki_contents' => ['text'],
-    'work_packages' => ['description'],
+    'boards' => { columns: ['description'], update_journal: false },
+    'messages' => { columns: ['content'], update_journal: false },
+    'news' => { columns: ['summary', 'description'], update_journal: false },
+    'projects' => { columns: ['description'], update_journal: false },
+    'wiki_contents' => { columns: ['text'], update_journal: true },
+    'work_packages' => { columns: ['description'], update_journal: true },
   }
 
   def up
-    COLUMNS_PER_TABLE.each_pair do |table, columns|
+    COLUMNS_PER_TABLE.each_pair do |table, options|
       say_with_time_silently "Update text references for table #{table}" do
-        update_text_references(table, columns)
+        update_text_references(table, options[:columns], options[:update_journal])
       end
     end
   end
 
   def down
-    COLUMNS_PER_TABLE.each_pair do |table, columns|
+    COLUMNS_PER_TABLE.each_pair do |table, options|
       say_with_time_silently "Restore text references for table #{table}" do
-        restore_text_references(table, columns)
+        restore_text_references(table, options[:columns], options[:update_journal])
       end
     end
   end
