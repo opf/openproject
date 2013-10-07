@@ -48,19 +48,23 @@ SQL
                          query.add_filters(filter[:f], filter[:op], filter[:v])
                          #TODO teach query to fetch only ids
                          work_package_scope.with_query(query)
-                                           .map(&:id)
+                                           .pluck(:id)
                        else
                          WorkPackage.for_projects(projects).pluck(:id)
                        end
-
+    puts "workpackages after filtering: #{work_package_ids}"
     # 2 fetch latest journal-entries for the given time
     sql = @@journal_sql.gsub("#work_package_ids", work_package_ids.join(','))
                        .gsub("#at_time", at_time.strftime("%Y-%m-%d"))
 
     results = Journal.find_by_sql([@@journal_sql, at_time, work_package_ids])
+    # find_by_sql means pluck doesn't work, so we need  to map these
     journal_ids = results.map(&:id)
+    puts "latest journalentries for filtered workpackages: #{journal_ids}"
 
     # 3&4 fetch the journaled data and make rails think it is actually a work_package
     work_packages = WorkPackage.find_by_sql([@@work_package_select,journal_ids])
+    puts "Historical Workpackages found for filter: #{work_packages.map(&:id)}"
+    work_packages
   end
 end
