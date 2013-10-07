@@ -17,7 +17,7 @@ module BacklogsNavigationHelpers
 
     when /^the work_packages index page$/
       project = get_project
-      path_to %Q{the work_packages index page of the project called "#{project.name}"}
+      path_to %Q{the work packages index page of the project called "#{project.name}"}
 
     when /^the burndown for "(.+?)"(?: (?:in|of) the [pP]roject "(.+?)")?$/
       project = get_project($2)
