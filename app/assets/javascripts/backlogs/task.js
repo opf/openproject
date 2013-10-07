@@ -22,7 +22,7 @@ RB.Task = (function ($) {
     },
 
     beforeSave: function name() {
-      if (this.el.hasClassName('dragging')){
+      if (this.el && this.el.hasClass('dragging')){
         return;
       }
       var c = this.$.find('select.assigned_to_id').children(':selected').attr('color') || this.defaultColor;
