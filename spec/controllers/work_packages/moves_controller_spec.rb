@@ -33,8 +33,8 @@ describe WorkPackages::MovesController do
   let(:user) { FactoryGirl.create(:user)}
   let(:type) { FactoryGirl.create :type }
   let(:type_2) { FactoryGirl.create :type }
-  let(:status) { FactoryGirl.create :default_issue_status }
-  let(:target_status) { FactoryGirl.create :issue_status }
+  let(:status) { FactoryGirl.create :default_status }
+  let(:target_status) { FactoryGirl.create :status }
   let(:priority) { FactoryGirl.create :priority }
   let(:target_priority) { FactoryGirl.create :priority }
   let(:project) { FactoryGirl.create(:project,

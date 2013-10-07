@@ -47,19 +47,20 @@ Feature: Types Settings
       And there is a role "project admin"
       And the role "project admin" may have the following rights:
           | edit_project                 |
+          | manage_types                 |
           | manage_project_configuration |
       And the user "padme" is a "project admin"
 
       And I am already logged in as "padme"
 
   Scenario: The project admin may see the currently enabled types
-     When I go to the settings page of the project called "ecookbook"
+     When I go to the "types" tab of the settings page of the project called "ecookbook"
      Then the "Phase" checkbox should be checked
       And the "Milestone" checkbox should be checked
       And the "Something else" checkbox should not be checked
 
   Scenario: The project admin may set the currently enabled types
-     When I go to the settings page of the project called "ecookbook"
+     When I go to the "types" tab of the settings page of the project called "ecookbook"
       And I check "Something else"
       And I uncheck "Milestone"
       And I press "Save"

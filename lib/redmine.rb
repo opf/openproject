@@ -86,11 +86,12 @@ Redmine::AccessControl.map do |map|
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
   map.permission :manage_members, {:projects => :settings, :members => [:create, :update, :destroy, :autocomplete_for_member]}, :require => :member
   map.permission :manage_versions, {:projects => :settings, :versions => [:new, :create, :edit, :update, :close_completed, :destroy]}, :require => :member
+  map.permission :manage_types, {:projects => :types}, :require => :member
   map.permission :add_subprojects, {:projects => [:new, :create]}, :require => :member
 
   map.project_module :issue_tracking do |map|
     # Issue categories
-    map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :create, :edit, :update, :destroy]}, :require => :member
+    map.permission :manage_categories, {:projects => :settings, :categories => [:new, :create, :edit, :update, :destroy]}, :require => :member
     # Issues
     map.permission :view_work_packages, {:'issues' => [:index, :all, :show],
                                          :auto_complete => [:issues],
@@ -99,7 +100,7 @@ Redmine::AccessControl.map do |map|
                                          :journals => [:index, :diff],
                                          :queries => :index,
                                          :work_packages => [:show, :index],
-                                         :'issues/reports' => [:report, :report_details],
+                                         :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
                                          :planning_element_journals => [:index]}
     map.permission :export_work_packages, {:'work_packages' => [:index, :all]}
@@ -252,8 +253,8 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :groups, {:controller => '/groups'}, :caption => :label_group_plural
   menu.push :roles, {:controller => '/roles'}, :caption => :label_role_and_permissions
   menu.push :types, {:controller => '/types'}, :caption => :label_type_plural
-  menu.push :issue_statuses, {:controller => '/issue_statuses'}, :caption => :label_work_package_status_plural,
-            :html => {:class => 'issue_statuses'}
+  menu.push :statuses, {:controller => '/statuses'}, :caption => :label_work_package_status_plural,
+            :html => {:class => 'statuses'}
   menu.push :workflows, {:controller => '/workflows', :action => 'edit'}, :caption => Proc.new { Workflow.model_name.human }
   menu.push :custom_fields, {:controller => '/custom_fields'},  :caption => :label_custom_field_plural,
             :html => {:class => 'custom_fields'}

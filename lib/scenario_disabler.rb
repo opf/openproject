@@ -29,7 +29,7 @@
 class ScenarioDisabler
   def self.empty_if_disabled(scenario)
     if self.disabled?(scenario)
-      scenario.instance_variable_set(:@steps,::Cucumber::Ast::StepCollection.new([])) 
+      scenario.skip_invoke!
       true
     else
       false

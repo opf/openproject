@@ -76,8 +76,8 @@ describe WorkPackagesHelper do
   end
 
   describe :link_to_work_package do
-    let(:open_status) { FactoryGirl.build_stubbed(:issue_status, :is_closed => false) }
-    let(:closed_status) { FactoryGirl.build_stubbed(:issue_status, :is_closed => true) }
+    let(:open_status) { FactoryGirl.build_stubbed(:status, :is_closed => false) }
+    let(:closed_status) { FactoryGirl.build_stubbed(:status, :is_closed => true) }
 
     before do
       stub_work_package.status = open_status
@@ -211,24 +211,24 @@ describe WorkPackagesHelper do
     end
   end
 
-  describe :work_package_form_issue_category_attribute do
+  describe :work_package_form_category_attribute do
     let(:stub_project) { FactoryGirl.build_stubbed(:project) }
-    let(:stub_category) { FactoryGirl.build_stubbed(:issue_category) }
+    let(:stub_category) { FactoryGirl.build_stubbed(:category) }
 
     before do
       # set sensible defaults
       helper.stub(:authorize_for).and_return(false)
-      stub_project.stub(:issue_categories).and_return([stub_category])
+      stub_project.stub(:categories).and_return([stub_category])
     end
 
     it "should return nothing if the project has no categories assigned" do
-      stub_project.stub(:issue_categories).and_return([])
+      stub_project.stub(:categories).and_return([])
 
-      helper.work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).should be_nil
+      helper.work_package_form_category_attribute(form, stub_work_package, :project => stub_project).should be_nil
     end
 
     it "should have a :category symbol as the attribute" do
-      helper.work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).attribute.should == :category
+      helper.work_package_form_category_attribute(form, stub_work_package, :project => stub_project).attribute.should == :category
     end
 
     it "should render a select with the project's issue category" do
@@ -238,7 +238,7 @@ describe WorkPackagesHelper do
                                         [[stub_category.name, stub_category.id]],
                                         :include_blank => true).and_return(select)
 
-      helper.work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).field.should == select
+      helper.work_package_form_category_attribute(form, stub_work_package, :project => stub_project).field.should == select
     end
 
     it "should add an additional remote link to create new categories if allowed" do
@@ -247,15 +247,15 @@ describe WorkPackagesHelper do
       helper.stub(:authorize_for).and_return(true)
 
       helper.should_receive(:prompt_to_remote)
-            .with(*([anything()] * 3), project_issue_categories_path(stub_project), anything())
+            .with(*([anything()] * 3), project_categories_path(stub_project), anything())
             .and_return(remote)
 
-      helper.work_package_form_issue_category_attribute(form, stub_work_package, :project => stub_project).field.should include(remote)
+      helper.work_package_form_category_attribute(form, stub_work_package, :project => stub_project).field.should include(remote)
     end
   end
 
   describe :work_package_css_classes do
-    let(:statuses) { (1..5).map{ |i| FactoryGirl.build_stubbed(:issue_status)}}
+    let(:statuses) { (1..5).map{ |i| FactoryGirl.build_stubbed(:status)}}
     let(:priority) { FactoryGirl.build_stubbed :priority, is_default: true }
     let(:status) { statuses[0] }
     let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package,
@@ -405,8 +405,8 @@ describe WorkPackagesHelper do
   end
 
   describe :work_package_form_status_attribute do
-    let(:status1) { FactoryGirl.build_stubbed(:issue_status) }
-    let(:status2) { FactoryGirl.build_stubbed(:issue_status) }
+    let(:status1) { FactoryGirl.build_stubbed(:status) }
+    let(:status2) { FactoryGirl.build_stubbed(:status) }
 
     it "should return a select with every available status as an option" do
       stub_work_package.stub(:new_statuses_allowed_to)

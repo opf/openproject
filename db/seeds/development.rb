@@ -52,7 +52,7 @@ project = Project.create(name: "Seeded Project",
                         )
 
 # this will fail rather miserably, when there are no statuses present
-statuses = IssueStatus.all
+statuses = Status.all
 # don't bother with milestones, too difficult to handle all cases
 types = project.types.all.reject{|type| type.is_milestone?}
 

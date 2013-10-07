@@ -74,7 +74,7 @@ class RepositoryTest < ActiveSupport::TestCase
     Setting.notified_events = ['issue_added','issue_updated']
 
     # choosing a status to apply to fix issues
-    Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = Status.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = "90"
     Setting.commit_ref_keywords = 'refs , references, IssueID'
     Setting.commit_fix_keywords = 'fixes , closes'

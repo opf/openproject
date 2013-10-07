@@ -294,7 +294,7 @@ module WorkPackagesHelper
       work_package_form_priority_attribute(form, work_package, locals),
       work_package_form_assignee_attribute(form, work_package, locals),
       work_package_form_responsible_attribute(form, work_package, locals),
-      work_package_form_issue_category_attribute(form, work_package, locals),
+      work_package_form_category_attribute(form, work_package, locals),
       work_package_form_assignable_versions_attribute(form, work_package, locals),
       work_package_form_start_date_attribute(form, work_package, locals),
       work_package_form_due_date_attribute(form, work_package, locals),
@@ -505,17 +505,17 @@ module WorkPackagesHelper
                              form.select(:responsible_id, options_for_responsible(locals[:project]), :include_blank => true))
   end
 
-  def work_package_form_issue_category_attribute(form, work_package, locals = {})
-    unless locals[:project].issue_categories.empty?
+  def work_package_form_category_attribute(form, work_package, locals = {})
+    unless locals[:project].categories.empty?
       field = form.select(:category_id,
-                          (locals[:project].issue_categories.collect {|c| [c.name, c.id]}),
+                          (locals[:project].categories.collect {|c| [c.name, c.id]}),
                           :include_blank => true)
 
       field += prompt_to_remote(image_tag('plus.png', :style => 'vertical-align: middle;'),
                                          t(:label_work_package_category_new),
                                          'category[name]',
-                                         project_issue_categories_path(locals[:project]),
-                                         :title => t(:label_work_package_category_new)) if authorize_for('issue_categories', 'new')
+                                         project_categories_path(locals[:project]),
+                                         :title => t(:label_work_package_category_new)) if authorize_for('categories', 'new')
 
       WorkPackageAttribute.new(:category, field)
     end

@@ -39,19 +39,19 @@ class WorkPackage < ActiveRecord::Base
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   include Redmine::SafeAttributes
 
-  DONE_RATIO_OPTIONS = %w(issue_field issue_status disabled)
+  DONE_RATIO_OPTIONS = %w(field status disabled)
   ATTRIBS_WITH_VALUES_FROM_CHILDREN = %w(priority_id start_date due_date estimated_hours done_ratio)
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   belongs_to :project
   belongs_to :type
-  belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
+  belongs_to :status, :class_name => 'Status', :foreign_key => 'status_id'
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :assigned_to, :class_name => 'Principal', :foreign_key => 'assigned_to_id'
   belongs_to :responsible, :class_name => "User", :foreign_key => "responsible_id"
   belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
-  belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
+  belongs_to :category, :class_name => 'Category', :foreign_key => 'category_id'
 
   has_many :time_entries, :dependent => :delete_all
   has_many :relations_from, :class_name => 'Relation', :foreign_key => 'from_id', :dependent => :delete_all
@@ -77,7 +77,7 @@ class WorkPackage < ActiveRecord::Base
   }
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
+  scope :open, :conditions => ["#{Status.table_name}.is_closed = ?", false], :include => :status
 
   scope :with_limit, lambda { |limit| { :limit => limit} }
 
@@ -116,7 +116,7 @@ class WorkPackage < ActiveRecord::Base
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   before_create :default_assign
-  before_save :close_duplicates, :update_done_ratio_from_issue_status
+  before_save :close_duplicates, :update_done_ratio_from_status
   before_destroy :remove_attachments
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -173,7 +173,7 @@ class WorkPackage < ActiveRecord::Base
         t << if journal.changed_data.empty? && !journal.initial?
                '-note'
              else
-               status = IssueStatus.find_by_id(journal.new_value_for(:status_id))
+               status = Status.find_by_id(journal.new_value_for(:status_id))
 
                status.try(:is_closed?) ? '-closed' : '-edit'
              end
@@ -237,11 +237,11 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def self.use_status_for_done_ratio?
-    Setting.work_package_done_ratio == 'issue_status'
+    Setting.work_package_done_ratio == 'status'
   end
 
   def self.use_field_for_done_ratio?
-    Setting.work_package_done_ratio == 'issue_field'
+    Setting.work_package_done_ratio == 'field'
   end
 
   # Returns true if usr or current user is allowed to view the work_package
@@ -440,7 +440,7 @@ class WorkPackage < ActiveRecord::Base
       assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
       )
     statuses << status unless statuses.empty?
-    statuses << IssueStatus.default if include_default
+    statuses << Status.default if include_default
     statuses = statuses.uniq.sort
     blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
@@ -616,7 +616,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
-  def update_done_ratio_from_issue_status
+  def update_done_ratio_from_status
     if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
       self.done_ratio = status.default_done_ratio
     end
@@ -637,7 +637,7 @@ class WorkPackage < ActiveRecord::Base
       delete_relations(work_package)
       # work_package is moved to another project
       # reassign to the category with same name if any
-      new_category = work_package.category.nil? ? nil : new_project.issue_categories.find_by_name(work_package.category.name)
+      new_category = work_package.category.nil? ? nil : new_project.categories.find_by_name(work_package.category.name)
       work_package.category = new_category
       # Keep the fixed_version if it's still valid in the new_project
       unless new_project.shared_versions.include?(work_package.fixed_version)
@@ -664,7 +664,7 @@ class WorkPackage < ActiveRecord::Base
       work_package.author = User.current
       work_package.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
       work_package.status = if options[:attributes] && options[:attributes][:status_id]
-                              IssueStatus.find_by_id(options[:attributes][:status_id])
+                              Status.find_by_id(options[:attributes][:status_id])
                             else
                               self.status
                             end
@@ -872,7 +872,7 @@ class WorkPackage < ActiveRecord::Base
   def self.by_category(project)
     count_and_group_by(:project => project,
                        :field => 'category_id',
-                       :joins => IssueCategory.table_name)
+                       :joins => Category.table_name)
   end
 
   def self.by_assigned_to(project)
@@ -893,7 +893,7 @@ class WorkPackage < ActiveRecord::Base
                                                 i.project_id as project_id,
                                                 count(i.id) as total
                                               from
-                                                #{WorkPackage.table_name} i, #{IssueStatus.table_name} s
+                                                #{WorkPackage.table_name} i, #{Status.table_name} s
                                               where
                                                 i.status_id=s.id
                                                 and i.project_id IN (#{project.descendants.active.collect{|p| p.id}.join(',')})
@@ -906,7 +906,7 @@ class WorkPackage < ActiveRecord::Base
 
   def set_default_values
     if new_record? # set default values for new records only
-      self.status   ||= IssueStatus.default
+      self.status   ||= Status.default
       self.priority ||= IssuePriority.default
     end
   end
@@ -992,7 +992,7 @@ class WorkPackage < ActiveRecord::Base
                                                 j.id as #{select_field},
                                                 count(i.id) as total
                                               from
-                                                  #{WorkPackage.table_name} i, #{IssueStatus.table_name} s, #{joins} j
+                                                  #{WorkPackage.table_name} i, #{Status.table_name} s, #{joins} j
                                               where
                                                 i.status_id=s.id
                                                 and #{where}

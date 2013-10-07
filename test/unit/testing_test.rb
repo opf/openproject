@@ -39,8 +39,8 @@ class TestingTest < ActiveSupport::TestCase
   end
 
   test "Generating with object_daddy" do
-    assert_difference "IssueStatus.count" do
-      IssueStatus.generate!
+    assert_difference "Status.count" do
+      Status.generate!
     end
   end
 

@@ -40,7 +40,7 @@ module Redmine
         def no_data?
           !Role.find(:first, :conditions => {:builtin => 0}) &&
             !Type.find(:first, :conditions => {is_standard: false}) &&
-            !IssueStatus.find(:first) &&
+            !Status.find(:first) &&
             !Enumeration.find(:first)
         end
 
@@ -176,17 +176,17 @@ module Redmine
                          :position       => 5
 
             # Issue statuses
-            new      = IssueStatus.create!(:name => l(:default_issue_status_new), :is_closed => false, :is_default => true, :position => 1)
-            in_progress  = IssueStatus.create!(:name => l(:default_issue_status_in_progress), :is_closed => false, :is_default => false, :position => 3)
-            resolved  = IssueStatus.create!(:name => l(:default_issue_status_resolved), :is_closed => false, :is_default => false, :position => 3)
-            feedback  = IssueStatus.create!(:name => l(:default_issue_status_feedback), :is_closed => false, :is_default => false, :position => 4)
-            closed    = IssueStatus.create!(:name => l(:default_issue_status_closed), :is_closed => true, :is_default => false, :position => 5)
-            rejected  = IssueStatus.create!(:name => l(:default_issue_status_rejected), :is_closed => true, :is_default => false, :position => 6)
+            new      = Status.create!(:name => l(:default_status_new), :is_closed => false, :is_default => true, :position => 1)
+            in_progress  = Status.create!(:name => l(:default_status_in_progress), :is_closed => false, :is_default => false, :position => 3)
+            resolved  = Status.create!(:name => l(:default_status_resolved), :is_closed => false, :is_default => false, :position => 3)
+            feedback  = Status.create!(:name => l(:default_status_feedback), :is_closed => false, :is_default => false, :position => 4)
+            closed    = Status.create!(:name => l(:default_status_closed), :is_closed => true, :is_default => false, :position => 5)
+            rejected  = Status.create!(:name => l(:default_status_rejected), :is_closed => true, :is_default => false, :position => 6)
 
             # Workflow
             Type.find(:all).each { |t|
-              IssueStatus.find(:all).each { |os|
-                IssueStatus.find(:all).each { |ns|
+              Status.find(:all).each { |os|
+                Status.find(:all).each { |ns|
                   Workflow.create!(:type_id => t.id, :role_id => manager.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }
               }

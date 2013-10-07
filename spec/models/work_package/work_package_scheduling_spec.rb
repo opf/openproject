@@ -71,7 +71,7 @@ describe WorkPackage do
 
     context "status closed" do
       let(:due_date) { 1.day.ago.to_date }
-      let(:status) { FactoryGirl.create(:issue_status,
+      let(:status) { FactoryGirl.create(:status,
                                         is_closed: true) }
 
       before { work_package.status = status }

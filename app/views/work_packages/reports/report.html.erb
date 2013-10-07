@@ -1,0 +1,66 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<h2><%=l(:label_summary)%></h2>
+
+<div class="splitcontentleft">
+<%
+{ 'type' => { :rows => @types, :data => @work_packages_by_type, :name => "type_id" },
+  'priority' => { :rows => @priorities, :data => @work_packages_by_priority, :name => "priority_id" },
+  'assigned_to' => { :rows => @assignees, :data => @work_packages_by_assigned_to, :name => "assigned_to_id" },
+  'author' => { :rows => @authors, :data => @work_packages_by_author, :name => "author_id" }
+}.each do |detail, variables| %>
+
+  <%= render :partial => 'report_category', :locals => { :detail => detail,
+                                                         :data => variables[:data],
+                                                         :field_name => variables[:name],
+                                                         :rows => variables[:rows] } %>
+<% end %>
+<%= call_hook(:view_reports_issue_report_split_content_left, :project => @project) %>
+</div>
+
+<div class="splitcontentright">
+<%
+details = {'version' => { :rows => @versions, :data => @version, :name => "fixed_version_id" } }
+if @project.children.any?
+  details['subproject'] = { :data => @work_packages_by_subproject, :name => "project_id", :rows => @subprojects }
+end
+details['category'] = { :data => @work_packages_by_category, :name => "category_id", :rows => @categories }
+%>
+
+<% details.each do |detail, variables| %>
+  <%= render :partial => 'report_category', :locals => { :detail => detail,
+                                                         :data => variables[:data],
+                                                         :field_name => variables[:name],
+                                                         :rows => variables[:rows] } %>
+  <br />
+<% end %>
+<%= call_hook(:view_reports_issue_report_split_content_right, :project => @project) %>
+</div>
+

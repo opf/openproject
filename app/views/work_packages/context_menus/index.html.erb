@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <ul class="menu">
-  <%= call_hook(:view_issues_context_menu_start, {:issues => @work_packages, :can => @can, :back => @back }) %>
+  <%= call_hook(:view_work_packages_context_menu_start, {:issues => @work_packages, :can => @can, :back => @back }) %>
 
 <% if !@work_package.nil? -%>
   <li class="edit">
@@ -93,7 +93,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= context_menu_entry(params) %>
 <% end %>
 
-<% unless @project.nil? || (categories = @project.issue_categories.to_a).empty? -%>
+<% unless @project.nil? || (categories = @project.categories.to_a).empty? -%>
   <% categories << [nil, l(:label_none)] %>
   <% params = default_params.merge(:collection => categories,
                                    :attribute => 'category',
@@ -158,5 +158,5 @@ See doc/COPYRIGHT.rdoc for more details.
                                              :disabled => !@can[:delete] %>
   </li>
 
-  <%= call_hook(:view_issues_context_menu_end, {:issues => @work_packages, :can => @can, :back => @back }) %>
+  <%= call_hook(:view_work_packages_context_menu_end, {:issues => @work_packages, :can => @can, :back => @back }) %>
 </ul>

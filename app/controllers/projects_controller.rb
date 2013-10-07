@@ -40,7 +40,7 @@ class ProjectsController < ApplicationController
 
   before_filter :disable_api
   before_filter :find_project, :except => [ :index, :level_list, :new, :create, :copy ]
-  before_filter :authorize, :only => [ :show, :settings, :edit, :update, :modules ]
+  before_filter :authorize, :only => [ :show, :settings, :edit, :update, :modules, :types ]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   before_filter :jump_to_project_menu_item, :only => :show
@@ -60,17 +60,6 @@ class ProjectsController < ApplicationController
   include QueriesHelper
   include RepositoriesHelper
   include ProjectsHelper
-
-  # for timelines
-  def planning_element_types
-    params[:project].assert_valid_keys("planning_element_type_ids")
-    if @project.update_attributes(params[:project])
-      flash[:notice] = l('notice_successful_update')
-    else
-      flash[:error] = l('timelines.cannot_update_planning_element_types')
-    end
-    redirect_to :action => "settings", :tab => "timelines"
-  end
 
   # Lists visible projects
   def index
@@ -163,7 +152,7 @@ class ProjectsController < ApplicationController
 
     @open_issues_by_type = WorkPackage.visible.count(:group => :type,
                                             :include => [:project, :status, :type],
-                                            :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
+                                            :conditions => ["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
     @total_issues_by_type = WorkPackage.visible.count(:group => :type,
                                             :include => [:project, :status, :type],
                                             :conditions => cond)
@@ -201,6 +190,16 @@ class ProjectsController < ApplicationController
         }
       end
     end
+  end
+
+  def types
+    params[:project].assert_valid_keys("type_ids")
+    if @project.update_attributes(params[:project])
+      flash[:notice] = l('notice_successful_update')
+    else
+      flash[:error] = l('timelines.cannot_update_planning_element_types')
+    end
+    redirect_to :action => "settings", :tab => "types"
   end
 
   def modules
@@ -273,7 +272,7 @@ private
 
   def load_project_settings
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @issue_category ||= IssueCategory.new
+    @category ||= Category.new
     @member ||= @project.members.new
     @types = Type.all
     @repository ||= @project.repository

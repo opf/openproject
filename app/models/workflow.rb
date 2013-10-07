@@ -29,8 +29,8 @@
 
 class Workflow < ActiveRecord::Base
   belongs_to :role
-  belongs_to :old_status, :class_name => 'IssueStatus', :foreign_key => 'old_status_id'
-  belongs_to :new_status, :class_name => 'IssueStatus', :foreign_key => 'new_status_id'
+  belongs_to :old_status, :class_name => 'Status', :foreign_key => 'old_status_id'
+  belongs_to :new_status, :class_name => 'Status', :foreign_key => 'new_status_id'
 
   #attr_protected :role_id
 

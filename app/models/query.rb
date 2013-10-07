@@ -83,14 +83,14 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
     QueryColumn.new(:type, :sortable => "#{Type.table_name}.position", :groupable => true),
     QueryColumn.new(:parent, :sortable => ["#{WorkPackage.table_name}.root_id", "#{WorkPackage.table_name}.lft ASC"], :default_order => 'desc', :caption => :parent_issue),
-    QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position", :groupable => true),
+    QueryColumn.new(:status, :sortable => "#{Status.table_name}.position", :groupable => true),
     QueryColumn.new(:priority, :sortable => "#{IssuePriority.table_name}.position", :default_order => 'desc', :groupable => true),
     QueryColumn.new(:subject, :sortable => "#{WorkPackage.table_name}.subject"),
     QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
     QueryColumn.new(:responsible, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
     QueryColumn.new(:updated_at, :sortable => "#{WorkPackage.table_name}.updated_at", :default_order => 'desc'),
-    QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
+    QueryColumn.new(:category, :sortable => "#{Category.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
     # Put empty start_dates and due_dates in the far future rather than in the far past
     QueryColumn.new(:start_date, :sortable => ["CASE WHEN #{WorkPackage.table_name}.start_date IS NULL THEN 1 ELSE 0 END", "#{WorkPackage.table_name}.start_date"]),
@@ -136,7 +136,7 @@ class Query < ActiveRecord::Base
 
     types = project.nil? ? Type.find(:all, :order => 'position') : project.rolled_up_types
 
-    @available_filters = { "status_id" => { :type => :list_status, :order => 1, :values => IssueStatus.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] } },
+    @available_filters = { "status_id" => { :type => :list_status, :order => 1, :values => Status.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] } },
                            "type_id" => { :type => :list, :order => 2, :values => types.collect{|s| [s.name, s.id.to_s] } },
                            "priority_id" => { :type => :list, :order => 3, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s] } },
                            "subject" => { :type => :text, :order => 8 },
@@ -203,7 +203,7 @@ class Query < ActiveRecord::Base
 
     if project
       # project specific filters
-      categories = project.issue_categories.all
+      categories = project.categories.all
       unless categories.empty?
         @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => categories.collect{|s| [s.name, s.id.to_s] } }
       end
@@ -536,7 +536,7 @@ class Query < ActiveRecord::Base
                    .joins("INNER JOIN projects ON work_packages.project_id = projects.id")
                    .joins("INNER JOIN users AS authors ON work_packages.author_id = authors.id")
                    .joins("INNER JOIN types ON work_packages.type_id = types.id")
-                   .joins("INNER JOIN issue_statuses ON work_packages.status_id = issue_statuses.id")
+                   .joins("INNER JOIN statuses ON work_packages.status_id = statuses.id")
                    .where(statement)
                    .order(options[:order])
                    .limit(options[:limit])
@@ -590,9 +590,9 @@ class Query < ActiveRecord::Base
         sql = "#{db_table}.#{db_field} <= #{value.first.to_f}"
       end
     when "o"
-      sql = "#{IssueStatus.table_name}.is_closed=#{connection.quoted_false}" if field == "status_id"
+      sql = "#{Status.table_name}.is_closed=#{connection.quoted_false}" if field == "status_id"
     when "c"
-      sql = "#{IssueStatus.table_name}.is_closed=#{connection.quoted_true}" if field == "status_id"
+      sql = "#{Status.table_name}.is_closed=#{connection.quoted_true}" if field == "status_id"
     when ">t-"
       sql = date_range_clause(db_table, db_field, - value.first.to_i, 0)
     when "<t-"

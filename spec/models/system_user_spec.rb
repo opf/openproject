@@ -71,11 +71,11 @@ describe SystemUser do
     let(:member) { FactoryGirl.build(:member, :project => project,
                                               :roles => [role],
                                               :principal => user) }
-    let(:issue_status) { FactoryGirl.create(:issue_status) }
+    let(:status) { FactoryGirl.create(:status) }
     let(:issue) { FactoryGirl.build(:work_package, :type => project.types.first,
                                                    :author => user,
                                                    :project => project,
-                                                   :status => issue_status) }
+                                                   :status => status) }
 
     before do
       issue.save!

@@ -32,7 +32,7 @@ describe WorkPackage do
   describe '- Relations ' do
     describe '#workpackage status' do
       it 'can read planning_elements w/ the help of the has_many association' do
-        status       = FactoryGirl.create(:issue_status)
+        status       = FactoryGirl.create(:status)
         work_package = FactoryGirl.create(:work_package,
                                           :status_id => status.id)
 

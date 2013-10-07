@@ -31,7 +31,7 @@ require 'spec_helper'
 
 describe WorkPackage, "rebuilding nested set" do
   let(:project) { FactoryGirl.create(:valid_project) }
-  let(:status) { FactoryGirl.create(:issue_status) }
+  let(:status) { FactoryGirl.create(:status) }
   let(:priority) { FactoryGirl.create(:priority) }
   let(:type) { project.types.first }
   let(:author) { FactoryGirl.create(:user) }

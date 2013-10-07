@@ -28,7 +28,7 @@
 
 Given /^there is a(?:n)? (default )?(?:issue)?status with:$/ do |default, table|
   name = table.raw.select { |ary| ary.include? "name" }.first[table.raw.first.index("name") + 1].to_s
-  IssueStatus.find_by_name(name) || IssueStatus.create(:name => name.to_s, :is_default => !!default)
+  Status.find_by_name(name) || Status.create(:name => name.to_s, :is_default => !!default)
 end
 
 Given /^there are the following status:$/ do |table|
@@ -36,7 +36,8 @@ Given /^there are the following status:$/ do |table|
     attributes = row.inject({}) { |mem, (k, v)| mem[k.to_sym] = v if v.present?; mem }
     attributes[:is_default] = attributes.delete(:default) == "true"
 
-    FactoryGirl.create(:issue_status, attributes)
+    FactoryGirl.create(:status, attributes)
   end
 end
 
+InstanceFinder.register(Status, Proc.new { |name| Status.find_by_name(name) })

@@ -52,9 +52,9 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select("timeline[options]",
                    :planning_element_status,
                    filter_select_with_none(
-                     @timeline.available_planning_element_status,
+                     timeline.available_planning_element_status,
                      :name, :id),
-                   {:selected => @timeline.selected_planning_element_status.map(&:id)},
+                   {:selected => timeline.selected_planning_element_status.map(&:id)},
                    {:multiple => true,
                     :size => 12}) %>
         <% else %>
@@ -62,7 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
                      options_for_select([]),
                      {},
                      { :'data-ajaxURL' => url_for({:controller => "/api/v2/statuses",
-                                                   :action     => "paginate_issue_statuses"}),
+                                                   :action     => "paginate_statuses"}),
                        :multiple => true,
                        :'data-selected' => filter_select(
                                              timeline.selected_planning_element_status,
@@ -79,9 +79,9 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= select("timeline[options]",
                  :planning_element_types,
                  filter_select_with_none(
-                   @timeline.available_planning_element_types,
+                   timeline.available_planning_element_types,
                    :name, :id),
-                 {:selected => @timeline.selected_planning_element_types.map(&:id)},
+                 {:selected => timeline.selected_planning_element_types.map(&:id)},
                  {:multiple => true,
                   :size => 12}) %>
       <% else %>
@@ -106,9 +106,9 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select("timeline[options]",
                      :planning_element_responsibles,
                      filter_select_with_none(
-                       @timeline.available_responsibles,
+                       timeline.available_responsibles,
                        :name, :id),
-                     {:selected => @timeline.selected_planning_element_responsibles.map(&:id)},
+                     {:selected => timeline.selected_planning_element_responsibles.map(&:id)},
                      {:multiple => true,
                       :size => 12}) %>
         <% else %>

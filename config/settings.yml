@@ -191,7 +191,7 @@ work_package_list_summable_columns:
 display_subprojects_work_packages:
   default: 1
 work_package_done_ratio:
-  default: 'issue_field'
+  default: 'field'
 default_projects_public:
   default: 1
 default_projects_modules:

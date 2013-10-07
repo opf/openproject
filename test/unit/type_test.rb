@@ -42,19 +42,19 @@ class TypeTest < ActiveSupport::TestCase
     assert_equal 89, target.workflows.size
   end
 
-  def test_issue_statuses
+  def test_statuses
     type = Type.find(1)
     Workflow.delete_all
     Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 2, :new_status_id => 3)
     Workflow.create!(:role_id => 2, :type_id => 1, :old_status_id => 3, :new_status_id => 5)
 
-    assert_kind_of Array, type.issue_statuses.all
-    assert_kind_of IssueStatus, type.issue_statuses.first
-    assert_equal [2, 3, 5], Type.find(1).issue_statuses.collect(&:id)
+    assert_kind_of Array, type.statuses.all
+    assert_kind_of Status, type.statuses.first
+    assert_equal [2, 3, 5], Type.find(1).statuses.collect(&:id)
   end
 
-  def test_issue_statuses_empty
+  def test_statuses_empty
     Workflow.delete_all("type_id = 1")
-    assert_equal [], Type.find(1).issue_statuses
+    assert_equal [], Type.find(1).statuses
   end
 end

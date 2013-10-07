@@ -65,7 +65,7 @@ class WorkPackages::ContextMenusController < ApplicationController
     end
 
     @priorities = IssuePriority.all.reverse
-    @statuses = IssueStatus.find(:all, :order => 'position')
+    @statuses = Status.find(:all, :order => 'position')
     @back = back_url
 
     render :layout => false

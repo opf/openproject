@@ -58,8 +58,19 @@
 #   search_for Project do |query|
 #     do_something
 #   end
-#
 # Note that this needs to return an actual scope or its corresponding hash.
+#
+# To change the response the action will give:
+# response_for Project, :my_custom_response
+# response_for Project, Proc.new {
+#                         respond_to do |format|
+#                           DO SOMETHING
+#                         end
+#                       }
+# This needs to return something that can be #instance_eval'ed AND #call'ed, i.e. a Proc.
+# A String containing code will NOT work.
+#
+#
 #
 module Pagination::Controller
   class Paginator

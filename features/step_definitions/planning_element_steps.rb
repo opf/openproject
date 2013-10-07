@@ -39,7 +39,7 @@ Given (/^there are the following work packages(?: in project "([^"]*)")?:$/) do 
       ["type", Type],
       ["fixed_version", Version],
       ["priority", IssuePriority],
-      ["status", IssueStatus],
+      ["status", Status],
       ["parent", WorkPackage]
     ].each do |key, const|
       if type_attributes[key].present?

@@ -65,7 +65,7 @@ class Project < ActiveRecord::Base
   has_many :time_entries, :dependent => :delete_all
   has_many :queries, :dependent => :delete_all
   has_many :news, :dependent => :destroy, :include => :author
-  has_many :issue_categories, :dependent => :delete_all, :order => "#{IssueCategory.table_name}.name"
+  has_many :categories, :dependent => :delete_all, :order => "#{Category.table_name}.name"
   has_many :boards, :dependent => :destroy, :order => "position ASC"
   has_one :repository, :dependent => :destroy
   has_many :changesets, :through => :repository
@@ -765,7 +765,7 @@ class Project < ActiveRecord::Base
   def copy(project, options={})
     project = project.is_a?(Project) ? project : Project.find(project)
 
-    to_be_copied = %w(wiki versions issue_categories work_packages members queries boards)
+    to_be_copied = %w(wiki versions categories work_packages members queries boards)
     to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
 
     Project.transaction do
@@ -932,11 +932,11 @@ class Project < ActiveRecord::Base
   end
 
   # Copies issue categories from +project+
-  def copy_issue_categories(project)
-    project.issue_categories.each do |issue_category|
-      new_issue_category = IssueCategory.new
-      new_issue_category.send(:assign_attributes, issue_category.attributes.dup.except("id", "project_id"), :without_protection => true)
-      self.issue_categories << new_issue_category
+  def copy_categories(project)
+    project.categories.each do |category|
+      new_category = Category.new
+      new_category.send(:assign_attributes, category.attributes.dup.except("id", "project_id"), :without_protection => true)
+      self.categories << new_category
     end
   end
 
@@ -960,7 +960,7 @@ class Project < ActiveRecord::Base
       # Reassign the category by name, since names are unique per
       # project and the categories for self are not yet saved
       if issue.category
-        new_issue.category = self.issue_categories.select {|c| c.name == issue.category.name}.first
+        new_issue.category = self.categories.select {|c| c.name == issue.category.name}.first
       end
       # Parent issue
       if issue.parent_id
