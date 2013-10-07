@@ -77,8 +77,8 @@ module Migration
       end
     end
 
-    MACRO_REGEX = /(?<dots>\*{1,3})(?<id>\d+)/
-    RESTORE_MACRO_REGEX = /(?<dots>\#{1,3})(?<id>\d+)/
+    MACRO_REGEX = /(?:\W|^|\A)((?<dots>\*{1,3})(?<id>\d+))(?:\W|$|\z)/
+    RESTORE_MACRO_REGEX = /(?:\W|^|\A)((?<dots>\#{1,3})(?<id>\d+))(?:\W|$|\z)/
 
     def update_work_package_macros(text, id_map, regex, macro_regex, new_macro)
       unless text.nil?
@@ -87,7 +87,9 @@ module Migration
             new_id = id_map[$~[:id].to_s][:new_id]
             hash_macro = $~[:dots].gsub(macro_regex, new_macro)
 
-            "#{hash_macro}#{new_id}"
+            " #{hash_macro}#{new_id} "
+          else
+            match
           end
         end
       end
