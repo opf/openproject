@@ -20,7 +20,7 @@ SQL
         from #{Journal::WorkPackageJournal.table_name}
         left join #{Journal.table_name}
                on #{Journal.table_name}.id = #{Journal::WorkPackageJournal.table_name}.journal_id
-       where #{Journal::WorkPackageJournal.table_name}.id in (?)
+       where #{Journal::WorkPackageJournal.table_name}.journal_id in (?)
 SQL
 
   # there is currently no possibility to compare two given dates:
@@ -54,9 +54,6 @@ SQL
                        end
     puts "workpackages after filtering: #{work_package_ids}"
     # 2 fetch latest journal-entries for the given time
-    sql = @@journal_sql.gsub("#work_package_ids", work_package_ids.join(','))
-                       .gsub("#at_time", at_time.strftime("%Y-%m-%d"))
-
     results = Journal.find_by_sql([@@journal_sql, at_time, work_package_ids])
     # find_by_sql means pluck doesn't work, so we need  to map these
     journal_ids = results.map(&:id)
