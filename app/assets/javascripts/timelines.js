@@ -1144,22 +1144,19 @@ Timeline = {
         var qsb = new Timeline.FilterQueryStringBuilder(
           this.provideServerSideFilterHash());
 
-        var url = qsb.build(projectPrefix + '/planning_elements.json');
-
         // load current planning elements.
         this.loader.register(
-            Timeline.PlanningElement.identifier + '_' + i,
-            { url : url },
-            { storeIn: Timeline.PlanningElement.identifier }
-          );
+          Timeline.PlanningElement.identifier + '_' + i,
+          { url : qsb.build(projectPrefix + '/planning_elements.json') },
+          { storeIn: Timeline.PlanningElement.identifier }
+        );
 
         // load historical planning elements.
         if (this.options.target_time) {
           this.loader.register(
             Timeline.HistoricalPlanningElement.identifier + '_' + i,
-            { url : projectPrefix +
-                    '/planning_elements.json' +
-                    this.comparisonTargetUrlSuffix() },
+            { url : qsb.append({ at_time: this.options.target_time })
+                       .build(projectPrefix + '/planning_elements.json') },
             { storeIn: Timeline.HistoricalPlanningElement.identifier,
               readFrom: Timeline.PlanningElement.identifier }
           );
@@ -1176,12 +1173,12 @@ Timeline = {
 
         // load current planning elements.
         this.loader.register(
-            Timeline.PlanningElement.identifier + '_IDS_' + i,
-            { url : projectPrefix +
-                    '/planning_elements.json?ids=' +
-                    planningElementIdsOfPacket.join(',')},
-            { storeIn: Timeline.PlanningElement.identifier }
-          );
+          Timeline.PlanningElement.identifier + '_IDS_' + i,
+          { url : projectPrefix +
+                  '/planning_elements.json?ids=' +
+                  planningElementIdsOfPacket.join(',')},
+          { storeIn: Timeline.PlanningElement.identifier }
+        );
 
         // load historical planning elements.
         if (this.options.target_time) {
@@ -1209,22 +1206,6 @@ Timeline = {
         current_elements = elements.splice(0, Timeline.PROJECT_ID_BLOCK_SIZE);
 
         iter.call(this, current_elements, i);
-      }
-    };
-
-    TimelineLoader.prototype.comparisonCurrentUrlSuffix = function () {
-      if (this.options.current_time !== undefined) {
-        return "&at=" + this.options.current_time;
-      } else {
-        return "";
-      }
-    };
-
-    TimelineLoader.prototype.comparisonTargetUrlSuffix = function () {
-      if (this.options.target_time !== undefined ) {
-        return "&at=" + this.options.target_time;
-      } else {
-        return "";
       }
     };
 
