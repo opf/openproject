@@ -45,7 +45,7 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration
   end
 
   def reset_public_key_sequence_in_postgres
-    return unless ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgres"
+    return unless ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
     ActiveRecord::Base.connection.reset_pk_sequence!('work_packages')
   end
 
