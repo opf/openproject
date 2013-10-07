@@ -103,7 +103,7 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
 
   @javascript
   Scenario: Creating a task, via subtask, as a subtask to a story sets the new task's fixed version to the parent's fixed version
-     When I go to the page of the work_package "Story A"
+     When I go to the page of the work package "Story A"
       And I follow the link to add a subtask
       And I select "Task" from "work_package_type_id"
       And I fill in "Task 0815" for "work_package_subject"
@@ -130,7 +130,7 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
   Scenario: Moving a task between stories via work_package/edit (bug 9324)
     Given the project has the following tasks:
           | subject | parent  |
-          | Task 1  | Story 1 |
+          | Task 1  | Story A |
     When I go to the edit page of the work_package "Task 1"
      And I fill in the id of the work_package "Story C" as the parent work_package
      And I press "Submit"
@@ -166,7 +166,7 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
       | Task 2  | Story A |
     When I go to the edit page of the work_package "Story A"
      And I select "Sprint 002" from "work_package_fixed_version_id"
-     And I press "Submit"
+     And I click "Submit"
     Then I should not see "Data has been updated by another user." within "div.flash"
      And the story "Story A" should have "Sprint 002" as its target version
      And the task "Task 1" should have "Sprint 002" as its target version

@@ -164,7 +164,9 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following tasks:$/ do |project_na
       # NOTE: We're bypassing the controller here because we're just
       # setting up the database for the actual tests. The actual tests,
       # however, should NOT bypass the controller
-      Task.create_with_relationships(params, project.id)
+      atask = Task.create_with_relationships(params, project.id)
+      story.children << atask
+      atask
     end
   end
 end
