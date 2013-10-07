@@ -428,7 +428,8 @@ Timeline = {
      * Simple serializer of query strings that satisfies OpenProject's filter
      * API. Transforms hashes of desired filterings into the proper query strings.
      *
-     * Example:
+     * Examples:
+     *
      *   fqsb = (new FilterQueryStringBuilder({
      *     'type_id': [4, 5]
      *   })).build(
@@ -437,34 +438,51 @@ Timeline = {
      *
      *   => /api/v2/projects/sample_project/planning_elements.json?f[]=type_id&op[type_id]==&v[type_id][]=4&v[type_id][]=5
      *
+     *   fqsb = (new FilterQueryStringBuilder())
+     *     .filter({ 'type_id': [4, 5] })
+     *     .append({ 'at_time': 1380795754 })
+     *     .build( '/api/v2/projects/sample_project/planning_elements.json' );
+     *
+     *   => /api/v2/projects/sample_project/planning_elements.json?f[]=type_id&op[type_id]==&v[type_id][]=4&v[type_id][]=5&at_time=1380795754
      */
     var FilterQueryStringBuilder = function (filterHash) {
-      this.filterHash = filterHash;
+      this.filterHash = filterHash || {};
+      this.paramsHash = {};
+    };
+
+    FilterQueryStringBuilder.prototype.filter = function(filters) {
+      this.filterHash = jQuery.extend({}, this.filterHash, filters);
+      return this;
+    };
+
+    FilterQueryStringBuilder.prototype.append = function(addition) {
+      this.paramsHash = jQuery.extend({}, this.paramsHash, addition);
+      return this;
     };
 
     FilterQueryStringBuilder.prototype.buildMetaDataForKey = function(key) {
-      this.queryStringParts.push(
-        {name: 'f[]', value: key},
-        {name: 'op[' + key + ']', value: '='}
-      );
+      this.queryStringParts.push({name: 'f[]', value: key},
+                                 {name: 'op[' + key + ']', value: '='});
     };
 
-    FilterQueryStringBuilder.prototype.buildFilterDataForKeyAndValue = function(key, value) {
-      this.queryStringParts.push(
-        {name: 'v[' + key + '][]', value: value}
-      );
+    FilterQueryStringBuilder.prototype.prepareFilterDataForKeyAndValue = function(key, value) {
+      this.queryStringParts.push({name: 'v[' + key + '][]', value: value});
     };
 
-    FilterQueryStringBuilder.prototype.buildFilterDataForKeyAndArrayOfValues = function(key, value) {
+    FilterQueryStringBuilder.prototype.prepareAdditionalQueryData = function(key, value) {
+      this.queryStringParts.push({name: key, value: value});
+    }
+
+    FilterQueryStringBuilder.prototype.prepareFilterDataForKeyAndArrayOfValues = function(key, value) {
       jQuery.each(value, jQuery.proxy( function(i, e) {
-         this.buildFilterDataForKeyAndValue(key, e);
+         this.prepareFilterDataForKeyAndValue(key, e);
       }, this));
     };
 
     FilterQueryStringBuilder.prototype.buildFilterDataForValue = function(key, value) {
       return value instanceof Array ?
-        this.buildFilterDataForKeyAndArrayOfValues(key, value) :
-        this.buildFilterDataForKeyAndValue(key, value);
+        this.prepareFilterDataForKeyAndArrayOfValues(key, value) :
+        this.prepareFilterDataForKeyAndValue(key, value);
     };
 
     FilterQueryStringBuilder.prototype.registerKeyAndValue = function(key, value) {
@@ -472,9 +490,10 @@ Timeline = {
       this.buildFilterDataForValue(key, value);
     };
 
-    FilterQueryStringBuilder.prototype.buildQueryStringParts = function() {
+    FilterQueryStringBuilder.prototype.prepareQueryStringParts = function() {
       this.queryStringParts = [];
       jQuery.each(this.filterHash, jQuery.proxy(this.registerKeyAndValue, this));
+      jQuery.each(this.paramsHash, jQuery.proxy(this.prepareAdditionalQueryData, this));
     };
 
     FilterQueryStringBuilder.prototype.buildQueryStringFromQueryStringParts = function(url) {
@@ -491,7 +510,7 @@ Timeline = {
     };
 
     FilterQueryStringBuilder.prototype.build = function(url) {
-      this.buildQueryStringParts();
+      this.prepareQueryStringParts();
       return this.buildUrlFromQueryStringParts(url);
     };
 
