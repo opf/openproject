@@ -26,24 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :wiki_menu_item, :class => MenuItems::WikiMenuItem do
-    wiki
+require 'spec_helper'
 
-    sequence(:name) {|n| "Item No. #{n}" }
-    sequence(:title) {|n| "Wiki Title #{n}" }
+describe MenuItems::QueryMenuItem do
 
-    trait :with_menu_item_options do
-      index_page true
-      new_wiki_page true
-    end
+	let(:project) { FactoryGirl.create :project, :enabled_module_names => %w[activity] }
+	let(:query) { FactoryGirl.create :query, :project => project }
+	let(:another_query) { FactoryGirl.create :query, :project => project }
 
-    factory :wiki_menu_item_with_parent do
-      after :build do |wiki_menu_item|
-        parent = FactoryGirl.build(:wiki_menu_item, wiki: wiki_menu_item.wiki)
-        wiki_menu_item.wiki.wiki_menu_items << parent
-        wiki_menu_item.parent = parent
-      end
+  describe 'it should destroy all items when destroying' do
+	  before(:each) do
+	  	query_item = FactoryGirl.create(:query_menu_item,
+			      														:query   => query,
+			                                  :name    => "Query Item",
+			                                  :title   => "Query Item")
+	  	another_query_item = FactoryGirl.create(:query_menu_item,
+																					  		:query   => another_query,
+							                                  :name    => "Another Query Item",
+							                                  :title   => "Another Query Item")
+	  end
+
+    it 'the associated query' do
+      query.destroy
+      MenuItems::QueryMenuItem.where(navigatable_id: query.id).should be_empty
     end
   end
 end
