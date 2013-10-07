@@ -104,8 +104,8 @@ describe ProjectsController do
 
       describe 'with custom wiki menu item' do
         before do
-          main_item = FactoryGirl.create(:wiki_menu_item, :wiki_id => @project.wiki.id, :name => 'Example', :title => 'Example')
-          sub_item = FactoryGirl.create(:wiki_menu_item, :wiki_id => @project.wiki.id, :name => 'Sub', :title => 'Sub', :parent_id => main_item.id)
+          main_item = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id, :name => 'Example', :title => 'Example')
+          sub_item = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id, :name => 'Sub', :title => 'Sub', :parent_id => main_item.id)
         end
 
         it 'renders show' do

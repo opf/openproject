@@ -42,7 +42,7 @@ class WikiMenuItemsController < ApplicationController
   end
 
   def update
-    wiki_menu_setting = params[:wiki_menu_item][:setting]
+    wiki_menu_setting = params[:menu_items_wiki_menu_item][:setting]
     parent_wiki_menu_item = params[:parent_wiki_menu_item]
 
     get_data_from_params(params)
@@ -61,8 +61,8 @@ class WikiMenuItemsController < ApplicationController
         end
       end
     else
-      @wiki_menu_item.wiki_id = @page.wiki.id
-      @wiki_menu_item.name = params[:wiki_menu_item][:name]
+      @wiki_menu_item.navigatable_id = @page.wiki.id
+      @wiki_menu_item.name = params[:menu_items_wiki_menu_item][:name]
       @wiki_menu_item.title = @page_title
 
       if wiki_menu_setting == 'sub_item'
@@ -109,28 +109,28 @@ class WikiMenuItemsController < ApplicationController
     wiki_id = @project.wiki.id
 
     @page = WikiPage.find_by_title_and_wiki_id(@page_title, wiki_id)
-    @wiki_menu_item = WikiMenuItem.find_or_initialize_by_wiki_id_and_title(wiki_id, @page_title)
-    possible_parent_menu_items = WikiMenuItem.main_items(wiki_id) - [@wiki_menu_item]
+    @wiki_menu_item = MenuItems::WikiMenuItem.find_or_initialize_by_navigatable_id_and_title(@page.wiki.id, @page_title)
+    possible_parent_menu_items = MenuItems::WikiMenuItem.main_items(wiki_id) - [@wiki_menu_item]
 
     @parent_menu_item_options = possible_parent_menu_items.map {|item| [item.name, item.id]}
 
     @selected_parent_menu_item_id = if @wiki_menu_item.parent
       @wiki_menu_item.parent.id
     else
-      @page.nearest_parent_menu_item(:is_main_item => true).try :id
+      @page.nearest_parent_menu_item(is_main_item: true).try :id
     end
   end
 
   def assign_wiki_menu_item_params(menu_item)
-    if params[:wiki_menu_item][:new_wiki_page] == "1"
+    if params[:menu_items_wiki_menu_item][:new_wiki_page] == "1"
       menu_item.new_wiki_page = true
-    elsif params[:wiki_menu_item][:new_wiki_page] == "0"
+    elsif params[:menu_items_wiki_menu_item][:new_wiki_page] == "0"
       menu_item.new_wiki_page = false
     end
 
-    if params[:wiki_menu_item][:index_page] == "1"
+    if params[:menu_items_wiki_menu_item][:index_page] == "1"
       menu_item.index_page = true
-    elsif params[:wiki_menu_item][:index_page] == "0"
+    elsif params[:menu_items_wiki_menu_item][:index_page] == "0"
       menu_item.index_page = false
     end
   end

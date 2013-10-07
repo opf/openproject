@@ -27,7 +27,7 @@
 #++
 
 FactoryGirl.define do
-  factory :wiki_menu_item do
+  factory :wiki_menu_item, :class => MenuItems::WikiMenuItem do
     wiki
 
     sequence(:name) {|n| "Item No. #{n}" }

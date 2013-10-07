@@ -26,40 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WikiMenuItem < ActiveRecord::Base
-  belongs_to :wiki
-  belongs_to :parent, :class_name => 'WikiMenuItem'
-  has_many :children, :class_name => 'WikiMenuItem', :dependent => :destroy, :foreign_key => :parent_id, :order => 'id ASC'
-
-  serialize :options, Hash
+class MenuItems::WikiMenuItem < MenuItem
+  belongs_to :wiki, :foreign_key => 'navigatable_id'
 
   scope :main_items, lambda { |wiki_id|
-    {:conditions => {:wiki_id => wiki_id, :parent_id => nil},
+    {:conditions => {:navigatable_id => wiki_id, :parent_id => nil},
     :include => :children,
      :order => 'id ASC'}
   }
-
-  attr_accessible :name, :title, :wiki_id
-
-  validates_presence_of :title
-  validates_format_of :title, :with => /\A[^,\.\/\?\;\|\:]*\z/
-  validates_uniqueness_of :title, :scope => :wiki_id
-
-  validates_presence_of :name
-
-  def item_class
-    title.dasherize
-  end
-
-  def setting
-    if new_record?
-      :no_item
-    elsif is_main_item?
-      :main_item
-    else
-      :sub_item
-    end
-  end
 
   def new_wiki_page
     !!options[:new_wiki_page]
@@ -67,25 +41,5 @@ class WikiMenuItem < ActiveRecord::Base
 
   def new_wiki_page=(value)
     options[:new_wiki_page] = value
-  end
-
-  def index_page
-    !!options[:index_page]
-  end
-
-  def index_page=(value)
-    options[:index_page] = value
-  end
-
-  def is_main_item?
-    parent_id.nil?
-  end
-
-  def is_sub_item?
-    !parent_id.nil?
-  end
-
-  def is_only_main_item?
-    self.class.main_items(wiki.id) == [self]
   end
 end

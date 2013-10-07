@@ -46,7 +46,7 @@ module Redmine::MenuManager::MenuHelper
     return unless project.enabled_module_names.include? 'wiki'
     project_wiki = project.wiki
 
-    WikiMenuItem.main_items(project_wiki).each do |main_item|
+    MenuItems::WikiMenuItem.main_items(project_wiki).each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
         menu.push "#{main_item.item_class}".to_sym,
                   { :controller => '/wiki', :action => 'show', :id => CGI.escape(main_item.title) },
