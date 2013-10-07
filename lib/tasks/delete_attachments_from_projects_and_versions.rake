@@ -28,8 +28,6 @@ namespace :migrations do
     def user_agrees
       questions = []
 
-      a = true
-
       questions << "CAUTION: This rake task will delete ALL attachments attached to versions or projects!"
       questions << "DISCLAIMER: This is the final warning: You're going to lose information!"
 
@@ -43,9 +41,9 @@ namespace :migrations do
     def ask_question(question)
       puts "\n\n"
       puts question
-      puts "\nDo you want to continue? (Y/n)"
+      puts "\nDo you want to continue? [y/N]"
 
-      STDIN.gets.chomp == 'Y'
+      STDIN.gets.chomp == 'y'
     end
   end
 end
