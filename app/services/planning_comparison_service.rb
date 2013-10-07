@@ -52,16 +52,14 @@ SQL
                        else
                          WorkPackage.for_projects(projects).pluck(:id)
                        end
-    puts "workpackages after filtering: #{work_package_ids}"
+
     # 2 fetch latest journal-entries for the given time
-    results = Journal.find_by_sql([@@journal_sql, at_time, work_package_ids])
-    # find_by_sql means pluck doesn't work, so we need  to map these
-    journal_ids = results.map(&:id)
-    puts "latest journalentries for filtered workpackages: #{journal_ids}"
+    journal_ids = Journal.find_by_sql([@@journal_sql, at_time, work_package_ids])
+                         .map(&:id)
 
     # 3&4 fetch the journaled data and make rails think it is actually a work_package
     work_packages = WorkPackage.find_by_sql([@@work_package_select,journal_ids])
-    puts "Historical Workpackages found for filter: #{work_packages.map(&:id)}"
-    work_packages
+
+
   end
 end
