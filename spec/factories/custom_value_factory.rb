@@ -42,7 +42,8 @@ FactoryGirl.define do
     end
 
     factory :work_package_custom_value do
-      custom_field :factory => :issue_custom_field
+      custom_field :factory => :work_package_custom_field
+      customized_type "WorkPackageCustomField"
       customized :factory => :work_package
     end
   end
