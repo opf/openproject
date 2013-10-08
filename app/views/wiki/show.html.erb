@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= li_unless_nil(link_to_if_authorized(l(:button_rollback), {:action => 'edit', :id => @page, :version => @content.version }, :class => 'icon icon-cancel')) if @content.version < @page.content.version %>
   <% end %>
   <%= li_unless_nil(link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page}, :class => 'icon icon-history')) %>
-  <%= li_unless_nil(link_to_if_authorized(l(:button_wiki_menu_entry), {:controller => '/wiki_menu_items', :action => 'edit', :project_id => @project.identifier, :id => @page}, :class => 'icon icon-configure')) %>
+  <%= li_unless_nil(link_to_if_authorized(l(:button_manage_menu_entry), {:controller => '/wiki_menu_items', :action => 'edit', :project_id => @project.identifier, :id => @page}, :class => 'icon icon-configure')) %>
 
 <% end %>
 

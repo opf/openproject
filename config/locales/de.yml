@@ -349,8 +349,9 @@ de:
   button_update: "Bearbeiten"
   button_view: "Anzeigen"
   button_watch: "Beobachten"
-  button_wiki_menu_entry: "Menüpunkt verwalten"
-
+  button_manage_menu_entry: "Menüpunkt verwalten"
+  button_add_menu_entry: "Menüpunkt hinzufügen"
+  button_delete_menu_entry: "Menüpunkt entfernen"
   create_child_page: "Neue Unterseite anlegen"
   create_child_page_for: "Neue Unterseite anlegen: \"%{title}\""
   create_new_page: "Neue Seite anlegen"

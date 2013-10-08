@@ -349,7 +349,9 @@ en:
   button_update: "Update"
   button_view: "View"
   button_watch: "Watch"
-  button_wiki_menu_entry: "Configure menu item"
+  button_manage_menu_entry: "Configure menu item"
+  button_add_menu_entry: "Add menu item"
+  button_delete_menu_entry: "Delete menu item"
 
   create_child_page: "Create new child page"
   create_child_page_for: "Create new child page: \"%{title}\""
