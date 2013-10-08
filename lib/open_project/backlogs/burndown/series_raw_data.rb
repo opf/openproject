@@ -25,7 +25,8 @@ module OpenProject::Backlogs::Burndown
       initialize_self_for_collection
 
       data_for_dates(collected_days).each do |day_data|
-        date = Date.parse(day_data['date'])
+        date = day_data['date']
+        date = date.is_a?(Date) ? date : Date.parse(date)
 
         day_data.each do |key, value|
           next if key == 'date'
@@ -96,7 +97,7 @@ module OpenProject::Backlogs::Burndown
       JOIN
         (
           SELECT
-            CAST(j.created_at AS DATE),
+            CAST(j.created_at AS DATE) AS created_at,
             j.journable_id,
             MAX(j.version) as version
           FROM
