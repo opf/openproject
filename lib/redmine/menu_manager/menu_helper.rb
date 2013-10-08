@@ -83,7 +83,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def build_work_packages_menu(project)
-    query_menu_items = project.queries.map(&:query_menu_item).compact
+    query_menu_items = visible_queries.map(&:query_menu_item).compact
 
     Redmine::MenuManager.loose :project_menu do |menu|
       query_menu_items.each do |query_menu_item|

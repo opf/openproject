@@ -104,18 +104,19 @@ module IssuesHelper
     s.html_safe
   end
 
+  def visible_queries
+    # User can see public queries and his own queries
+    visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
+    # Project specific queries and global queries
+    visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
+    Query.find(:all,
+               :select => 'id, name, is_public',
+               :order => "name ASC",
+               :conditions => visible.conditions)
+  end
+
   def sidebar_queries
-    unless @sidebar_queries
-      # User can see public queries and his own queries
-      visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
-      # Project specific queries and global queries
-      visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
-      @sidebar_queries = Query.find(:all,
-                                    :select => 'id, name, is_public',
-                                    :order => "name ASC",
-                                    :conditions => visible.conditions)
-    end
-    @sidebar_queries
+    @sidebar_queries ||= visible_queries
   end
 
   def query_links(title, queries)
