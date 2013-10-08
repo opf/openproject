@@ -125,6 +125,10 @@ OpenProject::Application.routes.draw do
     resource :wiki_menu_item, :only => [:edit, :update]
   end
 
+  scope "projects/:project_id/query/:query_id" do
+    resource :query_menu_item, :except => [:show]
+  end
+
   get   'projects/:project_id/wiki/new' => 'wiki#new', :as => 'wiki_new'
   post  'projects/:project_id/wiki/new' => 'wiki#create', :as => 'wiki_create'
   post  'projects/:project_id/wiki/preview' => 'wiki#preview', :as => 'wiki_preview'
