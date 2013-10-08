@@ -31,7 +31,7 @@ Feature: The work_package hierarchy between backlogs stories and backlogs tasks 
     And the following types are configured to track stories:
         | Story |
     And the type "Task" is configured to track tasks
-    And the project uses the following types:
+    And the project "parent_project" uses the following types:
         | Story |
         | Epic  |
         | Task  |
@@ -52,8 +52,13 @@ Feature: The work_package hierarchy between backlogs stories and backlogs tasks 
         | Lastname | Master |
     And there is 1 project with:
         | name  | child_project  |
-    And the project uses the following modules:
+    And the project "child_project" uses the following modules:
         | backlogs |
+    And the project "child_project" uses the following types:
+        | Story |
+        | Epic  |
+        | Task  |
+        | Bug   |
     And the user "markus" is a "scrum master" in the project "parent_project"
     And the user "markus" is a "scrum master" in the project "child_project"
     And the "cross_project_work_package_relations" setting is set to true
