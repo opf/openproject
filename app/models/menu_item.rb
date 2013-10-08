@@ -40,10 +40,6 @@ class MenuItem < ActiveRecord::Base
 
   validates_presence_of :name
 
-  def item_class
-    title.dasherize
-  end
-
   def setting
     if new_record?
       :no_item
@@ -52,14 +48,6 @@ class MenuItem < ActiveRecord::Base
     else
       :sub_item
     end
-  end
-
-  def index_page
-    !!options[:index_page]
-  end
-
-  def index_page=(value)
-    options[:index_page] = value
   end
 
   def is_main_item?

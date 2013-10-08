@@ -35,6 +35,18 @@ class MenuItems::WikiMenuItem < MenuItem
      :order => 'id ASC'}
   }
 
+  def item_class
+    title.dasherize
+  end
+
+  def index_page
+    !!options[:index_page]
+  end
+
+  def index_page=(value)
+    options[:index_page] = value
+  end
+
   def new_wiki_page
     !!options[:new_wiki_page]
   end
