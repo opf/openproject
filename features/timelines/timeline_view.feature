@@ -69,9 +69,9 @@ Feature: Timeline View Tests
     Given I am working in the timeline "Testline" of the project called "ecookbook"
     When there is a timeline "Testline" for project "ecookbook"
       And I set the columns shown in the timeline to:
-        | start_date  |
-        | type        |
-        | end_date    |
+        | start_date |
+        | type       |
+        | end_date   |
       Then I should see the column "Start date" before the column "End date" in the timelines table
         And I should see the column "Start date" before the column "Type" in the timelines table
         And I should see the column "Type" before the column "End date" in the timelines table
