@@ -30,11 +30,14 @@ require 'spec_helper'
 
 describe IssuesController do
   let(:user) { FactoryGirl.create(:user) }
+  let(:custom_field_value) { '125' }
   let(:custom_field_1) { FactoryGirl.create(:work_package_custom_field,
-                                            field_format: 'date',
+                                            field_format: 'string',
                                             is_for_all: true) }
   let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
-  let(:type) { FactoryGirl.create(:type_standard) }
+  let(:status) { FactoryGirl.create(:status) }
+  let(:type) { FactoryGirl.create(:type_standard,
+                                  custom_fields: [custom_field_1, custom_field_2]) }
   let(:project_1) { FactoryGirl.create(:project,
                                        types: [type],
                                        work_package_custom_fields: [custom_field_2]) }
@@ -42,6 +45,7 @@ describe IssuesController do
                                        types: [type]) }
   let(:role) { FactoryGirl.create(:role,
                                   permissions: [:edit_work_packages,
+                                                :view_work_packages,
                                                 :manage_subtasks]) }
   let(:member_1) { FactoryGirl.create(:member,
                                       project: project_1,
@@ -53,15 +57,23 @@ describe IssuesController do
                                       roles: [role]) }
   let(:work_package_1) { FactoryGirl.create(:work_package,
                                             author: user,
+                                            assigned_to: user,
                                             type: type,
+                                            status: status,
+                                            custom_field_values: { custom_field_1.id => custom_field_value },
                                             project: project_1) }
   let(:work_package_2) { FactoryGirl.create(:work_package,
                                             author: user,
+                                            assigned_to: user,
                                             type: type,
+                                            status: status,
+                                            custom_field_values: { custom_field_1.id => custom_field_value },
                                             project: project_1) }
   let(:work_package_3) { FactoryGirl.create(:work_package,
                                             author: user,
                                             type: type,
+                                            status: status,
+                                            custom_field_values: { custom_field_1.id => custom_field_value },
                                             project: project_2) }
 
   before do
@@ -137,6 +149,264 @@ describe IssuesController do
     end
   end
 
-  describe :bulk_edit do
+  describe :bulk_update do
+    let(:work_package_ids) { [work_package_1.id, work_package_2.id] }
+    let(:work_packages) { WorkPackage.find_all_by_id(work_package_ids) }
+    let(:priority) { FactoryGirl.create(:priority_immediate) }
+    let(:group_id) { '' }
+
+    describe :redirect do
+      context "in host" do
+        let(:url) { '/work_packages' }
+
+        before { put :bulk_update, ids: work_package_ids, back_url: url }
+
+        subject { response }
+
+        it { should be_redirect }
+
+        it { should redirect_to(url) }
+      end
+
+      context "of host" do
+        let(:url) { 'http://google.com' }
+
+        before { put :bulk_update, ids: work_package_ids, back_url: url }
+
+        subject { response }
+
+        it { should be_redirect }
+
+        it { should redirect_to(controller: 'work_packages',
+                                action: :index,
+                                project_id: project_1.identifier) }
+      end
+    end
+    
+    shared_context :bulk_update_request do
+      before do
+        put :bulk_update,
+            ids: work_package_ids,
+            notes: 'Bulk editing',
+            issue: { priority_id: priority.id,
+                     assigned_to_id: group_id,
+                     custom_field_values: { custom_field_1.id.to_s => '' },
+            send_notification: send_notification }
+      end
+    end
+
+    shared_examples_for :delivered do
+      subject { ActionMailer::Base.deliveries.size }
+
+      it { delivery_size }
+    end
+
+    context "with notification" do
+      let(:send_notification) { '1' }
+      let(:delivery_size) { 2 }
+
+      shared_examples_for "updated work package" do
+        describe :priority do
+          subject { WorkPackage.find_all_by_priority_id(priority.id).collect(&:id) }
+
+          it { should =~ work_package_ids }
+        end
+
+        describe :custom_fields do
+          let(:result) { [custom_field_value] }
+
+          subject { WorkPackage.find_all_by_id(work_package_ids)
+                               .collect {|w| w.custom_value_for(custom_field_1.id).value }
+                               .uniq }
+
+          it { should =~ result }
+        end
+
+        describe :journal do
+          describe :notes do
+            let(:result) { ['Bulk editing'] }
+
+            subject { WorkPackage.find_all_by_id(work_package_ids)
+                                 .collect {|w| w.last_journal.notes }
+                                 .uniq }
+
+            it { should =~ result }
+          end
+
+          describe :details do
+            let(:result) { [1] }
+
+            subject { WorkPackage.find_all_by_id(work_package_ids)
+                                 .collect {|w| w.last_journal.details.size }
+                                 .uniq }
+
+            it { should =~ result }
+          end
+        end
+      end
+
+      context "single project" do
+        include_context :bulk_update_request
+
+        it { response.response_code.should == 302 }
+
+        it_behaves_like :delivered
+
+        it_behaves_like "updated work package"
+      end
+
+      context "different projects" do
+        let(:work_package_ids) { [work_package_1.id, work_package_2.id, work_package_3.id] }
+
+        context "with permission" do
+          before { member_2 }
+
+          include_context :bulk_update_request
+
+          it { response.response_code.should == 302 }
+
+          it_behaves_like :delivered
+
+          it_behaves_like "updated work package"
+        end
+
+        context "w/o permission" do
+          include_context :bulk_update_request
+
+          it { response.response_code.should == 403 }
+
+          describe :journal do
+            subject { Journal.count }
+
+            it { should eq(work_package_ids.count) }
+          end
+        end
+      end
+
+      describe :properties do
+        describe :groups do
+          let(:group) { FactoryGirl.create(:group) }
+          let(:group_id) { group.id }
+
+          include_context :bulk_update_request
+
+          subject { work_packages.collect {|w| w.assigned_to_id }.uniq }
+
+          it { should =~ [group_id] }
+        end
+
+        describe :status do
+          let(:closed_status) { FactoryGirl.create(:closed_status) }
+          let(:workflow) { FactoryGirl.create(:workflow,
+                                              role: role,
+                                              type_id: type.id,
+                                              old_status: status,
+                                              new_status: closed_status) }
+
+          before do
+            workflow
+
+            put :bulk_update,
+                ids: work_package_ids,
+                issue: { status_id: closed_status.id }
+          end
+
+          subject { work_packages.collect(&:status_id).uniq }
+
+          it { should =~ [closed_status.id] }
+        end
+
+        describe :parent do
+          let(:parent) { FactoryGirl.create(:work_package,
+                                            author: user,
+                                            project: project_1) }
+
+          before do
+            put :bulk_update,
+                ids: work_package_ids,
+                issue: { parent_id: parent.id }
+          end
+
+          subject { work_packages.collect(&:parent_id).uniq }
+
+          it { should =~ [parent.id] }
+        end
+
+        describe :custom_fields do
+          let(:result) { '777' }
+
+          before do
+            put :bulk_update,
+                ids: work_package_ids,
+                issue: { custom_field_values: { custom_field_1.id.to_s => result } }
+          end
+
+          subject { work_packages.collect {|w| w.custom_value_for(custom_field_1.id).value }
+                                 .uniq }
+
+          it { should =~ [result] }
+        end
+
+        describe :unassign do
+          before do
+            put :bulk_update,
+                ids: work_package_ids,
+                issue: { assigned_to_id: 'none' }
+          end
+
+          subject { work_packages.collect(&:assigned_to_id).uniq }
+
+          it { should =~ [nil] }
+        end
+
+        describe :version do
+          let(:version) { FactoryGirl.create(:version,
+                                             status: 'open',
+                                             sharing: 'tree',
+                                             project: subproject) }
+          let(:subproject) { FactoryGirl.create(:project,
+                                                parent: project_1,
+                                                types: [type]) }
+
+          before do
+            put :bulk_update,
+                ids: work_package_ids,
+                issue: { fixed_version_id: version.id.to_s }
+          end
+
+          subject { response }
+
+          it { should be_redirect }
+
+          describe :work_package do
+            describe :fixed_version do
+              subject { work_packages.collect(&:fixed_version_id).uniq }
+
+              it { should =~ [version.id] }
+            end
+
+            describe :project do
+              subject { work_packages.collect(&:project_id).uniq }
+
+              it { should_not =~ [subproject.id] }
+            end
+          end
+        end
+      end
+    end
+
+    context "w/o notification" do
+      let(:send_notification) { '0' }
+
+      describe :delivery do
+        include_context :bulk_update_request
+
+        it { response.response_code.should == 302 }
+
+        let(:delivery_size) { 0 }
+
+        it_behaves_like :delivered
+      end
+    end
   end
 end
