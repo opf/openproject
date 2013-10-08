@@ -59,14 +59,7 @@ module Api
       end
 
       def create
-        planning_element_params = permitted_params.planning_element.tap do |p|
-          # map the old planning_element_type_id on the type_id of workpackage
-          p[:type_id] = p[:planning_element_type_id]
-          # and remove it from the params
-          p.except!(:planning_element_type_id)
-        end
-
-        @planning_element = planning_element_scope.new(planning_element_params)
+        @planning_element = planning_element_scope.new(permitted_params.planning_element)
 
         # The planning_element inherits from workpackage, which requires an author.
         # Using the current_user also satisfies this demand for API-calls
@@ -74,7 +67,6 @@ module Api
         successfully_created = @planning_element.save
 
         respond_to do |format|
-
           format.api do
             if successfully_created
               redirect_url = api_v2_project_planning_element_url(
