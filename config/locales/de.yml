@@ -148,6 +148,8 @@ de:
   permission_edit_cost_objects: "Budgets bearbeiten"
   permission_edit_own_cost_entries: "Bearbeiten eigener gebuchter Stückkosten"
   permission_edit_rates: "Stundensätze editieren"
+  permission_edit_hourly_rates: "Stundensätze bearbeiten"
+  permission_edit_own_hourly_rates: "Eigene Stundensätze bearbeiten"
   permission_log_costs: "Stückkosten buchen"
   permission_log_own_costs: "Eigene Stückkosten buchen"
   permission_view_cost_entries: "Gebuchte Kosten ansehen"

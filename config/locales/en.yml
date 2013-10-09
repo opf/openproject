@@ -147,6 +147,8 @@ en:
   permission_edit_cost_entries: "Edit booked unit costs"
   permission_edit_cost_objects: "Edit Budgets"
   permission_edit_own_cost_entries: "Edit own booked unit costs"
+  permission_edit_hourly_rates: "Edit hourly rates"
+  permission_edit_own_hourly_rates: "Edit own hourly rates"
   permission_edit_rates: "Edit rates"
   permission_log_costs: "Book unit costs"
   permission_log_own_costs: "Book unit costs for oneself"
