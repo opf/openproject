@@ -59,7 +59,6 @@ class WorkPackageBulkController < ApplicationController
       call_hook(:controller_work_package_bulk_before_save, { params: params, work_package: work_package })
       JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
       unless work_package.save
-        # Keep unsaved issue ids to display them in flash error
         unsaved_work_package_ids << work_package.id
       end
     end
