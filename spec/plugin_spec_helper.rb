@@ -17,7 +17,7 @@ module OpenProject
       end
 
       def privacy_plugin_loaded?
-        plugin_loaded?("openproject_dtag_privacy")
+        plugin_loaded?("openproject_dtag_customizing")
       end
 
       def costs_plugin_loaded?
