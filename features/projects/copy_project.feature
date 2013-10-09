@@ -414,3 +414,37 @@ Feature: Project Settings
     Then  I should see "Successful creation."
     And   I go to the page of the timeline "Testline" of the project called "Copied Project"
     Then  I should see "Testline" within "#content"
+
+  @javascript
+  Scenario: Copying a project with a complex issue
+    Given the project "project1" has 1 version with:
+      | name           | version1   |
+      | description    | yeah, boy  |
+      | start_date     | 2001-08-02 |
+      | effective_date | 2002-08-02 |
+    And the project "project1" has 1 category with:
+      | assigned_to | Carl |
+    And the following types are enabled for the project called "project1":
+      | Name    |
+      | Phase 1 |
+    And there are the following issues in project "project1":
+      | subject | assignee | type    | version  | responsible | done_ratio | description | category         |
+      | foo     | alice    | Phase 1 | version1 | bob         | 20         | Description | Issue category 1 |
+    When I am already admin
+    And  I go to the settings page of the project "project1"
+    And  I follow "Copy" within "#content"
+    And  I fill in "Name" with "Copied Project"
+    And  I fill in "Identifier" with "cp"
+    And  I check "Work packages"
+    And  I click on "Copy"
+    Then I should see "Successful creation."
+    And  I go to the work packages index page for the project "Copied Project"
+    Then I should see "foo" within "#content"
+    And  I follow "foo" within "#content"
+    Then I should see "Alice Alison" within "#content"
+    And  I should see "foo" within "#content"
+    And  I should see "Bob Bobbit" within "#content"
+    And  I should see "version1" within "#content"
+    And  I should see "Description" within "#content"
+    And  I should see "Issue category 1" within "#content"
+    And  I should see "20" within "#content"
