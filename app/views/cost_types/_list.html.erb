@@ -28,7 +28,7 @@
           <%= image_submit_tag "save.png", :alt => l(:caption_save_rate), :title => l(:caption_save_rate) %>
         <% end %>
       </td>
-      <%= content_tag :td, cost_type.is_default? ? image_tag('check.png', :alt => l(:general_text_Yes)) : "" %>
+      <%= content_tag :td, cost_type.is_default? ? image_tag('webalys/check.png', :alt => l(:general_text_Yes)) : "" %>
       <td>
         <%= form_for cost_type, :url => toggle_delete_cost_type_path(cost_type),
                                 :html => { :id => "delete_cost_type_#{cost_type.id}",
