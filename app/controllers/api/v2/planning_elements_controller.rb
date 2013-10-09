@@ -222,12 +222,9 @@ module Api
       end
 
       def optimize_planning_elements_for_less_db_queries
-        # abort if @planning_elements is already an array, using .class check since
-        # .is_a? acts weird on named scopes
-        return if @planning_elements.class == Array
-
         # triggering full load to avoid separate queries for count or related models
-        @planning_elements = @planning_elements.all(:include => [:type, :status, :project])
+        # historical packages are already loaded correctly and only need to be optimised, so they do not need to fetched again, only optimised
+        @planning_elements = @planning_elements.all(:include => [:type, :status, :project]) unless @planning_elements.class == Array
 
         # Replacing association proxies with already loaded instances to avoid
         # further db calls.
