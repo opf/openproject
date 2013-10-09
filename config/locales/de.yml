@@ -1514,6 +1514,9 @@ de:
       quarters: "Quartale"
       years: "Jahre"
 
+  queries:
+    apply_filter: vorkonfigurierten Filter anwenden
+
   label_work_package_hierarchy: "Arbeitspakethierarchie"
 
   total_progress: "Gesamtfortschritt"

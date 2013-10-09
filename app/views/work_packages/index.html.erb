@@ -46,66 +46,86 @@ See doc/COPYRIGHT.rdoc for more details.
 <h2><%= query.new_record? ? l(:label_work_package_plural) : h(query.name) %></h2>
 
 <div class="title-bar">
-<div class="title-bar-extras">
+  <div class="title-bar-extras">
 
-<% html_title(query.new_record? ? l(:label_work_package_plural) : h(query.name)) %>
+    <% html_title(query.new_record? ? l(:label_work_package_plural) : h(query.name)) %>
 
-<%= form_tag({ :controller => '/queries', :action => 'new' }, :id => 'query_form') do %>
-    <%= hidden_field_tag('project_id', project.to_param) if project %>
-		<div id="query_form_content" class="hide-when-print">
-    <fieldset id="filters" class="header_collapsible collapsible <%= query.new_record? ? "" : "collapsed" %>">
-    	<legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
-    	<div class="filter-fields" style="<%= query.new_record? ? "" : "display: none;" %>">
-    		<%= render :partial => 'queries/filters', :locals => {:query => query} %>
-    	</div>
-    </fieldset>
-    <fieldset id="column_options" class="header_collapsible collapsible collapsed">
-    	<legend title="<%=l(:description_option_toggle)%>", onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_options) %></a></legend>
-    	<div style="display: none;">
-    		<table>
-    			<tr>
-    				<td><%= Query.human_attribute_name(:column_names) %></td>
-						<td><%= render :partial => 'queries/columns', :locals => {:query => query} %></td>
-					</tr>
-					<tr>
-						<td><label for='group_by'><%= Query.human_attribute_name(:group_by) %></label></td>
-						<td><%= select_tag('group_by', options_for_select([[]] + query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, query.group_by)) %></td>
-					</tr>
-					<% if query.any_summable_columns? %>
-					<tr>
-						<td><%= label_tag :display_sums, l(:label_display_sums) %></td>
-						<td><%= check_box_tag :display_sums, 1, query.display_sums? %></td>
-					</tr>
-					<% end %>
-				</table>
-      <%= call_hook(:view_work_package_query_form_options_bottom, :query => query) %>
-			</div>
-		</fieldset>
-		</div>
-    <p class="buttons hide-when-print">
+    <div id='work-packages-query-selection'>
+      <%= form_tag :id => 'query-selection-form' do %>
+        <%= label_tag 'query-select', l('apply_filter', :scope => 'queries') %>
 
-    <%= link_to_remote l(:button_apply),
-                       { :url => { :set_filter => 1 },
-                         :before => 'selectAllOptions("selected_columns");',
-                         :update => "content",
-                         :method => :get,
-                         :complete => "apply_filters_observer()",
-                         :with => "jQuery('#query_form').serialize()"
-                       }, :class => 'icon icon-checked' %>
+        <%= collection_select(:query, :id, sidebar_queries, :id, :name, {:include_blank => query.new_record?, :selected => query.id}, {:id => 'query-select'}) %>
+        <%# TODO Use placeholder when I18n-js works again %>
+      <% end %>
 
-    <%= link_to_remote l(:button_clear),
-                       { :url => { :set_filter => 1, :sort => WorkPackagesController::DEFAULT_SORT_ORDER.join(':'), :project_id => project },
-                         :method => :get,
-                         :update => "content",
-                       }, :class => 'icon icon-reload'  %>
+      <script type='text/javascript'>
+        (function() {
+          jQuery('#query-select')
+          .select2()
+          .change(function() {
+            document.location.href = window.location.pathname + '?query_id=' + this.value;
+            // TODO use FilterQueryStringBuilder
+          });
+        })();
+      </script>
+    </div>
 
-    <% if query.new_record? && User.current.allowed_to?(:save_queries, project, :global => true) %>
-    <%= link_to l(:button_save), {}, :onclick => "selectAllOptions('selected_columns'); jQuery('#query_form').submit(); return false;", :class => 'icon icon-save' %>
+    <%= form_tag({ :controller => '/queries', :action => 'new' }, :id => 'query_form') do %>
+      <%= hidden_field_tag('project_id', project.to_param) if project %>
+		  <div id="query_form_content" class="hide-when-print">
+        <fieldset id="filters" class="header_collapsible collapsible <%= query.new_record? ? "" : "collapsed" %>">
+          <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
+          <div class="filter-fields" style="<%= query.new_record? ? "" : "display: none;" %>">
+    		    <%= render :partial => 'queries/filters', :locals => {:query => query} %>
+          </div>
+        </fieldset>
+        <fieldset id="column_options" class="header_collapsible collapsible collapsed">
+          <legend title="<%=l(:description_option_toggle)%>", onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_options) %></a></legend>
+          <div style="display: none;">
+    		    <table>
+        			<tr>
+        				<td><%= Query.human_attribute_name(:column_names) %></td>
+    						<td><%= render :partial => 'queries/columns', :locals => {:query => query} %></td>
+    					</tr>
+    					<tr>
+    						<td><label for='group_by'><%= Query.human_attribute_name(:group_by) %></label></td>
+    						<td><%= select_tag('group_by', options_for_select([[]] + query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, query.group_by)) %></td>
+    					</tr>
+    					<% if query.any_summable_columns? %>
+                <tr>
+    						  <td><%= label_tag :display_sums, l(:label_display_sums) %></td>
+    						  <td><%= check_box_tag :display_sums, 1, query.display_sums? %></td>
+                </tr>
+              <% end %>
+				    </table>
+            <%= call_hook(:view_issue_query_form_options_bottom, :query => query) %>
+          </div>
+		    </fieldset>
+		  </div>
+      <p class="buttons hide-when-print">
+
+        <%= link_to_remote l(:button_apply),
+                           { :url => { :set_filter => 1 },
+                             :before => 'selectAllOptions("selected_columns");',
+                             :update => "content",
+                             :method => :get,
+                             :complete => "apply_filters_observer()",
+                             :with => "jQuery('#query_form').serialize()"
+                           }, :class => 'icon icon-checked' %>
+
+        <%= link_to_remote l(:button_clear),
+                           { :url => { :set_filter => 1, :sort => WorkPackagesController::DEFAULT_SORT_ORDER.join(':'), :project_id => project },
+                             :method => :get,
+                             :update => "content",
+                           }, :class => 'icon icon-reload'  %>
+
+        <% if query.new_record? && User.current.allowed_to?(:save_queries, project, :global => true) %>
+          <%= link_to l(:button_save), {}, :onclick => "selectAllOptions('selected_columns'); jQuery('#query_form').submit(); return false;", :class => 'icon icon-save' %>
+        <% end %>
+      </p>
     <% end %>
-    </p>
-<% end %>
 
-</div><!-- .title-bar-extras -->
+  </div><!-- .title-bar-extras -->
 </div><!-- .title-bar -->
 
 <%= error_messages_for 'query' %>

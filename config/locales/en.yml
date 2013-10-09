@@ -1503,6 +1503,9 @@ en:
       quarters: "Quarters"
       years: "Years"
 
+  queries:
+    apply_filter: Apply preconfigured filter
+
   label_work_package_hierarchy: "Work Package Hierarchy"
 
   total_progress: "Total progress"
