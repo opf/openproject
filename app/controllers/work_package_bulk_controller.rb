@@ -29,7 +29,7 @@
 
 class WorkPackageBulkController < ApplicationController
   before_filter :disable_api
-  before_filter :find_issues, only: [:edit, :update]
+  before_filter :find_work_packages, only: [:edit, :update]
   before_filter :authorize
 
   include JournalsHelper
@@ -40,7 +40,7 @@ class WorkPackageBulkController < ApplicationController
   include IssuesHelper
 
   def edit
-    @issues.sort!
+    @work_packages.sort!
     @available_statuses = @projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
     @custom_fields = @projects.map{|p|p.all_work_package_custom_fields}.inject{|memo,c|memo & c}
     @assignables = @projects.map(&:assignable_users).inject{|memo,a| memo & a}
@@ -48,32 +48,47 @@ class WorkPackageBulkController < ApplicationController
   end
 
   def update
-    @issues.sort!
+    @work_packages.sort!
     attributes = parse_params_for_bulk_work_package_attributes(params)
 
-    unsaved_issue_ids = []
-    @issues.each do |issue|
-      issue.reload
-      issue.add_journal(User.current, params[:notes])
-      issue.safe_attributes = attributes
-      call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
+    unsaved_work_package_ids = []
+    @work_packages.each do |work_package|
+      work_package.reload
+      work_package.add_journal(User.current, params[:notes])
+      work_package.safe_attributes = attributes
+      call_hook(:controller_work_package_bulk_before_save, { params: params, work_package: work_package })
       JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
-      unless issue.save
+      unless work_package.save
         # Keep unsaved issue ids to display them in flash error
-        unsaved_issue_ids << issue.id
+        unsaved_work_package_ids << work_package.id
       end
     end
-    set_flash_from_bulk_issue_save(@issues, unsaved_issue_ids)
-    redirect_back_or_default({:controller => '/work_packages', :action => 'index', :project_id => @project})
+    set_flash_from_bulk_save(@work_packages, unsaved_work_package_ids)
+    redirect_back_or_default({controller: '/work_packages', action: :index, project_id: @project})
   end
 
 private
 
   def parse_params_for_bulk_work_package_attributes(params)
-    attributes = (params[:issue] || {}).reject {|k,v| v.blank?}
+    attributes = (params[:work_package] || {}).reject {|k,v| v.blank?}
     attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
     attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
     attributes.delete :custom_field_values if not attributes.has_key?(:custom_field_values) or attributes[:custom_field_values].empty?
     attributes
+  end
+
+  # Sets the `flash` notice or error based the number of work packages that did not save
+  #
+  # @param [Array, WorkPackage] work_packages all of the saved and unsaved WorkPackages
+  # @param [Array, Integer] unsaved_work_package_ids the WorkPackage ids that were not saved
+  def set_flash_from_bulk_save(work_packages, unsaved_work_package_ids)
+    if unsaved_work_package_ids.empty?
+      flash[:notice] = l(:notice_successful_update) unless work_packages.empty?
+    else
+      flash[:error] = l(:notice_failed_to_save_work_packages,
+                        :count => unsaved_work_package_ids.size,
+                        :total => work_packages.size,
+                        :ids => '#' + unsaved_work_package_ids.join(', #'))
+    end
   end
 end

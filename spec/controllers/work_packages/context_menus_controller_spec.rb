@@ -127,7 +127,7 @@ describe WorkPackages::ContextMenusController do
       end
 
       let(:status_link) { "/work_package_bulk/update?#{ids_link}"\
-                          "&amp;issue%5Bstatus_id%5D=#{status_2.id}" }
+                          "&amp;work_package%5Bstatus_id%5D=#{status_2.id}" }
 
       it do
         assert_tag tag: 'a',
@@ -140,7 +140,7 @@ describe WorkPackages::ContextMenusController do
     shared_examples_for :priority do
       let(:priority_immediate) { FactoryGirl.create(:priority_immediate) }
       let(:priority_link) { "/work_package_bulk/update?#{ids_link}"\
-                            "&amp;issue%5Bpriority_id%5D=#{priority_immediate.id}" }
+                            "&amp;work_package%5Bpriority_id%5D=#{priority_immediate.id}" }
 
       before do
         priority_immediate
@@ -162,9 +162,9 @@ describe WorkPackages::ContextMenusController do
       let(:version_2) { FactoryGirl.create(:version,
                                            project: project_1) }
       let(:version_link_1) { "/work_package_bulk/update?#{ids_link}"\
-                             "&amp;issue%5Bfixed_version_id%5D=#{version_1.id}" }
+                             "&amp;work_package%5Bfixed_version_id%5D=#{version_1.id}" }
       let(:version_link_2) { "/work_package_bulk/update?#{ids_link}"\
-                             "&amp;issue%5Bfixed_version_id%5D=#{version_2.id}" }
+                             "&amp;work_package%5Bfixed_version_id%5D=#{version_2.id}" }
 
       before do
         version_1
@@ -183,7 +183,7 @@ describe WorkPackages::ContextMenusController do
 
     shared_examples_for :assigned_to do
       let(:assigned_to_link) { "/work_package_bulk/update?#{ids_link}"\
-                               "&amp;issue%5Bassigned_to_id%5D=#{user.id}" }
+                               "&amp;work_package%5Bassigned_to_id%5D=#{user.id}" }
 
       before { get :index, ids: ids }
 

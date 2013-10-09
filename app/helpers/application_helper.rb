@@ -956,7 +956,7 @@ module ApplicationHelper
 		    args[:collection].collect do |(s, name)|
           content_tag :li do
             context_menu_link (name || s), work_package_bulk_update_path(:ids => args[:updated_object_ids],
-                                                                         :issue => { db_attribute => s },
+                                                                         :work_package => { db_attribute => s },
                                                                          :back_url => args[:back_url]),
                                                                          :method => :put,
                                                                          :selected => args[:selected].call(s),

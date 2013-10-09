@@ -29,10 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= l(:label_bulk_edit_selected_work_packages) %></h2>
 
-<ul><%= @issues.collect {|i| content_tag('li', link_to(h("#{i.type} ##{i.id}"), { :action => 'show', :id => i }) + h(": #{i.subject}")) }.join("\n").html_safe %></ul>
+<ul><%= @work_packages.collect {|i| content_tag('li', link_to(h("#{i.type} ##{i.id}"), { :action => 'show', :id => i }) + h(": #{i.subject}")) }.join("\n").html_safe %></ul>
 
 <%= form_tag(:action => 'update') do %>
-<%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
+<%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
 <div class="box tabular">
 <fieldset class="attributes">
 <legend><%= l(:label_change_properties) %></legend>
@@ -83,7 +83,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </p>
 <% end %>
 
-<%= call_hook(:view_work_packages_bulk_edit_details_bottom, { :issues => @issues }) %>
+<%= call_hook(:view_work_packages_bulk_edit_details_bottom, { work_packages: @work_packages }) %>
 </div>
 
 <div class="splitcontentright">

@@ -188,10 +188,10 @@ describe WorkPackageBulkController do
         put :update,
             ids: work_package_ids,
             notes: 'Bulk editing',
-            issue: { priority_id: priority.id,
-                     assigned_to_id: group_id,
-                     custom_field_values: { custom_field_1.id.to_s => '' },
-            send_notification: send_notification }
+            work_package: { priority_id: priority.id,
+                            assigned_to_id: group_id,
+                            custom_field_values: { custom_field_1.id.to_s => '' },
+                            send_notification: send_notification }
       end
     end
 
@@ -308,7 +308,7 @@ describe WorkPackageBulkController do
 
             put :update,
                 ids: work_package_ids,
-                issue: { status_id: closed_status.id }
+                work_package: { status_id: closed_status.id }
           end
 
           subject { work_packages.collect(&:status_id).uniq }
@@ -324,7 +324,7 @@ describe WorkPackageBulkController do
           before do
             put :update,
                 ids: work_package_ids,
-                issue: { parent_id: parent.id }
+                work_package: { parent_id: parent.id }
           end
 
           subject { work_packages.collect(&:parent_id).uniq }
@@ -338,7 +338,7 @@ describe WorkPackageBulkController do
           before do
             put :update,
                 ids: work_package_ids,
-                issue: { custom_field_values: { custom_field_1.id.to_s => result } }
+                work_package: { custom_field_values: { custom_field_1.id.to_s => result } }
           end
 
           subject { work_packages.collect {|w| w.custom_value_for(custom_field_1.id).value }
@@ -351,7 +351,7 @@ describe WorkPackageBulkController do
           before do
             put :update,
                 ids: work_package_ids,
-                issue: { assigned_to_id: 'none' }
+                work_package: { assigned_to_id: 'none' }
           end
 
           subject { work_packages.collect(&:assigned_to_id).uniq }
@@ -371,7 +371,7 @@ describe WorkPackageBulkController do
           before do
             put :update,
                 ids: work_package_ids,
-                issue: { fixed_version_id: version.id.to_s }
+                work_package: { fixed_version_id: version.id.to_s }
           end
 
           subject { response }
