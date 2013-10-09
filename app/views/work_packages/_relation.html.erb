@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= format_date(relation.other_work_package(work_package).due_date) %>
   </td>
   <td>
-    <%= link_to(image_tag('delete.png'), work_package_relation_path(work_package, relation),
+    <%= link_to(image_tag('webalys/delete.png'), work_package_relation_path(work_package, relation),
                                          :method => :delete,
                                          :remote => true,
                                          :title => l(:label_relation_delete),
