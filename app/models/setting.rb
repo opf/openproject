@@ -214,8 +214,8 @@ private
   end
 
   def self.cache_key(name)
-    Thread.current[:settings_updated_on] ||= Setting.maximum(:updated_on)
-    most_recent_settings_change = ( Thread.current[:settings_updated_on] || Time.now.utc).to_i
+    RequestStore.store[:settings_updated_on] ||= Setting.maximum(:updated_on)
+    most_recent_settings_change = ( RequestStore.store[:settings_updated_on] || Time.now.utc).to_i
     base_cache_key(name, most_recent_settings_change)
   end
 

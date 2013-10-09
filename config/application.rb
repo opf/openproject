@@ -86,6 +86,11 @@ module OpenProject
     # automatically compile translations.js
     config.middleware.use I18n::JS::Middleware
 
+    # add the request-store to the middleware to make sure, that thread-loca variables are
+    # cleaned up after the request
+    require "request_store/middleware"
+    config.middleware.use RequestStore::Middleware
+
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
