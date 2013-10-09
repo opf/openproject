@@ -57,6 +57,7 @@ class QueryMenuItemsController < ApplicationController
 	end
 
 	def query_path
-		project_work_packages_path(@query.project, :query_id => @query.id)
+		project = Project.find(params[:project_id])
+		project_work_packages_path(project, :query_id => @query.id)
 	end
 end
