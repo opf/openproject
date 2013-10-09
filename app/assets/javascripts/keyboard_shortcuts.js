@@ -34,7 +34,7 @@
   };
 
   var we_are_in_project = function() {
-    return menu_sidebar().size() == 1;
+    return menu_sidebar().size() === 1;
   };
 
   var show_help_modal = function(){
@@ -48,7 +48,10 @@
   };
 
   var go_my_page = function(){
-    $('#account-nav .my-page')[0].click();
+    var my_page = $('#account-nav .my-page');
+    if (my_page.size() === 1) {
+      my_page[0].click();
+    }
   };
 
   var go_work_packages = function(){
