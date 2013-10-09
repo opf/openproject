@@ -1,5 +1,4 @@
 # encoding: utf-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
