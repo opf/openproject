@@ -11,6 +11,8 @@ Minicons Free Vector Icons Pack by Webalys is licensed under a Creative Commons 
 Under this condition: provide a mention of this "Minicons Free Vector Icons Pack" and a link back to this page: http://www.webalys.com/minicons
 </pre>
 
+License: http://www.webalys.com/minicons/license.php
+
 ## Minimal Vector Icons
 
 <pre>
@@ -18,3 +20,5 @@ This Pack is published under a Creative Commons Attribution license and Free for
 
 Under this condition: provide a mention of this "User Interface Design framework" and a link back to this page: http://www.webalys.com/design-interface-application-framework.php
 </pre>
+
+License: https://creativecommons.org/licenses/by/3.0/
