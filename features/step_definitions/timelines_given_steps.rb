@@ -119,13 +119,16 @@ Given /^the following types are enabled for projects of type "(.*?)"$/ do |proje
   end
 end
 
-Given (/^there are the following work packages(?: in project "([^"]*)")?:$/) do |project_name, table| project = get_project(project_name)
+Given (/^there are the following work packages(?: in project "([^"]*)")?:$/) do |project_name, table|
+  project = get_project(project_name)
+  create_work_packages_from_table table, project
+end
+
+def create_work_packages_from_table table, project
   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
-
-    [
-      ["author", User],
+    [ ["author", User],
       ["responsible", User],
       ["assigned_to", User],
       ["type", Type],
@@ -147,6 +150,6 @@ Given (/^there are the following work packages(?: in project "([^"]*)")?:$/) do 
       type_attributes[:type] = Type.where(name: type_attributes[:type].to_s).first
     end
 
-    factory = FactoryGirl.create(:work_package, type_attributes.merge(:project_id => project.id))
+    FactoryGirl.create(:work_package, type_attributes.merge(:project_id => project.id))
   end
 end

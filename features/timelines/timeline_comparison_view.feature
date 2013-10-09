@@ -40,19 +40,20 @@ Feature: Timeline Comparison View Tests
           | timelines |
       And the user "manager" is a "manager"
       And I am already logged in as "manager"
-      And there are the following work packages were added "three weeks ago"
+      And there are the following work packages were added "three weeks ago":
           | Subject  | Start date | Due date   |
           | January  | 2014-01-01 | 2014-01-31 |
           | February | 2014-02-01 | 2014-02-28 |
           | March    | 2014-03-01 | 2014-03-31 |
           | April    | 2014-04-01 | 2014-04-30 |
-      And the work package "February" was changed "two weeks ago" to
+      And the work package "February" was changed "two weeks ago" to:
           | Subject  | Start date | Due date   |
           | May      | 2014-05-01 | 2014-05-31 |
-      And the work package "January" was changed "one week ago" to
+      And the work package "January" was changed "one week ago" to:
           | Subject  | Start date | Due date   |
           | February | 2014-02-01 | 2014-02-28 |
 
+  @javascript
   Scenario: nine days comparison
     Given I am working in the timeline "Changes" of the project called "Volatile Planning"
      When there is a timeline "Changes" for project "Volatile Planning"
@@ -61,6 +62,7 @@ Feature: Timeline Comparison View Tests
       And I should see the work package "February" has moved
       And I should not see the work package "January"
 
+  @javascript
   Scenario: sixteen days comparison
     Given I am working in the timeline "Changes" of the project called "Volatile Planning"
      When there is a timeline "Changes" for project "Volatile Planning"
