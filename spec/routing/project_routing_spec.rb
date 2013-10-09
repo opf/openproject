@@ -68,13 +68,13 @@ describe ProjectsController do
   end
 
   describe "miscellanous" do
-    it { get("/projects/123/settings").should         route_to(:controller => 'projects', :action =>"settings",   :id =>"123")}
-    it { get("/projects/123/settings/members").should route_to(:controller => 'projects', :action =>"settings",   :id =>"123", :tab => "members")}
-    it { put("projects/123/modules").should           route_to(:controller => 'projects', :action =>"modules",    :id =>"123")}
-    it { put("projects/123/archive").should           route_to(:controller => 'projects', :action =>"archive",    :id =>"123")}
-    it { put("projects/123/unarchive").should         route_to(:controller => 'projects', :action =>"unarchive",  :id =>"123")}
-    it { get("projects/123/copy").should              route_to(:controller => 'projects', :action =>"copy",       :id =>"123")}
-    it { post("projects/123/copy").should             route_to(:controller => 'projects', :action =>"copy",       :id =>"123")}
+    it { get("/projects/123/settings").should                  route_to(:controller => 'projects', :action =>"settings",     :id =>"123")}
+    it { get("/projects/123/settings/members").should          route_to(:controller => 'projects', :action =>"settings",     :id =>"123", :tab => "members")}
+    it { put("projects/123/modules").should                    route_to(:controller => 'projects', :action =>"modules",      :id =>"123")}
+    it { put("projects/123/archive").should                    route_to(:controller => 'projects', :action =>"archive",      :id =>"123")}
+    it { put("projects/123/unarchive").should                  route_to(:controller => 'projects', :action =>"unarchive",    :id =>"123")}
+    it { get("projects/123/copy_project_from_settings").should route_to(:controller => 'projects', :action =>"copy_project", :id =>"123", :coming_from => "settings")}
+    it { post("projects/123/copy").should                      route_to(:controller => 'projects', :action =>"copy",         :id =>"123")}
   end
 end
 
