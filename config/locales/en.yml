@@ -503,6 +503,7 @@ en:
   error_unable_to_connect: "Unable to connect (%{value})"
   error_workflow_copy_source: "Please select a source type or role"
   error_workflow_copy_target: "Please select target type(s) and role(s)"
+  error_menu_item_not_created: Menu item could not be added
 
   general_csv_decimal_separator: "."
   general_csv_encoding: "ISO-8859-1"

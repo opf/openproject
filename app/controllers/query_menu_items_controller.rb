@@ -35,7 +35,7 @@ class QueryMenuItemsController < ApplicationController
 		if @query_menu_item.save
 			flash[:notice] = l(:notice_successful_create)
     else
-			flash[:error] = l(:error_menu_item_not_created) # TODO I18n
+			flash[:error] = l(:error_menu_item_not_created)
 		end
 
   	redirect_to query_path

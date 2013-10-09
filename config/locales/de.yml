@@ -503,6 +503,7 @@ de:
   error_unable_to_connect: "Fehler beim Verbinden (%{value})"
   error_workflow_copy_source: "Bitte wählen Sie einen Quell-Typ und eine Quell-Rolle."
   error_workflow_copy_target: "Bitte wählen Sie die Ziel-Typ und -Rollen."
+  error_menu_item_not_created: Menüpunkt konnte nicht hinzugefügt werden.
 
   general_csv_decimal_separator: ","
   general_csv_encoding: "ISO-8859-1"
