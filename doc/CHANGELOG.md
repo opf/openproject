@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#1281` I18n.js Not working correctly. Always returns English Translations
 * `#1771` Fixed bug: Refactor Types Project Settings into new Tab
+* `#2306` Migrate issues controller tests
 * `#2307` Change icon of home button in header from OpenProjct icon to house icon
 * `#2319` Add a request-store to avoid redundant calls
 
