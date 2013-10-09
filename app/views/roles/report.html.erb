@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% @roles.each do |role| %>
     <th>
         <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
-        <%= link_to_function(image_tag('check.png'), "toggleCheckboxesBySelector('input.role-#{role.id}')",
+        <%= link_to_function(image_tag('webalys/check.png'), "toggleCheckboxesBySelector('input.role-#{role.id}')",
                                                             :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
     </th>
     <% end %>
@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% perms_by_module[mod].each do |permission| %>
         <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
         <td>
-            <%= link_to_function(image_tag('check.png'), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
+            <%= link_to_function(image_tag('webalys/check.png'), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
                                                                 :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
             <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
         </td>

@@ -53,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <td><%= h type %></td>
   <% roles.each do |role, count| -%>
     <td align="center">
-      <%= link_to((count > 0 ? count : image_tag('red_x.png')), {:action => 'edit', :role_id => role, :type_id => type}, :title => l(:button_edit)) %>
+      <%= link_to((count > 0 ? count : image_tag('webalys/red_x.png')), {:action => 'edit', :role_id => role, :type_id => type}, :title => l(:button_edit)) %>
     </td>
   <% end -%>
 </tr>
