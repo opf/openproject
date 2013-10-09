@@ -43,6 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2246` Migrate issue categories controller tests
 * `#2262` Migrate issue statuses controller tests
 * `#2267` Rename view issue hooks
+* `#2307` Change icon of home button in header from OpenProjct icon to house icon
 
 ## 3.0.0pre19
 
