@@ -955,7 +955,7 @@ module ApplicationHelper
       ret += content_tag :ul do
 		    args[:collection].collect do |(s, name)|
           content_tag :li do
-            context_menu_link (name || s), bulk_update_issues_path(:ids => args[:updated_object_ids],
+            context_menu_link (name || s), work_package_bulk_bulk_update_path(:ids => args[:updated_object_ids],
                                                                    :issue => { db_attribute => s },
                                                                    :back_url => args[:back_url]),
                                       :method => :put,
