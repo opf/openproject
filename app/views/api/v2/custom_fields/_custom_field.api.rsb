@@ -1,0 +1,26 @@
+api.custom_field do
+  api.id              custom_field.id
+  api.name            custom_field.name
+  api.customized_type custom_field.type.gsub(/CustomField$/, '').underscore
+  api.field_format    custom_field.field_format
+  api.regexp          custom_field.regexp
+  api.min_length      custom_field.min_length
+  api.max_length      custom_field.max_length
+  api.is_required     custom_field.is_required
+  api.is_filter       custom_field.is_filter
+  api.searchable      custom_field.searchable
+  api.is_for_all      custom_field.is_for_all
+  api.position        custom_field.position
+  api.editable        custom_field.editable
+  api.visible         custom_field.visible
+
+  if custom_field.field_format == 'list' && !custom_field.possible_values.empty?
+    api.array :possible_values, api_meta(:size => custom_field.possible_values.size) do
+      custom_field.possible_values.each do |possible_value|
+        api.possible_value do
+          api.value possible_value
+        end
+      end
+    end
+  end
+end

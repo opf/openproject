@@ -79,6 +79,9 @@ module PlanningElementsHelper
 
       api.created_at(planning_element.created_at.utc) if planning_element.created_at
       api.updated_at(planning_element.updated_at.utc) if planning_element.updated_at
+
+      render :partial => '/api/v2/custom_fields/custom_field_values.api',
+          :locals => {:custom_field_values => planning_element.custom_field_values}
     end
   end
 

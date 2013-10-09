@@ -1,0 +1,5 @@
+api.array :custom_fields, api_meta(:size => @custom_fields.size) do
+  @custom_fields.each do |custom_field|
+    render :partial => '/api/v2/custom_fields/custom_field.api', :object => custom_field
+  end
+end

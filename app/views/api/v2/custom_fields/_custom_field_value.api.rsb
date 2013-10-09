@@ -1,0 +1,5 @@
+api.custom_field do
+  api.name  custom_field_value.custom_field.name
+  api.value custom_field_value.value
+  api.id    custom_field_value.custom_field.id
+end
