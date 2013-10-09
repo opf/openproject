@@ -45,7 +45,7 @@ module OpenProject
       'smtp_address' => nil,
       'smtp_port' => nil,
       'smtp_domain' => nil,  # HELO domain
-      'smtp_authenticaiton' => nil,
+      'smtp_authentication' => nil,
       'smtp_user_name' => nil,
       'smtp_password' => nil,
       'smtp_enable_starttls_auto' => nil,
@@ -131,9 +131,11 @@ module OpenProject
 
         ['smtp_', 'sendmail_'].each do |config_type|
           mail_delivery_config = filter_hash_by_key_prefix(config, config_type)
-          mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
 
-          ActionMailer::Base.send("#{config_type + 'settings'}=", mail_delivery_config)
+          unless mail_delivery_config.empty?
+            mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
+            ActionMailer::Base.send("#{config_type + 'settings'}=", mail_delivery_config)
+          end
         end
       end
 
@@ -141,11 +143,16 @@ module OpenProject
       #
       # SMTP Example:
       # mail_delivery.smtp_settings.<key> is converted to smtp_<key>
-      def convert_old_email_settings(config)
+      # options:
+      # disable_deprecation_message - used by testing
+      def convert_old_email_settings(config, options={})
         if config['email_delivery'] and config['email_delivery']['delivery_method']
-          ActiveSupport::Deprecation.warn 'Deprecated mail delivery settings used. Please ' +
-                                          'updating them in config/configuration.yml or use ' +
-                                          'environment variables.'
+          unless options[:disable_deprecation_message]
+            ActiveSupport::Deprecation.warn 'Deprecated mail delivery settings used. Please ' +
+                                            'update them in config/configuration.yml or use ' +
+                                            'environment variables. See doc/CONFIGURATION.md for ' +
+                                            'more information.'
+          end
           config['email_delivery_method'] = config['email_delivery']['delivery_method']
           ['sendmail', 'smtp'].each do |settings_type|
             settings_key = "#{settings_type}_settings"
