@@ -81,24 +81,9 @@ When(/^I click the first delete attachment link$/) do
 end
 
 Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |project_name, table|
-  project = get_project(project_name)
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
-
-  table.hashes.each do |type_attributes|
-    assignee = User.find_by_login(type_attributes.delete("assignee"))
-    type_name = type_attributes.delete('type')
-    type = Type.find_by_name(type_name)
-
-    type_attributes[:type] = type unless type.nil?
-
-    factory = FactoryGirl.create(:work_package, type_attributes.merge(:project_id => project.id))
-
-    factory.reload
-
-    factory.assignee = assignee unless assignee.nil?
-
-    factory.save! if factory.changed?
-  end
+  table.hashes.map { |h| h["project"] = project_name }
+  table = Cucumber::Ast::Table.new table.hashes
+  step %{there are the following issues with attributes:}, table
 end
 
 Given (/^there are the following issues with attributes:$/) do |table|
@@ -107,7 +92,7 @@ Given (/^there are the following issues with attributes:$/) do |table|
   table.hashes.each do |type_attributes|
 
     project  = get_project(type_attributes.delete("project"))
-    attributes = type_attributes.merge(:project_id => project.id)
+    attributes = type_attributes.merge(:project_id => project.id) if project
 
     assignee = User.find_by_login(attributes.delete("assignee"))
     attributes.merge! :assigned_to_id => assignee.id if assignee
@@ -115,7 +100,20 @@ Given (/^there are the following issues with attributes:$/) do |table|
     author   = User.find_by_login(attributes.delete("author"))
     attributes.merge! :author_id => author.id if author
 
+    responsible = User.find_by_login(attributes.delete("responsible"))
+    attributes.merge! :responsible_id => responsible.id if responsible
+
     watchers = attributes.delete("watched_by")
+
+    type = Type.find_by_name(attributes.delete('type'))
+    attributes.merge! :type_id => type.id if type
+
+    version = Version.find_by_name(attributes.delete("version"))
+    attributes.merge! :fixed_version_id => version.id if version
+
+    category = Category.find_by_name(attributes.delete("category"))
+    attributes.merge! :category_id => category.id if category
+
     issue = FactoryGirl.create(:work_package, attributes)
 
     if watchers
