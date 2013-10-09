@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
+module OpenProject
   module Configuration
 
     # Configuration default values
