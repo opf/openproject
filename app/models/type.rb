@@ -91,6 +91,10 @@ class Type < ActiveRecord::Base
     Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
   end
 
+  def self.standard_type
+    @@standard_type ||= Type.where(is_standard: true).first
+  end
+
   def statuses
     return [] if new_record?
     @statuses ||= Type.statuses([id])

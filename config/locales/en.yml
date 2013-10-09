@@ -1012,13 +1012,10 @@ en:
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
   notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_unable_delete_version: "Unable to delete version."
+  notice_automatic_set_of_standard_type: "Set standard type automatically."
 
   # Default format for numbers
   number:
-
-
-
-
     format:
       delimiter: ""
       precision: 3
