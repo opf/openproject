@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1
+
+* `#1797` Adaptions to Migration of DTAG Customizing
+* `#2070` Adaptions for moving core assets to other locations
+
 ## 1.0.0
 
 * `#1643` Public Release of Global Roles Plugin
