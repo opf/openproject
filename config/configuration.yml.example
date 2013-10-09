@@ -34,6 +34,10 @@
 #
 # Note that this file needs to be a valid YAML file.
 #
+# Instead of using a configuration.yml file, you can configure OpenProject via
+# environment variables. See doc/CONFIGURATION.md for more information.
+#
+#
 # == Outgoing email settings (email_delivery setting)
 #
 # === Common configurations
@@ -41,43 +45,36 @@
 # ==== Sendmail command
 #
 # production:
-#   email_delivery:
-#     delivery_method: :sendmail
+#   email_delivery_method: :sendmail
 #
 # ==== Simple SMTP server at localhost
 #
 # production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "localhost"
-#       port: 25
+#   email_delivery_method: "smtp"
+#   smtp_address: "localhost"
+#   smtp_port: 25
 #
 # ==== SMTP server at example.com using LOGIN authentication and checking HELO for foo.com
 #
 # production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "example.com"
-#       port: 25
-#       authentication: :login
-#       domain: 'foo.com'
-#       user_name: 'myaccount'
-#       password: 'password'
+#   email_delivery_method: "smtp"
+#   smtp_address: "example.com"
+#   smtp_port: 25
+#   smtp_authentication: :login
+#   smtp_domain: 'foo.com'
+#   smtp_user_name: 'myaccount'
+#   smtp_password: 'password'
 #
 # ==== SMTP server at example.com using PLAIN authentication
 #
 # production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "example.com"
-#       port: 25
-#       authentication: :plain
-#       domain: 'example.com'
-#       user_name: 'myaccount'
-#       password: 'password'
+#   email_delivery_method: "smtp"
+#   smtp_address: "example.com"
+#   smtp_port: 25
+#   smtp_authentication: :plain
+#   smtp_domain: 'example.com'
+#   smtp_user_name: 'myaccount'
+#   smtp_password: 'password'
 #
 # ==== SMTP server at using TLS (GMail)
 #
@@ -85,16 +82,14 @@
 # http://redmineblog.com/articles/setup-redmine-to-send-email-using-gmail/
 #
 # production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       tls: true
-#       address: "smtp.gmail.com"
-#       port: 587
-#       domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
-#       authentication: :plain
-#       user_name: "your_email@gmail.com"
-#       password: "your_password"
+#   email_delivery_method: "smtp"
+#   smtp_enable_starttls_auto: true
+#   smtp_address: "smtp.gmail.com"
+#   smtp_port: 587
+#   smtp_domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
+#   smtp_authentication: :plain
+#   smtp_user_name: "your_email@gmail.com"
+#   smtp_password: "your_password"
 #
 #
 # === More configuration options
@@ -108,17 +103,14 @@
 # default configuration options for all environments
 default:
   # Outgoing emails configuration (see examples above)
-  email_delivery:
-    delivery_method: :smtp
-    perform_deliveries: true
-    smtp_settings:
-      address: smtp.example.net
-      port: 25
-      domain: example.net
-      authentication: :login
-      user_name: "openproject@example.net"
-      password: "my_openproject_password"
-  
+  email_delivery_method: :smtp
+  smtp_address: smtp.example.net
+  smtp_port: 25
+  smtp_domain: example.net
+  smtp_authentication: :login
+  smtp_user_name: "openproject@example.net"
+  smtp_password: "my_openproject_password"
+
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your OpenProject instance.
   # Your OpenProject instance needs to have write permission on this
@@ -134,7 +126,7 @@ default:
   # autologin_cookie_name:
   # autologin_cookie_path:
   # autologin_cookie_secure:
-  
+
   # Configuration of SCM executable command.
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
   # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
@@ -143,7 +135,7 @@ default:
   # scm_git_command:        /usr/local/bin/git                        # (default: git)
   # scm_subversion_command:
   # scm_git_command:
-  
+
   # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
   # If you don't want to enable data encryption, just leave it blank.
   # WARNING: losing/changing this key will make encrypted data unreadable.
@@ -157,7 +149,7 @@ default:
   # * change the cipher key here in your configuration file
   # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
   # database_cipher_key:
-  
+
 # specific configuration options for production environment
 # that overrides the default ones
 # production:
@@ -165,11 +157,8 @@ default:
 # specific configuration options for development environment
 # that overrides the default ones
 development:
-  email_delivery:
-    delivery_method: :letter_opener
-    perform_deliveries: false
+  email_delivery_method: :letter_opener
 
 # Configuration for the test environment
 test:
-  email_delivery:
-    delivery_method: :test
+  email_delivery_method: :test
