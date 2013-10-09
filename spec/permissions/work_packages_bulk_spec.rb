@@ -29,9 +29,9 @@
 require 'spec_helper'
 require_relative  '../support/permission_specs'
 
-describe IssuesController, "edit_work_packages permission", type: :controller do
+describe WorkPackageBulkController, "edit_work_packages permission", type: :controller do
   include PermissionSpecs
 
-  check_permission_required_for('issues#bulk_edit', :edit_work_packages)
-  check_permission_required_for('issues#bulk_update', :edit_work_packages)
+  check_permission_required_for('work_package_bulk#bulk_edit', :edit_work_packages)
+  check_permission_required_for('work_package_bulk#bulk_update', :edit_work_packages)
 end

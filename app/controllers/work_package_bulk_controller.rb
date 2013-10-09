@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class IssuesController < ApplicationController
+class WorkPackageBulkController < ApplicationController
   before_filter :disable_api
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update]
   before_filter :authorize

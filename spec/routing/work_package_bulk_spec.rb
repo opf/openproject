@@ -28,15 +28,15 @@
 
 require 'spec_helper'
 
-describe IssuesController do
+describe WorkPackageBulkController do
 
-  it "should connect GET /issues/bulk_edit to issues/bulk_edit" do
-    get("/issues/bulk_edit").should route_to(controller: 'issues',
-                                             action: 'bulk_edit' )
+  it "should connect GET /work_package_bulk/bulk_edit to work_package_bulk/bulk_edit" do
+    get("/work_package_bulk/bulk_edit").should route_to(controller: 'work_package_bulk',
+                                                        action: 'bulk_edit' )
   end
 
-  it "should connect PUT /issues/bulk_update to issues#bulk_update" do
-    put("/issues/bulk_update").should route_to(controller: 'issues',
-                                               action: 'bulk_update')
+  it "should connect PUT /work_package_bulk/bulk_update to work_package_bulk#bulk_update" do
+    put("/work_package_bulk/bulk_update").should route_to(controller: 'work_package_bulk',
+                                                          action: 'bulk_update')
   end
 end
