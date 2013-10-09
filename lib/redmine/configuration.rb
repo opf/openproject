@@ -32,11 +32,26 @@ module Redmine
 
     # Configuration default values
     @defaults = {
-      'email_delivery' => nil,
-      # Autologin cookie defaults:
+      'attachments_storage_path' => nil,
       'autologin_cookie_name'   => 'autologin',
       'autologin_cookie_path'   => '/',
       'autologin_cookie_secure' => false,
+      'database_cipher_key'     => nil,
+      'scm_git_command'         => nil,
+      'scm_subversion_command'  => nil,
+
+      # email configuration
+      'email_delivery_method' => nil,
+      'smtp_address' => nil,
+      'smtp_port' => nil,
+      'smtp_domain' => nil,  # HELO domain
+      'smtp_authenticaiton' => nil,
+      'smtp_user_name' => nil,
+      'smtp_password' => nil,
+      'smtp_enable_starttls_auto' => nil,
+      'smtp_openssl_verify_mode' => nil,  # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
+      'sendmail_location' => nil,
+      'sendmail_arguments' => nil
     }
 
     @config = nil
@@ -52,28 +67,27 @@ module Redmine
 
         @config = @defaults.dup
 
-        load_deprecated_email_configuration(env)
         if File.file?(filename)
           @config.merge!(load_from_yaml(filename, env))
         end
 
-        # Compatibility mode for those who copy email.yml over configuration.yml
-        %w(delivery_method smtp_settings sendmail_settings).each do |key|
-          if value = @config.delete(key)
-            @config['email_delivery'] ||= {}
-            @config['email_delivery'][key] = value
-          end
-        end
+        convert_old_email_settings(@config)
 
-        if @config['email_delivery']
-          ActionMailer::Base.perform_deliveries = true
-          @config['email_delivery'].each do |k, v|
-            v.symbolize_keys! if v.respond_to?(:symbolize_keys!)
-            ActionMailer::Base.send("#{k}=", v)
-          end
+        load_overrides_from_environment_variables(@config)
+
+        if @config['email_delivery_method']
+          configure_action_mailer(@config)
         end
 
         @config
+      end
+
+      # Replace config values for which an environment variable with the same key in upper case
+      # exists
+      def load_overrides_from_environment_variables(config)
+        config.each do |key, value|
+          config[key] = ENV.fetch(key.upcase, value)
+        end
       end
 
       # Returns a configuration setting
@@ -111,13 +125,51 @@ module Redmine
         conf
       end
 
-      def load_deprecated_email_configuration(env)
-        deprecated_email_conf = File.join(Rails.root, 'config', 'email.yml')
-        if File.file?(deprecated_email_conf)
-          warn "Storing outgoing emails configuration in config/email.yml is deprecated. You should now store it in config/configuration.yml using the email_delivery setting."
-          @config.merge!({'email_delivery' => load_from_yaml(deprecated_email_conf, env)})
+      def configure_action_mailer(config)
+        ActionMailer::Base.perform_deliveries = true
+        ActionMailer::Base.delivery_method = config['email_delivery_method'].to_sym
+
+        ['smtp_', 'sendmail_'].each do |config_type|
+          mail_delivery_config = filter_hash_by_key_prefix(config, config_type)
+          mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
+
+          ActionMailer::Base.send("#{config_type + 'settings'}=", mail_delivery_config)
         end
       end
+
+      # Convert old mail settings
+      #
+      # SMTP Example:
+      # mail_delivery.smtp_settings.<key> is converted to smtp_<key>
+      def convert_old_email_settings(config)
+        if config['email_delivery'] and config['email_delivery']['delivery_method']
+          ActiveSupport::Deprecation.warn 'Deprecated mail delivery settings used. Please ' +
+                                          'updating them in config/configuration.yml or use ' +
+                                          'environment variables.'
+          config['email_delivery_method'] = config['email_delivery']['delivery_method']
+          ['sendmail', 'smtp'].each do |settings_type|
+            settings_key = "#{settings_type}_settings"
+            if config['email_delivery'][settings_key]
+              config['email_delivery'][settings_key].each do |key, value|
+                config["#{settings_type}_#{key}"] = value
+              end
+            end
+          end
+          config.delete('email_delivery')
+        end
+      end
+
+      # Filters a hash with String keys by a key prefix and removes the prefix from the keys
+      def filter_hash_by_key_prefix(hash, prefix)
+        filtered_hash = {}
+        hash.each do |key, value|
+          if key.start_with? prefix
+            filtered_hash[key[prefix.length..-1]] = value
+          end
+        end
+        filtered_hash
+      end
+
     end
   end
 end
