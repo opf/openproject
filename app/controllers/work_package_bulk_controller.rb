@@ -29,7 +29,7 @@
 
 class WorkPackageBulkController < ApplicationController
   before_filter :disable_api
-  before_filter :find_issues, :only => [:bulk_edit, :bulk_update]
+  before_filter :find_issues, only: [:edit, :update]
   before_filter :authorize
 
   include JournalsHelper
@@ -39,8 +39,7 @@ class WorkPackageBulkController < ApplicationController
   include QueriesHelper
   include IssuesHelper
 
-  # Bulk edit a set of issues
-  def bulk_edit
+  def edit
     @issues.sort!
     @available_statuses = @projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
     @custom_fields = @projects.map{|p|p.all_work_package_custom_fields}.inject{|memo,c|memo & c}
@@ -48,9 +47,9 @@ class WorkPackageBulkController < ApplicationController
     @types = @projects.map(&:types).inject{|memo,t| memo & t}
   end
 
-  def bulk_update
+  def update
     @issues.sort!
-    attributes = parse_params_for_bulk_issue_attributes(params)
+    attributes = parse_params_for_bulk_work_package_attributes(params)
 
     unsaved_issue_ids = []
     @issues.each do |issue|
@@ -70,7 +69,7 @@ class WorkPackageBulkController < ApplicationController
 
 private
 
-  def parse_params_for_bulk_issue_attributes(params)
+  def parse_params_for_bulk_work_package_attributes(params)
     attributes = (params[:issue] || {}).reject {|k,v| v.blank?}
     attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
     attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]

@@ -27,11 +27,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= l(:label_bulk_edit_selected_issues) %></h2>
+<h2><%= l(:label_bulk_edit_selected_work_packages) %></h2>
 
 <ul><%= @issues.collect {|i| content_tag('li', link_to(h("#{i.type} ##{i.id}"), { :action => 'show', :id => i }) + h(": #{i.subject}")) }.join("\n").html_safe %></ul>
 
-<%= form_tag(:action => 'bulk_update') do %>
+<%= form_tag(:action => 'update') do %>
 <%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
 <div class="box tabular">
 <fieldset class="attributes">

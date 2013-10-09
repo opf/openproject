@@ -83,17 +83,17 @@ describe WorkPackageBulkController do
     User.stub(:current).and_return user
   end
 
-  describe :bulk_edit do
+  describe :edit do
     shared_examples_for :response do
       subject { response }
 
       it { should be_success }
 
-      it { should render_template('bulk_edit') }
+      it { should render_template('edit') }
     end
 
     context "same project" do
-      before { get :bulk_edit, ids: [work_package_1.id, work_package_2.id] }
+      before { get :edit, ids: [work_package_1.id, work_package_2.id] }
 
       it_behaves_like :response
 
@@ -122,7 +122,7 @@ describe WorkPackageBulkController do
       before do
         member_2
 
-        get :bulk_edit, ids: [work_package_1.id, work_package_2.id, work_package_3.id]
+        get :edit, ids: [work_package_1.id, work_package_2.id, work_package_3.id]
       end
 
       it_behaves_like :response
@@ -149,7 +149,7 @@ describe WorkPackageBulkController do
     end
   end
 
-  describe :bulk_update do
+  describe :update do
     let(:work_package_ids) { [work_package_1.id, work_package_2.id] }
     let(:work_packages) { WorkPackage.find_all_by_id(work_package_ids) }
     let(:priority) { FactoryGirl.create(:priority_immediate) }
@@ -159,7 +159,7 @@ describe WorkPackageBulkController do
       context "in host" do
         let(:url) { '/work_packages' }
 
-        before { put :bulk_update, ids: work_package_ids, back_url: url }
+        before { put :update, ids: work_package_ids, back_url: url }
 
         subject { response }
 
@@ -171,7 +171,7 @@ describe WorkPackageBulkController do
       context "of host" do
         let(:url) { 'http://google.com' }
 
-        before { put :bulk_update, ids: work_package_ids, back_url: url }
+        before { put :update, ids: work_package_ids, back_url: url }
 
         subject { response }
 
@@ -183,9 +183,9 @@ describe WorkPackageBulkController do
       end
     end
     
-    shared_context :bulk_update_request do
+    shared_context :update_request do
       before do
-        put :bulk_update,
+        put :update,
             ids: work_package_ids,
             notes: 'Bulk editing',
             issue: { priority_id: priority.id,
@@ -246,7 +246,7 @@ describe WorkPackageBulkController do
       end
 
       context "single project" do
-        include_context :bulk_update_request
+        include_context :update_request
 
         it { response.response_code.should == 302 }
 
@@ -261,7 +261,7 @@ describe WorkPackageBulkController do
         context "with permission" do
           before { member_2 }
 
-          include_context :bulk_update_request
+          include_context :update_request
 
           it { response.response_code.should == 302 }
 
@@ -271,7 +271,7 @@ describe WorkPackageBulkController do
         end
 
         context "w/o permission" do
-          include_context :bulk_update_request
+          include_context :update_request
 
           it { response.response_code.should == 403 }
 
@@ -288,7 +288,7 @@ describe WorkPackageBulkController do
           let(:group) { FactoryGirl.create(:group) }
           let(:group_id) { group.id }
 
-          include_context :bulk_update_request
+          include_context :update_request
 
           subject { work_packages.collect {|w| w.assigned_to_id }.uniq }
 
@@ -306,7 +306,7 @@ describe WorkPackageBulkController do
           before do
             workflow
 
-            put :bulk_update,
+            put :update,
                 ids: work_package_ids,
                 issue: { status_id: closed_status.id }
           end
@@ -322,7 +322,7 @@ describe WorkPackageBulkController do
                                             project: project_1) }
 
           before do
-            put :bulk_update,
+            put :update,
                 ids: work_package_ids,
                 issue: { parent_id: parent.id }
           end
@@ -336,7 +336,7 @@ describe WorkPackageBulkController do
           let(:result) { '777' }
 
           before do
-            put :bulk_update,
+            put :update,
                 ids: work_package_ids,
                 issue: { custom_field_values: { custom_field_1.id.to_s => result } }
           end
@@ -349,7 +349,7 @@ describe WorkPackageBulkController do
 
         describe :unassign do
           before do
-            put :bulk_update,
+            put :update,
                 ids: work_package_ids,
                 issue: { assigned_to_id: 'none' }
           end
@@ -369,7 +369,7 @@ describe WorkPackageBulkController do
                                                 types: [type]) }
 
           before do
-            put :bulk_update,
+            put :update,
                 ids: work_package_ids,
                 issue: { fixed_version_id: version.id.to_s }
           end
@@ -399,7 +399,7 @@ describe WorkPackageBulkController do
       let(:send_notification) { '0' }
 
       describe :delivery do
-        include_context :bulk_update_request
+        include_context :update_request
 
         it { response.response_code.should == 302 }
 

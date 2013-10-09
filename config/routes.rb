@@ -299,8 +299,8 @@ OpenProject::Application.routes.draw do
   end
 
   namespace :work_package_bulk do
-    get :bulk_edit, :format => false
-    put :bulk_update, :format => false
+    get :edit, :format => false
+    put :update, :format => false
   end
 
   resources :work_packages, :only => [:show, :edit, :update, :index] do
