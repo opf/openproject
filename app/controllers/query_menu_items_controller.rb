@@ -30,7 +30,7 @@ class QueryMenuItemsController < ApplicationController
 	before_filter :load_query
 
 	def create
-		@query_menu_item = MenuItems::QueryMenuItem.new :navigatable_id => @query.id, :title => @query.name, :name => @query.name
+		@query_menu_item = MenuItems::QueryMenuItem.new :navigatable_id => @query.id, :title => @query.name, :name => @query.name.parameterize.underscore
 
 		if @query_menu_item.save
 			flash[:notice] = l(:notice_successful_create)
