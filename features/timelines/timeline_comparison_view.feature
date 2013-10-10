@@ -32,8 +32,13 @@ Feature: Timeline Comparison View Tests
           | login | manager |
       And there is a role "manager"
       And the role "manager" may have the following rights:
-          | view_timelines |
-          | edit_timelines |
+          | view_timelines            |
+          | edit_timelines            |
+          | view_work_packages        |
+          | edit_work_packages        |
+          | delete_work_packages      |
+          | view_reportings           |
+          | view_project_associations |
       And there is a project named "Volatile Planning"
       And I am working in project "Volatile Planning"
       And the project uses the following modules:
@@ -58,6 +63,8 @@ Feature: Timeline Comparison View Tests
     Given I am working in the timeline "Changes" of the project called "Volatile Planning"
      When there is a timeline "Changes" for project "Volatile Planning"
       And I set the timeline to compare "now" to "9 days ago"
+      And I go to the page of the timeline "Changes" of the project called "Volatile Planning"
+      And I wait for timeline to load table
      Then I should see the work package "May" has not moved
       And I should see the work package "February" has moved
       And I should not see the work package "January"
@@ -67,6 +74,8 @@ Feature: Timeline Comparison View Tests
     Given I am working in the timeline "Changes" of the project called "Volatile Planning"
      When there is a timeline "Changes" for project "Volatile Planning"
       And I set the timeline to compare "now" to "16 days ago"
+      And I go to the page of the timeline "Changes" of the project called "Volatile Planning"
+      And I wait for timeline to load table
      Then I should see the work package "May" has moved
       And I should see the work package "February" has moved
       And I should not see the work package "January"
