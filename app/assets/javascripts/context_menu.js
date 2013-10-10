@@ -140,11 +140,11 @@ ContextMenu.prototype = {
     $('context-menu').style['top'] = (render_y + 'px');		
     Element.update('context-menu', '');
 
-    new Ajax.Updater({success:'context-menu'}, this.url, 
+    new Ajax.Updater({success:'context-menu'}, this.url,
       {asynchronous:true,
        method: 'get',
        evalScripts:true,
-       parameters:jQuery(e.srcElement).closest("form").serialize(),
+       parameters: jQuery(e.target).closest("form").serialize(),
        onComplete:function(request){
 				 dims = $('context-menu').getDimensions();
 				 menu_width = dims.width;
