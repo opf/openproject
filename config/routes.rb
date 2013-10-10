@@ -290,17 +290,17 @@ OpenProject::Application.routes.draw do
     resources :time_entries, :controller => 'timelog'
 
     resources :relations, :controller => 'relations', :only => [:create, :destroy]
-
-    collection do
-      get :bulk_edit, :format => false
-      put :bulk_update, :format => false
-    end
   end
 
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', :via => [:get, :post], :format => false
     match 'context_menu' => 'context_menus#index', :via => [:get, :post], :format => false
     resources :calendar, :controller => 'calendars', :only => [:index]
+  end
+
+  namespace :work_package_bulk do
+    get :edit, :format => false
+    put :update, :format => false
   end
 
   resources :work_packages, :only => [:show, :edit, :update, :index] do

@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#1281` I18n.js Not working correctly. Always returns English Translations
+* `#1758` Migrate functional-tests for issues into specs for work package
 * `#1771` Fixed bug: Refactor Types Project Settings into new Tab
 * `#1880` Re-introduce at-time scope
 * `#1881` Re-introduce project planning comparison in controller
@@ -38,6 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1994` Integrational tests for work packages at_time (API)
 * `#2158` Work Package General Setting
 * `#2173` Adapt client-side to new server behavior
+* `#2306` Migrate issues controller tests
 * `#2307` Change icon of home button in header from OpenProjct icon to house icon
 * `#2310` Add proper indices to work_package
 * `#2319` Add a request-store to avoid redundant calls

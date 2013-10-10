@@ -26,25 +26,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :custom_value do
-    custom_field
-    value ""
+require 'spec_helper'
+require_relative  '../support/permission_specs'
 
-    factory :principal_custom_value do
-      custom_field :factory => :user_custom_field
-      customized :factory => :user
-    end
+describe WorkPackageBulkController, "edit_work_packages permission", type: :controller do
+  include PermissionSpecs
 
-    factory :issue_custom_value do
-      custom_field :factory => :issue_custom_field
-      customized :factory => :work_package
-    end
-
-    factory :work_package_custom_value do
-      custom_field :factory => :work_package_custom_field
-      customized_type "WorkPackageCustomField"
-      customized :factory => :work_package
-    end
-  end
+  check_permission_required_for('work_package_bulk#edit', :edit_work_packages)
+  check_permission_required_for('work_package_bulk#update', :edit_work_packages)
 end
