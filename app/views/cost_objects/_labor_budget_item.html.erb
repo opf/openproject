@@ -38,7 +38,7 @@
     <%= observe_field( "#{id_prefix}_hours", :frequency => 1, :url => {:action => :update_labor_budget_item, :project_id => @project.id}, :with => "'user_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_user_id').value) + '&hours=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
   </td>
   <td class="delete">
-    <%= link_to_function image_tag('delete.png', :alt => l(:button_delete), :title => l(:button_delete)), "deleteLaborBudgetItem('#{id_prefix}')" %>
+    <%= link_to_function image_tag('webalys/delete.png', :alt => l(:button_delete), :title => l(:button_delete)), "deleteLaborBudgetItem('#{id_prefix}')" %>
   </td>
 </tr>
 <% end %>
