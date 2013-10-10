@@ -2,14 +2,15 @@ class PlanningComparisonService
   @@journal_sql = <<SQL
       select #{Journal.table_name}.id
         from #{Journal.table_name}
-         inner join (select journable_id, max(created_at) as latest_date
+         inner join (select journable_id, max(created_at) as latest_date, max(id) as latest_id
                        from #{Journal.table_name}
                       where #{Journal.table_name}.created_at <= ?
                         and #{Journal.table_name}.journable_type = 'WorkPackage'
                         and #{Journal.table_name}.journable_id in (?)
                    group by #{Journal.table_name}.journable_id) as latest
                  on #{Journal.table_name}.journable_id=latest.journable_id
-         where #{Journal.table_name}.created_at=latest.latest_date;
+         where #{Journal.table_name}.created_at=latest.latest_date
+           and #{Journal.table_name}.id=latest.latest_id;
 SQL
   @@mapped_attributes = Journal::WorkPackageJournal.journaled_attributes.map{|attribute| "#{Journal::WorkPackageJournal.table_name}.#{attribute}"}.join ','
 

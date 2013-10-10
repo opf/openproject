@@ -73,6 +73,26 @@ describe "Planning Comparison" do
       old_work_package = PlanningComparisonService.compare(project, 5.days.ago).first
       expect(old_work_package.due_date).to eql Date.parse "01/04/2020"
     end
+
+    it "should return only the latest change when the workpackage was edited on the same day more than once" do
+      Timecop.travel(1.week.ago) do
+        journalized_work_package.reload
+        journalized_work_package.due_date = "01/05/2020"
+        journalized_work_package.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
+
+        journalized_work_package.reload
+        journalized_work_package.due_date = "01/07/2020"
+        journalized_work_package.save
+
+
+      end
+
+      old_work_packages = PlanningComparisonService.compare(project, 5.days.ago)
+      expect(old_work_packages.size).to eql 1
+
+      expect(old_work_packages.first.due_date).to eql Date.parse "01/07/2020"
+
+    end
   end
 
 
