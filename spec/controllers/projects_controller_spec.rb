@@ -258,5 +258,81 @@ describe ProjectsController do
         response.body.should_not have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity'][@checked='checked']"
       end
     end
+
+    describe :type do
+      let(:user) { FactoryGirl.create(:admin) }
+      let(:type_standard) { FactoryGirl.create(:type_standard) }
+      let(:type_bug) { FactoryGirl.create(:type_bug) }
+      let(:type_feature) { FactoryGirl.create(:type_feature) }
+      let(:types) { [type_standard, type_bug, type_feature] }
+      let(:project) { FactoryGirl.create(:project,
+                                         types: types) }
+      let(:work_package_standard) { FactoryGirl.create(:work_package,
+                                                       project: project,
+                                                       type: type_standard) }
+      let(:work_package_bug) { FactoryGirl.create(:work_package,
+                                                  project: project,
+                                                  type: type_bug) }
+      let(:work_package_feature) { FactoryGirl.create(:work_package,
+                                                      project: project,
+                                                      type: type_feature) }
+
+      shared_examples_for :redirect do
+        subject { response }
+
+        it { should be_redirect }
+      end
+
+      before do
+        User.stub(:current).and_return user
+
+        work_package_standard
+        work_package_bug
+        work_package_feature
+      end
+
+      context "no type missing" do
+      let(:type_ids) { types.collect(&:id) }
+
+        before { put :types,
+                     id: project.id,
+                     project: { 'type_ids' => type_ids } }
+
+        it_behaves_like :redirect
+
+        describe :success do
+          let(:regex) { Regexp.new(I18n.t(:notice_successful_update)) }
+
+          subject { flash[:notice].last }
+
+          it { should match(regex) }
+        end
+      end
+
+      context "all types missing" do
+        let(:missing_types) { types }
+
+        before { put :types, 
+                     id: project.id,
+                     project: { 'type_ids' => [] } }
+
+        it_behaves_like :redirect
+
+        describe "shows missing types" do
+          let(:regex) { Regexp.new(I18n.t(:error_types_in_use_by_work_packages).sub("%{types}", "")) }
+
+          subject { flash[:error] }
+
+          it { should =~ regex }
+
+          it { should =~ Regexp.new(type_standard.name) }
+
+          it { should =~ Regexp.new(type_bug.name) }
+
+          it { should =~ Regexp.new(type_feature.name) }
+        end
+      end
+
+    end
   end
 end
