@@ -44,8 +44,6 @@ Given(/^there are the following work packages were added "(.*?)"(?: in project "
   Support::ResetTimecop.reset_after
 end
 
-require 'pry'
-
 Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, table|
   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
 
@@ -71,8 +69,16 @@ Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, tabl
   Support::ResetTimecop.reset_after
 end
 
-When(/^I set the timeline to compare "(.*?)" to "(.*?)"$/) do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+When(/^I set the timeline to compare "now" to "(.*?) days ago"$/) do |time|
+  steps %Q{
+    When I edit the settings of the current timeline
+  }
+
+  page.should have_selector("#timeline_options_vertical_planning_elements", :visible => false)
+  page.execute_script("jQuery('#timeline_options_comparison_relative').attr('checked', 'checked')")
+  page.execute_script("jQuery('#timeline_options_compare_to_relative').val('#{time}')")
+  page.execute_script("jQuery('#timeline_options_compare_to_relative_unit').val(0)")
+  page.execute_script("jQuery('#content form').submit()")
 end
 
 Then(/^I should see the work package "(.*?)" has not moved$/) do |arg1|
