@@ -1,3 +1,9 @@
+= 3.0.4.pre7
+
+* fixed specs and cukes
+* fixed taskboard javascript bug
+* Rename Issue to WorkPackage
+
 = 3.0.4.pre6
 
 * Adapt to OpenProject core changes
