@@ -29,6 +29,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1880` Re-introduce at-time scope
+* `#1881` Re-introduce project planning comparison in controller
+* `#1883` Extend at-time scope for status comparison
+* `#1884` Make status values available over API
+* `#1994` Integrational tests for work packages at_time (API)
+* `#2173` Adapt client-side to new server behavior
+
 ## 3.0.0pre20
 
 * `#1281` I18n.js Not working correctly. Always returns English Translations
