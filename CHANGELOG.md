@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.0.pre6
+
+* New core version dependency.
+
 ## 4.0.0.pre5
 
 * Rename IssueCategory to Category
