@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3>
   <%= WorkPackage.human_attribute_name(detail) %>&nbsp;&nbsp;
-  <%= link_to image_tag('zoom_in.png',
+  <%= link_to image_tag('webalys/zoom_in.png',
                         :alt    => l(:text_analyze, :subject => WorkPackage.human_attribute_name(detail)),
                         :title  => l(:text_analyze, :subject => WorkPackage.human_attribute_name(detail))),
               :action => 'report_details', :detail => detail %>

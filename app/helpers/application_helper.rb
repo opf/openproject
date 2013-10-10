@@ -175,7 +175,7 @@ module ApplicationHelper
     link = ''
 
     if show_icon && User.current.member_of?(project)
-      link << image_tag('fav.png', :alt => l(:description_my_project), :title => l(:description_my_project))
+      link << image_tag('webalys/fav.png', :alt => l(:description_my_project), :title => l(:description_my_project))
     end
 
     if project.active?
@@ -905,7 +905,7 @@ module ApplicationHelper
 
   def checked_image(checked=true)
     if checked
-      image_tag('check.png', :alt => l(:label_checked), :title => l(:label_checked))
+      image_tag('webalys/check.png', :alt => l(:label_checked), :title => l(:label_checked))
     end
   end
 
@@ -996,6 +996,8 @@ module ApplicationHelper
         urlRoot : '#{Redmine::Utils.relative_url_root}',
         loginUrl: '#{url_for :controller => "/account", :action => "login"}'
       });
+      I18n.defaultLocale = "#{I18n.default_locale}";
+      I18n.locale = "#{I18n.locale}";
     })
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       tags += javascript_tag("jQuery(function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")

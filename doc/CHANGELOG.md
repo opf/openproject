@@ -29,6 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre20
+
+* `#1281` I18n.js Not working correctly. Always returns English Translations
 * `#1560` WorkPackage/update does not retain some fields when validations fail
 * `#1771` Refactor Types Project Settings into new Tab
 * `#1878` Project Plan Comparison(server-side implementation): api/v2 can now resolve historical data for work_packages
@@ -41,6 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2246` Migrate issue categories controller tests
 * `#2262` Migrate issue statuses controller tests
 * `#2267` Rename view issue hooks
+* `#2307` Change icon of home button in header from OpenProjct icon to house icon
 
 ## 3.0.0pre19
 

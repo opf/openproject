@@ -282,7 +282,7 @@ module NavigationHelpers
       '/admin/projects'
 
     when /^the authentication modes page$/
-      '/auth_sources'
+      '/admin/auth_sources'
 
     when /the page of the timeline(?: "([^\"]+)")? of the project called "([^\"]+)"$/
       timeline_name = $1

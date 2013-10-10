@@ -28,7 +28,6 @@
 
 ---
 issues_001:
-  sti_type: "Issue"
   created_at: <%= 3.days.ago.to_date.to_s(:db) %>
   project_id: 1
   updated_at: <%= 1.day.ago.to_date.to_s(:db) %>
@@ -49,7 +48,6 @@ issues_001:
   rgt: 2
   lock_version: 3
 issues_002:
-  sti_type: "Issue"
   created_at: 2006-07-19 21:04:21 +02:00
   project_id: 1
   updated_at: 2006-07-19 21:09:50 +02:00
@@ -71,7 +69,6 @@ issues_002:
   lock_version: 3
   done_ratio: 30
 issues_003:
-  sti_type: "Issue"
   created_at: 2006-07-19 21:07:27 +02:00
   project_id: 1
   updated_at: 2006-07-19 21:07:27 +02:00
@@ -91,7 +88,6 @@ issues_003:
   lft: 1
   rgt: 2
 issues_004:
-  sti_type: "Issue"
   created_at: <%= 5.days.ago.to_date.to_s(:db) %>
   project_id: 2
   updated_at: <%= 2.days.ago.to_date.to_s(:db) %>
@@ -109,7 +105,6 @@ issues_004:
   lft: 1
   rgt: 2
 issues_005:
-  sti_type: "Issue"
   created_at: <%= 5.days.ago.to_date.to_s(:db) %>
   project_id: 3
   updated_at: <%= 2.days.ago.to_date.to_s(:db) %>
@@ -127,7 +122,6 @@ issues_005:
   lft: 1
   rgt: 2
 issues_006:
-  sti_type: "Issue"
   created_at: <%= 1.minute.ago.to_date.to_s(:db) %>
   project_id: 5
   updated_at: <%= 1.minute.ago.to_date.to_s(:db) %>
@@ -147,7 +141,6 @@ issues_006:
   lft: 1
   rgt: 2
 issues_007:
-  sti_type: "Issue"
   created_at: <%= 10.days.ago.to_date.to_s(:db) %>
   project_id: 1
   updated_at: <%= 10.days.ago.to_date.to_s(:db) %>
@@ -167,7 +160,6 @@ issues_007:
   lft: 1
   rgt: 2
 issues_008:
-  sti_type: "Issue"
   created_at: <%= 10.days.ago.to_date.to_s(:db) %>
   project_id: 1
   updated_at: <%= 10.days.ago.to_date.to_s(:db) %>
@@ -187,7 +179,6 @@ issues_008:
   lft: 1
   rgt: 2
 issues_009:
-  sti_type: "Issue"
   created_at: <%= 1.minute.ago.to_date.to_s(:db) %>
   project_id: 5
   updated_at: <%= 1.minute.ago.to_date.to_s(:db) %>
@@ -207,7 +198,6 @@ issues_009:
   lft: 1
   rgt: 2
 issues_010:
-  sti_type: "Issue"
   created_at: <%= 1.minute.ago.to_date.to_s(:db) %>
   project_id: 5
   updated_at: <%= 1.minute.ago.to_date.to_s(:db) %>
@@ -227,7 +217,6 @@ issues_010:
   lft: 1
   rgt: 2
 issues_011:
-  sti_type: "Issue"
   created_at: <%= 3.days.ago.to_date.to_s(:db) %>
   project_id: 1
   updated_at: <%= 1.day.ago.to_date.to_s(:db) %>
@@ -247,7 +236,6 @@ issues_011:
   lft: 1
   rgt: 2
 issues_012:
-  sti_type: "Issue"
   created_at: <%= 3.days.ago.to_date.to_s(:db) %>
   project_id: 1
   updated_at: <%= 1.day.ago.to_date.to_s(:db) %>
@@ -267,7 +255,6 @@ issues_012:
   lft: 1
   rgt: 2
 issues_013:
-  sti_type: "Issue"
   created_at: <%= 5.days.ago.to_date.to_s(:db) %>
   project_id: 3
   updated_at: <%= 2.days.ago.to_date.to_s(:db) %>

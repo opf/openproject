@@ -283,15 +283,15 @@ table.attributes { width: 100% }
 table.attributes th { vertical-align: top; text-align: left; }
 table.attributes td { vertical-align: top; }
 
-table.boards a.board, h3.comments { background: url(<%= asset_path 'quote.png' %>) no-repeat 0% 50%; padding-left: 20px; }
+table.boards a.board, h3.comments { background: url(<%= asset_path 'webalys/quote.png' %>) no-repeat 0% 50%; padding-left: 20px; }
 
 td.center, th.center {text-align: center;}
 
-div.issues h3 { background: url(<%= asset_path 'ticket.png' %>) no-repeat 0% 10%; padding-left: 20px; }
-div.members h3 { background: url(<%= asset_path 'group.png' %>) no-repeat 0% 50%; padding-left: 20px; }
-div.news h3 { background: url(<%= asset_path 'latest_news.png' %>) no-repeat 0% 50%; padding-left: 20px; }
-div.projects h3 { background: url(<%= asset_path 'latest_projects.png' %>) no-repeat 0% 50%; padding-left: 20px; }
-div.news h3 { background: url(<%= asset_path 'latest_news.png' %>) no-repeat 0% 50%; padding-left: 20px; }
+div.issues h3 { background: url(<%= asset_path 'webalys/ticket.png' %>) no-repeat 0% 10%; padding-left: 20px; }
+div.members h3 { background: url(<%= asset_path 'webalys/group.png' %>) no-repeat 0% 50%; padding-left: 20px; }
+div.news h3 { background: url(<%= asset_path 'webalys/latest_news.png' %>) no-repeat 0% 50%; padding-left: 20px; }
+div.projects h3 { background: url(<%= asset_path 'webalys/latest_projects.png' %>) no-repeat 0% 50%; padding-left: 20px; }
+div.news h3 { background: url(<%= asset_path 'webalys/latest_news.png' %>) no-repeat 0% 50%; padding-left: 20px; }
 
 #watchers ul {margin: 0;  padding: 0;}
 #watchers li {list-style-type: none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;float: left;}
@@ -422,24 +422,24 @@ div#search-results-counts {float: right;}
 div#search-results-counts ul { margin-top: 0.5em; }
 div#search-results-counts  li { list-style-type: none; float: left; margin-left: 1em; }
 
-dt.work_package        { background-image: url(<%= asset_path 'ticket.png' %>);          }
-dt.work_package-edit   { background-image: url(<%= asset_path 'ticket_edit.png' %>);     }
-dt.work_package-closed { background-image: url(<%= asset_path 'ticket_checked.png' %>);  }
-dt.work_package-note   { background-image: url(<%= asset_path 'ticket_note.png' %>);     }
-dt.issue               { background-image: url(<%= asset_path 'ticket.png' %>);          }
-dt.issue-edit          { background-image: url(<%= asset_path 'ticket_edit.png' %>);     }
-dt.issue-closed        { background-image: url(<%= asset_path 'ticket_checked.png' %>);  }
-dt.issue-note          { background-image: url(<%= asset_path 'ticket_note.png' %>);     }
-dt.changeset           { background-image: url(<%= asset_path 'changeset.png' %>);       }
-dt.news                { background-image: url(<%= asset_path 'news.png' %>);            }
-dt.message             { background-image: url(<%= asset_path 'quote.png' %>);           }
-dt.reply               { background-image: url(<%= asset_path 'comments.png' %>);        }
-dt.wiki-page           { background-image: url(<%= asset_path 'wiki_edit.png' %>);       }
-dt.attachment          { background-image: url(<%= asset_path 'attachment.png' %>);      }
-dt.project             { background-image: url(<%= asset_path 'latest_projects.png' %>); }
-dt.time-entry          { background-image: url(<%= asset_path 'time.png' %>);            }
+dt.work_package        { background-image: url(<%= asset_path 'webalys/ticket.png' %>); }
+dt.work_package-edit   { background-image: url(<%= asset_path 'webalys/ticket_edit.png' %>); }
+dt.work_package-closed { background-image: url(<%= asset_path 'webalys/ticket_checked.png' %>); }
+dt.work_package-note   { background-image: url(<%= asset_path 'webalys/ticket_note.png' %>); }
+dt.issue               { background-image: url(<%= asset_path 'webalys/ticket.png' %>); }
+dt.issue-edit          { background-image: url(<%= asset_path 'webalys/ticket_edit.png' %>); }
+dt.issue-closed        { background-image: url(<%= asset_path 'webalys/ticket_checked.png' %>); }
+dt.issue-note          { background-image: url(<%= asset_path 'webalys/ticket_note.png' %>); }
+dt.changeset           { background-image: url(<%= asset_path 'webalys/changeset.png' %>); }
+dt.news                { background-image: url(<%= asset_path 'webalys/news.png' %>); }
+dt.message             { background-image: url(<%= asset_path 'webalys/quote.png' %>); }
+dt.reply               { background-image: url(<%= asset_path 'comments.png' %>); }
+dt.wiki-page           { background-image: url(<%= asset_path 'webalys/wiki_edit.png' %>); }
+dt.attachment          { background-image: url(<%= asset_path 'attachment.png' %>); }
+dt.project             { background-image: url(<%= asset_path 'webalys/latest_projects.png' %>); }
+dt.time-entry          { background-image: url(<%= asset_path 'webalys/time.png' %>); }
 
-#search-results dt.issue.closed { background-image: url(<%= asset_path 'ticket_checked.png' %>); }
+#search-results dt.issue.closed { background-image: url(<%= asset_path 'webalys/ticket_checked.png' %>); }
 
 .search-pagination { text-align: center; }
 .search-pagination a {padding: 0 5px; }
@@ -481,7 +481,7 @@ ul.projects ul.projects { border-left: 3px solid #e0e0e0; }
 ul.projects li.root { list-style-type: none; margin-bottom: 1em; }
 ul.projects li.child { list-style-type: none; margin-top: 1em;}
 ul.projects div.root a.project { font-family: "Arial", Arial, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
-.my-project { padding-left: 18px; background: url(<%= asset_path 'fav.png' %>) no-repeat 0 50%; }
+.my-project { padding-left: 18px; background: url(<%= asset_path 'webalys/fav.png' %>) no-repeat 0 50%; }
 
 #type_project_ids ul { margin: 0;  padding-left: 1em; }
 #type_project_ids li { list-style-type: none; }
@@ -621,7 +621,7 @@ div#tab-content-memberships fieldset legend,
 div#tab-content-users fieldset legend { font-weight: bold; }
 div#tab-content-members .user.status_registered, div#tab-content-members label.status_registered { filter: alpha(opacity=80); -khtml-opacity: 0.8; opacity: 0.8; -moz-opacity: 0.8; }
 
-table.members td.group { padding-left: 20px; background: url(<%= asset_path 'group.png' %>) no-repeat 0% 50%; }
+table.members td.group { padding-left: 20px; background: url(<%= asset_path 'webalys/group.png' %>) no-repeat 0% 50%; }
 
 input#user_search {width: 100%}
 
@@ -1058,39 +1058,39 @@ a.close-icon:hover {
   padding-bottom: 3px;
 }
 
-.icon-add { background-image: url(<%= asset_path 'plus.png' %>); }
-.icon-edit { background-image: url(<%= asset_path 'edit.png' %>); }
-.icon-copy { background-image: url(<%= asset_path 'copy.png' %>); }
-.icon-configure { background-image: url(<%= asset_path 'configure.png' %>); }
-.icon-duplicate { background-image: url(<%= asset_path 'duplicate.png' %>); }
-.icon-del { background-image: url(<%= asset_path 'delete.png' %>); }
-.icon-move { background-image: url(<%= asset_path 'move.png' %>); }
-.icon-rename { background-image: url(<%= asset_path 'rename.png' %>); }
-.icon-save { background-image: url(<%= asset_path 'save.png' %>); }
+.icon-add { background-image: url(<%= asset_path 'webalys/plus.png' %>); }
+.icon-edit { background-image: url(<%= asset_path 'webalys/edit.png' %>); }
+.icon-copy { background-image: url(<%= asset_path 'webalys/copy.png' %>); }
+.icon-configure { background-image: url(<%= asset_path 'webalys/configure.png' %>); }
+.icon-duplicate { background-image: url(<%= asset_path 'webalys/duplicate.png' %>); }
+.icon-del { background-image: url(<%= asset_path 'webalys/delete.png' %>); }
+.icon-move { background-image: url(<%= asset_path 'webalys/move.png' %>); }
+.icon-rename { background-image: url(<%= asset_path 'webalys/rename.png' %>); }
+.icon-save { background-image: url(<%= asset_path 'webalys/save.png' %>); }
 .icon-multiple { background-image: url(<%= asset_path 'table_multiple.png' %>); }
 .icon-folder { background-image: url(<%= asset_path 'folder.png' %>); }
 .open .icon-folder { background-image: url(<%= asset_path 'folder_open.png' %>); }
-.icon-package { background-image: url(<%= asset_path 'package.png' %>); }
+.icon-package { background-image: url(<%= asset_path 'webalys/package.png' %>); }
 .icon-parent { background-image: url(<%= asset_path 'link.png' %>); }
-.icon-user { background-image: url(<%= asset_path 'user.png' %>); }
-.icon-projects { background-image: url(<%= asset_path 'latest_projects.png' %>); }
-.icon-help { background-image: url(<%= asset_path 'help.png' %>); }
+.icon-user { background-image: url(<%= asset_path 'webalys/user.png' %>); }
+.icon-projects { background-image: url(<%= asset_path 'webalys/latest_projects.png' %>); }
+.icon-help { background-image: url(<%= asset_path 'webalys/help.png' %>); }
 .icon-attachment  { background-image: url(<%= asset_path 'attachment.png' %>); }
-.icon-history  { background-image: url(<%= asset_path 'history.png' %>); }
-.icon-time-add  { background-image: url(<%= asset_path 'time.png' %>); }
-.icon-stats  { background-image: url(<%= asset_path 'stats.png' %>); }
-.icon-warning  { background-image: url(<%= asset_path 'warning.png' %>); }
-.icon-reload  { background-image: url(<%= asset_path 'arrow_circle.png' %>); }
-.icon-unlock  { background-image: url(<%= asset_path 'locked_un.png' %>); }
-.icon-checked  { background-image: url(<%= asset_path 'check.png' %>); }
-.icon-details  { background-image: url(<%= asset_path 'zoom_in.png' %>); }
+.icon-history  { background-image: url(<%= asset_path 'webalys/history.png' %>); }
+.icon-time-add  { background-image: url(<%= asset_path 'webalys/time.png' %>); }
+.icon-stats  { background-image: url(<%= asset_path 'webalys/stats.png' %>); }
+.icon-warning  { background-image: url(<%= asset_path 'webalys/warning.png' %>); }
+.icon-reload  { background-image: url(<%= asset_path 'webalys/arrow_circle.png' %>); }
+.icon-unlock  { background-image: url(<%= asset_path 'webalys/locked_un.png' %>); }
+.icon-checked  { background-image: url(<%= asset_path 'webalys/check.png' %>); }
+.icon-details  { background-image: url(<%= asset_path 'webalys/zoom_in.png' %>); }
 .icon-report  { background-image: url(<%= asset_path 'report.png' %>); }
-.icon-comment  { background-image: url(<%= asset_path 'quote.png' %>); }
-.icon-summary  { background-image: url(<%= asset_path 'summary.png' %>); }
+.icon-comment  { background-image: url(<%= asset_path 'webalys/quote.png' %>); }
+.icon-summary  { background-image: url(<%= asset_path 'webalys/summary.png' %>); }
 .icon-server-authentication { background-image: url(<%= asset_path 'server_key.png' %>); }
-.icon-issue { background-image: url(<%= asset_path 'ticket.png' %>); }
-.icon-zoom-in { background-image: url(<%= asset_path 'zoom_in.png' %>); }
-.icon-zoom-out { background-image: url(<%= asset_path 'zoom_out.png' %>); }
+.icon-issue { background-image: url(<%= asset_path 'webalys/ticket.png' %>); }
+.icon-zoom-in { background-image: url(<%= asset_path 'webalys/zoom_in.png' %>); }
+.icon-zoom-out { background-image: url(<%= asset_path 'webalys/zoom_out.png' %>); }
 
 .icon-file { background-image: url(<%= asset_path 'files/default.png' %>); }
 .icon-file.text-plain { background-image: url(<%= asset_path 'files/text.png' %>); }
@@ -1642,7 +1642,12 @@ div#optional_login_fields {
 }
 
 /* Mimic ".icon .icon-time" */
-#main-menu ul.menu_root li a.time-details, #main-menu ul.menu_root li a.billable-time-details, #main-menu ul.menu_root li a.overhead-time-details { background-image: url(<%= asset_path '../../time.png' %>); background-position: 30px 40%; background-repeat: no-repeat; padding-left: 50px; }
+#main-menu ul.menu_root li a.time-details, #main-menu ul.menu_root li a.billable-time-details, #main-menu ul.menu_root li a.overhead-time-details {
+  background-image: url(<%= asset_path '../../webalys/time.png' %>);
+  background-position: 30px 40%;
+  background-repeat: no-repeat;
+  padding-left: 50px;
+}
 
 #main-menu p.password { font-weight: bold; margin: 25px 0; }
 
@@ -1704,7 +1709,7 @@ fieldset#filters div.add-filter {
   right: 10px;
 }
 .title-bar .new-issue a {
-  background: url(<%= asset_path 'plus.png' %>) no-repeat 6px center;
+  background: url(<%= asset_path 'webalys/plus.png' %>) no-repeat 6px center;
   padding-left: 26px;
 }
 .title-bar-extras {
@@ -1734,10 +1739,10 @@ fieldset#filters div.add-filter {
   font-size: 11px;
 }
 input.apply {
-  background-image: url(<%= asset_path 'check.png' %>);
+  background-image: url(<%= asset_path 'webalys/check.png' %>);
 }
 input.save {
-  background-image: url(<%= asset_path 'save.png' %>);
+  background-image: url(<%= asset_path 'webalys/save.png' %>);
 }
 
 /*-------------------------------------------------------------------------------
@@ -1800,7 +1805,7 @@ form#issue-list {
   width: 80px;
 }
 #content table a.toggle-select {
-  background: url(<%= asset_path 'check.png' %>) no-repeat center center;
+  background: url(<%= asset_path 'webalys/check.png' %>) no-repeat center center;
   display: block;
   text-indent: -9999em;
 }
@@ -1848,7 +1853,7 @@ form#issue-list {
 }
 .title-bar .update a {
   padding-left: 26px;
-  background: url(<%= asset_path 'edit.png' %>) no-repeat 5px center;
+  background: url(<%= asset_path 'webalys/edit.png' %>) no-repeat 5px center;
   font-weight: bold;
 }
 div.issue {
@@ -1962,10 +1967,10 @@ table.files {
   background-position: center center;
 }
 .contextual .edit {
-  background-image: url(<%= asset_path 'edit.png' %>);
+  background-image: url(<%= asset_path 'webalys/edit.png' %>);
 }
 .contextual .comment {
-  background-image: url(<%= asset_path 'quote.png' %>);
+  background-image: url(<%= asset_path 'webalys/quote.png' %>);
 }
 .question-line {
   display: block;
@@ -2058,7 +2063,7 @@ ul.projects .description {
 }
 .nosidebar ul.projects li .my-project {
   padding: 0 0 0 24px;
-  background: url(<%= asset_path 'fav.png' %>) no-repeat left top;
+  background: url(<%= asset_path 'webalys/fav.png' %>) no-repeat left top;
 }
 ul.projects a {
   font-weight: bold;
@@ -2511,16 +2516,16 @@ tr.time-entry {
 /*===== Replacement Images =====*/
 
 .icon-edit, .title-bar .update a {
-  background-image: url(<%= asset_path 'edit.png' %>);
+  background-image: url(<%= asset_path 'webalys/edit.png' %>);
 }
 .icon-del {
-  background-image: url(<%= asset_path 'delete.png' %>);
+  background-image: url(<%= asset_path 'webalys/delete.png' %>);
 }
 .journal .contextual a[title=Edit] img {
   display: none;
 }
 .journal .contextual a[title=Edit] {
-  background: url(<%= asset_path 'edit.png' %>) no-repeat;
+  background: url(<%= asset_path 'webalys/edit.png' %>) no-repeat;
 }
 
 
@@ -2565,7 +2570,7 @@ table.files a.icon-delete {
   text-indent: -9999em;
   width: 16px;
   height: 16px;
-  background: url(<%= asset_path 'delete.png' %>) no-repeat 0 0;
+  background: url(<%= asset_path 'webalys/delete.png' %>) no-repeat 0 0;
   margin-right: 6px;
 }
 
@@ -2680,7 +2685,7 @@ Additional wiki styles
 }
 
 .wiki p.tip, .wiki span.tip {
-  background: url(<%= asset_path 'tip.png' %>) 4px 4px no-repeat;
+  background: url(<%= asset_path 'webalys/tip.png' %>) 4px 4px no-repeat;
   border: 1px solid #C7CFCA;
 }
 .wiki p.smalltip, .wiki span.smalltip {
@@ -2891,14 +2896,14 @@ ul.action_menu_more {
 }
 
 .pagination .previous_page {
-  background: url(<%= asset_path 'double_arrow_left.png' %>) 0 1px no-repeat;
+  background: url(<%= asset_path 'webalys/double_arrow_left.png' %>) 0 1px no-repeat;
   width: 100%;
   height: 15px;
   padding-left: 18px;
 }
 
 .pagination .next_page {
-  background: url(<%= asset_path 'double_arrow_right.png' %>) right 1px no-repeat;
+  background: url(<%= asset_path 'webalys/double_arrow_right.png' %>) right 1px no-repeat;
   width: 100%;
   height: 15px;
   padding-right: 18px;
@@ -3092,18 +3097,17 @@ li a.help:hover {
 }
 
 li a.home  {
-  background-image: url(<%= asset_path 'instanz_logo_grey.png' %>);
-  background-position: center center;
-  width: 35px;
+  background-image: url(<%= asset_path 'home_black_white_sprite.png' %>);
+  background-position: center -43px;
+  width: 20px;
 }
 
 li a.home:hover  {
-  background-image: url(<%= asset_path 'instanz_logo_white.png' %>);
-  background-position: center center;
+  background-position: center -11px;
 }
 
 #header #search_wrap {
-  background: transparent url(<%= asset_path 'search.png' %>) no-repeat;
+  background: transparent url(<%= asset_path 'webalys/search.png' %>) no-repeat;
 }
 #header .search_field {
   color: #4b4b4b;
@@ -3231,7 +3235,7 @@ a.sort.desc {
 }
 
 .my-project {
-  background: url(<%= asset_path 'fav.png' %>) no-repeat 0 50%;
+  background: url(<%= asset_path 'webalys/fav.png' %>) no-repeat 0 50%;
 }
 
 
@@ -3245,7 +3249,7 @@ div.flash {
 }
 
 div.flash.error, #errorExplanation {
-  background: #FAAA96 url(<%= asset_path 'error.png' %>) 8px 50% no-repeat;
+  background: #FAAA96 url(<%= asset_path 'webalys/error.png' %>) 8px 50% no-repeat;
   border: none;
   color: #000000;
 }
@@ -3255,13 +3259,13 @@ div.flash.error, #errorExplanation {
 }
 
 div.flash.notice {
-  background: #C8F0BE url(<%= asset_path 'check.png' %>) 11px 6px no-repeat;
+  background: #C8F0BE url(<%= asset_path 'webalys/check.png' %>) 11px 6px no-repeat;
   border: none;
   color: #000000;
 }
 
 div.flash.warning { /* orange */
-  background: #FFC38C url(<%= asset_path 'warning.png' %>) 9px 5px no-repeat;
+  background: #FFC38C url(<%= asset_path 'webalys/warning.png' %>) 9px 5px no-repeat;
   border: none;
   color: #000000;
   text-align: left;
@@ -3290,37 +3294,37 @@ a.icon:hover, input.input-as-link:hover {
 }
 
 .icon-time  {
-  background-image: url(<%= asset_path 'time.png' %>);
+  background-image: url(<%= asset_path 'webalys/time.png' %>);
   background-position: 3px 2px;
 }
 
 .icon-lock  {
-  background-image: url(<%= asset_path 'locked.png' %>);
+  background-image: url(<%= asset_path 'webalys/locked.png' %>);
   background-position: 0px 2px;
 }
 
 .icon-edit {
-  background-image: url(<%= asset_path 'edit.png' %>);
+  background-image: url(<%= asset_path 'webalys/edit.png' %>);
   padding-top: 1px;
 }
-.icon-copy { background-image: url(<%= asset_path 'copy.png' %>); }
+.icon-copy { background-image: url(<%= asset_path 'webalys/copy.png' %>); }
 .icon-del {
-  background-image: url(<%= asset_path 'delete.png' %>);
+  background-image: url(<%= asset_path 'webalys/delete.png' %>);
   /*padding-left: 16px; */
   background-position: 0px 2px;
 }
-.icon-fav  { background-image: url(<%= asset_path 'watch.png' %>); }
-.icon-fav-off  { background-image: url(<%= asset_path 'watch_b.png' %>); }
+.icon-fav  { background-image: url(<%= asset_path 'webalys/watch.png' %>); }
+.icon-fav-off  { background-image: url(<%= asset_path 'webalys/watch_b.png' %>); }
 .icon-reload  {
   background-position: 0px 3px;
 }
 .icon-checked  {
   background-position: 0px 4px;
 }
-.icon-notification  { background-image: url(<%= asset_path 'envelope.png' %>); }
+.icon-notification  { background-image: url(<%= asset_path 'webalys/envelope.png' %>); }
 .icon-package { background-position: 1px 0px; }
 .icon-more {
-  background-image: url(<%= asset_path 'arrow-down_2.png' %>);
+  background-image: url(<%= asset_path 'webalys/arrow-down_2.png' %>);
   padding-left: 16px;
   background-position: 0px 5px;
 }
@@ -3329,12 +3333,12 @@ a.icon:hover, input.input-as-link:hover {
 }
 
 .icon-cancel {
-  background-image: url(<%= asset_path 'cancel.png' %>);
+  background-image: url(<%= asset_path 'webalys/cancel.png' %>);
   background-position: 0px 2px;
 }
 
 a.atom {
-  background-image: url(<%= asset_path 'feed.png' %>);
+  background-image: url(<%= asset_path 'webalys/feed.png' %>);
   background-repeat: no-repeat;
   padding: 1px 0 1px 14px;
 }
@@ -3367,11 +3371,11 @@ a.atom {
 
 /*Cost-Plugin specific styles*/
 .icon-pieces {
-  background-image: url(<%= asset_path 'units.png' %>) !important;
+  background-image: url(<%= asset_path 'webalys/units.png' %>) !important;
 }
 
 .icon-pieces-time {
-  background-image: url(<%= asset_path 'time.png' %>) !important;
+  background-image: url(<%= asset_path 'webalys/time.png' %>) !important;
 }
 
 #main-menu ul.menu-root li li a {

@@ -59,9 +59,9 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select("timeline[options]",
                      :project_types,
                      filter_select_with_none(
-                       @timeline.available_project_types,
+                       timeline.available_project_types,
                        :name, :id),
-                     {:selected => @timeline.selected_project_types.map(&:id)},
+                     {:selected => timeline.selected_project_types.map(&:id)},
                      {:multiple => true,
                       :size => 12}) %>
         <% else %>
@@ -88,9 +88,9 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select("timeline[options]",
                      :project_status,
                      filter_select_with_none(
-                       @timeline.available_project_status,
+                       timeline.available_project_status,
                        :name, :id),
-                     {:selected => @timeline.selected_project_status.map(&:id)},
+                     {:selected => timeline.selected_project_status.map(&:id)},
                      {:multiple => true,
                       :size => 12}) %>
         <% else %>
@@ -116,9 +116,9 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select("timeline[options]",
                      :project_responsibles,
                      filter_select_with_none(
-                       @timeline.available_responsibles,
+                       timeline.available_responsibles,
                        :name, :id),
-                     {:selected => @timeline.selected_project_responsibles.map(&:id)},
+                     {:selected => timeline.selected_project_responsibles.map(&:id)},
                      {:multiple => true,
                       :size => 12}) %>
         <% else %>
@@ -144,9 +144,9 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select("timeline[options]",
                      :parents,
                      filter_select_with_none(
-                       @timeline.available_parents,
+                       timeline.available_parents,
                        :name, :id),
-                     {:selected => @timeline.selected_parents.map(&:id)},
+                     {:selected => timeline.selected_parents.map(&:id)},
                      {:multiple => true,
                       :size => 12}) %>
         <% else %>
@@ -171,9 +171,9 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select("timeline[options]",
                    :planning_element_time_types,
                    filter_select_with_none(
-                     @timeline.available_planning_element_types,
+                     timeline.available_planning_element_types,
                      :name, :id),
-                   {:selected => @timeline.selected_planning_element_time_types.map(&:id)},
+                   {:selected => timeline.selected_planning_element_time_types.map(&:id)},
                    {:multiple => true,
                     :size => 12}) %>
         <% else %>
