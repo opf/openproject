@@ -146,9 +146,9 @@ module OpenProject::Backlogs::Hooks
         })
     end
 
-    def controller_issues_new_after_save(context={ })
+    def controller_work_pacakge_new_after_save(context={ })
       params = context[:params]
-      work_package = context[:issue]
+      work_package = context[:work_pacakge]
 
       return unless work_package.backlogs_enabled?
 
