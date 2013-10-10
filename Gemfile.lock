@@ -262,6 +262,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
+    request_store (1.0.5)
     rmagick (2.13.2)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
@@ -408,6 +409,7 @@ DEPENDENCIES
   rb-fsevent
   rb-readline
   rdoc (>= 2.4.2)
+  request_store
   rmagick (>= 1.15.17)
   rspec (~> 2.0)
   rspec-example_disabler

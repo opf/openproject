@@ -39,6 +39,8 @@ gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 gem 'globalize3', :git => 'https://github.com/svenfuchs/globalize3.git'
 gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
+gem 'request_store'
+
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink'
 gem "will_paginate", '~> 3.0'
