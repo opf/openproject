@@ -44,6 +44,7 @@ class WorkPackages::ContextMenusController < ApplicationController
         memo & s
       end
     end
+
     @projects = @work_packages.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
 

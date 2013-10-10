@@ -149,11 +149,6 @@ class RoutingTest < ActionDispatch::IntegrationTest
     # Extra actions
     should route(:get, "/issues/changes").to( :controller => 'journals',
                                               :action => 'index')
-
-    should route(:get, "/issues/bulk_edit").to( :controller => 'issues',
-                                                :action => 'bulk_edit')
-    should route(:put, "/issues/bulk_update").to( :controller => 'issues',
-                                                  :action => 'bulk_update')
   end
 
 

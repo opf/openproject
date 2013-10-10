@@ -611,7 +611,7 @@ de:
   label_boolean: "Boolean"
   label_branch: "Zweig"
   label_browse: "Codebrowser"
-  label_bulk_edit_selected_issues: "Alle ausgewählten Tickets bearbeiten"
+  label_bulk_edit_selected_work_packages: "Alle ausgewählten Arbeitspakete bearbeiten"
   label_calendar: "Kalender"
   label_calendar_show: "Kalender anzeigen"
   label_category: "Kategorie"

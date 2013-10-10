@@ -31,7 +31,7 @@ require 'spec_helper'
 describe WorkPackage do
   describe :copy do
     let(:user) { FactoryGirl.create(:user) }
-    let (:custom_field) { FactoryGirl.create(:work_package_custom_field) }
+    let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
     let(:source_type) { FactoryGirl.create(:type,
                                            custom_fields: [custom_field]) }
     let(:source_project) { FactoryGirl.create(:project,
@@ -199,7 +199,7 @@ describe WorkPackage do
 
   let(:type) { FactoryGirl.create(:type_standard) }
   let(:project) { FactoryGirl.create(:project, types: [type]) }
-  let (:custom_field) { FactoryGirl.create(:work_package_custom_field,
+  let(:custom_field) { FactoryGirl.create(:work_package_custom_field,
                                            name: 'Database',
                                            field_format: 'list',
                                            possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],

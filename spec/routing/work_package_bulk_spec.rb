@@ -26,25 +26,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :custom_value do
-    custom_field
-    value ""
+require 'spec_helper'
 
-    factory :principal_custom_value do
-      custom_field :factory => :user_custom_field
-      customized :factory => :user
-    end
+describe WorkPackageBulkController do
 
-    factory :issue_custom_value do
-      custom_field :factory => :issue_custom_field
-      customized :factory => :work_package
-    end
+  it "should connect GET /work_package_bulk/edit to work_package_bulk/edit" do
+    get("/work_package_bulk/edit").should route_to(controller: 'work_package_bulk',
+                                                   action: 'edit')
+  end
 
-    factory :work_package_custom_value do
-      custom_field :factory => :work_package_custom_field
-      customized_type "WorkPackageCustomField"
-      customized :factory => :work_package
-    end
+  it "should connect PUT /work_package_bulk/update to work_package_bulk#update" do
+    put("/work_package_bulk/update").should route_to(controller: 'work_package_bulk',
+                                                     action: 'update')
   end
 end
