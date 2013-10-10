@@ -105,18 +105,24 @@ module IssuesHelper
   end
 
   def visible_queries
-    # User can see public queries and his own queries
-    visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
-    # Project specific queries and global queries
-    visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
-    Query.find(:all,
-               :select => 'id, name, is_public',
-               :order => "name ASC",
-               :conditions => visible.conditions)
+    unless @visible_queries
+      # User can see public queries and his own queries
+      visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
+      # Project specific queries and global queries
+      visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
+      @visible_queries = Query.find(:all,
+                                    :select => 'id, name, is_public',
+                                    :order => "name ASC",
+                                    :conditions => visible.conditions)
+    end
+    @visible_queries
   end
 
-  def sidebar_queries
-    @sidebar_queries ||= visible_queries
+  def grouped_query_options
+    {
+      l(:label_my_queries)   => visible_queries.select{|query| !query.is_public?}.map{|query| [query.name, query.id]},
+      l(:label_query_plural) => visible_queries.select(&:is_public?).map{|query| [query.name, query.id]}
+    }
   end
 
   def query_links(title, queries)
@@ -131,9 +137,9 @@ module IssuesHelper
 
   def render_sidebar_queries
     out = ''
-    queries = sidebar_queries.reject(&:is_public?)
+    queries = visible_queries.reject(&:is_public?)
     out << query_links(l(:label_my_queries), queries) if queries.any?
-    queries = sidebar_queries.select(&:is_public?)
+    queries = visible_queries.select(&:is_public?)
     out << query_links(l(:label_query_plural), queries) if queries.any?
     out.html_safe
   end

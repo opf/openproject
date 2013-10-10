@@ -52,12 +52,11 @@ See doc/COPYRIGHT.rdoc for more details.
     <% html_title(query.new_record? ? l(:label_work_package_plural) : h(query.name)) %>
 
     <div id='work-packages-query-selection'>
-      <%= form_tag :id => 'query-selection-form' do %>
-        <%= label_tag 'query-select', l('apply_filter', :scope => 'queries') %>
+      <%= label_tag 'query-select', l('apply_filter', :scope => 'queries') %>
 
-        <%= collection_select(:query, :id, sidebar_queries, :id, :name, {:include_blank => query.new_record?, :selected => query.id}, {:id => 'query-select'}) %>
-        <%# TODO Use placeholder when I18n-js works again %>
-      <% end %>
+      <%= select :query, :id, grouped_options_for_select(grouped_query_options, query.id), {:include_blank => query.new_record?, :selected => query.id}, {:id => 'query-select'} %>
+
+      <%# TODO Use placeholder when I18n-js works again %>
 
       <script type='text/javascript'>
         (function() {
