@@ -73,10 +73,10 @@ class Widget::Table::EntryTable < Widget::Table
     icons = ""
     with_project(result.fields['project_id']) do
       if entry_for(result).editable_by? User.current
-        icons = link_to(image_tag('edit.png'),
+        icons = link_to(image_tag('webalys/edit.png'),
                         action_for(result, :action => 'edit'),
                         :title => l(:button_edit))
-        icons << link_to(image_tag('delete.png'),
+        icons << link_to(image_tag('webalys/delete.png'),
                          (action_for(result, :action => 'destroy').reverse_merge(:authenticity_token => form_authenticity_token)),
                          :title  => l(:button_edit), :confirm  => l(:text_are_you_sure),
                          :method => :delete,         :title    => l(:button_delete))
