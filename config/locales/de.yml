@@ -13,12 +13,12 @@ de:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "kann nur IDs von Tickets des aktuellen Sprints enthalten"
-              must_block_at_least_one_work_package: "muss die ID wenigstens eines Tickets enthalten"
+              can_only_contain_work_packages_of_current_sprint: "kann nur IDs von Arbeitspaket des aktuellen Sprints enthalten"
+              must_block_at_least_one_work_package: "muss die ID wenigstens eines Arbeitspakets enthalten"
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "muss der Version der Story entsprechen"
             parent_id:
-              parent_child_relationship_across_projects: "ist ungültig da '%{work_package_name}' ein backlogs Task und das gewünschte Eltern-Ticket '%{parent_name}' ein Backlogs-Element in einem anderen Projekt ist"
+              parent_child_relationship_across_projects: "ist ungültig da '%{work_package_name}' ein backlogs Task und das gewünschte Eltern-Arbeitspaket '%{parent_name}' ein Backlogs-Element in einem anderen Projekt ist"
               type_must_be_one_of_the_following: "muss aus einem der folgenden Typen sein: %{type_names}"
         sprint:
           cannot_end_before_it_starts: "Sprint kann nicht enden, bevor er begonnen hat"
@@ -37,7 +37,7 @@ de:
     generating_chart: "Generiere Graph..."
     hours: "Stunden"
     impediment: "Hindernis"
-    work_package_is_closed: "Ticket ist abgeschlossen, wenn"
+    work_package_is_closed: "Arbeitspaket ist abgeschlossen, wenn"
     no_burndown_data: "Keine Burndown Graphen verfügbar. Start- und Enddaten der Sprints müssen definiert sein."
     points: "Punkte"
     positions_could_not_be_rebuilt: "Positionen konnten nicht neu berechnet werden."
@@ -68,9 +68,9 @@ de:
   backlogs_sprint_unsized: "Das Projekt hat Stories auf aktiven oder vor kurzem geschlossenen Sprints welche keine Aufwandsangaben enthalten"
   backlogs_sprints: "Sprints"
   backlogs_story: "Story"
-  backlogs_story_type: "Story Type"
+  backlogs_story_type: "Story-Typ"
   backlogs_task: "Aufgabe"
-  backlogs_task_type: "Aufgaben Type"
+  backlogs_task_type: "Aufgaben-Typ"
   backlogs_velocity_missing: "Es konnte keine Geschwindigkeit für dieses Projekt berechnet werden"
   backlogs_velocity_varies: "Die Geschwindigkeit variiert stark zwischen den Sprints"
   backlogs_wiki_template: "Vorlage für das Sprint-Wiki"
@@ -97,7 +97,7 @@ de:
   label_chart_options: "Chart-Optionen"
   label_column_in_backlog: "Spalte im Backlog"
   label_hours: "Stunden"
-  label_work_package_hierarchy: "Tickethierarchie"
+  label_work_package_hierarchy: "Arbeitspaketehierarchie"
   label_master_backlog: "Master Backlog"
   label_not_prioritized: "nicht priorisiert"
   label_points: "Punkte"
@@ -116,6 +116,16 @@ de:
   label_version_setting: "Versionen"
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
+
+  permission_view_master_backlog: "Master Backlog ansehen"
+  permission_view_taskboards: "Aufgabenliste ansehen"
+  permission_update_sprints: "Sprints bearbeiten"
+  permission_create_stories: "Sprints anlegen"
+  permission_update_stories: "Stories bearbeiten"
+  permission_create_tasks: "Aufgaben anlegen"
+  permission_update_tasks: "Aufgaben bearbeiten"
+  permission_create_impediments: "Hindernisse anlegen"
+  permission_update_impediments: "Hindernisse bearbeiten"
 
   points_accepted: "Akzeptierte Punkte"
   points_committed: "Punkte abgeschlossen"
