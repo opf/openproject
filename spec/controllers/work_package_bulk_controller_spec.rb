@@ -103,16 +103,16 @@ describe WorkPackageBulkController do
         subject { response }
 
         describe :parent do
-          it { assert_tag :input, attributes: { name: 'issue[parent_id]' } }
+          it { assert_tag :input, attributes: { name: 'work_package[parent_id]' } }
         end
 
         context :custom_field do
           describe :type do
-            it { assert_tag :input, attributes: { name: "issue[custom_field_values][#{custom_field_1.id}]" } }
+            it { assert_tag :input, attributes: { name: "work_package[custom_field_values][#{custom_field_1.id}]" } }
           end
 
           describe :project do
-            it { assert_tag :select, attributes: { name: "issue[custom_field_values][#{custom_field_2.id}]" } }
+            it { assert_tag :select, attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }
           end
         end
       end
@@ -133,16 +133,16 @@ describe WorkPackageBulkController do
         subject { response }
 
         describe :parent do
-          it { assert_no_tag :input, attributes: { name: 'issue[parent_id]' } }
+          it { assert_no_tag :input, attributes: { name: 'work_package[parent_id]' } }
         end
 
         context :custom_field do
           describe :type do
-            it { assert_tag :input, attributes: { name: "issue[custom_field_values][#{custom_field_1.id}]" } }
+            it { assert_tag :input, attributes: { name: "work_package[custom_field_values][#{custom_field_1.id}]" } }
           end
 
           describe :project do
-            it { assert_no_tag :select, attributes: { name: "issue[custom_field_values][#{custom_field_2.id}]" } }
+            it { assert_no_tag :select, attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }
           end
         end
       end
