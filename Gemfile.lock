@@ -19,7 +19,7 @@ GIT
     prototype_legacy_helper (0.0.0)
 
 GIT
-  remote: https://github.com/svenfuchs/globalize3.git
+  remote: https://github.com/globalize/globalize.git
   revision: ab69160adc66d23b8d34aedc3ea9bfc724207494
   specs:
     globalize3 (0.3.0)
