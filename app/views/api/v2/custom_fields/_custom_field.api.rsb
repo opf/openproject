@@ -29,7 +29,14 @@
 api.custom_field do
   api.id              custom_field.id
   api.name            custom_field.name
-  api.customized_type custom_field.type.gsub(/CustomField$/, '').underscore
+
+  customized_type = if custom_field.is_a? WorkPackageCustomField
+    "planning_element" # work packages are known as planning elements in v2
+  else
+    custom_field.type.gsub(/CustomField$/, '').underscore
+  end
+
+  api.customized_type customized_type
   api.field_format    custom_field.field_format
   api.regexp          custom_field.regexp
   api.min_length      custom_field.min_length
