@@ -1031,6 +1031,7 @@ de:
   notice_unable_delete_time_entry: "Der Zeiterfassungseintrag konnte nicht gelöscht werden."
   notice_unable_delete_version: "Die Version konnte nicht gelöscht werden."
   notice_automatic_set_of_standard_type: "Der Standard-Typ wurde automatisch gesetzt."
+  error_types_in_use_by_work_packages: "Die folgenden Typen werden von Arbeitspaketen referenziert: %{types}"
 
  # Default format for numbers
   number:

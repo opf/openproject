@@ -1013,6 +1013,7 @@ en:
   notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_unable_delete_version: "Unable to delete version."
   notice_automatic_set_of_standard_type: "Set standard type automatically."
+  error_types_in_use_by_work_packages: "The following types are still referenced by work packages: %{types}"
 
   # Default format for numbers
   number:
