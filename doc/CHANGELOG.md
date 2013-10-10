@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre21
+
 * `#1281` I18n.js Not working correctly. Always returns English Translations
 * `#1758` Migrate functional-tests for issues into specs for work package
 * `#1771` Fixed bug: Refactor Types Project Settings into new Tab
