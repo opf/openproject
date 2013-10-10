@@ -193,9 +193,23 @@ class ProjectsController < ApplicationController
   end
 
   def types
+    flash[:notice] = []
+
+    unless params.has_key? :project
+      params[:project] = { "type_ids" => Type.standard_type.id }
+      flash[:notice] << l(:notice_automatic_set_of_standard_type)
+    end
+
     params[:project].assert_valid_keys("type_ids")
-    if @project.update_attributes(params[:project])
-      flash[:notice] = l('notice_successful_update')
+
+    selected_type_ids = params[:project][:type_ids].map { |t| t.to_i }
+
+    if types_missing?(selected_type_ids)
+      flash.delete :notice
+      flash[:error] = I18n.t(:error_types_in_use_by_work_packages,
+                             types: missing_types(selected_type_ids).collect(&:name).join(", "))
+    elsif @project.update_attributes(params[:project])
+      flash[:notice] << l('notice_successful_update')
     else
       flash[:error] = l('timelines.cannot_update_planning_element_types')
     end
@@ -304,4 +318,17 @@ private
     end
   end
 
+  def types_missing?(selected_type_ids)
+    !missing_types(selected_type_ids).empty?
+  end
+
+  def missing_types(selected_type_ids)
+    types_used_by_work_packages.select { |t| !selected_type_ids.include?(t.id) }
+  end
+
+  def types_used_by_work_packages
+    @types_used_by_work_packages ||= Type.find_all_by_id(WorkPackage.where(project_id: @project.id)
+                                                                    .select(:type_id)
+                                                                    .uniq)
+  end
 end
