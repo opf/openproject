@@ -37,6 +37,12 @@ module Api
             :offset => params[:offset],
             :limit => params[:limit]
 
+        @custom_fields.each do |field|
+          def field.visible_projects
+            @visible_projects ||= Project.visible.all :conditions => ["id IN (?)", project_ids]
+          end
+        end
+
         respond_to do |format|
           format.api
         end

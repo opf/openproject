@@ -51,4 +51,17 @@ api.custom_field do
       end
     end
   end
+
+  if custom_field.is_a? WorkPackageCustomField
+    api.array :planning_element_types, api_meta(:size => custom_field.types.size) do
+      custom_field.types.each do |type|
+        api.planning_element_type :id => type.id, :name => type.name
+      end
+    end
+    api.array :projects, api_meta(:size => custom_field.visible_projects.size) do
+      custom_field.visible_projects.each do |project|
+        api.project :id => project.id, :name => project.name
+      end
+    end
+  end
 end
