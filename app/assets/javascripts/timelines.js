@@ -1913,6 +1913,13 @@ Timeline = {
       }
       return first.start();
     },
+    getAttribute: function (val) {
+      if (typeof this[val] === "function") {
+        return this[val]();
+      }
+
+      return this[val];
+    },
     does_historical_differ: function () {
       return false;
     },
@@ -2274,6 +2281,11 @@ Timeline = {
         return this.planning_element_status.name;
       }
     },
+    getProjectName: function () {
+      if (this.project) {
+        return this.project.name;
+      }
+    },
     sort: function(field) {
       this[field] = this[field].sort(function(a, b) {
         // order by date, name
@@ -2323,16 +2335,19 @@ Timeline = {
       }
       return this.end_date_object;
     },
+    getAttribute: function (val) {
+      if (typeof this[val] === "function") {
+        return this[val]();
+      }
+
+      return this[val];
+    },
     does_historical_differ: function (val) {
       if (!this.has_historical()) {
         return false;
       }
 
-      if (typeof this[val] === "function") {
-        return this.historical()[val]() !== this[val]();
-      }
-
-      return this.historical()[val] !== this[val];
+      return this.historical().getAttribute(val) !== this.getAttribute(val);
     },
     has_historical: function () {
       return this.historical_element !== undefined;
@@ -3766,11 +3781,7 @@ Timeline = {
         var result = "", theVal;
 
         if (data.does_historical_differ(val)) {
-          if (typeof data.historical()[val] === "function") {
-            theVal = data.historical()[val]();
-          } else {
-            theVal = data.historical()[val];
-          }
+          theVal = data.historical().getAttribute(val);
 
           if (!theVal) {
             theVal = timeline.i18n('timelines.empty');
@@ -3795,35 +3806,28 @@ Timeline = {
       return "changed";
     }
 
+    var map = {
+      "type": "getTypeName",
+      "status": "getStatusName",
+      "responsible": "getResponsibleName",
+      "project": "getProjectName"
+    };
+
     var timeline = this;
     return {
       all: ['end_date', 'type', 'status', 'responsible', 'start_date'],
-      type: function (data) {
-        var result = "";
-        var typeName = data.getTypeName();
-
-        result += historicalHtml(data, "getTypeName");
-
-        return jQuery(result + '<span class="tl-column">' + timeline.escape(typeName || "-") + '</span>');
-      },
-      status: function(data) {
-        var result = "";
-        var statusName = data.getStatusName();
-
-        result += historicalHtml(data, "getStatusName");
-
-        return jQuery(result + '<span class="tl-column">' + timeline.escape(statusName || "-") + '</span>');
-      },
-      responsible: function(data) {
-        var result = "", secondClass = "";
-        var responsibleName = data.getResponsibleName();
-        result += historicalHtml(data, "getResponsibleName");
-
-        if (data.is(Timeline.Project)) {
-          secondClass = "tl-responsible";
+      general: function (data, val) {
+        if (!map[val]) {
+          return;
         }
 
-        return jQuery(result + '<span class="tl-column" '+ secondClass +'>' + timeline.escape(responsibleName) + '</span>');
+        val = map[val];
+
+        var result = "";
+        var theVal = data.getAttribute(val);
+
+        result += historicalHtml(data, val);
+        return jQuery(result + '<span class="tl-column">' + timeline.escape(theVal) + '</span>');
       },
       start_date: function(data) {
         var kind = renderHistoricalKind(data, "start_date", historicalKindDate),
@@ -4386,7 +4390,11 @@ Timeline = {
       // everything else
       jQuery.each(timeline.options.columns, function(i, e) {
         var cell = jQuery('<td></td>');
-        cell.append(rows[e].call(data, data));
+        if (typeof rows[e] === "function") {
+          cell.append(rows[e].call(data, data));
+        } else {
+          cell.append(rows.general.call(data, data, e));
+        }
         row.append(cell);
       });
       body.append(row);
