@@ -89,7 +89,7 @@ SQL
 
     def self.resolve_reference_ids(work_packages)
       # TODO faster ways to do this without stepping numerous times through the workpackages?!
-      # Or simply wait unti we finally throw out the redundant references out of the json/xml-rendering??!
+      # Or simply wait until we finally throw out the redundant references out of the json/xml-rendering??!
       project_ids = work_packages.map(&:project_id).uniq.compact
       type_ids = work_packages.map(&:type_id).uniq.compact
       status_ids = work_packages.map(&:status_id).uniq.compact
