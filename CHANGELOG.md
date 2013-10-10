@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.0.0.pre4
+
 * `#2267` Rename view issue hooks
 
 ## 1.0.0.pre3
