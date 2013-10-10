@@ -130,38 +130,37 @@ See doc/COPYRIGHT.rdoc for more details.
 </div><!-- .title-bar -->
 
 <%= error_messages_for 'query' %>
+
 <% if query.valid? %>
-<% if work_packages.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% else %>
-  <%= render :partial => 'work_packages/list', :locals => { :work_packages => work_packages,
-                                                            :query => query,
-                                                            :results => results } %>
+  <% if work_packages.empty? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% else %>
+    <%= render :partial => 'work_packages/list', :locals => { :work_packages => work_packages,
+                                                              :query => query,
+                                                              :results => results } %>
+    <%= pagination_links_full work_packages %>
+  <% end %>
 
-<%= pagination_links_full work_packages %>
-
+  <%= other_formats_links do |f| %>
+    <%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
+    <%= f.link_to 'CSV', :url => { :project_id => project } %>
+    <%= f.link_to 'PDF', :url => { :project_id => project } %>
+    <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => project,
+                                                                  :show_descriptions => true,
+                                                                  :format => 'pdf' } %>
+    <%= call_hook(:view_work_packages_index_other_formats, :link_formatter => f, :project => project) %>
+  <% end if User.current.allowed_to? :export_work_packages, project, :global => project.nil? %>
 <% end %>
 
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
-  <%= f.link_to 'CSV', :url => { :project_id => project } %>
-  <%= f.link_to 'PDF', :url => { :project_id => project } %>
-  <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => project,
-                                                                :show_descriptions => true,
-                                                                :format => 'pdf' } %>
-  <%= call_hook(:view_work_packages_index_other_formats, :link_formatter => f, :project => project) %>
-<% end if User.current.allowed_to? :export_work_packages, project, :global => project.nil? %>
-
-<% end %>
 <%= call_hook(:view_work_packages_index_bottom, { :issues => work_packages, :project => project, :query => query }) %>
 
 <% content_for :sidebar do %>
-    <%= render :partial => 'sidebar' %>
+  <%= render :partial => 'sidebar' %>
 <% end %>
 
 <% content_for :header_tags do %>
-    <%= auto_discovery_link_tag(:atom, {:query_id => query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_work_package_plural)) %>
-    <%= auto_discovery_link_tag(:atom, {:controller => '/journals', :action => 'index', :query_id => query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_changes_details)) %>
+  <%= auto_discovery_link_tag(:atom, {:query_id => query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_work_package_plural)) %>
+  <%= auto_discovery_link_tag(:atom, {:controller => '/journals', :action => 'index', :query_id => query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_changes_details)) %>
 <% end %>
 
 <%= context_menu work_packages_context_menu_path %>
