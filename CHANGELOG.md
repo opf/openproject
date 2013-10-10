@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0.pre7
+
+* `#2070` Adaptions after changing core asset locations
+
 ## 3.0.0.pre6
 
 * Renamed IssueStatus to Status
