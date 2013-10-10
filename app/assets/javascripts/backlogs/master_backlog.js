@@ -18,4 +18,10 @@ jQuery(function ($) {
       z -= 1;
     });
   }
+
+  $('.backlog .toggler').on('click',function(){
+    $(this).toggleClass('closed');
+    $(this).parents('.backlog').find('ul.stories').toggleClass('closed');
+    console.log($(this).parents('.backlog'));
+  });
 });

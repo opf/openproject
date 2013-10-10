@@ -3,8 +3,9 @@
     <%= render_backlog_menu backlog %>
     <%= render :partial => "rb_sprints/sprint", :object => backlog.sprint %>
     <div class="velocity"> </div>
+    <div class="toggler closed"> </div>
   </div>
-  <ul class="stories">
+  <ul class="stories closed">
     <% reset_cycle 'stories' %>
     <% backlog.stories.each_with_index do |story, index| %>
       <% higher_item = index == 0 ?
