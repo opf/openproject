@@ -34,12 +34,13 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= li_unless_nil link_to(l(:button_delete), {:controller => '/queries', :action => 'destroy', :id => query}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del') %>
   <% end %>
   <% content_for :action_menu_more do %>
-    <% if query_menu_item = query.query_menu_item %>
-      <%# TODO Add query menu item configuration page, Add authorization %>
-      <%= li_unless_nil(link_to(l(:button_delete_menu_entry), query_menu_item_path(@project, query, :id => query_menu_item.id), :method => :delete)) %>
-    <% else %>
-      <%# TODO Authorization %>
-      <%= li_unless_nil(link_to(l(:button_add_menu_entry), query_menu_item_path(@project, query), :method => :create)) %>
+    <% if query.is_public? ? (current_user.allowed_to?(:manage_public_queries, @project) || current_user.admin?) : current_user.allowed_to?(:save_queries, @project, :global => true) %>
+      <% if query_menu_item = query.query_menu_item %>
+        <%# TODO Add query menu item configuration page %>
+        <%= li_unless_nil(link_to(l(:button_delete_menu_entry), query_menu_item_path(@project, query, :id => query_menu_item.id), :method => :delete)) %>
+      <% else %>
+        <%= li_unless_nil(link_to(l(:button_add_menu_entry), query_menu_item_path(@project, query), :method => :create)) %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>
