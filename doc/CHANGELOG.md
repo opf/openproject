@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2319` Add a request-store to avoid redundant calls
+
 ## 3.0.0pre20
 
 * `#1281` I18n.js Not working correctly. Always returns English Translations
