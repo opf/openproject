@@ -1,5 +1,4 @@
 # encoding: utf-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -61,8 +60,13 @@ end
 
 Given(/^the work_package "(.+?)" is updated with the following:$/) do |subject, table|
   work_package = WorkPackage.find_by_subject(subject)
+  except = {}
 
-  send_table_to_object(work_package, table)
+  except["type"] = lambda{|wp, value| wp.type = Type.find_by_name(value) if value }
+  except["assigned_to"] = lambda{|wp, value| wp.assigned_to = User.find_by_login(value) if value}
+  except["responsible"] = lambda{|wp, value| wp.responsible = User.find_by_login(value) if value}
+
+  send_table_to_object(work_package, table, except)
 end
 
 When /^I fill in the id of work package "(.+?)" into "(.+?)"$/ do |wp_name, field_name|

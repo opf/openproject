@@ -52,19 +52,38 @@ Then(/^the json\-response should( not)? contain a work_package "(.*?)"$/) do |ne
 
 end
 
+And(/^the json\-response for work_package "(.*?)" should have the type "(.*?)"$/) do |work_package_name, type_name|
+  work_package = lookup_work_package(work_package_name)
+  expect(work_package["planning_element_type"]["name"]).to eql type_name
+end
+
+And(/^the json\-response for work_package "(.*?)" should have the responsible "(.*?)"$/) do |work_package_name, responsible_name|
+  work_package = lookup_work_package(work_package_name)
+  expect(work_package["responsible"]["name"]).to eql responsible_name
+end
+Then(/^the json\-response for work_package "(.*?)" should have the due_date "(.*?)"$/) do |work_package_name, due_date|
+  work_package = lookup_work_package(work_package_name)
+  expect(work_package["end_date"]).to eql due_date.gsub('/','-') # normalize the date-format
+end
+
 And(/^the json\-response should say that "(.*?)" is parent of "(.*?)"$/) do |parent_name, child_name|
-  child = decoded_json["planning_elements"].select {|wp| wp["name"] == child_name}.first
+  child = lookup_work_package(child_name)
   expect(child["parent"]["name"]).to eql parent_name
 end
 
 And(/^the json\-response should say that "(.*?)" has no parent$/) do |child_name|
-  child = decoded_json["planning_elements"].select {|wp| wp["name"] == child_name}.first
+  child = child = lookup_work_package(child_name)
   expect(child["parent"]).to be_nil
 end
 
 And(/^the json\-response should say that "(.*?)" has (\d+) child(ren)?$/) do |parent_name, nr_of_children,plural|
-  parent = decoded_json["planning_elements"].select {|wp| wp["name"] == parent_name}.first
+  parent = child = lookup_work_package(parent_name)
   expect(parent["children"].size).to eql nr_of_children.to_i
+end
+
+And(/^the work package "(.*?)" has the due_date "(.*?)"$/) do |work_package_name, due_date|
+  wp = WorkPackage.where(:subject => work_package_name).first
+  expect(wp.due_date).to eql Date.parse(due_date)
 end
 
 
@@ -101,6 +120,17 @@ When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)"
 
 end
 
+And(/^I call the work_package\-api on project "(.*?)" at time "(.*?)" and filter for types "(.*?)"$/) do |project_name, at_time, type_names|
+  types = Project.find_by_identifier(project_name).types.where(name: type_names.split(','))
+
+  get_filtered_json(project_name: project_name,
+                    format: 'json',
+                    filters: [:type_id],
+                    operators:  {type_id: '='},
+                    values: {type_id: types.map(&:id)},
+                    at_time: DateTime.parse(at_time).to_i)  # the api accepts the time as unix-timestamps(epoch)
+end
+
 
 And(/^there are (\d+) work packages of type "(.*?)" in project "(.*?)"$/) do |nr_of_wps, type_name, project_name|
   project = Project.find_by_identifier(project_name)
@@ -127,6 +157,10 @@ Then(/^the time to get the filtered results should be faster than the time to ge
   @filtered_benchmark.total.should < @unfiltered_benchmark.total
 end
 
+def lookup_work_package(work_package_name)
+  work_package = decoded_json["planning_elements"].select {|wp| wp["name"] == work_package_name}.first
+end
+
 def work_package_names
   decoded_json["planning_elements"].map{|wp| wp["name"]}
 end
@@ -145,6 +179,8 @@ def get_filtered_json(params)
                                                 format: params[:format],
                                                 f: params[:filters],
                                                 op: params[:operators],
-                                                v: params[:values])
+                                                v: params[:values],
+                                                at_time: params[:at_time])
   end
 end
+

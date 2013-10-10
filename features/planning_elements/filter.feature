@@ -61,11 +61,17 @@ Feature: Filtering work packages via the api
       | view_work_packages |
 
     And there is 1 user with the following:
-      | login | bob |
+      | login      | bob    |
+      | firstname  | Bob    |
+      | lastname   | Bobbit |
     And there is 1 user with the following:
-      | login | peter |
+      | login     | peter  |
+      | firstname | Peter  |
+      | lastname  | Gunn   |
     And there is 1 user with the following:
-      | login | pamela |
+      | login      | pamela   |
+      | firstname  | Pamela   |
+      | lastname   | Anderson |
     And the user "bob" is a "member" in the project "sample_project"
     And the user "peter" is a "member" in the project "sample_project"
     And the user "pamela" is a "member" in the project "sample_project"
@@ -206,4 +212,36 @@ Feature: Filtering work packages via the api
     And the json-response should not contain a work_package "work_package#1"
     And the json-response should contain a work_package "work_package#2"
 
+  # Always make sure, that historical tests are tagged with @timetravel:
+  # otherwise the time remains frozen for other features!!!
+  Scenario: looking up historical data
+    Given the date is "2010/01/01"
+    And there are the following work packages in project "sample_project":
+      | subject          | type  | responsible |
+      | work_package#1   | Task  | bob         |
+      | work_package#2   | Task  | peter       |
+      | work_package#3   | Task  | pamela      |
+    Given the date is "2010/02/01"
+    And the work_package "work_package#3" is updated with the following:
+      | type        | Story       |
+      | responsible | bob         |
+    Given the date is "2010/03/01"
+    And I call the work_package-api on project "sample_project" at time "2010/01/03" and filter for types "Story"
+    Then the json-response should include 1 work package
+    And the json-response for work_package "work_package#3" should have the type "Task"
+    And the json-response for work_package "work_package#3" should have the responsible "Pamela Anderson"
 
+  Scenario: comparing due dates
+    Given the date is "2010/01/01"
+    And there are the following work packages in project "sample_project":
+      | subject          | type  | responsible | due_date   |
+      | work_package#1   | Task  | bob         | 2010/01/15 |
+    Given the date is "2010/02/01"
+    And the work_package "work_package#1" is updated with the following:
+      | type        | Story       |
+      | responsible | pamela      |
+      | due_date    | 2010/01/20  |
+    Given the date is "2010/03/01"
+    And I call the work_package-api on project "sample_project" at time "2010/01/03" and filter for types "Story"
+    Then the json-response for work_package "work_package#1" should have the due_date "2010/01/15"
+    And the work package "work_package#1" has the due_date "2010/01/20"

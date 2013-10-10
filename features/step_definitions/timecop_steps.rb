@@ -28,15 +28,37 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Given /^the time is ([0-9]+) minutes later$/ do |duration|
+Given(/^the time is ([0-9]+) minutes earlier$/) do |duration|
+  Timecop.travel(Time.now - duration.to_i.minutes)
+
+  # Ensure timecop returns after each scenario
+  Support::ResetTimecop.reset_after
+end
+
+Given(/^the time is ([0-9]+) days earlier$/) do |duration|
+  Timecop.travel(Time.now - duration.to_i.days)
+
+  # Ensure timecop returns after each scenario
+  Support::ResetTimecop.reset_after
+end
+
+Given(/^the time is ([0-9]+) minutes later$/) do |duration|
   Timecop.travel(Time.now + duration.to_i.minutes)
 
   # Ensure timecop returns after each scenario
   Support::ResetTimecop.reset_after
 end
 
-Given /^the time is ([0-9]+) days later$/ do |duration|
+Given(/^the time is ([0-9]+) days later$/) do |duration|
   Timecop.travel(Time.now + duration.to_i.days)
+
+  # Ensure timecop returns after each scenario
+  Support::ResetTimecop.reset_after
+end
+
+Given(/^the date is "(.*?)"$/) do |date|
+  new_time = Time.parse date
+  Timecop.travel(new_time)
 
   # Ensure timecop returns after each scenario
   Support::ResetTimecop.reset_after
@@ -46,9 +68,7 @@ module Support
   module ResetTimecop
     def self.reset_after
       Support::Cleanup.to_clean do
-        Proc.new do
-          Timecop.return
-        end
+        Timecop.return
       end
     end
   end
