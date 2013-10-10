@@ -46,7 +46,7 @@ class WorkPackagesController < ApplicationController
                 :authorize, :except => [:index]
   before_filter :find_optional_project,
                 :protect_from_unauthorized_export, :only => [:index, :all]
-  before_filter :retrieve_query, :only => :index
+  before_filter :load_query, :only => :index
 
   def show
     respond_to do |format|
@@ -402,6 +402,10 @@ class WorkPackagesController < ApplicationController
   end
 
   protected
+
+  def load_query
+    @query ||= retrieve_query
+  end
 
   def not_found_unless_work_package
     render_404 unless work_package
