@@ -1,12 +1,14 @@
 = 3.0.4.pre7
 
+* `#1093` Fix missing permission translations
+* `#2070` Adapted to changed core asset locations
 * fixed specs and cukes
 * fixed taskboard javascript bug
 * Rename Issue to WorkPackage
 
 = 3.0.4.pre6
 
-* Adapt to OpenProject core changes
+* `#2039` Adapt to OpenProject core changes
 ** Renamed Issue 2 WorkPackage
 ** Renamed IssueStatus 2 Status
 ** Renamed Tracker 2 Type

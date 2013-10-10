@@ -58,7 +58,7 @@ module OpenProject::Backlogs::Patches::QueryPatch
           when "impediment"
             sql << "(#{db_table}.id IN (
                   select from_id
-                  FROM issue_relations ir
+                  FROM relations ir
                   JOIN work_packages blocked
                   ON
                     blocked.id = ir.to_id
