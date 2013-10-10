@@ -1321,6 +1321,7 @@ en:
     edit_project_type: "Edit project type"
     edit_thing: "Edit"
     edit_timeline: "Edit timeline report"
+    empty: "(empty)"
     enable_planning_element_in_project: 'Enable planning element type "%{type}"'
     end: "End"
     errors:
