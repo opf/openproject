@@ -29,6 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1885` Extend Timelines UI for status information
+* `#1886` Consider status in Timelines' Project Planning Comparison
+
 ## 3.0.0pre21
 
 * `#1281` I18n.js Not working correctly. Always returns English Translations
