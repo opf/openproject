@@ -108,7 +108,8 @@ Redmine::AccessControl.map do |map|
                                          :'issues/previews' => :create,
                                          :work_packages => [:new, :new_type, :preview, :create] }
     map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, :require => :loggedin
-    map.permission :edit_work_packages, { :issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form],
+    map.permission :edit_work_packages, { :issues => [:edit, :update, :update_form],
+                                          :work_package_bulk => [:edit, :update],
                                           :work_packages => [:edit, :update, :new_type, :preview, :quoted],
                                           :journals => :preview,
                                           :planning_elements => [:new, :create, :edit, :update],

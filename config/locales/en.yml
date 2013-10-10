@@ -593,7 +593,7 @@ en:
   label_boolean: "Boolean"
   label_branch: "Branch"
   label_browse: "Browse"
-  label_bulk_edit_selected_issues: "Bulk edit selected issues"
+  label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
   label_calendar: "Calendar"
   label_calendar_show: "Show Calendar"
   label_category: "Category"

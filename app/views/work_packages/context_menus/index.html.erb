@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 <% else %>
   <li class="edit">
-    <%= context_menu_link l(:button_edit), bulk_edit_issues_path(:ids => @work_packages.collect(&:id)),
+    <%= context_menu_link l(:button_edit), work_package_bulk_edit_path(:ids => @work_packages.collect(&:id)),
 	                                         :class => 'icon-edit',
                                            :disabled => !@can[:edit] %>
   </li>
