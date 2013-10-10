@@ -125,25 +125,6 @@ module IssuesHelper
     }
   end
 
-  def query_links(title, queries)
-    # links to #index on issues/show
-    url_params = controller_name == 'issues' ? {:controller => '/issues', :action => 'index', :project_id => @project} : params
-
-    content_tag('h3', title) +
-      queries.collect {|query|
-          link_to(query.name, url_params.merge(:query_id => query))
-        }.join('<br />').html_safe
-  end
-
-  def render_sidebar_queries
-    out = ''
-    queries = visible_queries.reject(&:is_public?)
-    out << query_links(l(:label_my_queries), queries) if queries.any?
-    queries = visible_queries.select(&:is_public?)
-    out << query_links(l(:label_query_plural), queries) if queries.any?
-    out.html_safe
-  end
-
   # Find the name of an associated record stored in the field attribute
   def find_name_by_reflection(field, id)
     association = WorkPackage.reflect_on_association(field.to_sym)
