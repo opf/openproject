@@ -40,17 +40,17 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="splitcontentleft">
 <p>
 	<label for="work_package_type_id"><%= WorkPackage.human_attribute_name(:type) %></label>
-	<%= select_tag('work_package[type_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@types, :id, :name)) %>
+	<%= select_tag('work_package[type_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(@types, :id, :name)) %>
 </p>
 <% if @available_statuses.any? %>
 <p>
 	<label for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
-	<%= select_tag('work_package[status_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@available_statuses, :id, :name)) %>
+	<%= select_tag('work_package[status_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(@available_statuses, :id, :name)) %>
 </p>
 <% end %>
 <p>
 	<label for='work_package_priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
-	<%= select_tag('work_package[priority_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
+	<%= select_tag('work_package[priority_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
 </p>
 <p>
 	<label for='work_package_assigned_to_id'><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
