@@ -28,12 +28,17 @@
 #++
 #
 
+require_relative 'migration_utils/utils'
 require_relative 'migration_utils/legacy_journal_migrator'
 require_relative 'migration_utils/journal_migrator_concerns'
 
 class LegacyIssueJournalData < ActiveRecord::Migration
+  include Migration::Utils
+
   def up
     migrator.run
+
+    reset_public_key_sequence_in_postgres 'journals'
   end
 
   def down
