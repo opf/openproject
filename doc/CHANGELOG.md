@@ -39,6 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1883` Extend at-time scope for status comparison
 * `#1884` Make status values available over API
 * `#1994` Integrational tests for work packages at_time (API)
+* `#2070` Settle copyright for images
 * `#2158` Work Package General Setting
 * `#2173` Adapt client-side to new server behavior
 * `#2306` Migrate issues controller tests
