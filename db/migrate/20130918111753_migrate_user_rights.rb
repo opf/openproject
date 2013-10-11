@@ -81,7 +81,7 @@ class MigrateUserRights < ActiveRecord::Migration
         row[COLUMN] = YAML.dump role_permissions.flatten
       end
 
-      row
+      UpdateResult.new(row, true)
     end
   end
 end

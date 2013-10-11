@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1991` Migrate text references to issues/planning elements
+
 ## 3.0.0pre21
 
 * `#1281` I18n.js Not working correctly. Always returns English Translations

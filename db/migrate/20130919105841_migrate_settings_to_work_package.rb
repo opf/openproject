@@ -52,7 +52,7 @@ class MigrateSettingsToWorkPackage < ActiveRecord::Migration
 
       row[COLUMN] = settings[row[COLUMN]] if merge_setting
 
-      row
+      UpdateResult.new(row, merge_setting)
     end
   end
 end
