@@ -391,7 +391,7 @@ class WorkPackagesController < ApplicationController
     work_package.add_time_entry(attributes)
   end
 
-  # Override method from menu_controller mix in to select query menu items which aren't currently dsitinguished by their action names
+  # Override method from menu_controller mix in to select query menu items, which aren't currently distinguished by their action names
   def current_menu_item
     if !@current_menu_item_determined && action_name == 'index' && @query.persisted? && current = @query.query_menu_item.try(:name)
       @current_menu_item_determined = true

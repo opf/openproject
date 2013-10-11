@@ -126,7 +126,7 @@ OpenProject::Application.routes.draw do
   end
 
   scope "projects/:project_id/query/:query_id" do
-    resource :query_menu_item, :except => [:show]
+    resources :query_menu_items, :except => [:show]
   end
 
   get   'projects/:project_id/wiki/new' => 'wiki#new', :as => 'wiki_new'
