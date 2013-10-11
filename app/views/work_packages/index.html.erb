@@ -103,7 +103,6 @@ See doc/COPYRIGHT.rdoc for more details.
 		    </fieldset>
 		  </div>
       <p class="buttons hide-when-print">
-
         <%= link_to_remote l(:button_apply),
                            { :url => { :set_filter => 1 },
                              :before => 'selectAllOptions("selected_columns");',
@@ -117,6 +116,7 @@ See doc/COPYRIGHT.rdoc for more details.
                            { :url => { :set_filter => 1, :sort => WorkPackagesController::DEFAULT_SORT_ORDER.join(':'), :project_id => project },
                              :method => :get,
                              :update => "content",
+                             :complete => 'resetSelectedMenuItem()',
                            }, :class => 'icon icon-reload'  %>
 
         <% if query.new_record? && User.current.allowed_to?(:save_queries, project, :global => true) %>
