@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% content_for :action_menu_more do %>
     <% if query.is_public? ? (current_user.allowed_to?(:manage_public_queries, project) || current_user.admin?) : current_user.allowed_to?(:save_queries, project, :global => true) %>
       <% if query_menu_item = query.query_menu_item %>
-        <%# TODO Add query menu item configuration page %>
+        <%= li_unless_nil link_to(l(:button_configure_menu_entry), edit_query_menu_item_path(project, query, query_menu_item)) %>
         <%= li_unless_nil link_to(l(:button_delete_menu_entry), query_menu_item_path(project, query, query_menu_item), :method => :delete) %>
       <% else %>
         <%= li_unless_nil(link_to(l(:button_add_menu_entry), query_menu_items_path(project, query), :method => :create)) %>

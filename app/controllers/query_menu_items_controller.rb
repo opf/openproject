@@ -27,15 +27,27 @@
 #++
 
 class QueryMenuItemsController < ApplicationController
-	before_filter :load_query
+	before_filter :load_project_and_query
 
 	def create
-		@query_menu_item = MenuItems::QueryMenuItem.new :navigatable_id => @query.id, :title => @query.name, :name => @query.name.parameterize.underscore
+		@query_menu_item = MenuItems::QueryMenuItem.new :navigatable_id => @query.id, :title => @query.name, :name => normalized_query_name
 
 		if @query_menu_item.save
 			flash[:notice] = l(:notice_successful_create)
     else
 			flash[:error] = l(:error_menu_item_not_created)
+		end
+
+  	redirect_to query_path
+	end
+
+	def update
+		@query_menu_item = MenuItems::QueryMenuItem.find params[:id]
+
+		if @query_menu_item.update_attributes params[:menu_items_query_menu_item]
+			flash[:notice] = l(:notice_successful_update)
+    else
+			flash[:error] = l(:error_menu_item_not_saved)
 		end
 
   	redirect_to query_path
@@ -50,14 +62,32 @@ class QueryMenuItemsController < ApplicationController
 		redirect_to query_path
 	end
 
+	def edit
+		@query_menu_item = MenuItems::QueryMenuItem.find params[:id]
+
+    respond_to do |format|
+      format.html do
+        render :edit, :locals => {
+        	:project => @project,
+        	:query => @query,
+					:query_menu_item => @query_menu_item
+				}
+			end
+		end
+	end
+
 	private
 
-	def load_query
+	def load_project_and_query
+		@project = Project.find params[:project_id]
 		@query = Query.find params[:query_id]
 	end
 
 	def query_path
-		project = Project.find(params[:project_id])
-		project_work_packages_path(project, :query_id => @query.id)
+		project_work_packages_path(@project, :query_id => @query.id)
+	end
+
+	def normalized_query_name
+		@query.name.parameterize.underscore
 	end
 end
