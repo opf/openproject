@@ -27,41 +27,41 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::ReportsController < ApplicationController
-  menu_item :summary_field, :only => [:report, :report_details]
-  before_filter :find_project_by_project_id, :authorize
+class Reports::ReportsService
 
-  def report
-    reports_service = Reports::ReportsService.new(@project)
+  class << self; attr_accessor :report_types end
 
-    @type_report      = reports_service.report_for("type")
-    @priority_report  = reports_service.report_for("priority")
-    @assignee_report  = reports_service.report_for("assigned_to")
-    @author_report    = reports_service.report_for("author")
-    @version_report   = reports_service.report_for("version")
-    @subproject_report= reports_service.report_for("subproject")
-    @category_report  = reports_service.report_for("category")
-
+  def self.add_report(report)
+    self.report_types ||= {}
+    self.report_types[report.report_type] = report
   end
 
-  def report_details
-    @report = Reports::ReportsService.new(@project)
-                                     .report_for(params[:detail])
-
-    respond_to do |format|
-      if @report
-        format.html {}
-      else
-        format.html { redirect_to report_project_work_packages_path(@project) }
-      end
-    end
+  def self.has_report_for?(report_type)
+    self.report_types.has_key? report_type
   end
 
-  private
 
-  def default_breadcrumb
-    l(:label_summary)
+  # automate this? by cycling through each instance of Reports::Report? or is this to automagically?
+  # and there is no reason, why plugins shouldn't be able to use this to add their own customized reports...
+  add_report Reports::SubprojectReport
+  add_report Reports::AuthorReport
+  add_report Reports::AssigneeReport
+  add_report Reports::TypeReport
+  add_report Reports::PriorityReport
+  add_report Reports::CategoryReport
+  add_report Reports::VersionReport
+
+
+
+
+  def initialize(project)
+    raise "You must provide a project to report upon" unless project && project.is_a?(Project)
+    @project = project
   end
 
+  def report_for(report_type)
+    report_klass = self.class.report_types[report_type]
+    report_klass.new(@project) if report_klass
+  end
 
 end
