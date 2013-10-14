@@ -98,8 +98,8 @@ class WikiMenuItemsController < ApplicationController
     @parent_menu_item_options = possible_parent_menu_items.map {|item| [item.name, item.id]}
     @selected_parent_menu_item = if @wiki_menu_item.parent
       @wiki_menu_item.parent.id
-    elsif @page.parent && parent_menu_entry = possible_parent_menu_items.detect {|item| item.title == @page.parent.title}
-      parent_menu_entry.id
+    elsif @page.parent && menu_item_of_parent_page = possible_parent_menu_items.detect {|item| item.title == @page.parent.title}
+      menu_item_of_parent_page.id
     end
   end
 end
