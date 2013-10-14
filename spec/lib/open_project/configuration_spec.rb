@@ -29,53 +29,84 @@
 require 'spec_helper'
 
 describe OpenProject::Configuration do
-  # let(:config) { OpenProject::Configuration }
-  describe 'an empty configuration' do
-    let(:config) { load_conf('empty.yml', 'test') }
+  describe '.load_config_from_file' do
+    let(:config) { Hash.new }
 
-    it 'should load a Hash' do
-      config.kind_of?(Hash).should be_true
-    end
-  end
+    before do
+      YAML.should_receive(:load_file).and_return({
+        'default' => {},
+        'test' => { 'somesetting' => 'foo' }
+      })
+      File.should_receive(:file?).with('file').and_return(true)
 
-  describe 'with a default setting' do
-    let(:config) { load_conf('default.yml', 'test') }
-
-    it 'should load a Hash' do
-      config.kind_of?(Hash).should be_true
+      OpenProject::Configuration.send(:load_config_from_file, 'file', 'test', config)
     end
 
-    it 'should load a default setting' do
+    it 'should merge the config from the file into the given config hash' do
       config['somesetting'].should == 'foo'
     end
   end
 
-  describe 'with an environment-specific setting' do
-    let(:config) { load_conf('no_default.yml', 'test') }
+  describe '.load_env_from_config' do
+    describe 'with a default setting' do
+      let(:config) { OpenProject::Configuration.send(:load_env_from_config, {
+          'default' => { 'somesetting' => 'foo' },
+          'test' => {},
+          'someother' => { 'somesetting' => 'bar'}
+        }, 'test')}
 
-    it 'should load a Hash' do
-      config.kind_of?(Hash).should be_true
+      it 'should load a default setting' do
+        config['somesetting'].should == 'foo'
+      end
     end
 
-    it 'should load a setting' do
-      config['somesetting'].should == 'foo'
+    describe 'with an environment-specific setting' do
+      let(:config) { OpenProject::Configuration.send(:load_env_from_config, {
+          'default' => {},
+          'test' => { 'somesetting' => 'foo' }
+        }, 'test')}
+
+      it 'should load a setting' do
+        config['somesetting'].should == 'foo'
+      end
+    end
+
+    describe 'with a default and an overriding environment-specific setting' do
+      let(:config) { OpenProject::Configuration.send(:load_env_from_config, {
+          'default' => { 'somesetting' => 'foo'},
+          'test' => { 'somesetting' => 'bar' }
+        }, 'test')}
+
+      it 'should load the overriding value' do
+        config['somesetting'].should == 'bar'
+      end
     end
   end
 
-  describe 'with a default and an overriding environment-specific setting' do
-    let(:config) { load_conf('overrides.yml', 'test') }
+  describe '.load_overrides_from_environment_variables' do
+    let(:config) { {'somesetting' => 'foo'} }
 
-    it 'should load a Hash' do
-      config.kind_of?(Hash).should be_true
+    before do
+      ENV['SOMESETTING'] = 'bar'
+      OpenProject::Configuration.send(:load_overrides_from_environment_variables, config)
     end
 
-    it 'should load the overriding value' do
-      config['somesetting'].should == 'bar'
+    it 'should override the previous setting value' do
+      expect(config['somesetting']).to eq('bar')
+    end
+
+    after do
+      ENV.delete 'SOMESETTING'
     end
   end
 
   describe '.with' do
-    let!(:config) { load_conf('default.yml', 'test') }
+    before do
+      OpenProject::Configuration.should_receive(:load_config_from_file) do |filename, env, config|
+        config.merge!({ 'somesetting' => 'foo' })
+      end
+      OpenProject::Configuration.load(:env => 'test')
+    end
 
     it 'should return the overriden the setting within the block' do
       OpenProject::Configuration['somesetting'].should == 'foo'
@@ -115,7 +146,7 @@ describe OpenProject::Configuration do
     end
   end
 
-  describe :configure_action_mailer do
+  describe '.configure_action_mailer' do
     let(:action_mailer) { double('ActionMailer::Base') }
     let(:config) {
       {'email_delivery_method' => 'smtp',
@@ -134,15 +165,6 @@ describe OpenProject::Configuration do
                                                           :port => '25'})
       OpenProject::Configuration.send(:configure_action_mailer, config)
     end
-  end
-
-  describe
-
-  def load_conf(file, env)
-    OpenProject::Configuration.load(
-      :file => File.join(Rails.root, 'test', 'mocks', 'configuration', file),
-      :env => env
-    )
   end
 
 end

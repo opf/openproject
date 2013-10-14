@@ -67,9 +67,7 @@ module OpenProject
 
         @config = @defaults.dup
 
-        if File.file?(filename)
-          @config.merge!(load_from_yaml(filename, env))
-        end
+        load_config_from_file(filename, env, @config)
 
         convert_old_email_settings(@config)
 
@@ -108,21 +106,27 @@ module OpenProject
 
       private
 
-      def load_from_yaml(filename, env)
-        yaml = YAML::load_file(filename)
-        conf = {}
-        if yaml.is_a?(Hash)
-          if yaml['default']
-            conf.merge!(yaml['default'])
+      def load_config_from_file(filename, env, config)
+        if File.file?(filename)
+          file_config = YAML::load_file(filename)
+          unless file_config.kind_of? Hash
+            warn "#{filename} is not a valid OpenProject configuration file, ignoring."
+          else
+            config.merge!(load_env_from_config(file_config, env))
           end
-          if yaml[env]
-            conf.merge!(yaml[env])
-          end
-        else
-          $stderr.puts "#{filename} is not a valid Redmine configuration file"
-          exit 1
         end
-        conf
+      end
+
+      def load_env_from_config(config, env)
+        merged_config = {}
+
+        if config['default']
+          merged_config.merge!(config['default'])
+        end
+        if config[env]
+          merged_config.merge!(config[env])
+        end
+        merged_config
       end
 
       def configure_action_mailer(config)
