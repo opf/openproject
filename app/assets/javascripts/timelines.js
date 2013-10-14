@@ -1831,18 +1831,20 @@ Timeline = {
           dc = -1;
         }
 
-        if (!a.nameLower) {
-          a.nameLower = a.name.toLowerCase();
+        identifier_methods = [a, b].map(function(e) { return e.hasOwnProperty("subject") ? "subject" : "name" })
+
+        if (!a.identifierLower) {
+          a.identifierLower = a[identifier_methods[0]].toLowerCase();
         }
 
-        if (!b.nameLower) {
-          b.nameLower = b.name.toLowerCase();
+        if (!b.identifierLower) {
+          b.identifierLower = b[identifier_methods[1]].toLowerCase();
         }
 
-        if (a.nameLower < b.nameLower) {
+        if (a.identifierLower < b.identifierLower) {
           nc = -1;
         }
-        if (a.nameLower > b.nameLower) {
+        if (a.identifierLower > b.identifierLower) {
           nc = +1;
         }
 
@@ -2657,7 +2659,7 @@ Timeline = {
         if (!in_aggregation) {
 
           // text rendering in planning elements outside of aggregations
-          text = timeline.getMeasuredPathFromText(this.name);
+          text = timeline.getMeasuredPathFromText(this.subject);
 
           // if this is an expanded planning element w/ children, or if
           // the text would not fit:
@@ -2730,7 +2732,7 @@ Timeline = {
           // the other case is text rendering in planning elements inside
           // of aggregations:
 
-          text = timeline.getMeasuredPathFromText(this.name,
+          text = timeline.getMeasuredPathFromText(this.subject,
                      (label_space.w - Timeline.PE_TEXT_INSIDE_PADDING) / Timeline.PE_TEXT_SCALE);
           label = timeline.paper.path(text.path);
           captionElements.push(label);
@@ -4274,7 +4276,7 @@ Timeline = {
 
       cell.append(contentWrapper);
 
-      text = timeline.escape(data.name);
+      text = timeline.escape(data.subject || data.name);
       if (data.getUrl instanceof Function) {
         text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" data-modal/>').append(text).attr("title", text);
       }
