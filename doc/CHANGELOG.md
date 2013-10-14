@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#1991` Migrate text references to issues/planning elements
+* `#2304` Introduce keyboard shortcuts
 
 ## 3.0.0pre21
 
