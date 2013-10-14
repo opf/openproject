@@ -93,8 +93,13 @@ class WikiMenuItemsController < ApplicationController
 
 
     @wiki_menu_item = WikiMenuItem.find_or_initialize_by_wiki_id_and_title(@page.wiki.id, @page_title)
+    possible_parent_menu_items = WikiMenuItem.main_items(@page.wiki.id) - [@wiki_menu_item]
 
-    @possible_parent_menu_items = WikiMenuItem.main_items(@page.wiki.id) - [@wiki_menu_item]
-    @possible_parent_menu_items.map! {|item| [item.name, item.id]}
+    @parent_menu_item_options = possible_parent_menu_items.map {|item| [item.name, item.id]}
+    @selected_parent_menu_item = if @wiki_menu_item.parent
+      @wiki_menu_item.parent.id
+    elsif @page.parent && parent_menu_entry = possible_parent_menu_items.detect {|item| item.title == @page.parent.title}
+      parent_menu_entry.id
+    end
   end
 end
