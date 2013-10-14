@@ -28,17 +28,18 @@
 
 class QueryMenuItemsController < ApplicationController
 	before_filter :load_project_and_query
+	before_filter :authorize
 
 	def create
 		@query_menu_item = MenuItems::QueryMenuItem.new :navigatable_id => @query.id, :title => @query.name, :name => normalized_query_name
 
 		if @query_menu_item.save
 			flash[:notice] = l(:notice_successful_create)
-    else
+		else
 			flash[:error] = l(:error_menu_item_not_created)
 		end
 
-  	redirect_to query_path
+		redirect_to query_path
 	end
 
 	def update
@@ -46,11 +47,11 @@ class QueryMenuItemsController < ApplicationController
 
 		if @query_menu_item.update_attributes params[:menu_items_query_menu_item]
 			flash[:notice] = l(:notice_successful_update)
-    else
+		else
 			flash[:error] = l(:error_menu_item_not_saved)
 		end
 
-  	redirect_to query_path
+		redirect_to query_path
 	end
 
 	def destroy
@@ -65,13 +66,13 @@ class QueryMenuItemsController < ApplicationController
 	def edit
 		@query_menu_item = MenuItems::QueryMenuItem.find params[:id]
 
-    respond_to do |format|
-      format.html do
-        render :edit, :locals => {
-        	:project => @project,
-        	:query => @query,
-					:query_menu_item => @query_menu_item
-				}
+		respond_to do |format|
+		  format.html do
+		    render :edit, :locals => {
+		    	:project => @project,
+		    	:query => @query,
+						:query_menu_item => @query_menu_item
+					}
 			end
 		end
 	end
@@ -89,5 +90,19 @@ class QueryMenuItemsController < ApplicationController
 
 	def normalized_query_name
 		@query.name.parameterize.underscore
+	end
+
+	# inherit permissions from queries where create and update are performed bei new and edit actions
+	def authorize(ctrl = 'queries', action = params[:action], global = false)
+		action = case action
+		when 'create'
+			'new'
+		when 'update'
+			'edit'
+		else
+			action
+		end
+
+		super
 	end
 end
