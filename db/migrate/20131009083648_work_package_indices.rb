@@ -3,6 +3,8 @@ class WorkPackageIndices < ActiveRecord::Migration
     # drop obsolete fields
     remove_column :work_packages, :planning_element_status_comment
     remove_column :work_packages, :planning_element_status_id
+    remove_column :work_package_journals, :planning_element_status_comment
+    remove_column :work_package_journals, :planning_element_status_id
     remove_column :work_packages, :sti_type
 
 
