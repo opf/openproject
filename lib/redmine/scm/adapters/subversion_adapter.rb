@@ -36,7 +36,7 @@ module Redmine
       class SubversionAdapter < AbstractAdapter
 
         # SVN executable name
-        SVN_BIN = Redmine::Configuration['scm_subversion_command'] || "svn"
+        SVN_BIN = OpenProject::Configuration['scm_subversion_command'] || "svn"
 
         class << self
           def client_command

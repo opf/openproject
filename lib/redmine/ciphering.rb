@@ -65,7 +65,7 @@ module Redmine
       end
 
       def cipher_key
-        key = Redmine::Configuration['database_cipher_key'].to_s
+        key = OpenProject::Configuration['database_cipher_key'].to_s
         key.blank? ? nil : Digest::SHA256.hexdigest(key)
       end
     end
