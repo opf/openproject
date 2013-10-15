@@ -104,7 +104,7 @@ class Timeline < ActiveRecord::Base
   @@available_columns = [
     "type",
     "start_date",
-    "end_date",
+    "due_date",
     "responsible",
     "status"
   ]

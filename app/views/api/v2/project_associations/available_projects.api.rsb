@@ -37,8 +37,8 @@ api.array :projects, api_meta(:size => @elements.size) do
 
       api.level(element[:level])
 
-      api.created_on(project.created_on.utc) if project.created_on
-      api.updated_on(project.updated_on.utc) if project.updated_on
+      api.created_on(project.created_on.utc.iso8601) if project.created_on
+      api.updated_on(project.updated_on.utc.iso8601) if project.updated_on
 
       api.disabled(@disabled.include? project)
     end
