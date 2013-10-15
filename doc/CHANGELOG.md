@@ -34,9 +34,10 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2304` Introduce keyboard shortcuts
 * `#2334` Deselecting all types in project configuration creates 500
 * `#2336` Cukes for timelines start/end date comparison
+* `#2340` Develop migration mechanism for renamed plugins
+* `#2384` Replace bundles svg graph with gem
 * `#2386` Remove timelines_journals_helper
 * Allow using environment variables instead of configuration.yml
-* `#2384` Replace bundles svg graph with gem
 
 ## 3.0.0pre21
 
