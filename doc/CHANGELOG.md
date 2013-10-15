@@ -15,6 +15,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#2340` Develop migration mechanism for renamed plugins
+
 ## 1.0.3
 
 * Harmonize copyright and copyright header
