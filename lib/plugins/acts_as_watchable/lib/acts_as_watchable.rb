@@ -73,15 +73,26 @@ module Redmine
           base.extend ClassMethods
         end
 
-        # Returns an array of users that might be watchers or already are watchers
-        def possible_watcher_users
-          users = User.all
+        def watching_permitted_to_all_users_message
+          "Let all users watch me. If this is unintended, implement :visible? on #{self.class.name}"
+        end
+
+        def possible_watcher?(user)
           if respond_to?(:visible?)
-            users.reject! {|user| !visible?(user)}
+            visible?(user)
           else
-            warn "Let all users watch me. If this is unintended, implement :visible? on #{self.class.name}"
+            warn watching_permitted_to_all_users_message
           end
-          users
+        end
+
+        def possible_watcher_users
+          User.all.tap do |users|
+            if respond_to?(:visible?)
+              users.reject! {|user| !possible_watcher?(user)}
+            else
+              warn watching_permitted_to_all_users_message
+            end
+          end
         end
 
         # Returns an array of users that are proposed as watchers

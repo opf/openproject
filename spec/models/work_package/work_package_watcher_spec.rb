@@ -68,5 +68,15 @@ describe WorkPackage do
         it { should_not include(user.mail) }
       end
     end
+
+    context '#possible_watcher_users' do
+      let!(:user_allowed_to_view_work_packages) do
+        FactoryGirl.create(:user).tap { |user| project.add_member!(user, role) }
+      end
+
+      it 'contains exactly those users who are allowed to view work packages' do
+        work_package.possible_watcher_users.should == [user_allowed_to_view_work_packages]
+      end
+    end
   end
 end
