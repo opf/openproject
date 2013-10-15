@@ -1,5 +1,7 @@
 # Changelog
 
+* `#2376` Fix incorrect asset location.
+
 ## 5.0.1.pre6
 
 * `#2070` Adaptions after changing core asset locations
