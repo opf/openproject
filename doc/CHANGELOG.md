@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2336` Cukes for timelines start/end date comparison
 * `#2386` Remove timelines_journals_helper
 * Allow using environment variables instead of configuration.yml
+* `#2384` Replace bundles svg graph with gem
 
 ## 3.0.0pre21
 
