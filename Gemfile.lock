@@ -323,6 +323,7 @@ GEM
       activemodel (~> 3.0)
       railties (~> 3.0)
     structured_warnings (0.1.4)
+    svg-graph (1.0.5)
     test-unit (2.5.5)
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
@@ -426,6 +427,7 @@ DEPENDENCIES
   simplecov (>= 0.8.pre)
   sqlite3
   strong_parameters
+  svg-graph
   therubyracer
   thin
   timecop (~> 0.6.1)
