@@ -207,11 +207,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   def nearest_menu_item
-    if self.menu_item
-      self.menu_item
-    else
-      nearest_parent_menu_item
-    end
+    self.menu_item || nearest_parent_menu_item
   end
 
   def nearest_parent_menu_item(options={})
