@@ -505,20 +505,6 @@ de:
   error_workflow_copy_source: "Bitte wählen Sie einen Quell-Typ und eine Quell-Rolle."
   error_workflow_copy_target: "Bitte wählen Sie die Ziel-Typ und -Rollen."
 
-  field_responsible: "Planungsverantwortlicher"
-  field_end_date: "Abschlussdatum"
-  field_deleted_at: "Gelöscht am"
-  field_planning_element_status: "Status"
-
-# Overriding definition in core to make field_parent more generic, so that it
-# also works for sub planning elements
-  field_parent: "Unterelement von"
-
-# cannot get rid of these, since I do not want to change the way the project
-# model is internationalized
-  field_project_type: "Projekttyp"
-  field_responsible: "Planungsverantwortlicher"
-
   general_csv_decimal_separator: ","
   general_csv_encoding: "ISO-8859-1"
   general_csv_separator: ";"
