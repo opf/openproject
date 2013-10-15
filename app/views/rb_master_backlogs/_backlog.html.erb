@@ -1,11 +1,12 @@
+<% folded = current_user.backlogs_preference(:versions_default_fold_state) == "closed" %>
 <div class="backlog" id="backlog_<%= backlog.sprint.id %>">
   <div class="header">
     <%= render_backlog_menu backlog %>
     <%= render :partial => "rb_sprints/sprint", :object => backlog.sprint %>
     <div class="velocity"> </div>
-    <div class="toggler closed"> </div>
+    <div class="toggler<%= ' closed' if folded %>"> </div>
   </div>
-  <ul class="stories closed">
+  <ul class="stories<%= ' closed' if folded %>">
     <% reset_cycle 'stories' %>
     <% backlog.stories.each_with_index do |story, index| %>
       <% higher_item = index == 0 ?

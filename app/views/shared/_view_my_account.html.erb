@@ -1,8 +1,12 @@
 <h3><%=l(:label_backlogs)%></h3>
 <div class="box tabular">
-<p>
-  <%= label :backlogs, :task_color %>
-  <%= text_field :backlogs, :task_color, :value => color %>
-</p>
+  <p>
+    <%= label :backlogs, :task_color %>
+    <%= text_field :backlogs, :task_color, :value => color %>
+  </p>
+  <p>
+    <label for="backlogs_versions_default_fold_state"><%= I18n.t('backlogs.label_versions_default_fold_state') %></label>
+    <%= check_box_tag :"backlogs[versions_default_fold_state]", "closed", versions_default_fold_state == "closed"  %>
+  </p>
 </div>
 

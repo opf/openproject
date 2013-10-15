@@ -11,6 +11,7 @@ module OpenProject::Backlogs::Patches::UserPatch
 
   module InstanceMethods
     def backlogs_preference(attr, new_value = nil)
+
       setting = read_backlogs_preference(attr)
 
       if setting.nil? and new_value.nil?
@@ -43,6 +44,8 @@ module OpenProject::Backlogs::Patches::UserPatch
       case attr
       when :task_color
         ("#%0.6x" % rand(0xFFFFFF)).upcase
+      when :versions_default_fold_state
+        "open"
       else
         raise "Unsupported attribute '#{attr}'"
       end

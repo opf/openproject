@@ -14,6 +14,7 @@ module OpenProject::Backlogs::Patches::MyControllerPatch
   module InstanceMethods
     def save_backlogs_preferences
       if request.put? && flash[:notice] == l(:notice_account_updated)
+        User.current.backlogs_preference(:versions_default_fold_state, params[:backlogs][:versions_default_fold_state] || "open")
         color = (params[:backlogs] ? params[:backlogs][:task_color] : '').to_s
         if color == '' || color.match(/^#[A-Fa-f0-9]{6}$/)
           User.current.backlogs_preference(:task_color, color)
