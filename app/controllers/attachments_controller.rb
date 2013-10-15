@@ -59,14 +59,19 @@ class AttachmentsController < ApplicationController
   def destroy
     # Make sure association callbacks are called
     @attachment.container.attachments.delete(@attachment)
-    redirect_to :back
-  rescue ::ActionController::RedirectBackError
-    # we cannot be sure the container actually has a project (example: LandingPage)
-    if @project
-      redirect_to :controller => '/projects', :action => 'show', :id => @project
-    else
-      redirect_to home_url
+
+    respond_to do |format|
+      format.html { redirect_to url_for(@attachment.container) }
+      format.js {}
     end
+#    redirect_to :back
+#  rescue ::ActionController::RedirectBackError
+#    # we cannot be sure the container actually has a project (example: LandingPage)
+#    if @project
+#      redirect_to :controller => '/projects', :action => 'show', :id => @project
+#    else
+#      redirect_to home_url
+#    end
   end
 
 private
