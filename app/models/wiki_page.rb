@@ -209,10 +209,20 @@ class WikiPage < ActiveRecord::Base
   def nearest_menu_item
     if self.menu_item
       self.menu_item
-    elsif self.parent
-      self.parent.nearest_menu_item
     else
-      nil
+      nearest_parent_menu_item
+    end
+  end
+
+  def nearest_parent_menu_item(options={})
+    return nil unless self.parent
+
+    options = options.with_indifferent_access
+
+    if (parent_menu_item = self.parent.menu_item) && (!options[:is_main_item] || parent_menu_item.is_main_item?)
+      parent_menu_item
+    else
+      self.parent.nearest_parent_menu_item
     end
   end
 

@@ -96,10 +96,11 @@ class WikiMenuItemsController < ApplicationController
     possible_parent_menu_items = WikiMenuItem.main_items(@page.wiki.id) - [@wiki_menu_item]
 
     @parent_menu_item_options = possible_parent_menu_items.map {|item| [item.name, item.id]}
-    @selected_parent_menu_item = if @wiki_menu_item.parent
+
+    @selected_parent_menu_item_id = if @wiki_menu_item.parent
       @wiki_menu_item.parent.id
-    elsif @page.parent && menu_item_of_parent_page = possible_parent_menu_items.detect {|item| item.title == @page.parent.title}
-      menu_item_of_parent_page.id
+    else
+      @page.nearest_parent_menu_item(:is_main_item => true).try :id
     end
   end
 end
