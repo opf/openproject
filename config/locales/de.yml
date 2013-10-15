@@ -1378,7 +1378,7 @@ de:
         default: "Default"
       column:
         type: "Typ"
-        end_date: "Abschlussdatum"
+        due_date: "Abschlussdatum"
         name: "Name"
         status: "Status"
         responsible: "Planungsverantwortlicher"
