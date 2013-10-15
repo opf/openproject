@@ -48,19 +48,19 @@ describe 'api/v2/planning_elements/_planning_element.api' do
 
   describe 'with an assigned planning element' do
     let(:project) { FactoryGirl.create(:project, :id => 4711,
-                                             :identifier => 'test_project',
-                                             :name => 'Test Project') }
+                                       :identifier => 'test_project',
+                                       :name => 'Test Project') }
     let(:planning_element) { FactoryGirl.build(:work_package,
-                                           :id => 1,
-                                           :project_id => project.id,
-                                           :subject => 'Awesometastic Planning Element',
-                                           :description => 'Description of this planning element',
+                                               :id => 1,
+                                               :project_id => project.id,
+                                               :subject => 'Awesometastic Planning Element',
+                                               :description => 'Description of this planning element',
 
-                                           :start_date => Date.parse('2011-12-06'),
-                                           :due_date   => Date.parse('2011-12-13'),
+                                               :start_date => Date.parse('2011-12-06'),
+                                               :due_date   => Date.parse('2011-12-13'),
 
-                                           :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                                           :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
+                                               :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                               :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
 
     it 'renders a planning_element node' do
       render
@@ -80,7 +80,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
 
       it 'contains an name element containing the planning element name' do
         render
-        response.should have_selector('planning_element name', :text => 'Awesometastic Planning Element')
+        response.should have_selector('planning_element subject', :text => 'Awesometastic Planning Element')
       end
 
       it 'contains an description element containing the planning element description' do
@@ -95,7 +95,7 @@ describe 'api/v2/planning_elements/_planning_element.api' do
 
       it 'contains an due_date element containing the planning element due_date in YYYY-MM-DD' do
         render
-        response.should have_selector('planning_element end_date', :text => '2011-12-13')
+        response.should have_selector('planning_element due_date', :text => '2011-12-13')
       end
 
       it 'does not contain a parent node' do
@@ -136,9 +136,9 @@ describe 'api/v2/planning_elements/_planning_element.api' do
                                             :parent_id  => parent_element.id,
                                             :project_id => project.id) }
 
-    it 'renders a parent node containing the parent\'s id and name' do
+    it 'renders a parent node containing the parent\'s id and subject' do
       render
-      response.should have_selector('planning_element parent[id="1337"][name="Parent Element"]')
+      response.should have_selector('planning_element parent[id="1337"][subject="Parent Element"]')
     end
   end
 
@@ -149,15 +149,15 @@ describe 'api/v2/planning_elements/_planning_element.api' do
                                                 :project_id => project.id) }
     before do
       FactoryGirl.create(:work_package,
-                     :project_id => project.id,
-                     :parent_id  => planning_element.id,
-                     :id         => 1339,
-                     :subject    => 'Child #1')
+                         :project_id => project.id,
+                         :parent_id  => planning_element.id,
+                         :id         => 1339,
+                         :subject    => 'Child #1')
       FactoryGirl.create(:work_package,
-                     :project_id => project.id,
-                     :parent_id  => planning_element.id,
-                     :id         => 1340,
-                     :subject    => 'Child #2')
+                         :project_id => project.id,
+                         :parent_id  => planning_element.id,
+                         :id         => 1340,
+                         :subject    => 'Child #2')
     end
 
     it 'renders a children node containing child nodes for each child planning element' do
@@ -165,10 +165,10 @@ describe 'api/v2/planning_elements/_planning_element.api' do
       response.should have_selector('planning_element children child', :count => 2)
     end
 
-    it 'each child node has an id and name attribute' do
+    it 'each child node has an id and subject attribute' do
       render
-      response.should have_selector('planning_element children child[id="1339"][name="Child #1"]', :count => 1)
-      response.should have_selector('planning_element children child[id="1340"][name="Child #2"]', :count => 1)
+      response.should have_selector('planning_element children child[id="1339"][subject="Child #1"]', :count => 1)
+      response.should have_selector('planning_element children child[id="1340"][subject="Child #2"]', :count => 1)
     end
   end
 

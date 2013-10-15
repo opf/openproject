@@ -9,8 +9,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'yaml'
-
 require_relative 'migration_utils/utils'
 
 class MigrateSettingsToWorkPackage < ActiveRecord::Migration

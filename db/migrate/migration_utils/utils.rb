@@ -21,6 +21,18 @@ module Migration
       end
     end
 
+    def filter(columns, terms)
+      column_filters = []
+
+      columns.each do |column|
+        filters = terms.map {|term| "#{column} LIKE '%#{term}%'"}
+
+        column_filters << "(#{filters.join(' OR ')})"
+      end
+
+      column_filters.join(' OR ')
+    end
+
     def update_column_values(table, column_list, updater, conditions)
       update_column_values_and_journals(table, column_list, updater, false, conditions)
     end

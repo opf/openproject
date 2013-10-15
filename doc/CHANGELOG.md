@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#1991` Migrate text references to issues/planning elements
+* `#2297` Fix APIv2 for planning elements
 * `#2304` Introduce keyboard shortcuts
 * `#2334` Deselecting all types in project configuration creates 500
 * `#2336` Cukes for timelines start/end date comparison
