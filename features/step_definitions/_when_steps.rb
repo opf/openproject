@@ -188,3 +188,7 @@ When /^I follow the link to add a subtask$/ do
     step 'I follow "Add" within "#work_package_tree"'
   end
 end
+
+When /^I change the fold state of a version$/ do
+  find(".backlog .toggler").click
+end
