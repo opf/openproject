@@ -60,6 +60,10 @@ gem 'loofah'
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
 
+# generates SVG Graphs
+# used for statistics on svn repositories
+gem 'svg-graph'
+
 gem 'execjs'
 gem 'therubyracer'
 
