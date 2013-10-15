@@ -19,9 +19,9 @@
 #++
 #
 
-require_relative 'migration_utils/legacy_journal_migrator'
+require Rails.root.join("db","migrate","migration_utils","legacy_journal_migrator").to_s
 
-class LegacyVariableCostObjectData < ActiveRecord::Migration
+class LegacyVariableCostObjectJournalData < ActiveRecord::Migration
 
   def up
     migrator.run

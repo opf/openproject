@@ -9,9 +9,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'migration_utils/utils'
+require Rails.root.join("db","migrate","migration_utils","utils").to_s
 
-class LegacyIssuesToWorkPackages < ActiveRecord::Migration
+class LegacyIssuesCostsDataToWorkPackages < ActiveRecord::Migration
 
   def up
     execute <<-SQL

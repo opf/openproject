@@ -3,9 +3,6 @@ require 'open_project/plugins/migration_mapping'
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class AggregatedCostsMigrations < ActiveRecord::Migration
 
-  class IncompleteMigrationsError < ::StandardError
-  end
-
   def initialize
     super
     @issues_table_exists = ActiveRecord::Base.connection.tables.include? 'issues'
