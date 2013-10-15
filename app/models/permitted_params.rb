@@ -138,7 +138,7 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:work_package).permit(:subject,
                                          :description,
                                          :start_date,
-                                         :end_date,
+                                         :due_date,
                                          :note,
                                          :planning_element_type_id,
                                          :planning_element_status_comment,
