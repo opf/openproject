@@ -182,12 +182,6 @@ module OpenProject::Costs
         end
       end
     end
-
-    config.after_initialize do
-      # We are overwriting work_packages/_action_menu.html.erb so our view must be found first
-      WorkPackagesController.view_paths.unshift("#{config.root}/app/views")
-    end
-
   end
 end
 
