@@ -37,6 +37,7 @@ de:
     generating_chart: "Generiere Graph..."
     hours: "Stunden"
     impediment: "Hindernis"
+    label_versions_default_fold_state: "Zeige Versionen eingeklappt"
     work_package_is_closed: "Arbeitspaket ist abgeschlossen, wenn"
     no_burndown_data: "Keine Burndown Graphen verfügbar. Start- und Enddaten der Sprints müssen definiert sein."
     points: "Punkte"

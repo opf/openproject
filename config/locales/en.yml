@@ -37,6 +37,7 @@ en:
     generating_chart: "Generating Graph..."
     hours: "Hours"
     impediment: "Impediment"
+    label_versions_default_fold_state: "Show versions folded"
     work_package_is_closed: "Work package is done, when"
     no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
     points: "Points"

@@ -102,6 +102,10 @@ RB.Backlog = (function ($) {
     },
 
     handleNewStoryClick: function (e) {
+      var toggler = $(this).parents('.header').find('.toggler');
+      if (toggler.hasClass('closed')){
+        toggler.click();
+      }
       e.preventDefault();
       $(this).parents('.backlog').data('this').newStory();
     },
