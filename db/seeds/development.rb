@@ -103,7 +103,7 @@ repository = Repository::Filesystem.create! project: project,
 
 
 print "Creating objects for..."
-20.times do |count|
+30.times do |count|
   login = "#{Faker::Name.first_name}#{rand(10000)}"
 
   puts
@@ -127,7 +127,7 @@ print "Creating objects for..."
   puts ""
   print "......create issues"
 
-  rand(10).times do
+  rand(50).times do
     print "."
     work_package = WorkPackage.new(project: project,
                                    author: user,

@@ -69,6 +69,11 @@ gem 'therubyracer'
 
 gem "date_validator"
 
+# replacing rsb with rabl
+gem 'rabl'
+gem 'multi_json'
+gem 'oj'
+
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
 gem 'strong_parameters'
 

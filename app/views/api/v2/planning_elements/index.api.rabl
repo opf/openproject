@@ -26,8 +26,43 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :planning_elements, :size => @planning_elements.size do
-  @planning_elements.each do |planning_element|
-    render_planning_element(api, planning_element)
+collection @planning_elements => :planning_elements
+attributes :id, :subject, :description, :project_id, :parent_id
+
+node :start_date, :if => lambda{|pe| pe.start_date} do |pe|
+  pe.start_date.to_formatted_s(:db)
+end
+
+node :due_date, :if => lambda{|pe| pe.due_date} do |pe|
+  pe.due_date.to_formatted_s(:db)
+end
+
+child :project do
+  attributes :id, :identifier, :name
+end
+
+node :parent, if: lambda{|pe| pe.parent.present?} do |pe|
+  child :parent => :parent do
+    attributes :id, :subject
+  end
+end
+
+child :type => :planning_element_type do
+  attributes :id, :name
+end
+
+node :children, unless: lambda{|pe| pe.children.empty?} do |pe|
+  pe.children.to_a.map { |wp| { id: wp.id, subject: wp.subject}}
+end
+
+node :responsible, if: lambda{|pe| pe.responsible.present?} do |pe|
+  child :responsible => :responsible do
+    attributes :id, :name
+  end
+end
+
+node :assigned_to, if: lambda{|pe| pe.assigned_to.present?} do |pe|
+  child(:assigned_to => :assigned_to) do
+    attributes :id, :name
   end
 end
