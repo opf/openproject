@@ -45,7 +45,6 @@ module Api
       before_filter :find_all_projects_by_project_id, :only => :index
 
       helper :timelines
-      helper :timelines_journals
 
       accept_key_auth :index, :create, :show, :update, :destroy
 
