@@ -236,17 +236,5 @@ module Migration
     def restore_filter(columns)
       filter columns, ['work_package', '#']
     end
-
-    def filter(columns, terms)
-      column_filters = []
-
-      columns.each do |column|
-        filters = terms.map {|term| "#{column} LIKE '%#{term}%'"}
-
-        column_filters << "(#{filters.join(' OR ')})"
-      end
-
-      column_filters.join(' OR ')
-    end
   end
 end
