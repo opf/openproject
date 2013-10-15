@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.1.pre5
+
+* `#2210` Remove custom implementation of date picker and use core version instead.
+
 ## 0.0.1.pre4
 
 * Dont register the reporting engine as a OpenProject plugin
