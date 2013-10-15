@@ -67,7 +67,7 @@ Feature: Timeline Comparison View Tests
       And I wait for timeline to load table
      Then I should see the work package "May" has not moved
       And I should see the work package "February" has moved
-      And I should not see the work package "January"
+      And I should not see the work package "January" in the timeline
 
   @javascript
   Scenario: sixteen days comparison
@@ -78,4 +78,4 @@ Feature: Timeline Comparison View Tests
       And I wait for timeline to load table
      Then I should see the work package "May" has moved
       And I should see the work package "February" has moved
-      And I should not see the work package "January"
+      And I should not see the work package "January" in the timeline

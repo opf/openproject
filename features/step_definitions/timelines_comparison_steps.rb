@@ -26,6 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+def getWPRowByName(name)
+  find("a", :text => name).find(:xpath, "./ancestor::tr")
+end
+
 Given(/^there are the following work packages were added "(.*?)"(?: in project "([^"]*)")?:$/) do |time, project_name, table|
   project = get_project(project_name)
 
@@ -36,12 +40,9 @@ Given(/^there are the following work packages were added "(.*?)"(?: in project "
   else
     target_time = Time.now
   end
-  Timecop.travel(target_time)
-
-  create_work_packages_from_table table, project
-
-  # Ensure timecop returns after each scenario
-  Support::ResetTimecop.reset_after
+  Timecop.freeze(target_time) do
+    create_work_packages_from_table table, project
+  end
 end
 
 Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, table|
@@ -56,17 +57,17 @@ Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, tabl
   else
     target_time = Time.now
   end
-  Timecop.travel(target_time)
 
-  #TODO provide generic support for all possible values.
-  work_package = WorkPackage.find_by_subject(name)
-  work_package.subject = table.hashes.first[:subject]
-  work_package.start_date = table.hashes.first[:start_date]
-  work_package.due_date = table.hashes.first[:due_date]
-  work_package.save!
+  Timecop.freeze(target_time) do
 
-  # Ensure timecop returns after each scenario
-  Support::ResetTimecop.reset_after
+    #TODO provide generic support for all possible values.
+    work_package = WorkPackage.find_by_subject(name)
+    work_package.subject = table.hashes.first[:subject]
+    work_package.start_date = table.hashes.first[:start_date]
+    work_package.due_date = table.hashes.first[:due_date]
+    work_package.save!
+
+  end
 end
 
 When(/^I set the timeline to compare "now" to "(.*?) days ago"$/) do |time|
@@ -81,12 +82,14 @@ When(/^I set the timeline to compare "now" to "(.*?) days ago"$/) do |time|
   page.execute_script("jQuery('#content form').submit()")
 end
 
-Then(/^I should see the work package "(.*?)" has not moved$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then(/^I should see the work package "(.*?)" has not moved$/) do |name|
+  row = getWPRowByName(name)
+  row.should_not have_selector(".tl-icon-changed");
 end
 
-Then(/^I should see the work package "(.*?)" has moved$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then(/^I should see the work package "(.*?)" has moved$/) do |name|
+  row = getWPRowByName(name)
+  row.should have_selector(".tl-icon-changed");
 end
 
 Then(/^I should not see the work package "(.*?)"$/) do |arg1|
