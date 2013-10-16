@@ -66,6 +66,19 @@ module Redmine
           @unsaved_attachments ||= []
         end
 
+        # Bulk attaches a set of files to an object
+        def attach_files(attachments)
+          if attachments && attachments.is_a?(Hash)
+            attachments.each_value do |attachment|
+              file = attachment['file']
+              next unless file && file.size > 0
+              self.attachments.build(file: file,
+                                     description: attachment['description'].to_s.strip,
+                                     author: User.current)
+            end
+          end
+        end
+
         module ClassMethods
         end
       end

@@ -36,7 +36,8 @@ class Attachment < ActiveRecord::Base
 
   attr_protected :author_id
 
-  validates_presence_of :container, :filename, :author
+  validates_presence_of :container, on: :update
+  validates_presence_of :filename, :author
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
 
