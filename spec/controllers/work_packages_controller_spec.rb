@@ -760,4 +760,49 @@ describe WorkPackagesController do
       end
     end
   end
+
+  describe :create do
+    let(:type) { FactoryGirl.create :type }
+    let(:project) { FactoryGirl.create :project,
+                                       types: [type] }
+    let(:status) { FactoryGirl.create :default_status }
+    let(:priority) { FactoryGirl.create :priority }
+
+    context :attachments do
+      let(:filename) { "test1.test" }
+
+      # see ticket #2009 on OpenProject.org
+      context "new attachment on new work package" do
+        let(:filename) { "test1.test" }
+        let(:new_work_package) { FactoryGirl.build(:work_package,
+                                                   project: project,
+                                                   type: type,
+                                                   description: "Description",
+                                                   priority: priority) }
+        let(:params) { { project_id: project.id,
+                         attachments: { file: { file: filename,
+                                                description: '' } } } }
+
+        before do
+          controller.stub(:work_package).and_return(new_work_package)
+          controller.should_receive(:authorize).and_return(true)
+
+          Attachment.any_instance.stub(:filename).and_return(filename)
+          Attachment.any_instance.stub(:copy_file_to_destination)
+
+          post 'create', params
+        end
+
+        describe :journal do
+          let(:attachment_id) { "attachments_#{new_work_package.attachments.first.id}".to_sym }
+
+          subject { new_work_package.journals.last.changed_data }
+
+          it { should have_key attachment_id }
+
+          it { subject[attachment_id].should eq([nil, filename]) }
+        end
+      end
+    end
+  end
 end
