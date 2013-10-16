@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_elements/index.json' do
+describe 'api/v2/planning_elements/index.api.rsb' do
   before do
     view.extend TimelinesHelper
     view.extend PlanningElementsHelper
