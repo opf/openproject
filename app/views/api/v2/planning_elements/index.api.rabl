@@ -29,13 +29,12 @@
 collection @planning_elements => :planning_elements
 attributes :id, :subject, :description, :project_id, :parent_id
 
-node :start_date, :if => lambda{|pe| pe.start_date} do |pe|
-  pe.start_date.to_formatted_s(:db)
-end
+node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
+node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
 
-node :due_date, :if => lambda{|pe| pe.due_date} do |pe|
-  pe.due_date.to_formatted_s(:db)
-end
+node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
+node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+
 
 child :project do
   attributes :id, :identifier, :name
@@ -66,3 +65,6 @@ node :assigned_to, if: lambda{|pe| pe.assigned_to.present?} do |pe|
     attributes :id, :name
   end
 end
+
+
+
