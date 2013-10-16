@@ -46,15 +46,15 @@ See doc/COPYRIGHT.rdoc for more details.
                :locals => { :form => f, :name => :homepage, :value => @project.homepage } %>
     <%= render :partial => "projects/form/attributes/hidden_field",
                :locals => { :form => f, :name => :is_public, :value => @project.is_public } %>
-    <%= render :partial => "projects/copy_settings/hidden_types",
+    <%= render :partial => "copy_projects/copy_settings/hidden_types",
                :locals => { :form => f, :types => @types, :project => @project } %>
-    <%= render :partial => "projects/copy_settings/hidden_custom_fields",
+    <%= render :partial => "copy_projects/copy_settings/hidden_custom_fields",
                :locals => { :form => f, :project => @project, :issue_custom_fields => @issue_custom_fields } %>
-    <%= render :partial => "projects/copy_settings/enabled_module_names",
+    <%= render :partial => "copy_projects/copy_settings/enabled_module_names",
                :locals => { :project => @project } %>
   </div>
 
-  <%= render :partial => "projects/copy_settings/copy_associations", :locals => { :project => @project } %>
+  <%= render :partial => "copy_projects/copy_settings/copy_associations", :locals => { :project => @project } %>
 
   <%= submit_tag l(:button_copy) %>
 <% end %>

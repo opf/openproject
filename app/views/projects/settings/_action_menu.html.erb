@@ -1,6 +1,6 @@
 <% content_for :action_menu_main do %>
   <%= li_unless_nil(link_to_if_authorized(l(:button_copy),
-                                          { :controller => "projects",
+                                          { :controller => "copy_projects",
                                             :action => "copy_project",
                                             :coming_from => :settings },
                                           :class => 'copy icon icon-copy',

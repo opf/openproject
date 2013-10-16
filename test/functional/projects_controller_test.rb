@@ -433,33 +433,6 @@ class ProjectsControllerTest < ActionController::TestCase
     assert Project.find(1).active?
   end
 
-  def test_copy_with_project
-    @request.session[:user_id] = 1 # admin
-    get :copy_project, :id => 1, :coming_from => "settings"
-    assert_response :success
-    assert_template 'copy_from_settings'
-    assert assigns(:project)
-    assert_equal Project.find(1).description, assigns(:project).description
-    assert_nil assigns(:copy_project).id
-  end
-
-  def test_copy_without_project
-    @request.session[:user_id] = 1 # admin
-    get :copy_project
-    assert_response 404
-  end
-
-  context "POST :copy" do
-    should "TODO: test the rest of the method"
-
-    should "redirect to the project settings when successful" do
-      @request.session[:user_id] = 1 # admin
-      post :copy, :id => 1, :project => {:name => 'Copy', :identifier => 'unique-copy'}
-      assert_response :redirect
-      assert_redirected_to :controller => 'projects', :action => 'settings', :id => 'unique-copy'
-    end
-  end
-
   def test_jump_should_redirect_to_active_tab
     get :show, :id => 1, :jump => 'work_packages'
     assert_redirected_to '/projects/ecookbook/work_packages'
