@@ -74,6 +74,9 @@ RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
 
+  # add helpers to parse json-responses
+  config.include JsonSpec::Helpers
+
   config.after(:each) do
     OpenProject::RSpecLazinessWarn.warn_if_user_current_set(example)
   end

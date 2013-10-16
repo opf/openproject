@@ -36,8 +36,10 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2334` Deselecting all types in project configuration creates 500
 * `#2336` Cukes for timelines start/end date comparison
 * `#2340` Develop migration mechanism for renamed plugins
+* `#2383` [Performance] planning_elements_controller still has an n+1-query for the responsible
 * `#2384` Replace bundles svg graph with gem
 * `#2386` Remove timelines_journals_helper
+* `#2418` Migrate to RABL
 * Allow using environment variables instead of configuration.yml
 
 ## 3.0.0pre21
