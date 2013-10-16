@@ -28,72 +28,52 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_elements/index.api.rsb' do
+describe 'api/v2/planning_elements/index.api.rabl' do
   before do
-    view.extend TimelinesHelper
-    view.extend PlanningElementsHelper
-  end
-
-  before do
-    view.stub(:include_journals?).and_return(false)
-
     params[:format] = 'xml'
   end
 
   describe 'with no planning elements available' do
-    it 'renders an empty planning_elements document' do
+    before do
       assign(:planning_elements, [])
-
       render
+    end
+    subject {response.body}
 
-      response.should have_selector('planning_elements', :count => 1)
-      response.should have_selector('planning_elements[type=array][size="0"]') do
+    it 'renders an empty planning_elements document' do
+      should have_selector('planning_elements', :count => 1)
+      should have_selector('planning_elements[type=array]') do
         without_tag 'planning_element'
       end
     end
   end
 
   describe 'with 3 planning elements available' do
-    let(:planning_elements) {
-      [ FactoryGirl.build(:work_package),
-        FactoryGirl.build(:work_package),
-        FactoryGirl.build(:work_package)
-      ]
-    }
+    let(:project){FactoryGirl.build(:project_with_types, name: "Sample Project", identifier: "sample_project")}
+    let(:wp1){FactoryGirl.build(:work_package, subject: "Subject #1", project: project)}
+    let(:wp2){FactoryGirl.build(:work_package, subject: "Subject #2", project: project)}
+    let(:wp3){FactoryGirl.build(:work_package, subject: "Subject #3", project: project)}
+
+    let(:planning_elements) {[wp1, wp2, wp3]}
+
+    before do
+      assign(:planning_elements, planning_elements)
+      render
+    end
+
+    subject {Nokogiri.XML(response.body)}
 
     it 'renders a planning_elements document with the size 3 of array' do
-      assign(:planning_elements, planning_elements)
-
-      render
-
-      response.should have_selector('planning_elements', :count => 1)
-      response.should have_selector('planning_elements[type=array][size="3"]')
+      should have_selector('planning_elements', :count => 1)
+      should have_selector('planning_elements planning_element', :count => 3)
     end
 
-    it 'renders a planning_element for each assigned planning element' do
-      assign(:planning_elements, planning_elements)
-
-      render
-
-      response.should have_selector('planning_elements planning_element', :count => 3)
+    it 'renders the subject' do
+      first_planning_element = subject.xpath('//planning_elements/planning_element')[0]
+      first_planning_element.should have_selector("subject", text: "Subject #1")
     end
 
-    it 'calls the render_planning_element helper for each assigned planning element' do
-      assign(:planning_elements, planning_elements)
 
-      view.should_receive(:render_planning_element).exactly(3).times
 
-      render
-    end
-
-    it 'passes the planning elements as local var to the helper' do
-      assign(:planning_elements, planning_elements)
-
-      view.should_receive(:render_planning_element).once.with(anything, planning_elements.first).and_return('')
-      view.should_receive(:render_planning_element).once.with(anything, planning_elements.second).and_return('')
-      view.should_receive(:render_planning_element).once.with(anything, planning_elements.third).and_return('')
-
-      render
-    end
   end
 end
