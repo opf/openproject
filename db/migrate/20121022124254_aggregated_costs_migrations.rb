@@ -122,6 +122,7 @@ class AggregatedCostsMigrations < ActiveRecord::Migration
         change_table "issues" do |t|
           t.column  :cost_object_id, :integer, :null => true
         end
+        Issue.reset_column_information
       end
 
       change_table "time_entries" do |t|
@@ -129,6 +130,7 @@ class AggregatedCostsMigrations < ActiveRecord::Migration
         t.decimal  "costs",            :precision => 15, :scale => 4
         t.integer  "rate_id"
       end
+      TimeEntry.reset_column_information
     end
   end
 
@@ -142,6 +144,7 @@ class AggregatedCostsMigrations < ActiveRecord::Migration
     drop_table "rates"
     if @issues_table_exists
       remove_column :issues, :cost_object_id
+      Issue.reset_column_information
     end
 
     change_table "time_entries" do |t|
@@ -149,6 +152,7 @@ class AggregatedCostsMigrations < ActiveRecord::Migration
       t.remove_column  "costs"
       t.remove_column  "rate_id"
     end
+    TimeEntry.reset_column_information
   end
 end
 
