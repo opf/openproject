@@ -137,7 +137,7 @@ module Redmine
         # Returns an array of watchers' email addresses
         def watcher_recipients
           notified = watcher_users.active.where(['mail_notification != ?', 'none'])
-          notified.reject! {|user| !possible_watcher?(user)}
+          notified.select! {|user| possible_watcher?(user)}
 
           notified.collect(&:mail).compact
         end
