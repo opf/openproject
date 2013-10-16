@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#1348` User status has no database index
+* `#1916` Work package update screen is closed when attached file is deleted
 * `#1991` Migrate text references to issues/planning elements
 * `#2297` Fix APIv2 for planning elements
 * `#2304` Introduce keyboard shortcuts
