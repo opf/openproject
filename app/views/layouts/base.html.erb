@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,type" />
 <meta name="current_menu_item" content="<%= current_menu_item %>" />
-<%= csrf_meta_tag %>
+<%= csrf_meta_tags %>
 <%= favicon_link_tag 'favicon.ico' %>
 <%= stylesheet_link_tag current_theme.stylesheet_manifest, :media => "all" %>
 <%= javascript_include_tag 'application' %>
