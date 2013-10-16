@@ -26,9 +26,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class PrincipalsController < ApplicationController
-  extend Pagination::Controller
+require 'spec_helper'
 
-  paginate_model Principal
-  search_for Principal, :active_or_registered_like
+describe Pagination::PrincipalsController do
+
+  describe :index do
+    let(:params) { { "page" => "1",
+                     "page_limit" =>
+                     "10", "q" => "blubs",
+                     "format" => "json" } }
+
+    before do
+      Principal.should_receive(:active_or_registered_like).with(params["q"]).and_return(Principal)
+
+      get :index, params
+    end
+
+    it 'should be successful' do
+      response.should be_success
+    end
+  end
 end

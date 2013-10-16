@@ -239,7 +239,9 @@ OpenProject::Application.routes.draw do
   end
 
   namespace :pagination, :as => 'paginate' do
-    resources :users, :only => [:index]
+    [:users, :principals].each do |model|
+      resources model, :only => [:index]
+    end
   end
 
   #TODO: evaluate whether this can be turned into a namespace
