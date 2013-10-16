@@ -62,7 +62,7 @@ class AggregatedCostsMigrations < ActiveRecord::Migration
         t.integer  "project_id",                                 :null => false
         t.integer  "author_id",                                  :null => false
         t.string   "subject",                                    :null => false
-        t.text     "description",                                :null => false
+        t.text     "description",             :default=>"",      :null => false
         t.string   "type",                                       :null => false
         t.boolean  "project_manager_signoff", :default => false, :null => false
         t.boolean  "client_signoff",          :default => false, :null => false

@@ -32,7 +32,7 @@ class AddCostObjectJournals < ActiveRecord::Migration
       t.integer  :project_id,  :null => false
       t.integer  :author_id,   :null => false
       t.string   :subject,     :null => false
-      t.text     :description, :null => false
+      t.text     :description, :default => "", :null => false
       t.date     :fixed_date,  :null => false
       t.datetime :created_on
     end
