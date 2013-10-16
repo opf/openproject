@@ -126,8 +126,7 @@ See doc/COPYRIGHT.rdoc for more details.
                    :project_responsibles,
                    options_for_select([]),
                    {},
-                   { :'data-ajaxURL' => url_for({:controller => "/principals",
-                                                 :action     => "paginate_principals"}),
+                   { :'data-ajaxURL' => paginate_users_path,
                     :multiple => true,
                     :'data-selected' => filter_select(
                                            timeline.selected_project_responsibles,

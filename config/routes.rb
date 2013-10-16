@@ -238,6 +238,10 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  namespace :pagination, :as => 'paginate' do
+    resources :users, :only => [:index]
+  end
+
   #TODO: evaluate whether this can be turned into a namespace
   scope "admin" do
     match "/projects" => 'admin#projects', :via => :get
