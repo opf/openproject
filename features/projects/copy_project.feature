@@ -89,6 +89,8 @@ Feature: Project Settings
     And  the "Members" checkbox should be checked within "#content"
     And  I should see "Dependencies" within "#content"
     And  the "Dependencies" checkbox should be checked within "#content"
+    And  I should see "Reportings" within "#content"
+    And  the "Reportings" checkbox should be checked within "#content"
     And  I should see "Timeline reports" within "#content"
     And  the "Timeline reports" checkbox should be checked within "#content"
     And  I should see "Versions" within "#content"

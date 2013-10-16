@@ -1054,6 +1054,22 @@ class Project < ActiveRecord::Base
     end
   end
 
+  #copies reporting associations from +project+
+  def copy_reportings(project)
+    project.reportings_via_source.each do |reporting|
+      copied_reporting = Reporting.new
+      copied_reporting.force_attributes = reporting.attributes.dup.except("id", "project_id")
+      copied_reporting.project = self
+      copied_reporting.save
+    end
+    project.reportings_via_target.each do |reporting|
+      copied_reporting = Reporting.new
+      copied_reporting.force_attributes = reporting.attributes.dup.except("id", "reporting_to_project")
+      copied_reporting.reporting_to_project = self
+      copied_reporting.save
+    end
+  end
+
   def allowed_permissions
     @allowed_permissions ||= begin
       names = enabled_modules.loaded? ? enabled_module_names : enabled_modules.all(:select => :name).map(&:name)

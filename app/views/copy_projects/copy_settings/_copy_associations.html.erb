@@ -48,6 +48,9 @@ See doc/COPYRIGHT.rdoc for more details.
              :locals => { :name => "timelines", :checked => true, :label => l(:'timelines.timelines'),
                           :count => project.timelines.count } %>
   <%= render :partial => "copy_projects/copy_settings/block_checkbox",
+             :locals => { :name => "reportings", :checked => true, :label => l(:label_reporting_plural),
+                          :count => project.reportings.count } %>
+  <%= render :partial => "copy_projects/copy_settings/block_checkbox",
              :locals => { :name => "versions", :checked => true, :label => l(:label_version_plural),
                           :count => project.versions.count } %>
   <%= render :partial => "copy_projects/copy_settings/block_checkbox",
