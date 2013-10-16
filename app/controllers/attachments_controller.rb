@@ -61,20 +61,13 @@ class AttachmentsController < ApplicationController
     @attachment.container.attachments.delete(@attachment)
 
     respond_to do |format|
-      format.html { redirect_to url_for(@attachment.container) }
+      format.html { redirect_to url_for(destroy_response_url(@attachment.container)) }
       format.js {}
     end
-#    redirect_to :back
-#  rescue ::ActionController::RedirectBackError
-#    # we cannot be sure the container actually has a project (example: LandingPage)
-#    if @project
-#      redirect_to :controller => '/projects', :action => 'show', :id => @project
-#    else
-#      redirect_to home_url
-#    end
   end
 
 private
+
   def find_project
     @attachment = Attachment.find(params[:id])
     # Show 404 if the filename in the url is wrong
@@ -103,5 +96,13 @@ private
       content_type = Redmine::MimeType.of(attachment.filename)
     end
     content_type.to_s
+  end
+
+  def destroy_response_url(container)
+    object = container
+
+    object = [@project, container.wiki] if container.kind_of? WikiPage
+
+    url_for(object)
   end
 end
