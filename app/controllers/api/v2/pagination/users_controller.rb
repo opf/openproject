@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Pagination::UsersController < ApplicationController
+class Api::V2::Pagination::UsersController < ApplicationController
   extend Pagination::Controller
 
   paginate_model User

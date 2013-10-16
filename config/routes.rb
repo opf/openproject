@@ -95,6 +95,12 @@ OpenProject::Application.routes.draw do
         resources :statuses, :only => [:index, :show]
       end
 
+
+      namespace :pagination, :as => 'paginate' do
+        [:users, :principals].each do |model|
+          resources model, :only => [:index]
+        end
+      end
     end
   end
 
@@ -235,12 +241,6 @@ OpenProject::Application.routes.draw do
 
     resources :members, :only => [:create, :update, :destroy], :shallow => true do
       get :autocomplete, :on => :collection
-    end
-  end
-
-  namespace :pagination, :as => 'paginate' do
-    [:users, :principals].each do |model|
-      resources model, :only => [:index]
     end
   end
 
