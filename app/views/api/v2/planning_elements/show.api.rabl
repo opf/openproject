@@ -26,4 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-render_planning_element(api, @planning_element)
+object @planning_element
+node :planning_element do
+  partial("api/v2/planning_elements/planning_element", object: @planning_element)
+end
+

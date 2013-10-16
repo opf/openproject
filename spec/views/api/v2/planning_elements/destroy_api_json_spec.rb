@@ -26,4 +26,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-render_planning_element(api, @planning_element)
+require File.expand_path('../../../../../spec_helper', __FILE__)
+
+describe 'api/v2/planning_elements/destroy.api.rabl' do
+
+  before do
+    view.stub(:include_journals?).and_return(false)
+
+    params[:format] = 'json'
+  end
+
+  let(:planning_element) { FactoryGirl.build(:work_package) }
+
+  describe 'with an assigned planning element' do
+    it 'renders a planning_element document' do
+      assign(:planning_element, planning_element)
+
+      render
+
+      response.body.should have_json_path('planning_element')
+    end
+
+  end
+end

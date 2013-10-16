@@ -28,16 +28,12 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_elements/show.api.rsb' do
-  before do
-    view.extend TimelinesHelper
-    view.extend PlanningElementsHelper
-  end
+describe 'api/v2/planning_elements/show.api.rabl' do
 
   before do
     view.stub(:include_journals?).and_return(false)
 
-    params[:format] = 'xml'
+    params[:format] = 'json'
   end
 
   let(:planning_element) { FactoryGirl.build(:work_package) }
@@ -48,24 +44,9 @@ describe 'api/v2/planning_elements/show.api.rsb' do
 
       render
 
-      response.should have_selector('planning_element', :count => 1)
+      response.body.should have_json_path('planning_element')
     end
 
-    it 'calls the render_planning_element helper once' do
-      assign(:planning_element, planning_element)
-
-      view.should_receive(:render_planning_element).once.and_return('')
-
-      render
-    end
-
-    it 'passes the planning element as local var to the helper' do
-      assign(:planning_element, planning_element)
-
-      view.should_receive(:render_planning_element).once.with(anything, planning_element).and_return('')
-
-      render
-    end
   end
 
   describe 'with an assigned planning element
@@ -101,17 +82,19 @@ describe 'api/v2/planning_elements/show.api.rsb' do
 
       render
 
-      response.should have_selector('journals', :count => 1) do |journal|
+      response.should have_json_size(1).at_path('planning_element/journals')
 
-        journal.should have_selector('changes', :count => 1) do |changes|
-          changes.each do |attr, (old, new)|
-            changes.should have_selector('name', :text => attr)
-            changes.should have_selector('old', :text => old)
-            changes.should have_selector('new', :text => new)
-          end
-        end
-
-      end
+      #do |journal|
+      #
+      #  journal.should have_selector('changes', :count => 1) do |changes|
+      #    changes.each do |attr, (old, new)|
+      #      changes.should have_selector('name', :text => attr)
+      #      changes.should have_selector('old', :text => old)
+      #      changes.should have_selector('new', :text => new)
+      #    end
+      #  end
+      #
+      #end
     end
   end
 end
