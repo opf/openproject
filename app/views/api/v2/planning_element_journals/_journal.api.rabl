@@ -39,7 +39,7 @@ end
 node :changes do |journal|
   {:changed_data =>
       journal.changed_data.map do |attribute, changes|
-        attribute, old, new = user_friendly_change(journal, attribute)
+        user_friendly_attribute, old, new = user_friendly_change(journal, attribute)
         {change: {
             technical: {
                 name: attribute.to_s,
@@ -47,7 +47,7 @@ node :changes do |journal|
                 new:  changes.last
             },
             user_friendly: {
-                name: attribute,
+                name: user_friendly_attribute,
                 old:  old,
                 new:  new
             }
