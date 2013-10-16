@@ -629,6 +629,7 @@ en:
   label_copy_source: "Source"
   label_copy_target: "Target"
   label_copy_workflow_from: "Copy workflow from"
+  label_copy_project: "Copy project"
   label_core_version: "Core version"
   label_current_status: "Current status"
   label_current_version: "Current version"
