@@ -107,10 +107,6 @@ class User < Principal
   has_many :projects, :through => :memberships
 
   # Active non-anonymous users scope
-  scope :active, :conditions => "#{User.table_name}.status = #{STATUSES[:active]}"
-  scope :active_or_registered, :conditions =>
-          "#{User.table_name}.status = #{STATUSES[:active]} or " +
-          "#{User.table_name}.status = #{STATUSES[:registered]}"
   scope :not_builtin,
         :conditions => "#{User.table_name}.status <> #{STATUSES[:builtin]}"
 
