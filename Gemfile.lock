@@ -13,19 +13,20 @@ GIT
       i18n
 
 GIT
-  remote: https://github.com/rails/prototype_legacy_helper.git
-  revision: a2cd95c3e3c1a4f7a9566efdab5ce59c886cb05f
-  specs:
-    prototype_legacy_helper (0.0.0)
-
-GIT
   remote: https://github.com/globalize/globalize.git
-  revision: ab69160adc66d23b8d34aedc3ea9bfc724207494
+  revision: 6ad3de9f257a27ece3e026fce36c8cf8a410a4f7
+  branch: 3-0-stable
   specs:
     globalize3 (0.3.0)
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
+
+GIT
+  remote: https://github.com/rails/prototype_legacy_helper.git
+  revision: a2cd95c3e3c1a4f7a9566efdab5ce59c886cb05f
+  specs:
+    prototype_legacy_helper (0.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -194,7 +195,7 @@ GEM
     mysql2 (0.3.11)
     net-ldap (0.2.2)
     nokogiri (1.5.9)
-    paper_trail (2.7.1)
+    paper_trail (2.7.2)
       activerecord (~> 3.0)
       railties (~> 3.0)
     pg (0.15.1)
