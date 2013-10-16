@@ -40,6 +40,10 @@ describe WorkPackage do
                                               roles: [role]) }
     let(:work_package) { FactoryGirl.create(:work_package,
                                             project: project) }
+    let!(:user_allowed_to_view_work_packages) do
+      FactoryGirl.create(:user).tap { |user| project.add_member!(user, role) }
+    end
+
 
     context :recipients do
       let(:watcher) { Watcher.new(watchable: work_package,
@@ -70,12 +74,22 @@ describe WorkPackage do
     end
 
     context '#possible_watcher_users' do
-      let!(:user_allowed_to_view_work_packages) do
-        FactoryGirl.create(:user).tap { |user| project.add_member!(user, role) }
-      end
-
       it 'contains exactly those users who are allowed to view work packages' do
         work_package.possible_watcher_users.should == [user_allowed_to_view_work_packages]
+      end
+    end
+
+    context 'notifications' do
+      let(:number_of_possible_watchers) { work_package.possible_watcher_users.length }
+
+      before :each do
+        Delayed::Worker.delay_jobs = false
+      end
+
+      it 'sends one delayed mail notification for each possible watcher' do
+        UserMailer.stub_chain :issue_added, :deliver
+        UserMailer.should_receive(:issue_added).exactly(number_of_possible_watchers).times
+        work_package.update_attributes :description => 'Any new description'
       end
     end
   end

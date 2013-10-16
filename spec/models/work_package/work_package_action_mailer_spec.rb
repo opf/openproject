@@ -29,6 +29,10 @@
 require 'spec_helper'
 
 describe WorkPackage do
+  before :each do
+    Delayed::Worker.delay_jobs = false
+  end
+
   describe ActionMailer::Base do
     let(:user_1) { FactoryGirl.create(:user,
                                       mail: "dlopper@somenet.foo") }
