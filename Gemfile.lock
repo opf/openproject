@@ -195,6 +195,7 @@ GEM
     mysql2 (0.3.11)
     net-ldap (0.2.2)
     nokogiri (1.5.9)
+    oj (2.1.6)
     paper_trail (2.7.2)
       activerecord (~> 3.0)
       railties (~> 3.0)
@@ -223,6 +224,8 @@ GEM
     pry-stack_explorer (0.4.9)
       binding_of_caller (>= 0.7)
       pry (~> 0.9.11)
+    rabl (0.9.0)
+      activesupport (>= 2.3.14)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -391,10 +394,12 @@ DEPENDENCIES
   letter_opener (~> 1.0.0)
   loofah
   mocha (~> 0.13.1)
+  multi_json
   mysql
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
   object-daddy!
+  oj
   pg
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
@@ -404,6 +409,7 @@ DEPENDENCIES
   pry-rails
   pry-rescue
   pry-stack_explorer
+  rabl
   rack_session_access
   rails (~> 3.2.14)
   rails-dev-tweaks (~> 0.6.1)
