@@ -46,9 +46,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <!-- page specific tags -->
 <%= content_for(:header_tags) if content_for?(:header_tags) %>
 </head>
-<noscript><%=l(:description_noscript)%></noscript>
 <% show_decoration = params["layout"].nil? %>
 <body class="<%= body_css_classes %>">
+<noscript><%=l(:description_noscript)%></noscript>
 <div id="wrapper">
   <% if show_decoration %>
     <div id="top-menu">
