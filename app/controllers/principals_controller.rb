@@ -30,5 +30,5 @@ class PrincipalsController < ApplicationController
   extend Pagination::Controller
 
   paginate_model Principal
-  search_for Principal, :like
+  search_for Principal, :active_or_registered_like
 end
