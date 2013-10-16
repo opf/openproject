@@ -88,7 +88,7 @@ module Redmine
         def possible_watcher_users
           User.all.tap do |users|
             if respond_to?(:visible?)
-              users.reject! {|user| !possible_watcher?(user)}
+              users.select! {|user| possible_watcher?(user)}
             else
               warn watching_permitted_to_all_users_message
             end
