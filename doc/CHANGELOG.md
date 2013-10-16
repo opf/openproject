@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#1348` User status has no database index
+* `#1854` Breadcrumbs arrows missing in Chrome
 * `#1991` Migrate text references to issues/planning elements
 * `#2297` Fix APIv2 for planning elements
 * `#2304` Introduce keyboard shortcuts
