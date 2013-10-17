@@ -37,23 +37,23 @@ node :user do |journal|
 end
 
 node :changes do |journal|
-  {:changed_data =>
-      journal.changed_data.map do |attribute, changes|
-        user_friendly_attribute, old, new = user_friendly_change(journal, attribute)
-        {change: {
-            technical: {
-                name: attribute.to_s,
-                old:  changes.first,
-                new:  changes.last
-            },
-            user_friendly: {
-                name: user_friendly_attribute,
-                old:  old,
-                new:  new
-            }
-        }}
-      end
-  }
+
+    journal.changed_data.map do |attribute, changes|
+      user_friendly_attribute, old, new = user_friendly_change(journal, attribute)
+      {change: {
+          technical: {
+              name: attribute.to_s,
+              old:  changes.first,
+              new:  changes.last
+          },
+          user_friendly: {
+              name: user_friendly_attribute,
+              old:  old,
+              new:  new
+          }
+      }}
+    end
+
 end
 
 node :created_on do |journal|
