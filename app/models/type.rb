@@ -92,7 +92,7 @@ class Type < ActiveRecord::Base
   end
 
   def self.standard_type
-    @@standard_type ||= Type.where(is_standard: true).first
+    Type.where(is_standard: true).first
   end
 
   def statuses

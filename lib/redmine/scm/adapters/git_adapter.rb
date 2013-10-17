@@ -37,7 +37,7 @@ module Redmine
         SCM_GIT_REPORT_LAST_COMMIT = true
 
         # Git executable name
-        GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
+        GIT_BIN = OpenProject::Configuration['scm_git_command'] || "git"
 
         # raised if scm command exited with error, e.g. unknown revision.
         class ScmCommandAborted < CommandFailed; end

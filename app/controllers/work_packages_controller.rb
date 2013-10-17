@@ -134,7 +134,7 @@ class WorkPackagesController < ApplicationController
       Attachment.attach_files(work_package, params[:attachments])
       render_attachment_warning_if_needed(work_package)
 
-      call_hook(:controller_work_pacakge_new_after_save, { :params => params, :work_package => work_package })
+      call_hook(:controller_work_package_new_after_save, { :params => params, :work_package => work_package })
 
       redirect_to(work_package_path(work_package))
     else

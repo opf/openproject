@@ -31,6 +31,19 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#1885` Extend Timelines UI for status information
 * `#1886` Consider status in Timelines' Project Planning Comparison
+* `#1348` User status has no database index
+* `#1854` Breadcrumbs arrows missing in Chrome
+* `#1991` Migrate text references to issues/planning elements
+* `#2297` Fix APIv2 for planning elements
+* `#2304` Introduce keyboard shortcuts
+* `#2334` Deselecting all types in project configuration creates 500
+* `#2336` Cukes for timelines start/end date comparison
+* `#2340` Develop migration mechanism for renamed plugins
+* `#2383` [Performance] planning_elements_controller still has an n+1-query for the responsible
+* `#2384` Replace bundles svg graph with gem
+* `#2386` Remove timelines_journals_helper
+* `#2418` Migrate to RABL
+* Allow using environment variables instead of configuration.yml
 
 ## 3.0.0pre21
 
@@ -42,6 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1883` Extend at-time scope for status comparison
 * `#1884` Make status values available over API
 * `#1994` Integrational tests for work packages at_time (API)
+* `#2070` Settle copyright for images
 * `#2158` Work Package General Setting
 * `#2173` Adapt client-side to new server behavior
 * `#2306` Migrate issues controller tests

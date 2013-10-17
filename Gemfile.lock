@@ -13,19 +13,20 @@ GIT
       i18n
 
 GIT
-  remote: https://github.com/rails/prototype_legacy_helper.git
-  revision: a2cd95c3e3c1a4f7a9566efdab5ce59c886cb05f
-  specs:
-    prototype_legacy_helper (0.0.0)
-
-GIT
   remote: https://github.com/globalize/globalize.git
-  revision: ab69160adc66d23b8d34aedc3ea9bfc724207494
+  revision: 6ad3de9f257a27ece3e026fce36c8cf8a410a4f7
+  branch: 3-0-stable
   specs:
     globalize3 (0.3.0)
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
+
+GIT
+  remote: https://github.com/rails/prototype_legacy_helper.git
+  revision: a2cd95c3e3c1a4f7a9566efdab5ce59c886cb05f
+  specs:
+    prototype_legacy_helper (0.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -194,7 +195,8 @@ GEM
     mysql2 (0.3.11)
     net-ldap (0.2.2)
     nokogiri (1.5.9)
-    paper_trail (2.7.1)
+    oj (2.1.6)
+    paper_trail (2.7.2)
       activerecord (~> 3.0)
       railties (~> 3.0)
     pg (0.15.1)
@@ -222,6 +224,8 @@ GEM
     pry-stack_explorer (0.4.9)
       binding_of_caller (>= 0.7)
       pry (~> 0.9.11)
+    rabl (0.9.0)
+      activesupport (>= 2.3.14)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -323,6 +327,7 @@ GEM
       activemodel (~> 3.0)
       railties (~> 3.0)
     structured_warnings (0.1.4)
+    svg-graph (1.0.5)
     test-unit (2.5.5)
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
@@ -389,10 +394,12 @@ DEPENDENCIES
   letter_opener (~> 1.0.0)
   loofah
   mocha (~> 0.13.1)
+  multi_json
   mysql
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
   object-daddy!
+  oj
   pg
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
@@ -402,6 +409,7 @@ DEPENDENCIES
   pry-rails
   pry-rescue
   pry-stack_explorer
+  rabl
   rack_session_access
   rails (~> 3.2.14)
   rails-dev-tweaks (~> 0.6.1)
@@ -426,6 +434,7 @@ DEPENDENCIES
   simplecov (>= 0.8.pre)
   sqlite3
   strong_parameters
+  svg-graph
   therubyracer
   thin
   timecop (~> 0.6.1)

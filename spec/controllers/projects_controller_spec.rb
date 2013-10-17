@@ -283,16 +283,28 @@ describe ProjectsController do
         it { should be_redirect }
       end
 
-      before do
-        User.stub(:current).and_return user
+      before { User.stub(:current).and_return user }
 
-        work_package_standard
-        work_package_bug
-        work_package_feature
+      shared_context :work_packages do
+        before do
+          work_package_standard
+          work_package_bug
+          work_package_feature
+        end
+      end
+
+      shared_examples_for :success do
+        let(:regex) { Regexp.new(I18n.t(:notice_successful_update)) }
+
+        subject { flash[:notice].last }
+
+        it { should match(regex) }
       end
 
       context "no type missing" do
-      let(:type_ids) { types.collect(&:id) }
+        include_context :work_packages
+
+        let(:type_ids) { types.collect(&:id) }
 
         before { put :types,
                      id: project.id,
@@ -300,16 +312,12 @@ describe ProjectsController do
 
         it_behaves_like :redirect
 
-        describe :success do
-          let(:regex) { Regexp.new(I18n.t(:notice_successful_update)) }
-
-          subject { flash[:notice].last }
-
-          it { should match(regex) }
-        end
+        it_behaves_like :success
       end
 
       context "all types missing" do
+        include_context :work_packages
+
         let(:missing_types) { types }
 
         before { put :types, 
@@ -333,6 +341,19 @@ describe ProjectsController do
         end
       end
 
+      context "no type selected" do
+        before { put :types, id: project.id }
+
+        it_behaves_like :success
+
+        describe "automatic selection of standard type" do
+          let(:regex) { Regexp.new(I18n.t(:notice_automatic_set_of_standard_type)) }
+        
+          subject { flash[:notice].all? {|n| regex.match(n).nil? } }
+
+          it { should be_false }
+        end
+      end
     end
   end
 end

@@ -34,7 +34,6 @@ namespace :code do
       files = Dir['**/**{.rb,.html.erb,.rhtml,.rjs,.rsb,.plain.erb,.rxml,.yml,.rake,.eml}']
       files.reject!{ |f|
         f.include?("vendor") ||
-        f.include?("lib/SVG") ||
         f.include?("lib/redcloth") ||
         f.include?("lib/diff")
       }

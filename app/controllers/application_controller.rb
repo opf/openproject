@@ -129,9 +129,9 @@ class ApplicationController < ActionController::Base
     if session[:user_id]
       # existing session
       (User.active.find(session[:user_id], :include => [:memberships]) rescue nil)
-    elsif cookies[Redmine::Configuration['autologin_cookie_name']] && Setting.autologin?
+    elsif cookies[OpenProject::Configuration['autologin_cookie_name']] && Setting.autologin?
       # auto-login feature starts a new session
-      user = User.try_to_autologin(cookies[Redmine::Configuration['autologin_cookie_name']])
+      user = User.try_to_autologin(cookies[OpenProject::Configuration['autologin_cookie_name']])
       session[:user_id] = user.id if user
       user
     elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])

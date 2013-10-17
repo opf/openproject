@@ -36,7 +36,7 @@ gem "rdoc", ">= 2.4.2"
 # Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
 gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 # master includes the uniqueness validator, formerly patched in config/initializers/globalize3_patch.rb
-gem 'globalize3', :git => 'https://github.com/globalize/globalize.git'
+gem 'globalize3', :git => 'https://github.com/globalize/globalize.git', :branch => '3-0-stable'
 gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 gem 'request_store'
@@ -60,10 +60,19 @@ gem 'loofah'
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
 
+# generates SVG Graphs
+# used for statistics on svn repositories
+gem 'svg-graph'
+
 gem 'execjs'
 gem 'therubyracer'
 
 gem "date_validator"
+
+# replacing rsb with rabl
+gem 'rabl'
+gem 'multi_json'
+gem 'oj'
 
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
 gem 'strong_parameters'

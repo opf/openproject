@@ -35,21 +35,21 @@ module PlanningElementsHelper
                   :identifier => planning_element.project.identifier,
                   :name => planning_element.project.name)
 
-      api.name(planning_element.subject)
+      api.subject(planning_element.subject)
 
       api.description(planning_element.description)
 
       api.start_date(planning_element.start_date.to_formatted_s(:db)) unless planning_element.start_date.nil?
-      api.end_date(planning_element.due_date.to_formatted_s(:db)) unless planning_element.due_date.nil?
+      api.due_date(planning_element.due_date.to_formatted_s(:db)) unless planning_element.due_date.nil?
 
       if planning_element.parent
-        api.parent(:id => planning_element.parent_id, :name => planning_element.parent.subject)
+        api.parent(:id => planning_element.parent_id, :subject => planning_element.parent.subject)
       end
 
       if planning_element.children.present?
         api.array(:children, :size => planning_element.children.size) do
           planning_element.children.each do |child|
-            api.child(:id => child.id, :name => child.subject)
+            api.child(:id => child.id, :subject => child.subject)
           end
         end
       end

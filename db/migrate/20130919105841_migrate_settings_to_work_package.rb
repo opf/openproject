@@ -9,8 +9,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'yaml'
-
 require_relative 'migration_utils/utils'
 
 class MigrateSettingsToWorkPackage < ActiveRecord::Migration
@@ -52,7 +50,7 @@ class MigrateSettingsToWorkPackage < ActiveRecord::Migration
 
       row[COLUMN] = settings[row[COLUMN]] if merge_setting
 
-      row
+      UpdateResult.new(row, merge_setting)
     end
   end
 end

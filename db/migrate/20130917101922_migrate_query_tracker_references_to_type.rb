@@ -56,7 +56,7 @@ class MigrateQueryTrackerReferencesToType < ActiveRecord::Migration
         end
       end
 
-      row
+      UpdateResult.new(row, true)
     end
   end
 

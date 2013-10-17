@@ -139,8 +139,7 @@ namespace :copyright do
                  "rfpdf",
                  "gravatar",
                  "verification"].map{ |dir| "lib/plugins/#{dir}" }) +
-               (["SVG",
-                 "redcloth"].map{ |dir| "lib/#{dir}" })
+               (["redcloth"].map{ |dir| "lib/#{dir}" })
 
     rewrite_copyright("rb", excluded, :rb, args[:arg1])
   end

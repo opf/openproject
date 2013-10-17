@@ -71,7 +71,7 @@ Feature: Timeline View Tests
       And I set the columns shown in the timeline to:
         | start_date |
         | type       |
-        | end_date   |
+        | due_date   |
       Then I should see the column "Start date" before the column "End date" in the timelines table
         And I should see the column "Start date" before the column "Type" in the timelines table
         And I should see the column "Type" before the column "End date" in the timelines table

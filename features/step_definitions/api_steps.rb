@@ -31,7 +31,6 @@
 require "benchmark"
 
 When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" without any filters$/) do |project_name, format|
-
   @project = Project.find(project_name)
   @unfiltered_benchmark = Benchmark.measure("Unfiltered Results") do
     visit api_v2_project_planning_elements_path(project_id: project_name, format: format)
@@ -63,12 +62,12 @@ And(/^the json\-response for work_package "(.*?)" should have the responsible "(
 end
 Then(/^the json\-response for work_package "(.*?)" should have the due_date "(.*?)"$/) do |work_package_name, due_date|
   work_package = lookup_work_package(work_package_name)
-  expect(work_package["end_date"]).to eql due_date.gsub('/','-') # normalize the date-format
+  expect(work_package["due_date"]).to eql due_date.gsub('/','-') # normalize the date-format
 end
 
 And(/^the json\-response should say that "(.*?)" is parent of "(.*?)"$/) do |parent_name, child_name|
   child = lookup_work_package(child_name)
-  expect(child["parent"]["name"]).to eql parent_name
+  expect(child["parent"]["subject"]).to eql parent_name
 end
 
 And(/^the json\-response should say that "(.*?)" has no parent$/) do |child_name|
@@ -158,11 +157,11 @@ Then(/^the time to get the filtered results should be faster than the time to ge
 end
 
 def lookup_work_package(work_package_name)
-  work_package = decoded_json["planning_elements"].select {|wp| wp["name"] == work_package_name}.first
+  work_package = decoded_json["planning_elements"].select {|wp| wp["subject"] == work_package_name}.first
 end
 
 def work_package_names
-  decoded_json["planning_elements"].map{|wp| wp["name"]}
+  decoded_json["planning_elements"].map{|wp| wp["subject"]}
 end
 
 def decoded_json
