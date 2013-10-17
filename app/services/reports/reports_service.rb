@@ -29,7 +29,7 @@
 
 class Reports::ReportsService
 
-  class << self; attr_accessor :report_types end
+  class_attribute :report_types
 
   def self.add_report(report)
     self.report_types ||= {}

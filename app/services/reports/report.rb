@@ -28,6 +28,8 @@
 #++
 
 class Reports::Report
+  self.abstract_class = true
+
   def initialize(project)
     @project = project
   end
@@ -42,6 +44,23 @@ class Reports::Report
 
   def statuses
     @statuses ||= Status.order('position')
+  end
+
+  # ---- every report needs to implement these methods to supply all needed data for a report -----
+  def field
+    raise NotImplementedError
+  end
+
+  def rows
+    raise NotImplementedError
+  end
+
+  def data
+    raise NotImplementedError
+  end
+
+  def title
+    raise NotImplementedError
   end
 
 end
