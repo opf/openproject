@@ -59,32 +59,3 @@ end
 node :created_on do |journal|
   journal.created_at.utc.iso8601
 end
-
-#api.journal do
-#  api.id(journal.version)
-#
-#  api.user(:id => journal.user.id, :name => journal.user.name)
-#
-#  api.notes(journal.notes)
-#
-#  api.array(:changes, :size => journal.changed_data.size) do
-#    journal.changed_data.each do |attribute, changes|
-#      api.change do
-#        api.technical do
-#          api.name(attribute.to_s)
-#          api.old(changes.first)
-#          api.new(changes.last)
-#        end
-#        attribute, old, new = user_friendly_change(journal, attribute)
-#        api.user_friendly do
-#          api.name(attribute)
-#          api.old(old)
-#          api.new(new)
-#        end
-#      end
-#    end
-#  end
-#
-#  api.created_on(journal.created_at.utc.iso8601)
-#end
-#
