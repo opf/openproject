@@ -91,7 +91,6 @@ class WikiMenuItemsController < ApplicationController
     @page_title = params[:id]
     @page = WikiPage.find_by_title_and_wiki_id(@page_title, @project.wiki.id)
 
-
     @wiki_menu_item = WikiMenuItem.find_or_initialize_by_wiki_id_and_title(@page.wiki.id, @page_title)
     possible_parent_menu_items = WikiMenuItem.main_items(@page.wiki.id) - [@wiki_menu_item]
 
