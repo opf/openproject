@@ -3,11 +3,6 @@ require 'open_project/plugins/migration_mapping'
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class AggregatedMyProjectPageMigrations < ActiveRecord::Migration
 
-  def initialize
-    super
-    @issues_table_exists = ActiveRecord::Base.connection.tables.include? 'issues'
-  end
-
   MIGRATION_FILES = <<-MIGRATIONS
     20110804151010_add_projects_overviews.rb
     20111202150017_change_serialized_columns_from_string_to_text.rb
