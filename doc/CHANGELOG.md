@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre22
+
 * `#1348` User status has no database index
 * `#1854` Breadcrumbs arrows missing in Chrome
 * `#1991` Migrate text references to issues/planning elements
