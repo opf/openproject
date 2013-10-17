@@ -26,10 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Api::V2::Pagination::UsersController < ApplicationController
-  extend Pagination::Controller
+module Api
+  module V2
+    module Pagination
+      module PaginationSpecHelper
+        def paginating_index_action(model, scope)
+          describe :index do
+            let(:params) { { "page" => "1",
+                             "page_limit" =>
+                             "10", "q" => "blubs",
+                             "format" => "json" } }
 
-  paginate_model User
-  search_for User, :active_or_registered_like
-  action_for User, :index
+            before do
+              model.should_receive(scope)
+                   .with(params["q"])
+                   .and_return(model)
+
+              get :index, params
+            end
+
+            it 'should be successful' do
+              response.should be_success
+            end
+          end
+        end
+      end
+    end
+  end
 end
+

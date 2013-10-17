@@ -27,23 +27,10 @@
 #++
 
 require 'spec_helper'
+require_relative 'pagination_spec_helper'
 
-describe Pagination::PrincipalsController do
+describe Api::V2::Pagination::PrincipalsController do
+  extend Api::V2::Pagination::PaginationSpecHelper
 
-  describe :index do
-    let(:params) { { "page" => "1",
-                     "page_limit" =>
-                     "10", "q" => "blubs",
-                     "format" => "json" } }
-
-    before do
-      Principal.should_receive(:active_or_registered_like).with(params["q"]).and_return(Principal)
-
-      get :index, params
-    end
-
-    it 'should be successful' do
-      response.should be_success
-    end
-  end
+  paginating_index_action Principal, :active_or_registered_like
 end

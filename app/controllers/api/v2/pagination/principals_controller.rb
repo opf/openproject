@@ -26,11 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class PrincipalsController < ApplicationController
+class Api::V2::Pagination::PrincipalsController < ApplicationController
   extend Pagination::Controller
 
   paginate_model Principal
   search_for Principal, :active_or_registered_like
-
-  alias :index :paginate_principals
+  action_for Principal, :index
 end

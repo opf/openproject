@@ -27,22 +27,10 @@
 #++
 
 require 'spec_helper'
+require_relative 'pagination_spec_helper'
 
-describe Pagination::UsersController do
-  describe :index do
-    let(:params) { { "page" => "1",
-                     "page_limit" =>
-                     "10", "q" => "blubs",
-                     "format" => "json" } }
+describe Api::V2::Pagination::UsersController do
+  extend Api::V2::Pagination::PaginationSpecHelper
 
-    before do
-      User.should_receive(:active_or_registered_like).with(params["q"]).and_return(User)
-
-      get :index, params
-    end
-
-    it 'should be successful' do
-      response.should be_success
-    end
-  end
+  paginating_index_action User, :active_or_registered_like
 end
