@@ -345,7 +345,7 @@ describe WorkPackagesController do
         it 'should attach attachments if those are provided' do
           params[:attachments] = 'attachment-blubs-data'
 
-          Attachment.should_receive(:attach_files).with(stub_work_package, params[:attachments])
+          stub_work_package.should_receive(:attach_files).with(params[:attachments])
           controller.stub(:render_attachment_warning_if_needed)
 
           call_action
