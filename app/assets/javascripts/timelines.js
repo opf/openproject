@@ -3817,7 +3817,7 @@ Timeline = {
 
     var timeline = this;
     return {
-      all: ['end_date', 'type', 'status', 'responsible', 'start_date'],
+      all: ['due_date', 'type', 'status', 'responsible', 'start_date'],
       general: function (data, val) {
         if (!map[val]) {
           return;
@@ -3843,14 +3843,14 @@ Timeline = {
         return jQuery(result);
       },
       due_date: function(data) {
-        var kind = renderHistoricalKind(data, "end_date", historicalKindDate),
+        var kind = renderHistoricalKind(data, "due_date", historicalKindDate),
             result = '';
 
-        result += renderHistoricalHtml(data, "end_date", kind);
+        result += renderHistoricalHtml(data, "due_date", kind);
 
-        if (data.end_date !== undefined) {
+        if (data.due_date !== undefined) {
           result += '<span class="tl-column tl-current tl-' + kind + '">' +
-                    timeline.escape(data.end_date) + '</span>';
+                    timeline.escape(data.due_date) + '</span>';
         }
         return jQuery(result);
       }
