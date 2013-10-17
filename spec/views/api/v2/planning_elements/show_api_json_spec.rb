@@ -55,46 +55,45 @@ describe 'api/v2/planning_elements/show.api.rabl' do
       view.stub(:include_journals?).and_return(true)
     end
 
-    let(:change_1) { { "subject" => "old_name",
-                        "project_id" => "1" } }
-    let(:change_2) { { "subject" => "new_name",
-                        "project_id" => "2" } }
     let(:user) { FactoryGirl.create(:user) }
     let(:journal_1) { FactoryGirl.build(:work_package_journal,
                                         journable_id: planning_element.id,
-                                        user: user,
-                                        data: FactoryGirl.build(:journal_work_package_journal, change_1)) }
+                                        user: user) }
     let(:journal_2) { FactoryGirl.build(:work_package_journal,
                                         journable_id: planning_element.id,
-                                        user: user,
-                                        data: FactoryGirl.build(:journal_work_package_journal, change_2)) }
+                                        user: user) }
 
-    it 'countains an array of journals' do
+    before do
       # prevents problems related to the journal not having a user associated
       User.stub(:current).and_return(user)
 
       journal_1.stub(:journable).and_return planning_element
       journal_2.stub(:journable).and_return planning_element
 
-      planning_element.journals << journal_1 << journal_2
+      journal_1.stub(:get_changes).and_return({"subject"=> ["old_subject", "new_subject"]})
+      journal_2.stub(:get_changes).and_return({"project_id"=> [1,2]})
 
-      @planning_element = planning_element
+      planning_element.stub(:journals).and_return [journal_1,journal_2]
+
+
+      assign(:planning_element, planning_element)
 
       render
+    end
 
-      response.should have_json_size(1).at_path('planning_element/journals')
+    subject {response.body}
 
-      #do |journal|
-      #
-      #  journal.should have_selector('changes', :count => 1) do |changes|
-      #    changes.each do |attr, (old, new)|
-      #      changes.should have_selector('name', :text => attr)
-      #      changes.should have_selector('old', :text => old)
-      #      changes.should have_selector('new', :text => new)
-      #    end
-      #  end
-      #
-      #end
+    it 'contains an array of journals' do
+      should have_json_size(2).at_path('planning_element/journals')
+    end
+
+    it 'reports the changes' do
+      expected_json = {name: "subject", old: "old_subject", new: "new_subject"}.to_json
+      should be_json_eql(expected_json).at_path('planning_element/journals/0/changes/changed_data/0/change/technical')
+
+      expected_json = {name: "project_id", old: 1, new: 2}.to_json
+      should be_json_eql(expected_json).at_path('planning_element/journals/1/changes/changed_data/0/change/technical')
+
     end
   end
 end

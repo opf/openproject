@@ -26,9 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :journals, :size => @journals.size do
-  @journals.each do |journal|
-    render(:partial => '/planning_element_journals/journal.api.rsb',
-           :object  => journal)
+object false
+node :journals do |journals|
+  pe.journals.map do |journal|
+    partial "api/v2/planning_element_journals/journal", object: journal
   end
 end
