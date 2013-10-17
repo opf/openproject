@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,41 +26,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::ReportsController < ApplicationController
-  menu_item :summary_field, :only => [:report, :report_details]
-  before_filter :find_project_by_project_id, :authorize
+require 'spec_helper'
 
-  def report
-    reports_service = Reports::ReportsService.new(@project)
+describe Reports::ReportsService do
 
-    @type_report      = reports_service.report_for("type")
-    @priority_report  = reports_service.report_for("priority")
-    @assignee_report  = reports_service.report_for("assigned_to")
-    @author_report    = reports_service.report_for("author")
-    @version_report   = reports_service.report_for("version")
-    @subproject_report= reports_service.report_for("subproject")
-    @category_report  = reports_service.report_for("category")
+  let(:project) {FactoryGirl.create(:project)}
 
+  it "should be initializable with a project" do
+    expect { Reports::ReportsService.new(project)}.not_to raise_error
   end
 
-  def report_details
-    @report = Reports::ReportsService.new(@project)
-                                     .report_for(params[:detail])
-
-    respond_to do |format|
-      if @report
-        format.html {}
-      else
-        format.html { redirect_to report_project_work_packages_path(@project) }
-      end
-    end
+  it "should raise an error, when given no project" do
+    expect { Reports::ReportsService.new(nil)}.to raise_error
   end
-
-  private
-
-  def default_breadcrumb
-    l(:label_summary)
-  end
-
-
 end
