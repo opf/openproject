@@ -27,41 +27,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::ReportsController < ApplicationController
-  menu_item :summary_field, :only => [:report, :report_details]
-  before_filter :find_project_by_project_id, :authorize
+class Reports::Report
 
-  def report
-    reports_service = Reports::ReportsService.new(@project)
-
-    @type_report      = reports_service.report_for("type")
-    @priority_report  = reports_service.report_for("priority")
-    @assignee_report  = reports_service.report_for("assigned_to")
-    @author_report    = reports_service.report_for("author")
-    @version_report   = reports_service.report_for("version")
-    @subproject_report= reports_service.report_for("subproject")
-    @category_report  = reports_service.report_for("category")
-
+  def initialize(project)
+    @project = project
   end
 
-  def report_details
-    @report = Reports::ReportsService.new(@project)
-                                     .report_for(params[:detail])
-
-    respond_to do |format|
-      if @report
-        format.html {}
-      else
-        format.html { redirect_to report_project_work_packages_path(@project) }
-      end
-    end
+  def self.report_type
+    "default"
   end
 
-  private
-
-  def default_breadcrumb
-    l(:label_summary)
+  def report_type
+    self.class.report_type
   end
 
+  def statuses
+    @statuses ||= Status.order('position')
+  end
+
+  # ---- every report needs to implement these methods to supply all needed data for a report -----
+  def field
+    raise NotImplementedError
+  end
+
+  def rows
+    raise NotImplementedError
+  end
+
+  def data
+    raise NotImplementedError
+  end
+
+  def title
+    raise NotImplementedError
+  end
 
 end
+
+
+
+
+
+
+
+
