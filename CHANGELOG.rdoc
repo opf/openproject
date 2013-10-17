@@ -1,3 +1,4 @@
+= 3.0.4.pre8
 
 * `#2274` Add foldable versions
 
