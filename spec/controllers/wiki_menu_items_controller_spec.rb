@@ -29,8 +29,6 @@
 require 'spec_helper'
 
 describe WikiMenuItemsController do
-  render_views
-
   let(:current_user) { FactoryGirl.create(:admin) }
   let(:wiki_page) { FactoryGirl.create(:wiki_page) } # first wiki page without child pages
   let!(:top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => wiki_page.title) }
@@ -60,7 +58,7 @@ describe WikiMenuItemsController do
         subject { response }
 
         it 'preselects the wiki menu item of the parent page as parent wiki menu item option' do
-          assert_select 'select#parent_wiki_menu_item option[selected]', another_wiki_page_top_level_wiki_menu_item.name
+          assigns['selected_parent_menu_item_id'].should == another_wiki_page_top_level_wiki_menu_item.id
           # see FIXME in menu_helper.rb
         end
       end
@@ -75,7 +73,7 @@ describe WikiMenuItemsController do
         subject { response }
 
         it 'preselects the wiki menu item of the grand parent page as parent wiki menu item option' do
-          assert_select 'select#parent_wiki_menu_item option[selected]', another_wiki_page_top_level_wiki_menu_item.name
+          assigns['selected_parent_menu_item_id'].should == another_wiki_page_top_level_wiki_menu_item.id
         end
       end
     end
@@ -85,7 +83,7 @@ describe WikiMenuItemsController do
       subject { response }
 
       it 'preselects the parent wiki menu item that is already assigned' do
-        assert_select 'select#parent_wiki_menu_item option[selected]', top_level_wiki_menu_item.name
+        assigns['selected_parent_menu_item_id'].should == top_level_wiki_menu_item.id
       end
     end
   end
