@@ -39,58 +39,45 @@ describe ApplicationController do
     end
   end
 
-  describe 'with log_requesting_user enabled' do
-    before do
-      Setting.stub(:log_requesting_user?).and_return(true)
-    end
+  describe 'logging requesting users' do
+    let(:user_message) { "OpenProject User: #{user.firstname} Crazy! Name with \#\# " +
+                         "Newline (#{user.login} ID: #{user.id} <#{user.mail}>)" }
 
-    it 'should log the current user' do
-      messages = []
-      Rails.logger.should_receive(:info).at_least(:once) do |message|
-        messages << message
+    let(:anonymous_message) { "OpenProject User: Anonymous" }
+
+    describe 'with log_requesting_user enabled' do
+      before do
+        Setting.stub(:log_requesting_user?).and_return(true)
       end
 
-      as_logged_in_user(user) do
+      it 'should log the current user' do
+        Rails.logger.should_receive(:info).once.with(user_message)
+
+        as_logged_in_user(user) do
+          get(:index)
+        end
+      end
+
+      it 'should log an anonymous user' do
+        Rails.logger.should_receive(:info).once.with(anonymous_message)
+
+        # no login, so this is done as Anonymous
         get(:index)
       end
-
-      filtered_messages = messages.select { |message| message.start_with? 'OpenProject User' }
-      filtered_messages.length.should == 1
-      filtered_messages[0].should == "OpenProject User: #{user.firstname} Crazy! Name with \#\# " +
-                                     "Newline (#{user.login} ID: #{user.id} <#{user.mail}>)"
     end
 
-    it 'should log an anonymous user' do
-      messages = []
-      Rails.logger.should_receive(:info).at_least(:once) do |message|
-        messages << message
+    describe 'with log_requesting_user disabled' do
+      before do
+        Setting.stub(:log_requesting_user?).and_return(false)
       end
 
-      # no login, so this is done as Anonymous
-      get(:index)
+      it 'should not log the current user' do
+        Rails.logger.should_not_receive(:info).with(user_message)
 
-      filtered_messages = messages.select { |message| message.start_with? 'OpenProject User' }
-      filtered_messages.length.should == 1
-      filtered_messages[0].should == "OpenProject User: Anonymous"
-    end
-  end
-  describe 'with log_requesting_user disabled' do
-    before do
-      Setting.stub(:log_requesting_user?).and_return(false)
-    end
-
-    it 'should not log the current user' do
-      messages = []
-      Rails.logger.stub(:info) do |message|
-        messages << message
+        as_logged_in_user(user) do
+          get(:index)
+        end
       end
-
-      as_logged_in_user(user) do
-        get(:index)
-      end
-
-      filtered_messages = messages.select { |message| message.start_with? 'OpenProject User' }
-      filtered_messages.length.should == 0
     end
   end
 end
