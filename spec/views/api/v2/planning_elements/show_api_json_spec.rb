@@ -234,10 +234,10 @@ describe 'api/v2/planning_elements/show.api.rabl' do
 
     it 'reports the changes' do
       expected_json = {name: "subject", old: "old_subject", new: "new_subject"}.to_json
-      should be_json_eql(expected_json).at_path('planning_element/journals/0/changes/0/change/technical')
+      should be_json_eql(expected_json).at_path('planning_element/journals/0/changes/0/technical')
 
       expected_json = {name: "project_id", old: 1, new: 2}.to_json
-      should be_json_eql(expected_json).at_path('planning_element/journals/1/changes/0/change/technical')
+      should be_json_eql(expected_json).at_path('planning_element/journals/1/changes/0/technical')
 
     end
   end
