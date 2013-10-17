@@ -50,6 +50,10 @@ child :type => :planning_element_type do
   attributes :id, :name
 end
 
+child :status => :planning_element_status do
+  attributes :id, :name
+end
+
 node :children, unless: lambda{|pe| pe.children.empty?} do |pe|
   pe.children.to_a.map { |wp| { id: wp.id, subject: wp.subject}}
 end
