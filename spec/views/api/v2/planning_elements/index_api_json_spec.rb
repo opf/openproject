@@ -79,6 +79,11 @@ describe 'api/v2/planning_elements/index.api.rabl' do
 
     end
 
+    it 'should render a status-element' do
+      expected_json = {id: wp1.status.id, name: wp1.status.name}.to_json
+      response.body.should be_json_eql(expected_json).at_path("planning_elements/0/planning_element_status")
+    end
+
     it 'should render a project with name and identifier' do
       expected_json = {name: "Sample Project", identifier: "sample_project"}.to_json
 
