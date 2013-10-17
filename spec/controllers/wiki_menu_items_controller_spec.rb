@@ -38,11 +38,15 @@ describe WikiMenuItemsController do
   let(:project) { FactoryGirl.create(:project, :wiki => wiki) }
   let(:another_wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # second wiki page with two child pages
   let!(:another_wiki_page_top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => another_wiki_page.title) }
+
   # child pages of another_wiki_page
   let(:child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
   let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => child_page.title) }
   let(:another_child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
   let!(:another_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => another_child_page.title, :parent => top_level_wiki_menu_item) }
+
+  let(:grand_child_page) { FactoryGirl.create(:wiki_page, :parent => child_page, :wiki => wiki) }
+  let!(:grand_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => grand_child_page.title) }
  
   before :each do
     # log in user
@@ -51,12 +55,28 @@ describe WikiMenuItemsController do
 
   describe :edit do
     context 'when no parent wiki menu item has been configured yet' do
-      before { get :edit, project_id: project.id, id: child_page.title }
-      subject { response }
+      context 'and it is a child page' do
+        before { get :edit, project_id: project.id, id: child_page.title }
+        subject { response }
 
-      it 'preselects the wiki menu item of the parent page as parent wiki menu item option' do
-        assert_select 'select#parent_wiki_menu_item option[selected]', another_wiki_page_top_level_wiki_menu_item.name
-        # see FIXME in menu_helper.rb
+        it 'preselects the wiki menu item of the parent page as parent wiki menu item option' do
+          assert_select 'select#parent_wiki_menu_item option[selected]', another_wiki_page_top_level_wiki_menu_item.name
+          # see FIXME in menu_helper.rb
+        end
+      end
+
+      context 'and it is a grand child page the parent of which is not a main item' do
+        before do
+          # ensure the parent page of grand_child_page is not a main item
+          child_page_wiki_menu_item.tap {|page| page.parent = top_level_wiki_menu_item}.save
+          get :edit, project_id: project.id, id: grand_child_page.title
+        end
+
+        subject { response }
+
+        it 'preselects the wiki menu item of the grand parent page as parent wiki menu item option' do
+          assert_select 'select#parent_wiki_menu_item option[selected]', another_wiki_page_top_level_wiki_menu_item.name
+        end
       end
     end
 
@@ -66,7 +86,6 @@ describe WikiMenuItemsController do
 
       it 'preselects the parent wiki menu item that is already assigned' do
         assert_select 'select#parent_wiki_menu_item option[selected]', top_level_wiki_menu_item.name
-        # see FIXME in menu_helper.rb
       end
     end
   end
