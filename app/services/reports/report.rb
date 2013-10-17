@@ -28,7 +28,6 @@
 #++
 
 class Reports::Report
-  self.abstract_class = true
 
   def initialize(project)
     @project = project
