@@ -540,7 +540,7 @@ jQuery(document).ready(function($) {
                                     jQuery.proxy(openProject, 'fetchProjects'),
                                     PROJECT_JUMP_BOX_PAGE_SIZE),
         dropdownCssClass : "project-search-results",
-        containerCssClass : "select2-select",
+        containerCssClass : "select2-select"
       }).
       on('change', function (e) {
           if (e.val) {
