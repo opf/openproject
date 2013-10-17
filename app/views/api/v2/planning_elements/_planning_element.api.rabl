@@ -31,7 +31,7 @@
 # which drastically affects the performance of inline vs. partials: as the planning-elements are
 # highly performance-critical, we need to live with this duplication until these issues are solved.
 object @planning_element
-attributes :id, :subject, :description, :project_id, :parent_id
+attributes :id, :subject, :description, :project_id, :parent_id, :status_id, :type_id
 
 node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
 node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
@@ -39,6 +39,7 @@ node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_fo
 node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
 node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
 
+node :destroyed, id: lambda{|pe| pe.destroyed?} {true}
 
 child :project do
   attributes :id, :identifier, :name
@@ -50,11 +51,11 @@ node :parent, if: lambda{|pe| pe.parent.present?} do |pe|
   end
 end
 
-child :type => :planning_element_type do
+child :type do
   attributes :id, :name
 end
 
-child :status => :planning_element_status do
+child :status do
   attributes :id, :name
 end
 
