@@ -26,10 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module V2
-    class PlanningElementType < Type
-      self.table_name = 'types'
-    end
-  end
+class Api::V2::Pagination::ReportedProjectStatusesController < ApplicationController
+  extend Pagination::Controller
+
+  paginate_model ReportedProjectStatus
+  action_for ReportedProjectStatus, :index
 end

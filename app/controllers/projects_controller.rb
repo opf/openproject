@@ -28,10 +28,6 @@
 #++
 
 class ProjectsController < ApplicationController
-  extend Pagination::Controller
-
-  paginate_model Project
-
   menu_item :overview
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings

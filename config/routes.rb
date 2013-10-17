@@ -59,28 +59,12 @@ OpenProject::Application.routes.draw do
 
       resources :authentication
       resources :planning_element_journals
-      resources :statuses do
-        collection do
-          get :paginate_statuses
-        end
-      end
+      resources :statuses
       resources :colors, :controller => 'planning_element_type_colors'
-      resources :planning_element_types do
-        collection do
-          get :paginate_planning_element_types
-        end
-      end
+      resources :planning_element_types
       resources :planning_elements
-      resources :project_types do
-        collection do
-          get :paginate_project_types
-        end
-      end
-      resources :reported_project_statuses do
-        collection do
-          get :paginate_reported_project_statuses
-        end
-      end
+      resources :project_types
+      resources :reported_project_statuses
       resources :statuses, :only => [:index, :show]
       resources :timelines
 
@@ -97,7 +81,13 @@ OpenProject::Application.routes.draw do
 
 
       namespace :pagination, :as => 'paginate' do
-        [:users, :principals].each do |model|
+        [:users,
+         :principals,
+         :statuses,
+         :types,
+         :project_types,
+         :reported_project_statuses,
+         :projects].each do |model|
           resources model, :only => [:index]
         end
       end
@@ -518,11 +508,7 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :reported_project_statuses, :controller => 'reported_project_statuses' do
-    collection do
-      get :paginate_reported_project_statuses
-    end
-  end
+  resources :reported_project_statuses, :controller => 'reported_project_statuses'
 
   # Install the default route as the lowest priority.
   match '/:controller(/:action(/:id))'
