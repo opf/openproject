@@ -29,10 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#1885` Extend Timelines UI for status information
-* `#1886` Consider status in Timelines' Project Planning Comparison
 * `#1348` User status has no database index
 * `#1854` Breadcrumbs arrows missing in Chrome
+* `#1885` Extend Timelines UI for status information
+* `#1886` Consider status in Timelines' Project Planning Comparison
+* `#1888` Add project status comparison for all direct work package attributes 
 * `#1991` Migrate text references to issues/planning elements
 * `#2297` Fix APIv2 for planning elements
 * `#2304` Introduce keyboard shortcuts
