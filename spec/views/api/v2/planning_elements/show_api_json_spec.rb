@@ -36,16 +36,45 @@ describe 'api/v2/planning_elements/show.api.rabl' do
     params[:format] = 'json'
   end
 
-  let(:planning_element) { FactoryGirl.build(:work_package) }
+  let(:project) { FactoryGirl.create(:project, :id => 4711,
+                                     :identifier => 'test_project',
+                                     :name => 'Test Project') }
+  let(:planning_element) { FactoryGirl.build(:work_package,
+                                             :id => 1,
+                                             :project_id => project.id,
+                                             :subject => 'WorkPackage #1',
+                                             :description => 'Description of this planning element',
+
+                                             :start_date => Date.parse('2011-12-06'),
+                                             :due_date   => Date.parse('2011-12-13'),
+
+                                             :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                             :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
+
 
   describe 'with an assigned planning element' do
-    it 'renders a planning_element document' do
+
+    before do
       assign(:planning_element, planning_element)
-
       render
-
-      response.body.should have_json_path('planning_element')
     end
+
+    subject {response.body}
+
+    it 'renders a planning_element document' do
+      should have_json_path('planning_element')
+    end
+
+    it 'contains an id element containing the planning element id' do
+      should be_json_eql(1.to_json).at_path('planning_element/id')
+    end
+
+    it 'contains a project element containing the planning element\'s project id, identifier and name' do
+      expected_json = {id: 4712, identifier: "test_project", name: "Test Project"}.to_json
+      should be_json_eql(expected_json).at_path('planning_element/project')
+    end
+
+
 
   end
 

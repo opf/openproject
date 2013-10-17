@@ -68,15 +68,6 @@ describe 'api/v2/planning_elements/_planning_element.api' do
     end
 
     describe 'planning_element node' do
-      it 'contains an id element containing the planning element id' do
-        render
-        response.should have_selector('planning_element id', :text => '1')
-      end
-
-      it 'contains a project element containing the planning element\'s project id, identifier and name' do
-        render
-        response.should have_selector('planning_element project[id="4711"][identifier=test_project][name="Test Project"]')
-      end
 
       it 'contains an name element containing the planning element name' do
         render
