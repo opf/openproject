@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#959` Too many available responsibles returned for filtering in timelines
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
+* `#2448` Accelerate work package updates
 
 ## 3.0.0pre22
 
