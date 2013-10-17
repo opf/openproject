@@ -1,5 +1,7 @@
 # Changelog
 
+* `#2459` Squashed old migrations
+
 ## 1.0.1.pre1
 
 * `#1797` Adaptions to Migration of DTAG Customizing
