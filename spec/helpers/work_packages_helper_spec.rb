@@ -197,7 +197,7 @@ describe WorkPackagesHelper do
 
       field = helper.work_package_show_spent_time_attribute(stub_work_package).field
 
-      expected_href = issue_time_entries_path(stub_work_package)
+      expected_href = work_package_time_entries_path(stub_work_package)
 
       field.should have_css(".spent-time a[@href='#{ expected_href }']", :text => '5.0')
     end
