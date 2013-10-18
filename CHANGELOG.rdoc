@@ -1,5 +1,5 @@
 
-* `2413` Squashed old migrations
+* `#2413` Squashed old migrations
 
 = 3.0.4.pre8
 
