@@ -16,10 +16,10 @@ class AggregatedMyProjectPageMigrations < ActiveRecord::Migration
     Migration::MigrationSquasher.squash(migration_names) do
       create_table :my_projects_overviews do |t|
         t.integer "project_id", default: 0, null: false
-        t.text "left", default: ["wiki", "projectdetails", "issuetracking"].to_yaml, null: false
-        t.text "right", default: ["members", "news"].to_yaml, null: false
-        t.text "top", default: [].to_yaml, null: false
-        t.text "hidden", default: [].to_yaml, null: false
+        t.text "left", null: false
+        t.text "right", null: false
+        t.text "top", null: false
+        t.text "hidden", null: false
         t.datetime "created_on", null: false
       end
 
