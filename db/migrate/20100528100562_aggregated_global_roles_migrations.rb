@@ -38,6 +38,3 @@ class AggregatedGlobalRolesMigrations < ActiveRecord::Migration
     Role.reset_column_information
   end
 end
-
-
-

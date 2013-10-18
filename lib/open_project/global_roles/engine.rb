@@ -60,6 +60,14 @@ module OpenProject::GlobalRoles
       app.routes_reloader.paths.uniq!
     end
 
+    initializer :append_migrations do |app|
+      unless app.root.to_s.match root.to_s
+        config.paths["db/migrate"].expanded.each do |expanded_path|
+          app.config.paths["db/migrate"] << expanded_path
+        end
+      end
+    end
+
 
     config.to_prepare do
       require_dependency 'open_project/global_roles/patches'
