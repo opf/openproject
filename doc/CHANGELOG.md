@@ -30,6 +30,9 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#959` Too many available responsibles returned for filtering in timelines
+
+## 3.0.0pre22
+
 * `#1348` User status has no database index
 * `#1854` Breadcrumbs arrows missing in Chrome
 * `#1991` Migrate text references to issues/planning elements
@@ -38,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2334` Deselecting all types in project configuration creates 500
 * `#2336` Cukes for timelines start/end date comparison
 * `#2340` Develop migration mechanism for renamed plugins
+* `#2374` Refactoring of ReportsController
 * `#2383` [Performance] planning_elements_controller still has an n+1-query for the responsible
 * `#2384` Replace bundles svg graph with gem
 * `#2386` Remove timelines_journals_helper

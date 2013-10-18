@@ -31,34 +31,21 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="splitcontentleft">
 <%
-{ 'type' => { :rows => @types, :data => @work_packages_by_type, :name => "type_id" },
-  'priority' => { :rows => @priorities, :data => @work_packages_by_priority, :name => "priority_id" },
-  'assigned_to' => { :rows => @assignees, :data => @work_packages_by_assigned_to, :name => "assigned_to_id" },
-  'author' => { :rows => @authors, :data => @work_packages_by_author, :name => "author_id" }
-}.each do |detail, variables| %>
-
-  <%= render :partial => 'report_category', :locals => { :detail => detail,
-                                                         :data => variables[:data],
-                                                         :field_name => variables[:name],
-                                                         :rows => variables[:rows] } %>
+[@type_report, @priority_report, @assignee_report, @author_report].each do |report| %>
+  <%= render :partial => 'report_category', :locals => { report: report} %>
 <% end %>
 <%= call_hook(:view_reports_issue_report_split_content_left, :project => @project) %>
 </div>
 
 <div class="splitcontentright">
 <%
-details = {'version' => { :rows => @versions, :data => @version, :name => "fixed_version_id" } }
-if @project.children.any?
-  details['subproject'] = { :data => @work_packages_by_subproject, :name => "project_id", :rows => @subprojects }
-end
-details['category'] = { :data => @work_packages_by_category, :name => "category_id", :rows => @categories }
+additional_reports = [@version_report]
+additional_reports << @subproject_report if @project.children.any?
+additional_reports << @category_report
 %>
 
-<% details.each do |detail, variables| %>
-  <%= render :partial => 'report_category', :locals => { :detail => detail,
-                                                         :data => variables[:data],
-                                                         :field_name => variables[:name],
-                                                         :rows => variables[:rows] } %>
+<% additional_reports.each do |report| %>
+  <%= render :partial => 'report_category', :locals => { report: report } %>
   <br />
 <% end %>
 <%= call_hook(:view_reports_issue_report_split_content_right, :project => @project) %>
