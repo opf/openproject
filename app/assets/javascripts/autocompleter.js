@@ -33,7 +33,7 @@
 (function ($, undefined) {
   "use strict";
 
-  function TimelinesAutocompleter (object, args) {
+  function Autocompleter (object, args) {
     this.element = object;
     this.opts = null;
     this.fakeInput = null;
@@ -42,10 +42,10 @@
     this.initSelect2();
   }
 
-  TimelinesAutocompleter.prototype = $.extend(TimelinesAutocompleter.prototype, {
+  Autocompleter.prototype = $.extend(Autocompleter.prototype, {
     initOptions: function (args) {
       var self = this;
-      this.opts = $.extend(true, {}, $.fn.timelinesAutocomplete.defaults);
+      this.opts = $.extend(true, {}, $.fn.autocomplete.defaults);
       this.opts = $.extend(true, this.opts, args[0]);
       if (!(this.element.attr("data-ajaxURL") === "" || this.element.attr("data-ajaxURL") === null || this.element.attr("data-ajaxURL") === undefined)) {
         this.opts.ajax.url = this.element.attr("data-ajaxURL");
@@ -105,17 +105,17 @@
     }
   });
 
-  $.fn.timelinesAutocomplete = function () {
+  $.fn.autocomplete = function () {
     var args = Array.prototype.slice.call(arguments, 0),
         autocompleter;
 
     $(this).each(function () {
-      autocompleter = new TimelinesAutocompleter($(this), args);
+      autocompleter = new Autocompleter($(this), args);
     });
   };
 
-  $.fn.timelinesAutocomplete.defaults = {
-    multiple: true,
+  $.fn.autocomplete.defaults = {
+    multiple: false,
     data: {},
     allowedAttributes: ["title", "placeholder", "id", "name"],
     minimumInputLength: 0,
@@ -170,10 +170,18 @@
       return item.name;
     },
     initSelection: function (element, callback) {
-      var data = [];
+      var data,
+          multiple = $(element).attr("multiple");
+      if (multiple !== null && multiple !== undefined && multiple) {
+        data = []
+      };
       if (!($(element).attr("data-selected") === "" || $(element).attr("data-selected") === null || $(element).attr("data-selected") === undefined)) {
         JSON.parse($(element).attr('data-selected')).each(function (elem) {
-          data.push({id: elem[1], name: elem[0]});
+          if (multiple) {
+            data.push({id: elem[1], name: elem[0]});
+          } else {
+            data = {id: elem[1], name: elem[0]};
+          }
         });
       } else if (element.is("input") && !(element.attr("data-values") === "" || element.attr("data-values") === null || element.attr("data-values") === undefined)) {
         var possible = JSON.parse(element.attr('data-values'));
