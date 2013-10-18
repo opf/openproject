@@ -35,16 +35,12 @@ describe AttachmentsController do
                                   permissions: [:edit_work_packages,
                                                 :view_work_packages,
                                                 :delete_wiki_pages_attachments]) }
-  let(:member) { FactoryGirl.create(:member,
-                                    project: project,
-                                    principal: user,
-                                    roles: [role]) }
+  let!(:member) { FactoryGirl.create(:member,
+                                     project: project,
+                                     principal: user,
+                                     roles: [role]) }
 
-  before do
-    member
-    
-    User.stub(:current).and_return user
-  end
+  before { User.stub(:current).and_return user }
 
   describe :destroy do
     let(:attachment) { FactoryGirl.create(:attachment,
