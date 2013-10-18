@@ -62,27 +62,13 @@ class AggregatedCostsMigrations < ActiveRecord::Migration
         t.integer  "project_id",                                 :null => false
         t.integer  "author_id",                                  :null => false
         t.string   "subject",                                    :null => false
-        t.text     "description",             :default=>"",      :null => false
+        t.text     "description",                                :null => false
         t.string   "type",                                       :null => false
         t.boolean  "project_manager_signoff", :default => false, :null => false
         t.boolean  "client_signoff",          :default => false, :null => false
         t.date     "fixed_date",                                 :null => false
         t.datetime "created_on"
         t.datetime "updated_on"
-      end
-
-      create_table "cost_queries" do |t|
-        t.integer  "user_id",                                 :null => false
-        t.integer  "project_id"
-        t.string   "name",                                    :null => false
-        t.text     "filters"
-        t.text     "group_by"
-        t.string   "granularity"
-        t.boolean  "is_public",            :default => false, :null => false
-        t.datetime "created_on",                              :null => false
-        t.datetime "updated_on",                              :null => false
-        t.boolean  "display_cost_entries", :default => true
-        t.boolean  "display_time_entries", :default => true
       end
 
       create_table "cost_types" do |t|
