@@ -69,8 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
                    :project_types,
                    options_for_select([]),
                    {},
-                   { :'data-ajaxURL' => url_for({:controller => "/api/v2/project_types",
-                                                 :action     => "paginate_project_types"}),
+                   { :'data-ajaxURL' => api_v2_paginate_project_types_path,
                      :multiple => true,
                      :'data-selected' => filter_select(
                                            timeline.selected_project_types,
@@ -98,8 +97,7 @@ See doc/COPYRIGHT.rdoc for more details.
                    :project_status,
                    options_for_select([]),
                    {},
-                   { :'data-ajaxURL' => url_for({:controller => "/api/v2/reported_project_statuses",
-                                                 :action     => "paginate_reported_project_statuses"}),
+                   { :'data-ajaxURL' => api_v2_paginate_reported_project_statuses_path,
                      :multiple => true,
                      :'data-selected' => filter_select(
                                            timeline.selected_project_status,
@@ -126,8 +124,7 @@ See doc/COPYRIGHT.rdoc for more details.
                    :project_responsibles,
                    options_for_select([]),
                    {},
-                   { :'data-ajaxURL' => url_for({:controller => "/principals",
-                                                 :action     => "paginate_principals"}),
+                   { :'data-ajaxURL' => api_v2_paginate_users_path,
                     :multiple => true,
                     :'data-selected' => filter_select(
                                            timeline.selected_project_responsibles,
@@ -154,12 +151,11 @@ See doc/COPYRIGHT.rdoc for more details.
                    :parents,
                    options_for_select([]),
                    {},
-                   { :'data-ajaxURL' => url_for({:controller => "/projects",
-                                                 :action     => "paginate_projects"}),
-                    :multiple => true,
-                    :'data-selected' => filter_select(
-                                           timeline.selected_parents,
-                                           :name, :id).to_json
+                   { :'data-ajaxURL' => api_v2_paginate_projects_path,
+                     :multiple => true,
+                     :'data-selected' => filter_select(
+                                         timeline.selected_parents,
+                                         :name, :id).to_json
                    }) %>
         <% end %>
       </p>
@@ -180,8 +176,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select("timeline[options]", :planning_element_time_types,
                      options_for_select([]),
                      {},
-                     { :'data-ajaxURL' => url_for({:controller => "/api/v2/planning_element_types",
-                                                   :action     => "paginate_planning_element_types"}),
+                     { :'data-ajaxURL' => api_v2_paginate_types_path,
                        :multiple => true,
                        :'data-selected' => filter_select(
                                              timeline.selected_planning_element_time_types,

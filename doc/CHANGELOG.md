@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#959` Too many available responsibles returned for filtering in timelines
+
 ## 3.0.0pre22
 
 * `#1348` User status has no database index

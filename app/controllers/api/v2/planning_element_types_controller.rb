@@ -33,9 +33,6 @@ module Api
 
       include ::Api::V2::ApiController
 
-      extend Pagination::Controller
-      paginate_model ::Api::V2::PlanningElementType
-
       before_filter {|controller| controller.find_optional_project_and_raise_error('types') }
       before_filter :check_project_exists
 
