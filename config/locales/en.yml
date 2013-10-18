@@ -557,9 +557,9 @@ en:
       error: "An error has occured."
       create_planning_select_project: "Project:"
       really_close_dialog: "Do you really want to close the dialog and loose the entered data?"
-      filter:
-        noneElement: "(none)"
-        noneSelection: "(none)"
+    filter:
+      noneElement: "(none)"
+      noneSelection: "(none)"
 
   label_account: "Account"
   label_activity: "Activity"
