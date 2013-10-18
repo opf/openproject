@@ -36,12 +36,16 @@ class CopyDummy < Tableless
 
   copy_precedence([:relation4, :relation1, :relation2])
 
+  not_to_copy :safe_attribute_that_should_not_be_copied
+
   safe_attributes "safe_attribute1",
-                  "safe_attribute2"
+                  "safe_attribute2",
+                  "safe_attribute_that_should_not_be_copied"
 
   column :safe_attribute1, :string
   column :safe_attribute2, :string
   column :unsafe_attribute, :string
+  column :safe_attribute_that_should_not_be_copied, :string
 
   column :relation1_id, :integer
   column :relation2_id, :integer
@@ -108,6 +112,16 @@ describe "Copying Models" do
 
       dummy.safe_attribute1.should == copy.safe_attribute1
       dummy.unsafe_attribute.should_not == copy.unsafe_attribute
+    end
+
+    it "should not copy safe attributes that are flagged as not_to_copy" do
+      dummy.safe_attribute_that_should_not_be_copied = "foo"
+      dummy.safe_attribute1 = "foo"
+
+      copy = CopyDummy.copy(dummy)
+
+      dummy.safe_attribute1.should == copy.safe_attribute1
+      dummy.safe_attribute_that_should_not_be_copied.should_not == copy.safe_attribute_that_should_not_be_copied
     end
   end
 
