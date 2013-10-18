@@ -29,7 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#959` Too many available responsibles returned for filtering in timelines
+* `#959`  Too many available responsibles returned for filtering in Timelines
+* `#2371` Add support for IE10 to Timelines
 
 ## 3.0.0pre22
 
