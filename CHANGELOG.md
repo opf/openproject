@@ -1,5 +1,7 @@
 # Changelog
 
+* `#2451` Squash old migrations
+
 ## 3.0.0.pre7
 
 * `#2070` Adaptions after changing core asset locations
