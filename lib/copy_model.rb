@@ -39,7 +39,7 @@ module CopyModel
     def copy_attributes(from_model)
       with_model(from_model) do |model|
         # clear unique attributes
-        self.safe_attributes = model.attributes.dup.except(*self.class.not_to_copy)
+        self.safe_attributes = model.attributes.dup.except(*(Array(self.class.not_to_copy).map(&:to_s)))
         return self
       end
     end
