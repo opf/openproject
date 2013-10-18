@@ -26,42 +26,26 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+class Reports::AssigneeReport < Reports::Report
 
-class WorkPackages::ReportsController < ApplicationController
-  menu_item :summary_field, :only => [:report, :report_details]
-  before_filter :find_project_by_project_id, :authorize
-
-  def report
-    reports_service = Reports::ReportsService.new(@project)
-
-    @type_report      = reports_service.report_for("type")
-    @priority_report  = reports_service.report_for("priority")
-    @assignee_report  = reports_service.report_for("assigned_to")
-    @author_report    = reports_service.report_for("author")
-    @version_report   = reports_service.report_for("version")
-    @subproject_report= reports_service.report_for("subproject")
-    @category_report  = reports_service.report_for("category")
-
+  def self.report_type
+    "assigned_to"
   end
 
-  def report_details
-    @report = Reports::ReportsService.new(@project)
-                                     .report_for(params[:detail])
-
-    respond_to do |format|
-      if @report
-        format.html {}
-      else
-        format.html { redirect_to report_project_work_packages_path(@project) }
-      end
-    end
+  def field
+    @field ||= "assigned_to_id"
   end
 
-  private
-
-  def default_breadcrumb
-    l(:label_summary)
+  def rows
+    @rows ||= @project.members.collect { |m| m.user }.sort
   end
 
+  def data
+    @data ||= WorkPackage.by_assigned_to(@project)
+  end
+
+  def title
+    @title ||= WorkPackage.human_attribute_name(:assigned_to)
+  end
 
 end
