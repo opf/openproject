@@ -32,6 +32,10 @@ require 'tableless_spec_helper'
 class CopyDummy < Tableless
   include CopyModel
 
+  attr_accessor :call_order
+
+  copy_precedence([:relation4, :relation1, :relation2])
+
   safe_attributes "safe_attribute1",
                   "safe_attribute2"
 
@@ -42,17 +46,31 @@ class CopyDummy < Tableless
   column :relation1_id, :integer
   column :relation2_id, :integer
   column :relation3_id, :integer
+  column :relation4_id, :integer
 
   belongs_to :relation1
   belongs_to :relation2
   belongs_to :relation3
+  belongs_to :relation4
 
   def copy_relation1(other)
+    call_order << :relation1
     self.relation1 = other.relation1
   end
 
   def copy_relation2(other)
+    call_order << :relation2
     self.relation2 = other.relation2
+  end
+
+  def copy_relation4(other)
+    call_order << :relation4
+    self.relation4 = other.relation4
+  end
+
+  def call_order
+    @call_order ||= []
+    @call_order
   end
 end
 
@@ -63,6 +81,9 @@ class Relation2 < Tableless
 end
 
 class Relation3 < Tableless
+end
+
+class Relation4 < Tableless
 end
 
 describe "Copying Models" do
@@ -113,6 +134,19 @@ describe "Copying Models" do
       copy.relation1.should_not == nil
       copy.relation3.should_not == dummy.relation3
       copy.relation3.should == nil
+    end
+
+    it "should copy stuff within order (ordered by #copy_precedence)" do
+      dummy.relation1 = Relation1.new
+      dummy.relation2 = Relation2.new
+      dummy.relation4 = Relation4.new
+
+      copy = CopyDummy.copy(dummy)
+
+      copy.relation1.should == dummy.relation1
+      copy.relation2.should == dummy.relation2
+      copy.relation4.should == dummy.relation4
+      copy.call_order.should == copy.copy_precedence
     end
   end
 end
