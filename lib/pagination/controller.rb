@@ -142,7 +142,7 @@ module Pagination::Controller
       controller.pagination.delete(last_action)
 
       # remove old
-      controller.send(:remove_method, last_action) if controller.respond_to? :last_action
+      controller.send(:remove_method, last_action) if controller.respond_to? last_action
     end
 
     def define_action!(block = default_block)
