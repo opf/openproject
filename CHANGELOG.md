@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#2463` Squashed old migrations
+
 ## 3.0.3
 
 * `#1790` Adapt Meeting Plugin to the acts_as_journalized changes
