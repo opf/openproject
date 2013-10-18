@@ -26,5 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-render(:partial => '/api/v2/projects/project.api',
-       :object => @project)
+object @project
+node :project do |project|
+  partial "api/v2/projects/project", object: project
+end
+
+
+

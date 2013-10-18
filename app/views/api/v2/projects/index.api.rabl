@@ -26,8 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :projects, api_meta(:size => @projects.size) do
-  @projects.each do |project|
-    render(:partial => '/api/v2/projects/project.api', :object => project)
-  end
-end
+collection @projects => "projects"
+extends "api/v2/projects/project"
+

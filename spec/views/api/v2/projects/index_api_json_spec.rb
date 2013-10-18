@@ -28,46 +28,52 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/projects/show.api.rsb' do
-  before do
-    view.extend TimelinesHelper
-  end
+describe '/api/v2/projects/index.api.rabl' do
 
   before do
-    params[:format] = 'xml'
+    params[:format] = 'json'
   end
 
-  describe 'with an assigned project' do
-    let(:project) { FactoryGirl.build(:project) }
-
-    it 'renders a project document' do
-      assign(:project,  project)
-
-      render
-
-      response.should have_selector('project', :count => 1)
-    end
-
-    it 'renders the _project view once' do
-      assign(:project, project)
-
-      view.should_receive(:render).once.with(hash_including(:partial => '/api/v2/projects/project.api')).and_return('')
-
-      # just to render the speced template despite the should receive expectations above
-      view.should_receive(:render).once.with({:template=>"api/v2/projects/show", :handlers=>["rsb"], :formats=>["api"]}, {}).and_call_original
+  subject {response.body}
+  describe 'with no project available' do
+    it 'renders an empty projects document' do
+      assign(:projects, [])
 
       render
+
+      should have_json_size(0).at_path('projects')
     end
+  end
 
-    it 'passes the project as local var to the partial' do
-      assign(:project, project)
 
-      view.should_receive(:render).once.with(hash_including(:object => project)).and_return('')
+  describe 'with some projects available' do
+    let(:projects) {
+      [
+        FactoryGirl.build(:project, :name => 'P1'),
+        FactoryGirl.build(:project, :name => 'P2'),
+        FactoryGirl.build(:project, :name => 'P3')
+      ]
+    }
 
-      # just to render the speced template despite the should receive expectations above
-      view.should_receive(:render).once.with({:template=>"api/v2/projects/show", :handlers=>["rsb"], :formats=>["api"]}, {}).and_call_original
-
+    before do
+      assign(:projects, projects)
       render
     end
+
+    subject { response.body }
+
+    it 'renders a projects document with the size of 3 of type array' do
+      should have_json_size(3).at_path('projects')
+    end
+
+    it 'renders all three projects' do
+
+      should be_json_eql('P1'.to_json).at_path("projects/0/name")
+      should be_json_eql('P2'.to_json).at_path("projects/1/name")
+      should be_json_eql('P3'.to_json).at_path("projects/2/name")
+
+    end
+
+
   end
 end

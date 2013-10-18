@@ -26,69 +26,63 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.project do
-  api.id(project.id)
-  api.name(project.name)
-  api.identifier(project.identifier)
+object @project
+attributes :id, :name, :identifier, :description, :project_type_id
 
-  api.permissions(
-      :view_planning_elements => User.current.allowed_to?(:view_work_packages, project),
-      :edit_planning_elements => User.current.allowed_to?(:edit_work_packages, project),
-      :delete_planning_elements => User.current.allowed_to?(:delete_work_packages, project)
-    )
-
-  # TODO: Evaluate html formatting of description instead of passing the raw
-  # textile code - although this is also not done in the official API
-  api.description(project.description)
-
-  parent = visible_parent_project(project)
-  if parent
-    api.parent(:id => parent.id,
-               :name => parent.name,
-               :identifier => parent.identifier)
-  end
-
-  if project.responsible
-    api.responsible(:id => project.responsible.id, :name => project.responsible.name)
-  end
-
-  if project.project_type
-    api.project_type(:id   => project.project_type.id,
-                     :name => project.project_type.name)
-  end
-
-  planning_element_types = project.types
-  if planning_element_types.present?
-    api.array :planning_element_types, :size => planning_element_types.size do
-      planning_element_types.each do |planning_element_type|
-        api.planning_element_type do
-          api.id planning_element_type.id
-          api.name planning_element_type.name
-
-          color = planning_element_type.color
-          if color.present?
-            api.color(:id => color.id, :name => color.name, :hexcode => color.hexcode)
-          end
-          api.is_milestone planning_element_type.is_milestone?
-        end
-      end
-    end
-  end
-
-  project_associations = project.project_associations.visible
-  if project_associations.present?
-    api.array :project_associations, :size => project_associations.size do
-      project_associations.each do |project_association|
-        api.project_association(:id => project_association.id) do
-          other = project_association.project(project)
-          api.project(:id         => other.id,
-                      :identifier => other.identifier,
-                      :name       => other.name)
-        end
-      end
-    end
-  end
-
-  api.created_on(project.created_on.utc.iso8601) if project.created_on
-  api.updated_on(project.updated_on.utc.iso8601) if project.updated_on
+node :view_planning_elements do |project|
+  User.current.allowed_to?(:view_work_packages, project)
 end
+
+node :edit_planning_elements do |project|
+  User.current.allowed_to?(:edit_work_packages, project)
+end
+
+node :delete_planning_elements do |project|
+  User.current.allowed_to?(:delete_work_packages, project)
+end
+
+node :parent, if: lambda{|project| visible_parent_project(project).present?} do |project|
+  child :parent do
+    attributes :id, :name, :identifier
+  end
+
+end
+
+node :responsible, if: lambda{|project| project.responsible.present?} do |project|
+  {id: project.responsible.id, name: project.responsible.name}
+end
+
+node :project_type, if: lambda{|project| project.project_type.present?} do |project|
+  {id: project.project_type.id, name: project.project_type.name}
+end
+
+
+node :created_on, if: lambda{|project| project.created_on.present?} {|project| project.created_on.utc.iso8601}
+node :updated_on, if: lambda{|project| project.updated_on.present?} {|project| project.updated_on.utc.iso8601}
+
+node :planning_element_types, if: lambda{|project| project.types.present? } do |project|
+  project.types.map do |type|
+    type_hash = {id: type.id,
+                 name: type.name,
+                 is_milestone: type.is_milestone?}
+    type_hash[:color] = {id: type.color.id, name: type.color.name, hexcode: type.color.hexcode} if type.color.present?
+    type_hash
+  end
+end
+
+node :project_associations, unless: lambda{|project| project.project_associations.visible.empty?} do |project|
+  project.project_associations.visible.map do |project_association|
+    other_project = project_association.project(project)
+    {id: project_association.id,
+     project: {id: other_project.id,
+               identifier: other_project.identifier,
+               name: other_project.name}
+    }
+  end
+end
+
+node :parent, if: lambda{|project| visible_parent_project(project).present?} do |project|
+  parent = visible_parent_project(project)
+  { id: parent.id, name: parent.name, identifier: parent.identifier }
+end
+
