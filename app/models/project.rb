@@ -43,10 +43,10 @@ class Project < ActiveRecord::Base
   RESERVED_IDENTIFIERS = %w( new level_list )
 
   # things that are explicitly excluded when copying a project
-  NOT_TO_COPY = ['id', 'name', 'identifier', 'status', 'lft', 'rgt']
+  not_to_copy ['id', 'name', 'identifier', 'status', 'lft', 'rgt']
 
   # specify the order of associations to copy
-  COPY_PRECEDENCE = ['members', 'versions', 'categories', 'work_packages', 'wiki']
+  copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki']
 
   # Specific overidden Activities
   has_many :time_entry_activities
