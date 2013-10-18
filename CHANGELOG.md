@@ -1,5 +1,7 @@
 # Changelog
 
+* `#2402` Squash old migrations
+
 ## 5.0.1.pre7
 
 * `#2376` Fix incorrect asset location.
