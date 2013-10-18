@@ -3,11 +3,6 @@ require 'open_project/plugins/migration_mapping'
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class AggregatedReportingMigrations < ActiveRecord::Migration
 
-  def initialize
-    super
-    # @issues_table_exists = ActiveRecord::Base.connection.tables.include? 'issues'
-  end
-
   MIGRATION_FILES = <<-MIGRATIONS
     20101111150110_adjust_cost_query_layout.rb
     20101124150110_adjust_cost_query_layout_some_more.rb
@@ -21,25 +16,22 @@ class AggregatedReportingMigrations < ActiveRecord::Migration
   def up
     migration_names = OpenProject::Plugins::MigrationMapping.migration_files_to_migration_names(MIGRATION_FILES, OLD_PLUGIN_NAME)
     Migration::MigrationSquasher.squash(migration_names) do
-      remove_column :cost_queries, :filters
-      remove_column :cost_queries, :group_by
-      remove_column :cost_queries, :granularity
-      remove_column :cost_queries, :display_cost_entries
-      remove_column :cost_queries, :display_time_entries
+      create_table "cost_queries" do |t|
+        t.integer  "user_id",                                       :null => false
+        t.integer  "project_id"
+        t.string   "name",                                          :null => false
+        t.boolean  "is_public",                  :default => false, :null => false
+        t.datetime "created_on",                                    :null => false
+        t.datetime "updated_on",                                    :null => false
+        t.string   "serialized", :limit => 2000,                    :null => false
+      end
 
-      add_column :cost_queries, :serialized, :string, limit: 2000, null: false
       add_timestamps :custom_fields
     end
   end
 
   def down
-    add_column :cost_queries, :filters, :text
-    add_column :cost_queries, :group_bys, :text
-    add_column :cost_queries, :granularity, :string
-    add_column :cost_queries, :display_cost_entries, :boolean, default: true
-    add_column :cost_queries, :display_time_entries, :boolean, default: true
-
-    remove_column :cost_queries, :serialized
+    drop_table "cost_queries"
     remove_timestamps :custom_fields
   end
 end
