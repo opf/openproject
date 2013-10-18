@@ -4795,9 +4795,10 @@ Timeline = {
     var timeline = this;
     var scale = timeline.getScale();
     var beginning = timeline.getBeginning();
+    var ms_in_a_day = 86400000; // 24 * 60 * 60 * 1000
 
     var todayPosition = (timeline.getDaysBetween(beginning, Date.today())) * scale.day;
-    todayPosition += (Date.now() - Date.today()) / Date.DAY * scale.day;
+    todayPosition += (Date.now() - Date.today()) / ms_in_a_day * scale.day;
 
     var decoHeight = timeline.decoHeight();
 
@@ -4816,7 +4817,7 @@ Timeline = {
 
     var setDate = function () {
       var newTodayPosition = (timeline.getDaysBetween(beginning, Date.today())) * scale.day;
-      newTodayPosition += (Date.now() - Date.today()) / Date.DAY * scale.day;
+      newTodayPosition += (Date.now() - Date.today()) / ms_in_a_day * scale.day;
 
       if (Math.abs(newTodayPosition - todayPosition) > 0.1) {
         currentTimeElement.transform(
