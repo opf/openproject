@@ -27,4 +27,19 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<p><%= form.select :responsible_id, options_for_responsible(project), :include_blank => true %></p>
+<p>
+<% if User.current.impaired? %>
+  <%= form.select :responsible_id, options_for_responsible(project), :include_blank => true %>
+<% else %>
+  <%= javascript_include_tag "autocompleter.js" %>
+  <%= javascript_include_tag "project/responsible_attribute.js" %>
+  <%= form.select(:responsible_id, options_for_select([]),
+      {},
+      { :'data-ajaxURL' => url_for({:controller => "/members",
+                                    :action     => "paginate_users" }),
+        :'data-selected' => [[project.responsible.name, project.responsible.id]].to_json,
+        :'data-projectId' => project.id
+      })
+   %>
+<% end %>
+</p>
