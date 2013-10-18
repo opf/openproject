@@ -99,10 +99,6 @@ private
   end
 
   def destroy_response_url(container)
-    object = container
-
-    object = [@project, container.wiki] if container.kind_of? WikiPage
-
-    url_for(object)
+    url_for(container.kind_of?(WikiPage) ? [@project, container.wiki] : container)
   end
 end
