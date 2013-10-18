@@ -1,5 +1,7 @@
 # Changelog
 
+* `#2449` Squash old migrations
+
 ## 4.0.0.pre6
 
 * New core version dependency.
