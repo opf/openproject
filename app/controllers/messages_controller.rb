@@ -73,11 +73,14 @@ class MessagesController < ApplicationController
       m.author = User.current
       m.board = @board
     end
+
     @message.safe_attributes = params[:message]
+
+    @message.attach_files(params[:attachments])
+
     if @message.save
       call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
-      attachments = Attachment.attach_files(@message, params[:attachments])
-      render_attachment_warning_if_needed(@message)
+
       redirect_to topic_path(@message)
     else
       render :action => 'new'
