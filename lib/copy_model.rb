@@ -26,6 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+
+# Provides some convenience for copying an ActiveRecord model with associations.
+# The actual copying methods need to be provided, though.
+# Including this Module will include Redmine::SafeAttributes as well.
 module CopyModel
   module InstanceMethods
 
@@ -131,17 +135,20 @@ module CopyModel
     # copies everything (associations and attributes) based on
     # +from_model+.
     def copy(from_model, options = {})
-      self.new.copy(from_model)
+      self.new.copy(from_model, options)
     end
   end
 
   def self.included(base)
-    base.send :include, self::InstanceMethods
     base.send :extend,  self::ClassMethods
+    base.send :include, self::InstanceMethods
+    base.send :include, Redmine::SafeAttributes
+
   end
 
   def self.extended(base)
-    base.send :include, self::InstanceMethods
     base.send :extend,  self::ClassMethods
+    base.send :include, self::InstanceMethods
+    base.send :include, Redmine::SafeAttributes
   end
 end
