@@ -1,7 +1,7 @@
 require Rails.root.join("db","migrate","migration_utils","migration_squasher").to_s
 require 'open_project/plugins/migration_mapping'
 # This migration aggregates the migrations detailed in MIGRATION_FILES
-class AggregatedImpermanentMembershipsMigrations < ActiveRecord::Migration
+class AggregatedMeetingMigrations < ActiveRecord::Migration
 
 
   MIGRATION_FILES = <<-MIGRATIONS
