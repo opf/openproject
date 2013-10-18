@@ -39,8 +39,6 @@ Afterwards, run:
 
 This plugin contains migrations. To migrate the database, run:
 
-`rake openproject_global_roles:install:migrations`
-
 `rake db:migrate`
 
 Deinstallation
