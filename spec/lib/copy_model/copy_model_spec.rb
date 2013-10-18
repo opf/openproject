@@ -66,10 +66,9 @@ class Relation3 < Tableless
 end
 
 describe "Copying Models" do
+  let(:dummy) { CopyDummy.new }
 
   describe "copying attributes" do
-    let(:dummy) { CopyDummy.new }
-
     it "should copy safe attributes" do
       dummy.safe_attribute1 = "foo"
       dummy.safe_attribute2 = "bar"
@@ -88,6 +87,32 @@ describe "Copying Models" do
 
       dummy.safe_attribute1.should == copy.safe_attribute1
       dummy.unsafe_attribute.should_not == copy.unsafe_attribute
+    end
+  end
+
+  describe "copying associations" do
+    it "should copy associations, for which there are methods in our model" do
+      dummy.relation1 = Relation1.new
+      dummy.relation2 = Relation2.new
+
+      copy = CopyDummy.copy(dummy)
+
+      copy.relation1.should == dummy.relation1
+      copy.relation1.should_not == nil
+      copy.relation2.should == dummy.relation2
+      copy.relation2.should_not == nil
+    end
+
+    it "should not copy associations, for which there are no methods in our model" do
+      dummy.relation1 = Relation1.new
+      dummy.relation3 = Relation3.new
+
+      copy = CopyDummy.copy(dummy)
+
+      copy.relation1.should == dummy.relation1
+      copy.relation1.should_not == nil
+      copy.relation3.should_not == dummy.relation3
+      copy.relation3.should == nil
     end
   end
 end
