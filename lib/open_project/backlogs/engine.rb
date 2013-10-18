@@ -41,6 +41,14 @@ module OpenProject::Backlogs
       FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
     end
 
+    initializer :append_migrations do |app|
+      unless app.root.to_s.match root.to_s
+        config.paths["db/migrate"].expanded.each do |expanded_path|
+          app.config.paths["db/migrate"] << expanded_path
+        end
+      end
+    end
+
     config.to_prepare do
 
       # TODO: avoid this dirty hack necessary to prevent settings method getting lost after reloading
