@@ -33,8 +33,6 @@ Afterwards, run:
 
 This plugin contains migrations. To migrate the database, run:
 
-`rake openproject_meeting:install:migrations`
-
 `rake db:migrate`
 
 Deinstallation
