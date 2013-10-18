@@ -1,5 +1,6 @@
 # Changelog
 
+* `#2402` Activated migrations running from the plugin
 * Additional namespacing of hook partials to prevent clashes on activity view
 
 ## 1.0.0.pre4

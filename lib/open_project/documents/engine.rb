@@ -62,6 +62,14 @@ module OpenProject::Documents
       app.routes_reloader.paths.uniq!
     end
 
+    initializer :append_migrations do |app|
+      unless app.root.to_s.match root.to_s
+        config.paths["db/migrate"].expanded.each do |expanded_path|
+          app.config.paths["db/migrate"] << expanded_path
+        end
+      end
+    end
+
     # adds our factories to factory girl's load path
     initializer "documents.register_factories", :after => "factory_girl.set_factory_paths" do |app|
       FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
