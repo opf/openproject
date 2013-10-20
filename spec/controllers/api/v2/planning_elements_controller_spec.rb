@@ -367,29 +367,67 @@ describe Api::V2::PlanningElementsController do
   end
 
   describe 'create.xml' do
+    let(:project) { FactoryGirl.create(:project_with_types, :is_public => false) }
+    let(:author)  { FactoryGirl.create(:user) }
+
     become_admin
 
-    let(:project) { FactoryGirl.create(:project_with_types, :is_public => false) }
-    let(:author)  { FactoryGirl.create(:user)}
+    describe 'permissions' do
+      let(:planning_element) do
+        FactoryGirl.build(:work_package, :author => author, :project_id => project.id)
+      end
 
-    def fetch
-      post 'create', :project_id => project.identifier,
-                     :format => 'xml',
-                     :planning_element => FactoryGirl.build(:work_package,
-                                                            :author => author,
-                                                            :project_id => project.id).attributes
-                                                                                      .merge("planning_element_type_id" => project.types.first.id)
-                                                                                      # there is a mapping in the API-controller, that maps
-                                                                                      # planning_element_type_id onto type_id's - this is left here
-                                                                                      # to ensure compatibility with the api-clients
+      def fetch
+        post 'create', :project_id => project.identifier,
+                       :format => 'xml',
+                       :planning_element => planning_element.attributes
+      end
+
+      def expect_redirect_to
+        Regexp.new(project_planning_elements_path(project))
+      end
+      let(:permission) { :edit_work_packages }
+
+      it_should_behave_like "a controller action which needs project permissions"
     end
 
-    def expect_redirect_to
-      Regexp.new(project_planning_elements_path(project))
-    end
-    let(:permission) { :edit_work_packages }
+    describe 'with custom fields' do
+      render_views
 
-    it_should_behave_like "a controller action which needs project permissions"
+      let(:type) { FactoryGirl.create :type_standard }
+
+      let(:custom_field) do
+        FactoryGirl.create :issue_custom_field,
+          :name => "Verse",
+          :field_format => "text",
+          :projects => [project],
+          :types => [type]
+      end
+
+      let(:planning_element) do
+        FactoryGirl.build(
+          :work_package,
+          :author => author,
+          :type => type,
+          :project => project)
+      end
+
+      it 'creates a new planning element with the given custom field value' do
+        post 'create',
+          :project_id => project.identifier,
+          :format => 'xml',
+          :planning_element => planning_element.attributes.merge(:custom_fields => [
+            { :id => custom_field.id, :value => "Wurst" }])
+        response.response_code.should == 303
+
+        id = response.headers["Location"].scan(/\d+/).last.to_i
+        get 'show', :project_id => project.identifier, :id => id, :format => 'json'
+
+        response.response_code.should == 200
+        response.header['Content-Type'].should include 'application/json'
+        response.body.should include "Wurst"
+      end
+    end
   end
 
   describe 'show.xml' do
@@ -480,25 +518,71 @@ describe Api::V2::PlanningElementsController do
   end
 
   describe 'update.xml' do
+    let(:project) { FactoryGirl.create(:project, :is_public => false) }
+
     become_admin
 
-    it 'needs to be tested'
+    describe 'permissions' do
+      let(:planning_element) { FactoryGirl.create(:work_package,
+                                                  :project_id => project.id) }
 
-    let(:project) { FactoryGirl.create(:project, :is_public => false) }
-    let(:planning_element) { FactoryGirl.create(:work_package,
-                                                :project_id => project.id) }
+      def fetch
+        post 'update', :project_id       => project.identifier,
+                       :id               => planning_element.id,
+                       :planning_element => { name: "blubs" },
+                       :format => 'xml'
+      end
+      def expect_no_content
+        true
+      end
+      let(:permission) { :edit_work_packages }
+      it_should_behave_like "a controller action which needs project permissions"
+    end
 
-    def fetch
-      post 'update', :project_id       => project.identifier,
-                     :id               => planning_element.id,
-                     :planning_element => { name: "blubs" },
-                     :format => 'xml'
+    describe 'with custom fields' do
+      render_views
+
+      let(:type) { FactoryGirl.create :type_standard }
+      let(:author) { FactoryGirl.create(:user) }
+
+      let(:custom_field) do
+        FactoryGirl.create :issue_custom_field,
+          :name => "Verse",
+          :field_format => "text",
+          :projects => [project],
+          :types => [type]
+      end
+
+      let(:planning_element) do
+        FactoryGirl.create(
+          :work_package,
+          :author => author,
+          :type => type,
+          :project => project,
+          :custom_values => [
+            CustomValue.new(:custom_field => custom_field, :value => "Mett")])
+      end
+
+      it 'updates the custom field value' do
+        put 'update',
+          :project_id => project.identifier,
+          :format => 'xml',
+          :id => planning_element.id,
+          :planning_element => {
+            :custom_fields => [
+              { :id => custom_field.id, :value => "Wurst" }
+            ]
+          }
+        response.response_code.should == 204
+
+        get 'show', :project_id => project.identifier, :id => planning_element.id, :format => 'json'
+
+        response.response_code.should == 200
+        response.header['Content-Type'].should include 'application/json'
+        response.body.should_not include "Mett"
+        response.body.should include "Wurst"
+      end
     end
-    def expect_no_content
-      true
-    end
-    let(:permission) { :edit_work_packages }
-    it_should_behave_like "a controller action which needs project permissions"
   end
 
   describe 'destroy.xml' do

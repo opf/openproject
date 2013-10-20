@@ -36,6 +36,8 @@ FactoryGirl.define do
     name "None"
     is_standard true
     is_default true
+
+    initialize_with { Type.find_or_create_by_name name }
   end
 
   factory :type_bug, :class => Type do
