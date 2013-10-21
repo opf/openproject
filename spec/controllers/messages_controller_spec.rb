@@ -72,4 +72,72 @@ describe MessagesController do
       end
     end
   end
+
+  describe :attachment do
+    let!(:message) { FactoryGirl.create(:message) }
+
+    let(:attachment_id) { "attachments_#{message.attachments.first.id}".to_sym }
+
+    describe :add do
+      before do
+        Message.any_instance.stub(:editable_by?).and_return(true)
+
+        Attachment.any_instance.stub(:filename).and_return(filename)
+        Attachment.any_instance.stub(:copy_file_to_destination)
+
+        put :update, id: message.id,
+                     attachments: { file: { file: filename,
+                                            description: '' } }
+
+        message.reload
+      end
+
+      context :journal do
+        describe :key do
+          subject { message.journals.last.changed_data }
+
+          it { should have_key attachment_id }
+        end
+
+        describe :value do
+          subject { message.journals.last.changed_data[attachment_id].last }
+
+          it { should eq(filename) }
+        end
+      end
+    end
+
+    describe :remove do
+      let!(:attachment) { FactoryGirl.create(:attachment,
+                                             container: message,
+                                             author: user,
+                                             filename: filename) }
+      let!(:attachable_journal) { FactoryGirl.create(:journal_attachable_journal,
+                                                     journal: message.journals.last,
+                                                     attachment: attachment,
+                                                     filename: filename) }
+
+      before do
+        message.reload
+        message.attachments.delete(attachment)
+        message.reload
+      end
+
+      context :journal do
+        let(:attachment_id) { "attachments_#{attachment.id}".to_sym }
+
+        describe :key do
+          subject { message.journals.last.changed_data }
+
+          it { should have_key attachment_id }
+        end
+
+        describe :value do
+          subject { message.journals.last.changed_data[attachment_id].first }
+
+          it { should eq(filename) }
+        end
+      end
+    end
+  end
 end
