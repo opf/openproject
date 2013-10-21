@@ -178,8 +178,6 @@ GEM
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
       rb-kqueue (>= 0.2)
-    loofah (1.2.1)
-      nokogiri (>= 1.4.4)
     lumberjack (1.0.3)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -339,10 +337,6 @@ GEM
     thor (0.18.1)
     tilt (1.4.1)
     timecop (0.6.1)
-    tinymce-rails (3.5.8.2)
-      railties (>= 3.1.1)
-    tinymce-rails-langs (0.1)
-      tinymce-rails (>= 3.4.9)
     treetop (1.4.14)
       polyglot
       polyglot (>= 0.3.1)
@@ -392,7 +386,6 @@ DEPENDENCIES
   json_spec
   launchy (~> 2.3.0)
   letter_opener (~> 1.0.0)
-  loofah
   mocha (~> 0.13.1)
   multi_json
   mysql
@@ -438,7 +431,5 @@ DEPENDENCIES
   therubyracer
   thin
   timecop (~> 0.6.1)
-  tinymce-rails
-  tinymce-rails-langs
   uglifier (>= 1.0.3)
   will_paginate (~> 3.0)
