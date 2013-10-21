@@ -393,16 +393,6 @@ OpenProject::Application.routes.draw do
     match "/attachments/download/:id" => redirect("/attachments/%{id}/download"), :format => false
   end
 
-  #left old routes at the bottom for backwards compat
-  scope :controller => 'repositories' do
-    match '/repositories/browse/:id/*path', :action => 'browse', :as => 'repositories_show'
-    match '/repositories/changes/:id/*path', :action => 'changes', :as => 'repositories_changes'
-    match '/repositories/diff/:id/*path', :action => 'diff', :as => 'repositories_diff'
-    match '/repositories/entry/:id/*path', :action => 'entry', :as => 'repositories_entry'
-    match '/repositories/annotate/:id/*path', :action => 'annotate', :as => 'repositories_entry'
-    match '/repositories/revision/:id/:rev', :action => 'revision'
-  end
-
   scope :controller => 'sys' do
     match '/sys/projects.:format', :action => 'projects', :via => :get
     match '/sys/projects/:id/repository.:format', :action => 'create_project_repository', :via => :post
