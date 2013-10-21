@@ -100,7 +100,8 @@ module ApplicationHelper
     link_to l(:label_preview),
               url,
               :id => id,
-              :class => 'preview'
+              :class => 'preview',
+              :accesskey => accesskey(:preview)
 
   end
 
