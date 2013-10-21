@@ -4175,8 +4175,17 @@ Timeline = {
         var chart = timeline.getUiRoot().find('.tl-chart');
         chart.css({ display: 'none'});
       }
+      timeline.adjustScrollingForChangedContent();
     });
   },
+
+  adjustScrollingForChangedContent: function() {
+    var current_height = Math.max(jQuery("body").height(), jQuery("#content").height());
+    if(current_height < jQuery(window).scrollTop()) {
+      jQuery(window).scrollTop(current_height - jQuery(window).height());
+    }
+  },
+
   rebuildTree: function() {
     var where = this.getUiRoot().find('.tl-left-main');
     var tree = this.getLefthandTree();
