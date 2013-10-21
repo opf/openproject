@@ -110,7 +110,7 @@ module Pagination::Controller
     def action=(action)
       @action = action
       refresh_action!
-      return @action
+      @action
     end
 
     def search
@@ -139,7 +139,7 @@ module Pagination::Controller
     end
 
     def undef_action!
-      controller.pagination = controller.pagination.delete(last_action)
+      controller.pagination.delete(last_action)
 
       # remove old
       controller.send(:remove_method, last_action) if controller.respond_to? :last_action

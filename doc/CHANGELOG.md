@@ -29,11 +29,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#959` Too many available responsibles returned for filtering in timelines
+* `#1916` Work package update screen is closed when attached file is deleted
+
 ## 3.0.0pre22
 
 * `#1348` User status has no database index
 * `#1854` Breadcrumbs arrows missing in Chrome
-* `#1916` Work package update screen is closed when attached file is deleted
+* `#1935` Default submenu for wiki pages is wrong (Configure menu item)
 * `#1991` Migrate text references to issues/planning elements
 * `#2297` Fix APIv2 for planning elements
 * `#2304` Introduce keyboard shortcuts

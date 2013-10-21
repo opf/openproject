@@ -26,36 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ReportedProjectStatusesController < ApplicationController
-  unloadable
-  helper :timelines
+module Api
+  module V2
+    module Pagination
+      module PaginationSpecHelper
+        def paginating_index_action(model, scope)
+          describe :index do
+            let(:params) { { "page" => "1",
+                             "page_limit" =>
+                             "10", "q" => "blubs",
+                             "format" => "json" } }
 
-  before_filter :disable_api
-  before_filter :require_login
-  before_filter :determine_base
-  accept_key_auth :index, :show
+            before do
+              model.should_receive(scope)
+                   .with(params["q"])
+                   .and_return(model)
 
-  def index
-    @reported_project_statuses = @base.all
-    respond_to do |format|
-      format.html { render_404 }
-    end
-  end
+              get :index, params
+            end
 
-  def show
-    @reported_project_status = @base.find(params[:id])
-    respond_to do |format|
-      format.html { render_404 }
-    end
-  end
-
-  protected
-
-  def determine_base
-    if params[:project_type_id]
-      @base = ProjectType.find(params[:project_type_id]).reported_project_statuses.active
-    else
-      @base = ReportedProjectStatus.active
+            it 'should be successful' do
+              response.should be_success
+            end
+          end
+        end
+      end
     end
   end
 end
+

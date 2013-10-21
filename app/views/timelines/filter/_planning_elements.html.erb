@@ -61,8 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select("timeline[options]", :planning_element_status,
                      options_for_select([]),
                      {},
-                     { :'data-ajaxURL' => url_for({:controller => "/api/v2/statuses",
-                                                   :action     => "paginate_statuses"}),
+                     { :'data-ajaxURL' => api_v2_paginate_statuses_path,
                        :multiple => true,
                        :'data-selected' => filter_select(
                                              timeline.selected_planning_element_status,
@@ -88,8 +87,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= select("timeline[options]", :planning_element_types,
                    options_for_select([]),
                    {},
-                   { :'data-ajaxURL' => url_for({:controller => "/api/v2/planning_element_types",
-                                                 :action     => "paginate_planning_element_types"}),
+                   { :'data-ajaxURL' => api_v2_paginate_types_path,
                      :multiple => true,
                      :'data-selected' => filter_select(
                                            timeline.selected_planning_element_types,
@@ -115,8 +113,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= select "timeline[options]", :planning_element_responsibles,
                    options_for_select([]),
                    {},
-                   { :'data-ajaxURL' => url_for({:controller => "/principals",
-                                                 :action     => "paginate_principals"}),
+                   { :'data-ajaxURL' => api_v2_paginate_users_path,
                      :multiple => true,
                      :'data-selected' => filter_select(
                                            timeline.selected_planning_element_responsibles,

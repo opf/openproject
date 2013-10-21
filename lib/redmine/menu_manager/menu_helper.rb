@@ -63,6 +63,7 @@ module Redmine::MenuManager::MenuHelper
             { :controller => '/wiki', :action => 'show', :id => h(child.title) },
               :param => :project_id, :caption => child.name, :parent => "#{main_item.item_class}".to_sym
         end
+        # FIXME using wiki_menu_item#title to reference the wiki page and wiki_menu_item#name as the menu item representation feels wrong
       end
     end
   end

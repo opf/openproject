@@ -207,12 +207,20 @@ class WikiPage < ActiveRecord::Base
   end
 
   def nearest_menu_item
-    if self.menu_item
-      self.menu_item
-    elsif self.parent
-      self.parent.nearest_menu_item
+    self.menu_item || nearest_parent_menu_item
+  end
+
+  # Returns the wiki menu item of nearest ancestor page that has a wiki menu item.
+  # To restrict the result to main menu items pass <tt>:is_main_item => true</tt> as +options+ hash
+  def nearest_parent_menu_item(options={})
+    return nil unless self.parent
+
+    options = options.with_indifferent_access
+
+    if (parent_menu_item = self.parent.menu_item) && (!options[:is_main_item] || parent_menu_item.is_main_item?)
+      parent_menu_item
     else
-      nil
+      self.parent.nearest_parent_menu_item
     end
   end
 

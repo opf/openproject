@@ -459,56 +459,12 @@ class RoutingTest < ActionDispatch::IntegrationTest
                                                                  :id => '55',
                                                                  :project_id => '567' )
     end
-
-    context "issue scoped" do
-      should route(:get, "/issues/234/time_entries").to( :controller => 'timelog',
-                                                         :action => 'index',
-                                                         :issue_id => '234' )
-
-      should route(:get, "/issues/234/time_entries.csv").to( :controller => 'timelog',
-                                                             :action => 'index',
-                                                             :issue_id => '234',
-                                                             :format => 'csv' )
-
-      should route(:get, "/issues/234/time_entries.atom").to( :controller => 'timelog',
-                                                              :action => 'index',
-                                                              :issue_id => '234',
-                                                              :format => 'atom' )
-
-      should route(:get, "/issues/234/time_entries/new").to( :controller => 'timelog',
-                                                             :action => 'new',
-                                                             :issue_id => '234' )
-
-      should route(:get, "/issues/234/time_entries/22/edit").to( :controller => 'timelog',
-                                                                 :action => 'edit',
-                                                                 :id => '22',
-                                                                 :issue_id => '234' )
-
-      should route(:post, "/issues/234/time_entries").to( :controller => 'timelog',
-                                                          :action => 'create',
-                                                          :issue_id => '234' )
-
-      should route(:put, "/issues/234/time_entries/22").to( :controller => 'timelog',
-                                                            :action => 'update',
-                                                            :id => '22',
-                                                            :issue_id => '234' )
-
-      should route(:delete, "/issues/234/time_entries/55").to( :controller => 'timelog',
-                                                               :action => 'destroy',
-                                                               :id => '55',
-                                                               :issue_id => '234' )
-    end
   end
 
 
   context "time_entries/reports" do
     should route(:get, "/time_entries/report").to( :controller => 'time_entries/reports',
                                                    :action => 'show' )
-
-    should route(:get, "/issues/5/time_entries/report").to( :controller => 'time_entries/reports',
-                                                            :action => 'show',
-                                                            :issue_id => '5' )
-
     should route(:get, "/projects/567/time_entries/report").to( :controller => 'time_entries/reports',
                                                                 :action => 'show',
                                                                 :project_id => '567' )

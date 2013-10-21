@@ -26,9 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class PrincipalsController < ApplicationController
+class Api::V2::Pagination::ReportedProjectStatusesController < ApplicationController
   extend Pagination::Controller
 
-  paginate_model Principal
-  search_for Principal, :like
+  paginate_model ReportedProjectStatus
+  action_for ReportedProjectStatus, :index
 end

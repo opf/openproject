@@ -26,10 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module V2
-    class PlanningElementType < Type
-      self.table_name = 'types'
-    end
-  end
+class Api::V2::Pagination::UsersController < ApplicationController
+  extend Pagination::Controller
+
+  paginate_model User
+  search_for User, :active_or_registered_like
+  action_for User, :index
 end

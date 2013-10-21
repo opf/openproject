@@ -26,27 +26,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module V2
+require 'spec_helper'
 
-    class ReportedProjectStatusesController < ReportedProjectStatusesController
+describe WikiPage do
+  describe '#nearest_parent_menu_item' do
+    let(:wiki_page) { FactoryGirl.create(:wiki_page) }
+    let(:wiki) { wiki_page.wiki }
+    let!(:wiki_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => wiki_page.title) }
+    let(:child_page) { FactoryGirl.create(:wiki_page, :parent => wiki_page, :wiki => wiki) }
+    let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => child_page.title, :parent => wiki_page_wiki_menu_item) }
+    let(:grand_child_page) { FactoryGirl.create(:wiki_page, :parent => child_page, :wiki => wiki) }
+    let!(:grand_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => grand_child_page.title) }
 
-      include ::Api::V2::ApiController
-
-      def index
-        @reported_project_statuses = @base.all
-        respond_to do |format|
-          format.api
-        end
-      end
-
-      def show
-        @reported_project_status = @base.find(params[:id])
-        respond_to do |format|
-          format.api
-        end
+    context 'when called without options' do
+      it 'returns the menu item of the parent page' do
+        grand_child_page.nearest_parent_menu_item.should == child_page_wiki_menu_item
       end
     end
 
+    context 'when called with {is_main_item => true}' do
+      it 'returns the menu item of the grand parent if the menu item of its parent is not a main item' do
+        grand_child_page.nearest_parent_menu_item(is_main_item: true).should == wiki_page_wiki_menu_item
+      end
+    end
   end
 end

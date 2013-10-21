@@ -26,36 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ReportedProjectStatusesController < ApplicationController
-  unloadable
-  helper :timelines
+require 'spec_helper'
+require_relative 'pagination_spec_helper'
 
-  before_filter :disable_api
-  before_filter :require_login
-  before_filter :determine_base
-  accept_key_auth :index, :show
+describe Api::V2::Pagination::ReportedProjectStatusesController do
+  extend Api::V2::Pagination::PaginationSpecHelper
 
-  def index
-    @reported_project_statuses = @base.all
-    respond_to do |format|
-      format.html { render_404 }
-    end
-  end
-
-  def show
-    @reported_project_status = @base.find(params[:id])
-    respond_to do |format|
-      format.html { render_404 }
-    end
-  end
-
-  protected
-
-  def determine_base
-    if params[:project_type_id]
-      @base = ProjectType.find(params[:project_type_id]).reported_project_statuses.active
-    else
-      @base = ReportedProjectStatus.active
-    end
-  end
+  paginating_index_action ReportedProjectStatus, :like
 end
