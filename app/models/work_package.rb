@@ -284,7 +284,6 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # ACTS AS ATTACHABLE
-  # Callback on attachment deletion
   def attachments_changed(obj)
     unless new_record?
       add_journal
