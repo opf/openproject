@@ -86,6 +86,7 @@ OpenProject::Application.routes.draw do
 
       resources :projects do
         resources :planning_elements
+        resources :planning_element_types
         resources :reportings do
           get :available_projects, :on => :collection
         end
