@@ -1076,8 +1076,8 @@ module ApplicationHelper
   #
   def footer_content
     elements = []
-    elements << I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name,
-                                                          Redmine::Info.url))
+    elements << I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name,
+                                                          OpenProject::Info.url))
     unless OpenProject::Footer.content.nil?
       OpenProject::Footer.content.each do |name, value|
         content = value.respond_to?(:call) ? value.call : value

@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= call_hook(:view_admin_info_top) %>
 
 <%= content_tag :h3, I18n.t('label_core_version') %>
-<p><strong><%= Redmine::Info.versioned_name %></strong> (<%= @db_adapter_name %>)</p>
+<p><strong><%= OpenProject::Info.versioned_name %></strong> (<%= @db_adapter_name %>)</p>
 
 <%= content_tag :h3, I18n.t('label_system') %>
 <table class="list">
