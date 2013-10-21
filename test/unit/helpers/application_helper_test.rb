@@ -200,11 +200,15 @@ RAW
                  :comments => 'This commit fixes #1, #2 and references #1 & #3'
     identifier = @project.identifier
 
-    source_link = link_to("#{identifier}:source:/some/file", {:controller => 'repositories', :action => 'entry', :id => identifier, :path => ['some', 'file']},
-      :class => 'source')
+    source_link = link_to("#{identifier}:source:/some/file", { :controller => 'repositories',
+                                                               :action => 'entry',
+                                                               :project_id => identifier,
+                                                               :path => 'some/file'} ,
+                                                             :class => 'source')
     changeset_link = link_to("#{identifier}:r#{changeset.revision}",
-      {:controller => 'repositories', :action => 'revision', :id => identifier, :rev => changeset.revision},
+      {:controller => 'repositories', :action => 'revision', :project_id => identifier, :rev => changeset.revision},
       :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
+
 
     # textilizable "sees" the text is parses from the_other_project (and not @project)
     the_other_project = FactoryGirl.create :valid_project
@@ -232,7 +236,7 @@ RAW
                                {
                                  :controller => 'repositories',
                                  :action     => 'revision',
-                                 :id         => @project.identifier,
+                                 :project_id => @project.identifier,
                                  :rev        => 'abcd',
                                 },
                               :class => 'changeset', :title => 'test commit')

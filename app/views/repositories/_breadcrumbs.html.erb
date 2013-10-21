@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= link_to 'root', :action => 'show', :id => @project, :path => '', :rev => @rev %>
+<%= link_to 'root', :action => 'show', :project_id => @project, :path => nil, :rev => @rev %>
 <%
 dirs = path.split('/')
 if 'file' == kind
@@ -39,12 +39,12 @@ dirs.each do |dir|
     link_path << '/' unless link_path.empty?
     link_path << "#{dir}"
     %>
-    / <%= link_to h(dir), :action => 'show', :id => @project,
+    / <%= link_to h(dir), :action => 'show', :project_id => @project,
                 :path => to_path_param(link_path), :rev => @rev %>
 <% end %>
 <% if filename %>
     / <%= link_to h(filename),
-                   :action => 'changes', :id => @project,
+                   :action => 'changes', :project_id => @project,
                    :path => to_path_param("#{link_path}/#{filename}"), :rev => @rev %>
 <% end %>
 <%
