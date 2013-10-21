@@ -36,8 +36,9 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1916` Work package update screen is closed when attached file is deleted
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
 * `#2009` No journal entry created for attachments if the attachment is added on container creation
-* `#2026` 404 error when letters are entered in category Work Package
 * `#2221` [Accessibility] enhance keyboard shortcuts
+* `#2026` 404 error when letters are entered in category Work Package
+* `#2129` Repository: clicking on file results in 500
 * `#2371` Add support for IE10 to Timelines
 * `#2400` Cannot delete work package
 * `#2423` [Issue Tracker] Several Internal Errors when there is no default work package status
