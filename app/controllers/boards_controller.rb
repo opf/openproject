@@ -30,8 +30,9 @@
 class BoardsController < ApplicationController
   default_search_scope :messages
   before_filter :find_project_by_project_id,
-                :authorize,
-                :find_board_if_available
+                :authorize
+  before_filter :new_board, :only => [:new, :create]
+  before_filter :find_board_if_available, :except => [:index]
   accept_key_auth :index, :show
 
   include MessagesHelper
@@ -76,12 +77,9 @@ class BoardsController < ApplicationController
   end
 
   def new
-    @board = Board.new
   end
 
   def create
-    @board = Board.new(params[:board])
-    @board.project = @project
     if @board.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to_settings_in_projects
@@ -113,5 +111,10 @@ private
     @board = @project.boards.find(params[:id]) if params[:id]
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def new_board
+    @board = Board.new(params[:board])
+    @board.project = @project
   end
 end
