@@ -30,8 +30,10 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#959` Too many available responsibles returned for filtering in timelines
+* `#1738` Forum problem when no description given.
 * `#1916` Work package update screen is closed when attached file is deleted
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
+
 
 ## 3.0.0pre22
 
