@@ -74,6 +74,7 @@ class BoardsController < ApplicationController
   end
 
   def new
+    @board = Board.new
   end
 
   def create
@@ -82,6 +83,8 @@ class BoardsController < ApplicationController
     if @board.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to_settings_in_projects
+    else
+      render :new
     end
   end
 
