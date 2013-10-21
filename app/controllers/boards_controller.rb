@@ -29,7 +29,9 @@
 
 class BoardsController < ApplicationController
   default_search_scope :messages
-  before_filter :find_project, :find_board_if_available, :authorize
+  before_filter :find_project_by_project_id,
+                :authorize,
+                :find_board_if_available
   accept_key_auth :index, :show
 
   include MessagesHelper
@@ -105,12 +107,6 @@ class BoardsController < ApplicationController
 private
   def redirect_to_settings_in_projects
     redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'boards'
-  end
-
-  def find_project
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def find_board_if_available
