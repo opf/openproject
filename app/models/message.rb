@@ -135,4 +135,12 @@ class Message < ActiveRecord::Base
     watchers(true)
     watcher_users(true)
   end
+
+  # ACTS AS ATTACHABLE
+  def attachments_changed(obj)
+    unless new_record?
+      add_journal
+      save!
+    end
+  end
 end
