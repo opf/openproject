@@ -26,9 +26,43 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :planning_element_types, :size => @types.size do
-  @types.each do |planning_element_type|
-    render(:partial => '/api/v2/planning_element_types/planning_element_type.api',
-           :object => planning_element_type)
+require File.expand_path('../../../../../spec_helper', __FILE__)
+
+describe 'api/v2/planning_element_types/index.api.rabl' do
+
+  before do
+    params[:format] = 'json'
+  end
+
+  describe 'with no planning element types available' do
+
+
+    it 'renders an empty planning_element_types document' do
+      assign(:types, [])
+      render
+
+      response.should have_json_size(0).at_path('planning_element_types')
+    end
+  end
+
+  describe 'with 3 planning element types available' do
+    let(:types) do
+      [
+        FactoryGirl.build(:type),
+        FactoryGirl.build(:type),
+        FactoryGirl.build(:type)
+      ]
+    end
+
+    before do
+      assign(:types, types)
+      render
+    end
+
+    subject{response.body}
+
+    it 'renders 3 planning_element_types' do
+      should have_json_size(3).at_path('planning_element_types')
+    end
   end
 end

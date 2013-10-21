@@ -26,5 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-render(:partial => '/api/v2/planning_element_types/planning_element_type.api',
-       :object => @planning_element_type)
+object @type
+node :planning_element_type do |type|
+  partial "api/v2/planning_element_types/planning_element_type", object: type
+end

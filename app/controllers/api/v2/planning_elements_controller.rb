@@ -214,8 +214,9 @@ module Api
 
       def optimize_planning_elements_for_less_db_queries
         # triggering full load to avoid separate queries for count or related models
-        # historical packages are already loaded correctly and only need to be optimised, so they do not need to fetched again, only optimised
-        @planning_elements = @planning_elements.all(:include => [:type, :status, :project, :responsible]) unless @planning_elements.class == Array
+        # historical packages are already loaded correctly and only need to be optimised, so they do not need to be fetched again, only optimised
+        # TODO :responsible, :assigned_to, :author are all three users: this can be further optimised by collecting all user-ids and replacing them in one go
+        @planning_elements = @planning_elements.all(:include => [:type, :status, :project, :responsible, :assigned_to, :author]) unless @planning_elements.class == Array
 
         # Replacing association proxies with already loaded instances to avoid
         # further db calls.

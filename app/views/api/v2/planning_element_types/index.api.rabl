@@ -26,21 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.planning_element_type do
-  api.id(planning_element_type.id)
-  api.name(planning_element_type.name)
+collection @types => :planning_element_types
+extends '/api/v2/planning_element_types/planning_element_type'
 
-  api.in_aggregation(planning_element_type.in_aggregation)
-  api.is_milestone(planning_element_type.is_milestone)
-  api.is_default(planning_element_type.is_default)
-
-  api.position(planning_element_type.position)
-
-  color = planning_element_type.color
-  if color.present?
-    api.color(:id => color.id, :name => color.name, :hexcode => color.hexcode)
-  end
-
-  api.created_at(planning_element_type.created_at.utc) if planning_element_type.created_at
-  api.updated_at(planning_element_type.updated_at.utc) if planning_element_type.updated_at
-end

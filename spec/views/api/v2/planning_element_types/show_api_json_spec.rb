@@ -28,47 +28,52 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_element_types/show.api.rsb' do
-  before do
-    view.extend TimelinesHelper
-  end
+describe 'api/v2/planning_element_types/show.api.rabl' do
 
   before do
-    params[:format] = 'xml'
+    params[:format] = 'json'
   end
 
   describe 'with an assigned planning element type' do
-    let(:planning_element_type) { FactoryGirl.build(:type) }
+    let(:planning_element_type) do
+      FactoryGirl.build(:type,
+                        :id => 1,
+                        :name => 'Awesometastic Planning Element Type',
+
+                        :in_aggregation => false,
+                        :is_milestone => true,
+                        :is_default => true,
+
+                        :position => 100,
+
+                        :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                        :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
+    end
 
     before do
-      assign(:planning_element_type, planning_element_type)
+      assign(:type, planning_element_type)
+      render
     end
+
+    subject { response.body }
 
     it 'renders a planning_element_type document' do
-
-      render
-
-      response.should have_selector('planning_element_type', :count => 1)
+      should have_json_path('planning_element_type')
     end
 
-    it 'renders the _planning_element_type template once' do
+    it 'should render all detail-information for the planning-element-type' do
+      expected_json =  {:name => 'Awesometastic Planning Element Type',
 
-      view.should_receive(:render).once.with(hash_including(:partial => '/api/v2/planning_element_types/planning_element_type.api')).and_return('')
+                        :in_aggregation => false,
+                        :is_milestone => true,
+                        :is_default => true,
 
-      # just to render the speced template despite the should receive expectations above
-      view.should_receive(:render).once.with({:template=>"api/v2/planning_element_types/show", :handlers=>["rsb"], :formats=>["api"]}, {}).and_call_original
+                        :position => 100,
+      }.to_json
 
-      render
+      should be_json_eql(expected_json).at_path('planning_element_type')
     end
 
-    it 'passes the planning element type as local var to the partial' do
 
-      view.should_receive(:render).once.with(hash_including(:object => planning_element_type)).and_return('')
-
-      # just to render the speced template despite the should receive expectations above
-      view.should_receive(:render).once.with({:template=>"api/v2/planning_element_types/show", :handlers=>["rsb"], :formats=>["api"]}, {}).and_call_original
-
-      render
-    end
   end
 end
