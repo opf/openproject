@@ -32,6 +32,7 @@ class Project < ActiveRecord::Base
   extend Pagination::Model
 
   include Project::Copy
+  include Project::AllowedScope
 
   # Project statuses
   STATUS_ACTIVE     = 1

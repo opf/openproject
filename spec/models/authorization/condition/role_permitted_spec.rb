@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,32 +27,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ChiliProject::PrincipalAllowanceEvaluator::Base
-  def initialize(user)
-    @user = user
+require 'spec_helper'
+
+require_relative 'shared/allows_concatenation'
+
+describe Authorization::Condition::RolePermitted do
+
+  include Spec::Authorization::Condition::AllowsConcatenation
+
+  let(:scope) { double('scope', :has_table? => true) }
+  let(:klass) { Authorization::Condition::RolePermitted }
+  let(:instance) { klass.new(scope) }
+  let(:roles_table) { Role.arel_table }
+  let(:non_nil_options) { { permission: :a_permission } }
+  let(:non_nil_arel) do
+    permission_matches = roles_table[:permissions].matches("%a_permission%")
+    or_neutral = Arel::Nodes::Equality.new(1, 0)
+
+    roles_table.grouping(or_neutral.or(permission_matches))
   end
 
-  def granted_for_global? candidate, action, options
-    false
-  end
-
-  def denied_for_global? candidate, action, options
-    false
-  end
-
-  def granted_for_project? candidate, action, project, options = {}
-    false
-  end
-
-  def denied_for_project? candidate, action, project, options = {}
-    false
-  end
-
-  def global_granting_candidates
-    []
-  end
-
-  def project_granting_candidates project
-    []
-  end
+  it_should_behave_like "allows concatenation"
+  it_should_behave_like "requires models", Role
 end
+

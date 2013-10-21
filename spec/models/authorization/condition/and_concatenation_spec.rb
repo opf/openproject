@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,33 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ChiliProject::PrincipalAllowanceEvaluator::Default < ChiliProject::PrincipalAllowanceEvaluator::Base
-  def granted_for_global?(candidate, action, options)
-    granted = super
+require 'spec_helper'
+require_relative 'shared/concatenation'
 
-    granted || if candidate.is_a?(Member)
-                 candidate.roles.any?{ |r| r.allowed_to?(action) }
-               elsif candidate.is_a?(Role)
-                  candidate.allowed_to?(action)
-               end
-  end
+describe Authorization::Condition::AndConcatenation do
+  let(:first_condition) { double('first_condition') }
+  let(:second_condition) { double('second_condition') }
+  let(:scope) { double('scope') }
 
-  def granted_for_project?(role, action, project, options)
-    return false unless role.is_a?(Role)
-    granted = super
+  let(:instance) { Authorization::Condition::AndConcatenation.new(scope, first_condition, second_condition) }
 
-    granted || (project.is_public? || role.member?) && role.allowed_to?(action)
-  end
-
-  def global_granting_candidates
-    role = @user.logged? ?
-             Role.non_member :
-             Role.anonymous
-
-    @user.memberships + [role]
-  end
-
-  def project_granting_candidates(project)
-    @user.roles_for_project project
-  end
+  it_should_behave_like 'has first and second condition'
+  it_should_behave_like 'concatenates arel', :and
 end

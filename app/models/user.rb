@@ -170,6 +170,8 @@ class User < Principal
   }
   scope :admin, :conditions => { :admin => true }
 
+  include User::Allowed
+
   def sanitize_mail_notification_setting
     self.mail_notification = Setting.default_notification_option if self.mail_notification.blank?
     true
@@ -210,26 +212,6 @@ class User < Principal
   def self.search_in_project(query, options)
     Project.find(options.fetch(:project)).users.like(query)
   end
-
-  def self.register_allowance_evaluator(filter)
-    self.registered_allowance_evaluators ||= []
-
-    registered_allowance_evaluators << filter
-  end
-
-  # replace by class_attribute when on rails 3.x
-  class_eval do
-    def self.registered_allowance_evaluators() nil end
-    def self.registered_allowance_evaluators=(val)
-      singleton_class.class_eval do
-        define_method(:registered_allowance_evaluators) do
-          val
-        end
-      end
-    end
-  end
-
-  register_allowance_evaluator ChiliProject::PrincipalAllowanceEvaluator::Default
 
   # Returns the user that matches provided login and password, or nil
   def self.try_to_login(login, password)
@@ -587,75 +569,6 @@ class User < Principal
     end
   end
 
-  # Return true if the user is allowed to do the specified action on a specific context
-  # Action can be:
-  # * a parameter-like Hash (eg. :controller => '/projects', :action => 'edit')
-  # * a permission Symbol (eg. :edit_project)
-  # Context can be:
-  # * a project : returns true if user is allowed to do the specified action on this project
-  # * a group of projects : returns true if user is allowed on every project
-  # * nil with options[:global] set : check if user has at least one role allowed for this action,
-  #   or falls back to Non Member / Anonymous permissions depending if the user is logged
-  def allowed_to?(action, context, options={})
-    if action.is_a?(Hash) && action[:controller] && action[:controller].to_s.starts_with?("/")
-      action = action.dup
-      action[:controller] = action[:controller][1..-1]
-    end
-
-    if context.is_a?(Project)
-      allowed_to_in_project?(action, context, options)
-    elsif context.is_a?(Array)
-      # Authorize if user is authorized on every element of the array
-      context.present? && context.all? do |project|
-        allowed_to?(action,project,options)
-      end
-    elsif options[:global]
-      allowed_to_globally?(action, options)
-    else
-      false
-    end
-  end
-
-  def allowed_to_in_project?(action, project, options = {})
-    initialize_allowance_evaluators
-
-    # No action allowed on archived projects
-    return false unless project.active?
-    # No action allowed on disabled modules
-    return false unless project.allows_to?(action)
-    # Admin users are authorized for anything else
-    return true if admin?
-
-    candidates_for_project_allowance(project).any? do |candidate|
-      denied = @registered_allowance_evaluators.any? do |filter|
-        filter.denied_for_project? candidate, action, project, options
-      end
-
-      !denied && @registered_allowance_evaluators.any? do |filter|
-        filter.granted_for_project? candidate, action, project, options
-      end
-    end
-  end
-
-  # Is the user allowed to do the specified action on any project?
-  # See allowed_to? for the actions and valid options.
-  def allowed_to_globally?(action, options = {})
-    # Admin users are always authorized
-    return true if admin?
-
-    initialize_allowance_evaluators
-    # authorize if user has at least one membership granting this permission
-    candidates_for_global_allowance.any? do |candidate|
-      denied = @registered_allowance_evaluators.any? do |evaluator|
-        evaluator.denied_for_global? candidate, action, options
-      end
-
-      !denied && @registered_allowance_evaluators.any? do |evaluator|
-        evaluator.granted_for_global? candidate, action, options
-      end
-    end
-  end
-
   # Utility method to help check if a user should be notified about an
   # event.
   def notify_about?(object)
@@ -779,20 +692,6 @@ class User < Principal
   end
 
   private
-
-  def initialize_allowance_evaluators
-    @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.collect do |evaluator|
-      evaluator.new(self)
-    end
-  end
-
-  def candidates_for_global_allowance
-    @registered_allowance_evaluators.map(&:global_granting_candidates).flatten.uniq
-  end
-
-  def candidates_for_project_allowance project
-    @registered_allowance_evaluators.map{ |f| f.project_granting_candidates(project) }.flatten.uniq
-  end
 
   def former_passwords_include?(password)
     return false if Setting[:password_count_former_banned].to_i == 0

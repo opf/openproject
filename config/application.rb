@@ -165,6 +165,12 @@ module OpenProject
     # This allows for setting the root either via config file or via environment variable.
     config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
 
+    initializer 'load_allowance' do
+      require 'authorization/principals'
+      require 'authorization/users'
+      require 'authorization/project'
+    end
+
     config.to_prepare do
       # Rails loads app/views paths of all plugin on each request and appends it to the view_paths.
       # Thus, they end up behind the core view path and core views are found before plugin views.
