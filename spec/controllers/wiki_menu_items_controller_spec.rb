@@ -30,10 +30,14 @@ require 'spec_helper'
 
 describe WikiMenuItemsController do
   let(:current_user) { FactoryGirl.create(:admin) }
-  let(:wiki_page) { FactoryGirl.create(:wiki_page) } # first wiki page without child pages
+
+  # create project with wiki
+  let(:project) { FactoryGirl.create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
+  let(:wiki) { project.wiki }
+
+  # wiki pages
+  let(:wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # first wiki page without child pages
   let!(:top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => wiki_page.title) }
-  let(:wiki) { wiki_page.wiki }
-  let(:project) { FactoryGirl.create(:project, :wiki => wiki) }
   let(:another_wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # second wiki page with two child pages
   let!(:another_wiki_page_top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => another_wiki_page.title) }
 
