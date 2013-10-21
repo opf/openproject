@@ -48,16 +48,29 @@ Feature: Attachments on work packages
       | name        | is_closed | is_default |
       | New         | false     | true       |
     Given the user "bob" has 1 issue with the following:
-      | subject     | issue1 |
+      | subject     | work package 1 |
       | type        | Bug    |
-    Given the issue "issue1" has an attachment "logo.gif"
+    Given the issue "work package 1" has an attachment "logo.gif"
     And I am already logged in as "bob"
 
   Scenario: A work package's attachment is listed
-    When I go to the page for the issue "issue1"
+    When I go to the page for the issue "work package 1"
     Then I should see "logo.gif" within ".icon-attachment"
 
   Scenario: Deleting a work package's attachment is possible
-    When I go to the page for the issue "issue1"
+    When I go to the page for the issue "work package 1"
     When I click the first delete attachment link
     Then I should not see ".icon-attachment"
+
+  # see ticket #1916 on OpenProject.org
+  @javascript
+  Scenario: Deleting attachment while editing a work package
+    When I go to the page for the work package "work package 1"
+     And I select "Update" from the action menu
+     And I fill in "Notes" with "Note message"
+
+    When I click the first delete attachment link
+     And I accept the alert dialog
+
+    Then I should not see ".icon-attachment"
+     And the "Notes" field should contain "Note message"
