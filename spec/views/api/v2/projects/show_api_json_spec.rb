@@ -191,40 +191,77 @@ describe 'api/v2/projects/show.api.rabl' do
   end
 
   describe 'with a project having 3 enabled planning element types' do
-    let(:color)        { FactoryGirl.create(:color) }
+    let(:color)        { FactoryGirl.create(:color, hexcode: "#ff0000", name: "red") }
     let(:project)      { FactoryGirl.create(:project) }
 
     before do
       types = [
-          FactoryGirl.create(:type, :color_id => color.id),
+          FactoryGirl.create(:type, name: "SampleType", is_milestone: true, :color_id => color.id),
           FactoryGirl.create(:type, :color_id => color.id),
           FactoryGirl.create(:type, :color_id => color.id)
       ]
       project.types = types
       project.save
+
+      assign(:project, project)
+      render
     end
 
-    describe 'project node' do
-      it 'contains a planning_element_types element of type array with a size of 3' do
-        render
+    subject {response.body}
 
-        response.should have_selector('project planning_element_types[type=array][size="3"]', :count => 1)
-      end
 
-      describe 'planning_element_types node' do
-        it 'contains 3 planning_element_type elements having id and name attributes' do
-          render
-
-          response.should have_selector('project planning_element_types planning_element_type', :count => 3) do
-            with_tag 'id'
-            with_tag 'name'
-            with_tag 'color[id][name][hexcode]'
-            with_tag 'is_milestone'
-          end
-        end
-      end
+    it 'contains 3 planning_element_types' do
+      should have_json_size(3).at_path("project/planning_element_types")
     end
+
+
+    it 'renders the corrent name, color, is_milestone for a planning_element_type' do
+      expected_json = {name: "SampleType", is_milestone: true, color: {hexcode: "#FF0000", name: "red"}}.to_json
+
+      should be_json_eql(expected_json).at_path("project/planning_element_types/0")
+    end
+
   end
+
+
+  describe 'with a project having project_associations' do
+    let(:project) { FactoryGirl.create(:project) }
+
+    before do
+      FactoryGirl.create(:project_association,
+                         :project_a_id => project.id,
+                         :project_b_id => FactoryGirl.create(:project, name: "Associated Project #1", identifier: "assoc_1", is_public: true).id)
+      FactoryGirl.create(:project_association,
+                         :project_b_id => project.id,
+                         :project_a_id => FactoryGirl.create(:project, name: "Associated Project #2", identifier: "assoc_2", is_public: true).id)
+
+      # Adding invisible association to make sure, that it is not included in the output
+      FactoryGirl.create(:project_association,
+                         :project_a_id => project.id,
+                         :project_b_id => FactoryGirl.create(:project, :is_public => false).id)
+    end
+
+    before do
+      assign(:project, project)
+      render
+    end
+
+    subject {response.body}
+
+
+    it 'render 2 project_associations' do
+      should have_json_size(2).at_path('project/project_associations')
+    end
+
+
+    it 'render a project_association with the from- and -to-project' do
+      expected_json = {project: {name: "Associated Project #1", identifier: "assoc_1"}}.to_json
+
+      should be_json_eql(expected_json).at_path('project/project_associations/0')
+    end
+
+  end
+
 
 
 end
