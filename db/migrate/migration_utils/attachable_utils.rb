@@ -12,6 +12,10 @@ require_relative 'utils'
 
 module Migration
   module Utils
+    MissingAttachment = Struct.new(:journaled_id,
+                                   :attachment_id,
+                                   :filename,
+                                   :last_version)
 
     def repair_attachable_journal_entries(journal_type, legacy_journal_type)
       result = invalid_attachments(legacy_journal_type)
@@ -25,14 +29,33 @@ module Migration
       remove_initial_journals(result, journal_type)
     end
 
+    def repair_initial_journals(result, journal_type)
+      result.each do |m|
+        journal_ids = affected_journal_ids(m.journaled_id, m.last_version, journal_type)
+
+        journal_ids.each do |journal_id|
+          insert <<-SQL
+            INSERT INTO attachable_journals (journal_id, attachment_id, filename)
+            VALUES (#{journal_id}, #{m.attachment_id}, '#{m.filename}')
+          SQL
+        end
+      end
+    end
+
+    def remove_initial_journals(result, journal_type)
+      result.each do |m|
+        journal_ids = affected_journal_ids(m.journaled_id, m.last_version, journal_type)
+
+        delete <<-SQL
+          DELETE FROM attachable_journals
+          WHERE journal_id IN (#{journal_ids.join(", ")})
+        SQL
+      end
+    end
+
     private
 
     COLUMNS = ['changed_data', 'version', 'journaled_id']
-
-    MissingAttachment = Struct.new(:journaled_id,
-                                   :attachment_id,
-                                   :filename,
-                                   :last_version)
 
     def invalid_attachments(legacy_journal_type)
       result = []
@@ -107,30 +130,6 @@ module Migration
         SQL
 
         result.empty?
-      end
-    end
-
-    def repair_initial_journals(result, journal_type)
-      result.each do |m|
-        journal_ids = affected_journal_ids(m.journaled_id, m.last_version, journal_type)
-
-        journal_ids.each do |journal_id|
-          insert <<-SQL
-            INSERT INTO attachable_journals (journal_id, attachment_id, filename)
-            VALUES (#{journal_id}, #{m.attachment_id}, '#{m.filename}')
-          SQL
-        end
-      end
-    end
-
-    def remove_initial_journals(result, journal_type)
-      result.each do |m|
-        journal_ids = affected_journal_ids(m.journaled_id, m.last_version, journal_type)
-
-        delete <<-SQL
-          DELETE FROM attachable_journals
-          WHERE journal_id IN (#{journal_ids.join(", ")})
-        SQL
       end
     end
 
