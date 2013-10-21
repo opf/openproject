@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
+module OpenProject
   module AccessKeys
     ACCESSKEYS = {:edit => '3',
                   :preview => '1',

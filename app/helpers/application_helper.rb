@@ -478,7 +478,7 @@ module ApplicationHelper
   end
 
   def accesskey(s)
-    Redmine::AccessKeys.key_for s
+    OpenProject::AccessKeys.key_for s
   end
 
   # Formats text according to system settings.
