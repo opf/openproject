@@ -178,9 +178,9 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
   test 'deleting all items' do
     # Exposed by deleting :last items
     Redmine::MenuManager.map :test_menu do |menu|
-      menu.push :not_last, Redmine::Info.help_url
+      menu.push :not_last, OpenProject::Info.help_url
       menu.push :administration, { :controller => 'projects', :action => 'show'}, {:last => true}
-      menu.push :help, Redmine::Info.help_url, :last => true
+      menu.push :help, OpenProject::Info.help_url, :last => true
     end
 
     assert_nothing_raised do

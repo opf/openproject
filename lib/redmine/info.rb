@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
+module OpenProject
   module Info
     class << self
       def app_name; Setting.software_name end
