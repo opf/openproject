@@ -28,8 +28,12 @@
 #breadcrumb
   height: 38px
   overflow: hidden
-  background: url(image_path 'background_breadcrumb.png') repeat-x left top
   min-width: 1000px
+  border-top: 3px solid #24b3e7
+  border-bottom: 0px
+  background: -khtml-gradient(linear, left top, left bottom, from(#FFFFFF), to(#E4E4E4))
+  background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#E4E4E4))
+  background: -moz-linear-gradient(top,  #FFFFFF,  #E4E4E4)
 
   h1
     height: 16px
@@ -45,6 +49,29 @@
     margin-left: 20px
 
   a
-    text-decoration: underline
+    font-weight: normal
+    text-decoration: none
     color: #333333
+    &:hover
+      text-decoration: underline
+  li.cutme
+    max-width: 40px
+
+ul.breadcrumb
+  list-style-image: url(image-path('breadcrumb-list.png'))
+  list-style-position: outside
+  width: 10000px
+
+#top-menu ul.breadcrumb li.first-breadcrumb-element
+  margin-left: 0
+
+#top-menu ul.breadcrumb li
+  float: left
+  margin-left: 20px
+
+#breadcrumb a.breadcrumb-project-title
+  font-weight: bold
+  font-size: 13px
+
+
 
