@@ -30,8 +30,9 @@ require 'spec_helper'
 
 describe BoardsController do
   let(:user) { FactoryGirl.build(:user) }
-  let(:board) { FactoryGirl.build(:board, :project => project) }
   let(:project) { FactoryGirl.build(:project) }
+  let!(:board) { FactoryGirl.build(:board,
+                                   project: project) }
 
   before do
     disable_flash_sweep
@@ -45,10 +46,6 @@ describe BoardsController do
       @controller.should_receive(:find_project_by_project_id) do
         @controller.instance_variable_set(:@project, project)
       end
-
-      # this line is here for reasons I don't understand
-      # without the line the should_receive statement for Board will fail
-      board
 
       Board.should_receive(:new).with(params[:board]).and_return(board)
     end
