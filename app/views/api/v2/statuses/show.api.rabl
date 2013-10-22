@@ -25,33 +25,8 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-module Api
-  module V2
-
-    class PlanningElementStatusesController < PlanningElementStatusesController
-      unloadable
-      helper :timelines
-
-      include ::Api::V2::ApiController
-
-      accept_key_auth :index, :show
-
-      def index
-        @planning_element_statuses = PlanningElementStatus.active
-        respond_to do |format|
-          format.api
-        end
-      end
-
-      def show
-        @planning_element_status = PlanningElementStatus.active.find(params[:id])
-        respond_to do |format|
-          format.api
-        end
-      end
-    end
-
-  end
+object @status
+node :status do |status|
+  partial '/api/v2/statuses/status.api', :object  => @status
 end
 

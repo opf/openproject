@@ -26,9 +26,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.planning_element_status do
-  api.id(planning_element_status.id)
-  api.name(planning_element_status.name)
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-  api.position(planning_element_status.position)
+describe 'api/v2/statuses/show.api.rabl' do
+
+  before do
+    params[:format] = 'json'
+  end
+
+  describe 'with an assigned status' do
+    let(:status) { FactoryGirl.build(:status,
+                                     :id => 1,
+                                     :name => 'Almost Done',
+                                     :position => 100,
+                                     :default_done_ratio => 90,
+                                     :is_closed => false,
+                                     :is_default => true )}
+
+    before do
+      assign(:status, status)
+      render
+    end
+
+    it 'renders a status node' do
+      response.should have_json_path('status')
+    end
+
+
+
+    it 'renders a status-details' do
+      expected_json = {name: "Almost Done", position: 100, is_default: true, is_closed: false, default_done_ratio: 90}.to_json
+      response.should be_json_eql(expected_json).at_path('status')
+    end
+
+
+  end
 end

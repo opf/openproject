@@ -25,6 +25,5 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-render(:partial => '/api/v2/reported_project_statuses/status.api',
-       :object  => @status)
+collection @statuses => :statuses
+extends '/api/v2/statuses/status.api'

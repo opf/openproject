@@ -26,9 +26,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :statuses, :size => @statuses.size do
-  @statuses.each do |status|
-    render(:partial => '/api/v2/statuses/status.api',
-           :object  => status)
+require File.expand_path('../../../../../spec_helper', __FILE__)
+
+describe 'api/v2/statuses/index.api.rabl' do
+
+  before do
+    params[:format] = 'json'
   end
+
+  describe 'with no planning element statuses available' do
+    it 'renders an empty planning_element_statuses document' do
+      assign(:statuses, [])
+
+      render
+
+      response.should have_json_size(0).at_path("statuses")
+    end
+  end
+
+  describe 'with 3 planning element statuses available' do
+    let(:statuses) do
+      [
+        FactoryGirl.build(:status),
+        FactoryGirl.build(:status),
+        FactoryGirl.build(:status)
+      ]
+    end
+
+    it 'renders a planning_element_statuses document with the size 3 of type array' do
+      assign(:statuses, statuses)
+
+      render
+
+      response.should have_json_size(3).at_path("statuses")
+    end
+
+  end
+
+
 end

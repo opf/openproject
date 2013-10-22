@@ -25,10 +25,5 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-api.array :planning_element_statuses, :size => @planning_element_statuses.size do
-  @planning_element_statuses.each do |planning_element_status|
-    render(:partial => '/api/v2/planning_element_statuses/planning_element_status.api',
-           :object => planning_element_status)
-  end
-end
+object @status
+attributes :id, :name, :position, :is_default, :is_closed, :default_done_ratio
