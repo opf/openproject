@@ -380,16 +380,6 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  # TODO: remove this once all subclasses use find_work_packages
-  def find_issues
-    @issues = WorkPackage.find_all_by_id(params[:id] || params[:ids])
-    raise ActiveRecord::RecordNotFound if @issues.empty?
-    @projects = @issues.collect(&:project).compact.uniq
-    @project = @projects.first if @projects.size == 1
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   # Check if project is unique before bulk operations
   def check_project_uniqueness
     unless @project
