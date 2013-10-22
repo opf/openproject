@@ -80,7 +80,7 @@ describe WorkPackage do
     end
 
     context 'notifications' do
-      let(:number_of_possible_watchers) { work_package.possible_watcher_users.length }
+      let(:number_of_recipients) { (work_package.recipients | work_package.watcher_recipients).length }
 
       before :each do
         Delayed::Worker.delay_jobs = false
@@ -88,7 +88,7 @@ describe WorkPackage do
 
       it 'sends one delayed mail notification for each possible watcher' do
         UserMailer.stub_chain :issue_added, :deliver
-        UserMailer.should_receive(:issue_added).exactly(number_of_possible_watchers).times
+        UserMailer.should_receive(:issue_added).exactly(number_of_recipients).times
         work_package.update_attributes :description => 'Any new description'
       end
     end
