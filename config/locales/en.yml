@@ -79,12 +79,6 @@ en:
         value: "Value"
       enumeration:
         active: "Active"
-      issue:
-        parent_issue: "Parent"
-        subproject: "Subproject"
-        time_entries: "Log time"
-        type: "Type"
-        watcher: "Watcher"
       relation:
         delay: "Delay"
         from: "Work Package"
@@ -173,6 +167,10 @@ en:
         progress: "% done"
         responsible: "Responsible"
         spent_time: "Spent time"
+        subproject: "Subproject"
+        time_entries: "Log time"
+        type: "Type"
+        watcher: "Watcher"
     errors:
       messages:
         accepted: "must be accepted"

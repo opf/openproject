@@ -80,12 +80,6 @@ de:
         value: "Wert"
       enumeration:
         active: "Aktiv"
-      issue:
-        parent_issue: "Übergeordnete Aufgabe"
-        subproject: "Unterprojekt von"
-        time_entries: "Logzeit"
-        type: "Typ"
-        watcher: "Beobachter"
       relation:
         delay: "Pufferzeit"
         from: "Arbeitspaket"
@@ -171,6 +165,11 @@ de:
         progress: "% erledigt"
         responsible: "Planungsverantwortlicher"
         spent_time: "Aufgewendete Zeit"
+        parent_issue: "Übergeordnete Aufgabe"
+        subproject: "Unterprojekt von"
+        time_entries: "Logzeit"
+        type: "Typ"
+        watcher: "Beobachter"
     errors:
       messages:
         accepted: "muss akzeptiert werden"
