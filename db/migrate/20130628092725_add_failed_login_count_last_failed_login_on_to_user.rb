@@ -40,5 +40,6 @@ class AddFailedLoginCountLastFailedLoginOnToUser < ActiveRecord::Migration
             "current schema for this migration."\
             "\n\n\n"
     end
+    User.reset_column_information
   end
 end

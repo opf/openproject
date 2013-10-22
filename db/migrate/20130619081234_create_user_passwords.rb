@@ -56,6 +56,7 @@ class CreateUserPasswords < ActiveRecord::Migration
     change_table :users do |t|
       t.remove :hashed_password, :salt
     end
+    User.reset_column_information
   end
 
   def down
@@ -63,6 +64,7 @@ class CreateUserPasswords < ActiveRecord::Migration
       t.string :hashed_password, :limit => 40
       t.string :salt, :limit => 60
     end
+    User.reset_column_information
 
     begin
       User.record_timestamps = false
