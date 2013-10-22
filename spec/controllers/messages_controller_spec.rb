@@ -75,8 +75,10 @@ describe MessagesController do
 
   describe :attachment do
     let!(:message) { FactoryGirl.create(:message) }
-
     let(:attachment_id) { "attachments_#{message.attachments.first.id}".to_sym }
+    let(:params) { { id: message.id,
+                     attachments: { '1' => { file: filename,
+                                             description: '' } } } }
 
     describe :add do
       before do
@@ -84,15 +86,39 @@ describe MessagesController do
 
         Attachment.any_instance.stub(:filename).and_return(filename)
         Attachment.any_instance.stub(:copy_file_to_destination)
+      end
 
-        put :update, id: message.id,
-                     attachments: { file: { file: filename,
-                                            description: '' } }
+      context "invalid attachment" do
+        let(:max_filesize) { Setting.attachment_max_size.to_i.kilobytes }
 
-        message.reload
+        before do
+          Attachment.any_instance.stub(:filesize).and_return(max_filesize + 1)
+
+          post :update, params
+        end
+
+        describe :view do
+          subject { response }
+
+          it { should render_template('messages/edit', formats: ["html"]) }
+        end
+
+        describe :error do
+          subject { assigns(:message).errors.messages }
+
+          it { should have_key(:attachments) }
+
+          it { subject[:attachments] =~ /too long/ }
+        end
       end
 
       context :journal do
+        before do
+          put :update, params
+
+          message.reload
+        end
+
         describe :key do
           subject { message.journals.last.changed_data }
 
