@@ -25,40 +25,8 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-collection @planning_elements => :planning_elements
-attributes :id, :subject, :description, :project_id, :type_id, :status_id, :parent_id
-
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
-
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
-
-
-child :project do
-  attributes :id, :identifier, :name
+object @reported_project_status
+node :reported_project_status do |reported_project_status|
+  partial '/api/v2/reported_project_statuses/reported_project_status.api', :object  => reported_project_status
 end
 
-node :parent, if: lambda{|pe| pe.parent.present?} do |pe|
-  child :parent => :parent do
-    attributes :id, :subject
-  end
-end
-
-
-node :children, unless: lambda{|pe| pe.children.empty?} do |pe|
-  pe.children.to_a.map { |wp| { id: wp.id, subject: wp.subject}}
-end
-
-node :responsible, if: lambda{|pe| pe.responsible.present?} do |pe|
-  child :responsible => :responsible do
-    attributes :id, :name
-  end
-end
-
-node :assigned_to, if: lambda{|pe| pe.assigned_to.present?} do |pe|
-  child(:assigned_to => :assigned_to) do
-    attributes :id, :name
-  end
-end

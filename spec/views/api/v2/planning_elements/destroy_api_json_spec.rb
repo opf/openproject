@@ -26,39 +26,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id, :subject, :description, :project_id, :type_id, :status_id, :parent_id
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+describe 'api/v2/planning_elements/destroy.api.rabl' do
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+  before do
+    view.stub(:include_journals?).and_return(false)
 
-
-child :project do
-  attributes :id, :identifier, :name
-end
-
-node :parent, if: lambda{|pe| pe.parent.present?} do |pe|
-  child :parent => :parent do
-    attributes :id, :subject
+    params[:format] = 'json'
   end
-end
 
+  let(:planning_element) { FactoryGirl.build(:work_package) }
 
-node :children, unless: lambda{|pe| pe.children.empty?} do |pe|
-  pe.children.to_a.map { |wp| { id: wp.id, subject: wp.subject}}
-end
+  describe 'with an assigned planning element' do
+    it 'renders a planning_element document' do
+      assign(:planning_element, planning_element)
 
-node :responsible, if: lambda{|pe| pe.responsible.present?} do |pe|
-  child :responsible => :responsible do
-    attributes :id, :name
-  end
-end
+      render
 
-node :assigned_to, if: lambda{|pe| pe.assigned_to.present?} do |pe|
-  child(:assigned_to => :assigned_to) do
-    attributes :id, :name
+      response.body.should have_json_path('planning_element')
+    end
+
   end
 end

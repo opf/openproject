@@ -44,7 +44,7 @@ describe Api::V2::PlanningElementStatusesController do
     describe 'with no planning element statuses available' do
       it 'assigns an empty planning_element_statuses array' do
         get 'index', :format => 'xml'
-        assigns(:planning_element_statuses).should == []
+        assigns(:statuses).should == []
       end
 
       it 'renders the index builder template' do
@@ -64,7 +64,7 @@ describe Api::V2::PlanningElementStatusesController do
 
       it 'assigns an array with all planning element statuses' do
         get 'index', :format => 'xml'
-        assigns(:planning_element_statuses).should == @created_planning_element_statuses
+        assigns(:statuses).should == @created_planning_element_statuses
       end
 
       it 'renders the index template' do

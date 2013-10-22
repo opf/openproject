@@ -25,40 +25,27 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+object @reporting
+attributes :id
 
-collection @planning_elements => :planning_elements
-attributes :id, :subject, :description, :project_id, :type_id, :status_id, :parent_id
+node :reported_project_status, if: ->(reporting){reporting.reported_project_status} do |reporting|
+ {id: reporting.reported_project_status.id,
+  name: reporting.reported_project_status.name}
+end
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+node :reported_project_status_comment, id: ->(reporting){reporting.reported_project_status_comment.present?} do |reporting|
+  reporting.reported_project_status_comment
+end
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
-
+node :created_at, if: lambda{|project| project.created_at.present?} {|project| project.created_at.utc.iso8601}
+node :updated_at, if: lambda{|project| project.updated_at.present?} {|project| project.updated_at.utc.iso8601}
 
 child :project do
   attributes :id, :identifier, :name
 end
 
-node :parent, if: lambda{|pe| pe.parent.present?} do |pe|
-  child :parent => :parent do
-    attributes :id, :subject
-  end
-end
-
-
-node :children, unless: lambda{|pe| pe.children.empty?} do |pe|
-  pe.children.to_a.map { |wp| { id: wp.id, subject: wp.subject}}
-end
-
-node :responsible, if: lambda{|pe| pe.responsible.present?} do |pe|
-  child :responsible => :responsible do
-    attributes :id, :name
-  end
-end
-
-node :assigned_to, if: lambda{|pe| pe.assigned_to.present?} do |pe|
-  child(:assigned_to => :assigned_to) do
-    attributes :id, :name
-  end
+node :reporting_to_project do |reporting|
+  {id: reporting.reporting_to_project.id,
+   identifier: reporting.reporting_to_project.identifier,
+   name: reporting.reporting_to_project.name}
 end

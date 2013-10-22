@@ -71,23 +71,20 @@ describe 'api/v2/planning_elements/index.api.rabl' do
       response.body.should be_json_eql("Subject #1".to_json).at_path("planning_elements/0/subject")
     end
 
-    it 'should render a planning_element_type' do
+    it 'should render a the type_id' do
       type = project.types.first
       expected_json = {name: type.name}.to_json
 
-      should be_json_eql(expected_json).at_path("planning_elements/0/planning_element_type")
+      should be_json_eql(type.id.to_json).at_path("planning_elements/0/type_id")
 
     end
 
-    it 'should render a status-element' do
-      expected_json = {id: wp1.status.id, name: wp1.status.name}.to_json
-      response.body.should be_json_eql(expected_json).at_path("planning_elements/0/planning_element_status")
+    it 'should render a status-id' do
+      response.body.should be_json_eql(wp1.status.id.to_json).at_path("planning_elements/0/status_id")
     end
 
-    it 'should render a project with name and identifier' do
-      expected_json = {name: "Sample Project", identifier: "sample_project"}.to_json
-
-      should be_json_eql(expected_json).at_path(("planning_elements/0/project"))
+    it 'should render a project-id' do
+      should be_json_eql(project.id.to_json).at_path(("planning_elements/0/project_id"))
     end
 
 

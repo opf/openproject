@@ -26,39 +26,54 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id, :subject, :description, :project_id, :type_id, :status_id, :parent_id
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+describe '/api/v2/projects/index.api.rabl' do
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
-
-
-child :project do
-  attributes :id, :identifier, :name
-end
-
-node :parent, if: lambda{|pe| pe.parent.present?} do |pe|
-  child :parent => :parent do
-    attributes :id, :subject
+  before do
+    params[:format] = 'json'
   end
-end
 
+  subject {response.body}
+  describe 'with no project available' do
+    it 'renders an empty projects document' do
+      assign(:projects, [])
 
-node :children, unless: lambda{|pe| pe.children.empty?} do |pe|
-  pe.children.to_a.map { |wp| { id: wp.id, subject: wp.subject}}
-end
+      render
 
-node :responsible, if: lambda{|pe| pe.responsible.present?} do |pe|
-  child :responsible => :responsible do
-    attributes :id, :name
+      should have_json_size(0).at_path('projects')
+    end
   end
-end
 
-node :assigned_to, if: lambda{|pe| pe.assigned_to.present?} do |pe|
-  child(:assigned_to => :assigned_to) do
-    attributes :id, :name
+
+  describe 'with some projects available' do
+    let(:projects) {
+      [
+        FactoryGirl.build(:project, :name => 'P1'),
+        FactoryGirl.build(:project, :name => 'P2'),
+        FactoryGirl.build(:project, :name => 'P3')
+      ]
+    }
+
+    before do
+      assign(:projects, projects)
+      render
+    end
+
+    subject { response.body }
+
+    it 'renders a projects document with the size of 3 of type array' do
+      should have_json_size(3).at_path('projects')
+    end
+
+    it 'renders all three projects' do
+
+      should be_json_eql('P1'.to_json).at_path("projects/0/name")
+      should be_json_eql('P2'.to_json).at_path("projects/1/name")
+      should be_json_eql('P3'.to_json).at_path("projects/2/name")
+
+    end
+
+
   end
 end

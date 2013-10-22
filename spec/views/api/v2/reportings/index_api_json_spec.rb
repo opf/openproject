@@ -26,39 +26,41 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id, :subject, :description, :project_id, :type_id, :status_id, :parent_id
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+describe 'api/v2/reportings/index.api.rabl' do
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+  before do
+    params[:format] = 'json'
+  end
 
+  describe 'with no reportings available' do
+    it 'renders an empty reportings document' do
+      assign(:reportings, [])
+      render
 
-child :project do
-  attributes :id, :identifier, :name
-end
+      puts response.body
+      response.should have_json_size(0).at_path 'reportings'
+    end
+  end
 
-node :parent, if: lambda{|pe| pe.parent.present?} do |pe|
-  child :parent => :parent do
-    attributes :id, :subject
+  describe 'with 3 reportings available' do
+    let(:reportings) do
+      [
+        FactoryGirl.build(:reporting),
+        FactoryGirl.build(:reporting),
+        FactoryGirl.build(:reporting)
+      ]
+    end
+
+    it 'renders a reportings document with the size 3 of array' do
+      assign(:reportings, reportings)
+
+      render
+
+      response.should have_json_size(3).at_path 'reportings'
+    end
+
   end
 end
 
-
-node :children, unless: lambda{|pe| pe.children.empty?} do |pe|
-  pe.children.to_a.map { |wp| { id: wp.id, subject: wp.subject}}
-end
-
-node :responsible, if: lambda{|pe| pe.responsible.present?} do |pe|
-  child :responsible => :responsible do
-    attributes :id, :name
-  end
-end
-
-node :assigned_to, if: lambda{|pe| pe.assigned_to.present?} do |pe|
-  child(:assigned_to => :assigned_to) do
-    attributes :id, :name
-  end
-end

@@ -26,39 +26,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id, :subject, :description, :project_id, :type_id, :status_id, :parent_id
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+describe 'api/v2/project_types/show.api.rabl' do
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
-
-
-child :project do
-  attributes :id, :identifier, :name
-end
-
-node :parent, if: lambda{|pe| pe.parent.present?} do |pe|
-  child :parent => :parent do
-    attributes :id, :subject
+  before do
+    params[:format] = 'json'
   end
-end
+
+  describe 'with an assigned project type' do
+    let(:project_type) { FactoryGirl.build(:project_type, :id => 1,
+                                           :name => 'Awesometastic Project Type',
+                                           :allows_association => false,
+                                           :position => 100,
+                                           :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                           :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
 
 
-node :children, unless: lambda{|pe| pe.children.empty?} do |pe|
-  pe.children.to_a.map { |wp| { id: wp.id, subject: wp.subject}}
-end
+    before do
+      assign(:project_type, project_type)
+      render
+    end
 
-node :responsible, if: lambda{|pe| pe.responsible.present?} do |pe|
-  child :responsible => :responsible do
-    attributes :id, :name
-  end
-end
+    subject {response.body}
 
-node :assigned_to, if: lambda{|pe| pe.assigned_to.present?} do |pe|
-  child(:assigned_to => :assigned_to) do
-    attributes :id, :name
+    it 'renders a project_type document' do
+      response.should have_json_path('project_type')
+    end
+
+    it 'should render the project-type-details' do
+      expected_json = { name: 'Awesometastic Project Type',
+                        allows_association: false,
+                        position: 100 }.to_json
+
+      response.should be_json_eql(expected_json).at_path('project_type')
+    end
+
+
   end
 end
