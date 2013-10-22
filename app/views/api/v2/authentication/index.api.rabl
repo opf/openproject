@@ -25,7 +25,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-api.authorization do
-  api.authorized true
+object :none
+node :authorization do
+  {authorized: true}
 end
