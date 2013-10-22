@@ -25,27 +25,5 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-api.reporting do
-  api.id(reporting.id)
-
-  api.project(:id         => reporting.project.id,
-              :identifier => reporting.project.identifier,
-              :name       => reporting.project.name)
-
-  api.reporting_to_project(:id         => reporting.reporting_to_project.id,
-                           :identifier => reporting.reporting_to_project.identifier,
-                           :name       => reporting.reporting_to_project.name)
-
-  status = reporting.reported_project_status
-  if status.present?
-    api.reported_project_status(:id => status.id, :name => status.name)
-  end
-
-  if reporting.reported_project_status_comment.present?
-    api.reported_project_status_comment(reporting.reported_project_status_comment)
-  end
-
-  api.created_at(reporting.created_at.utc) if reporting.created_at
-  api.updated_at(reporting.updated_at.utc) if reporting.updated_at
-end
+collection @reportings => :reportings
+extends '/api/v2/reportings/reporting.api'
