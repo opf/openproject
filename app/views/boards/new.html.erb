@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= l(:label_board_new) %></h2>
 
-<%= labelled_tabular_form_for [@project, Board.new] do |f| %>
+<%= labelled_tabular_form_for [@project, @board] do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= submit_tag l(:button_create) %>
 <% end %>
