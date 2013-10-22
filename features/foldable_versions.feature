@@ -62,3 +62,14 @@ Feature: Foldable versions in master backlog
 
     When I change the fold state of a version
     Then I should see "Story A" within ".backlog"
+
+    Then I go to the my account page
+     And I uncheck "Show versions folded"
+     And I click on "Save"
+    Then I should see "Account was successfully updated"
+
+    When I go to the master backlog
+    Then I should see "Story A" within ".backlog"
+
+    When I change the fold state of a version
+    Then I should not see "Story A" within ".backlog"

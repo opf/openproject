@@ -1,4 +1,5 @@
 
+* `#2461` Fixed saving of setting for version fold status
 * `#2413` Squashed old migrations
 
 = 3.0.4.pre8
