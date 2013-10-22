@@ -25,14 +25,8 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-api.project_type do
-  api.id(project_type.id)
-  api.name(project_type.name)
-
-  api.allows_association(project_type.allows_association)
-  api.position(project_type.position)
-
-  api.created_at(project_type.created_at.utc) if project_type.created_at
-  api.updated_at(project_type.updated_at.utc) if project_type.updated_at
+object @project_type
+node :project_type do |project_type|
+ partial '/api/v2/project_types/project_type.api', :object => project_type
 end
+

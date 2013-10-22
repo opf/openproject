@@ -25,9 +25,13 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+object @project_type
+attributes :id, :name, :allows_association, :position
 
-api.array :project_types, :size => @project_types.size do
-  @project_types.each do |project_type|
-    render(:partial => '/api/v2/project_types/project_type.api', :object => project_type)
-  end
+node :created_at, if: ->(project_type){project_type.created_at.present?} do |project_type|
+  project_type.created_at.utc
+end
+
+node :updated_at, if: ->(project_type){project_type.updated_at.present?} do |project_type|
+  project_type.created_at.utc
 end

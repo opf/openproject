@@ -26,5 +26,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-render(:partial => '/api/v2/project_types/project_type.api',
-       :object => @project_type)
+require File.expand_path('../../../../../spec_helper', __FILE__)
+
+describe 'api/v2/project_types/index.api.rabl' do
+
+  before do
+    params[:format] = 'json'
+  end
+
+  describe 'with no project types available' do
+    it 'renders an empty project types document' do
+      assign(:project_types, [])
+      render
+
+      response.should have_json_size(0).at_path('project_types')
+    end
+  end
+
+  describe 'with 3 project types available' do
+    let(:project_types) do
+      [
+        FactoryGirl.build(:project_type),
+        FactoryGirl.build(:project_type),
+        FactoryGirl.build(:project_type)
+      ]
+    end
+
+
+    it 'renders a project_types document with the size 3 of type array' do
+      assign(:project_types, project_types)
+      render
+
+      response.should have_json_size(3).at_path('project_types')
+    end
+
+  end
+end
