@@ -33,5 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *
  *= require application
- *= require default/application 
+ *= require layout/base
+ *= require layout/top_menu
+ *= require default/application
  */
