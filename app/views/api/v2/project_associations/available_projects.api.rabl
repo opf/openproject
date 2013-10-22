@@ -25,6 +25,18 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+collection @elements => :projects
 
-render(:partial => '/api/v2/project_associations/project_association.api',
-       :object  => @project_association)
+node do |element|
+  project = element[:project]
+  level   = element[:level]
+
+  {id:   project.id,
+   name: project.name,
+   identifier: project.identifier,
+   level: level,
+   created_on: project.created_on.utc.iso8601,
+   updated_on: project.updated_on.utc.iso8601,
+   disabled: @disabled.include?(project)
+  }
+end

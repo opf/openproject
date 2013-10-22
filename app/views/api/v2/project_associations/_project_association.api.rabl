@@ -25,10 +25,13 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+object @project_association
+attributes :id, :description
 
-api.array :project_associations, :size => @project_associations.size do
-  @project_associations.each do |project_association|
-    render(:partial => '/api/v2/project_associations/project_association.api',
-           :object  => project_association)
-  end
+child :projects do
+  attributes :id, :identifier, :name
 end
+
+
+node :created_at, if: lambda{|project_association| project_association.created_at.present?} {|project_association| project_association.created_at.utc.iso8601}
+node :updated_at, if: lambda{|project_association| project_association.updated_at.present?} {|project_association| project_association.updated_at.utc.iso8601}

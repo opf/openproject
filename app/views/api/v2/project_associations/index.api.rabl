@@ -25,12 +25,5 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-object @type
-attributes :id, :name, :in_aggregation, :is_milestone, :position, :is_default
-
-node :color, if: lambda{|type| type.color.present?} do |type|
-  {id: type.color.id, name: type.color.name, hexcode: type.color.hexcode}
-end
-
-node :created_at, if: lambda{|project| project.created_at.present?} {|project| project.created_at.utc.iso8601}
-node :updated_at, if: lambda{|project| project.updated_at.present?} {|project| project.updated_at.utc.iso8601}
+collection @project_associations => :project_associations
+extends '/api/v2/project_associations/project_association.api'

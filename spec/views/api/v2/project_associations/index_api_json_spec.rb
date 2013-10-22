@@ -26,19 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.project_association do
-  api.id(project_association.id)
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-  api.array(:projects, :size => project_association.projects.size) do
-    project_association.projects.each do |project|
-      api.project(:id         => project.id,
-                  :identifier => project.identifier,
-                  :name       => project.name)
+describe 'api/v2/project_associations/index.api.rabl' do
+
+  before do
+    params[:format] = 'json'
+  end
+
+  describe 'with no project_associations available' do
+    it 'renders an empty project_associations document' do
+      assign(:project_associations, [])
+      render
+
+      response.should have_json_size(0).at_path('project_associations')
     end
   end
 
-  api.description(project_association.description)
+  describe 'with 3 project_associations available' do
+    let(:project_associations) do
+      [
+        FactoryGirl.build(:project_association),
+        FactoryGirl.build(:project_association),
+        FactoryGirl.build(:project_association)
+      ]
+    end
 
-  api.created_at(project_association.created_at.utc) if project_association.created_at
-  api.updated_at(project_association.updated_at.utc) if project_association.updated_at
+    before do
+      assign(:project_associations, project_associations)
+      render
+    end
+
+    it 'renders a project_associations document with the size 3 of array' do
+      response.should have_json_size(3).at_path('project_associations')
+    end
+
+  end
 end
