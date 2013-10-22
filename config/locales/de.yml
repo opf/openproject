@@ -76,7 +76,7 @@ de:
   caption_materials: "Stücke"
   caption_rate_history: "Stundensatz-Historie"
   caption_rate_history_for: "Stundensatz-Historie für %{user}"
-  caption_rate_history_for_project: "Studensatz-Historie für %{user} in Projekt %{project}"
+  caption_rate_history_for_project: "Stundensatz-Historie für %{user} in Projekt %{project}"
   caption_save_rate: "Satz speichern"
   caption_set_rate: "Aktuellen Satz festlegen"
   caption_show_locked: "Gesperrte Typen anzeigen"
