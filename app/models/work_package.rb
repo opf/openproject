@@ -36,6 +36,8 @@ class WorkPackage < ActiveRecord::Base
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
 
+  include OpenProject::Journal::AttachmentHelper
+
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   include Redmine::SafeAttributes
 
@@ -281,14 +283,6 @@ class WorkPackage < ActiveRecord::Base
   # Returns true if the work_package is overdue
   def overdue?
     !due_date.nil? && (due_date < Date.today) && !status.is_closed?
-  end
-
-  # ACTS AS ATTACHABLE
-  def attachments_changed(obj)
-    unless new_record?
-      add_journal
-      save
-    end
   end
 
   # ACTS AS JOURNALIZED

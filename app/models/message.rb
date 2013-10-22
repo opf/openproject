@@ -29,6 +29,8 @@
 
 class Message < ActiveRecord::Base
   include Redmine::SafeAttributes
+  include OpenProject::Journal::AttachmentHelper
+
   belongs_to :board
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   acts_as_tree :counter_cache => :replies_count, :order => "#{Message.table_name}.created_on ASC"
@@ -132,13 +134,5 @@ class Message < ActiveRecord::Base
     # update watchers and watcher_users
     watchers(true)
     watcher_users(true)
-  end
-
-  # ACTS AS ATTACHABLE
-  def attachments_changed(obj)
-    unless new_record?
-      add_journal
-      save!
-    end
   end
 end
