@@ -29,68 +29,85 @@
 require 'spec_helper'
 
 describe WorkPackage do
-  describe :watcher do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role,
-                                    permissions: [:view_work_packages]) }
-    let(:project_member) { FactoryGirl.create(:member,
-                                              project: project,
-                                              principal: user,
-                                              roles: [role]) }
-    let(:work_package) { FactoryGirl.create(:work_package,
-                                            project: project) }
-    let!(:user_allowed_to_view_work_packages) do
-      FactoryGirl.create(:user).tap { |user| project.add_member!(user, role) }
+  let(:project) { FactoryGirl.create(:project) }
+  let(:work_package) { FactoryGirl.create(:work_package,
+                                          project: project) }
+  let(:role) { FactoryGirl.create(:role,
+                                  permissions: [:view_work_packages]) }
+
+  let(:user) { FactoryGirl.create(:user) }
+  let(:project_member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+
+  let!(:watching_user) do
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role).tap {|user| Watcher.create(watchable: work_package, user: user)}
+  end
+
+  describe '#possible_watcher_users' do
+    let!(:admin){ FactoryGirl.create(:admin) }
+    let!(:anonymous_user){ FactoryGirl.create(:anonymous) }
+
+    it 'contains exactly those users who are allowed to view work packages' do
+      users_allowed_to_view_work_packages = User.all.select{ |u| u.allowed_to?(:view_work_packages, project) }
+      work_package.possible_watcher_users.sort.should == Array.wrap(users_allowed_to_view_work_packages).sort
     end
 
+    subject { work_package.possible_watcher_users }
 
-    context :recipients do
-      let(:watcher) { Watcher.new(watchable: work_package,
-                                  user: user) }
+    it { should_not include(anonymous_user) }
+
+    it { should include(admin) }
 
 
+    context 'when it is a private project' do
       before do
-        project_member
+        project.update_attributes is_public: false
+      end
 
-        watcher.save!
+      it { should_not include(user) }
 
+      it { should include(project_member) }
+    end
+  end
+
+  describe '#watcher_recipients' do
+    subject { work_package.watcher_recipients }
+
+    it { should include(watching_user.mail) }
+
+    context 'when the permission to view work packages has been removed' do
+      before do
         role.remove_permission! :view_work_packages
+        work_package.reload
+      end
+      it { should_not include(watching_user.mail) }
+    end
+  end
 
+  describe '#watched_by?' do
+    subject { work_package.watched_by?(watching_user) }
+
+    context 'when the permission to view work packages has been removed' do
+      # an existing watcher shouldn't be removed
+      before do
+        role.remove_permission! :view_work_packages
         work_package.reload
       end
 
-      context :watcher do
-        subject { work_package.watched_by?(user) }
+      it { should be_true }
+    end
+  end
 
-        it { should be_true }
-      end
+  context 'notifications' do
+    let(:number_of_recipients) { (work_package.recipients | work_package.watcher_recipients).length }
 
-      context :recipients do
-        subject { work_package.watcher_recipients }
-
-        it { should_not include(user.mail) }
-      end
+    before :each do
+      Delayed::Worker.delay_jobs = false
     end
 
-    context '#possible_watcher_users' do
-      it 'contains exactly those users who are allowed to view work packages' do
-        work_package.possible_watcher_users.should == [user_allowed_to_view_work_packages]
-      end
-    end
-
-    context 'notifications' do
-      let(:number_of_recipients) { (work_package.recipients | work_package.watcher_recipients).length }
-
-      before :each do
-        Delayed::Worker.delay_jobs = false
-      end
-
-      it 'sends one delayed mail notification for each possible watcher' do
-        UserMailer.stub_chain :issue_updated, :deliver
-        UserMailer.should_receive(:issue_updated).exactly(number_of_recipients).times
-        work_package.update_attributes :description => 'Any new description'
-      end
+    it 'sends one delayed mail notification for each watcher recipient' do
+      UserMailer.stub_chain :issue_updated, :deliver
+      UserMailer.should_receive(:issue_updated).exactly(number_of_recipients).times
+      work_package.update_attributes :description => 'Any new description'
     end
   end
 end
