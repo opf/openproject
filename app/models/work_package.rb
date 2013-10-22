@@ -141,6 +141,10 @@ class WorkPackage < ActiveRecord::Base
   acts_as_attachable :after_add => :attachments_changed,
                      :after_remove => :attachments_changed
 
+  validate do |work_package|
+    set_attachments_error_details(work_package) if errors.messages.has_key? :attachments
+  end
+
   # Mapping attributes, that are passed in as id's onto their respective associations
   # (eg. type=4711 onto type=Type.find(4711))
   include AssociationsMapper
@@ -286,7 +290,7 @@ class WorkPackage < ActiveRecord::Base
   def attachments_changed(obj)
     unless new_record?
       add_journal
-      save!
+      save
     end
   end
 
@@ -409,13 +413,9 @@ class WorkPackage < ActiveRecord::Base
 
     update_by(user, attributes)
 
-    if save
-      # as attach_files always saves an attachment right away
-      # it is not possible to stage attaching and check for
-      # valid. If this would be possible, we could check
-      # for this along with update_attributes
-      attachments = Attachment.attach_files(self, raw_attachments)
-    end
+    attach_files(raw_attachments)
+
+    save
   end
 
   def update_by(user, attributes)
@@ -1003,4 +1003,11 @@ class WorkPackage < ActiveRecord::Base
   end
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+  def set_attachments_error_details(work_package)
+    work_package.attachments.each do |attachment|
+      next if attachment.valid?
+      errors.messages[:attachments].first << " - #{attachment.errors.full_messages.first}"
+      break
+    end
+  end
 end
