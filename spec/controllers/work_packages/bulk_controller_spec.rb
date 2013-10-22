@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackageBulkController do
+describe WorkPackages::BulkController do
   let(:user) { FactoryGirl.create(:user) }
   let(:custom_field_value) { '125' }
   let(:custom_field_1) { FactoryGirl.create(:work_package_custom_field,
@@ -177,12 +177,10 @@ describe WorkPackageBulkController do
 
         it { should be_redirect }
 
-        it { should redirect_to(controller: 'work_packages',
-                                action: :index,
-                                project_id: project_1.identifier) }
+        it { should redirect_to(project_work_packages_path(project_1)) }
       end
     end
-    
+
     shared_context :update_request do
       before do
         put :update,

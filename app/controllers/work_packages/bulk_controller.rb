@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackageBulkController < ApplicationController
+class WorkPackages::BulkController < ApplicationController
   before_filter :disable_api
   before_filter :find_work_packages, only: [:edit, :update]
   before_filter :authorize
@@ -64,6 +64,41 @@ class WorkPackageBulkController < ApplicationController
     end
     set_flash_from_bulk_save(@work_packages, unsaved_work_package_ids)
     redirect_back_or_default({controller: '/work_packages', action: :index, project_id: @project})
+  end
+
+  def destroy
+    @hours = TimeEntry.sum(:hours, :conditions => ['work_package_id IN (?)', @work_packages]).to_f
+    if @hours > 0
+      case params[:todo]
+      when 'destroy'
+        # nothing to do
+      when 'nullify'
+        update_time_entries('work_package_id = NULL', @work_packages)
+      when 'reassign'
+        reassign_to = @project.work_packages.find_by_id(params[:reassign_to_id])
+        if reassign_to.nil?
+          flash.now[:error] = l(:error_work_package_not_found_in_project)
+          return
+        else
+          update_time_entries("work_package_id = #{reassign_to_id.id}", @work_packages)
+        end
+      else
+        # display the destroy form if it's a user request
+        return unless api_request?
+      end
+    end
+
+    @work_packages.each do |work_package|
+      begin
+        work_package.reload.destroy
+      rescue ::ActiveRecord::RecordNotFound # raised by #reload if work package no longer exists
+        # nothing to do, work package was already deleted (eg. by a parent)
+      end
+    end
+
+    respond_to do |format|
+      format.html { redirect_back_or_default(project_work_packages_path(@project)) }
+    end
   end
 
 private

@@ -89,7 +89,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="splitcontentright">
 <% if @project && User.current.allowed_to?(:manage_subtasks, @project) %>
 <p>
-	<label for='work_package_parent_id'><%= WorkPackage.human_attribute_name(:parent_work_package) %></label>
+	<label for='work_package_parent_id'><%= WorkPackage.human_attribute_name(:parent) %></label>
 	<%= text_field_tag 'work_package[parent_id]', '', :size => 10 %>
 </p>
 <div id="parent_work_package_candidates" class="autocomplete"></div>
