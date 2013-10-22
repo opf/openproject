@@ -26,5 +26,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-render(:partial => '/api/v2/reported_project_statuses/reported_project_status.api',
-       :object  => @reported_project_status)
+require File.expand_path('../../../../../spec_helper', __FILE__)
+
+describe 'api/v2/reported_project_statuses/index.api.rabl' do
+
+  before do
+    params[:format] = 'json'
+  end
+
+  describe 'with no reported_project_statuses available' do
+    it 'renders an empty reported_project_statuses document' do
+      assign(:reported_project_statuses, [])
+
+      render
+
+      response.should have_json_size(0).at_path('reported_project_statuses')
+    end
+  end
+
+  describe 'with 3 reported_project_statuses available' do
+    let(:reported_project_statuses) do
+      [
+        FactoryGirl.build(:reported_project_status),
+        FactoryGirl.build(:reported_project_status),
+        FactoryGirl.build(:reported_project_status)
+      ]
+
+    end
+
+    before do
+      assign(:reported_project_statuses, reported_project_statuses )
+      render
+    end
+
+    it 'renders a reported_project_statuses document with the size 3 of array' do
+      response.should have_json_size(3).at_path('reported_project_statuses')
+    end
+
+  end
+end

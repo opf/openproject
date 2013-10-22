@@ -25,10 +25,5 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-api.array :reported_project_statuses, :size => @reported_project_statuses.size do
-  @reported_project_statuses.each do |reported_project_status|
-    render(:partial => '/api/v2/reported_project_statuses/reported_project_status.api',
-           :object  => reported_project_status)
-  end
-end
+collection @reported_project_statuses => :reported_project_statuses
+extends '/api/v2/reported_project_statuses/reported_project_status.api'

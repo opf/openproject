@@ -26,11 +26,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.reported_project_status do
-  api.id(reported_project_status.id)
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-  api.name(reported_project_status.name)
+describe 'api/v2/reported_project_statuses/show.api.rabl' do
 
-  api.position(reported_project_status.position)
-  api.is_default(reported_project_status.is_default)
+  before do
+    params[:format] = 'json'
+  end
+
+  describe 'with an assigned reported_project_status' do
+    let(:reported_project_status) { FactoryGirl.build(:reported_project_status,
+                                                      :id         => 1,
+                                                      :name       => 'Awesometastic reported_project_status',
+                                                      :is_default => true,
+                                                      :position   => 10) }
+
+
+    before do
+      assign(:reported_project_status, reported_project_status)
+      render
+    end
+
+    subject {response.body}
+
+    it 'renders a reported_project_status document' do
+      should have_json_path('reported_project_status')
+    end
+
+    it 'should render the details of the reported project-status' do
+      expected_json = {name: "Awesometastic reported_project_status", is_default: true, position: 10}.to_json
+
+      should be_json_eql(expected_json).at_path('reported_project_status')
+
+    end
+
+  end
 end
