@@ -278,7 +278,7 @@ OpenProject::Application.routes.draw do
     put :update, :format => false
   end
 
-  resources :work_packages, :only => [:show, :edit, :update, :index] do
+  resources :work_packages, :only => [:show, :edit, :update, :index, :destroy] do
     get :new_type, :on => :member
     put :preview, :on => :member
 
